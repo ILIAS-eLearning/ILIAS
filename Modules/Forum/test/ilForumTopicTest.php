@@ -219,9 +219,9 @@ class ilForumTopicTest extends TestCase
         $stdObject->pos_fk = 5678;
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s',
-            ['integer', 'integer'],
-            [$id, 1]
+            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos != %s AND depth = %s ORDER BY rgt DESC',
+            ['integer', 'integer', 'integer'],
+            [$id, 0, 2]
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchObject')->with($mockStatement)->willReturn($stdObject);
 
@@ -235,9 +235,9 @@ class ilForumTopicTest extends TestCase
         $id = 909;
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s',
-            ['integer', 'integer'],
-            [$id, 1]
+            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos != %s AND depth = %s ORDER BY rgt DESC',
+            ['integer', 'integer', 'integer'],
+            [$id, 0, 2]
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchObject')->with($mockStatement)->willReturn(null);
 
