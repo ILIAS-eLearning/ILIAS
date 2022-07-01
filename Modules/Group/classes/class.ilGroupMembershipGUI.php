@@ -233,8 +233,12 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     {
         if (is_array($this->member_data) && array_key_exists($user_id, $this->member_data)) {
             $user_data = $this->member_data[$user_id];
-            $user_data['access'] = $this->member_data['access_time'];
-            $user_data['progress'] = $this->lng->txt($this->member_data['progress']);
+            if (isset($this->member_data['access_time'])) {
+                $user_data['access'] = $this->member_data['access_time'];
+            }
+            if (isset($this->member_data['progress'])) {
+                $user_data['progress'] = $this->lng->txt($this->member_data['progress']);
+            }
             return $user_data;
         }
         return [];

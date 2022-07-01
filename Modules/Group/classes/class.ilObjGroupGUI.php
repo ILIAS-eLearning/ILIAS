@@ -1948,7 +1948,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $res_data[$usr_id]['udf_' . $field_id] = (string) $value;
             }
 
-            foreach ((array) $odfs[$usr_id] as $cdf_field => $cdf_value) {
+            foreach ((array) ($odfs[$usr_id] ?? []) as $cdf_field => $cdf_value) {
                 $res_data[$usr_id]['cdf_' . $cdf_field] = (string) $cdf_value;
             }
         }

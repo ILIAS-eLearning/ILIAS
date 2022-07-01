@@ -104,7 +104,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('recursive');
             $this->tpl->setVariable('TXT_RECURSIVE', $this->lng->txt('change_existing_objects'));
             $this->tpl->setVariable('DESC_RECURSIVE', $this->lng->txt('change_existing_objects_desc'));
-        } elseif ($a_set['protected']) {
+        } elseif (isset($a_set['protected'])) {
             $this->tpl->setCurrentBlock('protected');
 
             if (!$this->rbacreview->isAssignable($this->getRoleId(), $this->getObjectRefId())) {
