@@ -117,7 +117,7 @@ class ilObjSurvey extends ilObject
     protected int $reminder_frequency = 0;
     protected int $reminder_target = 0;
     protected ?string $reminder_last_sent = null;
-    protected int $reminder_tmpl = 0;
+    protected ?int $reminder_tmpl = null;
     protected bool $tutor_ntf_status = false;
     protected array $tutor_ntf_recipients = [];
     protected int $tutor_ntf_target = 0;
@@ -5031,7 +5031,7 @@ class ilObjSurvey extends ilObject
 
     public function getReminderTemplate(
         bool $selectDefault = false
-    ) : int {
+    ) : ?int {
         if ($selectDefault) {
             $defaultTemplateId = 0;
             $this->getReminderMailTemplates($defaultTemplateId);
@@ -5044,7 +5044,7 @@ class ilObjSurvey extends ilObject
         return $this->reminder_tmpl;
     }
     
-    public function setReminderTemplate(int $a_value) : void
+    public function setReminderTemplate(?int $a_value) : void
     {
         $this->reminder_tmpl = $a_value;
     }
