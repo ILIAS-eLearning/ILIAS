@@ -118,7 +118,7 @@ class UIModifier extends Mode\AbstractUIModifier
                     $survey->setAnonymize(\ilObjSurvey::ANONYMIZE_FREEACCESS);
                 }
 
-                $survey->setAnonymousUserList($form->getInput("anon_list"));
+                $survey->setAnonymousUserList((bool) $form->getInput("anon_list"));
             }
         }
     }
