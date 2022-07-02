@@ -91,13 +91,13 @@ class ilPCMap extends ilPageContent
 
     public function setZoom(?int $a_zoom) : void
     {
-        if (!empty($a_zoom)) {
-            $this->map_node->set_attribute("Zoom", $a_zoom);
-        } else {
+        //if (!empty($a_zoom)) {
+        $this->map_node->set_attribute("Zoom", (int) $a_zoom);
+        /*} else {
             if ($this->map_node->has_attribute("Zoom")) {
                 $this->map_node->remove_attribute("Zoom");
             }
-        }
+        }*/
     }
 
     public function getZoom() : ?int

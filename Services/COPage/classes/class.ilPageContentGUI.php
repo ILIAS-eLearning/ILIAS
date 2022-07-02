@@ -180,7 +180,7 @@ class ilPageContentGUI
             $chars = $char_manager->getByTypes($a_type, false, false);
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($this->chars[$char->getCharacteristic()] != "") {	// keep lang vars for standard chars
+                if (($this->chars[$char->getCharacteristic()] ?? "") != "") {	// keep lang vars for standard chars
                     $title = $char_manager->getPresentationTitle(
                         $char->getType(),
                         $char->getCharacteristic()
