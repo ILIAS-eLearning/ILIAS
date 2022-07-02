@@ -85,12 +85,14 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->parent_tpl = $a_parent_tpl;
         if ($a_all_objects) {
             $this->setId("mepall");
-            if (is_object($a_parent_obj->getObject())) {
+            if (method_exists($a_parent_obj, "getObject") &&
+                is_object($a_parent_obj->getObject())) {
                 $this->setId("mepall" . $a_parent_obj->getObject()->getId());
             }
         } else {
             $this->setId("mepfold");
-            if (is_object($a_parent_obj->getObject())) {
+            if (method_exists($a_parent_obj, "getObject") &&
+                is_object($a_parent_obj->getObject())) {
                 $this->setId("mepfold" . $a_parent_obj->getObject()->getId());
             }
         }
