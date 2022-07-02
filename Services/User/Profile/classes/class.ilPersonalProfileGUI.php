@@ -381,16 +381,20 @@ class ilPersonalProfileGUI
         $this->lng->loadLanguageModule("maps");
 
         // Get user settings
-        $latitude = $a_user->getLatitude();
-        $longitude = $a_user->getLongitude();
+        $latitude = ($a_user->getLatitude() != "")
+            ? (float) $a_user->getLatitude()
+            : null;
+        $longitude = ($a_user->getLongitude() != "")
+            ? (float) $a_user->getLongitude()
+            : null;
         $zoom = $a_user->getLocationZoom();
         
         // Get Default settings, when nothing is set
-        if ($latitude == 0 && $longitude == 0 && $zoom == 0) {
+        if ($latitude == null && $longitude == null && $zoom == 0) {
             $def = ilMapUtil::getDefaultSettings();
-            $latitude = $def["latitude"];
-            $longitude = $def["longitude"];
-            $zoom = $def["zoom"];
+            $latitude = (float) $def["latitude"];
+            $longitude = (float) $def["longitude"];
+            $zoom = (int) $def["zoom"];
         }
         
         $street = $a_user->getStreet();
