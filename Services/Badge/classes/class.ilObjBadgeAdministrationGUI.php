@@ -586,13 +586,13 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $ilCtrl->saveParameter($this, "pid");
         
-        $tbl = new ilBadgeUserTableGUI($this, "listUsers", 0, null, $parent_obj_id, $this->badge_request->getBadgeId());
+        $tbl = new ilBadgeUserTableGUI($this, "listObjectBadgeUsers", 0, null, $parent_obj_id, $this->badge_request->getBadgeId());
         $tpl->setContent($tbl->getHTML());
     }
     
     protected function applyListUsers() : void
     {
-        $tbl = new ilBadgeUserTableGUI($this, "listUsers", 0, null, 0, $this->badge_request->getBadgeId());
+        $tbl = new ilBadgeUserTableGUI($this, "listObjectBadgeUsers", 0, null, 0, $this->badge_request->getBadgeId());
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
         $this->listObjectBadgeUsers();
@@ -600,7 +600,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
     
     protected function resetListUsers() : void
     {
-        $tbl = new ilBadgeUserTableGUI($this, "listUsers", 0, null, 0, $this->badge_request->getBadgeId());
+        $tbl = new ilBadgeUserTableGUI($this, "listObjectBadgeUsers", 0, null, 0, $this->badge_request->getBadgeId());
         $tbl->resetOffset();
         $tbl->resetFilter();
         $this->listObjectBadgeUsers();
