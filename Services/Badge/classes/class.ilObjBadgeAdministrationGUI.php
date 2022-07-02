@@ -590,7 +590,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $tpl->setContent($tbl->getHTML());
     }
     
-    protected function applyListUsers() : void
+    protected function applylistObjectBadgeUsers() : void
     {
         $tbl = new ilBadgeUserTableGUI($this, "listObjectBadgeUsers", 0, null, 0, $this->badge_request->getBadgeId());
         $tbl->resetOffset();
@@ -598,7 +598,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $this->listObjectBadgeUsers();
     }
     
-    protected function resetListUsers() : void
+    protected function resetlistObjectBadgeUsers() : void
     {
         $tbl = new ilBadgeUserTableGUI($this, "listObjectBadgeUsers", 0, null, 0, $this->badge_request->getBadgeId());
         $tbl->resetOffset();
