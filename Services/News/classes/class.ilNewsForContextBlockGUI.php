@@ -701,7 +701,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 
                 // forum hack, not nice
                 $add = "";
-                if ($obj_type === "frm" && $item["context_sub_obj_type"] === "pos"
+                if ($obj_type === "frm" && ($item["context_sub_obj_type"] ?? "") === "pos"
                     && $item["context_sub_obj_id"] > 0) {
                     $pos = $item["context_sub_obj_id"];
                     $thread = ilObjForumAccess::_getThreadForPosting($pos);
@@ -724,7 +724,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
                 // lm page hack, not nice
                 if (
-                    $item["context_sub_obj_type"] === "pg" &&
+                    ($item["context_sub_obj_type"] ?? "") === "pg" &&
                     $item["context_sub_obj_id"] > 0 &&
                     in_array($obj_type, ["lm"], true)) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
@@ -732,7 +732,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
                 
                 // blog posting hack, not nice
-                if ($obj_type === "blog" && $item["context_sub_obj_type"] === "blp"
+                if ($obj_type === "blog" && ($item["context_sub_obj_type"] ?? "") === "blp"
                     && $item["context_sub_obj_id"] > 0) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
                         "blog_" . $item["ref_id"] . "_" . $item["context_sub_obj_id"];
