@@ -214,7 +214,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 
         $found = array();
         foreach ($types as $type) {
-            if (is_array($this->selection[$type])) {
+            if (isset($this->selection[$type])) {
                 $invert = ($type == "personal")
                     ? false
                     : true;
