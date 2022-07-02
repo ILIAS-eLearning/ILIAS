@@ -193,8 +193,9 @@ class ilPCParagraph extends ilPageContent
         $text = $a_text;
         if ($a_auto_split) {
             $text = $this->autoSplit($a_text);
+        } else {
+            $text = [["level" => 0, "text" => $text]];
         }
-
         $error = $this->checkTextArray($text);
 
         $orig_characteristic = "";
