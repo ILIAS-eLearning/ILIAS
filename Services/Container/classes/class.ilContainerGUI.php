@@ -389,7 +389,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->adminCommands = $container_view->adminCommands;
 
-        $is_container_cmd = strtolower($this->std_request->getCmdClass()) === strtolower(get_class($this));
+        $is_container_cmd = strtolower($this->std_request->getCmdClass()) === strtolower(get_class($this))
+            || ($this->std_request->getCmdClass() === "");
 
         // it is important not to show the subobjects/admin panel here, since
         // we will create nested forms in case, e.g. a news/calendar item is added
