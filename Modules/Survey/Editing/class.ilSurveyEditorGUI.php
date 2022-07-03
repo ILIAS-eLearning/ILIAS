@@ -452,11 +452,10 @@ class ilSurveyEditorGUI
     ) : void {
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("survey_sure_delete_questions"));
-
         $cgui->setFormAction($this->ctrl->getFormAction($this, "confirmRemoveQuestions"));
         $cgui->setCancel($this->lng->txt("cancel"), "questions");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmRemoveQuestions");
-        
+
         $counter = 0;
         $surveyquestions = $this->object->getSurveyQuestions();
         foreach ($surveyquestions as $question_id => $data) {
@@ -982,7 +981,7 @@ class ilSurveyEditorGUI
 
         $compress_view = new ilCheckboxInputGUI($this->lng->txt("svy_compress_view"), "compress_view");
         $compress_view->setInfo($this->lng->txt("svy_compress_view_info"));
-        $compress_view->setChecked((bool) $questionblock["compress_view"]);
+        $compress_view->setChecked((bool) ($questionblock["compress_view"] ?? false));
         $form->addItem($compress_view);
 
         $form->addCommandButton("saveDefineQuestionblock", $this->lng->txt("save"));

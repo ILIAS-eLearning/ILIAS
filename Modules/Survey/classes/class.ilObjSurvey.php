@@ -1468,7 +1468,7 @@ class ilObjSurvey extends ilObject
                 unset($this->questions[array_search($question_id, $this->questions)]);
                 $this->removeQuestion($question_id);
             } elseif ($data["questionblock_id"]) {
-                $block_sizes[$data["questionblock_id"]]++;
+                $block_sizes[$data["questionblock_id"]] = ($block_sizes[$data["questionblock_id"]] ?? 0) + 1;
             }
         }
         

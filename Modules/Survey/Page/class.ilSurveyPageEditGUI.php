@@ -149,7 +149,16 @@ class ilSurveyPageEditGUI
                                 $this->svy_request->getHForm("node")
                             );
                         } else {
-                            $has_content = $this->$subcmd($id, $this->svy_request->getHForm("node"));
+                            switch ($subcmd) {
+                                case "deleteQuestion":
+                                    $has_content = true;
+                                    $this->deleteQuestion([$id]);
+                                    break;
+                                default:
+                                    $has_content = $this->$subcmd($id, $this->svy_request->getHForm("node"));
+                                    break;
+
+                            }
                         }
                     }
                 }
