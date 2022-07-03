@@ -15999,76 +15999,76 @@ tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
 tos#:#tos_acceptance_history#:#Acceptance History
-tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
+tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
 tos#:#tos_agreement_document#:#Document
 tos#:#tos_agreement_document_missing#:#Missing
-tos#:#tos_agreement_documents_tab_label#:#Terms of Service
+tos#:#tos_agreement_documents_tab_label#:#Documents
 tos#:#tos_agreement_exists#:#Existent
 tos#:#tos_agreement_missing#:#Missing
 tos#:#tos_agreement#:#Terms of Service
-tos#:#tos_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.
-tos#:#tos_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
-tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selected country is set for a user profile. Please note that this criterion type can be attached only once.
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#It is not possible to use this particular language/country as the criterion for displaying your ToS document. This language/country is already being used as the display criterion for a different ToS document.
+tos#:#tos_criterion_assignment_must_be_unique_update#:#It is not possible to change the criterion for displaying your ToS document to the language/country you have chosen. This language/country is already being used as the display criterion for a different ToS document.
+tos#:#tos_crit_type_usr_country_info#:#Your ToS document is displayed (and must be accepted the first time a user logs in) if the country set in their user profile matches the country criterion selected from the list below.  Subsequent changes to the country in a user’s profile do not automatically lead to a new ToS document being displayed. You cannot use the same country as the display criterion for more than one ToS document.
 tos#:#tos_crit_type_usr_country#:#Profile Country
-tos#:#tos_crit_type_usr_global_role_info#:#The criterion is fulfilled if the user is assigned to the selected role.
-tos#:#tos_crit_type_usr_global_role#:#User has Global Role
-tos#:#tos_crit_type_usr_language_info#:#The criterion is fulfilled if the selected language is set for a user profile. Please note that this criterion type can be attached only once.
+tos#:#tos_crit_type_usr_global_role_info#:#The document is displayed (and must be accepted the first time a user logs in) if the global role the user has matches the global role selected from the list below.  Subsequent changes to a user’s global role do not automatically lead to a new ToS document being displayed.
+tos#:#tos_crit_type_usr_global_role#:#User Has Global Role
+tos#:#tos_crit_type_usr_language_info#:#Your ToS document is displayed (and must be accepted) during registration if the user’s language (selected from the list below) matches the language used during registration; or upon login if the user switches to this language in their preferences.  Please note that each language can only be set as the display criterion for a single ToS document.
 tos#:#tos_crit_type_usr_language#:#Profile Language
 tos#:#tos_deleted_documents_p#:#The documents have been deleted.
 tos#:#tos_deleted_documents_s#:#The document has been deleted.
-tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.
-tos#:#tos_doc_crit_attached#:#The criterion has been attached.
-tos#:#tos_doc_crit_changed#:#The criterion has been changed.
-tos#:#tos_doc_crit_detached#:#The criterion has been detached.
+tos#:#tos_disabled_no_docs_left#:#Terms of Service documents can no longer be displayed, because all ToS documents have been deleted. Users will no longer be required to agree to a ToS document when registering an account. Please create at least one document before re-checking the ‘Display Terms of Service’ box.
+tos#:#tos_doc_crit_attached#:#The criterion for displaying your ToS document has been set successfully.
+tos#:#tos_doc_crit_changed#:#The criterion for displaying your ToS document has been changed.
+tos#:#tos_doc_crit_detached#:#The criterion for displaying your ToS document has been removed.
 tos#:#tos_doc_delete#:#Delete Document
-tos#:#tos_doc_detach_crit_confirm_title#:#Detach Criterion
-tos#:#tos_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
+tos#:#tos_doc_detach_crit_confirm_title#:#Remove Criterion
+tos#:#tos_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your Terms of Service document?
 tos#:#tos_document#:#Document
-tos#:#tos_form_attach_criterion_head#:#Attach Criterion
+tos#:#tos_form_attach_criterion_head#:#Select Criterion for Displaying your Terms of Service Document
 tos#:#tos_form_criterion#:#Criterion
-tos#:#tos_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
+tos#:#tos_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.
 tos#:#tos_form_document#:#Document
-tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.
+tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head/gt; information removed – only the contents of the body element will be used.
 tos#:#tos_form_document_new#:#Change Content
-tos#:#tos_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced, the acceptance history will not be affected.
+tos#:#tos_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of the TOS document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the TOS document will be replaced. The acceptance history will not be affected.
 tos#:#tos_form_document_title_info#:#Please enter a title for the document.
 tos#:#tos_form_document_title#:#Title
-tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
+tos#:#tos_form_edit_criterion_head#:#Edit Criterion for Displaying Your Terms of Service Document
 tos#:#tos_form_edit_doc_head#:#Edit Document
 tos#:#tos_form_new_doc_head#:#Create Document
 tos#:#tos_last_modified#:#Last Change
-tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.
-tos#:#tos_never_reset#:#The terms of service have not been reset, yet.
-tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service documents at all. Please add at least one document before activated this service..
-tos#:#tos_no_documents_exist#:#Currently there are no terms of service documents at all.
+tos#:#tos_last_reset_date#:#The Terms of Service were reset on %s. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS.
+tos#:#tos_never_reset#:#The Terms of Service have not yet been reset. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS.
+tos#:#tos_no_documents_exist_cant_save#:#There are currently no Terms of Service documents available. Please add at least one document in order to activate this service.
+tos#:#tos_no_documents_exist#:#There are currently no Terms of Service documents available.
 tos#:#tos_period_from#:#From
 tos#:#tos_period#:#Period
 tos#:#tos_period_until#:#Until
-tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
-tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
-tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
+tos#:#tos_reevaluate_on_login_desc#:#After a successful login, automatically have ILIAS check whether a previously-accepted Terms of Service document is still valid or not. If, for example, a user has changed a setting that is the criterion for displaying a particular ToS document (for example their language setting or country], and ILIAS can find a document with that criterion, then the user has to accept the new TOS agreement.
+tos#:#tos_reevaluate_on_login#:#Re-evaluate on Successful Login
+tos#:#tos_reset_successful#:#Terms of Service successfully reset.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
-tos#:#tos_saved_sorting#:#The sorting has been saved.
-tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.
-tos#:#tos_status_enable#:#Enable
+tos#:#tos_saved_sorting#:#The new order has been saved.
+tos#:#tos_status_desc#:#Display relevant language-based Terms of Service document at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Terms of Service before they can enter ILIAS.
+tos#:#tos_status_enable#:#Display Terms of Service
 tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
-tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web service for instance.
+tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete this document?
+tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the Terms of Service for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
 tos#:#tos_tbl_docs_action_add_criterion#:#Add Criterion
 tos#:#tos_tbl_docs_cell_not_criterion#:#No criterion assigned
 tos#:#tos_tbl_docs_head_created#:#Creation Date
-tos#:#tos_tbl_docs_head_criteria#:#Criteria
+tos#:#tos_tbl_docs_head_criteria#:#Criterion
 tos#:#tos_tbl_docs_head_last_change#:#Last Change
-tos#:#tos_tbl_docs_head_sorting#:#Sorting
+tos#:#tos_tbl_docs_head_sorting#:#Order
 tos#:#tos_tbl_docs_head_title#:#Title
 tos#:#tos_tbl_docs_title#:#Documents
 tos#:#tos_tbl_hist_cell_not_criterion#:#No criterion assigned
 tos#:#tos_tbl_hist_head_acceptance_date#:#Date
-tos#:#tos_tbl_hist_head_criteria#:#Criteria
+tos#:#tos_tbl_hist_head_criteria#:#Criterion
 tos#:#tos_tbl_hist_head_document#:#Document
-tos#:#tos_tbl_hist_head_firstname#:#Firstname
-tos#:#tos_tbl_hist_head_lastname#:#Lastname
+tos#:#tos_tbl_hist_head_firstname#:#First Name
+tos#:#tos_tbl_hist_head_lastname#:#Last Name
 tos#:#tos_tbl_hist_head_login#:#Login
 tos#:#tos_tos_settings#:#Settings
 tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal
