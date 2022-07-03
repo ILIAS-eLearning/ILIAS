@@ -108,7 +108,7 @@ class ilPCTable extends ilPageContent
         //]--//PageContent[@HierId='3']/Table/TableRow[+1]/TableData[0 style=+1]/PageContent[1]/Paragraph[1]
         $res = xpath_eval($xpc, $path);
 
-        if (is_object($res->nodeset[0])) {
+        if (isset($res->nodeset[0])) {
             return $res->nodeset[0];
         } else {		// no node -> delete all childs and create paragraph
             if (!$create_if_not_exists) {
@@ -866,7 +866,7 @@ class ilPCTable extends ilPageContent
 
     public function getFooterCols() : int
     {
-        return $this->getTableAttribute("FooterCols");
+        return (int) $this->getTableAttribute("FooterCols");
     }
 
     /**

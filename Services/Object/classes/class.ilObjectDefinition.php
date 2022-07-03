@@ -248,7 +248,7 @@ class ilObjectDefinition
     */
     public function getGroupOfObj(string $obj_name) : ?string
     {
-        return $this->obj_data[$obj_name]["group"];
+        return $this->obj_data[$obj_name]["group"] ?? null;
     }
 
     /**
@@ -256,7 +256,7 @@ class ilObjectDefinition
     */
     public function hasCheckbox(string $obj_name) : bool
     {
-        return (bool) $this->obj_data[$obj_name]["checkbox"];
+        return (bool) ($this->obj_data[$obj_name]["checkbox"] ?? false);
     }
     
     /**

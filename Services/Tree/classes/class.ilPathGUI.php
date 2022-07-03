@@ -49,7 +49,6 @@ class ilPathGUI
 
         $this->startnode = (int) ROOT_FOLDER_ID;
         $this->endnode = (int) ROOT_FOLDER_ID;
-
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
     }

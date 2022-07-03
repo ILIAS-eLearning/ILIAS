@@ -171,7 +171,7 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
                 break;
 
             default:
-                $ret = $this->$cmd();
+                $this->ctrl->redirectByClass(array("ilobjlearningmodulegui"), "");
                 break;
         }
     }

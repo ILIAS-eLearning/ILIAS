@@ -260,7 +260,9 @@ class ilPageLayout
         $query = "SELECT * FROM page_layout $add ORDER BY title ";
         $result = $ilDB->query($query);
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $arr_layouts[] = $row;
+            if (ilPageObject::_exists("stys", $row["layout_id"])) {
+                $arr_layouts[] = $row;
+            }
         }
         return $arr_layouts;
     }

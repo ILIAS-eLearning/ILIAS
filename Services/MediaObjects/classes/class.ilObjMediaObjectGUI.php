@@ -678,7 +678,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $a_mob->create();
 
         // determine and create mob directory, move uploaded file to directory
-        //$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob->getId();
+        //$mob_dir = ilFileUtils::getWebspaceDir()."/mobs/mm_".$a_mob->getId();
         $a_mob->createDirectory();
         $mob_dir = ilObjMediaObject::_getDirectory($a_mob->getId());
 

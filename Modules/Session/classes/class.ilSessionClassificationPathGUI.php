@@ -30,7 +30,7 @@ class ilSessionClassificationPathGUI extends ilPathGUI
     public function __construct()
     {
         global $DIC;
-
+        parent::__construct();
         $this->access = $DIC->access();
     }
 

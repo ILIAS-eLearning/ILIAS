@@ -51,7 +51,7 @@ class ilPCMap extends ilPageContent
         $this->map_node->set_attribute("Zoom", "3");
     }
 
-    public function setLatitude(?int $a_lat = null) : void
+    public function setLatitude(?float $a_lat = null) : void
     {
         if (!is_null($a_lat)) {
             $this->map_node->set_attribute("Latitude", (string) $a_lat);
@@ -62,15 +62,15 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    public function getLatitude() : ?int
+    public function getLatitude() : ?float
     {
         if (is_object($this->map_node)) {
-            return (int) $this->map_node->get_attribute("Latitude");
+            return (float) $this->map_node->get_attribute("Latitude");
         }
         return null;
     }
 
-    public function setLongitude(?int $a_long = null) : void
+    public function setLongitude(?float $a_long = null) : void
     {
         if (!is_null($a_long)) {
             $this->map_node->set_attribute("Longitude", $a_long);
@@ -81,23 +81,23 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    public function getLongitude() : ?int
+    public function getLongitude() : ?float
     {
         if (is_object($this->map_node)) {
-            return (int) $this->map_node->get_attribute("Longitude");
+            return (float) $this->map_node->get_attribute("Longitude");
         }
         return null;
     }
 
     public function setZoom(?int $a_zoom) : void
     {
-        if (!empty($a_zoom)) {
-            $this->map_node->set_attribute("Zoom", $a_zoom);
-        } else {
+        //if (!empty($a_zoom)) {
+        $this->map_node->set_attribute("Zoom", (int) $a_zoom);
+        /*} else {
             if ($this->map_node->has_attribute("Zoom")) {
                 $this->map_node->remove_attribute("Zoom");
             }
-        }
+        }*/
     }
 
     public function getZoom() : ?int
