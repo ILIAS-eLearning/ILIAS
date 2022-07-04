@@ -178,7 +178,7 @@ class ilLMObjectGUI
     {
         $this->setTabs();
 
-        $cont_obj_gui = new ilObjContentObjectGUI(
+        $cont_obj_gui = new ilObjLearningModuleGUI(
             "",
             $this->content_object->getRefId(),
             true,
@@ -203,7 +203,7 @@ class ilLMObjectGUI
      */
     public function confirmedDelete() : void
     {
-        $cont_obj_gui = new ilObjContentObjectGUI(
+        $cont_obj_gui = new ilObjLearningModuleGUI(
             "",
             $this->content_object->getRefId(),
             true,
