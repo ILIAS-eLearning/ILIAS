@@ -460,16 +460,14 @@ class ilSurveyEditorGUI
         $cgui->setFormAction($this->ctrl->getFormAction($this, "confirmRemoveQuestions"));
         $cgui->setCancel($this->lng->txt("cancel"), "questions");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmRemoveQuestions");
-
-        $counter = 0;
         $surveyquestions = $this->object->getSurveyQuestions();
         foreach ($surveyquestions as $question_id => $data) {
             if (in_array($data["question_id"], $checked_questions)) {
                 $type = SurveyQuestion::_getQuestionTypeName($data["type_tag"]);
                 
                 $cgui->addItem(
-                    "q_id[" . $data["question_id"],
-                    $data["question_id"] . "]",
+                    "q_id[]",
+                    $data["question_id"],
                     $type . ": " . $data["title"]
                 );
             } elseif ((in_array($data["questionblock_id"], $checked_questionblocks))) {

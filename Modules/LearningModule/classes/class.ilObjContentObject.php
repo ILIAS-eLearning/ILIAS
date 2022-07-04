@@ -1186,7 +1186,7 @@ class ilObjContentObject extends ilObject
                 $ilDB->quote($node["parent"], "integer");
             $obj_set = $ilDB->query($q);
             $obj_rec = $ilDB->fetchAssoc($obj_set);
-            if ($obj_rec["type"] == "pg") {
+            if (($obj_rec["type"] ?? "") == "pg") {
                 $node_data = $tree->getNodeData($node["child"]);
                 if ($tree->isInTree($node["child"])) {
                     $tree->deleteTree($node_data);
@@ -1314,7 +1314,7 @@ class ilObjContentObject extends ilObject
                 $ilDB->quote($node["parent"], "integer");
             $obj_set = $ilDB->query($q);
             $obj_rec = $ilDB->fetchAssoc($obj_set);
-            if ($obj_rec["type"] == "pg") {
+            if (($obj_rec["type"] ?? "") == "pg") {
                 $node_data = $tree->getNodeData($node["child"]);
                 if ($tree->isInTree($node["child"])) {
                     $issues[] = "Subtree with page parent: " . print_r($node_data, true);

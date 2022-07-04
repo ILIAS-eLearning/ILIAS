@@ -1274,7 +1274,7 @@ class ilLMObject
     public static function saveExportId(
         int $a_lm_id,
         int $a_lmobj_id,
-        int $a_exp_id,
+        string $a_exp_id,
         string $a_type = "pg"
     ) : void {
         $entries = ilMDIdentifier::_getEntriesForObj(
@@ -1362,7 +1362,7 @@ class ilLMObject
         foreach ($entries as $e) {
             if ($e["catalog"] == "ILIAS_NID") {
                 if (ilLMObject::_exists($e["obj_id"])) {
-                    $res[trim($e["entry"])]++;
+                    $res[trim($e["entry"])] = ($res[trim($e["entry"])] ?? 0) + 1;
                 }
             }
         }

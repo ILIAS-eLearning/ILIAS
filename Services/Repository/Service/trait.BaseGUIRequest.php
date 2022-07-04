@@ -93,6 +93,9 @@ trait BaseGUIRequest
     // get string parameter kindly
     protected function str(string $key) : string
     {
+        if ($this->isArray($key)) {
+            return "";
+        }
         $t = $this->refinery->kindlyTo()->string();
         return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
     }

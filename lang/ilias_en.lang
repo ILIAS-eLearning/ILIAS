@@ -16069,10 +16069,10 @@ tos#:#tos_tbl_hist_head_criteria#:#Criterion
 tos#:#tos_tbl_hist_head_document#:#Document
 tos#:#tos_tbl_hist_head_firstname#:#First Name
 tos#:#tos_tbl_hist_head_lastname#:#Last Name
-tos#:#tos_tbl_hist_head_login#:#Login
+tos#:#tos_tbl_hist_head_login#:#Username (Login)
 tos#:#tos_tos_settings#:#Settings
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal
-tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.
+tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service
+tos#:#tos_withdrawal_usr_deletion_info#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'
@@ -16285,7 +16285,7 @@ trac#:#trac_session_statistics_mode_today#:#Today
 trac#:#trac_session_statistics_mode_week#:#Week
 trac#:#trac_session_statistics_mode_year#:#Year
 trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.
-trac#:#trac_settings_saved#:#Saved settings.
+trac#:#trac_settings_saved#:#Settings saved
 trac#:#trac_settings#:#Settings
 trac#:#trac_short_system_load#:#Short term
 trac#:#trac_show_graph#:#Show Graph
@@ -16309,7 +16309,7 @@ trac#:#trac_title#:#Title
 trac#:#trac_total_online#:#Total Time Online
 trac#:#trac_trash#:#Moved to Trash
 trac#:#trac_updated_status#:#Saved learning progress status.
-trac#:#trac_update_edit_user#:#Saved settings
+trac#:#trac_update_edit_user#:#Settings saved
 trac#:#trac_user_data#:#User Data
 trac#:#trac_valid_request#:#Max. Time Between Requests
 trac#:#trac_view_crs#:#Back to Course
@@ -16359,7 +16359,7 @@ user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period 
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
 user#:#editing_this_role#:#Role
 user#:#enable_local_user_administration#:#Enable Local User Administration
-user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.
+user#:#enable_local_user_administration_info#:#Allow local user accounts to be administrated in categories and organisational units.
 user#:#feedhash#:#Newsfeedhash
 user#:#has_role#:#Role
 user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
@@ -16369,7 +16369,7 @@ user#:#interests_help_offered#:#Offering Help
 user#:#interests#:#Interests
 user#:#msg_spoint_not_modified#:#Starting point not modified
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
-user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission ‘Read Access to User Account’.
+user#:#restrict_user_access_info#:#Access to local and global user accounts is restricted to roles that have the permission ‘Read Access to User Accounts’.
 user#:#restrict_user_access#:#Restricted Access to User Accounts
 user#:#roles_without_starting_point#:#Roles without defined starting point:
 user#:#save_order#:#Save Order
@@ -16394,8 +16394,8 @@ user#:#user_account_code_generated#:#Date Of Generation
 user#:#user_account_code_not_valid#:#The given registration code is either invalid or already has been used.
 user#:#user_account_codes_add#:#Add Codes
 user#:#user_account_codes_edit_header#:#Add Codes
-user#:#user_account_code_setting#:#Enable Account Re-Activation By Code
-user#:#user_account_code_setting_info#:#Inactive Accounts can be re-activated by users with pre-defined codes.
+user#:#user_account_code_setting#:#Enable Account Re-Activation by Code
+user#:#user_account_code_setting_info#:#Inactive accounts can be re-activated by users using pre-defined codes.
 user#:#user_account_codes_export#:#Export Codes
 user#:#user_account_codes_number#:#Number Of Codes
 user#:#user_account_code_used#:#Date Of Use
@@ -16405,11 +16405,11 @@ user#:#user_account_code_valid_until_unlimited#:#Unlimited
 user#:#user_account_code_valid_until#:#Valid Until
 user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-mail containing detailed information has been sent to you.
 user#:#user_activate_public_profile#:#Activation
-user#:#user_activate_public_profile_info#:#First and last name will always be visible in your profile, if it is activated.
+user#:#user_activate_public_profile_info#:#Your first and last name will always be visible in your profile if it is activated.
 user#:#user_activation#:#Activation
 user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration
 user#:#user_all#:#All
-user#:#user_allow_delete_own_account#:#Allow users to delete own account
+user#:#user_allow_delete_own_account#:#Allow Users to Delete Own Account
 user#:#user_any#:#Any
 user#:#user_awrn_all_users#:#All Users
 user#:#user_awrn_all_users_info#:#All users of the platform are listed. Please not that the setting "Online and Offline" can reduce performance greatly on installations with a large number of users.
@@ -16447,23 +16447,23 @@ user#:#user_profile_data#:#Profile Data
 user#:#user_profile_info_std#:#Default User Profile Info
 user#:#user_profile_info_text_info#:#This text is presented on top of the form for entering personal data.
 user#:#user_profile_info#:#User Profile Info
-user#:#user_profile_portfolio#:#If you want to use a portfolio as your profile, go to the portfolio section and set ‘My Profile’ for that portfolio.
+user#:#user_profile_portfolio#:#If you would like to use a portfolio as your profile, go to the portfolio section and select ‘Set As My Profile’ from the drop-down menu to the right of the portfolio you wish to use.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 user#:#user_profile_preview#:#Preview
 user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
 user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
 user#:#user_prompt_incomplete#:#Only if profile is incomplete
-user#:#user_prompting_recurrence#:#Prompting Recurrence
+user#:#user_prompting_recurrence#:#When and How Often a User is Prompted
 user#:#user_prompting_settings#:#Prompting Settings
 user#:#user_prompt_once_after_login_info#:#After this period the user will be prompted with the profile, if the user did not publish the profile yet.
-user#:#user_prompt_once_after_login#:#Once after specific number of days after first login
-user#:#user_prompt_repeat_info#:#The user will be prompted periodically with the profile, if the user did not publish the profile yet.
+user#:#user_prompt_once_after_login#:#Once, a specific number of days after first login
+user#:#user_prompt_repeat_info#:#The user will be periodically prompted to publish their profile if they have not done so yet.
 user#:#user_prompt_repeat#:#Repeat every specific number of days
-user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.
+user#:#user_public_profile_info#:#Please select which personal data you would like to have visible in your profile and which users should be able to visit your profile.
 user#:#user_publish_options#:#Publish Profile
 user#:#user_role_starting_point#:#User - Starting Point
 user#:#user_save_continue#:#Save and Continue
-user#:#user_save_ordering_and_titles#:#Save ordering and titles
+user#:#user_save_ordering_and_titles#:#Save Order and Titles
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_set_publishing_options#:#Set publishing options
 user#:#user_set_visibilty_options#:#Set visibility options
@@ -16471,7 +16471,7 @@ user#:#user_store_last_visited#:#Last Visited
 user#:#user_visibility_settings#:#Visibility
 user#:#user_visible_in_profile#:#Visible in Personal Data
 user#:#usr_id#:#User ID
-user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.
+user#:#usr_letter_avatars_info#:#Show the username (or the initials of the username) as the user’s profile picture if no public picture has been provided.
 user#:#usr_letter_avatars#:#Letter Avatars
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
 user#:#usr_public_profile_disabled#:#Profile Disabled
