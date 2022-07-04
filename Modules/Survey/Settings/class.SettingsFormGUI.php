@@ -811,7 +811,7 @@ class SettingsFormGUI
             if ($feature_config->supportsMemberReminder()) {
                 $survey->setReminderTarget((int) $form->getInput("rmd_grp"));
                 $survey->setReminderTemplate(($form->getInput("rmdt") > 0)
-                    ? $form->getInput("rmdt")
+                    ? (int) $form->getInput("rmdt")
                     : null);
             }
         } else {
