@@ -156,7 +156,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                     $mimes = $this->getMimeDetails();
                     foreach (ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data) {
                         $op3 = new ilCheckboxOption($this->lng->txt($data['trans']), $type);
-                        if ($mimes[$type]) {
+                        if (isset($mimes[$type])) {
                             $det = true;
                         }
                         $cbgr->addOption($op3);
@@ -421,12 +421,12 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         
         $enabled = new ilCheckboxInputGUI($this->lng->txt('search_filter_cd'), 'screation');
         $enabled->setValue('1');
-        $enabled->setChecked((bool) $options['enabled']);
+        $enabled->setChecked((bool) ($options['enabled'] ?? false));
         $form->addItem($enabled);
         
         
         $limit_sel = new ilSelectInputGUI('', 'screation_ontype');
-        $limit_sel->setValue($options['ontype']);
+        $limit_sel->setValue($options['ontype'] ?? '');
         $limit_sel->setOptions(
             array(
                     1 => $this->lng->txt('search_created_after'),
@@ -437,8 +437,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $enabled->addSubItem($limit_sel);
         
         
-        if ($options['date']) {
-            $now = new ilDate($options['date'], IL_CAL_UNIX);
+        if ($options['date'] ?? false) {
+            $now = new ilDate($options['date'] ?? 0, IL_CAL_UNIX);
         } else {
             $now = new ilDate(time(), IL_CAL_UNIX);
         }

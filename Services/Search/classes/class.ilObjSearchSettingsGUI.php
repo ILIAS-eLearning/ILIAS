@@ -427,7 +427,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $settings->setMaxSubitems((int) $form->getInput('maxSubitems'));
         $settings->showRelevance((bool) $form->getInput('relevance'));
         $settings->enableLuceneOfflineFilter((bool) $form->getInput('offline_filter'));
-        $settings->enableLuceneMimeFilter((bool) $form->getInput('mime_filter'));
+        $settings->enableLuceneMimeFilter((bool) $form->getInput('mime_enabled'));
         $settings->setLuceneMimeFilter((array) $form->getInput('mime'));
         $settings->showSubRelevance((bool) $form->getInput('subrelevance'));
         $settings->enablePrefixWildcardQuery((bool) $form->getInput('prefix'));

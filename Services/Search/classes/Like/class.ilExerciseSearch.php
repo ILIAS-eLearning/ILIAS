@@ -48,7 +48,12 @@ class ilExerciseSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->exc_id, 'exc', $this->__prepareFound($row), $row->id);
+            $this->search_result->addEntry(
+                (int) $row->exc_id,
+                'exc',
+                $this->__prepareFound($row),
+                (int) $row->id
+            );
         }
         return $this->search_result;
     }
