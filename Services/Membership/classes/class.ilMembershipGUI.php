@@ -1152,7 +1152,7 @@ class ilMembershipGUI
 
             $c_gui->addItem(
                 'subscribers[]',
-                $name['user_id'],
+                (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
                 ilUtil::getImagePath('icon_usr.svg')
             );

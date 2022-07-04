@@ -436,7 +436,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         $ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys($objects));
         $creation_operations = array();
         foreach ($objects as $type => $info) {
-            $ops_id = $ops_ids[$type];
+            $ops_id = $ops_ids[$type] ?? null;
 
             if (!$ops_id) {
                 continue;
