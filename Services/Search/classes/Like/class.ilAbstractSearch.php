@@ -128,7 +128,7 @@ abstract class ilAbstractSearch
         $found = [];
         foreach ($this->query_parser->getQuotedWords() as $word) {
             $res_found = "found" . $counter++;
-            $found[] = $row->$res_found;
+            $found[] = (int) $row->$res_found;
         }
         return $found;
     }

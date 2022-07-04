@@ -50,7 +50,12 @@ class ilMediaCastSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->context_obj_id, 'mcst', $this->__prepareFound($row), $row->id);
+            $this->search_result->addEntry(
+                (int) $row->context_obj_id,
+                'mcst',
+                $this->__prepareFound($row),
+                (int) $row->id
+            );
         }
         return $this->search_result;
     }
