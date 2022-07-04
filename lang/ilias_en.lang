@@ -3902,7 +3902,6 @@ common#:#error_empty_file_or_folder#:#The file size is 0 bytes or it is a folder
 common#:#error#:#Error
 common#:#error_extraction_failed#:#The extraction of the archive and its directories failed. Probably because you don’t have the permission to create folders or categories within this object.
 common#:#error_parser#:#Error starting the parser.
-common#:#error_recipient#:#Error Recipient
 common#:#error_upload_was_zero_bytes#:#The upload failed as this is a folder, the file size is 0 bytes or exceeded the max. upload size or the file was renamed meanwhile.
 common#:#err_over_3_param#:#More than 3 parameters!
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location
@@ -3964,7 +3963,6 @@ common#:#eyeopened#:#Eye Open - Click to reveal the input's contents
 common#:#failure_message#:#Failure Message
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
-common#:#feedback_recipient#:#Feedback Recipient
 common#:#feed#:#Web Feed
 common#:#field_name#:#Field Name
 common#:#field_type#:#Field Type
@@ -4448,8 +4446,6 @@ common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_member#:#Mail to Member
 common#:#mail_members#:#Mail to Members
-common#:#mail_multiple_recipients_found#:#Please enter a more precise e-mail address, as ILIAS has found several possible recipients for this address: %s
-common#:#mail_no_recipient_found#:#Please enter a different e-mail address. ILIAS could not find a corresponding recipient.
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
 common#:#mail_search_no#:#No entries found.
@@ -10738,6 +10734,7 @@ mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
 mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails
 mail#:#mail_recipient_not_found#:#%1$s (could not find a valid recipient)
 mail#:#mail_rename_folder#:#Rename Folder
+mail#:#mail_roles#:#to users with the following local roles
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Dear Mrs.
 mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Ms.'
