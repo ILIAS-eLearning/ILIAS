@@ -94,7 +94,12 @@ class ilSurveyEditorGUI
             ->gui()
             ->print();
     }
-    
+
+    public function setRequestedPgov(string $pgov) : void
+    {
+        $this->requested_pgov = $pgov;
+    }
+
     public function executeCommand() : void
     {
         $ilTabs = $this->tabs;
@@ -591,7 +596,6 @@ class ilSurveyEditorGUI
 
         if (!$a_form) {
             $this->questionsSubtabs("questions");
-            
             $form = new ilPropertyFormGUI();
 
             if (is_null($sel_question_types)) {
@@ -812,7 +816,8 @@ class ilSurveyEditorGUI
                 if ($this->requested_pgov === "") {
                     $this->object->insertQuestion($question_id);
                 } else {
-                    // target position (pgov pos) is processed there
+                    // "pgov" must be set to 1 to land here
+                    // target position in page (pgov_pos) is processed there
                     $page_gui->insertNewQuestion($question_id);
                 }
                 $inserted_objects++;
