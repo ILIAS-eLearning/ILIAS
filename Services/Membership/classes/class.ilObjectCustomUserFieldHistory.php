@@ -55,8 +55,8 @@ class ilObjectCustomUserFieldHistory
 
         $users = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $users[$row->usr_id]['update_user'] = $row->update_user;
-            $users[$row->usr_id]['editing_time'] = new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC);
+            $users[(int) $row->usr_id]['update_user'] = (int) $row->update_user;
+            $users[(int) $row->usr_id]['editing_time'] = new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC);
         }
         return $users;
     }
@@ -113,7 +113,7 @@ class ilObjectCustomUserFieldHistory
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setEditingTime(new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC));
-            $this->setUpdateUser($row->update_user);
+            $this->setUpdateUser((int) $row->update_user);
         }
     }
 }
