@@ -1,5 +1,19 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -400,6 +414,12 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     protected function saveLuceneSettingsObject() : bool
     {
         $form = $this->initFormLuceneSettings();
+        if (!$form->checkInput()) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('err_check_input'));
+            $form->setValuesByPost();
+            $this->luceneSettingsObject($form);
+            return false;
+        }
 
         $settings = ilSearchSettings::getInstance();
         $settings->setFragmentCount((int) $form->getInput('fragmentCount'));
@@ -411,28 +431,20 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $settings->setLuceneMimeFilter((array) $form->getInput('mime'));
         $settings->showSubRelevance((bool) $form->getInput('subrelevance'));
         $settings->enablePrefixWildcardQuery((bool) $form->getInput('prefix'));
+        $settings->setLastIndexTime($form->getItemByPostVar('last_index')->getDate());
+        $settings->update();
 
-        if ($form->checkInput()) {
-            $settings->setLastIndexTime($form->getItemByPostVar('last_index')->getDate());
-            $settings->update();
-
-            // refresh lucene server
-            try {
-                $this->refreshLuceneSettings();
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
-                $this->ctrl->redirect($this, 'luceneSettings');
-                return true;
-            } catch (Exception $exception) {
-                $this->tpl->setOnScreenMessage('failure', $exception->getMessage());
-                $this->luceneSettingsObject($form);
-                return false;
-            }
+        // refresh lucene server
+        try {
+            $this->refreshLuceneSettings();
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
+            $this->ctrl->redirect($this, 'luceneSettings');
+            return true;
+        } catch (Exception $exception) {
+            $this->tpl->setOnScreenMessage('failure', $exception->getMessage());
+            $this->luceneSettingsObject($form);
+            return false;
         }
-
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('err_check_input'));
-        $form->setValuesByPost();
-        $this->luceneSettingsObject($form);
-        return false;
     }
 
     /**
