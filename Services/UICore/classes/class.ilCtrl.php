@@ -126,6 +126,11 @@ class ilCtrl implements ilCtrlInterface
         $this->component_factory = $component_factory;
     }
 
+    public function __clone()
+    {
+        $this->structure = clone $this->structure;
+    }
+
     /**
      * @inheritDoc
      */
