@@ -213,7 +213,7 @@ class SettingsFormGUI
         $opt = new \ilRadioOption($lng->txt("survey_question_pool_usage_inactive"), "0");
         $opt->setInfo($lng->txt("survey_question_pool_usage_inactive_info"));
         $pool_usage->addOption($opt);
-        $pool_usage->setValue((string) $survey->getPoolUsage());
+        $pool_usage->setValue((string) (int) $survey->getPoolUsage());
         $form->addItem($pool_usage);
 
         if ($feature_config->usesAppraisees()) {
