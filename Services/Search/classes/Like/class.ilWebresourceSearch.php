@@ -48,7 +48,12 @@ class ilWebresourceSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->webr_id, 'webr', $this->__prepareFound($row), $row->link_id);
+            $this->search_result->addEntry(
+                (int) $row->webr_id,
+                'webr',
+                $this->__prepareFound($row),
+                (int) $row->link_id
+            );
         }
         return $this->search_result;
     }

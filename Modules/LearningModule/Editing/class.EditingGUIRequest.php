@@ -193,9 +193,9 @@ class EditingGUIRequest
         return $this->strArray("userquest_id");
     }
 
-    public function getLMPublicMode() : bool
+    public function getLMPublicMode() : string
     {
-        return (bool) $this->int("lm_public_mode");
+        return $this->str("lm_public_mode");
     }
 
     /** @return int[] */

@@ -28,7 +28,12 @@ class ilMediaPoolSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->mep_id, 'mep', $this->__prepareFound($row), $row->obj_id);
+            $this->search_result->addEntry(
+                (int) $row->mep_id,
+                'mep',
+                $this->__prepareFound($row),
+                (int) $row->obj_id
+            );
         }
         return $this->search_result;
     }
@@ -51,7 +56,12 @@ class ilMediaPoolSearch extends ilAbstractSearch
         
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->mep_id, 'mep', $this->__prepareFound($row), $row->child);
+            $this->search_result->addEntry(
+                (int) $row->mep_id,
+                'mep',
+                $this->__prepareFound($row),
+                (int) $row->child
+            );
         }
         return $this->search_result;
     }

@@ -61,14 +61,13 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
         $this->form->checkInput();
 
-        $new_search = (bool) ($post_cmd['performSearch']) ?? false;
+        $new_search = (bool) ($post_cmd['performSearch'] ?? false);
         $enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
         foreach ($enabled_types as $type => $pval) {
-            if ($post_filter_type[$type] == 1) {
+            if (isset($post_filter_type[$type]) && $post_filter_type[$type] == 1) {
                 $post_search["details"][$type] = $post_filter_type[$type];
             }
         }
-
         $post_term = '';
         if ($this->http->wrapper()->post()->has('term')) {
             $post_term = $this->http->wrapper()->post()->retrieve(
@@ -610,14 +609,13 @@ class ilSearchGUI extends ilSearchBaseGUI
     public function parseCreationFilter(ilObjectSearch $search) : bool
     {
         $options = $this->getSearchCache()->getCreationFilter();
-        
-        if (!$options['enabled']) {
+        if (!($options['enabled'] ?? false)) {
             return true;
         }
-        $limit = new ilDate($options['date'], IL_CAL_UNIX);
+        $limit = new ilDate($options['date'] ?? 0, IL_CAL_UNIX);
         $search->setCreationDateFilterDate($limit);
         
-        switch ($options['ontype']) {
+        switch ($options['ontype'] ?? 0) {
             case 1:
                 $search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_AFTER);
                 break;
@@ -630,7 +628,6 @@ class ilSearchGUI extends ilSearchBaseGUI
                 $search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_ON);
                 break;
         }
-        
         return true;
     }
 
