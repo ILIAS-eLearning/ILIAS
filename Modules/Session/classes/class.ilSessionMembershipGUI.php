@@ -203,11 +203,13 @@ class ilSessionMembershipGUI extends ilMembershipGUI
                 continue;
             }
 
-            $participated = (bool) $this->requested_participated[$part_id];
-            $registered = (bool) $this->requested_registered[$part_id];
-            $contact = (bool) $this->requested_contact[$part_id];
-            $excused = (bool) $this->requested_excused[$part_id];
-            
+            $participated = (bool) ($this->requested_participated[$part_id] ?? false);
+            $registered = (bool) ($this->requested_registered[$part_id] ?? false);
+            $contact = (bool) ($this->requested_contact[$part_id] ?? false);
+            $excused = (bool) ($this->requested_excused[$part_id] ?? false);
+
+            $part_id = (int) $part_id;
+
             if ($part->isAssigned($part_id)) {
                 if (!$participated && !$registered && !$contact) {
                     $part->delete($part_id);
@@ -221,7 +223,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             $event_part->setUserId($part_id);
             $event_part->setMark(ilUtil::stripSlashes($this->requested_mark[$part_id]));
             $event_part->setComment(ilUtil::stripSlashes($this->requested_comment[$part_id]));
-            $event_part->setNotificationEnabled((bool) $this->requested_notification[$part_id]);
+            $event_part->setNotificationEnabled((bool) ($this->requested_notification[$part_id] ?? false));
             $event_part->setParticipated($participated);
             $event_part->setRegistered($registered);
             $event_part->setContact($contact);
