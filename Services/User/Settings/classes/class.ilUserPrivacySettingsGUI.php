@@ -432,7 +432,7 @@ class ilUserPrivacySettingsGUI
                 $preferencesUpdated = false;
 
                 if ($this->shouldShowOnScreenChatOptions()) {
-                    $oldEnableOscValue = ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'));
+                    $oldEnableOscValue = ilUtil::yn2tf((string) $this->user->getPref('chat_osc_accept_msg'));
                     $enableOsc = $formData[self::PROP_ENABLE_OSC] ?? null;
                     if (!is_bool($enableOsc)) {
                         $enableOsc = is_array($enableOsc);
@@ -447,7 +447,7 @@ class ilUserPrivacySettingsGUI
                     }
 
                     if ($enableOsc && $this->chatSettings->get('enable_browser_notifications', false)) {
-                        $oldBrowserNotificationValue = ilUtil::yn2tf($this->user->getPref('chat_osc_browser_notifications'));
+                        $oldBrowserNotificationValue = ilUtil::yn2tf((string) $this->user->getPref('chat_osc_browser_notifications'));
 
                         $sendBrowserNotifications = false;
                         if (is_array($formData[self::PROP_ENABLE_OSC])) {
@@ -467,7 +467,7 @@ class ilUserPrivacySettingsGUI
                 }
 
                 if ($this->shouldShowChatTypingBroadcastOption()) {
-                    $oldBroadcastTypingValue = ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'));
+                    $oldBroadcastTypingValue = ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'));
                     $broadcastTyping = (bool) ($formData[self::PROP_ENABLE_BROADCAST_TYPING] ?? false);
 
                     if ($oldBroadcastTypingValue !== $broadcastTyping) {
