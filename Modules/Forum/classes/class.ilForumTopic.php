@@ -214,6 +214,7 @@ class ilForumTopic
 
     public function getFirstPostId() : int
     {
+        $this->db->setLimit(1);
         $res = $this->db->queryF(
             'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos != %s AND depth = %s ORDER BY rgt DESC',
             ['integer', 'integer', 'integer'],
@@ -285,6 +286,7 @@ class ilForumTopic
 
     public function getFirstPostNode(bool $isModerator = false, bool $preventImplicitRead = false) : ilForumPost
     {
+        $this->db->setLimit(1);
         $res = $this->db->queryF(
             '
 			SELECT *
