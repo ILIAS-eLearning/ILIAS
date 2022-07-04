@@ -53,8 +53,10 @@ class ilPCInteractiveImage extends ilPageContent
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->iim_node = $a_node->first_child();
-        $this->med_alias_node = $this->iim_node->first_child();
-        if (is_object($this->med_alias_node) && $this->med_alias_node->myDOMNode != null) {
+        if (isset($this->iim_node->myDOMNode)) {
+            $this->med_alias_node = $this->iim_node->first_child();
+        }
+        if (isset($this->med_alias_node) && $this->med_alias_node->myDOMNode != null) {
             $id = $this->med_alias_node->get_attribute("OriginId");
             $mob_id = ilInternalLink::_extractObjIdOfTarget($id);
             if (ilObject::_lookupType($mob_id) == "mob") {
