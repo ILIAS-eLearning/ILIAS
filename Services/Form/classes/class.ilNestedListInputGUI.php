@@ -102,7 +102,15 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
                 $n["disabled"]
             );
             if ($n["img_src"] != "") {
-                $item_html .= ilUtil::img($n["img_src"], $n["img_alt"]) . " ";
+                $item_html .= ilUtil::img(
+                    $n["img_src"],
+                    $n["img_alt"],
+                    "",
+                    "",
+                    0,
+                    "",
+                    "ilIcon"
+                ) . " ";
             }
             $item_html .= $n["text"];
 

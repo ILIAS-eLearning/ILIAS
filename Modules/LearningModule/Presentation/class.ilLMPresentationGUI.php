@@ -1666,7 +1666,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $tabs->setBackTarget(
             $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "showPrintViewSelection")
+            $ilCtrl->getLinkTarget($this, "layout")
         );
 
         $c_obj_id = $this->getCurrentPageId();
@@ -2172,8 +2172,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $tpl->parseCurrentBlock();
             }
         }
-
         $this->tpl->setContent($tpl->get());
+        $this->tpl->addOnLoadCode("il.Util.print();");
         $this->tpl->printToStdout();
     }
 
