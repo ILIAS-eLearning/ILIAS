@@ -7,11 +7,15 @@
  */
 class ilLogComponentTableGUI extends ilTable2GUI
 {
+    protected ilComponentRepository $component_repo;
     protected ?ilLoggingDBSettings $settings = null;
     protected bool $editable = true;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd = "")
     {
+        global $DIC;
+        $this->component_repo = $DIC["component.repository"];
+
         $this->setId('il_log_component');
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
@@ -76,7 +80,15 @@ class ilLogComponentTableGUI extends ilTable2GUI
                 $row['component'] = 'Root';
                 $row['component_sortable'] = '_' . $row['component'];
             } else {
-                $row['component'] = ilComponent::lookupComponentName($component->getComponentId()); //Todo PHP8 Review: ilComponent doesn't exist.
+                if ($this->component_repo->hasComponentId(
+                    $component->getComponentId()
+                )) {
+                    $row['component'] = $this->component_repo->getComponentById(
+                        $component->getComponentId()
+                    )->getName();
+                } else {
+                    $row['component'] = "Unknown (" . $component->getComponentId() . ")";
+                }
                 $row['component_sortable'] = $row['component'];
             }
             $row['level'] = (int) $component->getLevel();

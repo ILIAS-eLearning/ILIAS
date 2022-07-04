@@ -113,6 +113,9 @@ class ilSurveyPageEditGUI
                         // make sure that it is set for current and next requests
                         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
                         $this->pgov = $this->current_page;
+                        // this is necessary, since ILIAS 7
+                        // wrote the REQUEST parameter
+                        $this->editor_gui->setRequestedPgov($this->pgov);
 
                         $id = explode("_", $this->svy_request->getHForm("node"));
                         $id = (int) $id[1];
@@ -243,7 +246,6 @@ class ilSurveyPageEditGUI
         int $a_new_id
     ) : void {
         $lng = $this->lng;
-
         if (!SurveyQuestion::_isComplete($a_new_id)) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("survey_error_insert_incomplete_question"));
         } else {
@@ -433,7 +435,7 @@ class ilSurveyPageEditGUI
             return true;
         } else {
             // create question and redirect to question form
-        
+
             $q_gui = SurveyQuestionGUI::_getQuestionGUI($type_trans);
             $q_gui->object->setObjId($this->object->getId());
             $q_gui->object->createNewQuestion();

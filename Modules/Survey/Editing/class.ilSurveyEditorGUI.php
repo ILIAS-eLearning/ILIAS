@@ -94,7 +94,12 @@ class ilSurveyEditorGUI
             ->gui()
             ->print();
     }
-    
+
+    public function setRequestedPgov(string $pgov) : void
+    {
+        $this->requested_pgov = $pgov;
+    }
+
     public function executeCommand() : void
     {
         $ilTabs = $this->tabs;
@@ -455,16 +460,14 @@ class ilSurveyEditorGUI
         $cgui->setFormAction($this->ctrl->getFormAction($this, "confirmRemoveQuestions"));
         $cgui->setCancel($this->lng->txt("cancel"), "questions");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmRemoveQuestions");
-
-        $counter = 0;
         $surveyquestions = $this->object->getSurveyQuestions();
         foreach ($surveyquestions as $question_id => $data) {
             if (in_array($data["question_id"], $checked_questions)) {
                 $type = SurveyQuestion::_getQuestionTypeName($data["type_tag"]);
                 
                 $cgui->addItem(
-                    "q_id[" . $data["question_id"],
-                    $data["question_id"] . "]",
+                    "q_id[]",
+                    $data["question_id"],
                     $type . ": " . $data["title"]
                 );
             } elseif ((in_array($data["questionblock_id"], $checked_questionblocks))) {
@@ -591,7 +594,6 @@ class ilSurveyEditorGUI
 
         if (!$a_form) {
             $this->questionsSubtabs("questions");
-            
             $form = new ilPropertyFormGUI();
 
             if (is_null($sel_question_types)) {
@@ -812,7 +814,8 @@ class ilSurveyEditorGUI
                 if ($this->requested_pgov === "") {
                     $this->object->insertQuestion($question_id);
                 } else {
-                    // target position (pgov pos) is processed there
+                    // "pgov" must be set to 1 to land here
+                    // target position in page (pgov_pos) is processed there
                     $page_gui->insertNewQuestion($question_id);
                 }
                 $inserted_objects++;
