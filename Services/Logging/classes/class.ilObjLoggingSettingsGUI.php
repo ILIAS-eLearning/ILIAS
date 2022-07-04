@@ -244,8 +244,21 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         if ($this->http->wrapper()->post()->has('level')) {
             $levels = $this->http->wrapper()->post()->retrieve(
                 'level',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
+                $this->refinery->custom()->transformation(
+                    function ($arr) {
+                        // keep keys(!), transform all values to int
+                        return array_column(
+                            array_map(
+                                static function ($k, $v) : array {
+                                    return [$k, (int) $v];
+                                },
+                                array_keys($arr),
+                                $arr
+                            ),
+                            1,
+                            0
+                        );
+                    }
                 )
             );
         }

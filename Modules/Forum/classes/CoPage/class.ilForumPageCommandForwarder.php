@@ -82,6 +82,14 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     {
     }
 
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function updateForumOnPageUpdate(array $parameters) : void
+    {
+        $this->parentObject->update();
+    }
+
     protected function getPageObjectGUI(string $language, bool $isEmbedded = false) : ilForumPageGUI
     {
         $pageObjectGUI = new ilForumPageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
@@ -89,7 +97,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
             $this->content_style_domain->getEffectiveStyleId()
         );
 
-        $pageObjectGUI->obj->addUpdateListener($this->parentObject, 'update');
+        $pageObjectGUI->obj->addUpdateListener($this, 'updateForumOnPageUpdate', []);
 
         return $pageObjectGUI;
     }

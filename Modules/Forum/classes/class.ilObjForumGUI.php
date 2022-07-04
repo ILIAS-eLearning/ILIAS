@@ -1547,17 +1547,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     }
                 }
 
-                $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', (int) $a_target);
+                $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', (string) ((int) $a_target));
                 if (is_numeric($a_thread)) {
-                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'thr_pk', (int) $a_thread);
+                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'thr_pk', (string) ((int) $a_thread));
                 }
                 if (is_numeric($a_posting)) {
-                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'pos_pk', (int) $a_posting);
+                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'pos_pk', (string) ((int) $a_posting));
                 }
                 $DIC->ctrl()->redirectByClass(
                     [ilRepositoryGUI::class, self::class],
                     'viewThread',
-                    is_numeric($a_posting) ? (int) $a_posting : ''
+                    is_numeric($a_posting) ? (string) ((int) $a_posting) : ''
                 );
             } else {
                 $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $a_target);
@@ -2047,7 +2047,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->ctrl->setParameter($this, 'action', 'ready_showedit');
         }
 
-        $this->ctrl->setParameter($this, 'page', (int) $this->httpRequest->getQueryParams()['page']);
+        $this->ctrl->setParameter($this, 'page', (int) ($this->httpRequest->getQueryParams()['page'] ?? 0));
         $this->ctrl->setParameter(
             $this,
             'orderby',
@@ -4423,7 +4423,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private function initUserNotificationForm() : ilPropertyFormGUI
     {
         $form = new ilForumNotificationEventsFormGUI($this, $this->ref_id, $this->objCurrentTopic->getId());
-        $form->setId(uniqid('frm_ntf_set_' . $this->object->getRefId(), true));
+        $form->setId(str_replace('.', '_', uniqid('frm_ntf_set_' . $this->object->getRefId(), true)));
 
         if ($this->objCurrentTopic->getId() > 0) {
             $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
@@ -5589,7 +5589,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 } else {
                     if ('frm_revoke_censorship' === $lng_id || 'frm_censorship' === $lng_id) {
                         $modalTemplate = new ilTemplate("tpl.forums_censor_modal.html", true, true, 'Modules/Forum');
-                        $formID = uniqid('form', true);
+                        $formID = str_replace('.', '_', uniqid('form', true));
                         $modalTemplate->setVariable('FORM_ID', $formID);
 
                         if ($node->isCensored()) {
@@ -5875,7 +5875,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-        $this->ctrl->setParameter($this, 'page', (int) $this->httpRequest->getQueryParams()['page']);
+        $this->ctrl->setParameter($this, 'page', (int) ($this->httpRequest->getQueryParams()['page'] ?? 0));
         $this->ctrl->setParameter(
             $this,
             'orderby',
@@ -5884,7 +5884,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ctrl->setParameter(
             $this,
             'action',
-            ilUtil::stripSlashes($this->httpRequest->getQueryParams()['action'])
+            ilUtil::stripSlashes($this->requestAction)
         );
         if ($action !== 'editdraft') {
             $tpl->setVariable('FORM', $oEditReplyForm->getHTML());

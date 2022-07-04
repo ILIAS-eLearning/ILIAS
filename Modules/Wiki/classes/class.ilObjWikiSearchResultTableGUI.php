@@ -39,8 +39,8 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
             );
             $row['link'] = $ilCtrl->getLinkTargetByClass('ilwikipagegui', 'preview');
             
-            $row['relevance'] = $result_set['relevance'];
-            $row['content'] = $result_set['content'];
+            $row['relevance'] = (float) ($result_set['relevance'] ?? 0);
+            $row['content'] = $result_set['content'] ?? "";
             
             $rows[] = $row;
         }

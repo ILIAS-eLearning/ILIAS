@@ -81,7 +81,7 @@ class ilWikiUserHTMLExport
             $this->read();
             $ts = ilUtil::now();
 
-            if ($this->data["start_ts"] != "" &&
+            if (($this->data["start_ts"] ?? "") != "" &&
                 $this->data["start_ts"] > $last_change) {
                 if ($file_exists) {
                     $ret = self::PROCESS_UPTODATE;
@@ -118,7 +118,7 @@ class ilWikiUserHTMLExport
                 $this->read();
             }
 
-            if ($this->data["start_ts"] == $ts && $this->data["usr_id"] == $this->user->getId()) {
+            if (($this->data["start_ts"] ?? "") == $ts && $this->data["usr_id"] == $this->user->getId()) {
                 //  we started the process
                 $ret = self::PROCESS_STARTED;
                 $this->log->debug("return: " . self::PROCESS_STARTED);

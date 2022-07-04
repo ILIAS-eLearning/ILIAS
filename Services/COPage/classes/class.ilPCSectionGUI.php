@@ -48,20 +48,28 @@ class ilPCSectionGUI extends ilPageContentGUI
             $form = $this->initForm($insert);
             $form->setShowTopButtons(false);
 
+            $onload_code = [];
             $from = $form->getItemByPostVar("active_from");
             $from->setSideBySide(false);
-            $on_load_code1 = $from->getOnloadCode();
+            $onload_code = array_merge($onload_code, $from->getOnloadCode());
+
             $to = $form->getItemByPostVar("active_to");
             $to->setSideBySide(false);
-            $on_load_code2 = $to->getOnloadCode();
+            $onload_code = array_merge($onload_code, $to->getOnloadCode());
+
+            $link = $form->getItemByPostVar("link");
+            $onload_code = array_merge($onload_code, $link->getOnloadCode());
 
             $rep_sel = $form->getItemByPostVar("permission_ref_id");
             $on_load_code3 = "";
+            $on_load_code4 = [];
             if ($rep_sel) {
                 $exp = $rep_sel->getExplorerGUI();
                 $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "permission_ref_id");
-                $on_load_code3 = $exp->getOnloadCode();
+                $onload_code = array_merge($onload_code, [$exp->getOnloadCode()]);
+
                 $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
+                $onload_code = array_merge($onload_code, $rep_sel->getOnloadCode());
             }
 
             $html = $params["ui_wrapper"]->getRenderedForm(
@@ -70,8 +78,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             );
 
             $html .= "<script>" .
-                implode("\n", array_merge($on_load_code1, $on_load_code2)) .
-                "\n" . $on_load_code3 .
+                implode("\n", $onload_code) .
                 "</script>";
 
             return $html;
@@ -377,7 +384,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             $this->content_obj->setExtLink($form->getInput("link"));
         } elseif ($form->getInput("link_mode") == "int" && $form->getInput("link") != "") {
             $la = $form->getItemByPostVar("link")->getIntLinkAttributes();
-            if ($la["Type"] != "") {
+            if (($la["Type"] ?? "") != "") {
                 $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);
             }
         } else {

@@ -587,11 +587,8 @@ class ilObjectCopyGUI
         if ($this->post_wrapper->has('tit')) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('wizard_search_list'));
             $_SESSION['source_query'] = $this->post_wrapper->retrieve("tit", $this->refinery->kindlyTo()->string());
-        } else {
-            // TODO: refactor this in next iteration
-            $_POST['tit'] = $_SESSION['source_query']; // TODO PHP8 Review: Remove/Replace SuperGlobals
         }
-        
+
         $this->initFormSearch();
         $this->form->setValuesByPost();
         
@@ -601,7 +598,11 @@ class ilObjectCopyGUI
             return;
         }
         
-        $query_parser = new ilQueryParser($this->form->getInput('tit'));
+        $tit = $this->form->getInput('tit');
+        if ($tit === "") {
+            $tit = ilSession::get('source_query', '');
+        }
+        $query_parser = new ilQueryParser($tit);
         $query_parser->setMinWordLength(1);
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();

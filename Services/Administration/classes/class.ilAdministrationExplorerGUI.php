@@ -103,7 +103,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
      */
     public function getNodeIcon($a_node) : string
     {
-        $obj_id = ilObject::_lookupObjId($a_node["child"]);
+        $obj_id = ilObject::_lookupObjId((int) $a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
@@ -159,7 +159,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
     {
         $rbacsystem = $this->rbacsystem;
 
-        $visible = $rbacsystem->checkAccess('visible', $a_node["child"]);
+        $visible = $rbacsystem->checkAccess('visible', (int) $a_node["child"]);
         if ($a_node["type"] === "rolf" && $a_node["child"] != ROLE_FOLDER_ID) {
             return false;
         }
@@ -199,7 +199,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 
         $childs = array();
         foreach ($this->type_grps[$parent_type] as $t => $g) {
-            if (is_array($group[$t])) {
+            if (isset($group[$t])) {
                 // do we have to sort this group??
                 $sort = ilContainerSorting::_getInstance($parent_obj_id);
                 $group = $sort->sortItems($group);
@@ -236,6 +236,6 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
      */
     public function isNodeClickable($a_node) : bool
     {
-        return $this->rbacsystem->checkAccess('read', $a_node["child"]);
+        return $this->rbacsystem->checkAccess('read', (int) $a_node["child"]);
     }
 }

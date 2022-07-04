@@ -104,6 +104,11 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function viewObject() : void
     {
+        if (strtolower($this->std_request->getBaseClass()) === "iladministrationgui") {
+            parent::viewObject();
+            return;
+        }
+
         $this->tabs_gui->setTabActive('view_content');
         $this->checkPermission('read', 'view');
         if ($this->view_manager->isAdminView()) {
@@ -2219,6 +2224,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     $this->lng->txt("crs_start_objects"),
                     $this->ctrl->getLinkTargetByClass("ilcontainerstartobjectsgui", "listStructure")
                 );
+                $this->tabs_gui->activateTab("start");
                 if (strtolower($this->ctrl->getCmdClass()) ==
                     "ilcontainerstartobjectspagegui") {
                     $header_action = false;

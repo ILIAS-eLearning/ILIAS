@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -1262,7 +1263,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($questionGui instanceof assMultipleChoiceGUI) {
             $qstConfig->setWorkedThrough($isQuestionWorkedThrough);
-            $qstConfig->setIsUnchangedAnswerPossible($this->object->getMCScoring());
         }
 
         if ($qstConfig->isPreviousPassSolutionReuseAllowed()) {

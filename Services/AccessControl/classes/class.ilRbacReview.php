@@ -421,9 +421,10 @@ class ilRbacReview
             "WHERE rol_id = " . $this->db->quote($a_rol_id, 'integer') . " " .
             "AND parent = " . $this->db->quote($a_ref_id, 'integer') . " ";
         $res = $this->db->query($query);
-        $row = $this->db->fetchObject($res);
-
-        return $row->assign == 'y';
+        while ($row = $this->db->fetchObject($res)) {
+            return $row->assign == 'y';
+        }
+        return false;
     }
 
     public function hasMultipleAssignments(int $a_role_id) : bool

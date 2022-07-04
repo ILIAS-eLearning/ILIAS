@@ -529,7 +529,7 @@ class ilCertificateGUI
                     ])
                 );
 
-                $active = (bool) $form_fields['active'];
+                $active = (bool) ($form_fields['active'] ?? false);
 
                 if ($newHashValue !== $previousCertificateTemplate->getCertificateHash()) {
                     $certificateTemplate = new ilCertificateTemplate(

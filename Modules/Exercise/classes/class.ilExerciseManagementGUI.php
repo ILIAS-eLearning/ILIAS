@@ -187,7 +187,7 @@ class ilExerciseManagementGUI
                     $this->assignment->getTitle() . " - " .
                     $fs_title);
                 $pcommand = $fs_gui->getLastPerformedCommand();
-                if (is_array($pcommand) && $pcommand["cmd"] == "create_file") {
+                if (is_array($pcommand) && ($pcommand["cmd"] ?? "") == "create_file") {
                     foreach ($noti_rec_ids as $user_id) {
                         $member_status = $this->assignment->getMemberStatus($user_id);
                         $member_status->setFeedback(true);

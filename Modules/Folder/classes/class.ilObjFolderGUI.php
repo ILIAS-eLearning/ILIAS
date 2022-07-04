@@ -495,6 +495,8 @@ class ilObjFolderGUI extends ilContainerGUI
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
 
+        $a_target = (int) $a_target;
+
         if ($ilAccess->checkAccess("read", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target);
         }

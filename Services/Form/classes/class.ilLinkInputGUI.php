@@ -173,7 +173,6 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                     $link_gui->filterLinkType($t);
                 }
                 $link_gui->setFilterWhiteList($this->getFilterWhiteList());
-                $link_gui->setMode("asynch");
 
                 $ret = $ilCtrl->forwardCommand($link_gui);
                 break;
@@ -431,11 +430,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 $value = explode("|", $value);
                 $hidden_type->setValue($value[0]);
                 $hidden_id->setValue($value[1]);
-                $hidden_target->setValue($value[2]);
+                $hidden_target->setValue($value[2] ?? "");
                 
                 $itpl->setVariable("VAL_OBJECT_TYPE", $value_trans["type"]);
                 $itpl->setVariable("VAL_OBJECT_NAME", $value_trans["name"]);
-                if ($value[2] != "") {
+                if (($value[2] ?? "") != "") {
                     $itpl->setVariable("VAL_TARGET_FRAME", "(" . $value[2] . ")");
                 }
             } elseif ($has_ext) {
@@ -562,15 +561,14 @@ class ilLinkInputGUI extends ilFormPropertyGUI
      *
      * @return array (with keys "Type", "Target" and "TargetFrame")
      */
-    public function getIntLinkAttributes() : array
+    public function getIntLinkAttributes() : ?array
     {
         $val = explode("|", $this->getInput());
-
-        $ret = false;
+        $ret = null;
         $type = "";
         $target = "";
-        if (self::isInternalLink($this->str($this->getPostVar()))) {
-            $target_frame = $val[2];
+        if (self::isInternalLink($this->getInput())) {
+            $target_frame = $val[2] ?? "";
             $map = self::getTypeToAttrType();
             if (isset($map[$val[0]])) {
                 $type = $map[$val[0]];
@@ -610,7 +608,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         $type = "";
         $map = self::getAttrTypeToType();
         if ($a_type == "RepositoryItem") {
-            $type = ilObject::_lookupType($target_id, true);
+            $type = ilObject::_lookupType((int) $target_id, true);
         } elseif (isset($map[$a_type])) {
             $type = $map[$a_type];
         }
@@ -621,5 +619,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             }
             $this->setValue($val);
         }
+    }
+
+    public function getOnloadCode() : array
+    {
+        return [
+            ilInternalLinkGUI::getOnloadCode("")
+        ];
     }
 }

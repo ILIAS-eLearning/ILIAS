@@ -904,6 +904,10 @@ class ilInternalLinkGUI
         exit;
     }
 
+    public static function getOnloadCode(string $a_url) : string
+    {
+        return "il.Util.addOnLoad(function() {il.IntLink.init({url: '$a_url'});});";
+    }
 
     /**
      * Get initialisation HTML to use internal link editing
@@ -916,7 +920,7 @@ class ilInternalLinkGUI
         $tpl = $DIC["tpl"];
 
         $tpl->addOnLoadCode(
-            "il.Util.addOnLoad(function() {il.IntLink.init({url: '$a_url'});});"
+            self::getOnloadCode($a_url)
         );
 
         $lng->loadLanguageModule("link");

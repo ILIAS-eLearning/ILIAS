@@ -770,6 +770,9 @@ class ilTable2GUI extends ilTableGUI
         if ($this->getPrefix() == "") {
             $this->setPrefix($a_val);
         }
+        if (strlen($this->id) > 30) {
+            throw new ilException("Table ID to long (max. 30 char): " . $this->id);
+        }
     }
 
     public function getId() : string

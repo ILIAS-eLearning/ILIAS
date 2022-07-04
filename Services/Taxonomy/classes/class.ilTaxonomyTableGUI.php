@@ -39,7 +39,6 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         ilObjTaxonomy $a_tax
     ) {
         global $DIC;
-
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();

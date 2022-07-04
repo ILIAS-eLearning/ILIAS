@@ -5034,7 +5034,7 @@ s     */
         string $a_parent_type,
         int $a_parent_id,
         string $a_lang = ""
-    ) : array {
+    ) : string {
         global $DIC;
 
         $db = $DIC->database();

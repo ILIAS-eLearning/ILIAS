@@ -807,9 +807,9 @@ class SettingsFormGUI
             $survey->setReminderStatus(true);
             $survey->setReminderStart($rmd_start);
             $survey->setReminderEnd($rmd_end);
-            $survey->setReminderFrequency($form->getInput("rmd_freq"));
+            $survey->setReminderFrequency((int) $form->getInput("rmd_freq"));
             if ($feature_config->supportsMemberReminder()) {
-                $survey->setReminderTarget($form->getInput("rmd_grp"));
+                $survey->setReminderTarget((int) $form->getInput("rmd_grp"));
                 $survey->setReminderTemplate(($form->getInput("rmdt") > 0)
                     ? $form->getInput("rmdt")
                     : null);

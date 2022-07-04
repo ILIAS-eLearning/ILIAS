@@ -252,7 +252,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Short Title: View Title</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>
@@ -294,7 +294,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>
@@ -337,7 +337,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>
@@ -413,7 +413,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>

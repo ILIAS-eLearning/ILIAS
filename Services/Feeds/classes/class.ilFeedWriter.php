@@ -29,7 +29,7 @@
  */
 class ilFeedWriter
 {
-    private string $ch_desc;
+    private string $ch_desc = "";
     protected ilTree $tree;
     protected ilLanguage $lng;
     protected ilTemplate $tpl;

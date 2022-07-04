@@ -177,4 +177,9 @@ class StandardGUIRequest
     {
         return $this->intArray("starter");
     }
+
+    public function getCmdClass() : string
+    {
+        return $this->str("cmdClass");
+    }
 }

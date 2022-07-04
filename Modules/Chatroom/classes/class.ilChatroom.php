@@ -58,7 +58,7 @@ class ilChatroom
         'private_rooms_enabled' => 'boolean'
     ];
     private int $roomId = 0;
-    private ?ilObjChatroom $object;
+    private ?ilObjChatroom $object = null;
 
     /**
      * Checks user permissions by given array and ref_id.
@@ -582,9 +582,14 @@ class ilChatroom
         $result = [];
 
         while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $message = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
-            if ($message === null) {
-                $message = json_decode('{}', false, 512, JSON_THROW_ON_ERROR);
+            try {
+                $message = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException $e) {
+                $message = null;
+            } finally {
+                if ($message === null) {
+                    $message = json_decode('{}', false, 512, JSON_THROW_ON_ERROR);
+                }
             }
 
             $row['message'] = $message;
@@ -887,7 +892,7 @@ class ilChatroom
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
 
-            $notification->setHandlerParam('mail.sender', $sender_id);
+            $notification->setHandlerParam('mail.sender', (string) $sender_id);
 
             $notification->notifyByUsers([$recipient_id]);
         }

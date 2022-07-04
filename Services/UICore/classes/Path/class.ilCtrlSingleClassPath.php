@@ -1,11 +1,24 @@
 <?php declare(strict_types = 1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilCtrlSingleClassPath
  *
- * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class ilCtrlSingleClassPath extends ilCtrlAbstractPath
 {
@@ -55,12 +68,6 @@ class ilCtrlSingleClassPath extends ilCtrlAbstractPath
             throw new ilCtrlException("Class '$target_class' was not found in the control structure, try `composer du` to read artifacts.");
         }
 
-        // if the target class is a known baseclass the
-        // class cid can be returned.
-        if ($this->structure->isBaseClass($target_class)) {
-            return $target_cid;
-        }
-
         // if the target class is already the current command
         // class of this context, nothing has to be changed.
         if ($target_cid === $this->context->getPath()->getCurrentCid()) {
@@ -70,10 +77,18 @@ class ilCtrlSingleClassPath extends ilCtrlAbstractPath
         // check if the target is related to a class within
         // the current context's path.
         $related_class_path = $this->getPathToRelatedClassInContext($this->context, $target_class);
-        if (null === $related_class_path) {
-            throw new ilCtrlException("ilCtrl cannot find a path for '$target_class' that reaches '{$this->context->getBaseClass()}'");
+        if (null !== $related_class_path) {
+            return $this->appendCid($target_cid, $related_class_path);
         }
 
-        return $this->appendCid($target_cid, $related_class_path);
+        // fix https://mantis.ilias.de/view.php?id=33094:
+        // prioritise baseclasses less than relationships,
+        // therefore test at last if the target class is a
+        // baseclass.
+        if ($this->structure->isBaseClass($target_class)) {
+            return $target_cid;
+        }
+
+        throw new ilCtrlException("ilCtrl cannot find a path for '$target_class' that reaches '{$this->context->getBaseClass()}'");
     }
 }

@@ -693,7 +693,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
     protected function parseValue(
         string $id,
-        string $value,
+        ?string $value,
         string $type
     ) : string {
         // get rid of aggregation
@@ -775,12 +775,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
         $this->tpl->setVariable("TITLE", $a_set["title"]);
 
-        if ($a_set["offline"] || $a_set["privacy_conflict"]) {
+        if ($a_set["offline"] || ($a_set["privacy_conflict"] ?? null)) {
             $mess = array();
             if ($a_set["offline"]) {
                 $mess[] = $this->lng->txt("offline");
             }
-            if ($a_set["privacy_conflict"]) {
+            if ($a_set["privacy_conflict"] ?? null) {
                 $mess[] = $this->lng->txt("status_no_permission");
             }
             $this->tpl->setCurrentBlock("status_bl");

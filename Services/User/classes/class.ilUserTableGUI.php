@@ -563,7 +563,7 @@ class ilUserTableGUI extends ilTable2GUI
         string $id,
         int $type,
         bool $a_optional = false,
-        bool $caption = null,
+        ?string $caption = null,
         array $a_options = array()
     ) : ?ilFormPropertyGUI {
         global $DIC;

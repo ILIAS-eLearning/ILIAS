@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\COPage\Layout\AdministrationGUIRequest;
+use ILIAS\DI\UIServices;
 
 /**
  * Administration for page layouts
@@ -191,8 +192,7 @@ class ilPageLayoutAdministrationGUI
             $pg_obj = new ilPageLayout($id);
             $pg_obj->readObject();
 
-            $caption = ilUtil::getImageTagByType("stys", $this->tpl->tplPath) .
-                " " . $pg_obj->getTitle();
+            $caption = $pg_obj->getTitle();
 
             $cgui->addItem("pglayout[]", $id, $caption);
         }
@@ -251,13 +251,6 @@ class ilPageLayoutAdministrationGUI
         $desc_input->setRows(3);
         $desc_input->setCols(37);
 
-        // special page?
-        $options = array(
-            "0" => $this->lng->txt("cont_layout_template"),
-            "1" => $this->lng->txt("cont_special_page"),
-        );
-        $si = new ilSelectInputGUI($this->lng->txt("type"), "special_page");
-        $si->setOptions($options);
 
         // modules
         $mods = new ilCheckboxGroupInputGUI($this->lng->txt("modules"), "module");
@@ -294,7 +287,6 @@ class ilPageLayoutAdministrationGUI
 
         $form_gui->addItem($title_input);
         $form_gui->addItem($desc_input);
-        $form_gui->addItem($si);
         $form_gui->addItem($mods);
         $form_gui->addItem($ttype_input);
 
@@ -319,7 +311,6 @@ class ilPageLayoutAdministrationGUI
         $pg_object = new ilPageLayout();
         $pg_object->setTitle($form_gui->getInput('pgl_title'));
         $pg_object->setDescription($form_gui->getInput('pgl_desc'));
-        $pg_object->setSpecialPage($form_gui->getInput('special_page'));
         $pg_object->setModules($form_gui->getInput('module'));
         $pg_object->update();
 

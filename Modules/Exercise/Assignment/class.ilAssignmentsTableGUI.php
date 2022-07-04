@@ -207,5 +207,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
             "CMD_EDIT",
             $ilCtrl->getLinkTarget($this->parent_obj, "editAssignment")
         );
+
+        $ilCtrl->setParameter($this->parent_obj, "ass_id", null);
     }
 }
