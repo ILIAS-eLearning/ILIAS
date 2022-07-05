@@ -3553,7 +3553,8 @@ class ilObjSurvey extends ilObject
     }
 
     /**
-     * Return a list of survey codes for file export
+     * Return a list of survey codes for file export,
+     * note: user_key needs to be null to export a record
      * @param ?string[] $a_codes array of all survey codes that should be exported, if null...
      * @param ?int[] $a_ids array of anonymous ids that should be exported
      * @return string comma separated list of survey codes an URLs for file export
@@ -3579,7 +3580,7 @@ class ilObjSurvey extends ilObject
         } elseif ($a_ids) {
             $sql .= " AND " . $ilDB->in("svy_anonymous.anonymous_id", $a_ids, "", "text");
         }
-        
+
         $export = array();
         
         // #14905

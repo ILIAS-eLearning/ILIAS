@@ -172,6 +172,6 @@ class EditSessionRepo
 
     public function getExternalText() : string
     {
-        return \ilSession::get(self::KEY_EXT_TEXT);
+        return (string) \ilSession::get(self::KEY_EXT_TEXT);
     }
 }
