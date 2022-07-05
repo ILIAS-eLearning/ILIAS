@@ -29,6 +29,16 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     protected $forum_id = 0;
 
     /**
+     * @var string
+     */
+    protected $top_item_title = '';
+
+    /**
+     * @var string
+     */
+    protected $top_item_type = '';
+
+    /**
      * @var string $forum_title
      */
     protected $forum_title = '';
@@ -145,6 +155,9 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->obj_id = $row['obj_id'];
         $this->ref_id = $row['ref_id'];
 
+        $this->top_item_title = $row['top_item_title'];
+        $this->top_item_type = $row['top_item_type'];
+
         $this->thread_id = $row['thread_id'];
         $this->thread_title = $row['thr_subject'];
 
@@ -247,6 +260,16 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     public function getForumId()
     {
         return $this->forum_id;
+    }
+
+    public function getTopItemTitle() : string
+    {
+        return $this->top_item_title;
+    }
+
+    public function getTopItemType() : string
+    {
+        return $this->top_item_type;
     }
 
     /**

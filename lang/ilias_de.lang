@@ -13152,14 +13152,14 @@ forum#:#content_deleted_thread#:#Inhalt des gelöschten Themas:
 forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" aufgehoben:
 forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
-forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" zum Thema "%2$s"
-forum#:#frm_noti_subject_del_thread#:#Thema "%2$s" im Forum "%1$s" gelöscht
-forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" aktiviert
-forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" beantwortet
-forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" geändert
-forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" zensiert
-forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" zum Thema "%2$s"
-forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
+forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" (%2$s: "%3$s") zum Thema "%4$s"
+forum#:#frm_noti_subject_del_thread#:#Thema "%4$s" im Forum "%1$s" (%2$s: "%3$s") gelöscht
+forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" (%2$s: "%3$s") zum Thema "%4$s" aktiviert
+forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s" (%2$s: "%3$s") zum Thema "%4$s" beantwortet
+forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" (%2$s: "%3$s") zum Thema "%4$s" geändert
+forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" (%2$s: "%3$s") zum Thema "%4$s" zensiert
+forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" (%2$s: "%3$s") zum Thema "%4$s"
+forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" (%2$s: "%3$s") zum Thema "%4$s" gelöscht
 search#:#search_show_inactive_user#:#Inaktive Benutzer anzeigen
 search#:#search_show_inactive_user_info#:#In der Benutzersuche werden auch Benutzer angezeigt, deren Konto nicht aktiv ist.
 search#:#search_show_limited_user#:#Zeitlich begrenzte Benutzer anzeigen
