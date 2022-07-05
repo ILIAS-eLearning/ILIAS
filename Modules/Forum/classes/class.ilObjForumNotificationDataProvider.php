@@ -279,15 +279,12 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->forum_id = (int) $row['top_pk'];
         $this->forum_title = (string) $row['top_name'];
 
-        $forum = ilObjectFactory::getInstanceByObjId($this->getObjId());
-        if ($forum instanceof ilObjForum) {
-            $top_item_ref_id = $this->tree->getParentId($this->getRefId());
-            if ($top_item_ref_id) {
-                $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
-                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
-                    $this->top_item_title = $top_item->getTitle();
-                    $this->top_item_type = $top_item->getType();
-                }
+        $top_item_ref_id = $this->tree->getParentId($this->getRefId());
+        if ($top_item_ref_id = $this->tree->checkForParentType($this->getRefId(), 'grp|crs')) {
+            $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
+            if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
+                $this->top_item_title = $top_item->getTitle();
+                $this->top_item_type = $top_item->getType();
             }
         }
 

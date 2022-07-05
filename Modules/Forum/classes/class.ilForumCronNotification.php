@@ -232,9 +232,7 @@ class ilForumCronNotification extends ilCronJob
             }
 
             $row['ref_id'] = $ref_id;
-
-            $top_item_ref_id = $this->tree->getParentId($ref_id);
-            if ($top_item_ref_id) {
+            if ($top_item_ref_id = $this->tree->checkForParentType($ref_id, 'grp|crs')) {
                 $top_item = ilObjectFactory::getInstanceByObjId($top_item_ref_id);
                 if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
                     $row['top_item_title'] = $top_item->getTitle();
