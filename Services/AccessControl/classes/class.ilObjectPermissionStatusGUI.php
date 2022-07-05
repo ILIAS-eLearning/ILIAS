@@ -232,7 +232,7 @@ class ilObjectPermissionStatusGUI
                 $DIC->refinery()->kindlyTo()->string()
             );
         }
-        if (strlen($user_login)) {
+        if (!strlen($user_login)) {
             return $DIC->user();
         }
         $user_id = ilObjUser::_lookupId($user_login);

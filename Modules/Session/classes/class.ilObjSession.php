@@ -337,7 +337,8 @@ class ilObjSession extends ilObject
 
     public function getFirstAppointment() : ilSessionAppointment
     {
-        return is_object($this->appointments[0]) ? $this->appointments[0] : ($this->appointments[0] = new ilSessionAppointment());
+        $app = $this->appointments[0] ?? null;
+        return is_object($app) ? $app : ($this->appointments[0] = new ilSessionAppointment());
     }
 
     public function getFiles() : array

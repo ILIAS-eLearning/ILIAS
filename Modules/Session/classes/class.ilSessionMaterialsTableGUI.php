@@ -49,12 +49,12 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $this->ui = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
 
-        $this->setId("sess_materials_" . $a_parent_obj->object->getId());
+        $this->setId("sess_materials_" . $a_parent_obj->getCurrentObject()->getId());
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->parent_ref_id = $this->tree->getParentId($a_parent_obj->object->getRefId());
-        $this->parent_object_id = $a_parent_obj->object->getId();
+        $this->parent_ref_id = $this->tree->getParentId($a_parent_obj->getCurrentObject()->getRefId());
+        $this->parent_object_id = $a_parent_obj->getCurrentObject()->getId();
 
         //$this->setEnableNumInfo(false);
         //$this->setLimit(100);
@@ -135,7 +135,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $data_filtered = $a_data;
 
         //Filter by title
-        if ($this->filter["title"]) {
+        if (isset($this->filter["title"])) {
             foreach ($data_filtered as $key => $material) {
                 $title = $material["title"];
                 if (stripos($title, $this->filter["title"]) === false) {
@@ -145,7 +145,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
 
         //Filter by obj type
-        if ($this->filter['type']) {
+        if (isset($this->filter['type'])) {
             foreach ($data_filtered as $key => $material) {
                 $type = $material["type"];
                 //types can be: file, exc
@@ -156,7 +156,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
 
         //Filter by status
-        if ($this->filter["status"]) {
+        if (isset($this->filter["status"])) {
             //items_ref = materials already assigned.
             $assigned_items = new ilEventItems($this->parent_object_id);
             $assigned_items = $assigned_items->getItems();
