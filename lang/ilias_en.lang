@@ -9586,14 +9586,14 @@ forum#:#frm_notification_activated#:#Notification Activated
 forum#:#frm_notification_deactivated#:#Notification Deactivated
 forum#:#frm_noti_message#:#Message:
 forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
-forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s" in %2$s% "%3$s%", thread "%4$s"
-forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s" in %2$s% "%3$s%", thread "%4$s"
-forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s" in %2$s% "%3$s%", thread "%4$s"
-forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s" in %2$s% "%3$s%", thread "%4$s"
-forum#:#frm_noti_subject_del_thread#:#Thread "%4$s" deleted in forum "%1$s" in %2$s% "%3$s%"
-forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s" in %2$s% "%3$s%", thread "%4$s"
-forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s" in %2$s% "%3$s%", thread "%4$s"
-forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s" in %2$s% "%3$s%", thread "%4$s"
+forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s" (%2$s%: "%3$s%"), thread "%4$s"
+forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s" (%2$s%: "%3$s%"), thread "%4$s"
+forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s" (%2$s%: "%3$s%"), thread "%4$s"
+forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s" (%2$s%: "%3$s%"), thread "%4$s"
+forum#:#frm_noti_subject_del_thread#:#Thread "%4$s" deleted in forum "%1$s" (%2$s%: "%3$s%)"
+forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s" (%2$s%: "%3$s%"), thread "%4$s"
+forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s" (%2$s%: "%3$s%"), thread "%4$s"
+forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s" (%2$s%: "%3$s%"), thread "%4$s"
 forum#:#frm_notification_activated#:#Notification Activated
 forum#:#frm_notification_deactivated#:#Notification Deactivated
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
