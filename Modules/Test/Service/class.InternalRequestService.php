@@ -94,7 +94,12 @@ class InternalRequestService
         return $this->get($key, $no_transform);
     }
 
-    public function getParsedBody()
+    public function strVal(string $key) : string
+    {
+        return $this->str($key);
+    }
+
+    public function getParsedBody() : ?array
     {
         return $this->http->request()->getParsedBody();
     }
