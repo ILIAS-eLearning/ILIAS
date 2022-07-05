@@ -12,7 +12,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
         $users = array();
-        if (is_array($status_info['in_progress'])) {
+        if (isset($status_info['in_progress'])) {
             foreach ($status_info['in_progress'] as $in_progress) {
                 $users = array_merge($users, $in_progress);
             }

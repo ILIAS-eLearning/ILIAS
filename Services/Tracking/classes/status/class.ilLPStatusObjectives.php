@@ -108,7 +108,7 @@ class ilLPStatusObjectives extends ilLPStatus
             foreach (ilChangeEvent::lookupUsersInProgress(
                 $a_obj_id
             ) as $user_id) {
-                if (!is_array(
+                if (!isset(
                     $status_info['user_status'][ilLPStatus::LP_STATUS_IN_PROGRESS_NUM]
                 ) ||
                     !in_array(
