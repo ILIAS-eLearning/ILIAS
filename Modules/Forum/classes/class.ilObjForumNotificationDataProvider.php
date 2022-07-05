@@ -19,6 +19,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     public $pos_author_id = 0;
     /** @var int */
     protected $forum_id = 0;
+    /** @var string $top_item_title */
+    protected $top_item_title = '';
+    /** @var string $top_item_type */
+    protected $top_item_type = '';
     /** @var string $forum_title */
     protected $forum_title = '';
     /** @var string $thread_title */
@@ -30,6 +34,8 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     private $db;
     private $access;
     private $user;
+    /** @var ilTree $tree */
+    private $tree;
 
     /**
      * @var bool
@@ -50,6 +56,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->db = $DIC->database();
         $this->access = $DIC->access();
         $this->user = $DIC->user();
+        $this->tree = $DIC->repositoryTree();
 
         $this->notificationCache = $notificationCache;
 
@@ -97,6 +104,16 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     public function getForumId()
     {
         return $this->forum_id;
+    }
+
+    public function getTopItemTitle() : string
+    {
+        return $this->top_item_title;
+    }
+
+    public function getTopItemType() : string
+    {
+        return $this->top_item_type;
     }
 
     /**
@@ -345,6 +362,19 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $row = $this->notificationCache->fetch($cacheKey);
         $this->forum_id = $row['top_pk'];
         $this->forum_title = $row['top_name'];
+
+        $forum = ilObjectFactory::getInstanceByObjId($this->getObjId());
+        if ($forum instanceof ilObjForum) {
+            $top_item_ref_id = $this->tree->getParentId($this->getRefId());
+            if ($top_item_ref_id) {
+                $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
+                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
+                    $this->top_item_title = $top_item->getTitle();
+                    $this->top_item_type = $top_item->getType();
+                }
+            }
+        }
+
         $this->is_anonymized = (bool) $row['anonymized'];
     }
 
