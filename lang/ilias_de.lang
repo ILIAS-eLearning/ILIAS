@@ -9698,6 +9698,7 @@ forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
 forum#:#restore#:#Wiederherstellen
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
+forum#:#error_no_target_selected#:#Bitte wählen Sie ein Forum.
 forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
 forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!

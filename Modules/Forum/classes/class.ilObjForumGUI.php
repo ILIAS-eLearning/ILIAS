@@ -3639,6 +3639,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 'frm_ref_id',
                 $this->refinery->kindlyTo()->int()
             );
+        } else {
+            $this->error->raiseError('Please select a forum', $this->error->MESSAGE);
         }
 
         $threads2move = ilSession::get('threads2move');

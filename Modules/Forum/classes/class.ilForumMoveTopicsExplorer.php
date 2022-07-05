@@ -53,7 +53,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
             return $DIC->access()->checkAccess(
                 'moderate_frm',
                 '',
-                $a_node['child']
+                (int) $a_node['child']
             ) && parent::isNodeClickable($a_node);
         }
 
@@ -72,7 +72,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
             return $DIC->access()->checkAccess(
                 'moderate_frm',
                 '',
-                $a_node['child']
+                (int) $a_node['child']
             ) && parent::isNodeSelectable($a_node);
         }
 
