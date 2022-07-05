@@ -664,7 +664,7 @@ class ilObjRole extends ilObject
                     $perms = end($operation_stack);
                     $this->changeExistingObjectsGrantPermissions(
                         $this->getId(),
-                        (array) $perms[$node['type']],
+                        (array) ($perms[$node['type']] ?? []),
                         $node['child'],
                         $a_operation_mode
                     );

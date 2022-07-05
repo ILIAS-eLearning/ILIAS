@@ -100,27 +100,20 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         if ($this->http->wrapper()->post()->has('roles')) {
             return $this->http->wrapper()->post()->retrieve(
                 'roles',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    ),
+                    $this->refinery->in()->series([
+                        $this->refinery->custom()->transformation(function ($v) {
+                            return explode(',', $v);
+                        }),
+                        $this->refinery->kindlyTo()->listOf(
+                            $this->refinery->kindlyTo()->int()
+                        )
+                    ])
+                ])
             );
-        }
-        return [];
-    }
-
-    /**
-     * @return int[]
-     */
-    protected function initRolesStringFromPOST() : array
-    {
-        if ($this->http->wrapper()->post()->has('roles')) {
-            $roles_string = $this->http->wrapper()->post()->retrieve(
-                'roles',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-            return explode(',', $roles_string);
         }
         return [];
     }
@@ -391,7 +384,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     {
         $this->checkPermission('write');
 
-        $roles = $this->initRolesStringFromPOST();
+        $roles = $this->initRolesFromPOST();
         $source = $this->initCopySourceFromGET();
 
         $form = $this->initCopyBehaviourForm();
@@ -478,7 +471,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     protected function removeRolePermissionsObject() : void
     {
         // Finally copy role/rolt
-        $roles = $this->initRolesStringFromPOST();
+        $roles = $this->initRolesFromPOST();
         $source = $this->initCopySourceFromGET();
 
         $form = $this->initCopyBehaviourForm();

@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-
-    
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -713,7 +711,7 @@ class ilMembershipGUI
 
             $confirm->addItem(
                 'participants[]',
-                $name['user_id'],
+                (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
                 ilUtil::getImagePath('icon_usr.svg')
             );
@@ -1183,7 +1181,7 @@ class ilMembershipGUI
 
             $c_gui->addItem(
                 'subscribers[]',
-                $name['user_id'],
+                (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
                 ilUtil::getImagePath('icon_usr.svg')
             );
@@ -1324,7 +1322,7 @@ class ilMembershipGUI
 
             $c_gui->addItem(
                 'waiting[]',
-                $name['user_id'],
+                (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
                 ilUtil::getImagePath('icon_usr.svg')
             );
@@ -1417,7 +1415,7 @@ class ilMembershipGUI
 
             $c_gui->addItem(
                 'waiting[]',
-                $name['user_id'],
+                (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
                 ilUtil::getImagePath('icon_usr.svg')
             );
