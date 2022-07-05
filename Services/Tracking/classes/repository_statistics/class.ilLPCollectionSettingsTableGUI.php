@@ -283,7 +283,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                         true,
                         $hr,
                         $min,
-                        null,
+                        0,
                         false
                     )
                 );

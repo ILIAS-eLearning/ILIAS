@@ -128,8 +128,8 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $val = $this->getValue();
 
         $ttpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
-        $ttpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) $val[0]));
-        $ttpl->setVariable("SEL_DAYS", $this->__buildDaysSelect((string) $val[1]));
+        $ttpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) ($val[0] ?? "")));
+        $ttpl->setVariable("SEL_DAYS", $this->__buildDaysSelect((string) ($val[1] ?? "")));
 
         $ttpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
         $ttpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
@@ -138,14 +138,14 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
             "SEL_TLT",
             ilLegacyFormElementsUtil::makeTimeSelect(
                 $this->getPostVar(),
-                !$val[4],
-                (int) $val[2],
-                (int) $val[3],
-                (int) $val[4],
+                !($val[4] ?? 0),
+                (int) ($val[2] ?? 0),
+                (int) ($val[3] ?? 0),
+                (int) ($val[4] ?? 0),
                 false
             )
         );
-        $ttpl->setVariable("TLT_HINT", $val[4] ? '(hh:mm:ss)' : '(hh:mm)');
+        $ttpl->setVariable("TLT_HINT", ($val[4] ?? false) ? '(hh:mm:ss)' : '(hh:mm)');
 
         if (!$this->valid) {
             $ttpl->setCurrentBlock("tlt_not_valid");
