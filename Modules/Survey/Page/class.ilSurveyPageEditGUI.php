@@ -118,7 +118,7 @@ class ilSurveyPageEditGUI
                         $this->editor_gui->setRequestedPgov($this->pgov);
 
                         $id = explode("_", $this->svy_request->getHForm("node"));
-                        $id = (int) $id[1];
+                        $id = (int) ($id[1] ?? 0);
 
                         // multi operation
                         if (strpos($this->svy_request->getHForm("subcmd"), "multi") === 0) {
@@ -1362,6 +1362,7 @@ class ilSurveyPageEditGUI
         $this->renderToolbar($pages);
         if ($pages) {
             $ttpl = new ilTemplate("tpl.il_svy_svy_page_view.html", true, true, "Modules/Survey");
+            $tpl->addOnLoadCode("ilSurveyPageView.init();");
             $ttpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this));
             $lng->loadLanguageModule("form");
 
