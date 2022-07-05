@@ -270,7 +270,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
             if (!$this->anonymity) {
                 if (strcmp($c, 'gender') == 0) {
                     $this->tpl->setCurrentBlock('gender');
-                    $this->tpl->setVariable("GENDER", $this->lng->txt('gender_' . $data['gender']));
+                    $this->tpl->setVariable("GENDER", strlen($data['gender']) ? $this->lng->txt('gender_' . $data['gender']) : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'email') == 0) {

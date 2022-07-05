@@ -414,7 +414,7 @@ abstract class ilTestExport
                 $userfields = ilObjUser::_lookupFields($userdata->getUserId());
                 foreach ($additionalFields as $fieldname) {
                     if (strcmp($fieldname, 'gender') == 0) {
-                        $worksheet->setCell($row, $col++, $this->lng->txt('gender_' . $userfields[$fieldname]));
+                        $worksheet->setCell($row, $col++, strlen($userfields[$fieldname]) ? $this->lng->txt('gender_' . $userfields[$fieldname]) : '');
                     } elseif (strcmp($fieldname, "exam_id") == 0) {
                         $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                     } else {
@@ -863,7 +863,7 @@ abstract class ilTestExport
                     $userfields = ilObjUser::_lookupFields($userdata->getUserID());
                     foreach ($additionalFields as $fieldname) {
                         if (strcmp($fieldname, "gender") == 0) {
-                            array_push($datarow2, $this->lng->txt("gender_" . $userfields[$fieldname]));
+                            array_push($datarow2, strlen($userfields[$fieldname]) ? $this->lng->txt('gender_' . $userfields[$fieldname]) : '');
                         } elseif (strcmp($fieldname, "exam_id") == 0) {
                             array_push($datarow2, $userdata->getExamIdFromScoredPass());
                         } else {
