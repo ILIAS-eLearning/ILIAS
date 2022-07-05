@@ -148,10 +148,10 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
                 if (isset($info["items"])) {
                     foreach ($info["items"] as $item_id) {
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-                        if (is_array($info["in_progress"][$item_id]) &&
+                        if (isset($info["in_progress"][$item_id]) &&
                             in_array($ilUser->getId(), $info["in_progress"][$item_id])) {
                             $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-                        } elseif (is_array($info["completed"][$item_id]) &&
+                        } elseif (isset($info["completed"][$item_id]) &&
                             in_array($ilUser->getId(), $info["completed"][$item_id])) {
                             $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                         }
@@ -161,7 +161,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
             }
         }
 
-        if (is_array($this->lp_cache[$this->lm->getId()]) &&
+        if (isset($this->lp_cache[$this->lm->getId()]) &&
             isset($this->lp_cache[$this->lm->getId()][$a_id])) {
             return ilLearningProgressBaseGUI::_getImagePathForStatus($this->lp_cache[$this->lm->getId()][$a_id]);
         }

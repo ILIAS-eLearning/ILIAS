@@ -77,8 +77,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
     {
         $this->tpl->setCurrentBlock('item_row');
         $this->tpl->setVariable('ITEM_ID', $a_set['id']);
-        $this->tpl->setVariable('COLL_TITLE', $a_set['title']);
-        $this->tpl->setVariable('COLL_DESC', $a_set['description']);
+        $this->tpl->setVariable('COLL_TITLE', $a_set['title'] ?? "");
+        $this->tpl->setVariable('COLL_DESC', $a_set['description'] ?? "");
 
         if ($this->obj_definition->isPluginTypeName($a_set["type"])) {
             $alt = ilObjectPlugin::lookupTxtById(
@@ -92,7 +92,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'TYPE_IMG',
             ilObject::_getIcon(
-                (int) $a_set['obj_id'],
+                (int) ($a_set['obj_id'] ?? 0),
                 'tiny',
                 $a_set['type']
             )
@@ -308,9 +308,11 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         // Parse grouped items
-        foreach ((array) $a_set['grouped'] as $item) {
-            $item['group_item'] = true;
-            $this->fillRow($item);
+        if (isset($a_set['grouped'])) {
+            foreach ((array) $a_set['grouped'] as $item) {
+                $item['group_item'] = true;
+                $this->fillRow($item);
+            }
         }
 
         // show num obligatory info

@@ -62,7 +62,7 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
             $tmp['url'] = ilLink::_getLink(
                 $a_parent_ref_id,
                 $parent_type,
-                null,
+                [],
                 "_" . $tmp['id']
             );
 
