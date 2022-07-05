@@ -28,6 +28,8 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     protected ?string $update_user_name = null;
     public int $pos_author_id = 0;
     protected int $forum_id = 0;
+    protected string $top_item_title = '';
+    protected string $top_item_type = '';
     protected string $forum_title = '';
     protected string $thread_title = '';
     protected array $attachments = [];
@@ -35,6 +37,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     private ilDBInterface $db;
     private ilAccessHandler $access;
     private ilObjUser $user;
+    private ilTree $tree;
     protected bool $is_anonymized = false;
     private ilForumNotificationCache $notificationCache;
 
@@ -44,6 +47,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->db = $DIC->database();
         $this->access = $DIC->access();
         $this->user = $DIC->user();
+        $this->tree = $DIC->repositoryTree();
 
         $this->notificationCache = $notificationCache;
 
@@ -76,6 +80,16 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     public function getForumId() : int
     {
         return $this->forum_id;
+    }
+
+    public function getTopItemTitle() : string
+    {
+        return $this->top_item_title;
+    }
+
+    public function getTopItemType() : string
+    {
+        return $this->top_item_type;
     }
 
     public function getForumTitle() : string
@@ -264,6 +278,19 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $row = $this->notificationCache->fetch($cacheKey);
         $this->forum_id = (int) $row['top_pk'];
         $this->forum_title = (string) $row['top_name'];
+
+        $forum = ilObjectFactory::getInstanceByObjId($this->getObjId());
+        if ($forum instanceof ilObjForum) {
+            $top_item_ref_id = $this->tree->getParentId($this->getRefId());
+            if ($top_item_ref_id) {
+                $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
+                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
+                    $this->top_item_title = $top_item->getTitle();
+                    $this->top_item_type = $top_item->getType();
+                }
+            }
+        }
+
         $this->is_anonymized = (bool) $row['anonymized'];
     }
 

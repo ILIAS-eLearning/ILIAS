@@ -37,6 +37,7 @@ class ilForumCronNotification extends ilCronJob
     private ilLanguage $lng;
     private ilSetting $settings;
     private ilLogger $logger;
+    private ilTree $tree;
     private int $num_sent_messages = 0;
     private ilDBInterface $ilDB;
     private ilForumNotificationCache $notificationCache;
@@ -113,6 +114,7 @@ class ilForumCronNotification extends ilCronJob
         global $DIC;
 
         $this->logger = $DIC->logger()->frm();
+        $this->tree = $DIC->repositoryTree();
 
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
@@ -230,6 +232,15 @@ class ilForumCronNotification extends ilCronJob
             }
 
             $row['ref_id'] = $ref_id;
+
+            $top_item_ref_id = $this->tree->getParentId($ref_id);
+            if ($top_item_ref_id) {
+                $top_item = ilObjectFactory::getInstanceByObjId($top_item_ref_id);
+                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
+                    $row['top_item_title'] = $top_item->getTitle();
+                    $row['top_item_type'] = $top_item->getType();
+                }
+            }
 
             if ($this->existsProviderObject((int) $row['pos_pk'], $notification_type)) {
                 self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient((int) $row['user_id']);

@@ -338,6 +338,8 @@ class ilForumMailNotification extends ilMailNotification
         $this->appendBody("\n\n");
         $this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
         $this->appendBody("\n\n");
+        $this->appendBody($this->getLanguageText($this->provider->getTopItemType()) . ": " . $this->provider->getTopItemTitle());
+        $this->appendBody("\n\n");
         $this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
         $this->appendBody("\n\n");
         $this->appendBody($this->getLanguageText($action) . ": \n------------------------------------------------------------\n");
