@@ -473,9 +473,9 @@ abstract class assQuestion
         $this->outputType = $outputType;
     }
 
-    public function setShuffle(bool $shuffle = true) : void
+    public function setShuffle(?bool $shuffle = true) : void
     {
-        $this->shuffle = $shuffle;
+        $this->shuffle = $shuffle ?? false;
     }
 
     public function setEstimatedWorkingTime(int $hour = 0, int $min = 0, int $sec = 0) : void
