@@ -9631,14 +9631,16 @@ forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
-forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" aktiviert
-forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" beantwortet
-forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" zensiert
-forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
-forum#:#frm_noti_subject_del_thread#:#Thema "%2$s" im Forum "%1$s" gelöscht
-forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" zum Thema "%2$s"
-forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" zum Thema "%2$s"
-forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" geändert
+forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" in %2$s "%3$s" zum Thema "%4$s" aktiviert
+forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s" in %2$s "%3$s" zum Thema "%4$s" beantwortet
+forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" in %2$s "%3$s" zum Thema "%4$s" zensiert
+forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" in %2$s "%3$s" zum Thema "%4$s" gelöscht
+forum#:#frm_noti_subject_del_thread#:#Thema "%4$s" im Forum "%1$s" in %2$s "%3$s" gelöscht
+forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" in %2$s "%3$s" zum Thema "%4$s"
+forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" in %2$s "%3$s" zum Thema "%4$s"
+forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" in %2$s "%3$s" zum Thema "%4$s" geändert
+forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
+forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht freigeschaltet.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_posts#:#Forenbeiträge
 forum#:#frm_pseudonym#:#Pseudonym
