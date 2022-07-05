@@ -1089,7 +1089,7 @@ class ilSurveyEditorGUI
         if ($a_question_id) {
             $form->setTitle($this->lng->txt("edit_heading"));
 
-            $heading->setValue($this->object->prepareTextareaOutput($survey_questions[$a_question_id]["heading"]));
+            $heading->setValue($this->object->prepareTextareaOutput($survey_questions[$a_question_id]["heading"] ?? ""));
             $insertbefore->setValue($a_question_id);
             $insertbefore->setDisabled(true);
         } else {

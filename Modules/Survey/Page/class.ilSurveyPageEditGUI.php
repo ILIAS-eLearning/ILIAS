@@ -810,7 +810,7 @@ class ilSurveyPageEditGUI
      */
     protected function editBlock(int $a_id) : void
     {
-        $this->callEditor("editQuestionblockObject", "bl_id", $a_id);
+        $this->callEditor("editQuestionblock", "bl_id", $a_id);
     }
     
     /**
@@ -834,7 +834,7 @@ class ilSurveyPageEditGUI
      */
     protected function deleteHeading(int $a_id) : void
     {
-        $this->callEditor("removeHeadingObject", "q_id", $a_id);
+        $this->callEditor("removeHeading", "q_id", $a_id);
     }
     
     protected function callEditor(
