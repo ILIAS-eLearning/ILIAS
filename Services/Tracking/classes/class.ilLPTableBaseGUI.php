@@ -62,7 +62,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         // country names
         $this->lng->loadLanguageModule("meta");
         $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
-        if (!$this->anonymized && isset($this->obj_id)) {
+        if (!$this->anonymized && isset($this->obj_id) && $this->obj_id > 0) {
             $olp = ilObjectLP::getInstance($this->obj_id);
             $this->anonymized = $olp->isAnonymized();
         }
