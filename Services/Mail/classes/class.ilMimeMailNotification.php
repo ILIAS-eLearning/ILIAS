@@ -27,6 +27,13 @@ abstract class ilMimeMailNotification extends ilMailNotification
     protected string $current_recipient;
     protected ilMailMimeSenderFactory $senderFactory;
 
+    public function __construct(bool $a_is_personal_workspace = false)
+    {
+        global $DIC;
+        $this->senderFactory = $DIC["mail.mime.sender.factory"];
+        parent::__construct($a_is_personal_workspace);
+    }
+
     public function sendMimeMail(string $a_rcp) : void
     {
         global $DIC;
@@ -34,7 +41,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
         $this->mime_mail->Subject($this->getSubject(), true);
         $this->mime_mail->Body($this->getBody());
         $this->mime_mail->Send();
-        $this->senderFactory = $DIC["mail.mime.sender.factory"];
     }
 
     protected function initMimeMail() : ilMimeMail
