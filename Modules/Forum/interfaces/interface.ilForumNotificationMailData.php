@@ -21,6 +21,10 @@ interface ilForumNotificationMailData
      * @return int frm_data.top_pk
      */
     public function getForumId();
+
+    public function getTopItemTitle() : string;
+
+    public function getTopItemType() : string;
     
     /**
      * @return string frm_data.top_name

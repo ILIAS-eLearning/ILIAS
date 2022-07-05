@@ -22,6 +22,11 @@ class ilForumCronNotification extends ilCronJob
     protected $logger;
 
     /**
+     * @var \ilTree
+     */
+    protected $tree;
+
+    /**
      * @var \ilForumCronNotificationDataProvider[]
      */
     public static $providerObject = array();
@@ -60,11 +65,12 @@ class ilForumCronNotification extends ilCronJob
     {
         $this->settings = new ilSetting('frma');
 
+        global $DIC;
         if ($database === null) {
-            global $DIC;
             $ilDB = $DIC->database();
         }
         $this->ilDB = $ilDB;
+        $this->tree = $DIC->repositoryTree();
 
         if ($notificationCache === null) {
             $notificationCache = new \ilForumNotificationCache();
@@ -261,6 +267,15 @@ class ilForumCronNotification extends ilCronJob
             }
 
             $row['ref_id'] = $ref_id;
+
+            $top_item_ref_id = $this->tree->getParentId($ref_id);
+            if ($top_item_ref_id) {
+                $top_item = ilObjectFactory::getInstanceByObjId($top_item_ref_id);
+                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
+                    $row['top_item_title'] = $top_item->getTitle();
+                    $row['top_item_type'] = $top_item->getType();
+                }
+            }
 
             if ($this->existsProviderObject($row['pos_pk'])) {
                 self::$providerObject[$row['pos_pk']]->addRecipient($row['user_id']);
