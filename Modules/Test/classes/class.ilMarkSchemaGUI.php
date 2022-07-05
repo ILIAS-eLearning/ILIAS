@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMarkSchemaGUI
@@ -8,6 +23,8 @@
  */
 class ilMarkSchemaGUI
 {
+    private \ILIAS\Test\InternalRequestService $testrequest;
+
     /**
      * @var ilMarkSchemaAware|ilEctsGradesEnabled
      */
@@ -29,6 +46,7 @@ class ilMarkSchemaGUI
         $this->tpl = $DIC['tpl'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->object = $object;
+        $this->testrequest = $DIC->test()->internal()->request();
     }
 
     public function executeCommand() : void
@@ -68,13 +86,19 @@ class ilMarkSchemaGUI
     protected function saveMarkSchemaFormData() : void
     {
         $this->object->getMarkSchema()->flush();
-        foreach ($_POST as $key => $value) {
+        $postdata = $this->testrequest->getParsedBody();
+        foreach ($postdata as $key => $value) {
             if (preg_match('/mark_short_(\d+)/', $key, $matches)) {
+                $passed = "0";
+                if(isset($postdata["passed_$matches[1]"])) {
+                    $passed = "1";
+                }
+
                 $this->object->getMarkSchema()->addMarkStep(
-                    ilUtil::stripSlashes($_POST["mark_short_$matches[1]"]),
-                    ilUtil::stripSlashes($_POST["mark_official_$matches[1]"]),
-                    ilUtil::stripSlashes($_POST["mark_percentage_$matches[1]"]),
-                    ilUtil::stripSlashes($_POST["passed_$matches[1]"])
+                    ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
+                    ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
+                    ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]),
+                    ilUtil::stripSlashes($passed)
                 );
             }
         }

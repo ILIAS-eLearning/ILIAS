@@ -153,7 +153,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $assessmentSetting = new ilSetting('assessment');
         $imap_line_color = $assessmentSetting->get('imap_line_color');
         if ($this->testrequest->isset('imap_line_color')) {
-            $imap_line_color = $this->testrequest->str('imap_line_color');
+            $imap_line_color = $this->testrequest->strVal('imap_line_color');
         }
         if ($imap_line_color == '') {
             $imap_line_color = 'FF0000';
@@ -165,7 +165,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         $user_criteria = $assessmentSetting->get('user_criteria');
         if ($this->testrequest->isset('user_criteria')) {
-            $user_criteria = $this->testrequest->str('user_criteria');
+            $user_criteria = $this->testrequest->strVal('user_criteria');
         }
         $userCriteria = new ilSelectInputGUI($this->lng->txt('user_criteria'), 'user_criteria');
         $userCriteria->setInfo($this->lng->txt('user_criteria_desc'));
