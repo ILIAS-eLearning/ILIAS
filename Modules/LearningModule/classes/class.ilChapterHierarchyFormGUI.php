@@ -118,18 +118,16 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 }
             }
 
-            if ($a_next_sibling) {
-                if (($a_next_sibling["type"] != "pg" && ($a_depth == 0 || $a_next_sibling["type"] == "st"))
-                    || $a_node["type"] == "st") {
-                    $cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
-                                    "cmd" => "insertChapter",
-                                    "multi" => 10
+            if ((($a_next_sibling["type"] ?? "") != "pg" && ($a_depth == 0 || ($a_next_sibling["type"] ?? "") == "st"))
+                || $a_node["type"] == "st") {
+                $cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
+                                "cmd" => "insertChapter",
+                                "multi" => 10
+                );
+                if ($ilUser->clipboardHasObjectsOfType("st")) {
+                    $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
+                                    "cmd" => "insertChapterClip", "multi" => 0
                     );
-                    if ($ilUser->clipboardHasObjectsOfType("st")) {
-                        $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
-                                        "cmd" => "insertChapterClip", "multi" => 0
-                        );
-                    }
                 }
             }
         } else {						// drop area before first child of node
