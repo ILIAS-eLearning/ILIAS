@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
@@ -467,7 +482,7 @@ abstract class ilTestExport
                 $userfields = ilObjUser::_lookupFields($userdata->getUserId());
                 foreach ($additionalFields as $fieldname) {
                     if (strcmp($fieldname, 'gender') == 0) {
-                        $worksheet->setCell($row, $col++, $this->lng->txt('gender_' . $userfields[$fieldname]));
+                        $worksheet->setCell($row, $col++, strlen($userfields[$fieldname]) ? $this->lng->txt('gender_' . $userfields[$fieldname]) : '');
                     } elseif (strcmp($fieldname, "exam_id") == 0) {
                         $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                     } else {
@@ -959,7 +974,7 @@ abstract class ilTestExport
                     $userfields = ilObjUser::_lookupFields($userdata->getUserID());
                     foreach ($additionalFields as $fieldname) {
                         if (strcmp($fieldname, "gender") == 0) {
-                            array_push($datarow2, $this->lng->txt("gender_" . $userfields[$fieldname]));
+                            array_push($datarow2, strlen($userfields[$fieldname]) ? $this->lng->txt('gender_' . $userfields[$fieldname]) : '');
                         } elseif (strcmp($fieldname, "exam_id") == 0) {
                             array_push($datarow2, $userdata->getExamIdFromScoredPass());
                         } else {
