@@ -101,8 +101,8 @@ class ilObjSurvey extends ilObject
     public bool $pool_usage = false;
 
     protected bool $activation_visibility = false;
-    protected ?string $activation_starting_time = null;
-    protected ?string $activation_ending_time = null;
+    protected ?int $activation_starting_time = null;
+    protected ?int $activation_ending_time = null;
     
     // 360°
     protected bool $mode_360_self_eval = false;
@@ -5462,23 +5462,23 @@ class ilObjSurvey extends ilObject
     }
     
     public function setActivationStartDate(
-        string $starting_time = null
+        int $starting_time = null
     ) : void {
         $this->activation_starting_time = $starting_time;
     }
 
     public function setActivationEndDate(
-        string $ending_time = null
+        int $ending_time = null
     ) : void {
         $this->activation_ending_time = $ending_time;
     }
     
-    public function getActivationStartDate() : ?string
+    public function getActivationStartDate() : ?int
     {
         return $this->activation_starting_time;
     }
 
-    public function getActivationEndDate() : ?string
+    public function getActivationEndDate() : ?int
     {
         return $this->activation_ending_time;
     }

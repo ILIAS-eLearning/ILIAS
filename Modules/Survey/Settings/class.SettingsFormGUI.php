@@ -860,7 +860,7 @@ class SettingsFormGUI
         $period = $form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
             $survey->setActivationLimited(true);
-            $survey->setActivationVisibility($form->getInput("access_visiblity"));
+            $survey->setActivationVisibility((bool) $form->getInput("access_visiblity"));
             $survey->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
             $survey->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));
         } else {
