@@ -698,7 +698,7 @@ assessment#:#enter_enough_positive_points#:#The maximum available points must be
 assessment#:#enter_valid_values#:#Please enter valid value. Chars will be evaluated as incorrect!
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
-assessment#:#err_division#:#This value has to be smaller than the maximum range.
+assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.
 assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect information!!
 assessment#:#err_no_formula#:#You must enter a formula

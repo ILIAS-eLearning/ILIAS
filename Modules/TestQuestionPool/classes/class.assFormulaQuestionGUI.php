@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestion.php";
@@ -654,7 +669,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
                     $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
                     if ($decimal_spots->getValue() == 0) {
-                        if ($intPrecision->getValue() > $max_range->getValue()) {
+                        if (!$variable->isIntPrecisionValid(
+                            $intPrecision->getValue(),
+                            $min_range->getValue(),
+                            $max_range->getValue()
+                        )) {
                             $intPrecision->setAlert($this->lng->txt('err_division'));
                             $custom_errors = true;
                         }

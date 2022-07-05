@@ -713,7 +713,7 @@ assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Fra
 assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet!
 assessment#:#err_category_in_use#:#Die Kategorie kann nicht gelöscht werden. Eine oder mehrere Einheiten der Kategorie sind bereits in Benutzung.
 assessment#:#err_divider_too_big#:#Der Teiler einer der Variablen in dieser Frage ist zu gross.
-assessment#:#err_division#:#Dieser Wert muss kleiner als das Maximum sein.
+assessment#:#err_division#:#Der von Ihnen gesetzte Wert macht es unmöglich einen gültigen Wert für die Variable zu generieren.
 assessment#:#err_duplicate_results#:#Sie haben eine Ergebnisvariable mehrfach verwendet. Das ist innerhalb des Aufgabentextes nicht erlaubt!
 assessment#:#errFormulaQuestion#:#Eine Formelfrage enthält fehlerhafte Angaben
 assessment#:#err_no_formula#:#Bitte geben Sie eine Formel zur Berechnung des Ergebnisses an.
