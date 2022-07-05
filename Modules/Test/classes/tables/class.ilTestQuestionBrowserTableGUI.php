@@ -230,7 +230,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
-        
+
         $this->tabs->setBackTarget(
             $this->getBackTargetLabel(),
             $this->getBackTargetUrl()
@@ -259,15 +259,13 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private function getBackTargetCmdClass() : string
     {
         switch ($this->fetchContextParameter()) {
-            case self::CONTEXT_LIST_VIEW:
-
-                return 'ilObjTestGUI';
             case self::CONTEXT_PAGE_VIEW:
 
                 return 'ilTestExpressPageObjectGUI';
+            case self::CONTEXT_LIST_VIEW:
+            default:
+                return 'ilObjTestGUI';
         }
-        
-        return '';
     }
     
     private function getBackTargetCommand() : string
