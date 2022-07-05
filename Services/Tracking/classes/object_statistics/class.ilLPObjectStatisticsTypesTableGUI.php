@@ -177,7 +177,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
             } else {
                 $data[$type]["title"] = $this->lng->txt("objs_" . $type);
-                $data[$type]["icon"] = ilObject::_getIcon(null, "tiny", $type);
+                $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
             }
 
             foreach ($months as $month => $row) {
