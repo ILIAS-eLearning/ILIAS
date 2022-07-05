@@ -431,8 +431,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $body .= "\n\n";
         $body .= $this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle();
         $body .= "\n\n";
-        $body .= $this->getLanguageText($this->provider->getTopItemType()) . ": " . $this->provider->getTopItemTitle();
-        $body .= "\n\n";
         $body .= $this->getLanguageText($action) . ": \n------------------------------------------------------------\n";
 
         $body .= $this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage());
