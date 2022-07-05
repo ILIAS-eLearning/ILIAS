@@ -246,12 +246,13 @@ class CanAccessFileUploadAnswerTest extends TestCase
 
         $database = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
         $database->expects(self::once())->method('queryF')->willReturnCallback(function (string $query, array $types, array $values) use ($statement) : ilDBStatement {
-            $this->assertEquals(['file.mp3'], $values);
+            $this->assertEquals(['assFileUpload', 8], $values);
 
             return $statement;
         });
         $database->expects(self::once())->method('fetchAssoc')->with($statement)->willReturn([
-            'active_id' => '11111'
+            'active_fi' => '11111',
+            'value1' => 'file.mp3',
         ]);
 
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
