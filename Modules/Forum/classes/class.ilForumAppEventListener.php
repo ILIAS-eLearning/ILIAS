@@ -45,11 +45,11 @@ class ilForumAppEventListener implements ilAppEventListener
                 switch ($a_event) {
                     case 'mergedThreads':
                         ilForumPostDraft::moveDraftsByMergedThreads(
-                            $a_parameter['source_thread_id'],
-                            $a_parameter['target_thread_id']
+                            (int) $a_parameter['source_thread_id'],
+                            (int) $a_parameter['target_thread_id']
                         );
                         ilLPStatusWrapper::_refreshStatus(
-                            $a_parameter['obj_id']
+                            (int) $a_parameter['obj_id']
                         );
                         break;
 

@@ -9657,6 +9657,7 @@ forum#:#restore_draft_from_autosave#:#Restore Draft
 forum#:#restore#:#Restore
 forum#:#save_draft_successfully#:#The draft was saved successfully.
 forum#:#select_at_least_one_thread#:#Please select at least one thread.
+forum#:#error_no_target_selected#:#Please select a forum.
 forum#:#selected_threads_closed#:#The selected threads has been closed
 forum#:#selected_threads_reopened#:#The selected threads has been reopened
 forum#:#select_max_one_thread#:#Please select one thread only!
