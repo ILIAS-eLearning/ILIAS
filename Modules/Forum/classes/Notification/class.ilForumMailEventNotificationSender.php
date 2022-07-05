@@ -427,6 +427,8 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $body .= "\n\n";
         $body .= $this->getLanguageText('forum') . ": " . $this->provider->getForumTitle();
         $body .= "\n\n";
+        $body .= $this->getLanguageText($this->provider->getTopItemType()) . ": " . $this->provider->getTopItemTitle();
+        $body .= "\n\n";
         $body .= $this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle();
         $body .= "\n\n";
         $body .= $this->getLanguageText($this->provider->getTopItemType()) . ": " . $this->provider->getTopItemTitle();
@@ -499,6 +501,8 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return sprintf(
             $this->getLanguageText($subject),
             $this->provider->getForumTitle(),
+            $this->getLanguageText($this->provider->getTopItemType()),
+            $this->provider->getTopItemTitle(),
             $this->provider->getThreadTitle()
         );
     }

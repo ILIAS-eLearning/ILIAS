@@ -372,6 +372,8 @@ class ilForumMailNotification extends ilMailNotification
         $this->setSubject(sprintf(
             $this->getLanguageText($subject),
             $this->provider->getForumTitle(),
+            $this->getLanguageText($this->provider->getTopItemType()),
+            $this->provider->getTopItemTitle(),
             $this->provider->getThreadTitle()
         ));
     }
