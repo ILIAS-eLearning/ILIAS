@@ -28,6 +28,10 @@ interface ilForumNotificationMailData
 
     public function getForumId() : int;
 
+    public function getTopItemTitle() : string;
+
+    public function getTopItemType() : string;
+
     public function getForumTitle() : string;
 
     public function getThreadId() : int;
