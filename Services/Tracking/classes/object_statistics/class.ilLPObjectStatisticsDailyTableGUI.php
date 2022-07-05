@@ -1,5 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for learning progress
@@ -232,10 +247,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
                 foreach ($hours as $hour => $values) {
                     // table data
-                    $data[$obj_id]["hour" . floor(
-                        $hour / 2
-                    ) * 2] += (int) $values[$this->filter["measure"]];
-                    $data[$obj_id]["sum"] += (int) $values[$this->filter["measure"]];
+                    $hour_transf = floor($hour / 2) * 2;
+                    $data[$obj_id]["hour" . $hour_transf] =
+                        ($data[$obj_id]["hour" . $hour_transf] ?? 0) + (int) $values[$this->filter["measure"]];
+                    $data[$obj_id]["sum"] =
+                        ($data[$obj_id]["sum"] ?? 0) + (int) $values[$this->filter["measure"]];
 
                     // graph data
                     $data[$obj_id]["graph"]["hour" . $hour] = $values[$this->filter["measure"]];
@@ -277,7 +293,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
         $this->tpl->setCurrentBlock("hour");
         for ($loop = 0; $loop < 24; $loop += 2) {
-            $value = (int) $a_set["hour" . $loop];
+            $value = (int) ($a_set["hour" . $loop] ?? 0);
             if ($this->filter["measure"] != "spent_seconds") {
                 $value = $this->anonymizeValue($value);
             } else {
@@ -288,9 +304,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         }
 
         if ($this->filter["measure"] == "spent_seconds") {
-            $sum = $this->formatSeconds((int) $a_set["sum"], true);
+            $sum = $this->formatSeconds((int) ($a_set["sum"] ?? 0), true);
         } else {
-            $sum = $this->anonymizeValue((int) $a_set["sum"]);
+            $sum = $this->anonymizeValue((int) ($a_set["sum"] ?? 0));
         }
         $this->tpl->setVariable("TOTAL", $sum);
 
@@ -333,7 +349,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
                 $series->setLabel(ilObject::_lookupTitle($object["obj_id"]));
 
                 for ($loop = 0; $loop < 24; $loop++) {
-                    $value = (int) $object["graph"]["hour" . $loop];
+                    $value = (int) ($object["graph"]["hour" . $loop] ?? 0);
                     $max_value = max($max_value, $value);
                     if ($this->filter["measure"] != "spent_seconds") {
                         $value = $this->anonymizeValue($value, true);
@@ -374,7 +390,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
         $col = 1;
         for ($loop = 0; $loop < 24; $loop += 2) {
-            $value = (int) $a_set["hour" . $loop];
+            $value = (int) ($a_set["hour" . $loop] ?? 0);
             if ($this->filter["measure"] != "spent_seconds") {
                 $value = $this->anonymizeValue($value);
             }
@@ -402,7 +418,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $a_csv->addColumn($a_set["obj_id"]);
 
         for ($loop = 0; $loop < 24; $loop += 2) {
-            $value = (int) $a_set["hour" . $loop];
+            $value = (int) ($a_set["hour" . $loop] ?? 0);
             if ($this->filter["measure"] != "spent_seconds") {
                 $value = $this->anonymizeValue($value);
             }

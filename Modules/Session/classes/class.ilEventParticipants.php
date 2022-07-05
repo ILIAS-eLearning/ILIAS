@@ -218,7 +218,7 @@ class ilEventParticipants
 
     public function getUser(int $a_usr_id) : array
     {
-        return $this->participants[$a_usr_id] ?: [];
+        return $this->participants[$a_usr_id] ?? [];
     }
 
     public function getParticipants() : array
@@ -228,22 +228,22 @@ class ilEventParticipants
 
     public function isRegistered(int $a_usr_id) : bool
     {
-        return $this->participants[$a_usr_id]['registered'] ? true : false;
+        return (bool) ($this->participants[$a_usr_id]['registered'] ?? false);
     }
 
     public function hasParticipated(int $a_usr_id) : bool
     {
-        return $this->participants[$a_usr_id]['participated'] ? true : false;
+        return (bool) ($this->participants[$a_usr_id]['participated'] ?? false);
     }
 
     public function isExcused(int $a_usr_id) : bool
     {
-        return $this->participants[$a_usr_id]['excused'] ? true : false;
+        return (bool) ($this->participants[$a_usr_id]['excused'] ?? false);
     }
 
     public function isContact(int $a_usr_id) : bool
     {
-        return $this->participants[$a_usr_id]['contact'] ? true : false;
+        return (bool) ($this->participants[$a_usr_id]['contact'] ?? false);
     }
 
 

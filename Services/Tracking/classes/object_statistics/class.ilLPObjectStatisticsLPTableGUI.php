@@ -1,5 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for learning progress
@@ -542,7 +557,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             foreach (array_keys(
                 $this->getMonthsYear($this->filter["yearmonth"])
             ) as $num) {
-                $value = $this->anonymizeValue((int) $a_set["month_" . $num]);
+                $value = $this->anonymizeValue((int) ($a_set["month_" . $num] ?? 0));
                 $this->tpl->setVariable("ITEM_VALUE", $value);
                 $this->tpl->parseCurrentBlock();
             }
@@ -551,7 +566,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 $this->tpl->setVariable(
                     "ITEM_VALUE",
                     $this->anonymizeValue(
-                        (int) $a_set["mem_cnt_" . $type]
+                        (int) ($a_set["mem_cnt_" . $type] ?? 0)
                     )
                 );
                 $this->tpl->parseCurrentBlock();
@@ -561,7 +576,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                     $this->tpl->setVariable(
                         "ITEM_VALUE",
                         $this->anonymizeValue(
-                            (int) $a_set[$status . "_" . $type]
+                            (int) ($a_set[$status . "_" . $type] ?? 0)
                         )
                     );
                     $this->tpl->parseCurrentBlock();
