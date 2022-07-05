@@ -36,7 +36,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
 
     public function sendMimeMail(string $a_rcp) : void
     {
-        global $DIC;
         $this->mime_mail->To($a_rcp);
         $this->mime_mail->Subject($this->getSubject(), true);
         $this->mime_mail->Body($this->getBody());
