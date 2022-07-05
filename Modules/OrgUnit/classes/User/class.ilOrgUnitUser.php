@@ -55,8 +55,8 @@ class ilOrgUnitUser
         if (null === static::$instances[$user_id]) {
             $org_unit_user_repository = new ilOrgUnitUserRepository();
             $orgUnitUser = $org_unit_user_repository->getOrgUnitUser($user_id);
-            if($orgUnitUser === null) {
-                throw new Exception('no OrgUnitUser found with user_id '.$user_id);
+            if ($orgUnitUser === null) {
+                throw new Exception('no OrgUnitUser found with user_id ' . $user_id);
             }
 
             static::$instances[$user_id] = $org_unit_user_repository->getOrgUnitUser($user_id);
@@ -67,7 +67,10 @@ class ilOrgUnitUser
 
     public static function getInstance(int $user_id, string $login, string $email, string $second_email) : self
     {
-        if (null === static::$instances[$user_id]) {
+        if (!isset(static::$instances) ||
+            !array_key_exists($user_id, static::$instances) ||
+            is_null(static::$instances[$user_id])
+            ) {
             static::$instances[$user_id] = new self($user_id, $login, $email, $second_email);
         }
 

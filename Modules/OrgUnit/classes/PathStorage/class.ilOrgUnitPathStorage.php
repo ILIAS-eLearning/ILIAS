@@ -35,7 +35,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected int $ref_id = 0;
+    protected ?int $ref_id = 0;
     /**
      * @var int
      * @con_has_field  true
@@ -92,9 +92,14 @@ class ilOrgUnitPathStorage extends ActiveRecord
             $ilDB = $DIC['ilDB'];
             ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
 
-            $res = $ilDB->queryF("SELECT " . $ilDB->groupConcat("path",
-                    $separator) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;",
-                array('integer'), array($user_id));
+            $res = $ilDB->queryF(
+                "SELECT " . $ilDB->groupConcat(
+                    "path",
+                    $separator
+                ) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;",
+                array('integer'),
+                array($user_id)
+            );
             $dat = $ilDB->fetchObject($res);
 
             return (isset($dat->orgus) && $dat->orgus) ? $dat->orgus : '-';
@@ -115,13 +120,12 @@ class ilOrgUnitPathStorage extends ActiveRecord
      * @param bool $sort_by_title
      * @return array
      */
-    public static function getTextRepresentationOfOrgUnits(bool $sort_by_title = true)
+    public static function getTextRepresentationOfOrgUnits(bool $sort_by_title = true) : array
     {
         if ($sort_by_title) {
             return ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
-        } else {
-            return ilOrgUnitPathStorage::getArray('ref_id', 'path');
         }
+        return ilOrgUnitPathStorage::getArray('ref_id', 'path');
     }
 
     public static function writePathByRefId(string $ref_id) : void
