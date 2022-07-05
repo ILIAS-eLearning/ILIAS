@@ -282,7 +282,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 
     public function getWorkingDataFromUserInput(array $post_data) : array
     {
-        $entered_value = $post_data[$this->getId() . "_value"];
+        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
         $data = array();
         if (is_array($entered_value)) {
             foreach ($entered_value as $idx => $value) {
@@ -315,7 +315,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         array $post_data,
         int $survey_id
     ) : string {
-        $entered_value = (array) $post_data[$this->getId() . "_value"];
+        $entered_value = (array) ($post_data[$this->getId() . "_value"] ?? []);
         if (!$this->getObligatory() && (count($entered_value) === 0)) {
             return "";
         }
@@ -339,7 +339,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                     if (array_key_exists($this->getId() . "_" . $i . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
                         return $this->lng->txt("question_mr_no_other_answer");
                     }
-                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
+                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
                     return $this->lng->txt("question_mr_no_other_answer_checked");
                 }
             }
@@ -375,7 +375,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                         $affectedRows = $ilDB->insert("svy_answer", $fields);
                     } else {
                         $return_data[] = array("value" => $entered_value,
-                                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"]);
+                                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? "");
                     }
                 }
             }

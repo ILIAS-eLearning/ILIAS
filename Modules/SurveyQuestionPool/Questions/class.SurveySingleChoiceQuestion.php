@@ -390,7 +390,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             $cat = $this->categories->getCategory($i);
             if ($cat->other) {
                 if ($i != $entered_value) {
-                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
+                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
                         $data[] = array("value" => $i,
                                         "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'] ?? "",
                                         "uncheck" => true
@@ -429,7 +429,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
                     if (array_key_exists($this->getId() . "_" . $entered_value . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $entered_value . "_other"])) {
                         return $this->lng->txt("question_mr_no_other_answer");
                     }
-                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
+                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
                     return $this->lng->txt("question_sr_no_other_answer_checked");
                 }
             }
