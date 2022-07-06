@@ -186,11 +186,11 @@ class ilCalendarDataSet extends ilDataSet
                 }
                 return array(
                     "cal_entry" => array("ids" => $entries),
-                    "cal_assignment" => array("ids" => $a_rec["CatId"])
+                    "cal_assignment" => array("ids" => $a_rec["CatId"] ?? null)
                 );
             case "cal_entry":
                 return array(
-                    "recurrence_rule" => array("ids" => $a_rec["Id"])
+                    "recurrence_rule" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
 
