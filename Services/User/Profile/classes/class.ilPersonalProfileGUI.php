@@ -1120,9 +1120,18 @@ class ilPersonalProfileGUI
 
     protected function getCheckedValues() : array // Missing array type.
     {
+        switch ($this->form->getInput("public_profile")) {
+            case "y":
+                $key_suffix = "-1";
+                break;
+            case "g":
+                $key_suffix = "-2";
+                break;
+        }
+
         $checked_values = [];
         foreach ($this->request->getParsedBody() as $k => $v) {
-            if (strpos($k, "chk_") === 0) {
+            if (strpos($k, "chk_") === 0 && substr($k, -2) === $key_suffix) {
                 $k = str_replace(["-1", "-2"], "", $k);
                 $checked_values[$k] = $v;
             }
