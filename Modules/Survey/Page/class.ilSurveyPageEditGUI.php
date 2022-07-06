@@ -42,7 +42,7 @@ class ilSurveyPageEditGUI
     protected ilLanguage $lng;
     protected ilObjSurvey $object;
     protected ilSurveyEditorGUI $editor_gui;
-    protected string $current_page;
+    protected ?int $current_page = null;
     protected bool $has_previous_page;
     protected bool $has_next_page;
     protected bool $has_datasets;
@@ -175,7 +175,13 @@ class ilSurveyPageEditGUI
 
     public function determineCurrentPage() : void
     {
-        $current_page = $this->svy_request->getJump();
+        $current_page = null;
+        $jump = $this->svy_request->getJump();
+        if ($jump != "") {
+            $jump_parts = explode("__", $jump);
+            $current_page = (int) ($jump_parts[0] ?? 1);
+        }
+
         if (!$current_page) {
             $current_page = $this->pgov;
         }
@@ -185,7 +191,7 @@ class ilSurveyPageEditGUI
         if (!$current_page) {
             $current_page = 1;
         }
-        $this->current_page = $current_page;
+        $this->current_page = (int) $current_page;
     }
 
     /**
