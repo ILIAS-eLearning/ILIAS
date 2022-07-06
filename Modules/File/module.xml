@@ -7,7 +7,7 @@
 		<objectgroup id="file" name="Files" default_pres_pos="150"/>
 	</objectgroups>
 	<objects>
-		<object id="file" class_name="File" dir="classes" default_pos="90" default_pres_pos="150"
+		<object id="file" amet="1" class_name="File" dir="classes" default_pos="90" default_pres_pos="150"
 			checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1" allow_copy="1" export="1"
 			repository="1" workspace="1">
 			<parent id="cat">cat</parent>
