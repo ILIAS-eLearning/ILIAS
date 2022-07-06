@@ -731,7 +731,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getParentReturn(object $a_gui_obj) : ?string
     {
-        return $this->structure->getReturnTargetByClass($this->getClassByObject($a_gui_obj));
+        return $this->getParentReturnByClass($this->getClassByObject($a_gui_obj));
     }
 
     /**

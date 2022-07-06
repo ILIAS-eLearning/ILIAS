@@ -43,7 +43,7 @@ abstract class ilBaseExtractor implements ilExtractor
     {
         $this->ilExtractedParams->setSubjectId($parameters['obj_id']);
         $this->ilExtractedParams->setContextType('usr_id');
-        $this->ilExtractedParams->setContextId($parameters['usr_id']);
+        $this->ilExtractedParams->setContextId($parameters['usr_id'] ?? 0);
     }
 
     /**
