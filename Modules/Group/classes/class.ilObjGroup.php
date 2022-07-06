@@ -637,7 +637,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $this->setLocationZoom((int) $row->location_zoom);
             $this->setEnableGroupMap((bool) $row->enablemap);
             $this->enableRegistrationAccessCode((bool) $row->reg_ac_enabled);
-            $this->setRegistrationAccessCode($row->reg_ac);
+            $this->setRegistrationAccessCode((string) $row->reg_ac);
             $this->setViewMode((int) $row->view_mode);
             $this->setMailToMembersType((int) $row->mail_members_type);
             $this->setCancellationEnd($row->leave_end ? new ilDate((int) $row->leave_end, IL_CAL_UNIX) : null);
