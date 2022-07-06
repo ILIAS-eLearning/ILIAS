@@ -1329,6 +1329,7 @@ class ilStartUpGUI
         );
 
         $user_language = $user->getLanguage();
+        $had_external_authentication = ilSession::get('used_external_auth');
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
@@ -1341,7 +1342,7 @@ class ilStartUpGUI
             )
         );
 
-        if ((int) $this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth')) {
+        if ((int) $this->user->getAuthMode(true) == AUTH_SAML && $had_external_authentication) {
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
 
