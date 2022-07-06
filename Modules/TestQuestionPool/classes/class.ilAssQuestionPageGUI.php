@@ -68,6 +68,11 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         // fau.
         return parent::showPage();
     }
+    
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+    }
 
     public function postOutputProcessing($output)
     {

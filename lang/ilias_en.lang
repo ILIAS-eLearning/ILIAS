@@ -11737,7 +11737,7 @@ assessment#:#tolerance#:#Tolerance (%)
 assessment#:#result_units#:#Available Units
 assessment#:#precision#:#Precision
 assessment#:#err_range#:#The maximum range must be greater than the minimum range
-assessment#:#err_division#:#This value has to be smaller than the maximum range.
+assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
 assessment#:#err_no_formula#:#You must enter a formula
 assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
