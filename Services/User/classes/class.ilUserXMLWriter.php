@@ -190,9 +190,9 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->__addElement("Fax", $row["fax"]);
         $this->__addElement("Hobby", $row["hobby"]);
         
-        $this->__addElementMulti("GeneralInterest", $row["interests_general"], null, "interests_general");
-        $this->__addElementMulti("OfferingHelp", $row["interests_help_offered"], null, "interests_help_offered");
-        $this->__addElementMulti("LookingForHelp", $row["interests_help_looking"], null, "interests_help_looking");
+        $this->__addElementMulti("GeneralInterest", $row["interests_general"] ?? [], null, "interests_general");
+        $this->__addElementMulti("OfferingHelp", $row["interests_help_offered"] ?? [], null, "interests_help_offered");
+        $this->__addElementMulti("LookingForHelp", $row["interests_help_looking"] ?? [], null, "interests_help_looking");
         
         $this->__addElement("Department", $row["department"]);
         $this->__addElement("Comment", $row["referral_comment"], null, "referral_comment");
@@ -280,14 +280,14 @@ class ilUserXMLWriter extends ilXmlWriter
     
     public function __addElement(
         string $tagname,
-        string $value,
+        ?string $value,
         array $attrs = null,
         ?string $settingsname = null,
         bool $requiredTag = false
     ) : void {
         if ($this->canExport($tagname, $settingsname)) {
             if (strlen($value) > 0 || $requiredTag || (is_array($attrs) && count($attrs) > 0)) {
-                $this->xmlElement($tagname, $attrs, $value);
+                $this->xmlElement($tagname, $attrs, (string) $value);
             }
         }
     }
