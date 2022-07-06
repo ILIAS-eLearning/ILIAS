@@ -37,7 +37,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     public ilToolbarGUI $ilToolbar;
     protected Container $dic;
 
-    public function __construct()
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
 
@@ -51,13 +51,9 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->ilToolbar = $DIC['ilToolbar'];
         $this->dic = $DIC;
         $this->service = $DIC->workflowEngine();
-        parent::__construct($this->service->internal()->request()->getRefId());
+        $this->type = 'wfe';
+        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->assignObject();
-    }
-
-    public function getType() : string
-    {
-        return "wfe";
     }
 
     /**
@@ -150,8 +146,8 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->tpl->loadStandardTemplate();
 
         $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_wfe.svg'));
-        $this->tpl->setTitle(ilObject::_lookupTitle(ilObject::_lookupObjectId($this->requested_ref_id)));
-        $this->tpl->setDescription(ilObject::_lookupDescription(ilObject::_lookupObjectId($this->requested_ref_id)));
+        $this->tpl->setTitle($this->getObject()->getTitle());
+        $this->tpl->setDescription($this->getObject()->getDescription());
 
         $this->initLocator();
     }
@@ -161,7 +157,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
 
-        if ($rbacsystem->checkAccess('visible,read', $this->requested_ref_id)) {
+        if ($rbacsystem->checkAccess('visible,read', $this->getObject()->getRefId())) {
             $this->ilTabs->addTab(
                 'definitions',
                 $this->lng->txt('definitions'),
@@ -173,7 +169,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
                 $this->ilCtrl->getLinkTarget($this, 'settings.view')
             );
         }
-        if ($rbacsystem->checkAccess('edit_permission', $this->requested_ref_id)) {
+        if ($rbacsystem->checkAccess('edit_permission', $this->getObject()->getRefId())) {
             $this->ilTabs->addTab(
                 'perm_settings',
                 $this->lng->txt('perm_settings'),
