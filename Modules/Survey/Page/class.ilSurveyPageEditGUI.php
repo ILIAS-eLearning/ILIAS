@@ -27,7 +27,7 @@ class ilSurveyPageEditGUI
     protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
-    protected bool $suppress_clipboard_msg;
+    protected bool $suppress_clipboard_msg = false;
     protected string $pgov;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $svy_request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
