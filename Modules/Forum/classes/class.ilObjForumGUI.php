@@ -184,7 +184,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this,
             'viewThread',
             $this->objCurrentTopic,
-            $this->objCurrentTopic->getFirstPostNode($this->is_moderator)
+            $this->objCurrentTopic->getPostRootNode($this->is_moderator)
         );
         $exp->toggleExplorerNodeState();
     }
@@ -2939,7 +2939,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 false
             );
         } else {
-            $firstNodeInThread = $this->objCurrentTopic->getFirstPostNode();
+            $firstNodeInThread = $this->objCurrentTopic->getPostRootNode();
         }
 
         $toolContext = $this->globalScreen
