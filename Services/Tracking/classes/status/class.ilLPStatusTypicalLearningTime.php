@@ -91,7 +91,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
     ) : int {
         $tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
-        $spent = (int) $re[0]["spent_seconds"];
+        $spent = (int) ($re[0]["spent_seconds"] ?? 0);
 
         if ($tlt > 0) {
             $per = min(100, 100 / $tlt * $spent);
