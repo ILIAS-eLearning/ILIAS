@@ -9294,18 +9294,12 @@ main {
   display: block;
 }
 .il-layout-page-content {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  grid-column: 2;
-  grid-row: 3;
+  display: flex;
+  flex-flow: column;
   overflow: auto;
 }
 .il-layout-page-content:focus-visible {
   outline: none;
-}
-.il-layout-page-content > div {
-  display: flex;
-  flex-flow: column;
 }
 .il-layout-page-content #mainspacekeeper {
   flex-grow: 1;

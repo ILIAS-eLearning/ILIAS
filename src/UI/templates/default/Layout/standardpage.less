@@ -235,16 +235,9 @@ main {
 	&:focus-visible {
 		outline: none;
 	}
-	display: grid;
-	grid-template-rows: 1fr auto;
-	grid-column: 2;
-	grid-row: 3;
+	display: flex;
+	flex-flow: column;
 	overflow: auto;
-	> div {
-		// contains breadcrumbs, mainspacekeeper of content
-		display: flex;
-		flex-flow: column;
-	}
 	#mainspacekeeper {
 	    flex-grow: 1; // stretches content from top to footer
     	width: 100%;
