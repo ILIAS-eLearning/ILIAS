@@ -70,7 +70,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $this->values = new SurveyCategories();
         if (is_array($a_value) && is_array($a_value['answer'])) {
             foreach ($a_value['answer'] as $index => $value) {
-                $this->values->addCategory($value, $a_value['other'][$index]);
+                $this->values->addCategory($value, $a_value['other'][$index] ?? 0);
             }
         }
     }

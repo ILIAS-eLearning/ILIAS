@@ -363,7 +363,7 @@ abstract class SurveyQuestionGUI
             $ilUser->setPref("svy_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("svy_lastquestiontype", $this->object->getQuestionType());
 
-            $originalexists = SurveyQuestion::_questionExists($this->object->original_id);
+            $originalexists = SurveyQuestion::_questionExists((int) $this->object->original_id);
             $this->ctrl->setParameter($this, "q_id", $this->object->getId());
 
             // pool question?
