@@ -179,7 +179,7 @@ class ilCalendarDataSet extends ilDataSet
     ) : array {
         switch ($a_entity) {
             case "calendar":
-                $assignmnts = ilCalendarCategoryAssignments::_getAssignedAppointments(array($a_rec["CatId"]));
+                $assignmnts = ilCalendarCategoryAssignments::_getAssignedAppointments(array($a_rec["CatId"] ?? []));
                 $entries = array();
                 foreach ($assignmnts as $cal_id) {
                     $entries[$cal_id] = $cal_id;
