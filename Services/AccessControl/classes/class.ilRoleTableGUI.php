@@ -32,8 +32,8 @@ class ilRoleTableGUI extends ilTable2GUI
     private const FILTER_ROLE_TYPE = 'role_type';
     private const FILTER_TITLE = 'title';
 
-    private const TYPE_VIEW = 1;
-    private const TYPE_SEARCH = 2;
+    public const TYPE_VIEW = 1;
+    public const TYPE_SEARCH = 2;
 
     private ilPathGUI $path_gui;
 

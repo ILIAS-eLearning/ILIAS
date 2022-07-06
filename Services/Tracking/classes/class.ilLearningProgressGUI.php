@@ -1,4 +1,5 @@
 <?php declare(strict_types=0);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -102,6 +103,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     $this->__setSubTabs(self::LP_ACTIVE_OBJSTATADMIN);
                 }
                 $this->__setCmdClass('illpobjectstatisticsgui');
+                $this->tabs_gui->activateTab('statistics');
                 $ost_gui = new ilLPObjectStatisticsGUI(
                     $this->getMode(),
                     $this->getRefId()

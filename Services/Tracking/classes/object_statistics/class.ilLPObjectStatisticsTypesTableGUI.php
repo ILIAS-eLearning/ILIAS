@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for learning progress
@@ -162,7 +177,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
             } else {
                 $data[$type]["title"] = $this->lng->txt("objs_" . $type);
-                $data[$type]["icon"] = ilObject::_getIcon(null, "tiny", $type);
+                $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
             }
 
             foreach ($months as $month => $row) {
@@ -233,7 +248,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
             $this->tpl->setVariable(
                 "VALUE_ITEM",
                 $this->anonymizeValue(
-                    (int) $a_set["month_" . $month]
+                    (int) ($a_set["month_" . $month] ?? 0)
                 )
             );
             $this->tpl->parseCurrentBlock();
@@ -243,7 +258,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
             $this->tpl->setVariable(
                 "VALUE_ITEM",
                 $this->anonymizeValue(
-                    (int) $a_set["month_live"]
+                    (int) ($a_set["month_live"] ?? 0)
                 )
             );
             $this->tpl->parseCurrentBlock();
@@ -281,7 +296,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 ) as $idx => $month) {
                     $series->addPoint(
                         $idx + 1,
-                        (int) $object["month_" . $month]
+                        (int) ($object["month_" . $month] ?? 0)
                     );
                 }
 
@@ -307,11 +322,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         foreach (array_keys(
             $this->getMonthsYear($this->filter["year"])
         ) as $month) {
-            $value = $this->anonymizeValue((int) $a_set["month_" . $month]);
+            $value = $this->anonymizeValue((int) ($a_set["month_" . $month] ?? 0));
             $a_excel->setCell($a_row, $cnt++, $value);
         }
 
-        $value = $this->anonymizeValue((int) $a_set["month_live"]);
+        $value = $this->anonymizeValue((int) ($a_set["month_live"] ?? 0));
         $a_excel->setCell($a_row, $cnt, $value);
     }
 
@@ -326,11 +341,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         foreach (array_keys(
             $this->getMonthsYear($this->filter["year"])
         ) as $month) {
-            $value = $this->anonymizeValue((int) $a_set["month_" . $month]);
+            $value = $this->anonymizeValue((int) ($a_set["month_" . $month] ?? 0));
             $a_csv->addColumn($value);
         }
 
-        $value = $this->anonymizeValue((int) $a_set["month_live"]);
+        $value = $this->anonymizeValue((int) ($a_set["month_live"] ?? 0));
         $a_csv->addColumn($value);
 
         $a_csv->addRow();

@@ -90,6 +90,13 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
         $this->explorer_gui = $explorer;
     }
 
+    public function getOnloadCode() : array
+    {
+        return [
+            "il.Explorer2.initSelect('" . $this->getFieldId() . "');"
+        ];
+    }
+
     public function getHTML() : string
     {
         $ilCtrl = $this->ctrl;

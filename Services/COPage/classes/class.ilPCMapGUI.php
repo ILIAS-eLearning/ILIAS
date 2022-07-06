@@ -173,7 +173,7 @@ class ilPCMapGUI extends ilPageContentGUI
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
             $this->content_obj->setLatitude($location["latitude"]);
             $this->content_obj->setLongitude($location["longitude"]);
-            $this->content_obj->setZoom($location["zoom"]);
+            $this->content_obj->setZoom((int) $location["zoom"]);
             $this->content_obj->setLayout(
                 $this->form->getInput("width"),
                 $this->form->getInput("height"),
@@ -202,7 +202,7 @@ class ilPCMapGUI extends ilPageContentGUI
             $location = $this->form->getInput("location");
             $this->content_obj->setLatitude($location["latitude"]);
             $this->content_obj->setLongitude($location["longitude"]);
-            $this->content_obj->setZoom($location["zoom"]);
+            $this->content_obj->setZoom((int) $location["zoom"]);
             $this->content_obj->setLayout(
                 $this->form->getInput("width"),
                 $this->form->getInput("height"),

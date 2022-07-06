@@ -464,7 +464,15 @@ class ilSurveyExecutionGUI
                         $this->run_manager->getPostData()
                     );
                 } else {
-                    $working_data[$data["question_id"]] = $this->object->loadWorkingData($data["question_id"], $this->run_manager->getCurrentRunId());
+                    if (!$this->preview) {
+                        $working_data[$data["question_id"]] = $this->object->loadWorkingData(
+                            $data["question_id"],
+                            $this->run_manager->getCurrentRunId()
+                        );
+                    } else {
+                        $working_data[$data["question_id"]] =
+                            $this->run_manager->getPreviewData($data["question_id"]);
+                    }
                 }
             }
 

@@ -1,22 +1,17 @@
-# COPage
+# COPage (ILIAS Page Editor)
 
-Be warned. This component is one of the oldest in ILIAS with lots of complexity and little to none modern concepts. Dealing with it will be not the top software development experience for you.
-
-Feel free to make any pull requests to the ROADMAP.md to document pain points you would like to have being addressed in the future.
+This component implements the ILIAS page editor as being used e.g. in learning modules, wikis, content pages in courses and other containers.
 
 ## Business Rules
 
 Copying content
 - Media objects are referenced when pages are copied. This behaviour is relevant for almost all copy processes that include COPage content.
 
+## Browser support
 
-## Consumer Documentation
+Since ILIAS 7 the browser makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However please note that issues that appear only on specific browsers
 
-This component implements the ILIAS page editor as being used e.g. in learning modules, wikis, content pages in courses and other containers.
-
-Unfortunately the component does not offering a well defined API, instead using it mainly depends on extending a set of base classes.
-
-### [WIP] Using the page component in another component 
+### [WIP] Using the page editor in another components
 
 In order to use the page component in your component you first need to extend your `modules.xml` or `service.xml`.
 

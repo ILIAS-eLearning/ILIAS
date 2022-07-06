@@ -698,14 +698,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
                                 $data[] = array("value" => $val,
                                                 "rowvalue" => $matches[1],
                                                 "textanswer" => $post_data['matrix_other_' . $this->getId(
-                                                ) . '_' . $matches[1]]
+                                                ) . '_' . $matches[1]] ?? ""
                                 );
                             }
                         } else {
                             $data[] = array("value" => $value,
                                             "rowvalue" => $matches[1],
                                             "textanswer" => $post_data['matrix_other_' . $this->getId(
-                                            ) . '_' . $matches[1]]
+                                            ) . '_' . $matches[1]] ?? ""
                             );
                         }
                     }

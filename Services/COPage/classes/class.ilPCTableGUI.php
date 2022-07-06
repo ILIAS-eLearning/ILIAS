@@ -84,7 +84,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
         $ilTabs->setBackTarget(
             $lng->txt("pg"),
-            $this->ctrl->getParentReturn($this)
+            (string) $this->ctrl->getParentReturn($this)
         );
 
         if ($data_tab_txt_key == "") {
@@ -242,7 +242,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $templates = $this->getTemplateOptions();
         $chars = array_merge($templates, $chars);
         if (is_object($this->content_obj)) {
-            if ($chars[$a_seleted_value] == "" && ($this->content_obj->getClass() != "")) {
+            if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getClass() != "")) {
                 $chars = array_merge(
                     array($this->content_obj->getClass() => $this->content_obj->getClass()),
                     $chars
@@ -789,6 +789,9 @@ class ilPCTableGUI extends ilPageContentGUI
      */
     public function setProperties() : void
     {
+        $this->initPropertiesForm();
+        $this->form->checkInput();
+
         // mask html
         $caption = $this->form->getInput("caption");
         $caption = str_replace("&", "&amp;", $caption);
@@ -889,6 +892,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 
         $this->initPropertiesForm("create");
+        $this->form->checkInput();
 
         $import_table = trim($this->form->getInput("import_table"));
         
@@ -1200,6 +1204,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $tab_node = $this->content_obj->getNode();
         $cnt_i = 0;
         $content = "";
+        $template_xml = "";
         // get correct cell and dump content of all its childrem
         foreach ($tab_node->first_child()->child_nodes() as $child) {
             if ($i == $cnt_i) {
@@ -1249,7 +1254,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
         $args = array( '/_xml' => $content, '/_xsl' => $xsl );
         $xh = xslt_create();
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
@@ -1266,12 +1271,12 @@ class ilPCTableGUI extends ilPageContentGUI
         if (isset($page_object)) {
             $defs = ilCOPagePCDef::getPCDefinitions();
             foreach ($defs as $def) {
-                ilCOPagePCDef::requirePCClassByName($def["name"]);
+                //ilCOPagePCDef::requirePCClassByName($def["name"]);
                 $pc_class = $def["pc_class"];
                 $pc_obj = new $pc_class($page_object);
 
                 // post xsl page content modification by pc elements
-                $output = $pc_obj->modifyPageContentPostXsl($output, "presentation", false);
+                $output = $pc_obj->modifyPageContentPostXsl((string) $output, "presentation", false);
             }
         }
 

@@ -23,7 +23,7 @@
  */
 class ilContainerStartObjectsContentGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected ilObjUser $user;

@@ -25,7 +25,7 @@ class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
 {
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
-        $this->setId("adopt_permission_" . $a_parent_obj->obj_id);
+        $this->setId("adopt_permission");
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->addColumn("");

@@ -151,7 +151,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         }
 
         $refId = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-        if (!$this->getCreationMode() && $this->access->checkAccess('read', '', $refId)) {
+        if (!$this->getCreationMode() && ilChatroom::checkPermissionsOfUser($this->user->getId(), 'read', $refId)) {
             $DIC['ilNavigationHistory']->addItem(
                 $refId,
                 './goto.php?target=' . $this->type . '_' . $refId,

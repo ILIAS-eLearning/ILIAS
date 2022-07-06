@@ -352,7 +352,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
      */
     protected function getTabs() : void
     {
-        $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
+        $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), (string) $this->ctrl->getParentReturn($this));
 
         if ($this->rbac_system->checkAccess('write', $this->ref_id)) {
             $this->tabs_gui->addTab(

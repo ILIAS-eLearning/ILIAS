@@ -579,8 +579,8 @@ abstract class ilPageObject
             "UPDATE page_object SET active = %s, activation_start = %s, " .
             " activation_end = %s WHERE page_id = %s" .
             " AND parent_type = %s AND lang = %s",
-            array("boolean", "timestamp", "timestamp", "integer", "text", "text"),
-            array($a_active, null, null, $a_id, $a_parent_type, $a_lang)
+            array("int", "timestamp", "timestamp", "integer", "text", "text"),
+            array((int) $a_active, null, null, $a_id, $a_parent_type, $a_lang)
         );
     }
 

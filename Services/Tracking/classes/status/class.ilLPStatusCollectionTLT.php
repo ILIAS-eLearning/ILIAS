@@ -12,7 +12,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
         $users = array();
-        if (is_array($status_info['in_progress'])) {
+        if (isset($status_info['in_progress'])) {
             foreach ($status_info['in_progress'] as $in_progress) {
                 $users = array_merge($users, $in_progress);
             }
@@ -111,7 +111,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 
         $completed_once = false;
 
-        if (is_array($info["completed"])) {
+        if (isset($info["completed"])) {
             $completed = true;
             foreach ($info["completed"] as $user_ids) {
                 // must have completed all items to complete collection
@@ -132,7 +132,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
             return self::LP_STATUS_IN_PROGRESS_NUM;
         }
 
-        if (is_array($info["in_progress"])) {
+        if (isset($info["in_progress"])) {
             foreach ($info["in_progress"] as $user_ids) {
                 if (in_array($a_usr_id, $user_ids)) {
                     return self::LP_STATUS_IN_PROGRESS_NUM;

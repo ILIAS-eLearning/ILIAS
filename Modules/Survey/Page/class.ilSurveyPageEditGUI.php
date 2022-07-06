@@ -27,7 +27,7 @@ class ilSurveyPageEditGUI
     protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
-    protected bool $suppress_clipboard_msg;
+    protected bool $suppress_clipboard_msg = false;
     protected string $pgov;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $svy_request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
@@ -42,7 +42,7 @@ class ilSurveyPageEditGUI
     protected ilLanguage $lng;
     protected ilObjSurvey $object;
     protected ilSurveyEditorGUI $editor_gui;
-    protected string $current_page;
+    protected ?int $current_page = null;
     protected bool $has_previous_page;
     protected bool $has_next_page;
     protected bool $has_datasets;
@@ -113,9 +113,12 @@ class ilSurveyPageEditGUI
                         // make sure that it is set for current and next requests
                         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
                         $this->pgov = $this->current_page;
+                        // this is necessary, since ILIAS 7
+                        // wrote the REQUEST parameter
+                        $this->editor_gui->setRequestedPgov($this->pgov);
 
                         $id = explode("_", $this->svy_request->getHForm("node"));
-                        $id = (int) $id[1];
+                        $id = (int) ($id[1] ?? 0);
 
                         // multi operation
                         if (strpos($this->svy_request->getHForm("subcmd"), "multi") === 0) {
@@ -149,7 +152,16 @@ class ilSurveyPageEditGUI
                                 $this->svy_request->getHForm("node")
                             );
                         } else {
-                            $has_content = $this->$subcmd($id, $this->svy_request->getHForm("node"));
+                            switch ($subcmd) {
+                                case "deleteQuestion":
+                                    $has_content = true;
+                                    $this->deleteQuestion([$id]);
+                                    break;
+                                default:
+                                    $has_content = $this->$subcmd($id, $this->svy_request->getHForm("node"));
+                                    break;
+
+                            }
                         }
                     }
                 }
@@ -163,7 +175,13 @@ class ilSurveyPageEditGUI
 
     public function determineCurrentPage() : void
     {
-        $current_page = $this->svy_request->getJump();
+        $current_page = null;
+        $jump = $this->svy_request->getJump();
+        if ($jump != "") {
+            $jump_parts = explode("__", $jump);
+            $current_page = (int) ($jump_parts[0] ?? 1);
+        }
+
         if (!$current_page) {
             $current_page = $this->pgov;
         }
@@ -173,7 +191,7 @@ class ilSurveyPageEditGUI
         if (!$current_page) {
             $current_page = 1;
         }
-        $this->current_page = $current_page;
+        $this->current_page = (int) $current_page;
     }
 
     /**
@@ -234,7 +252,6 @@ class ilSurveyPageEditGUI
         int $a_new_id
     ) : void {
         $lng = $this->lng;
-
         if (!SurveyQuestion::_isComplete($a_new_id)) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("survey_error_insert_incomplete_question"));
         } else {
@@ -424,7 +441,7 @@ class ilSurveyPageEditGUI
             return true;
         } else {
             // create question and redirect to question form
-        
+
             $q_gui = SurveyQuestionGUI::_getQuestionGUI($type_trans);
             $q_gui->object->setObjId($this->object->getId());
             $q_gui->object->createNewQuestion();
@@ -799,7 +816,7 @@ class ilSurveyPageEditGUI
      */
     protected function editBlock(int $a_id) : void
     {
-        $this->callEditor("editQuestionblockObject", "bl_id", $a_id);
+        $this->callEditor("editQuestionblock", "bl_id", $a_id);
     }
     
     /**
@@ -823,7 +840,7 @@ class ilSurveyPageEditGUI
      */
     protected function deleteHeading(int $a_id) : void
     {
-        $this->callEditor("removeHeadingObject", "q_id", $a_id);
+        $this->callEditor("removeHeading", "q_id", $a_id);
     }
     
     protected function callEditor(
@@ -1202,7 +1219,7 @@ class ilSurveyPageEditGUI
 
                 $last_on_page = 0;
                 if ($a_pages &&
-                    is_array($a_pages[$this->current_page - 1])) {
+                    isset($a_pages[$this->current_page - 1])) {
                     $last_on_page = $a_pages[$this->current_page - 1];
                     $last_on_page = array_pop($last_on_page);
                     $last_on_page = $last_on_page["question_id"];
@@ -1351,6 +1368,7 @@ class ilSurveyPageEditGUI
         $this->renderToolbar($pages);
         if ($pages) {
             $ttpl = new ilTemplate("tpl.il_svy_svy_page_view.html", true, true, "Modules/Survey");
+            $tpl->addOnLoadCode("ilSurveyPageView.init();");
             $ttpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this));
             $lng->loadLanguageModule("form");
 

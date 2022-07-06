@@ -14286,6 +14286,10 @@ a.nostyle:hover {
   white-space: nowrap;
   text-align: right;
 }
+#ilPageEditLegend img {
+  width: 22px;
+  height: 22px;
+}
 .ilPageEditLegendElement {
   width: 40px;
   border: 1px solid #d0d0d0;

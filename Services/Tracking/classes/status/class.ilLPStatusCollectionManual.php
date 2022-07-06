@@ -13,7 +13,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
 
         // find any completed item
         $users = array();
-        if (is_array($status_info['completed'])) {
+        if (isset($status_info['completed'])) {
             foreach ($status_info['completed'] as $in_progress) {
                 $users = array_merge($users, $in_progress);
             }

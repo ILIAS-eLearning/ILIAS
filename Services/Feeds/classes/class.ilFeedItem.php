@@ -22,14 +22,14 @@
  */
 class ilFeedItem
 {
-    private string $about;
-    private string $title;
-    private string $link;
-    private string $description;
-    private string $enclosureurl;
-    private string $enclosuretype;
-    private int $enclosurelength;
-    private string $date;
+    private string $about = "";
+    private string $title = "";
+    private string $link = "";
+    private string $description = "";
+    private string $enclosureurl = "";
+    private string $enclosuretype = "";
+    private int $enclosurelength = 0;
+    private string $date = "";
 
     public function setAbout(string $a_About) : void
     {

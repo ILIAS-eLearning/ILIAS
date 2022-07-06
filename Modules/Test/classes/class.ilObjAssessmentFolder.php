@@ -185,7 +185,7 @@ class ilObjAssessmentFolder extends ilObject
     {
         $setting = new ilSetting('assessment');
 
-        $types = $setting->get('assessment_scoring_adjustment');
+        $types = $setting->get('assessment_scoring_adjustment', '');
         return array_filter(array_map('intval', explode(',', $types)));
     }
 

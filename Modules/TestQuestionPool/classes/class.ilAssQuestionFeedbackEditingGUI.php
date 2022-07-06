@@ -287,11 +287,15 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
         
-        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id)) {
+        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->getOriginalId())) {
             return false;
         }
-        
-        if (!assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+
+        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->getOriginalId())) {
+            return false;
+        }
+
+        if (!assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
             return false;
         }
         

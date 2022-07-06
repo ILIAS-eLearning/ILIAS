@@ -520,8 +520,8 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::REPOSITORY_NODE_ID:
             case self::REPOSITORY_OBJECT_ID:
                 parent::viewObject();
+                break;
 
-                // no break
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
                 $this->render();

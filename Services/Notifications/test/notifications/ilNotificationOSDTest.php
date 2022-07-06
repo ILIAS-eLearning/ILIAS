@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -70,11 +69,23 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
             return array_shift($this->result);
         });
         $this->db->expects(self::exactly($manipulateF))->method('manipulateF')->willReturnCallback(function (string $query, array $types, array $values) : int {
-            foreach ($this->database as $key => $row) {
-                if ($row['notification_osd_id'] === $values[0]) {
-                    unset($this->database[$key]);
-                    return 1;
+            if (count($values) === 1) {
+                foreach ($this->database as $key => $row) {
+                    if ($row['notification_osd_id'] === $values[0]) {
+                        unset($this->database[$key]);
+                        return 1;
+                    }
                 }
+            }
+            if (count($values) === 2) {
+                $i = 0;
+                foreach ($this->database as $key => $row) {
+                    if ($row['usr_id'] === $values[0] && $row['type'] === $values[1]) {
+                        unset($this->database[$key]);
+                        $i++;
+                    }
+                }
+                return $i;
             }
             return 0;
         });
@@ -93,12 +104,13 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
     public function testCreateNotification() : void
     {
         $this->createDBFunctionCalls(1);
-        $config = new \ILIAS\Notifications\Model\ilNotificationConfig('who_is_online');
+        $config = new \ILIAS\Notifications\Model\ilNotificationConfig('test_type');
         $config->setTitleVar('Test Notification');
         $config->setShortDescriptionVar('This is a test notification');
         $test_obj = new \ILIAS\Notifications\Model\ilNotificationObject($config, $this->user);
-
         $this->handler->notify($test_obj);
+
+        $this->assertCount(1, $this->database);
     }
 
     public function testGet0Notification() : void
@@ -110,7 +122,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
     public function testGetNotification() : void
     {
         $this->createDBFunctionCalls(1, 1, 2);
-        $config = new \ILIAS\Notifications\Model\ilNotificationConfig('who_is_online');
+        $config = new \ILIAS\Notifications\Model\ilNotificationConfig('test_type');
         $test_obj = new \ILIAS\Notifications\Model\ilNotificationObject($config, $this->user);
         $this->handler->notify($test_obj);
 
@@ -120,7 +132,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
     public function testRemoveNotification() : void
     {
         $this->createDBFunctionCalls(1, 3, 4, 1);
-        $config = new \ILIAS\Notifications\Model\ilNotificationConfig('who_is_online');
+        $config = new \ILIAS\Notifications\Model\ilNotificationConfig('test_type');
         $test_obj = new \ILIAS\Notifications\Model\ilNotificationObject($config, $this->user);
         $this->handler->notify($test_obj);
 
@@ -136,5 +148,19 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         $this->createDBFunctionCalls(0, 2, 2, 0);
         $this->assertCount(0, $this->handler->getNotificationsForUser($this->user->getId()));
         $this->assertFalse($this->handler->removeNotification(3));
+    }
+
+    public function testCreateMultipleUniqueNotifications() : void
+    {
+        $this->createDBFunctionCalls(3, 0,0, 3);
+        $config = new \ILIAS\Notifications\Model\ilNotificationConfig('who_is_online');
+        $config->setTitleVar('Unique Test Notification');
+        $config->setShortDescriptionVar('This is a unqiue test notification');
+        $test_obj = new \ILIAS\Notifications\Model\ilNotificationObject($config, $this->user);
+        $this->handler->notify($test_obj);
+        $this->handler->notify($test_obj);
+        $this->handler->notify($test_obj);
+
+        $this->assertCount(1, $this->database);
     }
 }

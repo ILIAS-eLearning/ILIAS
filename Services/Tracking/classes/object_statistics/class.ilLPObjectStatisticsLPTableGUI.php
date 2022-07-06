@@ -1,4 +1,5 @@
 <?php declare(strict_types=0);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -553,7 +554,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             foreach (array_keys(
                 $this->getMonthsYear($this->filter["yearmonth"])
             ) as $num) {
-                $value = $this->anonymizeValue((int) $a_set["month_" . $num]);
+                $value = $this->anonymizeValue((int) ($a_set["month_" . $num] ?? 0));
                 $this->tpl->setVariable("ITEM_VALUE", $value);
                 $this->tpl->parseCurrentBlock();
             }
@@ -562,7 +563,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 $this->tpl->setVariable(
                     "ITEM_VALUE",
                     $this->anonymizeValue(
-                        (int) $a_set["mem_cnt_" . $type]
+                        (int) ($a_set["mem_cnt_" . $type] ?? 0)
                     )
                 );
                 $this->tpl->parseCurrentBlock();
@@ -572,7 +573,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                     $this->tpl->setVariable(
                         "ITEM_VALUE",
                         $this->anonymizeValue(
-                            (int) $a_set[$status . "_" . $type]
+                            (int) ($a_set[$status . "_" . $type] ?? 0)
                         )
                     );
                     $this->tpl->parseCurrentBlock();

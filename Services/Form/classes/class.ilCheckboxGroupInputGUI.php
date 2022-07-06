@@ -221,7 +221,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
                     }
                 } else {
                     $cval = $this->getValue();
-                    if ($cval[$option->getValue()] == 1) {
+                    if (isset($cval[$option->getValue()]) && $cval[$option->getValue()] == 1) {
                         $tpl->setVariable(
                             "CHK_CHECKBOX_OPTION",
                             'checked="checked"'

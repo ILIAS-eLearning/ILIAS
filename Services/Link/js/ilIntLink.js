@@ -64,7 +64,6 @@ il.IntLink =
 
 	init: function(cfg)
 	{
-		//console.log("init with cfgurl:" + cfg.url);
 		//console.trace();
 		// new: get link dynamically
 		if(cfg.url == "")

@@ -1,6 +1,19 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
@@ -124,6 +137,11 @@ class ilCtrl implements ilCtrlInterface
         $this->path_factory = $path_factory;
         $this->context = $context;
         $this->component_factory = $component_factory;
+    }
+
+    public function __clone()
+    {
+        $this->structure = clone $this->structure;
     }
 
     /**
@@ -713,7 +731,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getParentReturn(object $a_gui_obj) : ?string
     {
-        return $this->structure->getReturnTargetByClass($this->getClassByObject($a_gui_obj));
+        return $this->getParentReturnByClass($this->getClassByObject($a_gui_obj));
     }
 
     /**
@@ -1110,9 +1128,13 @@ class ilCtrl implements ilCtrlInterface
         $value,
         bool $is_escaped = false
     ) : string {
-        // only append value if it exists and can be cast
-        // to string.
-        if (!empty($value) && !is_array($value) && !is_object($value)) {
+        // transform value into a string, since null will fail we can
+        // (temporarily) use the null coalescing operator.
+        $value = $this->refinery->kindlyTo()->string()->transform($value ?? '');
+
+        // only append value if its not an empty string. note that empty()
+        // cannot be used here since e.g. '0' would be empty.
+        if ('' !== $value) {
             // declare ampersand escaped or not, according to
             // the given argument.
             $ampersand = ($is_escaped) ? '&amp;' : '&';

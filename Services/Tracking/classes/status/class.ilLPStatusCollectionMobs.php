@@ -12,7 +12,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         $users = array();
 
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-        if (is_array($status_info["user_status"]["in_progress"])) {
+        if (isset($status_info["user_status"]["in_progress"])) {
             $users = $status_info["user_status"]["in_progress"];
         }
         return $users;
@@ -79,11 +79,11 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         foreach ($users as $user_id) {
-            if ((!is_array($res["user_status"]["in_progress"]) || !in_array(
+            if ((!isset($res["user_status"]["in_progress"]) || !in_array(
                 $user_id,
                 $res["user_status"]["in_progress"]
             )) &&
-                (!is_array($res["user_status"]["completed"]) || !in_array(
+                (!isset($res["user_status"]["completed"]) || !in_array(
                     $user_id,
                     $res["user_status"]["completed"]
                 ))) {

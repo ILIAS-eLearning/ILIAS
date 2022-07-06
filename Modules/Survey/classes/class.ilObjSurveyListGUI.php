@@ -111,7 +111,22 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 
     public function getCommandLink(string $cmd) : string
     {
-        return "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
+        $link = "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
             "&amp;cmd=$cmd";
+
+        $this->ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $this->ref_id);
+        if ($cmd === "questions") {
+            $link = $this->ctrl->getLinkTargetByClass(
+                [
+                "ilObjSurveyGUI", "ilSurveyEditorGUI", "ilSurveyPageEditGUI"],
+                "renderPage"
+            );
+        }
+        $this->ctrl->setParameterByClass(
+            "ilObjSurveyGUI",
+            "ref_id",
+            $this->requested_ref_id
+        );
+        return $link;
     }
 }

@@ -582,9 +582,14 @@ class ilChatroom
         $result = [];
 
         while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $message = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
-            if ($message === null) {
-                $message = json_decode('{}', false, 512, JSON_THROW_ON_ERROR);
+            try {
+                $message = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException $e) {
+                $message = null;
+            } finally {
+                if ($message === null) {
+                    $message = json_decode('{}', false, 512, JSON_THROW_ON_ERROR);
+                }
             }
 
             $row['message'] = $message;

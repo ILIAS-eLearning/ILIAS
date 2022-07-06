@@ -48,7 +48,12 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
                 break;
 
             case "edit":
-                $cmd_link = "ilias.php?baseClass=ilHTLMEditorGUI&ref_id=" . $this->ref_id;
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+                $cmd_link = $ilCtrl->getLinkTargetByClass(
+                    ["ilrepositorygui", "ilObjFileBasedLMGUI", "ilFileSystemGUI"],
+                    "listFiles"
+                );
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 break;
 
             default:

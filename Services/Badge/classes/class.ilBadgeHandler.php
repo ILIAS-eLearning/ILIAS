@@ -502,8 +502,10 @@ class ilBadgeHandler
                 
                 $ntf = new ilSystemNotification(false);
                 $ntf->setLangModules(array("badge"));
-                
-                $ntf->setRefId($a_parent_ref_id);
+
+                if (isset($a_parent_ref_id)) {
+                    $ntf->setRefId($a_parent_ref_id);
+                }
                 $ntf->setGotoLangId("badge_notification_parent_goto");
                 
                 // user specific language

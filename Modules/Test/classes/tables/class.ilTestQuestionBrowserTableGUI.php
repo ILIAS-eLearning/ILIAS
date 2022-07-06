@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
@@ -230,7 +245,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
-        
+
         $this->tabs->setBackTarget(
             $this->getBackTargetLabel(),
             $this->getBackTargetUrl()
@@ -259,15 +274,13 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private function getBackTargetCmdClass() : string
     {
         switch ($this->fetchContextParameter()) {
-            case self::CONTEXT_LIST_VIEW:
-
-                return 'ilObjTestGUI';
             case self::CONTEXT_PAGE_VIEW:
 
                 return 'ilTestExpressPageObjectGUI';
+            case self::CONTEXT_LIST_VIEW:
+            default:
+                return 'ilObjTestGUI';
         }
-        
-        return '';
     }
     
     private function getBackTargetCommand() : string

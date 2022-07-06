@@ -39,7 +39,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      * @con_length     4
      * @con_sequence   false
      */
-    protected int $id;
+    protected ?int $id = null;
 
     /**
      * @var int

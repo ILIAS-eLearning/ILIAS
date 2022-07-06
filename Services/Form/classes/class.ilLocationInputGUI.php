@@ -83,9 +83,15 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 
     public function setValueByArray(array $a_values) : void
     {
-        $this->setLatitude($a_values[$this->getPostVar()]["latitude"]);
-        $this->setLongitude($a_values[$this->getPostVar()]["longitude"]);
-        $this->setZoom($a_values[$this->getPostVar()]["zoom"]);
+        $lat = (isset($a_values[$this->getPostVar()]["latitude"]) && $a_values[$this->getPostVar()]["latitude"] != "")
+            ? (float) $a_values[$this->getPostVar()]["latitude"]
+            : null;
+        $lon = (isset($a_values[$this->getPostVar()]["longitude"]) && $a_values[$this->getPostVar()]["longitude"] != "")
+            ? (float) $a_values[$this->getPostVar()]["longitude"]
+            : null;
+        $this->setLatitude($lat);
+        $this->setLongitude($lon);
+        $this->setZoom((int) $a_values[$this->getPostVar()]["zoom"]);
     }
 
     public function checkInput() : bool

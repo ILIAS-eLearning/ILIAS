@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -61,7 +62,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         // country names
         $this->lng->loadLanguageModule("meta");
         $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
-        if (!$this->anonymized && $this->obj_id) {
+        if (!$this->anonymized && isset($this->obj_id) && $this->obj_id > 0) {
             $olp = ilObjectLP::getInstance($this->obj_id);
             $this->anonymized = $olp->isAnonymized();
         }

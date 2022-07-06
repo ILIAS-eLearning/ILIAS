@@ -66,7 +66,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $ilToolbar->addText($lng->txt("cont_drag_element_click_save"));
         $ilToolbar->setId("drag_toolbar");
         $ilToolbar->setHidden(true);
-        $ilToolbar->addButton($lng->txt("save"), "#", "", "", "", "save_pos_button");
+        $ilToolbar->addButton($lng->txt("save"), "#", "", null, "", "save_pos_button");
         
         $ilToolbar->addButton(
             $lng->txt("cancel"),
@@ -163,17 +163,17 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
             // save edited shape
             case "edit_shape":
                 $this->std_alias_item->setShape(
-                    $this->map_repo->getAreaNr(),
-                    $this->map_repo->getAreaType(),
-                    $this->map_repo->getCoords()
+                    $this->map->getAreaNr(),
+                    $this->map->getAreaType(),
+                    $this->map->getCoords()
                 );
                 $this->page->update();
                 break;
 
             // save new area
             default:
-                $area_type = $this->map_repo->getAreaType();
-                $coords = $this->map_repo->getCoords();
+                $area_type = $this->map->getAreaType();
+                $coords = $this->map->getCoords();
                 $this->content_obj->addTriggerArea(
                     $this->std_alias_item,
                     $area_type,

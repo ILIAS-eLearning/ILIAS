@@ -1666,7 +1666,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $tabs->setBackTarget(
             $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "showPrintViewSelection")
+            $ilCtrl->getLinkTarget($this, "layout")
         );
 
         $c_obj_id = $this->getCurrentPageId();
@@ -1857,7 +1857,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $page_object_gui->setOutputMode("print");
                     $page_object_gui->setPresentationTitle("");
 
-                    if ($this->lm->getPageHeader() == ilLMObject::PAGE_TITLE || $node["free"] === true) {
+                    if ($this->lm->getPageHeader() == ilLMObject::PAGE_TITLE || ($node["free"] ?? false) === true) {
                         $page_title = ilLMPageObject::_getPresentationTitle(
                             $lm_pg_obj->getId(),
                             $this->lm->getPageHeader(),
@@ -1890,7 +1890,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                         if ($did_chap_page_header) {
                             $hcont = "";
                         }
-                        if ($nodes[$node_key + 1]["type"] == "pg" &&
+                        if (($nodes[$node_key + 1]["type"] ?? "") == "pg" &&
                             !($nodes[$node_key + 1]["depth"] <= $act_level
                                 && !in_array($nodes[$node_key + 1]["obj_id"], $sel_obj_ids))) {
                             $fcont = "";
@@ -1942,10 +1942,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     if ($got_mobs) {
                         $page_object->buildDom();
                         $links = $page_object->getInternalLinks();
+                        $tf = $link["TargetFrame"] ?? "";
                         foreach ($links as $link) {
-                            if ($link["Type"] == "MediaObject"
-                                && $link["TargetFrame"] != ""
-                                && $link["TargetFrame"] != "None") {
+                            if ($link["Type"] === "MediaObject"
+                                && $tf !== ""
+                                && $tf !== "None") {
                                 $media_links[] = $link;
                             }
                         }
@@ -2172,8 +2173,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $tpl->parseCurrentBlock();
             }
         }
-
         $this->tpl->setContent($tpl->get());
+        $this->tpl->addOnLoadCode("il.Util.print();");
         $this->tpl->printToStdout();
     }
 

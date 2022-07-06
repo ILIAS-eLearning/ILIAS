@@ -1547,17 +1547,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     }
                 }
 
-                $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', (int) $a_target);
+                $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', (string) ((int) $a_target));
                 if (is_numeric($a_thread)) {
-                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'thr_pk', (int) $a_thread);
+                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'thr_pk', (string) ((int) $a_thread));
                 }
                 if (is_numeric($a_posting)) {
-                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'pos_pk', (int) $a_posting);
+                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'pos_pk', (string) ((int) $a_posting));
                 }
                 $DIC->ctrl()->redirectByClass(
                     [ilRepositoryGUI::class, self::class],
                     'viewThread',
-                    is_numeric($a_posting) ? (int) $a_posting : ''
+                    is_numeric($a_posting) ? (string) ((int) $a_posting) : ''
                 );
             } else {
                 $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $a_target);
@@ -3639,6 +3639,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 'frm_ref_id',
                 $this->refinery->kindlyTo()->int()
             );
+        } else {
+            $this->error->raiseError('Please select a forum', $this->error->MESSAGE);
         }
 
         $threads2move = ilSession::get('threads2move');

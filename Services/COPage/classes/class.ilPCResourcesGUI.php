@@ -96,7 +96,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
             $key = ($objDefinition->getGroupOfObj($c["type"]) != "")
                 ? $objDefinition->getGroupOfObj($c["type"])
                 : $c["type"];
-            $type_counts[$key] += 1;
+            $type_counts[$key] = ($type_counts[$key] ?? 0) + 1;
             if ($c["type"] == "itgr") {
                 $item_groups[$c["ref_id"]] = $c["title"];
             }
@@ -130,7 +130,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         foreach ($sub_objs as $k => $so) {
             if (!$objDefinition->isPlugin($k)) {
                 if ($k != "itgr") {
-                    $types[$k] = $this->lng->txt("objs_" . $k) . " (" . (int) $type_counts[$k] . ")";
+                    $types[$k] = $this->lng->txt("objs_" . $k) . " (" . (int) ($type_counts[$k] ?? 0) . ")";
                 }
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($k);
@@ -265,7 +265,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 $tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
                 $cnt = 0;
                 
-                if (is_array($childs_by_type[$type]) && count($childs_by_type[$type]) > 0) {
+                if (isset($childs_by_type[$type]) && count($childs_by_type[$type]) > 0) {
                     foreach ($childs_by_type[$type] as $child) {
                         $tpl->setCurrentBlock("row");
                         $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon((int) $child["obj_id"], "small")));

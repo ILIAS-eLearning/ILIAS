@@ -213,7 +213,7 @@ class SettingsFormGUI
         $opt = new \ilRadioOption($lng->txt("survey_question_pool_usage_inactive"), "0");
         $opt->setInfo($lng->txt("survey_question_pool_usage_inactive_info"));
         $pool_usage->addOption($opt);
-        $pool_usage->setValue((string) $survey->getPoolUsage());
+        $pool_usage->setValue((string) (int) $survey->getPoolUsage());
         $form->addItem($pool_usage);
 
         if ($feature_config->usesAppraisees()) {
@@ -807,11 +807,11 @@ class SettingsFormGUI
             $survey->setReminderStatus(true);
             $survey->setReminderStart($rmd_start);
             $survey->setReminderEnd($rmd_end);
-            $survey->setReminderFrequency($form->getInput("rmd_freq"));
+            $survey->setReminderFrequency((int) $form->getInput("rmd_freq"));
             if ($feature_config->supportsMemberReminder()) {
-                $survey->setReminderTarget($form->getInput("rmd_grp"));
+                $survey->setReminderTarget((int) $form->getInput("rmd_grp"));
                 $survey->setReminderTemplate(($form->getInput("rmdt") > 0)
-                    ? $form->getInput("rmdt")
+                    ? (int) $form->getInput("rmdt")
                     : null);
             }
         } else {
@@ -860,7 +860,7 @@ class SettingsFormGUI
         $period = $form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
             $survey->setActivationLimited(true);
-            $survey->setActivationVisibility($form->getInput("access_visiblity"));
+            $survey->setActivationVisibility((bool) $form->getInput("access_visiblity"));
             $survey->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
             $survey->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));
         } else {

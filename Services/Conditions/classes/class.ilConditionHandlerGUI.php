@@ -522,7 +522,7 @@ class ilConditionHandlerGUI
         $condition_handler->setValue('');
         switch ($this->getTargetType()) {
             case 'st':
-                $condition_handler->setReferenceHandlingType($form->getInput('ref_handling'));
+                $condition_handler->setReferenceHandlingType((int) $form->getInput('ref_handling'));
                 break;
 
             default:
@@ -652,7 +652,7 @@ class ilConditionHandlerGUI
 
         switch ($this->getTargetType()) {
             case 'st':
-                $this->ch_obj->setReferenceHandlingType($form->getInput('ref_handling'));
+                $this->ch_obj->setReferenceHandlingType((int) $form->getInput('ref_handling'));
                 break;
 
             default:
@@ -733,7 +733,7 @@ class ilConditionHandlerGUI
 
         $obl = new ilHiddenInputGUI('obligatory');
         if ($a_condition_id) {
-            $obl->setValue($condition['obligatory']);
+            $obl->setValue((string) (bool) $condition['obligatory']);
         } else {
             $obl->setValue("1");
         }
@@ -755,7 +755,7 @@ class ilConditionHandlerGUI
 
         if (ilConditionHandler::_isReferenceHandlingOptional($this->getTargetType())) {
             $rad_opt = new ilRadioGroupInputGUI($this->lng->txt('cond_ref_handling'), 'ref_handling');
-            $rad_opt->setValue($condition['ref_handling'] ?? ilConditionHandler::SHARED_CONDITIONS);
+            $rad_opt->setValue((string) ($condition['ref_handling'] ?? ilConditionHandler::SHARED_CONDITIONS));
 
             $opt2 = new ilRadioOption(
                 $this->lng->txt('cond_ref_shared'),

@@ -58,7 +58,12 @@ class ilLMContentSearch extends ilAbstractSearch
                 $row->page_id = ilGlossaryDefinition::_lookupTermId($row->page_id);
             }
 
-            $this->search_result->addEntry($row->parent_id, $row->parent_type, $this->__prepareFound($row), $row->page_id);
+            $this->search_result->addEntry(
+                (int) $row->parent_id,
+                (string) $row->parent_type,
+                $this->__prepareFound($row),
+                (int) $row->page_id
+            );
         }
 
         return $this->search_result;

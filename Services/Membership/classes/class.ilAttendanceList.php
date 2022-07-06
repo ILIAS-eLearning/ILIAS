@@ -568,8 +568,8 @@ class ilAttendanceList
                                 break;
 
                             case "name":
-                                if (!$user_data[$id]) {
-                                    $name = ilObjUser::_lookupName($user_id);
+                                if (!($user_data[$id] ?? null)) {
+                                    $name = ilObjUser::_lookupName((int) $user_id);
                                     $value = $name["lastname"] . ", " . $name["firstname"];
                                     break;
                                 }

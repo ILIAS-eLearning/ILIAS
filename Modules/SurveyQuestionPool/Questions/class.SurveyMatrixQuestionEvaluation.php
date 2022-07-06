@@ -41,7 +41,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
                     
             $this->parseResults(
                 $row_results,
-                (array) $answers[$r],
+                (array) ($answers[$r] ?? []),
                 $this->question->getColumns()
             );
                 

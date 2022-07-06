@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\Notifications\Repository;
 
@@ -33,6 +32,9 @@ use ilLanguage;
  */
 class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterface
 {
+    private const UNIQUE_TYPES = [
+        'who_is_online'
+    ];
     private ilDBInterface $database;
 
     public function __construct(?ilDBInterface $database = null)
@@ -59,6 +61,10 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
             $base->getVisibleForSeconds() ?? 0,
             $base->getType()
         );
+
+        if (in_array($notification->getType(), self::UNIQUE_TYPES)) {
+            $this->deleteOSDNotificationByUserAndType($user_id, $notification->getType());
+        }
 
         $affected = $this->database->insert(
             ilNotificationSetupHelper::$tbl_notification_osd_handler,
@@ -130,12 +136,18 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         return $notifications;
     }
 
-    public function deleteNotificationById(int $id) : bool
+    public function deleteOSDNotificationById(int $id) : bool
     {
         if ($this->ifOSDNotificationExistsById($id)) {
             $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
             return 1 === $this->database->manipulateF($query, ['integer'], [$id]);
         }
         return false;
+    }
+
+    private function deleteOSDNotificationByUserAndType(int $user_id, string $type) : int
+    {
+        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE usr_id = %s AND type = %s';
+        return $this->database->manipulateF($query, ['integer', 'text'], [$user_id, $type]);
     }
 }

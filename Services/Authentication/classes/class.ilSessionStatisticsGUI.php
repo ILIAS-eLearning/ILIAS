@@ -259,7 +259,7 @@ class ilSessionStatisticsGUI
 
         //TODO validate input
         // current start
-        $time_to = $this->importDate($this->sst);
+        $time_to = $this->importDate((string) $this->sst);
 
         // current mode
         if (!$this->smd) {
@@ -343,7 +343,7 @@ class ilSessionStatisticsGUI
         
         // current start
         //TODO validate input
-        $time_to = $this->importDate($this->sst);
+        $time_to = $this->importDate((string) $this->sst);
 
         // current mode
         if (!$this->smd) {
@@ -416,10 +416,10 @@ class ilSessionStatisticsGUI
 
         //TODO validate input
         // current start
-        $time_to = $this->importDate($this->sst);
+        $time_to = $this->importDate((string) $this->sst);
         
         // current end
-        $time_from = $this->importDate($this->sto, strtotime("-7 days"));
+        $time_from = $this->importDate((string) $this->sto, strtotime("-7 days"));
         
         // mixed up dates?
         if ($time_to < $time_from) {
@@ -661,9 +661,9 @@ class ilSessionStatisticsGUI
                         break;
                     
                     case self::SCALE_PERIODIC_WEEK:
-                        $day = substr($date, 0, 1);
-                        $hour = substr($date, 1, 2);
-                        $min = substr($date, 3, 2);
+                        $day = substr((string) $date, 0, 1);
+                        $hour = substr((string) $date, 1, 2);
+                        $min = substr((string) $date, 3, 2);
                         
                         // build ascending scale from day values
                         $day_value = ($day - 1) * 60 * 60 * 24;
@@ -747,15 +747,15 @@ class ilSessionStatisticsGUI
                         
             // process minx/max, prepare avg
             foreach ($item as $id => $value) {
-                switch (substr($id, -3)) {
+                switch (substr((string) $id, -3)) {
                     case "min":
-                        if (!$tmp[$slot][$id] || $value < $tmp[$slot][$id]) {
+                        if (!isset($tmp[$slot][$id]) || $value < $tmp[$slot][$id]) {
                             $tmp[$slot][$id] = $value;
                         }
                         break;
                         
                     case "max":
-                        if (!$tmp[$slot][$id] || $value > $tmp[$slot][$id]) {
+                        if (!isset($tmp[$slot][$id]) || $value > $tmp[$slot][$id]) {
                             $tmp[$slot][$id] = $value;
                         }
                         break;
@@ -823,8 +823,8 @@ class ilSessionStatisticsGUI
             }
         }
         foreach ($meta as  $caption => $value) {
-            $csv->addColumn(strip_tags($caption));
-            $csv->addColumn(strip_tags($value));
+            $csv->addColumn(strip_tags((string) $caption));
+            $csv->addColumn(strip_tags((string) $value));
             $csv->addRow();
         }
         $csv->addRow();
@@ -841,7 +841,7 @@ class ilSessionStatisticsGUI
                 $csv->addColumn("weekday");
                 $csv->addColumn("time");
             } else {
-                $csv->addColumn(strip_tags($column));
+                $csv->addColumn(strip_tags((string) $column));
             }
         }
         $csv->addRow();
@@ -856,8 +856,8 @@ class ilSessionStatisticsGUI
                     case "slot_begin":
                         // split weekday and time slot again
                         if ($a_scale === self::SCALE_PERIODIC_WEEK) {
-                            $csv->addColumn(ilCalendarUtil::_numericDayToString((int) substr($value, 0, 1)));
-                            $value = substr($value, 1, 2) . ":" . substr($value, 3, 2);
+                            $csv->addColumn(ilCalendarUtil::_numericDayToString((int) substr((string) $value, 0, 1)));
+                            $value = substr((string) $value, 1, 2) . ":" . substr((string) $value, 3, 2);
                             break;
                         }
                         // fallthrough
@@ -867,7 +867,7 @@ class ilSessionStatisticsGUI
                         $value = date("d.m.Y H:i", $value);
                         break;
                 }
-                $csv->addColumn(strip_tags($value));
+                $csv->addColumn(strip_tags((string) $value));
             }
             $csv->addRow();
         }

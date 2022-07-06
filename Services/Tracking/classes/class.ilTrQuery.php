@@ -1,5 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Tracking query class. Put any complex queries into this class. Keep
@@ -612,7 +627,7 @@ class ilTrQuery
                     }
 
                     $result["set"][] = $row;
-                    $result["cnt"]++;
+                    $result["cnt"] = ($result["cnt"] ?? 0) + 1;
                 }
             }
 
@@ -628,7 +643,7 @@ class ilTrQuery
                     $objtv_ids
                 ) as $item) {
                     $result["set"][] = $item;
-                    $result["cnt"]++;
+                    $result["cnt"] = ($result["cnt"] ?? 0) + 1;
                 }
             }
 
@@ -650,7 +665,7 @@ class ilTrQuery
                     $row["status"] = $status;
 
                     $result["set"][] = $row;
-                    $result["cnt"]++;
+                    $result["cnt"] = ($result["cnt"] ?? 0) + 1;
                 }
             }
         }
@@ -1840,8 +1855,10 @@ class ilTrQuery
         while ($row = $ilDB->fetchAssoc($set)) {
             $row["read_count"] += (int) $row["childs_read_count"];
             $row["spent_seconds"] += (int) $row["childs_spent_seconds"];
-            $res[$row["obj_id"]][$row[$column]]["read_count"] += $row["read_count"];
-            $res[$row["obj_id"]][$row[$column]]["spent_seconds"] += $row["spent_seconds"];
+            $res[$row["obj_id"]][$row[$column]]["read_count"] =
+                ($res[$row["obj_id"]][$row[$column]]["read_count"] ?? 0) + $row["read_count"];
+            $res[$row["obj_id"]][$row[$column]]["spent_seconds"] =
+                ($res[$row["obj_id"]][$row[$column]]["spent_seconds"] ?? 0) + $row["spent_seconds"];
         }
 
         // add user data
@@ -1895,10 +1912,10 @@ class ilTrQuery
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[$row["type"]]["type"] = $row["type"];
-            $res[$row["type"]]["references"]++;
+            $res[$row["type"]]["references"] = ($res[$row["type"]]["references"] ?? 0) + 1;
             $res[$row["type"]]["objects"][] = (int) $row["obj_id"];
             if ($row[$tree->getTreePk()] < 0) {
-                $res[$row["type"]]["deleted"]++;
+                $res[$row["type"]]["deleted"] = ($res[$row["type"]]["deleted"] ?? 0) + 1;
             }
         }
 
@@ -1909,14 +1926,14 @@ class ilTrQuery
         // portfolios (not part of repository)
         foreach (self::getPortfolios() as $obj_id) {
             $res["prtf"]["type"] = "prtf";
-            $res["prtf"]["references"]++;
-            $res["prtf"]["objects"]++;
+            $res["prtf"]["references"] = ($res["prtf"]["references"] ?? 0) + 1;
+            $res["prtf"]["objects"] = ($res["prtf"]["objects"] ?? 0) + 1;
         }
 
         foreach (self::getWorkspaceBlogs() as $obj_id) {
             $res["blog"]["type"] = "blog";
-            $res["blog"]["references"]++;
-            $res["blog"]["objects"]++;
+            $res["blog"]["references"] = ($res["blog"]["references"] ?? 0) + 1;
+            $res["blog"]["objects"] = ($res["blog"]["objects"] ?? 0) + 1;
         }
 
         return $res;
@@ -2004,8 +2021,10 @@ class ilTrQuery
         while ($row = $ilDB->fetchAssoc($set)) {
             $row["read_count"] += (int) $row["childs_read_count"];
             $row["spent_seconds"] += (int) $row["childs_spent_seconds"];
-            $res[$row["obj_id"]][(int) $row["hh"]]["read_count"] += $row["read_count"];
-            $res[$row["obj_id"]][(int) $row["hh"]]["spent_seconds"] += $row["spent_seconds"];
+            $res[$row["obj_id"]][(int) $row["hh"]]["read_count"] =
+                ($res[$row["obj_id"]][(int) $row["hh"]]["read_count"] ?? 0) + $row["read_count"];
+            $res[$row["obj_id"]][(int) $row["hh"]]["spent_seconds"] =
+                ($res[$row["obj_id"]][(int) $row["hh"]]["spent_seconds"] ?? 0) + $row["spent_seconds"];
         }
         return $res;
     }
@@ -2025,7 +2044,7 @@ class ilTrQuery
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = array("month" => $row["yyyy"] . "-" . $row["mm"],
-                           "count" => (int) $row["counter"]
+                           "count" => (int) ($row["counter"] ?? 0)
             );
         }
         return $res;

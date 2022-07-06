@@ -385,7 +385,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                     $template->setVariable("TEXT_SC", $cat->title);
                     $template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
                     if (is_array($working_data)) {
-                        if (strcmp($working_data[0]["value"], "") !== 0) {
+                        if (strcmp($working_data[0]["value"] ?? "", "") !== 0) {
                             if ($working_data[0]["value"] == $cat->scale - 1) {
                                 $template->setVariable("SELECTED_SC", " selected=\"selected\"");
                             }

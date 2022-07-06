@@ -53,7 +53,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
             $this->addColumn(
                 $all_cols[$col]['txt'],
                 $col,
-                array_key_exists('width', $all_cols[$col]) ? $all_cols[$col]['width'] : null
+                array_key_exists('width', $all_cols[$col]) ? $all_cols[$col]['width'] : ""
             );
         }
 
@@ -132,7 +132,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        if (!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), $a_set['usr_id']) and
+        if (!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), (int) $a_set['usr_id']) and
             ($ids = ilObjCourseGrouping::getAssignedObjects())) {
             $prefix = $this->getRepositoryObject()->getType();
             $this->tpl->setVariable(
@@ -356,7 +356,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
         foreach ($usr_data['set'] as $user) {
             // Check acceptance
-            if (!$this->checkAcceptance($user['usr_id'])) {
+            if (!$this->checkAcceptance((int) $user['usr_id'])) {
                 continue;
             }
             // DONE: accepted

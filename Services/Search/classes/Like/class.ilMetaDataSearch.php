@@ -94,7 +94,12 @@ class ilMetaDataSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
+            $this->search_result->addEntry(
+                (int) $row->rbac_id,
+                (string) $row->obj_type,
+                $this->__prepareFound($row),
+                (int) $row->obj_id
+            );
         }
 
         return $this->search_result;
@@ -116,7 +121,12 @@ class ilMetaDataSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
+            $this->search_result->addEntry(
+                (int) $row->rbac_id,
+                (string) $row->obj_type,
+                $this->__prepareFound($row),
+                (int) $row->obj_id
+            );
         }
         return $this->search_result;
     }
@@ -135,7 +145,12 @@ class ilMetaDataSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
+            $this->search_result->addEntry(
+                (int) $row->rbac_id,
+                (string) $row->obj_type,
+                $this->__prepareFound($row),
+                (int) $row->obj_id
+            );
         }
         return $this->search_result;
     }
@@ -154,7 +169,12 @@ class ilMetaDataSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
+            $this->search_result->addEntry(
+                (int) $row->rbac_id,
+                (string) $row->obj_type,
+                $this->__prepareFound($row),
+                (int) $row->obj_id
+            );
         }
         return $this->search_result;
     }

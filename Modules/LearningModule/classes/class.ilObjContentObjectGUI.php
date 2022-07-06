@@ -1247,8 +1247,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         foreach ($ids as $id) {
             if ($id != ilTree::POS_FIRST_NODE) {
                 $obj = new ilLMObject($this->lm, $id);
-                $caption = ilUtil::getImageTagByType($obj->getType(), $this->tpl->tplPath) .
-                    " " . $obj->getTitle();
+                $caption = $obj->getTitle();
                 
                 $cgui->addItem("id[]", $id, $caption);
             }

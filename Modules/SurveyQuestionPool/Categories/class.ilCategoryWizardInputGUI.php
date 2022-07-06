@@ -214,12 +214,13 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                 }
             }
             // check neutral column
-            if (array_key_exists('neutral', $foundvalues)) {
-                if ((strlen($neutral) == 0) && ($this->getRequired())) {
-                    $this->setAlert($lng->txt("msg_input_is_required"));
-                    return false;
-                }
-            }
+            /*            see #33267
+                           if (array_key_exists('neutral', $foundvalues)) {
+                            if ((strlen($neutral) == 0) && ($this->getRequired())) {
+                                $this->setAlert($lng->txt("msg_input_is_required"));
+                                return false;
+                            }
+                        }*/
             // check scales
             if (isset($foundvalues['scale'])) {
                 foreach ($foundvalues['scale'] as $scale) {

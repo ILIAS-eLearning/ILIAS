@@ -36,7 +36,7 @@ class ilModulesSessionExtractor extends ilBaseExtractor
             case 'update':
             case 'addToWaitingList':
             case 'delete':
-                $this->extractWithUser($parameters);
+                $this->extractWithoutUser($parameters);
                 break;
         }
 

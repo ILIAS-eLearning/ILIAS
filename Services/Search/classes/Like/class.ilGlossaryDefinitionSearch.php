@@ -51,7 +51,12 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->glo_id, 'glo', $this->__prepareFound($row), $row->id);
+            $this->search_result->addEntry(
+                (int) $row->glo_id,
+                'glo',
+                $this->__prepareFound($row),
+                (int) $row->id
+            );
         }
 
         return $this->search_result;

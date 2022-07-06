@@ -317,7 +317,7 @@ class ilFileSystemGUI
                 self::POST_PARAM_FILE => $cfile,
                 "entry" => $e["entry"],
                 "type" => $e["type"],
-                "size" => $e["size"],
+                "size" => $e["size"] ?? 0,
                 "hash" => md5($e["entry"])
             );
         }
@@ -399,7 +399,7 @@ class ilFileSystemGUI
             $files[] = $file;
         }
 
-        if ($this->commands[$a_nr]["single"]) {
+        if ($this->commands[$a_nr]["single"] ?? false) {
             $files = array_shift($files);
         }
 
@@ -826,7 +826,7 @@ class ilFileSystemGUI
                         }
                     }
 
-                    if (is_array($new_files["path"])) {
+                    if (isset($new_files["path"])) {
                         foreach ($new_files["path"] as $idx => $path) {
                             $path = substr($path, strlen($this->main_dir) + 1);
                             $diff[] = $path . $new_files[self::POST_PARAM_FILE][$idx];

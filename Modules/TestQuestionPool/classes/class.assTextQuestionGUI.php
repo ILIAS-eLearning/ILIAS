@@ -1,10 +1,18 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Text question GUI representation
@@ -637,11 +645,11 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function getSpecificFeedbackOutput(array $userSolution) : string
     {
-        $firstValue1 = current($userSolution);
-        
+        $user_solution = array_keys($userSolution);
+        $user_answer = array_shift($user_solution);
+  
         $feedback = '<table><tbody>';
-        $user_answer = '  ' . $firstValue1;
-        
+      
         foreach ($this->object->getAnswers() as $idx => $ans) {
             if ($this->object->isKeywordMatching($user_answer, $ans->getAnswertext())) {
                 $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(

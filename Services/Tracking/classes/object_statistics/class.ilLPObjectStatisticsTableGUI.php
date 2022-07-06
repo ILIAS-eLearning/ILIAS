@@ -1,5 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for learning progress
@@ -226,7 +241,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                             STR_PAD_LEFT
                         );
                         $data[$obj_id]["month_" . $idx] = (int) $values[$this->filter["measure"]];
-                        $data[$obj_id]["total"] += (int) $values[$this->filter["measure"]];
+                        $data[$obj_id]["total"] = ($data[$obj_id]["total"] ?? 0) + (int) $values[$this->filter["measure"]];
                     }
                 }
             } else {
@@ -241,7 +256,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
                     foreach ($days as $day => $values) {
                         $data[$obj_id]["day_" . $day] = (int) $values[$this->filter["measure"]];
-                        $data[$obj_id]["total"] += (int) $values[$this->filter["measure"]];
+                        $data[$obj_id]["total"] = ($data[$obj_id]["total"] ?? 0) + (int) $values[$this->filter["measure"]];
                     }
                 }
             }
@@ -308,9 +323,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         }
 
         if ($this->filter["measure"] == "spent_seconds") {
-            $sum = $this->formatSeconds((int) $a_set["total"], true);
+            $sum = $this->formatSeconds((int) ($a_set["total"] ?? 0), true);
         } else {
-            $sum = $this->anonymizeValue((int) $a_set["total"]);
+            $sum = $this->anonymizeValue((int) ($a_set["total"] ?? 0));
         }
         $this->tpl->setVariable("TOTAL", $sum);
 
@@ -354,7 +369,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                             $this->filter["yearmonth"]
                         )
                     ) as $idx => $num) {
-                        $value = (int) $object["month_" . $num];
+                        $value = (int) ($object["month_" . $num] ?? 0);
                         $max_value = max($max_value, $value);
                         if ($this->filter["measure"] != "spent_seconds") {
                             $value = $this->anonymizeValue($value, true);
@@ -363,7 +378,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                     }
                 } else {
                     for ($loop = 1; $loop < 32; $loop++) {
-                        $value = (int) $object["day_" . $loop];
+                        $value = (int) ($object["day_" . $loop] ?? 0);
                         $max_value = max($max_value, $value);
                         if ($this->filter["measure"] != "spent_seconds") {
                             $value = $this->anonymizeValue($value, true);
@@ -428,9 +443,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         if ($this->filter["measure"] == "spent_seconds") {
             // keep seconds
             // $sum = $this->formatSeconds((int)$a_set["total"]);
-            $sum = (int) $a_set["total"];
+            $sum = (int) ($a_set["total"] ?? 0);
         } else {
-            $sum = $this->anonymizeValue((int) $a_set["total"]);
+            $sum = $this->anonymizeValue((int) ($a_set["total"] ?? 0));
         }
         $a_excel->setCell($a_row, ++$col, $sum);
     }
@@ -460,9 +475,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         if ($this->filter["measure"] == "spent_seconds") {
             // keep seconds
             // $sum = $this->formatSeconds((int)$a_set["total"]);
-            $sum = (int) $a_set["total"];
+            $sum = (int) ($a_set["total"] ?? 0);
         } else {
-            $sum = $this->anonymizeValue((int) $a_set["total"]);
+            $sum = $this->anonymizeValue((int) ($a_set["total"] ?? 0));
         }
         $a_csv->addColumn($sum);
 

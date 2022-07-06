@@ -2928,7 +2928,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameterByClass("ilRepositoryGUI", "kwd", $id[1]);
                 }
 
-                if ($id[2] === "edit") {
+                if (($id[2] ?? "") === "edit") {
                     $ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
                 }
             }

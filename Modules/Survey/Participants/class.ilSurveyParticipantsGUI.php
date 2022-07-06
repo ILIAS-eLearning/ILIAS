@@ -923,8 +923,8 @@ class ilSurveyParticipantsGUI
                     if ($dataset['email'] !== '') {
                         $this->addCodeForExternal(
                             $dataset['email'],
-                            $dataset['lastname'],
-                            $dataset['firstname']
+                            $dataset['lastname'] ?? "",
+                            $dataset['firstname'] ?? ""
                         );
                     }
                 }
@@ -1022,8 +1022,8 @@ class ilSurveyParticipantsGUI
                         $founddata[] = $dataset;
                         $this->addCodeForExternal(
                             $dataset['email'],
-                            $dataset['lastname'],
-                            $dataset['firstname']
+                            $dataset['lastname'] ?? "",
+                            $dataset['firstname'] ?? ""
                         );
                     }
                 }

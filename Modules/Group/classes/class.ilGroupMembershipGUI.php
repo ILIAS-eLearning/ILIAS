@@ -1,5 +1,19 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -233,8 +247,12 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     {
         if (is_array($this->member_data) && array_key_exists($user_id, $this->member_data)) {
             $user_data = $this->member_data[$user_id];
-            $user_data['access'] = $this->member_data['access_time'];
-            $user_data['progress'] = $this->lng->txt($this->member_data['progress']);
+            if (isset($this->member_data['access_time'])) {
+                $user_data['access'] = $this->member_data['access_time'];
+            }
+            if (isset($this->member_data['progress'])) {
+                $user_data['progress'] = $this->lng->txt($this->member_data['progress']);
+            }
             return $user_data;
         }
         return [];

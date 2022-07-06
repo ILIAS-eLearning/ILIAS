@@ -96,7 +96,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         if (!$a_create) {
             $ilTabs->setBackTarget(
                 $lng->txt("pg"),
-                $ilCtrl->getParentReturn($this)
+                (string) $ilCtrl->getParentReturn($this)
             );
 
             $ilTabs->addTab(

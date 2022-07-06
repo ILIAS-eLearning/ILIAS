@@ -713,14 +713,14 @@ assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Fra
 assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet!
 assessment#:#err_category_in_use#:#Die Kategorie kann nicht gelöscht werden. Eine oder mehrere Einheiten der Kategorie sind bereits in Benutzung.
 assessment#:#err_divider_too_big#:#Der Teiler einer der Variablen in dieser Frage ist zu gross.
-assessment#:#err_division#:#Dieser Wert muss kleiner als das Maximum sein.
+assessment#:#err_division#:#Der von Ihnen gesetzte Wert macht es unmöglich einen gültigen Wert für die Variable zu generieren.
 assessment#:#err_duplicate_results#:#Sie haben eine Ergebnisvariable mehrfach verwendet. Das ist innerhalb des Aufgabentextes nicht erlaubt!
 assessment#:#errFormulaQuestion#:#Eine Formelfrage enthält fehlerhafte Angaben
 assessment#:#err_no_formula#:#Bitte geben Sie eine Formel zur Berechnung des Ergebnisses an.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
-assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihren ILIAS-Administrator und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die Benutzer-ID %s und die Test-ID %s erzeugen.
+assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihre ILIAS-Administration und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die ID des ILIAS-Kontos %s und die Test-ID %s erzeugen.###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
@@ -2059,7 +2059,7 @@ auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
-auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
+auth#:#auth_oidc_settings_user_sync_info#:#Für Personen, die noch kein ILIAS-Konto besitzen, sich aber erfolgreich gegen Open ID Connect authentifiziert haben, wird automatisch ein neues ILIAS-Konto erzeugt.
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_page_type_auth#:#Login-Seite
@@ -4378,7 +4378,7 @@ common#:#link_check_message_enabled#:#Der Versand von Mails ist aktiviert.
 common#:#link_check_subject#:#[ILIAS] Weblink überprüfen
 common#:#links_add_param#:#Parameter hinzufügen:
 common#:#links_dynamic#:#Dynamische Parameter
-common#:#links_dynamic_info#:#Wenn aktiviert, können Weblinks dynamische Parameter wie z.B die ILIAS-Benutzer-ID oder der Benutzername hinzugefügt werden.
+common#:#links_dynamic_info#:#Dynamische Parameter können dem Weblink hinzugefügt werden, z. B. der Anmeldename oder die ID des ILIAS-Kontos.###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#links_dyn_parameter#:#Dynamische Parameter
 common#:#link_selected_items#:#Verknüpfen
 common#:#links_existing_params#:#Vorhandene Parameter:
@@ -4388,7 +4388,7 @@ common#:#links_no_value_given#:#Bitte wählen Sie einen Parameterwert aus.
 common#:#links_parameter_deleted#:#Der Parameter wurde gelöscht.
 common#:#links_select_one#:#- Bitte treffen Sie eine Auswahl -
 common#:#links_session_id#:#ILIAS-Session-ID
-common#:#links_user_id#:#ILIAS-Benutzer-ID
+common#:#links_user_id#:#ID des ILIAS-Kontos
 common#:#links_user_name#:#ILIAS-Benutzername
 common#:#links_value#:#Parameter Wert
 common#:#link#:#Verknüpfen
@@ -5260,7 +5260,7 @@ common#:#reached_session_limit#:#Die maximale Anzahl von Benutzern, die online s
 common#:#readcount_anonymous_users#:#Lesezugriffe anonymer Benutzer
 common#:#readcount_users#:#Lesezugriffe registrierter Benutzer
 common#:#read#:#Lesezugriff
-common#:#recipient#:#Empfänger
+common#:#recipient#:#An
 common#:#reference_deleted#:#Ziel nicht vorhanden
 common#:#reference_of#:#Link zu:
 common#:#referral_comment#:#Woher kennen Sie ILIAS?
@@ -5513,7 +5513,7 @@ common#:#short_inst_name_info#:#Dieser Text erscheint zusammen mit dem Seitentit
 common#:#short_inst_name#:#Kurztitel
 common#:#show_all_details#:#Alle Details anzeigen
 common#:#show#:#Anzeigen
-Common#:#show_content#:#Inhalt anzeigen
+common#:#show_content#:#Inhalt anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen
 common#:#show_hidden_sections#:#Weitere Informationen anzeigen &raquo;
@@ -8097,7 +8097,7 @@ dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten
 dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
 dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
 dateplaner#:#cal_enable_group_milestones#:#Meilensteine aktivieren
-dateplaner#:#cal_err_invalid_notification_rcps#:#Die Empfänger für die E-Mail-Benachrichtigung sind nicht gültig. Bitte wählen geben Sie ausschließlich ILIAS-Benutzerkontennamen oder gültige E-Mail-Adressen an.
+dateplaner#:#cal_err_invalid_notification_rcps#:#Bitte korrigieren Sie Ihre Eingabe. Geben Sie ausschließlich ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.
 dateplaner#:#cal_every#:#Alle:
 dateplaner#:#cal_exc_deadline#:#Abgabetermin
 dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
@@ -9698,6 +9698,7 @@ forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
 forum#:#restore#:#Wiederherstellen
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
+forum#:#error_no_target_selected#:#Bitte wählen Sie ein Forum.
 forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
 forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
@@ -10277,7 +10278,7 @@ logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
 logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
 logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog-Dateien
 logging#:#log_error_folder#:#Dateipfad
-logging#:#log_error_mail#:#E-Mail-Empfänger
+logging#:#log_error_mail#:#Protokoll senden an (E-Mail-Adresse)
 logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code "%s" identifiziert werden kann.
 logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_path_not_configured_or_wrong#:#Der Pfad zu den Errorlogs (error_path) ist nicht gesetzt oder nicht erreichbar.
@@ -10385,7 +10386,7 @@ lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_show_members_info#:#Mitgliedergalerie für Benutzer sichtbar
 lso#:#lso_start_item#:#%s öffnen
 lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lernsequenz
-lso#:#mail_lso_roles#:#Verschicke Mail an folgende Rollen der Lernsequenz
+lso#:#mail_lso_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 lso#:#manage_content_maintab#:#Inhalt
 lso#:#manage#:#Verwalten
 lso#:#members_gallery#:#Mitgliedergalerie
@@ -10643,7 +10644,7 @@ mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
 mail#:#mail_account_mail#:#Benutzerkonten-Mail
 mail#:#mail_add_folder#:#Neuen Ordner erstellen
-mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
+mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 mail#:#mail_allow_external#:#Externe E-Mails
@@ -10660,7 +10661,7 @@ mail#:#mail_create_tpl#:#Textvorlage erstellen
 mail#:#mail_cronjob_notification_info#:#Hier können Sie die regelmäßige Benachrichtigung über neue Mails aktivieren.
 mail#:#mail_crs_list_members_not_available#:#Die Mitglieder der markierten Kurse können nicht aufgelistet werden.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Mitglieder von mindestens einem gewählten Kurs können nicht aufgelistet werden.
-mail#:#mail_crs_roles#:#Verschicke Mail an folgende Rollen des Kurses
+mail#:#mail_crs_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 mail#:#mail_deleted#:#Die Mail(s) wurden gelöscht
 mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
 mail#:#mail_download_zip_no_attachments#:#Es wurden keine Anhänge gefunden.
@@ -10701,7 +10702,7 @@ mail#:#mail_filter_only_with_attachments#:#Anhänge
 mail#:#mail_filter_period_from#:#Von
 mail#:#mail_filter_period_until#:#Bis
 mail#:#mail_filter_period#:#Zeitraum
-mail#:#mail_filter_recipients#:#Empfänger
+mail#:#mail_filter_recipients#:#An###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_filter_sender#:#Von###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_filter_subject#:#Betreff
 mail#:#mail_filter_txt#:#Suchen in
@@ -10711,11 +10712,11 @@ mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
 mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
-mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
-mail#:#mail_generic_rcp_error#:#Beim Validieren der Empfänger ist ein Fehler aufgetreten: %1$s
+mail#:#mail_following_rcp_not_valid#:#Die folgenden Angaben sind nicht gültig:###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_generic_rcp_error#:#Beim Validieren des „An”-Feldes ist ein Fehler aufgetreten: %1$s###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
 mail#:#mail_global_reply_to_addr#:#Reply-To
-mail#:#mail_grp_roles#:#Verschicke Mail an folgende Rollen der Gruppe
+mail#:#mail_grp_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung an E-Mail
 mail#:#mail_incoming_local#:#Nur lokal empfangen
 mail#:#mail_incoming#:#Maileingang
@@ -10744,7 +10745,7 @@ mail#:#mail_moved#:#Ihre Mail(s) wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Mail(s) wurde(n) in den Papierkorb verschoben
 mail#:#mail_move_error#:#Fehler beim Mailversand
 mail#:#mail_move_to#:#Verschieben nach:
-mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Empfänger wurden mehrere Rollen gefunden: %2$s)
+mail#:#mail_multiple_role_recipients_found#:#Die Angabe %1$s im „An”-Feld ist nicht eindeutig: Versenden Sie diese Mail bitte direkt aus dem Mitglieder-Reiter des gewünschten Kurses bzw. der gewünschten Gruppe.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_my_courses#:#Meine Kurse
 mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
@@ -10775,13 +10776,14 @@ mail#:#mail_no_valid_mailing_list#:#%1$s (kein gültiger Verteiler)
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_orphaned_mails_desc#:#Löschen alter oder verwaister Mails
 mail#:#mail_orphaned_mails#:#Löschen alter oder verwaister Mails
-mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden)
+mail#:#mail_recipient_not_found#:#%1$s – Bitte korrigieren Sie die Angaben im „An”-Feld.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_rename_folder#:#Ordner umbenennen
+mail#:#mail_roles#:#alle Personen mit folgenden lokalen Rollen
 mail#:#mail_salutation_anonymous#:#Hallo
-mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Frau'
+mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Anrede „Frau”###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_salutation_f#:#Sehr geehrte Frau
 mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn keine Anrede angegeben oder gewünscht
-mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Herr'
+mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Anrede „Herr”###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_salutation_m#:#Sehr geehrter Herr
 mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
@@ -10791,8 +10793,8 @@ mail#:#mail_select_course#:#Bitte mindestens einen Kurs auswählen.
 mail#:#mail_select_group#:#Bitte mindestens eine Gruppe auswählen.
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
-mail#:#mail_sel_label#:#Auswahl der Empfänger
-mail#:#mail_sel_users#:#Verschicke Mail an ausgewählte Benutzer
+mail#:#mail_sel_label#:#Mail senden an###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_sel_users#:#an ausgewählte Personen###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_send_html#:#HTML-Rahmen
 mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden.
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
@@ -10861,13 +10863,13 @@ mail#:#nc_mail_prop_time#:#Zeit
 mail#:#nc_mail_unread_messages_number_p#:#%s ungelesene Mails
 mail#:#nc_mail_unread_messages_number_s#:#eine ungelesene Mail
 mail#:#nc_mail_unread_messages#:#Sie haben %s im Posteingang.
-mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Benutzer befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
+mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Person befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
 mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
 mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
 mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
-mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Empfänger im «An»-Feld ersetzt.%sBei Empfängern im CC- und BCC-Feld bleiben persönliche Platzhalter erhalten.
+mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen im „An”-Feld ersetzt. Personen im „CC”-Feld und „BCC”-Feld erhalten die Mail mit nicht-ersetzten Platzhaltern.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#search_content#:#Suchergebnis
-mail#:#search_recipients#:#Empfänger suchen
+mail#:#search_recipients#:#Personen suchen###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
 mail#:#send_mail_admins#:#Alle Administratoren
 mail#:#send_mail_members#:#Alle Mitglieder
@@ -14309,7 +14311,7 @@ scormtrac#:#total_time#:#total_time: Gesamtzeit
 scormtrac#:#tracinteractionitem#:#Zusammenfassender Report der Kapitel-Aufgaben
 scormtrac#:#tracinteractionuseranswers#:#Kapitel-Aufgaben pro Teilnehmer (nur Ergebnisse)
 scormtrac#:#tracinteractionuser#:#Teilnehmer-bezogener Report zum Kapitel mit Auswertung der Kapitel-Aufgaben
-scormtrac#:#user_id#:#Benutzer-Id
+scormtrac#:#user_id#:#ID des ILIAS-Kontos
 scormtrac#:#weighting#:#weighting: Gewichtung
 scov#:#crsv_create_info#:#Wählen Sie ein absolviertes Lernmodul aus, um dafür ein Zertifikat zu generieren.
 scov#:#crsv_create#:#SCORM-Zertifikat anlegen
@@ -14448,7 +14450,7 @@ search#:#search_user_search_info_form#:#Benutzerkonten können in globalen Suche
 search#:#select_orgu#:#Organisationseinheiten auswählen
 search#:#until#:#bis
 sess#:#il_sess_participant#:#Sitzungsteilnehmer
-sess#:#mail_sess_roles#:#Verschicke Mail an folgende Rollen der Sitzung
+sess#:#mail_sess_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 sess#:#notification#:#Benachrichtigung
 sess#:#objs_crs_role#:#Kursrollen
 sess#:#objs_grp_role#:#Gruppenrollen

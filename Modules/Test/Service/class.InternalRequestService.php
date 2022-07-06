@@ -93,4 +93,14 @@ class InternalRequestService
         $no_transform = $this->refinery->identity();
         return $this->get($key, $no_transform);
     }
+
+    public function strVal(string $key) : string
+    {
+        return $this->str($key);
+    }
+
+    public function getParsedBody() : ?array
+    {
+        return $this->http->request()->getParsedBody();
+    }
 }

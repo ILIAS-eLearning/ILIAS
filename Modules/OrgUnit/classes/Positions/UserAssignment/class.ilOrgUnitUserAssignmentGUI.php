@@ -52,10 +52,13 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->language = $DIC->language();
     }
 
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
-        if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(INPUT_GET, "ref_id",
-            FILTER_SANITIZE_NUMBER_INT))) {
+        if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(
+            INPUT_GET,
+            "ref_id",
+            FILTER_SANITIZE_NUMBER_INT
+        ))) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }
@@ -82,7 +85,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
     }
 
-    protected function index(): void
+    protected function index() : void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS);
@@ -100,14 +103,17 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         // Tables
         $html = '';
         foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
-            $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI($this, self::CMD_INDEX,
-                $ilOrgUnitPosition);
+            $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI(
+                $this,
+                self::CMD_INDEX,
+                $ilOrgUnitPosition
+            );
             $html .= $ilOrgUnitUserAssignmentTableGUI->getHTML();
         }
         $this->setContent($html);
     }
 
-    protected function assignmentsRecursive(): void
+    protected function assignmentsRecursive() : void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE);
@@ -125,7 +131,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($html);
     }
 
-    protected function confirm(): void
+    protected function confirm() : void
     {
         $confirmation = $this->getConfirmationGUI();
         $confirmation->setConfirm($this->language->txt('remove_user'), self::CMD_DELETE);
@@ -133,7 +139,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($confirmation->getHTML());
     }
 
-    protected function confirmRecursive(): void
+    protected function confirmRecursive() : void
     {
         $confirmation = $this->getConfirmationGUI();
         $confirmation->setConfirm($this->language->txt('remove_user'), self::CMD_DELETE_RECURSIVE);
@@ -143,18 +149,35 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
     protected function getConfirmationGUI() : ilConfirmationGUI
     {
-        $confirmation = $this->getConfirmationGUI();
-        $confirmation->setConfirm($this->language->txt('remove_user'), self::CMD_DELETE);
+        $this->ctrl->saveParameter($this, 'position_id');
+        $confirmation = new ilConfirmationGUI();
+        $confirmation->setFormAction($this->ctrl->getFormAction($this));
+        $confirmation->setCancel($this->language->txt(self::CMD_CANCEL), self::CMD_CANCEL);
+        
+        $params = $this->http->request()->getQueryParams();
+        $usr_id = $params['usr_id'];
+        $position_id = $params['position_id'];
 
-        $this->setContent($confirmation->getHTML());
+        $types = ilOrgUnitPosition::getArray('id', 'title');
+        $position_title = $types[$position_id];
+
+        $confirmation->setHeaderText(sprintf($this->language->txt('msg_confirm_remove_user'), $position_title));
+        $confirmation->addItem('usr_id', $usr_id, ilObjUser::_lookupLogin($usr_id));
+
+        return $confirmation;
     }
 
-    protected function delete(): void
+    protected function delete() : void
     {
-        $r = $this->http->request();
-        $ua = ilOrgUnitUserAssignmentQueries::getInstance()
-                                            ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'],
-                                                $this->getParentRefId());
+        $params = $this->http->request()->getQueryParams();
+        $usr_id = $_POST['usr_id'];
+        $position_id = $params['position_id'];
+        
+        $ua = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentOrFail(
+            $usr_id,
+            $position_id,
+            $this->getParentRefId()
+        );
         $ua->delete();
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('remove_successful'), true);
         $this->cancel();
@@ -174,12 +197,12 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->cancel();
     }
 
-    protected function cancel(): void
+    protected function cancel() : void
     {
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
-    public function addStaff(): void
+    public function addStaff() : void
     {
         if (!$this->access->checkAccess("write", "", $this->getParentRefId())) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
@@ -214,12 +237,14 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
-    public function addSubTabs(): void
+    public function addSubTabs() : void
     {
         $this->pushSubTab(self::SUBTAB_ASSIGNMENTS, $this->ctrl
                                                          ->getLinkTarget($this, self::CMD_INDEX));
         $this->pushSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE, $this->ctrl
-                                                                   ->getLinkTarget($this,
-                                                                       self::CMD_ASSIGNMENTS_RECURSIVE));
+                                                                   ->getLinkTarget(
+                                                                       $this,
+                                                                       self::CMD_ASSIGNMENTS_RECURSIVE
+                                                                   ));
     }
 }

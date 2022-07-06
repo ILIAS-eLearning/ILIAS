@@ -114,9 +114,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($fs_gui);
                                             
                 // try to set start file automatically
+                /* this does not work anymore, see #33348
                 if (!ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId())) {
                     $do_update = false;
-                                        
+
                     $pcommand = $fs_gui->getLastPerformedCommand();
                     $last_cmd = $pcommand["cmd"] ?? "";
                     $valid = array("index.htm", "index.html", "start.htm", "start.html");
@@ -149,14 +150,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                             }
                         }
                     }
-                    
+
                     if ($do_update) {
                         $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("cont_start_file_set_to"), $do_update), true);
-                        
+
                         $this->object->update();
                         $this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
                     }
-                }
+                }*/
                 break;
 
             case "ilinfoscreengui":
@@ -196,7 +197,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 break;
             
             default:
-                $cmd = $this->ctrl->getCmd("frameset");
+                $cmd = $this->ctrl->getCmd("listFiles");
                 if (
                     $this->getCreationMode() === true ||
                     strtolower($this->lm_request->getBaseClass()) === "iladministrationgui"

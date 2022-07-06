@@ -220,8 +220,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $tmp_data['lastname'] = $participant['lastname'];
             $tmp_data['firstname'] = $participant['firstname'];
             $tmp_data['login'] = $participant['login'];
-            $tmp_data['mark'] = $usr_data['mark'];
-            $tmp_data['comment'] = $usr_data['comment'];
+            $tmp_data['mark'] = $usr_data['mark'] ?? null;
+            $tmp_data['comment'] = $usr_data['comment'] ?? null;
             $tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated((int) $participant['usr_id']);
             $tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered((int) $participant['usr_id']);
             $tmp_data['excused'] = $this->getParticipants()->getEventParticipants()->isExcused((int) $participant['usr_id']);

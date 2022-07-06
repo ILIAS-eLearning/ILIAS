@@ -46,7 +46,7 @@ class ilLocalUserGUI
 
         $this->parentGui = $parentGui;
         $this->object = $parentGui->getObject();
-        $this->tpl  = $DIC->ui()->mainTemplate();
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
@@ -64,15 +64,17 @@ class ilLocalUserGUI
         }
     }
 
-    public function executeCommand(): bool
+    public function executeCommand() : bool
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
             case "assignRoles":
             case "assignSave":
                 $this->tabsGui->clearTargets();
-                $this->tabsGui->setBackTarget($this->lng->txt("back"),
-                    $this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
+                $this->tabsGui->setBackTarget(
+                    $this->lng->txt("back"),
+                    $this->ctrl->getLinkTargetByClass("illocalusergui", 'index')
+                );
                 $this->$cmd();
                 break;
             default:
@@ -82,8 +84,12 @@ class ilLocalUserGUI
 
         return true;
     }
+    public function getObject() : ilObjOrgUnit
+    {
+        return $this->object;
+    }
 
-    protected function resetFilter(): void
+    protected function resetFilter() : void
     {
         $table = new ilUserTableGUI($this, "index", ilUserTableGUI::MODE_LOCAL_USER);
         $table->resetOffset();
@@ -91,7 +97,7 @@ class ilLocalUserGUI
         $this->index();
     }
 
-    protected function applyFilter(): void
+    protected function applyFilter() : void
     {
         $table = new ilUserTableGUI($this, "index", ilUserTableGUI::MODE_LOCAL_USER);
         $table->resetOffset();
@@ -99,7 +105,7 @@ class ilLocalUserGUI
         $this->index();
     }
 
-    public function index(bool $show_delete = false): bool
+    public function index(bool $show_delete = false) : bool
     {
         $this->tpl->addBlockfile(
             'ADM_CONTENT',
@@ -135,7 +141,7 @@ class ilLocalUserGUI
         return true;
     }
 
-    protected function addUserAutoCompleteObject(): void
+    protected function addUserAutoCompleteObject() : void
     {
         $auto = new ilUserAutoComplete();
         $auto->setSearchFields(array('login', 'firstname', 'lastname', 'email'));
@@ -150,7 +156,7 @@ class ilLocalUserGUI
         exit();
     }
 
-    public function performDeleteUsers(): bool
+    public function performDeleteUsers() : bool
     {
         $this->checkPermission("cat_administrate_users");
         foreach ($_POST['user_ids'] as $user_id) {
@@ -169,7 +175,7 @@ class ilLocalUserGUI
         return true;
     }
 
-    public function deleteUsers(): void
+    public function deleteUsers() : void
     {
         $this->checkPermission("cat_administrate_users");
         if (!count($_POST['id'])) {
@@ -199,7 +205,7 @@ class ilLocalUserGUI
      * @throws ilObjectNotFoundException
      * @throws ilDatabaseException
      */
-    public function assignRoles(): void
+    public function assignRoles() : void
     {
         if (!$this->access->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -250,7 +256,7 @@ class ilLocalUserGUI
         $this->showRolesTable($f_result, "assignRolesObject");
     }
 
-    public function assignSave(): bool
+    public function assignSave() : bool
     {
         if (!$this->access->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -287,7 +293,7 @@ class ilLocalUserGUI
         return true;
     }
 
-    public function checkGlobalRoles($new_assigned): bool
+    public function checkGlobalRoles($new_assigned) : bool
     {
         if (!$this->access->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -305,16 +311,16 @@ class ilLocalUserGUI
         $assigned = $this->rbacReview->assignedRoles((int) $_GET['obj_id']);
         // all assignable globals
         if (!in_array(SYSTEM_ROLE_ID, $this->rbacReview->assignedRoles($this->user->getId()))) {
-            $ga =  $this->rbacReview->getGlobalAssignableRoles();
+            $ga = $this->rbacReview->getGlobalAssignableRoles();
         } else {
-            $ga =  $this->rbacReview->getGlobalRolesArray();
+            $ga = $this->rbacReview->getGlobalRolesArray();
         }
         $global_assignable = array();
         foreach ($ga as $role) {
             $global_assignable[] = $role['obj_id'];
         }
         $new_visible_assigned_roles = array_intersect($new_assigned, $global_assignable);
-        $all_assigned_roles = array_intersect($assigned,  $this->rbacReview->getGlobalRoles());
+        $all_assigned_roles = array_intersect($assigned, $this->rbacReview->getGlobalRoles());
         $main_assigned_roles = array_diff($all_assigned_roles, $global_assignable);
         if (!count($new_visible_assigned_roles) and !count($main_assigned_roles)) {
             return false;
@@ -328,7 +334,7 @@ class ilLocalUserGUI
      * @throws ilObjectNotFoundException
      * @throws ilDatabaseException
      */
-    public function getAssignableRoles(): array
+    public function getAssignableRoles() : array
     {
         // check local user
         $tmp_obj = ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
@@ -351,7 +357,7 @@ class ilLocalUserGUI
      * @throws ilTemplateException
      * @throws ilCtrlException
      */
-    public function showRolesTable($a_result_set, $a_from = ""): bool
+    public function showRolesTable($a_result_set, $a_from = "") : bool
     {
         if ($this->access->checkAccess("cat_administrate_users", "", $_GET["ref_id"]) === false) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -411,12 +417,12 @@ class ilLocalUserGUI
         return true;
     }
 
-    protected function initTableGUI(): ilTableGUI
+    protected function initTableGUI() : ilTableGUI
     {
         return new ilTableGUI([], false);
     }
 
-    protected function setTableGUIBasicData($tbl, &$result_set, string $a_from = ""): void
+    protected function setTableGUIBasicData($tbl, &$result_set, string $a_from = "") : void
     {
         switch ($a_from) {
             case "clipboardObject":
@@ -441,7 +447,7 @@ class ilLocalUserGUI
         $tbl->setData($result_set);
     }
 
-    protected function checkPermission(string $permission): void
+    protected function checkPermission(string $permission) : void
     {
         if (!$this->access->checkAccess($permission, "", $_GET["ref_id"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
