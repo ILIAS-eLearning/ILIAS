@@ -52,7 +52,7 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $tableId = $type . '_cml_' . implode('_', $contextObjects);
+        $tableId = ilStr::subStr($type . '_cml_' . md5(implode('_', $contextObjects)), 0, 30);
         $this->setId($tableId);
         parent::__construct($a_parent_obj, 'showMembers');
 
