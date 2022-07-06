@@ -723,8 +723,10 @@ abstract class assQuestionGUI
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
+
                     // TODO: Courier Antipattern!
-                    $_GET["ref_id"] = $this->request->raw("calling_test");
+                    //$_GET["ref_id"] = $this->request->raw("calling_test");
+
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 

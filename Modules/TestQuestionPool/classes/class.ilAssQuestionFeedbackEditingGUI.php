@@ -286,15 +286,15 @@ class ilAssQuestionFeedbackEditingGUI
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             return false;
         }
-
-        if($this->questionOBJ->getOriginalId() === null) {
+        
+        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->getOriginalId())) {
             return false;
         }
 
         if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->getOriginalId())) {
             return false;
         }
-        
+
         if (!assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
             return false;
         }

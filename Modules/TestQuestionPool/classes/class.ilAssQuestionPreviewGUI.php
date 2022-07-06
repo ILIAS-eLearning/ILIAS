@@ -141,14 +141,16 @@ class ilAssQuestionPreviewGUI
                         $ref_id_array = explode('_', $ref_id);
                         $ref_id = array_pop($ref_id_array);
                     }
-                    
+
                     if (strlen($ref_id) === 0) {
                         $ref_id = $_GET["test_ref_id"];
                     }
-
                     if (!$_GET['test_express_mode'] &&
-                        (array_key_exists('___test_express_mode', $GLOBALS) && !$GLOBALS['___test_express_mode'])
-                        ) {
+                        (
+                            !array_key_exists('___test_express_mode', $GLOBALS) ||
+                            !$GLOBALS['___test_express_mode']
+                        )
+                    ) {
                         $this->tabs->setBackTarget(
                             $this->lng->txt("backtocallingtest"),
                             "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
