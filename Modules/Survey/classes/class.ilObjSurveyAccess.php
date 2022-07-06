@@ -116,7 +116,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     {
         $commands = array(
             array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "svy_run", "default" => true),
-            array("permission" => "write", "cmd" => "questionsrepo", "lang_var" => "edit_questions"),
+            array("permission" => "write", "cmd" => "questions", "lang_var" => "edit_questions"),
             array("permission" => "write", "cmd" => "properties", "lang_var" => "settings"),
             array("permission" => "read", "cmd" => "evaluation", "lang_var" => "svy_results")
         );
