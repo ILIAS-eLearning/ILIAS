@@ -302,7 +302,9 @@ abstract class ilObject2GUI extends ilObjectGUI
                     $this->ctrl->setParameterByClass(
                         "ilobjrolegui",
                         "rolf_ref_id",
-                        $this->request_wrapper->retrieve("rolf_ref_id", $this->refinery->kindlyTo()->string())
+                        $this->request_wrapper->has("rolf_ref_id")
+                            ? $this->request_wrapper->retrieve("rolf_ref_id", $this->refinery->kindlyTo()->string())
+                            : null
                     );
                     $this->ctrl->setParameterByClass(
                         "ilobjrolegui",
