@@ -150,8 +150,8 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->tpl->loadStandardTemplate();
 
         $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_wfe.svg'));
-        $this->tpl->setTitle($this->object->getPresentationTitle());
-        $this->tpl->setDescription($this->object->getLongDescription());
+        $this->tpl->setTitle(ilObject::_lookupTitle(ilObject::_lookupObjectId($this->requested_ref_id)));
+        $this->tpl->setDescription(ilObject::_lookupDescription(ilObject::_lookupObjectId($this->requested_ref_id)));
 
         $this->initLocator();
     }
@@ -161,7 +161,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
 
-        if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess('visible,read', $this->requested_ref_id)) {
             $this->ilTabs->addTab(
                 'definitions',
                 $this->lng->txt('definitions'),
@@ -173,7 +173,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
                 $this->ilCtrl->getLinkTarget($this, 'settings.view')
             );
         }
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess('edit_permission', $this->requested_ref_id)) {
             $this->ilTabs->addTab(
                 'perm_settings',
                 $this->lng->txt('perm_settings'),
