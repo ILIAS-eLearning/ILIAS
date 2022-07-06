@@ -1026,7 +1026,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->user_defined_fields = ilUserDefinedFields::_getInstance();
         $user_defined_data = $this->object->getUserDefinedData();
         foreach ($this->user_defined_fields->getDefinitions() as $field_id => $definition) {
-            $data["udf_" . $field_id] = $user_defined_data["f_" . $field_id];
+            $data["udf_" . $field_id] = $user_defined_data["f_" . $field_id] ?? "";
         }
 
         // settings
