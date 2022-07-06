@@ -3405,7 +3405,7 @@ class ilObjSurvey extends ilObject
             array($question_id)
         );
         if ($row = $ilDB->fetchAssoc($result)) {
-            return $row["heading"];
+            return $row["heading"] ?? "";
         } else {
             return "";
         }
