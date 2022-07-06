@@ -703,7 +703,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
 
         $img_path = null;
-        $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+        $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         $user_id = $this->getPageContentUserId($a_user_id);
 

@@ -313,7 +313,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                             break;
 
                         case "status":
-                            $val = $icons->renderIconForStatus($a_set[$c]);
+                            $val = $icons->renderIconForStatus($a_set[$c] ?? ilLPStatusIcons::ICON_VARIANT_LONG);
 
                             if ($a_set["ref_id"] &&
                                 $a_set["type"] != "lobj" &&

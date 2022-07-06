@@ -150,7 +150,7 @@ class ilLPStatusIcons
         } elseif ($this === self::$instance_variant_short) {
             $variant = 'ilLPIconShort';
         } else {
-            throw new ilLPException("SCORM variants cannot be rendered.");
+            throw new ilLPException("SCORM variants of the LP icons cannot be rendered.");
         }
 
         $tpl = new ilTemplate('tpl.lp_icon_img.html', true, true, 'Services/Tracking');

@@ -32,7 +32,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
     protected array $filter = [];
     protected bool $anonymized = true;
-
+    protected int $icon_variant = ilLPStatusIcons::ICON_VARIANT_LONG;
     private ilObjUser $user;
     protected ilSetting $setting;
     protected ilObjectDataCache $ilObjDataCache;
@@ -625,7 +625,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 break;
 
             case "status":
-                $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+                $icons = ilLPStatusIcons::getInstance($this->getIconVariant());
                 $value = $icons->renderIconForStatus($value);
                 break;
 
@@ -1186,5 +1186,21 @@ class ilLPTableBaseGUI extends ilTable2GUI
             ),
             true
         );
+    }
+
+    /**
+     * Gets the variant of LP icons that is shown in the table.
+     */
+    public function getIconVariant() : int
+    {
+        return $this->icon_variant;
+    }
+
+    /**
+     * Sets the variant of LP icons that is shown in the table.
+     */
+    public function setIconVariant(int $variant) : void
+    {
+        $this->icon_variant = $variant;
     }
 }

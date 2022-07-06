@@ -557,9 +557,9 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __getLegendHTML() : string
+    public function __getLegendHTML(int $variant = ilLPStatusIcons::ICON_VARIANT_LONG) : string
     {
-        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+        $icons = ilLPStatusIcons::getInstance($variant);
 
         $tpl = new ilTemplate(
             "tpl.lp_legend.html",
