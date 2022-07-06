@@ -119,7 +119,7 @@ class ilRecommendedContentRoleConfigGUI
 
         foreach ($this->requested_item_ref_ids as $item_ref_id) {
             $confirmation_gui->addItem(
-                "item_ref_id[]",
+                "item_ref_ids[]",
                 (string) $item_ref_id,
                 ilObject::_lookupTitle(ilObject::_lookupObjectId($item_ref_id))
             );
@@ -131,7 +131,6 @@ class ilRecommendedContentRoleConfigGUI
     public function removeItems() : void
     {
         $this->checkPushPermission();
-
         if (count($this->requested_item_ref_ids) > 0) {
             foreach ($this->requested_item_ref_ids as $item_ref_id) {
                 $this->manager->removeRoleRecommendation($this->role_id, $item_ref_id);
