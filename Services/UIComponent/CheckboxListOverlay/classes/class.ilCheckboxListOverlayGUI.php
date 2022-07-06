@@ -32,7 +32,8 @@ class ilCheckboxListOverlayGUI
     protected string $form_cmd;
     protected string $field_var;
     protected string $hidden_var;
-    
+    protected \ilGlobalTemplateInterface $main_tpl;
+
     public function __construct(
         string $a_id = ""
     ) {
@@ -40,6 +41,7 @@ class ilCheckboxListOverlayGUI
 
         $this->lng = $DIC->language();
         $this->setId($a_id);
+        $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
     public function setId(string $a_val) : void
@@ -128,7 +130,11 @@ class ilCheckboxListOverlayGUI
             false,
             true
         );
-                
+
+        $this->main_tpl->addOnLoadCode("$('#chkbxlstovl_" . $this->getId() . "').click(function(event){
+			event.stopPropagation();
+		});");
+
         $tpl->setCurrentBlock("top_img");
         
         // do not repeat title (accessibility) -> empty alt
