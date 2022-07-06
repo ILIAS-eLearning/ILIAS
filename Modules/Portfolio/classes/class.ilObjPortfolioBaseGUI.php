@@ -784,6 +784,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                                         
             $this->setContentStyleSheet($this->tpl);
         }
+
         $this->showEditButton($current_page);
 
         // #10717
@@ -800,7 +801,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             : "ilportfoliopagegui";
         $button = null;
         if ($this->checkPermissionBool("write") &&
-            (ilPortfolioPage::lookupType($page_id) === ilPortfolioPage::TYPE_PAGE || $page_id === 0)) {
+            ($page_id === 0 || ilPortfolioPage::lookupType($page_id) === ilPortfolioPage::TYPE_PAGE)) {
             if ($this->getType() === "prtt") {
                 $button = $this->ui->factory()->button()->standard(
                     $this->lng->txt("prtt_edit"),
@@ -815,7 +816,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->toolbar->addComponent($button);
             $button = null;
         }
-        if (ilPortfolioPage::lookupType($page_id) === ilPortfolioPage::TYPE_PAGE) {
+        if ($page_id > 0 && ilPortfolioPage::lookupType($page_id) === ilPortfolioPage::TYPE_PAGE) {
             $this->ctrl->setParameterByClass($page_class, "ppage", $page_id);
             $button = $this->ui->factory()->button()->standard(
                 $this->lng->txt("edit_page"),
