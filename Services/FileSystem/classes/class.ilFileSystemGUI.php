@@ -550,7 +550,7 @@ class ilFileSystemGUI
         }
 
         $pi = pathinfo($new_name);
-        $suffix = $pi["extension"];
+        $suffix = $pi["extension"] ?? "";
         if ($suffix != "" && !$this->isValidSuffix($suffix)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_no_valid_file_type") . " ($suffix)", true);
             $this->ctrl->redirect($this, "listFiles");
@@ -648,7 +648,7 @@ class ilFileSystemGUI
         $tgt_file = null;
 
         $pi = pathinfo($_FILES["new_file"]["name"]);
-        $suffix = $pi["extension"];
+        $suffix = $pi["extension"] ?? "";
         if (!$this->isValidSuffix($suffix)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_no_valid_file_type") . " ($suffix)", true);
             $this->ctrl->redirect($this, "listFiles");
