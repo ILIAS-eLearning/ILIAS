@@ -40,7 +40,6 @@ class ilSurveySkillExplorer extends ilExplorer
         bool $a_templates = false
     ) {
         global $DIC;
-
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -100,7 +99,6 @@ class ilSurveySkillExplorer extends ilExplorer
     public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $ilCtrl = $this->ctrl;
-
         $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $a_node_id);
         $ret = $ilCtrl->getLinkTargetByClass("ilsurveyskillgui", "selectSkillForQuestion");
         $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $this->edit_request->getObjId());

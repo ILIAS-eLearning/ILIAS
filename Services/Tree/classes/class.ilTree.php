@@ -1039,7 +1039,7 @@ class ilTree
                 $res = $this->db->queryF($query, array('integer', 'integer'), array($a_node_id, $this->tree_id));
                 $row = $this->db->fetchObject($res);
             }
-            return (int) $row->depth;
+            return (int) ($row->depth ?? 0);
         }
         return 1;
     }

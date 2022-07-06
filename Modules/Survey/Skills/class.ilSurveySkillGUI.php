@@ -103,7 +103,7 @@ class ilSurveySkillGUI
             "assignSkillToQuestion",
             $this,
             "selectSkillForQuestion",
-            ''
+            'selected_skill'
         );
         if (!$sel->handleCommand()) {
             $tpl->setContent($sel->getHTML());
