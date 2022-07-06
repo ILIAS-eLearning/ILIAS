@@ -481,7 +481,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                     $this->checkPermissionBool('write')) {
                     $this->tabs_gui->addTab(
                         "render",
-                        $this->lng->txt("book_booking_types"),
+                        $this->lng->txt("book_booking_objects"),
                         $this->ctrl->getLinkTarget($this, "render")
                     );
                 }

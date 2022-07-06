@@ -2442,7 +2442,6 @@ book#:#book_booked_in#:#Booked in
 book#:#book_booking_information#:#Information
 book#:#book_booking_reminders#:#Upcoming reservations
 book#:#book_bookings_per_user#:#Bookings per User
-book#:#book_booking_types#:#Booking Objects
 book#:#book_cal_entry#:#Booking of:
 book#:#book_confirm_booking#:#Confirm Booking
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
@@ -2486,7 +2485,6 @@ book#:#book_nr_preferences#:#Prefences
 book#:#book_object_added#:#A booking object has been added.
 book#:#book_object_deleted#:#The booking object has been deleted.
 book#:#book_objects_available#:#Objects available %s
-book#:#book_objects_list#:#Booking Objects
 book#:#book_object_updated#:#The booking object has been updated.
 book#:#book_open#:#Open Booking Pool
 book#:#book_overall_limit#:#Limit number of bookings
@@ -16807,3 +16805,4 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+book#:#book_booking_objects#:#Booking Objects

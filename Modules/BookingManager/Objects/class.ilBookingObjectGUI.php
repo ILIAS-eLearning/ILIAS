@@ -315,6 +315,7 @@ class ilBookingObjectGUI
         $nr->setRequired(true);
         $nr->setSize(3);
         $nr->setMaxLength(3);
+        $nr->setSuffix($lng->txt("book_booking_objects"));
         $form_gui->addItem($nr);
         
         if ($this->hasPoolSchedule()) {
