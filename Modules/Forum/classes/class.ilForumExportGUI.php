@@ -288,7 +288,7 @@ class ilForumExportGUI
             $this->ensureThreadBelongsToForum($this->frm->getForumId(), $topic);
 
             $topic->setOrderField('frm_posts_tree.rgt');
-            $first_post = $topic->getFirstPostNode();
+            $first_post = $topic->getPostRootNode();
             $post_collection = $topic->getPostTree($first_post);
             $num_posts = count($post_collection);
 
@@ -396,7 +396,7 @@ class ilForumExportGUI
                     $tpl->setVariable('TITLE', $frmData->getTopName());
                 }
 
-                $first_post = $topic->getFirstPostNode();
+                $first_post = $topic->getPostRootNode();
                 $topic->setOrderField('frm_posts_tree.rgt');
                 $post_collection = $topic->getPostTree($first_post);
 

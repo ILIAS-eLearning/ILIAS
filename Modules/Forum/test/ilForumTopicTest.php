@@ -227,7 +227,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new ilForumTopic();
         $instance->setId($id);
-        $this->assertSame($stdObject->pos_fk, $instance->getFirstPostId());
+        $this->assertSame($stdObject->pos_fk, $instance->getPostRootId());
     }
 
     public function testGetFirstPostIdFailed() : void
@@ -243,7 +243,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new ilForumTopic();
         $instance->setId($id);
-        $this->assertSame(0, $instance->getFirstPostId());
+        $this->assertSame(0, $instance->getPostRootId());
     }
 
     public function testCountPosts() : void

@@ -1702,8 +1702,8 @@ class ilForum
         }
 
         $allSourcePostings = $sourceThreadForMerge->getAllPostIds();
-        $sourceThreadRootNode = $sourceThreadForMerge->getFirstPostNode();
-        $targetThreadRootNode = $targetThreadForMerge->getFirstPostNode();
+        $sourceThreadRootNode = $sourceThreadForMerge->getPostRootNode();
+        $targetThreadRootNode = $targetThreadForMerge->getPostRootNode();
 
         $sourceThreadRootArray = $this->getPostNode($sourceThreadRootNode->getId());
 

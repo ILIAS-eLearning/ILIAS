@@ -113,7 +113,7 @@ class ilForumPost
                 ]
             );
 
-            if ($this->objThread->getFirstPostId() === $this->id) {
+            if ($this->objThread->getPostRootId() === $this->id) {
                 $this->objThread->setSubject($this->subject);
                 $this->objThread->update();
                 $this->objThread->reload();

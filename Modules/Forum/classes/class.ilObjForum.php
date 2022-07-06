@@ -418,7 +418,7 @@ class ilObjForum extends ilObject
             $newThread->setCreateDate($old_thread->getCreateDate());
 
             try {
-                $top_pos = $old_thread->getFirstPostNode();
+                $top_pos = $old_thread->getPostRootNode();
             } catch (OutOfBoundsException $e) {
                 $top_pos = new ilForumPost($old_post_id);
             }

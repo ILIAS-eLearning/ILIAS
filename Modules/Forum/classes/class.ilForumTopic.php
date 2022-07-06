@@ -212,7 +212,22 @@ class ilForumTopic
         return $this->read();
     }
 
-    public function getFirstPostId() : int
+    public function getPostRootId() : int
+    {
+        $this->db->setLimit(1);
+        $res = $this->db->queryF(
+            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s AND depth = %s ORDER BY rgt DESC',
+            ['integer', 'integer', 'integer'],
+            [$this->id, 0, 1]
+        );
+
+        if ($row = $this->db->fetchObject($res)) {
+            return (int) $row->pos_fk ?: 0;
+        }
+        return 0;
+    }
+
+    public function getFirstVisiblePostId() : int
     {
         $this->db->setLimit(1);
         $res = $this->db->queryF(
@@ -284,7 +299,32 @@ class ilForumTopic
         return 0;
     }
 
-    public function getFirstPostNode(bool $isModerator = false, bool $preventImplicitRead = false) : ilForumPost
+    public function getPostRootNode(bool $isModerator = false, bool $preventImplicitRead = false) : ilForumPost
+    {
+        $this->db->setLimit(1);
+        $res = $this->db->queryF(
+            '
+			SELECT *
+			FROM frm_posts 
+			INNER JOIN frm_posts_tree ON pos_fk = pos_pk
+			WHERE parent_pos = %s
+			AND thr_fk = %s
+			AND depth = %s
+			ORDER BY rgt DESC',
+            ['integer', 'integer'],
+            [0, $this->id, 1]
+        );
+
+        if ($row = $this->db->fetchAssoc($res)) {
+            $post = new ilForumPost((int) $row['pos_pk'], $isModerator, $preventImplicitRead);
+            $post->assignData($row);
+            return $post;
+        }
+
+        throw new OutOfBoundsException(sprintf('Could not find first posting by id: %s', $this->id));
+    }
+
+    public function getFirstVisiblePostNode(bool $isModerator = false, bool $preventImplicitRead = false) : ilForumPost
     {
         $this->db->setLimit(1);
         $res = $this->db->queryF(
@@ -1001,7 +1041,7 @@ class ilForumTopic
             ['thr_pk' => ['integer', $this->getId()]]
         );
 
-        $first_node = $this->getFirstPostNode();
+        $first_node = $this->getPostRootNode();
         $first_node->setSubject($this->getSubject());
         $first_node->update();
     }
