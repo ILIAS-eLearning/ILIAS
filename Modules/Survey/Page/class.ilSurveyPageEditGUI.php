@@ -1445,7 +1445,7 @@ class ilSurveyPageEditGUI
 
             // nodes
             $ttpl->setVariable("NODES", $this->getPageNodes(
-                $pages[$this->current_page - 1],
+                $pages[$this->current_page - 1] ?? [],
                 $this->has_previous_page,
                 $this->has_next_page,
                 $read_only
