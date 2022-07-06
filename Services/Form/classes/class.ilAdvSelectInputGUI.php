@@ -65,7 +65,7 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
 
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
 
     public function checkInput() : bool
