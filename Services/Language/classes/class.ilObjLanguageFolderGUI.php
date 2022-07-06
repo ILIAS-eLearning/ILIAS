@@ -482,7 +482,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $ids = $post_id;
             $header = $this->lng->txt("lang_refresh_confirm_selected");
         } else {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "view");
         }
 
         $conf_screen = new ilConfirmationGUI();
@@ -631,7 +632,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             );
         }
         if ($post_field == null) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "view");
         }
         return $post_field;
     }
