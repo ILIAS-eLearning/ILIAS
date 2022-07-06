@@ -43,7 +43,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         );
         
         if (!ilImprint::_exists("impr", 1)) {
-            $page = new ilImprint("impr");
+            $page = new ilImprint();
             $page->setId(1);
             $page->create(false);
         }
