@@ -355,7 +355,7 @@ class ilLegacyFormElementsUtil
         if ($size > 0) {
             $size_str = ' size="' . $size . '" ';
         }
-        $str = "<select name=\"" . $varname . "\"" . $multiple . " $class " . $size_str . " $disabled>\n";
+        $str = "<select name=\"" . $varname . "\"" . $multiple . " $class " . $size_str . " $attributes $disabled>\n";
 
         foreach ($options as $key => $val) {
             $style = "";
