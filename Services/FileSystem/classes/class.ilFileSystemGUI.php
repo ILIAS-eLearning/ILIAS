@@ -826,7 +826,7 @@ class ilFileSystemGUI
                         }
                     }
 
-                    if (is_array($new_files["path"])) {
+                    if (isset($new_files["path"])) {
                         foreach ($new_files["path"] as $idx => $path) {
                             $path = substr($path, strlen($this->main_dir) + 1);
                             $diff[] = $path . $new_files[self::POST_PARAM_FILE][$idx];
