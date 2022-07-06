@@ -24,6 +24,7 @@
  */
 class SurveyQuestion
 {
+    protected ?int $original_id;
     protected \ILIAS\SurveyQuestionPool\Editing\EditSessionRepository $edit_manager;
     protected ilObjUser $user;
     protected ilDBInterface $db;
@@ -1583,12 +1584,12 @@ class SurveyQuestion
         return null;
     }
 
-    public function setOriginalId(int $original_id) : void
+    public function setOriginalId(?int $original_id) : void
     {
         $this->original_id = $original_id;
     }
     
-    public function getOriginalId() : int
+    public function getOriginalId() : ?int
     {
         return $this->original_id;
     }
