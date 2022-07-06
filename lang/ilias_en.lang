@@ -2406,6 +2406,7 @@ blog#:#blog_posting_deleted#:#Posting has been deleted.
 blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following posting?
 blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.
 blog#:#blog_posting_not_found#:#This blog posting is not available.
+blog#:#blog_postings#:#Postings
 blog#:#blog_presentation_frame#:#Blog Presentation
 blog#:#blog_presentation_overview#:#Initial Overview
 blog#:#blog_preview#:#Preview
@@ -2417,14 +2418,17 @@ blog#:#blog_profile_picture#:#Display Profile Picture
 blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.
 blog#:#blog_properties#:#Blog Properties
 blog#:#blog_rename_posting#:#Rename Posting
+blog#:#blog_selected_pages#:#Selected Postings
 blog#:#blog_settings#:#Blog Administration
 blog#:#blog_settings_navigation#:#Navigation Column
 blog#:#blog_show_latest#:#Show latest postings/drafts
+blog#:#blog_show_print_view#:#Show Print View
 blog#:#blog_style#:#Blog Style
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_toggle_final#:#Publish Posting
+blog#:#blog_whole_blog#:#Whole Blog
 book#:#X_reservations_of#:#%s reservations of
 book#:#book_add#:#Add Booking Pool
 book#:#book_add_object#:#Add Object
@@ -16806,7 +16810,3 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
-blog#:#blog_selected_pages#:#Selected Postings
-blog#:#blog_postings#:#Postings
-blog#:#blog_show_print_view#:#Show Print View
-blog#:#blog_whole_blog#:#Whole Blog

@@ -2421,6 +2421,7 @@ blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
 blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Beitrag wirklich löschen?
 blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
 blog#:#blog_posting_not_found#:#Der Beitrag ist nicht verfügbar.
+blog#:#blog_postings#:#Beiträge
 blog#:#blog_presentation_frame#:#Darstellung
 blog#:#blog_presentation_overview#:#Präsentation der Beiträge
 blog#:#blog_preview#:#Vorschau
@@ -2432,14 +2433,17 @@ blog#:#blog_profile_picture#:#Profil-Bild anzeigen
 blog#:#blog_profile_picture_repository_info#:#Profilbilder werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_properties#:#Blog-Eigenschaften
 blog#:#blog_rename_posting#:#Beitrag umbenennen
+blog#:#blog_selected_pages#:#Ausgewählte Beiträge
 blog#:#blog_settings#:#Blog-Administration
 blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
+blog#:#blog_show_print_view#:#Druckansicht
 blog#:#blog_style#:#Blog-Style
 blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 blog#:#blog_toggle_final#:#Beitrag veröffentlichen
+blog#:#blog_whole_blog#:#Gesamtes Blog
 book#:#X_reservations_of#:#%s Reservierungen von
 book#:#book_add#:#Buchungspool anlegen
 book#:#book_add_object#:#Objekt hinzufügen
@@ -16838,7 +16842,3 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-blog#:#blog_selected_pages#:#Ausgewählte Beiträge
-blog#:#blog_postings#:#Beiträge
-blog#:#blog_show_print_view#:#Druckansicht
-blog#:#blog_whole_blog#:#Gesamtes Blog
