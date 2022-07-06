@@ -1128,9 +1128,13 @@ class ilCtrl implements ilCtrlInterface
         $value,
         bool $is_escaped = false
     ) : string {
-        // only append value if it exists and can be cast
-        // to string.
-        if (!empty($value) && !is_array($value) && !is_object($value)) {
+        // transform value into a string, since null will fail we can
+        // (temporarily) use the null coalescing operator.
+        $value = $this->refinery->kindlyTo()->string()->transform($value ?? '');
+
+        // only append value if its not an empty string. note that empty()
+        // cannot be used here since e.g. '0' would be empty.
+        if ('' !== $value) {
             // declare ampersand escaped or not, according to
             // the given argument.
             $ampersand = ($is_escaped) ? '&amp;' : '&';
