@@ -1482,7 +1482,7 @@ class ilSurveyPageEditGUI
         $first_question = array_shift($first_question);
 
         $compress_view = false;
-        if ($first_question["questionblock_id"]) {
+        if ($first_question["questionblock_id"] ?? false) {
             $menu = array();
 
             if (!$a_readonly && !$has_clipboard) {
