@@ -88,7 +88,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
         foreach ($points as $point) {
             $starting_point = $point['starting_point'];
             $position = $point['position'];
-            $sp_text = $valid_points[$starting_point];
+            $sp_text = $valid_points[$starting_point] ?? "";
 
             if ($starting_point == ilUserUtil::START_REPOSITORY_OBJ && $point['starting_object']) {
                 $object_id = ilObject::_lookupObjId($point['starting_object']);
