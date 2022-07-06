@@ -196,7 +196,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 break;
             
             default:
-                $cmd = $this->ctrl->getCmd("frameset");
+                $cmd = $this->ctrl->getCmd("listFiles");
                 if (
                     $this->getCreationMode() === true ||
                     strtolower($this->lm_request->getBaseClass()) === "iladministrationgui"
