@@ -16838,3 +16838,7 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+blog#:#blog_selected_pages#:#Ausgewählte Beiträge
+blog#:#blog_postings#:#Beiträge
+blog#:#blog_show_print_view#:#Druckansicht
+blog#:#blog_whole_blog#:#Gesamtes Blog

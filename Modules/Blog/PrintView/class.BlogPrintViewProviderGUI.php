@@ -101,7 +101,8 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $postings = \ilBlogPosting::getAllPostings($this->blog->getId());
-
+        $lng->loadLanguageModule("content");
+        $lng->loadLanguageModule("blog");
         $form = new \ilPropertyFormGUI();
 
         //var_dump($pages);

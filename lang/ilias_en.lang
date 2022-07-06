@@ -16806,3 +16806,7 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+blog#:#blog_selected_pages#:#Selected Postings
+blog#:#blog_postings#:#Postings
+blog#:#blog_show_print_view#:#Show Print View
+blog#:#blog_whole_blog#:#Whole Blog
