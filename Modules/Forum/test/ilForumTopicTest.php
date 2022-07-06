@@ -212,7 +212,25 @@ class ilForumTopicTest extends TestCase
         $instance->reload();
     }
 
-    public function testGetFirstPostId() : void
+    public function testGetPostRootId() : void
+    {
+        $id = 909;
+        $stdObject = new stdClass();
+        $stdObject->pos_fk = 5678;
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $this->mockDatabase->expects(self::once())->method('queryF')->with(
+            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s AND depth = %s ORDER BY rgt DESC',
+            ['integer', 'integer', 'integer'],
+            [$id, 0, 1]
+        )->willReturn($mockStatement);
+        $this->mockDatabase->expects(self::once())->method('fetchObject')->with($mockStatement)->willReturn($stdObject);
+
+        $instance = new ilForumTopic();
+        $instance->setId($id);
+        $this->assertSame($stdObject->pos_fk, $instance->getPostRootId());
+    }
+
+    public function testGetFirstVisiblePostId() : void
     {
         $id = 909;
         $stdObject = new stdClass();
@@ -227,10 +245,26 @@ class ilForumTopicTest extends TestCase
 
         $instance = new ilForumTopic();
         $instance->setId($id);
-        $this->assertSame($stdObject->pos_fk, $instance->getPostRootId());
+        $this->assertSame($stdObject->pos_fk, $instance->getFirstVisiblePostId());
     }
 
-    public function testGetFirstPostIdFailed() : void
+    public function testGetPostRootIdFailed() : void
+    {
+        $id = 909;
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $this->mockDatabase->expects(self::once())->method('queryF')->with(
+            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s AND depth = %s ORDER BY rgt DESC',
+            ['integer', 'integer', 'integer'],
+            [$id, 0, 1]
+        )->willReturn($mockStatement);
+        $this->mockDatabase->expects(self::once())->method('fetchObject')->with($mockStatement)->willReturn(null);
+
+        $instance = new ilForumTopic();
+        $instance->setId($id);
+        $this->assertSame(0, $instance->getPostRootId());
+    }
+
+    public function testGetFirstVisiblePostIdFailed() : void
     {
         $id = 909;
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
@@ -243,7 +277,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new ilForumTopic();
         $instance->setId($id);
-        $this->assertSame(0, $instance->getPostRootId());
+        $this->assertSame(0, $instance->getFirstVisiblePostId());
     }
 
     public function testCountPosts() : void
