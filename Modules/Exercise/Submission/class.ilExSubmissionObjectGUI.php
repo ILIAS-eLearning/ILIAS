@@ -430,7 +430,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             "exc_select_portfolio",
             "exc_select_portfolio_info",
             "setSelectedPortfolio",
-            null,
+            "",
             $items
         );
     }
