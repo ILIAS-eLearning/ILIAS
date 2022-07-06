@@ -632,8 +632,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $this->enableMembershipLimitation((bool) $row->registration_mem_limit);
             $this->setMaxMembers((int) $row->registration_max_members);
             $this->enableWaitingList((bool) $row->waiting_list);
-            $this->setLatitude($row->latitude);
-            $this->setLongitude($row->longitude);
+            $this->setLatitude((string) $row->latitude);
+            $this->setLongitude((string) $row->longitude);
             $this->setLocationZoom((int) $row->location_zoom);
             $this->setEnableGroupMap((bool) $row->enablemap);
             $this->enableRegistrationAccessCode((bool) $row->reg_ac_enabled);
