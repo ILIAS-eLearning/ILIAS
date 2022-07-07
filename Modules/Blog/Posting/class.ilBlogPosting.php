@@ -121,7 +121,9 @@ class ilBlogPosting extends ilPageObject
         }
 
         // we are using a separate creation date to enable sorting without JOINs
-
+        $withdrawn = $this->getWithdrawn()
+            ? $this->getWithdrawn()->get(IL_CAL_DATETIME)
+            : null;
         $query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author, approved, last_withdrawn)" .
             " VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
@@ -130,7 +132,7 @@ class ilBlogPosting extends ilPageObject
             $ilDB->quote($created, "timestamp") . "," .
             $ilDB->quote($this->getAuthor(), "integer") . "," .
             $ilDB->quote($this->isApproved(), "integer") . "," . // #16526 - import
-            $ilDB->quote($this->getWithdrawn()->get(IL_CAL_DATETIME), "timestamp") . ")";
+            $ilDB->quote($withdrawn, "timestamp") . ")";
         $ilDB->manipulate($query);
 
         if (!$a_import) {
@@ -148,12 +150,14 @@ class ilBlogPosting extends ilPageObject
         $ilDB = $this->db;
 
         // blog_id, author and created cannot be changed
-        
+        $withdrawn = $this->getWithdrawn()
+            ? $this->getWithdrawn()->get(IL_CAL_DATETIME)
+            : null;
         $query = "UPDATE il_blog_posting SET" .
             " title = " . $ilDB->quote($this->getTitle(), "text") .
             ",created = " . $ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "timestamp") .
             ",approved =" . $ilDB->quote($this->isApproved(), "integer") .
-            ",last_withdrawn =" . $ilDB->quote($this->getWithdrawn()->get(IL_CAL_DATETIME), "timestamp") .
+            ",last_withdrawn =" . $ilDB->quote($withdrawn, "timestamp") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($query);
         
