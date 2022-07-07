@@ -151,7 +151,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
                     $checked = true;
                 }
                 if ($this->confirm_change == 1) {	// confirm value
-                    $checked = $req_checked[$prop . "_" . $field];
+                    $checked = $req_checked[$prop . "_" . $field] ?? false;
                 }
     
                 if ($checked) {
