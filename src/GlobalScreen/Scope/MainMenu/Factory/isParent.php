@@ -44,10 +44,10 @@ interface isParent extends isItem
     public function appendChild(isItem $child) : isParent;
 
     /**
-     * @param isChild $child
+     * @param isItem $child_to_remove
      * @return isParent
      */
-    public function removeChild(isChild $child) : isParent;
+    public function removeChild(isItem $child_to_remove) : isParent;
 
     /**
      * @return bool
