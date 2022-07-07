@@ -2429,7 +2429,11 @@ class ilTable2GUI extends ilTableGUI
         return "";
     }
 
-    protected function setFilterValue(ilTableFilterItem $a_item, ?string $a_value) : void
+    /**
+     * @param string|array|null $a_value
+     * @throws ilDateTimeException
+     */
+    protected function setFilterValue(ilTableFilterItem $a_item, $a_value) : void
     {
         if (method_exists($a_item, "setChecked")) {
             $a_item->setChecked((bool) $a_value);

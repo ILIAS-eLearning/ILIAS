@@ -1144,13 +1144,13 @@ class ilTrQuery
 
                     case "percentage":
                         if (!$a_aggregate) {
-                            if ($value["from"]) {
+                            if (isset($value["from"])) {
                                 $where[] = "ut_lp_marks." . $id . " >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if ($value["to"]) {
+                            if (isset($value["to"])) {
                                 $where[] = "(ut_lp_marks." . $id . " <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1158,13 +1158,13 @@ class ilTrQuery
                                     " OR ut_lp_marks." . $id . " IS NULL)";
                             }
                         } else {
-                            if ($value["from"]) {
+                            if (isset($value["from"])) {
                                 $having[] = "ROUND(AVG(ut_lp_marks." . $id . ")) >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if ($value["to"]) {
+                            if (isset($value["to"])) {
                                 $having[] = "ROUND(AVG(ut_lp_marks." . $id . ")) <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1182,7 +1182,7 @@ class ilTrQuery
 
                     // timestamp
                     case "last_access":
-                        if ($value["from"]) {
+                        if (isset($value["from"])) {
                             $value["from"] = substr(
                                 $value["from"],
                                 0,
@@ -1194,7 +1194,7 @@ class ilTrQuery
                             );
                             $value["from"] = $value["from"]->get(IL_CAL_UNIX);
                         }
-                        if ($value["to"]) {
+                        if (isset($value["to"])) {
                             if (strlen($value["to"]) == 19) {
                                 $value["to"] = substr(
                                     $value["to"],
@@ -1224,13 +1224,13 @@ class ilTrQuery
                     case "create_date":
                     case "first_access":
                     case "birthday":
-                        if ($value["from"]) {
+                        if (isset($value["from"])) {
                             $where[] = $id . " >= " . $ilDB->quote(
                                 $value["from"],
                                 "date"
                             );
                         }
-                        if ($value["to"]) {
+                        if (isset($value["to"])) {
                             if (strlen($value["to"]) == 19) {
                                 $value["to"] = substr(
                                     $value["to"],
@@ -1247,13 +1247,13 @@ class ilTrQuery
 
                     case "read_count":
                         if (!$a_aggregate) {
-                            if ($value["from"]) {
+                            if (isset($value["from"])) {
                                 $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if ($value["to"]) {
+                            if (isset($value["to"])) {
                                 $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1261,13 +1261,13 @@ class ilTrQuery
                                     " OR (read_event." . $id . "+read_event.childs_" . $id . ") IS NULL)";
                             }
                         } else {
-                            if ($value["from"]) {
+                            if (isset($value["from"])) {
                                 $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if ($value["to"]) {
+                            if (isset($value["to"])) {
                                 $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1278,13 +1278,13 @@ class ilTrQuery
 
                     case "spent_seconds":
                         if (!$a_aggregate) {
-                            if ($value["from"]) {
+                            if (isset($value["from"])) {
                                 $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if ($value["to"]) {
+                            if (isset($value["to"])) {
                                 $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1292,13 +1292,13 @@ class ilTrQuery
                                     " OR (read_event." . $id . "+read_event.childs_" . $id . ") IS NULL)";
                             }
                         } else {
-                            if ($value["from"]) {
+                            if (isset($value["from"])) {
                                 $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if ($value["to"]) {
+                            if (isset($value["to"])) {
                                 $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
