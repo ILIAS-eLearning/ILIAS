@@ -1,8 +1,27 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use Whoops\Run;
+use Whoops\RunInterface;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\CallbackHandler;
+use Whoops\Exception\Inspector;
+use Whoops\Handler\HandlerInterface;
 
 /**
  * Error Handling & global info handling
@@ -16,15 +35,6 @@
  * @todo        when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
  * @todo        This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
  */
-
-
-use Whoops\Run;
-use Whoops\RunInterface;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Handler\CallbackHandler;
-use Whoops\Exception\Inspector;
-use Whoops\Handler\HandlerInterface;
-
 class ilErrorHandling extends PEAR
 {
     protected ?RunInterface $whoops;
@@ -78,7 +88,7 @@ class ilErrorHandling extends PEAR
 
         // somehow we need to get rid of the whoops error handler
         restore_error_handler();
-        set_error_handler(array($this, "handlePreWhoops"));
+        set_error_handler([$this, "handlePreWhoops"]);
     }
 
     /**
@@ -120,7 +130,7 @@ class ilErrorHandling extends PEAR
     }
 
     /**
-     * defines what has to happen in case of error
+     * Defines what has to happen in case of error
      * @param PEAR_Error $a_error_obj PEAR Error object
      */
     public function errorHandler($a_error_obj) : void
@@ -136,7 +146,7 @@ class ilErrorHandling extends PEAR
         $this->error_obj = &$a_error_obj;
         //echo "-".$_SESSION["referer"]."-";
         $session_failure = ilSession::get('failure');
-        if ($session_failure && substr($a_error_obj->getMessage(), 0, 22) != "Cannot find this block") {
+        if ($session_failure && strpos($a_error_obj->getMessage(), "Cannot find this block") !== 0) {
             $m = "Fatal Error: Called raise error two times.<br>" .
                 "First error: " . $session_failure . '<br>' .
                 "Last Error:" . $a_error_obj->getMessage();
@@ -148,7 +158,7 @@ class ilErrorHandling extends PEAR
             die($m);
         }
 
-        if (substr($a_error_obj->getMessage(), 0, 22) == "Cannot find this block") {
+        if (strpos($a_error_obj->getMessage(), "Cannot find this block") === 0) {
             if (DEVMODE == 1) {
                 echo "<b>DEVMODE</b><br><br>";
                 echo "<b>Template Block not found.</b><br>";
@@ -157,15 +167,15 @@ class ilErrorHandling extends PEAR
                 if (is_array($a_error_obj->backtrace)) {
                     echo "Backtrace:<br>";
                     foreach ($a_error_obj->backtrace as $b) {
-                        if ($b["function"] == "setCurrentBlock" &&
-                            basename($b["file"]) != "class.ilTemplate.php") {
+                        if ($b["function"] === "setCurrentBlock" &&
+                            basename($b["file"]) !== "class.ilTemplate.php") {
                             echo "<b>";
                         }
                         echo "File: " . $b["file"] . ", ";
                         echo "Line: " . $b["line"] . ", ";
                         echo $b["function"] . "()<br>";
-                        if ($b["function"] == "setCurrentBlock" &&
-                            basename($b["file"]) != "class.ilTemplate.php") {
+                        if ($b["function"] === "setCurrentBlock" &&
+                            basename($b["file"]) !== "class.ilTemplate.php") {
                             echo "</b>";
                         }
                     }
@@ -244,33 +254,21 @@ class ilErrorHandling extends PEAR
         $this->message .= $a_message;
     }
 
-    /**
-     * Get ilRuntime.
-     */
     protected function getIlRuntime() : ilRuntime
     {
         return ilRuntime::getInstance();
     }
 
-    /**
-     * Get an instance of Whoops/Run.
-     */
     protected function getWhoops() : RunInterface
     {
         return new Run();
     }
 
-    /**
-     * Is the DEVMODE switched on?
-     */
     protected function isDevmodeActive() : bool
     {
         return defined("DEVMODE") && (int) DEVMODE === 1;
     }
 
-    /**
-     * Get a default error handler.
-     */
     protected function defaultHandler() : HandlerInterface
     {
         // php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
@@ -329,15 +327,18 @@ class ilErrorHandling extends PEAR
     protected function devmodeHandler() : HandlerInterface
     {
         global $ilLog;
+
         switch (ERROR_HANDLER) {
             case "TESTING":
                 return new ilTestingHandler();
+
             case "PLAIN_TEXT":
                 return new ilPlainTextHandler();
+
             case "PRETTY_PAGE":
                 // fallthrough
             default:
-                if ((!defined('ERROR_HANDLER') || ERROR_HANDLER != 'PRETTY_PAGE') && $ilLog) {
+                if ((!defined('ERROR_HANDLER') || ERROR_HANDLER !== 'PRETTY_PAGE') && $ilLog) {
                     $ilLog->write(
                         "Unknown or undefined error handler '" . ERROR_HANDLER . "'. " .
                         "Falling back to PrettyPageHandler."
@@ -352,13 +353,10 @@ class ilErrorHandling extends PEAR
         }
     }
 
-    /**
-     * @param PrettyPageHandler $handler
-     */
     protected function addEditorSupport(PrettyPageHandler $handler) : void
     {
         $editorUrl = defined('ERROR_EDITOR_URL') ? ERROR_EDITOR_URL : '';
-        if (!is_string($editorUrl) || 0 === strlen($editorUrl)) {
+        if (!is_string($editorUrl) || $editorUrl === '') {
             return;
         }
 
@@ -377,10 +375,6 @@ class ilErrorHandling extends PEAR
         });
     }
 
-    /**
-     * @param string $file
-     * @param array  $pathTranslations
-     */
     protected function applyEditorPathTranslations(string &$file, array $pathTranslations) : void
     {
         foreach ($pathTranslations as $from => $to) {
@@ -388,10 +382,6 @@ class ilErrorHandling extends PEAR
         }
     }
 
-    /**
-     * @param string $pathTranslationConfig
-     * @return array
-     */
     protected function parseEditorPathTranslation(string $pathTranslationConfig) : array
     {
         $pathTranslations = [];
@@ -411,7 +401,7 @@ class ilErrorHandling extends PEAR
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             /**
              * Don't move this out of this callable
-             * @var ilLog $ilLog ;
+             * @var ilLogger $ilLog ;
              */
             global $ilLog;
 
@@ -427,7 +417,7 @@ class ilErrorHandling extends PEAR
     }
 
     /**
-     * parameter types according to PHP doc: set_error_handler
+     * Parameter types according to PHP doc: set_error_handler
      * @throws \Whoops\Exception\ErrorException
      */
     public function handlePreWhoops(int $level, string $message, string $file, int $line) : bool
