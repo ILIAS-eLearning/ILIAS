@@ -35,6 +35,9 @@ class ilBlogImporter extends ilXmlImporter
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
+
+        $cop_config = $this->getImport()->getConfig("Services/COPage");
+        $cop_config->setUpdateIfExists(true);
     }
 
     public function importXmlRepresentation(

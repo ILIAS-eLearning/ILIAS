@@ -130,7 +130,7 @@ class ilBlogPosting extends ilPageObject
             $ilDB->quote($created, "timestamp") . "," .
             $ilDB->quote($this->getAuthor(), "integer") . "," .
             $ilDB->quote($this->isApproved(), "integer") . "," . // #16526 - import
-            $ilDB->quote($this->getWithdrawn(), "timestamp") . ")";
+            $ilDB->quote($this->getWithdrawn()->get(IL_CAL_DATETIME), "timestamp") . ")";
         $ilDB->manipulate($query);
 
         if (!$a_import) {
