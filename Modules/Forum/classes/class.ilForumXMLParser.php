@@ -521,7 +521,7 @@ class ilForumXMLParser extends ilSaxParser
 
                     $this->forumPost->insert();
 
-                    if (isset($this->mapping['pos'][$this->postArray['ParentId']])) {
+                    if (isset($this->postArray['ParentId'], $this->mapping['pos'][$this->postArray['ParentId']])) {
                         $parentId = (int) $this->mapping['pos'][$this->postArray['ParentId']];
                     } else {
                         $parentId = 0;
