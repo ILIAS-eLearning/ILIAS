@@ -632,12 +632,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $this->enableMembershipLimitation((bool) $row->registration_mem_limit);
             $this->setMaxMembers((int) $row->registration_max_members);
             $this->enableWaitingList((bool) $row->waiting_list);
-            $this->setLatitude($row->latitude);
-            $this->setLongitude($row->longitude);
+            $this->setLatitude((string) $row->latitude);
+            $this->setLongitude((string) $row->longitude);
             $this->setLocationZoom((int) $row->location_zoom);
             $this->setEnableGroupMap((bool) $row->enablemap);
             $this->enableRegistrationAccessCode((bool) $row->reg_ac_enabled);
-            $this->setRegistrationAccessCode($row->reg_ac);
+            $this->setRegistrationAccessCode((string) $row->reg_ac);
             $this->setViewMode((int) $row->view_mode);
             $this->setMailToMembersType((int) $row->mail_members_type);
             $this->setCancellationEnd($row->leave_end ? new ilDate((int) $row->leave_end, IL_CAL_UNIX) : null);

@@ -410,6 +410,13 @@ abstract class ilMailSearchObjectGUI
                 'search_' . $this->getObjectType(),
                 $this->refinery->kindlyTo()->string()
             )));
+        } elseif ($this->http->wrapper()->post()->has('search_' . $this->getObjectType())) {
+            $obj_ids = $this->http->wrapper()->post()->retrieve(
+                'search_' . $this->getObjectType(),
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         } elseif (ilSession::get('search_' . $this->getObjectType())) {
             $obj_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()

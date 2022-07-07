@@ -210,7 +210,7 @@
 			"used_version" : "v6.5.0",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2021-06-22",
+			"last_update" : "2022-07-07",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -434,8 +434,8 @@
 			"wrapped_by": null,
 			"last_update": "2022-05-02",
 			"last_update_by": "",
-			"approved-by": "",
-			"approved-date": "YYYY-MM-DD"
+			"approved-by": "TB",
+			"approved-date": "2022-05-03"
 		},
 		"symfony/console": {
 			"source": "https://github.com/symfony/console",

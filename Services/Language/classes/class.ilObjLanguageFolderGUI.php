@@ -323,7 +323,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $post_id = $this->getPostId();
 
         if (count($post_id) !== 1) {
-            $this->ilias->raiseError($this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), true);
+            $this->ctrl->redirect($this, "view");
         }
 
         $obj_id = $post_id[0];
@@ -331,11 +332,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $newUserLangObj = new ilObjLanguage($obj_id);
 
         if ($newUserLangObj->isUserLanguage()) {
-            $this->ilias->raiseError($this->lng->txt("meta_l_" . $newUserLangObj->getKey()) . " " . $this->lng->txt("is_already_your") . " " . $this->lng->txt("user_language") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("meta_l_" . $newUserLangObj->getKey()) . " " . $this->lng->txt("is_already_your") . " " . $this->lng->txt("user_language") . "<br/>" . $this->lng->txt("action_aborted"), true);
+            $this->ctrl->redirect($this, "view");
         }
 
         if (!$newUserLangObj->isInstalled()) {
-            $this->ilias->raiseError($this->lng->txt("meta_l_" . $newUserLangObj->getKey()) . " " . $this->lng->txt("language_not_installed") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("meta_l_" . $newUserLangObj->getKey()) . " " . $this->lng->txt("language_not_installed") . "<br/>" . $this->lng->txt("action_aborted"), true);
+            $this->ctrl->redirect($this, "view");
         }
 
         $curUser = new ilObjUser($ilUser->getId());
@@ -359,7 +362,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $post_id = $this->getPostId();
 
         if (count($post_id) !== 1) {
-            $this->ilias->raiseError($this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), true);
+            $this->ctrl->redirect($this, "view");
         }
 
         $obj_id = $post_id[0];
@@ -367,11 +371,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $newSysLangObj = new ilObjLanguage($obj_id);
 
         if ($newSysLangObj->isSystemLanguage()) {
-            $this->ilias->raiseError($this->lng->txt("meta_l_" . $newSysLangObj->getKey()) . " is already the system language!<br>Action aborted!", $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("meta_l_" . $newSysLangObj->getKey()) . " " . $this->lng->txt("is_already_your") . " " . $this->lng->txt("system_language") . "<br/>" . $this->lng->txt("action_aborted"), true);
+            $this->ctrl->redirect($this, "view");
         }
 
         if (!$newSysLangObj->isInstalled()) {
-            $this->ilias->raiseError($this->lng->txt("meta_l_" . $newSysLangObj->getKey()) . " is not installed. Please install that language first.<br>Action aborted!", $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("meta_l_" . $newSysLangObj->getKey()) . " " . $this->lng->txt("language_not_installed") . "<br/>" . $this->lng->txt("action_aborted"), true);
+            $this->ctrl->redirect($this, "view");
         }
 
         $this->ilias->setSetting("language", $newSysLangObj->getKey());
@@ -482,7 +488,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $ids = $post_id;
             $header = $this->lng->txt("lang_refresh_confirm_selected");
         } else {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "view");
         }
 
         $conf_screen = new ilConfirmationGUI();
@@ -631,7 +638,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             );
         }
         if ($post_field == null) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "view");
         }
         return $post_field;
     }

@@ -190,12 +190,12 @@ class ilProfileChecklistStatus
                             : $lng->txt("buddy_allow_to_contact_me_yes");
                     }
                     if ($this->areOnScreenChatOptionsVisible()) {
-                        $status[] = ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
+                        $status[] = ilUtil::yn2tf((string) $this->user->getPref('chat_osc_accept_msg'))
                             ? $lng->txt("chat_use_osc")
                             : $lng->txt("chat_not_use_osc");
                     }
                     if ($this->areChatTypingBroadcastOptionsVisible()) {
-                        $status[] = ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'))
+                        $status[] = ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'))
                             ? $lng->txt("chat_use_typing_broadcast")
                             : $lng->txt("chat_no_use_typing_broadcast");
                     }

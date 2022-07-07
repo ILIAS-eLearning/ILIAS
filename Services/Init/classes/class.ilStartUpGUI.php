@@ -1343,6 +1343,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $tosWithdrawalGui->handleWithdrawalLogoutRequest($this->httpRequest, $this);
 
+        $had_external_authentication = ilSession::get('used_external_auth');
+
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $this->authSession->logout();
         $this->eventHandler->raise(
@@ -1352,7 +1354,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 'username' => $this->user->getLogin()
             )
         );
-        if ((int) $this->user->getAuthMode(true) == ilAuthUtils::AUTH_SAML && ilSession::get('used_external_auth')) {
+        if ((int) $this->user->getAuthMode(true) == ilAuthUtils::AUTH_SAML && $had_external_authentication) {
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
 

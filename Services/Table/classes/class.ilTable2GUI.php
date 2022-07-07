@@ -2524,9 +2524,9 @@ class ilTable2GUI extends ilTableGUI
             $storage = new ilTableTemplatesStorage();
 
             $state = $this->getCurrentState();
-            $state["filter_values"] = serialize($state["filter_values"]);
-            $state["selfields"] = serialize($state["selfields"]);
-            $state["selfilters"] = serialize($state["selfilters"]);
+            $state["filter_values"] = serialize($state["filter_values"] ?? null);
+            $state["selfields"] = serialize($state["selfields"] ?? null);
+            $state["selfilters"] = serialize($state["selfilters"] ?? null);
 
             $storage->store($this->getContext(), $ilUser->getId(), $a_name, $state);
             return true;

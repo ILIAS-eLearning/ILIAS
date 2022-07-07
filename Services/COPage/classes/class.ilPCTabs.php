@@ -271,14 +271,18 @@ class ilPCTabs extends ilPageContent
         return array("pc_vacc", "pc_hacc", "pc_carousel");
     }
 
-    public function setAutoTime(int $a_val) : void
+    public function setAutoTime(?int $a_val) : void
     {
-        $this->setTabsAttribute("AutoAnimWait", $a_val);
+        $this->setTabsAttribute("AutoAnimWait", (string) $a_val);
     }
 
-    public function getAutoTime() : int
+    public function getAutoTime() : ?int
     {
-        return (int) $this->tabs_node->get_attribute("AutoAnimWait");
+        $val = $this->tabs_node->get_attribute("AutoAnimWait");
+        if ($val) {
+            return (int) $val;
+        }
+        return null;
     }
 
     public function setRandomStart(bool $a_val) : void

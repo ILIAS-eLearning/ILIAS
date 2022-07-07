@@ -241,7 +241,7 @@ class ilObjUserFolder extends ilObject
 
             // standard fields
             foreach ($settings as $fieldname) {
-                $value = $rowdata[$fieldname];
+                $value = $rowdata[$fieldname] ?? "";
                 switch ($fieldname) {
                     case "language":
                         $worksheet->setCell($row, $col, $this->lng->txt("meta_l_" . $value));

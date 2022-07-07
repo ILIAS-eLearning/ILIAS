@@ -174,24 +174,18 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $obj->writeToSession();
             }
 
-            if ($this->http->wrapper()->query()->has('tbltplcrt')) {
+            if ($this->requested_tmpl_create !== "") {
                 $this->ctrl->setParameter(
                     $this->parent_obj,
                     "tbltplcrt",
-                    $this->http->wrapper()->query()->retrieve(
-                        'tbltplcrt',
-                        $this->refinery->kindlyTo()->string()
-                    )
+                    $this->requested_tmpl_create
                 );
             }
-            if ($this->http->wrapper()->query()->has('tbltpldel')) {
+            if ($this->requested_tmpl_delete !== "") {
                 $this->ctrl->setParameter(
                     $this->parent_obj,
                     "tbltpldel",
-                    $this->http->wrapper()->query()->retrieve(
-                        'tbltpldel',
-                        $this->refinery->kindlyTo()->string()
-                    )
+                    $this->requested_tmpl_delete
                 );
             }
             $this->ctrl->redirect($this->parent_obj, $this->parent_cmd);

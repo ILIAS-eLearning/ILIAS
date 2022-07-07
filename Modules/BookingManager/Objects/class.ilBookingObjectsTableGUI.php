@@ -78,7 +78,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setTitle($lng->txt("book_objects_list"));
+        $this->setTitle($lng->txt("book_booking_objects"));
 
         // $this->setLimit(9999);
         

@@ -1445,7 +1445,7 @@ class ilSurveyPageEditGUI
 
             // nodes
             $ttpl->setVariable("NODES", $this->getPageNodes(
-                $pages[$this->current_page - 1],
+                $pages[$this->current_page - 1] ?? [],
                 $this->has_previous_page,
                 $this->has_next_page,
                 $read_only
@@ -1482,7 +1482,7 @@ class ilSurveyPageEditGUI
         $first_question = array_shift($first_question);
 
         $compress_view = false;
-        if ($first_question["questionblock_id"]) {
+        if ($first_question["questionblock_id"] ?? false) {
             $menu = array();
 
             if (!$a_readonly && !$has_clipboard) {

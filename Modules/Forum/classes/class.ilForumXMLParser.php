@@ -513,7 +513,7 @@ class ilForumXMLParser extends ilSaxParser
                     );
                     $this->forumPost->setPosAuthorId((int) $author_id_data['usr_id']);
 
-                    if ($this->postArray['isAuthorModerator'] === 'NULL') {
+                    if (isset($this->postArray['isAuthorModerator']) && $this->postArray['isAuthorModerator'] === 'NULL') {
                         $this->forumPost->setIsAuthorModerator(false);
                     } else {
                         $this->forumPost->setIsAuthorModerator((bool) $this->postArray['isAuthorModerator']);
@@ -521,8 +521,8 @@ class ilForumXMLParser extends ilSaxParser
 
                     $this->forumPost->insert();
 
-                    if ($this->mapping['pos'][$this->postArray['ParentId']]) {
-                        $parentId = $this->mapping['pos'][$this->postArray['ParentId']];
+                    if (isset($this->postArray['ParentId'], $this->mapping['pos'][$this->postArray['ParentId']])) {
+                        $parentId = (int) $this->mapping['pos'][$this->postArray['ParentId']];
                     } else {
                         $parentId = 0;
                     }
@@ -539,7 +539,7 @@ class ilForumXMLParser extends ilSaxParser
                         'fpt_date' => ['timestamp', date('Y-m-d H:i:s')]
                     ]);
 
-                    $this->mapping['pos'][$this->postArray['Id']] = $this->forumPost->getId();
+                    $this->mapping['pos'][($this->postArray['Id'] ?? 0)] = $this->forumPost->getId();
                     $this->lastHandledPostId = $this->forumPost->getId();
 
                     $media_objects_found = false;

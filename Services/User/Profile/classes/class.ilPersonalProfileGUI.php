@@ -981,7 +981,7 @@ class ilPersonalProfileGUI
         }
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             // public setting
-            $cb = new ilCheckboxInputGUI($definition["field_name"], "chk_udf_" . $definition["field_id"]);
+            $cb = new ilCheckboxInputGUI($definition["field_name"], "chk_udf_" . $definition["field_id"] . $key_suffix);
             $cb->setOptionTitle($user_defined_data["f_" . $definition["field_id"]] ?? "");
             $public_udf = (string) ($prefs["public_udf_" . $definition["field_id"]] ?? '');
             if ($public_udf === 'y') {
@@ -1065,7 +1065,6 @@ class ilPersonalProfileGUI
                     $ilUser->setPref("public_" . $value, "n");
                 }
             }
-    
             // additional defined user data fields
             foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
                 if ($checked_values["chk_udf_" . $definition["field_id"]] ?? false) {
@@ -1120,11 +1119,26 @@ class ilPersonalProfileGUI
 
     protected function getCheckedValues() : array // Missing array type.
     {
+        switch ($this->form->getInput("public_profile")) {
+            case "y":
+                $key_suffix = "-1";
+                break;
+            case "g":
+                $key_suffix = "-2";
+                break;
+        }
+
         $checked_values = [];
-        foreach ($this->request->getParsedBody() as $k => $v) {
-            if (strpos($k, "chk_") === 0) {
+        $post = $this->request->getParsedBody();
+        foreach ($post as $k => $v) {
+            if (strpos($k, "chk_") === 0 && substr($k, -2) === $key_suffix) {
                 $k = str_replace(["-1", "-2"], "", $k);
                 $checked_values[$k] = $v;
+            }
+        }
+        foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
+            if (isset($post["chk_udf_" . $definition["field_id"] . $key_suffix])) {
+                $checked_values["chk_udf_" . $definition["field_id"]] = "1";
             }
         }
         return $checked_values;

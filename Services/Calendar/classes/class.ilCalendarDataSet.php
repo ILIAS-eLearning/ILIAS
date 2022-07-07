@@ -179,18 +179,18 @@ class ilCalendarDataSet extends ilDataSet
     ) : array {
         switch ($a_entity) {
             case "calendar":
-                $assignmnts = ilCalendarCategoryAssignments::_getAssignedAppointments(array($a_rec["CatId"]));
+                $assignmnts = ilCalendarCategoryAssignments::_getAssignedAppointments(array($a_rec["CatId"] ?? []));
                 $entries = array();
                 foreach ($assignmnts as $cal_id) {
                     $entries[$cal_id] = $cal_id;
                 }
                 return array(
                     "cal_entry" => array("ids" => $entries),
-                    "cal_assignment" => array("ids" => $a_rec["CatId"])
+                    "cal_assignment" => array("ids" => $a_rec["CatId"] ?? null)
                 );
             case "cal_entry":
                 return array(
-                    "recurrence_rule" => array("ids" => $a_rec["Id"])
+                    "recurrence_rule" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
 

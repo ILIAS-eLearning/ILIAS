@@ -54,7 +54,7 @@ class ilHiddenInputGUI extends ilFormPropertyGUI implements ilToolbarItem
     
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue((string) $a_values[$this->getPostVar()]);
+        $this->setValue((string) ($a_values[$this->getPostVar()] ?? ""));
     }
     
     public function insert(ilTemplate $a_tpl) : void

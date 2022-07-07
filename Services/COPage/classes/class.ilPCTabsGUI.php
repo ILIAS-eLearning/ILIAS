@@ -76,15 +76,17 @@ class ilPCTabsGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    public function editProperties() : void
+    public function editProperties($init_form = true) : void
     {
         $tpl = $this->tpl;
         
         $this->displayValidationError();
         $this->setTabs();
-        
-        $this->initForm();
-        $this->getFormValues();
+
+        if ($init_form) {
+            $this->initForm();
+            $this->getFormValues();
+        }
         $html = $this->form->getHTML();
         $tpl->setContent($html);
     }
@@ -351,26 +353,26 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         $c->setTabType($f->getInput("type"));
 
-        $c->setContentWidth($f->getInput("content_width"));
-        $c->setContentHeight($f->getInput("content_height"));
+        $c->setContentWidth((string) $f->getInput("content_width"));
+        $c->setContentHeight((string) $f->getInput("content_height"));
         $c->setTemplate("");
         switch ($this->request->getString("type")) {
             case ilPCTabs::ACCORDION_VER:
                 $t = explode(":", $f->getInput("vaccord_templ"));
-                $c->setTemplate($t[2]);
+                $c->setTemplate($t[2] ?? "");
                 $c->setBehavior($f->getInput("vbehavior"));
                 $c->setHorizontalAlign($f->getInput("valign"));
                 break;
 
             case ilPCTabs::ACCORDION_HOR:
                 $t = explode(":", $f->getInput("haccord_templ"));
-                $c->setTemplate($t[2]);
+                $c->setTemplate($t[2] ?? "");
                 $c->setBehavior($f->getInput("hbehavior"));
                 break;
 
             case ilPCTabs::CAROUSEL:
                 $t = explode(":", $f->getInput("carousel_templ"));
-                $c->setTemplate($t[2]);
+                $c->setTemplate($t[2] ?? "");
                 $c->setHorizontalAlign($f->getInput("calign"));
                 $c->setAutoTime($f->getInput("auto_time"));
                 $c->setRandomStart($f->getInput("rand_start"));
@@ -385,13 +387,17 @@ class ilPCTabsGUI extends ilPageContentGUI
         if ($this->form->checkInput()) {
             $this->setPropertiesByForm();
             $this->updated = $this->pg_obj->update();
+        } else {
+            $this->form->setValuesByPost();
+            $this->editProperties(false);
+            return;
         }
         if ($this->updated === true) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editProperties");
         } else {
             $this->pg_obj->addHierIDs();
-            $this->editProperties();
+            $this->editProperties(false);
         }
     }
     

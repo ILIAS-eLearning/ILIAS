@@ -52,7 +52,6 @@ class ilForumAppEventListener implements ilAppEventListener
                             (int) $a_parameter['obj_id']
                         );
                         break;
-
                     case 'movedThreads':
                         ilLPStatusWrapper::_refreshStatus(
                             $a_parameter['source_frm_obj_id']
@@ -61,7 +60,6 @@ class ilForumAppEventListener implements ilAppEventListener
                             $a_parameter['target_frm_obj_id']
                         );
                         break;
-
                     case 'createdPost':
                         $post = $a_parameter['post'];
                         $forum = $a_parameter['object'];

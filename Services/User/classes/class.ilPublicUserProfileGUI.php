@@ -126,8 +126,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             : $back_url;
         
         if (!$back) {
-            // #15984
-            $back = 'ilias.php?baseClass=ilDashboardGUI';
+            if ($DIC->user()->getId() != ANONYMOUS_USER_ID) {
+                // #15984
+                $back = 'ilias.php?baseClass=ilDashboardGUI';
+            } else {
+                $back = 'ilias.php?baseClass=ilRepositoryGUI';
+            }
         }
 
         if (!$a_is_portfolio) {
