@@ -552,37 +552,6 @@ class ilForumPostDraft
         return self::$forum_statistics_cache[$ref_id][$ilUser->getId()];
     }
 
-    public static function moveDraftsByMergedThreads(int $source_thread_id, int $target_thread_id) : void
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $ilDB->update(
-            'frm_posts_drafts',
-            ['thread_id' => ['integer', $target_thread_id]],
-            ['thread_id' => ['integer', $source_thread_id]]
-        );
-    }
-
-    public static function moveDraftsByMovedThread(array $thread_ids, int $source_ref_id, int $target_ref_id) : void
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $source_forum_id = ilObjForum::lookupForumIdByRefId($source_ref_id);
-        $target_forum_id = ilObjForum::lookupForumIdByRefId($target_ref_id);
-
-        $ilDB->manipulateF(
-            '
-			UPDATE 	frm_posts_drafts 
-			SET 	forum_id = %s 
-			WHERE 	forum_id = %s 
-			AND ' . $ilDB->in('thread_id', $thread_ids, false, 'integer'),
-            ['integer', 'integer'],
-            [$target_forum_id, $source_forum_id]
-        );
-    }
-
     public static function getThreadDraftData(int $post_author_id, int $forum_id) : array
     {
         global $DIC;
