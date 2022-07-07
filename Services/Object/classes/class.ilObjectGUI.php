@@ -1333,10 +1333,10 @@ class ilObjectGUI
         }
 
         // SAVE POST VALUES (get rid of this
-        ilSession::set("saved_post", $ids["id"]);
+        ilSession::set("saved_post", $ids["id"] ?? []);
 
         $ru = new ilRepositoryTrashGUI($this);
-        if (!$ru->showDeleteConfirmation($ids["id"], $error)) {
+        if (!$ru->showDeleteConfirmation($ids["id"] ?? [], $error)) {
             $this->ctrl->returnToParent($this);
         }
     }

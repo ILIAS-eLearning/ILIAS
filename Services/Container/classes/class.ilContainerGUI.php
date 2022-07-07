@@ -970,7 +970,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $no_cut = [];
 
         if (count($ids) === 0) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "");
         }
 
         // FOR ALL OBJECTS THAT SHOULD BE COPIED
@@ -1029,7 +1030,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ids = $this->std_request->getSelectedIds();
 
         if (count($ids) === 0) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "");
         }
 
         // FOR ALL OBJECTS THAT SHOULD BE COPIED
@@ -1110,7 +1112,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $ids = [$this->requested_ref_id];
                 $initiated_by_folder_action = true;
             } else {
-                $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+                $this->ctrl->redirect($this, "");
             }
         }
 
@@ -1148,7 +1151,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ids = $this->std_request->getSelectedIds();
 
         if (count($ids) === 0) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "");
         }
 
         // CHECK ACCESS
