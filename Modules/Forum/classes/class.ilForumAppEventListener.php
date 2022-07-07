@@ -43,6 +43,19 @@ class ilForumAppEventListener implements ilAppEventListener
         switch ($a_component) {
             case 'Modules/Forum':
                 switch ($a_event) {
+                    case 'mergedThreads':
+                        ilLPStatusWrapper::_refreshStatus(
+                            (int) $a_parameter['obj_id']
+                        );
+                        break;
+                    case 'movedThreads':
+                        ilLPStatusWrapper::_refreshStatus(
+                            $a_parameter['source_frm_obj_id']
+                        );
+                        ilLPStatusWrapper::_refreshStatus(
+                            $a_parameter['target_frm_obj_id']
+                        );
+                        break;
                     case 'createdPost':
                         $post = $a_parameter['post'];
                         $forum = $a_parameter['object'];
