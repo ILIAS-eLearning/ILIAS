@@ -498,11 +498,13 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
     private function createSubjectText(string $subject) : string
     {
+        if ($this->provider->getTopItemTitle() !== '' && $this->provider->getTopItemType() !== '') {
+            $top_item_text = "(" . $this->getLanguageText($this->provider->getTopItemType()) . " \"" . $this->provider->getTopItemTitle() . "\")";
+        }
         return sprintf(
             $this->getLanguageText($subject),
             $this->provider->getForumTitle(),
-            $this->getLanguageText($this->provider->getTopItemType()),
-            $this->provider->getTopItemTitle(),
+            $top_item_text ?? '',
             $this->provider->getThreadTitle()
         );
     }
