@@ -81,7 +81,7 @@ class ilGlossaryImporter extends ilXmlImporter
                 if ($new_tax_ids !== false) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage($tid, $new);
+                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
                     }
                 }
 
@@ -98,7 +98,7 @@ class ilGlossaryImporter extends ilXmlImporter
                             if ($new_local_id) {
                                 $field_id = $new_local_id;
                             }
-                            ilGlossaryAdvMetaDataAdapter::writeColumnOrder($new, $field_id, $order);
+                            ilGlossaryAdvMetaDataAdapter::writeColumnOrder((int) $new, (int) $field_id, (int) $order);
                         }
                     }
                 }
