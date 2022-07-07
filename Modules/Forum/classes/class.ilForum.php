@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -446,7 +445,7 @@ class ilForum
 
         $this->event->raise(
             'Modules/Forum',
-            'mergedThreads',
+            'movedThreads',
             [
                 'source_ref_id' => $src_forum->getId(),
                 'target_ref_id' => $src_forum->getId(),
@@ -1791,6 +1790,15 @@ class ilForum
         if (!$targetWasClosedBeforeMerge) {
             $targetThreadForMerge->reopen();
         }
+        $this->event->raise(
+            'Modules/Forum',
+            'mergedThreads',
+            [
+                'obj_id' => $this->getForumId(),
+                'source_thread_id' => $sourceThreadForMerge->getId(),
+                'target_thread_id' => $targetThreadForMerge->getId()
+            ]
+        );
 
         $this->deletePost($sourceThreadRootArray, false);
     }
