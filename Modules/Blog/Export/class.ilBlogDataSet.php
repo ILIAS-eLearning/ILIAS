@@ -309,7 +309,7 @@ use ILIAS\Notes\Service;
                 $newObj->setAuthors((bool) ($a_rec["Authors"] ?? false));
                 $newObj->setOrder(trim($a_rec["NavOrder"])
                     ? explode(";", $a_rec["NavOrder"])
-                    : null);
+                    : []);
                 if (($ov_post = $a_rec["OvPost"] ?? null) !== null) {
                     $ov_post = (int) $ov_post;
                 }

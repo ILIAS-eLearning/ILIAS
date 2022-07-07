@@ -501,7 +501,7 @@ class ilObjBlog extends ilObject2
         return $this->overview_postings;
     }
     
-    public function setOrder(array $a_values = null) : void
+    public function setOrder(array $a_values = []) : void
     {
         $this->order = $a_values;
     }
