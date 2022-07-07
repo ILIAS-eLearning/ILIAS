@@ -1790,6 +1790,7 @@ class ilForum
         if (!$targetWasClosedBeforeMerge) {
             $targetThreadForMerge->reopen();
         }
+
         $this->event->raise(
             'Modules/Forum',
             'mergedThreads',
