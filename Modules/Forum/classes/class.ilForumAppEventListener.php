@@ -44,6 +44,10 @@ class ilForumAppEventListener implements ilAppEventListener
             case 'Modules/Forum':
                 switch ($a_event) {
                     case 'mergedThreads':
+                        ilForumPostDraft::moveDraftsByMergedThreads(
+                            (int) $a_parameter['source_thread_id'],
+                            (int) $a_parameter['target_thread_id']
+                        );
                         ilLPStatusWrapper::_refreshStatus(
                             (int) $a_parameter['obj_id']
                         );
