@@ -26,18 +26,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
     public SurveyCategories $columns;
     public SurveyCategories $rows;
     // First bipolar adjective for ordinal matrix questions
-    public string $bipolar_adjective1;
+    public string $bipolar_adjective1 = "";
     // Second bipolar adjective for ordinal matrix questions
-    public string $bipolar_adjective2;
+    public string $bipolar_adjective2 = "";
     // Enable state of separators for matrix columns
-    public bool $columnSeparators;
+    public bool $columnSeparators = false;
     // Enable state of separators for matrix rows
-    public bool $rowSeparators;
+    public bool $rowSeparators = false;
     // Enable state of a separator for the neutral column
-    public bool $neutralColumnSeparator;
+    public bool $neutralColumnSeparator = false;
     public array $layout;
     // Use placeholders for the column titles
-    public bool $columnPlaceholders;
+    public bool $columnPlaceholders = false;
     public bool $legend = false;
     public bool $singleLineRowCaption = false;
     public bool $repeatColumnHeader = false;
@@ -135,7 +135,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         string $a_other,
         string $a_label
     ) : void {
-        $this->rows->addCategory($a_text, $a_other, 0, $a_label);
+        $this->rows->addCategory($a_text, (int) $a_other, 0, $a_label);
     }
     
     public function addRowAtPosition(
@@ -971,7 +971,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             foreach ($data["material"] as $material) {
                 $column .= $material["text"];
             }
-            $this->columns->addCategory($column, null, strcmp($data["label"], "neutral") == 0);
+            $this->columns->addCategory($column, 0, strcmp($data["label"], "neutral") == 0);
         }
     }
 

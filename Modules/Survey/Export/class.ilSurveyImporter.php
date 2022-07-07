@@ -97,7 +97,12 @@ class ilSurveyImporter extends ilXmlImporter
             }
             $GLOBALS['ilLog']->write("getQuestionPoolID = " . $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID());
 
-            $import = new SurveyImportParser($this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID(), $xml_file, true, $a_mapping);
+            $import = new SurveyImportParser(
+                $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID(),
+                $xml_file,
+                true,
+                $a_mapping
+            );
 
             $import->setSurveyObject($newObj);
             $import->startParsing();

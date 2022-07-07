@@ -48,7 +48,7 @@ class ilObject
     protected int $max_title = self::TITLE_LENGTH;
     protected int $max_desc = self::DESC_LENGTH;
     protected bool $add_dots = true;
-    protected int $ref_id;
+    protected ?int $ref_id = null;
     protected string $type = "";
     protected string $title = "";
     protected bool $offline = false;

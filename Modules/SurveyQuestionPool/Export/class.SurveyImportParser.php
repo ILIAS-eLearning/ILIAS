@@ -81,7 +81,7 @@ class SurveyImportParser extends ilSaxParser
         int $a_spl_id,
         ?string $a_xml_file = '',
         bool $spl_exists = false,
-        array $a_mapping = null
+        ?ilImportMapping $a_mapping = null
     ) {
         global $DIC;
 
@@ -325,15 +325,15 @@ class SurveyImportParser extends ilSaxParser
                         $this->material = array();
                         break;
                 }
-                $this->material[] = array("text" => "", "image" => "", "label" => $a_attribs["label"]);
+                $this->material[] = array("text" => "", "image" => "", "label" => $a_attribs["label"] ?? "");
                 break;
             case "matimage":
                 case "label":
                     if (array_key_exists("label", $a_attribs)) {
-                        if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"], $matches)) {
+                        if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"] ?? "", $matches)) {
                             // import an mediaobject which was inserted using tiny mce
                             $this->session_repo->addMob(
-                                $a_attribs["label"],
+                                $a_attribs["label"] ?? "",
                                 $a_attribs["uri"],
                                 $a_attribs["type"],
                                 $a_attribs["id"]
@@ -354,7 +354,7 @@ class SurveyImportParser extends ilSaxParser
             case "matrixrow":
                 $this->material = array();
                 $this->matrix[] = "";
-                $this->matrixrowattribs = array("id" => $a_attribs["id"], "label" => $a_attribs["label"], "other" => $a_attribs["other"]);
+                $this->matrixrowattribs = array("id" => $a_attribs["id"], "label" => $a_attribs["label"] ?? "", "other" => $a_attribs["other"] ?? "");
                 break;
             case "responses":
                 $this->material = array();
@@ -365,34 +365,39 @@ class SurveyImportParser extends ilSaxParser
                 break;
             case "response_single":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "single", "id" => $a_attribs["id"], "label" => $a_attribs["label"], "other" => $a_attribs["other"], "neutral" => $a_attribs["neutral"], "scale" => $a_attribs["scale"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "single",
+                                                           "id" => $a_attribs["id"],
+                                                           "label" => $a_attribs["label"] ?? "",
+                                                           "other" => $a_attribs["other"] ?? "",
+                                                           "neutral" => $a_attribs["neutral"] ?? "",
+                                                           "scale" => $a_attribs["scale"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_multiple":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "multiple", "id" => $a_attribs["id"], "label" => $a_attribs["label"], "other" => $a_attribs["other"], "neutral" => $a_attribs["neutral"], "scale" => $a_attribs["scale"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "multiple", "id" => $a_attribs["id"], "label" => $a_attribs["label"] ?? "", "other" => $a_attribs["other"] ?? "", "neutral" => $a_attribs["neutral"] ?? "", "scale" => $a_attribs["scale"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_text":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"], "maxlength" => $a_attribs["maxlength"], "rows" => $a_attribs["rows"], "label" => $a_attribs["label"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"], "maxlength" => $a_attribs["maxlength"] ?? null, "rows" => $a_attribs["rows"], "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_num":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "num", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"], "min" => $a_attribs["min"], "size" => $a_attribs["size"], "label" => $a_attribs["label"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "num", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"] ?? null, "min" => $a_attribs["min"] ?? null, "size" => $a_attribs["size"] ?? null, "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_time":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "time", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"], "min" => $a_attribs["min"], "label" => $a_attribs["label"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "time", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"], "min" => $a_attribs["min"], "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "bipolar_adjectives":
                 $this->adjectives = array();
                 break;
             case "adjective":
-                $this->adjectives[] = array("label" => $a_attribs["label"], "text" => "");
+                $this->adjectives[] = array("label" => $a_attribs["label"] ?? "", "text" => "");
                 break;
         }
     }

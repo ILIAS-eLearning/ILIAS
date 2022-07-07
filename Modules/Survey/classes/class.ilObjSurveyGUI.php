@@ -661,7 +661,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             $this->log->debug("form->getInput(spl) = " . $form->getInput("spl"));
 
-            $error = $newObj->importObject($_FILES["importfile"], $form->getInput("spl"));
+            $error = $newObj->importObject($_FILES["importfile"], (int) $form->getInput("spl"));
             if ($error !== '') {
                 $newObj->delete();
                 $this->tpl->setOnScreenMessage('failure', $error);
