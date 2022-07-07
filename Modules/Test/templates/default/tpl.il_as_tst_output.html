@@ -100,12 +100,17 @@
 
     // fau: testNav - moved saving on time reached to ilTestPlayerQuestionEditControl.js .
 
-	function saveTextarea(editor)
-	{
-		document.forms["taForm"].submit();
-	}
-	
-<!-- fau: testNav - moved auto saver to ilTestPlayerQuestionEditControl.js -->
+    function saveTextarea(editor)
+    {
+        let form = document.forms['taForm'];
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'cmd[submitSolution]';
+        input.value = 'save';
+    
+        form.appendChild(input);
+        form.submit();
+    }
 
 	(function($){ $(document).ready( function()
 	{
