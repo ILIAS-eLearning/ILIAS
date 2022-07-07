@@ -513,7 +513,7 @@ class ilForumXMLParser extends ilSaxParser
                     );
                     $this->forumPost->setPosAuthorId((int) $author_id_data['usr_id']);
 
-                    if ($this->postArray['isAuthorModerator'] === 'NULL') {
+                    if (isset($this->postArray['isAuthorModerator']) && $this->postArray['isAuthorModerator'] === 'NULL') {
                         $this->forumPost->setIsAuthorModerator(false);
                     } else {
                         $this->forumPost->setIsAuthorModerator((bool) $this->postArray['isAuthorModerator']);
@@ -521,8 +521,8 @@ class ilForumXMLParser extends ilSaxParser
 
                     $this->forumPost->insert();
 
-                    if ($this->mapping['pos'][$this->postArray['ParentId']]) {
-                        $parentId = $this->mapping['pos'][$this->postArray['ParentId']];
+                    if (isset($this->mapping['pos'][$this->postArray['ParentId']])) {
+                        $parentId = (int) $this->mapping['pos'][$this->postArray['ParentId']];
                     } else {
                         $parentId = 0;
                     }
