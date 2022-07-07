@@ -1119,6 +1119,7 @@ class ilPersonalProfileGUI
 
     protected function getCheckedValues() : array // Missing array type.
     {
+        $key_suffix = "";
         switch ($this->form->getInput("public_profile")) {
             case "y":
                 $key_suffix = "-1";
