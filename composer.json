@@ -434,8 +434,8 @@
 			"wrapped_by": null,
 			"last_update": "2022-05-02",
 			"last_update_by": "",
-			"approved-by": "",
-			"approved-date": "YYYY-MM-DD"
+			"approved-by": "TB",
+			"approved-date": "2022-05-03"
 		},
 		"symfony/console": {
 			"source": "https://github.com/symfony/console",
