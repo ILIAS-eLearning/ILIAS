@@ -231,7 +231,7 @@ class ilForumTopic
     {
         $this->db->setLimit(1);
         $res = $this->db->queryF(
-            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos != %s AND depth = %s ORDER BY rgt DESC',
+            'SELECT pos_fk FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos != %s AND depth = %s ORDER BY rgt DESC',
             ['integer', 'integer', 'integer'],
             [$this->id, 0, 2]
         );
@@ -1041,7 +1041,7 @@ class ilForumTopic
             ['thr_pk' => ['integer', $this->getId()]]
         );
 
-        $first_node = $this->getPostRootNode();
+        $first_node = $this->getFirstVisiblePostNode();
         $first_node->setSubject($this->getSubject());
         $first_node->update();
     }
