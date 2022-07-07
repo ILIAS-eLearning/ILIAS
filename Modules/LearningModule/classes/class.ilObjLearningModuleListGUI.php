@@ -89,7 +89,10 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 
             case "learningProgress":
                 $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
-                $cmd_link = $ctrl->getLinkTargetByClass(ilLMPresentationGUI::class, "learningProgress");
+                $cmd_link = $ctrl->getLinkTargetByClass(
+                    [ilLMPresentationGUI::class, ilLearningProgressGUI::class   ],
+                    "editManual"
+                );
                 break;
 
             case "edit":
