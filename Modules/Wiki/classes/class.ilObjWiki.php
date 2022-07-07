@@ -213,7 +213,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page = new ilWikiPage();
             $start_page->setWikiId($this->getId());
             $start_page->setTitle($this->getStartPage());
-            $start_page->create(false);
+            $start_page->create();
         }
 
         return $id;
@@ -252,7 +252,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page = new ilWikiPage();
             $start_page->setWikiId($this->getId());
             $start_page->setTitle($this->getStartPage());
-            $start_page->create(false);
+            $start_page->create();
         }
 
         return true;
@@ -679,7 +679,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $new_page->setBlocked($page->getBlocked());
             $new_page->setRating($page->getRating());
             $new_page->hideAdvancedMetadata($page->isAdvancedMetadataHidden());
-            $new_page->create(false);
+            $new_page->create();
 
             $page->copy($new_page->getId(), "", 0, true);
             //$new_page->setXMLContent($page->copyXMLContent(true));
@@ -751,7 +751,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
         // needed for notification
         $page->setWikiRefId($this->getRefId());
-        $page->create(false);
+        $page->create();
 
         // copy template into new page
         if ($a_template_page > 0) {

@@ -347,7 +347,7 @@ use ILIAS\Notes\Service;
                     $author = $this->parseObjectExportId($a_rec["Author"] ?? "", -1);
                     $newObj->setAuthor((int) $author["id"]);
                     
-                    $newObj->create(false);
+                    $newObj->create(true);
                     
                     // keywords
                     $keywords = array();

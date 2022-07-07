@@ -120,8 +120,7 @@ class ilWikiPage extends ilPageObject
     }
 
     public function create(
-        bool $a_import = false,
-        bool $a_prevent_page_creation = false
+        bool $a_import = false
     ) : void {
         $ilDB = $this->db;
 
@@ -145,7 +144,7 @@ class ilWikiPage extends ilPageObject
         $ilDB->manipulate($query);
 
         // create page object
-        if (!$a_prevent_page_creation) {
+        if (!$a_import) {
             parent::create($a_import);
             $this->saveInternalLinks($this->getDomDoc());
 

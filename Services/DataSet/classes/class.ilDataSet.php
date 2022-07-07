@@ -306,7 +306,7 @@ abstract class ilDataSet
             $deps = $this->getDependencies($a_entity, $a_schema_version, $rec, $a_ids);
             $this->ds_log->debug("...dependencies: " . print_r($deps, true));
             foreach ($deps as $dp => $par) {
-                $ids = is_string($par["ids"])
+                $ids = !is_array($par["ids"])
                     ? [$par["ids"]]
                     : $par["ids"];
                 $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $ids, $par["field"] ?? null);
