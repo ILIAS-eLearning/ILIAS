@@ -539,7 +539,7 @@ class ilForumXMLParser extends ilSaxParser
                         'fpt_date' => ['timestamp', date('Y-m-d H:i:s')]
                     ]);
 
-                    $this->mapping['pos'][$this->postArray['Id']] = $this->forumPost->getId();
+                    $this->mapping['pos'][($this->postArray['Id'] ?? 0)] = $this->forumPost->getId();
                     $this->lastHandledPostId = $this->forumPost->getId();
 
                     $media_objects_found = false;
