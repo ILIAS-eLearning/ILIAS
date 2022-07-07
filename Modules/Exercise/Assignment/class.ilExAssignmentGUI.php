@@ -144,7 +144,10 @@ class ilExAssignmentGUI
         // status icon
         $tpl->setVariable(
             "ICON_STATUS",
-            $this->getIconForStatus($a_ass->getMemberStatus()->getStatus())
+            $this->getIconForStatus(
+                $a_ass->getMemberStatus()->getStatus(),
+                ilLPStatusIcons::ICON_VARIANT_SHORT
+            )
         );
 
         return $tpl->get();
@@ -513,9 +516,9 @@ class ilExAssignmentGUI
     /**
      * Get the rendered icon for a status (failed, passed or not graded).
      */
-    protected function getIconForStatus(string $status) : string
+    protected function getIconForStatus(string $status, int $variant = ilLPStatusIcons::ICON_VARIANT_LONG) : string
     {
-        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+        $icons = ilLPStatusIcons::getInstance($variant);
         $lng = $this->lng;
 
         switch ($status) {

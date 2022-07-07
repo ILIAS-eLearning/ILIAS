@@ -97,14 +97,14 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 );
             }
 
-            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
 
             foreach ($this->status as $status) {
                 $icon = $icons->renderIconForStatus($status);
 
                 foreach ($this->types as $type) {
                     if ($type != "avg") {
-                        $caption = $icon . $this->lng->txt(
+                        $caption = $icon . " " . $this->lng->txt(
                             "trac_object_stat_lp_" . $type
                         );
                     } else {

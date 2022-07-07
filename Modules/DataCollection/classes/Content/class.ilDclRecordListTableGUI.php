@@ -292,7 +292,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $record_field = ilDclCache::getRecordFieldCache($record, $field);
         $return = "";
         if ($status = $record_field->getStatus()) {
-            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
             $return = $icons->renderIconForStatus($status->status);
         }
 
