@@ -216,7 +216,7 @@ class ilForumTopic
     {
         $this->db->setLimit(1);
         $res = $this->db->queryF(
-            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s AND depth = %s ORDER BY rgt DESC',
+            'SELECT pos_fk FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s AND depth = %s ORDER BY rgt DESC',
             ['integer', 'integer', 'integer'],
             [$this->id, 0, 1]
         );
