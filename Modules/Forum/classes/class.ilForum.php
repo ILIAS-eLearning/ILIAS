@@ -1792,16 +1792,6 @@ class ilForum
             $targetThreadForMerge->reopen();
         }
 
-        $this->event->raise(
-            'Modules/Forum',
-            'mergedThreads',
-            [
-                'obj_id' => $this->getForumId(),
-                'source_thread_id' => $sourceThreadForMerge->getId(),
-                'target_thread_id' => $targetThreadForMerge->getId()
-            ]
-        );
-
         $this->deletePost($sourceThreadRootArray, false);
     }
 }
