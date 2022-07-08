@@ -36,7 +36,7 @@ class ilAccountMail
     private ilTree $repositoryTree;
     private ilMailMimeSenderFactory $senderFactory;
     public string $u_password = '';
-    public ?ilObjUser $user;
+    public ?ilObjUser $user = null;
     public string $target = '';
     private bool $lang_variables_as_fallback = false;
     /** @var string[] */
