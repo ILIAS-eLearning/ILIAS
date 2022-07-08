@@ -53,8 +53,9 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-
-        ilMemcacheServer::flushDB();
+        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        /** @var $db ilDBInterface */
+        $db->manipulate("TRUNCATE TABLE il_gc_memcache_server");
 
         $memcached_nodes = $this->settings->getMemcachedNodes();
         foreach ($memcached_nodes as $node) {
