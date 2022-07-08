@@ -80,7 +80,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         // item groups
         $this->getItemGroupsHTML();
         
-        if (is_array($this->items["_all"])) {
+        if (isset($this->items['_all']) && is_array($this->items["_all"])) {
             $title = $this->getContainerObject()->filteredSubtree()
                 ? $lng->txt("cont_found_objects")
                 : $lng->txt("content");
