@@ -22,6 +22,7 @@ class ilPrivacySettings
     private static ?ilPrivacySettings $instance = null;
     private ilDBInterface $db;
     private ilSetting $settings;
+    private ilObjUser $user;
 
     private bool $export_course;
     private bool $export_group;
@@ -55,6 +56,7 @@ class ilPrivacySettings
 
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
+        $this->user = $DIC->user();
 
         $this->read();
     }
@@ -104,12 +106,10 @@ class ilPrivacySettings
     {
         global $DIC;
 
-        $ilUser = $DIC->user();
         $ilAccess = $DIC->access();
         $rbacsystem = $DIC->rbac()->system();
 
-        $user_id = $a_user_id ?? $ilUser->getId();
-
+        $user_id = $a_user_id ?: $this->user->getId();
         if (ilObject::_lookupType($a_ref_id, true) == 'crs') {
             return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser(
                 $user_id,

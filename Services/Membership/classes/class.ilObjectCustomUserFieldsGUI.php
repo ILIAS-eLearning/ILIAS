@@ -225,11 +225,11 @@ class ilObjectCustomUserFieldsGUI
         $this->initFieldForm(self::MODE_CREATE);
         if ($this->form->checkInput()) {
             $udf = new ilCourseDefinedFieldDefinition($this->getObjId());
-            $udf->setName($this->form->getInput('na'));
-            $udf->setType($this->form->getInput('ty'));
+            $udf->setName((string) $this->form->getInput('na'));
+            $udf->setType((int) $this->form->getInput('ty'));
             $udf->setValues($udf->prepareValues($this->form->getInput('va')));
             $udf->setValueOptions($this->form->getItemByPostVar('va')->getOpenAnswerIndexes()); // #14720
-            $udf->enableRequired($this->form->getInput('re'));
+            $udf->enableRequired((bool) $this->form->getInput('re'));
             $udf->save();
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_cdf_added_field'));

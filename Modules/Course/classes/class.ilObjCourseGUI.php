@@ -1469,7 +1469,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
 
                 // only show if export permission is granted
-                if (ilPrivacySettings::getInstance()->checkExportAccess($this->object->getRefId()) or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) {
+                if (ilPrivacySettings::getInstance()->checkExportAccess($this->object->getRefId()) || ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) {
                     $this->tabs_gui->addSubTabTarget(
                         'crs_custom_user_fields',
                         $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui'),
