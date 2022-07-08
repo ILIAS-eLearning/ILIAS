@@ -282,7 +282,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("responses");
 
         if (count($this->material)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches)) {
+            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"] ?? "", $matches)) {
                 $attrs = array(
                     "label" => $this->material["title"]
                 );
