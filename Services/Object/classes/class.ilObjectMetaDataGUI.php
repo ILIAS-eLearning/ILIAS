@@ -82,7 +82,7 @@ class ilObjectMetaDataGUI
         $this->logger = $GLOBALS['DIC']->logger()->obj();
         $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $DIC->refinery());
     
-        $this->in_workspace = $this->retriever->getBool("wsp_id");
+        $this->in_workspace = ((int) $this->retriever->getMaybeInt("wsp_id")) > 0;
 
         $this->sub_type = $sub_type;
         $this->sub_id = $sub_id;
