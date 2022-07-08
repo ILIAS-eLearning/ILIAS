@@ -1071,8 +1071,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $format = ilObjMediaObject::getMimeType($form->getInput("full_reference"), true);
                     $full_item->setFormat($format);
                     $full_item->setLocationType("Reference");
-                    $location = $form->getInput("full_reference");
+                    $location = ilUtil::secureLink($form->getInput("full_reference"));
                     $type = "Reference";
+                    $full_item->setLocation($location);
                 }
                 $mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
                 if ($form->getInput("full_type") == "File") {
