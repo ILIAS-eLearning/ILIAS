@@ -129,7 +129,7 @@ class ilLOEditorStatus
 
     public function getFailures(int $a_section) : array
     {
-        return (array) $this->failures_by_section[$a_section];
+        return (array) ($this->failures_by_section[$a_section] ?? []);
     }
 
     protected function appendFailure(int $a_section, string $a_failure_msg_key, bool $is_error = false) : void

@@ -35,7 +35,7 @@ class ilLPStatusObjectives extends ilLPStatus
     public static function _getInProgress(int $a_obj_id) : array
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-        $usr_ids = (array) $objective_results['user_status'][self::LP_STATUS_IN_PROGRESS_NUM];
+        $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_IN_PROGRESS_NUM] ?? []);
 
         if ($usr_ids) {
             // Exclude all non members
@@ -52,7 +52,7 @@ class ilLPStatusObjectives extends ilLPStatus
     public static function _getCompleted(int $a_obj_id) : array
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-        $usr_ids = (array) $objective_results['user_status'][self::LP_STATUS_COMPLETED_NUM];
+        $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_COMPLETED_NUM] ?? []);
 
         if ($usr_ids) {
             // Exclude all non members
@@ -65,7 +65,7 @@ class ilLPStatusObjectives extends ilLPStatus
     public static function _getFailed(int $a_obj_id) : array
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-        $usr_ids = (array) $objective_results['user_status'][self::LP_STATUS_FAILED_NUM];
+        $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_FAILED_NUM] ?? []);
 
         if ($usr_ids) {
             // Exclude all non members
