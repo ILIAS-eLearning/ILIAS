@@ -826,7 +826,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $form->addItem($header);
 
         // starting time
-        $access_time = new ilDateDurationInputGUI($this->lng->txt("tst_starting_time"), "access_time");
+        $access_time = new ilDateDurationInputGUI($this->lng->txt("tst_starting_time"), "opening_period");
         $access_time->setShowTime(true);
         $access_time->setStart(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
         $access_time->setEnd(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
@@ -896,7 +896,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     {
         if (!$this->testOBJ->participantDataExist()) {
             // starting time
-            $access_time = $form->getItemByPostVar('access_time');
+            $access_time = $form->getItemByPostVar('opening_period');
             if ($access_time && $access_time->getStart()) {
                 $this->testOBJ->setStartingTime($access_time->getStart()->get(IL_CAL_UNIX));
                 $this->testOBJ->setStartingTimeEnabled(true);
