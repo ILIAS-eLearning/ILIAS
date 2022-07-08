@@ -43,8 +43,7 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
                 continue;
             }
 
-            /** @var $user ilObjUser */
-            if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false))) {
+            if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false)) || !($user instanceof ilObjUser)) {
                 continue;
             }
 
@@ -59,11 +58,9 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
         return $users;
     }
 
-    public function getGroupedCollections() : array // Missing array type.
+    public function getGroupedCollections() : array
     {
-        /**
-         * @var $DIC ILIAS\DI\Container
-         */
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $groups = [];

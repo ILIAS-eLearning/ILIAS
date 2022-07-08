@@ -52,6 +52,8 @@ class ilBuddySystemRelationRepository
             FROM buddylist
 			INNER JOIN usr_data ud
                 ON ud.usr_id = buddylist.usr_id
+            INNER JOIN usr_data udbuddy
+                ON udbuddy.usr_id = buddylist.buddy_usr_id
 			WHERE buddylist.usr_id = %s
 			UNION
 			SELECT

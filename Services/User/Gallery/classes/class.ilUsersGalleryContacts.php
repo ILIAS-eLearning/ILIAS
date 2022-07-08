@@ -18,32 +18,27 @@
 class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
 {
     /**
-     * @return ilBuddySystemRelationCollection[]
+     * @return Generator<array<int, ilBuddySystemRelation>>
      */
-    protected function getRelationSequence() : array
+    protected function getRelationSequence() : Generator
     {
-        $requested_for_me = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner()->toArray();
-        $linked = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray();
-        $requested_by_me = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsByOwner()->toArray();
-        $me_ignored = ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsByOwner()->toArray();
-        $ignored = ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsForOwner()->toArray();
-
-        return [$requested_for_me, $linked, $requested_by_me + $me_ignored,  $ignored];
+        yield ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner()->toArray();
+        yield ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray();
+        yield ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsByOwner()->toArray() + ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsByOwner()->toArray();
+        yield ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsForOwner()->toArray();
     }
 
-    public function getGroupedCollections(bool $ignore_myself = false) : array // Missing array type.
+    public function getGroupedCollections(bool $ignore_myself = false) : array
     {
         global $DIC;
 
-        $relations = $this->getRelationSequence();
         $groups = [];
 
-        foreach ($relations as $sorted_relation) {
+        foreach ($this->getRelationSequence() as $relations) {
             $user_data = [];
 
-            foreach ($sorted_relation as $usr_id => $users) {
-                /** @var $user ilObjUser */
-                if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false))) {
+            foreach ($relations as $usr_id => $relation) {
+                if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false)) || !($user instanceof ilObjUser)) {
                     continue;
                 }
 
