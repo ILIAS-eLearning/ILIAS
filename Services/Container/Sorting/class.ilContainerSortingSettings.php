@@ -368,7 +368,7 @@ class ilContainerSortingSettings
     ) : void {
         $settings = self::getInstanceByObjId($obj_id);
 
-        switch ($attibs['type']) {
+        switch ($attibs['type'] ?? '') {
             case 'Manual':
                 $settings->setSortMode(ilContainer::SORT_MANUAL);
                 break;
@@ -383,7 +383,7 @@ class ilContainerSortingSettings
                 break;
         }
 
-        switch ($attibs['direction']) {
+        switch ($attibs['direction'] ?? '') {
             case 'ASC':
                 $settings->setSortDirection(ilContainer::SORT_DIRECTION_ASC);
                 break;
