@@ -80,8 +80,11 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $mob_gui->initForm("create");
         if ($mob_gui->checkFormInput()) {
             $mob_gui->setObjectPerCreationForm($mob);
+            $media_item = $mob->getMediaItem("Standard");
+            if (!is_null($media_item)) {
+                $pc_media->createAlias($page, $hier_id, $pc_id);
+            }
         }
-        $pc_media->createAlias($page, $hier_id, $pc_id);
         $updated = $page->update();
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);

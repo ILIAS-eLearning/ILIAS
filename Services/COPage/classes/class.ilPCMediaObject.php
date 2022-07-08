@@ -30,7 +30,7 @@ class ilPCMediaObject extends ilPageContent
     protected ilObjUser $user;
     protected php4DOMElement $mob_node;
     protected \ILIAS\DI\UIServices $ui;
-    protected ilObjMediaObject $mediaobject;
+    protected ?ilObjMediaObject $mediaobject = null;
     protected ilLanguage $lng;
     protected ilGlobalPageTemplate $global_tpl;
 
@@ -78,7 +78,7 @@ class ilPCMediaObject extends ilPageContent
         $this->mediaobject = $a_mediaobject;
     }
 
-    public function getMediaObject() : ilObjMediaObject
+    public function getMediaObject() : ?ilObjMediaObject
     {
         return $this->mediaobject;
     }
@@ -111,6 +111,9 @@ class ilPCMediaObject extends ilPageContent
         $item_node = $this->mob_node->append_child($item_node);
         $item_node->set_attribute("Purpose", "Standard");
         $media_item = $this->getMediaObject()->getMediaItem("Standard");
+        if (is_null($media_item)) {
+            return;
+        }
 
         $layout_node = $this->dom->create_element("Layout");
         $layout_node = $item_node->append_child($layout_node);
