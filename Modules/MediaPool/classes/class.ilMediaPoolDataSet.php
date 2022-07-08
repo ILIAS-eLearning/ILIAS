@@ -268,9 +268,9 @@ class ilMediaPoolDataSet extends ilDataSet
                 
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
-                $newObj->setDefaultWidth($a_rec["DefaultWidth"]);
-                $newObj->setDefaultHeight($a_rec["DefaultHeight"]);
-                $newObj->setForTranslation($a_rec["ForTranslation"]);
+                $newObj->setDefaultWidth((int) $a_rec["DefaultWidth"]);
+                $newObj->setDefaultHeight((int) $a_rec["DefaultHeight"]);
+                $newObj->setForTranslation((bool) ($a_rec["ForTranslation"] ?? false));
                 $newObj->update();
                 
                 $this->current_obj = $newObj;
@@ -303,6 +303,9 @@ class ilMediaPoolDataSet extends ilDataSet
                             $item->setTitle($a_rec["Title"]);
                             $item->create();
                             if ($item->getId() > 0) {
+                                if ($parent === 0) {
+                                    $parent = null;
+                                }
                                 $this->current_obj->insertInTree($item->getId(), $parent);
                             }
                             break;
@@ -323,6 +326,9 @@ class ilMediaPoolDataSet extends ilDataSet
                                 "mep:" . $item->getId()
                             );
                             if ($item->getId() > 0) {
+                                if ($parent === 0) {
+                                    $parent = null;
+                                }
                                 $this->current_obj->insertInTree($item->getId(), $parent);
                             }
                             break;

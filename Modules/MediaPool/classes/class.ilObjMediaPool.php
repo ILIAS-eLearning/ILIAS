@@ -43,6 +43,9 @@ class ilObjMediaPool extends ilObject
 
     public function setDefaultWidth(?int $a_val) : void
     {
+        if ($a_val === 0) {
+            $a_val = null;
+        }
         $this->default_width = $a_val;
     }
     
@@ -53,6 +56,9 @@ class ilObjMediaPool extends ilObject
 
     public function setDefaultHeight(?int $a_val) : void
     {
+        if ($a_val === 0) {
+            $a_val = null;
+        }
         $this->default_height = $a_val;
     }
     
