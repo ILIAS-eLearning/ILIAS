@@ -987,7 +987,7 @@ class ilForum
         ';
 
         if ($post_activation_required) {
-            $query .= ' AND f.pos_status = %s' . $this->db->quote(1, 'integer');
+            $query .= ' AND f.pos_status = ' . $this->db->quote(1, 'integer');
         }
 
         $res = $this->db->queryF(
