@@ -70,13 +70,17 @@ class ilObjOrgUnitTree
 
         switch ($recursive) {
             case false:
-                $arr_usr_ids = $this->getAssignements($ref_id,
-                    ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
+                $arr_usr_ids = $this->getAssignements(
+                    $ref_id,
+                    ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE)
+                );
                 break;
             case true:
                 $assignment_query = ilOrgUnitUserAssignmentQueries::getInstance();
-                $arr_usr_ids = $assignment_query->getUserIdsOfOrgUnitsInPosition($this->getAllChildren($ref_id),
-                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                $arr_usr_ids = $assignment_query->getUserIdsOfOrgUnitsInPosition(
+                    $this->getAllChildren($ref_id),
+                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
+                );
                 break;
         }
 
@@ -99,14 +103,18 @@ class ilObjOrgUnitTree
     public function getSuperiors(int $ref_id, bool $recursive = false) : array
     {
         if ($recursive === false) {
-            return $this->getAssignements($ref_id,
-                ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
+            return $this->getAssignements(
+                $ref_id,
+                ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR)
+            );
         }
 
         $arr_usr_ids = [];
         foreach ($this->getAllChildren($ref_id) as $ref_id_child) {
-            $arr_usr_ids += $this->getAssignements($ref_id_child,
-                ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
+            $arr_usr_ids += $this->getAssignements(
+                $ref_id_child,
+                ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR)
+            );
         }
         return $arr_usr_ids;
     }
@@ -213,8 +221,10 @@ class ilObjOrgUnitTree
     {
         $q = "SELECT object_data.obj_id, object_data.title, object_data.type, rbac_pa.ops_id FROM object_data
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($this->ilUser->getId(), "integer") . "
-		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', " . $this->db->quote($operation_id,
-                "integer") . ", '%')
+		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', " . $this->db->quote(
+            $operation_id,
+            "integer"
+        ) . ", '%')
 		INNER JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 		INNER JOIN tree ON tree.child = rbac_fa.parent
 		INNER JOIN object_reference ON object_reference.ref_id = tree.parent
@@ -238,14 +248,13 @@ class ilObjOrgUnitTree
     private function getChildren(int $ref_id) : array
     {
         $this->loadChildren($ref_id);
-
         return $this->tree_childs[$ref_id];
     }
 
     private function loadChildren(int $ref_id) : void
     {
-        if (!$this->tree_childs[$ref_id]) {
-            $children = array();
+        if (!array_key_exists($ref_id, $this->tree_childs)) {
+            $children = [];
             foreach ($this->tree->getChilds($ref_id) as $child) {
                 if ($child["type"] == "orgu") {
                     $children[] = $child["child"];
@@ -292,11 +301,15 @@ class ilObjOrgUnitTree
                 foreach ($orgu_ref_ids as $orgu_ref_id) {
                     $orgu_ref_id_with_children = array_merge($orgu_ref_ids, $this->getAllChildren($orgu_ref_id));
                 }
-                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_id_with_children,
-                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                return $assignment_query->getUserIdsOfOrgUnitsInPosition(
+                    $orgu_ref_id_with_children,
+                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
+                );
             default:
-                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_ids,
-                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                return $assignment_query->getUserIdsOfOrgUnitsInPosition(
+                    $orgu_ref_ids,
+                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
+                );
         }
     }
 
@@ -527,7 +540,7 @@ class ilObjOrgUnitTree
 
     public function getParent(int $orgu_ref) : int
     {
-        if (array_key_exists($orgu_ref,$this->parent) === false) {
+        if (array_key_exists($orgu_ref, $this->parent) === false) {
             $this->parent[$orgu_ref] = $this->tree->getParentId($orgu_ref);
         }
 
