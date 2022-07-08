@@ -53,7 +53,7 @@ class ilObjLTIConsumer extends ilObject2
 
     protected string $customLaunchSecret = '';
 
-    protected int $ref_id = 0;
+    protected ?int $ref_id = 0;
 
     //Highscore
     protected bool $_highscore_enabled = false;
