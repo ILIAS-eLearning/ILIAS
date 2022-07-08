@@ -96,7 +96,6 @@ class ilSoapClient
                     'connection_timeout' => $this->getTimeout()
                 )
             );
-            $this->client->__setCookie('XDEBUG_SESSION', 'PHPSTORM');
             return true;
         } catch (SoapFault $ex) {
             $this->log->warning('Soap init failed with message: ' . $ex->getMessage());
