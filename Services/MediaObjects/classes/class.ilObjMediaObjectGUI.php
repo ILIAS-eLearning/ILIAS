@@ -316,7 +316,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "standard_size");
         if ($a_mode == "edit") {
             if ($orig_size = $std_item->getOriginalSize()) {
-                $add_str = " (" . $orig_size["width"] . " x " . $orig_size["height"] . ")";
+                $add_str = " (" . ($orig_size["width"] ?? "") . " x " . ($orig_size["height"] ?? "") . ")";
             }
             $op1 = new ilRadioOption($lng->txt("cont_resource_size") . $add_str, "original");
             $op1->setInfo($lng->txt("cont_resource_size_info"));
@@ -437,7 +437,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         if ($a_mode == "edit") {
             $add_str = "";
             if ($this->object->hasFullscreenItem() && ($orig_size = $full_item->getOriginalSize())) {
-                $add_str = " (" . $orig_size["width"] . " x " . $orig_size["height"] . ")";
+                $add_str = " (" . ($orig_size["width"] ?? "") . " x " . ($orig_size["height"] ?? "") . ")";
             }
             $op1 = new ilRadioOption($lng->txt("cont_resource_size") . $add_str, "original");
             $op1->setInfo($lng->txt("cont_resource_size_info"));
@@ -511,10 +511,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             }
         }
 
-        $this->form_gui->setTitle($lng->txt("cont_insert_mob"));
+
         if ($a_mode == "edit") {
+            $this->form_gui->setTitle($lng->txt("cont_edit_mob"));
             $this->form_gui->addCommandButton("saveProperties", $lng->txt("save"));
         } else {
+            $this->form_gui->setTitle($lng->txt("cont_insert_mob"));
             $this->form_gui->addCommandButton("save", $lng->txt("save"));
             $this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
         }
@@ -560,8 +562,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $orig_size = $std_item->getOriginalSize();
         if ($std_item->getWidth() == "" && $std_item->getHeight() == "") {
             $values["standard_size"] = "original";
-            $values["standard_width_height"]["width"] = $orig_size["width"];
-            $values["standard_width_height"]["height"] = $orig_size["height"];
+            $values["standard_width_height"]["width"] = $orig_size["width"] ?? "";
+            $values["standard_width_height"]["height"] = $orig_size["height"] ?? "";
         }
 
         $values["standard_caption"] = $std_item->getCaption();
@@ -600,8 +602,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             if ($full_item->getWidth() == "" &&
                 $full_item->getHeight() == "") {
                 $values["full_size"] = "original";
-                $values["full_width_height"]["width"] = $orig_size["width"];
-                $values["full_width_height"]["height"] = $orig_size["height"];
+                $values["full_width_height"]["width"] = $orig_size["width"] ?? "";
+                $values["full_width_height"]["height"] = $orig_size["height"] ?? "";
             }
             $values["full_caption"] = $full_item->getCaption();
             if ($this->media_type->usesAutoStartParameterOnly(
@@ -1408,8 +1410,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
             // original size
             if ($orig_size = $med->getOriginalSize()) {
-                if ($orig_size["width"] != $med->getWidth() ||
-                    $orig_size["height"] != $med->getHeight()) {
+                if (($orig_size["width"] ?? "") !== $med->getWidth() ||
+                    ($orig_size["height"] ?? "") !== $med->getHeight()) {
                     $tpl->setCurrentBlock("orig_size");
                     $tpl->setVariable("TXT_ORIG_SIZE", $lng->txt("cont_orig_size"));
                     $tpl->setVariable("ORIG_WIDTH", $orig_size["width"]);

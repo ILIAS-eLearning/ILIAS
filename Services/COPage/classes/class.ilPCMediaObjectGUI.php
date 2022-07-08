@@ -630,7 +630,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         // standard size
         $radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "st_derive_size");
         $orig_size = $std_item->getOriginalSize();
-        $add_str = ($orig_size["width"] != "" && $orig_size["height"] != "")
+        $add_str = (!is_null($orig_size))
             ? " (" . $orig_size["width"] . " x " . $orig_size["height"] . ")"
             : "";
         $op1 = new ilRadioOption($lng->txt("cont_default") . $add_str, "y");
@@ -749,7 +749,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             // full size
             $radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_derive_size");
             $fw_size = $std_item->getOriginalSize();
-            $add_str = ($fw_size["width"] != "" && $fw_size["height"] != "")
+            $add_str = (!is_null($fw_size))
                 ? " (" . $fw_size["width"] . " x " . $fw_size["height"] . ")"
                 : "";
             $op1 = new ilRadioOption($lng->txt("cont_default") . $add_str, "y");
