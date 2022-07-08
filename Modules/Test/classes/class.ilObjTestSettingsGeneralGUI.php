@@ -826,19 +826,19 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $form->addItem($header);
 
         // starting time
-        $access_time = new ilDateDurationInputGUI($this->lng->txt("tst_starting_time"), "opening_period");
-        $access_time->setShowTime(true);
-        $access_time->setStart(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
-        $access_time->setEnd(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
-        $access_time->setStartText($this->lng->txt('tst_starting_time'));
-        $access_time->setEndText($this->lng->txt('tst_ending_time'));
-        $access_time->setInfo($this->lng->txt('tst_ending_time_desc'));
-        $access_time->setAllowOpenIntervals(true);
+        $opening_period = new ilDateDurationInputGUI($this->lng->txt("tst_starting_time"), "opening_period");
+        $opening_period->setShowTime(true);
+        $opening_period->setStart(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
+        $opening_period->setEnd(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
+        $opening_period->setStartText($this->lng->txt('tst_starting_time'));
+        $opening_period->setEndText($this->lng->txt('tst_ending_time'));
+        $opening_period->setInfo($this->lng->txt('tst_ending_time_desc'));
+        $opening_period->setAllowOpenIntervals(true);
         if ($this->testOBJ->participantDataExist()) {
-            $access_time->setDisabled(true);
+            $opening_period->setDisabled(true);
         }
 
-        $form->addItem($access_time);
+        $form->addItem($opening_period);
 
         // test password
         $pwEnabled = new ilCheckboxInputGUI($this->lng->txt('tst_password'), 'password_enabled');
@@ -896,16 +896,16 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     {
         if (!$this->testOBJ->participantDataExist()) {
             // starting time
-            $access_time = $form->getItemByPostVar('opening_period');
-            if ($access_time && $access_time->getStart()) {
-                $this->testOBJ->setStartingTime($access_time->getStart()->get(IL_CAL_UNIX));
+            $opening_period = $form->getItemByPostVar('opening_period');
+            if ($opening_period && $opening_period->getStart()) {
+                $this->testOBJ->setStartingTime($opening_period->getStart()->get(IL_CAL_UNIX));
                 $this->testOBJ->setStartingTimeEnabled(true);
             } else {
                 $this->testOBJ->setStartingTime(null);
                 $this->testOBJ->setStartingTimeEnabled(false);
             }
-            if ($access_time && $access_time->getEnd()) {
-                $this->testOBJ->setEndingTime($access_time->getEnd()->get(IL_CAL_UNIX));
+            if ($opening_period && $opening_period->getEnd()) {
+                $this->testOBJ->setEndingTime($opening_period->getEnd()->get(IL_CAL_UNIX));
                 $this->testOBJ->setEndingTimeEnabled(true);
             } else {
                 $this->testOBJ->setEndingTime(null);
