@@ -85,7 +85,7 @@ final class CalledContexts extends ContextCollection
         array_walk(
             $called_classes,
             function (&$item) : void {
-                $item = $item['class'] . ":" . $item['line'];
+                $item = $item['class'] . ":" . ($item['line'] ?? '');
             }
         );
 

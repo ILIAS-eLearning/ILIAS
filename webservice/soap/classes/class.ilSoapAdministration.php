@@ -136,7 +136,6 @@ class ilSoapAdministration
     protected function initAuth(string $sid) : void
     {
         [$sid, $client] = $this->explodeSid($sid);
-        define('CLIENT_ID', $client);
         $_COOKIE['ilClientId'] = $client;
         $_COOKIE[session_name()] = $sid;
     }
@@ -148,8 +147,6 @@ class ilSoapAdministration
                 require_once("Services/Init/classes/class.ilInitialisation.php");
                 ilInitialisation::reinitILIAS();
             } catch (Exception $e) {
-                // #10608
-                // no need to do anything here, see __checkSession() below
             }
         }
     }
