@@ -123,8 +123,10 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 
     public function setValueByArray(array $a_values) : void
     {
-        $this->setWidth($a_values[$this->getPostVar()]["width"] ?? null);
-        $this->setHeight($a_values[$this->getPostVar()]["height"] ?? null);
+        $w = $a_values[$this->getPostVar()]["width"] ?? false;
+        $h = $a_values[$this->getPostVar()]["height"] ?? false;
+        $this->setWidth($w ? (int) $w : null);
+        $this->setHeight($h ? (int) $h : null);
         $this->setConstrainProportions($a_values[$this->getPostVar()]["constr_prop"] ?? false);
     }
 }

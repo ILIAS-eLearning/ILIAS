@@ -504,7 +504,7 @@ class MimeType
         }
         $parts = parse_url($path_to_file);
         $this->setPath($path_to_file);
-        $this->setSuffix(pathinfo($parts['path'], PATHINFO_EXTENSION));
+        $this->setSuffix(pathinfo($parts['path'] ?? "", PATHINFO_EXTENSION));
     }
     
     /**
