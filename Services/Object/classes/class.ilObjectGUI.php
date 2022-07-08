@@ -206,7 +206,7 @@ class ilObjectGUI
         return $this->object_service;
     }
 
-    public function getObject() : ilObject
+    public function getObject() : ?ilObject
     {
         return $this->object;
     }

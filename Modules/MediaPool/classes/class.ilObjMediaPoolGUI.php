@@ -239,19 +239,22 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $ret = $this->ctrl->forwardCommand($ilObjMediaObjectGUI);
                 if ($cmd === "save") {
                     $object = $ilObjMediaObjectGUI->getObject();
-                    $mep_item = new ilMediaPoolItem();
-                    $mep_item->setTitle($object->getTitle());
-                    $mep_item->setType("mob");
-                    $mep_item->setForeignId($object->getId());
-                    $mep_item->create();
+                    if (!is_null($object)) {
+                        $mep_item = new ilMediaPoolItem();
+                        $mep_item->setTitle($object->getTitle());
+                        $mep_item->setType("mob");
+                        $mep_item->setForeignId($object->getId());
+                        $mep_item->create();
 
-                    $parent = $this->mep_item_id;
-                    $tree->insertNode($mep_item->getId(), $parent);
-                    ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=" .
-                        $this->requested_ref_id . "&mepitem_id=" . $this->mep_item_id);
-                } else {
-                    $this->tpl->printToStdout();
+                        $parent = $this->mep_item_id;
+                        $tree->insertNode($mep_item->getId(), $parent);
+                        ilUtil::redirect(
+                            "ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=" .
+                            $this->requested_ref_id . "&mepitem_id=" . $this->mep_item_id
+                        );
+                    }
                 }
+                $this->tpl->printToStdout();
                 break;
 
             case "ilobjfoldergui":
