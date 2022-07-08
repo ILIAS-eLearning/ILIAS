@@ -63,7 +63,9 @@ class ilCourseContentGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $this->__initCourseObject();
+        $this->container_gui = $container_gui_obj;
+        $this->container_obj = $this->container_gui->getObject();
+        $this->initCourseObject();
     }
 
     public function executeCommand() : void
@@ -454,12 +456,13 @@ class ilCourseContentGUI
             $item_obj = new ilObjectActivation();
             $item_obj->read($ref_id);
 
+            $data['active'] = $data['active'] ?? 0;
             $item_obj->setTimingType($data['active'] ? ilObjectActivation::TIMINGS_PRESETTING : ilObjectActivation::TIMINGS_DEACTIVATED);
-            $item_obj->toggleChangeable((bool) $data['change']);
+            $item_obj->toggleChangeable((bool) ($data['change'] ?? false));
 
             if ($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE) {
-                $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
-                $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
+                $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start'] ?? '');
+                $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end'] ?? '');
 
                 if ($sug_start_dt instanceof ilDate && $sug_end_dt instanceof ilDate) {
                     if (ilDateTime::_after($sug_start_dt, $sug_end_dt)) {
@@ -513,7 +516,7 @@ class ilCourseContentGUI
         }
     }
 
-    public function __initCourseObject() : bool
+    public function initCourseObject() : bool
     {
         if ($this->container_obj instanceof ilObjCourse) {
             $this->course_obj = $this->container_obj;
