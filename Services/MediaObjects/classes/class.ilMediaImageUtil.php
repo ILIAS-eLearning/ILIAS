@@ -56,10 +56,12 @@ class ilMediaImageUtil
                 $size = getimagesize($a_location);
             }
         } else {
-            $size = getimagesize($a_location);
+            if (is_file($a_location)) {
+                $size = getimagesize($a_location);
+            }
         }
-        if (!is_array($size)) {
-            $size = null;
+        if (!isset($size)) {
+            $size = [0,0];
         }
         return $size;
     }
