@@ -309,10 +309,9 @@ class ilForumTopic
 			INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 			WHERE parent_pos = %s
 			AND thr_fk = %s
-			AND depth = %s
 			ORDER BY rgt DESC',
             ['integer', 'integer'],
-            [0, $this->id, 1]
+            [0, $this->id]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
@@ -336,7 +335,7 @@ class ilForumTopic
 			AND thr_fk = %s
 			AND depth = %s
 			ORDER BY rgt DESC',
-            ['integer', 'integer'],
+            ['integer', 'integer', 'integer'],
             [0, $this->id, 2]
         );
 
