@@ -39,6 +39,7 @@ class ilUserSearchOptions
     // begin-patch lok
     public const FIELD_TYPE_MULTI = 5;
     // end-patch lok
+    public const FIELD_TYPE_UDF_WYSIWYG = 6;
 
 
     /**
@@ -231,6 +232,13 @@ class ilUserSearchOptions
                 case UDF_TYPE_SELECT:
                     $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
                     break;
+                
+                case UDF_TYPE_WYSIWYG:
+                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_WYSIWYG;
+                    break;
+
+                default:
+                    throw new \Exception('unsupported udf type');
             }
             ++$counter;
         }
