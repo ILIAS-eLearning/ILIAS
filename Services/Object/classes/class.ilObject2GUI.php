@@ -415,7 +415,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
             $this->getAccessHandler()->removePermission($node_id);
 
-            $object = ilObjectFactory::getInstanceByObjId($node["obj_id"], false);
+            $object = ilObjectFactory::getInstanceByObjId((int) $node["obj_id"], false);
             if ($object) {
                 $object->delete();
             }
