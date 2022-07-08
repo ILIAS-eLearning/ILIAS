@@ -112,7 +112,7 @@ class ilUserDefinedFields
 
     public function getDefinition(int $a_id) : array // Missing array type.
     {
-        return is_array($this->definitions[$a_id]) ? $this->definitions[$a_id] : array();
+        return $this->definitions[$a_id] ?? array();
     }
 
     public function getVisibleDefinitions() : array // Missing array type.
