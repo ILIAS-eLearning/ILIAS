@@ -98,8 +98,8 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                         $agg_usages[$usage["type"] . ":" . $usage["id"]] = $usage;
                     }
                     $agg_usages[$usage["type"] . ":" . $usage["id"]]["versions"][] =
-                        ["hist_nr" => $usage["hist_nr"],
-                         "lang" => $usage["lang"]];
+                        ["hist_nr" => $usage["hist_nr"] ?? 0,
+                         "lang" => $usage["lang"] ?? ""];
                 }
             }
         }
@@ -218,7 +218,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         }
 
         // show versions
-        if (is_array($usage["versions"]) && is_object($usage["page"])) {
+        if (is_array($usage["versions"]) && is_object($usage["page"] ?? null)) {
             $ver = $sep = "";
 
             if (count($usage["versions"]) > 5) {
@@ -261,10 +261,10 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("TXT_OBJECT_NO_LINK", $item["obj_title"]);
             }
             
-            if ($item["sub_txt"] != "") {
+            if (($item["sub_txt"] ?? "") != "") {
                 $this->tpl->setVariable("SEP", ", ");
                 $this->tpl->setVariable("SUB_TXT", $item["sub_txt"]);
-                if ($item["sub_title"] != "") {
+                if (($item["sub_title"] ?? "") != "") {
                     $this->tpl->setVariable("SEP2", ": ");
                     $this->tpl->setVariable("SUB_TITLE", $item["sub_title"]);
                 }
