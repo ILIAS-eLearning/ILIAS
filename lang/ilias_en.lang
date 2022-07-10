@@ -15391,7 +15391,7 @@ cont#:#cont_list_presentation#:#Item Presentation
 cont#:#cont_item_list#:#List
 cont#:#cont_tile_view#:#Tiles
 obj#:#obj_tile_image#:#Tile Image
-obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation.
+obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation. To avoid performance issues, upload files with a resolution of 72dpi and a width less than 1000 px. Otherwise the display of the page will be unnecessarily delayed.
 fold#:#fold_presentation#:#Folder Presentation
 rep#:#rep_tree_limit#:#Limit Items in Tree
 rep#:#rep_tree_limit_info#:#The number of objects in the repository tree will be limited to enhance performance.
