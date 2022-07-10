@@ -12058,8 +12058,8 @@ obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
 obj#:#obj_tool_setting_tag_cloud_info#:#The ‘Tag Cloud’ block will be displayed inside the ‘Content’ tab.
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view. Users can subscribe for notifications, if the news block or the timeline are activated.
-obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
+obj#:#obj_tool_setting_use_news_info#:#Use of the news block and/or timeline view. Users can subscribe for notifications if the news block or the timeline are activated.
+obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings of News Block and Timeline
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
 obj#:#svy_results#:#Results
