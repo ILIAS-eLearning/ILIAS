@@ -241,14 +241,14 @@ abstract class ActiveRecord
     }
 
     /**
-     * @depracated never use in ILIAS Core, Plugins only
+     * @deprecated never use in ILIAS Core, Plugins only
      */
     final public static function removeDBField(string $field_name) : bool
     {
         return self::getCalledClass()->getArConnector()->removeField(self::getCalledClass(), $field_name);
     }
     /**
-     * @depracated never use in ILIAS Core, Plugins only
+     * @deprecated never use in ILIAS Core, Plugins only
      */
     final protected function installDatabase() : bool
     {
@@ -267,7 +267,7 @@ abstract class ActiveRecord
     }
 
     /**
-     * @depracated never use in ILIAS Core, Plugins only
+     * @deprecated never use in ILIAS Core, Plugins only
      */
     final public static function updateDB() : bool
     {
@@ -280,13 +280,16 @@ abstract class ActiveRecord
         return self::getCalledClass()->getArConnector()->updateDatabase(self::getCalledClass());
     }
     /**
-     * @depracated never use in ILIAS Core, Plugins only
+     * @deprecated never use in ILIAS Core, Plugins only
      */
     final public static function resetDB() : bool
     {
         return self::getCalledClass()->getArConnector()->resetDatabase(self::getCalledClass());
     }
 
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
     final public static function truncateDB() : void
     {
         self::getCalledClass()->getArConnector()->truncateDatabase(self::getCalledClass());
