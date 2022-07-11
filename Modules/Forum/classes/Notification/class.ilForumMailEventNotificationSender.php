@@ -491,8 +491,10 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $body .= "\n\n";
         $body .= $this->getLanguageText('forum') . ": " . $this->provider->getForumTitle();
         $body .= "\n\n";
-        $body .= $this->getLanguageText($this->provider->getTopItemType()) . ": " . $this->provider->getTopItemTitle();
-        $body .= "\n\n";
+        if ($this->provider->getTopItemType() !== '' && $this->provider->getTopItemTitle() !== '') {
+            $body .= $this->getLanguageText($this->provider->getTopItemType()) . ": " . $this->provider->getTopItemTitle();
+            $body .= "\n\n";
+        }
         $body .= $this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle();
         $body .= "\n\n";
         $body .= $this->getLanguageText($action) . ": \n------------------------------------------------------------\n";
@@ -577,11 +579,13 @@ class ilForumMailEventNotificationSender extends ilMailNotification
      */
     private function createSubjectText(string $subject) : string
     {
+        if ($this->provider->getTopItemTitle() !== '' && $this->provider->getTopItemType() !== '') {
+            $top_item_text = "(" . $this->getLanguageText($this->provider->getTopItemType()) . " \"" . $this->provider->getTopItemTitle() . "\")";
+        }
         return sprintf(
             $this->getLanguageText($subject),
             $this->provider->getForumTitle(),
-            $this->getLanguageText($this->provider->getTopItemType()),
-            $this->provider->getTopItemTitle(),
+            $top_item_text ?? '',
             $this->provider->getThreadTitle()
         );
     }

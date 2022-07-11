@@ -13149,14 +13149,14 @@ forum#:#content_deleted_thread#:#Content of the deleted thread:
 forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
 forum#:#frm_noti_message#:#Message:
 forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
-forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s" (%2$s: "%3$s"), thread "%4$s"
-forum#:#frm_noti_subject_del_thread#:#Thread "%4$s" deleted in forum "%1$s (%2$s: "%3$s")"
-forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s" (%2$s: "%3$s"), thread "%4$s"
-forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s" (%2$s: "%3$s"), thread "%4$s"
-forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s" (%2$s: "%3$s"), thread "%4$s"
-forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s" (%2$s: "%3$s"), thread "%4$s"
-forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s" (%2$s: "%3$s"), thread "%4$s"
-forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s" (%2$s: "%3$s"), thread "%4$s"
+forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s"%2$s%, thread "%3$s"
+forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_del_thread#:#Thread "%4$s" deleted in forum "%1$s"%3$s
+forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s"%2$s, thread "%3$s"
 search#:#search_show_inactive_user#:#Show Inactive Users
 search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users, too.
 search#:#search_show_limited_user#:#Show Users with Limited Access
