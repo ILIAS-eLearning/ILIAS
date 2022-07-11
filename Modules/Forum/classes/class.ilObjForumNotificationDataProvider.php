@@ -356,24 +356,26 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
             $row = $this->db->fetchAssoc($result);
 
-            $this->notificationCache->store($cacheKey, $row);
-        }
-
-        $row = $this->notificationCache->fetch($cacheKey);
-        $this->forum_id = $row['top_pk'];
-        $this->forum_title = $row['top_name'];
-
-        $forum = ilObjectFactory::getInstanceByObjId($this->getObjId());
-        if ($forum instanceof ilObjForum) {
-            $top_item_ref_id = $this->tree->getParentId($this->getRefId());
+            $top_item_crs_ref = $this->tree->checkForParentType($this->getRefId(), 'crs');
+            $top_item_grp_ref = $this->tree->checkForParentType($this->getRefId(), 'grp');
+            $top_item_ref_id = $top_item_crs_ref > 0 ? $top_item_crs_ref : $top_item_grp_ref;
             if ($top_item_ref_id) {
                 $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
                 if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
-                    $this->top_item_title = $top_item->getTitle();
-                    $this->top_item_type = $top_item->getType();
+                    $row['top_item_title'] = $top_item->getTitle();
+                    $row['top_item_type'] = $top_item->getType();
                 }
             }
+
+            $this->notificationCache->store($cacheKey, $row);
         }
+
+        $row = $row ?? $this->notificationCache->fetch($cacheKey);
+        $this->forum_id = $row['top_pk'];
+        $this->forum_title = $row['top_name'];
+        $this->top_item_title = $row['top_item_title'] ?? '';
+        $this->top_item_type = $row['top_item_type'] ?? '';
+
 
         $this->is_anonymized = (bool) $row['anonymized'];
     }
