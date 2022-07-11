@@ -119,7 +119,8 @@ class ilUserAvatarResolver
         }
 
         if ($this->useUploadedFile()) {
-            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login)
+            $picture = ilWACSignedPath::signFile($this->uploaded_file);
+            return $this->ui->symbol()->avatar()->picture($picture, $this->login)
                             ->withLabel($alternative_text);
         }
     
