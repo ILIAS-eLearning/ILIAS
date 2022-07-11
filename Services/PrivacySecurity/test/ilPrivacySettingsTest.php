@@ -10,14 +10,21 @@ use ILIAS\DI\Container;
  */
 class ilPrivacySettingsTest extends TestCase
 {
-    protected $backupGlobals = false;
-
-    protected Container $dic;
+    protected ?Container $dic = null;
 
     protected function setUp() : void
     {
         $this->initDependencies();
         parent::setUp();
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     public function testConstruct() : void
@@ -39,14 +46,18 @@ class ilPrivacySettingsTest extends TestCase
 
     protected function initDependencies() : void
     {
-        $this->dic = new Container();
-        $GLOBALS['DIC'] = $this->dic;
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
 
         if (!defined('SYSTEM_FOLDER_ID')) {
-            define('SYSTEM_FOLDER_ID' , 9);
+            define('SYSTEM_FOLDER_ID', 9);
         }
 
         $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
-        $this->setGlobalVariable('ilSetting', $this->createMock(ilSetting::class));
+        $this->setGlobalVariable('ilSetting', $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock());
+        $this->setGlobalVariable('ilUser', $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock());
     }
 }
