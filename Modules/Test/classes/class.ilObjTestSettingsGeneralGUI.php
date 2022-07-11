@@ -814,13 +814,13 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $header->setTitle($this->lng->txt("tst_settings_header_execution"));
         $form->addItem($header);
 
-        $opening_period = new ilDateDurationInputGUI($this->lng->txt("tst_settings_header_execution"), "opening_period");
+        $opening_period = new ilDateDurationInputGUI($this->lng->txt("tst_opening_period"), "opening_period");
         $opening_period->setShowTime(true);
         $opening_period->setStart(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
         $opening_period->setEnd(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
         $opening_period->setStartText($this->lng->txt('tst_starting_time'));
         $opening_period->setEndText($this->lng->txt('tst_ending_time'));
-        $opening_period->setInfo($this->lng->txt('tst_ending_time_desc'));
+        $opening_period->setInfo($this->lng->txt('tst_opening_period_desc'));
         $opening_period->setAllowOpenIntervals(true);
         if ($this->testOBJ->participantDataExist()) {
             $opening_period->setDisabled(true);
