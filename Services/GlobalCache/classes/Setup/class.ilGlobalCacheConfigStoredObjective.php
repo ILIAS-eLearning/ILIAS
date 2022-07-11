@@ -62,9 +62,9 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
             $node->create();
         }
 
-        $this->settings->writeToIniFile($client_ini);
+        $return = $this->settings->writeToIniFile($client_ini);
 
-        if (!$client_ini->write()) {
+        if (!$client_ini->write() || !$return) {
             throw new Setup\UnachievableException("Could not write client.ini.php");
         }
 
