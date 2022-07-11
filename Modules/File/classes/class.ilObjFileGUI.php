@@ -284,12 +284,13 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         if (1 === count($a_forms)) {
-            if ($a_forms[0] instanceof Standard) {
-                return $this->ui->renderer()->render($a_forms[0]);
+            $creation_form = end($a_forms);
+            if ($creation_form instanceof Standard) {
+                return $this->ui->renderer()->render($creation_form);
             }
 
-            if ($a_forms[0] instanceof ilPropertyFormGUI) {
-                return $a_forms[0]->getHTML();
+            if ($creation_form instanceof ilPropertyFormGUI) {
+                return $creation_form->getHTML();
             }
         }
 
@@ -412,7 +413,16 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
-        $link = ilLink::_getLink($this->requested_ref_id);
+        switch ($this->id_type) {
+            case self::WORKSPACE_NODE_ID:
+                $link = $this->ctrl->getLinkTargetByClass(ilObjWorkspaceRootFolderGUI::class);
+                break;
+            case self::REPOSITORY_NODE_ID:
+            default:
+                $link = ilLink::_getLink($this->requested_ref_id);
+                break;
+        }
+
         $this->ctrl->redirectToURL($link);
     }
 
