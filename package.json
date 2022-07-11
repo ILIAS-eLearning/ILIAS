@@ -39,9 +39,9 @@
     "@rollup/plugin-node-resolve": "^8.1.0",
     "chai": "^4.2.0",
     "esm": "^3.2.25",
+    "jsdom": "19.0.0",
     "less": "^4.1.1",
     "mocha": "^8.0.1",
-    "jsdom": "19.0.0",
     "rollup": "^2.18.0",
     "rollup-plugin-terser": "^6.1.0"
   },

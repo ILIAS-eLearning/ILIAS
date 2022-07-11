@@ -27,9 +27,9 @@ if (defined('ILIAS_HTTP_PATH')) {
 $iliasHttpPath = $weburl;
 
 if ($DIC->http()->request()->getMethod() == "GET" && isset($DIC->http()->request()->getQueryParams()['tex'])) {
-    $text = ilUtil::insertLatexImages(
+    $text = ilMathJax::getInstance()->insertLatexImages(
         '[tex]' .
-        ilUtil::stripSlashes((string) $DIC->http()->request()->getQueryParams()['tex'] ?? '') .
+        ilUtil::stripSlashes((string) ($DIC->http()->request()->getQueryParams()['tex'] ?? '')) .
         '[/tex]'
     );
     $responseStream = \ILIAS\Filesystem\Stream\Streams::ofString($text);
@@ -38,7 +38,7 @@ if ($DIC->http()->request()->getMethod() == "GET" && isset($DIC->http()->request
     $DIC->http()->close();
 }
 
-$tpl = new ilRTEGlobalTemplate(dirname(__FILE__) . '/tpl.latex.html', true, true);
+$tpl = new ilRTEGlobalTemplate(__DIR__ . '/tpl.latex.html', true, true);
 $tpl->setVariable("ILIAS_INST_PATH", $iliasHttpPath);
 
 $tpl->resetJavascript();
