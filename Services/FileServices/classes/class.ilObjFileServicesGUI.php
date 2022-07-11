@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
@@ -35,19 +37,17 @@ class ilObjFileServicesGUI extends ilObject2GUI
     protected Factory $refinery;
     protected WrapperFactory $http;
     protected ilFileServicesSettings $file_service_settings;
-    
+
     /**
      * Constructor
      * @access public
      */
-    public function __construct(int $ref_id, bool $call_by_reference = false)
+    public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
     {
         global $DIC;
 
         $this->type = ilObjFileServices::TYPE_FILE_SERVICES;
-        // TODO: this call needs a refactoring, the constructor of ilObjectGUI is wrongly called here.
-        // Typehint it to keep the state
-        parent::__construct($ref_id, (int) $call_by_reference);
+        parent::__construct($id, $id_type, $parent_node_id);
 
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
