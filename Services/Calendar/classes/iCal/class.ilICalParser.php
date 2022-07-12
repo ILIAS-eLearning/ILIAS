@@ -193,7 +193,8 @@ class ilICalParser
             $counter = 0;
             foreach ($splitted_values as $value) {
                 // Split by '='
-                if ($splitted_value_values = explode('=', $value)) {
+                $splitted_value_values = explode('=', $value);
+                if (is_array($splitted_value_values) && count($splitted_value_values) >= 2) {
                     $values[$counter]['param'] = $splitted_value_values[0];
                     $values[$counter]['value'] = $splitted_value_values[1];
                 }

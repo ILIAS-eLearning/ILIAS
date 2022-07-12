@@ -27,6 +27,10 @@ class ilCalendarAuthenticationToken
 
     public function __construct(int $a_user_id, string $a_token = '')
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
+
         $this->user = $a_user_id;
         $this->token = $a_token;
         $this->read();
@@ -124,15 +128,6 @@ class ilCalendarAuthenticationToken
     public function isIcalExpired() : bool
     {
         return true;
-        /*
-        if (!ilCalendarSettings::_getInstance()->isSynchronisationCacheEnabled()) {
-            return true;
-        }
-        if (!ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes()) {
-            return true;
-        }
-        return time() > ($this->ical_ctime + 60 * ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes());
-         */
     }
 
     public function add() : string
