@@ -19,7 +19,7 @@
 /**
  * @author Alexander Killing <killing@leifos.de>
  *
- * @deprecated 10
+ * @deprecated 11
  */
 class ilGlyphGUI
 {

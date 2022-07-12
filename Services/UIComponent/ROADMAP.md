@@ -7,25 +7,25 @@ The Legacy-UIComponents-Service has been lingering and causing problems for user
 ## Further process
 * Presentation of the project to remove the UIComponents-Service at the Jour Fixe for big projects for ILIAS 9 in February 2022.
 * Appointment of a Project Manager through the Technical Board.
-* Collection of missing UI-Elements in UI-Service by responsible maintainers and Project Manager until April 30th 2022.
+* Collection of missing UI-Elements in UI-Service by responsible maintainers and Project Manager until September 30th 2022.
 * Organization by Project Manager of crowdfunding to finance the creation of the missing UI-Elements and to migrate Components.
-* Migration of Components relying on already depricated UIComponents until Coding Complete for ILIAS 9.
-* Planing of implementation of missing UI-Elements by Project Manager. The implementation MUST be finalized by Feature Freeze for ILIAS 10.
-* Migration of Components away from UIComponents-Service until Coding Complete for ILIAS 10.
+* Migration of Components relying on already deprecated UIComponents until Coding Complete for ILIAS 10.
+* Planing of implementation of missing UI-Elements by Project Manager. The implementation MUST be finalized by Feature Freeze for ILIAS 11.
+* Migration of Components away from UIComponents-Service until Coding Complete for ILIAS 11.
 
 ## Rules and Guidelines
 * If a feature should be implemented in a component still relying on the UIComponents-Service, this reliance MUST be removed first.
-* There will be no ILIAS 10 with the UIComponents in it. If a component cannot be moved, it MUST be abandoned.
+* There will be no ILIAS 11 with the UIComponents in it. If a component cannot be moved, it MUST be abandoned.
 
 ## Removal
 
-### ILIAS 9
+### ILIAS 10
 * Advanced Selection List
-* Buttons (except ilButtonBase as it is needed for the SplitButton to be removed with ILIAS 10)
+* Buttons (except ilButtonBase as it is needed for the SplitButton to be removed with ILIAS 11)
 * Character Selector
 * Checkbox List Overlay
 
-### ILIAS 10
+### ILIAS 11
 * Confirmation & Confirmation Table
 * Explorer & Explorer2
 * Glyph

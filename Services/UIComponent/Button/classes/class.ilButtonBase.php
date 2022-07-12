@@ -20,7 +20,7 @@
  * Button GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @deprecated 10 Use KS Buttons instead
+ * @deprecated 11 Use KS Buttons instead
  */
 abstract class ilButtonBase implements ilToolbarItem
 {
