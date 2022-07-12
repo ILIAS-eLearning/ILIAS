@@ -7590,18 +7590,18 @@ button.close {
 .il-toggle-button {
   position: relative;
   display: inline-block;
-  height: 19px;
-  padding-left: 25px;
-  padding-right: 25px;
+  height: 24px;
+  padding-left: 27px;
+  padding-right: 27px;
   border-radius: 40px;
   cursor: pointer;
 }
 .il-toggle-button .il-toggle-switch {
   position: absolute;
-  top: -4px;
-  left: -6%;
-  width: 25px;
-  height: 25px;
+  top: 2px;
+  left: 4%;
+  width: 18px;
+  height: 18px;
   border-radius: 40px;
   -webkit-transition: all 0.25s ease-in-out;
   /* Safari */
@@ -7609,43 +7609,43 @@ button.close {
 }
 .il-toggle-button.on {
   background: #6ea03c;
-  border: 1px solid #bfbfbf;
+  border: 1px solid #6ea03c;
 }
 .il-toggle-button.on .il-toggle-label-on {
   position: absolute;
-  top: 0;
-  left: 5px;
+  top: 3px;
+  left: 9px;
   font-weight: 600;
   font-size: 0.75rem;
   color: white;
 }
 .il-toggle-button.on .il-toggle-switch {
-  left: 53%;
-  background: #f9f9f9;
-  border: 1px solid #bfbfbf;
+  left: 63%;
+  background: white;
+  border: 1px solid white;
 }
 .il-toggle-button.off {
-  background: #f9f9f9;
-  border: 1px solid #bfbfbf;
+  background: #dddddd;
+  border: 1px solid #dddddd;
 }
 .il-toggle-button.off .il-toggle-label-off {
   position: absolute;
-  top: 0;
-  left: 23px;
+  top: 3px;
+  left: 24px;
   font-weight: 600;
   font-size: 0.75rem;
 }
 .il-toggle-button.off .il-toggle-switch {
-  background: #f9f9f9;
-  border: 1px solid #bfbfbf;
+  background: white;
+  border: 1px solid white;
 }
 .il-toggle-button.unavailable {
-  background: #cdcdcd;
-  border: 1px solid #bfbfbf;
+  background: #737373;
+  border: 1px solid #737373;
 }
 .il-toggle-button.unavailable .il-toggle-switch {
-  background: #797979;
-  border: 1px solid #bfbfbf;
+  background: #2c2c2c;
+  border: 1px solid #2c2c2c;
 }
 .ilToolbar .il-toggle-button {
   bottom: 3px;
