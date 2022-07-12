@@ -111,6 +111,9 @@
 	{
 		//return;
 		$('#taForm').on('keyup keydown keypress', function(event) {
+			if( event.which == 13  && $(event.target).prop("tagName").toLowerCase() == "a" ) {
+				return;
+			}
 			if (event.which == 13) {
 				if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
 					(

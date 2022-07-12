@@ -29,6 +29,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
     {
         $originalPoolData = [
             "qpl_id" => 2,
+            'qpl_ref_id' => 4711,
             "qpl_title" => "testTitle",
             "qpl_path" => "test/path",
             "count" => 5
@@ -36,6 +37,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
 
         $result = $this->testObj->getSourcePoolDefinitionByOriginalPoolData($originalPoolData);
         $this->assertEquals($originalPoolData["qpl_id"], $result->getPoolId());
+        $this->assertEquals($originalPoolData["qpl_ref_id"], $result->getPoolRefId());
         $this->assertEquals($originalPoolData["qpl_title"], $result->getPoolTitle());
         $this->assertEquals($originalPoolData["qpl_path"], $result->getPoolPath());
         $this->assertEquals($originalPoolData["count"], $result->getPoolQuestionCount());

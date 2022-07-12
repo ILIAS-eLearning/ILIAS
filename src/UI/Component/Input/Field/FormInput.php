@@ -1,98 +1,91 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Component\Component;
-use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\OnUpdateable;
+use Closure;
 
 /**
  * This describes inputs that can be used in forms.
  */
-interface FormInput extends Component, Input, JavaScriptBindable, OnUpdateable
+interface FormInput extends Input, JavaScriptBindable, OnUpdateable
 {
     /**
      * Get the label of the input.
-     *
-     * @return    string
      */
-    public function getLabel();
+    public function getLabel() : string;
 
     /**
      * Get an input like this, but with a replaced label.
      *
-     * @param    string $label
-     *
-     * @return    Input
+     * @return static
      */
-    public function withLabel($label);
+    public function withLabel(string $label);
 
     /**
      * Get the byline of the input.
-     *
-     * @return    string|null
      */
-    public function getByline();
+    public function getByline() : ?string;
 
     /**
      * Get an input like this, but with an additional/replaced label.
      *
-     * @param    string|null $byline
-     *
-     * @return    Input
+     * @return static
      */
-    public function withByline($byline);
+    public function withByline(string $byline);
 
     /**
      * Is this field required?
-     *
-     * @return    bool
      */
-    public function isRequired();
+    public function isRequired() : bool;
 
     /**
      * Get an input like this, but set the field to be required (or not).
      *
-     * @param    bool $is_required
-     *
-     * @return    Input
+     * @return static
      */
-    public function withRequired($is_required);
+    public function withRequired(bool $is_required);
 
     /**
      * Is this input disabled?
-     *
-     * @return    bool
      */
-    public function isDisabled();
+    public function isDisabled() : bool;
 
     /**
      * Get an input like this, but set it to a disabled state.
      *
-     * @param    bool $is_disabled
-     *
-     * @return    Input
+     * @return static
      */
-    public function withDisabled($is_disabled);
+    public function withDisabled(bool $is_disabled);
 
     /**
      * The error of the input as used in HTML.
-     *
-     * @return string|null
      */
-    public function getError();
+    public function getError() : ?string;
 
     /**
      * Get an input like this one, with a different error.
      *
-     * @param    string
-     *
-     * @return    Input
+     * @return static
      */
-    public function withError($error);
+    public function withError(string $error);
 
     /**
      * Get update code
@@ -102,9 +95,6 @@ interface FormInput extends Component, Input, JavaScriptBindable, OnUpdateable
      * - initially "onload" and
      * - on every input change.
      * It must pass a readable string representation of its value in parameter 'string_value'.
-     *
-     * @param \Closure $binder
-     * @return string
      */
-    public function getUpdateOnLoadCode() : \Closure;
+    public function getUpdateOnLoadCode() : Closure;
 }

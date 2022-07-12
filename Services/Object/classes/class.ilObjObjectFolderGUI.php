@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjObjectFolderGUI
  *
@@ -11,73 +25,52 @@
 class ilObjObjectFolderGUI extends ilObjectGUI
 {
     /**
-     * @var ilRbacSystem
+     * @param mixed $data              basic object data
+     * @param int   $id                ref_id or obj_id (depends on referenced-flag)
+     * @param bool  $call_by_reference true: treat id as ref_id; false: treat id as obj_id
      */
-    protected $rbacsystem;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-    * Constructor
-    *
-    * @param	array	basic object data
-    * @param	integer	ref_id or obj_id (depends on referenced-flag)
-    * @param	boolean	true: treat id as ref_id; false: treat id as obj_id
-    * @access	public
-    */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct($data, int $id, bool $call_by_reference)
     {
-        global $DIC;
-
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->type = "objf";
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        parent::__construct($data, $id, $call_by_reference, false);
     }
 
     /**
-    * list childs of current object
-    *
-    * @access	public
+    * list children of current object
     */
-    public function viewObject()
+    public function viewObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $ilErr = $this->error;
-
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
 
         //prepare objectlist
-        $this->data = array();
-        $this->data["data"] = array();
-        $this->data["ctrl"] = array();
-
-        $this->data["cols"] = array("type","title","last_change");
+        $this->data = [];
+        $this->data["data"] = [];
+        $this->data["ctrl"] = [];
+        $this->data["cols"] = ["type","title","last_change"];
 
         $this->maxcount = count($this->data["data"]);
 
         // now compute control information
         foreach ($this->data["data"] as $key => $val) {
-            $this->data["ctrl"][$key] = array(
-                                            "ref_id" => $this->id,
-                                            "obj_id" => $val["obj_id"],
-                                            "type" => $val["type"],
-                                            );
+            $this->data["ctrl"][$key] = [
+                "ref_id" => $this->id,
+                "obj_id" => $val["obj_id"],
+                "type" => $val["type"],
+            ];
 
             unset($this->data["data"][$key]["obj_id"]);
-            $this->data["data"][$key]["last_change"] = ilDatePresentation::formatDate(new ilDateTime($this->data["data"][$key]["last_change"], IL_CAL_DATETIME));
+            $this->data["data"][$key]["last_change"] = ilDatePresentation::formatDate(
+                new ilDateTime($this->data["data"][$key]["last_change"], IL_CAL_DATETIME)
+            );
         }
 
+        // TODO: method 'displayList' is undefined
         $this->displayList();
     }
 
-
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -86,7 +79,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -98,33 +91,23 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
-    
-    /**
-    * get tabs
-    * @access	public
-    * @param	object	tabs gui object
-    */
-    protected function getTabs()
-    {
-        $rbacsystem = $this->rbacsystem;
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+    protected function getTabs() : void
+    {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "view"),
-                array("view",""),
-                "",
-                ""
+                ["view",""]
             );
 
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
-                array("perm","info","owner"),
+                $this->ctrl->getLinkTargetByClass([get_class($this),'ilpermissiongui'], "perm"),
+                ["perm","info","owner"],
                 'ilpermissiongui'
             );
         }
     }
-} // END class.ilObjObjectFolderGUI
+}

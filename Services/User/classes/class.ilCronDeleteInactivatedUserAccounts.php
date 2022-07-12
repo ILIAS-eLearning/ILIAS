@@ -1,45 +1,87 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\ConstraintViolationException;
 
 /**
  * This cron deletes user accounts by INACTIVATION period
- *
  * @author Bjoern Heyser <bheyser@databay.de>
- * @version $Id$
- *
  * @package Services/User
  */
 class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 {
-    const DEFAULT_INACTIVITY_PERIOD = 365;
+    private const DEFAULT_INACTIVITY_PERIOD = 365;
+    private int $period;
+    /** @var int[] */
+    private array $include_roles;
+    private ilSetting $settings;
+    private ilLanguage $lng;
+    private ilRbacReview $rbacReview;
+    private ilObjectDataCache $objectDataCache;
+    private \ILIAS\HTTP\GlobalHttpState $http;
+    private \ILIAS\Refinery\Factory $refinery;
 
-    private $period = null;
-
-    private $include_roles = null;
-    
     public function __construct()
     {
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
-
-        if (is_object($ilSetting)) {
-            $this->include_roles = $ilSetting->get(
-                'cron_inactivated_user_delete_include_roles',
-                null
-            );
-            if ($this->include_roles === null) {
-                $this->include_roles = array();
-            } else {
-                $this->include_roles = explode(',', $this->include_roles);
+        if ($DIC) {
+            if (isset($DIC['http'])) {
+                $this->http = $DIC->http();
             }
 
-            $this->period = $ilSetting->get(
-                'cron_inactivated_user_delete_period',
-                self::DEFAULT_INACTIVITY_PERIOD
-            );
+            if (isset($DIC['lng'])) {
+                $this->lng = $DIC->language();
+            }
+
+            if (isset($DIC['refinery'])) {
+                $this->refinery = $DIC->refinery();
+            }
+
+            if (isset($DIC['ilObjDataCache'])) {
+                $this->objectDataCache = $DIC['ilObjDataCache'];
+            }
+
+            if (isset($DIC['rbacreview'])) {
+                $this->rbacReview = $DIC->rbac()->review();
+            }
+
+            $rbacreview = $DIC->rbac()->review();
+            $ilObjDataCache = $DIC['ilObjDataCache'];
+
+            if ($DIC['ilSetting']) {
+                $this->settings = $DIC->settings();
+
+                $include_roles = $this->settings->get(
+                    'cron_inactivated_user_delete_include_roles',
+                    null
+                );
+                if ($include_roles === null) {
+                    $this->include_roles = [];
+                } else {
+                    $this->include_roles = array_filter(array_map('intval', explode(',', $include_roles)));
+                }
+
+                $this->period = (int) $this->settings->get(
+                    'cron_inactivated_user_delete_period',
+                    (string) self::DEFAULT_INACTIVITY_PERIOD
+                );
+            }
         }
     }
     
@@ -50,21 +92,13 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
     
     public function getTitle() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("delete_inactivated_user_accounts");
+        return $this->lng->txt("delete_inactivated_user_accounts");
     }
     
     public function getDescription() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         return sprintf(
-            $lng->txt("delete_inactivated_user_accounts_desc"),
+            $this->lng->txt("delete_inactivated_user_accounts_desc"),
             $this->period
         );
     }
@@ -98,15 +132,15 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-        
+        $rbacreview = $DIC->rbac()->review();
+
         $status = ilCronJobResult::STATUS_NO_ACTION;
                 
         $usr_ids = ilObjUser::_getUserIdsByInactivationPeriod($this->period);
 
         $counter = 0;
         foreach ($usr_ids as $usr_id) {
-            if ($usr_id == ANONYMOUS_USER_ID || $usr_id == SYSTEM_USER_ID) {
+            if ($usr_id === ANONYMOUS_USER_ID || $usr_id === SYSTEM_USER_ID) {
                 continue;
             }
 
@@ -117,66 +151,63 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
                     break;
                 }
             }
+
             if ($continue) {
                 continue;
             }
 
             $user = ilObjectFactory::getInstanceByObjId($usr_id);
-
             $user->delete();
             
             $counter++;
         }
-        
-        if ($counter) {
+
+        if ($counter > 0) {
             $status = ilCronJobResult::STATUS_OK;
         }
+
         $result = new ilCronJobResult();
         $result->setStatus($status);
+
         return $result;
     }
     
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilSetting = $DIC['ilSetting'];
-
-        include_once('Services/Form/classes/class.ilMultiSelectInputGUI.php');
         $sub_mlist = new ilMultiSelectInputGUI(
-            $lng->txt('delete_inactivated_user_accounts_include_roles'),
+            $this->lng->txt('delete_inactivated_user_accounts_include_roles'),
             'cron_inactivated_user_delete_include_roles'
         );
-        $sub_mlist->setInfo($lng->txt('delete_inactivated_user_accounts_include_roles_desc'));
-        $roles = array();
-        foreach ($rbacreview->getGlobalRoles() as $role_id) {
-            if ($role_id != ANONYMOUS_ROLE_ID) {
-                $roles[$role_id] = $ilObjDataCache->lookupTitle($role_id);
+        $sub_mlist->setInfo($this->lng->txt('delete_inactivated_user_accounts_include_roles_desc'));
+        $roles = [];
+        foreach ($this->rbacReview->getGlobalRoles() as $role_id) {
+            if ($role_id !== ANONYMOUS_ROLE_ID) {
+                $roles[$role_id] = $this->objectDataCache->lookupTitle($role_id);
             }
         }
         $sub_mlist->setOptions($roles);
-        $setting = $ilSetting->get('cron_inactivated_user_delete_include_roles', null);
+        $setting = $this->settings->get('cron_inactivated_user_delete_include_roles', null);
         if ($setting === null) {
-            $setting = array();
+            $setting = [];
         } else {
             $setting = explode(',', $setting);
         }
         $sub_mlist->setValue($setting);
         $sub_mlist->setWidth(300);
-        #$sub_mlist->setHeight(100);
         $a_form->addItem($sub_mlist);
 
-        $default_setting = self::DEFAULT_INACTIVITY_PERIOD;
         $sub_text = new ilNumberInputGUI(
-            $lng->txt('delete_inactivated_user_accounts_period'),
+            $this->lng->txt('delete_inactivated_user_accounts_period'),
             'cron_inactivated_user_delete_period'
         );
         $sub_text->allowDecimals(false);
-        $sub_text->setInfo($lng->txt('delete_inactivated_user_accounts_period_desc'));
-        $sub_text->setValue($ilSetting->get("cron_inactivated_user_delete_period", $default_setting));
+        $sub_text->setInfo($this->lng->txt('delete_inactivated_user_accounts_period_desc'));
+        $sub_text->setValue(
+            $this->settings->get(
+                'cron_inactivated_user_delete_period',
+                (string) self::DEFAULT_INACTIVITY_PERIOD
+            )
+        );
         $sub_text->setSize(4);
         $sub_text->setMaxLength(4);
         $sub_text->setRequired(true);
@@ -185,17 +216,23 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
     
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
-        global $DIC;
+        $roles = implode(',', $this->http->wrapper()->post()->retrieve(
+            'cron_inactivated_user_delete_include_roles',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        ));
 
-        $ilSetting = $DIC['ilSetting'];
-
-        $setting = implode(',', $_POST['cron_inactivated_user_delete_include_roles']);
-        if (!strlen($setting)) {
-            $setting = null;
+        $pertiod = null;
+        try {
+            $pertiod = $this->http->wrapper()->post()->retrieve(
+                'cron_inactivated_user_delete_period',
+                $this->refinery->kindlyTo()->int()
+            );
+        } catch (ConstraintViolationException $e) {
         }
-        $ilSetting->set('cron_inactivated_user_delete_include_roles', $setting);
-        $ilSetting->set('cron_inactivated_user_delete_period', $_POST['cron_inactivated_user_delete_period']);
-        
+
+        $this->settings->set('cron_inactivated_user_delete_include_roles', $roles);
+        $this->settings->set('cron_inactivated_user_delete_period', (string) ($pertiod ?? self::DEFAULT_INACTIVITY_PERIOD));
+
         return true;
     }
 }

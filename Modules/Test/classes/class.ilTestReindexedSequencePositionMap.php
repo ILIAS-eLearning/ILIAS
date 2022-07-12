@@ -30,7 +30,7 @@ class ilTestReindexedSequencePositionMap
      * @param int $oldSequencePosition
      * @return int
      */
-    public function getNewSequencePosition($oldSequencePosition)
+    public function getNewSequencePosition($oldSequencePosition) : int
     {
         return $this->sequencePositionMap[$oldSequencePosition];
     }

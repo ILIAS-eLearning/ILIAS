@@ -1,25 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Profile prompt settings
- *
- * @author killing@leifos.de
- * @ingroup ServicesUser
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilProfilePromptSettings
 {
-    const MODE_INCOMPLETE_ONLY = 0;
-    const MODE_ONCE_AFTER_LOGIN = 1;
-    const MODE_REPEAT = 2;
+    public const MODE_INCOMPLETE_ONLY = 0;
+    public const MODE_ONCE_AFTER_LOGIN = 1;
+    public const MODE_REPEAT = 2;
+    protected array $prompt_texts; // Missing array type.
+    protected array $info_texts; // Missing array type.
+    protected int $days;
+    protected int $mode;
 
-    /**
-     * Constructor
-     * @param int $mode
-     * @param int $days
-     */
-    public function __construct(int $mode, int $days, array $info_texts, array $promp_texts)
+    public function __construct(int $mode, int $days, array $info_texts, array $promp_texts) // Missing array type.
     {
         $this->mode = $mode;
         $this->days = $days;
@@ -27,57 +38,33 @@ class ilProfilePromptSettings
         $this->prompt_texts = $promp_texts;
     }
 
-    /**
-     * @return int
-     */
-    public function getDays()
+    public function getDays() : int
     {
         return $this->days;
     }
 
-    /**
-     * @return int
-     */
-    public function getMode()
+    public function getMode() : int
     {
         return $this->mode;
     }
 
-    /**
-     * @return array
-     */
-    public function getInfoTexts()
+    public function getInfoTexts() : array // Missing array type.
     {
         return $this->info_texts;
     }
 
-    /**
-     * @return array
-     */
-    public function getPromptTexts()
+    public function getPromptTexts() : array // Missing array type.
     {
         return $this->prompt_texts;
     }
 
-    /**
-     * @return string
-     */
-    public function getInfoText($lang)
+    public function getInfoText(string $lang) : string
     {
-        if (isset($this->info_texts[$lang])) {
-            return $this->info_texts[$lang];
-        }
-        return "";
+        return $this->info_texts[$lang] ?? "";
     }
 
-    /**
-     * @return string
-     */
-    public function getPromptText($lang)
+    public function getPromptText(string $lang) : string
     {
-        if (isset($this->prompt_texts[$lang])) {
-            return $this->prompt_texts[$lang];
-        }
-        return "";
+        return $this->prompt_texts[$lang] ?? "";
     }
 }

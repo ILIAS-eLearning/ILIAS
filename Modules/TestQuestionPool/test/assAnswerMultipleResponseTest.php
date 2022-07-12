@@ -14,16 +14,11 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';
@@ -35,7 +30,7 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerMultipleResponse', $instance);
     }
 
-    public function test_setGetPointsUnchecked()
+    public function test_setGetPointsUnchecked() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';
@@ -50,7 +45,7 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPointsUnchecked_InvalidPointsBecomeZero()
+    public function test_setGetPointsUnchecked_InvalidPointsBecomeZero() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';
@@ -65,7 +60,7 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPointsChecked()
+    public function test_setGetPointsChecked() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';

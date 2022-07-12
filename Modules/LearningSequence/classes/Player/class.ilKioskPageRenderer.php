@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Component;
@@ -49,8 +63,7 @@ class ilKioskPageRenderer
         $f = $this->ui_factory;
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_curriculum'),
-            $f->symbol()->icon()->standard("lso", "Learning Sequence")
-                ->withIsOutlined(true),
+            $f->symbol()->icon()->standard("lso", "Learning Sequence"),
             $this->ui_factory->legacy(
                 $this->ui_renderer->render($curriculum)
             )
@@ -64,7 +77,7 @@ class ilKioskPageRenderer
             ->getHTML();
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_toc'),
-            $icon->withSize("small")->withIsOutlined(true),
+            $icon->withSize("small"),
             $this->ui_factory->legacy($html)
         );
     }

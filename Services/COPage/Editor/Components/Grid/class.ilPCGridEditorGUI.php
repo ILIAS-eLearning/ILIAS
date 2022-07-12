@@ -1,31 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+use ILIAS\COPage\Editor\Server\UIWrapper;
+use ILIAS\COPage\Editor\Components\PageComponentEditor;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCGridEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponentEditor
+class ilPCGridEditorGUI implements PageComponentEditor
 {
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
+    protected \ilLanguage $lng;
 
     public function __construct()
     {
         global $DIC;
-
         $this->lng = $DIC->language();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id) : array
-    {
+    public function getEditorElements(
+        UIWrapper $ui_wrapper,
+        string $page_type,
+        ilPageObjectGUI $page_gui,
+        int $style_id
+    ) : array {
         $form = $this->getCreationForm($page_gui, $ui_wrapper);
 
         return [
@@ -34,21 +46,20 @@ class ilPCGridEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponent
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid) : string
-    {
+    public function getEditComponentForm(
+        UIWrapper $ui_wrapper,
+        string $page_type,
+        \ilPageObjectGUI $page_gui,
+        int $style_id,
+        string $pcid
+    ) : string {
         return "";
     }
 
-    /**
-     * Get creation form
-     * @param
-     * @return
-     */
-    protected function getCreationForm(ilPageObjectGUI $page_gui, $ui_wrapper)
-    {
+    protected function getCreationForm(
+        ilPageObjectGUI $page_gui,
+        UIWrapper $ui_wrapper
+    ) : string {
         $lng = $this->lng;
 
         $grid_gui = new ilPCGridGUI($page_gui->getPageObject(), null, "", "");

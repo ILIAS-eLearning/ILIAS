@@ -1,6 +1,21 @@
-<?php
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Layout\Page;
 
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -11,6 +26,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\Toast\Container;
 
 /**
  * This describes the Page.
@@ -21,66 +37,45 @@ interface Standard extends Page, JavaScriptBindable
     public const LTR = 'ltr';
     public const RTL = 'rtl';
 
-    /**
-     * @param MetaBar $meta_bar
-     *
-     * @return Standard
-     */
     public function withMetabar(MetaBar $meta_bar) : Standard;
 
-    /**
-     * @param Mainbar $main_bar
-     *
-     * @return Standard
-     */
     public function withMainbar(MainBar $main_bar) : Standard;
 
-    /**
-     * @param Image $logo
-     *
-     * @return Standard
-     */
     public function withLogo(Image $logo) : Standard;
 
+    public function withResponsiveLogo(Image $logo) : Standard;
+
     /**
-     * @return bool
+     * @param string $path relative path to the favicon being shown in the browsers tab
+     * @return Standard
      */
+    public function withFaviconPath(string $path) : Standard;
+
     public function hasMetabar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasMainbar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasLogo() : bool;
 
-    /**
-     * @return Metabar|null
-     */
-    public function getMetabar();
+    public function hasResponsiveLogo() : bool;
 
-    /**
-     * @return Mainbar|null
-     */
-    public function getMainbar();
+    public function hasOverlay() : bool;
 
-    /**
-     * @return Breadcrumbs|null
-     */
-    public function getBreadcrumbs();
+    public function getMetabar() : ?Metabar;
 
-    /**
-     * @return Image|null
-     */
-    public function getLogo();
+    public function getMainbar() : ?MainBar;
 
-    /**
-     * @return Footer|null
-     */
-    public function getFooter();
+    public function getBreadcrumbs() : ?Breadcrumbs;
+
+    public function getLogo() : ?Image;
+
+    public function getResponsiveLogo() : ?Image;
+
+    public function getFaviconPath() : ?string;
+
+    public function getOverlay() : ?Container;
+
+    public function getFooter() : ?Footer;
 
     public function withTitle(string $title) : Standard;
 
@@ -94,14 +89,15 @@ interface Standard extends Page, JavaScriptBindable
 
     public function getViewTitle() : string;
 
-
     public function withModeInfo(ModeInfo $mode_info) : Standard;
-
 
     public function getModeInfo() : ?ModeInfo;
 
-
     public function hasModeInfo() : bool;
+    
+    public function withAdditionalMetaDatum(string $key, string $value) : Standard;
+    
+    public function getMetaData() : array;
 
     /**
      * @param SystemInfo[] $system_infos
@@ -112,7 +108,6 @@ interface Standard extends Page, JavaScriptBindable
      * @return SystemInfo[]
      */
     public function getSystemInfos() : array;
-
 
     public function hasSystemInfos() : bool;
 

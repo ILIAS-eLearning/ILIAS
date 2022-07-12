@@ -1,39 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Item group data set class
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilItemGroupDataSet extends ilDataSet
 {
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
+    protected ilObjItemGroup $current_obj;
+
     public function getSupportedVersions() : array
     {
         return array("4.3.0", "5.3.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/ItemGroup/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/ItemGroup/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "itgr") {
@@ -63,21 +63,13 @@ class ilItemGroupDataSet extends ilDataSet
                         );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
-                
         if ($a_entity == "itgr") {
             switch ($a_version) {
                 case "4.3.0":
@@ -109,11 +101,6 @@ class ilItemGroupDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Get xml record (export)
-     * @param	array	abstract data record
-     * @return	array	xml record
-     */
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
     {
         if ($a_entity == "itgr_item") {
@@ -123,9 +110,6 @@ class ilItemGroupDataSet extends ilDataSet
         return $a_set;
     }
 
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -142,16 +126,17 @@ class ilItemGroupDataSet extends ilDataSet
         return [];
     }
 
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "itgr":
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                    /** @var ilObjItemGroup $newObj */
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjItemGroup();
@@ -163,7 +148,7 @@ class ilItemGroupDataSet extends ilDataSet
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setBehaviour($a_rec["Behaviour"]);
                 $newObj->setHideTitle($a_rec["HideTitle"]);
-                $newObj->update(true);
+                $newObj->update();
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("Modules/ItemGroup", "itgr", $a_rec["Id"], $newObj->getId());
                 

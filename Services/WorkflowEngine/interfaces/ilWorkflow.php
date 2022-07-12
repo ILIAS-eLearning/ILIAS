@@ -1,10 +1,20 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilWorkflow Interface is part of the petri net based workflow engine.
@@ -16,8 +26,6 @@ require_once './Services/WorkflowEngine/interfaces/ilNode.php';
  * @see class.ilBasicComplianceWorkflow.php (Real World Example)
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 interface ilWorkflow
@@ -26,30 +34,26 @@ interface ilWorkflow
 
     /**
      * @param array $params
-     *
      * @return mixed
      */
-    public function handleEvent($params);
+    public function handleEvent(array $params);
 
     // Node management
 
     /**
-     * @param \ilNode $node
-     *
+     * @param ilNode $node
      * @return mixed
      */
     public function addNode(ilNode $node);
 
     /**
-     * @param \ilNode $node
-     *
+     * @param ilNode $node
      * @return mixed
      */
     public function setStartNode(ilNode $node);
 
     /**
-     * @param \ilDetector $detector
-     *
+     * @param ilDetector $detector
      * @return mixed
      */
     public function registerDetector(ilDetector $detector);
@@ -113,20 +117,19 @@ interface ilWorkflow
 
     /**
      * @param integer $id
-     *
      * @return mixed
      */
-    public function setDbId($id);
+    public function setDbId(int $id);
 
     /**
      * @return integer
      */
-    public function getDbId();
+    public function getDbId() : int;
 
     /**
      * @return bool
      */
-    public function hasDbId();
+    public function hasDbId() : bool;
 
     /**
      * @return mixed
@@ -143,54 +146,47 @@ interface ilWorkflow
     /**
      * @param string $id
      * @param string $name
-     *
      * @return mixed
      */
-    public function defineInstanceVar($id, $name);
+    public function defineInstanceVar(string $id, string $name);
 
     /**
      * @param string $name
-     *
      * @return mixed
      */
-    public function hasInstanceVarByName($name);
+    public function hasInstanceVarByName(string $name);
 
     /**
      * @param string $id
-     *
      * @return mixed
      */
-    public function hasInstanceVarById($id);
+    public function hasInstanceVarById(string $id);
 
     /**
      * @param string $name
-     *
      * @return mixed
      */
-    public function getInstanceVarByName($name);
+    public function getInstanceVarByName(string $name);
 
     /**
      * @param string $id
-     *
      * @return mixed
      */
-    public function getInstanceVarById($id);
+    public function getInstanceVarById(string $id);
 
     /**
      * @param string $name
      * @param mixed  $value
-     *
      * @return mixed
      */
-    public function setInstanceVarByName($name, $value);
+    public function setInstanceVarByName(string $name, $value);
 
     /**
      * @param string $id
      * @param mixed  $value
-     *
      * @return mixed
      */
-    public function setInstanceVarById($id, $value);
+    public function setInstanceVarById(string $id, $value);
 
     /**
      * @return mixed

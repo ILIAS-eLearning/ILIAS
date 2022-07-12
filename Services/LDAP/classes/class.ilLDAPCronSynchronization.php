@@ -1,26 +1,43 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Cron/classes/class.ilCronJob.php";
-include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
-include_once('Services/LDAP/classes/class.ilLDAPAttributeToUser.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesLDAP
 */
 class ilLDAPCronSynchronization extends ilCronJob
 {
-    private $current_server = null;
-    private $ldap_query = null;
-    private $ldap_to_ilias = null;
-    private $counter = 0;
+    private ilLanguage $lng;
+    private ilLogger $logger;
+    private ilCronManager $cronManager;
+
+    private int $counter = 0;
     
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->auth();
+        $this->cronManager = $DIC->cron()->manager();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('ldap');
+    }
+
     public function getId() : string
     {
         return "ldap_sync";
@@ -28,22 +45,12 @@ class ilLDAPCronSynchronization extends ilCronJob
     
     public function getTitle() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        $lng->loadLanguageModule('ldap');
-        return $lng->txt('ldap_user_sync_cron');
+        return $this->lng->txt('ldap_user_sync_cron');
     }
     
     public function getDescription() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        $lng->loadLanguageModule("ldap");
-        return $lng->txt("ldap_user_sync_cron_info");
+        return $this->lng->txt("ldap_user_sync_cron_info");
     }
     
     public function getDefaultScheduleType() : int
@@ -68,53 +75,48 @@ class ilLDAPCronSynchronization extends ilCronJob
 
     public function run() : ilCronJobResult
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
         $status = ilCronJobResult::STATUS_NO_ACTION;
     
         $messages = array();
         foreach (ilLDAPServer::_getCronServerIds() as $server_id) {
             try {
-                $this->current_server = new ilLDAPServer($server_id);
-                $this->current_server->doConnectionCheck();
-                $ilLog->write("LDAP: starting user synchronization for " . $this->current_server->getName());
+                $current_server = new ilLDAPServer($server_id);
+                $current_server->doConnectionCheck();
+                $this->logger->info("LDAP: starting user synchronization for " . $current_server->getName());
+
+                $ldap_query = new ilLDAPQuery($current_server);
+                $ldap_query->bind();
                 
-                $this->ldap_query = new ilLDAPQuery($this->current_server);
-                $this->ldap_query->bind(IL_LDAP_BIND_DEFAULT);
-                
-                if (is_array($users = $this->ldap_query->fetchUsers())) {
+                if (is_array($users = $ldap_query->fetchUsers())) {
                     // Deactivate ldap users that are not in the list
-                    $this->deactivateUsers($this->current_server, $users);
+                    $this->deactivateUsers($current_server, $users);
                 }
             
                 if (count($users)) {
-                    include_once './Services/User/classes/class.ilUserCreationContext.php';
                     ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
 
                     $offset = 0;
                     $limit = 500;
                     while ($user_sliced = array_slice($users, $offset, $limit, true)) {
-                        $ilLog->write("LDAP: Starting update/creation of users ...");
-                        $ilLog->write("LDAP: Offset: " . $offset);
-                        $this->ldap_to_ilias = new ilLDAPAttributeToUser($this->current_server);
-                        $this->ldap_to_ilias->setNewUserAuthMode($this->current_server->getAuthenticationMappingKey());
-                        $this->ldap_to_ilias->setUserData($user_sliced);
-                        $this->ldap_to_ilias->refresh();
-                        $ilLog->write("LDAP: Finished update/creation");
+                        $this->logger->info("LDAP: Starting update/creation of users ...");
+                        $this->logger->info("LDAP: Offset: " . $offset);
+                        $ldap_to_ilias = new ilLDAPAttributeToUser($current_server);
+                        $ldap_to_ilias->setNewUserAuthMode($current_server->getAuthenticationMappingKey());
+                        $ldap_to_ilias->setUserData($user_sliced);
+                        $ldap_to_ilias->refresh();
+                        $this->logger->info("LDAP: Finished update/creation");
                         
                         $offset += $limit;
 
-                        ilCronManager::ping($this->getId());
+                        $this->cronManager->ping($this->getId());
                     }
                     $this->counter++;
                 } else {
-                    $ilLog->write("LDAP: No users for update/create. Aborting.");
+                    $this->logger->info("LDAP: No users for update/create. Aborting.");
                 }
             } catch (ilLDAPQueryException $exc) {
                 $mess = $exc->getMessage();
-                $ilLog->write($mess);
+                $this->logger->info($mess);
                 
                 $messages[] = $mess;
             }
@@ -124,7 +126,7 @@ class ilLDAPCronSynchronization extends ilCronJob
             $status = ilCronJobResult::STATUS_OK;
         }
         $result = new ilCronJobResult();
-        if (sizeof($messages)) {
+        if (count($messages)) {
             $result->setMessage(implode("\n", $messages));
         }
         $result->setStatus($status);
@@ -134,44 +136,32 @@ class ilLDAPCronSynchronization extends ilCronJob
     /**
      * Deactivate users that are disabled in LDAP
      */
-    private function deactivateUsers(ilLDAPServer $server, $a_ldap_users)
+    private function deactivateUsers(ilLDAPServer $server, array $a_ldap_users) : void
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        include_once './Services/User/classes/class.ilObjUser.php';
-
-        
         $inactive = [];
 
-        foreach ($ext = ilObjUser::_getExternalAccountsByAuthMode($server->getAuthenticationMappingKey(), true) as $usr_id => $external_account) {
+        foreach (ilObjUser::_getExternalAccountsByAuthMode($server->getAuthenticationMappingKey(), true) as $usr_id => $external_account) {
             if (!array_key_exists($external_account, $a_ldap_users)) {
                 $inactive[] = $usr_id;
             }
         }
         if (count($inactive)) {
             ilObjUser::_toggleActiveStatusOfUsers($inactive, false);
-            $ilLog->write('LDAP: Found ' . count($inactive) . ' inactive users.');
+            $this->logger->info('LDAP: Found ' . count($inactive) . ' inactive users.');
             
             $this->counter++;
         } else {
-            $ilLog->write('LDAP: No inactive users found');
+            $this->logger->info('LDAP: No inactive users found');
         }
     }
 
     public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_LDAP:
-                $a_fields["ldap_user_sync_cron"] = $a_is_active ?
-                    $lng->txt("enabled") :
-                    $lng->txt("disabled");
-                break;
+        if ($a_form_id === ilAdministrationSettingsFormHandler::FORM_LDAP) {
+            $a_fields["ldap_user_sync_cron"] = [$a_is_active ?
+                $this->lng->txt("enabled") :
+                $this->lng->txt("disabled"),
+                ilAdministrationSettingsFormHandler::VALUE_BOOL];
         }
     }
 }

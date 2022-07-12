@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Tiny MCE editor class
@@ -23,9 +38,9 @@ class ilTinyMCE extends ilRTE
      */
     protected array $contextMenuItems;
 
-    public function __construct(string $a_version = '')
+    public function __construct()
     {
-        parent::__construct($a_version);
+        parent::__construct();
 
         $this->plugins = [
             'link',
@@ -66,7 +81,7 @@ class ilTinyMCE extends ilRTE
     {
         if (!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng')) {
             parent::addPlugin('ilimgupload');
-            parent::addButton('ilimgupload');
+            $this->addButton('ilimgupload');
             parent::removePlugin('ibrowser');
             parent::removePlugin('image');
 
@@ -157,7 +172,7 @@ class ilTinyMCE extends ilRTE
 
         if (
             ilObjAdvancedEditing::_getRichTextEditorUserState() !== 0 &&
-            strcmp((string) ilObjAdvancedEditing::_getRichTextEditor(), "0") !== 0
+            strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") !== 0
         ) {
             $tpl = new ilTemplate(
                 ($cfg_template ?? "tpl.tinymce.js"),
@@ -184,7 +199,7 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable('SESSION_ID', $_COOKIE[session_name()]);
             $tpl->setVariable('BLOCKFORMATS', $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
             $tpl->setVariable('VALID_ELEMENTS', $this->_getValidElementsFromHTMLTags($tags));
-            $tpl->setVariable('TXT_MAX_SIZE', ilUtil::getFileSizeInfo());
+            $tpl->setVariable('TXT_MAX_SIZE', ilFileUtils::getFileSizeInfo());
             // allowed extentions for uploaded image files
             $tinyMCE_valid_imgs = ['gif', 'jpg', 'jpeg', 'png'];
             $tpl->setVariable(
@@ -263,7 +278,7 @@ class ilTinyMCE extends ilRTE
         $tpl->setVariable('SESSION_ID', $_COOKIE[session_name()]);
         $tpl->setVariable('BLOCKFORMATS', $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
         $tpl->setVariable('VALID_ELEMENTS', $this->_getValidElementsFromHTMLTags($tags));
-        $tpl->setVariable('TXT_MAX_SIZE', ilUtil::getFileSizeInfo());
+        $tpl->setVariable('TXT_MAX_SIZE', ilFileUtils::getFileSizeInfo());
 
         $this->disableButtons('charmap');
         $buttons_1 = $this->_buildAdvancedButtonsFromHTMLTags(1, $tags);
@@ -503,9 +518,8 @@ class ilTinyMCE extends ilRTE
             $theme_advanced_buttons[] = 'copy';
             $theme_advanced_buttons[] = 'paste';
             $theme_advanced_buttons[] = 'pastetext';
-        // Changed in elba2 branch, adopted change for 4.2.x due to manits bug #8147
+            // Changed in elba2 branch, adopted change for 4.2.x due to manits bug #8147
             //array_push($theme_advanced_buttons, 'pasteword');
-        } elseif ($a_buttons_section === 3) {
         }
 
         $remove_buttons = $this->getDisabledButtons();

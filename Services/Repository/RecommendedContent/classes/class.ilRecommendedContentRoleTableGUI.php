@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Recommended content for roles
@@ -30,7 +33,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
         ilRecommendedContentRoleConfigGUI $a_parent_obj,
         string $a_parent_cmd,
         int $role_id,
-        \ilRecommendedContentManager $manager
+        ilRecommendedContentManager $manager
     ) {
         global $DIC;
 
@@ -45,9 +48,9 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setTitle($this->lng->txt('rep_recommended_content') .
-            ', ' . $this->lng->txt("obj_role") . ': ' . ilObject::_lookupTitle($this->role_id));
+            ', ' . $this->lng->txt("obj_role") . ': ' . ilObjRole::_getTranslation(ilObject::_lookupTitle($this->role_id)));
 
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('path'));
 
@@ -86,7 +89,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
         return implode(" &raquo; ", array_column($a_path_arr, "title"));
     }
 
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VAL_ID", $a_set["ref_id"]);
         $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);

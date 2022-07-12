@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilMySQLQueryUtils
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -12,7 +28,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
      */
     public function in(string $field, array $values, bool $negate = false, string $type = "") : string
     {
-        if (!is_array($values) || count($values) == 0) {
+        if (!is_array($values) || count($values) === 0) {
             // BEGIN fixed mantis #0014191:
             //return " 1=2 ";		// return a false statement on empty array
             return $negate ? ' 1=1 ' : ' 1=2 ';
@@ -34,10 +50,9 @@ class ilMySQLQueryUtils extends ilQueryUtils
     }
 
     /**
-     * @param mixed       $value
-     * @param string|null $type
+     * @param mixed $value
      */
-    public function quote($value, string $type = null) : string
+    public function quote($value, ?string $type = null) : string
     {
         return $this->db_instance->quote($value, $type);
     }
@@ -73,11 +88,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $concat . ') ';
     }
 
-    /**
-     * @param $a_needle
-     * @param $a_string
-     */
-    public function locate($a_needle, $a_string, int $a_start_pos = 1) : string
+    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string
     {
         $locate = ' LOCATE( ';
         $locate .= $a_needle;
@@ -113,10 +124,16 @@ class ilMySQLQueryUtils extends ilQueryUtils
         if (empty($fields)) {
             throw new ilDatabaseException('no fields specified for table "' . $name . '"');
         }
-        $query_fields_array = array();
-        foreach ($fields as $field_name => $field) {
-            $query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration($field['type'],
-                $field_name, $field);
+        $query_fields_array = [];
+        $fd = $this->db_instance->getFieldDefinition();
+        if ($fd !== null) {
+            foreach ($fields as $field_name => $field) {
+                $query_fields_array[] = $fd->getDeclaration(
+                    $field['type'],
+                    $field_name,
+                    $field
+                );
+            }
         }
 
         $query_fields = implode(', ', $query_fields_array);
@@ -156,9 +173,6 @@ class ilMySQLQueryUtils extends ilQueryUtils
     }
 
     /**
-     * @param $column
-     * @param $type
-     * @return string|void
      * @throws \ilDatabaseException
      */
     public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true) : string
@@ -188,18 +202,12 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return " " . $column . " LIKE(" . $this->quote($value, 'text') . ")";
     }
 
-    /**
-     * @return string
-     */
-    public function now()
+    public function now() : string
     {
         return "NOW()";
     }
 
-    /**
-     * @return string
-     */
-    public function lock(array $tables)
+    public function lock(array $tables) : string
     {
         $lock = 'LOCK TABLES ';
 
@@ -235,39 +243,31 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $lock;
     }
 
-    /**
-     * @return string
-     */
-    public function unlock()
+    public function unlock() : string
     {
         return 'UNLOCK TABLES';
     }
 
-    /**
-     * @param $a_name
-     * @return string
-     */
-    public function createDatabase($a_name, string $a_charset = "utf8", string $a_collation = "")
+    public function createDatabase(string $name, string $charset = "utf8", string $collation = "") : string
     {
-        if ($a_collation != "") {
-            $sql = "CREATE DATABASE `" . $a_name . "` CHARACTER SET " . $a_charset . " COLLATE " . $a_collation;
+        if ($collation !== "") {
+            $sql = "CREATE DATABASE `" . $name . "` CHARACTER SET " . $charset . " COLLATE " . $collation;
         } else {
-            $sql = "CREATE DATABASE `" . $a_name . "` CHARACTER SET " . $a_charset;
+            $sql = "CREATE DATABASE `" . $name . "` CHARACTER SET " . $charset;
         }
 
         return $sql;
     }
 
-    /**
-     * @return string
-     */
-    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null)
+    public function groupConcat(string $field_name, string $seperator = ",", string $order = null) : string
     {
-        if ($a_order === null) {
-            $sql = "GROUP_CONCAT(" . $a_field_name . " SEPARATOR " . $this->quote($a_seperator, "text") . ")";
+        if ($order === null) {
+            $sql = "GROUP_CONCAT(" . $field_name . " SEPARATOR " . $this->quote($seperator, "text") . ")";
         } else {
-            $sql = "GROUP_CONCAT(" . $a_field_name . " ORDER BY " . $a_order . " SEPARATOR " . $this->quote($a_seperator,
-                    "text") . ")";
+            $sql = "GROUP_CONCAT(" . $field_name . " ORDER BY " . $order . " SEPARATOR " . $this->quote(
+                $seperator,
+                "text"
+            ) . ")";
         }
         return $sql;
     }
@@ -275,7 +275,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
     /**
      * @inheritdoc
      */
-    public function cast(string $a_field_name, $a_dest_type)
+    public function cast(string $a_field_name, $a_dest_type) : string
     {
         return $a_field_name;
     }

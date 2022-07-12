@@ -1,11 +1,25 @@
 <?php
 
 namespace ILIAS\HTTP;
+
 /** @noRector */
 require_once "AbstractBaseTest.php";
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class WrapperTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -20,7 +34,7 @@ class WrapperTest extends AbstractBaseTest
     /**
      * @inheritDoc
      */
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
         $language = $this->getMockBuilder('\ilLanguage')
@@ -31,7 +45,7 @@ class WrapperTest extends AbstractBaseTest
     }
 
 
-    public function testWrapperfactory(): void
+    public function testWrapperfactory() : void
     {
         $wrapper_factory = new WrapperFactory($this->request_interface);
 
@@ -57,7 +71,7 @@ class WrapperTest extends AbstractBaseTest
         $wrapper_factory->cookie();
     }
 
-    public function testQuery(): void
+    public function testQuery() : void
     {
         $wrapper_factory = new WrapperFactory($this->request_interface);
 
@@ -81,7 +95,7 @@ class WrapperTest extends AbstractBaseTest
         $this->assertIsInt($query->retrieve('key_one', $int_trafo));
     }
 
-    public function testPost(): void
+    public function testPost() : void
     {
         $wrapper_factory = new WrapperFactory($this->request_interface);
 
@@ -105,7 +119,7 @@ class WrapperTest extends AbstractBaseTest
         $this->assertIsInt($post->retrieve('key_one', $int_trafo));
     }
 
-    public function testCookie(): void
+    public function testCookie() : void
     {
         $wrapper_factory = new WrapperFactory($this->request_interface);
 
@@ -129,4 +143,3 @@ class WrapperTest extends AbstractBaseTest
         $this->assertIsInt($cookie->retrieve('key_one', $int_trafo));
     }
 }
-

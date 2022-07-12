@@ -1,33 +1,40 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Services\Export\HTML;
 
+use ILIAS\GlobalScreen\Services;
+use ilFileUtils;
+
 /**
  * Util
- *
  * This class is an interim solution for the HTML export handling with
  * 6.0. Parts of it might move to the GlobalScreen service or other places.
- *
  * @author killing@leifos.de
  */
 class Util
 {
-    /**
-     * @var string
-     */
-    protected $export_dir;
+    protected \ilCOPageHTMLExport $co_page_html_export;
+    protected Services $global_screen;
 
-    /**
-     * @var string
-     */
-    protected $sub_dir;
-
-    /**
-     * @var string
-     */
-    protected $target_dir;
+    protected string $export_dir;
+    protected string $sub_dir;
+    protected string $target_dir;
 
     /**
      * Constructor
@@ -47,7 +54,7 @@ class Util
     /**
      * Export system style
      */
-    public function exportSystemStyle()
+    public function exportSystemStyle() : void
     {
         // system style html exporter
         $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
@@ -57,15 +64,12 @@ class Util
     /**
      * Export content style
      */
-    public function exportCOPageFiles($style_sheet_id = 0, $obj_type = "")
+    public function exportCOPageFiles(int $style_sheet_id = 0, string $obj_type = "") : void
     {
         \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
         // init co page html exporter
-        $this->co_page_html_export->setContentStyleId(\ilObjStyleSheet::getEffectiveContentStyleId(
-            $style_sheet_id,
-            $obj_type
-        ));
+        $this->co_page_html_export->setContentStyleId($style_sheet_id);
         $this->co_page_html_export->createDirectories();
         $this->co_page_html_export->exportStyles();
         $this->co_page_html_export->exportSupportScripts();
@@ -74,7 +78,7 @@ class Util
     /**
      * Init global screen
      */
-    protected function initGlobalScreen()
+    protected function initGlobalScreen() : void
     {
         // set global
         $this->global_screen->tool()->context()->current()->addAdditionalData(
@@ -83,11 +87,10 @@ class Util
         );
     }
 
-
     /**
      * Export resource files collected by global screen service
      */
-    public function exportResourceFiles()
+    public function exportResourceFiles() : void
     {
         $global_screen = $this->global_screen;
         $target_dir = $this->target_dir;
@@ -103,18 +106,15 @@ class Util
 
     /**
      * Export resource file
-     *
-     * @param string $target_dir
-     * @param string $file
      */
-    protected function exportResourceFile(string $target_dir, string $file)
+    protected function exportResourceFile(string $target_dir, string $file) : void
     {
         if (is_int(strpos($file, "?"))) {
             $file = substr($file, 0, strpos($file, "?"));
         }
         if (is_file($file)) {
             $dir = dirname($file);
-            \ilUtil::makeDirParents($target_dir . "/" . $dir);
+            ilFileUtils::makeDirParents($target_dir . "/" . $dir);
             if (!is_file($target_dir . "/" . $file)) {
                 copy($file, $target_dir . "/" . $file);
             }

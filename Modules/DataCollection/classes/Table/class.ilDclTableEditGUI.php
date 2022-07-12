@@ -1,72 +1,69 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclTableEditGUI
 {
-
-    /**
-     * @var int
-     */
-    private $table_id;
-    /**
-     * @var ilDclTable
-     */
-    private $table;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-
+    private ?int $table_id;
+    private ilDclTable $table;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilPropertyFormGUI $form;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
+    protected ilDclTableListGUI $parent_object;
+    protected int $obj_id;
 
     /**
      * Constructor
-     *
-     * @param ilDclTableListGUI $a_parent_obj
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $toolbar = $DIC['ilToolbar'];
+
         $locator = $DIC['ilLocator'];
 
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->toolbar = $toolbar;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->toolbar = $DIC->toolbar();
         $this->parent_object = $a_parent_obj;
-        $this->obj_id = $a_parent_obj->obj_id;
-        $this->table_id = $_GET['table_id'];
+        $this->obj_id = $a_parent_obj->getObjId();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+        $table_id = null;
+        if ($this->http->wrapper()->query()->has("table_id")) {
+            $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        }
+
+        $this->table_id = $table_id;
         $this->table = ilDclCache::getTableCache($this->table_id);
 
         $this->ctrl->saveParameter($this, 'table_id');
@@ -76,16 +73,12 @@ class ilDclTableEditGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
 
-
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -97,26 +90,16 @@ class ilDclTableEditGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
-
-    /**
-     * create table add form
-     */
-    public function create()
+    public function create() : void
     {
         $this->initForm();
         $this->getStandardValues();
         $this->tpl->setContent($this->form->getHTML());
     }
 
-
-    /**
-     * create field edit form
-     */
-    public function edit()
+    public function edit() : void
     {
         if (!$this->table_id) {
             $this->ctrl->redirectByClass("ildclfieldeditgui", "listFields");
@@ -130,11 +113,7 @@ class ilDclTableEditGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-
-    /**
-     * getFieldValues
-     */
-    public function getValues()
+    public function getValues() : void
     {
         $values = array(
             'title' => $this->table->getTitle(),
@@ -146,7 +125,8 @@ class ilDclTableEditGUI
             'export_enabled' => $this->table->getExportEnabled(),
             'import_enabled' => $this->table->getImportEnabled(),
             'limited' => $this->table->getLimited(),
-            'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), -8),
+            'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(),
+                    -8),
             'limit_end' => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), -8),
             'default_sort_field' => $this->table->getDefaultSortField(),
             'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
@@ -163,11 +143,7 @@ class ilDclTableEditGUI
         $this->form->setValuesByArray($values);
     }
 
-
-    /**
-     * getStandardValues
-     */
-    public function getStandardValues()
+    public function getStandardValues() : void
     {
         $values = array(
             'title' => "",
@@ -186,22 +162,15 @@ class ilDclTableEditGUI
         $this->form->setValuesByArray($values);
     }
 
-
-    /*
-     * cancel
-     */
-    public function cancel()
+    public function cancel() : void
     {
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
 
-
     /**
      * initEditCustomForm
-     *
-     * @param string $a_mode
      */
-    public function initForm($a_mode = "create")
+    public function initForm(string $a_mode = "create") : void
     {
         $this->form = new ilPropertyFormGUI();
 
@@ -237,7 +206,6 @@ class ilDclTableEditGUI
         $item = new ilTextAreaInputGUI($this->lng->txt('additional_info'), 'description');
         $item->setUseRte(true);
         $item->setInfo($this->lng->txt('dcl_additional_info_desc'));
-        //        $item->setRTESupport($this->table->getId(), 'dcl', 'table_settings');
         $item->setRteTagSet('mini');
         $this->form->addItem($item);
 
@@ -259,7 +227,6 @@ class ilDclTableEditGUI
         $this->form->addItem($item);
 
         $item = new ilCheckboxInputGUI($this->lng->txt('dcl_edit_perm'), 'edit_perm');
-        //		$item->setInfo($this->lng->txt("dcl_edit_perm_info"));
         $this->form->addItem($item);
 
         $radios = new ilRadioGroupInputGUI('', 'edit_perm_mode');
@@ -268,7 +235,6 @@ class ilDclTableEditGUI
         $item->addSubItem($radios);
 
         $item = new ilCheckboxInputGUI($this->lng->txt('dcl_delete_perm'), 'delete_perm');
-        //		$item->setInfo($this->lng->txt("dcl_delete_perm_info"));
         $this->form->addItem($item);
 
         $radios = new ilRadioGroupInputGUI('', 'delete_perm_mode');
@@ -277,7 +243,6 @@ class ilDclTableEditGUI
         $item->addSubItem($radios);
 
         $item = new ilCheckboxInputGUI($this->lng->txt('dcl_view_own_records_perm'), 'view_own_records_perm');
-        //		$item->setInfo($this->lng->txt("dcl_edit_by_owner_info"));
         $this->form->addItem($item);
 
         $item = new ilCheckboxInputGUI($this->lng->txt('dcl_export_enabled'), 'export_enabled');
@@ -313,23 +278,14 @@ class ilDclTableEditGUI
         }
     }
 
-
-    /**
-     *
-     */
-    public function doTableSwitch()
+    public function doTableSwitch() : void
     {
-        $this->ctrl->setParameter($this, "table_id", $_POST['table_id']);
+        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $this->ctrl->setParameter($this, "table_id", $table_id);
         $this->ctrl->redirect($this, "edit");
     }
 
-
-    /**
-     * save
-     *
-     * @param string $a_mode values: create | edit
-     */
-    public function save($a_mode = "create")
+    public function save(string $a_mode = "create") : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -379,11 +335,11 @@ class ilDclTableEditGUI
             $this->table->setLimitEnd($limit_end);
             if ($a_mode == "update") {
                 $this->table->doUpdate();
-                ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_edited"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_table_edited"), true);
                 $this->ctrl->redirectByClass("ildcltableeditgui", "edit");
             } else {
                 $this->table->doCreate();
-                ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_created"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_table_created"), true);
                 $this->ctrl->setParameterByClass("ildclfieldlistgui", "table_id", $this->table->getId());
                 $this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
             }
@@ -393,15 +349,11 @@ class ilDclTableEditGUI
         }
     }
 
-
     /**
      * Custom checks for the form input
-     *
      * @param $a_mode 'create' | 'update'
-     *
-     * @return bool
      */
-    protected function checkInput($a_mode)
+    protected function checkInput(string $a_mode) : bool
     {
         $return = $this->form->checkInput();
 
@@ -417,32 +369,24 @@ class ilDclTableEditGUI
         }
 
         if (!$return) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
         }
 
         return $return;
     }
 
-
-    /*
-     * accessDenied
-     */
-    public function accessDenied()
+    public function accessDenied() : void
     {
         $this->tpl->setContent("Access denied.");
     }
 
-
-    /**
-     * confirmDelete
-     */
-    public function confirmDelete()
+    public function confirmDelete() : void
     {
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_table'));
 
-        $conf->addItem('table', (int) $this->table->getId(), $this->table->getTitle());
+        $conf->addItem('table', $this->table->getId(), $this->table->getTitle());
 
         $conf->setConfirm($this->lng->txt('delete'), 'delete');
         $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
@@ -450,23 +394,16 @@ class ilDclTableEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
-    /**
-     * cancelDelete
-     */
-    public function cancelDelete()
+    public function cancelDelete() : void
     {
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
 
-
-    /*
-      * delete
-      */
-    public function delete()
+    public function delete() : void
     {
         if (count($this->table->getCollectionObject()->getTables()) < 2) {
-            ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_last_table"), true); //TODO change lng var
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("dcl_cant_delete_last_table"),
+                true); //TODO change lng var
             $this->table->doDelete(true);
         } else {
             $this->table->doDelete(false);
@@ -475,24 +412,18 @@ class ilDclTableEditGUI
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
     }
 
-
-    /**
-     * @return bool
-     */
-    protected function checkAccess()
+    protected function checkAccess() : bool
     {
         $ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
 
-        return $this->table_id ? ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id) : ilObjDataCollectionAccess::hasWriteAccess($ref_id);
+        return $this->table_id ? ilObjDataCollectionAccess::hasAccessToEditTable($ref_id,
+            $this->table_id) : ilObjDataCollectionAccess::hasWriteAccess($ref_id);
     }
 
-
     /**
-     * @param $options
-     *
-     * @return mixed
+     * @return string[]
      */
-    protected function createTableSwitcher()
+    protected function createTableSwitcher() : array
     {
         // Show tables
         $tables = $this->parent_object->getDataCollectionObject()->getTables();

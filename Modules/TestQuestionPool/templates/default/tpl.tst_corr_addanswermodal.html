@@ -10,16 +10,17 @@
 <script type="text/javascript">
 (function($){ $(document).ready(function(){
     
-    var uid = '{JS_UID}';
+    var uid = '{JS_UID}',
+        org_uid = '{JS_UID}';
 
     var hideModal = function()
     {
-        $('#modal_'+uid).modal('hide');
+        $('#modal_'+org_uid).modal('hide');
     };
     
     var removeShowModalButton = function()
     {
-        $('#btnShow_'+uid).remove();
+        $('#btnShow_'+org_uid).remove();
     };
     
     var replaceModalBody = function(html)
@@ -30,7 +31,6 @@
     var submitForm = function(form)
     {
         $.ajax({
-            
             type: 'POST',
             url: form.attr('action'),
             dataType: 'json',
@@ -45,32 +45,35 @@
                 }
                 else
                 {
+                    var parsed_response = $(response.html),
+                        form = parsed_response.find('form').first(),
+                        id = form.attr('id'),
+                        new_uid = id.replace('form_','');
+
                     replaceModalBody(response.html);
+                    uid = new_uid;
                     initFormHandler();
                 }
             }
         });
     };
     
-    var initFormHandler = function()
+    var initFormHandler = function(new_uid)
     {
-        $('#form_'+uid).find('input[name="cmd[cancel]"]').click(function(e){
+        var frm = $('#form_' + uid);
+        window.frm = frm;
 
+        frm.find('input[name="cmd[cancel]"]').click(function(e){
             hideModal();
-
             e.preventDefault();
             e.stopPropagation();
-
             return false;
         });
 
-        $('#form_'+uid).find('input[name="cmd[addAnswerAsynch]"]').click(function(e){
-            
+        frm.find('input[name="cmd[addAnswerAsynch]"]').click(function(e){
             submitForm( $('#form_'+uid) );
-            
             e.preventDefault();
             e.stopPropagation();
-
             return false;
         });
     };

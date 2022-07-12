@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for new item groups
@@ -21,13 +24,15 @@
 class ilNewItemGroupTableGUI extends ilTable2GUI
 {
     protected bool $has_write;
+    protected ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
-        object $a_parent_obj,
+        ilObjRepositorySettingsGUI $a_parent_obj,
         string $a_parent_cmd = "",
         bool $a_has_write = false
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -43,7 +48,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("rep_new_item_groups"));
 
         if ($this->has_write) {
-            $this->addColumn("", "", 1);
+            $this->addColumn("", "", '1');
         }
         $this->addColumn($lng->txt("cmps_add_new_rank"), "");
         $this->addColumn($lng->txt("title"), "");
@@ -71,34 +76,34 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         
-        $data = array();
+        $data = [];
                 
         $subitems = ilObjRepositorySettings::getNewItemGroupSubItems();
         
         if ($subitems[0]) {
-            ilUtil::sendInfo(sprintf(
+            $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("rep_new_item_group_unassigned_subitems"),
-                is_array($subitems[0]) ? sizeof($subitems[0]) : 0
+                is_array($subitems[0]) ? count($subitems[0]) : 0
             ));
             unset($subitems[0]);
         }
         
         foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
-            $data[] = array(
+            $data[] = [
                 "id" => $item["id"],
                 "pos" => $item["pos"],
                 "title" => $item["title"],
                 "type" => $item["type"],
-                "subitems" => is_array($subitems[$item["id"]]) ? sizeof($subitems[$item["id"]]) : 0
-            );
+                "subitems" => is_array($subitems[$item["id"]]) ? count($subitems[$item["id"]]) : 0
+            ];
         }
         
-        $data = ilUtil::sortArray($data, "pos", "asc", true);
+        $data = ilArrayUtil::sortArray($data, "pos", "asc", true);
         
         $this->setData($data);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -112,7 +117,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VAL_POS", $a_set["pos"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         
-        if ($a_set["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP) {
+        if ((int) $a_set["type"] === ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP) {
             $this->tpl->setVariable("VAL_ITEMS", $a_set["subitems"]);
 
             if ($this->has_write) {

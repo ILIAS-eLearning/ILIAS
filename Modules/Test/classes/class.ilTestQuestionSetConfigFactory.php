@@ -46,11 +46,6 @@ class ilTestQuestionSetConfigFactory
      */
     private $testOBJ = null;
     
-    /**
-     * constructor
-     *
-     * @param ilObjTest $testOBJ
-     */
     public function __construct(ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
     {
         $this->tree = $tree;
@@ -62,56 +57,43 @@ class ilTestQuestionSetConfigFactory
     /**
      * creates and returns an instance of a test question set config
      * that corresponds to the test's current question set type (test mode)
-     *
-     * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestQuestionSetConfig
     {
-        return $this->getQuestionSetConfigByType($this->testOBJ->getQuestionSetType());
+        return $this->getQuestionSetConfigByType();
     }
     
     /**
      * creates and returns an instance of a test question set config
      * that corresponds to the passed question set type (test mode)
-     *
-     * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfigByType($questionSetType)
+    public function getQuestionSetConfigByType() : ilTestQuestionSetConfig
     {
         if ($this->testQuestionSetConfig === null) {
-            switch ($questionSetType) {
-                case ilObjTest::QUESTION_SET_TYPE_FIXED:
-
-                    require_once 'Modules/Test/classes/class.ilTestFixedQuestionSetConfig.php';
-                    $this->testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
-                        $this->tree,
-                        $this->db,
-                        $this->pluginAdmin,
-                        $this->testOBJ
-                    );
-                    break;
-
-                case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-
-                    require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
-                    $this->testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
-                        $this->tree,
-                        $this->db,
-                        $this->pluginAdmin,
-                        $this->testOBJ
-                    );
-                    break;
-
-                case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-
-                    require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-                    $this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-                        $this->tree,
-                        $this->db,
-                        $this->pluginAdmin,
-                        $this->testOBJ
-                    );
-                    break;
+            if ($this->testOBJ->isFixedTest()) {
+                $this->testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
+                    $this->tree,
+                    $this->db,
+                    $this->pluginAdmin,
+                    $this->testOBJ
+                );
+            }
+            if ($this->testOBJ->isRandomTest()) {
+                $this->testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
+                    $this->tree,
+                    $this->db,
+                    $this->pluginAdmin,
+                    $this->testOBJ
+                );
+            }
+            
+            if ($this->testOBJ->isDynamicTest()) {
+                $this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
+                    $this->tree,
+                    $this->db,
+                    $this->pluginAdmin,
+                    $this->testOBJ
+                );
             }
 
             $this->testQuestionSetConfig->loadFromDb();

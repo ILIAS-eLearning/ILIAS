@@ -1,45 +1,49 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
 /**
-* class ilRbacLog
-*  Log changes in Rbac-related settings
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @version $Id: class.ilRbacReview.php 24262 2010-06-15 06:48:14Z nkrzywon $
-*
-* @ingroup ServicesAccessControl
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * class ilRbacLog
+ *  Log changes in Rbac-related settings
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesAccessControl
+ */
 class ilRbacLog
 {
-    const EDIT_PERMISSIONS = 1;
-    const MOVE_OBJECT = 2;
-    const LINK_OBJECT = 3;
-    const COPY_OBJECT = 4;
-    const CREATE_OBJECT = 5;
-    const EDIT_TEMPLATE = 6;
-    const EDIT_TEMPLATE_EXISTING = 7;
-    const CHANGE_OWNER = 8;
+    public const EDIT_PERMISSIONS = 1;
+    public const MOVE_OBJECT = 2;
+    public const LINK_OBJECT = 3;
+    public const COPY_OBJECT = 4;
+    public const CREATE_OBJECT = 5;
+    public const EDIT_TEMPLATE = 6;
+    public const EDIT_TEMPLATE_EXISTING = 7;
+    public const CHANGE_OWNER = 8;
 
-    public static function isActive()
+    public static function isActive() : bool
     {
-        include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
-        $settings = ilPrivacySettings::_getInstance();
-        if ($settings->enabledRbacLog()) {
-            return true;
-        }
-        return false;
+        return ilPrivacySettings::getInstance()->enabledRbacLog();
     }
 
-    public static function gatherFaPa($a_ref_id, array $a_role_ids, $a_add_action = false)
+    public static function gatherFaPa(int $a_ref_id, array $a_role_ids, bool $a_add_action = false) : array
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-
+        $rbacreview = $DIC->rbac()->review();
         $result = array();
-        
+
         // #10946 - if result is written to log directly we need to add an "action" dimension
         // if result is used as input to diffFaPa() we need "raw" data
 
@@ -62,22 +66,22 @@ class ilRbacLog
                 $result["inht"] = $rbacreview->getRolesOfRoleFolder($a_ref_id);
             }
         }
-        
+
         return $result;
     }
 
-    public static function diffFaPa(array $a_old, array $a_new)
+    public static function diffFaPa(array $a_old, array $a_new) : array
     {
         $result = array();
 
         // roles
         foreach ((array) $a_old["ops"] as $role_id => $ops) {
             $diff = array_diff($ops, $a_new["ops"][$role_id]);
-            if (sizeof($diff)) {
+            if ($diff !== []) {
                 $result["ops"][$role_id]["rmv"] = array_values($diff);
             }
             $diff = array_diff($a_new["ops"][$role_id], $ops);
-            if (sizeof($diff)) {
+            if ($diff !== []) {
                 $result["ops"][$role_id]["add"] = array_values($diff);
             }
         }
@@ -89,29 +93,27 @@ class ilRbacLog
                 $result["inht"]["add"] = $a_new["inht"];
             } else {
                 $diff = array_diff($a_old["inht"], $a_new["inht"]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result["inht"]["rmv"] = array_values($diff);
                 }
                 $diff = array_diff($a_new["inht"], $a_old["inht"]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result["inht"]["add"] = array_values($diff);
                 }
             }
         }
-
         return $result;
     }
 
-    public static function gatherTemplate($a_role_ref_id, $a_role_id)
+    public static function gatherTemplate(int $a_role_ref_id, int $a_role_id) : array
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-
+        $rbacreview = $DIC->rbac()->review();
         return $rbacreview->getAllOperationsOfRole($a_role_id, $a_role_ref_id);
     }
 
-    public static function diffTemplate(array $a_old, array $a_new)
+    public static function diffTemplate(array $a_old, array $a_new) : array
     {
         $result = array();
         $types = array_unique(array_merge(array_keys($a_old), array_keys($a_new)));
@@ -122,11 +124,11 @@ class ilRbacLog
                 $result[$type]["rmv"] = $a_old[$type];
             } else {
                 $diff = array_diff($a_old[$type], $a_new[$type]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result[$type]["rmv"] = array_values($diff);
                 }
                 $diff = array_diff($a_new[$type], $a_old[$type]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result[$type]["add"] = array_values($diff);
                 }
             }
@@ -134,14 +136,14 @@ class ilRbacLog
         return $result;
     }
 
-    public static function add($a_action, $a_ref_id, array $a_diff, $a_source_ref_id = false)
+    public static function add(int $a_action, int $a_ref_id, array $a_diff, bool $a_source_ref_id = false) : bool
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        $ilDB = $DIC['ilDB'];
+        $ilUser = $DIC->user();
+        $ilDB = $DIC->database();
 
-        if (self::isValidAction($a_action) && sizeof($a_diff)) {
+        if (self::isValidAction($a_action) && count($a_diff)) {
             if ($a_source_ref_id) {
                 $a_diff["src"] = $a_source_ref_id;
             }
@@ -157,22 +159,32 @@ class ilRbacLog
         return false;
     }
 
-    protected static function isValidAction($a_action)
+    protected static function isValidAction(int $a_action) : bool
     {
-        if (in_array($a_action, array(self::EDIT_PERMISSIONS, self::MOVE_OBJECT, self::LINK_OBJECT,
-            self::COPY_OBJECT, self::CREATE_OBJECT, self::EDIT_TEMPLATE, self::EDIT_TEMPLATE_EXISTING,
-            self::CHANGE_OWNER))) {
+        if (in_array(
+            $a_action,
+            [
+                self::EDIT_PERMISSIONS,
+                self::MOVE_OBJECT,
+                self::LINK_OBJECT,
+                self::COPY_OBJECT,
+                self::CREATE_OBJECT,
+                self::EDIT_TEMPLATE,
+                self::EDIT_TEMPLATE_EXISTING,
+                self::CHANGE_OWNER
+            ]
+        )) {
             return true;
         }
         return false;
     }
 
-    public static function getLogItems($a_ref_id, $a_limit, $a_offset, array $a_filter = null)
+    public static function getLogItems(int $a_ref_id, int $a_limit, int $a_offset, array $a_filter = null) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $rbacreview = $DIC['rbacreview'];
+        $ilDB = $DIC->database();
+        $rbacreview = $DIC->rbac()->review();
 
         $where = [];
         if ($a_filter) {
@@ -195,8 +207,12 @@ class ilRbacLog
             }
         }
 
-        $set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = " . $ilDB->quote($a_ref_id, "integer") . implode('', $where));
-        $count = array_pop($ilDB->fetchAssoc($set));
+        $set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = " . $ilDB->quote(
+            $a_ref_id,
+            "integer"
+        ) . implode('', $where));
+        $res = $ilDB->fetchAssoc($set);
+        $count = array_pop($res);
 
         $ilDB->setLimit($a_limit, $a_offset);
         $set = $ilDB->query("SELECT * FROM rbac_log WHERE ref_id = " . $ilDB->quote($a_ref_id, "integer") .
@@ -206,30 +222,30 @@ class ilRbacLog
             $row["data"] = unserialize($row["data"]);
             $result[] = $row;
         }
-        return array("cnt" => $count, "set" => $result);
+        return ["cnt" => $count, "set" => $result];
     }
 
-    public static function delete($a_ref_id)
+    public static function delete(int $a_ref_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $ilDB->query("DELETE FROM rbac_log WHERE ref_id = " . $ilDB->quote($a_ref_id, "integer"));
-
         self::garbageCollection();
     }
 
-    public static function garbageCollection()
+    public static function garbageCollection() : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
-        $settings = ilPrivacySettings::_getInstance();
+        $ilDB = $DIC->database();
+
+        $settings = ilPrivacySettings::getInstance();
         $max = $settings->getRbacLogAge();
 
-        $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(strtotime("-" . $max . "months"), "integer"));
+        $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(
+            strtotime("-" . $max . "months"),
+            "integer"
+        ));
     }
 }

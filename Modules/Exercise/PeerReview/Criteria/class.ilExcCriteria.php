@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilExcCriteria.
  *
@@ -17,16 +31,16 @@ abstract class ilExcCriteria
     protected ilCtrl $ctrl;
     protected ilDBInterface $db;
     protected ?int $id = null;
-    protected ?int $parent;
-    protected ?string $title;
-    protected ?string $desc;
+    protected ?int $parent = null;
+    protected string $title = "";
+    protected string $desc = "";
     protected bool $required = false;
-    protected int $pos;
+    protected int $pos = 0;
     protected ?array $def = null;
-    protected ?ilPropertyFormGUI $form;
+    protected ?ilPropertyFormGUI $form = null;
     protected ilExAssignment $ass;
-    protected int $giver_id;
-    protected int $peer_id;
+    protected int $giver_id = 0;
+    protected int $peer_id = 0;
     
     public function __construct()
     {
@@ -144,7 +158,7 @@ abstract class ilExcCriteria
         $this->title = $a_value;
     }
     
-    public function getTitle() : ?string
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -154,7 +168,7 @@ abstract class ilExcCriteria
         $this->desc = $a_value;
     }
     
-    public function getDescription() : ?string
+    public function getDescription() : string
     {
         return $this->desc;
     }
@@ -189,7 +203,7 @@ abstract class ilExcCriteria
         return $this->def;
     }
     
-    public function importDefinition(string $a_def, string $a_def_json)
+    public function importDefinition(string $a_def, string $a_def_json) : void
     {
         // see #23711
         // use json, if given
@@ -317,7 +331,7 @@ abstract class ilExcCriteria
             " WHERE parent = " . $ilDB->quote($a_parent_id, "integer"));
     }
     
-    public function cloneObject(int $a_target_parent_id) : int
+    public function cloneObject(int $a_target_parent_id) : ?int
     {
         $new_obj = ilExcCriteria::getInstanceByType($this->getType());
         $new_obj->setParent($a_target_parent_id);

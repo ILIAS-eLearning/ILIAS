@@ -1,61 +1,77 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/Course/classes/class.ilCourseParticipantsGroupsTableGUI.php";
+<?php declare(strict_types=0);
 
 /**
-* Class ilCourseParticipantsGroupsGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjCourseGUI.php 24234 2010-06-14 12:35:45Z smeyer $
-*
-* @ilCtrl_Calls ilCourseParticipantsGroupsGUI:
-*
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
+/**
+ * Class ilCourseParticipantsGroupsGUI
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ilCtrl_Calls ilCourseParticipantsGroupsGUI:
+ */
 class ilCourseParticipantsGroupsGUI
 {
-    /**
-     * ref_id of parent course
-     * @var int
-     */
-    private $ref_id = 0;
-    
-    public function __construct($a_ref_id)
-    {
-        $this->ref_id = $a_ref_id;
-    }
+    private int $ref_id = 0;
 
-    public function executeCommand()
+    protected ilAccessHandler $access;
+    protected ilLanguage $lng;
+    protected ilCtrlInterface $ctrl;
+    protected ilErrorHandling $error;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjectDataCache $objectDataCache;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
+    public function __construct($a_ref_id)
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilErr = $DIC['ilErr'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        
-        if (!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $this->ref_id)) {
-            $ilErr->raiseError($lng->txt('permission_denied'), $ilErr->WARNING);
-        }
+        $this->access = $DIC->access();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->error = $DIC['ilErr'];
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
-        $cmd = $ilCtrl->getCmd();
+        $this->ref_id = $a_ref_id;
+    }
+
+    public function executeCommand() : void
+    {
+        if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $this->ref_id)) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
+        }
+        $cmd = $this->ctrl->getCmd();
         if (!$cmd) {
             $cmd = "show";
         }
         $this->$cmd();
     }
-    
-    public function show()
-    {
-        global $DIC;
 
-        $tpl = $DIC['tpl'];
-        
+    public function show() : void
+    {
         $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
-        $tpl->setContent($tbl_gui->getHTML());
+        $this->tpl->setContent($tbl_gui->getHTML());
     }
 
-    public function applyFilter()
+    public function applyFilter() : void
     {
         $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
         $tbl_gui->resetOffset();
@@ -63,7 +79,7 @@ class ilCourseParticipantsGroupsGUI
         $this->show();
     }
 
-    public function resetFilter()
+    public function resetFilter() : void
     {
         $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
         $tbl_gui->resetOffset();
@@ -71,109 +87,111 @@ class ilCourseParticipantsGroupsGUI
         $this->show();
     }
 
-    public function confirmRemove()
+    public function confirmRemove() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        
+        $grp_id = 0;
+        if ($this->http->wrapper()->query()->has('grp_id')) {
+            $grp_id = $this->http->wrapper()->query()->retrieve(
+                'grp_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
         $confirm = new ilConfirmationGUI();
-        $confirm->setFormAction($ilCtrl->getFormAction($this, 'remove'));
-        $confirm->addHiddenItem("grp_id", $_GET["grp_id"]);
-        $confirm->setHeaderText($lng->txt('grp_dismiss_member'));
-        $confirm->setConfirm($lng->txt('confirm'), 'remove');
-        $confirm->setCancel($lng->txt('cancel'), 'show');
+        $confirm->setFormAction($this->ctrl->getFormAction($this, 'remove'));
+        $confirm->addHiddenItem("grp_id", $grp_id);
+        $confirm->setHeaderText($this->lng->txt('grp_dismiss_member'));
+        $confirm->setConfirm($this->lng->txt('confirm'), 'remove');
+        $confirm->setCancel($this->lng->txt('cancel'), 'show');
 
-        include_once './Services/User/classes/class.ilUserUtil.php';
-      
+        $usr_id = 0;
+        if ($this->http->wrapper()->query()->has('usr_id')) {
+            $usr_id = $this->http->wrapper()->query()->retrieve(
+                'usr_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
         $confirm->addItem(
             'usr_id',
-            $_GET["usr_id"],
-            ilUserUtil::getNamePresentation($_GET["usr_id"], false, false, "", true),
+            $usr_id,
+            ilUserUtil::getNamePresentation($usr_id, false, false, "", true),
             ilUtil::getImagePath('icon_usr.svg')
         );
 
-        $tpl->setContent($confirm->getHTML());
+        $this->tpl->setContent($confirm->getHTML());
     }
 
-    /**
-     * Remove user from group
-     * @global type $ilObjDataCache
-     * @global type $lng
-     * @global type $ilCtrl
-     * @return type
-     */
-    protected function remove()
+    protected function remove() : void
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        if (!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', (int) $_POST['grp_id'])) {
-            ilUtil::sendFailure($lng->txt("permission_denied"), true);
+        $grp_id = 0;
+        if ($this->http->wrapper()->post()->has('grp_id')) {
+            $grp_id = $this->http->wrapper()->post()->retrieve(
+                'grp_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $usr_id = 0;
+        if ($this->http->wrapper()->post()->has('usr_id')) {
+            $usr_id = $this->http->wrapper()->post()->retrieve(
+                'usr_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $grp_id)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->show();
             return;
         }
-    
-        include_once './Modules/Group/classes/class.ilGroupParticipants.php';
-        $members_obj = ilGroupParticipants::_getInstanceByObjId($ilObjDataCache->lookupObjId((int) $_POST["grp_id"]));
-        $members_obj->delete((int) $_POST["usr_id"]);
+
+        $members_obj = ilGroupParticipants::_getInstanceByObjId($this->objectDataCache->lookupObjId($grp_id));
+        $members_obj->delete($usr_id);
 
         // Send notification
-        include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
         $members_obj->sendNotification(
             ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER,
-            (int) $_POST["usr_id"]
+            (int) $usr_id
         );
-        
-        ilUtil::sendSuccess($lng->txt("grp_msg_membership_annulled"), true);
-        $ilCtrl->redirect($this, "show");
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_membership_annulled"), true);
+        $this->ctrl->redirect($this, "show");
     }
 
-    /**
-     * Add user to group
-     * @global type $ilErr
-     * @global type $ilObjDataCache
-     * @global type $lng
-     * @global type $ilAccess
-     * @return type
-     */
-    protected function add()
+    protected function add() : void
     {
-        global $DIC;
+        $grp_id = 0;
+        if ($this->http->wrapper()->post()->has('grp_id')) {
+            $grp_id = $this->http->wrapper()->post()->retrieve(
+                'grp_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $usr_ids = 0;
+        if ($this->http->wrapper()->post()->has('usrs')) {
+            $usr_ids = $this->http->wrapper()->post()->retrieve(
+                'usrs',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
 
-        $ilErr = $DIC['ilErr'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if (sizeof($_POST["usrs"])) {
-            if (!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', (int) $_POST['grp_id'])) {
-                ilUtil::sendFailure($lng->txt("permission_denied"), true);
+        if (count($usr_ids) > 0) {
+            if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $grp_id)) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                 $this->show();
                 return;
             }
 
-            include_once './Modules/Group/classes/class.ilGroupParticipants.php';
-            $members_obj = ilGroupParticipants::_getInstanceByObjId($ilObjDataCache->lookupObjId((int) $_POST["grp_id"]));
-            foreach ($_POST["usrs"] as $new_member) {
-                if (!$members_obj->add($new_member, IL_GRP_MEMBER)) {
-                    $ilErr->raiseError("An Error occured while assigning user to group !", $ilErr->MESSAGE);
+            $members_obj = ilGroupParticipants::_getInstanceByObjId($this->objectDataCache->lookupObjId($grp_id));
+            foreach ($usr_ids as $new_member) {
+                if (!$members_obj->add($new_member, ilParticipants::IL_GRP_MEMBER)) {
+                    $this->error->raiseError("An Error occured while assigning user to group !", $this->error->MESSAGE);
                 }
 
-                include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
                 $members_obj->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                     $new_member
                 );
             }
-            ilUtil::sendSuccess($lng->txt("grp_msg_member_assigned"));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_member_assigned"));
         }
-
         $this->show();
     }
 }

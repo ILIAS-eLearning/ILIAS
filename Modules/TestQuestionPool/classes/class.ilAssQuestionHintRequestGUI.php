@@ -53,13 +53,6 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         parent::__construct($questionGUI);
     }
     
-    /**
-     * Execute Command
-     *
-     * @access	public
-     * @global	ilCtrl	$ilCtrl
-     * @return	mixed
-     */
     public function executeCommand()
     {
         global $DIC;
@@ -85,6 +78,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
                 return $this->$cmd();
                 break;
         }
+        return '';
     }
     
     /**
@@ -92,7 +86,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      *
      * @access	private
      */
-    private function showListCmd()
+    private function showListCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -120,24 +114,24 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilTemplate $tpl
      * @global	ilLanguage $lng
      */
-    private function showHintCmd()
+    private function showHintCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
         
-        if (!isset($_GET['hintId']) || !(int) $_GET['hintId']) {
+        if (!$this->request->isset('hintId') || !(int) $this->request->raw('hintId')) {
             throw new ilTestException('no hint id given');
         }
         
-        $isRequested = $this->questionHintTracking->isRequested((int) $_GET['hintId']);
+        $isRequested = $this->questionHintTracking->isRequested((int) $this->request->raw('hintId'));
         
         if (!$isRequested) {
             throw new ilTestException('hint with given id is not yet requested for given testactive and testpass');
         }
         
-        $questionHint = ilAssQuestionHint::getInstanceById((int) $_GET['hintId']);
+        $questionHint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
         
         require_once 'Services/Utilities/classes/class.ilUtil.php';
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -168,7 +162,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         // form input: hint text
         
         $nonEditableHintText = new ilNonEditableValueGUI($lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text', true);
-        $nonEditableHintText->setValue(ilUtil::prepareTextareaOutput($questionHint->getText(), true));
+        $nonEditableHintText->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($questionHint->getText(), true));
         $form->addItem($nonEditableHintText);
         
         // form input: hint points
@@ -188,7 +182,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilTemplate $tpl
      * @global	ilLanguage $lng
      */
-    private function confirmRequestCmd()
+    private function confirmRequestCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -230,12 +224,12 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilCtrl $ilCtrl
      */
-    private function performRequestCmd()
+    private function performRequestCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         
-        if (!isset($_GET['hintId']) || !(int) $_GET['hintId']) {
+        if (!$this->request->isset('hintId') || !(int) $this->request->raw('hintId')) {
             throw new ilTestException('no hint id given');
         }
         
@@ -245,7 +239,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
             $ilCtrl->redirect($this, self::CMD_BACK_TO_QUESTION);
         }
         
-        if ($nextRequestableHint->getId() != (int) $_GET['hintId']) {
+        if ($nextRequestableHint->getId() != (int) $this->request->raw('hintId')) {
             throw new ilTestException('given hint id does not relate to the next requestable hint');
         }
 
@@ -262,7 +256,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilCtrl $ilCtrl
      */
-    private function backToQuestionCmd()
+    private function backToQuestionCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -277,7 +271,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @global ilTemplate $tpl
      * @param string $content
      */
-    private function populateContent($content)
+    private function populateContent($content) : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -301,7 +295,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         }
     }
     
-    private function isQuestionPreview()
+    private function isQuestionPreview() : bool
     {
         if ($this->questionHintTracking instanceof ilAssQuestionPreviewHintTracking) {
             return true;
@@ -318,7 +312,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @param boolean $xmlStyle
      * @return string $linkTarget
      */
-    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true)
+    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

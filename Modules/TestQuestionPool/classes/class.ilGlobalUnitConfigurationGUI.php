@@ -13,7 +13,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand() : string
     {
         return 'showGlobalUnitCategories';
     }
@@ -21,7 +21,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    public function getUnitCategoryOverviewCommand()
+    public function getUnitCategoryOverviewCommand() : string
     {
         return 'showGlobalUnitCategories';
     }
@@ -29,7 +29,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return boolean
      */
-    public function isCRUDContext()
+    public function isCRUDContext() : bool
     {
         return true;
     }
@@ -37,15 +37,12 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    public function getUniqueId()
+    public function getUniqueId() : string
     {
         return $this->repository->getConsumerId() . '_global';
     }
 
-    /**
-     *
-     */
-    protected function showGlobalUnitCategories()
+    protected function showGlobalUnitCategories() : void
     {
         /**
          * @var $ilToolbar ilToolbarGUI
@@ -54,7 +51,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
         $ilToolbar = $DIC['ilToolbar'];
         $rbacsystem = $DIC->rbac()->system();
 
-        if ($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
         }
 
@@ -64,7 +61,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @param array $categories
      */
-    protected function showUnitCategories(array $categories)
+    protected function showUnitCategories(array $categories) : void
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilGlobalUnitCategoryTableGUI.php';
         $table = new ilGlobalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());

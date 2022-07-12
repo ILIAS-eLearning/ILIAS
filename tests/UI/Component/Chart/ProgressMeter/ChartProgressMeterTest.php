@@ -1,31 +1,45 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Test on ProgressMeter implementation.
  */
 class ChartProgressMeterTest extends ILIAS_UI_TestBase
 {
-    protected function getFactory()
+    protected function getFactory() : C\Chart\ProgressMeter\Factory
     {
         return new I\Component\Chart\ProgressMeter\Factory();
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $progressmeter = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Factory", $progressmeter);
     }
 
-    public function test_get_instances()
+    public function test_get_instances() : void
     {
         $progressmeter = $this->getFactory();
 
@@ -39,47 +53,47 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Mini", $mini);
     }
 
-    public function test_get_values_of_standard()
+    public function test_get_values_of_standard() : void
     {
         $f = $this->getFactory();
         $standard = $f->standard(400, 250, 300, 200);
 
-        $this->assertEquals($standard->getMaximum(), 400);
-        $this->assertEquals($standard->getMainValue(), 250);
-        $this->assertEquals($standard->getMainValueAsPercent(), 63);
-        $this->assertEquals($standard->getRequired(), 300);
-        $this->assertEquals($standard->getRequiredAsPercent(), 75);
-        $this->assertEquals($standard->getComparison(), 200);
-        $this->assertEquals($standard->getComparisonAsPercent(), 50);
+        $this->assertEquals(400, $standard->getMaximum());
+        $this->assertEquals(250, $standard->getMainValue());
+        $this->assertEquals(63, $standard->getMainValueAsPercent());
+        $this->assertEquals(300, $standard->getRequired());
+        $this->assertEquals(75, $standard->getRequiredAsPercent());
+        $this->assertEquals(200, $standard->getComparison());
+        $this->assertEquals(50, $standard->getComparisonAsPercent());
     }
 
-    public function test_get_values_of_fixedSize()
+    public function test_get_values_of_fixedSize() : void
     {
         $f = $this->getFactory();
         $fixedSize = $f->fixedSize(400, 250, 300, 200);
 
-        $this->assertEquals($fixedSize->getMaximum(), 400);
-        $this->assertEquals($fixedSize->getMainValue(), 250);
-        $this->assertEquals($fixedSize->getMainValueAsPercent(), 63);
-        $this->assertEquals($fixedSize->getRequired(), 300);
-        $this->assertEquals($fixedSize->getRequiredAsPercent(), 75);
-        $this->assertEquals($fixedSize->getComparison(), 200);
-        $this->assertEquals($fixedSize->getComparisonAsPercent(), 50);
+        $this->assertEquals(400, $fixedSize->getMaximum());
+        $this->assertEquals(250, $fixedSize->getMainValue());
+        $this->assertEquals(63, $fixedSize->getMainValueAsPercent());
+        $this->assertEquals(300, $fixedSize->getRequired());
+        $this->assertEquals(75, $fixedSize->getRequiredAsPercent());
+        $this->assertEquals(200, $fixedSize->getComparison());
+        $this->assertEquals(50, $fixedSize->getComparisonAsPercent());
     }
 
-    public function test_get_values_of_mini()
+    public function test_get_values_of_mini() : void
     {
         $f = $this->getFactory();
         $mini = $f->mini(400, 250, 300);
 
-        $this->assertEquals($mini->getMaximum(), 400);
-        $this->assertEquals($mini->getMainValue(), 250);
-        $this->assertEquals($mini->getMainValueAsPercent(), 63);
-        $this->assertEquals($mini->getRequired(), 300);
-        $this->assertEquals($mini->getRequiredAsPercent(), 75);
+        $this->assertEquals(400, $mini->getMaximum());
+        $this->assertEquals(250, $mini->getMainValue());
+        $this->assertEquals(63, $mini->getMainValueAsPercent());
+        $this->assertEquals(300, $mini->getRequired());
+        $this->assertEquals(75, $mini->getRequiredAsPercent());
     }
 
-    public function test_render_standard_two_bar()
+    public function test_render_standard_two_bar() : void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -120,7 +134,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_fixedSize_one_bar()
+    public function test_render_fixedSize_one_bar() : void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -157,7 +171,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_mini()
+    public function test_render_mini() : void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();

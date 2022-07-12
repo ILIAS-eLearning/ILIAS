@@ -1,69 +1,41 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/User/classes/class.ilUserUtil.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelation.php';
-require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFactory.php';
-require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+<?php declare(strict_types=1);
 
 /**
- * @ilCtrl_Calls      ilUsersGalleryGUI: ilPublicUserProfileGUI
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @ilCtrl_Calls ilUsersGalleryGUI: ilPublicUserProfileGUI
  * @ilCtrl_isCalledBy ilUsersGalleryGUI: ilCourseMembershipGUI, ilGroupMembershipGUI
  */
 class ilUsersGalleryGUI
 {
-    /**
-     * @var ilUsersGalleryCollectionProvider
-     */
-    protected $collection_provider;
+    protected ilUsersGalleryCollectionProvider $collection_provider;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilRbacSystem $rbacsystem;
+    protected \ILIAS\UI\Factory $factory;
+    protected \ILIAS\UI\Renderer $renderer;
+    protected \ILIAS\HTTP\GlobalHttpState $http;
+    protected \ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var $tpl ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $factory;
-
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $renderer;
-
-    /**
-     * ilUsersGalleryGUI constructor.
-     * @param ilUsersGalleryCollectionProvider $collection_provider
-     */
     public function __construct(ilUsersGalleryCollectionProvider $collection_provider)
     {
-        /**
-         * @var $DIC ILIAS\DI\Container
-         */
+        /** @var $DIC ILIAS\DI\Container */
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -73,22 +45,25 @@ class ilUsersGalleryGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->collection_provider = $collection_provider;
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd('view');
 
-        switch ($next_class) {
-            case 'ilpublicuserprofilegui':
-                require_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
-                $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($_GET['user']));
+        switch (strtolower($next_class)) {
+            case strtolower(ilPublicUserProfileGUI::class):
+                $profile_gui = new ilPublicUserProfileGUI(
+                    $this->http->wrapper()->query()->retrieve(
+                        'user',
+                        $this->refinery->kindlyTo()->int()
+                    )
+                );
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'view'));
                 $this->ctrl->forwardCommand($profile_gui);
                 break;
@@ -103,10 +78,7 @@ class ilUsersGalleryGUI
         }
     }
 
-    /**
-     * Displays the participants gallery
-     */
-    protected function view()
+    protected function view() : void
     {
         $template = $this->populateTemplate($this->collection_provider->getGroupedCollections());
         $this->tpl->setContent($template->get());
@@ -114,64 +86,59 @@ class ilUsersGalleryGUI
 
     /**
      * @param ilObjUser $user
-     * @param array     $sections
+     * @param \ILIAS\UI\Component\Component[] $sections
      */
-    protected function addActionSection(ilObjUser $user, array &$sections)
+    protected function addActionSection(ilObjUser $user, array &$sections) : void
     {
         $contact_btn_html = "";
 
         if (
-            ilBuddySystem::getInstance()->isEnabled() &&
-            $this->user->getId() != $user->getId() &&
             !$this->user->isAnonymous() &&
-            !$user->isAnonymous()
+            !$user->isAnonymous() &&
+            ilBuddySystem::getInstance()->isEnabled() &&
+            $this->user->getId() !== $user->getId()
         ) {
-            $contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId((int) $user->getId())->getHtml();
+            $contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml();
         }
 
-        include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
-        include_once("./Services/User/Gallery/classes/class.ilGalleryUserActionContext.php");
         $ua_gui = ilUserActionGUI::getInstance(new ilGalleryUserActionContext(), $this->tpl, $this->user->getId());
         $list_html = $ua_gui->renderDropDown($user->getId());
 
         if ($contact_btn_html || $list_html) {
-            $sections[] = $this->factory->legacy("<div style='float:left; margin-bottom:5px;'>" . $contact_btn_html . "</div><div class='button-container'>&nbsp;" . $list_html . "</div>");
+            $sections[] = $this->factory->legacy(
+                "<div style='float:left; margin-bottom:5px;'>" . $contact_btn_html . "</div><div class='button-container'>&nbsp;" . $list_html . "</div>"
+            );
         }
     }
 
     /**
-     * @param ilUsersGalleryGroup[] $gallery_groups
+     * @param ilUsersGalleryUserCollection[] $gallery_groups
      * @return ilTemplate
      */
-    protected function populateTemplate(array $gallery_groups)
+    protected function populateTemplate(array $gallery_groups) : ilTemplate
     {
         $buddylist = ilBuddyList::getInstanceByGlobalUser();
         $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
 
-        require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
         $panel = ilPanelGUI::getInstance();
         $panel->setBody($this->lng->txt('no_gallery_users_available'));
-        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
+        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
 
-        $groups_with_users = array_filter($gallery_groups, function (ilUsersGalleryGroup $group) {
+        $groups_with_users = array_filter($gallery_groups, static function (ilUsersGalleryGroup $group) : bool {
             return count($group) > 0;
         });
-        $groups_with_highlight = array_filter($groups_with_users, function (ilUsersGalleryGroup $group) {
+        $groups_with_highlight = array_filter($groups_with_users, static function (ilUsersGalleryGroup $group) : bool {
             return $group->isHighlighted();
         });
 
-        if (0 == count($groups_with_users)) {
+        if (0 === count($groups_with_users)) {
             $tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
             return $tpl;
         }
 
-        require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
         $panel = ilPanelGUI::getInstance();
         $panel->setBody($this->lng->txt('no_gallery_users_available'));
-        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
-
-        require_once 'Services/User/Gallery/classes/class.ilUsersGallerySortedUserGroup.php';
-        require_once 'Services/User/Gallery/classes/class.ilUsersGalleryUserCollectionPublicNameSorter.php';
+        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
 
         $cards = [];
 
@@ -180,7 +147,10 @@ class ilUsersGalleryGUI
 
             foreach ($group as $user) {
                 $card = $this->factory->card()->standard($user->getPublicName());
-                $avatar = $this->factory->image()->standard($user->getAggregatedUser()->getPersonalPicturePath('big'), $user->getPublicName());
+                $avatar = $this->factory->image()->standard(
+                    $user->getAggregatedUser()->getPersonalPicturePath('big'),
+                    $user->getPublicName()
+                );
 
                 $sections = [];
 
@@ -198,8 +168,12 @@ class ilUsersGalleryGUI
                 $this->addActionSection($user->getAggregatedUser(), $sections);
 
                 if ($user->hasPublicProfile()) {
-                    $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $user->getAggregatedUser()->getId());
-                    $public_profile_url = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
+                    $this->ctrl->setParameterByClass(
+                        ilPublicUserProfileGUI::class,
+                        'user',
+                        $user->getAggregatedUser()->getId()
+                    );
+                    $public_profile_url = $this->ctrl->getLinkTargetByClass(ilPublicUserProfileGUI::class, 'getHTML');
 
                     $avatar = $avatar->withAction($public_profile_url);
                     $card = $card->withTitleAction($public_profile_url);

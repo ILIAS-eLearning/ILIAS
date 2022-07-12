@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Component;
@@ -64,21 +78,17 @@ interface Filter extends Component, JavaScriptBindable, Triggerable
      *
      * @return    array<mixed,Input>
      */
-    public function getInputs();
+    public function getInputs() : array;
 
     /**
      * Get if the inputs are rendered
      *
      * @return    bool[]
      */
-    public function isInputRendered();
+    public function isInputRendered() : array;
 
     /**
      * Get a Filter like this where data from the request is attached.
-     *
-     * @param    ServerRequestInterface $request
-     *
-     * @return    Filter
      */
     public function withRequest(ServerRequestInterface $request);
 
@@ -91,50 +101,36 @@ interface Filter extends Component, JavaScriptBindable, Triggerable
 
     /**
      * Get to know if the Filter is activated or deactivated
-     *
-     * @return bool
      */
-    public function isActivated();
+    public function isActivated() : bool;
 
     /**
      * Get a Filter like this, but already activated.
-     *
-     * @return Filter
      */
-    public function withActivated();
+    public function withActivated() : Filter;
 
     /**
      * Get a Filter like this, but deactivated.
-     *
-     * @return Filter
      */
-    public function withDeactivated();
+    public function withDeactivated() : Filter;
 
     /**
      * Get to know if the Filter is expanded or collapsed
-     *
-     * @return bool
      */
-    public function isExpanded();
+    public function isExpanded() : bool;
 
     /**
      * Get a Filter like this, but already expanded.
-     *
-     * @return Filter
      */
-    public function withExpanded();
+    public function withExpanded() : Filter;
 
     /**
      * Get a Filter like this, but collapsed.
-     *
-     * @return Filter
      */
-    public function withCollapsed();
+    public function withCollapsed() : Filter;
 
     /**
      * Get the signal to update this filter
-     *
-     * @return Signal
      */
-    public function getUpdateSignal();
+    public function getUpdateSignal() : Signal;
 }

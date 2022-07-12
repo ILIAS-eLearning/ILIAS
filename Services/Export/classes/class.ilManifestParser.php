@@ -1,170 +1,116 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Manifest parser for ILIAS standard export files
- *
  * @author Aleex Killing <alex.killing@gmx.de>
  */
 class ilManifestParser extends ilSaxParser
 {
-    protected $expfiles = array();
-    protected $expsets = array();
-    
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
-    public function __construct($a_file)
+    protected string $chr_data = '';
+    protected string $target_release = '';
+    protected string $title = '';
+    protected string $main_entity = '';
+    protected string $install_id = '';
+    protected string $install_url = '';
+    protected array $expfiles = array();
+    protected array $expsets = array();
+
+    public function __construct(string $a_file)
     {
         parent::__construct($a_file, true);
         $this->startParsing();
     }
 
-    /**
-     * Set Installation ID
-     *
-     * @param	string	Installation ID
-     */
-    final public function setInstallId($a_val)
+    final public function setInstallId(string $a_val) : void
     {
         $this->install_id = $a_val;
     }
 
-    /**
-     * Get Installation ID
-     *
-     * @return	string	Installation ID
-     */
-    final public function getInstallId()
+    final public function getInstallId() : string
     {
         return $this->install_id;
     }
 
-    /**
-     * Set Installation Url
-     *
-     * @param	string	Installation Url
-     */
-    final public function setInstallUrl($a_val)
+    final public function setInstallUrl(string $a_val) : void
     {
         $this->install_url = $a_val;
     }
 
-    /**
-     * Get Installation Url
-     *
-     * @return	string	Installation Url
-     */
-    final public function getInstallUrl()
+    final public function getInstallUrl() : string
     {
         return $this->install_url;
     }
 
-    /**
-     * Set main entity
-     *
-     * @param	string	main entity
-     */
-    public function setMainEntity($a_val)
+    public function setMainEntity(string $a_val) : void
     {
         $this->main_entity = $a_val;
     }
 
-    /**
-     * Get main entity
-     *
-     * @return	string	main entity
-     */
-    public function getMainEntity()
+    public function getMainEntity() : string
     {
         return $this->main_entity;
     }
 
-    /**
-     * Set title
-     *
-     * @param	string	title
-     */
-    public function setTitle($a_val)
+    public function setTitle(string $a_val) : void
     {
         $this->title = $a_val;
     }
 
-    /**
-     * Get title
-     *
-     * @return	string	title
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * Set target release
-     *
-     * @param	string	target release
-     */
-    public function setTargetRelease($a_val)
+    public function setTargetRelease(string $a_val) : void
     {
         $this->target_release = $a_val;
     }
 
-    /**
-     * Get target release
-     *
-     * @return	string	target release
-     */
-    public function getTargetRelease()
+    public function getTargetRelease() : string
     {
         return $this->target_release;
     }
 
-    /**
-     * Get xml files
-     *
-     * @return	array of strings	xml file pathes
-     */
-    public function getExportFiles()
+    public function getExportFiles() : array
     {
         return $this->expfiles;
     }
-    
-    public function getExportSets()
+
+    public function getExportSets() : array
     {
         return $this->expsets;
     }
-    
+
     /**
      * Set event handlers
      *
      * @param	resource	reference to the xml parser
      * @access	private
      */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handleBeginTag', 'handleEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handleCharacterData');
     }
 
-    
-    /**
-     * Start parser
-     */
-    public function startParsing()
-    {
-        parent::startParsing();
-    }
-    
     /**
      * Begin Tag
      */
-    public function handleBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handleBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case "Manifest":
@@ -177,9 +123,10 @@ class ilManifestParser extends ilSaxParser
 
             case "ExportFile":
                 $this->expfiles[] = array("component" => $a_attribs["Component"],
-                    "path" => $a_attribs["Path"]);
+                                          "path" => $a_attribs["Path"]
+                );
                 break;
-                
+
             case "ExportSet":
                 $this->expsets[] = array(
                     'path' => $a_attribs['Path'],
@@ -188,19 +135,19 @@ class ilManifestParser extends ilSaxParser
                 break;
         }
     }
-    
+
     /**
      * End Tag
      */
-    public function handleEndTag($a_xml_parser, $a_name)
+    public function handleEndTag($a_xml_parser, string $a_name) : void
     {
         $this->chr_data = "";
     }
-    
+
     /**
      * End Tag
      */
-    public function handleCharacterData($a_xml_parser, $a_data)
+    public function handleCharacterData($a_xml_parser, string $a_data) : void
     {
         //$a_data = str_replace("<","&lt;",$a_data);
         //$a_data = str_replace(">","&gt;",$a_data);

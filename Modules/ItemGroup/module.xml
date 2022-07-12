@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object id="itgr" class_name="ItemGroup" dir="classes" default_pos="45" default_pres_pos="5"
-			checkbox="1" inherit="0" translate="0" allow_link="0" allow_copy="1" rbac="1" export="1">
+			checkbox="1" inherit="0" translate="db" allow_link="0" allow_copy="1" rbac="1" export="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>

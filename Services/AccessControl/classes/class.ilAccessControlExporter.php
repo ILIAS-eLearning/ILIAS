@@ -1,82 +1,65 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once './Services/Export/classes/class.ilXmlExporter.php';
-
+<?php declare(strict_types=1);
 /**
-* Role Exporter
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesAccessControl
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Role Exporter
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAccessControl
+ */
 class ilAccessControlExporter extends ilXmlExporter
 {
-    private $writer = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-    
-    /**
-     * Init export
-     * @return void
-     */
     public function init() : void
     {
     }
-    
+
     /**
      * Get head dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @param string        entity
+     * @param string        target release
+     * @param array        ids
+     * @return        array        array of array with keys "component", entity", "ids"
      */
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
-        return array();
+        return [];
     }
-    
-    
+
     /**
      * Get xml
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @param string $a_id
-     * @return string
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-        
-        include_once './Services/AccessControl/classes/class.ilRoleXmlExport.php';
         $writer = new ilRoleXmlExport();
-        
-        include_once './Services/Export/classes/class.ilExportOptions.php';
+
         $eo = ilExportOptions::getInstance();
         $eo->read();
-        
-        $rolf = $eo->getOptionByObjId($a_id, ilExportOptions::KEY_ROOT);
-        // @todo refactor rolf
+    
+        $rolf = $eo->getOptionByObjId((int) $a_id, ilExportOptions::KEY_ROOT);
         $writer->setRoles(array($a_id => $rolf));
         $writer->write();
         return $writer->xmlDumpMem(false);
     }
-    
+
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     * @return array
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {
@@ -86,7 +69,8 @@ class ilAccessControlExporter extends ilXmlExporter
                 "xsd_file" => "ilias_role_4_3.xsd",
                 "uses_dataset" => false,
                 "min" => "4.3.0",
-                "max" => "")
+                "max" => ""
+            )
         );
     }
 }

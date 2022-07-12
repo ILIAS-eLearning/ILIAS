@@ -11804,18 +11804,18 @@ if ($se_db <= 58) {
         $a_style_id = $rec["obj_id"];
 
         $sty_data_dir = CLIENT_WEB_DIR . "/sty";
-        ilUtil::makeDir($sty_data_dir);
+        ilFileUtils::makeDir($sty_data_dir);
 
         $style_dir = $sty_data_dir . "/sty_" . $a_style_id;
-        ilUtil::makeDir($style_dir);
+        ilFileUtils::makeDir($style_dir);
 
         // create images subdirectory
         $im_dir = $style_dir . "/images";
-        ilUtil::makeDir($im_dir);
+        ilFileUtils::makeDir($im_dir);
 
         // create thumbnails directory
         $thumb_dir = $style_dir . "/images/thumbnails";
-        ilUtil::makeDir($thumb_dir);
+        ilFileUtils::makeDir($thumb_dir);
 
         //	ilObjStyleSheet::_createImagesDirectory($rec["obj_id"]);
         $imdir = CLIENT_WEB_DIR . "/sty/sty_" . $a_style_id .

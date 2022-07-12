@@ -1,28 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Skill tresholds for 360 surveys
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesSurvey
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveySkillThresholds
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilObjSurvey $survey;
+    protected ilDBInterface $db;
+    /** @var array<int, array<int, int>>  */
+    protected array $threshold;
 
-    
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct(ilObjSurvey $a_survey)
     {
         global $DIC;
@@ -32,13 +36,7 @@ class ilSurveySkillThresholds
         $this->read();
     }
     
-    /**
-     * Read
-     *
-     * @param
-     * @return
-     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -47,40 +45,34 @@ class ilSurveySkillThresholds
             " WHERE survey_id = " . $ilDB->quote($this->survey->getId(), "integer")
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $this->threshold[$rec['level_id']][$rec['tref_id']] =
-                $rec['threshold'];
+            $this->threshold[(int) $rec['level_id']][(int) $rec['tref_id']] = (int) $rec['threshold'];
         }
     }
 
     /**
-     * Get thresholds
-     *
-     * @param
-     * @return
+     * @return array<int, array<int, int>>
      */
-    public function getThresholds()
+    public function getThresholds() : array
     {
         return $this->threshold;
     }
     
-    /**
-     * Write threshold
-     *
-     * @param
-     * @return
-     */
-    public function writeThreshold($a_base_skill_id, $a_tref_id, $a_level_id, $a_threshold)
-    {
+    public function writeThreshold(
+        int $a_base_skill_id,
+        int $a_tref_id,
+        int $a_level_id,
+        int $a_threshold
+    ) : void {
         $ilDB = $this->db;
         
         $ilDB->replace(
             "svy_skill_threshold",
             array("survey_id" => array("integer", $this->survey->getId()),
-                "base_skill_id" => array("integer", (int) $a_base_skill_id),
-                "tref_id" => array("integer", (int) $a_tref_id),
-                "level_id" => array("integer", (int) $a_level_id)
+                  "base_skill_id" => array("integer", $a_base_skill_id),
+                  "tref_id" => array("integer", $a_tref_id),
+                  "level_id" => array("integer", $a_level_id)
                 ),
-            array("threshold" => array("integer", (int) $a_threshold))
+            array("threshold" => array("integer", $a_threshold))
         );
     }
 }

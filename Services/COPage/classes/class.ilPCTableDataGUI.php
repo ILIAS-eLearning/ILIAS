@@ -1,30 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCTableDataGUI
- *
  * Handles user commands on table data elements (table cells)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCTableDataGUI extends ilPageContentGUI
 {
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -34,112 +42,69 @@ class ilPCTableDataGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
 
-    /**
-    * insert new row after cell
-    */
-    public function newRowAfter()
+    public function newRowAfter() : void
     {
         $this->content_obj->newRowAfter();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * insert new row before cell
-    */
-    public function newRowBefore()
+    public function newRowBefore() : void
     {
         $this->content_obj->newRowBefore();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * delete a row
-    */
-    public function deleteRow()
+    public function deleteRow() : void
     {
         $this->content_obj->deleteRow();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-
-    /**
-    * insert new col after cell
-    */
-    public function newColAfter()
+    public function newColAfter() : void
     {
         $this->content_obj->newColAfter();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * insert new col before cell
-    */
-    public function newColBefore()
+    public function newColBefore() : void
     {
         $this->content_obj->newColBefore();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * delete column
-    */
-    public function deleteCol()
+    public function deleteCol() : void
     {
         $this->content_obj->deleteCol();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * move row down
-    */
-    public function moveRowDown()
+    public function moveRowDown() : void
     {
         $this->content_obj->moveRowDown();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * move list item up
-    */
-    public function moveRowUp()
+    public function moveRowUp() : void
     {
         $this->content_obj->moveRowUp();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * move column right
-    */
-    public function moveColRight()
+    public function moveColRight() : void
     {
         $this->content_obj->moveColRight();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * move list item up
-    */
-    public function moveColLeft()
+    public function moveColLeft() : void
     {
         $this->content_obj->moveColLeft();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 }

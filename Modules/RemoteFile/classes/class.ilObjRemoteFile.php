@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php');
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * Remote file app class
@@ -19,17 +30,17 @@ class ilObjRemoteFile extends ilRemoteObjectBase
     protected $version;
     protected $version_tstamp;
 
-    public function initType()
+    public function initType() : void
     {
         $this->type = "rfil";
     }
     
-    protected function getTableName()
+    protected function getTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
     
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return "/campusconnect/files";
     }
@@ -74,28 +85,28 @@ class ilObjRemoteFile extends ilRemoteObjectBase
         return $this->version_tstamp;
     }
     
-    protected function doCreateCustomFields(array &$a_fields)
+    protected function doCreateCustomFields(array &$a_fields) : void
     {
         $a_fields["version"] = array("integer", 1);
         $a_fields["version_tstamp"] = array("integer", time());
     }
 
-    protected function doUpdateCustomFields(array &$a_fields)
+    protected function doUpdateCustomFields(array &$a_fields) : void
     {
         $a_fields["version"] = array("integer", $this->getVersion());
         $a_fields["version_tstamp"] = array("integer", $this->getVersionDateTime());
     }
 
-    protected function doReadCustomFields($a_row)
+    protected function doReadCustomFields($a_row) : void
     {
         $this->setVersion($a_row->version);
         $this->setVersionDateTime($a_row->version_tstamp);
     }
     
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content) : void
     {
-        $this->setVersion($a_ecs_content->version);
-        $this->setVersionDateTime($a_ecs_content->version_date);
+        $this->setVersion($ecs_content->version);
+        $this->setVersionDateTime($ecs_content->version_date);
     }
     
     /**

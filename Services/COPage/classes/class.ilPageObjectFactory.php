@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Page object factory
@@ -11,34 +25,31 @@ class ilPageObjectFactory
 {
     /**
      * Get page object instance
-     * @param string $a_parent_type
-     * @param int    $a_id page id
-     * @param int    $a_old_nr history number of page
-     * @param string $a_lang language
-     * @return ilPageObject
      */
-    public static function getInstance(string $a_parent_type, int $a_id = 0, int $a_old_nr = 0, string $a_lang = "-") : ilPageObject
-    {
+    public static function getInstance(
+        string $a_parent_type,
+        int $a_id = 0,
+        int $a_old_nr = 0,
+        string $a_lang = "-"
+    ) : ilPageObject {
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"];
         $obj = new $class($a_id, $a_old_nr, $a_lang);
-        
+
         return $obj;
     }
-    
+
     /**
      * Get page config instance
-     *
-     * @param string $a_parent_type parent type
-     * @return object
      */
-    public static function getConfigInstance(string $a_parent_type) : ilPageConfig
-    {
+    public static function getConfigInstance(
+        string $a_parent_type
+    ) : ilPageConfig {
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"] . "Config";
         $path = "./" . $def["component"] . "/" . $def["directory"] . "/class." . $class . ".php";
         $cfg = new $class();
-        
+
         return $cfg;
     }
 

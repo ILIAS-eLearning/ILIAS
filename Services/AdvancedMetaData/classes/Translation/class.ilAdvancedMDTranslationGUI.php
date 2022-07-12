@@ -1,73 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
 use Psr\Http\Message\RequestInterface;
 
 abstract class ilAdvancedMDTranslationGUI
 {
-    /**
-     * Default command
-     */
     protected const CMD_DEFAULT = 'translations';
     protected const CMD_ADD_TRANSLATION = 'addTranslations';
     protected const CMD_SAVE_ADDITIONAL_TRANSLATIONS = 'saveAdditionalTranslations';
 
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilTabsGUI $tabs;
+    protected ilLanguage $language;
+    protected RequestInterface $request;
+    protected ilLogger $logger;
+    protected ilAdvancedMDRecord $record;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $language;
-
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
-
-    /**
-     * @var ilAdvancedMDRecord
-     */
-    protected $record;
-
-    /**
-     * ilAdvancedMDTranslationGUI constructor.
-     * @param ilAdvancedMDRecord $record
-     */
     public function __construct(ilAdvancedMDRecord $record)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->tabs = $DIC->tabs();
         $this->tpl = $DIC->ui()->mainTemplate();
-        $this->logger = $DIC->logger()->amet();
         $this->toolbar = $DIC->toolbar();
+        $this->tabs = $DIC->tabs();
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('obj');
         $this->request = $DIC->http()->request();
+        /** @noinspection PhpUndefinedMethodInspection */
+        $this->logger = $DIC->logger()->amet();
         $this->record = $record;
     }
 
@@ -90,9 +52,6 @@ abstract class ilAdvancedMDTranslationGUI
         }
     }
 
-    /**
-     * @param string $active_tab
-     */
     protected function setTabs(string $active_tab)
     {
         $this->tabs->activateTab($active_tab);
@@ -101,7 +60,7 @@ abstract class ilAdvancedMDTranslationGUI
     /**
      * @return void
      */
-    abstract protected function translations();
+    abstract protected function translations() : void;
 
     /**
      * show translation creation form
@@ -115,10 +74,7 @@ abstract class ilAdvancedMDTranslationGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function initCreateTranslationForm()
+    protected function initCreateTranslationForm() : ilPropertyFormGUI
     {
         $form = new \ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -142,11 +98,10 @@ abstract class ilAdvancedMDTranslationGUI
             self::CMD_DEFAULT,
             $this->language->txt('cancel')
         );
-
         return $form;
     }
 
-    protected function addToolbarLanguageCreation()
+    protected function addToolbarLanguageCreation() : void
     {
         $button = ilLinkButton::getInstance();
         $button->setCaption('obj_add_languages');
@@ -160,10 +115,10 @@ abstract class ilAdvancedMDTranslationGUI
     }
 
     /**
+     * @return array<string, string>
      * @todo handle generic isConfigured
-     * @return array
      */
-    protected function getAvailableLanguagesOptions()
+    protected function getAvailableLanguagesOptions() : array
     {
         $languages = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
 
@@ -180,20 +135,21 @@ abstract class ilAdvancedMDTranslationGUI
         return $options;
     }
 
-    protected function saveAdditionalTranslations()
+    protected function saveAdditionalTranslations() : void
     {
         $form = $this->initCreateTranslationForm();
         if (!$form->checkInput()) {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->language->txt('err_check_input'));
-            return $this->addTranslations($form);
+            $this->tpl->setOnScreenMessage('failure', $this->language->txt('err_check_input'));
+            $this->addTranslations($form);
+            return;
         }
         foreach (array_unique((array) $form->getInput('languages')) as $language_code) {
             $languages = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
             $languages->addTranslationEntry($language_code);
         }
 
-        ilUtil::sendSuccess($this->language->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->language->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 }

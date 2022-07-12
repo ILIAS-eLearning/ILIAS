@@ -1,11 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Image\Image;
-use ILIAS\UI\Implementation\Component\Modal\LightboxImagePage;
-use ILIAS\UI\Implementation\Component\Modal\LightboxTextPage;
 
 /**
  * Interface Factory
@@ -14,7 +28,6 @@ use ILIAS\UI\Implementation\Component\Modal\LightboxTextPage;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -44,14 +57,12 @@ interface Factory
      *        The cancel button in the footer and the close button in the header MUST NOT perform
      *        any additional action than closing the Interruptive modal.
      * ---
-     *
      * @param string $title
      * @param string $message A plain string informing the user about the critical situation
      * @param string $form_action The URL where the modal posts its form data
-     *
      * @return \ILIAS\UI\Component\Modal\Interruptive
      */
-    public function interruptive($title, $message, $form_action);
+    public function interruptive(string $title, string $message, string $form_action) : Interruptive;
 
 
     /**
@@ -62,7 +73,6 @@ interface Factory
      *     by the critical action, e.g. deleting.
      *   composition:
      *     An Interruptive item is composed of an Id, title, description and an icon.
-     *   effect:
      * rules:
      *   usage:
      *     1: >
@@ -77,15 +87,18 @@ interface Factory
      *       If an interruptive item represents an ILIAS object, e.g. a course, then the Id, title, description
      *       and icon of the item MUST correspond to the Id, title, description and icon from the ILIAS object.
      * ---
-     *
      * @param string $id
      * @param string $title
      * @param Image $icon
      * @param string $description
-     *
      * @return \ILIAS\UI\Component\Modal\InterruptiveItem
      */
-    public function interruptiveItem($id, $title, Image $icon = null, $description = '');
+    public function interruptiveItem(
+        string $id,
+        string $title,
+        Image $icon = null,
+        string $description = ''
+    ) : InterruptiveItem;
 
 
     /**
@@ -98,7 +111,7 @@ interface Factory
      *     overriding workflow. This is typically the case if an ILIAS service is being called
      *     while working in an object.
      *   composition: >
-     *     Round-Trip modals are completed by a well defined sequence of only a few steps that might be
+     *     Round-Trip modals are completed by a well-defined sequence of only a few steps that might be
      *     displayed on a sequence of different modals connected through some "next" button.
      *   effect: >
      *     Round-Trip modals perform sub-workflow involving some kind of user input. Sub-workflow is completed
@@ -128,10 +141,9 @@ interface Factory
      * ---
      * @param string $title
      * @param Component\Component|Component\Component[] $content
-     *
      * @return \ILIAS\UI\Component\Modal\RoundTrip
      */
-    public function roundtrip($title, $content);
+    public function roundtrip(string $title, array $content) : RoundTrip;
 
 
     /**
@@ -145,25 +157,24 @@ interface Factory
      *     with a title.
      *   effect: >
      *     Lightbox modals are activated by clicking the full view glyphicon,
-     *     the title of the object or it's thumbnail.
-     *     If multiple pages are to be displayed, they can flipped through.
+     *     the title of the object, or it's thumbnail.
+     *     If multiple pages are to be displayed, they can flip through.
      *
      * rules:
      *   usage:
      *     1: >
      *       Lightbox modals MUST contain a title above the presented item.
      *     2: >
-     *       Lightbox modals SHOULD contain a descriptional text below the presented items.
+     *       Lightbox modals SHOULD contain a description text below the presented items.
      *     3: >
      *       Multiple items inside a Lightbox modal MUST be presented in carousel
      *       like manner allowing to flickr through items.
      *
      * ---
      * @param LightboxPage|LightboxPage[] $pages
-     *
      * @return \ILIAS\UI\Component\Modal\Lightbox
      */
-    public function lightbox($pages);
+    public function lightbox($pages) : Lightbox;
 
 
     /**
@@ -184,14 +195,12 @@ interface Factory
      *       A Lightbox image page SHOULD have short a description, describing the presented image.
      *       If the description is omitted, the Lightbox image page falls back to the alt tag of the image.
      * ---
-     *
      * @param Image $image
      * @param string $title
      * @param string $description
-     *
      * @return \ILIAS\UI\Component\Modal\LightboxImagePage
      */
-    public function lightboxImagePage(Image $image, $title, $description = '');
+    public function lightboxImagePage(Image $image, string $title, string $description = '') : LightboxImagePage;
 
     /**
      * ---
@@ -206,15 +215,13 @@ interface Factory
      * rules:
      *   usage:
      *     1: >
-     *       A Lighbox text page MUST have text content and a short title.
+     *       A Lightbox text page MUST have text content and a short title.
      *     2: >
-     *       A Lighbox text page MUST NOT have a description.
+     *       A Lightbox text page MUST NOT have a description.
      * ---
-     *
      * @param string $text
      * @param string $title
-     *
      * @return \ILIAS\UI\Component\Modal\LightboxTextPage
      */
-    public function lightboxTextPage(string $text, string $title);
+    public function lightboxTextPage(string $text, string $title) : LightboxTextPage;
 }

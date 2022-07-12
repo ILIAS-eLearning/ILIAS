@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -15,10 +29,10 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $rule = $this->getMockBuilder(ilExternalAuthUserAttributeMappingRule::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $rule->expects($this->any())
+        $rule
             ->method('getExternalAttribute')
             ->willReturn($externalAttributeReference);
-        $rule->expects($this->any())
+        $rule
             ->method('getAttribute')
             ->willReturn($externalAttributeReference);
 
@@ -35,7 +49,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $userData = [$attributeKey => $attributeValue];
 
         $parser = new ilSamlMappedUserAttributeValueParser($this->getMappingRuleMock($attributeKey), $userData);
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
     public function testValueGivenAsArrayCanBeRetrievedForExternalAttribute() : void
@@ -48,7 +62,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $userData = [$attributeKey => $attributeValue];
 
         $parser = new ilSamlMappedUserAttributeValueParser($this->getMappingRuleMock($attributeKey), $userData);
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
     public function testValueGivenAsArrayCanBeRetrievedForExternalAttributeWithSpecificIndex() : void
@@ -65,7 +79,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
             $this->getMappingRuleMock($attributeKey . '|' . $expectedValueIndex),
             $userData
         );
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
     public function testExceptionIsRaisedIfAnExpectedAttributeIsMissing() : void

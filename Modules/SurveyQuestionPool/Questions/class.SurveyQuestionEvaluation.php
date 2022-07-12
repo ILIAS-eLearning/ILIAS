@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Survey question evaluation
@@ -9,30 +23,17 @@
  */
 abstract class SurveyQuestionEvaluation
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    protected $question; // [SurveyQuestion]
-    protected $finished_ids; // [array]
-    protected $chart_width = 400;
-    protected $chart_height = 300;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected SurveyQuestion $question;
+    protected array $finished_ids;
+    protected int $chart_width = 400;
+    protected int $chart_height = 300;
     
-    /**
-     * Constructor
-     *
-     * @param SurveyQuestion $a_question
-     * @param array $a_finished_ids
-     * @return self
-     */
-    public function __construct(SurveyQuestion $a_question, array $a_finished_ids = null)
-    {
+    public function __construct(
+        SurveyQuestion $a_question,
+        array $a_finished_ids = []
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -58,7 +59,7 @@ abstract class SurveyQuestionEvaluation
                                         
         $this->parseResults(
             $results,
-            (array) $answers[0],
+            (array) ($answers[0] ?? []),
             method_exists($this->question, "getCategories")
                 ? $this->question->getCategories()
                 : null
@@ -69,7 +70,6 @@ abstract class SurveyQuestionEvaluation
 
     /**
      * Get sum score for this question for all active ids of run
-     *
      * @return array, key is active id, value is sum score for question|null if not supported
      */
     public function getSumScores() : array
@@ -82,7 +82,7 @@ abstract class SurveyQuestionEvaluation
             " JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)" .
             " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
             " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
-        if (is_array($this->finished_ids)) {
+        if (count($this->finished_ids) > 0) {
             $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
         }
         $set = $ilDB->query($sql);
@@ -106,18 +106,12 @@ abstract class SurveyQuestionEvaluation
 
     /**
      * Is sum score ok (question needs to be fully answered)
-     * @param int
-     * @return bool
      */
     protected function isSumScoreValid(int $nr_answer_records) : bool
     {
         return true;
     }
 
-    /**
-     * Supports sum score?
-     * @return bool
-     */
     protected function supportsSumScore() : bool
     {
         return false;
@@ -125,14 +119,13 @@ abstract class SurveyQuestionEvaluation
 
     /**
      * Parse answer data into results instance
-     *
-     * @param ilSurveyEvaluationResults $a_results
-     * @param array $a_answers
-     * @param SurveyCategories $a_categories
      */
-    protected function parseResults(ilSurveyEvaluationResults $a_results, array $a_answers, SurveyCategories $a_categories = null)
-    {
-        $num_users_answered = sizeof($a_answers);
+    protected function parseResults(
+        ilSurveyEvaluationResults $a_results,
+        array $a_answers,
+        SurveyCategories $a_categories = null
+    ) : void {
+        $num_users_answered = count($a_answers);
 
         $a_results->setUsersAnswered($num_users_answered);
         $a_results->setUsersSkipped($this->getNrOfParticipants() - $num_users_answered);
@@ -142,7 +135,7 @@ abstract class SurveyQuestionEvaluation
         $selections = array();
         foreach ($a_answers as $active_id => $answers) {
             // :TODO:
-            if (sizeof($answers) > 1) {
+            if (count($answers) > 1) {
                 $has_multi = true;
             }
             foreach ($answers as $answer) {
@@ -154,15 +147,18 @@ abstract class SurveyQuestionEvaluation
                         $answer["value"] = $scale->scale;
                     }
                 }
-                
                 $parsed = new ilSurveyEvaluationResultsAnswer(
                     $active_id,
-                    $answer["value"],
-                    $answer["text"]
+                    (float) $answer["value"],
+                    (string) $answer["text"],
+                    $answer["tstamp"]
                 );
                 $a_results->addAnswer($parsed);
 
                 if ($answer["value"] != "") {
+                    if (!isset($selections[$answer["value"]])) {
+                        $selections[$answer["value"]] = 0;
+                    }
                     $selections[$answer["value"]]++;
                 }
             }
@@ -187,7 +183,7 @@ abstract class SurveyQuestionEvaluation
                         $median[] = $value;
                     }
                 }
-                if ($total % 2 == 0) {
+                if ($total % 2 === 0) {
                     $lower = $median[($total / 2) - 1];
                     $upper = $median[($total / 2)];
                     $median_value = 0.5 * ($lower + $upper);
@@ -209,22 +205,27 @@ abstract class SurveyQuestionEvaluation
                 $cat = $a_categories->getCategory($c);
                 $scale = $cat->scale;
 
+                $perc = null;
+                if ($total && isset($selections[$scale])) {
+                    $perc = $selections[$scale] / $total;
+                }
                 $var = new ilSurveyEvaluationResultsVariable(
                     $cat,
-                    $selections[$scale],
-                    $total
-                            ? $selections[$scale] / $total
-                            : null
+                    $selections[$scale] ?? null,
+                    $perc
                 );
                 $a_results->addVariable($var);
             }
         }
     }
-            
-    public function parseUserSpecificResults($a_qres, $a_user_id)
+
+    /**
+     * @param $a_qres ilSurveyEvaluationResults|array
+     */
+    public function parseUserSpecificResults($a_qres, int $a_user_id) : array
     {
         $parsed_results = array();
-        
+        $tmp = "";
         if (is_array($a_qres)) {
             foreach ($a_qres as $row_idx => $row_results) {
                 $row_title = $row_results[0];
@@ -273,22 +274,21 @@ abstract class SurveyQuestionEvaluation
     
     /**
      * Get grid data
-     *
      * @param ilSurveyEvaluationResults|array $a_results
-     * @param bool $a_abs
-     * @param bool $a_perc
-     * @return array
      */
-    public function getGrid($a_results, $a_abs = true, $a_perc = true)
-    {
+    public function getGrid(
+        $a_results,
+        bool $a_abs = true,
+        bool $a_perc = true
+    ) : array {
         $lng = $this->lng;
         
-        if ((bool) $a_abs && (bool) $a_perc) {
+        if ($a_abs && $a_perc) {
             $cols = array(
                 $lng->txt("category_nr_selected"),
                 $lng->txt("svy_fraction_of_selections")
             );
-        } elseif ((bool) $a_abs) {
+        } elseif ($a_abs) {
             $cols = array(
                 $lng->txt("category_nr_selected")
             );
@@ -310,13 +310,13 @@ abstract class SurveyQuestionEvaluation
                     ? sprintf("%.2f", $var->perc * 100) . "%"
                     : "0%";
                 
-                if ((bool) $a_abs && (bool) $a_perc) {
+                if ($a_abs && $a_perc) {
                     $res["rows"][] = array(
                         $var->cat->title,
                         $var->abs,
                         $perc
                     );
-                } elseif ((bool) $a_abs) {
+                } elseif ($a_abs) {
                     $res["rows"][] = array(
                         $var->cat->title,
                         $var->abs
@@ -337,14 +337,13 @@ abstract class SurveyQuestionEvaluation
      * Get text answers
      *
      * @param ilSurveyEvaluationResults|array $a_results
-     * @return array
      */
-    public function getTextAnswers($a_results)
+    public function getTextAnswers($a_results) : array
     {
         return $a_results->getMappedTextAnswers();
     }
     
-    protected function getChartColors()
+    protected function getChartColors() : array
     {
         return array(
             // flot "default" theme
@@ -367,12 +366,9 @@ abstract class SurveyQuestionEvaluation
     }
     
     /**
-     * Get chart
-     *
      * @param ilSurveyEvaluationResults|array $a_results
-     * @return array
      */
-    public function getChart($a_results)
+    public function getChart($a_results) : ?array
     {
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
         $chart->setYAxisToInteger(true);
@@ -381,7 +377,7 @@ abstract class SurveyQuestionEvaluation
         $chart->setColors($colors);
             
         // :TODO:
-        $chart->setsize($this->chart_width, $this->chart_height);
+        $chart->setSize((string) $this->chart_width, (string) $this->chart_height);
                     
         $vars = $a_results->getVariables();
         
@@ -418,10 +414,8 @@ abstract class SurveyQuestionEvaluation
     
     /**
      * Get caption for skipped value
-     *
-     * @return string
      */
-    public function getSkippedValue()
+    public function getSkippedValue() : string
     {
         return ilObjSurvey::getSurveySkippedValue();
     }
@@ -431,7 +425,7 @@ abstract class SurveyQuestionEvaluation
     // HELPER
     //
     
-    protected function getSurveyId()
+    protected function getSurveyId() : int
     {
         $ilDB = $this->db;
         
@@ -445,16 +439,14 @@ abstract class SurveyQuestionEvaluation
     
     
     /**
-    * Returns the number of participants for a survey
-    *
-    * @return integer The number of participants
-    */
-    protected function getNrOfParticipants()
+     * Returns the number of participants for a survey
+     */
+    protected function getNrOfParticipants() : int
     {
         $ilDB = $this->db;
         
-        if (is_array($this->finished_ids)) {
-            return sizeof($this->finished_ids);
+        if (count($this->finished_ids) > 0) {
+            return count($this->finished_ids);
         }
         
         $set = $ilDB->query("SELECT finished_id FROM svy_finished" .
@@ -462,7 +454,7 @@ abstract class SurveyQuestionEvaluation
         return $set->numRows();
     }
     
-    protected function getAnswerData()
+    protected function getAnswerData() : array
     {
         $ilDB = $this->db;
         
@@ -472,14 +464,15 @@ abstract class SurveyQuestionEvaluation
             " JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)" .
             " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
             " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
-        if (is_array($this->finished_ids)) {
+        if (count($this->finished_ids) > 0) {
             $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
         }
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[(int) $row["rowvalue"]][(int) $row["active_fi"]][] = array(
                 "value" => $row["value"],
-                "text" => $row["textanswer"]
+                "text" => $row["textanswer"],
+                "tstamp" => $row["tstamp"]
             );
         }
         
@@ -490,9 +483,15 @@ abstract class SurveyQuestionEvaluation
     //
     // EXPORT
     //
-    
-    public function exportResults($a_results, $a_do_title, $a_do_label)
-    {
+
+    /**
+     * @param ilSurveyEvaluationResults|array $a_results
+     */
+    public function exportResults(
+        $a_results,
+        bool $a_do_title,
+        bool $a_do_label
+    ) : array {
         $question = $a_results->getQuestion();
         
         $res = array();
@@ -528,11 +527,9 @@ abstract class SurveyQuestionEvaluation
         
     /**
      * Get grid data
-     *
      * @param ilSurveyEvaluationResults|array $a_results
-     * @return array
      */
-    public function getExportGrid($a_results)
+    public function getExportGrid($a_results) : array
     {
         $lng = $this->lng;
         
@@ -565,23 +562,24 @@ abstract class SurveyQuestionEvaluation
     
     /**
      * Get title columns for user-specific export
-     *
-     * @param array $a_title_row
-     * @param array $a_title_row2
+     * @param array $a_title_row (called by reference)
+     * @param array $a_title_row2 (called by reference)
      * @param bool $a_do_title
      * @param bool $a_do_label
      */
-    public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
-    {
+    public function getUserSpecificVariableTitles(
+        array &$a_title_row,
+        array &$a_title_row2,
+        bool $a_do_title,
+        bool $a_do_label
+    ) : void {
         // type-specific
     }
     
     /**
-     *
-     *
-     * @param array $a_row
+     * @param array $a_row (called by reference)
      * @param int $a_user_id
      * @param ilSurveyEvaluationResults|array $a_results
      */
-    abstract public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results);
+    abstract public function addUserSpecificResults(array &$a_row, int $a_user_id, $a_results) : void;
 }

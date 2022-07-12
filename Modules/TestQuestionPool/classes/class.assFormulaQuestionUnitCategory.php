@@ -37,7 +37,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @param array $data
      */
-    public function initFormArray(array $data)
+    public function initFormArray(array $data) : void
     {
         $this->id = $data['category_id'];
         $this->category = $data['category'];
@@ -47,7 +47,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @param $id
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }
@@ -55,7 +55,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -63,7 +63,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @param $category
      */
-    public function setCategory($category)
+    public function setCategory($category) : void
     {
         $this->category = $category;
     }
@@ -71,7 +71,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @return string
      */
-    public function getCategory()
+    public function getCategory() : string
     {
         return $this->category;
     }
@@ -79,7 +79,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @param int $question_fi
      */
-    public function setQuestionFi($question_fi)
+    public function setQuestionFi($question_fi) : void
     {
         $this->question_fi = $question_fi;
     }
@@ -87,7 +87,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @return int
      */
-    public function getQuestionFi()
+    public function getQuestionFi() : int
     {
         return $this->question_fi;
     }
@@ -95,7 +95,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @return string
      */
-    public function getDisplayString()
+    public function getDisplayString() : string
     {
         /**
          * @var $lng ilLanguage

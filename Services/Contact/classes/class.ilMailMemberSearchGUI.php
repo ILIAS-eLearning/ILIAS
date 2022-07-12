@@ -1,5 +1,22 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilMailMemberSearchGUI
@@ -8,52 +25,26 @@
 **/
 class ilMailMemberSearchGUI
 {
-    /**
-     * @var mixed
-     */
-    protected $mail_roles;
-
-    /**
-     * @var ilObjGroupGUI|ilObjCourseGUI
-     */
-    protected $gui;
-
-    /**
-     * @var ilAbstractMailMemberRoles
-     */
-    protected $objMailMemberRoles;
-    /**
-     * @var null object ilCourseParticipants || ilGroupParticipants
-     */
-    protected $objParticipants = null;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    private ServerRequestInterface $httpRequest;
+    /** @var array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[] */
+    private array $mail_roles;
+    /** @var ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI */
+    private $gui;
+    private ilAbstractMailMemberRoles $objMailMemberRoles;
+    private ?ilParticipants $objParticipants;
+    private ilCtrlInterface $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilAccessHandler $access;
+    public int $ref_id;
 
     /**
      * ilMailMemberSearchGUI constructor.
-     * @param ilObjGroupGUI|ilObjCourseGUI $gui
-     * @param                           $ref_id
+     * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
+     * @param int $ref_id
      * @param ilAbstractMailMemberRoles $objMailMemberRoles
      */
-    public function __construct($gui, $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
+    public function __construct(object $gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
     {
         global $DIC;
 
@@ -61,6 +52,7 @@ class ilMailMemberSearchGUI
         $this->tpl = $DIC['tpl'];
         $this->lng = $DIC['lng'];
         $this->access = $DIC['ilAccess'];
+        $this->httpRequest = $DIC->http()->request();
 
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('search');
@@ -72,42 +64,36 @@ class ilMailMemberSearchGUI
         $this->mail_roles = $objMailMemberRoles->getMailRoles($ref_id);
     }
 
-    /**
-     * @return bool
-     */
+    
     public function executeCommand() : bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->ctrl->setReturn($this, '');
-        
-        switch ($next_class) {
-            default:
-                switch ($cmd) {
-                    case 'sendMailToSelectedUsers':
-                        $this->sendMailToSelectedUsers();
-                        break;
 
-                    case 'showSelectableUsers':
-                        $this->showSelectableUsers();
-                        break;
-                    
-                    case 'nextMailForm':
-                        $this->nextMailForm();
-                        break;
-            
-                    case 'cancel':
-                        $this->redirectToParentReferer();
-                        break;
-                    
-                    default:
-                        if (isset($_GET['returned_from_mail']) && $_GET['returned_from_mail'] == '1') {
-                            $this->redirectToParentReferer();
-                        }
-                        $this->showSearchForm();
-                        break;
+        switch ($cmd) {
+            case 'sendMailToSelectedUsers':
+                $this->sendMailToSelectedUsers();
+                break;
+
+            case 'showSelectableUsers':
+                $this->showSelectableUsers();
+                break;
+
+            case 'nextMailForm':
+                $this->nextMailForm();
+                break;
+
+            case 'cancel':
+                $this->redirectToParentReferer();
+                break;
+
+            default:
+                if (isset($this->httpRequest->getQueryParams()['returned_from_mail']) && $this->httpRequest->getQueryParams()['returned_from_mail'] === '1') {
+                    $this->redirectToParentReferer();
                 }
+                $this->showSearchForm();
                 break;
         }
 
@@ -121,16 +107,29 @@ class ilMailMemberSearchGUI
         $this->unsetStoredReferer();
         $this->ctrl->redirectToURL($url);
     }
-    
+
     public function storeReferer() : void
     {
-        $referer = ilSession::get('referer');
-        ilSession::set('ilMailMemberSearchGUIReferer', $referer);
+        $back_link = $this->ctrl->getParentReturn($this);
+
+        if (isset($this->httpRequest->getServerParams()['HTTP_REFERER'])) {
+            $referer = $this->httpRequest->getServerParams()['HTTP_REFERER'];
+            $urlParts = parse_url($referer);
+
+            if (isset($urlParts['path'])) {
+                $url = ltrim(basename($urlParts['path']), '/');
+                if (isset($urlParts['query'])) {
+                    $url .= '?' . $urlParts['query'];
+                }
+                if ($url !== '') {
+                    $back_link = $url;
+                }
+            }
+        }
+
+        ilSession::set('ilMailMemberSearchGUIReferer', $back_link);
     }
 
-    /**
-     * @return string
-     */
     private function getStoredReferer() : string
     {
         return (string) ilSession::get('ilMailMemberSearchGUIReferer');
@@ -150,18 +149,18 @@ class ilMailMemberSearchGUI
                     $role_mail_boxes = [];
                     $roles = $form->getInput('roles');
                     foreach ($roles as $role_id) {
-                        $mailbox = $this->objMailMemberRoles->getMailboxRoleAddress($role_id);
+                        $mailbox = $this->objMailMemberRoles->getMailboxRoleAddress((int) $role_id);
                         $role_mail_boxes[] = $mailbox;
                     }
 
-                    $_SESSION['mail_roles'] = $role_mail_boxes;
+                    ilSession::set('mail_roles', $role_mail_boxes);
 
                     $this->ctrl->redirectToURL(ilMailFormCall::getRedirectTarget(
                         $this,
                         'showSearchForm',
-                        ['type' => 'role'],
+                        ['type' => ilMailFormGUI::MAIL_FORM_TYPE_ROLE],
                         [
-                            'type' => 'role',
+                            'type' => ilMailFormGUI::MAIL_FORM_TYPE_ROLE,
                             'rcp_to' => implode(',', $role_mail_boxes),
                             'sig' => $this->gui->createMailSignature()
                         ],
@@ -169,7 +168,7 @@ class ilMailMemberSearchGUI
                     ));
                 } else {
                     $form->setValuesByPost();
-                    ilUtil::sendFailure($this->lng->txt('no_checkbox'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
                     $this->showSearchForm();
                     return;
                 }
@@ -182,10 +181,7 @@ class ilMailMemberSearchGUI
         $form->setValuesByPost();
         $this->showSearchForm();
     }
-    
-    /**
-     * @return array
-     */
+
     protected function generateContextArray() : array
     {
         $contextParameters = [];
@@ -235,26 +231,24 @@ class ilMailMemberSearchGUI
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    /**
-     * @return bool
-     */
-    protected function sendMailToSelectedUsers() : bool
+    
+    protected function sendMailToSelectedUsers() : void
     {
-        if (!isset($_POST['user_ids']) || !is_array($_POST['user_ids']) || 0 === count($_POST['user_ids'])) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+        if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || 0 === count($this->httpRequest->getParsedBody()['user_ids'])) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
-            return false;
+            return;
         }
 
         $rcps = [];
-        foreach ($_POST['user_ids'] as $usr_id) {
+        foreach ($this->httpRequest->getParsedBody()['user_ids'] as $usr_id) {
             $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
 
         if (!count(array_filter($rcps))) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
-            return false;
+            return;
         }
 
         ilMailFormCall::setRecipients($rcps);
@@ -264,13 +258,11 @@ class ilMailMemberSearchGUI
             'members',
             [],
             [
-                'type' => 'new',
+                'type' => ilMailFormGUI::MAIL_FORM_TYPE_NEW,
                 'sig' => $this->gui->createMailSignature(),
             ],
             $this->generateContextArray()
         ));
-
-        return true;
     }
 
     protected function showSearchForm() : void
@@ -281,25 +273,21 @@ class ilMailMemberSearchGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @return ilParticipants
-     */
-    protected function getObjParticipants() : ilParticipants
+    
+    protected function getObjParticipants() : ?ilParticipants
     {
         return $this->objParticipants;
     }
 
     /**
-     * @param $objParticipants ilParticipants
+     * @param ilParticipants $objParticipants
      */
     public function setObjParticipants(ilParticipants $objParticipants) : void
     {
         $this->objParticipants = $objParticipants;
     }
     
-    /**
-     * @return ilPropertyFormGUI
-     */
+    
     protected function initMailToMembersForm() : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('mail');
@@ -319,16 +307,14 @@ class ilMailMemberSearchGUI
     }
 
     /**
-     * @return mixed
+     * @return array{role_id: int, mailbox: string, form_option_title: string, default_checked?: bool}[]
      */
-    private function getMailRoles()
+    private function getMailRoles() : array
     {
         return $this->mail_roles;
     }
     
-    /**
-     * @return ilRadioGroupInputGUI
-     */
+    
     protected function getMailRadioGroup() : ilRadioGroupInputGUI
     {
         $mail_roles = $this->getMailRoles();
@@ -341,10 +327,10 @@ class ilMailMemberSearchGUI
         foreach ($mail_roles as $role) {
             $chk_role = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
 
-            if (array_key_exists('default_checked', $role) && $role['default_checked']) {
+            if (isset($role['default_checked']) && $role['default_checked'] === true) {
                 $chk_role->setChecked(true);
             }
-            $chk_role->setValue($role['role_id']);
+            $chk_role->setValue((string) $role['role_id']);
             $chk_role->setInfo($role['mailbox']);
             $radio_roles->addSubItem($chk_role);
         }

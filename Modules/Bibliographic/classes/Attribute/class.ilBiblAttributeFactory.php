@@ -1,66 +1,71 @@
 <?php
 /**
- * Class ilBiblAttributeFactory
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Class ilBiblAttributeFactory
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface
 {
-
-    /**
-     * @var \ilBiblFieldFactory
-     */
-    protected $field_factory;
-
+    protected \ilBiblFieldFactoryInterface $field_factory;
+    protected ilDBInterface $db;
 
     public function __construct(ilBiblFieldFactoryInterface $field_factory)
     {
+        global $DIC;
         $this->field_factory = $field_factory;
+        $this->db = $DIC->database();
     }
-
 
     /**
      * @inheritDoc
      */
-    public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, $object_id)
+    public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, int $object_id) : array
     {
-        global $DIC;
         $q = "SELECT DISTINCT(a.value) FROM il_bibl_data AS d
 JOIN il_bibl_entry AS e ON e.data_id = d.id
 JOIN il_bibl_attribute AS a on a.entry_id = e.id
 WHERE a.name = %s AND d.id = %s";
 
-        $res = $DIC->database()->queryF($q, ['text', 'integer'], [
+        $res = $this->db->queryF($q, ['text', 'integer'], [
             $field->getIdentifier(),
             $object_id,
         ]);
         $result = [];
-        while ($data = $DIC->database()->fetchObject($res)) {
+        while ($data = $this->db->fetchObject($res)) {
             $result[$data->value] = $data->value;
         }
 
         return $result;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getAttributesForEntry(ilBiblEntryInterface $entry)
+    public function getAttributesForEntry(ilBiblEntryInterface $entry) : array
     {
         return ilBiblAttribute::where(['entry_id' => $entry->getId()])->get();
     }
 
-
     /**
      * @inheritDoc
      */
-    public function sortAttributes(array $attributes)
+    public function sortAttributes(array $attributes) : array
     {
-        /**
-         * @var $attribute \ilBiblAttributeInterface
-         */
         $sorted = [];
         $type_id = $this->field_factory->getType()->getId();
         $max = 0;
@@ -69,10 +74,10 @@ WHERE a.name = %s AND d.id = %s";
                 continue;
             }
             $field = $this->field_factory->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getName());
-            $position = (int) $field->getPosition();
-            $position = $position ? $position : $max + 1;
+            $position = $field->getPosition();
+            $position = $position ?: $max + 1;
 
-            $max = ($position > $max ? $position : $max);
+            $max = (max($position, $max));
             $sorted[$position] = $attribute;
         }
 
@@ -81,11 +86,10 @@ WHERE a.name = %s AND d.id = %s";
         return $sorted;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function createAttribute($name, $value, $entry_id)
+    public function createAttribute(string $name, string $value, int $entry_id) : bool
     {
         $ilBiblAttribute = new ilBiblAttribute();
         $ilBiblAttribute->setName($name);
@@ -94,5 +98,7 @@ WHERE a.name = %s AND d.id = %s";
         $ilBiblAttribute->store();
 
         $this->field_factory->findOrCreateFieldOfAttribute($ilBiblAttribute);
+        
+        return true;
     }
 }

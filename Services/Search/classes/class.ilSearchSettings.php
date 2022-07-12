@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilObjSearchSettingsGUI
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -13,71 +12,62 @@
 
 class ilSearchSettings
 {
-    const LIKE_SEARCH = 0;
-    const INDEX_SEARCH = 1;
-    const LUCENE_SEARCH = 2;
+    public const LIKE_SEARCH = 0;
+    public const LUCENE_SEARCH = 2;
     
-    const OPERATOR_AND = 1;
-    const OPERATOR_OR = 2;
+    public const OPERATOR_AND = 1;
+    public const OPERATOR_OR = 2;
     
-    protected static $instance = null;
+    protected static ?ilSearchSettings $instance = null;
     
-    protected $default_operator = self::OPERATOR_AND;
-    protected $fragmentSize = 30;
-    protected $fragmentCount = 3;
-    protected $numSubitems = 5;
-    protected $showRelevance = true;
-    protected $last_index_date = null;
-    protected $lucene_item_filter_enabled = false;
-    protected $lucene_item_filter = array();
-    protected $lucene_offline_filter = true;
-    protected $auto_complete_length = 10;
-    protected $show_inactiv_user = true;
-    protected $show_limited_user = true;
-    
-    protected $lucene_mime_filter_enabled = false;
-    protected $lucene_mime_filter = array();
-    protected $showSubRelevance = false;
-    protected $prefix_wildcard = false;
-    
-    protected $user_search = false;
-    
-    protected $date_filter = false;
+    protected int $default_operator = self::OPERATOR_AND;
+    protected int $fragmentSize = 30;
+    protected int $fragmentCount = 3;
+    protected int $numSubitems = 5;
+    protected bool $showRelevance = true;
+    protected ?ilDateTime $last_index_date = null;
+    protected bool $lucene_item_filter_enabled = false;
+    protected array $lucene_item_filter = array();
+    protected bool $lucene_offline_filter = true;
+    protected int $auto_complete_length = 10;
+    protected bool $show_inactiv_user = true;
+    protected bool $show_limited_user = true;
 
-    public $ilias = null;
-    public $max_hits = null;
-    public $index = null;
+    protected bool $lucene = false;
+    protected bool $hide_adv_search = false;
+    protected bool $lucene_mime_filter_enabled = false;
+    protected array $lucene_mime_filter = array();
+    protected bool $showSubRelevance = false;
+    protected bool $prefix_wildcard = false;
+    protected bool $user_search = false;
+    protected bool $date_filter = false;
+
+    protected ?ILIAS $ilias = null;
+    protected ilSetting $setting;
+    private int $max_hits = 10;
 
     public function __construct()
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
-
-        $this->ilias = $ilias;
+        $this->ilias = $DIC['ilias'];
+        $this->setting = $DIC->settings();
         $this->__read();
     }
     
-    /**
-     *
-     *
-     * @static
-     * @return ilSearchSettings
-     */
-    public static function getInstance()
+    public static function getInstance() : ilSearchSettings
     {
-        if (self::$instance == null) {
-            return self::$instance = new ilSearchSettings();
+        if (self::$instance instanceof ilSearchSettings) {
+            return self::$instance;
         }
-        return self::$instance;
+        return self::$instance = new ilSearchSettings();
     }
     
     /**
      * Get lucene item filter definitions
-     * @return
      * @todo This has to be defined in module.xml
      */
-    public static function getLuceneItemFilterDefinitions()
+    public static function getLuceneItemFilterDefinitions() : array
     {
         return array(
             'crs' => array('filter' => 'type:crs','trans' => 'objs_crs'),
@@ -95,7 +85,7 @@ class ilSearchSettings
         );
     }
     
-    public static function getLuceneMimeFilterDefinitions()
+    public static function getLuceneMimeFilterDefinitions() : array
     {
         return array(
             'pdf' => array('filter' => 'mimeType:pdf','trans' => 'search_mime_pdf'),
@@ -108,10 +98,9 @@ class ilSearchSettings
     
     /**
      * Get lucene item filter definitions
-     * @return
      * @todo This has to be defined in module.xml
      */
-    public function getEnabledLuceneItemFilterDefinitions()
+    public function getEnabledLuceneItemFilterDefinitions() : array
     {
         if (!$this->isLuceneItemFilterEnabled()) {
             return array();
@@ -128,7 +117,7 @@ class ilSearchSettings
     }
     
     // begin-patch mime_filter
-    public function getEnabledLuceneMimeFilterDefinitions()
+    public function getEnabledLuceneMimeFilterDefinitions() : array
     {
         if (!$this->isLuceneItemFilterEnabled()) {
             return array();
@@ -144,28 +133,24 @@ class ilSearchSettings
         return $enabled;
     }
     
-    public function enablePrefixWildcardQuery($a_stat)
+    public function enablePrefixWildcardQuery(bool $a_stat) : void
     {
         $this->prefix_wildcard = $a_stat;
     }
     
-    public function isPrefixWildcardQueryEnabled()
+    public function isPrefixWildcardQueryEnabled() : bool
     {
         return $this->prefix_wildcard;
     }
     
-    // end-patch mime_filter
-
     /**
     * Read the ref_id of Search Settings object. normally used for rbacsystem->checkAccess()
-    * @return int ref_id
-    * @access	public
     */
-    public static function _getSearchSettingRefId()
+    public static function _getSearchSettingRefId() : int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         static $seas_ref_id = 0;
 
@@ -181,157 +166,149 @@ class ilSearchSettings
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
-        return $seas_ref_id = $row->ref_id;
+        return $seas_ref_id = (int) $row->ref_id;
     }
 
-    public function enabledIndex()
+    public function enabledLucene() : bool
     {
-        return $this->index ? true : false;
+        return $this->lucene;
     }
-    public function enableIndex($a_status)
+    public function enableLucene(bool $a_status) : void
     {
-        $this->index = $a_status;
-    }
-    public function enabledLucene()
-    {
-        return $this->lucene ? true : false;
-    }
-    public function enableLucene($a_status)
-    {
-        $this->lucene = $a_status ? true : false;
+        $this->lucene = $a_status;
     }
 
-    public function getMaxHits()
+    public function getMaxHits() : int
     {
         return $this->max_hits;
     }
-    public function setMaxHits($a_max_hits)
+    public function setMaxHits(int $a_max_hits) : void
     {
         $this->max_hits = $a_max_hits;
     }
     
-    public function getDefaultOperator()
+    public function getDefaultOperator() : int
     {
         return $this->default_operator;
     }
     
-    public function setDefaultOperator($a_op)
+    public function setDefaultOperator(int $a_op) : void
     {
         $this->default_operator = $a_op;
     }
     
-    public function setFragmentSize($a_size)
+    public function setFragmentSize(int $a_size) : void
     {
         $this->fragmentSize = $a_size;
     }
     
-    public function getFragmentSize()
+    public function getFragmentSize() : int
     {
         return $this->fragmentSize;
     }
     
-    public function setFragmentCount($a_count)
+    public function setFragmentCount(int $a_count) : void
     {
         $this->fragmentCount = $a_count;
     }
 
-    public function getHideAdvancedSearch()
+    public function getHideAdvancedSearch() : bool
     {
-        return $this->hide_adv_search ? true : false;
+        return $this->hide_adv_search;
     }
-    public function setHideAdvancedSearch($a_status)
+    public function setHideAdvancedSearch(bool $a_status) : void
     {
         $this->hide_adv_search = $a_status;
     }
-    public function getAutoCompleteLength()
+    public function getAutoCompleteLength() : int
     {
         return $this->auto_complete_length;
     }
-    public function setAutoCompleteLength($auto_complete_length)
+    public function setAutoCompleteLength(int $auto_complete_length) : void
     {
         $this->auto_complete_length = $auto_complete_length;
     }
 
-    public function getFragmentCount()
+    public function getFragmentCount() : int
     {
         return $this->fragmentCount;
     }
     
-    public function setMaxSubitems($a_max)
+    public function setMaxSubitems(int $a_max) : void
     {
         $this->numSubitems = $a_max;
     }
     
-    public function getMaxSubitems()
+    public function getMaxSubitems() : int
     {
         return $this->numSubitems;
     }
     
-    public function isRelevanceVisible()
+    public function isRelevanceVisible() : bool
     {
         return $this->showRelevance;
     }
     
-    public function showRelevance($a_status)
+    public function showRelevance(bool $a_status) : void
     {
-        $this->showRelevance = (bool) $a_status;
+        $this->showRelevance = $a_status;
     }
     
-    public function getLastIndexTime()
+    public function getLastIndexTime() : ilDateTime
     {
         return $this->last_index_date instanceof ilDateTime  ?
             $this->last_index_date :
             new ilDateTime('2009-01-01 12:00:00', IL_CAL_DATETIME);
     }
     
-    public function enableLuceneItemFilter($a_status)
+    public function enableLuceneItemFilter(bool $a_status) : void
     {
         $this->lucene_item_filter_enabled = $a_status;
     }
     
-    public function isLuceneItemFilterEnabled()
+    public function isLuceneItemFilterEnabled() : bool
     {
         return $this->lucene_item_filter_enabled;
     }
 
-    public function getLuceneItemFilter()
+    public function getLuceneItemFilter() : array
     {
         return $this->lucene_item_filter;
     }
     
     
-    public function setLuceneItemFilter($a_filter)
+    public function setLuceneItemFilter(array $a_filter) : void
     {
         $this->lucene_item_filter = $a_filter;
     }
     
-    public function enableLuceneOfflineFilter($a_stat)
+    public function enableLuceneOfflineFilter(bool $a_stat) : void
     {
         $this->lucene_offline_filter = $a_stat;
     }
     
-    public function isLuceneOfflineFilterEnabled()
+    public function isLuceneOfflineFilterEnabled() : bool
     {
         return $this->lucene_offline_filter;
     }
     
-    public function showSubRelevance($a_stat)
+    public function showSubRelevance(bool $a_stat) : void
     {
         $this->showSubRelevance = $a_stat;
     }
     
-    public function isSubRelevanceVisible()
+    public function isSubRelevanceVisible() : bool
     {
         return $this->showSubRelevance;
     }
     
     
-    public function setLuceneMimeFilter($a_filter)
+    public function setLuceneMimeFilter(array $a_filter) : void
     {
         $this->lucene_mime_filter = $a_filter;
     }
     
-    public function getLuceneMimeFilter()
+    public function getLuceneMimeFilter() : array
     {
         return $this->lucene_mime_filter;
     }
@@ -339,173 +316,135 @@ class ilSearchSettings
     /**
      * Check if lucene mime filter is enabled
      */
-    public function isLuceneMimeFilterEnabled()
+    public function isLuceneMimeFilterEnabled() : bool
     {
         return $this->lucene_mime_filter_enabled;
     }
     
-    /**
-     * Enable lucene mime filter
-     * @param type $a_stat
-     */
-    public function enableLuceneMimeFilter($a_stat)
+    public function enableLuceneMimeFilter(bool $a_stat) : void
     {
         $this->lucene_mime_filter_enabled = $a_stat;
     }
     
     
-    /**
-     * @param object instance of ilDateTime
-     */
-    public function setLastIndexTime($time)
+    public function setLastIndexTime(ilDateTime $time) : void
     {
         $this->last_index_date = $time;
     }
     
     /**
      * Check if user search is enabled
-     * @return type
      */
-    public function isLuceneUserSearchEnabled()
+    public function isLuceneUserSearchEnabled() : bool
     {
         return $this->user_search;
     }
     
     /**
      * Enable lucene user search
-     * @param type $a_status
+     * @param bool $a_status
      */
-    public function enableLuceneUserSearch($a_status)
+    public function enableLuceneUserSearch(bool $a_status) : void
     {
         $this->user_search = $a_status;
     }
 
     /**
      * show inactive user in user search
-     *
-     * @param bool $a_visible
      */
-    public function showInactiveUser($a_visible)
+    public function showInactiveUser(bool $a_visible) : void
     {
-        $this->show_inactiv_user = (bool) $a_visible;
+        $this->show_inactiv_user = $a_visible;
     }
 
     /**
      * are inactive user visible in user search
-     *
      * @return bool
      */
-    public function isInactiveUserVisible()
+    public function isInactiveUserVisible() : bool
     {
         return $this->show_inactiv_user;
     }
 
     /**
      * show user with limited access in user search
-     *
-     * @param bool $a_visible
      */
-    public function showLimitedUser($a_visible)
+    public function showLimitedUser(bool $a_visible) : void
     {
-        $this->show_limited_user = (bool) $a_visible;
+        $this->show_limited_user = $a_visible;
     }
 
-    /**
-     * are user with limited access visible in user search
-     *
-     * @return bool
-     */
-    public function isLimitedUserVisible()
+
+    public function isLimitedUserVisible() : bool
     {
         return $this->show_limited_user;
     }
     
-    public function isDateFilterEnabled()
+    public function isDateFilterEnabled() : bool
     {
         return $this->date_filter;
     }
     
-    public function enableDateFilter($a_filter)
+    public function enableDateFilter(bool $a_filter) : void
     {
         $this->date_filter = $a_filter;
     }
     
-    public function update()
+    public function update() : void
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
-        $this->ilias->setSetting('search_max_hits', $this->getMaxHits());
-        $this->ilias->setSetting('search_index', (int) $this->enabledIndex());
-        $this->ilias->setSetting('search_lucene', (int) $this->enabledLucene());
+        $this->setting->set('search_max_hits', (string) $this->getMaxHits());
+        $this->setting->set('search_lucene', (string) $this->enabledLucene());
         
-        $this->ilias->setSetting('lucene_default_operator', $this->getDefaultOperator());
-        $this->ilias->setSetting('lucene_fragment_size', $this->getFragmentSize());
-        $this->ilias->setSetting('lucene_fragment_count', $this->getFragmentCount());
-        $this->ilias->setSetting('lucene_max_subitems', $this->getMaxSubitems());
-        $this->ilias->setSetting('lucene_show_relevance', $this->isRelevanceVisible());
-        $this->ilias->setSetting('lucene_last_index_time', $this->getLastIndexTime()->get(IL_CAL_UNIX));
-        $this->ilias->setSetting('hide_adv_search', (int) $this->getHideAdvancedSearch());
-        $this->ilias->setSetting('auto_complete_length', (int) $this->getAutoCompleteLength());
-        $this->ilias->setSetting('lucene_item_filter_enabled', (int) $this->isLuceneItemFilterEnabled());
-        $this->ilias->setSetting('lucene_item_filter', serialize($this->getLuceneItemFilter()));
-        $this->ilias->setSetting('lucene_offline_filter', (int) $this->isLuceneOfflineFilterEnabled());
-        $this->ilias->setSetting('lucene_mime_filter', serialize($this->getLuceneMimeFilter()));
-        $this->ilias->setSetting('lucene_sub_relevance', $this->isSubRelevanceVisible());
-        $ilSetting->set('lucene_mime_filter_enabled', $this->isLuceneMimeFilterEnabled());
-        $this->ilias->setSetting('lucene_prefix_wildcard', $this->isPrefixWildcardQueryEnabled());
-        $ilSetting->set('lucene_user_search', $this->isLuceneUserSearchEnabled());
-        $ilSetting->set('search_show_inactiv_user', $this->isInactiveUserVisible());
-        $ilSetting->set('search_show_limited_user', $this->isLimitedUserVisible());
-        
-        $ilSetting->set('search_date_filter', $this->isDateFilterEnabled());
-
-        return true;
+        $this->setting->set('lucene_default_operator', (string) $this->getDefaultOperator());
+        $this->setting->set('lucene_fragment_size', (string) $this->getFragmentSize());
+        $this->setting->set('lucene_fragment_count', (string) $this->getFragmentCount());
+        $this->setting->set('lucene_max_subitems', (string) $this->getMaxSubitems());
+        $this->setting->set('lucene_show_relevance', (string) $this->isRelevanceVisible());
+        $this->setting->set('lucene_last_index_time', (string) $this->getLastIndexTime()->get(IL_CAL_UNIX));
+        $this->setting->set('hide_adv_search', (string) $this->getHideAdvancedSearch());
+        $this->setting->set('auto_complete_length', (string) $this->getAutoCompleteLength());
+        $this->setting->set('lucene_item_filter_enabled', (string) $this->isLuceneItemFilterEnabled());
+        $this->setting->set('lucene_item_filter', serialize($this->getLuceneItemFilter()));
+        $this->setting->set('lucene_offline_filter', (string) $this->isLuceneOfflineFilterEnabled());
+        $this->setting->set('lucene_mime_filter', serialize($this->getLuceneMimeFilter()));
+        $this->setting->set('lucene_sub_relevance', (string) $this->isSubRelevanceVisible());
+        $this->setting->set('lucene_mime_filter_enabled', (string) $this->isLuceneMimeFilterEnabled());
+        $this->setting->set('lucene_prefix_wildcard', (string) $this->isPrefixWildcardQueryEnabled());
+        $this->setting->set('lucene_user_search', (string) $this->isLuceneUserSearchEnabled());
+        $this->setting->set('search_show_inactiv_user', (string) $this->isInactiveUserVisible());
+        $this->setting->set('search_show_limited_user', (string) $this->isLimitedUserVisible());
+        $this->setting->set('search_date_filter', (string) $this->isDateFilterEnabled());
     }
 
     // PRIVATE
-    public function __read()
+    protected function __read()
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
-        $this->setMaxHits($this->ilias->getSetting('search_max_hits', 10));
-        $this->enableIndex($this->ilias->getSetting('search_index', 0));
-        $this->enableLucene($this->ilias->getSetting('search_lucene', 0));
-        
-        $this->setDefaultOperator($this->ilias->getSetting('lucene_default_operator', self::OPERATOR_AND));
-        $this->setFragmentSize($this->ilias->getSetting('lucene_fragment_size', 50));
-        $this->setFragmentCount($this->ilias->getSetting('lucene_fragment_count', 3));
-        $this->setMaxSubitems($this->ilias->getSetting('lucene_max_subitems', 5));
-        $this->showRelevance($this->ilias->getSetting('lucene_show_relevance', true));
-
-        if ($time = $this->ilias->getSetting('lucene_last_index_time', false)) {
+        $this->setMaxHits((int) $this->setting->get('search_max_hits', '10'));
+        $this->enableLucene((bool) $this->setting->get('search_lucene', '0'));
+        $this->setDefaultOperator((int) $this->setting->get('lucene_default_operator', (string) self::OPERATOR_AND));
+        $this->setFragmentSize((int) $this->setting->get('lucene_fragment_size', "50"));
+        $this->setFragmentCount((int) $this->setting->get('lucene_fragment_count', "3"));
+        $this->setMaxSubitems((int) $this->setting->get('lucene_max_subitems', "5"));
+        $this->showRelevance((bool) $this->setting->get('lucene_show_relevance', "1"));
+        if ($time = $this->setting->get('lucene_last_index_time', '0')) {
             $this->setLastIndexTime(new ilDateTime($time, IL_CAL_UNIX));
         } else {
             $this->setLastIndexTime(null);
         }
-        
-        $this->setHideAdvancedSearch($this->ilias->getSetting('hide_adv_search', 0));
-        $this->setAutoCompleteLength($this->ilias->getSetting('auto_complete_length', $this->getAutoCompleteLength()));
-        
-        $this->enableLuceneItemFilter($this->ilias->getSetting('lucene_item_filter_enabled', (int) $this->isLuceneItemFilterEnabled()));
-        
-        $filter = $this->ilias->getSetting('lucene_item_filter', serialize($this->getLuceneItemFilter()));
+        $this->setHideAdvancedSearch((bool) $this->setting->get('hide_adv_search', '0'));
+        $this->setAutoCompleteLength((int) $this->setting->get('auto_complete_length', (string) $this->getAutoCompleteLength()));
+        $this->enableLuceneItemFilter((bool) $this->setting->get('lucene_item_filter_enabled', (string) $this->isLuceneItemFilterEnabled()));
+        $filter = (string) $this->setting->get('lucene_item_filter', serialize($this->getLuceneItemFilter()));
         $this->setLuceneItemFilter(unserialize($filter));
-        $this->enableLuceneOfflineFilter($this->ilias->getSetting('lucene_offline_filter'), $this->isLuceneOfflineFilterEnabled());
-        
-        $this->enableLuceneMimeFilter($ilSetting->get('lucene_mime_filter_enabled', $this->lucene_item_filter_enabled));
-        $filter = $this->ilias->getSetting('lucene_mime_filter', serialize($this->getLuceneMimeFilter()));
+        $this->enableLuceneOfflineFilter((bool) $this->setting->get('lucene_offline_filter', (string) $this->isLuceneOfflineFilterEnabled()));
+        $this->enableLuceneMimeFilter((bool) $this->setting->get('lucene_mime_filter_enabled', (string) $this->lucene_item_filter_enabled));
+        $filter = (string) $this->setting->get('lucene_mime_filter', serialize($this->getLuceneMimeFilter()));
         $this->setLuceneMimeFilter(unserialize($filter));
-        $this->showSubRelevance($this->ilias->getSetting('lucene_sub_relevance', $this->showSubRelevance));
-        $this->enablePrefixWildcardQuery($this->ilias->getSetting('lucene_prefix_wildcard', $this->prefix_wildcard));
-        $this->enableLuceneUserSearch($ilSetting->get('lucene_user_search', $this->user_search));
-
-        $this->showInactiveUser($ilSetting->get('search_show_inactiv_user', $this->show_inactiv_user));
-        $this->showLimitedUser($ilSetting->get('search_show_limited_user', $this->show_limited_user));
-        
-        $this->enableDateFilter($ilSetting->get('search_date_filter', $this->date_filter));
+        $this->showSubRelevance((bool) $this->setting->get('lucene_sub_relevance', (string) $this->showSubRelevance));
+        $this->enablePrefixWildcardQuery((bool) $this->setting->get('lucene_prefix_wildcard', (string) $this->prefix_wildcard));
+        $this->enableLuceneUserSearch((bool) $this->setting->get('lucene_user_search', (string) $this->user_search));
+        $this->showInactiveUser((bool) $this->setting->get('search_show_inactiv_user', (string) $this->show_inactiv_user));
+        $this->showLimitedUser((bool) $this->setting->get('search_show_limited_user', (string) $this->show_limited_user));
+        $this->enableDateFilter((bool) $this->setting->get('search_date_filter', (string) $this->date_filter));
     }
 }

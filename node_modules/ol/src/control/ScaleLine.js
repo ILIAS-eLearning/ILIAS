@@ -6,7 +6,6 @@ import ProjUnits from '../proj/Units.js';
 import {CLASS_UNSELECTABLE} from '../css.js';
 import {METERS_PER_UNIT, getPointResolution} from '../proj.js';
 import {assert} from '../asserts.js';
-import {getChangeEventType} from '../Object.js';
 
 /**
  * @type {string}
@@ -37,6 +36,15 @@ const LEADING_DIGITS = [1, 2, 5];
  * @type {number}
  */
 const DEFAULT_DPI = 25.4 / 0.28;
+
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("../ObjectEventType").Types|
+ *     'change:units', import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("../ObjectEventType").Types
+ *     |'change:units', Return>} ScaleLineOnSignature
+ */
 
 /**
  * @typedef {Object} Options
@@ -73,7 +81,7 @@ const DEFAULT_DPI = 25.4 / 0.28;
  */
 class ScaleLine extends Control {
   /**
-   * @param {Options=} opt_options Scale line options.
+   * @param {Options} [opt_options] Scale line options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};
@@ -90,6 +98,21 @@ class ScaleLine extends Control {
       render: options.render,
       target: options.target,
     });
+
+    /***
+     * @type {ScaleLineOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {ScaleLineOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {ScaleLineOnSignature<void>}
+     */
+    this.un;
 
     /**
      * @private
@@ -131,10 +154,7 @@ class ScaleLine extends Control {
      */
     this.renderedHTML_ = '';
 
-    this.addEventListener(
-      getChangeEventType(UNITS_PROP),
-      this.handleUnitsChanged_
-    );
+    this.addChangeListener(UNITS_PROP, this.handleUnitsChanged_);
 
     this.setUnits(options.units || Units.METRIC);
 
@@ -329,7 +349,7 @@ class ScaleLine extends Control {
    * @param {number} width The current width of the scalebar.
    * @param {number} scale The current scale.
    * @param {string} suffix The suffix to append to the scale text.
-   * @returns {string} The stringified HTML of the scalebar.
+   * @return {string} The stringified HTML of the scalebar.
    */
   createScaleBar(width, scale, suffix) {
     const mapScale =
@@ -400,9 +420,9 @@ class ScaleLine extends Control {
 
   /**
    * Creates a marker at given position
-   * @param {string} position - The position, absolute or relative
-   * @param {number} i - The iterator
-   * @returns {string} The stringified div containing the marker
+   * @param {string} position The position, absolute or relative
+   * @param {number} i The iterator
+   * @return {string} The stringified div containing the marker
    */
   createMarker(position, i) {
     const top = position === 'absolute' ? 3 : -10;
@@ -421,12 +441,12 @@ class ScaleLine extends Control {
 
   /**
    * Creates the label for a marker marker at given position
-   * @param {number} i - The iterator
-   * @param {number} width - The width the scalebar will currently use
-   * @param {boolean} isLast - Flag indicating if we add the last step text
-   * @param {number} scale - The current scale for the whole scalebar
-   * @param {string} suffix - The suffix for the scale
-   * @returns {string} The stringified div containing the step text
+   * @param {number} i The iterator
+   * @param {number} width The width the scalebar will currently use
+   * @param {boolean} isLast Flag indicating if we add the last step text
+   * @param {number} scale The current scale for the whole scalebar
+   * @param {string} suffix The suffix for the scale
+   * @return {string} The stringified div containing the step text
    */
   createStepText(i, width, isLast, scale, suffix) {
     const length =

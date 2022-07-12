@@ -1,5 +1,22 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+require_once 'Services/Calendar/classes/class.ilDateTime.php';
 
 /**
  * Collection of basic placeholder values that can be used
@@ -109,7 +126,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 
         $salutation = '';
         $gender = $user->getGender();
-        if (is_string($gender) && trim($gender) !== '' && strtolower($gender) !== 'n') {
+        if (trim($gender) !== '' && strtolower($gender) !== 'n') {
             $salutation = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($gender)));
         }
 
@@ -133,17 +150,15 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             time(),
             $this->dateFormat
         ))));
-        $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+        $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
             time(),
             $this->dateFormat
         ))));
 
-        $placeholder = array_merge(
+        return array_merge(
             $placeholder,
             $this->userDefinedFieldsPlaceholderValues->getPlaceholderValues($userId, $objId)
         );
-
-        return $placeholder;
     }
 
     /**
@@ -154,7 +169,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      * the placeholder values will be identical to the description
      * @param int $userId
      * @param int $objId
-     * @return mixed
+     * @return array
      * @throws ilDateTimeException
      * @throws ilException
      */
@@ -182,7 +197,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 time(),
                 $this->dateFormat
             )))),
-            'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+            'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
                 $this->dateFormat
             )))),
@@ -190,7 +205,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 time(),
                 $this->dateFormat
             )))),
-            'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+            'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
                 $this->dateFormat
             ))))

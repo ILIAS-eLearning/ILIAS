@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Page multilinguality GUI class.
@@ -10,17 +24,10 @@
  */
 class ilPageMultiLangGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $single_page_mode = false;
+    protected ilObjectTranslation $ot;
+    protected \ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected bool $single_page_mode = false;
 
     /**
      * Constructur
@@ -29,8 +36,11 @@ class ilPageMultiLangGUI
      * @param int $a_parent_id parent object id
      * @param bool $a_single_page_mode single page mode (page includes ml managing)
      */
-    public function __construct($a_parent_type, $a_parent_id, $a_single_page_mode = false)
-    {
+    public function __construct(
+        string $a_parent_type,
+        int $a_parent_id,
+        bool $a_single_page_mode = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -44,7 +54,7 @@ class ilPageMultiLangGUI
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -59,14 +69,13 @@ class ilPageMultiLangGUI
                     "removeLanguages"))) {
                     $this->$cmd();
                 }
+                break;
         }
     }
 
-    /**
-     * Get multi lang info
-     */
-    public function getMultiLangInfo($a_page_lang = "-")
-    {
+    public function getMultiLangInfo(
+        string $a_page_lang = "-"
+    ) : string {
         $lng = $this->lng;
         
         if ($a_page_lang == "") {

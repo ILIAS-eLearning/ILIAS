@@ -27,6 +27,7 @@ class Error implements Data\Result
         }
         $this->error = $error;
     }
+
     /**
      * @inheritdoc
      */

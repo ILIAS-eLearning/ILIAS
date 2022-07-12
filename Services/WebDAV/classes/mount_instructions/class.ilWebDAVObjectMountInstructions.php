@@ -1,33 +1,30 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
- * Class ilWebDAVMountInstructions
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This class creates the page and links for the WebDAV mount instruction page
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
  */
 class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
 {
-    protected $user_agent;
-    protected $request_uri;
-    protected $http_host;
-    protected $script_name;
-    protected $client_id;
-    protected $path_to_template;
-    
-    protected $clientOSFlavor;
-    protected $clientOS;
-    
-    protected $settings;
-    
-    protected $ref_id;
-    protected $obj_id;
-    protected $obj_title;
-
-    protected $document_repository;
-    protected $uri_provider;
+    protected int $ref_id;
+    protected int $obj_id;
+    protected string $obj_title;
     
     public function __construct(
         ilWebDAVMountInstructionsRepository $a_repo,
@@ -48,7 +45,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array
     {
         foreach ($mount_instructions as $title => $mount_instruction) {
-            $mount_instruction = str_replace("[WEBFOLDER_ID]", $this->ref_id, $mount_instruction);
+            $mount_instruction = str_replace("[WEBFOLDER_ID]", (string) $this->ref_id, $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_TITLE]", $this->obj_title, $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_URI]", $this->uri_builder->getWebDavDefaultUri($this->ref_id), $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_URI_KONQUEROR]", $this->uri_builder->getWebDavKonquerorUri($this->ref_id), $mount_instruction);

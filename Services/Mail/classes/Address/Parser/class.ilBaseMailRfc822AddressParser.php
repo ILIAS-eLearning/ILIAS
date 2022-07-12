@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBaseMailRfc822AddressParser
@@ -7,15 +22,14 @@
  */
 abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
 {
-    /** @var string */
-    protected $addresses = '';
-
-    /** @var string */
-    protected $installationHost = '';
+    /**
+     * @var string A comma separated list of email addresses
+     */
+    protected string $addresses = '';
+    protected string $installationHost = '';
 
     /**
      * @param string $addresses A comma separated list of email addresses
-     * @param string $installationHost
      */
     public function __construct(string $addresses, string $installationHost = ilMail::ILIAS_HOST)
     {
@@ -24,20 +38,11 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
     }
 
     /**
-     * @return string
+     * @return string A comma separated list of email addresses
      */
     public function getAddresses() : string
     {
         return $this->addresses;
-    }
-
-    /**
-     * A comma separated list of email addresses
-     * @param string $addresses
-     */
-    public function setAddresses(string $addresses)
-    {
-        $this->addresses = $addresses;
     }
 
     /**
@@ -46,9 +51,6 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
      */
     abstract protected function parseAddressString(string $addresses) : array;
 
-    /**
-     * @inheritdoc
-     */
     public function parse() : array
     {
         $addresses = preg_replace('/;/', ',', trim($this->addresses));

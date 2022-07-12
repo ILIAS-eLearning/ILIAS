@@ -1,33 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Page question processor
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageQuestionProcessor
 {
-    /**
-     * constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
     }
 
 
-    /**
-     * Save question answer
-     *
-     * @param
-     * @return
-     */
-    public static function saveQuestionAnswer($a_type, $a_id, $a_answer)
-    {
+    public static function saveQuestionAnswer(
+        string $a_type,
+        int $a_id,
+        string $a_answer
+    ) : void {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -36,7 +41,7 @@ class ilPageQuestionProcessor
         $ilLog->write($a_type);
         $ilLog->write($a_id);
         $ilLog->write($a_answer);
-        $answer = ilJsonUtil::decode($a_answer);
+        $answer = json_decode($a_answer, false, 512, JSON_THROW_ON_ERROR);
         $passed = $answer->passed;
         $choice = $answer->choice;
         $points = self::calculatePoints($a_type, $a_id, $choice);
@@ -74,14 +79,9 @@ class ilPageQuestionProcessor
         }
     }
 
-    /**
-     * Get statistics for question
-     *
-     * @param	int		question id
-     * @return	array
-     */
-    public static function getQuestionStatistics($a_q_id)
-    {
+    public static function getQuestionStatistics(
+        int $a_q_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -135,13 +135,13 @@ class ilPageQuestionProcessor
      * This function calculates the points for a given answer.
      * Better would be to re-use from T&A here in the future.
      * When this code has been written this has not been possible yet.
-     *
-     * @param
-     * @return
      */
-    public static function calculatePoints($a_type, $a_id, $a_choice)
-    {
-        global $DIC;
+    public static function calculatePoints(
+        string $a_type,
+        int $a_id,
+        array $a_choice
+    ) : int {
+        $points = 0;
 
         switch ($a_type) {
             case "assSingleChoice":
@@ -279,13 +279,12 @@ class ilPageQuestionProcessor
     }
 
     /**
-     * Get statistics for question
-     *
-     * @param	int		question id
-     * @return	array
+     * @param int|array $a_q_id
      */
-    public static function getAnswerStatus($a_q_id, $a_user_id = 0)
-    {
+    public static function getAnswerStatus(
+        $a_q_id,
+        int $a_user_id = 0
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -319,13 +318,12 @@ class ilPageQuestionProcessor
     }
 
     /**
-     * Reset tries
-     *
-     * @param int $a_q_id question id
-     * @param int $a_user_id user id
+     * Reset tries for user and question
      */
-    public static function resetTries($a_q_id, $a_user_id)
-    {
+    public static function resetTries(
+        int $a_q_id,
+        int $a_user_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -342,13 +340,12 @@ class ilPageQuestionProcessor
     }
 
     /**
-     * Reset tries
-     *
-     * @param int $a_q_id question id
-     * @param int $a_user_id user id
+     * Unlock question for user
      */
-    public static function unlock($a_q_id, $a_user_id)
-    {
+    public static function unlock(
+        int $a_q_id,
+        int $a_user_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();

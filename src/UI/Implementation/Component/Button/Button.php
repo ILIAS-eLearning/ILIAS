@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
@@ -20,35 +34,15 @@ abstract class Button implements C\Button\Button
     use Triggerer;
     use Engageable;
 
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var string|null
-     */
-    protected $action;
-
-    /**
-     * @var bool
-     */
-    protected $active = true;
-
-    /**
-     * @var string
-     */
-    protected $aria_label;
-
-    /**
-     * @var bool
-     */
-    protected $aria_checked = false;
+    protected string $label;
+    protected ?string $action;
+    protected bool $active = true;
+    protected string $aria_label = '';
+    protected bool $aria_checked = false;
 
 
-    public function __construct($label, $action)
+    public function __construct(string $label, $action)
     {
-        $this->checkStringArg("label", $label);
         $this->checkStringOrSignalArg("action", $action);
         $this->label = $label;
         if (is_string($action)) {
@@ -62,7 +56,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function getLabel()
+    public function getLabel() : string
     {
         return $this->label;
     }
@@ -70,9 +64,8 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function withLabel($label)
+    public function withLabel(string $label) : C\Button\Button
     {
-        $this->checkStringArg("label", $label);
         $clone = clone $this;
         $clone->label = $label;
         return $clone;
@@ -92,7 +85,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return $this->active;
     }
@@ -100,7 +93,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function withUnavailableAction()
+    public function withUnavailableAction() : C\Button\Button
     {
         $clone = clone $this;
         $clone->active = false;
@@ -110,7 +103,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal)
+    public function withOnClick(Signal $signal) : C\Button\Button
     {
         $this->action = null;
         return $this->withTriggeredSignal($signal, 'click');
@@ -119,7 +112,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal)
+    public function appendOnClick(Signal $signal) : C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }
@@ -127,7 +120,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function withOnHover(Signal $signal)
+    public function withOnHover(Signal $signal) : C\Hoverable
     {
         // Note: The event 'hover' maps to 'mouseenter' in javascript. Although 'hover' is available in JQuery,
         // it encodes the 'mouseenter' and 'mouseleave' events and thus expects two event handlers.
@@ -139,7 +132,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function appendOnHover(Signal $signal)
+    public function appendOnHover(Signal $signal) : C\Hoverable
     {
         return $this->appendTriggeredSignal($signal, 'mouseenter');
     }
@@ -147,9 +140,8 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function withAriaLabel($aria_label)
+    public function withAriaLabel(string $aria_label) : C\Button\Button
     {
-        $this->checkStringArg("label", $aria_label);
         $clone = clone $this;
         $clone->aria_label = $aria_label;
         return $clone;
@@ -158,7 +150,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function getAriaLabel()
+    public function getAriaLabel() : string
     {
         return $this->aria_label;
     }

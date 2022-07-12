@@ -1,56 +1,62 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Importer class for files
- *
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */
 class ilSurveyQuestionPoolImporter extends ilXmlImporter
 {
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         // Container import => test object already created
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-        #$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
         } else {	// case ii, non container
             // Shouldn't happen
             $GLOBALS['ilLog']->write(__METHOD__ . ': Called in non container mode');
             return;
         }
-        
-        
-        list($xml_file) = $this->parseXmlFileNames();
 
-        if (!@file_exists($xml_file)) {
+        $xml_file = $this->getXmlFileName();
+
+        if (!file_exists($xml_file)) {
             $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
             return;
         }
 
         // import qti data
         $newObj->importObject($xml_file);
-        $a_mapping->addMapping("Modules/SurveyQuestionPool", "spl", $a_id, $newObj->getId());
+        $a_mapping->addMapping(
+            "Modules/SurveyQuestionPool",
+            "spl",
+            $a_id,
+            $newObj->getId()
+        );
     }
     
-    
-    /**
-     * Create qti and xml file name
-     * @return array
-     */
-    protected function parseXmlFileNames()
+    protected function getXmlFileName() : string
     {
-        $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
-        
         $basename = basename($this->getImportDirectory());
-        $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
-        
-        return array($xml);
+        return $this->getImportDirectory() . '/' . $basename . '.xml';
     }
 }

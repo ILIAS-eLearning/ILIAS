@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,27 +7,22 @@
  */
 class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
 {
-    private $lng;
-
     public function __construct(ilADT $a_adt)
     {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-
         parent::__construct($a_adt);
     }
 
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTLocalizedText;
     }
 
-    public function getHTML()
+    public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             return $this->decorate(nl2br($this->getADT()->getTextForLanguage($this->lng->getLangKey())));
         }
+        return '';
     }
 
     public function getSortable()
@@ -35,5 +30,6 @@ class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
         if (!$this->getADT()->isNull()) {
             return strtolower($this->getADT()->getTextForLanguage($this->lng->getLangKey()));
         }
+        return '';
     }
 }

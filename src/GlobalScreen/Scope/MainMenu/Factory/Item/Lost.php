@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -15,6 +32,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 
 /**
  * Class Lost
@@ -23,18 +41,10 @@ use ILIAS\UI\Component\Symbol\Symbol;
 class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction, hasSymbol
 {
     use SymbolDecoratorTrait;
-    /**
-     * @var isChild[]
-     */
-    private $children = array();
-    /**
-     * @var IdentificationInterface
-     */
-    private $parent;
-    /**
-     * @var string
-     */
-    private $title = '';
+
+    private array $children = array();
+    private IdentificationInterface $parent;
+    private string $title = '';
 
     /**
      * @inheritDoc
@@ -118,7 +128,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function overrideParent(IdentificationInterface $identification) : isChild
+    public function overrideParent(IdentificationInterface $identification) : isItem
     {
         $this->parent = $identification;
 
@@ -135,6 +145,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
 
     /**
      * @inheritDoc
+     * @param isChild[] $children
      */
     public function withChildren(array $children) : isParent
     {
@@ -146,7 +157,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function appendChild(isChild $child) : isParent
+    public function appendChild(isItem $child) : isParent
     {
         $this->children[] = $child;
 
@@ -156,10 +167,10 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function removeChild(isChild $child_to_remove) : isParent
+    public function removeChild(isItem $child) : isParent
     {
-        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove) : bool {
-            return $item->getProviderIdentification()->serialize() !== $child_to_remove->getProviderIdentification()->serialize();
+        $this->children = array_filter($this->children, static function (isItem $item) use ($child) : bool {
+            return $item->getProviderIdentification()->serialize() !== $child->getProviderIdentification()->serialize();
         });
 
         return $this;
@@ -220,7 +231,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      */
     public function getSymbol() : Symbol
     {
-        return null;
+        return new Glyph(Glyph::MORE, '');
     }
 
     /**

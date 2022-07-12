@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\Signal;
@@ -12,6 +26,8 @@ use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use InvalidArgumentException;
+use LogicException;
 
 /**
  * MainBar
@@ -29,79 +45,40 @@ class MainBar implements MainControls\MainBar
     public const NONE_ACTIVE = '_none';
 
     /**
-     * @var SignalGeneratorInterface
-     */
-    private $signal_generator;
-
-    /**
-     * @var Signal
-     */
-    private $entry_click_signal;
-
-    /**
-     * @var Signal
-     */
-    private $tools_click_signal;
-
-    /**
-     * @var Signal
-     */
-    private $tools_removal_signal;
-
-    /**
-     * @var Signal
-     */
-    private $disengage_all_signal;
-
-    /**
      * @var array <string, Bulky|Slate>
      */
-    protected $entries = [];
-
-    /**
-     * @var array <string, Slate>
-     */
-    private $tool_entries = [];
-
-    /**
-     * @var Button\Bulky
-     */
-    private $tools_button;
-
-    /**
-     * @var Button\Bulky
-     */
-    private $more_button;
-
-    /**
-     * @var string | null
-     */
-    private $active;
+    protected array $entries = [];
 
     /**
      * @var string[]
      */
-    private $initially_hidden_ids = [];
+    private array $initially_hidden_ids = [];
 
     /**
      * @var array<string, Signal>
      */
-    private $tool_signals = [];
+    private array $tool_signals = [];
 
     /**
      * @var array<string, Button\Close>
      */
-    private $close_buttons = [];
+    private array $close_buttons = [];
 
     /**
-     * @var string
+     * @var array <string, Slate>
      */
-    private $mainbar_tree_position;
+    private array $tool_entries = [];
 
-    /**
-     * @var Signal
-     */
-    protected $toggle_tools_signal;
+    private ?Button\Bulky $tools_button = null;
+    private Button\Bulky $more_button;
+    private ?string $active = null;
+    private string $mainbar_tree_position;
+    private SignalGeneratorInterface $signal_generator;
+    private Signal $entry_click_signal;
+    private Signal $tools_click_signal;
+    private Signal $tools_removal_signal;
+    private Signal $disengage_all_signal;
+    protected Signal $toggle_tools_signal;
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
@@ -131,7 +108,7 @@ class MainBar implements MainControls\MainBar
         $this->checkArgListElements("Bulky or Slate", $check, $classes);
 
         if (array_key_exists($id, $this->entries)) {
-            throw new \InvalidArgumentException("The id of this entry is already taken.", 1);
+            throw new InvalidArgumentException("The id of this entry is already taken.", 1);
         }
 
         $clone = clone $this;
@@ -157,11 +134,11 @@ class MainBar implements MainControls\MainBar
         Button\Close $close_button = null
     ) : MainControls\MainBar {
         if (!$this->tools_button) {
-            throw new \LogicException("There must be a tool-button configured to add tool-entries", 1);
+            throw new LogicException("There must be a tool-button configured to add tool-entries", 1);
         }
 
         if (array_key_exists($id, $this->tool_entries)) {
-            throw new \InvalidArgumentException("The id of this entry is already taken.", 1);
+            throw new InvalidArgumentException("The id of this entry is already taken.", 1);
         }
 
         $clone = clone $this;
@@ -242,7 +219,7 @@ class MainBar implements MainControls\MainBar
     /**
      * Set the signals for this component
      */
-    protected function initSignals()
+    protected function initSignals() : void
     {
         $this->entry_click_signal = $this->signal_generator->create();
         $this->tools_click_signal = $this->signal_generator->create();
@@ -266,7 +243,7 @@ class MainBar implements MainControls\MainBar
     /**
      * @inheritdoc
      */
-    public function getActive()
+    public function getActive() : ?string
     {
         return $this->active;
     }
@@ -282,7 +259,7 @@ class MainBar implements MainControls\MainBar
             [self::NONE_ACTIVE]
         );
         if (!in_array($active, $valid_entries)) {
-            throw new \InvalidArgumentException("Invalid entry to activate: $active", 1);
+            throw new InvalidArgumentException("Invalid entry to activate: $active", 1);
         }
 
         $clone = clone $this;
@@ -328,7 +305,7 @@ class MainBar implements MainControls\MainBar
         string $action
     ) : Signal {
         if (!in_array($action, [self::ENTRY_ACTION_TRIGGER, self::ENTRY_ACTION_REMOVE])) {
-            throw new \InvalidArgumentException("invalid action for mainbar entry: $action", 1);
+            throw new InvalidArgumentException("invalid action for mainbar entry: $action", 1);
         }
         $signal = $this->signal_generator->create();
         $signal->addOption('entry_id', $entry_id);

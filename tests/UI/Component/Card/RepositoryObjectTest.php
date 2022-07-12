@@ -1,12 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Component\Card\Factory;
 
 /**
  * Test on Repository Object card implementation.
@@ -14,7 +29,7 @@ use \ILIAS\UI\Implementation as I;
 class RepositoryObjectTest extends ILIAS_UI_TestBase
 {
     /**
-     * @return \ILIAS\UI\Implementation\Factory
+     * @return NoUIFactory
      */
     public function getFactory()
     {
@@ -27,16 +42,16 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
             {
                 $this->mocks = $mocks;
             }
-            public function legacy($content)
+            public function legacy($content) : C\Legacy\Legacy
             {
                 $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
                 return $f->legacy($content);
             }
-            public function button()
+            public function button() : C\Button\Factory
             {
                 return $this->mocks['button'];
             }
-            public function divider()
+            public function divider() : C\Divider\Factory
             {
                 return $this->mocks['divider'];
             }
@@ -44,19 +59,20 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory()
+                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Avatar\Factory()
                 );
             }
         };
         return $factory;
     }
 
-    private function getCardFactory()
+    private function getCardFactory() : Factory
     {
-        return new \ILIAS\UI\Implementation\Component\Card\Factory();
+        return new Factory();
     }
 
-    private function getBaseCard()
+    private function getBaseCard() : C\Card\RepositoryObject
     {
         $cf = $this->getCardFactory();
         $image = new I\Component\Image\Image("standard", "src", "alt");
@@ -64,12 +80,23 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         return $cf->repositoryObject("Card Title", $image);
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Card\\RepositoryObject", $this->getBaseCard());
     }
 
-    public function test_with_object_icon()
+    public function test_factory_with_shy_button() : void
+    {
+        $button_factory = new I\Component\Button\Factory();
+        $button = $button_factory->shy("Card Title New", "");
+
+        $cf = $this->getCardFactory();
+        $image = new I\Component\Image\Image("standard", "src", "alt");
+
+        $this->assertEquals($button, $cf->repositoryObject($button, $image)->getTitle());
+    }
+
+    public function test_with_object_icon() : void
     {
         $icon = new I\Component\Symbol\Icon\Standard("crs", 'Course', 'medium', false);
         $card = $this->getBaseCard();
@@ -78,7 +105,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertEquals($card->getObjectIcon(), $icon);
     }
 
-    public function test_with_progress()
+    public function test_with_progress() : void
     {
         $progressmeter = new I\Component\Chart\ProgressMeter\Mini(100, 70);
         $card = $this->getBaseCard();
@@ -88,7 +115,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertEquals($progressmeter, $card->getProgress());
     }
 
-    public function test_with_certificate_icon()
+    public function test_with_certificate_icon() : void
     {
         $card = $this->getBaseCard();
         $card_with_cert_true = $card->withCertificateIcon(true);
@@ -99,7 +126,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertFalse($card_with_cert_false->getCertificateIcon());
     }
 
-    public function test_with_actions()
+    public function test_with_actions() : void
     {
         $f = $this->getFactory();
         $items = array(
@@ -117,7 +144,17 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertEquals($card->getActions(), $dropdown);
     }
 
-    public function test_render_with_object_icon()
+    public function test_with_title_as_shy() : void
+    {
+        $c = $this->getBaseCard();
+        $button_factory = new I\Component\Button\Factory();
+        $button = $button_factory->shy("Card Title New", "");
+
+        $c = $c->withTitle($button);
+        $this->assertEquals($button, $c->getTitle());
+    }
+
+    public function test_render_with_object_icon() : void
     {
         $r = $this->getDefaultRenderer();
 
@@ -125,11 +162,10 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $c = $this->getBaseCard();
         $c = $c->withObjectIcon($icon);
 
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
-        $expected_html = <<<EOT
+        $expected_html = $this->brutallyTrimHTML(<<<EOT
 <div class="il-card thumbnail">
-	
 	<div class="il-card-repository-head">
 		<div>
 			<img class="icon crs medium" src="./templates/default/images/icon_crs.svg" alt="Course" />
@@ -141,19 +177,16 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 			
 		</div>
 	</div>
-<img src="src" class="img-standard" alt="alt" />
+    <div class="il-card-image-container"><img src="src" class="img-standard" alt="alt" /></div>
 	<div class="card-no-highlight"></div>
-	<div class="caption">
-		<div class="card-title">Card Title</div>
-	</div>
-	
+    <div class="caption card-title">Card Title</div>
 </div>
-EOT;
+EOT);
 
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_certificate_icon()
+    public function test_render_with_certificate_icon() : void
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();
@@ -161,9 +194,9 @@ EOT;
         //TODO get skin fail?
         $c = $c->withCertificateIcon(true);
 
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
-        $expected_html = <<<EOT
+        $expected_html = $this->brutallyTrimHTML(<<<EOT
 <div class="il-card thumbnail">
 	
 	<div class="il-card-repository-head">
@@ -171,71 +204,56 @@ EOT;
 			
 		</div>
 		<div>
-			<img class="icon cert medium outlined" src="./templates/default/images/outlined/icon_cert.svg" alt="Certificate" />
+			<img class="icon cert medium" src="./templates/default/images/icon_cert.svg" alt="Certificate" />
 		</div>
 		<div class="il-card-repository-dropdown">
 			
 		</div>
 	</div>
-<img src="src" class="img-standard" alt="alt" />
+    <div class="il-card-image-container"><img src="src" class="img-standard" alt="alt" /></div>
 	<div class="card-no-highlight"></div>
-	<div class="caption">
-		<div class="card-title">Card Title</div>
-	</div>
-	
+    <div class="caption card-title">Card Title</div>
 </div>
-EOT;
+EOT);
 
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_progressmeter()
+    public function test_render_with_progressmeter() : void
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();
         $prg = new I\Component\Chart\ProgressMeter\Mini(100, 80);
         $c = $c->withProgress($prg);
 
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
-        $expected_html = <<<EOT
-<div class="il-card thumbnail">
-	
-	<div class="il-card-repository-head">
-		<div>
-			
-		</div>
-		<div>
-			<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
-    <div class="il-chart-progressmeter-container">
-        <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
-            <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" 
-                  d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
-            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100" 
-                  d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
-            <path class="il-chart-progressmeter-needle no-needle" stroke-dasharray="100, 100" d="M25,10 l0,15" 
-                  style="transform: rotate(deg)"></path>
-        </svg>
-    </div>
-</div>
-		</div>
-		<div class="il-card-repository-dropdown">
-			
-		</div>
-	</div>
-<img src="src" class="img-standard" alt="alt" />
-	<div class="card-no-highlight"></div>
-	<div class="caption">
-		<div class="card-title">Card Title</div>
-	</div>
-	
-</div>
-EOT;
+        $expected_html = $this->brutallyTrimHTML('
+                <div class="il-card thumbnail">
+                   <div class="il-card-repository-head">
+                      <div></div>
+                      <div>
+                         <div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
+                            <div class="il-chart-progressmeter-container">
+                               <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
+                                  <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
+                                  <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100" d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
+                                  <path class="il-chart-progressmeter-needle no-needle" stroke-dasharray="100, 100" d="M25,10 l0,15" style="transform: rotate(deg)"></path>
+                               </svg>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="il-card-repository-dropdown"></div>
+                   </div>
+                   <div class="il-card-image-container"><img src="src" class="img-standard" alt="alt"/></div>
+                   <div class="card-no-highlight"></div>
+                   <div class="caption card-title">Card Title</div>
+                </div>');
 
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_actions()
+    public function test_render_with_actions() : void
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();
@@ -260,11 +278,9 @@ EOT;
                         </div>
                     </div>
                 </div>
-                <img src="src" class="img-standard" alt="alt" />
+                <div class="il-card-image-container"><img src="src" class="img-standard" alt="alt" /></div>
                 <div class="card-no-highlight"></div>
-                <div class="caption">
-                    <div class="card-title">Card Title</div>
-                </div>
+                <div class="caption card-title">Card Title</div>
             </div>
         ');
 

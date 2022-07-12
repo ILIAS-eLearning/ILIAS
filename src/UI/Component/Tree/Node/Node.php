@@ -1,13 +1,26 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Tree\Node;
 
 use ILIAS\Data\URI;
-use \ILIAS\UI\Component\Component;
-use \ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Clickable;
 
 /**
  * This describes a Tree Node
@@ -52,15 +65,11 @@ interface Node extends Component, Clickable
 
     /**
      * Get the URI object that is added as link in the UI
-     *
-     * @return URI
      */
     public function getLink() : ?URI;
 
     /**
      * Create a new node object with an URI that will be added to the UI
-     * @param URI $link
-     * @return Node
      */
     public function withLink(URI $link) : Node;
 }

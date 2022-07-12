@@ -10,30 +10,15 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * ASS_AnswerImagemap is a class for true/false or yes/no answers used for example in multiple choice tests.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
 * @ingroup ModulesTestQuestionPool
-* @see ASS_AnswerSimple
-* @see ASS_AnswerTrueFalse
 */
 class ASS_AnswerImagemap extends ASS_AnswerBinaryState
 {
     /**
-    * Coordinates of an area in image mape
-    *
-    * Coordinates of an area in image mape
-    *
-    * @var string
-    */
-    public $coords;
-
-    /**
-    * area of an imagemap
-    *
-    * area of an imagemap
-    *
-    * @var string
-    */
-    public $area;
+     * @var mixed|string
+     */
+    protected $area;
+    public string $coords;
 
     /**
      * The points given to the answer when the answer is not checked
@@ -78,7 +63,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $coords
     */
-    public function getCoords()
+    public function getCoords() : string
     {
         $this->coords = preg_replace("/\s/", "", $this->coords);
         return $this->coords;
@@ -87,12 +72,11 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
 
     /**
     * Sets the coordinates of an image map
-    *
     * @param string $coords
     * @access public
     * @see $coords
     */
-    public function setCoords($coords = "")
+    public function setCoords(string $coords = "") : void
     {
         $coords = preg_replace("/\s/", "", $coords);
         $this->coords = $coords;
@@ -105,20 +89,13 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $area
     */
-    public function getArea()
+    public function getArea() : string
     {
         return $this->area;
     }
 
 
-    /**
-    * Sets the area of an image map
-    *
-    * @param string $area
-    * @access public
-    * @see $area
-    */
-    public function setArea($area = "")
+    public function setArea(string $area = "") : void
     {
         $this->area = $area;
     }
@@ -138,12 +115,12 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     /**
      * Sets the points for an unchecked answer
      *
-     * @param double $points_unchecked The points for an unchecked answer
+     * @param int|string|null $points_unchecked The points for an unchecked answer
      * @see $points_unchecked
      *
      * @TODO Analyze usage and see if we can get rid of "magic nullification" here.
      */
-    public function setPointsUnchecked($points_unchecked)
+    public function setPointsUnchecked($points_unchecked) : void
     {
         $new_points = str_replace(",", ".", $points_unchecked);
 

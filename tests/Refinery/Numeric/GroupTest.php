@@ -1,45 +1,46 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\Numeric;
 
-use ILIAS\Data\Factory;
-use ILIAS\Refinery\Integer\GreaterThan;
-use ILIAS\Refinery\Integer\LessThan;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Numeric\IsNumeric;
-use ILIAS\Refinery\Numeric\Group;
+use ILIAS\Refinery\Numeric\Group as NumericGroup;
 use ILIAS\Tests\Refinery\TestCase;
-
-require_once('./libs/composer/vendor/autoload.php');
+use ilLanguage;
 
 class GroupTest extends TestCase
 {
-    /**
-     * @var Group
-     */
-    private $group;
+    private NumericGroup $group;
+    private DataFactory $dataFactory;
+    private ilLanguage $language;
 
-    /**
-     * @var Factory
-     */
-    private $dataFactory;
-
-    /**
-     * @var \ilLanguage
-     */
-    private $language;
-
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->dataFactory = new Factory();
-        $this->language = $this->getMockBuilder('\ilLanguage')
+        $this->dataFactory = new DataFactory();
+        $this->language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->group = new Group($this->dataFactory, $this->language);
+        $this->group = new NumericGroup($this->dataFactory, $this->language);
     }
 
-    public function testIsNumericGroup()
+    public function testIsNumericGroup() : void
     {
         $instance = $this->group->isNumeric();
         $this->assertInstanceOf(IsNumeric::class, $instance);

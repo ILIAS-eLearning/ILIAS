@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiExporter
  *
@@ -17,13 +27,12 @@ class ilCmiXapiExporter extends ilXmlExporter
     const ENTITY = 'cmix';
     const SCHEMA_VERSION = '5.1.0';
 
-    private $main_object = null;
+//    private $main_object = null;
     private ?ilCmiXapiDataSet $_dataset = null;
 
     public function __construct()
     {
         parent::__construct();
-        include_once("./Modules/CmiXapi/classes/class.ilCmiXapiDataSet.php");
         $this->_dataset = new ilCmiXapiDataSet();
         $this->_dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->_dataset->setDSPrefix("ds");
@@ -42,17 +51,15 @@ class ilCmiXapiExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     * @param	string		entity
-     * @param	string		target release
-     * @param	string		id
-     * @return	string		xml string
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         return $this->_dataset->getCmiXapiXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-
+    /**
+     * @return array<string, array<string, string|bool>>
+     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(

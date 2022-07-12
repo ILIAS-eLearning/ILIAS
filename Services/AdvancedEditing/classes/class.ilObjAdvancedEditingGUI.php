@@ -1,6 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\AdvancedEditing\StandardGUIRequest;
 
 /**
  * Class ilObjAdvancedEditingGUI
@@ -10,58 +23,34 @@
  */
 class ilObjAdvancedEditingGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilPropertyFormGUI $form;
+    protected string $cgrp = "";
+    protected StandardGUIRequest $std_request;
+    protected ilComponentRepository $component_repository;
 
-    /**
-     * @var ilRbacAdmin
-     */
-    protected $rbacadmin;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    public $conditions;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference
+    ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->rbacadmin = $DIC->rbac()->admin();
-        $this->ctrl = $DIC->ctrl();
-        $this->tabs = $DIC->tabs();
-        $this->tpl = $DIC["tpl"];
-        $this->lng = $DIC->language();
-        $this->access = $DIC->access();
-        $this->settings = $DIC->settings();
+        $this->component_repository = $DIC["component.repository"];
 
         $this->type = "adve";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('adve');
         $this->lng->loadLanguageModule('meta');
+        $this->std_request = new StandardGUIRequest(
+            $DIC->http(),
+            $this->refinery
+        );
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $mess = str_replace("%s", $this->object->getTitle(), $this->lng->txt("msg_no_perm_read_item"));
             $this->ilias->raiseError($mess, $this->ilias->error_obj->WARNING);
         }
@@ -78,7 +67,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "" || $cmd == "view") {
+                if ($cmd === null || $cmd === "" || $cmd === "view") {
                     $cmd = "showGeneralPageEditorSettings";
                 }
                 $cmd .= "Object";
@@ -86,39 +75,34 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
 
-    /**
-    * save object
-    * @access	public
-    */
-    public function saveObject()
+    public function saveObject() : void
     {
         $this->checkPermission("write");
 
         parent::saveObject();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirect($this);
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
     
-    /**
-    * Add rte subtabs
-    */
-    public function addSubtabs()
+    public function addSubtabs() : void
     {
-        $ilCtrl = $this->ctrl;
-
-        if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
-            !in_array($ilCtrl->getCmd(), array("showPageEditorSettings",
-                "showGeneralPageEditorSettings", "showCharSelectorSettings", "", "view"))) {
+        if ($this->ctrl->getNextClass() !== "ilpermissiongui" &&
+            !in_array($this->ctrl->getCmd(), array(
+                "showPageEditorSettings",
+                "showGeneralPageEditorSettings",
+                "showCharSelectorSettings",
+                "",
+                "view"
+            ), true)) {
             $this->tabs_gui->addSubTabTarget(
                 "adve_general_settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
@@ -157,43 +141,30 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         }
     }
     
-    /**
-    * Show page editor settings subtabs
-    */
-    public function addPageEditorSettingsSubtabs()
+    public function addPageEditorSettingsSubtabs() : void
     {
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-
-        $ilTabs->addSubTabTarget(
+        $this->tabs_gui->addSubTabTarget(
             "adve_pe_general",
-            $ilCtrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
+            $this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
             array("showGeneralPageEditorSettings", "", "view")
         );
 
         $grps = ilPageEditorSettings::getGroups();
         
         foreach ($grps as $g => $types) {
-            $ilCtrl->setParameter($this, "grp", $g);
-            $ilTabs->addSubTabTarget(
+            $this->ctrl->setParameter($this, "grp", $g);
+            $this->tabs_gui->addSubTabTarget(
                 "adve_grp_" . $g,
-                $ilCtrl->getLinkTarget($this, "showPageEditorSettings"),
+                $this->ctrl->getLinkTarget($this, "showPageEditorSettings"),
                 array("showPageEditorSettings")
             );
         }
-        $ilCtrl->setParameter($this, "grp", $_GET["grp"] ?? "");
+        $this->ctrl->setParameter($this, "grp", $this->std_request->getGroup());
     }
     
-    /**
-    * get tabs
-    * @access	public
-    * @param	object	tabs gui object
-    */
-    public function getTabs()
+    protected function getTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "adve_page_editor_settings",
                 $this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
@@ -215,7 +186,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
@@ -223,58 +194,52 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 'ilpermissiongui'
             );
         }
-        $this->addSubtabs($this->tabs_gui);
+        $this->addSubtabs();
     }
     
-    
-    /**
-     * Display assessment folder settings form
-     */
-    public function settingsObject()
+    public function settingsObject() : void
     {
         $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
-        $editor = $this->object->_getRichTextEditor();
-        
-        $this->form = new ilPropertyFormGUI();
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-        $this->form->setTitle($lng->txt("adve_activation"));
+        $form = $this->getTinyForm();
+        $tpl->setContent($form->getHTML());
+    }
+
+    public function getTinyForm() : ilPropertyFormGUI
+    {
+        $editor = ilObjAdvancedEditing::_getRichTextEditor();
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this));
+        $form->setTitle($this->lng->txt("adve_activation"));
         $cb = new ilCheckboxInputGUI($this->lng->txt("adve_use_tiny_mce"), "use_tiny");
-        if ($editor == "tinymce") {
+        if ($editor === "tinymce") {
             $cb->setChecked(true);
         }
-        $this->form->addItem($cb);
+        $form->addItem($cb);
         if ($this->checkPermissionBool("write")) {
-            $this->form->addCommandButton("saveSettings", $lng->txt("save"));
+            $form->addCommandButton("saveSettings", $this->lng->txt("save"));
         }
         
-        $tpl->setContent($this->form->getHTML());
+        return $form;
     }
     
-    /**
-    * Save Assessment settings
-    */
-    public function saveSettingsObject()
+    public function saveSettingsObject() : void
     {
         $this->checkPermission("write");
 
-        if ($_POST["use_tiny"]) {
+        $form = $this->getTinyForm();
+        $form->checkInput();
+
+        if ($form->getInput("use_tiny")) {
             $this->object->setRichTextEditor("tinymce");
         } else {
             $this->object->setRichTextEditor("");
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this, 'settings');
     }
     
-    
-    /**
-    * Display settings for test and assessment.
-    */
-    public function assessmentObject()
+    public function assessmentObject() : void
     {
         $form = $this->initTagsForm(
             "assessment",
@@ -285,7 +250,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
     
-    public function saveAssessmentSettingsObject()
+    public function saveAssessmentSettingsObject() : void
     {
         $form = $this->initTagsForm(
             "assessment",
@@ -298,11 +263,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         }
     }
     
-    
-    /**
-    * Display settings for surveys.
-    */
-    public function surveyObject()
+    public function surveyObject() : void
     {
         $form = $this->initTagsForm(
             "survey",
@@ -313,7 +274,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
     
-    public function saveSurveySettingsObject()
+    public function saveSurveySettingsObject() : void
     {
         $form = $this->initTagsForm(
             "survey",
@@ -326,11 +287,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         }
     }
     
-    
-    /**
-    * Display settings for forums.
-    */
-    public function frmPostObject()
+    public function frmPostObject() : void
     {
         $form = $this->initTagsForm(
             "frm_post",
@@ -341,7 +298,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
         
-    public function saveFrmPostSettingsObject()
+    public function saveFrmPostSettingsObject() : void
     {
         $form = $this->initTagsForm(
             "frm_post",
@@ -354,11 +311,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         }
     }
     
-    
-    /**
-    * Display settings for exercise assignments.
-    */
-    public function excAssObject()
+    public function excAssObject() : void
     {
         $form = $this->initTagsForm(
             "exc_ass",
@@ -369,7 +322,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
         
-    public function saveExcAssSettingsObject()
+    public function saveExcAssSettingsObject() : void
     {
         $form = $this->initTagsForm(
             "exc_ass",
@@ -383,10 +336,11 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     }
             
     
-    protected function initTagsForm($a_id, $a_cmd, $a_title)
-    {
-        $ilAccess = $this->access;
-        
+    protected function initTagsForm(
+        string $a_id,
+        string $a_cmd,
+        string $a_title
+    ) : ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
         $form->setTitle($this->lng->txt($a_title));
@@ -402,102 +356,88 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $tags->setValue(ilObjAdvancedEditing::_getUsedHTMLTags($a_id));
         $form->addItem($tags);
         
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+        if ($this->access->checkAccess("write", "", $this->object->getRefId())) {
             $form->addCommandButton($a_cmd, $this->lng->txt("save"));
         }
 
         return $form;
     }
     
-    protected function saveTags($a_id, $a_cmd, $form)
-    {
+    protected function saveTags(
+        string $a_id,
+        string $a_cmd,
+        ilPropertyFormGUI $form
+    ) : bool {
         $this->checkPermission("write");
         try {
             if ($form->checkInput()) {
+                $html_tags = $form->getInput("html_tags");
                 // get rid of select all
-                if (is_array($_POST['html_tags']) && $_POST['html_tags'][0] == "") {
-                    unset($_POST['html_tags'][0]);
+                if ($html_tags[0] == "") {
+                    unset($html_tags[0]);
                 }
-
-                $this->object->setUsedHTMLTags((array) $_POST['html_tags'], $a_id);
-                ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+                $this->object->setUsedHTMLTags((array) $html_tags, $a_id);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             } else {
                 return false;
             }
         } catch (ilAdvancedEditingRequiredTagsException $e) {
-            ilUtil::sendInfo($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('info', $e->getMessage(), true);
         }
-        
         $this->ctrl->redirect($this, $a_cmd);
         return true;
     }
     
-    
-    /**
-    * Show page editor settings
-    */
-    public function showPageEditorSettingsObject()
+    public function showPageEditorSettingsObject() : void
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-        
-        $this->addPageEditorSettingsSubTabs();
+        $this->addPageEditorSettingsSubtabs();
         
         $grps = ilPageEditorSettings::getGroups();
         
-        $this->cgrp = $_GET["grp"];
-        if ($this->cgrp == "") {
-            $this->cgrp = key($grps);
+        $this->cgrp = $this->std_request->getGroup();
+        if ($this->cgrp === "") {
+            $this->cgrp = (string) key($grps);
         }
 
-        $ilCtrl->setParameter($this, "grp", $this->cgrp);
-        $ilTabs->setSubTabActive("adve_grp_" . $this->cgrp);
+        $this->ctrl->setParameter($this, "grp", $this->cgrp);
+        $this->tabs_gui->setSubTabActive("adve_grp_" . $this->cgrp);
         
         $this->initPageEditorForm();
-        $tpl->setContent($this->form->getHtml());
+        $this->tpl->setContent($this->form->getHTML());
     }
     
-    /**
-    * Init page editor form.
-    *
-    * @param        int        $a_mode        Edit Mode
-    */
-    public function initPageEditorForm($a_mode = "edit")
+    public function initPageEditorForm() : void
     {
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-        
-        $lng->loadLanguageModule("content");
+        $this->lng->loadLanguageModule("content");
         
         $this->form = new ilPropertyFormGUI();
     
-        if ($this->cgrp == "test") {
-            $this->form->setTitle($lng->txt("adve_activation"));
+        if ($this->cgrp === "test") {
+            $this->form->setTitle($this->lng->txt("adve_activation"));
             $cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_tst_editing"), "tst_page_edit");
             $cb->setInfo($this->lng->txt("advanced_editing_tst_editing_desc"));
-            if ($ilSetting->get("enable_tst_page_edit", ilObjAssessmentFolder::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED)) {
+            if ($this->settings->get("enable_tst_page_edit", ilObjAssessmentFolder::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED)) {
                 $cb->setChecked(true);
             }
             $this->form->addItem($cb);
 
             $sh = new ilFormSectionHeaderGUI();
-            $sh->setTitle($lng->txt("adve_text_content_features"));
+            $sh->setTitle($this->lng->txt("adve_text_content_features"));
             $this->form->addItem($sh);
-        } elseif ($this->cgrp == "rep") {
-            $this->form->setTitle($lng->txt("adve_activation"));
+        } elseif ($this->cgrp === "rep") {
+            $this->form->setTitle($this->lng->txt("adve_activation"));
             $cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_rep_page_editing"), "cat_page_edit");
             $cb->setInfo($this->lng->txt("advanced_editing_rep_page_editing_desc"));
-            if ($ilSetting->get("enable_cat_page_edit")) {
+            if ($this->settings->get("enable_cat_page_edit")) {
                 $cb->setChecked(true);
             }
             $this->form->addItem($cb);
 
             $sh = new ilFormSectionHeaderGUI();
-            $sh->setTitle($lng->txt("adve_text_content_features"));
+            $sh->setTitle($this->lng->txt("adve_text_content_features"));
             $this->form->addItem($sh);
         } else {
-            $this->form->setTitle($lng->txt("adve_text_content_features"));
+            $this->form->setTitle($this->lng->txt("adve_text_content_features"));
         }
 
         
@@ -505,23 +445,19 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         foreach ($buttons as $b => $t) {
             // command button activation
             $cb = new ilCheckboxInputGUI(str_replace(":", "", $this->lng->txt("cont_text_" . $b)), "active_" . $b);
-            $cb->setChecked(ilPageEditorSettings::lookupSetting($this->cgrp, "active_" . $b, true));
+            $cb->setChecked((bool) ilPageEditorSettings::lookupSetting($this->cgrp, "active_" . $b, true));
             $this->form->addItem($cb);
         }
     
         // save and cancel commands
         if ($this->checkPermissionBool("write")) {
-            $this->form->addCommandButton("savePageEditorSettings", $lng->txt("save"));
+            $this->form->addCommandButton("savePageEditorSettings", $this->lng->txt("save"));
         }
         
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
     
-    /**
-    * Save page editor settings form
-    *
-    */
-    public function savePageEditorSettingsObject()
+    public function savePageEditorSettingsObject() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -534,49 +470,36 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $buttons = ilPageContentGUI::_getCommonBBButtons();
             foreach ($buttons as $b => $t) {
                 ilPageEditorSettings::writeSetting(
-                    $_GET["grp"],
+                    $this->std_request->getGroup(),
                     "active_" . $b,
                     $this->form->getInput("active_" . $b)
                 );
             }
             
-            if ($_GET["grp"] == "test") {
-                $ilSetting->set("enable_tst_page_edit", (int) $_POST["tst_page_edit"]);
-            } elseif ($_GET["grp"] == "rep") {
-                $ilSetting->set("enable_cat_page_edit", (int) $_POST["cat_page_edit"]);
+            if ($this->std_request->getGroup() === "test") {
+                $ilSetting->set("enable_tst_page_edit", (string) $this->form->getInput("tst_page_edit"));
+            } elseif ($this->std_request->getGroup() === "rep") {
+                $ilSetting->set("enable_cat_page_edit", (string) $this->form->getInput("cat_page_edit"));
             }
             
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         }
         
-        $ilCtrl->setParameter($this, "grp", $_GET["grp"]);
+        $ilCtrl->setParameter($this, "grp", $this->std_request->getGroup());
         $ilCtrl->redirect($this, "showPageEditorSettings");
     }
     
-    
-    /**
-     * Show general page editor settings
-     */
-    public function showGeneralPageEditorSettingsObject()
+    public function showGeneralPageEditorSettingsObject() : void
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-
-        $this->addPageEditorSettingsSubTabs();
-        $ilTabs->activateTab("adve_page_editor_settings");
+        $this->addPageEditorSettingsSubtabs();
+        $this->tabs_gui->activateTab("adve_page_editor_settings");
         
         $form = $this->initGeneralPageSettingsForm();
-        $tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
     
-    /**
-     * Init general page editor settings form.
-     */
-    public function initGeneralPageSettingsForm()
+    public function initGeneralPageSettingsForm() : ilPropertyFormGUI
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-    
         $form = new ilPropertyFormGUI();
         
         $aset = new ilSetting("adve");
@@ -584,12 +507,12 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         // use physical character styles
         $cb = new ilCheckboxInputGUI($this->lng->txt("adve_use_physical"), "use_physical");
         $cb->setInfo($this->lng->txt("adve_use_physical_info"));
-        $cb->setChecked($aset->get("use_physical"));
+        $cb->setChecked((bool) $aset->get("use_physical"));
         $form->addItem($cb);
 
         // blocking mode
         $cb = new ilCheckboxInputGUI($this->lng->txt("adve_blocking_mode"), "block_mode_act");
-        $cb->setChecked($aset->get("block_mode_minutes") > 0);
+        $cb->setChecked((bool) $aset->get("block_mode_minutes") > 0);
         $form->addItem($cb);
 
         // number of minutes
@@ -613,43 +536,20 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
         // auto url linking
         $cb = new ilCheckboxInputGUI($this->lng->txt("adve_auto_url_linking"), "auto_url_linking");
-        $cb->setChecked($aset->get("auto_url_linking"));
+        $cb->setChecked((bool) $aset->get("auto_url_linking"));
         $cb->setInfo($this->lng->txt("adve_auto_url_linking_info"));
         $form->addItem($cb);
 
         if ($this->checkPermissionBool("write")) {
-            $form->addCommandButton("saveGeneralPageSettings", $lng->txt("save"));
+            $form->addCommandButton("saveGeneralPageSettings", $this->lng->txt("save"));
         }
 
-        // enable html/js
-        $this->lng->loadLanguageModule("copg");
-        $sh = new ilFormSectionHeaderGUI();
-        $sh->setTitle($lng->txt("copg_allow_html"));
-        $sh->setInfo($lng->txt("copg_allow_html_info"));
-        $form->addItem($sh);
-
-        $comps = ilComponent::getAll();
-        $comps_per_dir = array_column(array_map(function ($k, $v) {
-            return [$v["type"] . "/" . $v["name"], $v];
-        }, array_keys($comps), $comps), 1, 0);
-
-        $cdef = new ilCOPageObjDef();
-        foreach ($cdef->getDefinitions() as $key => $def) {
-            if (in_array($key, $this->getPageObjectKeysWithOptionalHTML())) {
-                $comp_id = $comps_per_dir[$def["component"]]["id"];
-                $this->lng->loadLanguageModule($comp_id);
-                $cb = new ilCheckboxInputGUI($def["component"] . ": " . $this->lng->txt($comp_id . "_page_type_" . $key), "act_html_" . $key);
-                $cb->setChecked($aset->get("act_html_" . $key));
-                $form->addItem($cb);
-            }
-        }
-
-        // workaround for glossaries to force rewriting of shot texts
+        // workaround for glossaries to force rewriting of short texts
         ilGlossaryDefinition::setShortTextsDirtyGlobally();
 
                     
-        $form->setTitle($lng->txt("adve_pe_general"));
-        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setTitle($this->lng->txt("adve_pe_general"));
+        $form->setFormAction($this->ctrl->getFormAction($this));
      
         return $form;
     }
@@ -660,23 +560,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
      *
      * PLEASE do not add additional keys here. The whole feature might be abandonded in
      * the future.
-     *
-     * @return array
      */
-    protected function getPageObjectKeysWithOptionalHTML()
+    protected function getPageObjectKeysWithOptionalHTML() : array
     {
         return ["lobj","copa","mep","blp","prtf","prtt","gdf","lm","qht","qpl","qfbg","qfbs","sahs","stys","cont","cstr","auth"];
     }
 
-    /**
-     * Save general page settings
-     */
-    public function saveGeneralPageSettingsObject()
+    public function saveGeneralPageSettingsObject() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-
         $this->checkPermission("write");
         
         $form = $this->initGeneralPageSettingsForm();
@@ -692,45 +583,32 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
             if ($ok) {
                 $aset = new ilSetting("adve");
-                $aset->set("use_physical", $_POST["use_physical"]);
-                if ($_POST["block_mode_act"]) {
-                    $aset->set("block_mode_minutes", (int) $_POST["block_mode_minutes"]);
+                $aset->set("use_physical", $form->getInput("use_physical"));
+                if ($form->getInput("block_mode_act")) {
+                    $aset->set("block_mode_minutes", (string) (int) $form->getInput("block_mode_minutes"));
                 } else {
                     $aset->set("block_mode_minutes", 0);
                 }
-                $aset->set("auto_url_linking", $_POST["auto_url_linking"]);
+                $aset->set("auto_url_linking", $form->getInput("auto_url_linking"));
 
                 $aset->set("autosave", $form->getInput("autosave"));
 
-                $def = new ilCOPageObjDef();
-                foreach ($def->getDefinitions() as $key => $def) {
-                    if (in_array($key, $this->getPageObjectKeysWithOptionalHTML())) {
-                        $aset->set("act_html_" . $key, (int) $_POST["act_html_" . $key]);
-                    }
-                }
-
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-                $ilCtrl->redirect($this, "showGeneralPageEditorSettings");
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+                $this->ctrl->redirect($this, "showGeneralPageEditorSettings");
             }
         }
         
         $form->setValuesByPost();
-        $tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
     
-    /**
-     * Init the settings form for the selector of unicode characters
-     */
-    public function initCharSelectorSettingsForm(ilCharSelectorGUI $char_selector)
+    public function initCharSelectorSettingsForm(ilCharSelectorGUI $char_selector) : ilPropertyFormGUI
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-    
         $form = new ilPropertyFormGUI();
-        $form->setTitle($lng->txt('settings'));
-        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setTitle($this->lng->txt('settings'));
+        $form->setFormAction($this->ctrl->getFormAction($this));
         if ($this->checkPermissionBool("write")) {
-            $form->addCommandButton("saveCharSelectorSettings", $lng->txt("save"));
+            $form->addCommandButton("saveCharSelectorSettings", $this->lng->txt("save"));
         }
         $char_selector->addFormProperties($form);
 
@@ -741,33 +619,24 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     /**
      * Show the settings for the selector of unicode characters
      */
-    public function showCharSelectorSettingsObject()
+    public function showCharSelectorSettingsObject() : void
     {
-        $ilTabs = $this->tabs;
-        $ilSetting = $this->settings;
-        $tpl = $this->tpl;
-
-        $ilTabs->activateTab("adve_char_selector_settings");
+        $this->tabs_gui->activateTab("adve_char_selector_settings");
                 
         $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
-        $char_selector->getConfig()->setAvailability($ilSetting->get('char_selector_availability'));
-        $char_selector->getConfig()->setDefinition($ilSetting->get('char_selector_definition'));
+        $char_selector->getConfig()->setAvailability((int) $this->settings->get('char_selector_availability'));
+        $char_selector->getConfig()->setDefinition((string) $this->settings->get('char_selector_definition'));
         $form = $this->initCharSelectorSettingsForm($char_selector);
         $char_selector->setFormValues($form);
-        $tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
     
     
     /**
      *  Save the settings for the selector of unicode characters
      */
-    public function saveCharSelectorSettingsObject()
+    public function saveCharSelectorSettingsObject() : void
     {
-        $ilSetting = $this->settings;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-
         $this->checkPermission("write");
         
         $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
@@ -775,13 +644,13 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $char_selector->getFormValues($form);
 
-            $ilSetting->set('char_selector_availability', $char_selector->getConfig()->getAvailability());
-            $ilSetting->set('char_selector_definition', $char_selector->getConfig()->getDefinition());
+            $this->settings->set('char_selector_availability', $char_selector->getConfig()->getAvailability());
+            $this->settings->set('char_selector_definition', $char_selector->getConfig()->getDefinition());
             
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-            $ilCtrl->redirect($this, "showCharSelectorSettings");
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->redirect($this, "showCharSelectorSettings");
         }
         $form->setValuesByPost();
-        $tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 }

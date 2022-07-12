@@ -128,7 +128,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         $this->currentQuestionId = null;
     }
     
-    public function getActiveId()
+    public function getActiveId() : ?int
     {
         return $this->activeId;
     }
@@ -138,7 +138,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         $this->preventCheckedQuestionsFromComingUpEnabled = $preventCheckedQuestionsFromComingUpEnabled;
     }
 
-    public function isPreventCheckedQuestionsFromComingUpEnabled()
+    public function isPreventCheckedQuestionsFromComingUpEnabled() : bool
     {
         return $this->preventCheckedQuestionsFromComingUpEnabled;
     }
@@ -146,7 +146,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
     /**
      * @return int
      */
-    public function getCurrentQuestionId()
+    public function getCurrentQuestionId() : ?int
     {
         return $this->currentQuestionId;
     }
@@ -485,7 +485,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return null;
     }
     
-    public function isAnsweredQuestion($questionId)
+    public function isAnsweredQuestion($questionId) : bool
     {
         return (
             isset($this->correctAnsweredQuestions[$questionId])
@@ -493,12 +493,12 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         );
     }
     
-    public function isPostponedQuestion($questionId)
+    public function isPostponedQuestion($questionId) : bool
     {
         return isset($this->postponedQuestions[$questionId]);
     }
     
-    public function isFilteredQuestion($questionId)
+    public function isFilteredQuestion($questionId) : bool
     {
         foreach ($this->questionSet->getActualQuestionSequence() as $level => $questions) {
             if (in_array($questionId, $questions)) {
@@ -509,12 +509,12 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return false;
     }
     
-    public function trackedQuestionExists()
+    public function trackedQuestionExists() : bool
     {
         return (bool) count($this->questionTracking);
     }
     
-    public function getTrackedQuestionList($currentQuestionId = null)
+    public function getTrackedQuestionList($currentQuestionId = null) : array
     {
         $questionList = array();
         
@@ -536,12 +536,12 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         $this->questionTracking = array();
     }
     
-    public function openQuestionExists()
+    public function openQuestionExists() : bool
     {
         return count($this->getOpenQuestions()) > 0;
     }
     
-    public function getOpenQuestions()
+    public function getOpenQuestions() : array
     {
         $completeQuestionIds = array_keys($this->questionSet->getAllQuestionsData());
 
@@ -550,7 +550,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return $openQuestions;
     }
     
-    public function getTrackedQuestionCount()
+    public function getTrackedQuestionCount() : int
     {
         $uniqueQuestions = array();
         
@@ -561,7 +561,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return count($uniqueQuestions);
     }
     
-    public function getCurrentPositionIndex($questionId)
+    public function getCurrentPositionIndex($questionId) : ?int
     {
         $i = 0;
         
@@ -576,7 +576,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return null;
     }
     
-    public function getLastPositionIndex()
+    public function getLastPositionIndex() : int
     {
         return count($this->getSelectionOrderedSequence());
     }
@@ -594,7 +594,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         $this->alreadyCheckedQuestions[$questionId] = $questionId;
     }
 
-    public function isQuestionChecked($questionId)
+    public function isQuestionChecked($questionId) : bool
     {
         return isset($this->alreadyCheckedQuestions[$questionId]);
     }
@@ -660,7 +660,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
     
     // -----------------------------------------------------------------------------------------------------------------
     
-    public function hasStarted()
+    public function hasStarted() : bool
     {
         return $this->trackedQuestionExists();
     }
@@ -670,24 +670,24 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
     /**
      * @return ilTestDynamicQuestionSet
      */
-    public function getQuestionSet()
+    public function getQuestionSet() : ilTestDynamicQuestionSet
     {
         return $this->questionSet;
     }
     
-    public function getCompleteQuestionsData()
+    public function getCompleteQuestionsData() : array
     {
         return $this->questionSet->getCompleteQuestionList()->getQuestionDataArray();
     }
     
-    public function getFilteredQuestionsData()
+    public function getFilteredQuestionsData() : array
     {
         return $this->questionSet->getFilteredQuestionList()->getQuestionDataArray();
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     
-    public function getUserSequenceQuestions()
+    public function getUserSequenceQuestions() : array
     {
         //return array_keys( $this->getTrackedQuestionList() );
         
@@ -718,14 +718,14 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return $minPostponeItem;
     }
 
-    public function getPass()
+    public function getPass() : int
     {
         return 0;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    private function orderQuestionsByPostponeCount($postponedQuestions)
+    private function orderQuestionsByPostponeCount($postponedQuestions) : array
     {
         $maxPostponeCount = max($postponedQuestions);
         
@@ -747,7 +747,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return $orderedSequence;
     }
     
-    private function fetchQuestionSequence($nonPostponedQuestions, $nonAnsweredQuestions)
+    private function fetchQuestionSequence($nonPostponedQuestions, $nonAnsweredQuestions) : array
     {
         $questionSequence = array();
         
@@ -784,7 +784,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return $questionSequence;
     }
     
-    private function fetchTrackedCorrectAnsweredSequence()
+    private function fetchTrackedCorrectAnsweredSequence() : array
     {
         $questionSequence = array();
         
@@ -801,7 +801,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return $questionSequence;
     }
 
-    private function getOrderedSequence()
+    private function getOrderedSequence() : array
     {
         $correctAnsweredQuestions = $this->fetchTrackedCorrectAnsweredSequence();
         
@@ -836,7 +836,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return $questionOrder;
     }
     
-    public function getSelectionOrderedSequence()
+    public function getSelectionOrderedSequence() : array
     {
         $sequence = array();
         
@@ -851,7 +851,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return $sequence;
     }
 
-    public function getSequenceSummary($obligationsFilterEnabled = false)
+    public function getSequenceSummary($obligationsFilterEnabled = false) : array
     {
         $questionOrder = $this->getSelectionOrderedSequence();
 
@@ -873,7 +873,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
                 // do not show postponing, since this happens implicit on dircarding solutions (CTM only)
                 //$is_postponed = $this->isPostponedQuestion($question->getId());
 
-                $row = array("nr" => "$key", "title" => $question->getTitle(), "qid" => $question->getId(), "visited" => $worked_through, "solved" => (($solved) ? "1" : "0"), "description" => $question->getComment(), "points" => $question->getMaximumPoints(), "worked_through" => $worked_through, "postponed" => $is_postponed, "sequence" => $qId, "obligatory" => ilObjTest::isQuestionObligatory($question->getId()), 'isAnswered' => $question->isAnswered($this->getActiveId(), $this->getPass()));
+                $row = array("nr" => "$key", "title" => $question->getTitle(), "qid" => $question->getId(), "visited" => $worked_through, "solved" => (($solved) ? "1" : "0"), "description" => $question->getComment(), "points" => $question->getMaximumPoints(), "worked_through" => $worked_through, "postponed" => false, "sequence" => $qId, "obligatory" => ilObjTest::isQuestionObligatory($question->getId()), 'isAnswered' => $question->isAnswered($this->getActiveId(), $this->getPass()));
 
                 if (!$obligationsFilterEnabled || $row['obligatory']) {
                     $summary[] = $row;
@@ -886,7 +886,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         return $summary;
     }
 
-    public function hasFilteredQuestionListCheckedQuestions()
+    public function hasFilteredQuestionListCheckedQuestions() : bool
     {
         $filteredQuestions = $this->questionSet->getFilteredQuestionList()->getQuestionDataArray();
         

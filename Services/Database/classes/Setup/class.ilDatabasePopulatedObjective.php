@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Setup;
 
 class ilDatabasePopulatedObjective extends \ilDatabaseObjective
@@ -53,22 +67,43 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
         // $this->setDefaultEngine($db); // maybe we could set the default?
         $default = $this->getDefaultEngine($db);
 
-        $io->text("Default DB engine is {$default}");
+        $io->text("Default DB engine is $default");
 
         switch ($default) {
             case 'innodb':
-            case 'myisam':
                 $io->text("reading dump file, this may take a while...");
                 $this->readDumpFile($db);
                 break;
 
             default:
                 throw new Setup\UnachievableException(
-                    "Cannot determine database default engine, must be InnoDB or MyISAM"
+                    "Cannot determine database default engine, must be InnoDB"
                 );
         }
 
         return $environment;
+    }
+
+    /**
+     * @description Method is currently not used, needed for non-mysql databases
+     */
+    private function readingAbstractionFile(
+        ilDBInterface $db,
+        Setup\CLI\IOWrapper $io
+    ) : void {
+        $io->text("reading abstraction file, this may take a while...");
+        $db_backup = $GLOBALS['ilDB'];
+        $GLOBALS['ilDB'] = $db;
+        /** @noRector  */
+        require "./setup/sql/ilDBTemplate.php";
+        if (function_exists('setupILIASDatabase')) {
+            setupILIASDatabase();
+        } else {
+            throw new Setup\UnachievableException(
+                "Cannot read ilDBTemplate"
+            );
+        }
+        $GLOBALS['ilDB'] = $db_backup;
     }
 
     /**
@@ -90,7 +125,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         return
             $number_of_tables > self::MIN_NUMBER_OF_ILIAS_TABLES
-            && count(array_intersect($tables, $probe_tables)) == $number_of_probe_tables;
+            && count(array_intersect($tables, $probe_tables)) === $number_of_probe_tables;
     }
 
     /**
@@ -118,16 +153,12 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
     private function setDefaultEngine(ilDBInterface $db) : void
     {
         switch ($db->getDBType()) {
-            case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
+            case 'pdo-mysql-innodb':
             case ilDBConstants::TYPE_INNODB:
             case ilDBConstants::TYPE_GALERA:
+            case ilDBConstants::TYPE_MYSQL:
                 $db->manipulate('SET default_storage_engine=InnoDB;');
                 break;
-            case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
-            case ilDBConstants::TYPE_MYSQL:
-                $db->manipulate('SET default_storage_engine=MyISAM;');
-                break;
-
         }
     }
 

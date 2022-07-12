@@ -195,6 +195,8 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isAnyQuestionFilterEnabled());
     }
 
+    /* ak: please do not make wrong assumptions on other components, aka testing unspecified
+           behaviour of other components. ilLink::_getLink needs a ref id, please provide one
     public function testGetSourceQuestionPoolLink() : void
     {
         $this->addGlobal_ilDB();
@@ -209,5 +211,5 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
             '<a href="' . ILIAS_HTTP_PATH . '/goto.php?target=qpl_&client_id=' . CLIENT_ID . '" alt="' . $this->testObj->getSourceQuestionPoolTitle() . '">' . $this->testObj->getSourceQuestionPoolTitle() . '</a>',
             $result
         );
-    }
+    }*/
 }

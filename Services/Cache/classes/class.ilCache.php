@@ -1,5 +1,17 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Cache class. The cache class stores key/value pairs. Since the primary
@@ -11,20 +23,22 @@
  * optional text fields can be stored. A derived class may delete records
  * based on the content of this additional keys.
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ServicesCache
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilCache
 {
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
-    public function __construct($a_component, $a_cache_name, $a_use_long_content = false)
-    {
+    protected string $entry;
+    protected string $last_access;
+    protected int $expires_after;
+    protected bool $use_long_content;
+    protected string $name;
+    protected string $component;
+
+    public function __construct(
+        string $a_component,
+        string $a_cache_name,
+        bool $a_use_long_content = false
+    ) {
         $this->setComponent($a_component);
         $this->setName($a_cache_name);
         $this->setUseLongContent($a_use_long_content);
@@ -33,115 +47,66 @@ class ilCache
     /**
      * Check if cache is disabled
      * Forced if member view is active
-     * @return bool
      */
-    public function isDisabled()
+    public function isDisabled() : bool
     {
         return ilMemberViewSettings::getInstance()->isActive();
     }
     
-    /**
-     * Set component
-     *
-     * @param	string	component
-     */
-    public function setComponent($a_val)
+    public function setComponent(string $a_val) : void
     {
         $this->component = $a_val;
     }
     
-    /**
-     * Get component
-     *
-     * @return	string	component
-     */
-    protected function getComponent()
+    protected function getComponent() : string
     {
         return $this->component;
     }
     
-    /**
-     * Set name
-     *
-     * @param	string	name
-     */
-    protected function setName($a_val)
+    protected function setName(string $a_val) : void
     {
         $this->name = $a_val;
     }
     
-    /**
-     * Get name
-     *
-     * @return	string	name
-     */
-    protected function getName()
+    protected function getName() : string
     {
         return $this->name;
     }
     
-    /**
-     * Set use long content
-     *
-     * @param	boolean	use long content
-     */
-    protected function setUseLongContent($a_val)
+    protected function setUseLongContent(bool $a_val) : void
     {
         $this->use_long_content = $a_val;
     }
     
-    /**
-     * Get use long content
-     *
-     * @return	boolean	use long content
-     */
-    protected function getUseLongContent()
+    protected function getUseLongContent() : bool
     {
         return $this->use_long_content;
     }
     
     /**
      * Set expires after x seconds
-     *
-     * @param	int	expires after x seconds
      */
-    public function setExpiresAfter($a_val)
+    public function setExpiresAfter(int $a_val) : void
     {
         $this->expires_after = $a_val;
     }
     
-    /**
-     * Get expires after x seconds
-     *
-     * @return	int	expires after x seconds
-     */
-    public function getExpiresAfter()
+    public function getExpiresAfter() : int
     {
         return $this->expires_after;
     }
     
-    /**
-     * Get entry
-     *
-     * @param	string	entry id
-     * @return	string	entry value
-     */
-    final public function getEntry($a_id)
+    final public function getEntry(string $a_id) : ?string
     {
         if ($this->readEntry($a_id)) {	// cache hit
             $this->last_access = "hit";
             return $this->entry;
         }
         $this->last_access = "miss";
+        return null;
     }
     
-    /**
-     * Read entry
-     *
-     * @param
-     * @return
-     */
-    protected function readEntry($a_id)
+    protected function readEntry(string $a_id) : bool
     {
         global $ilDB;
         
@@ -166,34 +131,19 @@ class ilCache
         return false;
     }
     
-    /**
-     * Last access
-     */
-    public function getLastAccessStatus()
+    public function getLastAccessStatus() : string
     {
         return $this->last_access;
     }
     
-    
-    /**
-     * Store entry
-     *
-     * @param	string		key
-     * @param	string		value
-     * @param	int			additional optional integer key
-     * @param	int			additional optional integer key
-     * @param	string		additional optional text key
-     * @param	string		additional optional text key
-     * @return
-     */
     public function storeEntry(
-        $a_id,
-        $a_value,
-        $a_int_key1 = null,
-        $a_int_key2 = null,
-        $a_text_key1 = null,
-        $a_text_key2 = null
-    ) {
+        string $a_id,
+        string $a_value,
+        ?int $a_int_key1 = null,
+        ?int $a_int_key2 = null,
+        ?string $a_text_key1 = null,
+        ?string $a_text_key2 = null
+    ) : void {
         global $ilDB;
 
         $table = $this->getUseLongContent()
@@ -218,7 +168,7 @@ class ilCache
             "int_key_2" => array("integer", $a_int_key2),
             "text_key_1" => array("text", $a_text_key1),
             "text_key_2" => array("text", $a_text_key2),
-            "expire_time" => array("integer", (int) (time() + $this->getExpiresAfter())),
+            "expire_time" => array("integer", (time() + $this->getExpiresAfter())),
             "ilias_version" => array("text", ILIAS_VERSION_NUMERIC)
             ));
             
@@ -234,15 +184,12 @@ class ilCache
         }
     }
     
-    /**
-     * Delete by additional keys
-     */
     public function deleteByAdditionalKeys(
-        $a_int_key1 = null,
-        $a_int_key2 = null,
-        $a_text_key1 = null,
-        $a_text_key2 = null
-    ) {
+        ?int $a_int_key1 = null,
+        ?int $a_int_key2 = null,
+        ?string $a_text_key1 = null,
+        ?string $a_text_key2 = null
+    ) : void {
         global $ilDB;
 
         $table = $this->getUseLongContent()
@@ -267,10 +214,7 @@ class ilCache
         $ilDB->manipulate($q);
     }
     
-    /**
-    * Delete all entries of cache
-    */
-    public function deleteAllEntries()
+    public function deleteAllEntries() : void
     {
         global $ilDB;
 
@@ -284,12 +228,7 @@ class ilCache
         $ilDB->manipulate($q);
     }
 
-    /**
-     * Delete entry
-     *
-     * @param	string		key
-     */
-    public function deleteEntry($a_id)
+    public function deleteEntry(string $a_id) : void
     {
         global $ilDB;
 

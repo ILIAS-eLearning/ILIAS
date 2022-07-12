@@ -1,5 +1,21 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * PathGUI which handles materials assigned to sessions
@@ -9,12 +25,16 @@
  */
 class ilSessionClassificationPathGUI extends ilPathGUI
 {
+    protected ilAccess $access;
 
-    /**
-     * @param $a_obj_id
-     * @return string|void
-     */
-    protected function buildTitle($a_obj_id)
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->access = $DIC->access();
+    }
+
+    protected function buildTitle(int $a_obj_id) : string
     {
         if (ilObject::_lookupType($a_obj_id) !== 'sess') {
             return ilObject::_lookupTitle($a_obj_id);
@@ -26,12 +46,8 @@ class ilSessionClassificationPathGUI extends ilPathGUI
     /**
      * @inheritdoc
      */
-    protected function getPathIds()
+    protected function getPathIds() : array
     {
-        global $DIC;
-
-        $access = $DIC->access();
-
         $this->enableHideLeaf(false);
         $path = parent::getPathIds();
         $this->enableHideLeaf(true);
@@ -52,14 +68,9 @@ class ilSessionClassificationPathGUI extends ilPathGUI
         return $new_path;
     }
 
-    /**
-     * @param int $item_ref_id
-     */
-    protected function findSessionContainerForItem($item_ref_id)
+    protected function findSessionContainerForItem(int $item_ref_id) : int
     {
-        global $DIC;
-
-        $access = $DIC->access();
+        $access = $this->access;
 
         $accessible = [];
         foreach (ilEventItems::getEventsForItemOrderedByStartingTime($item_ref_id) as $event_obj_id => $unix_time) {
@@ -84,7 +95,7 @@ class ilSessionClassificationPathGUI extends ilPathGUI
                 ilDate::_equals($now, $session_date, IL_CAL_DAY) ||
                 ilDate::_after($session_date, $now, IL_CAL_DAY)
             ) {
-                return $session_ref_id;
+                return (int) $session_ref_id;
             }
         }
         return 0;

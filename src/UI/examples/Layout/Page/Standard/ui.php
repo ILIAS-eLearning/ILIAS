@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Layout\Page\Standard;
 
 use ILIAS\Data\URI;
@@ -10,6 +10,7 @@ function ui()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
+
     $url = 'src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1';
     $page_demo = $f->button()->primary('See UI in fullscreen-mode', $url);
 
@@ -18,17 +19,18 @@ function ui()
     ]);
 }
 
+global $DIC;
+$refinery = $DIC->refinery();
+$request_wrapper = $DIC->http()->wrapper()->query();
 
-
-if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
+if ($request_wrapper->has('new_ui') && $request_wrapper->retrieve('new_ui', $refinery->kindlyTo()->string()) == '1') {
     chdir('../../../../../../');
     _initIliasForPreview();
-
-    global $DIC;
 
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
+    $responsive_logo = $f->image()->responsive("templates/default/images/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pagedemoCrumbs($f);
     $metabar = pagedemoMetabar($f);
     $mainbar = pagedemoMainbar($f, $renderer);
@@ -52,6 +54,8 @@ if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
         $mainbar,
         $breadcrumbs,
         $logo,
+        $responsive_logo,
+        null,
         $footer,
         'UI PAGE DEMO', //page title
         'ILIAS', //short title
@@ -63,7 +67,7 @@ if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
 }
 
 
-if (isset($_GET['replaced']) && $_GET['replaced'] == '1') {
+if ($request_wrapper->has('replaced') && $request_wrapper->retrieve('replaced', $refinery->kindlyTo()->string()) == '1') {
     echo('Helo. Content from RPC.');
     exit();
 }
@@ -74,7 +78,6 @@ if (isset($_GET['replaced']) && $_GET['replaced'] == '1') {
 
 function _initIliasForPreview()
 {
-    require_once("Services/Init/classes/class.ilInitialisation.php");
     \ilInitialisation::initILIAS();
     global $DIC;
     $DIC->globalScreen()->layout()->meta()->addCss("./templates/default/delos.css");
@@ -399,7 +402,17 @@ function getDemoEntryTools($f)
     $slate = $f->maincontrols()->slate()->legacy(
         'Help',
         $symbol,
-        $f->legacy('<h2>tool 1</h2><p>Some Text for Tool 1 entry</p>')
+        $f->legacy('
+            <h2>Help</h2>
+            <p>
+                Some Text for help entry
+            </p>
+            <p>
+                <button onclick="alert(\'helo - tool 1 \');">Some Dummybutton</button>
+                <br>
+                <button onclick="alert(\'helo - tool 1, button 2 \');">some other dummybutton</button>
+            </p>
+        ')
     );
     $tools['tool1'] = $slate;
 
@@ -409,7 +422,16 @@ function getDemoEntryTools($f)
     $slate = $f->maincontrols()->slate()->legacy(
         'Editor',
         $symbol,
-        $f->legacy('<h2>tool 2</h2><p>Some Text for Tool 1 entry</p>')
+        $f->legacy('
+            <h2>Editor</h2>
+            <p>
+                Some Text for editor entry
+                <br><br>
+                <button onclick="alert(\'helo\');">Some Dummybutton</button>
+                <br><br>
+                end of tool.
+            </p>
+        ')
     );
     $tools['tool2'] = $slate;
 

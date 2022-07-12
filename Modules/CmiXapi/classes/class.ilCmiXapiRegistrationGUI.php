@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiRegistrationGUI
  *
@@ -19,31 +29,31 @@ class ilCmiXapiRegistrationGUI
     const CMD_CANCEL = 'cancel';
     
     const DEFAULT_CMD = self::CMD_SHOW_FORM;
+
+    protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilObjCmiXapi
-     */
-    protected $object;
-    
-    /**
-     * @var ilCmiXapiUser
-     */
-    protected $cmixUser;
+    protected ilCmiXapiUser $cmixUser;
+    private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\DI\Container $dic;
     
     /**
      * ilCmiXapiRegistrationGUI constructor.
-     * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->dic = $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         
         $this->object = $object;
         
         $this->cmixUser = new ilCmiXapiUser($object->getId(), $DIC->user()->getId(), $object->getPrivacyIdent());
     }
-    
-    public function executeCommand()
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -53,29 +63,32 @@ class ilCmiXapiRegistrationGUI
                 $this->{$command}();
         }
     }
-    
-    protected function cancelCmd()
+
+    /**
+     * @throws ilCtrlException
+     */
+    protected function cancelCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
+        $this->dic->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
-    protected function showFormCmd(ilPropertyFormGUI $form = null)
+    /**
+     * @param ilPropertyFormGUI|null $form
+     */
+    protected function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         if ($form === null) {
             $form = $this->buildForm();
         }
         
-        $DIC->ui()->mainTemplate()->setContent($form->getHTML());
+        $this->main_tpl->setContent($form->getHTML());
     }
-    
-    protected function saveFormCmd()
+
+    /**
+     * @throws ilCtrlException
+     */
+    protected function saveFormCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $form = $this->buildForm();
     
         if (!$form->checkInput()) {
@@ -86,46 +99,44 @@ class ilCmiXapiRegistrationGUI
         
         $this->saveRegistration($form);
         
-        ilUtil::sendSuccess($DIC->language()->txt('registration_saved_successfully'), true);
-        $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
+        $this->main_tpl->setOnScreenMessage('success', $this->dic->language()->txt('registration_saved_successfully'), true);
+        $this->dic->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
-    
+
     /**
-     * @return ilPropertyFormGUI
+     * @throws ilCtrlException
      */
-    protected function buildForm()
+    protected function buildForm() : \ilPropertyFormGUI
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $form = new ilPropertyFormGUI();
         
-        $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FORM));
+        $form->setFormAction($this->dic->ctrl()->getFormAction($this, self::CMD_SHOW_FORM));
         
         if (!$this->hasRegistration()) {
-            $form->setTitle($DIC->language()->txt('form_create_registration'));
-            $form->addCommandButton(self::CMD_SAVE_FORM, $DIC->language()->txt('btn_create_registration'));
+            $form->setTitle($this->dic->language()->txt('form_create_registration'));
+            $form->addCommandButton(self::CMD_SAVE_FORM, $this->dic->language()->txt('btn_create_registration'));
         } else {
-            $form->setTitle($DIC->language()->txt('form_change_registration'));
-            $form->addCommandButton(self::CMD_SAVE_FORM, $DIC->language()->txt('btn_change_registration'));
+            $form->setTitle($this->dic->language()->txt('form_change_registration'));
+            $form->addCommandButton(self::CMD_SAVE_FORM, $this->dic->language()->txt('btn_change_registration'));
         }
         
-        $form->addCommandButton(self::CMD_CANCEL, $DIC->language()->txt('cancel'));
+        $form->addCommandButton(self::CMD_CANCEL, $this->dic->language()->txt('cancel'));
         
-        $userIdent = new ilEMailInputGUI($DIC->language()->txt('field_user_ident'), 'user_ident');
-        $userIdent->setInfo($DIC->language()->txt('field_user_ident_info'));
+        $userIdent = new ilEMailInputGUI($this->dic->language()->txt('field_user_ident'), 'user_ident');
+        $userIdent->setInfo($this->dic->language()->txt('field_user_ident_info'));
         $userIdent->setRequired(true);
         $userIdent->setValue($this->cmixUser->getUsrIdent());
         $form->addItem($userIdent);
         
         return $form;
     }
-    
-    protected function hasRegistration()
+
+    protected function hasRegistration() : int
     {
         return strlen($this->cmixUser->getUsrIdent());
     }
-    
-    protected function saveRegistration(ilPropertyFormGUI $form)
+
+    protected function saveRegistration(ilPropertyFormGUI $form) : void
     {
         $this->cmixUser->setUsrIdent($form->getInput('user_ident'));
         $this->cmixUser->save();

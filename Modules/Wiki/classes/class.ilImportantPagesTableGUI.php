@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Important pages table
@@ -9,17 +23,12 @@
  */
 class ilImportantPagesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
 
-    
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -27,12 +36,12 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $data = array("page_id" => 0) +
-            ilObjWiki::_lookupImportantPagesList($a_parent_obj->object->getId());
+        $data = array_merge(
+            [array("page_id" => 0)],
+            ilObjWiki::_lookupImportantPagesList($a_parent_obj->getObject()->getId())
+        );
         $this->setData($data);
         $this->setTitle($lng->txt(""));
         $this->setLimit(9999);
@@ -54,10 +63,7 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         $this->addCommandButton("saveOrderingAndIndent", $lng->txt("wiki_save_ordering_and_indent"));
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 
@@ -77,10 +83,10 @@ class ilImportantPagesTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable(
                 "SEL_INDENT",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $a_set["indent"],
                     "indent[" . $a_set["page_id"] . "]",
-                    array(0 => "0", 1 => "1", 2 => "2"),
+                    [0 => "0", 1 => "1", 2 => "2"],
                     false,
                     true
                 )
@@ -88,7 +94,7 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable(
                 "PAGE_TITLE",
-                ($this->getParentObject()->object->getStartPage())
+                ($this->getParentObject()->getObject()->getStartPage())
             );
 
             $this->tpl->setVariable(

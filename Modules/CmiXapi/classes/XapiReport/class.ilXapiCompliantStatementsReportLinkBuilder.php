@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiReportLinkBuilder
  *
@@ -14,20 +24,11 @@
  */
 class ilXapiCompliantStatementsReportLinkBuilder
 {
-    /**
-     * @var ilObjCmiXapi
-     */
-    protected $object;
+    protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilCmiXapiLrsType
-     */
-    protected $lrsType;
-    
-    /**
-     * @var ilCmiXapiStatementsReportFilter
-     */
-    protected $filter;
+    protected ilCmiXapiLrsType $lrsType;
+
+    protected ilCmiXapiStatementsReportFilter $filter;
     
     public function __construct(ilObjCmiXapi $object, ilCmiXapiStatementsReportFilter $filter)
     {
@@ -36,24 +37,19 @@ class ilXapiCompliantStatementsReportLinkBuilder
         $this->filter = $filter;
     }
     
-    public function getUrl()
+    public function getUrl() : string
     {
         $link = $this->lrsType->getLrsEndpointStatementsLink();
-        $link = $this->appendRequestParameters($link);
-        return $link;
+        return $this->appendRequestParameters($link);
     }
     
-    /**
-     * @param string $link
-     * @return string
-     */
-    protected function appendRequestParameters($link)
+    protected function appendRequestParameters(string $link) : string
     {
-        if ($this->filter->getLimit()) {
+        if ($this->filter->getLimit() !== 0) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamLimit());
         }
         
-        if ($this->filter->getActor()) {
+        if ($this->filter->getActor() !== null) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamAgent());
         }
         
@@ -61,22 +57,21 @@ class ilXapiCompliantStatementsReportLinkBuilder
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamVerb());
         }
         
-        if ($this->filter->getStartDate()) {
+        if ($this->filter->getStartDate() !== null) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamSince());
         }
         
-        if ($this->filter->getEndDate()) {
+        if ($this->filter->getEndDate() !== null) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamUntil());
         }
         
         $link = ilUtil::appendUrlParameterString($link, $this->buildParamRelatedAgents());
         $link = ilUtil::appendUrlParameterString($link, $this->buildParamRelatedActivities());
-        $link = ilUtil::appendUrlParameterString($link, $this->buildParamActivity());
         
-        return $link;
+        return ilUtil::appendUrlParameterString($link, $this->buildParamActivity());
     }
-    
-    protected function buildParamAgent()
+
+    protected function buildParamAgent() : string
     {
         $agent = json_encode([
             'objectType' => 'Agent',
@@ -85,41 +80,41 @@ class ilXapiCompliantStatementsReportLinkBuilder
         
         return "agent={$agent}";
     }
-    
-    protected function buildParamVerb()
+
+    protected function buildParamVerb() : string
     {
         $verb = urlencode($this->filter->getVerb());
         return "verb={$verb}";
     }
-    
-    protected function buildParamSince()
+
+    protected function buildParamSince() : string
     {
         $since = urlencode($this->filter->getStartDate()->toXapiTimestamp());
         return "since={$since}";
     }
     
-    protected function buildParamUntil()
+    protected function buildParamUntil() : string
     {
         $until = urlencode($this->filter->getEndDate()->toXapiTimestamp());
         return "until={$until}";
     }
     
-    protected function buildParamActivity()
+    protected function buildParamActivity() : string
     {
         return "activity={$this->object->getActivityId()}";
     }
     
-    protected function buildParamRelatedAgents()
+    protected function buildParamRelatedAgents() : string
     {
         return "related_agents=false";
     }
     
-    protected function buildParamRelatedActivities()
+    protected function buildParamRelatedActivities() : string
     {
         return "related_activities=false";
     }
     
-    protected function buildParamLimit()
+    protected function buildParamLimit() : string
     {
         return "limit={$this->filter->getLimit()}";
     }

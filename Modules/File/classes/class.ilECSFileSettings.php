@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilECSFileSettings
  *
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -10,7 +26,7 @@
  */
 class ilECSFileSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return '/campusconnect/files';
     }
@@ -24,7 +40,7 @@ class ilECSFileSettings extends ilECSObjectSettings
             $this->content_obj->getId(),
             $this->content_obj->getType()
         );
-        if (count($entries)) {
+        if ($entries !== []) {
             $entry = array_shift($entries);
             $entry = new ilDateTime($entry["date"], IL_CAL_DATETIME);
 

@@ -1,22 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User Interface for Section Editing
- *
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPCSectionGUI: ilPropertyFormGUI
  */
 class ilPCSectionGUI extends ilPageContentGUI
 {
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj = null,
+        string $a_hier_id = "",
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -27,34 +39,37 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->setCharacteristics(ilPCSectionGUI::_getStandardCharacteristics());
     }
 
-    /**
-     * Get HTML
-     * @param array $params
-     * @return string
-     */
-    public function getHTML(array $params)
+    public function getHTML(array $params) : string
     {
-        $this->getCharacteristicsOfCurrentStyle("section");
+        $this->getCharacteristicsOfCurrentStyle(["section"]);
 
         if ($params["form"] == true) {
-            $insert = (bool) !($this->content_obj);
+            $insert = !($this->content_obj);
             $form = $this->initForm($insert);
             $form->setShowTopButtons(false);
 
+            $onload_code = [];
             $from = $form->getItemByPostVar("active_from");
             $from->setSideBySide(false);
-            $on_load_code1 = $from->getOnloadCode();
+            $onload_code = array_merge($onload_code, $from->getOnloadCode());
+
             $to = $form->getItemByPostVar("active_to");
             $to->setSideBySide(false);
-            $on_load_code2 = $to->getOnloadCode();
+            $onload_code = array_merge($onload_code, $to->getOnloadCode());
+
+            $link = $form->getItemByPostVar("link");
+            $onload_code = array_merge($onload_code, $link->getOnloadCode());
 
             $rep_sel = $form->getItemByPostVar("permission_ref_id");
             $on_load_code3 = "";
+            $on_load_code4 = [];
             if ($rep_sel) {
                 $exp = $rep_sel->getExplorerGUI();
                 $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "permission_ref_id");
-                $on_load_code3 = $exp->getOnloadCode();
+                $onload_code = array_merge($onload_code, [$exp->getOnloadCode()]);
+
                 $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
+                $onload_code = array_merge($onload_code, $rep_sel->getOnloadCode());
             }
 
             $html = $params["ui_wrapper"]->getRenderedForm(
@@ -63,8 +78,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             );
 
             $html .= "<script>" .
-                implode("\n", array_merge($on_load_code1, $on_load_code2)) .
-                "\n" . $on_load_code3 .
+                implode("\n", $onload_code) .
                 "</script>";
 
             return $html;
@@ -72,10 +86,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         return "";
     }
 
-    /**
-    * Get standard characteristics
-    */
-    public static function _getStandardCharacteristics()
+    public static function _getStandardCharacteristics() : array
     {
         global $DIC;
 
@@ -103,21 +114,18 @@ class ilPCSectionGUI extends ilPageContentGUI
             "AdvancedKnowledge" => $lng->txt("cont_AdvancedKnowledge"));
     }
     
-    /**
-    * Get characteristics
-    */
-    public static function _getCharacteristics($a_style_id)
+    public static function _getCharacteristics(string $a_style_id) : array
     {
-        $chars = ilPCSectionGUI::_getStandardCharacteristics();
-
+        $std_chars = ilPCSectionGUI::_getStandardCharacteristics();
+        $chars = $std_chars;
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
             $style = new ilObjStyleSheet($a_style_id);
             $chars = $style->getCharacteristics("section");
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($chars[$char] != "") {	// keep lang vars for standard chars
-                    $new_chars[$char] = $chars[$char];
+                if (($std_chars[$char] ?? "") != "") {	// keep lang vars for standard chars
+                    $new_chars[$char] = $std_chars[$char];
                 } else {
                     $new_chars[$char] = $char;
                 }
@@ -129,11 +137,14 @@ class ilPCSectionGUI extends ilPageContentGUI
     }
 
     /**
-    * execute command
-    */
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
-        $this->getCharacteristicsOfCurrentStyle("section");	// scorm-2004
+        $ret = "";
+
+        $this->getCharacteristicsOfCurrentStyle(["section"]);	// scorm-2004
 
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -155,19 +166,15 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $ret;
     }
 
-    /**
-    * Insert new section form.
-    */
-    public function insert(ilPropertyFormGUI $a_form = null)
+    public function insert(ilPropertyFormGUI $a_form = null) : void
     {
         $this->edit(true, $a_form);
     }
 
-    /**
-    * Edit section form.
-    */
-    public function edit($a_insert = false, ilPropertyFormGUI $a_form = null)
-    {
+    public function edit(
+        bool $a_insert = false,
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $tpl = $this->tpl;
         
         $this->displayValidationError();
@@ -179,13 +186,12 @@ class ilPCSectionGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    /**
-     * Init editing form
-     */
-    public function initForm($a_insert = false)
-    {
+    public function initForm(
+        bool $a_insert = false
+    ) : ilPropertyFormGUI {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $a_seleted_value = "";
 
         // edit form
         $form = new ilPropertyFormGUI();
@@ -203,7 +209,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         );
         $chars = $this->getCharacteristics();
         if (is_object($this->content_obj)) {
-            if ($chars[$a_seleted_value] == "" && ($this->content_obj->getCharacteristic() != "")) {
+            if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getCharacteristic() != "")) {
                 $chars = array_merge(
                     array($this->content_obj->getCharacteristic() => $this->content_obj->getCharacteristic()),
                     $chars
@@ -273,8 +279,9 @@ class ilPCSectionGUI extends ilPageContentGUI
 
         // rep selector
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            $rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id");
-            $rs->setParent($this);
+            $rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id", false, $form);
+            //$rs->setParent($this);
+            $rs->setParentForm($form);
             $form->addItem($rs);
 
             // permission
@@ -295,6 +302,16 @@ class ilPCSectionGUI extends ilPageContentGUI
             }
         }
 
+        // protection
+        if ($this->getPageConfig()->getSectionProtection() == ilPageConfig::SEC_PROTECT_EDITABLE) {
+            $cb = new ilCheckboxInputGUI($lng->txt("cont_sec_protected"), "protected");
+            $cb->setInfo($this->getPageConfig()->getSectionProtectionInfo());
+            if (!$a_insert) {
+                $cb->setChecked($this->content_obj->getProtected());
+            }
+            $form->addItem($cb);
+        }
+
         // save/cancel buttons
         if ($a_insert) {
             $form->addCommandButton("create_section", $lng->txt("save"));
@@ -306,11 +323,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $form;
     }
 
-
-    /**
-    * Create new Section.
-    */
-    public function create()
+    public function create() : void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -328,10 +341,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->insert($form);
     }
 
-    /**
-    * Update Section.
-    */
-    public function update()
+    public function update() : void
     {
         $form = $this->initForm(false);
         if ($form->checkInput()) {
@@ -347,14 +357,9 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->edit(false, $form);
     }
 
-    /**
-     * Set values from form
-     *
-     * @param object $form form object
-     */
-    public function setValuesFromForm($form)
+    public function setValuesFromForm(ilPropertyFormGUI $form) : void
     {
-        $this->content_obj->setCharacteristic($_POST["characteristic"]);
+        $this->content_obj->setCharacteristic($form->getInput("characteristic"));
 
         $from = $form->getItemByPostVar("active_from")->getDate();
         if ($from) {
@@ -371,23 +376,23 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
 
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            $this->content_obj->setPermissionRefId($_POST["permission_ref_id"]);
-            $this->content_obj->setPermission($_POST["permission"]);
+            $this->content_obj->setPermissionRefId($form->getInput("permission_ref_id"));
+            $this->content_obj->setPermission($form->getInput("permission"));
         }
 
-        if ($_POST["link_mode"] == "ext" && $_POST["link"] != "") {
-            $this->content_obj->setExtLink($_POST["link"]);
-        } elseif ($_POST["link_mode"] == "int" && $_POST["link"] != "") {
-            // $_POST["link"] is "crs|96", "chap|2", "term|1", "wpage|1"
-            //			var_dump($_POST);
+        if ($form->getInput("link_mode") == "ext" && $form->getInput("link") != "") {
+            $this->content_obj->setExtLink($form->getInput("link"));
+        } elseif ($form->getInput("link_mode") == "int" && $form->getInput("link") != "") {
             $la = $form->getItemByPostVar("link")->getIntLinkAttributes();
-            //			echo "<br>";
-            //			var_dump($la); exit;
-            if ($la["Type"] != "") {
+            if (($la["Type"] ?? "") != "") {
                 $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);
             }
         } else {
             $this->content_obj->setNoLink();
+        }
+
+        if ($this->getPageConfig()->getSectionProtection() == ilPageConfig::SEC_PROTECT_EDITABLE) {
+            $this->content_obj->setProtected($form->getInput("protected"));
         }
     }
 }

@@ -1,26 +1,33 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityDocumentsContainsHtmlValidator
  */
 class ilAccessibilityDocumentsContainsHtmlValidator
 {
-    /** @var string */
-    private $text;
+    private string $text;
 
-    /**
-     * ilAccessibilityDocumentsContainsHtmlValidator constructor.
-     * @param string $text
-     */
     public function __construct(string $text)
     {
         $this->text = $text;
     }
 
-    /**
-     * @return bool
-     */
     public function isValid() : bool
     {
         if (!preg_match('/<[^>]+?>/', $this->text)) {
@@ -49,9 +56,7 @@ class ilAccessibilityDocumentsContainsHtmlValidator
             }
 
             return false;
-        } catch (Exception $e) {
-            return false;
-        } catch (Throwable $e) {
+        } catch (Exception | Throwable $e) {
             return false;
         }
     }

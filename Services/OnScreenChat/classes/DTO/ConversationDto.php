@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\OnScreenChat\DTO;
 
@@ -9,58 +24,40 @@ namespace ILIAS\OnScreenChat\DTO;
  */
 class ConversationDto
 {
-    /** @var string */
-    private $id = '';
-    /** @var bool */
-    private $isGroup = false;
-    /** @var array */
-    private $subscriberUsrIds = [];
-    /** @var MessageDto */
-    private $lastMessage;
+    private string $id;
+    private bool $isGroup = false;
+    /** @var int[] */
+    private array $subscriberUsrIds = [];
+    private MessageDto $lastMessage;
 
-    /**
-     * ConversationDto constructor.
-     * @param string $id
-     */
     public function __construct(string $id)
     {
         $this->id = $id;
+        $this->lastMessage = new MessageDto('', $this);
     }
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     */
     public function setId(string $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return bool
-     */
     public function isGroup() : bool
     {
         return $this->isGroup;
     }
 
-    /**
-     * @param bool $isGroup
-     */
     public function setIsGroup(bool $isGroup) : void
     {
         $this->isGroup = $isGroup;
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getSubscriberUsrIds() : array
     {
@@ -68,24 +65,18 @@ class ConversationDto
     }
 
     /**
-     * @param array $subscriberUsrIds
+     * @param int[] $subscriberUsrIds
      */
     public function setSubscriberUsrIds(array $subscriberUsrIds) : void
     {
         $this->subscriberUsrIds = $subscriberUsrIds;
     }
 
-    /**
-     * @return MessageDto
-     */
     public function getLastMessage() : MessageDto
     {
         return $this->lastMessage;
     }
 
-    /**
-     * @param MessageDto $lastMessage
-     */
     public function setLastMessage(MessageDto $lastMessage) : void
     {
         $this->lastMessage = $lastMessage;

@@ -2,7 +2,6 @@
 
 namespace Filesystem\Provider\FlySystem;
 
-require_once('./libs/composer/vendor/autoload.php');
 \Hamcrest\Util::registerGlobalFunctions();
 
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
@@ -16,6 +15,19 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FlySystemFileStreamAccessTest
  *
@@ -34,10 +46,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @var FilesystemInterface | MockInterface
      */
     private $filesystemMock;
-    /**
-     * @var FlySystemFileStreamAccess
-     */
-    private $subject;
+    private \ILIAS\Filesystem\Provider\FlySystem\FlySystemFileStreamAccess $subject;
 
 
     /**
@@ -56,7 +65,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadStreamWhichShouldSucceed()
+    public function testReadStreamWhichShouldSucceed() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -76,7 +85,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadStreamWithMissingFileWhichShouldFail()
+    public function testReadStreamWithMissingFileWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
 
@@ -95,7 +104,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadStreamWithGeneralFailureWhichShouldFail()
+    public function testReadStreamWithGeneralFailureWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
 
@@ -114,7 +123,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteStreamWhichShouldSucceed()
+    public function testWriteStreamWhichShouldSucceed() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -132,7 +141,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteStreamWithDetachedStreamWhichShouldFail()
+    public function testWriteStreamWithDetachedStreamWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -149,7 +158,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteStreamWithExistingFileWhichShouldFail()
+    public function testWriteStreamWithExistingFileWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -170,7 +179,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteStreamWithFailingAdapterWhichShouldFail()
+    public function testWriteStreamWithFailingAdapterWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -191,7 +200,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutStreamWhichShouldSucceed()
+    public function testPutStreamWhichShouldSucceed() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -209,7 +218,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutStreamWithGeneralFailureWhichShouldFail()
+    public function testPutStreamWithGeneralFailureWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -230,7 +239,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutStreamWithDetachedStreamWhichShouldFail()
+    public function testPutStreamWithDetachedStreamWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -247,7 +256,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateStreamWhichShouldSucceed()
+    public function testUpdateStreamWhichShouldSucceed() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -265,7 +274,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateStreamWithDetachedStreamWhichShouldFail()
+    public function testUpdateStreamWithDetachedStreamWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -282,7 +291,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateStreamWithGeneralFailureWhichShouldFail()
+    public function testUpdateStreamWithGeneralFailureWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -303,7 +312,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateStreamWithMissingFileWhichShouldFail()
+    public function testUpdateStreamWithMissingFileWhichShouldFail() : void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';

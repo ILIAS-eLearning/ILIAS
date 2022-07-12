@@ -1,8 +1,21 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2015, 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Symbol\Glyph;
 
 /**
@@ -451,7 +464,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       The Note Glyph is used to indicate the possibilty of adding notes to an object.
+     *       The Note Glyph is used to indicate the possibility of adding notes to an object.
      *   composition: >
      *       The Note Glyph uses the glyphicon-pushpin.
      *   effect: >
@@ -474,7 +487,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       The Comment Glyph is used to indicate the possibilty of adding comments to an object.
+     *       The Comment Glyph is used to indicate the possibility of adding comments to an object.
      *   composition: >
      *       The Comment Glyph uses the glyphicon-comment.
      *   effect: >
@@ -739,10 +752,8 @@ interface Factory
      *      The Attachment Glyph uses the glyphicon-paperclip.
      *   effect: >
      *       Clicking executes an action which delivers these attachments to the actor OR initiates a process to add new attachments.
-     *
      * context:
      *       - Indicate whether or not files have been attached to emails in the folder view of Mail.
-     *
      * rules:
      *   composition:
      *       1: >
@@ -751,8 +762,8 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Attachment'.
      * ---
-     * @param string|null	$action
-     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     * @param string|null $action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function attachment(string $action = null) : Glyph;
 
@@ -785,8 +796,8 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Reset'.
      * ---
-     * @param string|null	$action
-     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function reset(string $action = null) : Glyph;
 
@@ -819,8 +830,8 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Apply'.
      * ---
-     * @param string|null	$action
-     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function apply(string $action = null) : Glyph;
 
@@ -893,10 +904,10 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Calendar'.
      * ---
-     * @param string|null	$action
-     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function calendar($action = null);
+    public function calendar(string $action = null) : Glyph;
 
     /**
      * ---
@@ -916,10 +927,10 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Time'.
      * ---
-     * @param string|null	$action
-     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function time($action = null);
+    public function time(string $action = null) : Glyph;
 
     /**
      * ---
@@ -937,10 +948,10 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Close'.
      * ---
-     * @param string|null	$action
-     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function close($action = null);
+    public function close(string $action = null) : Glyph;
 
     /**
      * ---
@@ -995,10 +1006,10 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Show More'.
      * ---
-     * @param string|null	$action
-     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function more($action = null);
+    public function more(string $action = null) : Glyph;
 
     /**
      * ---
@@ -1051,10 +1062,10 @@ interface Factory
      *       1: >
      *          The aria-label MUST be „Disclose“.
      * ---
-     * @param string|null	$action
-     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function disclosure($action = null);
+    public function disclosure(string $action = null) : Glyph;
 
     /**
      * ---
@@ -1277,4 +1288,37 @@ interface Factory
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function filter(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Collapse Horizontal Glyph is used to trigger the collapsing of
+     *       some neighbouring Container Collection (such as a Slate) or to navigate
+     *       within a menu where collapsing might mean "switching to a higher level".
+     *       The Collapse Horizontal Glyph is used where collapsing is better
+     *       indicated by a left-triangle than by a down-triangle.
+     *   composition: >
+     *       The Collapse Horizontal Glyph is composed of a triangle pointing to the left.
+     *   effect: >
+     *      Clicking the Collapse Horizontal Glyph hides the display of some Container Collection.
+     *      It might simultaneously trigger the display of another Container Collection.
+     *   rivals:
+     *      Expand Glyph: The Expand Glyphs triggers the display of some Container Collection.
+     *      Collapse Glyph: The Collapse Glyph strongly indicates a Container positioned below.
+     *      Previous Glyph: The Previous/Next Glyph opens a completely new view. It serves a navigational purpose.
+     *
+     * context:
+     *    -  The Collapse Horizontal Glyph appears in the Drilldown Menu.
+     *    -  The Collapse Horizontal Glyph appears in Main Bar to hide Slates.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be ‘collapse/back'.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function collapseHorizontal(string $action = null) : Glyph;
 }

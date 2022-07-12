@@ -28,13 +28,13 @@ class ilAsqFactory
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         global $ilPluginAdmin; /* @var ilPluginAdmin $ilPluginAdmin */
-        
+
         $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $ilPluginAdmin);
         $list->setParentObjIdsFilter(array($parentObjectId));
         $list->load();
-        
+
         return $list->getQuestionDataArray(); // returns an array of arrays containing the question data
-        
+
         /**
          * TBD: Should we return an iterator with ilAsqQuestion instances?
          * Issue: ilTable(2) does not support this kind object structure.

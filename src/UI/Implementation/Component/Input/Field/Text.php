@@ -1,27 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Component\Signal;
+use ILIAS\Refinery\Constraint;
+use Closure;
 
 /**
  * This implements the text input.
  */
 class Text extends Input implements C\Input\Field\Text
 {
-    /**
-     * @var int|null
-     */
-    private $max_length = null;
-
-    /**
-     * @var bool
-     */
-    private $complex = false;
+    private ?int $max_length = null;
+    private bool $complex = false;
 
     /**
      * @inheritdoc
@@ -29,19 +37,17 @@ class Text extends Input implements C\Input\Field\Text
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        $label,
-        $byline
+        string $label,
+        ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation($refinery->custom()->transformation(function ($v) {
-            return strip_tags($v);
-        }));
+        $this->setAdditionalTransformation($refinery->custom()->transformation(fn ($v) => strip_tags($v)));
     }
 
     /**
      * @inheritDoc
      */
-    public function withMaxLength(int $max_length)
+    public function withMaxLength(int $max_length) : C\Input\Field\Text
     {
         $clone = $this->withAdditionalTransformation(
             $this->refinery->string()->hasMaxLength($max_length)
@@ -76,11 +82,10 @@ class Text extends Input implements C\Input\Field\Text
         return true;
     }
 
-
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
         return $this->refinery->string()->hasMinLength(1);
     }
@@ -88,15 +93,12 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            $code = "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-            return $code;
-        };
     }
 
     /**

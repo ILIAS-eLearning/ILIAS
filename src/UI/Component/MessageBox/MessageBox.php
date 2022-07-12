@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\MessageBox;
 
 use ILIAS\UI\Component\Component;
@@ -19,17 +33,13 @@ interface MessageBox extends Component
 
     /**
      * Get the type of the Message Box.
-     *
-     * @return	string
      */
-    public function getType();
+    public function getType() : string;
 
     /**
      * Get the message text of the Message Box.
-     *
-     * @return	string
      */
-    public function getMessageText();
+    public function getMessageText() : string;
 
     /**
      * Get the buttons of the Message Box.
@@ -49,15 +59,13 @@ interface MessageBox extends Component
      * Get a Message Box like this, but with buttons.
      *
      * @param \ILIAS\UI\Component\Button\Standard[] $buttons
-     * @return	MessageBox
      */
-    public function withButtons(array $buttons);
+    public function withButtons(array $buttons) : MessageBox;
 
     /**
      * Get a Message Box like this, but with links.
      *
      * @param \ILIAS\UI\Component\Link\Standard[] $links
-     * @return	MessageBox
      */
-    public function withLinks(array $links);
+    public function withLinks(array $links) : MessageBox;
 }

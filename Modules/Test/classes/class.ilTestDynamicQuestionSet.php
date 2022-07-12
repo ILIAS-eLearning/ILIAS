@@ -94,7 +94,7 @@ class ilTestDynamicQuestionSet
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private function initCompleteQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, $answerStatusActiveId)
+    private function initCompleteQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, $answerStatusActiveId) : ilAssQuestionList
     {
         $questionList = $this->buildQuestionList(
             $dynamicQuestionSetConfig->getSourceQuestionPoolId(),
@@ -106,7 +106,7 @@ class ilTestDynamicQuestionSet
         return $questionList;
     }
     
-    private function initFilteredQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
+    private function initFilteredQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection) : ilAssQuestionList
     {
         $questionList = $this->buildQuestionList(
             $dynamicQuestionSetConfig->getSourceQuestionPoolId(),
@@ -150,7 +150,7 @@ class ilTestDynamicQuestionSet
      * @param ilTestDynamicQuestionSetFilterSelection $filterSelection
      * @return ilAssQuestionList
      */
-    public function initSelectionQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
+    public function initSelectionQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection) : ilAssQuestionList
     {
         $questionList = $this->buildQuestionList(
             $dynamicQuestionSetConfig->getSourceQuestionPoolId(),
@@ -179,7 +179,7 @@ class ilTestDynamicQuestionSet
         return $questionList;
     }
     
-    private function initActualQuestionSequence(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilAssQuestionList $questionList)
+    private function initActualQuestionSequence(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilAssQuestionList $questionList) : array
     {
         if ($dynamicQuestionSetConfig->getOrderingTaxonomyId()) {
             return $this->getQuestionSequenceStructuredByTaxonomy(
@@ -193,7 +193,7 @@ class ilTestDynamicQuestionSet
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    private function getQuestionSequenceStructuredByTaxonomy(ilAssQuestionList $questionList, $orderingTaxId)
+    private function getQuestionSequenceStructuredByTaxonomy(ilAssQuestionList $questionList, $orderingTaxId) : array
     {
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         $tax = new ilObjTaxonomy($orderingTaxId);
@@ -244,7 +244,7 @@ class ilTestDynamicQuestionSet
         return $sequence;
     }
     
-    private function getQuestionSequenceStructuredByUpdateDate(ilAssQuestionList $questionList)
+    private function getQuestionSequenceStructuredByUpdateDate(ilAssQuestionList $questionList) : array
     {
         $sequence = array();
         
@@ -260,12 +260,12 @@ class ilTestDynamicQuestionSet
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    public function getActualQuestionSequence()
+    public function getActualQuestionSequence() : array
     {
         return $this->actualQuestionSequence;
     }
     
-    public function questionExists($questionId)
+    public function questionExists($questionId) : bool
     {
         $questionData = $this->completeQuestionList->getQuestionDataArray();
         return isset($questionData[$questionId]);
@@ -277,7 +277,7 @@ class ilTestDynamicQuestionSet
         return $questionData[$questionId];
     }
     
-    public function getAllQuestionsData()
+    public function getAllQuestionsData() : array
     {
         return $this->completeQuestionList->getQuestionDataArray();
     }
@@ -287,7 +287,7 @@ class ilTestDynamicQuestionSet
     /**
      * @return ilAssQuestionList
      */
-    public function getCompleteQuestionList()
+    public function getCompleteQuestionList() : ?ilAssQuestionList
     {
         return $this->completeQuestionList;
     }
@@ -295,7 +295,7 @@ class ilTestDynamicQuestionSet
     /**
      * @return ilAssQuestionList
      */
-    public function getSelectionQuestionList()
+    public function getSelectionQuestionList() : ?ilAssQuestionList
     {
         return $this->selectionQuestionList;
     }
@@ -303,7 +303,7 @@ class ilTestDynamicQuestionSet
     /**
      * @return ilAssQuestionList
      */
-    public function getFilteredQuestionList()
+    public function getFilteredQuestionList() : ?ilAssQuestionList
     {
         return $this->filteredQuestionList;
     }
@@ -313,7 +313,7 @@ class ilTestDynamicQuestionSet
      * @param string $answerStatusActiveId
      * @return ilAssQuestionList
      */
-    private function buildQuestionList($sourceQuestionPoolId, $answerStatusActiveId)
+    private function buildQuestionList($sourceQuestionPoolId, $answerStatusActiveId) : ilAssQuestionList
     {
         $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
         $questionList->setParentObjId($sourceQuestionPoolId);

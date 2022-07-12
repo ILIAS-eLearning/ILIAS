@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Crawler\Exception;
 
 /**
@@ -9,14 +23,10 @@ namespace ILIAS\UI\Implementation\Crawler\Exception;
  *
  * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id$
- *
  */
 class CrawlerAssertion
 {
-    /**
-     * @var Factory
-     */
-    protected $f = null;
+    protected ?Factory $f = null;
 
     public function __construct()
     {
@@ -24,10 +34,10 @@ class CrawlerAssertion
     }
 
     /**
-     * @param	$array
+     * @param	mixed $array
      * @throws	CrawlerException
      */
-    public function isArray($array)
+    public function isArray($array) : void
     {
         if (!is_array($array)) {
             throw $this->f->exception(CrawlerException::ARRAY_EXPECTED, $array);
@@ -35,11 +45,10 @@ class CrawlerAssertion
     }
 
     /**
-     * @param	$string
-     * @param	bool|true $allow_empty
+     * @param	mixed $string
      * @throws	CrawlerException
      */
-    public function isString($string, $allow_empty = true)
+    public function isString($string, bool $allow_empty = true) : void
     {
         if (!is_string($string)) {
             if (is_array($string)) {
@@ -54,49 +63,48 @@ class CrawlerAssertion
 
     /**
      * @param	mixed	$index
-     * @param	array	$array
      * @throws	CrawlerException
      */
-    public function isIndex($index, array $array)
+    public function isIndex($index, array $array) : void
     {
         if (!array_key_exists($index, $array)) {
-            throw $this->f->exception(CrawlerException::INVALID_INDEX, $index);
+            throw $this->f->exception(CrawlerException::INVALID_INDEX, strval($index));
         }
     }
 
     /**
      * @param	mixed	$index
-     * @param	array	$array
      * @throws	CrawlerException
      */
-    public function isNotIndex($index, array $array)
+    public function isNotIndex($index, array $array) : void
     {
         if (array_key_exists($index, $array)) {
-            throw $this->f->exception(CrawlerException::DUPLICATE_ENTRY, $index);
+            throw $this->f->exception(CrawlerException::DUPLICATE_ENTRY, strval($index));
         }
     }
 
     /**
-     * @param	array	$array
      * @param	mixed	$index
      * @throws	CrawlerException
      */
-    public function hasIndex($array, $index)
+    public function hasIndex(array $array, $index) : void
     {
         if (!array_key_exists($index, $array)) {
-            throw $this->f->exception(CrawlerException::MISSING_INDEX, $index);
+            throw $this->f->exception(CrawlerException::MISSING_INDEX, strval($index));
         }
     }
 
     /**
      * @param	mixed	$element
-     * @param	string	$class_name
      * @throws	CrawlerException
      */
-    public function isTypeOf($element, $class_name)
+    public function isTypeOf($element, string $class_name) : void
     {
         if (!get_class($element) == $class_name) {
-            throw $this->f->exception(CrawlerException::INVALID_TYPE, "Expected: " . $class_name . " got " . get_class($element));
+            throw $this->f->exception(
+                CrawlerException::INVALID_TYPE,
+                "Expected: " . $class_name . " got " . get_class($element)
+            );
         }
     }
 }

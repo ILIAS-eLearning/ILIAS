@@ -1,14 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
 use ILIAS\ResourceStorage\Manager\Manager;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -16,50 +28,28 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandlerV2;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
+use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
 class ilFileObjectToStorageMigrationRunner
 {
-    /**
-     * @var string
-     */
-    protected $movement_implementation;
+    protected string $movement_implementation;
 
-    /**
-     * @var ConsumerFactory
-     */
-    protected $consumer_factory;
-    /**
-     * @var Manager
-     */
-    protected $storage_manager;
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
+    protected ConsumerFactory $consumer_factory;
+    protected Manager $storage_manager;
+    protected ResourceBuilder $resource_builder;
     /**
      * @var false|resource
      */
     protected $migration_log_handle;
-    /**
-     * @var Filesystem
-     */
-    protected $file_system;
-    /**
-     * @var ilDBInterface
-     */
-    protected $database;
-    /**
-     * @var bool
-     */
-    protected $keep_originals = false;
-    /**
-     * @var null|int
-     */
-    protected $migrate_to_new_object_id = null;
-    /**
-     * @var ilObjFileStakeholder
-     */
-    protected $stakeholder;
+    protected Filesystem $file_system;
+    protected ilDBInterface $database;
+    protected bool $keep_originals = false;
+    protected ?int $migrate_to_new_object_id = null;
+    protected ilObjFileStakeholder $stakeholder;
 
     /**
      * ilFileObjectToStorageMigration constructor.
@@ -79,16 +69,25 @@ class ilFileObjectToStorageMigrationRunner
 
         $this->movement_implementation = $storage_handler->movementImplementation();
 
+        $revisionDBRepository = new RevisionDBRepository($database);
+        $resourceDBRepository = new ResourceDBRepository($database);
+        $informationDBRepository = new InformationDBRepository($database);
+        $stakeholderDBRepository = new StakeholderDBRepository($database);
         $builder = new ResourceBuilder(
             $storage_handler_factory,
-            new RevisionARRepository(),
-            new ResourceARRepository(),
-            new InformationARRepository(),
-            new StakeholderARRepository(),
+            $revisionDBRepository,
+            $resourceDBRepository,
+            $informationDBRepository,
+            $stakeholderDBRepository,
             new LockHandlerilDB($database)
         );
         $this->resource_builder = $builder;
-        $this->storage_manager = new Manager($builder);
+        $this->storage_manager = new Manager($builder, new StandardRepositoryPreloader(
+            $resourceDBRepository,
+            $revisionDBRepository,
+            $informationDBRepository,
+            $stakeholderDBRepository
+        ));
         $this->consumer_factory = new ConsumerFactory($storage_handler_factory);
         $this->stakeholder = new ilObjFileStakeholder();
     }

@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Setup;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
@@ -31,7 +45,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Transformation
     {
         // TODO: Migrate this to refinery-methods once possible.
-        return $this->refinery->custom()->transformation(function ($data): \ilDatabaseSetupConfig {
+        return $this->refinery->custom()->transformation(function ($data) : \ilDatabaseSetupConfig {
             $data["password"] = $data["password"] ?? null; // password can be empty
             $password = $this->refinery->to()->data("password");
             return new \ilDatabaseSetupConfig(
@@ -53,7 +67,9 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        /** @noinspection PhpParamsInspection */
+        if (!$config instanceof \ilDatabaseSetupConfig) {
+            return new Setup\Objective\NullObjective();
+        }
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,
@@ -69,8 +85,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         $p = [];
-        if ($config !== null) {
-            /** @noinspection PhpParamsInspection */
+        if ($config instanceof ilDatabaseSetupConfig) {
             $p[] = new \ilDatabaseConfigStoredObjective($config);
         }
         $p[] = new \ilDatabaseUpdatedObjective();
@@ -102,6 +117,8 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getMigrations() : array
     {
-        return [];
+        return [
+            new Setup\ilMysqlMyIsamToInnoDbMigration()
+        ];
     }
 }

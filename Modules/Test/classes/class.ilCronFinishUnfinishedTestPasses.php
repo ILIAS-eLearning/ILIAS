@@ -13,65 +13,29 @@ require_once 'Services/Logging/classes/public/class.ilLoggerFactory.php';
  */
 class ilCronFinishUnfinishedTestPasses extends ilCronJob
 {
-
     /**
-     * @var ilLogger
+     * @var ilLogger|ilComponentLogger
      */
     protected $log;
 
-    /**
-     * @var $lng ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected ilObjectDataCache $obj_data_cache;
+    protected int $now;
+    protected array $unfinished_passes;
+    protected array $test_ids;
+    protected array $test_ending_times;
+    protected ilTestProcessLockerFactory $processLockerFactory;
 
-    /**
-     * @var $ilDB ilDB
-     */
-    protected $db;
-
-    /**
-     * @var $ilObjDataCache ilObjectDataCache
-     */
-    protected $obj_data_cache;
-
-    /**
-     * @var int
-     */
-    protected $now;
-
-    protected $unfinished_passes;
-
-    protected $test_ids;
-    
-    protected $test_ending_times;
-    
-    /**
-     * @var ilTestProcessLockerFactory
-     */
-    protected $processLockerFactory;
-    
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        /**
-         * @var $ilDB ilDB
-         * @var $ilObjDataCache ilObjectDataCache
-         */
-
         global $DIC;
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $lng = $DIC['lng'];
-        $ilDB = $DIC['ilDB'];
-        
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
 
         $this->log = ilLoggerFactory::getLogger('tst');
-        $this->lng = $lng;
+        $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('assessment');
-        $this->db = $ilDB;
-        $this->obj_data_cache = $ilObjDataCache;
+        $this->db = $DIC->database();
+        $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->now = time();
         $this->unfinished_passes = array();
         $this->test_ids = array();
@@ -80,7 +44,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
-            $DIC->database()
+            $this->db
         );
     }
 
@@ -152,7 +116,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         return $result;
     }
     
-    protected function gatherUsersWithUnfinishedPasses()
+    protected function gatherUsersWithUnfinishedPasses() : void
     {
         $query = "SELECT	tst_active.active_id,
 						tst_active.tries,
@@ -178,7 +142,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         }
     }
 
-    protected function getTestsFinishAndProcessingTime()
+    protected function getTestsFinishAndProcessingTime() : void
     {
         $query = 'SELECT test_id, obj_fi, ending_time, ending_time_enabled, processing_time, enable_processing_time FROM tst_tests WHERE ' .
                     $this->db->in('test_id', $this->test_ids, false, 'integer');
@@ -189,7 +153,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $this->log->info('Gathered data for ' . count($this->test_ids) . ' test id(s) => (' . implode(',', $this->test_ids) . ')');
     }
 
-    protected function processPasses()
+    protected function processPasses() : void
     {
         $now = time();
         foreach ($this->unfinished_passes as $key => $data) {
@@ -230,10 +194,9 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         }
     }
     
-    protected function finishPassForUser($active_id, $obj_id)
+    protected function finishPassForUser($active_id, $obj_id) : void
     {
-        $this->processLockerFactory->setActiveId($active_id);
-        $processLocker = $this->processLockerFactory->getLocker();
+        $processLocker = $this->processLockerFactory->withContextId((int) $active_id)->getLocker();
         
         $pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
         $pass_finisher->performFinishTasks($processLocker);

@@ -17,7 +17,7 @@ class ilAssLacOrOperation extends ilAssLacAbstractOperation
      */
     public static $pattern = "|";
 
-    public function getDescription()
+    public function getDescription() : string
     {
         return "oder ";
     }
@@ -25,7 +25,7 @@ class ilAssLacOrOperation extends ilAssLacAbstractOperation
     /**
      * @return string
      */
-    public function getPattern()
+    public function getPattern() : string
     {
         return self::$pattern;
     }

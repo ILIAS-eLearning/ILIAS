@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilObjFileVersion
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -9,18 +25,18 @@ class ilObjFileVersion extends ArrayObject
     /**
      * @inheritDoc
      */
-    public function __construct($input = array())
+    public function __construct(array $input = [])
     {
         parent::__construct($input);
         foreach ($input as $k => $v) {
             $this->{$k} = $v;
         }
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function getArrayCopy()
+    public function getArrayCopy() : array
     {
         $a = [];
         $r = new ReflectionClass($this);
@@ -30,260 +46,155 @@ class ilObjFileVersion extends ArrayObject
         }
         return $a;
     }
-
-    protected $date = '';
-    protected $user_id = 0;
-    protected $obj_id = 0;
-    protected $obj_type = '';
-    protected $action = '';
-    protected $info_params = '';
-    protected $user_comment = '';
-    protected $hist_entry_id = 1;
-    protected $title = '';
-    protected $filename = '';
-    protected $version = '';
-    protected $max_version = '';
-    protected $rollback_version = '';
-    protected $rollback_user_id = '';
-    protected $size = 0;
-
-    /**
-     * @inheritDoc
-     */
+    
+    protected string $date = '';
+    protected int $user_id = 0;
+    protected int $obj_id = 0;
+    protected string $obj_type = '';
+    protected string $action = '';
+    protected string $info_params = '';
+    protected string $user_comment = '';
+    protected int $hist_entry_id = 1;
+    protected ?string $title = '';
+    protected string $filename = '';
+    protected string $version = '';
+    protected string $max_version = '';
+    protected string $rollback_version = '';
+    protected string $rollback_user_id = '';
+    protected int $size = 0;
+    
     public function offsetGet($index)
     {
         return $this->{$index};
     }
-
-    /**
-     * @return string
-     */
+    
     public function getDate() : string
     {
         return $this->date;
     }
-
-    /**
-     * @param string $date
-     * @return ilObjFileVersion
-     */
-    public function setDate(string $date) : ilObjFileVersion
+    
+    public function setDate(string $date) : self
     {
         $this->date = $date;
         return $this;
     }
-
-    /**
-     * @return int
-     */
+    
     public function getUserId() : int
     {
         return $this->user_id;
     }
-
-    /**
-     * @param int $user_id
-     * @return ilObjFileVersion
-     */
-    public function setUserId(int $user_id) : ilObjFileVersion
+    
+    public function setUserId(int $user_id) : self
     {
         $this->user_id = $user_id;
         return $this;
     }
-
-    /**
-     * @return int
-     */
+    
     public function getObjId() : int
     {
         return $this->obj_id;
     }
-
-    /**
-     * @param int $obj_id
-     * @return ilObjFileVersion
-     */
-    public function setObjId(int $obj_id) : ilObjFileVersion
+    
+    public function setObjId(int $obj_id) : self
     {
         $this->obj_id = $obj_id;
         return $this;
     }
-
-    /**
-     * @return string
-     */
+    
     public function getObjType() : string
     {
         return $this->obj_type;
     }
-
-    /**
-     * @param string $obj_type
-     * @return ilObjFileVersion
-     */
-    public function setObjType(string $obj_type) : ilObjFileVersion
+    
+    public function setObjType(string $obj_type) : self
     {
         $this->obj_type = $obj_type;
         return $this;
     }
-
-    /**
-     * @return string
-     */
+    
     public function getAction() : string
     {
         return $this->action;
     }
-
-    /**
-     * @param string $action
-     * @return ilObjFileVersion
-     */
-    public function setAction(string $action) : ilObjFileVersion
+    
+    public function setAction(string $action) : self
     {
         $this->action = $action;
         return $this;
     }
-
-    /**
-     * @return string
-     */
+    
     public function getInfoParams() : string
     {
         return $this->info_params;
     }
-
-    /**
-     * @param string $info_params
-     * @return ilObjFileVersion
-     */
-    public function setInfoParams(string $info_params) : ilObjFileVersion
+    
+    public function setInfoParams(string $info_params) : self
     {
         $this->info_params = $info_params;
         return $this;
     }
-
-    /**
-     * @return string
-     */
+    
     public function getUserComment() : string
     {
         return $this->user_comment;
     }
-
-    /**
-     * @param string $user_comment
-     * @return ilObjFileVersion
-     */
-    public function setUserComment(string $user_comment) : ilObjFileVersion
+    
+    public function setUserComment(string $user_comment) : self
     {
         $this->user_comment = $user_comment;
         return $this;
     }
-
-    /**
-     * @return int
-     */
+    
     public function getHistEntryId() : int
     {
         return $this->hist_entry_id;
     }
-
-    /**
-     * @param int $hist_entry_id
-     * @return ilObjFileVersion
-     */
-    public function setHistEntryId(int $hist_entry_id) : ilObjFileVersion
+    
+    public function setHistEntryId(int $hist_entry_id) : self
     {
         $this->hist_entry_id = $hist_entry_id;
         return $this;
     }
-
-    /**
-     * @return null
-     */
-    public function getTitle()
+    
+    public function getTitle() : string
     {
         return $this->title;
     }
-
-    /**
-     * @param null $title
-     * @return ilObjFileVersion
-     */
-    public function setTitle($title)
+    
+    public function setTitle(string $title) : self
     {
         $this->title = $title;
         return $this;
     }
-
-    /**
-     * @return string
-     */
+    
     public function getFilename() : string
     {
         return $this->filename;
     }
-
-    /**
-     * @param string $filename
-     * @return ilObjFileVersion
-     */
-    public function setFilename(string $filename) : ilObjFileVersion
+    
+    public function setFilename(string $filename) : self
     {
         $this->filename = $filename;
         return $this;
     }
-
-    /**
-     * @return string
-     */
+    
     public function getVersion() : string
     {
         return $this->version;
     }
-
-    /**
-     * @param string $version
-     * @return ilObjFileVersion
-     */
-    public function setVersion(string $version) : ilObjFileVersion
+    
+    public function setVersion(string $version) : self
     {
         $this->version = $version;
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getMaxVersion() : string
-    {
-        return $this->max_version;
-    }
-
-    /**
-     * @param string $max_version
-     * @return ilObjFileVersion
-     */
-    public function setMaxVersion(string $max_version) : ilObjFileVersion
-    {
-        $this->max_version = $max_version;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
+    
     public function getSize() : int
     {
         return $this->size;
     }
-
-    /**
-     * @param int $size
-     * @return ilObjFileVersion
-     */
-    public function setSize(int $size) : ilObjFileVersion
+    
+    public function setSize(int $size) : self
     {
         $this->size = $size;
         return $this;

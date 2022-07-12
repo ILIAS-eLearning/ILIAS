@@ -1,35 +1,35 @@
-<?php
-
-/* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
- This ivalidates a successful progress if validityOfQualification is reached.
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
- This is deprecated, I think.
- It is perfectly feasible to raise some event for this, though,
- but invalidation is reached by a date rather than a flag set by a cron job.
-  */
+/*
+ * This invalidates a successful progress if validityOfQualification is reached.
+ *
+ * This is deprecated, I think.
+ * It is perfectly feasible to raise some event for this, though,
+ * but invalidation is reached by a date rather than a flag set by a cron job.
+ */
  class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
  {
-     const ID = 'prg_invalidate_expired_progresses';
+     private const ID = 'prg_invalidate_expired_progresses';
 
-     /**
-      * @var ilStudyProgrammeProgressRepository
-      */
-     protected $user_progress_db;
-
-     /**
-      * @var ilLog
-      */
-     protected $log;
-
-     /**
-      * @var ilLanguage
-      */
-     protected $lng;
+     protected ilStudyProgrammeProgressRepository $user_progress_db;
+     protected ilLogger $log;
+     protected ilLanguage $lng;
 
      public function __construct()
      {

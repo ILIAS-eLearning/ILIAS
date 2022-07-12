@@ -2,12 +2,16 @@
 
 .ilAwarenessDropDown .popover {
 	max-width: 300px;
-	color: black;
+	color: @il-text-color;
 	min-width: 250px;
 }
 
 #awareness-list {
 	overflow: auto;
+	.dropdown-header {
+		background-color: @il-main-dark-bg;
+		margin-bottom: 0px;
+	}
 }
 
 .ilAwarenessDropDown .popover-content {
@@ -30,7 +34,7 @@
 		display: table;
 	}
 	.media:hover {
-		background-color: #fea;
+		background-color: @il-highlight-bg;
 	}
 	.glyphicon {
 		font-size: inherit;
@@ -54,11 +58,11 @@
 }
 
 .ilAwarenessItem {
-	border-bottom: 1px solid #e9e9e9;
-	background-color:  @il-main-dark-bg;
+	border-bottom: 1px solid @il-main-border-color;
+	background-color:  @il-main-bg;
 
 	> div[role='button']:focus-visible {
-		outline: @il-focus-outline;
+		.il-focus();
 	}
 
 	ul {
@@ -82,8 +86,8 @@
 }
 
 #awareness-content .media-body h4, #awareness-content .media-body p {
-	color: #a0a0a0;
-	font-size: 12px;
+	color: @il-text-light-color;
+	font-size: @il-font-size-small;
 	padding: 5px 3px 0 3px;
 	line-height: 1em;
 	margin: 0;
@@ -91,7 +95,7 @@
 
 #awareness-content .media-body h4 {
 	padding-top: 0px;
-	color: #606060;
+	font-size: bold;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -100,15 +104,15 @@
 #awareness-content .dropdown-menu {
 	background-color: @il-main-dark-bg;
 	padding: 10px 0;
-	font-size: 12px;
+	font-size: @il-font-size-small;
 }
 
 #awareness-content .dropdown-menu a {
-	color: #606060;
+	color: @il-text-color;
 }
 
 #awareness-content .dropdown-menu a:hover {
-	color: #202020;
+	color: @il-text-hover-color;
 }
 
 #awareness-content .arrow-down {
@@ -184,7 +188,7 @@
 
 #awareness-content .ilHighlighted {
 	background-color: @il-highlight-bg;
-	color: #606060;
+	color: @il-text-light-color;
 }
 
 .ilAwrnBadgeHidden {

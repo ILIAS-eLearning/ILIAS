@@ -1,6 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Poll Dataset class
@@ -13,24 +28,32 @@
  */
 class ilPollDataSet extends ilDataSet
 {
-    protected $current_blog;
-    
+    protected \ILIAS\Notes\Service $notes;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        parent::__construct();
+        $this->notes = $DIC->notes();
+    }
+
     public function getSupportedVersions() : array
     {
         return array("4.3.0", "5.0.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Modules/Poll/" . $a_entity;
     }
     
     /**
-     * Get field types for entity
+     * @inheritdoc
      */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "poll") {
+        if ($a_entity === "poll") {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -66,7 +89,7 @@ class ilPollDataSet extends ilDataSet
             }
         }
         
-        if ($a_entity == "poll_answer") {
+        if ($a_entity === "poll_answer") {
             switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
@@ -80,18 +103,14 @@ class ilPollDataSet extends ilDataSet
             }
         }
 
-        return array();
+        return [];
     }
 
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
-
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
         
-        if ($a_entity == "poll") {
+        if ($a_entity === "poll") {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description," .
@@ -114,7 +133,7 @@ class ilPollDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "poll_answer") {
+        if ($a_entity === "poll_answer") {
             switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
@@ -135,7 +154,7 @@ class ilPollDataSet extends ilDataSet
         switch ($a_entity) {
             case "poll":
                 return array(
-                    "poll_answer" => array("ids" => $a_rec["Id"])
+                    "poll_answer" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
         return [];
@@ -143,11 +162,11 @@ class ilPollDataSet extends ilDataSet
 
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
     {
-        if ($a_entity == "poll") {
-            $dir = ilObjPoll::initStorage($a_set["Id"]);
+        if ($a_entity === "poll") {
+            $dir = ilObjPoll::initStorage((int) $a_set["Id"]);
             $a_set["Dir"] = $dir;
             
-            $a_set["ShowComments"] = ilNote::commentsActivated($a_set["Id"], 0, "poll");
+            $a_set["ShowComments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
         return $a_set;
@@ -163,8 +182,8 @@ class ilPollDataSet extends ilDataSet
         switch ($a_entity) {
             case "poll":
                 // container copy
-                if ($new_id = $a_mapping->getMapping("Services/Container", "objs", (int) ($a_rec["Id"] ?? 0))) {
-                    $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+                if ($new_id = $a_mapping->getMapping("Services/Container", "objs", (string) ($a_rec["Id"] ?? "0"))) {
+                    $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
                 } else {
                     $newObj = new ilObjPoll();
                     $newObj->create();
@@ -192,18 +211,18 @@ class ilPollDataSet extends ilDataSet
                 // handle image(s)
                 if ($a_rec["Image"]) {
                     $dir = str_replace("..", "", (string) ($a_rec["Dir"] ?? ''));
-                    if ($dir != "" && $this->getImportDirectory() != "") {
+                    if ($dir !== "" && $this->getImportDirectory() !== "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = ilObjPoll::initStorage($newObj->getId());
-                        ilUtil::rCopy($source_dir, $target_dir);
+                        ilFileUtils::rCopy($source_dir, $target_dir);
                     }
                 }
 
-                $a_mapping->addMapping("Modules/Poll", "poll", (int) ($a_rec["Id"] ?? 0), $newObj->getId());
+                $a_mapping->addMapping("Modules/Poll", "poll", (string) ($a_rec["Id"] ?? "0"), (string) $newObj->getId());
                 break;
 
             case "poll_answer":
-                $poll_id = (int) $a_mapping->getMapping("Modules/Poll", "poll", (int) ($a_rec["PollId"] ?? 0));
+                $poll_id = (int) $a_mapping->getMapping("Modules/Poll", "poll", (string) ($a_rec["PollId"] ?? "0"));
                 if ($poll_id) {
                     $poll = new ilObjPoll($poll_id, false);
                     $poll->saveAnswer((string) ($a_rec["Answer"] ?? ''), (int) ($a_rec["pos"] ?? 10));

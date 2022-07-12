@@ -1,37 +1,40 @@
 <?php
 /**
- * Class ilBiblTranslation
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Class ilBiblTranslation
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 class ilBiblTranslation extends ActiveRecord implements ilBiblTranslationInterface
 {
     const TABLE_NAME = 'il_bibl_translation';
-
-
-    /**
-     * @return string
-     */
+    
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
-
-
-    /**
-     * @return string
-     */
+    
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }
-
-
+    
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
@@ -39,128 +42,80 @@ class ilBiblTranslation extends ActiveRecord implements ilBiblTranslationInterfa
      * @con_is_primary true
      * @con_sequence   true
      */
-    protected $id = 0;
+    protected ?int $id = 0;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      * @con_is_notnull true
      * @con_is_unique  true
      */
-    protected $field_id = 0;
+    protected int $field_id = 0;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     2
      * @con_is_notnull true
      */
-    protected $language_key = '';
+    protected string $language_key = '';
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $translation = '';
+    protected string $translation = '';
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  clob
      */
-    protected $description = '';
-
-
-    /**
-     * @return integer
-     */
-    public function getId()
+    protected string $description = '';
+    
+    public function getId() : ?int
     {
         return $this->id;
     }
-
-
-    /**
-     * @param integer $id
-     */
-    public function setId($id)
+    
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
-
-
-    /**
-     * @return integer
-     */
-    public function getFieldId()
+    
+    public function getFieldId() : int
     {
         return $this->field_id;
     }
-
-
-    /**
-     * @param integer $field_id
-     */
-    public function setFieldId($field_id)
+    
+    public function setFieldId(int $field_id) : void
     {
         $this->field_id = $field_id;
     }
-
-
-    /**
-     * @return string
-     */
-    public function getLanguageKey()
+    
+    public function getLanguageKey() : string
     {
         return $this->language_key;
     }
-
-
-    /**
-     * @param string $language_key
-     */
-    public function setLanguageKey($language_key)
+    
+    public function setLanguageKey(string $language_key) : void
     {
         $this->language_key = $language_key;
     }
-
-
-    /**
-     * @return string
-     */
-    public function getTranslation()
+    
+    public function getTranslation() : string
     {
         return $this->translation;
     }
-
-
-    /**
-     * @param string $translation
-     */
-    public function setTranslation($translation)
+    
+    public function setTranslation(string $translation) : void
     {
         $this->translation = $translation;
     }
-
-
-    /**
-     * @return mixed
-     */
-    public function getDescription()
+    
+    public function getDescription() : string
     {
         return $this->description;
     }
-
-
-    /**
-     * @param mixed $description
-     */
-    public function setDescription($description)
+    
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }

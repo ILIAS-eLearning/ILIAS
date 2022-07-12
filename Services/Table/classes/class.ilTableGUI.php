@@ -1,71 +1,68 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/** @defgroup ServicesTable Services/Table
- */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-* Class ilTableGUI
-*
-* HTML table component
-*
-* @author	Sascha Hofmann <shofmann@databay.de>
-* @version	$Id$
-*
-* @ingroup ServicesTable
-*/
+ * HTML table component
+ * @author	Sascha Hofmann <shofmann@databay.de>
+ */
 class ilTableGUI
 {
+    protected string $sort_order;
+    protected string $link_params;
+    protected array $header_params;
     /**
-     * @var ilTemplate
+     * @var ilTemplate|ilGlobalTemplateInterface
      */
     protected $tpl;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $title;					// table title name
-    public $icon;					// table title icon
-    public $icon_alt;				// table title icon alt text
-
-    public $help_page;				// table help name
-    public $help_icon;				// table help icon
-    public $help_icon_alt;			// table help icon alt text
-
-    public $header_names;			// titles of header columns
-    public $header_vars;			// var names of header columns (i.e. for database order column)
-    public $linkbar_vars;			// additional variables for linkbar
-
-    public $data;					// table content
+    public string $title = "";      // table title name
+    public string $icon = "";		// table title icon
+    public string $icon_alt = "";	// table title icon alt text
+    public string $help_page = "";				// table help name
+    public string $help_icon = "";				// table help icon
+    public string $help_icon_alt = "";			// table help icon alt text
+    public array $header_names = [];	// titles of header columns
+    public array $header_vars = [];		// var names of header columns
+    public array $linkbar_vars = [];	// additional variables for linkbar
+    public array $data = [];			// table content
+    public int $column_count = 0;		// no. of columns
+    public array $column_width = [];	// column width of each column
+    public int $max_count = 0;				// max. count of database query
+    public int $limit = 0;					// max. count of dataset per page
+    public bool $max_limit = false;
+    public int $offset = 0;				// dataset offset
+    public string $order_column = "";			// order column
+    public string $order_direction = "";		// order direction
+    public string $footer_style = "";			// css format for links
+    public string $footer_previous = "";		// value of previous link
+    public string $footer_next = "";			// value of next link
+    public bool $lang_support = true;	// if a lang object is included
+    public bool $global_tpl = false;			// uses global tpl (true) or a local one (false)
+    public string $form_name = "";			// the name of the parent form of the table
+    public string $select_all_checkbox = "";  // the name (or the first characters if unique) of a checkbox the should be toggled with a select all button
+    public array $action_buttons = [];  // action buttons in the table footer
     
-    public $column_count;			// no. of columns (based on element count of $this->header array)
-    public $column_width;			// column width of each column (used in order until max. column from column count is reached)
-                                // any exceeding values are ignored
-    public $max_count;				// max. count of database query
-    public $limit;					// max. count of dataset per page
-    public $max_limit = false;
-    public $offset;				// dataset offset
-    public $order_column;			// order column
-    public $order_direction;		// order direction
-    
-    public $footer_style;			// css format for links
-    public $footer_previous;		// value of previous link
-    public $footer_next;			// value of next link
-    
-    public $lang_support = true;	// if a lang object is included
-    public $global_tpl;			// uses global tpl (true) or a local one (false)
-    public $form_name;			// the name of the parent form of the table
-    public $select_all_checkbox;  // the name (or the first characters if unique) of a checkbox the should be toggled with a select all button
-    public $action_buttons;  // action buttons in the table footer
-    
-    public $prefix;				// prefix for sort and offset fields if you have two or more tables on a page that you want to sort separately
-    public $base = "";				// base script (deprecated)
+    public string $prefix = "";				// prefix for sort and offset fields if you have two or more tables on a page that you want to sort separately
+    public string $base = "";				// base script (deprecated)
     
     // default settings for enabled/disabled table modules
-    public $enabled = array(	"table" => true,
+    public array $enabled = array(	"table" => true,
                             "title" => true,
                             "icon" => true,
                             "help" => false,
@@ -83,22 +80,21 @@ class ilTableGUI
                         );
 
     // tpl styles (only one so far)
-    public $styles = array(
+    public array $styles = array(
                             "table" => "fullwidth"
                         );
     
     /**
-    * Constructor
-    *
-    * @param	array	content data (optional)
-    * @param	boolean	use global template (default)
-    * @access	public
-    */
-    public function __construct($a_data = 0, $a_global_tpl = true)
-    {
+     * @param array|null $a_data content data (optional)
+     * @param bool       $a_global_tpl content data (optional)
+     */
+    public function __construct(
+        array $a_data = [],
+        bool $a_global_tpl = true
+    ) {
         global $DIC;
 
-        $tpl = $DIC["tpl"];
+        $tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
 
         $this->global_tpl = $a_global_tpl;
@@ -121,47 +117,35 @@ class ilTableGUI
         $this->setData($a_data);
     }
 
-
-    /**
-    * set template
-    * @access	public
-    * @param	object	template object
-    */
-    public function setTemplate($a_tpl)
+    public function setTemplate(ilTemplate $a_tpl) : void
     {
         $this->tpl = $a_tpl;
     }
 
-    public function &getTemplateObject()
+    public function getTemplateObject() : ilTemplate
     {
         return $this->tpl;
     }
 
     /**
-    * set table data
-    * @access	public
-    * @param	array	table data
-    */
-    public function setData($a_data)
+     * Set table data
+     */
+    public function setData(array $a_data) : void
     {
-        if (is_array($a_data)) {
-            $this->data = $a_data;
-        }
+        $this->data = $a_data;
     }
 
-    public function getData()
+    public function getData() : array
     {
         return $this->data;
     }
 
     /**
-    * set table title
-    * @access	public
-    * @param	string	table title
-    * @param	string	file name of title icon
-    * @param	string	alternative text for title icon
-    */
-    public function setTitle($a_title, $a_icon = 0, $a_icon_alt = 0)
+     * @param string $a_title table title
+     * @param string $a_icon file name of title icon
+     * @param string $a_icon_alt alternative text for title icon
+     */
+    public function setTitle(string $a_title, string $a_icon = "", string $a_icon_alt = "") : void
     {
         $this->title = $a_title;
         $this->icon = $a_icon;
@@ -179,14 +163,7 @@ class ilTableGUI
         $this->enabled["icon"] = true;
     }
     
-    /**
-    * set table help page
-    * @access	public
-    * @param	string	help page file name
-    * @param	string	file name of help icon
-    * @param	string	alternative text for help icon
-    */
-    public function setHelp($a_help_page, $a_help_icon, $a_help_icon_alt = 0)
+    public function setHelp(string $a_help_page, string $a_help_icon, string $a_help_icon_alt = "") : void
     {
         $this->help_page = $a_help_page;
         $this->help_icon = $a_help_icon;
@@ -197,77 +174,46 @@ class ilTableGUI
         }
     }
     
-    /**
-    * set table header names
-    * @access	public
-    * @param	array	table header names
-    */
-    public function setHeaderNames($a_header_names)
+    public function setHeaderNames(array $a_header_names) : void
     {
         $this->header_names = $a_header_names;
         $this->column_count = count($this->header_names);
     }
     
-    /**
-    * Returns the column count based on the number of the header row columns
-    * @access	public
-    * @return	int	Number of columns
-    */
-    public function getColumnCount()
+    public function getColumnCount() : int
     {
         return $this->column_count;
     }
 
-    /**
-    * set table header vars
-    * @access	public
-    * @param	array	table header vars
-    * @param	array	additional link params
-    */
-    public function setHeaderVars($a_header_vars, $a_header_params = 0)
+    public function setHeaderVars(array $a_header_vars, array $a_header_params = []) : void
     {
         $this->header_vars = $a_header_vars;
-        
-        if ($a_header_params == 0 or !is_array($a_header_params)) {
-            $this->link_params = "";
-        } else {
-            $this->header_params = $a_header_params;	// temp. solution for linkbar
-
-            foreach ($a_header_params as $key => $val) {
-                $this->link_params .= $key . "=" . $val . "&";
-            }
+        $this->header_params = $a_header_params;
+        $this->link_params = "";
+        foreach ($a_header_params as $key => $val) {
+            $this->link_params .= $key . "=" . $val . "&";
         }
     }
     
     /**
-    * set table column widths
-    * @access	public
-    * @param	array	column widths
-    */
-    public function setColumnWidth($a_column_width)
+     * set table column widths
+     */
+    public function setColumnWidth(array $a_column_width) : void
     {
         $this->column_width = $a_column_width;
     }
     
-    /**
-    * set one table column width
-    * @access	public
-    * @param	string	column width
-    * @param	integer	column number
-    */
-    public function setOneColumnWidth($a_column_width, $a_column_number)
+    public function setOneColumnWidth(string $a_column_width, int $a_column_number) : void
     {
         $this->column_width[$a_column_number] = $a_column_width;
     }
 
     /**
-    * set max. count of database query
-    * you don't need to set max count if using integrated content rendering feature
-    * if max_limit is true, no limit is given -> set limit to max_count
-    * @access	public
-    * @param	integer	max_count
-    */
-    public function setMaxCount($a_max_count)
+     * set max. count of database query
+     * you don't need to set max count if using integrated content rendering feature
+     * if max_limit is true, no limit is given -> set limit to max_count
+     */
+    public function setMaxCount(int $a_max_count) : void
     {
         $this->max_count = $a_max_count;
 
@@ -277,97 +223,69 @@ class ilTableGUI
     }
     
     /**
-    * set max. datasets displayed per page
-    * @access	public
-    * @param	integer	limit
-    * @param	integer default limit
-    */
-    public function setLimit($a_limit = 0, $a_default_limit = 0)
+     * set max. datasets displayed per page
+     */
+    public function setLimit(int $a_limit = 0, int $a_default_limit = 0) : void
     {
-        $this->limit = ($a_limit) ? $a_limit : $a_default_limit;
+        $this->limit = ($a_limit) ?: $a_default_limit;
 
         if ($this->limit == 0) {
             $this->max_limit = true;
         }
     }
     
-    /**
-    * Get limit.
-    */
-    public function getLimit()
+    public function getLimit() : int
     {
         return $this->limit;
     }
 
 
     /**
-    * set prefix for sort and offset fields (if you have two or more tables on a page that you want to sort separately)
-    * @access	public
-    * @param	string	prefix
-    */
-    public function setPrefix($a_prefix)
+     * set prefix for sort and offset fields
+     * (if you have two or more tables on a page that you want to sort separately)
+     */
+    public function setPrefix(string $a_prefix) : void
     {
-        $this->prefix = ($a_prefix) ? $a_prefix : "";
+        $this->prefix = $a_prefix ?: "";
     }
     
     /**
-    * set dataset offset
-    * @access	public
-    * @param	integer	offset
-    */
-    public function setOffset($a_offset)
+     * set dataset offset
+     */
+    public function setOffset(int $a_offset) : void
     {
-        $this->offset = ($a_offset) ? $a_offset : 0;
+        $this->offset = ($a_offset) ?: 0;
     }
     
-    /**
-    * Get offset.
-    */
-    public function getOffset()
+    public function getOffset() : int
     {
         return $this->offset;
     }
     
-    /**
-    * set order column
-    * @access	public
-    * @param	string	order column
-    * @param	string	default column
-    */
-    public function setOrderColumn($a_order_column = 0, $a_default_column = 0)
-    {
+    public function setOrderColumn(
+        string $a_order_column = "",
+        string $a_default_column = ""
+    ) : void {
         // set default sort column to first column
         if (empty($a_order_column)) {
             if (!empty($a_default_column)) {
-                $this->order_column = array_search($a_default_column, $this->header_vars);
+                $oc = array_search($a_default_column, $this->header_vars);
             } else {
-                $this->order_column = 0;
-                return;
+                $oc = "";
             }
         } else {
-            $this->order_column = array_search($a_order_column, $this->header_vars);
+            $oc = array_search($a_order_column, $this->header_vars);
         }
 
-        if ($this->order_column === false) {
-            // if not found, set default sort column to first column
-            $this->order_column = 0;
-        }
+        $this->order_column = $oc ?: "";
     }
     
-    /**
-    * Get order column.
-    */
-    public function getOrderColumn()
+    public function getOrderColumn() : string
     {
         return $this->order_column;
     }
 
-    /**
-    * set order direction
-    * @access	public
-    * @param	string	order direction
-    */
-    public function setOrderDirection($a_order_direction)
+    public function setOrderDirection(string $a_order_direction) : void
     {
         if (strtolower($a_order_direction) == "desc") {
             $this->order_direction = "desc";
@@ -378,77 +296,55 @@ class ilTableGUI
         }
     }
 
-    /**
-    * Get order direction
-    */
-    public function getOrderDirection()
+    public function getOrderDirection() : string
     {
         return $this->order_direction;
     }
 
-    /**
-    * set order direction
-    * @access	public
-    * @param	string	css format for links
-    * @param	string	value of previous link
-    * @param	string	value of next link
-    */
-    public function setFooter($a_style, $a_previous = 0, $a_next = 0)
-    {
+    public function setFooter(
+        string $a_style,
+        string $a_previous = "",
+        string $a_next = ""
+    ) : void {
         $this->footer_style = $a_style;
-
-        $this->footer_previous = ($a_previous) ? $a_previous : "<<<";
-        $this->footer_next = ($a_next) ? $a_next : ">>>";
+        $this->footer_previous = $a_previous ?: "<<<";
+        $this->footer_next = $a_next ?: ">>>";
     }
 
     /**
-    * enables particular modules of table
-    *
-    * DEPRECATED for Table2GUI: Use setEnable...<Section>() of Table2GUI instead
-    *
-    * @access	public
-    * @param	string	module name
-    */
-    public function enable($a_module_name)
+     * @deprecated Use setEnable...<Section>() of Table2GUI instead
+     */
+    public function enable(string $a_module_name) : void
     {
         if (!in_array($a_module_name, array_keys($this->enabled))) {
-            return false;
+            return;
         }
 
         $this->enabled[$a_module_name] = true;
     }
 
     /**
-    * diesables particular modules of table
-    *
-    * DEPRECATED for Table2GUI: Use setEnable<Section>() of Table2GUI instead
-    *
-    * @access	public
-    * @param	string	module name
-    */
-    public function disable($a_module_name)
+     * @deprecated Use setEnable<Section>() of Table2GUI instead
+     */
+    public function disable(string $a_module_name) : void
     {
         if (!in_array($a_module_name, array_keys($this->enabled))) {
-            return false;
+            return;
         }
 
         $this->enabled[$a_module_name] = false;
     }
     
 
-    public function sortData()
+    public function sortData() : void
     {
         if ($this->enabled["sort"]) {
-            $this->data = ilUtil::sortArray($this->data, $this->order_column, $this->order_direction);
+            $this->data = ilArrayUtil::sortArray($this->data, $this->order_column, $this->order_direction);
         }
         $this->data = array_slice($this->data, $this->offset, $this->limit);
     }
 
-    /**
-    * render table
-    * @access	public
-    */
-    public function render()
+    public function render() : string
     {
         if ($this->enabled['table']) {
             $this->tpl->setVariable("CSS_TABLE", "table table-striped" /* $this->getStyle("table") */);
@@ -473,7 +369,6 @@ class ilTableGUI
         // hits per page selector
         if ($this->enabled["hits"] && $this->enabled["title"]) {
             $this->tpl->setCurrentBlock("tbl_header_hits_page");
-            $this->tpl->setVariable("LIMIT", $_SESSION["tbl_limit"]);
             $this->tpl->setVariable("HITS_PER_PAGE", $this->lng->txt("hits_per_page"));
             $this->tpl->parseCurrentBlock();
         }
@@ -496,7 +391,7 @@ class ilTableGUI
         // To do so don't set $this->data and parse your table content by yourself
         // The template block name for the blockfile MUST be 'TBL_CONTENT'
 
-        if ($this->enabled["content"] && is_array($this->data)) {
+        if ($this->enabled["content"]) {
             if ($this->enabled['auto_sort']) {
                 $this->setMaxCount(count($this->data));
                 $this->sortData();
@@ -613,7 +508,7 @@ class ilTableGUI
         }
 
         // action buttons
-        if ($this->enabled["action"] && is_array($this->action_buttons)) {
+        if ($this->enabled["action"]) {
             foreach ($this->action_buttons as $button) {
                 $this->tpl->setCurrentBlock("tbl_action_btn");
                 $this->tpl->setVariable("BTN_NAME", $button["name"]);
@@ -638,35 +533,20 @@ class ilTableGUI
         if (!$this->global_tpl) {
             return $this->tpl->get();
         }
+        return "";
     }
 
-    /**
-     * Linkbar
-     * Diese Funktion erzeugt einen typischen Navigationsbalken mit
-     * "Previous"- und "Next"-Links und den entsprechenden Seitenzahlen
-     *
-     * die komplette LinkBar wird zur?ckgegeben
-     * der Variablenname f?r den offset ist "offset"
-     *
-     * @author Sascha Hofmann <shofmann@databay.de>
-     *
-     * @access	public
-     * @param	integer	Name der Skriptdatei (z.B. test.php)
-     * @param	integer	Anzahl der Elemente insgesamt
-     * @param	integer	Anzahl der Elemente pro Seite
-     * @param	integer	Das aktuelle erste Element in der Liste
-     * @param	array	Die zu ?bergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
-     * @param	array	layout options (all optional)
-     * 					link	=> css name for <a>-tag
-     * 					prev	=> value for 'previous page' (default: '<<')
-     * 					next	=> value for 'next page' (default: '>>')
-     * @return	array	linkbar or false on error
-     * @static
-     *
-     */
-    public static function linkbar($AScript, $AHits, $ALimit, $AOffset, $AParams = array(), $ALayout = array(), $prefix = '')
-    {
+    public static function linkbar(
+        string $AScript,
+        int $AHits,
+        int $ALimit,
+        int $AOffset,
+        array $AParams = array(),
+        array $ALayout = array(),
+        string $prefix = ''
+    ) : string {
         $LinkBar = "";
+        $params = "";
 
         $layout_link = "";
         $layout_prev = "&lt;&lt;";
@@ -743,12 +623,11 @@ class ilTableGUI
             }
 
             return $LinkBar;
-        } else {
-            return false;
         }
+        return "";
     }
 
-    public function renderHeader()
+    public function renderHeader() : void
     {
         foreach ($this->header_names as $key => $tbl_header_cell) {
             if (!$this->enabled["sort"]) {
@@ -795,117 +674,72 @@ class ilTableGUI
         $this->tpl->parseCurrentBlock();
     }
     
-    public function setOrderLink($key, $order_dir)
+    public function setOrderLink(string $key, string $order_dir) : void
     {
         $this->tpl->setVariable("TBL_ORDER_LINK", basename($_SERVER["PHP_SELF"]) . "?" . $this->link_params . $this->prefix . "sort_by=" . $this->header_vars[$key] . "&" . $this->prefix . "sort_order=" . $order_dir . "&" . $this->prefix . "offset=" . $this->offset);
     }
     
-    /*
-    * set a tpl stylesheet
-    * @access	public
-    * @param	string	table element
-    * @param	string	CSS definition
-    */
-    public function setStyle($a_element, $a_style)
-    {
+    public function setStyle(
+        string $a_element,
+        string $a_style
+    ) : void {
         $this->styles[$a_element] = $a_style;
     }
 
-    /*
-    * get a tpl stylesheet
-    * @access	public
-    * @param	string	table element
-    */
-    public function getStyle($a_element)
+    public function getStyle(string $a_element) : string
     {
         return $this->styles[$a_element];
     }
 
     /**
-    * Set Base script name (deprecated, only use this for workarounds).
-    *
-    * @param	string	$a_base	Base script name (deprecated, only use this for workarounds)
-    */
-    public function setBase($a_base)
+     * @param	string	$a_base	Base script name (deprecated, only use this for workarounds)
+     */
+    public function setBase(string $a_base) : void
     {
         $this->base = $a_base;
     }
 
-    /**
-    * Get Base script name (deprecated, only use this for workarounds).
-    *
-    * @return	string	Base script name (deprecated, only use this for workarounds)
-    */
-    public function getBase()
+    public function getBase() : string
     {
         return $this->base;
     }
 
-    /*
-    * get the name of the parent form
-    * @access	public
-    * @return	string	name of the parent form
-    */
-    public function getFormName()
+    /**
+     * get the name of the parent form
+     */
+    public function getFormName() : string
     {
         return $this->form_name;
     }
     
-    /*
-    * set the name of the parent form
-    * @access	public
-    * @param	string	$a_name name of the parent form
-    */
-    public function setFormName($a_name = "cmd")
+    public function setFormName(string $a_name = "cmd") : void
     {
         $this->form_name = $a_name;
     }
 
-    /*
-    * get the name of the checkbox that should be toggled with a select all button
-    * @access	public
-    * @return	string	name of the checkbox
-    */
-    public function getSelectAllCheckbox()
+    /**
+     * get the name of the checkbox that should be toggled with a select all button
+     */
+    public function getSelectAllCheckbox() : string
     {
         return $this->select_all_checkbox;
     }
-    
-    /*
-    * set the name of the checkbox that should be toggled with a select all button
-    * @access	public
-    * @param	string	$a_select_all_checkbox name of the checkbox
-    */
-    public function setSelectAllCheckbox($a_select_all_checkbox)
+
+    public function setSelectAllCheckbox(string $a_select_all_checkbox) : void
     {
         $this->select_all_checkbox = $a_select_all_checkbox;
     }
     
-    /*
-    * Removes all action buttons from the table
-    *
-    * @access	public
-    */
-    public function clearActionButtons()
+    public function clearActionButtons() : void
     {
         $this->action_buttons = array();
     }
     
-    /*
-    * Adds an action button to the table
-    *
-    * @param string $btn_name Name of the action button
-    * @param string $btn_value Value of the action button
-    * @access	public
-    */
-    public function addActionButton($btn_name, $btn_value)
+    public function addActionButton(string $btn_name, string $btn_value) : void
     {
-        array_push(
-            $this->action_buttons,
-            array(
-                "name" => $btn_name,
-                "value" => $btn_value
-            )
+        $this->action_buttons[] = array(
+            "name" => $btn_name,
+            "value" => $btn_value
         );
     }
 }

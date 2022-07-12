@@ -1,36 +1,39 @@
 <?php
 /**
- * Class ilBiblFieldFilter
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Class ilBiblFieldFilter
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterface
 {
     const TABLE_NAME = 'il_bibl_filter';
-
-
-    /**
-     * @return string
-     */
+    
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
-
-
-    /**
-     * @return string
-     */
+    
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }
-
-
+    
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
@@ -39,104 +42,66 @@ class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterfa
      * @con_is_unique  true
      * @con_sequence   true
      */
-    protected $id;
+    protected ?int $id = 0;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
      * @con_is_notnull true
      * @con_is_unique  true
      */
-    protected $field_id;
+    protected int $field_id;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
      * @con_is_notnull true
      * @con_is_unique  true
      */
-    protected $object_id;
+    protected int $object_id;
     /**
-     * @var
-     *
      * @con_has_field true
      * @con_fieldtype integer
      * @con_length    1
      */
-    protected $filter_type;
-
-
-    /**
-     * @return mixed
-     */
-    public function getId()
+    protected int $filter_type;
+    
+    public function getId() : ?int
     {
         return $this->id;
     }
-
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
+    
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
-
-
-    /**
-     * @return mixed
-     */
-    public function getFieldId()
+    
+    public function getFieldId() : int
     {
         return $this->field_id;
     }
-
-
-    /**
-     * @param mixed $field_id
-     */
-    public function setFieldId($field_id)
+    
+    public function setFieldId(int $field_id) : void
     {
         $this->field_id = $field_id;
     }
-
-
-    /**
-     * @return mixed
-     */
-    public function getObjectId()
+    
+    public function getObjectId() : int
     {
         return $this->object_id;
     }
-
-
-    /**
-     * @param mixed $object_id
-     */
-    public function setObjectId($object_id)
+    
+    public function setObjectId(int $object_id) : void
     {
         $this->object_id = $object_id;
     }
-
-
-    /**
-     * @return mixed
-     */
-    public function getFilterType()
+    
+    public function getFilterType() : int
     {
         return $this->filter_type;
     }
-
-
-    /**
-     * @param mixed $filter_type
-     */
-    public function setFilterType($filter_type)
+    
+    public function setFilterType(int $filter_type) : void
     {
         $this->filter_type = $filter_type;
     }

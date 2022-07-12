@@ -48,17 +48,20 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
         }
     }
 
-    public function current() : ilAssSpecificFeedbackIdentifier
+    /** @return false|ilAssSpecificFeedbackIdentifier */
+    public function current()
     {
         return current($this->map);
     }
 
-    public function next() : ilAssSpecificFeedbackIdentifier
+    /** @return false|ilAssSpecificFeedbackIdentifier */
+    public function next()
     {
         return next($this->map);
     }
-    
-    public function key() : ?int
+
+    /** @return int|null|string */
+    public function key()
     {
         return key($this->map);
     }
@@ -67,8 +70,9 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
     {
         return key($this->map) !== null;
     }
-    
-    public function rewind() : ilAssSpecificFeedbackIdentifier
+
+    /** @return false|ilAssSpecificFeedbackIdentifier */
+    public function rewind()
     {
         return reset($this->map);
     }

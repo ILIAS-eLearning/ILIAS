@@ -10,11 +10,7 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilAssQuestionAuthoringFormGUI extends ilPropertyFormGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng = null;
-    
+
     /**
      * ilAssQuestionAuthoringFormGUI constructor.
      */
@@ -29,7 +25,7 @@ class ilAssQuestionAuthoringFormGUI extends ilPropertyFormGUI
     /**
      * @param assQuestion $questionOBJ
      */
-    public function addGenericAssessmentQuestionCommandButtons(assQuestion $questionOBJ)
+    public function addGenericAssessmentQuestionCommandButtons(assQuestion $questionOBJ) : void
     {
         //if( !$this->object->getSelfAssessmentEditingMode() && !$_GET["calling_test"] )
         //	$this->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
@@ -45,7 +41,7 @@ class ilAssQuestionAuthoringFormGUI extends ilPropertyFormGUI
      * @param ilFormPropertyGUI $replacingItem
      * @return bool
      */
-    public function replaceFormItemByPostVar(ilFormPropertyGUI $replacingItem)
+    public function replaceFormItemByPostVar(ilFormPropertyGUI $replacingItem) : bool
     {
         $itemWasReplaced = false;
         

@@ -15,7 +15,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
     /**
      * @return bool
      */
-    public function checkBuildableNewer()
+    public function checkBuildableNewer() : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC['lng'];
@@ -52,7 +52,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
     /**
      * @return bool
      */
-    public function checkBuildable()
+    public function checkBuildable() : bool
     {
         // hey: fixRandomTestBuildable - improved the buildable check improvement
         return $this->checkBuildableNewer();

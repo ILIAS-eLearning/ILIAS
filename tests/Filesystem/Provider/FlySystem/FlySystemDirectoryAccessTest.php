@@ -2,7 +2,6 @@
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
-require_once('./libs/composer/vendor/autoload.php');
 \Hamcrest\Util::registerGlobalFunctions();
 
 use ILIAS\Filesystem\DTO\Metadata;
@@ -17,11 +16,22 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FlySystemDirectoryAccessTest
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- *
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
  * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
@@ -43,6 +53,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @var FlySystemFileAccess | MockInterface $fileAccessMock
      */
     private $fileAccessMock;
+
     /**
      * @inheritDoc
      */
@@ -60,23 +71,23 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testHasDirWhichShouldSucceed()
+    public function testHasDirWhichShouldSucceed() : void
     {
         $path = '/path/to/dir';
         $metadata = [
             'type' => 'dir',
             'path' => $path,
-            'timestamp' => 10000000
+            'timestamp' => 10_000_000
         ];
 
         $this->filesystemMock
             ->shouldReceive('has')
-                ->with($path)
-                ->andReturn(true)
+            ->with($path)
+            ->andReturn(true)
             ->getMock()
             ->shouldReceive('getMetadata')
-                ->once()
-                ->andReturn($metadata);
+            ->once()
+            ->andReturn($metadata);
 
         $exists = $this->subject->hasDir($path);
         $this->assertTrue($exists);
@@ -86,23 +97,23 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testHasDirWithFileTargetWhichShouldFail()
+    public function testHasDirWithFileTargetWhichShouldFail() : void
     {
         $path = '/path/to/file';
         $metadata = [
             'type' => 'file',
             'path' => $path,
-            'timestamp' => 10000000
+            'timestamp' => 10_000_000
         ];
 
         $this->filesystemMock
             ->shouldReceive('has')
-                ->with($path)
-                ->andReturn(true)
+            ->with($path)
+            ->andReturn(true)
             ->getMock()
             ->shouldReceive('getMetadata')
-                ->once()
-                ->andReturn($metadata);
+            ->once()
+            ->andReturn($metadata);
 
         $exists = $this->subject->hasDir($path);
         $this->assertFalse($exists);
@@ -112,22 +123,22 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testHasDirWithoutTypeInformationWhichShouldFail()
+    public function testHasDirWithoutTypeInformationWhichShouldFail() : void
     {
         $path = '/path/to/file';
         $metadata = [
             'path' => $path,
-            'timestamp' => 10000000
+            'timestamp' => 10_000_000
         ];
 
         $this->filesystemMock
             ->shouldReceive('has')
-                ->with($path)
-                ->andReturn(true)
+            ->with($path)
+            ->andReturn(true)
             ->getMock()
             ->shouldReceive('getMetadata')
-                ->once()
-                ->andReturn($metadata);
+            ->once()
+            ->andReturn($metadata);
 
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Could not evaluate path type: \"$path\"");
@@ -140,7 +151,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testHasDirWithMissingDirWhichShouldSucceed()
+    public function testHasDirWithMissingDirWhichShouldSucceed() : void
     {
         $path = '/path/to/dir';
 
@@ -157,11 +168,11 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testListContentsWhichShouldSucceed()
+    public function testListContentsWhichShouldSucceed() : void
     {
         $path = '/path/to/dir';
-        $file = [ 'type' => 'file', 'path' => $path ];
-        $dir = [ 'type' => 'dir', 'path' => $path ];
+        $file = ['type' => 'file', 'path' => $path];
+        $dir = ['type' => 'dir', 'path' => $path];
 
         $contentList = [
             $file,
@@ -203,7 +214,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testListContentsWithMissingRootDirectoryWhichShouldFail()
+    public function testListContentsWithMissingRootDirectoryWhichShouldFail() : void
     {
         $path = '/path/to/dir';
 
@@ -222,11 +233,11 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testListContentsWithInvalidMetadataWhichShouldFail()
+    public function testListContentsWithInvalidMetadataWhichShouldFail() : void
     {
         $path = '/path/to/dir';
-        $file = [ 'type' => 'file', 'path' => $path ];
-        $dir = [ 'type' => 'dir'];
+        $file = ['type' => 'file', 'path' => $path];
+        $dir = ['type' => 'dir'];
 
         $contentList = [
             $file,
@@ -246,7 +257,7 @@ class FlySystemDirectoryAccessTest extends TestCase
             ->shouldReceive('getMetadata')
             ->once()
             ->andReturn($dir);
-        
+
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Invalid metadata received for path \"$path\"");
 
@@ -257,7 +268,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateDirWhichShouldSucceed()
+    public function testCreateDirWhichShouldSucceed() : void
     {
         $path = '/path/to/dir';
         $access = Visibility::PRIVATE_ACCESS;
@@ -275,7 +286,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateDirWithGeneralErrorWhichShouldFail()
+    public function testCreateDirWithGeneralErrorWhichShouldFail() : void
     {
         $path = '/path/to/dir';
         $access = Visibility::PRIVATE_ACCESS;
@@ -285,7 +296,7 @@ class FlySystemDirectoryAccessTest extends TestCase
             ->once()
             ->withArgs([$path, ['visibility' => $access]])
             ->andReturn(false);
-        
+
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Could not create directory \"$path\"");
 
@@ -296,7 +307,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateDirWithInvalidVisibilityWhichShouldFail()
+    public function testCreateDirWithInvalidVisibilityWhichShouldFail() : void
     {
         $path = '/path/to/dir';
         $access = 'invalid';
@@ -311,7 +322,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyDirWhichShouldSucceed()
+    public function testCopyDirWhichShouldSucceed() : void
     {
         $srcPath = '/source/path/to/dir';
         $destPath = '/dest/path/to/dir';
@@ -331,17 +342,20 @@ class FlySystemDirectoryAccessTest extends TestCase
 
         $fileDestinationList = [];
 
-        $subjectMock = Mockery::mock(FlySystemDirectoryAccess::class . '[listContents, hasDir]', [$this->filesystemMock, $this->fileAccessMock]);
+        $subjectMock = Mockery::mock(
+            FlySystemDirectoryAccess::class . '[listContents, hasDir]',
+            [$this->filesystemMock, $this->fileAccessMock]
+        );
         $subjectMock
             ->shouldReceive('listContents')
-                ->withArgs([$srcPath, true])
-                ->once()
-                ->andReturn($fileSourceList)
-                ->getMock()
+            ->withArgs([$srcPath, true])
+            ->once()
+            ->andReturn($fileSourceList)
+            ->getMock()
             ->shouldReceive('listContents')
-                ->withArgs([$destPath, true])
-                ->once()
-                ->andReturn($fileDestinationList);
+            ->withArgs([$destPath, true])
+            ->once()
+            ->andReturn($fileDestinationList);
 
         $subjectMock
             ->shouldReceive('hasDir')
@@ -351,26 +365,25 @@ class FlySystemDirectoryAccessTest extends TestCase
 
         $this->fileAccessMock
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[0]->getPath(), "$destPath/hello1"])
-                ->once()
-                ->getMock()
+            ->withArgs([$fileSourceList[0]->getPath(), "$destPath/hello1"])
+            ->once()
+            ->getMock()
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[2]->getPath(), "$destPath/hello2"])
-                ->once()
-                ->getMock()
+            ->withArgs([$fileSourceList[2]->getPath(), "$destPath/hello2"])
+            ->once()
+            ->getMock()
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[3]->getPath(), "$destPath/hello/subhello1"])
-                ->once()
-                ->getMock()
+            ->withArgs([$fileSourceList[3]->getPath(), "$destPath/hello/subhello1"])
+            ->once()
+            ->getMock()
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[5]->getPath(), "$destPath/hello3"])
-                ->once()
-                ->getMock()
+            ->withArgs([$fileSourceList[5]->getPath(), "$destPath/hello3"])
+            ->once()
+            ->getMock()
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[6]->getPath(), "$destPath/hello/subhello2"])
-                ->once()
-                ->getMock();
-
+            ->withArgs([$fileSourceList[6]->getPath(), "$destPath/hello/subhello2"])
+            ->once()
+            ->getMock();
 
         $subjectMock->copyDir($srcPath, $destPath);
     }
@@ -379,7 +392,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyDirWithDestinationListContentErrorWhichShouldSucceed()
+    public function testCopyDirWithDestinationListContentErrorWhichShouldSucceed() : void
     {
         $srcPath = '/source/path/to/dir';
         $destPath = '/dest/path/to/dir';
@@ -397,46 +410,48 @@ class FlySystemDirectoryAccessTest extends TestCase
             new Metadata("$srcPath/hello/subhello2", MetadataType::FILE),
         ];
 
-        $subjectMock = Mockery::mock(FlySystemDirectoryAccess::class . '[listContents, hasDir]', [$this->filesystemMock, $this->fileAccessMock]);
+        $subjectMock = Mockery::mock(
+            FlySystemDirectoryAccess::class . '[listContents, hasDir]',
+            [$this->filesystemMock, $this->fileAccessMock]
+        );
         $subjectMock
             ->shouldReceive('listContents')
-                ->withArgs([$srcPath, true])
-                ->once()
-                ->andReturn($fileSourceList)
-                ->getMock()
+            ->withArgs([$srcPath, true])
+            ->once()
+            ->andReturn($fileSourceList)
+            ->getMock()
             ->shouldReceive('listContents')
-                ->withArgs([$destPath, true])
-                ->once()
-                ->andThrow(DirectoryNotFoundException::class);
+            ->withArgs([$destPath, true])
+            ->once()
+            ->andThrow(DirectoryNotFoundException::class);
 
         $subjectMock
             ->shouldReceive('hasDir')
-                ->with($srcPath)
-                ->once()
-                ->andReturn(true);
+            ->with($srcPath)
+            ->once()
+            ->andReturn(true);
 
         $this->fileAccessMock
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[0]->getPath(), "$destPath/hello1"])
-                ->once()
-                ->getMock()
+            ->withArgs([$fileSourceList[0]->getPath(), "$destPath/hello1"])
+            ->once()
+            ->getMock()
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[2]->getPath(), "$destPath/hello2"])
-                ->once()
-                ->getMock()
+            ->withArgs([$fileSourceList[2]->getPath(), "$destPath/hello2"])
+            ->once()
+            ->getMock()
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[3]->getPath(), "$destPath/hello/subhello1"])
-                ->once()
-                ->getMock()
+            ->withArgs([$fileSourceList[3]->getPath(), "$destPath/hello/subhello1"])
+            ->once()
+            ->getMock()
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[5]->getPath(), "$destPath/hello3"])
-                ->once()
-                ->getMock()
+            ->withArgs([$fileSourceList[5]->getPath(), "$destPath/hello3"])
+            ->once()
+            ->getMock()
             ->shouldReceive('copy')
-                ->withArgs([$fileSourceList[6]->getPath(), "$destPath/hello/subhello2"])
-                ->once()
-                ->getMock();
-
+            ->withArgs([$fileSourceList[6]->getPath(), "$destPath/hello/subhello2"])
+            ->once()
+            ->getMock();
 
         $subjectMock->copyDir($srcPath, $destPath);
     }
@@ -445,7 +460,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyDirWithFullDestinationDirWhichShouldFail()
+    public function testCopyDirWithFullDestinationDirWhichShouldFail() : void
     {
         $srcPath = '/source/path/to/dir';
         $destPath = '/dest/path/to/dir';
@@ -463,7 +478,10 @@ class FlySystemDirectoryAccessTest extends TestCase
             new Metadata("$srcPath/hello/subhello2", MetadataType::FILE),
         ];
 
-        $subjectMock = Mockery::mock(FlySystemDirectoryAccess::class . '[listContents, hasDir]', [$this->filesystemMock, $this->fileAccessMock]);
+        $subjectMock = Mockery::mock(
+            FlySystemDirectoryAccess::class . '[listContents, hasDir]',
+            [$this->filesystemMock, $this->fileAccessMock]
+        );
         $subjectMock
             ->shouldReceive('listContents')
             ->withArgs([$destPath, true])
@@ -486,12 +504,15 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyDirWithMissingSourceDirWhichShouldFail()
+    public function testCopyDirWithMissingSourceDirWhichShouldFail() : void
     {
         $srcPath = '/source/path/to/dir';
         $destPath = '/dest/path/to/dir';
 
-        $subjectMock = Mockery::mock(FlySystemDirectoryAccess::class . '[hasDir]', [$this->filesystemMock, $this->fileAccessMock]);
+        $subjectMock = Mockery::mock(
+            FlySystemDirectoryAccess::class . '[hasDir]',
+            [$this->filesystemMock, $this->fileAccessMock]
+        );
         $subjectMock
             ->shouldReceive('hasDir')
             ->with($srcPath)
@@ -508,7 +529,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteDirWhichShouldSucceed()
+    public function testDeleteDirWhichShouldSucceed() : void
     {
         $path = '/directory/which/should/be/removed';
 
@@ -525,7 +546,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteDirWithRootViolationWhichShouldFail()
+    public function testDeleteDirWithRootViolationWhichShouldFail() : void
     {
         $path = '';
 
@@ -545,7 +566,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteDirWithGeneralErrorWhichShouldFail()
+    public function testDeleteDirWithGeneralErrorWhichShouldFail() : void
     {
         $path = '/directory/which/should/be/removed';
 

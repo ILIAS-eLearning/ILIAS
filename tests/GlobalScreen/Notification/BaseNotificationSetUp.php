@@ -1,4 +1,5 @@
 <?php
+
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\NullProviderFactory;
@@ -8,10 +9,11 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Component as C;
 
 use PHPUnit\Framework\TestCase;
-use \ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\Counter\Factory;
 
 require_once('./libs/composer/vendor/autoload.php');
 require_once(__DIR__ . "/../../UI/Base.php");
@@ -59,10 +61,10 @@ abstract class BaseNotificationSetUp extends TestCase
         $this->factory = new NotificationFactory();
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         $factory = new class extends NoUIFactory {
-            public function item()
+            public function item() : ILIAS\UI\Component\Item\Factory
             {
                 return new I\Item\Factory();
             }
@@ -80,7 +82,7 @@ abstract class BaseNotificationSetUp extends TestCase
                     $this->sig_gen,
                     new I\MainControls\Slate\Factory(
                         $this->sig_gen,
-                        new \ILIAS\UI\Implementation\Component\Counter\Factory(),
+                        new Factory(),
                         new I\Symbol\Factory(
                             new I\Symbol\Icon\Factory(),
                             new I\Symbol\Glyph\Factory(),
@@ -96,10 +98,10 @@ abstract class BaseNotificationSetUp extends TestCase
         return $factory;
     }
 
-    public function getDIC()
+    public function getDIC() : ILIAS\DI\Container
     {
         $dic = new class extends ILIAS\DI\Container {
-            public function globalScreen()
+            public function globalScreen() : Services
             {
                 return new Services(Mockery::mock(ProviderFactory::class));
             }
@@ -107,7 +109,7 @@ abstract class BaseNotificationSetUp extends TestCase
         return $dic;
     }
 
-    public function getDummyNotificationsProviderWithNotifications($notifications)
+    public function getDummyNotificationsProviderWithNotifications($notifications) : AbstractNotificationProvider
     {
         $dic = $this->getDIC();
         $provider = new class($dic) extends AbstractNotificationProvider {

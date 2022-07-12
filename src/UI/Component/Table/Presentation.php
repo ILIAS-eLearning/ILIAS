@@ -1,9 +1,25 @@
-<?php
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\UI\Component\ViewControl\HasViewControls;
+use Closure;
 
 /**
  * This describes a Presentation Table
@@ -22,7 +38,7 @@ interface Presentation extends Table, HasViewControls
      * 				This is the actually variable part when rendering rows.
      * $ui_factory	You might, e.g., want a descriptive listing or and image
      *				within the content of the row. Use the UI-Factory to build it.
-     * $environment When you need auxillary classes or functions to properly render
+     * $environment When you need auxiliary classes or functions to properly render
      * 				the data, this is the place to put it.
      *
      * In short:
@@ -32,44 +48,36 @@ interface Presentation extends Table, HasViewControls
      *   \Factory 			$ui_factory
      *   mixed 				$environment
      * The closure MUST return \PresentationRow
-     *
-     * @param \Closure 	$row_mapping
-     * @return Presentation
      */
-    public function withRowMapping(\Closure $row_mapping);
-
+    public function withRowMapping(Closure $row_mapping) : Presentation;
 
     /**
      * Get the closure to construct row-entries with.
-     *
-     * @return \Closure
      */
-    public function getRowMapping();
+    public function getRowMapping() : Closure;
 
     /**
      * Add a list of additional things the mapping-closure needs for processing.
      * These can be virtually anything.
      *
      * @param array<string,mixed> 	$environment
-     * @return Presentation
      */
-    public function withEnvironment(array $environment);
+    public function withEnvironment(array $environment) : Presentation;
 
     /**
      * Get an array of additionally needed elements to build a data-entry.
      *
      * @return array<string,mixed>
      */
-    public function getEnvironment();
+    public function getEnvironment() : array;
 
     /**
      * Fill a recordset into the table.
      * All elements in $records MUST be processable by the mapping-closure.
      *
      * @param array<mixed> 	$records
-     * @return Presentation
      */
-    public function withData(array $records);
+    public function withData(array $records) : Presentation;
 
     /**
      * Get the recordset of this table.
@@ -77,5 +85,5 @@ interface Presentation extends Table, HasViewControls
      *
      * @return array<mixed>
      */
-    public function getData();
+    public function getData() : array;
 }

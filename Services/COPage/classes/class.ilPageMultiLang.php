@@ -1,18 +1,34 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Multi-language properties
  *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageMultiLang
 {
-    protected $db;
-    protected $parent_type;
-    protected $parent_id;
-    protected $master_lang;
-    protected $languages = array();
-    protected $activated = false;
+    protected ilDBInterface $db;
+    protected string $parent_type;
+    protected int $parent_id;
+    protected string $master_lang;
+    protected array $languages = array();
+    protected bool $activated = false;
     
     /**
      * Constructor
@@ -21,8 +37,10 @@ class ilPageMultiLang
      * @param int $a_parent_id parent object id
      * @throws ilCOPageException
      */
-    public function __construct($a_parent_type, $a_parent_id)
-    {
+    public function __construct(
+        string $a_parent_type,
+        int $a_parent_id
+    ) {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -43,123 +61,64 @@ class ilPageMultiLang
         $this->read();
     }
     
-    /**
-     * Set parent type
-     *
-     * @param string $a_val parent type
-     */
-    public function setParentType($a_val)
+    public function setParentType(string $a_val) : void
     {
         $this->parent_type = $a_val;
     }
     
-    /**
-     * Get parent type
-     *
-     * @return string parent type
-     */
-    public function getParentType()
+    public function getParentType() : string
     {
         return $this->parent_type;
     }
     
-    /**
-     * Set parent id
-     *
-     * @param int $a_val parent id
-     */
-    public function setParentId($a_val)
+    public function setParentId(int $a_val) : void
     {
         $this->parent_id = $a_val;
     }
     
-    /**
-     * Get parent id
-     *
-     * @return int parent id
-     */
-    public function getParentId()
+    public function getParentId() : int
     {
         return $this->parent_id;
     }
     
-    /**
-     * Set master language
-     *
-     * @param string $a_val master language
-     */
-    public function setMasterLanguage($a_val)
+    public function setMasterLanguage(string $a_val) : void
     {
         $this->master_lang = $a_val;
     }
     
-    /**
-     * Get master language
-     *
-     * @return string master language
-     */
-    public function getMasterLanguage()
+    public function getMasterLanguage() : string
     {
         return $this->master_lang;
     }
 
-    /**
-     * Set languages
-     *
-     * @param array $a_val array of language codes
-     */
-    public function setLanguages(array $a_val)
+    public function setLanguages(array $a_val) : void
     {
         $this->languages = $a_val;
     }
     
-    /**
-     * Get languages
-     *
-     * @return array array of language codes
-     */
-    public function getLanguages()
+    public function getLanguages() : array
     {
         return $this->languages;
     }
     
-    /**
-     * Add language
-     *
-     * @param string $a_lang language
-     */
-    public function addLanguage($a_lang)
+    public function addLanguage(string $a_lang) : void
     {
         if ($a_lang != "" && !in_array($a_lang, $this->languages)) {
             $this->languages[] = $a_lang;
         }
     }
     
-    
-    /**
-     * Set activated
-     *
-     * @param bool $a_val activated?
-     */
-    protected function setActivated($a_val)
+    protected function setActivated(bool $a_val) : void
     {
         $this->activated = $a_val;
     }
     
-    /**
-     * Get activated
-     *
-     * @return bool activated?
-     */
-    public function getActivated()
+    public function getActivated() : bool
     {
         return $this->activated;
     }
     
-    /**
-     * Read
-     */
-    public function read()
+    public function read() : void
     {
         $set = $this->db->query(
             "SELECT * FROM copg_multilang " .
@@ -184,10 +143,7 @@ class ilPageMultiLang
         }
     }
 
-    /**
-     * Delete
-     */
-    public function delete()
+    public function delete() : void
     {
         $this->db->manipulate(
             "DELETE FROM copg_multilang " .
@@ -201,10 +157,7 @@ class ilPageMultiLang
         );
     }
 
-    /**
-     * Save
-     */
-    public function save()
+    public function save() : void
     {
         $this->delete();
 
@@ -230,10 +183,13 @@ class ilPageMultiLang
      *
      * @param string $a_target_parent_type parent object type
      * @param int $a_target_parent_id parent object id
-     * @return ilPageMultiLang target multilang object
+     * @return ?ilPageMultiLang target multilang object
+     * @throws ilCOPageException
      */
-    public function copy($a_target_parent_type, $a_target_parent_id)
-    {
+    public function copy(
+        string $a_target_parent_type,
+        int $a_target_parent_id
+    ) : ?ilPageMultiLang {
         if ($this->getActivated()) {
             $target_ml = new ilPageMultiLang($a_target_parent_type, $a_target_parent_id);
             $target_ml->setMasterLanguage($this->getMasterLanguage());
@@ -255,7 +211,7 @@ class ilPageMultiLang
      * @param string $a_lang language
      * @return string effective language ("-" for master)
      */
-    public function getEffectiveLang($a_lang)
+    public function getEffectiveLang(string $a_lang) : string
     {
         if ($this->getActivated() &&
             in_array($a_lang, $this->getLanguages()) &&

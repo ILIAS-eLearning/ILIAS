@@ -1,40 +1,35 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once './Services/User/classes/class.ilUserAccountSettings.php';
 
 /**
- * @classDescription user filter
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesUser
  */
 class ilUserFilter
 {
-    private static $instance = null;
+    private static ?ilUserFilter $instance = null;
+    private array $folder_ids = array(); // Missing array type.
 
-    private $settings = null;
-    
-    private $folder_ids = array();
-
-
-    /**
-     * Singleton constructor
-     * @return
-     */
     protected function __construct()
     {
         $this->init();
     }
 
-    /**
-     * Singelton get instance
-     * @return object ilUserFilter
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         if (self::$instance) {
             return self::$instance;
@@ -44,9 +39,8 @@ class ilUserFilter
 
     /**
      * Filter user accounts
-     * @return
      */
-    public function filter($a_user_ids)
+    public function filter(array $a_user_ids) : array // Missing array type.
     {
         global $DIC;
 
@@ -68,23 +62,14 @@ class ilUserFilter
         return $filtered;
     }
     
-    /**
-     * Get accessible user folder (cat and usrf) ids.
-     * @return
-     */
-    public function getFolderIds()
+    public function getFolderIds() : array // Missing array type.
     {
-        return (array) $this->folder_ids;
+        return $this->folder_ids;
     }
 
-    /**
-     * Init
-     * @return
-     */
-    private function init()
+    private function init() : void
     {
         if (ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
-            include_once './Services/User/classes/class.ilLocalUser.php';
             $this->folder_ids = ilLocalUser::_getFolderIds();
         }
     }

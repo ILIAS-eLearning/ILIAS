@@ -78,7 +78,7 @@ class ilTestPlayerCommands
      * @param $cmd
      * @return bool
      */
-    public static function isTestExecutionCommand($cmd)
+    public static function isTestExecutionCommand($cmd) : bool
     {
         return !in_array($cmd, self::$nonExecutionCommands);
     }

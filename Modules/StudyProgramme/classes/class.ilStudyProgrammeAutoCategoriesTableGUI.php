@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjStudyProgrammeAutoCategoriesGUI
@@ -10,9 +24,9 @@ declare(strict_types=1);
 class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 {
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        $a_template_context = ""
+        ilObjStudyProgrammeAutoCategoriesGUI $a_parent_obj,
+        string $a_parent_cmd = "",
+        string $a_template_context = ""
     ) {
         $this->setId("sp_ac_list");
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -39,15 +53,9 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
-        list($ac, $title, $usr, $actions) = $set;
-        $username = ilObjUser::_lookupName($ac->getLastEditorId());
-        $editor = implode(' ', [
-            $username['firstname'],
-            $username['lastname'],
-            '(' . $username['login'] . ')'
-        ]);
+        [$ac, $title, $usr, $actions] = $a_set;
 
         $this->tpl->setVariable("ID", $ac->getCategoryRefId());
         $this->tpl->setVariable("TITLE", $title);

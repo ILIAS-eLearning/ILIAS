@@ -1,12 +1,17 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Object/classes/class.ilObjectGUI.php';
-// require_once 'Services/LTI/classes/ActiveRecord/class.ilLTIExternalConsumer.php';
-require_once 'Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
-require_once 'Services/LTI/classes/class.ilLTIDataConnector.php';
-
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjLTIAdministrationGUI
  * @author Jesús López <lopez@leifos.com>
@@ -19,23 +24,24 @@ require_once 'Services/LTI/classes/class.ilLTIDataConnector.php';
  */
 class ilObjLTIAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * Data connector object or string.
-     *
-     * @var mixed $dataConnector
-     */
-    private $dataConnector = null;
-    
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    private ?ilLTIDataConnector $dataConnector = null;
+
+    private ?int $consumer_id = null;
+
+    public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
+        global $DIC;
+        $DIC->language()->loadLanguageModule('lti'); //&ltis
         $this->type = "ltis";
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->dataConnector = new ilLTIDataConnector();
-        
-        $GLOBALS['DIC']->language()->loadLanguageModule('lti');
+
+        if ($DIC->http()->wrapper()->query()->has("cid")) {
+            $this->consumer_id = (int) $DIC->http()->wrapper()->query()->retrieve("cid", $DIC->refinery()->kindlyTo()->int());
+        }
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -45,7 +51,6 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $GLOBALS['ilTabs']->activateTab('perm_settings');
-                require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -68,17 +73,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getType()
+    public function getType() : string
     {
         return "ltis";
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        global $rbacsystem;
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 'lti_providing',
                 $this->lng->txt("lti_providing_tab"),
@@ -91,12 +93,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass('ilLTIConsumerAdministrationGUI')
             );
 
-            if ($DIC->ctrl()->getCmdClass() == 'ilobjltiadministrationgui') {
+            if ($this->ctrl->getCmdClass() == 'ilobjltiadministrationgui') {
                 $this->addProvidingSubtabs();
             }
         }
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "perm_settings",
                 $this->lng->txt("perm_settings"),
@@ -105,12 +107,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    protected function addProvidingSubtabs()
+    protected function addProvidingSubtabs() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $rbacsystem = $DIC->rbac()->system();
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             // currently no general settings.
             //			$this->tabs_gui->addTab("settings",
             //				$this->lng->txt("settings"),
@@ -122,7 +121,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "listConsumers")
             );
         }
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addSubTab(
                 "releasedObjects",
                 $this->lng->txt("lti_released_objects"),
@@ -131,7 +130,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    protected function initSettingsForm(ilPropertyFormGUI $form = null)
+    protected function initSettingsForm(ilPropertyFormGUI $form = null) : void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getSettingsForm();
@@ -141,10 +140,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     }
 
 
-    protected function getSettingsForm()
+    protected function getSettingsForm() : \ilPropertyFormGUI
     {
-        require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-
         $form = new ilPropertyFormGUI();
         /*
         $form->setFormAction($this->ctrl->getFormAction($this,'saveSettingsForm'));
@@ -201,36 +198,35 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->initSettingsForm($form);
     }
     */
-	
-	// create global role LTI-User
-	protected function createLtiUserRole()
-	{
-        global $DIC;
-        $rbacadmin = $DIC['rbacadmin'];
+    
+    // create global role LTI-User
+    protected function createLtiUserRole() : void
+    {
         // include_once './Services/AccessControl/classes/class.ilObjRole.php';
         $role = new ilObjRole();
         $role->setTitle("il_lti_global_role");
         $role->setDescription("This global role should only contain the permission 'read' for repository and categories.");
         $role->create();
-        $rbacadmin->assignRoleToFolder($role->getId(), 8, 'y');
-        $rbacadmin->setProtected(8, $role->getId(), 'y');
-        $rbacadmin->setRolePermission($role->getId(), 'root', [3], 8);
-        $rbacadmin->setRolePermission($role->getId(), 'cat', [3], 8);
-        $rbacadmin->grantPermission($role->getId(), [3], ROOT_FOLDER_ID);
+        $this->rbac_admin->assignRoleToFolder($role->getId(), 8, 'y');
+        $this->rbac_admin->setProtected(8, $role->getId(), 'y');
+        $this->rbac_admin->setRolePermission($role->getId(), 'root', [3], 8);
+        $this->rbac_admin->setRolePermission($role->getId(), 'cat', [3], 8);
+        $this->rbac_admin->grantPermission($role->getId(), [3], ROOT_FOLDER_ID);
         $role->changeExistingObjects(
             ROOT_FOLDER_ID,
             ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
             array('cat'),
-            array());
+            array()
+        );
         
-		ilUtil::sendSuccess($this->lng->txt("lti_user_role_created"), true);
-		$this->listConsumers();
-	}
-	
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_user_role_created"), true);
+        $this->listConsumers();
+    }
+    
 
     // consumers
 
-    protected function initConsumerForm(ilPropertyFormGUI $form = null)
+    protected function initConsumerForm(ilPropertyFormGUI $form = null) : void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getConsumerForm();
@@ -238,15 +234,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @param string $a_mode
-     * @return ilPropertyFormGUI
-     */
-    protected function getConsumerForm($a_mode = '')
+    protected function getConsumerForm(string $a_mode = '') : \ilPropertyFormGUI
     {
         $this->tabs_gui->activateSubTab("consumers");
-
-        require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
         $form = new ilPropertyFormGUI();
 
@@ -261,7 +251,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         #$ti_secret->setRequired(true);
 
         $languages = $this->lng->getInstalledLanguages();
-        $array_lang = array();
+        $array_lang = [];
+        $options = [];
         foreach ($languages as $lang_key) {
             $array_lang[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key);
         }
@@ -284,7 +275,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $valid_obj_types = $this->object->getLTIObjectTypes();
         foreach ($valid_obj_types as $obj_type) {
-            $object_name = $GLOBALS['DIC']->language()->txt('objs_' . $obj_type);
+            $object_name = $this->lng->txt('objs_' . $obj_type);
             $cb_obj_types->addOption(new ilCheckboxOption($object_name, $obj_type));
         }
         $form->addItem($cb_obj_types);
@@ -314,21 +305,17 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     /**
      * Edit consumer
-     * @global type $ilCtrl
-     * @global type $tpl
      * @param ilPropertyFormGUI $a_form
      */
-    protected function editConsumer(ilPropertyFormGUI $a_form = null)
+    protected function editConsumer(ilPropertyFormGUI $a_form = null) : void
     {
-        global $ilCtrl, $tpl;
-        $consumer_id = $_REQUEST["cid"];
-        $ilCtrl->setParameter($this, "cid", $consumer_id);
+        $this->ctrl->setParameter($this, "cid", $this->consumer_id);
 
-        if (!$consumer_id) {
-            $ilCtrl->redirect($this, "listConsumers");
+        if (!$this->consumer_id) {
+            $this->ctrl->redirect($this, "listConsumers");
         }
 
-        $consumer = ilLTIToolConsumer::fromExternalConsumerId($consumer_id, $this->dataConnector);
+        $consumer = ilLTIPlatform::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
         if (!$a_form instanceof ilPropertyFormGUI) {
             $a_form = $this->getConsumerForm('edit');
             $a_form->getItemByPostVar("title")->setValue($consumer->getTitle());
@@ -337,15 +324,15 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $a_form->getItemByPostVar("language")->setValue($consumer->getLanguage());
             $a_form->getItemByPostVar("active")->setChecked($consumer->getActive());
             $a_form->getItemByPostVar("role")->setValue($consumer->getRole());
-            $a_form->getItemByPostVar("types")->setValue($this->object->getActiveObjectTypes($consumer_id));
+            $a_form->getItemByPostVar("types")->setValue($this->object->getActiveObjectTypes($this->consumer_id));
         }
-        $tpl->setContent($a_form->getHTML());
+        $this->tpl->setContent($a_form->getHTML());
     }
 
     /**
      * Create new lti consumer
      */
-    protected function createLTIConsumer()
+    protected function createLTIConsumer() : void
     {
         $this->checkPermission("write");
 
@@ -354,21 +341,21 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         if ($form->checkInput()) {
             // $consumer = new ilLTIExternalConsumer();
             // $dataConnector = new ilLTIDataConnector();
-            $consumer = new ilLTIToolConsumer(null, $this->dataConnector);
+            $consumer = new ilLTIPlatform(null, $this->dataConnector);
             $consumer->setTitle($form->getInput('title'));
             $consumer->setDescription($form->getInput('description'));
             $consumer->setPrefix($form->getInput('prefix'));
             $consumer->setLanguage($form->getInput('language'));
-            $consumer->setActive($form->getInput('active'));
-            $consumer->setRole($form->getInput('role'));
+            $consumer->setActive((bool) $form->getInput('active'));
+            $consumer->setRole((int) $form->getInput('role'));
             $consumer->saveGlobalToolConsumerSettings($this->dataConnector);
             
             $this->object->saveConsumerObjectTypes(
                 $consumer->getExtConsumerId(),
                 $form->getInput('types')
             );
-            ilUtil::sendSuccess($this->lng->txt("lti_consumer_created"), true);
-            $GLOBALS['DIC']->ctrl()->redirect($this, 'listConsumers');
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_consumer_created"), true);
+            $this->ctrl->redirect($this, 'listConsumers');
         }
 
         $form->setValuesByPost();
@@ -378,85 +365,74 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     /**
      * Update lti consumer settings
-     * @global ilCtrl $ilCtrl
      */
-    protected function updateLTIConsumer()
+    protected function updateLTIConsumer() : void
     {
-        global $ilCtrl;
-
         $this->checkPermission("write");
 
-        $consumer_id = $_REQUEST["cid"];
-        if (!$consumer_id) {
-            $ilCtrl->redirect($this, "listConsumers");
+        if (!$this->consumer_id) {
+            $this->ctrl->redirect($this, "listConsumers");
         }
 
-        $ilCtrl->setParameter($this, "cid", $consumer_id);
+        $this->ctrl->setParameter($this, "cid", $this->consumer_id);
 
-        $consumer = ilLTIToolConsumer::fromExternalConsumerId($consumer_id, $this->dataConnector);
+        $consumer = ilLTIPlatform::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
         $form = $this->getConsumerForm('edit');
         if ($form->checkInput()) {
             $consumer->setTitle($form->getInput('title'));
             $consumer->setDescription($form->getInput('description'));
             $consumer->setPrefix($form->getInput('prefix'));
             $consumer->setLanguage($form->getInput('language'));
-            $consumer->setActive($form->getInput('active'));
-            $consumer->setRole($form->getInput('role'));
+            $consumer->setActive((bool) $form->getInput('active'));
+            $consumer->setRole((int) $form->getInput('role'));
             $consumer->saveGlobalToolConsumerSettings($this->dataConnector);
-            $this->object->saveConsumerObjectTypes($consumer_id, $form->getInput('types'));
+            $this->object->saveConsumerObjectTypes($this->consumer_id, $form->getInput('types'));
 
-            ilUtil::sendSuccess($this->lng->txt("lti_consumer_updated"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_consumer_updated"), true);
         }
         $this->listConsumers();
     }
 
     /**
      * Delete consumers
-     * @global type $ilCtrl
      */
-    protected function deleteLTIConsumer()
+    protected function deleteLTIConsumer() : void
     {
-        global $ilCtrl;
-
-        $consumer_id = $_REQUEST['cid'];
-
-        if (!$consumer_id) {
-            $ilCtrl->redirect($this, "listConsumers");
+        $consumer_id = 0;
+        if ($this->request_wrapper->has('cid')) {
+            $consumer_id = (int) $this->request_wrapper->retrieve('cid', $this->refinery->kindlyTo()->int());
         }
-        $consumer = ilLTIToolConsumer::fromExternalConsumerId($consumer_id, $this->dataConnector);
+
+        if ($consumer_id == 0) {
+            $this->ctrl->redirect($this, "listConsumers");
+        }
+        $consumer = ilLTIPlatform::fromExternalConsumerId($consumer_id, $this->dataConnector);
         $consumer->deleteGlobalToolConsumerSettings($this->dataConnector);
-        ilUtil::sendSuccess($this->lng->txt("lti_consumer_deleted"), true);
-        $GLOBALS['DIC']->ctrl()->redirect($this, 'listConsumers');
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_consumer_deleted"), true);
+        $this->ctrl->redirect($this, 'listConsumers');
     }
 
 
     /**
      * List consumers
-     * @global type $ilAccess
-     * @global type $ilToolbar
      */
-    protected function listConsumers()
+    protected function listConsumers() : void
     {
-        global $ilAccess, $ilToolbar;
-
         if ($this->checkPermissionBool('write')) {
-            $ilToolbar->addButton(
+            $this->toolbar->addButton(
                 $this->lng->txt('lti_create_consumer'),
                 $this->ctrl->getLinkTarget($this, 'createconsumer')
             );
             if (ilObject::_getIdsForTitle("il_lti_global_role", "role", false) == false) {
-                $ilToolbar->addButton(
+                $this->toolbar->addButton(
                     $this->lng->txt('lti_create_lti_user_role'),
                     $this->ctrl->getLinkTarget($this, 'createLtiUserRole')
                 );
-                $ilToolbar->addText($this->lng->txt('lti_user_role_info'));
+                $this->toolbar->addText($this->lng->txt('lti_user_role_info'));
             }
-			
         }
 
         $this->tabs_gui->activateSubTab("consumers");
-
-        include_once "Services/LTI/classes/Consumer/class.ilLTIConsumerTableGUI.php";
         $tbl = new ilObjectConsumerTableGUI(
             $this,
             "listConsumers"
@@ -467,43 +443,38 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     /**
      * Change activation status
-     * @global type $ilCtrl
      */
-    protected function changeStatusLTIConsumer()
+    protected function changeStatusLTIConsumer() : void
     {
-        global $ilCtrl;
-
-        $consumer_id = $_REQUEST["cid"];
-
-        if (!$consumer_id) {
-            $ilCtrl->redirect($this, "listConsumers");
+        if (!$this->consumer_id) {
+            $this->ctrl->redirect($this, "listConsumers");
         }
 
-        $consumer = ilLTIToolConsumer::fromExternalConsumerId($consumer_id, $this->dataConnector);
+        $consumer = ilLTIPlatform::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
         if ($consumer->getActive()) {
-            $consumer->setActive(0);
+            $consumer->setActive(false);
             $msg = "lti_consumer_set_inactive";
         } else {
-            $consumer->setActive(1);
+            $consumer->setActive(true);
             $msg = "lti_consumer_set_active";
         }
         $consumer->saveGlobalToolConsumerSettings($this->dataConnector);
-        ilUtil::sendSuccess($this->lng->txt($msg), true);
-        
-        $GLOBALS['DIC']->ctrl()->redirect($this, 'listConsumers');
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt($msg), true);
+
+        $this->ctrl->redirect($this, 'listConsumers');
     }
     
     /**
      * Show relases objects
      */
-    protected function releasedObjects()
+    protected function releasedObjects() : void
     {
-        $GLOBALS['DIC']->tabs()->activateSubTab('releasedObjects');
-        
+        $this->tabs_gui->activateSubTab('releasedObjects');
+
         $table = new ilLTIProviderReleasedObjectsTableGUI($this, 'releasedObjects', 'ltireleases');
         $table->init();
         $table->parse();
         
-        $GLOBALS['DIC']->ui()->mainTemplate()->setContent($table->getHTML());
+        $this->tpl->setContent($table->getHTML());
     }
 }

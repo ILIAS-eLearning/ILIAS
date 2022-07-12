@@ -1,46 +1,50 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Style\Content;
 
 /**
  * TableGUI class for style editor (image list)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilStyleMediaQueryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilObjStyleSheet $style_obj;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected Content\Access\StyleAccessManager $access_manager;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_style_obj)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjStyleSheet $a_style_obj,
+        Content\Access\StyleAccessManager $access_manager
+    ) {
         global $DIC;
 
+        $this->access_manager = $access_manager;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        $rbacsystem = $DIC->rbac()->system();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->setTitle($lng->txt("sty_media_queries"));
@@ -58,7 +62,7 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
         $this->getItems();
 
         // action commands
-        if ($this->parent_obj->checkWrite()) {
+        if ($this->access_manager->checkWrite()) {
             $this->addCommandButton("saveMediaQueryOrder", $lng->txt("sty_save_order"));
             $this->addMultiCommand("deleteMediaQueryConfirmation", $lng->txt("delete"));
         }
@@ -66,29 +70,21 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
 
-    /**
-    * Get items of current folder
-    */
-    public function getItems()
+    public function getItems() : void
     {
         $this->setData($this->style_obj->getMediaQueries());
     }
     
-    /**
-    * Fill table row
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        $rbacsystem = $this->rbacsystem;
-        
+
         $this->tpl->setVariable("MQUERY", $a_set["mquery"]);
         $this->tpl->setVariable("MQID", $a_set["id"]);
         $this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
 
-        if ($this->parent_obj->checkWrite()) {
+        if ($this->access_manager->checkWrite()) {
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
             $ilCtrl->setParameter($this->parent_obj, "mq_id", $a_set["id"]);
             $this->tpl->setVariable(

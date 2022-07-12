@@ -1,70 +1,55 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
 /**
-* @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
-*
-* @ingroup ServicesMail
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Michael Jansen <mjansen@databay.de>
+ * @ingroup ServicesMail
+ */
 class ilMailingList
 {
-    private $mail_id = 0;
-    private $user_id = 0;
-    private $title = '';
-    private $description = '';
-    private $createdate = null;
-    private $changedate = null;
+    private int $mail_id;
+    private int $user_id;
+    private string $title = '';
+    private string $description = '';
+    private string $createdate;
+    private ?string $changedate;
 
-    /**
-     * @var ilObjUser
-     */
-    private $user;
+    private ilDBInterface $db;
 
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
-    
-    const MODE_ADDRESSBOOK = 1;
-    const MODE_TEMPORARY = 2;
-    
-    public function __construct(ilObjUser $user, $id = 0)
+    public const MODE_ADDRESSBOOK = 1;
+    public const MODE_TEMPORARY = 2;
+    private int $mode;
+
+    public function __construct(ilObjUser $user, int $id = 0)
     {
         global $DIC;
 
         $this->db = $DIC['ilDB'];
-        $this->user = $user;
-        
+
         $this->mail_id = $id;
-        $this->user_id = $this->user->getId();
-        
+        $this->user_id = $user->getId();
+
         $this->setMode(self::MODE_ADDRESSBOOK);
-    
+
         $this->read();
     }
-    
-    public function insert()
+
+    public function insert() : bool
     {
         $nextId = $this->db->nextId('addressbook_mlist');
         $statement = $this->db->manipulateF(
@@ -79,29 +64,32 @@ class ilMailingList
 				lmode
 			)
 			VALUES(%s, %s, %s, %s, %s, %s, %s)',
-            array(	'integer',
-                    'integer',
-                    'text',
-                    'text',
-                    'timestamp',
-                    'timestamp',
-                    'integer'),
-            array(	$nextId,
-                    $this->getUserId(),
-                    $this->getTitle(),
-                    $this->getDescription(),
-                    $this->getCreatedate(),
-                    null,
-                    $this->getMode()
-        )
+            [
+                'integer',
+                'integer',
+                'text',
+                'text',
+                'timestamp',
+                'timestamp',
+                'integer'
+            ],
+            [
+                $nextId,
+                $this->getUserId(),
+                $this->getTitle(),
+                $this->getDescription(),
+                $this->getCreatedate(),
+                null,
+                $this->getMode()
+            ]
         );
-        
+
         $this->mail_id = $nextId;
-        
+
         return true;
     }
-    
-    public function update()
+
+    public function update() : bool
     {
         if ($this->mail_id && $this->user_id) {
             $statement = $this->db->manipulateF(
@@ -113,227 +101,197 @@ class ilMailingList
 					lmode = %s
 				WHERE ml_id =  %s
 				AND user_id =  %s',
-                array(	'text',
-                        'text',
-                        'timestamp',
-                        'integer',
-                        'integer',
-                        'integer'
-                ),
-                array(	$this->getTitle(),
-                            $this->getDescription(),
-                            $this->getChangedate(),
-                            $this->getMode(),
-                            $this->getId(),
-                            $this->getUserId()
-            )
+                [
+                    'text',
+                    'text',
+                    'timestamp',
+                    'integer',
+                    'integer',
+                    'integer'
+                ],
+                [
+                    $this->getTitle(),
+                    $this->getDescription(),
+                    $this->getChangedate(),
+                    $this->getMode(),
+                    $this->getId(),
+                    $this->getUserId()
+                ]
             );
-            
+
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
-    
-    public function delete()
+
+    public function delete() : bool
     {
         if ($this->mail_id && $this->user_id) {
             $this->deassignAllEntries();
 
             $statement = $this->db->manipulateF(
-                '
-				DELETE FROM addressbook_mlist
-				WHERE ml_id = %s
-				AND user_id = %s',
-                array('integer', 'integer'),
-                array($this->getId(), $this->getUserId())
+                'DELETE FROM addressbook_mlist WHERE ml_id = %s AND user_id = %s',
+                ['integer', 'integer'],
+                [$this->getId(), $this->getUserId()]
             );
-            
+
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
-    
-    private function read()
+
+    private function read() : void
     {
         if ($this->getId() && $this->getUserId()) {
-            $res = $this->db->queryf(
-                '
-				SELECT * FROM addressbook_mlist 
-				WHERE ml_id = %s
-				AND user_id =%s',
-                array('integer', 'integer'),
-                array($this->getId(), $this->getUserId())
+            $res = $this->db->queryF(
+                'SELECT * FROM addressbook_mlist WHERE ml_id = %s AND user_id =%s',
+                ['integer', 'integer'],
+                [$this->getId(), $this->getUserId()]
             );
-    
+
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-    
+
             if (is_object($row)) {
-                $this->setId($row->ml_id);
-                $this->setUserId($row->user_id);
+                $this->setId((int) $row->ml_id);
+                $this->setUserId((int) $row->user_id);
                 $this->setTitle($row->title);
                 $this->setDescription($row->description);
                 $this->setCreatedate($row->createdate);
-                $this->setChangedate($row->changedae);
-                $this->setMode($row->lmode);
+                $this->setChangedate($row->changedate);
+                $this->setMode((int) $row->lmode);
             }
         }
-        
-        
-        return true;
-    }
-
-    public function getAssignedEntries()
-    {
-        $res = $this->db->queryf(
-            'SELECT a_id, usr_data.usr_id FROM addressbook_mlist_ass INNER JOIN usr_data ON usr_data.usr_id = addressbook_mlist_ass.usr_id WHERE ml_id = %s',
-            array('integer'),
-            array($this->getId())
-        );
-
-        $entries = array();
-        $counter = 0;
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $entries[$row->a_id] = array(
-                'a_id' => $row->a_id,
-                'usr_id' => $row->usr_id
-            );
-            ++$counter;
-        }
-        
-        return $entries;
     }
 
     /**
-     * @param int $usr_id
-     * @return bool
+     * @return array<int, array{a_id: int, usr_id: int}>
      */
-    public function assignUser($usr_id = 0)
+    public function getAssignedEntries() : array
+    {
+        $res = $this->db->queryF(
+            'SELECT a_id, usr_data.usr_id FROM addressbook_mlist_ass ' .
+            'INNER JOIN usr_data ON usr_data.usr_id = addressbook_mlist_ass.usr_id WHERE ml_id = %s',
+            ['integer'],
+            [$this->getId()]
+        );
+
+        $entries = [];
+        $counter = 0;
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $entries[(int) $row->a_id] = [
+                'a_id' => (int) $row->a_id,
+                'usr_id' => (int) $row->usr_id
+            ];
+        }
+
+        return $entries;
+    }
+
+
+    public function assignUser(int $usr_id = 0) : bool
     {
         $nextId = $this->db->nextId('addressbook_mlist_ass');
         $this->db->manipulateF(
             'INSERT INTO addressbook_mlist_ass (a_id, ml_id, usr_id) VALUES(%s, %s, %s)',
-            array('integer', 'integer', 'integer'),
-            array($nextId, $this->getId(), $usr_id)
+            ['integer', 'integer', 'integer'],
+            [$nextId, $this->getId(), $usr_id]
         );
         return true;
     }
 
-    /**
-     * @param int $a_id
-     * @return bool
-     */
-    public function deleteEntry($a_id = 0)
+
+    public function deleteEntry(int $a_id = 0) : bool
     {
         $this->db->manipulateF(
             'DELETE FROM addressbook_mlist_ass WHERE a_id = %s',
-            array('integer'),
-            array($a_id)
+            ['integer'],
+            [$a_id]
         );
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function deassignAllEntries()
+
+    public function deassignAllEntries() : bool
     {
         $this->db->manipulateF(
             'DELETE FROM addressbook_mlist_ass WHERE ml_id = %s',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
         return true;
     }
-    
-    public function setId($a_mail_id = 0)
+
+    public function setId(int $a_mail_id = 0) : void
     {
         $this->mail_id = $a_mail_id;
     }
-    public function getId()
+
+    public function getId() : int
     {
         return $this->mail_id;
     }
-    public function setUserId($a_user_id = 0)
+
+    public function setUserId(int $a_user_id = 0) : void
     {
         $this->user_id = $a_user_id;
     }
-    public function getUserId()
+
+    public function getUserId() : int
     {
         return $this->user_id;
     }
-    public function setTitle($a_title = '')
+
+    public function setTitle(string $a_title = '') : void
     {
         $this->title = $a_title;
     }
-    public function getTitle()
+
+    public function getTitle() : string
     {
         return $this->title;
     }
-    public function setDescription($a_description = '')
+
+    public function setDescription(string $a_description = '') : void
     {
         $this->description = $a_description;
     }
-    public function getDescription()
+
+    public function getDescription() : string
     {
         return $this->description;
     }
-    public function setCreatedate($_createdate)
+
+    public function setCreatedate(string $_createdate) : void
     {
         $this->createdate = $_createdate;
     }
-    public function getCreatedate()
+
+    public function getCreatedate() : string
     {
         return $this->createdate;
     }
-    public function setChangedate($a_changedate)
+
+    public function setChangedate(?string $a_changedate) : void
     {
         $this->changedate = $a_changedate;
     }
-    public function getChangedate()
+
+    public function getChangedate() : ?string
     {
         return $this->changedate;
     }
-    
-    public static function _isOwner($a_ml_id, $a_usr_id)
-    {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
 
-        $res = $ilDB->queryf(
-            'SELECT * FROM addressbook_mlist WHERE ml_id = %s AND user_id =%s',
-            array('integer', 'integer'),
-            array($a_ml_id, $a_usr_id)
-        );
-        $row = $ilDB->fetchObject($res);
-        
-        return is_object($row) ? true : false;
-    }
-    
-    public function setMode($a_mode)
+    public function setMode(int $a_mode) : void
     {
-        $a_mode = (int) $a_mode;
-        if (in_array($a_mode, array(self::MODE_ADDRESSBOOK, self::MODE_TEMPORARY))) {
-            $this->mode = (int) $a_mode;
+        if (in_array($a_mode, [self::MODE_ADDRESSBOOK, self::MODE_TEMPORARY], true)) {
+            $this->mode = $a_mode;
         }
     }
-    
-    public function getMode()
+
+    public function getMode() : int
     {
         return $this->mode;
-    }
-
-    /**
-     * @param int $usr_id
-     */
-    public static function removeAssignmentsByUserId($usr_id)
-    {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->manipulate('DELETE FROM addressbook_mlist_ass WHERE usr_id = ' . $ilDB->quote($usr_id, 'integer'));
     }
 }

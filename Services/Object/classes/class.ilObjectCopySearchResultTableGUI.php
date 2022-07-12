@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Presentation of search results
  *
@@ -11,49 +25,23 @@
  */
 class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    private $type = '';
-    private $selected_reference = null;
+    protected ilObjUser $user;
+    protected ilObjectDefinition $obj_definition;
+    protected string $type;
+    protected ?int $selected_reference = null;
     
-    /**
-     *
-     * @param object $a_parent_class
-     * @param string $a_parent_cmd
-     * @return
-     */
-    public function __construct($a_parent_class, $a_parent_cmd, $a_type)
+    public function __construct(?object $parent_class, string $parent_cmd, string $type)
     {
         global $DIC;
 
         $this->user = $DIC->user();
         $this->obj_definition = $DIC["objDefinition"];
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $ilUser = $DIC->user();
-        $objDefinition = $DIC["objDefinition"];
         
-        $this->setId('obj_copy_' . $a_type);
-        parent::__construct($a_parent_class, $a_parent_cmd);
-        $this->type = $a_type;
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->setId('obj_copy_' . $type);
+        parent::__construct($parent_class, $parent_cmd);
+        $this->type = $type;
                 
-        if (!$objDefinition->isPlugin($this->type)) {
+        if (!$this->obj_definition->isPlugin($this->type)) {
             $title = $this->lng->txt('obj_' . $this->type . '_duplicate');
         } else {
             $plugin = ilObjectPlugin::getPluginObjectByType($this->type);
@@ -61,7 +49,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
         }
         
         $this->setTitle($title);
-        $ilUser->getPref('search_max_hits');
+        $this->user->getPref('search_max_hits');
         
         $this->addColumn($this->lng->txt('search_title_description'), 'title', '99%');
         
@@ -72,42 +60,29 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('title');
         $this->setShowRowsSelector(true);
         
-        if ($objDefinition->isContainer($this->type)) {
+        if ($this->obj_definition->isContainer($this->type)) {
             $this->addCommandButton('saveSource', $this->lng->txt('btn_next'));
         } else {
             $this->addCommandButton('saveSource', $title);
         }
         
-        $this->addCommandButton('cancel', $this->lng->txt('btn_back'));
+        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
     
-    /**
-     * Set selected reference
-     * @param int $a_selected_reference
-     * @return
-     */
-    public function setSelectedReference($a_selected_reference)
+    public function setSelectedReference(int $selected_reference) : void
     {
-        $this->selected_reference = $a_selected_reference;
+        $this->selected_reference = $selected_reference;
     }
     
-    /**
-     * get selected reference
-     * @return
-     */
-    public function getSelectedReference()
+    public function getSelectedReference() : ?int
     {
         return $this->selected_reference;
     }
     
-    /**
-     * Parse search results
-     * @param object $a_res
-     * @return
-     */
-    public function parseSearchResults($a_res)
+    public function parseSearchResults(array $res) : void
     {
-        foreach ($a_res as $obj_id => $references) {
+        $rows = [];
+        foreach ($res as $obj_id => $references) {
             $r['title'] = ilObject::_lookupTitle($obj_id);
             $r['desc'] = ilObject::_lookupDescription($obj_id);
             $r['obj_id'] = $obj_id;
@@ -116,15 +91,10 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
             $rows[] = $r;
         }
         
-        $this->setData($rows ? $rows : array());
+        $this->setData($rows);
     }
     
-    /**
-     * fill table rows
-     * @param array $set
-     * @return
-     */
-    protected function fillRow($set)
+    protected function fillRow(array $set) : void
     {
         $this->tpl->setVariable('VAL_TITLE', $set['title']);
         if (strlen($set['desc'])) {
@@ -137,7 +107,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
             
             $this->tpl->setCurrentBlock('path');
             $this->tpl->setVariable('VAL_ID', $reference);
-            $this->tpl->setVariable('VAL_PATH', $path->getPath(ROOT_FOLDER_ID, $reference));
+            $this->tpl->setVariable('VAL_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $reference));
             
             if ($reference == $this->getSelectedReference()) {
                 $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');

@@ -10,29 +10,26 @@
  */
 class ilServicesUserTasks
 {
-    const ANON_FIRSTNAME 		= 'Anonymous';
-    const ANON_LASTNAME  		= 'Exam-User';
-    const ANON_LOGIN_PREFIX 	= 'EX-';
-    const ANON_GENDER			= 'm';
-    const PASSWORD_CHARACTERSET	= 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    private const ANON_FIRSTNAME = 'Anonymous';
+    private const ANON_LASTNAME = 'Exam-User';
+    private const ANON_LOGIN_PREFIX = 'EX-';
+    private const ANON_GENDER = 'm';
+    private const PASSWORD_CHARACTERSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function createAnonymousUsers($context, $params)
+    public static function createAnonymousUsers(ilNode $context, array $params) : array
     {
         $input_params = $params[0];
-        $output_params =$params[1];
+        $output_params = $params[1];
 
         // IN: useridlist
         // OUT: anonaccountlist, userIdList
 
-        $pseudonymousUserMap = array();
-        $discloseMap = array();
-        $usrIdList = array();
+        $discloseMap = [];
 
         foreach ($input_params['usrIdList'] as $user_id) {
             $source_user = new ilObjUser($user_id, false);
@@ -44,36 +41,29 @@ class ilServicesUserTasks
                 $source_user->getEmail()
             );
 
-            $pseudonymousUserMap[] = array(
+            $discloseMap[] = [
                 'Original User' => $user_id,
-                'Anonymous User' => $new_id
-            );
-
-            $discloseMap[] = array(
-                'Original User' 			=> $user_id,
-                'Original Login' 			=> $source_user->getLogin(),
-                'Original Firstname' 		=> $source_user->getFirstname(),
-                'Original Lastname' 		=> $source_user->getLastname(),
-                'Original Matriculation' 	=> $source_user->getMatriculation(),
-                'Original Gender' 			=> $source_user->getGender(),
-                'Original EMail' 			=> $source_user->getEmail(),
-                'Anon User' 				=> $new_id,
-                'Anon Login' 				=> $anon_login,
-                'Anon Password' 			=> $anon_password
-            );
-
-            $usrIdList[] = $new_id;
+                'Original Login' => $source_user->getLogin(),
+                'Original Firstname' => $source_user->getFirstname(),
+                'Original Lastname' => $source_user->getLastname(),
+                'Original Matriculation' => $source_user->getMatriculation(),
+                'Original Gender' => $source_user->getGender(),
+                'Original EMail' => $source_user->getEmail(),
+                'Anon User' => $new_id,
+                'Anon Login' => $anon_login,
+                'Anon Password' => $anon_password
+            ];
         }
 
-        return array($output_params[0] => $discloseMap);
+        return [$output_params[0] => $discloseMap];
     }
 
     /**
      * @return string
      */
-    protected static function getValidLogin()
+    protected static function getValidLogin() : string
     {
-        $random = new \ilRandom();
+        $random = new ilRandom();
         do {
             $login = self::ANON_LOGIN_PREFIX . str_pad($random->int(0, 9999999), 7, STR_PAD_LEFT);
         } while (ilObjUser::_loginExists($login));
@@ -83,13 +73,12 @@ class ilServicesUserTasks
 
     /**
      * @param int $length
-     *
      * @return string
      */
-    protected static function generatePassword($length = 8)
+    protected static function generatePassword(int $length = 8) : string
     {
-        $random = new \ilRandom();
-        $password = array();
+        $random = new ilRandom();
+        $password = [];
         $setLength = strlen(self::PASSWORD_CHARACTERSET) - 1;
 
         for ($i = 0; $i < $length; $i++) {
@@ -104,10 +93,9 @@ class ilServicesUserTasks
      * @param string $login
      * @param string $password
      * @param string $email
-     *
      * @return int
      */
-    protected static function createUser($login, $password, $email)
+    protected static function createUser(string $login, string $password, string $email) : int
     {
         global $DIC;
         $rbacadmin = $DIC['rbacadmin'];
@@ -118,7 +106,7 @@ class ilServicesUserTasks
         $user->setLastname(self::ANON_LASTNAME);
         $user->setEmail($email);
         $user->setGender(self::ANON_GENDER);
-        $user->setPasswd($password, IL_PASSWD_PLAIN);
+        $user->setPasswd($password, ilObjUser::PASSWD_PLAIN);
         $user->setLogin($login);
         $user->setActive(true, 6);
         $user->create();
@@ -138,11 +126,11 @@ class ilServicesUserTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function repersonalizeUsers($context, $params)
+    public static function repersonalizeUsers(ilNode $context, array $params) : void
     {
         // IN: discloseMap
         $input_params = $params[0];
-        $output_params =$params[1];
+        $output_params = $params[1];
 
         foreach ($input_params['discloseMap'] as $disclose_entry) {
             $anon_user = new ilObjUser($disclose_entry['Anon User'], false);

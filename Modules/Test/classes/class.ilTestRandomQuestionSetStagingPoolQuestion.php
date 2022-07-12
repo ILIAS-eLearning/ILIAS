@@ -41,7 +41,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->testId;
     }
@@ -57,7 +57,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getPoolId()
+    public function getPoolId() : int
     {
         return $this->poolId;
     }
@@ -73,7 +73,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getQuestionId()
+    public function getQuestionId() : int
     {
         return $this->questionId;
     }

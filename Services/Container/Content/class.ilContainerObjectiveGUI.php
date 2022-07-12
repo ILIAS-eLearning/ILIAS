@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * GUI class for course objective view
@@ -20,10 +23,10 @@
  */
 class ilContainerObjectiveGUI extends ilContainerContentGUI
 {
-    const MATERIALS_TESTS = 1;
-    const MATERIALS_OTHER = 2;
+    public const MATERIALS_TESTS = 1;
+    public const MATERIALS_OTHER = 2;
 
-    private \ilLogger $logger;
+    private ilLogger $logger;
     protected ilTabsGUI $tabs;
     protected array $objective_map;
     protected ilToolbarGUI $toolbar;
@@ -33,7 +36,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     protected ilLOSettings $loc_settings;
     private string $output_html = '';
     private ?ilLOTestAssignments $test_assignments = null;
-    
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+
     public function __construct(ilContainerGUI $a_container_gui)
     {
         global $DIC;
@@ -51,6 +55,13 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         parent::__construct($a_container_gui);
         
         $this->initTestAssignments();
+
+        // ak: note, also in ILIAS <= 7 this page did not
+        // use the container style, it could however, but this would be a conceptual change
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForObjId(0);
     }
     
     public function getTestAssignments() : ilLOTestAssignments
@@ -62,8 +73,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     {
         return $this->loc_settings;
     }
-    
-    public function getDetailsLevel(int $a_item_id) : int
+
+    protected function getDetailsLevel(int $a_item_id) : int
     {
         // no details anymore
         return self::DETAILS_ALL;
@@ -117,28 +128,26 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 !$this->loc_settings->isInitialTestStart() &&
                 !ilObjTestAccess::checkCondition($tst_obj_id, ilConditionHandler::OPERATOR_FINISHED, '', $ilUser->getId())
             ) {
-                $this->output_html .= $this->renderTest($this->loc_settings->getInitialTest(), null, true, true);
+                $this->output_html .= $this->renderTest($this->loc_settings->getInitialTest(), 0, true);
             } elseif (
                 $this->loc_settings->getQualifiedTest() &&
                 $this->loc_settings->isGeneralQualifiedTestVisible()
             ) {
-                $this->output_html .= $this->renderTest($this->loc_settings->getQualifiedTest(), null, false, true);
+                $this->output_html .= $this->renderTest($this->loc_settings->getQualifiedTest(), 0, false);
             }
             
             $this->showMaterials(self::MATERIALS_OTHER, false, !$is_order);
         } else {
-            $this->showMaterials(null, $is_manage);
+            $this->showMaterials(null, true);
         }
 
         // reset results by setting or for admins
         if (
-            ilLOSettings::getInstanceByObjId($this->getContainerObject()->getId())->isResetResultsEnabled() or
+            ilLOSettings::getInstanceByObjId($this->getContainerObject()->getId())->isResetResultsEnabled() ||
             $ilAccess->checkAccess('write', '', $this->getContainerObject()->getRefId())
         ) {
-            if ($has_results) {
-                if (!$is_manage && !$is_order) {
-                    $this->showButton('askReset', $lng->txt('crs_reset_results'));
-                }
+            if ($has_results && !$is_manage && !$is_order) {
+                $this->showButton('askReset', $lng->txt('crs_reset_results'));
             }
         }
 
@@ -156,7 +165,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $lng = $this->lng;
         
         $status = ilCourseObjectiveResultCache::getStatus($ilUser->getId(), $this->getContainerObject()->getId());
-        if ($status == IL_OBJECTIVE_STATUS_EMPTY) {
+        if ($status === ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_EMPTY) {
             return;
         }
         $info_tpl = new ilTemplate('tpl.crs_objectives_view_info_table.html', true, true, 'Modules/Course');
@@ -177,7 +186,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $has_container_page = false;
         if (!$a_is_order) {
             $output_html = $this->getContainerGUI()->getContainerPageHTML();
-            if ($output_html != "") {
+            if ($output_html !== "") {
                 $has_container_page = true;
                 $this->output_html .= $this->insertPageEmbeddedBlocks($output_html);
             }
@@ -191,7 +200,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         
         $this->objective_list_gui = new ilCourseObjectiveListGUI();
         $this->objective_list_gui->setContainerObject($this->getContainerGUI());
-        if ($ilSetting->get("icon_position_in_lists") == "item_rows") {
+        if ($ilSetting->get("icon_position_in_lists") === "item_rows") {
             $this->objective_list_gui->enableIcon(true);
         }
         
@@ -216,7 +225,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             if (
                 $has_initial &&
                 (
-                    !isset($lur_data[$objective_id]) or
+                    !isset($lur_data[$objective_id]) ||
                     ilLOUtils::hasActiveRun(
                         $this->container_obj->getId(),
                         ilLOSettings::getInstanceByObjId($this->container_obj->getId())->getInitialTest(),
@@ -224,7 +233,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     )
                 )
             ) {
-                $lur_data[$objective_id] = array("type" => ilLOSettings::TYPE_TEST_INITIAL);
+                $lur_data[$objective_id] = ["type" => ilLOSettings::TYPE_TEST_INITIAL];
             }
 
             if ($html = $this->renderObjective($objective_id, $has_lo_page, $acc, $lur_data[$objective_id])) {
@@ -319,7 +328,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         int $a_mode = null,
         bool $a_is_manage = false,
         bool $a_as_accordion = false
-    ) {
+    ) : void {
         $lng = $this->lng;
 
         $this->clearAdminCommandsDetermination();
@@ -328,20 +337,20 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $this->objective_map = $this->buildObjectiveMap();
             
             // all rows
-            $item_r = array();
+            $item_r = [];
             
             $position = 1;
             foreach ($this->items["_all"] as $k => $item_data) {
-                if ($a_mode == self::MATERIALS_TESTS and $item_data['type'] != 'tst') {
+                if ($a_mode === self::MATERIALS_TESTS && $item_data['type'] !== 'tst') {
                     continue;
                 }
-                if ($item_data['type'] == 'itgr') {
+                if ($item_data['type'] === 'itgr') {
                     continue;
                 }
                 if (!$a_is_manage) {
                     // if test object is qualified or initial do not show here
                     $assignments = ilLOTestAssignments::getInstance($this->getContainerObject()->getId());
-                    if ($assignments->getTypeByTest($item_data['child']) != ilLOSettings::TYPE_TEST_UNDEFINED) {
+                    if ($assignments->getTypeByTest($item_data['child']) !== ilLOSettings::TYPE_TEST_UNDEFINED) {
                         continue;
                     }
                 }
@@ -351,9 +360,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     $this->rendered_items[$item_data['child']] = true;
                     
                     // TODO: Position (DONE ?)
-                    $html = $this->renderItem($item_data, $position++, $a_mode == self::MATERIALS_TESTS ? false : true);
+                    $html = $this->renderItem($item_data, $position++, !($a_mode === self::MATERIALS_TESTS));
                     if ($html != "") {
-                        $item_r[] = array("html" => $html, "id" => $item_data["child"], "type" => $item_data["type"]);
+                        $item_r[] = ["html" => $html, "id" => $item_data["child"], "type" => $item_data["type"]];
                     }
                 }
             }
@@ -382,7 +391,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     }
 
                     // :TODO:
-                    if ($a_mode != self::MATERIALS_TESTS) {
+                    if ($a_mode !== self::MATERIALS_TESTS) {
                         $pos = $this->getItemGroupsHTML();
                     }
                 
@@ -408,7 +417,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     $acc = new ilAccordionGUI();
                     $acc->setId("crsobjtvmat" . $a_mode . "_" . $this->container_obj->getId());
                     
-                    $acc_content = array();
+                    $acc_content = [];
                     foreach ($item_r as $h) {
                         $acc_content[] = $h["html"];
                     }
@@ -422,7 +431,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     
     protected function buildObjectiveMap() : array
     {
-        $objective_map = array();
+        $objective_map = [];
         // begin-patch lok
         if (count($objective_ids = ilCourseObjective::_getObjectiveIds($this->getContainerObject()->getId(), true))) {
             // end-patch lok
@@ -471,40 +480,40 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $item_ref_id = $a_item["ref_id"];
         
         if (is_array($this->objective_map)) {
-            $details = array();
+            $details = [];
             if (isset($this->objective_map["material"][$item_ref_id])) {
                 // #12965
                 foreach ($this->objective_map["material"][$item_ref_id] as $objective_id) {
                     $ilCtrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', $objective_id);
-                    $url = $ilCtrl->getLinkTargetByClass(array('illoeditorgui', 'ilcourseobjectivesgui'), 'edit');
+                    $url = $ilCtrl->getLinkTargetByClass(['illoeditorgui', 'ilcourseobjectivesgui'], 'edit');
                     $ilCtrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', '');
 
-                    $details[] = array(
+                    $details[] = [
                         'desc' => $lng->txt('crs_loc_tab_materials') . ': ',
                         'target' => '_top',
                         'link' => $url,
                         'name' => $this->objective_map["names"][$objective_id]
-                    );
+                    ];
                 }
             }
             if ($this->objective_map["test_i"] == $item_ref_id) {
                 $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 1);
-                $details[] = array(
+                $details[] = [
                     'desc' => '',
                     'target' => '_top',
                     'link' => $ilCtrl->getLinkTargetByClass('illoeditorgui', 'testOverview'),
                     'name' => $lng->txt('crs_loc_tab_itest')
-                );
+                ];
                 $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 0);
             }
             if ($this->objective_map["test_q"] == $item_ref_id) {
                 $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 2);
-                $details[] = array(
+                $details[] = [
                     'desc' => '',
                     'target' => '_top',
                     'link' => $ilCtrl->getLinkTargetByClass('illoeditorgui', 'testOverview'),
                     'name' => $lng->txt('crs_loc_tab_qtest')
-                );
+                ];
                 $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 0);
             }
             
@@ -519,18 +528,18 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                         $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 2);
                     }
                     foreach ($items as $objtv_title) {
-                        $details[] = array(
+                        $details[] = [
                             'desc' => '',
                             'target' => '_top',
                             'link' => $ilCtrl->getLinkTargetByClass('illoeditorgui', 'testsOverview'),
                             'name' => $caption . " (" . $this->lng->txt("crs_loc_learning_objective") . ": " . $objtv_title . ")"
-                        );
+                        ];
                     }
                     $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 0);
                 }
             }
         
-            if (sizeof($details)) {
+            if (count($details)) {
                 $a_item_list_gui->enableItemDetailLinks(true);
                 $a_item_list_gui->setItemDetailLinks($details, $lng->txt('crs_loc_settings_tbl') . ': ');
             } else {
@@ -550,13 +559,13 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
         
         if ($a_item['objective_id']) {
-            $a_item_list_gui->setDefaultCommandParameters(array('objective_id' => $a_item['objective_id']));
+            $a_item_list_gui->setDefaultCommandParameters(['objective_id' => $a_item['objective_id']]);
             
             
             if ($this->loc_settings->getQualifiedTest() == $a_item['ref_id']) {
-                $a_item_list_gui->setConditionTarget($this->getContainerObject()->getRefId(), $a_item['objective_id'], 'lobj');
+                $a_item_list_gui->setConditionTarget($this->getContainerObject()->getRefId(), (int) $a_item['objective_id'], 'lobj');
                 // check conditions of target
-                $fullfilled = ilConditionHandler::_checkAllConditionsOfTarget($this->getContainerObject()->getRefId(), $a_item['objective_id'], 'lobj');
+                $fullfilled = ilConditionHandler::_checkAllConditionsOfTarget($this->getContainerObject()->getRefId(), (int) $a_item['objective_id'], 'lobj');
                 if (!$fullfilled || $a_item['objective_status']) {
                     $a_item_list_gui->disableTitleLink(true);
                 }
@@ -599,24 +608,22 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         int $a_objective_id,
         int $a_user_id
     ) : array {
-        if ($this->loc_settings->getQualifiedTest() == $a_item_ref_id) {
+        if ($this->loc_settings->getQualifiedTest() === $a_item_ref_id) {
             // Check for existing test run, and decrease tries, reset final if run exists
             $active = ilObjTest::isParticipantsLastPassActive(
                 $a_item_ref_id,
                 $a_user_id
             );
             
-            if ($active) {
-                if (ilLOTestRun::lookupRunExistsForObjective(
-                    ilObject::_lookupObjId($a_item_ref_id),
-                    $a_objective_id,
-                    $a_user_id
-                )) {
-                    if ($a_res['tries'] > 0) {
-                        --$a_res['tries'];
-                    }
-                    $a_res['is_final'] = 0;
+            if ($active && ilLOTestRun::lookupRunExistsForObjective(
+                ilObject::_lookupObjId($a_item_ref_id),
+                $a_objective_id,
+                $a_user_id
+            )) {
+                if ($a_res['tries'] > 0) {
+                    --$a_res['tries'];
                 }
+                $a_res['is_final'] = 0;
             }
         }
         return $a_res;
@@ -649,7 +656,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $objectives_lm_obj = new ilCourseObjectiveMaterials($a_objective_id);
         
         // #13381 - map material assignment to position
-        $sort_map = array();
+        $sort_map = [];
         foreach ($objectives_lm_obj->getMaterials() as $item) {
             $sort_map[$item["lm_ass_id"]] = $item["position"];
         }
@@ -657,7 +664,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $is_manage = $this->getContainerGUI()->isActiveAdministrationPanel();
         $is_order = $this->getContainerGUI()->isActiveOrdering();
                 
-        $sort_content = array();
+        $sort_content = [];
         
         foreach ($items as $item) {
             if ($this->getDetailsLevel($a_objective_id) < self::DETAILS_ALL) {
@@ -685,10 +692,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                         " &rsaquo; " . ilLMObject::_lookupTitle($chapter['obj_id']) .
                         " (" . $lng->txt('obj_' . $chapter['type']) . ")";
 
-                    $item_list_gui2->setDefaultCommandParameters(array(
+                    $item_list_gui2->setDefaultCommandParameters([
                         "obj_id" => $chapter['obj_id'],
                         "focus_id" => $chapter['obj_id'],
-                        "focus_return" => $this->container_obj->getRefId()));
+                        "focus_return" => $this->container_obj->getRefId()
+                    ]);
 
                     if ($is_order) {
                         $item_list_gui2->setPositionInputField(
@@ -705,7 +713,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     );
                     
                     // #13381 - use materials order
-                    $sort_key = str_pad($chapter['position'], 5, 0, STR_PAD_LEFT) . "_" . strtolower($title) . "_" . $chapter['lm_ass_id'];
+                    $sort_key = str_pad($chapter['position'], 5, '0', STR_PAD_LEFT) . "_" . strtolower($title) . "_" . $chapter['lm_ass_id'];
                     $sort_content[$sort_key] = $sub_item_html;
                 }
             }
@@ -728,12 +736,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 );
                                 
                 // #13381 - use materials order
-                $sort_key = str_pad($sort_map[$lm_ass_id], 5, 0, STR_PAD_LEFT) . "_" . strtolower($item['title']) . "_" . $lm_ass_id;
+                $sort_key = str_pad($sort_map[$lm_ass_id], 5, '0', STR_PAD_LEFT) . "_" . strtolower($item['title']) . "_" . $lm_ass_id;
                 $sort_content[$sort_key] = $sub_item_html;
             }
         }
         
-        if ($this->getDetailsLevel($a_objective_id) == self::DETAILS_ALL) {
+        if ($this->getDetailsLevel($a_objective_id) === self::DETAILS_ALL) {
             $this->objective_list_gui->enableCommands(false);
         } else {
             $this->objective_list_gui->enableCommands(true);
@@ -742,7 +750,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         if ($is_order) {
             $this->objective_list_gui->setPositionInputField(
                 "[lobj][" . $a_objective_id . "][0]",
-                $objective->__getPosition() * 10
+                (string) ($objective->__getPosition() * 10)
             );
         }
             
@@ -760,53 +768,55 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $objective->getDescription(),
                 ($is_manage || $is_order)
             );
-        } else {
-            $acc_content = $sort_content;
-            
-            $initial_shown = false;
-            $initial_test_ref_id = $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL);
-            $initial_test_obj_id = ilObject::_lookupObjId($initial_test_ref_id);
+        }
 
-            if (
-                $initial_test_obj_id &&
-                $this->getSettings()->hasSeparateInitialTests() &&
-                !ilObjTestAccess::checkCondition($initial_test_obj_id, ilConditionHandler::OPERATOR_FINISHED, '', $ilUser->getId())
-            ) {
-                $acc_content[] = $this->renderTest(
-                    $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL),
-                    $a_objective_id,
-                    true
-                );
-                $initial_shown = true;
-            } elseif ($this->getSettings()->hasSeparateQualifiedTests()) {
-                $acc_content[] = $this->renderTest(
-                    $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_QUALIFIED),
-                    $a_objective_id,
-                    false
-                );
-            }
-            
-            $co_page = null;
-            if (ilPageUtil::_existsAndNotEmpty("lobj", $objective->getObjectiveId())) {
-                $a_has_lo_page = true;
-                
-                $page_gui = new ilLOPageGUI($objective->getObjectiveId());
-                
-                $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
-                $page_gui->setPresentationTitle("");
-                $page_gui->setTemplateOutput(false);
-                $page_gui->setHeader("");
-                
-                $co_page = "<div class='ilContObjectiveIntro'>" . $page_gui->showPage() . "</div>";
-            }
-            
-            $a_accordion->addItem(
-                $this->buildAccordionTitle($objective, $a_lo_result),
-                $co_page .
-                    $this->buildAccordionContent($acc_content),
-                ($this->request->getObjectiveId() == $objective->getObjectiveId())
+        $acc_content = $sort_content;
+
+        $initial_shown = false;
+        $initial_test_ref_id = $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL);
+        $initial_test_obj_id = ilObject::_lookupObjId($initial_test_ref_id);
+
+        if (
+            $initial_test_obj_id &&
+            $this->getSettings()->hasSeparateInitialTests() &&
+            !ilObjTestAccess::checkCondition($initial_test_obj_id, ilConditionHandler::OPERATOR_FINISHED, '', $ilUser->getId())
+        ) {
+            $acc_content[] = $this->renderTest(
+                $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL),
+                $a_objective_id,
+                true
+            );
+            $initial_shown = true;
+        } elseif ($this->getSettings()->hasSeparateQualifiedTests()) {
+            $acc_content[] = $this->renderTest(
+                $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_QUALIFIED),
+                $a_objective_id,
+                false
             );
         }
+
+        $co_page = null;
+        if (ilPageUtil::_existsAndNotEmpty("lobj", $objective->getObjectiveId())) {
+            $a_has_lo_page = true;
+            
+            $page_gui = new ilLOPageGUI($objective->getObjectiveId());
+            
+            $page_gui->setStyleId(
+                $this->content_style_domain->getEffectiveStyleId()
+            );
+            $page_gui->setPresentationTitle("");
+            $page_gui->setTemplateOutput(false);
+            $page_gui->setHeader("");
+            
+            $co_page = "<div class='ilContObjectiveIntro'>" . $page_gui->showPage() . "</div>";
+        }
+
+        $a_accordion->addItem(
+            $this->buildAccordionTitle($objective, $a_lo_result),
+            $co_page . $this->buildAccordionContent($acc_content),
+            ($this->request->getObjectiveId() === $objective->getObjectiveId())
+        );
+
         return "";
     }
 
@@ -821,7 +831,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $ilUser = $this->user;
         $initial_status = null;
         
-        $res = array();
+        $res = [];
                 
         $lo_ass = ilLOTestAssignments::getInstance($this->getContainerObject()->getId());
                 
@@ -890,7 +900,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $tpl->setVariable("PERC_COLOR", $a_css);
             if ($a_perc_limit) {
                 // :TODO: magic?
-                $limit_pos = (99 - (int) $a_perc_limit) * -1;
+                $limit_pos = (99 - $a_perc_limit) * -1;
                 $tpl->setVariable("LIMIT_POS", $limit_pos);
             }
             if ($a_tt_txt &&
@@ -908,12 +918,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 
                 $tpl->setCurrentBlock("statustxt_bl");
                 $tpl->setVariable("TXT_PROGRESS_STATUS", $button->render());
-                $tpl->parseCurrentBlock();
             } else {
                 $tpl->setCurrentBlock("statustxt_no_link_bl");
                 $tpl->setVariable("TXT_PROGRESS_STATUS_NO_LINK", $a_caption);
-                $tpl->parseCurrentBlock();
             }
+            $tpl->parseCurrentBlock();
         }
         
         if ($a_next_step) {
@@ -995,12 +1004,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
                 $tpl->setCurrentBlock("statustxt_bl");
                 $tpl->setVariable("TXT_PROGRESS_STATUS", $button->render());
-                $tpl->parseCurrentBlock();
             } else {
                 $tpl->setCurrentBlock("statustxt_no_link_bl");
                 $tpl->setVariable("TXT_PROGRESS_STATUS_NO_LINK", $a_caption);
-                $tpl->parseCurrentBlock();
             }
+            $tpl->parseCurrentBlock();
         }
 
         if ($a_next_step) {
@@ -1045,7 +1053,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $has_completed =
             ($a_lo_result["status"] == ilLOUserResults::STATUS_COMPLETED);
 
-        $next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
+        $next_step = '';
 
         if (
             $is_qualified ||
@@ -1056,17 +1064,15 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $next_step = $lng->txt("crs_loc_progress_do_qualifying_again");
             }
         } // initial test
-        else {
-            if ($a_lo_result["status"]) {
-                $next_step =
-                    $has_completed ?
-                        $lng->txt("crs_loc_progress_do_qualifying") :
-                        $lng->txt("crs_loc_suggested");
-            } else {
-                $next_step = (bool) $a_has_initial_test ?
-                    $lng->txt("crs_loc_progress_no_result_do_initial") :
-                    $lng->txt("crs_loc_progress_no_result_no_initial");
-            }
+        elseif ($a_lo_result["status"]) {
+            $next_step =
+                $has_completed ?
+                    $lng->txt("crs_loc_progress_do_qualifying") :
+                    $lng->txt("crs_loc_suggested");
+        } else {
+            $next_step = $a_has_initial_test ?
+                $lng->txt("crs_loc_progress_no_result_do_initial") :
+                $lng->txt("crs_loc_progress_no_result_no_initial");
         }
         return $next_step;
     }
@@ -1134,28 +1140,25 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             }
         }
         // initial test
+        elseif ($a_lo_result["status"]) {
+            $progress_txt = $lng->txt("crs_loc_progress_result_itest");
+            $tt_txt = $lng->txt("crs_loc_tab_itest") . ": " . $tt_txt;
+            
+            $bar_color = "ilCourseObjectiveProgressBarNeutral";
+            $next_step = $has_completed
+                ? $lng->txt("crs_loc_progress_do_qualifying")
+                : $lng->txt("crs_loc_suggested");
+        }
+        // not attempted: no progress bar
         else {
-            if ($a_lo_result["status"]) {
-                $progress_txt = $lng->txt("crs_loc_progress_result_itest");
-                $tt_txt = $lng->txt("crs_loc_tab_itest") . ": " . $tt_txt;
-                
-                $bar_color = "ilCourseObjectiveProgressBarNeutral";
-                $next_step = $has_completed
-                    ? $lng->txt("crs_loc_progress_do_qualifying")
-                    : $lng->txt("crs_loc_suggested");
-            }
-            // not attempted: no progress bar
-            else {
-                $next_step = (bool) $a_has_initial_test
-                    ? $lng->txt("crs_loc_progress_no_result_do_initial")
-                    : $lng->txt("crs_loc_progress_no_result_no_initial");
-            }
+            $next_step = $a_has_initial_test
+                ? $lng->txt("crs_loc_progress_no_result_do_initial")
+                : $lng->txt("crs_loc_progress_no_result_no_initial");
         }
         
         // link to test statistics
         $relevant_test_id = $a_lo_result["qtest"]
-            ? $a_lo_result["qtest"]
-            : $a_lo_result["itest"];
+            ?: $a_lo_result["itest"];
         if ($relevant_test_id) {
             $test_url = ilLOUtils::getTestResultLinkForUser($relevant_test_id, $a_lo_result["user_id"]);
         }
@@ -1202,7 +1205,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $tpl->setVariable(
                 "PROGRESS_BAR",
                 self::buildObjectiveProgressBar(
-                    (bool) $this->loc_settings->worksWithInitialTest(),
+                    $this->loc_settings->worksWithInitialTest(),
                     $a_objective->getObjectiveId(),
                     $a_lo_result
                 )
@@ -1229,12 +1232,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
 
         if ($initial_res !== null) {
-            $link = \ilLOUtils::getTestResultLinkForUser(
+            $link = ilLOUtils::getTestResultLinkForUser(
                 $a_lo_result["itest"],
                 $a_lo_result["user_id"]
             );
 
-            if (strlen($link)) {
+            if ($link !== '') {
                 $tpl->setCurrentBlock('i_with_link');
                 $tpl->setVariable(
                     'IBTN',
@@ -1253,7 +1256,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 'IRESULT',
                 sprintf(
                     $this->lng->txt('crs_objective_result_summary_initial'),
-                    (int) $initial_res . '%',
+                    $initial_res . '%',
                     (int) $initial_lim . '%'
                 )
             );
@@ -1269,12 +1272,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
 
         if ($qual_res !== null) {
-            $link = \ilLOUtils::getTestResultLinkForUser(
+            $link = ilLOUtils::getTestResultLinkForUser(
                 $a_lo_result["qtest"],
                 $a_lo_result["user_id"]
             );
 
-            if (strlen($link)) {
+            if ($link !== '') {
                 $tpl->setCurrentBlock('q_with_link');
                 $tpl->setVariable(
                     'QBTN',
@@ -1292,7 +1295,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 'QRESULT',
                 sprintf(
                     $this->lng->txt('crs_objective_result_summary_qualifying'),
-                    (int) $qual_res . '%',
+                    $qual_res . '%',
                     (int) $qual_lim . '%'
                 )
             );
@@ -1302,11 +1305,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $this->logger->dump($a_lo_result);
 
         $summary = self::getObjectiveResultSummary(
-            (bool) $this->loc_settings->worksWithInitialTest(),
+            $this->loc_settings->worksWithInitialTest(),
             $a_objective->getObjectiveId(),
             $a_lo_result
         );
-        if (strlen($summary)) {
+        if ($summary !== '') {
             $tpl->setCurrentBlock('objective_summary');
             $tpl->setVariable('SUMMARY_TXT', $summary);
             $tpl->parseCurrentBlock();
@@ -1343,7 +1346,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $a_text,
             $ilCtrl->getLinkTarget($this->getContainerGUI(), $a_cmd),
             $a_target,
-            "",
+            null,
             '',
             $a_id
         );

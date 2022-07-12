@@ -54,11 +54,11 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
      * Checkes wheather a random test has already created questions for a given pass or not
      *
      * @access private
-     * @param $active_id Active id of the test
-     * @param $pass Pass of the test
+     * @param $active_id int Active id of the test
+     * @param $pass int Pass of the test
      * @return boolean TRUE if the test already contains questions, FALSE otherwise
      */
-    public function hasRandomQuestionsForPass($active_id, $pass)
+    public function hasRandomQuestionsForPass($active_id, $pass) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

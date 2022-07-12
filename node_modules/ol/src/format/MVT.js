@@ -24,7 +24,7 @@ import {linearRingIsClockwise} from '../geom/flat/orient.js';
 /**
  * @typedef {Object} Options
  * @property {import("../Feature.js").FeatureClass} [featureClass] Class for features returned by
- * {@link module:ol/format/MVT#readFeatures}. Set to {@link module:ol/Feature~Feature} to get full editing and geometry
+ * {@link module:ol/format/MVT~MVT#readFeatures}. Set to {@link module:ol/Feature~Feature} to get full editing and geometry
  * support at the cost of decreased rendering performance. The default is
  * {@link module:ol/render/Feature~RenderFeature}, which is optimized for rendering and hit detection.
  * @property {string} [geometryName='geometry'] Geometry name to use when creating features.
@@ -38,12 +38,12 @@ import {linearRingIsClockwise} from '../geom/flat/orient.js';
  * @classdesc
  * Feature format for reading data in the Mapbox MVT format.
  *
- * @param {Options=} opt_options Options.
+ * @param {Options} [opt_options] Options.
  * @api
  */
 class MVT extends FeatureFormat {
   /**
-   * @param {Options=} opt_options Options.
+   * @param {Options} [opt_options] Options.
    */
   constructor(opt_options) {
     super();
@@ -89,6 +89,11 @@ class MVT extends FeatureFormat {
      * @type {string}
      */
     this.idProperty_ = options.idProperty;
+
+    this.supportedMediaTypes = [
+      'application/vnd.mapbox-vector-tile',
+      'application/x-protobuf',
+    ];
   }
 
   /**
@@ -234,8 +239,9 @@ class MVT extends FeatureFormat {
             ? new MultiLineString(flatCoordinates, GeometryLayout.XY, ends)
             : null;
       }
-      const ctor = /** @type {typeof import("../Feature.js").default} */ (this
-        .featureClass_);
+      const ctor = /** @type {typeof import("../Feature.js").default} */ (
+        this.featureClass_
+      );
       feature = new ctor();
       if (this.geometryName_) {
         feature.setGeometryName(this.geometryName_);
@@ -260,15 +266,15 @@ class MVT extends FeatureFormat {
    * Read all features.
    *
    * @param {ArrayBuffer} source Source.
-   * @param {import("./Feature.js").ReadOptions=} opt_options Read options.
+   * @param {import("./Feature.js").ReadOptions} [opt_options] Read options.
    * @return {Array<import("../Feature.js").FeatureLike>} Features.
    * @api
    */
   readFeatures(source, opt_options) {
     const layers = this.layers_;
-    const options = /** @type {import("./Feature.js").ReadOptions} */ (this.adaptOptions(
-      opt_options
-    ));
+    const options = /** @type {import("./Feature.js").ReadOptions} */ (
+      this.adaptOptions(opt_options)
+    );
     const dataProjection = get(options.dataProjection);
     dataProjection.setWorldExtent(options.extent);
     options.dataProjection = dataProjection;

@@ -20,6 +20,7 @@
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
+use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * Workspace GS tool provider
@@ -30,6 +31,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_SKILL_TREE = 'show_skill_tree';
     public const SHOW_TEMPLATE_TREE = 'show_template_tree';
+    public const SKILL_TREE_ID = 'skill_tree_id';
 
 
     /**
@@ -54,55 +56,46 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 
         $tools = [];
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_skmg.svg"), $title);
-
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_skmg.svg"), $title);
 
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_SKILL_TREE, true)) {
-            $iff = function ($id) {
-                return $this->identification_provider->contextAwareIdentifier($id);
-            };
-            $l = function (string $content) {
-                return $this->dic->ui()->factory()->legacy($content);
-            };
-            $tools[] = $this->factory->tool($iff("tree"))
+            $tree_id = $additional_data->get(self::SKILL_TREE_ID);
+            $tools[] = $this->factory->tool($this->identification_provider->contextAwareIdentifier("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($l) {
-                    return $l($this->getSkillTree());
+                ->withContentWrapper(function () use ($tree_id) : Legacy {
+                    return $this->dic->ui()->factory()->legacy($this->getSkillTree($tree_id));
                 });
         }
 
         $title = $lang->txt("skmg_skill_templates");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_skmg.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_skmg.svg"), $title);
 
         if ($additional_data->is(self::SHOW_TEMPLATE_TREE, true)) {
-            $iff = function ($id) {
-                return $this->identification_provider->contextAwareIdentifier($id);
-            };
-            $l = function (string $content) {
-                return $this->dic->ui()->factory()->legacy($content);
-            };
-            $tools[] = $this->factory->tool($iff("tree"))
+            $tree_id = $additional_data->get(self::SKILL_TREE_ID);
+            $tools[] = $this->factory->tool($this->identification_provider->contextAwareIdentifier("tree"))
                 ->withTitle("Templates")
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($l) {
-                    return $l($this->getTemplateTree());
+                ->withContentWrapper(function () use ($tree_id) : Legacy {
+                    return $this->dic->ui()->factory()->legacy($this->getTemplateTree($tree_id));
                 });
         }
         return $tools;
     }
 
-    private function getSkillTree() : string
+    private function getSkillTree(int $tree_id) : string
     {
-        $exp = new ilSkillTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI"], "showTree");
+        $exp = new ilSkillTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+                                           "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);
 
         return $exp->getHTML();
     }
 
-    private function getTemplateTree() : string
+    private function getTemplateTree(int $tree_id) : string
     {
-        $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI"], "showTree");
+        $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+                                                   "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);
 
         return $exp->getHTML();
     }

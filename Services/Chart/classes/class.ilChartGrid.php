@@ -1,25 +1,32 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Chart/classes/class.ilChart.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Generator for grid-based charts
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ServicesChart
  */
 class ilChartGrid extends ilChart
 {
-    protected $ticks; // [array]
-    protected $integer_axis; // [array]
-    
-    const DATA_LINES = 1;
-    const DATA_BARS = 2;
-    const DATA_POINTS = 3;
-    
-    protected function __construct($a_id)
+    public const DATA_LINES = 1;
+    public const DATA_BARS = 2;
+    public const DATA_POINTS = 3;
+
+    protected array $ticks;
+    protected array $integer_axis;
+
+    protected function __construct(string $a_id)
     {
         parent::__construct($a_id);
         
@@ -27,25 +34,22 @@ class ilChartGrid extends ilChart
         $this->setYAxisToInteger(false);
     }
     
-    public function getDataInstance($a_type = null)
+    public function getDataInstance(int $a_type = null) : ilChartData
     {
         switch ($a_type) {
             case self::DATA_BARS:
-                include_once "Services/Chart/classes/class.ilChartDataBars.php";
                 return new ilChartDataBars();
                 
             case self::DATA_POINTS:
-                include_once "Services/Chart/classes/class.ilChartDataPoints.php";
                 return new ilChartDataPoints();
             
             default:
             case self::DATA_LINES:
-                include_once "Services/Chart/classes/class.ilChartDataLines.php";
                 return new ilChartDataLines();
         }
     }
     
-    protected function isValidDataType(ilChartData $a_series)
+    protected function isValidDataType(ilChartData $a_series) : bool
     {
         if ($a_series instanceof ilChartDataLines
             || $a_series instanceof ilChartDataBars
@@ -57,47 +61,41 @@ class ilChartGrid extends ilChart
         
     /**
      * Set ticks
-     *
      * @param int|array $a_x
      * @param int|array $a_y
      * @param bool $a_labeled
      */
-    public function setTicks($a_x, $a_y, $a_labeled = false)
+    public function setTicks($a_x, $a_y, bool $a_labeled = false) : void
     {
-        $this->ticks = array("x" => $a_x, "y" => $a_y, "labeled" => (bool) $a_labeled);
+        $this->ticks = array("x" => $a_x, "y" => $a_y, "labeled" => $a_labeled);
     }
 
     /**
      * Get ticks
-     *
      * @return array (x, y)
      */
-    public function getTicks()
+    public function getTicks() : array
     {
         return $this->ticks;
     }
     
     /**
      * Restrict y-axis to integer values
-     *
-     * @param bool $a_status
      */
-    public function setYAxisToInteger($a_status)
+    public function setYAxisToInteger(bool $a_status) : void
     {
-        $this->integer_axis["y"] = (bool) $a_status;
+        $this->integer_axis["y"] = $a_status;
     }
     
     /**
      * Restrict x-axis to integer values
-     *
-     * @param bool $a_status
      */
-    public function setXAxisToInteger($a_status)
+    public function setXAxisToInteger(bool $a_status) : void
     {
-        $this->integer_axis["x"] = (bool) $a_status;
+        $this->integer_axis["x"] = $a_status;
     }
 
-    public function parseGlobalOptions(stdClass $a_options)
+    public function parseGlobalOptions(stdClass $a_options) : void
     {
         // axis/ticks
         $tmp = array();

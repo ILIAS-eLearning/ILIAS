@@ -1,189 +1,133 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
- * Class ilWebDAVRepositoryHelper
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This is a helper class and mostly also a wrapper class for repository actions. It is used by ilObj*DAV objects and
- * makes them more unit testable. This is really helpful since static calls like ilObject::_exists() are not mockable
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @author Raphael Heer <raphael.heer@hslu.ch>
- * $Id$
- */
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use Sabre\DAV\Exception\Forbidden;
+
 class ilWebDAVRepositoryHelper
 {
-    /** @var ilAccess $access */
-    protected $access;
-
-    /** @var ilTree $tree */
-    protected $tree;
-
-    /**
-     * ilWebDAVRepositoryHelper constructor.
-     *
-     * @param ilAccessHandler $access
-     * @param ilTree $tree
-     */
-    public function __construct(ilAccessHandler $access, ilTree $tree)
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
+    protected ilRepUtil $repository_util;
+    protected ilWebDAVLocksRepository $locks_repository;
+    
+    public function __construct(ilAccessHandler $access, ilTree $tree, ilRepUtil $repository_util, ilWebDAVLocksRepository $locks_repository)
     {
         $this->access = $access;
         $this->tree = $tree;
+        $this->repository_util = $repository_util;
+        $this->locks_repository = $locks_repository;
     }
 
-    /**
-     * I stole this method of deleting objects from ilObjectGUI->confirmedDeleteObject()
-     *
-     * @param $a_ref_id ref_id of object to delete
-     * @throws ilRepositoryException
-     */
-    public function deleteObject(int $a_ref_id)
+    public function deleteObject(int $ref_id) : void
     {
-        $repository_util = new ilRepUtil($this);
-        $parent = $this->tree->getParentId($a_ref_id);
-        $repository_util->deleteObjects($parent, array($a_ref_id));
+        if (!$this->checkAccess('delete', $ref_id)) {
+            throw new Forbidden("Permission denied");
+        }
+        
+        $parent = $this->tree->getParentId($ref_id);
+        $this->repository_util->deleteObjects($parent, [$ref_id]);
     }
 
-    /**
-     * Just a redirect to the checkAccess method of ilAccess
-     *
-     * @param $a_permission
-     * @param $a_ref_id
-     * @return bool
-     */
-    public function checkAccess(string $a_permission, int $a_ref_id) : bool
+    public function checkAccess(string $permission, int $ref_id) : bool
     {
-        return $this->access->checkAccess($a_permission, '', $a_ref_id);
+        return $this->access->checkAccess($permission, '', $ref_id);
     }
 
-    /**
-     * Just a redirect to the checkAccess method of ilAccess to check for creation of certain obj types
-     *
-     * @param int $a_ref_id
-     * @param string $a_type
-     * @return bool
-     */
-    public function checkCreateAccessForType(int $a_ref_id, string $a_type) : bool
+    public function checkCreateAccessForType(int $ref_id, string $type) : bool
     {
-        return $this->access->checkAccess('create', '', $a_ref_id, $a_type);
+        return $this->access->checkAccess('create', '', $ref_id, $type);
     }
 
-    /**
-     * Just a redirect to the ilObject::_exists
-     *
-     * @param $a_ref_id
-     * @return bool
-     */
-    public function objectWithRefIdExists(int $a_ref_id) : int
+    public function objectWithRefIdExists(int $ref_id) : bool
     {
-        return ilObject::_exists($a_ref_id, true);
+        return ilObject::_exists($ref_id, true);
     }
 
-    /**
-     * Just a redirect to the ilObject::_lookupObjectId function
-     *
-     * @param $a_ref_id
-     * @return int+
-     */
-    public function getObjectIdFromRefId(int $a_ref_id) : int
+    public function getObjectIdFromRefId(int $ref_id) : int
     {
-        return ilObject::_lookupObjectId($a_ref_id);
+        return ilObject::_lookupObjectId($ref_id);
     }
 
-    /**
-     * Just a redirect to the ilObject::_lookupTitle function
-     *
-     * @param $a_obj_id
-     * @return
-     */
-    public function getObjectTitleFromObjId(int $a_obj_id, bool $escape_forbidden_fileextension = false) : string
+    public function getObjectTitleFromObjId(int $obj_id, bool $escape_forbidden_fileextension = false) : string
     {
-        if ($escape_forbidden_fileextension && ilObject::_lookupType($a_obj_id) == 'file') {
-            $title = $this->getFilenameWithSanitizedFileExtension($a_obj_id);
+        if ($escape_forbidden_fileextension && ilObject::_lookupType($obj_id) === 'file') {
+            $title = $this->getFilenameWithSanitizedFileExtension($obj_id);
         } else {
-            $title = $this->getRawObjectTitleFromObjId($a_obj_id);
+            $title = $this->getRawObjectTitleFromObjId($obj_id);
         }
 
-        return is_string($title)? $title : '';
+        return $title;
     }
-    /**
-     * Wraps the static call to ilObject::_lookupTitle. This is on one hand necessary to create unit tests. And on the
-     * other hand, it guarantees the return of a string, which ilObject::_lookupTitle() doesn't.
-     *
-     * @param int $a_obj_id
-     * @return string
-     * @throws ilFileUtilsException
-     */
-    public function getFilenameWithSanitizedFileExtension(int $a_obj_id) : string
+
+    public function getFilenameWithSanitizedFileExtension(int $obj_id) : string
     {
-        $unescaped_title = $this->getRawObjectTitleFromObjId($a_obj_id);
+        $unescaped_title = $this->getRawObjectTitleFromObjId($obj_id);
 
         try {
             $escaped_title = ilFileUtils::getValidFilename($unescaped_title);
         } catch (ilFileUtilsException $e) {
-            $escaped_title = "";
+            $escaped_title = '';
         }
 
-        return is_string($escaped_title) ? $escaped_title : '';
+        return $escaped_title;
     }
 
-    /**
-     * Wraps the static call to ilObject::_lookupTitle. This is on one hand necessary to create unit tests. And on the
-     * other hand, it guarantees the return of a string, which ilObject::_lookupTitle() doesn't.
-     *
-     * @param int $a_obj_id
-     * @return string
-     */
-    protected function getRawObjectTitleFromObjId(int $a_obj_id) : string
+    protected function getRawObjectTitleFromObjId(int $obj_id) : string
     {
-        $title = ilObject::_lookupTitle($a_obj_id);
-        return is_string($title) ? $title : '';
+        return ilObject::_lookupTitle($obj_id);
+    }
+    
+    public function getParentOfRefId(int $ref_id) : int
+    {
+        return $this->tree->getParentId($ref_id);
     }
 
-    /**
-     * Just a redirect to the ilObject::_lookupType function
-     *
-     * @param $a_ref_id
-     * @return mixed
-     */
-    public function getObjectTypeFromObjId(int $a_obj_id) : string
+    public function getObjectTypeFromObjId(int $obj_id) : string
     {
-        $type = ilObject::_lookupType($a_obj_id, false);
-        return $type === null ? '' : $type;
+        return ilObject::_lookupType($obj_id);
     }
 
-
-    /**
-     * Just a shortcut and redirect to get a title from a given ref_id
-     *
-     * @param $a_ref_id
-     * @return mixed
-     */
-    public function getObjectTitleFromRefId(int $a_ref_id, bool $escape_forbidden_fileextension = false) : string
+    public function getObjectTitleFromRefId(int $ref_id, bool $escape_forbidden_fileextension = false) : string
     {
-        $obj_id = $this->getObjectIdFromRefId($a_ref_id);
+        $obj_id = $this->getObjectIdFromRefId($ref_id);
 
         return $this->getObjectTitleFromObjId($obj_id, $escape_forbidden_fileextension);
     }
 
-    /**
-     * Just a redirect to the ilObject::_lookupType function
-     *
-     * @param $a_ref_id
-     * @return mixed
-     */
-    public function getObjectTypeFromRefId(int $a_ref_id) : string
+    public function getObjectTypeFromRefId(int $ref_id) : string
     {
-        $type = ilObject::_lookupType($a_ref_id, true);
-        return is_string($type) ? $type : '';
+        return ilObject::_lookupType($ref_id, true);
     }
-
+    
     /**
-     * Just a redirect to getChildIds of ilTree
      *
-     * @param $a_ref_id
-     * @return mixed
+     * @return int[]
      */
-    public function getChildrenOfRefId(int $a_ref_id)
+    public function getChildrenOfRefId(int $ref_id) : array
     {
-        return $this->tree->getChildIds($a_ref_id);
+        return array_map(
+            'intval',
+            $this->tree->getChildIds($ref_id)
+        );
+    }
+    
+    public function updateLocksAfterResettingObject(int $old_obj_id, int $new_obj_id) : void
+    {
+        $this->locks_repository->updateLocks($old_obj_id, $new_obj_id);
     }
 }

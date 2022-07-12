@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
@@ -17,14 +34,9 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
 
-    /**
-     * @var string
-     */
-    protected $title = '';
-    /**
-     * @var bool
-     */
-    protected $supports_async_loading = false;
+    protected string $title = '';
+
+    protected bool $supports_async_loading = false;
 
     /**
      * @param string $title
@@ -58,5 +70,4 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
     {
         return $this->supports_async_loading;
     }
-
 }

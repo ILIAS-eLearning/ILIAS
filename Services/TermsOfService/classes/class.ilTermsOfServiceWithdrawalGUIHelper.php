@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -12,16 +28,18 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilTermsOfServiceWithdrawalGUIHelper
 {
     protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilSetting $setting;
     protected ilObjUser $user;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilTermsOfServiceHelper $tosHelper;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ilObjUser $subjectUser)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $subjectUser;
 
@@ -87,22 +105,22 @@ class ilTermsOfServiceWithdrawalGUIHelper
             return;
         }
 
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
         $external = false;
         if (
-            $this->user->getAuthMode() == AUTH_PROVIDER_LTI ||
-            $this->user->getAuthMode() == AUTH_ECS ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_PROVIDER_LTI) ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_ECS)
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_PROVIDER_LTI ||
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_ECS ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_PROVIDER_LTI) ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_ECS)
         ) {
             $external = true;
         }
 
-        $this->user->writePref('consent_withdrawal_requested', 1);
+        $this->user->writePref('consent_withdrawal_requested', '1');
 
         if ($external) {
             $this->ctrl->setParameter($guiClass, 'withdrawal_relogin_content', 'external');
@@ -130,19 +148,23 @@ class ilTermsOfServiceWithdrawalGUIHelper
 
     public function getConsentWithdrawalConfirmation(object $parentObject) : string
     {
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
         $isLdapUser = (
-            $this->user->getAuthMode() == AUTH_LDAP ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
         );
 
-        $question = $this->lng->txt('withdrawal_sure_account');
-        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion')) {
-            $question = $this->lng->txt('withdrawal_sure_account_deletion');
+        $lng_suffix = '';
+        if (!$this->user->getAgreeDate()) {
+            $lng_suffix = '_no_consent_yet';
+        }
+        $question = $this->lng->txt('withdrawal_sure_account' . $lng_suffix);
+        if (!$isLdapUser && $this->setting->get('tos_withdrawal_usr_deletion', '0')) {
+            $question = $this->lng->txt('withdrawal_sure_account_deletion' . $lng_suffix);
         }
 
         $confirmation = $this->uiFactory->messageBox()->confirmation($question)->withButtons([
@@ -187,11 +209,11 @@ class ilTermsOfServiceWithdrawalGUIHelper
         if (isset($httpRequest->getQueryParams()['tos_withdrawal_type'])) {
             $withdrawalType = (int) $httpRequest->getQueryParams()['tos_withdrawal_type'];
             if (1 === $withdrawalType) {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete_deleted'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete_deleted'));
             } elseif (2 === $withdrawalType) {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete_redirect'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete_redirect'));
             } else {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete'));
             }
         }
     }

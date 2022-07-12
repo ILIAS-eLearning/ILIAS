@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\FileSystem\Filesystem;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
@@ -12,51 +27,18 @@ use ILIAS\FileUpload\Location;
  */
 class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
 {
-    /** @var ilAccessibilityDocument */
-    protected $document;
+    protected ilAccessibilityDocument $document;
+    protected ilObjUser $actor;
+    protected FileUpload $fileUpload;
+    protected Filesystem $tmpFileSystem;
+    protected string $formAction;
+    protected string $saveCommand;
+    protected string $cancelCommand;
+    protected bool $isEditable = false;
+    protected string $translatedError = '';
+    protected string $translatedInfo = '';
+    protected ilHtmlPurifierInterface $documentPurifier;
 
-    /** @var ilObjUser */
-    protected $actor;
-
-    /** @var FileUpload */
-    protected $fileUpload;
-
-    /** @var Filesystem */
-    protected $tmpFileSystem;
-
-    /** @var string */
-    protected $formAction;
-
-    /** @var string */
-    protected $saveCommand;
-
-    /** @var string */
-    protected $cancelCommand;
-
-    /** @var $bool */
-    protected $isEditable = false;
-
-    /** @var string */
-    protected $translatedError = '';
-
-    /** @var string */
-    protected $translatedInfo = '';
-
-    /** @var ilHtmlPurifierInterface */
-    protected $documentPurifier;
-
-    /**
-     * ilAccessibilityDocumentFormGUI constructor.
-     * @param ilAccessibilityDocument $document
-     * @param ilHtmlPurifierInterface  $documentPurifier
-     * @param ilObjUser                $actor
-     * @param Filesystem               $tmpFileSystem
-     * @param FileUpload               $fileUpload
-     * @param string                   $formAction
-     * @param string                   $saveCommand
-     * @param string                   $cancelCommand
-     * @param bool                     $isEditable
-     */
     public function __construct(
         ilAccessibilityDocument $document,
         ilHtmlPurifierInterface $documentPurifier,
@@ -83,17 +65,11 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    /**
-     * @param bool $status
-     */
     public function setCheckInputCalled(bool $status) : void
     {
         $this->check_input_called = $status;
     }
 
-    /**
-     *
-     */
     protected function initForm() : void
     {
         if ($this->document->getId() > 0) {
@@ -135,41 +111,26 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    /**
-     * @return bool
-     */
     public function hasTranslatedError() : bool
     {
         return strlen($this->translatedError) > 0;
     }
 
-    /**
-     * @return string
-     */
     public function getTranslatedError() : string
     {
         return $this->translatedError;
     }
 
-    /**
-     * @return bool
-     */
     public function hasTranslatedInfo() : bool
     {
         return strlen($this->translatedInfo) > 0;
     }
 
-    /**
-     * @return string
-     */
     public function getTranslatedInfo() : string
     {
         return $this->translatedInfo;
     }
 
-    /**
-     * @return bool
-     */
     public function saveObject() : bool
     {
         if (!$this->fillObject()) {
@@ -182,9 +143,6 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    /**
-     *
-     */
     protected function fillObject() : bool
     {
         if (!$this->checkInput()) {
@@ -203,7 +161,7 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
                 }
 
                 if (!$this->document->getId() || $uploadResult->getName() !== '') {
-                    if ($uploadResult->getStatus()->getCode() != ProcessingStatus::OK) {
+                    if (!$uploadResult->isOK()) {
                         $this->getItemByPostVar('document')->setAlert($uploadResult->getStatus()->getMessage());
                         throw new ilException($this->lng->txt('form_input_not_valid'));
                     }

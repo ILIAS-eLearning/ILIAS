@@ -1,21 +1,31 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilObjAdministrativeNotificationAccess
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilObjAdministrativeNotificationAccess extends ilObjectAccess
 {
-
-    /**
-     * @var \ILIAS\HTTP\Services
-     */
-    private $http;
-    /**
-     * @var ilRbacSystem
-     */
-    private $rbacsystem;
-
+    private ilRbacSystem $rbacsystem;
+    
+    protected ?int $ref_id;
+    
     /**
      * ilObjAdministrativeNotificationAccess constructor.
      */
@@ -23,11 +33,12 @@ class ilObjAdministrativeNotificationAccess extends ilObjectAccess
     {
         global $DIC;
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->http       = $DIC->http();
+        $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
+            ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
+            : null;
     }
-
+    
     /**
-     * @param string $permission
      * @throws ilException
      */
     public function checkAccessAndThrowException(string $permission) : void
@@ -37,12 +48,8 @@ class ilObjAdministrativeNotificationAccess extends ilObjectAccess
         }
     }
 
-    /**
-     * @param string $permission
-     * @return bool
-     */
     public function hasUserPermissionTo(string $permission) : bool
     {
-        return (bool) $this->rbacsystem->checkAccess($permission, $this->http->request()->getQueryParams()['ref_id']);
+        return $this->rbacsystem->checkAccess($permission, $this->ref_id);
     }
 }

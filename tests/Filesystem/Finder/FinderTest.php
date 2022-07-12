@@ -6,6 +6,20 @@ use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\MetadataType;
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 class FinderTest extends TestCase
 {
     /**
@@ -25,13 +39,13 @@ class FinderTest extends TestCase
         $fileSystem
             ->expects($this->atLeast(1))
             ->method('listContents')
-            ->will($this->returnCallback(function ($path) use ($metadata) {
+            ->willReturnCallback(function ($path) use ($metadata) {
                 if ('/' === $path) {
                     return $metadata;
                 }
 
                 return [];
-            }));
+            });
 
         return $fileSystem;
     }
@@ -70,7 +84,7 @@ class FinderTest extends TestCase
         $fileSystem
             ->expects($this->atLeast(1))
             ->method('listContents')
-            ->will($this->returnCallback(function ($path) use (
+            ->willReturnCallback(function ($path) use (
                 $rootMetadata,
                 $level1Metadata,
                 $level11Metadata,
@@ -87,7 +101,7 @@ class FinderTest extends TestCase
                 }
 
                 return [];
-            }));
+            });
 
         return $fileSystem;
     }
@@ -100,7 +114,6 @@ class FinderTest extends TestCase
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
         $fileSystem
-            ->expects($this->any())
             ->method('listContents')
             ->willReturn([]);
 
@@ -198,13 +211,12 @@ class FinderTest extends TestCase
         $now = new \DateTimeImmutable('2019-03-30 13:00:00');
 
         $fs = $this->getNestedFileSystemStructure();
-        $fs
-            ->expects($this->any())->method('has')->willReturn(true);
+        $fs->method('has')->willReturn(true);
 
         $fs
             ->expects($this->atLeast(1))
             ->method('getTimestamp')
-            ->will($this->returnCallback(function ($path) use ($now) {
+            ->willReturnCallback(function ($path) use ($now) : \DateTimeImmutable {
                 switch ($path) {
                     case'file_1.txt':
                         return $now;
@@ -230,7 +242,7 @@ class FinderTest extends TestCase
                     default:
                         return new \DateTimeImmutable('now');
                 }
-            }));
+            });
 
         $finder = (new Finder($fs))->in(['/']);
 
@@ -253,11 +265,11 @@ class FinderTest extends TestCase
     public function testFinderWillFilterFilesBySize() : void
     {
         $fs = $this->getNestedFileSystemStructure();
-        $fs->expects($this->any())->method('has')->willReturn(true);
+        $fs->method('has')->willReturn(true);
 
         $fs->expects($this->atLeast(1))
             ->method('getSize')
-            ->will($this->returnCallback(function ($path) {
+            ->willReturnCallback(function ($path) : \ILIAS\Data\DataSize {
                 switch ($path) {
                     case'file_1.txt':
                         return new DataSize(PHP_INT_MAX, DataSize::Byte);
@@ -283,7 +295,7 @@ class FinderTest extends TestCase
                     default:
                         return new DataSize(0, DataSize::Byte);
                 }
-            }));
+            });
 
         $finder = (new Finder($fs))->in(['/']);
 
@@ -317,7 +329,7 @@ class FinderTest extends TestCase
         $this->assertEquals('dir_1', $finder->sortByType()->getIterator()->current()->getPath());
         $this->assertEquals('file_2.mp3', $finder->sortByType()->reverseSorting()->getIterator()->current()->getPath());
 
-        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) {
+        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) : int {
             if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
                 return -1;
             }

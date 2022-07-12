@@ -1,47 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php";
 
 /**
  * AMD field type address
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesAdvancedMetaData
  */
 abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDefinition
 {
-    protected $options = array();
-    protected $complex = array();
-    
-    
-    //
-    // ADT
-    //
-    
-    protected function initADTDefinition()
+    protected $options = [];
+    protected $complex = [];
+
+    protected function initADTDefinition() : ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("Enum");
         $def->setNumeric(false);
-        
+
         $options = $this->getOptions();
         $def->setOptions($options);
         return $def;
     }
-    
-    
-    //
-    // properties
-    //
-    
-    /**
-     * Set options
-     *
-     * @param array $a_values
-     */
-    public function setOptions(array $a_values = null)
+
+    public function setOptions(array $a_values = null) : void
     {
         if ($a_values !== null) {
             foreach ($a_values as $idx => $value) {
@@ -56,80 +36,67 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         $this->options = $a_values;
     }
 
-    /**
-     * Get options
-     *
-     * @return array
-     */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options;
     }
-    
-    
-    //
-    // definition (NOT ADT-based)
-    //
-    
-    protected function importFieldDefinition(array $a_def)
+
+    protected function importFieldDefinition(array $a_def) : void
     {
         $this->setOptions($a_def["options"]);
         $this->complex = $a_def["complex"];
     }
-    
-    protected function getFieldDefinition()
+
+    protected function getFieldDefinition() : array
     {
-        return  array(
+        return array(
             "options" => $this->options,
             "complex" => $this->complex
         );
     }
-    
-    public function getFieldDefinitionForTableGUI(string $content_language)
+
+    public function getFieldDefinitionForTableGUI(string $content_language) : array
     {
         global $lng;
-        
+
         return array($lng->txt("options") => implode(",", $this->getOptions()));
     }
 
     /**
-     * Add input elements to definition form
-     * @param ilPropertyFormGUI $a_form
-     * @param bool              $a_disabled
-     * @param string            $language
-     * @throws ilFormException
+     * @inheritdoc
      */
-    protected function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false, string $language = '')
-    {
+    protected function addCustomFieldToDefinitionForm(
+        ilPropertyFormGUI $a_form,
+        bool $a_disabled = false,
+        string $language = ''
+    ) : void {
         global $lng;
-        
+
         $field = new ilTextInputGUI($lng->txt("options"), "opts");
         $field->setRequired(true);
         $field->setMulti(true);
         $field->setMaxLength(255); // :TODO:
         $a_form->addItem($field);
-        
+
         $options = $this->getOptions();
         if ($options) {
             $field->setMultiValues($options);
             $field->setValue(array_shift($options));
         }
-        
+
         if ($a_disabled) {
             $field->setDisabled(true);
         }
     }
 
     /**
-     * Import custom post values from definition form
-     * @param ilPropertyFormGUI $a_form
-     * @param string            $language
+     * @inheritdoc
      */
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '') : void
     {
         $old = $this->getOptions();
         $new = $a_form->getInput("opts");
-        
+
         if (is_array($old)) {
             $missing = array_diff($old, $new);
             if (sizeof($missing)) {
@@ -138,57 +105,52 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
                 }
             }
         }
-        
+
         $this->setOptions($new);
     }
-    
-    
-    //
-    // export/import
-    //
-    
-    protected function addPropertiesToXML(ilXmlWriter $a_writer)
+
+    protected function addPropertiesToXML(ilXmlWriter $a_writer) : void
     {
         foreach ($this->getOptions() as $value) {
             $a_writer->xmlElement('FieldValue', null, $value);
         }
     }
-    
-    public function importXMLProperty($a_key, $a_value)
+
+    public function importXMLProperty(string $a_key, string $a_value) : void
     {
         $this->options[] = $a_value;
     }
-    
-    
+
+
     //
     // import/export
     //
-    
-    public function getValueForXML(ilADT $element)
+
+    public function getValueForXML(ilADT $element) : string
     {
         return $element->getSelection();
     }
-    
-    public function importValueFromXML($a_cdata)
+
+    public function importValueFromXML(string $a_cdata) : void
     {
         $this->getADT()->setSelection($a_cdata);
     }
-    
-    
+
+
     //
     // complex options
     //
-        
-    abstract public function getADTGroup();
-    
-    abstract public function getTitles();
-        
-    public function hasComplexOptions()
+
+    abstract public function getADTGroup() : ilADTDefinition;
+
+    abstract public function getTitles() : array;
+
+    public function hasComplexOptions() : bool
     {
         return true;
     }
-            
-    protected function getADTForOption($a_option)
+
+    protected function getADTForOption(string $a_option) : ilADT
     {
         $adt = ilADTFactory::getInstance()->getInstanceByDefinition($this->getADTGroup());
         if (array_key_exists($a_option, $this->complex)) {
@@ -196,20 +158,17 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         }
         return $adt;
     }
-    
-    // table
 
     /**
      * @inheritdoc
      */
-    public function getComplexOptionsOverview($a_parent_gui, string $a_parent_cmd) : ?string
+    public function getComplexOptionsOverview(object $a_parent_gui, string $a_parent_cmd) : ?string
     {
-        include_once "Services/AdvancedMetaData/classes/Types/class.ilAdvancedMDFieldDefinitionGroupTableGUI.php";
         $tbl = new ilAdvancedMDFieldDefinitionGroupTableGUI($a_parent_gui, $a_parent_cmd, $this);
         return $tbl->getHTML();
     }
-        
-    public function exportOptionToTableGUI($a_option, array &$a_item)
+
+    public function exportOptionToTableGUI($a_option, array &$a_item) : void
     {
         $adt = $this->getADTForOption($a_option);
         foreach ($adt->getElements() as $title => $element) {
@@ -217,33 +176,31 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
             $a_item[$title] = $pres->getList();
         }
     }
-    
-    // form
-    
+
     public function initOptionForm(ilPropertyFormGUI $a_form, $a_option_id)
     {
         global $lng;
-        
+
         $option = $this->findOptionById($a_option_id);
         if ($option) {
             $title = new ilTextInputGUI($lng->txt("option"), "option");
             $title->setValue($option);
             $title->setDisabled(true);
             $a_form->addItem($title);
-            
+
             $adt = $this->getADTForOption($option);
             $adt_form = ilADTFactory::getInstance()->getFormBridgeForInstance($adt);
             $adt_form->setForm($a_form);
-            
+
             $titles = $this->getTitles();
             foreach ($adt_form->getElements() as $id => $element) {
                 $element->setTitle($titles[$id]);
             }
-            
+
             $adt_form->addToForm();
         }
     }
-    
+
     public function updateComplexOption(ilPropertyFormGUI $a_form, $a_option_id)
     {
         $option = $this->findOptionById($a_option_id);
@@ -257,21 +214,22 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
                 return true;
             }
         }
-    
+
         return false;
     }
-    
-    protected function importComplexOptionFromForm($a_option, ilADT $a_adt)
+
+    protected function importComplexOptionFromForm(string $a_option, ilADT $a_adt)
     {
         $this->complex[$a_option] = $a_adt->exportStdClass();
     }
-        
-    protected function findOptionById($a_id)
+
+    protected function findOptionById(string $a_id) : ?string
     {
         foreach ($this->getOptions() as $item) {
             if (md5($item) == $a_id) {
                 return $item;
             }
         }
+        return null;
     }
 }

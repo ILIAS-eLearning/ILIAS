@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Metadata block
  *
@@ -10,18 +24,17 @@
  */
 class ilObjectMetaDataBlockGUI extends ilBlockGUI
 {
-    public static $block_type = "advmd";
-    
-    protected $record; // [ilAdvancedMDRecord]
-    protected $values; // [ilAdvancedMDValues]
-    protected $callback; // [string]
-    
-    protected static $records = array(); // [array]
-    
+    public static string $block_type = "advmd";
+    protected static array $records = [];
+
+    protected ilAdvancedMDRecord $record;
+    protected ilAdvancedMDValues $values;
+    protected ?string $callback;
+
     /**
     * Constructor
     */
-    public function __construct(ilAdvancedMDRecord $a_record, $a_decorator_callback = null)
+    public function __construct(ilAdvancedMDRecord $record, string $decorator_callback = null)
     {
         global $DIC;
 
@@ -31,8 +44,8 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 
         parent::__construct();
                         
-        $this->record = $a_record;
-        $this->callback = $a_decorator_callback;
+        $this->record = $record;
+        $this->callback = $decorator_callback;
 
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
         $this->setTitle($translations->getTitleForLanguage($this->lng->getLangKey()));
@@ -60,12 +73,12 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     /**
     * Get Screen Mode for current command.
     */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
     }
     
-    public function setValues(ilAdvancedMDValues $a_values)
+    public function setValues(ilAdvancedMDValues $a_values) : void
     {
         $this->values = $a_values;
     }
@@ -73,23 +86,17 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $ilCtrl = $this->ctrl;
-
-        $next_class = $ilCtrl->getNextClass();
-        $cmd = $ilCtrl->getCmd("getHTML");
-
-        switch ($next_class) {
-            default:
-                return $this->$cmd();
-        }
+        $this->ctrl->getNextClass();
+        $cmd = $this->ctrl->getCmd("getHTML");
+        $this->$cmd();
     }
 
     /**
      * Fill data section
      */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -98,7 +105,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
 
     /**
@@ -128,7 +135,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
                 $value = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
 
                 if ($element instanceof ilADTLocation) {
-                    $value->setSize("100%", "200px");
+                    $value->setSize(100, 200);
                 }
                 
                 if (in_array($element->getType(), array("MultiEnum", "Enum", "Text"))) {

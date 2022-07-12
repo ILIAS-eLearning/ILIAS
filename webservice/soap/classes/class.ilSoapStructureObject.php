@@ -1,48 +1,41 @@
 <?php
-  /*
-   +-----------------------------------------------------------------------------+
-   | ILIAS open source                                                           |
-   +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-   |                                                                             |
-   | This program is free software; you can redistribute it and/or               |
-   | modify it under the terms of the GNU General Public License                 |
-   | as published by the Free Software Foundation; either version 2              |
-   | of the License, or (at your option) any later version.                      |
-   |                                                                             |
-   | This program is distributed in the hope that it will be useful,             |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-   | GNU General Public License for more details.                                |
-   |                                                                             |
-   | You should have received a copy of the GNU General Public License           |
-   | along with this program; if not, write to the Free Software                 |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-   +-----------------------------------------------------------------------------+
-  */
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+*/
 
-
- /**
-   * Abstract classs for soap structure objects
-   *
-   * @author Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
-   * @version $Id: class.ilSoapStructureObject.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
-   *
-   * @package ilias
-   */
-
+/**
+ * Abstract classs for soap structure objects
+ * @author Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
+ */
 class ilSoapStructureObject
 {
-    public $obj_id;
-    public $title;
-    public $type;
-    public $description;
-    public $parentRefId;
+    public int $obj_id;
+    public string $title;
+    public string $type;
+    public string $description;
+    public ?int $parentRefId;
 
-    public $structureObjects = array();
+    public array $structureObjects = array();
 
-
-    public function __construct($objId, $type, $title, $description, $parentRefId = null)
+    public function __construct(int $objId, string $type, string $title, string $description, ?int $parentRefId = null)
     {
         $this->setObjId($objId);
         $this->setType($type);
@@ -51,164 +44,98 @@ class ilSoapStructureObject
         $this->parentRefId = $parentRefId;
     }
 
-    /**
-    *	add structure object to its parent
-    *
-    */
-    public function addStructureObject($structureObject)
+    public function addStructureObject(ilSoapStructureObject $structureObject) : void
     {
-        $this->structureObjects [$structureObject->getObjId()] =  $structureObject;
+        $this->structureObjects [$structureObject->getObjId()] = $structureObject;
     }
 
-    /**
-     * returns sub structure elements
-     *
-     */
-    public function getStructureObjects()
+    public function getStructureObjects() : array
     {
         return $this->structureObjects;
     }
 
-
-    /**
-    *	set current ObjId
-    *
-    */
-    public function setObjId($value)
+    public function setObjId(int $value) : void
     {
-        $this->obj_id= $value;
+        $this->obj_id = $value;
     }
 
-
-    /**
-    * return current object id
-    */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-
-
-    /**
-    *	set current title
-    *
-    */
-    public function setTitle($value)
+    public function setTitle(string $value) : void
     {
-        $this->title= $value;
+        $this->title = $value;
     }
 
-
-    /**
-    *	return current title
-    *
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    *	set current description
-    *
-    */
-    public function setDescription($value)
+    public function setDescription(string $value) : void
     {
         $this->description = $value;
     }
 
-
-    /**
-    *	return current description
-    *
-    */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-
-    /**
-    *	set current type
-    *
-    */
-    public function setType($value)
+    public function setType(string $value) : void
     {
         $this->type = $value;
     }
 
-
-    /**
-    *	return current type
-    *
-    */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-
-    /**
-    *	return current goto_link
-    *
-    */
-    public function getGotoLink()
+    public function getGotoLink() : string
     {
-        return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() . "_" . $this->getObjId() . (is_numeric($this->getParentRefId())?"_" . $this->getParentRefId():"") . "&client_id=" . CLIENT_ID;
+        return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() .
+            "_" . $this->getObjId() .
+            (is_numeric($this->getParentRefId()) ? "_" . $this->getParentRefId() : "") . "&client_id=" . CLIENT_ID;
+    }
+
+    public function getInternalLink() : string
+    {
+        return '';
     }
 
     /**
-    *	return current internal_link
-    *
-    */
-    public function getInternalLink()
-    {
-        die("abstract");
-    }
-
-    /**
-     * get xml tag attributes
+     * @return array{type: string, obj_id: int}
      */
-
-    public function _getXMLAttributes()
+    public function _getXMLAttributes() : array
     {
-        return array(	'type' => $this->getType(),
-                        'obj_id' => $this->getObjId()
+        return array(
+            'type' => $this->getType(),
+            'obj_id' => $this->getObjId()
         );
     }
 
-    public function _getTagName()
+    public function _getTagName() : string
     {
         return "StructureObject";
     }
-    
-    /**
-    * set ref id for parent object (used for permanent link if set)
-    */
-    public function setParentRefId($parentRefId)
+
+    public function setParentRefId(int $parentRefId) : void
     {
         $this->parentRefId = $parentRefId;
     }
-    
-    
-    /**
-    * read access to parents ref id
-    */
-    public function getParentRefId()
+
+    public function getParentRefId() : ?int
     {
         return $this->parentRefId;
     }
-        
 
-    /**
-     * export to xml writer
-     */
-    public function exportXML($xml_writer)
+    public function exportXML(ilXmlWriter $xml_writer) : void
     {
         $attrs = $this->_getXMLAttributes();
 
-        // open tag
         $xml_writer->xmlStartTag($this->_getTagName(), $attrs);
 
         $xml_writer->xmlElement('Title', null, $this->getTitle());
@@ -218,7 +145,6 @@ class ilSoapStructureObject
 
         $xml_writer->xmlStartTag("StructureObjects");
 
-        // handle sub elements
         $structureObjects = $this->getStructureObjects();
 
         foreach ($structureObjects as $structureObject) {

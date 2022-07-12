@@ -1,64 +1,45 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Value;
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
- * Copy definition for worspace folders
- *
- * @author killing@leifos.de
- *
+ * Copy definition for workspace folders
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWorkspaceCopyDefinition extends AbstractValue
 {
-    const COPY_SOURCE_DIR = 'source';
-    const COPY_TARGET_DIR = 'target';
+    public const COPY_SOURCE_DIR = 'source';
+    public const COPY_TARGET_DIR = 'target';
 
     /**
      * Copy Jobs: source file => relative target file in zip directory.
      * @param string[]
      */
-    private $copy_definitions = [];
+    private array $copy_definitions = [];
+    private string $temp_dir;
+    private array $object_wsp_ids = [];
+    private int $num_files = 0;
+    private int $sum_file_sizes = 0;
+    private bool $adheres_to_limit = false;
 
-    /**
-     * Temporary directory using the normalized title of the bucket.
-     * @var string
-     */
-    private $temp_dir;
-
-    /**
-     * Workspace ids of all selected objects (files as well as folders)
-     * @var string[]
-     */
-    private $object_wsp_ids = [];
-
-    /**
-     * Number of files to be downloaded. Required to determine whether there is anything to download or not.
-     * @var int
-     */
-    private $num_files = 0;
-
-    /**
-     * Sum of the size of all files. Required to determine whether the global limit has been violated or not.
-     * @var int
-     */
-    private $sum_file_sizes = 0;
-
-    /**
-     * States if the sum of all file sizes adheres to the global limit.
-     * @var bool
-     */
-    private $adheres_to_limit = false;
-
-
-
-    /**
-     * Get copy definitions
-     * @return string[]
-     */
-    public function getCopyDefinitions()
+    public function getCopyDefinitions() : array
     {
         return $this->copy_definitions;
     }
@@ -67,25 +48,20 @@ class ilWorkspaceCopyDefinition extends AbstractValue
      * Set copy definitions
      * @param string[] $a_definitions
      */
-    public function setCopyDefinitions($a_definitions)
+    public function setCopyDefinitions(array $a_definitions) : void
     {
         $this->copy_definitions = $a_definitions;
     }
 
-    /**
-     * Get directory name located in /temp/ directory.
-     * @return string
-     */
-    public function getTempDir()
+    public function getTempDir() : string
     {
         return $this->temp_dir;
     }
 
     /**
      * Set directory name located in /temp/ directory.
-     * @param $temp_dir
      */
-    public function setTempDir($temp_dir)
+    public function setTempDir(string $temp_dir) : void
     {
         $this->temp_dir = $temp_dir;
     }
@@ -93,79 +69,53 @@ class ilWorkspaceCopyDefinition extends AbstractValue
     /**
      * @return string[]
      */
-    public function getObjectWspIds()
+    public function getObjectWspIds() : array
     {
         return $this->object_wsp_ids;
     }
 
-    /**
-     * @param $object_wsp_ids
-     * @param $append
-     */
-    public function setObjectWspIds($object_wps_ids, $append = false)
-    {
+    public function setObjectWspIds(
+        array $object_wps_ids,
+        bool $append = false
+    ) : void {
         if ($append) {
-            array_merge($this->object_wsp_ids, $object_wps_ids);
+            $this->object_wsp_ids = array_merge($this->object_wsp_ids, $object_wps_ids);
         } else {
             $this->object_wsp_ids = $object_wps_ids;
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getNumFiles()
+    public function getNumFiles() : int
     {
         return $this->num_files;
     }
 
-    /**
-     * @param $num_files
-     */
-    public function setNumFiles($num_files)
+    public function setNumFiles(int $num_files) : void
     {
         $this->num_files = $num_files;
     }
 
-    /**
-     * @return int
-     */
-    public function getSumFileSizes()
+    public function getSumFileSizes() : int
     {
         return $this->sum_file_sizes;
     }
 
-    /**
-     * @param int $sum_file_sizes
-     */
-    public function setSumFileSizes($sum_file_sizes)
+    public function setSumFileSizes(int $sum_file_sizes) : void
     {
         $this->sum_file_sizes = $sum_file_sizes;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAdheresToLimit()
+    public function getAdheresToLimit() : bool
     {
         return $this->adheres_to_limit;
     }
 
-    /**
-     * @param bool $adheres_to_limit
-     */
-    public function setAdheresToLimit($adheres_to_limit)
+    public function setAdheresToLimit(bool $adheres_to_limit) : void
     {
         $this->adheres_to_limit = $adheres_to_limit;
     }
 
-
-    /**
-     * Add copy definition
-     * @param string $a_source
-     * @param string $a_target
-     */
-    public function addCopyDefinition($a_source, $a_target)
+    public function addCopyDefinition(string $a_source, string $a_target) : void
     {
         $this->copy_definitions[] =
             [
@@ -174,31 +124,17 @@ class ilWorkspaceCopyDefinition extends AbstractValue
             ];
     }
 
-
-    /**
-     * Check equality
-     * @param Value $other
-     * @return bool
-     */
-    public function equals(Value $other)
+    public function equals(Value $other) : bool
     {
         return strcmp($this->getHash(), $other->getHash());
     }
 
-
-    /**
-     * Get hash
-     * @return string
-     */
-    public function getHash()
+    public function getHash() : string
     {
         return md5($this->serialize());
     }
 
-    /**
-     * Serialize content
-     */
-    public function serialize()
+    public function serialize() : string
     {
         return serialize(
             [
@@ -214,20 +150,20 @@ class ilWorkspaceCopyDefinition extends AbstractValue
 
     /**
      * Set value
-     * @param string[] $value
+     * @param $value
      */
-    public function setValue($value)
+    public function setValue($value) : void
     {
         $this->copy_definitions = $value;
     }
 
     /**
      * Unserialize definitions
-     * @param string $serialized
+     * @param string $data
      */
-    public function unserialize($serialized)
+    public function unserialize($data)
     {
-        $elements = unserialize($serialized);
+        $elements = unserialize($data);
 
         $this->setCopyDefinitions($elements["copy_definition"]);
         $this->setTempDir($elements['temp_dir']);

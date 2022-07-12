@@ -1,9 +1,20 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
@@ -14,35 +25,35 @@ use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 use UnexpectedValueException;
 
-require_once('./libs/composer/vendor/autoload.php');
-
 class RecordTransformationTest extends TestCase
 {
     /**
      * @throws \ilException
      */
-    public function testTransformationIsCorrect()
+    public function testTransformationIsCorrect() : void
     {
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'stringTrafo' => new StringTransformation(),
-                'integerTrafo' => new IntegerTransformation())
+                'integerTrafo' => new IntegerTransformation()
+            ]
         );
 
-        $result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'integerTrafo' => 1));
+        $result = $recordTransformation->transform(['stringTrafo' => 'hello', 'integerTrafo' => 1]);
 
-        $this->assertEquals(array('stringTrafo' => 'hello', 'integerTrafo' => 1), $result);
+        $this->assertEquals(['stringTrafo' => 'hello', 'integerTrafo' => 1], $result);
     }
 
-    public function testInvalidTransformationArray()
+    public function testInvalidTransformationArray() : void
     {
         $this->expectNotToPerformAssertions();
 
         try {
             $recordTransformation = new RecordTransformation(
-                array(
+                [
                     new StringTransformation(),
-                    new IntegerTransformation())
+                    new IntegerTransformation()
+                ]
             );
         } catch (UnexpectedValueException $exception) {
             return;
@@ -51,18 +62,19 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testTransformationIsInvalidBecauseValueDoesNotMatchWithTransformation()
+    public function testTransformationIsInvalidBecauseValueDoesNotMatchWithTransformation() : void
     {
         $this->expectNotToPerformAssertions();
 
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'integerTrafo' => new IntegerTransformation(),
-                'anotherIntTrafo' => new IntegerTransformation())
+                'anotherIntTrafo' => new IntegerTransformation()
+            ]
         );
 
         try {
-            $result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'anotherIntTrafo' => 1));
+            $result = $recordTransformation->transform(['stringTrafo' => 'hello', 'anotherIntTrafo' => 1]);
         } catch (UnexpectedValueException $exception) {
             return;
         }
@@ -70,18 +82,19 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testInvalidValueKey()
+    public function testInvalidValueKey() : void
     {
         $this->expectNotToPerformAssertions();
 
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'stringTrafo' => new StringTransformation(),
-                'integerTrafo' => new IntegerTransformation())
+                'integerTrafo' => new IntegerTransformation()
+            ]
         );
 
         try {
-            $result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'floatTrafo' => 1));
+            $result = $recordTransformation->transform(['stringTrafo' => 'hello', 'floatTrafo' => 1]);
         } catch (UnexpectedValueException $exception) {
             return;
         }
@@ -89,24 +102,25 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testInvalidToManyValues()
+    public function testInvalidToManyValues() : void
     {
         $this->expectNotToPerformAssertions();
 
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'stringTrafo' => new StringTransformation(),
-                'integerTrafo' => new IntegerTransformation())
+                'integerTrafo' => new IntegerTransformation()
+            ]
         );
 
 
         try {
             $result = $recordTransformation->transform(
-                array(
+                [
                     'stringTrafo' => 'hello',
                     'integerTrafo' => 1,
                     'floatTrafo' => 1
-                )
+                ]
             );
         } catch (UnexpectedValueException $exception) {
             return;
@@ -115,18 +129,19 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testTransformationThrowsExceptionBecauseKeyIsNotAString()
+    public function testTransformationThrowsExceptionBecauseKeyIsNotAString() : void
     {
         $this->expectNotToPerformAssertions();
 
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'stringTrafo' => new StringTransformation(),
-                'integerTrafo' => new IntegerTransformation())
+                'integerTrafo' => new IntegerTransformation()
+            ]
         );
 
         try {
-            $result = $recordTransformation->transform(array('someKey' => 'hello', 1));
+            $result = $recordTransformation->transform(['someKey' => 'hello', 1]);
         } catch (UnexpectedValueException $exception) {
             return;
         }
@@ -137,31 +152,33 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testApplyIsCorrect()
+    public function testApplyIsCorrect() : void
     {
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'stringTrafo' => new StringTransformation(),
-                'integerTrafo' => new IntegerTransformation())
+                'integerTrafo' => new IntegerTransformation()
+            ]
         );
 
-        $result = $recordTransformation->applyTo(new Ok(array('stringTrafo' => 'hello', 'integerTrafo' => 1)));
+        $result = $recordTransformation->applyTo(new Ok(['stringTrafo' => 'hello', 'integerTrafo' => 1]));
 
-        $this->assertEquals(array('stringTrafo' => 'hello', 'integerTrafo' => 1), $result->value());
+        $this->assertEquals(['stringTrafo' => 'hello', 'integerTrafo' => 1], $result->value());
     }
 
     /**
      * @throws \ilException
      */
-    public function testApplyIsInvalidBecauseValueDoesNotMatchWithTransformation()
+    public function testApplyIsInvalidBecauseValueDoesNotMatchWithTransformation() : void
     {
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'integerTrafo' => new IntegerTransformation(),
-                'anotherIntTrafo' => new IntegerTransformation())
+                'anotherIntTrafo' => new IntegerTransformation()
+            ]
         );
 
-        $result = $recordTransformation->applyTo(new Ok(array('stringTrafo' => 'hello', 'anotherIntTrafo' => 1)));
+        $result = $recordTransformation->applyTo(new Ok(['stringTrafo' => 'hello', 'anotherIntTrafo' => 1]));
 
         $this->assertTrue($result->isError());
     }
@@ -169,15 +186,16 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testInvalidValueKeyInApplyToMethod()
+    public function testInvalidValueKeyInApplyToMethod() : void
     {
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'stringTrafo' => new StringTransformation(),
-                'integerTrafo' => new IntegerTransformation())
+                'integerTrafo' => new IntegerTransformation()
+            ]
         );
 
-        $result = $recordTransformation->applyTo(new Ok(array('stringTrafo' => 'hello', 'floatTrafo' => 1)));
+        $result = $recordTransformation->applyTo(new Ok(['stringTrafo' => 'hello', 'floatTrafo' => 1]));
 
         $this->assertTrue($result->isError());
     }
@@ -185,21 +203,22 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testInvalidToManyValuesInApplyToMethodCall()
+    public function testInvalidToManyValuesInApplyToMethodCall() : void
     {
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'stringTrafo' => new StringTransformation(),
-                'integerTrafo' => new IntegerTransformation())
+                'integerTrafo' => new IntegerTransformation()
+            ]
         );
 
         $result = $recordTransformation->applyTo(
             new Ok(
-                array(
+                [
                     'stringTrafo' => 'hello',
                     'integerTrafo' => 1,
                     'floatTrafo' => 1
-                )
+                ]
             )
         );
 
@@ -209,15 +228,16 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testApplyThrowsExceptionBecauseKeyIsNotAString()
+    public function testApplyThrowsExceptionBecauseKeyIsNotAString() : void
     {
         $recordTransformation = new RecordTransformation(
-            array(
+            [
                 'stringTrafo' => new StringTransformation(),
-                'integerTrafo' => new IntegerTransformation())
+                'integerTrafo' => new IntegerTransformation()
+            ]
         );
 
-        $result = $recordTransformation->applyTo(new Ok(array('someKey' => 'hello', 1)));
+        $result = $recordTransformation->applyTo(new Ok(['someKey' => 'hello', 1]));
 
         $this->assertTrue($result->isError());
     }

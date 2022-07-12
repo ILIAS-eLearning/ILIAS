@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -96,19 +111,19 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
                         'id' => $criterionAssignment1->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment1->getCriterionId(),
-                        'criterion_value' => $criterionAssignment1->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment1->getCriterionValue()->toJson(),
                     ],
                     [
                         'id' => $criterionAssignment2->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment2->getCriterionId(),
-                        'criterion_value' => $criterionAssignment2->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment2->getCriterionValue()->toJson(),
                     ],
                     [
                         'id' => $criterionAssignment3->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment3->getCriterionId(),
-                        'criterion_value' => $criterionAssignment3->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment3->getCriterionValue()->toJson(),
                     ]
                 ];
             });
@@ -132,7 +147,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
-    public function testDocumentModelCanCreatedByIdWithAttachedCriteriaBeingRead(
+    public function testDocumentModelCanBeCreatedByIdWithAttachedCriteriaBeingRead(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
@@ -167,19 +182,19 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
                         'id' => $criterionAssignment1->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment1->getCriterionId(),
-                        'criterion_value' => $criterionAssignment1->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment1->getCriterionValue()->toJson(),
                     ],
                     [
                         'id' => $criterionAssignment2->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment2->getCriterionId(),
-                        'criterion_value' => $criterionAssignment2->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment2->getCriterionValue()->toJson(),
                     ],
                     [
                         'id' => $criterionAssignment3->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment3->getCriterionId(),
-                        'criterion_value' => $criterionAssignment3->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment3->getCriterionValue()->toJson(),
                     ]
                 ];
             });
@@ -235,9 +250,9 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment3
+     * @param ilTermsOfServiceDocumentCriterionAssignment&MockObject $criterionAssignment1
+     * @param ilTermsOfServiceDocumentCriterionAssignment&MockObject $criterionAssignment2
+     * @param ilTermsOfServiceDocumentCriterionAssignment&MockObject $criterionAssignment3
      */
     public function testCriteriaCanBeAttachedToAndDetachedFromDocumentPersistently(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,

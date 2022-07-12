@@ -11,7 +11,7 @@ require_once 'Services/Html/classes/class.ilHtmlPurifierAbstractLibWrapper.php';
  */
 abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-    protected function getPurifierType()
+    protected function getPurifierType() : string
     {
         return 'assessment';
     }
@@ -35,7 +35,7 @@ abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
         return $config;
     }
     
-    private function getAllowedElements()
+    private function getAllowedElements() : array
     {
         $allowedElements = $this->getElementsUsedForAdvancedEditing();
         
@@ -45,7 +45,7 @@ abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
         return $allowedElements;
     }
     
-    private function getElementsUsedForAdvancedEditing()
+    private function getElementsUsedForAdvancedEditing() : array
     {
         include_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
         return ilObjAdvancedEditing::_getUsedHTMLTags($this->getPurifierType());

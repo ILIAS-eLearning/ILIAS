@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\UI\Factory;
@@ -13,29 +28,29 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
 {
-    /** @var MockObject|ilTermsOfServiceTableDataProviderFactory */
+    /** @var MockObject&ilTermsOfServiceTableDataProviderFactory */
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
-    /** @var MockObject|ilObjTermsOfService */
+    /** @var MockObject&ilObjTermsOfService */
     protected ilObjTermsOfService $tos;
-    /** @var MockObject|ilGlobalTemplateInterface */
+    /** @var MockObject&ilGlobalTemplateInterface */
     protected ilGlobalTemplateInterface $tpl;
-    /** @var MockObject|ilCtrl */
-    protected ilCtrl $ctrl;
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilCtrlInterface */
+    protected ilCtrlInterface $ctrl;
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
-    /** @var MockObject|ilRbacSystem */
+    /** @var MockObject&ilRbacSystem */
     protected ilRbacSystem $rbacsystem;
-    /** @var MockObject|ilErrorHandling */
+    /** @var MockObject&ilErrorHandling */
     protected ilErrorHandling $error;
-    /** @var MockObject|Factory */
+    /** @var MockObject&Factory */
     protected Factory $uiFactory;
-    /** @var MockObject|Renderer */
+    /** @var MockObject&Renderer */
     protected Renderer $uiRenderer;
-    /** @var MockObject|GlobalHttpState */
+    /** @var MockObject&GlobalHttpState */
     protected GlobalHttpState $http;
-    /** @var MockObject|Refinery */
+    /** @var MockObject&Refinery */
     protected Refinery $refinery;
-    /** @var MockObject|ilTermsOfServiceCriterionTypeFactoryInterface */
+    /** @var MockObject&ilTermsOfServiceCriterionTypeFactoryInterface */
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     protected function setUp() : void

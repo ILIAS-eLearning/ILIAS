@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Component\Input\Container\Form as F;
@@ -9,22 +23,18 @@ use ILIAS\UI\Implementation\Component\Input;
 
 class Factory implements F\Factory
 {
-    /**
-     * @var Input\Field\Factory
-     */
-    protected $field_factory;
+    protected Input\Field\Factory $field_factory;
 
-    public function __construct(
-        Input\Field\Factory $field_factory
-    ) {
+    public function __construct(Input\Field\Factory $field_factory)
+    {
         $this->field_factory = $field_factory;
     }
 
     /**
      * @inheritdoc
      */
-    public function standard($post_url, array $inputs)
+    public function standard(string $post_url, array $inputs) : F\Standard
     {
-        return new Standard($this->field_factory, $post_url, $inputs);
+        return new Standard($this->field_factory, new Input\FormInputNameSource(), $post_url, $inputs);
     }
 }

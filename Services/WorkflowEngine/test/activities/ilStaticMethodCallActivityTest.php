@@ -14,10 +14,11 @@
  */
 class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
+    protected function setUp() : void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
@@ -32,7 +33,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/activities/class.ilStaticMethodCallActivity.php';
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -42,7 +43,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $activity = new ilStaticMethodCallActivity($this->node);
@@ -55,7 +56,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetGetIncludeFilename()
+    public function testSetGetIncludeFilename() : void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
@@ -69,7 +70,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
 
-    public function testSetGetClassAndMethodName()
+    public function testSetGetClassAndMethodName() : void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
@@ -83,7 +84,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
     
-    public function testSetGetParameters()
+    public function testSetGetParameters() : void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
@@ -97,7 +98,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
     
-    public function testExecute()
+    public function testExecute() : void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
@@ -115,7 +116,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         $this->assertTrue(true, 'There dont seem to be problems here.');
     }
     
-    public static function executionTargetMethod($context, $param)
+    public static function executionTargetMethod($context, $param) : bool
     {
         $parameters = array(
           'homer' => 'homer', 0 => 'homer',
@@ -136,7 +137,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         return true;
     }
     
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
@@ -148,7 +149,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 }

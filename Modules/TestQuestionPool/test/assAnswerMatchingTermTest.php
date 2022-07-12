@@ -14,16 +14,11 @@ class assAnswerMatchingTermTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -35,7 +30,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $this->assertInstanceOf('assAnswerMatchingTerm', $instance);
     }
 
-    public function test_setGetText()
+    public function test_setGetText() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -50,7 +45,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPicture()
+    public function test_setGetPicture() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -65,7 +60,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getUnsetPicture()
+    public function test_getUnsetPicture() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -79,7 +74,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetIdentifier()
+    public function test_setGetIdentifier() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -89,21 +84,6 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         // Act
         $instance->identifier = $expected;
         $actual = $instance->identifier;
-
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_setGetHokum()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
-        $instance = new assAnswerMatchingTerm();
-        $expected = null;
-
-        // Act
-        $instance->hokum = 'Hokum Value';
-        $actual = $instance->hokum;
 
         // Assert
         $this->assertEquals($expected, $actual);

@@ -1,27 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCProfile
- *
  * Personal data content object (see ILIAS DTD)
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilPCProfile extends ilPageContent
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected php4DOMElement $prof_node;
+    protected ilObjUser $user;
 
-    public $dom;
-
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -29,37 +34,27 @@ class ilPCProfile extends ilPageContent
         $this->setType("prof");
     }
 
-    /**
-    * Set node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->prof_node = $a_node->first_child();		// this is the profile node
     }
 
-    /**
-    * Create profile node in xml.
-    *
-    * @param	object	$a_pg_obj		Page Object
-    * @param	string	$a_hier_id		Hierarchical ID
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->prof_node = $this->dom->create_element("Profile");
         $this->prof_node = $this->node->append_child($this->prof_node);
     }
 
-    /**
-     * Set profile settings
-     *
-     * @param string $a_mode
-     * @param array $a_fields
-     */
-    public function setFields($a_mode, array $a_fields = null)
-    {
+    public function setFields(
+        string $a_mode,
+        array $a_fields = null
+    ) : void {
         $ilUser = $this->user;
         
         $this->prof_node->set_attribute("Mode", $a_mode);
@@ -82,24 +77,18 @@ class ilPCProfile extends ilPageContent
         }
     }
 
-    /**
-     * Get profile mode
-     *
-     * @return string
-     */
-    public function getMode()
+    public function getMode() : string
     {
         if (is_object($this->prof_node)) {
             return $this->prof_node->get_attribute("Mode");
         }
+        return "";
     }
 
     /**
-    * Get profile settings
-    *
-    * @return array
-    */
-    public function getFields()
+     * Get profile settings
+     */
+    public function getFields() : array
     {
         $res = array();
         if (is_object($this->prof_node)) {
@@ -113,11 +102,7 @@ class ilPCProfile extends ilPageContent
         return $res;
     }
     
-    /**
-     * Get lang vars needed for editing
-     * @return array array of lang var keys
-     */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("pc_prof", "ed_insert_profile");
     }

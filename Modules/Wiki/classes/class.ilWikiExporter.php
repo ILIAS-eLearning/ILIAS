@@ -1,11 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Exporter class for wikis
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiExporter extends ilXmlExporter
 {
@@ -17,20 +31,14 @@ class ilWikiExporter extends ilXmlExporter
         $this->ds = new ilWikiDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
-
         $this->wiki_log = ilLoggerFactory::getLogger('wiki');
     }
 
-
-    /**
-     * Get tail dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return        array        array of array with keys "component", entity", "ids"
-     */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
-    {
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ) : array {
         $pg_ids = array();
         foreach ($a_ids as $id) {
             $pages = ilWikiPage::getAllWikiPages($id);
@@ -57,7 +65,7 @@ class ilWikiExporter extends ilXmlExporter
         foreach ($a_ids as $id) {
             $rec_ids = $this->getActiveAdvMDRecords($id);
             $this->wiki_log->debug("advmd rec ids: wiki id:" . $id . ", adv rec ids" . print_r($rec_ids, true));
-            if (sizeof($rec_ids)) {
+            if (count($rec_ids)) {
                 foreach ($rec_ids as $rec_id) {
                     $advmd_ids[] = $id . ":" . $rec_id;
                 }
@@ -66,7 +74,7 @@ class ilWikiExporter extends ilXmlExporter
 
         $this->wiki_log->debug("advmd ids: " . print_r($advmd_ids, true));
 
-        if (sizeof($advmd_ids)) {
+        if (count($advmd_ids)) {
             $deps[] = array(
                 "component" => "Services/AdvancedMetaData",
                 "entity" => "advmd",
@@ -93,7 +101,7 @@ class ilWikiExporter extends ilXmlExporter
         return $deps;
     }
     
-    protected function getActiveAdvMDRecords($a_id)
+    protected function getActiveAdvMDRecords(int $a_id) : array
     {
         $active = array();
         // selected globals
@@ -101,7 +109,7 @@ class ilWikiExporter extends ilXmlExporter
 
         foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType("wiki", "wpg") as $record_obj) {
             // local ones and globally activated for the object
-            if ($record_obj->getParentObject() == $a_id || in_array($record_obj->getRecordId(), $sel_globals)) {
+            if ($record_obj->getParentObject() === $a_id || in_array($record_obj->getRecordId(), $sel_globals)) {
                 $active[] = $record_obj->getRecordId();
             }
         }
@@ -111,53 +119,43 @@ class ilWikiExporter extends ilXmlExporter
         return $active;
     }
 
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		target release
-     * @param	string		id
-     * @return	string		xml string
-     */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
-    {
+    public function getXmlRepresentation(
+        string $a_entity,
+        string $a_schema_version,
+        string $a_id
+    ) : string {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
-     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "5.4.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Wiki/wiki/5_4",
+                "namespace" => "https://www.ilias.de/Modules/Wiki/wiki/5_4",
                 "xsd_file" => "ilias_wiki_5_4.xsd",
                 "uses_dataset" => true,
                 "min" => "5.4.0",
                 "max" => ""),
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Wiki/wiki/4_1",
+                "namespace" => "https://www.ilias.de/Modules/Wiki/wiki/4_1",
                 "xsd_file" => "ilias_wiki_4_1.xsd",
                 "uses_dataset" => true,
                 "min" => "4.1.0",
                 "max" => "4.2.99"),
             "4.3.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Wiki/wiki/4_3",
+                "namespace" => "https://www.ilias.de/Modules/Wiki/wiki/4_3",
                 "xsd_file" => "ilias_wiki_4_3.xsd",
                 "uses_dataset" => true,
                 "min" => "4.3.0",
                 "max" => "4.3.99"),
             "4.4.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Wiki/wiki/4_4",
+                "namespace" => "https://www.ilias.de/Modules/Wiki/wiki/4_4",
                 "xsd_file" => "ilias_wiki_4_4.xsd",
                 "uses_dataset" => true,
                 "min" => "4.4.0",
                 "max" => "5.0.99"),
             "5.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Wiki/wiki/5_1",
+                "namespace" => "https://www.ilias.de/Modules/Wiki/wiki/5_1",
                 "xsd_file" => "ilias_wiki_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",

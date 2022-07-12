@@ -15,7 +15,7 @@ il.UI.Input = il.UI.Input || {};
             var _getSettings = function() {
                 return {
                     whitelist: _CONFIG.options,
-                    enforceWhitelist: _CONFIG.extendable,
+                    enforceWhitelist: !_CONFIG.userInput,
                     duplicates: _CONFIG.allowDuplicates,
                     maxTags: _CONFIG.maxItems,
                     originalInputValueFormat: valuesArr => valuesArr.map(item => item.value),
@@ -24,6 +24,12 @@ il.UI.Input = il.UI.Input || {};
                         maxItems: _CONFIG.dropdownMaxItems,
                         closeOnSelect: _CONFIG.dropdownCloseOnSelect,
                         highlightFirst: _CONFIG.highlight
+                    },
+                    transformTag : function(tagData) {
+                        if (!tagData.display) {
+                            tagData.display = tagData.value;
+                            tagData.value = encodeURI(tagData.value);
+                        }
                     }
                 }
             };

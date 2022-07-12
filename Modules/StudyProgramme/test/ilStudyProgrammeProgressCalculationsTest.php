@@ -1,14 +1,35 @@
 <?php declare(strict_types=1);
 
-require_once(__DIR__ . "/../../../libs/composer/vendor/autoload.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once(__DIR__ . "/prg_mocks.php");
 
+use PHPUnit\Framework\TestCase;
 
-class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCase
+class ilStudyProgrammeProgressCalculationsTest extends TestCase
 {
+    public ProgressRepoMock $progress_repo;
+    public AssignmentRepoMock $assignment_repo;
+    public SettingsRepoMock $settings_repo;
+    public ilPRGMessageCollection $messages;
+    public array $mock_tree = [];
+
     protected function buildProgramme(int $prg_id) : ilObjStudyProgramme
     {
-        $prg = new PrgMock($prg_id, $this);
         $settings = new SettingsMock(
             $prg_id
         );
@@ -29,10 +50,10 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
                 ->withAssignmentId(-42)
                 ->withNodeId($prg_id);
         $this->progress_repo->update($progress);
-        return $prg;
+        return new PrgMock($prg_id, $this->progress_repo, $this->assignment_repo, $this->settings_repo, $this->mock_tree);
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->progress_repo = new ProgressRepoMock();
         $this->assignment_repo = new AssignmentRepoMock();
@@ -47,14 +68,12 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
             ├── 12
             └── 13
         */
-        $this->mock_tree = [
-            1 => ['parent' => null, 'children' => [11,12,13], 'prg' => $this->buildProgramme(1)],
-                11 => ['parent' => 1, 'children' => [111,112], 'prg' => $this->buildProgramme(11)],
-                    111 => ['parent' => 11, 'children' => [], 'prg' => $this->buildProgramme(111)],
-                    112 => ['parent' => 11, 'children' => [], 'prg' => $this->buildProgramme(112)],
-                12 => ['parent' => 1, 'children' => [], 'prg' => $this->buildProgramme(12)],
-                13 => ['parent' => 1, 'children' => [], 'prg' => $this->buildProgramme(13)]
-        ];
+        $this->mock_tree[1] = ['parent' => null, 'children' => [11,12,13], 'prg' => $this->buildProgramme(1)];
+        $this->mock_tree[11] = ['parent' => 1, 'children' => [111,112], 'prg' => $this->buildProgramme(11)];
+        $this->mock_tree[111] = ['parent' => 11, 'children' => [], 'prg' => $this->buildProgramme(111)];
+        $this->mock_tree[112] = ['parent' => 11, 'children' => [], 'prg' => $this->buildProgramme(112)];
+        $this->mock_tree[12] = ['parent' => 1, 'children' => [], 'prg' => $this->buildProgramme(12)];
+        $this->mock_tree[13] = ['parent' => 1, 'children' => [], 'prg' => $this->buildProgramme(13)];
 
         $assignment = (new ilStudyProgrammeAssignment(-42))
             ->withRootId(1);
@@ -62,12 +81,12 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
     }
 
 
-    protected function getRootPrg()
+    protected function getRootPrg() : PrgMock
     {
         return $this->mock_tree[1]['prg'];
     }
 
-    protected function setPointsForNode(int $node_id, int $points)
+    protected function setPointsForNode(int $node_id, int $points) : void
     {
         $set = new ilStudyProgrammeAssessmentSettings($points, ilStudyProgrammeAssessmentSettings::STATUS_ACTIVE);
         $this->settings_repo->update($this->settings_repo->get($node_id)->withAssessmentSettings($set));
@@ -76,14 +95,14 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         $this->assertEquals($points, $this->mock_tree[$node_id]['prg']->getPoints());
     }
 
-    protected function setModeForNode(int $node_id, int $mode)
+    protected function setModeForNode(int $node_id, int $mode) : void
     {
         $set = $this->settings_repo->get($node_id)->setLPMode($mode);
         $this->settings_repo->update($set);
     }
     
     //this is a meta-test to assure that this setup is working properly
-    public function testInternalTreeIntegrity()
+    public function testInternalTreeIntegrity() : void
     {
         $progress = $this->progress_repo->get(111);
         $parent = $this->getRootPrg()->getParentProgress($progress);
@@ -108,8 +127,8 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         );
     }
 
-    //this is another meta-test to assure that there are no unwanted side-effects in the repos
-    public function testInternalRunIntegrity()
+    //this is another meta-test to assure that there are no unwanted side effects in the repos
+    public function testInternalRunIntegrity() : void
     {
         $progress = $this->progress_repo->get(11);
         $this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $progress->getStatus());
@@ -124,7 +143,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         ├── 12
         └── 13
      */
-    public function testParentAcquisition()
+    public function testParentAcquisition() : void
     {
         $progress = $this->getRootPrg()
             ->testUpdateParentProgress($this->progress_repo->get(112));
@@ -143,7 +162,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         ├── 12 (12) <-- turns irrelevant
         └── 13 (10)
      */
-    public function testChildrenPossiblePointsAddition()
+    public function testChildrenPossiblePointsAddition() : void
     {
         $this->setPointsForNode(111, 5);
         $this->setPointsForNode(112, 10);
@@ -192,7 +211,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         ├── 12 (12)
         └── 13 (10)
      */
-    public function testAchievedPoints()
+    public function testAchievedPoints() : void
     {
         $this->setPointsForNode(111, 5);
         $this->setPointsForNode(112, 10);
@@ -225,7 +244,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         ├── 12 (2)
         └── 13 (2)
      */
-    public function testMarkAccreditedShouldCompleteParentBySufficientPoints()
+    public function testMarkAccreditedShouldCompleteParentBySufficientPoints() : void
     {
         $this->setPointsForNode(111, 5);
         $this->setPointsForNode(112, 7);
@@ -264,7 +283,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         ├── 11 (5, LP)
         └── 12 (5)
      */
-    public function testMarkAccreditedOnLPNode()
+    public function testMarkAccreditedOnLPNode() : void
     {
         $this->setPointsForNode(1, 10);
         $this->setPointsForNode(11, 5);
@@ -299,7 +318,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         ├── 12
         └── 13
      */
-    public function testMarkAccreditedShouldNotChangeIrrelevantParent()
+    public function testMarkAccreditedShouldNotChangeIrrelevantParent() : void
     {
         $this->progress_repo->update(
             $this->progress_repo->get(11)->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
@@ -314,7 +333,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         $this->assertEquals(0, $this->progress_repo->get(1)->getCurrentAmountOfPoints());
     }
 
-    public function testMarkRelevantShouldRecalculateStatusAndPoints()
+    public function testMarkRelevantShouldRecalculateStatusAndPoints() : void
     {
         $this->progress_repo->update(
             $this->progress_repo->get(11)->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
@@ -342,7 +361,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         ├── 12 (2 points)
         └── 13 (accredited, 2 points)
      */
-    public function testSuccessionCompletingParents()
+    public function testSuccessionCompletingParents() : void
     {
         $this->setPointsForNode(1, 6);
         $this->setPointsForNode(11, 4);
@@ -372,7 +391,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         ├── 12 (2 points)
         └── 13 (accredited, 2 points)
      */
-    public function testMarkIrrelevantDoesNotCompleteParent()
+    public function testMarkIrrelevantDoesNotCompleteParent() : void
     {
         $this->setPointsForNode(1, 6);
         $this->getRootPrg()->markAccredited(11, 6, $this->messages);
@@ -388,7 +407,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
     }
 
 
-    public function testFailByDeadline()
+    public function testFailByDeadline() : void
     {
         $past = DateTimeImmutable::createFromFormat('Ymd', '20010101');
         $progress = $this->progress_repo->get(13)->withDeadline($past);
@@ -401,7 +420,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         );
     }
 
-    public function testDontFailByFutureDeadline()
+    public function testDontFailByFutureDeadline() : void
     {
         $progress = $this->progress_repo->get(13);
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
@@ -415,7 +434,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         );
     }
 
-    public function testDontFailByDeadlineIfSucceeded()
+    public function testDontFailByDeadlineIfSucceeded() : void
     {
         $progress = $this->progress_repo->get(13)
             ->withStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
@@ -432,7 +451,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         );
     }
 
-    public function testChangingDeadline()
+    public function testChangingDeadline() : void
     {
         $past = DateTimeImmutable::createFromFormat('Ymd', '20010101');
         $this->getRootPrg()->changeProgressDeadline(12, 6, $this->messages, $past);
@@ -443,7 +462,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         );
     }
 
-    public function testDontChangeDeadlineForCompleted()
+    public function testDontChangeDeadlineForCompleted() : void
     {
         $this->progress_repo->update(
             $this->progress_repo->get(12)
@@ -454,11 +473,11 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         $this->getRootPrg()->changeProgressDeadline(12, 6, $this->messages, $past);
         
         $progress = $this->progress_repo->get(12);
-        $this->assertEquals($progress->getStatus(), ilStudyProgrammeProgress::STATUS_COMPLETED);
+        $this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $progress->getStatus());
         $this->assertNull($progress->getDeadline());
     }
 
-    public function testTranstitionToProgressWithPastDeadline()
+    public function testTranstitionToProgressWithPastDeadline() : void
     {
         $past = DateTimeImmutable::createFromFormat('Ymd', '20010101');
         $this->progress_repo->update(
@@ -475,7 +494,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         );
     }
 
-    public function testChangingValidity()
+    public function testChangingValidity() : void
     {
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
         $this->progress_repo->update(
@@ -490,7 +509,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         );
     }
 
-    public function testDontChangeValidityForIncomplete()
+    public function testDontChangeValidityForIncomplete() : void
     {
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
         $this->progress_repo->update(
@@ -501,7 +520,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         $this->assertNull($this->progress_repo->get(1)->getValidityOfQualification());
     }
 
-    public function testMarkAsIndividual()
+    public function testMarkAsIndividual() : void
     {
         $this->assertFalse($this->progress_repo->get(11)->hasIndividualModifications());
         
@@ -517,11 +536,11 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         $this->assertFalse($this->progress_repo->get(13)->hasIndividualModifications());
     }
     
-    public function testUpdateFromSettingsResetsIndividual()
+    public function testUpdateFromSettingsResetsIndividual() : void
     {
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
         $prg = $this->getRootPrg();
-        $prg->tree = $this->mock_tree;
+        $prg->mock_tree = $this->mock_tree;
 
         $prg->changeProgressDeadline(12, 6, $this->messages, $future);
         $this->assertTrue($this->progress_repo->get(12)->hasIndividualModifications());
@@ -529,7 +548,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
         $this->assertFalse($this->progress_repo->get(12)->hasIndividualModifications());
     }
 
-    public function testUpdatePlanFromSettings()
+    public function testUpdatePlanFromSettings() : void
     {
         $future = (new DateTime())->add(new DateInterval('P1D'));
         $future2 = (new DateTime())->add(new DateInterval('P4D'));
@@ -562,7 +581,7 @@ class ilStudyProgrammeProgressCalculationsTest extends \PHPUnit\Framework\TestCa
             $this->assertEquals(69, $progress->getAmountOfPoints());
 
             $prg = $this->getRootPrg();
-            $prg->tree = &$this->mock_tree;
+            $prg->mock_tree = &$this->mock_tree;
         }
 
         $this->getRootPrg()->updatePlanFromRepository(11, 6);

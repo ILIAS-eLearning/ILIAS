@@ -1,49 +1,29 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-include_once('./Services/EventHandling/interfaces/interface.ilAppEventListener.php');
+<?php declare(strict_types=1);
 
 /**
-* Handles delete events from courses and categories.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Handles delete events from courses and categories.
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilContainerReferenceAppEventListener implements ilAppEventListener
 {
-    /**
-     * Handle events like create, update, delete
-     *
-     * @access public
-     * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)	 *
-     * @static
-     */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         global $DIC;
 
@@ -56,19 +36,14 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
                 switch ($a_event) {
                     case 'delete':
                         $ilLog->write(__METHOD__ . ': Handling delete event.');
-                        self::deleteReferences($a_parameter['obj_id']);
+                        self::deleteReferences((int) $a_parameter['obj_id']);
                         break;
                 }
                 break;
         }
     }
     
-    /**
-     * Delete references
-     *
-     * @static
-     */
-    public static function deleteReferences($a_target_id)
+    public static function deleteReferences(int $a_target_id) : void
     {
         global $DIC;
 
@@ -76,9 +51,8 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
         $ilAppEventHandler = $DIC["ilAppEventHandler"];
         $tree = $DIC["tree"];
         
-        include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
         if (!$source_id = ilContainerReference::_lookupSourceId($a_target_id)) {
-            return true;
+            return;
         }
         foreach (ilObject::_getAllReferences($source_id) as $ref_id) {
             if (!$instance = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
@@ -109,6 +83,5 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
                     break;
             }
         }
-        return true;
     }
 }

@@ -1,17 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Container;
 
@@ -123,6 +126,7 @@ class StandardGUIRequest
         return $this->int("oobj");
     }
 
+    /** @return int[] */
     public function getNodes() : array
     {
         if ($this->int("node") > 0) {
@@ -138,31 +142,44 @@ class StandardGUIRequest
 
     public function getPositions() : array
     {
-        return $this->arrayArray("position");
+        // note: the position parameter is currently
+        // quite unstructured typewise, array of array|string
+        $body = $this->http->request()->getParsedBody();
+        return $body["position"] ?? [];
+        //return $this->arrayArray("position");
     }
 
+    /** @return int[] */
     public function getTrashIds() : array
     {
         return $this->intArray("trash_id");
     }
 
+    /** @return int[] */
     public function getAlreadyRenderedRefIds() : array
     {
         $ids = $this->strArray("ids");
-        $ref_ids = array_map(function ($i) {
+        $ref_ids = array_map(static function (string $i) : int {
             $parts = explode("_", $i);
-            return $parts[2];
+            return (int) $parts[2];
         }, $ids);
         return $ref_ids;
     }
 
+    /** @return int[] */
     public function getStartObjPositions() : array
     {
         return $this->intArray("pos");
     }
 
+    /** @return int[] */
     public function getStartObjIds() : array
     {
         return $this->intArray("starter");
+    }
+
+    public function getCmdClass() : string
+    {
+        return $this->str("cmdClass");
     }
 }

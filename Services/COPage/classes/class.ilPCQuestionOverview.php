@@ -1,42 +1,46 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Question overview page content element
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCQuestionOverview extends ilPageContent
 {
-    public $dom;
-    public $qover_node;
+    public php4DOMElement $qover_node;
 
-    /**
-     * Init page content component.
-     */
-    public function init()
+    public function init() : void
     {
         $this->setType("qover");
     }
 
-    /**
-     * Set node
-     */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->qover_node = $a_node->first_child();		// this is the question overview node
     }
 
-    /**
-     * Create question overview node in xml.
-     *
-     * @param	object	$a_pg_obj		Page Object
-     * @param	string	$a_hier_id		Hierarchical ID
-     */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->qover_node = $this->dom->create_element("QuestionOverview");
@@ -46,10 +50,8 @@ class ilPCQuestionOverview extends ilPageContent
 
     /**
      * Set short message
-     *
-     * @param boolean $a_val t/f
      */
-    public function setShortMessage($a_val)
+    public function setShortMessage(bool $a_val) : void
     {
         if ($a_val) {
             $this->qover_node->set_attribute("ShortMessage", "y");
@@ -60,12 +62,7 @@ class ilPCQuestionOverview extends ilPageContent
         }
     }
 
-    /**
-     * Get short message
-     *
-     * @return boolean
-     */
-    public function getShortMessage()
+    public function getShortMessage() : bool
     {
         if (is_object($this->qover_node)) {
             if ($this->qover_node->get_attribute("ShortMessage") == "y") {
@@ -75,12 +72,7 @@ class ilPCQuestionOverview extends ilPageContent
         return false;
     }
     
-    /**
-     * Set list wrong questions
-     *
-     * @param boolean $a_val t/f
-     */
-    public function setListWrongQuestions($a_val)
+    public function setListWrongQuestions(bool $a_val) : void
     {
         if ($a_val) {
             $this->qover_node->set_attribute("ListWrongQuestions", "y");
@@ -91,12 +83,7 @@ class ilPCQuestionOverview extends ilPageContent
         }
     }
 
-    /**
-     * Get list wrong questions
-     *
-     * @return boolean
-     */
-    public function getListWrongQuestions()
+    public function getListWrongQuestions() : bool
     {
         if (is_object($this->qover_node)) {
             if ($this->qover_node->get_attribute("ListWrongQuestions") == "y") {

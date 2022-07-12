@@ -1,8 +1,17 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/FileSystem/classes/class.ilFileSystemStorage.php");
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  *
  *
@@ -11,7 +20,7 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemStorage.php");
  *
  * @ingroup ServicesPreview
  */
-class ilFSStoragePreview extends ilFileSystemStorage
+class ilFSStoragePreview extends ilFileSystemAbstractionStorage
 {
     /**
      * Constructor
@@ -22,11 +31,11 @@ class ilFSStoragePreview extends ilFileSystemStorage
      * @param int object id of container (e.g file_id or mob_id)
      *
      */
-    public function __construct($a_container_id = 0)
+    public function __construct(int $a_container_id = 0)
     {
         parent::__construct(self::STORAGE_WEB, true, $a_container_id);
     }
-    
+
     /**
      * Get directory name. E.g for files => file
      * Only relative path, no trailing slash
@@ -36,11 +45,11 @@ class ilFSStoragePreview extends ilFileSystemStorage
      *
      * @return string directory name
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix() : string
     {
         return "preview";
     }
-    
+
     /**
      * Get path prefix. Prefix that will be prepended to the path
      * No trailing slash. E.g ilFiles for files
@@ -49,7 +58,7 @@ class ilFSStoragePreview extends ilFileSystemStorage
      *
      * @return string path prefix e.g files
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix() : string
     {
         return "previews";
     }

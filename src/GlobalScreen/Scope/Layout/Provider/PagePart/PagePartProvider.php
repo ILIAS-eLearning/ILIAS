@@ -1,11 +1,26 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification;
+namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
+
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
-use ILIAS\UI\Component\MainControls\HeadInfo;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\SystemInfo;
@@ -41,6 +56,16 @@ interface PagePartProvider
      * @return Image|null
      */
     public function getLogo() : ?Image;
+
+    /**
+     * @return Image|null
+     */
+    public function getResponsiveLogo() : ?Image;
+
+    /**
+     * @return string
+     */
+    public function getFaviconPath() : string;
 
     /**
      * @return SystemInfo[]

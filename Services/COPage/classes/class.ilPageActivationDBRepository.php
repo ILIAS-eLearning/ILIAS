@@ -1,20 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageActivationDBRepository
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
-    /**
-     * Constructor
-     */
     public function __construct(\ilDBInterface $db = null)
     {
         global $DIC;
@@ -26,14 +34,13 @@ class ilPageActivationDBRepository
 
     /**
      * Get activation data for a set of page ids
-     * @param string $parent_type
-     * @param array  $ids
-     * @param bool   $check_scheduled_activation
-     * @param string $lang
-     * @return array
      */
-    public function get(string $parent_type, array $ids, bool $check_scheduled_activation = false, string $lang = "")
-    {
+    public function get(
+        string $parent_type,
+        array $ids,
+        bool $check_scheduled_activation = false,
+        string $lang = ""
+    ) : array {
 
 
         // language must be set at least to "-"
@@ -57,8 +64,12 @@ class ilPageActivationDBRepository
         return $active;
     }
 
-    protected function getData(string $parent_type, array $ids, bool $check_scheduled_activation = false, string $lang = "")
-    {
+    protected function getData(
+        string $parent_type,
+        array $ids,
+        bool $check_scheduled_activation = false,
+        string $lang = ""
+    ) : array {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT page_id, active, activation_start, activation_end, show_activation_info FROM page_object WHERE " .

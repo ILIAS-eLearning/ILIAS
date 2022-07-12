@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,31 +21,24 @@
     +-----------------------------------------------------------------------------+
 */
 
-/*
+/**
 * Repository Explorer
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package core
 */
 
-require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
-
 class ilSearchRootSelector extends ilExplorer
 {
+    protected ilCtrl $ctrl;
+    protected ilRbacSystem $system;
 
-    /**
-     * id of root folder
-     * @var int root folder id
-     * @access private
-     */
-    public $root_id;
-    public $output;
-    public $ctrl;
-
-    public $selectable_type;
-    public $ref_id;
+    private string $selectable_type = '';
+    private int $ref_id = 0;
+    private string $target_class = '';
+    private array $clickable_types = [];
+    private string $cmd = '';
     /**
     * Constructor
     * @access	public
@@ -56,13 +49,10 @@ class ilSearchRootSelector extends ilExplorer
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
+        $this->system = $DIC->rbac()->system();
 
         parent::__construct($a_target);
-        $this->tree = $tree;
         $this->root_id = $this->tree->readRootId();
         $this->order_column = "title";
 
@@ -82,69 +72,70 @@ class ilSearchRootSelector extends ilExplorer
         $this->setTitleLength(ilObject::TITLE_LENGTH);
     }
     
-    public function setClickableTypes($a_types)
+    public function setClickableTypes(array $a_types) : void
     {
         $this->clickable_types = $a_types;
     }
     
-    public function isClickable($a_type, $a_ref_id = 0)
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        if (in_array($a_type, $this->clickable_types)) {
-            return true;
-        }
-        return false;
+        return (in_array($type, $this->clickable_types));
     }
 
-    public function setTargetClass($a_class)
+    public function setTargetClass(string $a_class) : void
     {
         $this->target_class = $a_class;
     }
-    public function getTargetClass()
+    public function getTargetClass() : string
     {
-        return $this->target_class ? $this->target_class : 'ilsearchgui';
+        return $this->target_class ?: 'ilsearchgui';
     }
-    public function setCmd($a_cmd)
+    public function setCmd(string $a_cmd) : void
     {
         $this->cmd = $a_cmd;
     }
-    public function getCmd()
+    public function getCmd() : string
     {
-        return $this->cmd ? $this->cmd : 'selectRoot';
+        return $this->cmd ?: 'selectRoot';
     }
 
-    public function setSelectableType($a_type)
+    public function setSelectableType(string $a_type) : void
     {
         $this->selectable_type = $a_type;
     }
-    public function setRefId($a_ref_id)
+    public function getSelectableType() : string
+    {
+        return $this->selectable_type;
+    }
+    public function setRefId(int $a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
+    public function getRefId() : int
+    {
+        return $this->ref_id;
+    }
     
 
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $this->ctrl->setParameterByClass($this->getTargetClass(), "root_id", $a_node_id);
         
         return $this->ctrl->getLinkTargetByClass($this->getTargetClass(), $this->getCmd());
     }
 
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
     {
         return '';
     }
 
-    public function showChilds($a_ref_id)
+    public function showChilds($a_parent_id) : bool
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if ($a_ref_id == 0) {
+        if ($a_parent_id == 0) {
             return true;
         }
 
-        if ($rbacsystem->checkAccess("read", $a_ref_id)) {
+        if ($this->system->checkAccess("read", (int) $a_parent_id)) {
             return true;
         } else {
             return false;
@@ -153,18 +144,10 @@ class ilSearchRootSelector extends ilExplorer
 
 
     /**
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    * @return	string
-    */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    * @inheritDoc
+     */
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
 
         #$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
@@ -174,13 +157,9 @@ class ilSearchRootSelector extends ilExplorer
             
             $this->ctrl->setParameterByClass($this->getTargetClass(), 'root_id', ROOT_FOLDER_ID);
             $tpl->setVariable("LINK_TARGET", $this->ctrl->getLinkTargetByClass($this->getTargetClass(), $this->getCmd()));
-            $tpl->setVariable("TITLE", $lng->txt("repository"));
+            $tpl->setVariable("TITLE", $this->lng->txt("repository"));
             
             $tpl->parseCurrentBlock();
         }
-
-        #$this->output[] = $tpl->get();
-
-        return true;
     }
-} // END class ilRepositoryExplorer
+}

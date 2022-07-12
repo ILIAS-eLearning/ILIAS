@@ -11,7 +11,7 @@ require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
  */
 class ilAssOrderingDefaultElementFallback implements ilFormValuesManipulator
 {
-    public function manipulateFormInputValues($inputValues)
+    public function manipulateFormInputValues(array $inputValues) : array
     {
         if (!count($inputValues)) {
             require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
@@ -23,7 +23,7 @@ class ilAssOrderingDefaultElementFallback implements ilFormValuesManipulator
         return $inputValues;
     }
     
-    public function manipulateFormSubmitValues($submitValues)
+    public function manipulateFormSubmitValues(array $submitValues) : array
     {
         return $submitValues;
     }

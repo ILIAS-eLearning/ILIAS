@@ -1,47 +1,48 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Button GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @deprecated use KS Buttons instead
  */
 abstract class ilButtonBase implements ilToolbarItem
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected int $type = 0; // [int]
+    protected ?string $id = ""; // [string]
+    protected string $caption = ""; // [string]
+    protected bool $caption_is_lng_id = false; // [bool]
+    protected bool $primary = false; // [bool]
+    protected bool $omit_prevent_double_submission = false; // [bool]
+    protected string $onclick = ""; // [string]
+    protected int $acc_key = 0;
+    protected bool $disabled = false; // [bool]
+    protected array $css = array(); // [array]
+    protected bool $apply_default_css = true;
 
-    protected $type; // [int]
-    protected $id; // [string]
-    protected $caption; // [string]
-    protected $caption_is_lng_id; // [bool]
-    protected $primary; // [bool]
-    protected $omit_prevent_double_submission; // [bool]
-    protected $onclick; // [string]
-    protected $acc_key; // [string]
-    protected $disabled; // [bool]
-    protected $css = array(); // [array]
+    public const TYPE_SUBMIT = 1;
+    public const TYPE_LINK = 2;
+    public const TYPE_SPLIT = 3;
+    public const TYPE_BUTTON = 4;
     
-    /**
-     * @var bool
-     */
-    protected $apply_default_css = true;
-
-    const TYPE_SUBMIT = 1;
-    const TYPE_LINK = 2;
-    const TYPE_SPLIT = 3;
-    const TYPE_BUTTON = 4;
-    
-    /**
-     * Constructor
-     *
-     * @param int $a_type
-     * @return self
-     */
-    protected function __construct($a_type)
+    protected function __construct(int $a_type)
     {
         global $DIC;
 
@@ -49,214 +50,106 @@ abstract class ilButtonBase implements ilToolbarItem
         $this->setType($a_type);
     }
     
-    /**
-     * Clone instance
-     */
     public function __clone()
     {
         $this->setId(null);
     }
     
-    /**
-     * Factory
-     *
-     * @return self
-     */
-    abstract public static function getInstance();
-    
+    abstract public static function getInstance() : self;
     
     //
     // properties
     //
     
-    /**
-     * Set button type
-     *
-     * @param int $a_value
-     */
-    protected function setType($a_value)
+    protected function setType(int $a_value) : void
     {
-        $this->type = (int) $a_value;
+        $this->type = $a_value;
     }
     
-    /**
-     * Get button type
-     *
-     * @return int
-     */
-    public function getType()
+    public function getType() : int
     {
         return $this->type;
     }
         
-    /**
-     * Set id
-     *
-     * @param string $a_value
-     */
-    public function setId($a_value)
+    public function setId(?string $a_value) : void
     {
         $this->id = $a_value;
     }
     
-    /**
-     * Get id
-     *
-     * @return string
-     */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
     
-    /**
-     * Set caption
-     *
-     * @param string $a_value
-     * @param bool $a_is_lng_id
-     */
-    public function setCaption($a_value, $a_is_lng_id = true)
+    public function setCaption(string $a_value, bool $a_is_lng_id = true) : void
     {
         $this->caption = $a_value;
-        $this->caption_is_lng_id = (bool) $a_is_lng_id;
+        $this->caption_is_lng_id = $a_is_lng_id;
     }
     
-    /**
-     * Get caption
-     *
-     * @param bool $a_translate
-     * @return string
-     */
-    public function getCaption($a_translate = true)
+    public function getCaption(bool $a_translate = true) : string
     {
         $lng = $this->lng;
         
         $caption = $this->caption;
         
         if ($this->caption_is_lng_id &&
-            (bool) $a_translate) {
+            $a_translate) {
             $caption = $lng->txt($caption);
         }
     
         return $caption;
     }
 
-    /**
-     * Toggle primary status
-     *
-     * @param bool $a_value
-     */
-    public function setPrimary($a_value)
+    public function setPrimary(bool $a_value) : void
     {
-        $this->primary = (bool) $a_value;
+        $this->primary = $a_value;
     }
     
-    /**
-     * Get primary status
-     *
-     * @return bool
-     */
-    public function isPrimary()
+    public function isPrimary() : bool
     {
         return $this->primary;
     }
     
     /**
      * Toggle double submission prevention status
-     *
-     * @param bool $a_value
      */
-    public function setOmitPreventDoubleSubmission($a_value)
+    public function setOmitPreventDoubleSubmission(bool $a_value) : void
     {
-        $this->omit_prevent_double_submission = (bool) $a_value;
+        $this->omit_prevent_double_submission = $a_value;
     }
     
-    /**
-     * Get double submission prevention status
-     *
-     * @return bool
-     */
-    public function getOmitPreventDoubleSubmission()
+    public function getOmitPreventDoubleSubmission() : bool
     {
         return $this->omit_prevent_double_submission;
     }
     
-    /**
-     * Set onclick
-     *
-     * @param string $a_value
-     */
-    public function setOnClick($a_value)
+    public function setOnClick(string $a_value) : void
     {
         $this->onclick = trim($a_value);
     }
     
-    /**
-     * Get onclick
-     *
-     * @return string
-     */
-    public function getOnClick()
+    public function getOnClick() : string
     {
         return $this->onclick;
     }
-    
-    /**
-     * Set access key
-     *
-     * @param string $a_value
-     */
-    public function setAccessKey($a_value)
+
+    public function setDisabled(bool $a_value) : void
     {
-        $this->acc_key = trim($a_value);
+        $this->disabled = $a_value;
     }
     
-    /**
-     * Get access key
-     *
-     * @return string
-     */
-    public function getAccessKey()
-    {
-        return $this->acc_key;
-    }
-    
-    /**
-     * Toggle disabled status
-     *
-     * @param bool $a_value
-     */
-    public function setDisabled($a_value)
-    {
-        $this->disabled = (bool) $a_value;
-    }
-    
-    /**
-     * Get disabled status
-     *
-     * @return bool
-     */
-    public function isDisabled()
+    public function isDisabled() : bool
     {
         return $this->disabled;
     }
     
-    /**
-     * Add CSS class
-     *
-     * @param string $a_value
-     */
-    public function addCSSClass($a_value)
+    public function addCSSClass(string $a_value) : void
     {
         $this->css[] = $a_value;
     }
     
-    /**
-     * Get CSS class(es)
-     *
-     * @return array
-     */
-    public function getCSSClasses()
+    public function getCSSClasses() : array
     {
         return $this->css;
     }
@@ -266,12 +159,7 @@ abstract class ilButtonBase implements ilToolbarItem
     // render
     //
     
-    /**
-     * Gather all active CSS classes
-     *
-     * @return string
-     */
-    protected function gatherCssClasses()
+    protected function gatherCssClasses() : string
     {
         $css = array_unique($this->getCSSClasses());
     
@@ -285,12 +173,7 @@ abstract class ilButtonBase implements ilToolbarItem
         return implode(" ", $css);
     }
     
-    /**
-     * Render HTML node attributes
-     *
-     * @return string
-     */
-    protected function renderAttributesHelper(array $a_attr)
+    protected function renderAttributesHelper(array $a_attr) : string
     {
         $res = array();
         
@@ -300,43 +183,34 @@ abstract class ilButtonBase implements ilToolbarItem
             }
         }
         
-        if (sizeof($res)) {
+        if (count($res)) {
             return " " . implode(" ", $res);
         }
+        return "";
     }
     
     /**
      * Render current HTML attributes
-     *
-     * @param array $a_additional_attr
-     * @return string
      */
-    protected function renderAttributes(array $a_additional_attr = null)
+    protected function renderAttributes(array $a_additional_attr = null) : string
     {
         $attr = array();
         $attr["id"] = $this->getId();
         $attr["class"] = $this->gatherCssClasses();
         $attr["onclick"] = $this->getOnClick();
-        
-        if ($this->getAccessKey()) {
-            $attr["accesskey"] = ilAccessKey::getKey($this->getAccessKey());
-        }
-        
+
         if ($this->isDisabled()) {
             $attr["disabled"] = "disabled";
         }
         
-        if (sizeof($a_additional_attr)) {
+        if (count($a_additional_attr)) {
             $attr = array_merge($attr, $a_additional_attr);
         }
         
         return $this->renderAttributesHelper($attr);
     }
     
-    /**
-     * Prepare render
-     */
-    protected function prepareRender()
+    protected function prepareRender() : void
     {
         if ($this->applyDefaultCss()) {
             $this->addCSSClass("btn");
@@ -344,31 +218,19 @@ abstract class ilButtonBase implements ilToolbarItem
         }
     }
 
-    /**
-     * @param boolean|null $apply_default_css
-     * @return boolean|void
-     */
-    public function applyDefaultCss($apply_default_css = null)
+    public function applyDefaultCss(?bool $apply_default_css = null) : ?bool
     {
         if (null === $apply_default_css) {
             return $this->apply_default_css;
         }
         
         $this->apply_default_css = $apply_default_css;
+        return false;
     }
      
-    /**
-     * Render HTML
-     *
-     * @return string
-     */
-    abstract public function render();
+    abstract public function render() : string;
 
-
-    /**
-     * @return string
-     */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         return $this->render();
     }

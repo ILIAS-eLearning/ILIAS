@@ -72,6 +72,9 @@ abstract class ilAssQuestionFeedback
      */
     public function getGenericFeedbackTestPresentation(int $questionId, bool $solutionCompleted) : string
     {
+        if ($this->page_obj_output_mode == "edit") {
+            return "";
+        }
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $genericFeedbackTestPresentationHTML = $this->getPageObjectContent(
                 $this->getGenericFeedbackPageObjectType(),
@@ -398,7 +401,7 @@ abstract class ilAssQuestionFeedback
     /**
      * syncs the GENERIC feedback from a duplicated question back to the original question
      */
-    private function syncGenericFeedback(int $originalQuestionId, int $duplicateQuestionId)
+    private function syncGenericFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
     {
         // delete generic feedback of the original question
         $this->db->manipulateF(

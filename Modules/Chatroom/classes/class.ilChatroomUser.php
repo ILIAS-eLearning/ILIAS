@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomUser
@@ -21,7 +36,7 @@ class ilChatroomUser
     
     public function enabledBroadcastTyping() : bool
     {
-        return ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'));
+        return ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'));
     }
 
     /**
@@ -39,7 +54,7 @@ class ilChatroomUser
                 return $session[$this->room->getRoomId()]['user_id'];
             }
 
-            $user_id = mt_rand(-99999, -20);
+            $user_id = random_int(-99999, -20);
 
             $session[$this->room->getRoomId()]['user_id'] = $user_id;
             ilSession::set('chat', $session);
@@ -86,7 +101,7 @@ class ilChatroomUser
 
     /**
      * Returns an array of chat-name suggestions
-     * @return array<string, mixed>
+     * @return array<string, string>
      */
     public function getChatNameSuggestions() : array
     {
@@ -105,13 +120,11 @@ class ilChatroomUser
 
     public function buildAnonymousName() : string
     {
-        $anonymous_name = str_replace(
+        return str_replace(
             '#',
-            (string) mt_rand(0, 10000),
+            (string) random_int(0, 10000),
             $this->room->getSetting('autogen_usernames')
         );
-
-        return $anonymous_name;
     }
 
     public function buildFullname() : string

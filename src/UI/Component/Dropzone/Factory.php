@@ -1,4 +1,23 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+namespace ILIAS\UI\Component\Dropzone;
+
 /**
  * Interface Factory
  *
@@ -8,12 +27,8 @@
  *
  * @package ILIAS\UI\Component\Dropzone
  */
-
-namespace ILIAS\UI\Component\Dropzone;
-
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -34,8 +49,7 @@ interface Factory
      *       There MUST be alternative ways in the system to upload the files due to
      *       the limited accessibility of file dropzones.
      * ---
-     *
      * @return \ILIAS\UI\Component\Dropzone\File\Factory
      **/
-    public function file();
+    public function file() : File\Factory;
 }

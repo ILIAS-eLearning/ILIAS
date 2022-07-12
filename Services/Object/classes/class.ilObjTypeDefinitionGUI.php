@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjTypeDefinitionGUI
  *
@@ -11,57 +25,29 @@
  */
 class ilObjTypeDefinitionGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacAdmin
-     */
-    protected $rbacadmin;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-    * Constructor
-    *
-    * @access	public
-    */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct($data, int $id, bool $call_by_reference)
     {
-        global $DIC;
-
-        $this->rbacadmin = $DIC->rbac()->admin();
-        $this->rbacreview = $DIC->rbac()->review();
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->type = "typ";
-        parent::__construct($a_data, $a_id, $a_call_by_reference);
+        parent::__construct($data, $id, $call_by_reference);
     }
 
     /**
-    * list operations of object type
-    * @access	public
-    */
-    public function viewObject()
+     * list operations of object type
+     */
+    public function viewObject() : void
     {
-        $rbacadmin = $this->rbacadmin;
-        $rbacreview = $this->rbacreview;
-        
-        //prepare objectlist
-        $this->data = array();
-        $this->data["data"] = array();
-        $this->data["ctrl"] = array();
-        $this->data["cols"] = array("type", "operation", "description", "status");
+        //prepare object list
+        $this->data = [];
+        $this->data["data"] = [];
+        $this->data["ctrl"] = [];
+        $this->data["cols"] = ["type", "operation", "description", "status"];
 
-        $ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
+        $ops_valid = $this->rbac_review->getOperationsOnType(
+            $this->request_wrapper->retrieve("obj_id", $this->refinery->kindlyTo()->int())
+        );
 
-        if ($list = ilRbacReview::_getOperationList("", $_GET["order"], $_GET["direction"])) {
-            foreach ($list as $key => $val) {
+        if ($list = ilRbacReview::_getOperationList()) {
+            foreach ($list as $val) {
                 if (in_array($val["ops_id"], $ops_valid)) {
                     $ops_status = 'enabled';
                 } else {
@@ -69,27 +55,29 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
                 }
 
                 //visible data part
-                $this->data["data"][] = array(
-                                    "type" => "perm",
-                                    "operation" => $val["operation"],
-                                    "description" => $val["desc"],
-                                    "status" => $ops_status,
-                                    "obj_id" => $val["ops_id"]
-                    );
+                $this->data["data"][] = [
+                    "type" => "perm",
+                    "operation" => $val["operation"],
+                    "description" => $val["desc"],
+                    "status" => $ops_status,
+                    "obj_id" => $val["ops_id"]
+                ];
             }
-        } //if typedata
+        }
 
         $this->maxcount = count($this->data["data"]);
-
-        // sorting array
-        $this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+        $this->data["data"] = ilArrayUtil::sortArray(
+            $this->data["data"],
+            $this->request_wrapper->retrieve("sort_by", $this->refinery->kindlyTo()->string()),
+            $this->request_wrapper->retrieve("sort_order", $this->refinery->kindlyTo()->string()),
+        );
 
         // now compute control information
         foreach ($this->data["data"] as $key => $val) {
-            $this->data["ctrl"][$key] = array(
-                                            "obj_id" => $val["obj_id"],
-                                            "type" => $val["type"]
-                                            );
+            $this->data["ctrl"][$key] = [
+                "obj_id" => $val["obj_id"],
+                "type" => $val["type"]
+            ];
 
             unset($this->data["data"][$key]["obj_id"]);
         }
@@ -98,54 +86,44 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     }
 
     /**
-    * display object list
-    *
-    * @access	public
-    */
-    public function displayList()
+     * display object list
+     */
+    public function displayList() : void
     {
         // load template for table
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table.html");
         // load template for table content data
         $this->tpl->addBlockFile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
-        $num = 0;
-
         $obj_str = ($this->call_by_reference) ? "" : "&obj_id=" . $this->obj_id;
         $this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=" . $this->ref_id . "$obj_str&cmd=gateway");
 
-        // create table
         $tbl = new ilTableGUI();
-        
-        // title & header columns
+
         $tbl->setTitle($this->lng->txt("obj_" . $this->object->getType()) . " '" . $this->object->getTitle() . "'");
 
         $header_names = [];
         foreach ($this->data["cols"] as $val) {
             $header_names[] = $this->lng->txt($val);
         }
-        
+
         $tbl->setHeaderNames($header_names);
 
-        $header_params = array("ref_id" => $this->ref_id,"obj_id" => $this->id);
+        $header_params = ["ref_id" => $this->ref_id,"obj_id" => $this->id];
         $tbl->setHeaderVars($this->data["cols"], $header_params);
-        
-        // control
-        $tbl->setOrderColumn($_GET["sort_by"]);
-        $tbl->setOrderDirection($_GET["sort_order"]);
-        $tbl->setLimit(0);
+        $tbl->setOrderColumn(
+            $this->request_wrapper->retrieve("sort_by", $this->refinery->kindlyTo()->string())
+        );
+        $tbl->setOrderDirection(
+            $this->request_wrapper->retrieve("sort_order", $this->refinery->kindlyTo()->string())
+        );
+        $tbl->setLimit();
         $tbl->setOffset(0);
         $tbl->setMaxCount($this->maxcount);
-        
-        // footer
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-        //$tbl->disable("footer");
-        
-        // render table
         $tbl->render();
 
         if (is_array($this->data["data"][0])) {
-            //table cell
             for ($i = 0; $i < count($this->data["data"]); $i++) {
                 $data = $this->data["data"][$i];
 
@@ -154,7 +132,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
                 $this->tpl->parseCurrentBlock();
 
                 foreach ($data as $key => $val) {
-                    // color for status
                     if ($key == "status") {
                         if ($val == "enabled") {
                             $color = "green";
@@ -176,86 +153,77 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
                     $this->tpl->setCurrentBlock("table_cell");
                     $this->tpl->parseCurrentBlock();
-                } //foreach
+                }
 
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->setVariable("CSS_ROW", " ");
                 $this->tpl->parseCurrentBlock();
-            } //for
-        } //if is_array
+            }
+        }
     }
 
     /**
-    * save (de-)activation of operations on object
-    *
-    * @access	public
-    */
-    public function saveObject()
+     * save (de-)activation of operations on object
+     */
+    public function saveObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $rbacadmin = $this->rbacadmin;
-        $rbacreview = $this->rbacreview;
-        $ilErr = $this->error;
+        $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        $obj_id = $this->request_wrapper->retrieve("obj_id", $this->refinery->kindlyTo()->int());
 
-        if (!$rbacsystem->checkAccess('edit_permission', $_GET["ref_id"])) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->WARNING);
+        if (!$this->rbac_system->checkAccess('edit_permission', $ref_id)) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->WARNING);
         }
 
-        $ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
+        $ops_valid = $this->rbac_review->getOperationsOnType($obj_id);
 
-        foreach ($_POST["id"] as $ops_id => $status) {
+        $ids = $this->post_wrapper->retrieve(
+            "id",
+            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+        );
+        foreach ($ids as $ops_id => $status) {
             if ($status == 'enabled') {
                 if (!in_array($ops_id, $ops_valid)) {
-                    $rbacadmin->assignOperationToObject($_GET["obj_id"], $ops_id);
+                    $this->rbac_admin->assignOperationToObject($obj_id, $ops_id);
                 }
             }
 
             if ($status == 'disabled') {
                 if (in_array($ops_id, $ops_valid)) {
-                    $rbacadmin->deassignOperationFromObject($_GET["obj_id"], $ops_id);
+                    $this->rbac_admin->deassignOperationFromObject($obj_id, $ops_id);
                 }
             }
         }
 
-        $this->update = $this->object->update();
+        $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
 
-        header("Location: adm_object.php?ref_id=" . $_GET["ref_id"] . "&obj_id=" . $_GET["obj_id"]);
+        header("Location: adm_object.php?ref_id=" . $ref_id . "&obj_id=" . $obj_id);
         exit();
     }
 
-
     /**
-    * display edit form
-    *
-    * @access	public
-    */
-    public function editObject()
+     * display edit form
+     */
+    public function editObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $rbacreview = $this->rbacreview;
-        $ilErr = $this->error;
-        
-        if (!$rbacsystem->checkAccess("edit_permission", $_GET["ref_id"])) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+        $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        if (!$this->rbac_system->checkAccess("edit_permission", $ref_id)) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
 
         //prepare objectlist
-        $this->data = array();
-        $this->data["data"] = array();
-        $this->data["ctrl"] = array();
-        $this->data["cols"] = array("type", "operation", "description", "status");
+        $this->data = [];
+        $this->data["data"] = [];
+        $this->data["ctrl"] = [];
+        $this->data["cols"] = ["type", "operation", "description", "status"];
 
-        $ops_valid = $rbacreview->getOperationsOnType($this->obj_id);
+        $ops_valid = $this->rbac_review->getOperationsOnType($this->obj_id);
 
-        $a_order = "";
-        $a_direction = "";
-        if ($ops_arr = ilRbacReview::_getOperationList('', $a_order, $a_direction)) {
-            $options = array("e" => "enabled","d" => "disabled");
+        if ($ops_arr = ilRbacReview::_getOperationList()) {
+            $options = ["e" => "enabled","d" => "disabled"];
 
-            foreach ($ops_arr as $key => $ops) {
-                // BEGIN ROW
+            foreach ($ops_arr as $ops) {
                 if (in_array($ops["ops_id"], $ops_valid)) {
                     $ops_status = 'e';
                 } else {
@@ -263,80 +231,67 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
                 }
 
                 $obj = $ops["ops_id"];
-                $ops_options = ilUtil::formSelect($ops_status, "id[$obj]", $options);
+                $ops_options = ilLegacyFormElementsUtil::formSelect($ops_status, "id[$obj]", $options);
 
-                //visible data part
-                $this->data["data"][] = array(
-                            "type" => "perm",
-                            "operation" => $ops["operation"],
-                            "description" => $ops["desc"],
-                            "status" => $ops_status,
-                            "status_html" => $ops_options
-                );
+                $this->data["data"][] = [
+                    "type" => "perm",
+                    "operation" => $ops["operation"],
+                    "description" => $ops["desc"],
+                    "status" => $ops_status,
+                    "status_html" => $ops_options
+                ];
             }
-        } //if typedata
+        }
 
         $this->maxcount = count($this->data["data"]);
 
-        // sorting array
-        $this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+        $sort_by = $this->request_wrapper->retrieve("sort_by", $this->refinery->kindlyTo()->string());
+        $sort_order = $this->request_wrapper->retrieve("sort_order", $this->refinery->kindlyTo()->string());
+        $this->data["data"] = ilArrayUtil::sortArray($this->data["data"], $sort_by, $sort_order);
 
         // now compute control information
         foreach ($this->data["data"] as $key => $val) {
-            $this->data["ctrl"][$key] = array(
-                                            "obj_id" => $val["obj_id"],
-                                            "type" => $val["type"]
-                                            );
+            $this->data["ctrl"][$key] = [
+                "obj_id" => $val["obj_id"],
+                "type" => $val["type"]
+            ];
 
             unset($this->data["data"][$key]["obj_id"]);
             $this->data["data"][$key]["status"] = $this->data["data"][$key]["status_html"];
             unset($this->data["data"][$key]["status_html"]);
         }
 
-        // build table
-
-        // load template for table
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table.html");
-        // load template for table content data
         $this->tpl->addBlockFile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
-
-        $num = 0;
 
         $obj_str = ($this->call_by_reference) ? "" : "&obj_id=" . $this->obj_id;
         $this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=" . $this->ref_id . "$obj_str&cmd=save");
 
-        // create table
         $tbl = new ilTableGUI();
-        
-        // title & header columns
-        $tbl->setTitle($this->lng->txt("edit_operations") . " " . strtolower($this->lng->txt("of")) . " '" . $this->object->getTitle() . "'");
+        $tbl->setTitle(
+            $this->lng->txt("edit_operations") . " " . strtolower($this->lng->txt("of")) . " '" . $this->object->getTitle() . "'"
+        );
 
         $header_names = [];
         foreach ($this->data["cols"] as $val) {
             $header_names[] = $this->lng->txt($val);
         }
-        
+
         $tbl->setHeaderNames($header_names);
 
-        $header_params = array("ref_id" => $this->ref_id,"obj_id" => $this->id,"cmd" => "edit");
+        $header_params = ["ref_id" => $this->ref_id,"obj_id" => $this->id,"cmd" => "edit"];
         $tbl->setHeaderVars($this->data["cols"], $header_params);
-        
-        // control
-        $tbl->setOrderColumn($_GET["sort_by"]);
-        $tbl->setOrderDirection($_GET["sort_order"]);
-        $tbl->setLimit(0);
+        $tbl->setOrderColumn($sort_by);
+        $tbl->setOrderDirection($sort_order);
+        $tbl->setLimit();
         $tbl->setOffset(0);
         $tbl->setMaxCount($this->maxcount);
-        
-        // SHOW VALID ACTIONS
+
         $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
         $this->tpl->setVariable("COLUMN_COUNTS", count($this->data["cols"]));
-        
-        // footer
+
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-        //$tbl->disable("footer");
-        
-        // render table
+
         $tbl->render();
 
         if (is_array($this->data["data"][0])) {
@@ -366,53 +321,36 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->parseCurrentBlock();
-            } //for
-        } //if is_array
+            }
+        }
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $next_class = $this->ctrl->getNextClass($this);
+        $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
-            default:
-                if (!$cmd) {
-                    $cmd = "view";
-                }
-                $cmd .= "Object";
-                $this->$cmd();
-
-                break;
+        if (!$cmd) {
+            $cmd = "view";
         }
-        return true;
+        $cmd .= "Object";
+        $this->$cmd();
     }
-    
-    /**
-    * get tabs
-    * @access	public
-    * @param	object	tabs gui object
-    */
-    protected function getTabs()
-    {
-        $rbacsystem = $this->rbacsystem;
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+    protected function getTabs() : void
+    {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "view"),
-                array("view",""),
-                "",
-                ""
+                ["view",""]
             );
 
             $this->tabs_gui->addTarget(
                 "edit_operations",
                 $this->ctrl->getLinkTarget($this, "edit"),
                 "edit",
-                "",
-                ""
             );
         }
     }
-} // END class.ilObjTypeDefinitionGUI
+}

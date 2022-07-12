@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -24,37 +24,24 @@
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
 
 interface ilDatePeriod
 {
     /**
-     * Interface method get start
-     *
-     * @access public
-     * @return ilDateTime
-     * @static
+     * Get start of date period
      */
-    public function getStart();
+    public function getStart() : ?ilDateTime;
     
     /**
-     * Interface method get end
-     *
-     * @access public
-     * @return ilDateTime
-     * @static
+     * Get end of period
      */
-    public function getEnd();
+    public function getEnd() : ?ilDateTime;
     
     
     /**
-     * is fullday
-     *
-     * @access public
-     * @return bool fullday or not
+     * is event a fullday period
      */
-    public function isFullday();
+    public function isFullday() : bool;
 }

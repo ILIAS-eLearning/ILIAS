@@ -1,35 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Message box for survey, when data is alrady available.
- *
  * Should be moved to some survey ui subservice in the future.
- *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveyContainsDataMessageBoxGUI
 {
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -39,12 +36,7 @@ class ilSurveyContainsDataMessageBoxGUI
         $this->ctrl = $DIC->ctrl();
     }
 
-    /**
-     * Get HTML
-     *
-     * @return string
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

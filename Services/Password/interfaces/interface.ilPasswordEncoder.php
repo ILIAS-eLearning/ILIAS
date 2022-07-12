@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilPasswordEncoder
@@ -31,17 +46,17 @@ interface ilPasswordEncoder
     public function getName() : string;
 
     /**
-     * Returns whether or not the encoder requires a salt
+     * Returns whether the encoder requires a salt
      */
     public function requiresSalt() : bool;
 
     /**
-     * Returns whether or not the a encoded password needs to be re-encoded
+     * Returns whether the encoded password needs to be re-encoded
      */
     public function requiresReencoding(string $encoded) : bool;
 
     /**
-     * Returns whether or not the encoder is supported by the runtime (PHP, HHVM, ...)
+     * Returns whether the encoder is supported by the runtime (PHP, HHVM, ...)
      */
     public function isSupportedByRuntime() : bool;
 }

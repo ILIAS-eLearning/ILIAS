@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomAdminViewGUI
@@ -30,7 +45,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
     private function defaultActions() : void
     {
         $chatSettings = new ilSetting('chatroom');
-        if ($chatSettings->get('chat_enabled', false)) {
+        if ($chatSettings->get('chat_enabled', '0')) {
             $this->forcePublicRoom();
         }
     }
@@ -44,7 +59,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
 
         $instance = ilObjectFactory::getInstanceByRefId($ref_id, false);
-        if (!$instance || (!$instance instanceof ilObjChatroom)) {
+        if (!($instance instanceof ilObjChatroom)) {
             $this->createPublicRoom();
             return;
         }
@@ -66,7 +81,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
     public function createPublicRoom() : void
     {
         ilChatroomInstaller::createDefaultPublicRoom(true);
-        ilUtil::sendSuccess($this->ilLng->txt('public_chat_created'), true);
+        $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('public_chat_created'), true);
     }
 
     protected function checkServerConnection(array $serverSettings) : void
@@ -75,7 +90,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             isset($serverSettings['port'], $serverSettings['address']) &&
             !ilChatroomServerConnector::checkServerConnection(false)
         ) {
-            ilUtil::sendInfo($this->ilLng->txt('chat_cannot_connect_to_server'));
+            $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('chat_cannot_connect_to_server'));
         }
     }
 
@@ -109,41 +124,33 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
         $convIdleStateTime = max(1, (int) $form->getInput('conversation_idle_state_in_minutes'));
 
-        $settings = array(
+        $settings = [
             'name' => (string) $form->getInput('client_name'),
-            'enable_osd' => (bool) $form->getInput('enable_osd'),
             'enable_osc' => (bool) $form->getInput('enable_osc'),
             'enable_browser_notifications' => (bool) $form->getInput('enable_browser_notifications'),
             'conversation_idle_state_in_minutes' => $convIdleStateTime,
-            'osd_intervall' => (int) $form->getInput('osd_intervall'),
             'chat_enabled' => (bool) $form->getInput('chat_enabled'),
             'enable_smilies' => (bool) $form->getInput('enable_smilies'),
-            'play_invitation_sound' => (bool) $form->getInput('play_invitation_sound'),
             'auth' => $form->getInput('auth')
-        );
+        ];
 
         if (!$settings['chat_enabled']) {
             $settings['enable_osc'] = false;
         }
 
-        $notificationSettings = new ilSetting('notifications');
-        $notificationSettings->set('osd_polling_intervall', (int) $form->getInput('osd_intervall'));
-        $notificationSettings->set('enable_osd', (bool) $form->getInput('enable_osd'));
-
         $chatSettings = new ilSetting('chatroom');
-        $chatSettings->set('chat_enabled', $settings['chat_enabled']);
-        $chatSettings->set('enable_browser_notifications', $settings['enable_browser_notifications']);
-        $chatSettings->set('conversation_idle_state_in_minutes', $convIdleStateTime);
-        $chatSettings->set('enable_osc', $settings['enable_osc']);
-        $chatSettings->set('play_invitation_sound', (bool) $form->getInput('play_invitation_sound'));
+        $chatSettings->set('chat_enabled', (string) $settings['chat_enabled']);
+        $chatSettings->set('enable_browser_notifications', (string) $settings['enable_browser_notifications']);
+        $chatSettings->set('conversation_idle_state_in_minutes', (string) $convIdleStateTime);
+        $chatSettings->set('enable_osc', (string) $settings['enable_osc']);
 
-        $adminSettings = new ilChatroomAdmin($this->gui->object->getId());
+        $adminSettings = new ilChatroomAdmin($this->gui->getObject()->getId());
         $adminSettings->saveClientSettings((object) $settings);
 
         $fileHandler = new ilChatroomConfigFileHandler();
         $fileHandler->createClientConfigFile($settings);
 
-        ilUtil::sendSuccess($this->ilLng->txt('settings_has_been_saved'), true);
+        $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('settings_has_been_saved'), true);
         $this->ilCtrl->redirect($this->gui, 'view-clientsettings');
     }
 
@@ -154,11 +161,14 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->defaultActions();
         $this->gui->switchToVisibleMode();
 
-        $adminSettings = new ilChatroomAdmin($this->gui->object->getId());
+        $adminSettings = new ilChatroomAdmin($this->gui->getObject()->getId());
         $serverSettings = $adminSettings->loadGeneralSettings();
 
         if ($form === null) {
-            $clientSettings = $adminSettings->loadClientSettings();
+            $clientSettings = array_map(
+                static fn ($value) => is_int($value) ? (string) $value : $value,
+                $adminSettings->loadClientSettings()
+            );
             $factory = new ilChatroomFormFactory();
             $form = $factory->getClientSettingsForm();
             $form->setValuesByArray($clientSettings);
@@ -167,10 +177,12 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->checkServerConnection($serverSettings);
 
         $form->setTitle($this->ilLng->txt('general_settings_title'));
-        if (ilChatroom::checkUserPermissions('write', $this->gui->ref_id, false)) {
+        if (ilChatroom::checkUserPermissions('write', $this->gui->getRefId(), false)) {
             $form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
         } else {
-            $form->getItemByPostVar('auth')->setIsReadOnly(true);
+            /** @var ilChatroomAuthInputGUI $item */
+            $item = $form->getItemByPostVar('auth');
+            $item->setIsReadOnly(true);
         }
         $form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
 

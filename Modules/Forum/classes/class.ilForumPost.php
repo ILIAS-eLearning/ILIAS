@@ -1,174 +1,131 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
-* @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
-*
-* @ingroup ModulesForum
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author  Michael Jansen <mjansen@databay.de>
+ * @ingroup ModulesForum
+ */
 class ilForumPost
 {
-    private $id = 0;
-    
-    private $forum_id = 0;
-    
-    private $thread_id = 0;
-    
-    private $display_user_id = 0;
-    
-    private $user_alias = '';
-    
-    private $subject = '';
-    
-    private $message = '';
-    
-    private $createdate = '0000-00-00 00:00:00';
-    
-    private $changedate = '0000-00-00 00:00:00';
-    
-    private $user_id_update = 0;
-    
-    private $censored = 0;
-    
-    private $censorship_comment = '';
-    
-    private $censored_date = '0000-00-00 00:00:00';
-    
-    private $notification = 0;
-    
-    private $import_name = '';
-    
-    private $status = 1;
-    
-    private $tree_id = 0;
-    
-    private $parent_id = 0;
-    
-    private $lft = 0;
-    
-    private $rgt = 0;
-    
-    private $depth = 0;
+    private int $id;
+    private int $forum_id = 0;
+    private int $thread_id = 0;
+    private int $display_user_id = 0;
+    private ?string $user_alias = null;
+    private string $subject = '';
+    private string $message = '';
+    private ?string $createdate = null;
+    private ?string $changedate = null;
+    private int $user_id_update = 0;
+    private bool $censored = false;
+    private ?string $censorship_comment = null;
+    private ?string $censored_date = null;
+    private bool $notification = false;
+    private ?string $import_name = null;
+    private bool $status = true;
+    private int $tree_id = 0;
+    private int $parent_id = 0;
+    private int $lft = 0;
+    private int $rgt = 0;
+    private int $depth = 0;
+    private ?ilForumTopic $objThread = null;
+    private ilDBInterface $db;
+    private bool $is_moderator = false;
+    private ?bool $is_author_moderator = false;
+    private bool $post_read = false;
+    private int $pos_author_id = 0;
+    private ?string $post_activation_date = null;
 
-    /**
-     * @var ilForumTopic
-     */
-    private $objThread = null;
-    
-    private $db = null;
-    private $lng = null;
-
-    /**
-     *  current user in a forum
-     * @var bool
-     */
-    private $is_moderator = false;
-    
-    /**
-     * author_id of a post is a moderator
-     * @var int|null
-     */
-    private $is_author_moderator = null;
-    
-    private $post_read = false;
-    
-    private $pos_author_id = 0;
-    
-    private $post_activation_date = null;
-    
-    /**
-     * ilForumPost constructor.
-     * @param int  $a_id
-     * @param bool $a_is_moderator
-     * @param bool $preventImplicitRead
-     */
-    public function __construct($a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
+    public function __construct(int $a_id = 0, bool $a_is_moderator = false, bool $preventImplicitRead = false)
     {
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->lng = $DIC->language();
         $this->id = $a_id;
 
         if (!$preventImplicitRead) {
             $this->read();
         }
     }
-    
-    public function __destruct()
-    {
-        unset($this->db);
-        unset($this->objThread);
-    }
-    
-    public function insert()
+
+    public function insert() : void
     {
         if ($this->forum_id && $this->thread_id) {
             $this->id = $this->db->nextId('frm_posts');
-            
-            $this->db->insert('frm_posts', array(
-                'pos_pk' => array('integer', $this->id),
-                'pos_top_fk' => array('integer', $this->forum_id),
-                'pos_thr_fk' => array('integer', $this->thread_id),
-                'pos_display_user_id' => array('integer', $this->display_user_id),
-                'pos_usr_alias' => array('text', $this->user_alias),
-                'pos_subject' => array('text', $this->subject),
-                'pos_message' => array('clob', $this->message),
-                'pos_date' => array('timestamp', $this->createdate),
-                'pos_update' => array('timestamp', $this->createdate),
-                'update_user' => array('integer', $this->user_id_update),
-                'pos_cens' => array('integer', $this->censored),
-                'notify' => array('integer', (int) $this->notification),
-                'import_name' => array('text', (string) $this->import_name),
-                'pos_status' => array('integer', (int) $this->status),
-                'pos_author_id' => array('integer', (int) $this->pos_author_id),
-                'is_author_moderator' => array('integer', $this->is_author_moderator),
-                'pos_activation_date' => array('timestamp', $this->createdate)
-            ));
-            
-            return true;
+
+            $this->db->insert('frm_posts', [
+                'pos_pk' => ['integer', $this->id],
+                'pos_top_fk' => ['integer', $this->forum_id],
+                'pos_thr_fk' => ['integer', $this->thread_id],
+                'pos_display_user_id' => ['integer', $this->display_user_id],
+                'pos_usr_alias' => ['text', $this->user_alias],
+                'pos_subject' => ['text', $this->subject],
+                'pos_message' => ['clob', $this->message],
+                'pos_date' => ['timestamp', $this->createdate],
+                'pos_update' => ['timestamp', $this->createdate],
+                'update_user' => ['integer', $this->user_id_update],
+                'pos_cens' => ['integer', (int) $this->censored],
+                'notify' => ['integer', (int) $this->notification],
+                'import_name' => ['text', $this->import_name],
+                'pos_status' => ['integer', (int) $this->status],
+                'pos_author_id' => ['integer', $this->pos_author_id],
+                'is_author_moderator' => ['integer', $this->is_author_moderator],
+                'pos_activation_date' => ['timestamp', $this->createdate]
+            ]);
         }
-        
-        return false;
     }
-    
-    public function update()
+
+    public function update() : bool
     {
         if ($this->id) {
             $this->db->update(
                 'frm_posts',
-                array(
-                    'pos_top_fk' => array('integer', $this->forum_id),
-                    'pos_thr_fk' => array('integer', $this->thread_id),
-                    'pos_subject' => array('text', $this->subject),
-                    'pos_message' => array('clob', $this->message),
-                    'pos_update' => array('timestamp', $this->changedate),
-                    'update_user' => array('integer', $this->user_id_update),
-                    'pos_cens' => array('integer', $this->censored),
-                    'pos_cens_date' => array('timestamp', $this->censored_date),
-                    'pos_cens_com' => array('text', $this->censorship_comment),
-                    'notify' => array('integer', (int) $this->notification),
-                    'pos_status' => array('integer', (int) $this->status)
-                ),
-                array(
-                    'pos_pk' => array('integer', (int) $this->id)
-                )
+                [
+                    'pos_top_fk' => ['integer', $this->forum_id],
+                    'pos_thr_fk' => ['integer', $this->thread_id],
+                    'pos_subject' => ['text', $this->subject],
+                    'pos_message' => ['clob', $this->message],
+                    'pos_update' => ['timestamp', $this->changedate],
+                    'update_user' => ['integer', $this->user_id_update],
+                    'pos_cens' => ['integer', (int) $this->censored],
+                    'pos_cens_date' => ['timestamp', $this->censored_date],
+                    'pos_cens_com' => ['text', $this->censorship_comment],
+                    'notify' => ['integer', (int) $this->notification],
+                    'pos_status' => ['integer', (int) $this->status]
+                ],
+                [
+                    'pos_pk' => ['integer', $this->id]
+                ]
             );
-            
-            if ($this->objThread->getFirstPostId() == $this->id) {
+
+            if ($this->objThread->getFirstVisiblePostId() === $this->id) {
                 $this->objThread->setSubject($this->subject);
                 $this->objThread->update();
                 $this->objThread->reload();
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
-    private function read()
+
+    private function read() : void
     {
         if ($this->id) {
             $res = $this->db->queryF(
@@ -176,49 +133,43 @@ class ilForumPost
 				SELECT * FROM frm_posts
 				INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 				WHERE pos_pk = %s',
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
             $row = $this->db->fetchObject($res);
-            
+
             if (is_object($row)) {
-                $this->id = $row->pos_pk;
-                $this->forum_id = $row->pos_top_fk;
-                $this->thread_id = $row->pos_thr_fk;
-                $this->display_user_id = $row->pos_display_user_id;
+                $this->id = (int) $row->pos_pk;
+                $this->forum_id = (int) $row->pos_top_fk;
+                $this->thread_id = (int) $row->pos_thr_fk;
+                $this->display_user_id = (int) $row->pos_display_user_id;
                 $this->user_alias = $row->pos_usr_alias;
-                $this->subject = $row->pos_subject;
-                $this->message = $row->pos_message;
+                $this->subject = (string) $row->pos_subject;
+                $this->message = (string) $row->pos_message;
                 $this->createdate = $row->pos_date;
                 $this->changedate = $row->pos_update;
-                $this->user_id_update = $row->update_user;
-                $this->censored = $row->pos_cens;
+                $this->user_id_update = (int) $row->update_user;
+                $this->censored = (bool) $row->pos_cens;
                 $this->censored_date = $row->pos_cens_date;
                 $this->censorship_comment = $row->pos_cens_com;
-                $this->notification = $row->notify;
+                $this->notification = (bool) $row->notify;
                 $this->import_name = $row->import_name;
-                $this->status = $row->pos_status;
-                $this->tree_id = $row->fpt_pk;
-                $this->parent_id = $row->parent_pos;
-                $this->lft = $row->lft;
-                $this->rgt = $row->rgt;
-                $this->depth = $row->depth;
-                $this->pos_author_id = $row->pos_author_id;
-                $this->is_author_moderator = $row->is_author_moderator;
+                $this->status = (bool) $row->pos_status;
+                $this->tree_id = (int) $row->fpt_pk;
+                $this->parent_id = (int) $row->parent_pos;
+                $this->lft = (int) $row->lft;
+                $this->rgt = (int) $row->rgt;
+                $this->depth = (int) $row->depth;
+                $this->pos_author_id = (int) $row->pos_author_id;
+                $this->is_author_moderator = (bool) $row->is_author_moderator;
                 $this->post_activation_date = $row->pos_activation_date;
-                
+
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
-                
-                return true;
             }
-            $this->id = 0;
-            return false;
         }
-        
-        return false;
     }
-    
-    public function isAnyParentDeactivated()
+
+    public function isAnyParentDeactivated() : bool
     {
         if ($this->id) {
             $res = $this->db->queryF(
@@ -228,424 +179,433 @@ class ilForumPost
 				WHERE pos_status = %s
 				AND lft < %s AND rgt > %s
 				AND thr_fk = %s',
-                array('integer', 'integer', 'integer', 'integer'),
-                array('0', $this->lft, $this->rgt, $this->thread_id)
+                ['integer', 'integer', 'integer', 'integer'],
+                [0, $this->lft, $this->rgt, $this->thread_id]
             );
-            
-            return $res->numRows();
+
+            return $res->numRows() > 0;
         }
-        
+
         return false;
     }
-    
-    public function reload()
+
+    public function reload() : void
     {
-        return $this->read();
+        $this->read();
     }
 
-    public function activatePost()
+    public function activatePost() : void
     {
         if ($this->id) {
-            $now = date("Y-m-d H:i:s");
+            $now = date('Y-m-d H:i:s');
             $this->db->update(
                 'frm_posts',
-                array('pos_status' => array('integer', 1),
-                      'pos_activation_date' => array('timestamp', $now)),
-                array('pos_pk' => array('integer', $this->id))
+                [
+                    'pos_status' => ['integer', 1],
+                    'pos_activation_date' => ['timestamp', $now]
+                ],
+                ['pos_pk' => ['integer', $this->id]]
             );
 
             $this->activateParentPosts();
             $this->setPostActivationDate($now);
-            $this->setStatus(1);
-            return true;
+            $this->setStatus(true);
         }
-        
-        return false;
     }
-    
-    public function activatePostAndChildPosts()
+
+    public function activatePostAndChildPosts() : bool
     {
         if ($this->id) {
             $query = "SELECT pos_pk FROM frm_posts_tree treea "
-                   . "INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk "
-                   . "AND treeb.lft BETWEEN treea.lft AND treea.rgt "
-                   . "INNER JOIN frm_posts ON pos_pk = treeb.pos_fk "
-                   . "WHERE treea.pos_fk = %s";
+                . "INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk "
+                . "AND treeb.lft BETWEEN treea.lft AND treea.rgt "
+                . "INNER JOIN frm_posts ON pos_pk = treeb.pos_fk "
+                . "WHERE treea.pos_fk = %s";
             $result = $this->db->queryF(
                 $query,
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
 
-            $now = date("Y-m-d H:i:s");
+            $now = date('Y-m-d H:i:s');
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status' => array('integer', 1),
-                          'pos_activation_date' => array('timestamp', $now)),
-                    array('pos_pk' => array('integer', $row['pos_pk']))
+                    [
+                        'pos_status' => ['integer', 1],
+                        'pos_activation_date' => ['timestamp', $now]
+                    ],
+                    ['pos_pk' => ['integer', $row['pos_pk']]]
                 );
             }
-            
+
             $this->activateParentPosts();
-                
+
             return true;
         }
-        
+
         return false;
     }
-    
-    public function activateParentPosts()
+
+    public function activateParentPosts() : bool
     {
         if ($this->id) {
             $query = "SELECT pos_pk FROM frm_posts "
-                   . "INNER JOIN frm_posts_tree ON pos_fk = pos_pk "
-                   . "WHERE lft < %s AND rgt > %s AND thr_fk = %s";
+                . "INNER JOIN frm_posts_tree ON pos_fk = pos_pk "
+                . "WHERE lft < %s AND rgt > %s AND thr_fk = %s";
             $result = $this->db->queryF(
                 $query,
-                array('integer', 'integer', 'integer'),
-                array($this->lft, $this->rgt, $this->thread_id)
+                ['integer', 'integer', 'integer'],
+                [$this->lft, $this->rgt, $this->thread_id]
             );
-            
-            $now = date("Y-m-d H:i:s");
+
+            $now = date('Y-m-d H:i:s');
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status' => array('integer', 1),
-                          'pos_activation_date' => array('timestamp', $now)),
-                    array('pos_pk' => array('integer', $row['pos_pk']))
+                    [
+                        'pos_status' => ['integer', 1],
+                        'pos_activation_date' => ['timestamp', $now]
+                    ],
+                    ['pos_pk' => ['integer', $row['pos_pk']]]
                 );
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
-    public function isPostRead()
+
+    public function isPostRead() : bool
     {
         return $this->getIsRead();
     }
-    
-    public function isRead($a_user_id = 0)
+
+    public function isRead(int $a_user_id = 0) : bool
     {
         if ($a_user_id && $this->id) {
             $res = $this->db->queryF(
-                '
-				SELECT * FROM frm_user_read 
-			  	WHERE usr_id = %s
-			 	AND post_id = %s',
-                array('integer', 'integer'),
-                array($a_user_id, $this->id)
+                'SELECT * FROM frm_user_read WHERE usr_id = %s AND post_id = %s',
+                ['integer', 'integer'],
+                [$a_user_id, $this->id]
             );
-            
-            return $res->numRows() ? true : false;
+
+            return $res->numRows() > 0;
         }
-        
+
         return false;
     }
-    
-    public function hasReplies()
+
+    public function hasReplies() : bool
     {
         if ($this->id && $this->rgt && $this->lft) {
             $res = $this->db->queryF(
-                '
-				SELECT * FROM frm_posts_tree			  		 
-		  	 	WHERE lft > %s AND rgt < %s
-		  	  	AND thr_fk = %s',
-                array('integer', 'integer', 'integer'),
-                array($this->lft, $this->rgt, $this->thread_id)
+                'SELECT * FROM frm_posts_tree WHERE lft > %s AND rgt < %s AND thr_fk = %s',
+                ['integer', 'integer', 'integer'],
+                [$this->lft, $this->rgt, $this->thread_id]
             );
 
-            return $res->numRows() ? true : false;
+            return $res->numRows() > 0;
         }
-        
+
         return false;
     }
-    
-    public function isOwner($a_user_id = 0)
+
+    public function isOwner(int $a_user_id = 0) : bool
     {
         if ($this->pos_author_id && $a_user_id) {
-            if ((int) $this->pos_author_id == (int) $a_user_id) {
-                return true;
-            }
-            return false;
+            return $this->pos_author_id === $a_user_id;
         }
+
         return false;
     }
-    
-    public function setId($a_id)
+
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
-    public function getId()
+
+    public function getId() : int
     {
-        return (int) $this->id;
+        return $this->id;
     }
-    public function setForumId($a_forum_id)
+
+    public function setForumId(int $a_forum_id) : void
     {
         $this->forum_id = $a_forum_id;
     }
-    public function getForumId()
+
+    public function getForumId() : int
     {
         return $this->forum_id;
     }
-    public function setThreadId($a_thread_id)
+
+    public function setThreadId(int $a_thread_id) : void
     {
         $this->thread_id = $a_thread_id;
     }
-    public function getThreadId()
+
+    public function getThreadId() : int
     {
         return $this->thread_id;
     }
-    public function setDisplayUserId($a_user_id)
+
+    public function setDisplayUserId(int $a_user_id) : void
     {
         $this->display_user_id = $a_user_id;
     }
-    public function getDisplayUserId()
+
+    public function getDisplayUserId() : int
     {
         return $this->display_user_id;
     }
-    public function setUserAlias($a_user_alias)
+
+    public function setUserAlias(?string $a_user_alias) : void
     {
         $this->user_alias = $a_user_alias;
     }
-    public function getUserAlias()
+
+    public function getUserAlias() : ?string
     {
         return $this->user_alias;
     }
-    public function setSubject($a_subject)
+
+    public function setSubject(string $a_subject) : void
     {
         $this->subject = $a_subject;
     }
-    public function getSubject()
+
+    public function getSubject() : string
     {
         return $this->subject;
     }
-    public function setMessage($a_message)
+
+    public function setMessage(string $a_message) : void
     {
         $this->message = $a_message;
     }
-    public function getMessage()
+
+    public function getMessage() : string
     {
         return $this->message;
     }
-    public function setCreateDate($a_createdate)
+
+    public function setCreateDate(?string $a_createdate) : void
     {
         $this->createdate = $a_createdate;
     }
-    public function getCreateDate()
+
+    public function getCreateDate() : ?string
     {
         return $this->createdate;
     }
-    public function setChangeDate($a_changedate)
+
+    public function setChangeDate(?string $a_changedate) : void
     {
         $this->changedate = $a_changedate;
     }
-    public function getChangeDate()
+
+    public function getChangeDate() : ?string
     {
         return $this->changedate;
     }
-    public function setUpdateUserId($a_user_id_update)
+
+    public function setUpdateUserId(int $a_user_id_update) : void
     {
         $this->user_id_update = $a_user_id_update;
     }
-    public function getUpdateUserId()
+
+    public function getUpdateUserId() : int
     {
         return $this->user_id_update;
     }
-    public function setCensorship($a_censorship)
+
+    public function setCensorship(bool $a_censorship) : void
     {
         $this->censored = $a_censorship;
     }
-    public function isCensored()
+
+    public function isCensored() : bool
     {
-        return $this->censored == 1 ? true : false;
+        return $this->censored;
     }
-    public function setCensorshipComment($a_comment)
+
+    public function setCensorshipComment(?string $a_comment) : void
     {
         $this->censorship_comment = $a_comment;
     }
-    public function getCensorshipComment()
+
+    public function getCensorshipComment() : ?string
     {
         return $this->censorship_comment;
     }
-    public function setNotification($a_notification)
+
+    public function setNotification(bool $a_notification) : void
     {
         $this->notification = $a_notification;
     }
-    public function isNotificationEnabled()
+
+    public function isNotificationEnabled() : bool
     {
-        return $this->notification == 1 ? true : false;
+        return $this->notification;
     }
-    public function setImportName($a_import_name)
+
+    public function setImportName(?string $a_import_name) : void
     {
         $this->import_name = $a_import_name;
     }
-    public function getImportName()
+
+    public function getImportName() : ?string
     {
         return $this->import_name;
     }
-    public function setStatus($a_status)
+
+    public function setStatus(bool $a_status) : void
     {
         $this->status = $a_status;
     }
-    public function isActivated()
+
+    public function isActivated() : bool
     {
-        return $this->status == 1 ? true : false;
+        return $this->status;
     }
-    public function setTreeId($a_tree_id)
+
+    public function setTreeId(int $a_tree_id) : void
     {
         $this->tree_id = $a_tree_id;
     }
-    public function getTreeId()
+
+    public function getTreeId() : int
     {
         return $this->tree_id;
     }
-    public function setParentId($a_parent_id)
+
+    public function setParentId(int $a_parent_id) : void
     {
         $this->parent_id = $a_parent_id;
     }
-    
-    public function setIsRead($a_is_read)
+
+    public function setIsRead(bool $a_is_read) : void
     {
         $this->post_read = $a_is_read;
     }
-    
-    public function getIsRead()
+
+    public function getIsRead() : bool
     {
         return $this->post_read;
     }
-    
-    public function getParentId()
+
+    public function getParentId() : int
     {
         return $this->parent_id;
     }
-    public function setLft($a_lft)
+
+    public function setLft(int $a_lft) : void
     {
         $this->lft = $a_lft;
     }
-    public function getLft()
+
+    public function getLft() : int
     {
         return $this->lft;
     }
-    public function setRgt($a_rgt)
+
+    public function setRgt(int $a_rgt) : void
     {
         $this->rgt = $a_rgt;
     }
-    public function getRgt()
+
+    public function getRgt() : int
     {
         return $this->rgt;
     }
-    public function setDepth($a_depth)
+
+    public function setDepth(int $a_depth) : void
     {
         $this->depth = $a_depth;
     }
-    public function getDepth()
+
+    public function getDepth() : int
     {
         return $this->depth;
     }
-    public function setThread(ilForumTopic $thread)
+
+    public function setThread(ilForumTopic $thread) : void
     {
         $this->objThread = $thread;
     }
-    public function getThread()
+
+    public function getThread() : ?ilForumTopic
     {
         return $this->objThread;
     }
 
-    /**
-     * @param int $pos_author_id
-     */
-    public function setPosAuthorId($pos_author_id)
+    public function setPosAuthorId(int $pos_author_id) : void
     {
         $this->pos_author_id = $pos_author_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosAuthorId()
+    public function getPosAuthorId() : int
     {
         return $this->pos_author_id;
     }
-    /**
-     * @return int|null
-     */
-    public function getIsAuthorModerator()
+
+    public function isAuthorModerator() : ?bool
     {
         return $this->is_author_moderator;
     }
 
-    /**
-     * @param int|null
-     */
-    public function setIsAuthorModerator($is_author_moderator)
+    public function setIsAuthorModerator(?bool $is_author_moderator) : void
     {
         $this->is_author_moderator = $is_author_moderator;
     }
 
-    /**
-     * @return string
-     */
-    public function getCensoredDate()
+    public function getCensoredDate() : ?string
     {
         return $this->censored_date;
     }
-    
-    /**
-     * @return string
-     */
-    public function getPostActivationDate()
+
+    public function getPostActivationDate() : ?string
     {
         return $this->post_activation_date;
     }
-    
-    /**
-     * @param string $post_activation_date
-     */
-    public function setPostActivationDate($post_activation_date)
+
+    public function setPostActivationDate(?string $post_activation_date) : void
     {
         $this->post_activation_date = $post_activation_date;
     }
 
-    /**
-     * @param string $censored_date
-     */
-    public function setCensoredDate($censored_date)
+    public function setCensoredDate(?string $censored_date) : void
     {
         $this->censored_date = $censored_date;
     }
-    
-    /**
-     * @param $row
-     */
-    public function assignData($row)
+
+    public function assignData(array $row) : void
     {
-        $this->setUserAlias($row['pos_usr_alias']);
-        $this->setSubject($row['pos_subject']);
+        $this->setUserAlias((string) $row['pos_usr_alias']);
+        $this->setSubject((string) $row['pos_subject']);
         $this->setCreateDate($row['pos_date']);
-        $this->setMessage($row['pos_message']);
-        $this->setForumId($row['pos_top_fk']);
-        $this->setThreadId($row['pos_thr_fk']);
+        $this->setMessage((string) $row['pos_message']);
+        $this->setForumId((int) $row['pos_top_fk']);
+        $this->setThreadId((int) $row['pos_thr_fk']);
         $this->setChangeDate($row['pos_update']);
-        $this->setUpdateUserId($row['update_user']);
-        $this->setCensorship($row['pos_cens']);
-        $this->setCensoredDate($row['pos_cens_date']);
+        $this->setUpdateUserId((int) $row['update_user']);
+        $this->setCensorship((bool) $row['pos_cens']);
+        $this->setCensoredDate($row['pos_cens_date'] ?? '');
         $this->setCensorshipComment($row['pos_cens_com']);
-        $this->setNotification($row['notify']);
+        $this->setNotification((bool) $row['notify']);
         $this->setImportName($row['import_name']);
-        $this->setStatus($row['pos_status']);
-        $this->setTreeId($row['fpt_pk']);
-        $this->setParentId($row['parent_pos']);
-        $this->setLft($row['lft']);
-        $this->setRgt($row['rgt']);
-        $this->setDepth($row['depth']);
-        $this->setIsRead($row['post_read']);
-        $this->setDisplayUserId($row['pos_display_user_id']);
-        $this->setPosAuthorId($row['pos_author_id']);
-        $this->setIsAuthorModerator($row['is_author_moderator']);
+        $this->setStatus((bool) $row['pos_status']);
+        $this->setTreeId((int) $row['fpt_pk']);
+        $this->setParentId((int) $row['parent_pos']);
+        $this->setLft((int) $row['lft']);
+        $this->setRgt((int) $row['rgt']);
+        $this->setDepth((int) $row['depth']);
+        $this->setIsRead(isset($row['post_read']) && (int) $row['post_read']);
+        $this->setDisplayUserId((int) $row['pos_display_user_id']);
+        $this->setPosAuthorId((int) $row['pos_author_id']);
+        $this->setIsAuthorModerator((bool) $row['is_author_moderator']);
     }
 
     /**
@@ -653,7 +613,7 @@ class ilForumPost
      * @param int $targetThreadId
      * @param int[] $excludedPostIds
      */
-    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = [])
+    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = []) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -668,5 +628,37 @@ class ilForumPost
             ['integer',],
             [$targetThreadId,]
         );
+    }
+
+    public static function lookupNotificationStatusByPostId(int $post_id) : bool
+    {
+        global $DIC;
+
+        $res = $DIC->database()->queryF(
+            'SELECT notify FROM frm_posts WHERE pos_pk = %s',
+            ['integer'],
+            [$post_id]
+        );
+
+        $row = $DIC->database()->fetchAssoc($res);
+        return (bool) $row['notify'];
+    }
+
+    public static function lookupPostMessage(int $post_id) : string
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $res = $ilDB->queryF(
+            'SELECT pos_message FROM frm_posts WHERE pos_pk = %s',
+            ['integer'],
+            [$post_id]
+        );
+
+        if ($row = $ilDB->fetchObject($res)) {
+            return $row->pos_message ?: '';
+        }
+
+        return '';
     }
 }

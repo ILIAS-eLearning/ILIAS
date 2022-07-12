@@ -1,8 +1,23 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitAuthorityInputGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiValuesItem
@@ -13,10 +28,8 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
      */
     protected $value;
 
-
     /**
      * ilOrgUnitAuthorityInputGUI constructor.
-     *
      * @param string $a_title
      * @param string $a_postvar
      */
@@ -34,11 +47,10 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         });
     }
 
-
     /**
      * @param \ilTemplate $a_tpl
      */
-    public function insert(ilTemplate $a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $html = $this->render();
 
@@ -47,11 +59,10 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         $a_tpl->parseCurrentBlock();
     }
 
-
     /**
      * @param array $values
      */
-    public function setValueByArray(array $values)
+    public function setValueByArray(array $values) : void
     {
         $authorities = $values[$this->getPostVar()];
         if (!is_array($authorities)) {
@@ -63,26 +74,26 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         $this->setValue($authorities);
     }
 
-
     /**
-     * @param $a_value \ilOrgUnitAuthority[]
+     * @param \ilOrgUnitAuthority[] $a_value
      */
-    public function setValue($a_value)
+    public function setValue(array $a_value) : void
     {
         $this->value = $a_value;
     }
 
-
     /**
      * @return \ilOrgUnitAuthority[]
      */
-    public function getValue()
+    public function getValue() : array
     {
         return $this->value;
     }
 
-
-    protected function render()
+    /**
+     * @throws ilTemplateException
+     */
+    protected function render() : string
     {
         $tpl = new ilTemplate("tpl.authority_input.html", true, true, "Modules/OrgUnit");
         //		if (strlen($this->getValue())) {
@@ -136,20 +147,12 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         return $tpl->get();
     }
 
-
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    protected function dic()
+    protected function dic() : \ILIAS\DI\Container
     {
         return $GLOBALS["DIC"];
     }
 
-
-    /**
-     * @return \ilLanguage
-     */
-    protected function lang()
+    protected function lang() : \ilLanguage
     {
         static $loaded;
         $lang = $this->dic()->language();
@@ -161,17 +164,12 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         return $lang;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function getMulti()
+    public function getMulti() : bool
     {
         return false;
     }
 
-
-    protected function initJS()
+    protected function initJS() : void
     {
         // Global JS
         /**

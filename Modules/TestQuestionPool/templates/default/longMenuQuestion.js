@@ -216,7 +216,7 @@ var longMenuQuestion = (function () {
 	pro.answerOptionsClickFunction = function (that)
 	{
 		var gap_id = that.attr('data-id');
-		var modal_body = $('.modal-body');
+		var modal_body = $('#ilGapModal .modal-body');
 		temp_answers = pub.answers[gap_id];
 		debugPrinter('answer_options ' + gap_id );
 		pro.appendModalTitle(long_menu_language.answer_options, gap_id);
@@ -335,8 +335,8 @@ var longMenuQuestion = (function () {
 	
 	pro.appendModalTitle = function(text, question_id)
 	{
-		var modal_title = $('.modal-title');
-		var modal_header= $('.modal-header');
+		var modal_title = $('#ilGapModal .modal-title');
+		var modal_header= $('#ilGapModal .modal-header');
 		var view_id     = parseInt(question_id,10) + 1;
 		modal_header.find('.help-block').remove();
 		modal_header.append($('.layout_dummy_help-block').html());
@@ -378,7 +378,7 @@ var longMenuQuestion = (function () {
 				html += '<input type="text" class="col-sm-10 answerlist" size="5" value="" data-id="0">' + buttons;
 			}
 			pro.benchmarkCallsDummyNotForUsage('redrawAnswerList only html build', t0);
-			$('.modal_answer_options').html(html);
+			$('#ilGapModal .modal_answer_options').html(html);
 			pro.benchmarkCallsDummyNotForUsage('redrawAnswerList', t0);
 		}
 		else
@@ -388,7 +388,7 @@ var longMenuQuestion = (function () {
 				html += value + '\n';
 			});
 			html += '</textarea>';
-			$('.modal_answer_options').html(html);
+			$('#ilGapModal .modal_answer_options').html(html);
 		}
 		pro.appendAnswerCloneButtonEvents();
 		pro.redrawFormParts();
@@ -465,7 +465,7 @@ var longMenuQuestion = (function () {
 		button.off( 'click');
 		button.on( 'click', function() {
 			var gap_id 		= $(this).parent().prev().attr('data-id');
-			var question_id = $('.modal-title').attr('data-id');
+			var question_id = $('#ilGapModal .modal-title').attr('data-id');
 			if (typeof eventCallback === 'function') {
 				eventCallback(gap_id, question_id);
 			}
@@ -480,12 +480,12 @@ var longMenuQuestion = (function () {
 
 	pro.saveModalEventAnswers = function()
 	{
-		var gap_id 		= $('.modal-title').attr('data-id');
+		var gap_id 		= $('#ilGapModal .modal-title').attr('data-id');
 		var answers		= [];
 		if(pro.inputFieldsStillPossible(gap_id))
 		{
 			var t0 = pro.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEventAnswers');
-			$.each($('.answerlist') , function() {
+			$.each($('#ilGapModal .answerlist') , function() {
 				answers.push($(this).val());
 			});
 			pro.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEventAnswers', t0);
@@ -597,7 +597,7 @@ var longMenuQuestion = (function () {
 					reader.onload = function(e) 
 					{
 						var contents 	= e.target.result;
-						var gap_id	= $('.modal-title').attr('data-id');
+						var gap_id	= $('#ilGapModal .modal-title').attr('data-id');
 						pub.answers[gap_id] = contents.split('\n');
 						pub.answers[gap_id] = pub.answers[gap_id].sort();
 						pro.redrawAnswerList(gap_id);

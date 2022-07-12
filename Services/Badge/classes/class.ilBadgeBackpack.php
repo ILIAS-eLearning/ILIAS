@@ -1,27 +1,41 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBadgeBackpack
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @package ServicesBadge
  */
 class ilBadgeBackpack
 {
-    protected $email; // [string]
-    protected $uid; // [int]
-    
-    const URL_DISPLAYER = "https://backpack.openbadges.org/displayer/";
-    
-    public function __construct($a_email)
+    public const URL_DISPLAYER = "https://backpack.openbadges.org/displayer/";
+
+    protected string $email;
+    protected int $uid;
+    private \ilGlobalTemplateInterface $main_tpl;
+
+    public function __construct(string $a_email)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->email = $a_email;
     }
     
-    protected function authenticate()
+    protected function authenticate() : bool
     {
         $json = $this->sendRequest(
             self::URL_DISPLAYER . "convert/email",
@@ -30,7 +44,7 @@ class ilBadgeBackpack
         );
         
         if (!isset($json->status) ||
-            $json->status != "okay") {
+            $json->status !== "okay") {
             return false;
         }
         
@@ -38,7 +52,7 @@ class ilBadgeBackpack
         return true;
     }
     
-    public function getGroups()
+    public function getGroups() : array
     {
         if ($this->authenticate()) {
             $json = $this->sendRequest(
@@ -56,31 +70,35 @@ class ilBadgeBackpack
             
             return $result;
         }
+        return [];
     }
-    
-    public function getBadges($a_group_id)
+
+    public function getBadges(string $a_group_id) : ?array
     {
         if ($this->authenticate()) {
             $json = $this->sendRequest(
                 self::URL_DISPLAYER . $this->uid . "/group/" . $a_group_id . ".json"
             );
             
-            if ($json->status &&
-                $json->status == "missing") {
-                return false;
+            if ($json === null) {
+                return null;
             }
-            
-            $result = array();
-            
+
+            if (property_exists($json, 'status') && $json->status === "missing") {
+                return null;
+            }
+
+            $result = [];
+
             foreach ($json->badges as $raw) {
                 $badge = $raw->assertion->badge;
-                                
+
                 // :TODO: not sure if this works reliably
                 $issued_on = is_numeric($raw->assertion->issued_on)
                     ? $raw->assertion->issued_on
                     : strtotime($raw->assertion->issued_on);
                 
-                $result[] = array(
+                $result[] = [
                     "title" => $badge->name,
                     "description" => $badge->description,
                     "image_url" => $badge->image,
@@ -88,15 +106,19 @@ class ilBadgeBackpack
                     "issuer_name" => $badge->issuer->name,
                     "issuer_url" => $badge->issuer->origin,
                     "issued_on" => new ilDate($issued_on, IL_CAL_UNIX)
-                );
+                ];
             }
             
             return $result;
         }
+        return null;
     }
     
-    protected function sendRequest($a_url, array $a_param = array(), $a_is_post = false)
-    {
+    protected function sendRequest(
+        string $a_url,
+        array $a_param = array(),
+        bool $a_is_post = false
+    ) : ?stdClass {
         try {
             $curl = new ilCurlConnection();
             $curl->init(false);
@@ -116,27 +138,25 @@ class ilBadgeBackpack
                     "Expect:"
             ));
 
-            if ((bool) $a_is_post) {
+            if ($a_is_post) {
                 $curl->setOpt(CURLOPT_POST, 1);
-                if (sizeof($a_param)) {
+                if (count($a_param)) {
                     $curl->setOpt(CURLOPT_POSTFIELDS, http_build_query($a_param));
                 }
             } else {
                 $curl->setOpt(CURLOPT_HTTPGET, 1);
-                if (sizeof($a_param)) {
-                    $a_url = $a_url .
-                        (strpos($a_url, "?") === false ? "?" : "") .
-                        http_build_query($a_param);
+                if (count($a_param)) {
+                    $a_url .= (strpos($a_url, "?") === false ? "?" : "") . http_build_query($a_param);
                 }
             }
             $curl->setOpt(CURLOPT_URL, $a_url);
 
             $answer = $curl->exec();
         } catch (Exception $ex) {
-            ilUtil::sendFailure($ex->getMessage());
-            return;
+            $this->main_tpl->setOnScreenMessage('failure', $ex->getMessage());
+            return null;
         }
         
-        return json_decode($answer);
+        return json_decode($answer, false, 512, JSON_THROW_ON_ERROR);
     }
 }

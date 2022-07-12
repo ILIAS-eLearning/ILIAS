@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
@@ -33,8 +33,8 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
             $item = $item->withRefId($ref_id)
                 ->withVisibilityCallable(
                     function () use ($DIC, $ref_id) {
-                        return (bool) $DIC->access()->checkAccess('visible', '', $ref_id) &&
-                            $DIC->access()->checkAccess('read', '', $ref_id);
+                        return $DIC->access()->checkAccess('join', '', $ref_id)
+                            || $DIC->access()->checkAccess('read', '', $ref_id);
                     }
                 );
         }

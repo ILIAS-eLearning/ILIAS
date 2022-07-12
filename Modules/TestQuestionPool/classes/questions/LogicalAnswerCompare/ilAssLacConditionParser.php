@@ -69,7 +69,7 @@ class ilAssLacConditionParser
      * @see CompositeBuilder::create()
      * @return array
      */
-    public function parse($condition)
+    public function parse($condition) : array
     {
         $this->condition = $condition;
         $this->checkBrackets();
@@ -88,7 +88,7 @@ class ilAssLacConditionParser
      * @see ExpressionManufacturer::getPattern()
      * @see Parser::$expressions
      */
-    protected function fetchExpressions()
+    protected function fetchExpressions() : void
     {
         $manufacturer = ilAssLacExpressionManufacturer::_getInstance();
         $this->expressions = $manufacturer->match($this->condition);
@@ -101,7 +101,7 @@ class ilAssLacConditionParser
      * @see OperationManufacturer::getPattern()
      * @see Parser::$operators
      */
-    protected function fetchOperators()
+    protected function fetchOperators() : void
     {
         $manufacturer = ilAssLacOperationManufacturer::_getInstance();
         $this->operators = $manufacturer->match($this->condition);
@@ -114,7 +114,7 @@ class ilAssLacConditionParser
      * <br />
      * (n o n) o (n o n) o n
      */
-    protected function cannonicalizeCondition()
+    protected function cannonicalizeCondition() : void
     {
         $manufacturer = ilAssLacExpressionManufacturer::_getInstance();
         $this->condition = preg_replace($manufacturer->getPattern(), 'n', $this->condition);
@@ -130,7 +130,7 @@ class ilAssLacConditionParser
         }
     }
 
-    protected function checkBrackets()
+    protected function checkBrackets() : void
     {
         $num_brackets_open = substr_count($this->condition, "(");
         $num_brackets_close = substr_count($this->condition, ")");
@@ -165,7 +165,7 @@ class ilAssLacConditionParser
      *
      * @return array
      */
-    protected function createNodeArray()
+    protected function createNodeArray() : array
     {
         $expected = array("n", "(", "!");
         $group = array();
@@ -205,7 +205,7 @@ class ilAssLacConditionParser
     /**
      * @return array
      */
-    public function getExpressions()
+    public function getExpressions() : array
     {
         return $this->expressions;
     }
@@ -213,7 +213,7 @@ class ilAssLacConditionParser
     /**
      * @param int $index
      */
-    protected function surroundNegationExpression($index)
+    protected function surroundNegationExpression($index) : void
     {
         $start = strpos($this->condition, "n", $index + 1);
         $end = false;

@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
@@ -16,6 +30,12 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
+use ILIAS\UI\Component\Layout\Page\Page;
+use ILIAS\Data\URI;
+
 /**
  * Class ilLSViewLayoutProvider
  *
@@ -23,7 +43,7 @@ use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
  */
 class ilLSViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-    protected ?Collection $data_collection;
+    protected ?Collection $data_collection = null;
 
     /**
      * @inheritDoc
@@ -70,13 +90,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function (MetaBar $metabar) : ?Metabar {
-                    $metabar = $metabar->withClearedEntries();
-                    foreach ($this->data_collection->get(ilLSPlayer::GS_DATA_LS_METABARCONTROLS) as $key => $entry) {
-                        $metabar = $metabar->withAdditionalEntry($key, $entry);
-                    }
-                    return $metabar;
-                }
+                fn (MetaBar $metabar) : ?Metabar => $metabar->withClearedEntries()
             )
             ->withHighPriority();
     }
@@ -89,9 +103,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()
             ->withModification(
-                function (Breadcrumbs $current) : ?Breadcrumbs {
-                    return null;
-                }
+                fn (Breadcrumbs $current) : ?Breadcrumbs => null
             )
             ->withHighPriority();
     }
@@ -113,5 +125,28 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
                 }
             )
             ->withHighPriority();
+    }
+
+    public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
+    {
+        if (!$this->isKioskModeEnabled($screen_context_stack)) {
+            return null;
+        }
+
+        $exit = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS)['exit'];
+        $label = $this->dic['lng']->txt('lso_player_viewmodelabel');
+
+        $lnk = new URI($exit->getAction());
+
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->factory->page()->withModification(
+            function (PagePartProvider $parts) use ($label, $lnk) : Page {
+                $p = new StandardPageBuilder();
+                $f = $this->dic['ui.factory'];
+                $page = $p->build($parts);
+                $modeinfo = $f->mainControls()->modeInfo($label, $lnk);
+                return $page->withModeInfo($modeinfo);
+            }
+        )->withHighPriority();
     }
 }

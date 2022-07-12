@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Survey mc evaluation
@@ -14,8 +28,12 @@ class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
     // EXPORT
     //
     
-    public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
-    {
+    public function getUserSpecificVariableTitles(
+        array &$a_title_row,
+        array &$a_title_row2,
+        bool $a_do_title,
+        bool $a_do_label
+    ) : void {
         $lng = $this->lng;
         
         $categories = $this->question->getCategories();
@@ -31,13 +49,19 @@ class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
             }
         }
     }
-    
-    public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results)
-    {
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function addUserSpecificResults(
+        array &$a_row,
+        int $a_user_id,
+        $a_results
+    ) : void {
         $categories = $this->question->getCategories();
                 
         $answers = $a_results->getUserResults($a_user_id);
-        if ($answers === null) {
+        if (count($answers) === 0) {
             $a_row[] = $this->getSkippedValue();
             
             for ($i = 0; $i < $categories->getCategoryCount(); $i++) {
@@ -73,9 +97,6 @@ class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function supportsSumScore() : bool
     {
         return true;

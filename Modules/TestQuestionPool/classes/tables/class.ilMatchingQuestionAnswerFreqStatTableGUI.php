@@ -25,25 +25,25 @@ class ilMatchingQuestionAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisti
         $this->setDefaultOrderField('term');
     }
     
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn('Term', '');
         $this->addColumn('Definition', '');
         $this->addColumn('Frequency', '');
     }
     
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', $data['term']);
+        $this->tpl->setVariable('ANSWER', $a_set['term']);
         $this->tpl->parseCurrentBlock();
         
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', $data['definition']);
+        $this->tpl->setVariable('ANSWER', $a_set['definition']);
         $this->tpl->parseCurrentBlock();
         
         $this->tpl->setCurrentBlock('frequency');
-        $this->tpl->setVariable('FREQUENCY', $data['frequency']);
+        $this->tpl->setVariable('FREQUENCY', $a_set['frequency']);
         $this->tpl->parseCurrentBlock();
     }
 }

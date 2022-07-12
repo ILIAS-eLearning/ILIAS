@@ -1,96 +1,70 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilAccountRegistrationMail
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilAccountRegistrationMail extends \ilMimeMailNotification
+class ilAccountRegistrationMail extends ilMimeMailNotification
 {
-    const MODE_DIRECT_REGISTRATION = 1;
-    const MODE_REGISTRATION_WITH_EMAIL_CONFIRMATION = 2;
+    protected const MODE_DIRECT_REGISTRATION = 1;
+    protected const MODE_REGISTRATION_WITH_EMAIL_CONFIRMATION = 2;
 
-    /** @var ilRegistrationSettings */
-    private $settings;
+    private ilRegistrationSettings $settings;
+    private ilLogger $logger;
+    private int $mode = self::MODE_DIRECT_REGISTRATION;
 
-    /** @var ilLanguage */
-    private $lng;
-
-    /** @var ilLogger */
-    private $logger;
-
-    /** @var int */
-    private $mode = self::MODE_DIRECT_REGISTRATION;
-
-    /**
-     * ilAccountRegistrationMail constructor.
-     * @param ilRegistrationSettings $settings
-     * @param ilLanguage             $lng
-     * @param ilLogger               $logger
-     */
     public function __construct(ilRegistrationSettings $settings, ilLanguage $lng, ilLogger $logger)
     {
         $this->settings = $settings;
-        $this->lng = $lng;
         $this->logger = $logger;
-
         parent::__construct(false);
     }
 
-    /**
-     * @return int
-     */
-    public function getMode()
+    public function getMode() : int
     {
         return $this->mode;
     }
 
-    /**
-     * @return \ilAccountRegistrationMail
-     */
-    public function withDirectRegistrationMode()
+    public function withDirectRegistrationMode() : ilAccountRegistrationMail
     {
         $clone = clone $this;
         $clone->mode = self::MODE_DIRECT_REGISTRATION;
-
         return $clone;
     }
 
-    /**
-     * @return \ilAccountRegistrationMail
-     */
-    public function withEmailConfirmationRegistrationMode()
+    public function withEmailConfirmationRegistrationMode() : ilAccountRegistrationMail
     {
         $clone = clone $this;
         $clone->mode = self::MODE_REGISTRATION_WITH_EMAIL_CONFIRMATION;
-
         return $clone;
     }
 
-    /**
-     * @param $mailData
-     * @return bool
-     */
-    private function isEmptyMailConfigurationData($mailData)
+    private function isEmptyMailConfigurationData(array $mailData) : bool
     {
         return !(
-            isset($mailData['body']) &&
+            isset($mailData['body'], $mailData['subject']) &&
             is_string($mailData['body']) &&
             $mailData['body'] !== '' &&
-            isset($mailData['subject']) &&
             is_string($mailData['subject']) &&
             $mailData['subject'] !== ''
         );
     }
 
-    /**
-     * @param ilObjUser $user
-     * @param string    $rawPassword
-     * @return bool
-     */
-    private function trySendingUserDefinedAccountMail(ilObjUser $user, $rawPassword)
+    private function trySendingUserDefinedAccountMail(ilObjUser $user, string $rawPassword) : bool
     {
-        $trimStrings = function ($value) {
+        $trimStrings = static function ($value) {
             if (is_string($value)) {
                 $value = trim($value);
             }
@@ -105,16 +79,7 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
             $user->getLanguage()
         ));
 
-        $mailData = ilObjUserFolder::_lookupNewAccountMail($user->getLanguage());
-        if (!is_array($mailData)) {
-            $this->logger->debug(sprintf(
-                "Did not find any email configuration for language '%s' at all, skipping attempt ...",
-                $user->getLanguage()
-            ));
-            return false;
-        }
-
-        $mailData = array_map($trimStrings, $mailData);
+        $mailData = array_map($trimStrings, ilObjUserFolder::_lookupNewAccountMail($user->getLanguage()));
 
         if ($this->isEmptyMailConfigurationData($mailData)) {
             $this->logger->debug(sprintf(
@@ -133,9 +98,7 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 
             $mailData = array_map($trimStrings, $mailData);
             if ($this->isEmptyMailConfigurationData($mailData)) {
-                $this->logger->debug(sprintf(
-                    "Did not find any valid email configuration, skipping attempt ..."
-                ));
+                $this->logger->debug("Did not find any valid email configuration, skipping attempt ...");
                 return false;
             }
         }
@@ -151,7 +114,7 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
             $fs->create();
 
-            $pathToFile = '/' . implode('/', array_map(function ($pathPart) {
+            $pathToFile = '/' . implode('/', array_map(static function (string $pathPart) : string {
                 return trim($pathPart, '/');
             }, [
                 $fs->getAbsolutePath(),
@@ -166,27 +129,21 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
                 $mailData['att_file']
             ));
         } else {
-            $this->logger->debug(sprintf(
-                "Not attachments configured for this email configuration ..."
-            ));
+            $this->logger->debug("Not attachments configured for this email configuration ...");
         }
 
         $accountMail->send();
 
-        $this->logger->debug(sprintf(
-            "Welcome email sent"
-        ));
+        $this->logger->debug("Welcome email sent");
 
         return true;
     }
 
-    /**
-     * @param ilObjUser $user
-     * @param string    $rawPassword
-     * @param bool      $usedRegistrationCode
-     */
-    private function sendLanguageVariableBasedAccountMail(ilObjUser $user, $rawPassword, $usedRegistrationCode)
-    {
+    private function sendLanguageVariableBasedAccountMail(
+        ilObjUser $user,
+        string $rawPassword,
+        bool $usedRegistrationCode
+    ) : void {
         $this->logger->debug(sprintf(
             "Sending language variable dependent welcome email to user %s (id: %s|language: %s) as fallback ...",
             $user->getLogin(),
@@ -217,7 +174,7 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
         }
 
         if ($this->getMode() === self::MODE_DIRECT_REGISTRATION) {
-            if ($this->settings->getRegistrationType() == IL_REG_APPROVE && !$usedRegistrationCode) {
+            if ($this->settings->getRegistrationType() === ilRegistrationSettings::IL_REG_APPROVE && !$usedRegistrationCode) {
                 $this->appendBody("\n");
                 $this->appendBody($this->language->txt('reg_mail_body_pwd_generation'));
                 $this->appendBody("\n\n");
@@ -235,17 +192,10 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 
         $this->sendMimeMail($user->getEmail());
 
-        $this->logger->debug(sprintf(
-            "Welcome email sent"
-        ));
+        $this->logger->debug("Welcome email sent");
     }
 
-    /**
-     * @param ilObjUser $user
-     * @param string    $rawPassword
-     * @param bool      $usedRegistrationCode
-     */
-    public function send(ilObjUser $user, $rawPassword = '', $usedRegistrationCode = false)
+    public function send(ilObjUser $user, string $rawPassword = '', bool $usedRegistrationCode = false) : void
     {
         if (!$this->trySendingUserDefinedAccountMail($user, $rawPassword)) {
             $this->sendLanguageVariableBasedAccountMail($user, $rawPassword, $usedRegistrationCode);

@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
@@ -10,7 +24,7 @@ use ILIAS\HTTP\Response\Sender\ResponseSendingException;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilTaggingSlateContentGUI
+class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
 {
     public const CURRENT_TAG_KEY = "tag_current_tag";
 
@@ -24,14 +38,15 @@ class ilTaggingSlateContentGUI
     protected string $requested_tag;
     protected ilSessionIStorage $store;
     protected array $tags;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
      */
-
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -46,10 +61,11 @@ class ilTaggingSlateContentGUI
 
         $this->tags = ilTagging::getTagsForUser($this->user->getId(), 1000000);
 
+        $params = $this->http->request()->getQueryParams();
         $this->requested_tag = str_replace(
             "-->",
             "",
-            $this->http->request()->getQueryParams()["tag"]
+            $params["tag"] ?? ""
         );
         if ($this->requested_tag == "") {
             $this->requested_tag = $this->getCurrentTag();
@@ -63,6 +79,7 @@ class ilTaggingSlateContentGUI
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd();
 
+        // PHP8 Review: 'switch' with single 'case'
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("showResourcesForTag", "showTagCloud"))) {
@@ -117,14 +134,14 @@ class ilTaggingSlateContentGUI
                 $tpl->setVariable("HREF_TAG", "#");
                 $tpl->setVariable(
                     "REL_CLASS",
-                    ilTagging::getRelevanceClass($tag["cnt"], $max)
+                    ilTagging::getRelevanceClass((int) $tag["cnt"], (int) $max)
                 );
                 $tpl->parseCurrentBlock();
             }
             return $tpl->get();
-        } else {
-            return $this->ui->renderer()->render($this->getNoTagsUsedMessage());
         }
+
+        return $this->ui->renderer()->render($this->getNoTagsUsedMessage());
     }
 
 
@@ -153,7 +170,7 @@ class ilTaggingSlateContentGUI
         $item_groups = [];
         $items = [];
         foreach ($objs as $key => $obj) {
-            $ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
+            $ref_ids = ilObject::_getAllReferences((int) $obj["obj_id"]);
             foreach ($ref_ids as $ref_id) {
                 $type = $obj["obj_type"];
 
@@ -162,10 +179,10 @@ class ilTaggingSlateContentGUI
                     continue;
                 }
 
-                $title = ilObject::_lookupTitle($obj["obj_id"]);
+                $title = ilObject::_lookupTitle((int) $obj["obj_id"]);
                 $items[] = $f->item()->standard(
                     $f->link()->standard($title, ilLink::_getLink($ref_id))
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj["obj_id"]), $title));
+                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $obj["obj_id"]), $title));
             }
         }
         $item_groups[] = $f->item()->group(sprintf(
@@ -174,7 +191,15 @@ class ilTaggingSlateContentGUI
         ), $items);
         $panel = $f->panel()->secondary()->listing("", $item_groups);
 
-        return $ui->renderer()->renderAsync([$back_button, $panel]);
+        $components = [$back_button, $panel];
+        if (count($items) == 0) {
+            $mbox = $f->messageBox()->info(
+                sprintf($lng->txt("tagging_no_obj_for_tag"), ilUtil::secureString($tag))
+            );
+            $components = [$back_button, $mbox];
+        }
+
+        return $ui->renderer()->renderAsync($components);
     }
 
     /**
@@ -233,7 +258,7 @@ class ilTaggingSlateContentGUI
             }
         }
 
-        ilUtil::sendSuccess($lng->txt("tag_tags_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("tag_tags_deleted"), true);
 
         $ilCtrl->returnToParent($this);
     }
@@ -257,7 +282,7 @@ class ilTaggingSlateContentGUI
         $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
 
-        if ($title == 'ILIAS') {
+        if ($title === 'ILIAS') {
             $title = $this->lng->txt('repository');
         }
 
@@ -285,6 +310,7 @@ class ilTaggingSlateContentGUI
 
     protected function getCurrentTag() : string
     {
+        // PHP8 Review: Type cast is unnecessary
         return (string) $this->store->get(self::CURRENT_TAG_KEY);
     }
 

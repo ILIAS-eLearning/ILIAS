@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Select media pool for adding objects into pages
@@ -9,25 +23,20 @@
  */
 class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 {
-    protected $selection_subcmd = "";
+    protected string $selection_subcmd = "";
 
 
     /**
-     * Constructor
-     *
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param object $a_selection_gui
-     * @param string $a_selection_cmd
-     * @param string $a_selection_par
+     * @param object|array $a_parent_obj parent gui class or class array
+     * @param object|string $a_selection_gui gui class that should be called for the selection command
      */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
+        string $a_parent_cmd,
         $a_selection_gui = null,
-        $a_selection_cmd = "insert",
-        $a_selection_subcmd = "selectPool",
-        $a_selection_par = "pool_ref_id"
+        string $a_selection_cmd = "insert",
+        string $a_selection_subcmd = "selectPool",
+        string $a_selection_par = "pool_ref_id"
     ) {
         global $DIC;
 
@@ -50,11 +59,10 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 
     /**
      * Get href for node
-     *
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
         
@@ -66,11 +74,10 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 
     /**
      * Is node visible
-     *
      * @param array $a_node node data
      * @return bool visible true/false
      */
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         if (parent::isNodeVisible($a_node)) {
             //hide empty container

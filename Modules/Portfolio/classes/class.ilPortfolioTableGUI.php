@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Portfolio table
@@ -9,18 +23,15 @@
  */
 class ilPortfolioTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected array $shared_objects;
+    protected ilObjUser $user;
+    protected int $user_id;
 
-    protected $user_id;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_user_id
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -29,7 +40,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        $this->user_id = (int) $a_user_id;
+        $this->user_id = $a_user_id;
     
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -52,30 +63,23 @@ class ilPortfolioTableGUI extends ilTable2GUI
         $lng->loadLanguageModule("wsp");
     }
 
-    protected function getItems()
+    protected function getItems() : void
     {
-        $ilUser = $this->user;
-        
         $access_handler = new ilPortfolioAccessHandler();
-        
         $data = ilObjPortfolio::getPortfoliosOfUser($this->user_id);
-        
         $this->shared_objects = $access_handler->getObjectsIShare(false);
         
         $this->setData($data);
     }
 
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
         $this->tpl->setCurrentBlock("title_form");
         $this->tpl->setVariable("VAL_ID", $a_set["id"]);
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
         $this->tpl->parseCurrentBlock();
 
         if (in_array($a_set["id"], $this->shared_objects)) {

@@ -1,30 +1,41 @@
-<?php
-
-/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-use ILIAS\Refinery;
-use PHPUnit\Framework\TestCase;
+<?php declare(strict_types=1);
 
 /**
- * TestCase for SplitString transformations
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Transformation;
+use ILIAS\Data\Factory as DataFactory;
+use PHPUnit\Framework\TestCase;
+use ILIAS\Refinery\Factory as Refinery;
+
 class SplitStringTest extends TestCase
 {
-    const STRING_TO_SPLIT = "I am#a test string#for split";
-    protected static $result = array("I am", "a test string", "for split");
+    private const STRING_TO_SPLIT = "I am#a test string#for split";
 
-    /**
-     * @var Refinery\Transformations\SplitString
-     */
-    private $split_string;
+    /** @var string[] */
+    protected static array $result = ["I am", "a test string", "for split"];
+
+    private ?Transformation $split_string;
+    private ?Refinery $f;
 
     protected function setUp() : void
     {
-        $dataFactory = new \ILIAS\Data\Factory();
-        $language = $this->createMock('\ilLanguage');
-        $this->f = new \ILIAS\Refinery\Factory($dataFactory, $language);
+        $dataFactory = new DataFactory();
+        $language = $this->createMock(ilLanguage::class);
+        $this->f = new Refinery($dataFactory, $language);
         $this->split_string = $this->f->string()->splitString("#");
     }
 
@@ -34,13 +45,13 @@ class SplitStringTest extends TestCase
         $this->split_string = null;
     }
 
-    public function testTransform()
+    public function testTransform() : void
     {
         $arr = $this->split_string->transform(self::STRING_TO_SPLIT);
         $this->assertEquals(static::$result, $arr);
     }
 
-    public function testTransformFails()
+    public function testTransformFails() : void
     {
         $raised = false;
         try {
@@ -70,14 +81,14 @@ class SplitStringTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testInvoke()
+    public function testInvoke() : void
     {
         $split_string = $this->f->string()->splitString("#");
         $arr = $split_string(self::STRING_TO_SPLIT);
         $this->assertEquals(static::$result, $arr);
     }
 
-    public function testInvokeFails()
+    public function testInvokeFails() : void
     {
         $split_string = $this->f->string()->splitString("#");
 
@@ -109,9 +120,9 @@ class SplitStringTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testApplyToWithValidValueReturnsAnOkResult()
+    public function testApplyToWithValidValueReturnsAnOkResult() : void
     {
-        $factory = new \ILIAS\Data\Factory();
+        $factory = new DataFactory();
         $valueObject = $factory->ok(self::STRING_TO_SPLIT);
 
         $resultObject = $this->split_string->applyTo($valueObject);
@@ -120,9 +131,9 @@ class SplitStringTest extends TestCase
         $this->assertFalse($resultObject->isError());
     }
 
-    public function testApplyToWithInvalidValueWillLeadToErrorResult()
+    public function testApplyToWithInvalidValueWillLeadToErrorResult() : void
     {
-        $factory = new \ILIAS\Data\Factory();
+        $factory = new DataFactory();
         $valueObject = $factory->ok(42);
 
         $resultObject = $this->split_string->applyTo($valueObject);

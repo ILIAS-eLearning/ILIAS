@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCAMDPageList
@@ -11,72 +25,45 @@
  */
 class ilPCAMDPageList extends ilPageContent
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected php4DOMElement $amdpl_node;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $dom;
-
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->setType("amdpl");
-
-        $this->ref_id = 0;
-        if (isset($_GET["ref_id"])) {
-            $this->ref_id = (int) $_GET["ref_id"];
-        }
     }
     
-    /**
-     * Get lang vars needed for editing
-     * @return array array of lang var keys
-     */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("ed_insert_amd_page_list", "pc_amdpl");
     }
 
-    /**
-    * Set node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->amdpl_node = $a_node->first_child();		// this is the courses node
     }
 
-    /**
-    * Create list node in xml.
-    *
-    * @param	object	$a_pg_obj		Page Object
-    * @param	string	$a_hier_id		Hierarchical ID
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->amdpl_node = $this->dom->create_element("AMDPageList");
         $this->amdpl_node = $this->node->append_child($this->amdpl_node);
     }
 
-    /**
-     * Set list settings
-     */
-    public function setData(array $a_fields_data, $a_mode = null)
-    {
+    public function setData(
+        array $a_fields_data,
+        int $a_mode = null
+    ) : void {
         $ilDB = $this->db;
         
         $data_id = $this->amdpl_node->get_attribute("Id");
@@ -86,35 +73,34 @@ class ilPCAMDPageList extends ilPageContent
         } else {
             $data_id = $ilDB->nextId("pg_amd_page_list");
             $this->amdpl_node->set_attribute("Id", $data_id);
-        };
-        
+        }
+
         $this->amdpl_node->set_attribute("Mode", (int) $a_mode);
         
         foreach ($a_fields_data as $field_id => $field_data) {
             $fields = array(
                 "id" => array("integer", $data_id)
                 ,"field_id" => array("integer", $field_id)
-                ,"data" => array("text", serialize($field_data))
+                ,"sdata" => array("text", serialize($field_data))
             );
             $ilDB->insert("pg_amd_page_list", $fields);
         }
     }
 
-    public function getMode()
+    public function getMode() : int
     {
         if (is_object($this->amdpl_node)) {
             return (int) $this->amdpl_node->get_attribute("Mode");
         }
+        return 0;
     }
     
     /**
      * Get filter field values
-     *
-     * @param int $a_data_id
-     * @return string
      */
-    public function getFieldValues($a_data_id = null)
-    {
+    public function getFieldValues(
+        int $a_data_id = null
+    ) : array {
         $ilDB = $this->db;
             
         $res = array();
@@ -129,18 +115,23 @@ class ilPCAMDPageList extends ilPageContent
             $set = $ilDB->query("SELECT * FROM pg_amd_page_list" .
                 " WHERE id = " . $ilDB->quote($a_data_id, "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
-                $res[$row["field_id"]] = unserialize($row["data"]);
+                $res[$row["field_id"]] = unserialize($row["sdata"], ["allowed_classes" => false]);
             }
         }
-        
         return $res;
     }
-    
-    public static function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
-    {
+    public static function handleCopiedContent(
+        DOMDocument $a_domdoc,
+        bool $a_self_ass = true,
+        bool $a_clone_mobs = false,
+        int $new_parent_id = 0,
+        int $obj_copy_id = 0
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
+        $old_id = 0;
+        $node = null;
         
         // #15688
         
@@ -160,7 +151,7 @@ class ilPCAMDPageList extends ilPageContent
                 $fields = array(
                     "id" => array("integer", $new_id)
                     ,"field_id" => array("integer", $row["field_id"])
-                    ,"data" => array("text", $row["data"])
+                    ,"sdata" => array("text", $row["sdata"])
                 );
                 $ilDB->insert("pg_amd_page_list", $fields);
             }
@@ -174,18 +165,23 @@ class ilPCAMDPageList extends ilPageContent
     // presentation
     //
     
-    protected function findPages($a_list_id)
-    {
+    protected function findPages(
+        int $a_list_id
+    ) : array {
         $ilDB = $this->db;
         
         $list_values = $this->getFieldValues($a_list_id);
-        $wiki_id = $this->getPage()->getWikiId();
+
+        /** @var ilWikiPage $wpage */
+        $wpage = $this->getPage();
+        $wiki_id = $wpage->getWikiId();
+        $wiki_ref_id = $wpage->getWikiRefId();
 
         $found_result = array();
 
         // only search in active fields
         $found_ids = null;
-        $recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg");
+        $recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $wiki_ref_id, "wpg");
         foreach ($recs as $record) {
             foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field) {
                 if (isset($list_values[$field->getFieldId()])) {
@@ -214,41 +210,37 @@ class ilPCAMDPageList extends ilPageContent
         return $found_result;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
-    {
-        $lng = $this->lng;
-        
-        if ($this->getPage()->getParentType() != "wpg") {
-            return $a_html;
+    public function modifyPageContentPostXsl(
+        string $a_output,
+        string $a_mode,
+        bool $a_abstract_only = false
+    ) : string {
+        if ($this->getPage()->getParentType() !== "wpg") {
+            return $a_output;
         }
-                            
+        $end = 0;
         $wiki_id = $this->getPage()->getWikiId();
         
-        $c_pos = 0;
-        $start = strpos($a_html, "[[[[[AMDPageList;");
+        $start = strpos($a_output, "[[[[[AMDPageList;");
         if (is_int($start)) {
-            $end = strpos($a_html, "]]]]]", $start);
+            $end = strpos($a_output, "]]]]]", $start);
         }
-        $i = 1;
         while ($end > 0) {
-            $parts = explode(";", substr($a_html, $start + 17, $end - $start - 17));
+            $parts = explode(";", substr($a_output, $start + 17, $end - $start - 17));
             
             $list_id = (int) $parts[0];
-            $list_mode = (sizeof($parts) == 2)
+            $list_mode = (count($parts) === 2)
                 ? (int) $parts[1]
                 : 0;
             
             $ltpl = new ilTemplate("tpl.wiki_amd_page_list.html", true, true, "Modules/Wiki");
                 
             $pages = $this->findPages($list_id);
-            if (sizeof($pages)) {
+            if (count($pages)) {
                 $ltpl->setCurrentBlock("page_bl");
                 foreach ($pages as $page_id => $page_title) {
                     // see ilWikiUtil::makeLink()
-                    $frag = new stdClass;
+                    $frag = new stdClass();
                     $frag->mFragment = null;
                     $frag->mTextform = $page_title;
                 
@@ -261,31 +253,30 @@ class ilPCAMDPageList extends ilPageContent
             
             $ltpl->setVariable("LIST_MODE", $list_mode ? "ol" : "ul");
                                             
-            $a_html = substr($a_html, 0, $start) .
+            $a_output = substr($a_output, 0, $start) .
                 $ltpl->get() .
-                substr($a_html, $end + 5);
+                substr($a_output, $end + 5);
             
-            $start = strpos($a_html, "[[[[[AMDPageList;", $start + 5);
+            $start = strpos($a_output, "[[[[[AMDPageList;", $start + 5);
             $end = 0;
             if (is_int($start)) {
-                $end = strpos($a_html, "]]]]]", $start);
+                $end = strpos($a_output, "]]]]]", $start);
             }
         }
                 
-        return $a_html;
+        return $a_output;
     }
     
     /**
      * Migrate search/filter values on advmd change
-     *
-     * @param int $a_obj_id
-     * @param int $a_field_id
-     * @param string $old_option
-     * @param string $new_option
-     * @param bool $a_is_multi
      */
-    public static function migrateField($a_obj_id, $a_field_id, $old_option, $new_option, $a_is_multi = false)
-    {
+    public static function migrateField(
+        int $a_obj_id,
+        int $a_field_id,
+        string $old_option,
+        string $new_option,
+        bool $a_is_multi = false
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -295,7 +286,7 @@ class ilPCAMDPageList extends ilPageContent
         $set = $ilDB->query("SELECT * FROM pg_amd_page_list" .
             " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
-            $data = unserialize(unserialize($row["data"]));
+            $data = unserialize(unserialize($row["sdata"], ["allowed_classes" => false]), ["allowed_classes" => false]);
             if (is_array($data) &&
                 in_array($old_option, $data)) {
                 $idx = array_search($old_option, $data);
@@ -306,7 +297,7 @@ class ilPCAMDPageList extends ilPageContent
                 }
                 
                 $fields = array(
-                    "data" => array("text", serialize(serialize($data)))
+                    "sdata" => array("text", serialize(serialize($data)))
                 );
                 $primary = array(
                     "id" => array("integer", $row["id"]),

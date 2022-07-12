@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroom
@@ -18,7 +33,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
     public function byDay(bool $export = false) : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $this->mainTpl->addJavaScript('./Services/Form/js/date_duration.js');
@@ -36,7 +51,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $messages = [];
         $psessions = [];
-        $submit_request = strtolower($this->httpServices->request()->getServerParams()['REQUEST_METHOD']) === 'post';
+        $submit_request = strtolower($this->http->request()->getServerParams()['REQUEST_METHOD']) === 'post';
         $from = null;
         $to = null;
 
@@ -48,7 +63,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                     $from = $period->getStart(),
                     $to = $period->getEnd(),
                     $chat_user->getUserId(),
-                    $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0))
+                    $this->getRequestValue('scope', $this->refinery->kindlyTo()->int(), 0)
                 );
 
                 $psessions = $room->getPrivateRoomSessions(
@@ -79,7 +94,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $this->gui->switchToVisibleMode();
 
-        $this->mainTpl->addCSS('Modules/Chatroom/templates/default/style.css');
+        $this->mainTpl->addCss('Modules/Chatroom/templates/default/style.css');
 
         // should be able to grep templates
         if ($export) {
@@ -90,7 +105,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $scopes = [];
         $isScopeRequest = $this->hasRequestValue('scope');
-        $requestScope = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0));
+        $requestScope = $this->getRequestValue('scope', $this->refinery->kindlyTo()->int(), 0);
 
         if ($export) {
             ilDatePresentation::setUseRelativeDates(false);
@@ -178,8 +193,6 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $durationForm->addItem($select);
         }
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
-
         $prevUseRelDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
 
@@ -209,7 +222,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             } else {
                 $roomTpl->setVariable(
                     'ROOM_TITLE',
-                    sprintf($this->ilLng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')'
+                    sprintf($this->ilLng->txt('history_title_general'), $this->gui->getObject()->getTitle()) . ' (' . $date_sub . ')'
                 );
             }
         }
@@ -217,7 +230,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         if ($export) {
             ilUtil::deliverData(
                 $roomTpl->get(),
-                ilUtil::getASCIIFilename($scopes[$requestScope] . '.html'),
+                ilFileUtils::getASCIIFilename($scopes[$requestScope] . '.html'),
                 'text/html'
             );
         }
@@ -235,7 +248,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
     public function bySession(bool $export = false) : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $scope = $room->getRoomId();
@@ -251,8 +264,8 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $this->ilCtrl->getFormAction($this->gui, 'history-bySession')
         );
 
-        if (strtolower($this->httpServices->request()->getServerParams()['REQUEST_METHOD']) === 'post') {
-            $session = $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('session'));
+        if (strtolower($this->http->request()->getServerParams()['REQUEST_METHOD']) === 'post') {
+            $session = $this->getRequestValue('session', $this->refinery->kindlyTo()->string());
             $durationForm->checkInput();
             $postVals = explode(',', $session);
             $durationForm->setValuesByArray([
@@ -263,7 +276,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                 $from = new ilDateTime($postVals[0], IL_CAL_UNIX),
                 $to = new ilDateTime($postVals[1], IL_CAL_UNIX),
                 $chat_user->getUserId(),
-                $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0))
+                $this->getRequestValue('scope', $this->refinery->kindlyTo()->int(), 0)
             );
         } else {
             $last_session = $room->getLastSession($chat_user);
@@ -280,10 +293,13 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                 $from,
                 $to,
                 $chat_user->getUserId(),
-                $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0))
+                $this->getRequestValue('scope', $this->refinery->kindlyTo()->int(), 0)
             );
         }
 
+        $from = new ilDateTime();
+        $to = new ilDateTime();
+        $psessions = [];
         if ($from && $to) {
             $psessions = $room->getPrivateRoomSessions(
                 $from,
@@ -291,18 +307,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                 $chat_user->getUserId(),
                 $scope
             );
-        } else {
-            $from = new ilDateTime();
-            $to = new ilDateTime();
-            $psessions = array();
         }
-
-        $psessions = $room->getPrivateRoomSessions(
-            $from,
-            $to,
-            $chat_user->getUserId(),
-            $scope
-        );
 
         $this->showMessages($messages, $durationForm, $export, $psessions, $from, $to);
     }

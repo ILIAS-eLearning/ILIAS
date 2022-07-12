@@ -32,10 +32,10 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
      * @param callable $preCallback
      * @param callable $postCallback
      */
-    public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback)
+    public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback) : void
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
-        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get', 'delete'))->getMock();
+        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
 
         $settingsMock->expects($this->any())->method('set')->will(
             $this->returnCallback(function ($key, $value) {
@@ -45,7 +45,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
 
         $settingsMock->expects($this->any())->method('get')->will(
             $this->returnCallback(function ($key, $value) {
-                return isset($this->storage[$key]) ? $this->storage[$key] : $value;
+                return $this->storage[$key] ?? $value;
             })
         );
 
@@ -71,10 +71,10 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testInvalidChunkSizeWillRaiseException()
+    public function testInvalidChunkSizeWillRaiseException() : void
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
-        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get', 'delete'))->getMock();
+        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
 
         try {
             $registry = new \ilAssQuestionSkillAssignmentRegistry($settingsMock);
@@ -96,7 +96,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
      * @param callable $post
      * @return array
      */
-    protected function getTestData(callable $pre, callable $post)
+    protected function getTestData(callable $pre, callable $post) : array
     {
         $data = [];
 
@@ -138,7 +138,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     /**
      * @return array
      */
-    public function serializedData()
+    public function serializedData() : array
     {
         $pre = function ($value) {
             return \serialize($value);

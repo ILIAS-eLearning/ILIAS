@@ -58,14 +58,14 @@ class ilObjQuestionPoolSettingsGeneralGUI
     /**
      * gui instance for current question pool
      *
-     * @var ilObjTestQuestionPoolGUI
+     * @var ilObjQuestionPoolGUI
      */
     protected $poolGUI = null;
     
     /**
      * object instance for current question pool
      *
-     * @var ilObjTestQuestionPool
+     * @var ilObjQuestionPool
      */
     protected $poolOBJ = null;
     
@@ -87,12 +87,12 @@ class ilObjQuestionPoolSettingsGeneralGUI
     /**
      * Command Execution
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // allow only write access
         
-        if (!$this->access->checkAccess('write', '', $this->poolGUI->ref_id)) {
-            ilUtil::sendInfo($this->lng->txt('cannot_edit_question_pool'), true);
+        if (!$this->access->checkAccess('write', '', $this->poolGUI->getRefId())) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_question_pool'), true);
             $this->ctrl->redirectByClass('ilObjQuestionPoolGUI', 'infoScreen');
         }
         
@@ -111,7 +111,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         }
     }
 
-    private function showFormCmd(ilPropertyFormGUI $form = null)
+    private function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
         if ($form === null) {
             $form = $this->buildForm();
@@ -120,7 +120,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
     
-    private function saveFormCmd()
+    private function saveFormCmd() : void
     {
         $form = $this->buildForm();
         
@@ -132,8 +132,8 @@ class ilObjQuestionPoolSettingsGeneralGUI
         // return to form when any form validation errors exist
         
         if ($errors) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-            return $this->showFormCmd($form);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->showFormCmd($form);
         }
         
         // perform saving the form data
@@ -142,11 +142,11 @@ class ilObjQuestionPoolSettingsGeneralGUI
         
         // redirect to form output
         
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 
-    private function performSaveForm(ilPropertyFormGUI $form)
+    private function performSaveForm(ilPropertyFormGUI $form) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -193,7 +193,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $this->poolOBJ->saveToDb();
     }
     
-    private function buildForm()
+    private function buildForm() : ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -271,7 +271,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         return $form;
     }
     
-    private function getTaxonomySelectInputOptions()
+    private function getTaxonomySelectInputOptions() : array
     {
         $taxSelectOptions = array(
             '0' => $this->lng->txt('qpl_settings_general_form_property_opt_notax_selected')
@@ -284,7 +284,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         return $taxSelectOptions;
     }
 
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
+    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId) : bool
     {
         return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
     }

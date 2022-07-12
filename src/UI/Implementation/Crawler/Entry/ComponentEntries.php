@@ -1,51 +1,54 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Crawler\Entry;
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
+use Iterator;
+use Countable;
+use JsonSerializable;
 
 /**
  * Container storing a list of UI Component Entries, can act as Iterator, countable and is serializable
  *
- * @author			  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  */
-class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countable, \JsonSerializable
+class ComponentEntries extends AbstractEntryPart implements Iterator, Countable, JsonSerializable
 {
-    /**
-     * @var string
-     */
-    protected $root_entry_id = 'root';
-
     /**
      * @var ComponentEntry[]
      */
-    protected $id_to_entry_map = array();
+    protected array $id_to_entry_map = array();
 
-    /**
-     * ComponentEntries constructor.
-     */
+    protected string $root_entry_id = 'root';
+
     public function __construct()
     {
         parent::__construct();
         $this->rewind();
     }
 
-    public static function createFromArray(array $entries_array)
-    {
-        $entries = new self();
-        $entries->addEntriesFromArray($entries_array);
-        return $entries;
-    }
-
     /**
      * Add and entry, first is always root.
      *
-     * @param	ComponentEntry $entry
      * @throws	Crawler\Exception\CrawlerException
      */
-    public function addEntry(ComponentEntry $entry)
+    public function addEntry(ComponentEntry $entry) : void
     {
         $this->assert()->isNotIndex($entry->getId(), $this->id_to_entry_map);
         if (count($this) == 0) {
@@ -55,10 +58,9 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     }
 
     /**
-     * @param	ComponentEntries $entries
      * @throws	Crawler\Exception\CrawlerException
      */
-    public function addEntries(ComponentEntries $entries)
+    public function addEntries(ComponentEntries $entries) : void
     {
         foreach ($entries as $entry) {
             $this->addEntry($entry);
@@ -66,46 +68,34 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     }
 
     /**
-     * @param array $entries
      * @throws Crawler\Exception\CrawlerException
      */
-    public function addEntriesFromArray(array $entries)
+    public function addEntriesFromArray(array $entries) : void
     {
         foreach ($entries as $entry_array) {
             $this->addEntry(new Crawler\Entry\ComponentEntry($entry_array));
         }
     }
 
-    /**
-     * @param	string $root_entry_id
-     */
-    public function setRootEntryId($root_entry_id)
+    public function setRootEntryId(string $root_entry_id) : void
     {
         $this->root_entry_id = $root_entry_id;
     }
 
-    /**
-     * @return	string
-     */
-    public function getRootEntryId()
+    public function getRootEntryId() : string
     {
         return $this->root_entry_id;
     }
 
-    /**
-     * @return	ComponentEntry
-     */
-    public function getRootEntry()
+    public function getRootEntry() : ComponentEntry
     {
         return $this->getEntryById($this->getRootEntryId());
     }
 
     /**
-     * @param	string $id
-     * @return	ComponentEntry
      * @throws	Crawler\Exception\CrawlerException
      */
-    public function getEntryById($id = "")
+    public function getEntryById(string $id = "") : ComponentEntry
     {
         if (array_key_exists($id, $this->id_to_entry_map)) {
             return $this->id_to_entry_map[$id];
@@ -114,10 +104,9 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     }
 
     /**
-     * @param	string $id
      * @return	string[]
      */
-    public function getParentsOfEntry($id)
+    public function getParentsOfEntry(string $id) : array
     {
         $parent_id = $this->getEntryById($id)->getParent();
 
@@ -130,11 +119,15 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
         }
     }
 
+    public function isParentOfEntry(string $parent_id, string $entry_id) : bool
+    {
+        return in_array($parent_id, $this->getParentsOfEntry($entry_id));
+    }
+
     /**
-     * @param	string $id
      * @return	string[]
      */
-    public function getParentsOfEntryTitles($id)
+    public function getParentsOfEntryTitles(string $id) : array
     {
         $titles = array();
         foreach ($this->getParentsOfEntry($id) as $parent_id) {
@@ -144,10 +137,9 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     }
 
     /**
-     * @param	string $id
      * @return	string[]
      */
-    public function getDescendantsOfEntry($id)
+    public function getDescendantsOfEntry(string $id) : array
     {
         $children = $this->getEntryById($id)->getChildren();
         foreach ($this->getEntryById($id)->getChildren() as $child) {
@@ -157,10 +149,23 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     }
 
     /**
-     * @param	string $id
+     * @param string $id
+     * @return ComponentEntry[]
+     * @throws Crawler\Exception\CrawlerException
+     */
+    public function getChildrenOfEntry(string $id) : array
+    {
+        $children = [];
+        foreach ($this->getEntryById($id)->getChildren() as $child_id) {
+            $children[] = $this->getEntryById($child_id);
+        }
+        return $children;
+    }
+
+    /**
      * @return	string[]
      */
-    public function getDescendantsOfEntryTitles($id)
+    public function getDescendantsOfEntryTitles(string $id) : array
     {
         $titles = array();
         foreach ($this->getDescendantsOfEntry($id) as $parent_id) {
@@ -169,23 +174,21 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
         return $titles;
     }
 
-    public function expose()
+    public function expose() : array
     {
         return get_object_vars($this);
     }
 
     /**
      * Iterator implementations
-     *
-     * @return bool
      */
-    public function valid()
+    public function valid() : bool
     {
         return current($this->id_to_entry_map) !== false;
     }
 
     /**
-     * @return	mixed
+     * @return int|null|string
      */
     public function key()
     {
@@ -200,15 +203,12 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
         return current($this->id_to_entry_map);
     }
 
-    /**
-     * @return	ComponentEntry|false
-     */
-    public function next()
+    public function next() : void
     {
         next($this->id_to_entry_map);
     }
 
-    public function rewind()
+    public function rewind() : void
     {
         reset($this->id_to_entry_map);
     }
@@ -216,17 +216,15 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     /**
      * Countable implementations
      */
-    public function count()
+    public function count() : int
     {
         return count($this->id_to_entry_map);
     }
 
     /**
      * jsonSerialize implementation
-     *
-     * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         $serialized = [];
         foreach ($this->id_to_entry_map as $id => $item) {

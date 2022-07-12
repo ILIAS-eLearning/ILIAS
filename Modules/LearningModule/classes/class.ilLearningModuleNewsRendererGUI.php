@@ -1,22 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Learning Module news renderer
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModuleLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLearningModuleNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    /**
-     * Get object link
-     *
-     * @return string link href url
-     */
-    public function getObjectLink()
+    public function getObjectLink() : string
     {
         $n = $this->getNewsItem();
         if ($n->getContextSubObjType() == "pg"

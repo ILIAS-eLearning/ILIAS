@@ -1,40 +1,57 @@
-<?php
+<?php declare(strict_types=1);
     namespace XapiProxy;
 
     use Psr\Http\Message\ServerRequestInterface;
     use Psr\Http\Message\ResponseInterface;
+    use GuzzleHttp\Psr7\Response;
+    use GuzzleHttp\Psr7\Request;
 
+    /******************************************************************************
+     *
+     * This file is part of ILIAS, a powerful learning management system.
+     *
+     * ILIAS is licensed with the GPL-3.0, you should have received a copy
+     * of said license along with the source code.
+     *
+     * If this is not the case or you just want to try ILIAS, you'll find
+     * us at:
+     *      https://www.ilias.de
+     *      https://github.com/ILIAS-eLearning
+     *
+     *****************************************************************************/
     class XapiProxyResponse
     {
-        private $dic;
-        private $xapiproxy;
+//        private $dic;
+        private XapiProxy $xapiproxy;
         //private $xapiProxyRequest;
 
-        public function __construct()
+        public function __construct(XapiProxy $xapiproxy)
         {
-            $this->dic = $GLOBALS['DIC'];
-            $this->xapiproxy = $this->dic['xapiproxy'];
-            //$this->xapiProxyRequest = $this->xapiproxy->getXapiProxyRequest();
+//            $this->dic = $GLOBALS['DIC'];
+            $this->xapiproxy = $xapiproxy;
         }
 
-        public function checkResponse($response, $endpoint)
+        public function checkResponse(Response $response, string $endpoint) : bool
         {
-            if ($response['state'] === 'fulfilled') {
+            if ($response['state'] == 'fulfilled') {
                 $status = $response['value']->getStatusCode();
                 if ($status === 200 || $status === 204 || $status === 404) {
                     return true;
                 } else {
-                    $this->xapiproxy->log()->error($this->msg("Could not get valid response status_code: " . $status . " from " . $endpoint));
+                    $this->xapiproxy->log()->error("LRS error {$endpoint}: " . $response['value']->getBody());
                     return false;
                 }
             } else {
-                $this->xapiproxy->log()->error($this->msg("Could not fulfill request to " . $endpoint));
+                try {
+                    $this->xapiproxy->log()->error("Connection error {$endpoint}: " . $response['reason']->getMessage());
+                } catch (\Exception $e) {
+                    $this->xapiproxy->log()->error("error {$endpoint}:" . $e->getMessage());
+                }
                 return false;
             }
-            return false;
         }
         
-        public function handleResponse($request, $response, $fakePostBody = null)
+        public function handleResponse(Request $request, Response $response, ?string $fakePostBody = null) : void
         {
             // check transfer encoding bug
             if ($fakePostBody !== null) {
@@ -49,7 +66,7 @@
             $headers = $response->getHeaders();
             if (array_key_exists('Transfer-Encoding', $headers) && $headers['Transfer-Encoding'][0] == "chunked") {
                 $this->xapiproxy->log()->debug($this->msg("sniff response transfer-encoding for unallowed Content-length"));
-                $body = $response->getBody();
+                $body = (string) $response->getBody();
                 unset($headers['Transfer-Encoding']);
                 $headers['Content-Length'] = array(strlen($body));
                 $response2 = new \GuzzleHttp\Psr7\Response($status, $headers, $body);
@@ -59,7 +76,7 @@
             }
         }
 
-        public function fakeResponseBlocked($post = null)
+        public function fakeResponseBlocked(?string $post = null) : void
         {
             $this->xapiproxy->log()->debug($this->msg("fakeResponseFromBlockedRequest"));
             if ($post === null) {
@@ -83,7 +100,7 @@
             }
         }
 
-        public function exitResponseError()
+        public function exitResponseError() : void
         {
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
             header('Access-Control-Allow-Credentials: true');
@@ -93,7 +110,7 @@
             exit;
         }
         
-        public function exitProxyError()
+        public function exitProxyError() : void
         {
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
             header('Access-Control-Allow-Credentials: true');
@@ -102,10 +119,10 @@
             echo "HTTP/1.1 500 XapiProxy Error (Ask For Logs)";
             exit;
         }
-
-        public function sendData($obj)
+    
+        public function sendData(string $obj) : void
         {
-            $this->xapiproxy->log()->debug($this->msg("senData: " . $obj));
+            $this->xapiproxy->log()->debug($this->msg("sendData: " . $obj));
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
             header('Access-Control-Allow-Credentials: true');
             header('X-Experience-API-Version: 1.0.3');
@@ -115,8 +132,8 @@
             echo $obj;
             exit;
         }
-
-        public function emit($response)
+    
+        public function emit(\GuzzleHttp\Psr7\Response $response) : void
         {
             $this->xapiproxy->log()->debug($this->msg('emitting response'));
             if (headers_sent()) {
@@ -157,7 +174,7 @@
             echo $response->getBody();
         }
 
-        private function msg($msg)
+        private function msg(string $msg) : string
         {
             return $this->xapiproxy->msg($msg);
         }

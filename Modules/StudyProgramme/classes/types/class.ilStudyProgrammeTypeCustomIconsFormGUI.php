@@ -1,5 +1,22 @@
-<?php
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Filesystem;
 
 /**
  * Class ilStudyProgrammeTypeFormGUI
@@ -10,58 +27,35 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
  */
 class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
 {
+    protected ilStudyProgrammeTypeGUI $parent_gui;
+    protected ilStudyProgrammeTypeRepository $type_repo;
+    protected Filesystem $webdir;
 
-    /**
-     * @var ilStudyProgrammeType
-     */
-    protected $type_repo;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var
-     */
-    protected $parent_gui;
-
-
-    /**
-     * @param               $parent_gui
-     * @param ilStudyProgrammeType $type
-     */
-    public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repo)
-    {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $this->webdir = $DIC->filesystem()->web();
+    public function __construct(
+        $parent_gui,
+        ilStudyProgrammeTypeRepository $type_repo,
+        ilCtrl $ctrl,
+        ilGlobalTemplateInterface $tpl,
+        ilLanguage $lng,
+        ilObjUser $user,
+        Filesystem $web_dir
+    ) {
         $this->parent_gui = $parent_gui;
-        $this->user = $DIC['ilUser'];
         $this->type_repo = $type_repo;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $ctrl;
+        $this->global_tpl = $tpl;
         $this->lng = $lng;
+        $this->user = $user;
+        $this->webdir = $web_dir;
 
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
     }
 
-
     /**
      * Save object (create or update)
-     *
-     * @return bool
      */
-    public function saveObject(ilStudyProgrammeType $type)
+    public function saveObject(ilStudyProgrammeType $type) : bool
     {
         $type = $this->fillObject($type);
         if (!$type) {
@@ -72,13 +66,13 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
             $type->updateAssignedStudyProgrammesIcons();
             return true;
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage("failure", $e->getMessage());
 
             return false;
         }
     }
 
-    public function initForm()
+    public function initForm() : void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('prg_type_custom_icon'));
@@ -92,22 +86,19 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
     /**
      * Add all fields to the form
      */
-    public function fillForm(ilStudyProgrammeType $type)
+    public function fillForm(ilStudyProgrammeType $type) : void
     {
         $item = $this->getItemByPostVar('icon');
-        if ($type->getIcon() != '' && $this->webdir->has($type->getIconPath(true))) {
+        if ($type->getIcon() !== '' && $this->webdir->has($type->getIconPath(true))) {
             // TODO: that´s horrible, try to avoid ilUtil in future
-            $item->setImage(ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true));
+            $item->setImage(ilFileUtils::getWebspaceDir() . '/' . $type->getIconPath(true));
         }
     }
 
-
     /**
      * Check validity of form and pass values from form to object
-     *
-     * @return bool
      */
-    public function fillObject(ilStudyProgrammeType $type)
+    public function fillObject(ilStudyProgrammeType $type) : ?ilStudyProgrammeType
     {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
@@ -128,7 +119,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
                 }
             }
         } catch (ilException $e) {
-            ilUtil::sendFailure($this->lng->txt('prg_type_msg_error_custom_icon'));
+            $this->global_tpl->setOnScreenMessage("failure", $this->lng->txt('prg_type_msg_error_custom_icon'));
 
             return null;
         }

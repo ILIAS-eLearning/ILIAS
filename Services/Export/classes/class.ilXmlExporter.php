@@ -1,22 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Xml Exporter class
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesExport
  */
@@ -49,11 +51,11 @@ abstract class ilXmlExporter
         $ent = ($a_entity == "")
             ? ""
             : "_" . $a_entity;
-            
+
         if ($a_export_type == 'xml') {
-            return ilUtil::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export";
+            return ilFileUtils::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export";
         }
-        return ilUtil::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export_" . $a_export_type;
+        return ilFileUtils::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export_" . $a_export_type;
     }
 
     abstract public function getXmlRepresentation(
@@ -108,14 +110,13 @@ abstract class ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top. Example:
-     * 		return array (
-     *		"4.1.0" => array(
-     *			"namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
-     *			"xsd_file" => "ilias_md_4_1.xsd",
-     *			"min" => "4.1.0",
-     *			"max" => "")
-     *		);
-     * @return		array
+     *        return array (
+     *        "4.1.0" => array(
+     *            "namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
+     *            "xsd_file" => "ilias_md_4_1.xsd",
+     *            "min" => "4.1.0",
+     *            "max" => "")
+     *        );
      */
     abstract public function getValidSchemaVersions(string $a_entity) : array;
 
@@ -125,6 +126,7 @@ abstract class ilXmlExporter
     ) : array {
         $svs = $this->getValidSchemaVersions($a_entity);
         $found = false;
+        $rsv = [];
         foreach ($svs as $k => $sv) {
             if (!$found) {
                 if (version_compare($sv["min"], ILIAS_VERSION_NUMERIC, "<=")

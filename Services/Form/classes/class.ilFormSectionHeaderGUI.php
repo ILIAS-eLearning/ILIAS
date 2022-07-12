@@ -1,155 +1,104 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a section header in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFormSectionHeaderGUI
 {
-    protected $type;
-    protected $title;
-    protected $info;
-    protected $section_icon;
-    protected $section_anchor;
+    protected string $type = "";
+    protected string $title = "";
+    protected string $info = "";
+    protected array $section_icon = [];
+    protected string $section_anchor = "";
+    protected ?ilPropertyFormGUI $parentform = null;
     
-    /**
-    * Constructor
-    *
-    * @param
-    */
     public function __construct()
     {
         $this->setType("section_header");
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         return true;
     }
 
-    /**
-    * Set Type.
-    *
-    * @param	string	$a_type	Type
-    */
-    public function setType($a_type)
+    public function setType(string $a_type) : void
     {
         $this->type = $a_type;
     }
 
-    /**
-    * Get Type.
-    *
-    * @return	string	Type
-    */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
     
-    /**
-     * Set section icon
-     *
-     * @access public
-     * @param string path to icon
-     * @param string alternative text
-     *
-     */
-    public function setSectionIcon($a_file, $a_alt)
-    {
+    public function setSectionIcon(
+        string $a_file,
+        string $a_alt
+    ) : void {
         $this->section_icon['file'] = $a_file;
         $this->section_icon['alt'] = $a_alt;
     }
     
-    /**
-     * Get section icon
-     *
-     * @access public
-     *
-     */
-    public function getSectionIcon()
+    public function getSectionIcon() : array
     {
-        return $this->section_icon ? $this->section_icon : array();
+        return $this->section_icon ?: array();
     }
 
-    /**
-    * Set Title.
-    *
-    * @param	string	$a_title	Title
-    */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-    * Get Title.
-    *
-    * @return	string	Title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * Set Information Text.
-    *
-    * @param	string	$a_info	Information Text
-    */
-    public function setInfo($a_info)
+    public function setInfo(string $a_info) : void
     {
         $this->info = $a_info;
     }
 
-    /**
-    * Get Information Text.
-    *
-    * @return	string	Information Text
-    */
-    public function getInfo()
+    public function getInfo() : string
     {
         return $this->info;
     }
 
-    /**
-    * Set Parent Form.
-    *
-    * @param	object	$a_parentform	Parent Form
-    */
-    public function setParentForm($a_parentform)
+    public function setParentForm(ilPropertyFormGUI $a_parentform) : void
     {
         $this->parentform = $a_parentform;
     }
 
-    /**
-    * Get Parent Form.
-    *
-    * @return	object	Parent Form
-    */
-    public function getParentForm()
+    public function getParentForm() : ilPropertyFormGUI
     {
         return $this->parentform;
     }
     
-    /**
-     * set section label;
-     *
-     * @param unknown_type $value
-     */
-    public function setSectionAnchor($value)
+    public function setSectionAnchor(string $value) : void
     {
         $this->section_anchor = $value;
     }
 
-    /**
-    * Insert property html
-    *
-    */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $section_icon = $this->getSectionIcon();
         
@@ -170,18 +119,12 @@ class ilFormSectionHeaderGUI
         $a_tpl->parseCurrentBlock();
     }
     
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
-        // nothing to do since is a header
     }
     
-    public function getPostVar()
+    public function getPostVar() : string
     {
-        // nothing to do since is a header
+        return "";
     }
 }

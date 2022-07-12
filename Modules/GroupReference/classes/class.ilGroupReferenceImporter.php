@@ -14,23 +14,13 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceIm
 */
 class ilGroupReferenceImporter extends ilContainerReferenceImporter
 {
-
-    /**
-     * Get reference type
-     * @return string
-     */
-    protected function getType()
+    protected function getType() : string
     {
         return 'grpr';
     }
 
-    /**
-     * @param string $a_xml
-     * @return ilGroupReferenceXmlParser
-     */
-    protected function initParser($a_xml)
+    protected function initParser(string $a_xml) : ilContainerReferenceXmlParser
     {
-        include_once './Modules/GroupReference/classes/class.ilGroupReferenceXmlParser.php';
         return new ilGroupReferenceXmlParser($a_xml);
     }
 }

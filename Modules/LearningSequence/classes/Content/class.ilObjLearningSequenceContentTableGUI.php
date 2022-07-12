@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 {
     protected ilObjLearningSequenceContentGUI $parent_gui;
@@ -52,23 +65,24 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->setLimit(9999);
     }
 
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
-        /** @var LSItem $set */
+        /** @var LSItem $a_set */
+        $a_set = $a_set[0];
 
         $ni = new ilNumberInputGUI(
             "",
-            $this->parent_gui->getFieldName($this->parent_gui::FIELD_ORDER, $set->getRefId())
+            $this->parent_gui->getFieldName($this->parent_gui::FIELD_ORDER, $a_set->getRefId())
         );
-        $ni->setSize("3");
-        $ni->setValue(($set->getOrderNumber() + 1) * 10);
+        $ni->setSize(3);
+        $ni->setValue((string) (($a_set->getOrderNumber() + 1) * 10));
 
-        if ($this->ls_item_online_status->hasOnlineStatus($set->getRefId())) {
+        if ($this->ls_item_online_status->hasOnlineStatus($a_set->getRefId())) {
             $cb = new ilCheckboxInputGUI(
                 "",
-                $this->parent_gui->getFieldName($this->parent_gui::FIELD_ONLINE, $set->getRefId())
+                $this->parent_gui->getFieldName($this->parent_gui::FIELD_ONLINE, $a_set->getRefId())
             );
-            $cb->setChecked($set->isOnline());
+            $cb->setChecked($a_set->isOnline());
         } else {
             $cb = new ilCheckboxInputGUI("", "");
             $cb->setChecked(true);
@@ -78,30 +92,30 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
         $si = new ilSelectInputGUI(
             "",
-            $this->parent_gui->getFieldName($this->parent_gui::FIELD_POSTCONDITION_TYPE, $set->getRefId())
+            $this->parent_gui->getFieldName($this->parent_gui::FIELD_POSTCONDITION_TYPE, $a_set->getRefId())
         );
-        $options = $this->parent_gui->getPossiblePostConditionsForType($set->getType());
+        $options = $this->parent_gui->getPossiblePostConditionsForType($a_set->getType());
 
         $si->setOptions($options);
-        $si->setValue($set->getPostCondition()->getConditionOperator());
+        $si->setValue($a_set->getPostCondition()->getConditionOperator());
 
-        $action_items = $this->getActionMenuItems($set->getRefId(), $set->getType());
-        $obj_link = $this->getEditLink($set->getRefId(), $set->getType(), $action_items);
+        $action_items = $this->getActionMenuItems($a_set->getRefId(), $a_set->getType());
+        $obj_link = $this->getEditLink($a_set->getRefId(), $a_set->getType(), $action_items);
 
-        $title = $set->getTitle();
+        $title = $a_set->getTitle();
         $title = sprintf(
             '<a href="%s">%s</a>',
             $obj_link,
             $title
         );
 
-        $this->tpl->setVariable("ID", $set->getRefId());
-        $this->tpl->setVariable("IMAGE", $set->getIconPath());
+        $this->tpl->setVariable("ID", $a_set->getRefId());
+        $this->tpl->setVariable("IMAGE", $a_set->getIconPath());
         $this->tpl->setVariable("ORDER", $ni->render());
         $this->tpl->setVariable("TITLE", $title);
         $this->tpl->setVariable("POST_CONDITIONS", $si->render());
-        $this->tpl->setVariable("ACTIONS", $this->getItemActionsMenu($set->getRefId(), $set->getType()));
-        $this->tpl->setVariable("TYPE", $set->getType());
+        $this->tpl->setVariable("ACTIONS", $this->getItemActionsMenu($a_set->getRefId(), $a_set->getType()));
+        $this->tpl->setVariable("TYPE", $a_set->getType());
     }
 
     protected function getItemActionsMenu(int $ref_id, string $type) : string
@@ -165,12 +179,10 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
         $props = array_filter(
             $action_items,
-            function ($action_item) use ($prop_for_type) {
-                return $action_item['cmd'] === $prop_for_type;
-            }
+            fn ($action_item) => $action_item['cmd'] === $prop_for_type
         );
 
-        if (count($props) > 0) {
+        if ($props !== []) {
             return array_shift($props)['link'];
         }
         return null;

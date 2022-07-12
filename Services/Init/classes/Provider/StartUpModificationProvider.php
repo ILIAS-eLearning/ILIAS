@@ -7,7 +7,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 
 /**
  * Class StartUpModificationProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StartUpModificationProvider extends AbstractModificationProvider

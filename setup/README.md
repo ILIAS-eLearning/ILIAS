@@ -121,6 +121,9 @@ run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g.
 control structure. The agent might need to a config file to work, which may be added
 as last parameter: `php setup/setup.php achieve uicore.reloadCtrlStructure config.json`
 
+## List available objectives
+Calling `php setup/setup.php achieve` without any arguments and options  
+or calling `php setup/setup.php achieve --list` will list all available objectives.
 
 # Migrations
 
@@ -201,7 +204,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "create_database" : true
     },
     ```
-  * *type* (type: string) of the database, one of `innodb`, `mysql`, `postgres`, `galera`, defaults
+  * *type* (type: string) of the database, `innodb`, defaults
     to `innodb`
   * *host* (type: string) the database server runs on, defaults to `localhost`
   * *port* (type: string or number) the database server uses, defaults to `3306`
@@ -261,7 +264,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
         ]
     },
     ```
-  * *service* (type: string) to be used for caching. Either `none`, `static`, `xcache`, `memcached`
+  * *service* (type: string) to be used for caching. Either `none`, `static`, `memcached`
     or `apc`, defaults to  `static`.
   * *components* (type: string or object) that should use caching. Can be `all` or any list of components that
     support caching,  (must be set too, if *service* is set)
@@ -276,7 +279,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		},
 		"proxy" : {
 			"host" : "webproxy.ilias.de",
-			"port" : 8088
+			"port" : "8088"
 		}
     },
     ```
@@ -288,23 +291,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *proxy* (type: object) for outgoing http connections
     * *host* (type: string) the proxy runs on
     * *port* (type: string or number) the proxy listens on
-* **language** (type: object) configuration, e.g.:
-    ```
-	"language" : {
-		"default_language" : "de",
-		"install_languages" : [
-			"de",
-			"en"
-		],
-		"install_local_languages" : [
-			"de"
-		]
-	},
-    ```
-  * *default_language* (type: string) language to be used for users, defaults to `en`
-  * *install_languages* (type: array of strings) defines all languages that should be available in a list,
-    defaults to `en`
-  * *install_local_languages* (type: array of strings) defines all languages with a local language file, default: no local file(s)
 * *logging* (type: object) configuration if logging should be used
     ```
 	"logging" : {
@@ -317,12 +303,37 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *path_to_logfile* (type: string) to be used for logging
   * *errorlog_dir* (type: string) to put error logs in
 * *mathjax* (type: object) contains settings for Services/MathJax
+    
+    The MathJax settings can also be done manually in the ILIAS adminstration.  
+    Settings included here will overwrite those at the next update.
+    MathJax 3 is supported, but MathJax 2 is recommended.
     ```
-	"mathjax" : {
-		"path_to_latex_cgi" : "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+	"mathjax": {
+		"client_enabled": true,
+		"client_polyfill_url": "https://polyfill.io/v3/polyfill.min.js?features=es6",
+		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js",
+		"client_limiter": 0,
+		"server_enabled": true,
+		"server_address": "http://your.mathjax.server:8003",
+		"server_timeout": 5,
+		"server_for_browser": true,
+		"server_for_export": true,
+		"server_for_pdf": true
 	},
     ```
-  * *path_to_latex_cgi* (type: string) executable
+  * *client_enabled* (type: boolean) client-side rendering in the browser is enabled
+  * *client_polyfill_url* (type: string) url of a polyfill script for MathJax 3 to support older browsers
+  * *client_script_url* (type: string) url of the MathJax script to be included on the browser page
+  * *client_limiter* (type: integer) type of delimiters expected by the included MathJax script
+    * 0: \\( ... \\)
+    * 1: [tex] ... [/tex]
+    * 2: \<span class="math"\> ... \</span\>
+  * *server_enabled* (type: boolean) server-side rendering is enabled
+  * *server_address* (type: string) address of the rendering server
+  * *server_timeout* (type: integer) timeout in seconds to wait for a server response
+  * *server_for_browser* (type: boolean) use the server for rendering in the browser
+  * *server_for_export* (type: boolean) use the server for HTML exports
+  * *server_for_pdf* (type: boolean) use the server for PDF generation
 * *pdfgeneration* (type: object) contains settings for Services/PDFGeneration
     ```
 	"pdfgeneration" : {
@@ -458,8 +469,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		"sub_directory" : "/chat",
 		"https" : {
 			"cert" : "/etc/ssl/certs/server.pem",
-			"key " : "/etc/ssl/private/server.key",
-			"dhparam " : "/etc/ssl/private/dhparam.pem"
+			"key" : "/etc/ssl/private/server.key",
+			"dhparam" : "/etc/ssl/private/dhparam.pem"
 		},
 		"log" : "/var/log/ilias_onscreenchat/access.log",
 		"log_level" : "info",

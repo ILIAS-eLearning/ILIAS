@@ -1,8 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-use \Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Classification provider
@@ -15,43 +26,33 @@ abstract class ilClassificationProvider
     protected string $parent_type;
     protected RequestInterface $request;
     
-    /**
-     * Constructor
-     *
-     * @param int $a_parent_ref_id
-     * @param int $a_parent_obj_id
-     * @param string $a_parent_obj_type
-     * @return self
-     */
-    public function __construct($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
-    {
+    public function __construct(
+        int $a_parent_ref_id,
+        int $a_parent_obj_id,
+        string $a_parent_obj_type
+    ) {
         global $DIC;
 
         $this->request = $DIC->http()->request();
-        $this->parent_ref_id = (int) $a_parent_ref_id;
-        $this->parent_obj_id = (int) $a_parent_obj_id;
-        $this->parent_type = (string) $a_parent_obj_type;
+        $this->parent_ref_id = $a_parent_ref_id;
+        $this->parent_obj_id = $a_parent_obj_id;
+        $this->parent_type = $a_parent_obj_type;
         
         $this->init();
     }
     
-    /**
-     * Instance initialisation
-     */
-    protected function init()
+    protected function init() : void
     {
     }
         
     /**
      * Get all valid providers (for parent container)
-     *
-     * @param int $a_parent_ref_id
-     * @param int $a_parent_obj_id
-     * @param string $a_parent_obj_type
-     * @return array
      */
-    public static function getValidProviders($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
-    {
+    public static function getValidProviders(
+        int $a_parent_ref_id,
+        int $a_parent_obj_id,
+        string $a_parent_obj_type
+    ) : array {
         $res = array();
         
         if (ilTaxonomyClassificationProvider::isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)) {
@@ -67,51 +68,38 @@ abstract class ilClassificationProvider
     
     /**
      * Is provider currently active?
-     *
-     * @param int $a_parent_ref_id
-     * @param int $a_parent_obj_id
-     * @param string $a_parent_obj_type
-     * @return bool
      */
-    abstract public static function isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type);
-    
+    abstract public static function isActive(
+        int $a_parent_ref_id,
+        int $a_parent_obj_id,
+        string $a_parent_obj_type
+    ) : bool;
+
     /**
      * Render HTML chunks
-     *
-     * @param array $a_html
-     * @param object $a_parent_gui
      */
-    abstract public function render(array &$a_html, $a_parent_gui);
-    
+    abstract public function render(array &$a_html, object $a_parent_gui) : void;
+
     /**
      * Import post data
-     *
-     * @param mixed $a_saved
-     * @return mixed
+     * @param array|null $a_saved
      */
-    abstract public function importPostData($a_saved = null);
-    
+    abstract public function importPostData(?array $a_saved = null) : array;
+
     /**
      * Set selection
-     *
-     * @param mixed $a_value
      */
-    abstract public function setSelection($a_value);
-    
+    abstract public function setSelection(array $a_value) : void;
+
     /**
      * Get filtered object ref ids
-     *
-     * @return array
      */
     abstract public function getFilteredObjects() : array;
     
-    
     /**
      * Init list gui properties
-     *
-     * @param ilObjectListGUI $a_list_gui
      */
-    public function initListGUI(ilObjectListGUI $a_list_gui)
+    public function initListGUI(ilObjectListGUI $a_list_gui) : void
     {
     }
 }

@@ -38,9 +38,9 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         parent::__construct($http, $refinery, $passed_query_params, $passed_post_data);
     }
 
-    public function getObjId() : int
+    public function getNodeId() : int
     {
-        return $this->int("obj_id");
+        return $this->int("node_id");
     }
 
     public function getProfileId() : int
@@ -53,6 +53,9 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         return $this->int("skill_id");
     }
 
+    /**
+     * @return int[]
+     */
     public function getSkillIds() : array
     {
         return $this->getIds();
@@ -83,6 +86,9 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         return $this->int("wsp_id");
     }
 
+    /**
+     * @return int[]
+     */
     public function getWorkspaceIds() : array
     {
         return $this->intArray("wsp_id");

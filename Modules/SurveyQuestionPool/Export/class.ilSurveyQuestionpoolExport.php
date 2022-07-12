@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Export class for survey questionpools
@@ -9,17 +23,18 @@
  */
 class ilSurveyQuestionpoolExport
 {
-    public $db;			// database object
-    public $spl_obj;		// survey questionpool object
-    public $inst_id;		// installation id
-    public $mode;
+    protected string $subdir;
+    protected string $filename;
+    protected string $export_dir;
+    public ilDBInterface $db;
+    public ilObjSurveyQuestionPool $spl_obj;
+    public int $inst_id;
+    public string $mode;
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_spl_obj, $a_mode = "xml")
-    {
+    public function __construct(
+        ilObjSurveyQuestionPool $a_spl_obj,
+        string $a_mode = "xml"
+    ) {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -29,7 +44,7 @@ class ilSurveyQuestionpoolExport
         $this->db = $ilDB;
         $this->mode = $a_mode;
     
-        $this->inst_id = IL_INST_ID;
+        $this->inst_id = (int) IL_INST_ID;
 
         $date = time();
         switch ($this->mode) {
@@ -42,35 +57,33 @@ class ilSurveyQuestionpoolExport
         }
     }
 
-    public function getInstId()
+    public function getInstId() : int
     {
         return $this->inst_id;
     }
 
 
     /**
-    *   build export file (complete zip file)
-    *
-    *   @access public
-    *   @return
-    */
-    public function buildExportFile($questions = null)
-    {
+     * build export file (complete zip file)
+     */
+    public function buildExportFile(
+        array $questions = null
+    ) : string {
         switch ($this->mode) {
             default:
                 return $this->buildExportFileXML($questions);
-                break;
         }
     }
 
     /**
-    * build xml export file
-    */
-    public function buildExportFileXML($questions = null)
-    {
+     * build xml export file
+     */
+    public function buildExportFileXML(
+        array $questions = null
+    ) : string {
         // create directories
         $this->spl_obj->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
 
         // get Log File
         $expLog = new ilLog($this->spl_obj->getExportDirectory(), "export.log");
@@ -78,13 +91,11 @@ class ilSurveyQuestionpoolExport
         $expLog->setLogFormat("");
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
         // write qti file
-        $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->filename, "w");
+        $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->filename, 'wb');
         fwrite($qti_file, $this->spl_obj->toXML($questions));
         fclose($qti_file);
-        // destroy writer object
-        $this->xml->_XmlWriter;
 
-        ilUtil::zip(
+        ilFileUtils::zip(
             $this->export_dir . "/" . $this->subdir,
             $this->export_dir . "/" . $this->subdir . ".zip"
         );

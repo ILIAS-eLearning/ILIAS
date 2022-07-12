@@ -1,47 +1,53 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Input\Container\Form;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\Refinery\Transformation;
-
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Input\Field\FormInput;
 
 /**
  * This describes commonalities between all forms.
  */
 interface Form extends Component
 {
-
     /**
      * Get the inputs contained in the form.
      *
-     * @return    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>
+     * @return    array<mixed,FormInput>
      */
-    public function getInputs();
-
+    public function getInputs() : array;
 
     /**
      * Get a form like this where data from the request is attached.
      *
-     * @param    ServerRequestInterface $request
-     *
-     * @return    Form
+     * @return static
      */
     public function withRequest(ServerRequestInterface $request);
-
 
     /**
      * Apply a transformation to the data of the form.
      *
-     * @param    Transformation $trafo
-     *
-     * @return    Form
+     * @return static
      */
     public function withAdditionalTransformation(Transformation $trafo);
-
 
     /**
      * Get the data in the form if all inputs are ok, where the transformation
@@ -50,7 +56,13 @@ interface Form extends Component
      * @return    mixed|null
      */
     public function getData();
+
     /**
      * TODO: there should be a further method to attach the different submit buttons
      */
+
+    /**
+     * @return null|string
+     */
+    public function getError() : ?string;
 }

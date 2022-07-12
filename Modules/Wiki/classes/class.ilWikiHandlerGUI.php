@@ -1,40 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Handles user interface for wikis
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilWikiHandlerGUI: ilObjWikiGUI
  */
-class ilWikiHandlerGUI
+class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
+    protected string $requested_page;
+    protected int $requested_ref_id;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilNavigationHistory $nav_history;
 
     public function __construct()
     {
@@ -50,20 +45,24 @@ class ilWikiHandlerGUI
         // initialisation stuff
         $this->ctrl = $ilCtrl;
 
+        $request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+        $this->requested_ref_id = $request->getRefId();
+        $this->requested_page = $request->getPage();
+
         $DIC->globalScreen()->tool()->context()->claim()->repository();
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $lng = $this->lng;
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilNavigationHistory = $this->nav_history;
         
-        $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
             $this->ctrl->setCmdClass("ilobjwikigui");
@@ -71,12 +70,12 @@ class ilWikiHandlerGUI
         }
 
         // add entry to navigation history
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
-            $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+        if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
+            $obj_id = ilObject::_lookupObjId($this->requested_ref_id);
             $title = ilObject::_lookupTitle($obj_id);
 
-            if ($_GET["page"] != "") {
-                $page = $_GET["page"];
+            if ($this->requested_page !== "") {
+                $page = $this->requested_page;
             } else {
                 $page = ilObjWiki::_lookupStartPage($obj_id);
             }
@@ -89,19 +88,19 @@ class ilWikiHandlerGUI
                 
                 $title .= ": " . $ptitle;
                 
-                $append = ($_GET["page"] != "")
+                $append = ($this->requested_page !== "")
                     ? "_" . ilWikiUtil::makeUrlTitle($page)
                     : "";
                 $goto = ilLink::_getStaticLink(
-                    $_GET["ref_id"],
+                    $this->requested_ref_id,
                     "wiki",
                     true,
                     $append
                 );
                 //var_dump($goto);
                 $ilNavigationHistory->addItem(
-                    $_GET["ref_id"],
-                    "./goto.php?target=wiki_" . $_GET["ref_id"] . $add,
+                    $this->requested_ref_id,
+                    "./goto.php?target=wiki_" . $this->requested_ref_id . $add,
                     "wiki",
                     $title,
                     $page_id,
@@ -112,7 +111,12 @@ class ilWikiHandlerGUI
 
         switch ($next_class) {
             case 'ilobjwikigui':
-                $mc_gui = new ilObjWikiGUI("", (int) $_GET["ref_id"], true, false);
+                $mc_gui = new ilObjWikiGUI(
+                    "",
+                    $this->requested_ref_id,
+                    true,
+                    false
+                );
                 $this->ctrl->forwardCommand($mc_gui);
                 break;
         }

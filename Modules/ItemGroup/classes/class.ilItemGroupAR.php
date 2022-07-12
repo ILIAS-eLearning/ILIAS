@@ -1,17 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Item group active record class
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilItemGroupAR extends ActiveRecord
 {
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return 'itgr_data';
@@ -28,7 +39,7 @@ class ilItemGroupAR extends ActiveRecord
      * @con_length     4
      * @con_sequence   false
      */
-    protected $id;
+    protected ?int $id;
 
     /**
      * @var string
@@ -38,7 +49,7 @@ class ilItemGroupAR extends ActiveRecord
      * @con_length    1
      * @con_is_notnull false
      */
-    protected $hide_title = '';
+    protected ?string $hide_title = '';
 
     /**
      * @var int
@@ -48,68 +59,75 @@ class ilItemGroupAR extends ActiveRecord
      * @con_length    1
      * @con_is_notnull false
      */
-    protected $behaviour = 0;
+    protected ?int $behaviour = 0;
 
     /**
-     * Get ID
+     * @var string
      *
-     * @return int ID
+     * @con_has_field true
+     * @con_fieldtype text
+     * @con_length    10
+     * @con_is_notnull false
      */
-    public function getId()
+    protected ?string $list_presentation = "";
+
+    /**
+     * @var int
+     *
+     * @con_has_field true
+     * @con_fieldtype integer
+     * @con_length    1
+     * @con_is_notnull false
+     */
+    protected ?int $tile_size = 0;
+
+    public function getId() : int
     {
         return $this->id;
     }
 
-
-    /**
-     * Set ID
-     *
-     * @param int $id ID
-     */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * Set hide title
-     *
-     * @param bool $a_hide_title hide title
-     */
-    public function setHideTitle($a_hide_title)
+    public function setHideTitle(bool $a_hide_title) : void
     {
         $this->hide_title = $a_hide_title;
     }
 
-
-    /**
-     * Get hide title
-     *
-     * @return bool hide title
-     */
-    public function getHideTitle()
+    public function getHideTitle() : bool
     {
         return $this->hide_title;
     }
 
-    /**
-     * Set behaviour
-     *
-     * @param int $a_val behaviour
-     */
-    public function setBehaviour($a_val)
+    public function setBehaviour(int $a_val) : void
     {
         $this->behaviour = $a_val;
     }
 
-
-    /**
-     * Get behaviour
-     *
-     * @return int behaviour
-     */
-    public function getBehaviour()
+    public function getBehaviour() : int
     {
         return $this->behaviour;
+    }
+
+    public function getListPresentation() : string
+    {
+        return (string) $this->list_presentation;
+    }
+
+    public function setListPresentation(string $a_val) : void
+    {
+        $this->list_presentation = $a_val;
+    }
+
+    public function getTileSize() : int
+    {
+        return (int) $this->tile_size;
+    }
+
+    public function setTileSize(int $a_val) : void
+    {
+        $this->tile_size = $a_val;
     }
 }

@@ -1,28 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilMMAbstractBaseTypeHandlerAction
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
 {
+    protected array $links = [];
 
-    /**
-     * @var array
-     */
-    protected $links = [];
-    /**
-     * @inheritDoc
-     */
     const F_ACTION = 'action';
-    /**
-     * ilMMAbstractBaseTypeHandlerAction constructor.
-     */
     const F_EXTERNAL = 'external';
 
     public function __construct()
@@ -40,7 +45,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @inheritdoc
      */
-    public function saveFormFields(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, array $data) : bool
+    public function saveFormFields(IdentificationInterface $identification, array $data) : bool
     {
         ilMMTypeActionStorage::find($identification->serialize())->setAction((string) $data[self::F_ACTION])->setExternal((bool) $data[self::F_EXTERNAL])->update();
 
@@ -50,7 +55,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @inheritdoc
      */
-    public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification) : array
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array
     {
         global $DIC;
         /**

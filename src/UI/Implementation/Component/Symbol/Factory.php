@@ -1,6 +1,21 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Symbol;
 
 use ILIAS\UI\Component;
@@ -10,26 +25,10 @@ use ILIAS\UI\Component\Symbol\Icon as IIcon;
 
 class Factory implements Component\Symbol\Factory
 {
+    protected Icon\Factory $icon_factory;
+    protected Glyph\Factory $glyph_factory;
+    protected Avatar\Factory $avatar_factory;
 
-    /**
-     * @var Icon\Factory
-     */
-    protected $icon_factory;
-
-    /**
-     * @var Glyph\Factory
-     */
-    protected $glyph_factory;
-    /**
-     * @var Avatar\Factory
-     */
-    protected $avatar_factory;
-
-    /**
-     * @param Icon\Factory   $icon_factory
-     * @param Glyph\Factory  $glyph_factory
-     * @param Avatar\Factory $avatar_factory
-     */
     public function __construct(
         Icon\Factory $icon_factory,
         Glyph\Factory $glyph_factory,

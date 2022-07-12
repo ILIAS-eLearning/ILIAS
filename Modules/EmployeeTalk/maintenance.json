@@ -1,0 +1,15 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [
+    ],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Modules/EmployeeTalk",
+    "belong_to_component": "EmployeeTalk",
+    "used_in_components": []
+}

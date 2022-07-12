@@ -1,8 +1,23 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBooleanFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,13 +26,12 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
-     * @param string $filter_value
-     *
-     * @return null|ilDclRecordQueryObject
+     * @param string|int $filter_value
      */
-    public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
-    {
+    public function getRecordQueryFilterObject(
+        $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
+    ) : ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -42,8 +56,11 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
-    public function checkValidity($value, $record_id = null)
+    /**
+     * @param string|int $value
+     * @throws ilDclInputException
+     */
+    public function checkValidity($value, ?int $record_id = null) : bool
     {
         if ($value == null) {
             return true;
@@ -58,5 +75,7 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
                 }
             }
         }
+
+        return true;
     }
 }

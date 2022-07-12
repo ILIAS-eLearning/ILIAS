@@ -1,43 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Help system data set class
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHelpDataSet extends ilDataSet
 {
-
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
     public function getSupportedVersions() : array
     {
         return array("4.3.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Services/Help/" . $a_entity;
+        return "https://www.ilias.de/xml/Services/Help/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "help_map") {
+        if ($a_entity === "help_map") {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -50,7 +48,7 @@ class ilHelpDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "help_tooltip") {
+        if ($a_entity === "help_tooltip") {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -62,22 +60,14 @@ class ilHelpDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
-                
-        if ($a_entity == "help_map") {
+        if ($a_entity === "help_map") {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT chap, component, screen_id, screen_sub_id, perm " .
@@ -88,7 +78,7 @@ class ilHelpDataSet extends ilDataSet
             }
         }
         
-        if ($a_entity == "help_tooltip") {
+        if ($a_entity === "help_tooltip") {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT id, tt_text, tt_id, comp, lang FROM help_tooltip");
@@ -96,27 +86,14 @@ class ilHelpDataSet extends ilDataSet
             }
         }
     }
-    
-    /**
-     * Determine the dependent sets of data
-     */
-    protected function getDependencies(
+
+    public function importRecord(
         string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
-    }
-    
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "help_map":
                 
@@ -131,7 +108,7 @@ class ilHelpDataSet extends ilDataSet
                     );
 
                     // new import (5.1): get chapter from learning module import mapping
-                    if ($new_chap == 0) {
+                    if ((int) $new_chap === 0) {
                         $new_chap = $a_mapping->getMapping(
                             'Modules/LearningModule',
                             'lm_tree',

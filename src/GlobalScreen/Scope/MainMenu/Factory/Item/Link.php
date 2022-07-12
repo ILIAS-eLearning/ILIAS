@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
@@ -16,28 +33,21 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem
+class Link extends AbstractChildItem implements
+    hasTitle,
+    hasAction,
+    hasSymbol,
+    isInterchangeableItem,
+    isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
 
-    /**
-     * @var bool
-     */
-    protected $is_external_action = false;
-    /**
-     * @var string
-     */
-    protected $action = '';
-    /**
-     * @var string
-     */
-    protected $alt_text = '';
-    /**
-     * @var string
-     */
-    protected $title = '';
+    protected bool $is_external_action = false;
+    protected string $action = '';
+    protected string $alt_text = '';
+    protected string $title = '';
 
     /**
      * @param string $title
@@ -45,7 +55,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -59,13 +69,9 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
         return $this->title;
     }
 
-    /**
-     * @param string $alt_text
-     * @return Link
-     */
-    public function withAltText(string $alt_text) : Link
+    public function withAltText(string $alt_text) : self
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->alt_text = $alt_text;
 
         return $clone;
@@ -85,7 +91,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->action = $action;
 
         return $clone;
@@ -105,7 +111,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        $clone                     = clone $this;
+        $clone = clone $this;
         $clone->is_external_action = $is_external;
 
         return $clone;
@@ -118,5 +124,4 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
     {
         return $this->is_external_action;
     }
-
 }

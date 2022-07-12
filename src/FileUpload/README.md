@@ -110,5 +110,6 @@ rejected.
 The http service has methods which would allow ILIAS to handle the files in a way which bypasses
 the file upload service.
 
-
+# Handle Files
+You find information how to handle File-Uploads in dropzones or Forms in [Services/FileServices/README.md](../../Services/FileServices/README.md) 
 

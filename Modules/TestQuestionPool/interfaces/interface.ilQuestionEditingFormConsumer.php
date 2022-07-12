@@ -6,11 +6,11 @@ interface ilQuestionEditingFormConsumer
     /**
      * @return string
      */
-    public function getQuestionEditingFormBackTargetLabel();
+    public function getQuestionEditingFormBackTargetLabel() : string;
 
     /**
      * @param $context
      * @return string
      */
-    public function getQuestionEditingFormBackTarget($context);
+    public function getQuestionEditingFormBackTarget($context) : string;
 }

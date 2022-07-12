@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Tasks;
 
@@ -10,69 +24,48 @@ use ILIAS\Survey\Survey360\Survey360Manager;
 
 /**
  * Exercise derived task provider
- *
- * @author @leifos.de
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class DerivedTaskProvider implements \ilDerivedTaskProvider
 {
-    /**
-     * @var \ilTaskService
-     */
-    protected $task_service;
+    protected \ilTaskService $task_service;
+    protected \ilAccessHandler $access;
+    protected \ilLanguage $lng;
+    protected InvitationsManager $inv_manager;
+    protected SettingsDBRepository $set_repo;
+    protected Survey360Manager $svy_360_manager;
 
-    /**
-     * @var \ilAccess
-     */
-    protected $access;
+    public function __construct(
+        \ilTaskService $task_service,
+        \ilAccess $access,
+        \ilLanguage $lng
+    ) {
+        global $DIC;
 
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
+        $survey_service = $DIC->survey()->internal();
 
-    /**
-     * @var InvitationsManager
-     */
-    protected $inv_manager;
-
-    /**
-     * @var SettingsDBRepository
-     */
-    protected $set_repo;
-
-    /**
-     * @var Survey360Manager
-     */
-    protected $svy_360_manager;
-
-    /**
-     * Constructor
-     */
-    public function __construct(\ilTaskService $task_service, \ilAccess $access, \ilLanguage $lng)
-    {
         $this->access = $access;
         $this->task_service = $task_service;
         $this->lng = $lng;
 
         $this->lng->loadLanguageModule("svy");
 
-        $this->inv_manager = new InvitationsManager();
-        $this->set_repo = new SettingsDBRepository();
-        $this->svy_360_manager = new Survey360Manager();
+        $this->inv_manager = $survey_service
+            ->domain()
+            ->participants()
+            ->invitations();
+
+        $this->set_repo = $survey_service->repo()->settings();
+        $this->svy_360_manager = new Survey360Manager(
+            $survey_service->repo()
+        );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isActive() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTasks(int $user_id) : array
     {
         $lng = $this->lng;
@@ -91,8 +84,8 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                     $tasks[] = $this->task_service->derived()->factory()->task(
                         $title,
                         $ref_id,
-                        (int) $access[$survey_id]->getEndDate(),
-                        (int) $access[$survey_id]->getStartDate()
+                        $access[$survey_id]->getEndDate(),
+                        $access[$survey_id]->getStartDate()
                     );
                 }
             }
@@ -110,8 +103,8 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                     $tasks[] = $this->task_service->derived()->factory()->task(
                         $title,
                         $ref_id,
-                        (int) $access[$survey_id]->getEndDate(),
-                        (int) $access[$survey_id]->getStartDate()
+                        $access[$survey_id]->getEndDate(),
+                        $access[$survey_id]->getStartDate()
                     );
                 }
             }
@@ -129,8 +122,8 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                     $tasks[] = $this->task_service->derived()->factory()->task(
                         $title,
                         $ref_id,
-                        (int) $access[$survey_id]->getEndDate(),
-                        (int) $access[$survey_id]->getStartDate()
+                        $access[$survey_id]->getEndDate(),
+                        $access[$survey_id]->getStartDate()
                     );
                 }
             }
@@ -142,13 +135,12 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
 
     /**
      * Get first ref id for an object id with permission
-     *
-     * @param int $obj_id
-     * @param int $user_id
-     * @return int
      */
-    protected function getFirstRefIdWithPermission($perm, int $obj_id, int $user_id) : int
-    {
+    protected function getFirstRefIdWithPermission(
+        string $perm,
+        int $obj_id,
+        int $user_id
+    ) : int {
         $access = $this->access;
 
         foreach (\ilObject::_getAllReferences($obj_id) as $ref_id) {

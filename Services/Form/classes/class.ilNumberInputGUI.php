@@ -1,291 +1,197 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a number property in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    protected $value;
-    protected $maxlength = 200;
-    protected $size = 40;
-    protected $suffix;
-    protected $minvalue = false;
-    protected $minvalueShouldBeGreater = false;
-    protected $minvalue_visible = false;
-    protected $maxvalue = false;
-    protected $maxvalueShouldBeLess = false;
-    protected $maxvalue_visible = false;
-    protected $decimals;
-    protected $allow_decimals = false;
+    protected ?float $value = null;
+    protected int $maxlength = 200;
+    protected int $size = 40;
+    protected string $suffix = "";
+    protected ?float $minvalue = null;
+    protected bool $minvalueShouldBeGreater = false;
+    protected bool $minvalue_visible = false;
+    protected ?float $maxvalue = null;
+    protected bool $maxvalueShouldBeLess = false;
+    protected bool $maxvalue_visible = false;
+    protected int $decimals = 0;
+    protected bool $allow_decimals = false;
+    protected bool $client_side_validation = false;
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set suffix.
-    *
-    * @param	string	$a_value	suffix
-    */
-    public function setSuffix($a_value)
+    public function setSuffix(string $a_value) : void
     {
         $this->suffix = $a_value;
     }
 
-    /**
-    * Get suffix.
-    *
-    * @return	string	suffix
-    */
-    public function getSuffix()
+    public function getSuffix() : string
     {
         return $this->suffix;
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue(?string $a_value) : void
     {
-        $this->value = str_replace(',', '.', $a_value);
+        if ($a_value == "" || is_null($a_value)) {
+            $this->value = null;
+            return;
+        }
+        $this->value = (float) str_replace(',', '.', $a_value);
         
-        // empty strings are allowed
-        if ($this->value != "") {
-            // integer
-            if (!$this->areDecimalsAllowed()) {
-                $this->value = round($this->value);
-            }
-            // float
-            elseif ($this->getDecimals() > 0) {
-                // get rid of unwanted decimals
-                $this->value = round($this->value, $this->getDecimals());
+        // integer
+        if (!$this->areDecimalsAllowed()) {
+            $this->value = round($this->value);
+        }
+        // float
+        elseif ($this->getDecimals() > 0) {
+            // get rid of unwanted decimals
+            $this->value = round($this->value, $this->getDecimals());
 
-                // pad value to specified format
-                $this->value = number_format($this->value, $this->getDecimals(), ".", "");
-            }
+            // pad value to specified format
+            $this->value = (float) number_format($this->value, $this->getDecimals(), ".", "");
         }
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
-    public function getValue()
+    public function getValue() : ?float
     {
         return $this->value;
     }
 
-    /**
-    * Set Max Length.
-    *
-    * @param	int	$a_maxlength	Max Length
-    */
-    public function setMaxLength($a_maxlength)
+    public function setMaxLength(int $a_maxlength) : void
     {
         $this->maxlength = $a_maxlength;
     }
 
-    /**
-    * Get Max Length.
-    *
-    * @return	int	Max Length
-    */
-    public function getMaxLength()
+    public function getMaxLength() : int
     {
         return $this->maxlength;
     }
 
-    /**
-    * Set minvalueShouldBeGreater
-    *
-    * @param	boolean	$a_bool	true if the minimum value should be greater than minvalue
-    */
-    public function setMinvalueShouldBeGreater($a_bool)
+    // true if the minimum value should be greater than minvalue
+    public function setMinvalueShouldBeGreater(bool $a_bool) : void
     {
         $this->minvalueShouldBeGreater = $a_bool;
     }
     
-    /**
-    * Get minvalueShouldBeGreater
-    *
-    * @return	boolean	true if the minimum value should be greater than minvalue
-    */
-    public function minvalueShouldBeGreater()
+    public function minvalueShouldBeGreater() : bool
     {
         return $this->minvalueShouldBeGreater;
     }
 
-    /**
-    * Set maxvalueShouldBeLess
-    *
-    * @param	boolean	$a_bool	true if the maximum value should be less than maxvalue
-    */
-    public function setMaxvalueShouldBeLess($a_bool)
+    //	true if the maximum value should be less than maxvalue
+    public function setMaxvalueShouldBeLess(bool $a_bool) : void
     {
         $this->maxvalueShouldBeLess = $a_bool;
     }
-    
-    /**
-    * Get maxvalueShouldBeLess
-    *
-    * @return	boolean	true if the maximum value should be less than maxvalue
-    */
-    public function maxvalueShouldBeLess()
+
+    public function maxvalueShouldBeLess() : bool
     {
         return $this->maxvalueShouldBeLess;
     }
     
-    /**
-    * Set Size.
-    *
-    * @param	int	$a_size	Size
-    */
-    public function setSize($a_size)
+    public function setSize(int $a_size) : void
     {
         $this->size = $a_size;
     }
 
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()] ?? "");
+        $this->setValue((string) ($a_values[$this->getPostVar()] ?? ""));
     }
 
-    /**
-    * Get Size.
-    *
-    * @return	int	Size
-    */
-    public function getSize()
+    public function getSize() : int
     {
         return $this->size;
     }
     
-    /**
-    * Set Minimum Value.
-    *
-    * @param	float	$a_minvalue	Minimum Value
-    * @param	bool	$a_display_always
-    */
-    public function setMinValue($a_minvalue, $a_display_always = false)
-    {
+    public function setMinValue(
+        float $a_minvalue,
+        bool $a_display_always = false
+    ) : void {
         $this->minvalue = $a_minvalue;
-        $this->minvalue_visible = (bool) $a_display_always;
+        $this->minvalue_visible = $a_display_always;
     }
 
-    /**
-    * Get Minimum Value.
-    *
-    * @return	float	Minimum Value
-    */
-    public function getMinValue()
+    public function getMinValue() : ?float
     {
         return $this->minvalue;
     }
 
-    /**
-    * Set Maximum Value.
-    *
-    * @param	float	$a_maxvalue	Maximum Value
-    * @param	bool	$a_display_always
-    */
-    public function setMaxValue($a_maxvalue, $a_display_always = false)
-    {
+    public function setMaxValue(
+        float $a_maxvalue,
+        bool $a_display_always = false
+    ) : void {
         $this->maxvalue = $a_maxvalue;
-        $this->maxvalue_visible = (bool) $a_display_always;
+        $this->maxvalue_visible = $a_display_always;
     }
 
-    /**
-    * Get Maximum Value.
-    *
-    * @return	float	Maximum Value
-    */
-    public function getMaxValue()
+    public function getMaxValue() : ?float
     {
         return $this->maxvalue;
     }
 
-    /**
-    * Set Decimal Places.
-    *
-    * @param	int	$a_decimals	Decimal Places
-    */
-    public function setDecimals($a_decimals)
+    public function setDecimals(int $a_decimals) : void
     {
-        $this->decimals = (int) $a_decimals;
+        $this->decimals = $a_decimals;
         if ($this->decimals) {
             $this->allowDecimals(true);
         }
     }
 
-    /**
-    * Get Decimal Places.
-    *
-    * @return	int	Decimal Places
-    */
-    public function getDecimals()
+    public function getDecimals() : int
     {
         return $this->decimals;
     }
-    
-    /**
-    * Toggle Decimals
-    *
-    * @param	bool	$a_value
-    */
-    public function allowDecimals($a_value)
+
+    public function allowDecimals(bool $a_value) : void
     {
-        $this->allow_decimals = (bool) $a_value;
+        $this->allow_decimals = $a_value;
     }
-    
-    /**
-     *
-     *
-     * @return bool
-     */
-    public function areDecimalsAllowed()
+
+    public function areDecimalsAllowed() : bool
     {
         return $this->allow_decimals;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
-        $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
+        $val = trim($this->str($this->getPostVar()));
+        if ($this->getRequired() && $val == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
+        $val = str_replace(',', '.', $val);
 
-        if (trim($_POST[$this->getPostVar()]) != "" &&
-            !is_numeric(str_replace(',', '.', $_POST[$this->getPostVar()]))) {
+        if ($val != "" && !is_numeric($val)) {
             $this->minvalue_visible = true;
             $this->maxvalue_visible = true;
             $this->setAlert($lng->txt("form_msg_numeric_value_required"));
@@ -293,17 +199,16 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         }
 
         if ($this->minvalueShouldBeGreater()) {
-            if (trim($_POST[$this->getPostVar()]) != "" &&
-                $this->getMinValue() !== false &&
-                $_POST[$this->getPostVar()] <= $this->getMinValue()) {
+            if ($val != "" && $this->getMinValue() !== null &&
+                $val <= $this->getMinValue()) {
                 $this->minvalue_visible = true;
                 $this->setAlert($lng->txt("form_msg_value_too_low"));
                 return false;
             }
         } else {
-            if (trim($_POST[$this->getPostVar()]) != "" &&
-                $this->getMinValue() !== false &&
-                $_POST[$this->getPostVar()] < $this->getMinValue()) {
+            if ($val != "" &&
+                $this->getMinValue() !== null &&
+                $val < $this->getMinValue()) {
                 $this->minvalue_visible = true;
                 $this->setAlert($lng->txt("form_msg_value_too_low"));
                 return false;
@@ -311,17 +216,17 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         }
 
         if ($this->maxvalueShouldBeLess()) {
-            if (trim($_POST[$this->getPostVar()]) != "" &&
-                $this->getMaxValue() !== false &&
-                $_POST[$this->getPostVar()] >= $this->getMaxValue()) {
+            if ($val != "" &&
+                $this->getMaxValue() !== null &&
+                $val >= $this->getMaxValue()) {
                 $this->maxvalue_visible = true;
                 $this->setAlert($lng->txt("form_msg_value_too_high"));
                 return false;
             }
         } else {
-            if (trim($_POST[$this->getPostVar()]) != "" &&
-                $this->getMaxValue() !== false &&
-                $_POST[$this->getPostVar()] > $this->getMaxValue()) {
+            if ($val != "" &&
+                $this->getMaxValue() !== null &&
+                $val > $this->getMaxValue()) {
                 $this->maxvalue_visible = true;
                 $this->setAlert($lng->txt("form_msg_value_too_high"));
                 return false;
@@ -331,12 +236,16 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function getInput() : ?float
+    {
+        $value = $this->str($this->getPostVar());
+        if (trim($value) == "") {
+            return null;
+        }
+        return (float) str_replace(',', '.', $value);
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $html = $this->render();
 
@@ -345,18 +254,15 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-    * Insert property html
-    */
-    public function render()
+    public function render() : string
     {
         $lng = $this->lng;
 
         $tpl = new ilTemplate("tpl.prop_number.html", true, true, "Services/Form");
 
-        if (strlen($this->getValue())) {
+        if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_number_propval");
-            $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         $tpl->setCurrentBlock("prop_number");
@@ -374,11 +280,13 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
                 " disabled=\"disabled\""
             );
         }
-        
-        /*
-        $tpl->setVariable("JS_DECIMALS_ALLOWED", (int)$this->areDecimalsAllowed());
-        */
-        
+
+        if ($this->client_side_validation) {
+            $tpl->setVariable("JS_DECIMALS_ALLOWED", (int) $this->areDecimalsAllowed());
+            $tpl->setVariable("JS_ID", $this->getFieldId());
+        }
+
+
         // constraints
         $constraints = "";
         $delim = "";
@@ -386,11 +294,11 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $constraints = $lng->txt("form_format") . ": ###." . str_repeat("#", $this->getDecimals());
             $delim = ", ";
         }
-        if ($this->getMinValue() !== false && $this->minvalue_visible) {
+        if ($this->getMinValue() !== null && $this->minvalue_visible) {
             $constraints .= $delim . $lng->txt("form_min_value") . ": " . (($this->minvalueShouldBeGreater()) ? "&gt; " : "") . $this->getMinValue();
             $delim = ", ";
         }
-        if ($this->getMaxValue() !== false && $this->maxvalue_visible) {
+        if ($this->getMaxValue() !== null && $this->maxvalue_visible) {
             $constraints .= $delim . $lng->txt("form_max_value") . ": " . (($this->maxvalueShouldBeLess()) ? "&lt; " : "") . $this->getMaxValue();
             $delim = ", ";
         }
@@ -407,16 +315,13 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         return $tpl->get();
     }
 
-    /**
-     * parse post value to make it comparable
-     *
-     * used by combination input gui
-     */
-    public function getPostValueForComparison()
+    public function getPostValueForComparison() : ?float
     {
-        $value = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        if ($value != "") {
-            return (int) $value;
-        }
+        return $this->getInput();
+    }
+
+    public function setClientSideValidation(bool $validate) : void
+    {
+        $this->client_side_validation = $validate;
     }
 }

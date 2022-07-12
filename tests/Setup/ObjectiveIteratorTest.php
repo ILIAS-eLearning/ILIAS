@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
@@ -212,7 +226,7 @@ class ObjectiveIteratorTest extends TestCase
 
         $objective = $this
             ->getMockBuilder(Setup\Objective::class)
-            ->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve", "isApplicable"])
+            ->onlyMethods(["getHash", "getLabel", "isNotable", "getPreconditions", "achieve", "isApplicable"])
             ->setMockClassName("Mock_ObjectiveNo" . ($no++))
             ->getMock();
 
@@ -221,5 +235,74 @@ class ObjectiveIteratorTest extends TestCase
             ->willReturn($hash ?? "" . $no);
 
         return $objective;
+    }
+
+    public function testFailedPreconditionWithOtherOnStack() : void
+    {
+        $this->expectException(Setup\UnachievableException::class);
+
+        $env = new Setup\ArrayEnvironment([]);
+
+        $objective_fail = $this->newObjective();
+        $objective_1 = $this->newObjective();
+        $objective_2 = $this->newObjective();
+        $objective_3 = $this->newObjective();
+
+        $objective_1
+            ->method("getPreconditions")
+            ->willReturn([$objective_fail]);
+        $objective_2
+            ->method("getPreconditions")
+            ->willReturn([]);
+        $objective_3
+            ->method("getPreconditions")
+            ->willReturn([$objective_1, $objective_2]);
+
+        $iterator = new class($env, $objective_3, $objective_fail) extends Setup\ObjectiveIterator {
+            public function __construct(
+                Setup\Environment $environment,
+                Setup\Objective $objective,
+                MockObject $objective_fail
+            ) {
+                parent::__construct($environment, $objective);
+                $this->failed[$objective_fail->getHash()] = true;
+            }
+        };
+
+        $this->assertEquals($objective_fail, $iterator->current());
+        $iterator->next();
+        $iterator->next();
+    }
+
+    public function testFailedPreconditionLastOnStack() : void
+    {
+        $this->expectException(Setup\UnachievableException::class);
+
+        $env = new Setup\ArrayEnvironment([]);
+
+        $objective_fail = $this->newObjective();
+        $objective_1 = $this->newObjective();
+        $objective_2 = $this->newObjective();
+
+        $objective_1
+            ->method("getPreconditions")
+            ->willReturn([$objective_fail]);
+        $objective_2
+            ->method("getPreconditions")
+            ->willReturn([$objective_1]);
+
+        $iterator = new class($env, $objective_2, $objective_fail) extends Setup\ObjectiveIterator {
+            public function __construct(
+                Setup\Environment $environment,
+                Setup\Objective $objective,
+                MockObject $objective_fail
+            ) {
+                parent::__construct($environment, $objective);
+                $this->failed[$objective_fail->getHash()] = true;
+            }
+        };
+
+        $this->assertEquals($objective_fail, $iterator->current());
+        $iterator->next();
     }
 }

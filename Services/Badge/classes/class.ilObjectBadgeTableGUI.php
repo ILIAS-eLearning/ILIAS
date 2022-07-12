@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for badge listing
@@ -10,20 +23,15 @@
  */
 class ilObjectBadgeTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    protected $has_write; // [bool]
+    protected ilAccessHandler $access;
+    protected bool $has_write;
+    protected array $filter = [];
     
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd = "",
+        bool $a_has_write = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -33,7 +41,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         
         $this->setId("bdgobdg");
-        $this->has_write = (bool) $a_has_write;
+        $this->has_write = $a_has_write;
                 
         parent::__construct($a_parent_obj, $a_parent_cmd);
             
@@ -70,7 +78,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         $this->getItems();
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
         
@@ -87,7 +95,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         );
         foreach (ilBadgeHandler::getInstance()->getAvailableTypes() as $id => $type) {
             // no activity badges
-            if (!in_array("bdga", $type->getValidObjectTypes())) {
+            if (!in_array("bdga", $type->getValidObjectTypes(), true)) {
                 $options[$id] = ilBadge::getExtendedTypeCaption($type);
             }
         }
@@ -98,12 +106,12 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         $this->filter["type"] = $type->getValue();
     }
     
-    public function getItems()
+    public function getItems() : void
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
         
-        $data = $filter_types = array();
+        $data = [];
         
         $types = ilBadgeHandler::getInstance()->getAvailableTypes();
         
@@ -111,15 +119,16 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
             // :TODO: container presentation
             $container_url = null;
             $container = '<img class="ilIcon" src="' .
-                    ilObject::_getIcon($badge_item["parent_id"], "big", $badge_item["parent_type"]) .
+                    ilObject::_getIcon((int) $badge_item["parent_id"], "big", $badge_item["parent_type"]) .
                     '" alt="' . $lng->txt("obj_" . $badge_item["parent_type"]) .
                     '" title="' . $lng->txt("obj_" . $badge_item["parent_type"]) . '" /> ' .
                     $badge_item["parent_title"];
             
-            if ((bool) $badge_item["deleted"]) {
+            if ($badge_item["deleted"] ?? false) {
                 $container .= ' <span class="il_ItemAlertProperty">' . $lng->txt("deleted") . '</span>';
             } else {
-                $ref_id = array_shift(ilObject::_getAllReferences($badge_item["parent_id"]));
+                $ref_ids = ilObject::_getAllReferences($badge_item["parent_id"]);
+                $ref_id = array_shift($ref_ids);
                 if ($ilAccess->checkAccess("read", "", $ref_id)) {
                     $container_url = ilLink::_getLink($ref_id);
                 }
@@ -137,14 +146,12 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
                 "container_id" => $badge_item["parent_id"],
                 "renderer" => new ilBadgeRenderer(null, new ilBadge($badge_item["id"]))
             );
-            
-            $filter_types[$badge_item["type_id"]] = $type_caption;
         }
         
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -153,13 +160,12 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("container_link_bl");
             $this->tpl->setVariable("TXT_CONTAINER", $a_set["container_meta"]);
             $this->tpl->setVariable("URL_CONTAINER", $a_set["container_url"]);
-            $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock("container_nolink_bl");
             $this->tpl->setVariable("TXT_CONTAINER_STATIC", $a_set["container_meta"]);
-            $this->tpl->parseCurrentBlock();
         }
-        
+        $this->tpl->parseCurrentBlock();
+
         if ($this->has_write) {
             $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         }

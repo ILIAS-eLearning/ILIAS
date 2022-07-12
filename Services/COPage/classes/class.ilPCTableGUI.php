@@ -1,35 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User Interface for Table Editing
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
+
+ * See https://mantis.ilias.de/view.php?id=32856
+ * @ilCtrl_Calls ilPCTableGUI: ilAssGenFeedbackPageGUI
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilPropertyFormGUI $form;
+    protected ilTabsGUI $tabs;
+    protected ilObjUser $user;
+    protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
-     */
-    protected $tool_context;
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tabs = $DIC->tabs();
@@ -42,21 +48,18 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->tool_context = $DIC->globalScreen()->tool()->context();
     }
 
-    /**
-    * Set basic table cell styles
-    */
-    public function setBasicTableCellStyles()
+    public function setBasicTableCellStyles() : void
     {
         $this->setCharacteristics(array("Cell1" => "Cell1", "Cell2" => "Cell2",
             "Cell3" => "Cell3", "Cell4" => "Cell4"));
     }
-    
+
     /**
-    * execute command
-    */
+     * @return mixed
+     */
     public function executeCommand()
     {
-        $this->getCharacteristicsOfCurrentStyle("table");	// scorm-2004
+        $this->getCharacteristicsOfCurrentStyle(["table"]);	// scorm-2004
         
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -66,26 +69,22 @@ class ilPCTableGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
+        return "";
     }
 
-
-    /**
-    * Set tabs
-    */
-    public function setTabs($data_tab_txt_key = "")
-    {
+    public function setTabs(
+        string $data_tab_txt_key = ""
+    ) : void {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $ilTabs->setBackTarget(
             $lng->txt("pg"),
-            $this->ctrl->getParentReturn($this)
+            (string) $this->ctrl->getParentReturn($this)
         );
 
         if ($data_tab_txt_key == "") {
@@ -114,14 +113,10 @@ class ilPCTableGUI extends ilPageContentGUI
         );
     }
     
-    /**
-    * Set tabs
-    */
-    public function setCellPropertiesSubTabs()
+    public function setCellPropertiesSubTabs() : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
 
         $ilTabs->addSubTabTarget(
             "cont_style",
@@ -152,26 +147,18 @@ class ilPCTableGUI extends ilPageContentGUI
         );
     }
 
-    /**
-    * Get table templates
-    */
-    public function getTemplateOptions($a_type = "")
+    public function getTemplateOptions(string $a_type = "") : array
     {
         return parent::getTemplateOptions("table");
     }
 
-    public function edit()
+    public function edit() : void
     {
         $this->ctrl->redirect($this, "editData");
     }
 
-    /**
-    * edit properties form
-    */
-    public function editProperties()
+    public function editProperties() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
         $tpl = $this->tpl;
         
         $this->displayValidationError();
@@ -184,11 +171,10 @@ class ilPCTableGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
     
-    /**
-    * Init properties form
-    */
-    public function initPropertiesForm($a_mode = "edit")
-    {
+    public function initPropertiesForm(
+        string $a_mode = "edit"
+    ) : void {
+        $a_seleted_value = "";
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -256,7 +242,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $templates = $this->getTemplateOptions();
         $chars = array_merge($templates, $chars);
         if (is_object($this->content_obj)) {
-            if ($chars[$a_seleted_value] == "" && ($this->content_obj->getClass() != "")) {
+            if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getClass() != "")) {
                 $chars = array_merge(
                     array($this->content_obj->getClass() => $this->content_obj->getClass()),
                     $chars
@@ -312,7 +298,7 @@ class ilPCTableGUI extends ilPageContentGUI
                 "first_row_style"
             );
             $this->setBasicTableCellStyles();
-            $this->getCharacteristicsOfCurrentStyle("table_cell");
+            $this->getCharacteristicsOfCurrentStyle(["table_cell"]);
             $chars = $this->getCharacteristics();
             $options = array_merge(array("" => $this->lng->txt("none")), $chars);
             foreach ($options as $k => $option) {
@@ -369,8 +355,8 @@ class ilPCTableGUI extends ilPageContentGUI
         }
         
         // language
-        if ($_SESSION["il_text_lang_" . $_GET["ref_id"]] != "") {
-            $s_lang = $_SESSION["il_text_lang_" . $_GET["ref_id"]];
+        if ($this->getCurrentTextLang() != "") {
+            $s_lang = $this->getCurrentTextLang();
         } else {
             $s_lang = $ilUser->getLanguage();
         }
@@ -388,10 +374,7 @@ class ilPCTableGUI extends ilPageContentGUI
         }
     }
 
-    /**
-    * Get properties form
-    */
-    public function getPropertiesFormValues()
+    public function getPropertiesFormValues() : void
     {
         $values = array();
         $values["width"] = $this->content_obj->getWidth();
@@ -420,11 +403,11 @@ class ilPCTableGUI extends ilPageContentGUI
         $ca->setValue($this->content_obj->getCaptionAlign());
     }
 
-    /**
-    * Render the table
-    */
-    public function renderTable($a_mode = "table_edit", $a_submode = "")
-    {
+    public function renderTable(
+        string $a_mode = "table_edit",
+        string $a_submode = ""
+    ) : string {
+        $template_xml = "";
         $tab_node = $this->content_obj->getNode();
         $tab_node->set_attribute("Enabled", "True");
         $content = $this->dom->dump_node($tab_node);
@@ -439,26 +422,27 @@ class ilPCTableGUI extends ilPageContentGUI
         }
 
         $content = $content . $mobs . $trans . $template_xml;
-        
+
+        /** @var ilPCTable $tab */
+        $tab = $this->content_obj;
         return ilPCTableGUI::_renderTable(
             $content,
             $a_mode,
             $a_submode,
-            $this->content_obj,
-            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking()
+            $tab,
+            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking(),
+            $this->getPage()
         );
     }
         
-    /**
-    * Static render table function
-    */
     public static function _renderTable(
-        $content,
-        $a_mode = "table_edit",
-        $a_submode = "",
-        $a_table_obj = null,
-        $unmask = true
-    ) {
+        string $content,
+        string $a_mode = "table_edit",
+        string $a_submode = "",
+        ilPCTable $a_table_obj = null,
+        bool $unmask = true,
+        ilPageObject $page_object = null
+    ) : string {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -470,14 +454,12 @@ class ilPCTableGUI extends ilPageContentGUI
         $xh = xslt_create();
         //echo "<b>XML</b>:".htmlentities($content).":<br>";
         //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-        $wb_path = ilUtil::getWebspaceDir("output");
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $a_mode,
-            'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
-            'media_mode' => 'disable',
             'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        echo xslt_error($xh);
+        xslt_error($xh);
         xslt_free($xh);
 
         // unmask user html
@@ -506,16 +488,29 @@ class ilPCTableGUI extends ilPageContentGUI
                     break;
             }
         }
-        
-        
-        return '<div class="ilFloatLeft">' . $output . '</div>';
+
+        // for all page components...
+        if (isset($page_object)) {
+            $defs = ilCOPagePCDef::getPCDefinitions();
+            foreach ($defs as $def) {
+                $pc_class = $def["pc_class"];
+                $pc_obj = new $pc_class($page_object);
+
+                // post xsl page content modification by pc elements
+                $output = $pc_obj->modifyPageContentPostXsl($output, "presentation", false);
+            }
+        }
+
+        return $output;
     }
     
     /**
      * Add style checkboxes in edit mode
      */
-    public static function _addStyleCheckboxes($a_output, $a_table)
-    {
+    public static function _addStyleCheckboxes(
+        string $a_output,
+        ilPCTable $a_table
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -541,8 +536,10 @@ class ilPCTableGUI extends ilPageContentGUI
     /**
      * Add alignment checkboxes in edit mode
      */
-    public static function _addAlignmentCheckboxes($a_output, $a_table)
-    {
+    public static function _addAlignmentCheckboxes(
+        string $a_output,
+        ilPCTable $a_table
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -563,10 +560,12 @@ class ilPCTableGUI extends ilPageContentGUI
     }
 
     /**
-    * Add width inputs
-    */
-    public static function _addWidthInputs($a_output, $a_table)
-    {
+     * Add width inputs
+     */
+    public static function _addWidthInputs(
+        string $a_output,
+        ilPCTable $a_table
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -584,10 +583,12 @@ class ilPCTableGUI extends ilPageContentGUI
     }
     
     /**
-    * Add span inputs
-    */
-    public static function _addSpanInputs($a_output, $a_table)
-    {
+     * Add span inputs
+     */
+    public static function _addSpanInputs(
+        string $a_output,
+        ilPCTable $a_table
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -622,10 +623,7 @@ class ilPCTableGUI extends ilPageContentGUI
         return $a_output;
     }
     
-    /**
-     * Edit cell styles
-     */
-    public function editCellStyle()
+    public function editCellStyle() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -648,7 +646,7 @@ class ilPCTableGUI extends ilPageContentGUI
             "style"
         );
         $this->setBasicTableCellStyles();
-        $this->getCharacteristicsOfCurrentStyle("table_cell");	// scorm-2004
+        $this->getCharacteristicsOfCurrentStyle(["table_cell"]);	// scorm-2004
         $chars = $this->getCharacteristics();	// scorm-2004
         $options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
         foreach ($options as $k => $option) {
@@ -669,10 +667,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    /**
-    * Edit cell widths
-    */
-    public function editCellWidth()
+    public function editCellWidth() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -695,10 +690,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    /**
-    * Edit cell spans
-    */
-    public function editCellSpan()
+    public function editCellSpan() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -722,38 +714,40 @@ class ilPCTableGUI extends ilPageContentGUI
     }
 
     /**
-     * Set cell styles and
+     * Set cell styles
      */
-    public function setStyles()
+    public function setStyles() : void
     {
         $lng = $this->lng;
-        
-        if (is_array($_POST["target"])) {
-            foreach ($_POST["target"] as $k => $value) {
+
+        $target = $this->request->getStringArray("target");
+        if (count($target)) {
+            foreach ($target as $k => $value) {
                 if ($value > 0) {
                     $cid = explode(":", $k);
                     $this->content_obj->setTDClass(
                         ilUtil::stripSlashes($cid[0]),
-                        ilUtil::stripSlashes($_POST["style"]),
+                        $this->request->getString("style"),
                         ilUtil::stripSlashes($cid[1])
                     );
                 }
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellStyle");
     }
     
     /**
-    * Set cell widths
-    */
-    public function setWidths()
+     * Set cell widths
+     */
+    public function setWidths() : void
     {
         $lng = $this->lng;
-        
-        if (is_array($_POST["width"])) {
-            foreach ($_POST["width"] as $k => $width) {
+
+        $widths = $this->request->getStringArray("width");
+        if (count($widths) > 0) {
+            foreach ($widths as $k => $width) {
                 $cid = explode(":", $k);
                 $this->content_obj->setTDWidth(
                     ilUtil::stripSlashes($cid[0]),
@@ -763,68 +757,75 @@ class ilPCTableGUI extends ilPageContentGUI
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellWidth");
     }
 
     /**
-    * Set cell spans
-    */
-    public function setSpans()
+     * Set cell spans
+     */
+    public function setSpans() : void
     {
         $lng = $this->lng;
-        
-        if (is_array($_POST["colspan"])) {
-            foreach ($_POST["colspan"] as $k => $span) {
-                $_POST["colspan"][$k] = ilUtil::stripSlashes($span);
-                $_POST["rowspan"][$k] = ilUtil::stripSlashes($_POST["rowspan"][$k]);
+
+        $colspans = $this->request->getStringArray("colspan");
+        $rowspans = $this->request->getStringArray("rowspan");
+        $cs = [];
+        $rs = [];
+        if (count($colspans) > 0) {
+            foreach ($colspans as $k => $span) {
+                $cs[$k] = $span;
+                $rs[$k] = $rowspans[$k];
             }
-            $this->content_obj->setTDSpans($_POST["colspan"], $_POST["rowspan"]);
+            $this->content_obj->setTDSpans($cs, $rs);
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellSpan");
     }
 
     /**
-    * Set properties from input form
-    */
-    public function setProperties()
+     * Set properties from input form
+     */
+    public function setProperties() : void
     {
+        $this->initPropertiesForm();
+        $this->form->checkInput();
+
         // mask html
-        $caption = ilUtil::stripSlashes($_POST["caption"]);
+        $caption = $this->form->getInput("caption");
         $caption = str_replace("&", "&amp;", $caption);
         $caption = str_replace("<", "&lt;", $caption);
         $caption = str_replace(">", "&gt;", $caption);
 
-        $this->content_obj->setLanguage(ilUtil::stripSlashes($_POST["language"]));
-        $this->content_obj->setWidth(ilUtil::stripSlashes($_POST["width"]));
-        $this->content_obj->setBorder(ilUtil::stripSlashes($_POST["border"]));
-        $this->content_obj->setCellSpacing(ilUtil::stripSlashes($_POST["spacing"]));
-        $this->content_obj->setCellPadding(ilUtil::stripSlashes($_POST["padding"]));
-        $this->content_obj->setHorizontalAlign(ilUtil::stripSlashes($_POST["align"]));
-        $this->content_obj->setHeaderRows(ilUtil::stripSlashes($_POST["row_header"]));
-        $this->content_obj->setHeaderCols(ilUtil::stripSlashes($_POST["col_header"]));
-        $this->content_obj->setFooterRows(ilUtil::stripSlashes($_POST["row_footer"]));
-        $this->content_obj->setFooterCols(ilUtil::stripSlashes($_POST["col_footer"]));
-        if (strpos($_POST["characteristic"], ":") > 0) {
-            $t = explode(":", $_POST["characteristic"]);
-            $this->content_obj->setTemplate(ilUtil::stripSlashes($t[2]));
+        $this->content_obj->setLanguage($this->form->getInput("language"));
+        $this->content_obj->setWidth($this->form->getInput("width"));
+        $this->content_obj->setBorder($this->form->getInput("border"));
+        $this->content_obj->setCellSpacing($this->form->getInput("spacing"));
+        $this->content_obj->setCellPadding($this->form->getInput("padding"));
+        $this->content_obj->setHorizontalAlign($this->form->getInput("align"));
+        $this->content_obj->setHeaderRows($this->form->getInput("row_header"));
+        $this->content_obj->setHeaderCols($this->form->getInput("col_header"));
+        $this->content_obj->setFooterRows($this->form->getInput("row_footer"));
+        $this->content_obj->setFooterCols($this->form->getInput("col_footer"));
+        if (strpos($this->form->getInput("characteristic"), ":") > 0) {
+            $t = explode(":", $this->form->getInput("characteristic"));
+            $this->content_obj->setTemplate($t[2]);
             $this->content_obj->setClass("");
         } else {
-            $this->content_obj->setClass(ilUtil::stripSlashes($_POST["characteristic"]));
+            $this->content_obj->setClass($this->form->getInput("characteristic"));
             $this->content_obj->setTemplate("");
         }
         $this->content_obj->setCaption(
             $caption,
-            ilUtil::stripSlashes($_POST["cap_align"])
+            $this->form->getInput("cap_align")
         );
     }
     
     /**
-    * save table properties in db and return to page edit screen
-    */
-    public function saveProperties()
+     * save table properties in db and return to page edit screen
+     */
+    public function saveProperties() : void
     {
         $this->setProperties();
         $this->updated = $this->pg_obj->update();
@@ -837,98 +838,75 @@ class ilPCTableGUI extends ilPageContentGUI
         }
     }
 
-    /**
-    * align table to right
-    */
-    public function rightAlign()
+    public function rightAlign() : void
     {
         $this->content_obj->setHorizontalAlign("Right");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * align table to left
-    */
-    public function leftAlign()
+    public function leftAlign() : void
     {
         $this->content_obj->setHorizontalAlign("Left");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * align table to left
-    */
-    public function centerAlign()
+    public function centerAlign() : void
     {
         $this->content_obj->setHorizontalAlign("Center");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * align table to left float
-    */
-    public function leftFloatAlign()
+    public function leftFloatAlign() : void
     {
         $this->content_obj->setHorizontalAlign("LeftFloat");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * align table to left
-    */
-    public function rightFloatAlign()
+    public function rightFloatAlign() : void
     {
         $this->content_obj->setHorizontalAlign("RightFloat");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
-    /**
-    * insert new table form
-    */
-    public function insert()
+    public function insert() : void
     {
-        $ilUser = $this->user;
-        $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        $lng = $this->lng;
-        
-        $this->displayValidationError();
 
+        $this->displayValidationError();
         $this->initPropertiesForm("create");
         $html = $this->form->getHTML();
         $tpl->setContent($html);
     }
 
-    /**
-    * Get new table object
-    */
-    public function getNewTableObject()
+    public function getNewTableObject() : ilPCTable
     {
         return new ilPCTable($this->getPage());
     }
 
     /**
-    * create new table in dom and update page in db
-    */
-    public function create()
+     * create new table in dom and update page in db
+     */
+    public function create() : void
     {
-        global	$lng;
-        
         $this->content_obj = $this->getNewTableObject();
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        $import_table = trim($_POST["import_table"]);
+
+        $this->initPropertiesForm("create");
+        $this->form->checkInput();
+
+        $import_table = trim($this->form->getInput("import_table"));
         
         // import xhtml or spreadsheet table
         if (!empty($import_table)) {
-            switch ($_POST["import_type"]) {
+            switch ($this->form->getInput("import_type")) {
                 // xhtml import
                 case "html":
-                    if (!$this->content_obj->importHtml($_POST["language"], $import_table)) {
+                    $res = $this->content_obj->importHtml(
+                        $this->form->getInput("language"),
+                        $import_table
+                    );
+                    if ($res !== true) {
+                        $this->tpl->setOnScreenMessage('failure', $res);
                         $this->insert();
                         return;
                     }
@@ -936,19 +914,19 @@ class ilPCTableGUI extends ilPageContentGUI
                     
                 // spreadsheet
                 case "spreadsheet":
-                    $this->content_obj->importSpreadsheet($_POST["language"], $import_table);
+                    $this->content_obj->importSpreadsheet($this->form->getInput("language"), $import_table);
                     break;
             }
         } else {
             $this->content_obj->addRows(
-                ilUtil::stripSlashes($_POST["nr_rows"]),
-                ilUtil::stripSlashes($_POST["nr_cols"])
+                $this->form->getInput("nr_rows"),
+                $this->form->getInput("nr_cols")
             );
         }
         
         $this->setProperties();
         
-        $frtype = ilUtil::stripSlashes($_POST["first_row_style"]);
+        $frtype = $this->form->getInput("first_row_style");
         if ($frtype != "") {
             $this->content_obj->setFirstRowStyle($frtype);
         }
@@ -962,10 +940,7 @@ class ilPCTableGUI extends ilPageContentGUI
         }
     }
     
-    /**
-    * After creation processing
-    */
-    public function afterCreation()
+    public function afterCreation() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -975,10 +950,7 @@ class ilPCTableGUI extends ilPageContentGUI
     // Edit cell alignments
     //
 
-    /**
-     * Edit cell styles
-     */
-    public function editCellAlignment()
+    public function editCellAlignment() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -1020,24 +992,25 @@ class ilPCTableGUI extends ilPageContentGUI
     /**
      * Set cell alignments
      */
-    public function setAlignment()
+    public function setAlignment() : void
     {
         $lng = $this->lng;
 
-        if (is_array($_POST["target"])) {
-            foreach ($_POST["target"] as $k => $value) {
+        $targets = $this->request->getStringArray("target");
+        if (count($targets) > 0) {
+            foreach ($targets as $k => $value) {
                 if ($value > 0) {
                     $cid = explode(":", $k);
                     $this->content_obj->setTDAlignment(
                         ilUtil::stripSlashes($cid[0]),
-                        ilUtil::stripSlashes($_POST["alignment"]),
+                        $this->request->getString("alignment"),
                         ilUtil::stripSlashes($cid[1])
                     );
                 }
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this, "editCellAlignment");
     }
@@ -1045,7 +1018,7 @@ class ilPCTableGUI extends ilPageContentGUI
     /**
      * Set editor tool context
      */
-    protected function setEditorToolContext()
+    protected function setEditorToolContext() : void
     {
         $collection = $this->tool_context->current()->getAdditionalData();
         if ($collection->exists(ilCOPageEditGSToolProvider::SHOW_EDITOR)) {
@@ -1058,7 +1031,7 @@ class ilPCTableGUI extends ilPageContentGUI
     /**
      * Edit data of table
      */
-    public function editData()
+    public function editData() : void
     {
         $this->setEditorToolContext();
 
@@ -1072,7 +1045,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->tpl->setContent($this->getEditDataTable(true));
     }
 
-    public function getEditDataTable($initial = false)
+    public function getEditDataTable(bool $initial = false) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -1122,13 +1095,12 @@ class ilPCTableGUI extends ilPageContentGUI
                     $dtpl->setCurrentBlock("col_icon");
                     $dtpl->setVariable("NR_COLUMN", $j + 1);
                     $dtpl->setVariable("PCID_COLUMN", $res2->nodeset[$j]->get_attribute("PCID"));
-                    $dtpl->setVariable("COLUMN_CAPTION", $j + 1);
+                    $dtpl->setVariable("COLUMN_CAPTION", $this->getColumnCaption($j + 1));
                     $dtpl->parseCurrentBlock();
                 }
                 $dtpl->setCurrentBlock("row");
                 $dtpl->parseCurrentBlock();
             }
-
 
             for ($j = 0; $j < count($res2->nodeset); $j++) {
                 // first col: row icons
@@ -1161,31 +1133,15 @@ class ilPCTableGUI extends ilPageContentGUI
 
                     $dtpl->setCurrentBlock("cell");
 
-                    if (isset($_POST["cmd"]) && is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
-                        $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
-                    } else {
-                        $s_text = ilPCParagraph::xml2output(
-                            $this->content_obj->getCellText($i, $j),
-                            true,
-                            false
-                        );
-                        $s_text = ilPCParagraphGUI::xml2outputJS(
-                            $s_text,
-                            "TableContent",
-                            $this->content_obj->readPCId() . "_" . $i . "_" . $j
-                        );
-                    }
-
-                    // #20628
-                    $s_text = str_replace("{", "&#123;", $s_text);
-                    $s_text = str_replace("}", "&#125;", $s_text);
-
                     $dtpl->setVariable("PAR_TA_NAME", "cell[" . $i . "][" . $j . "]");
                     $dtpl->setVariable("PAR_TA_ID", "cell_" . $i . "_" . $j);
                     $dtpl->setVariable("PAR_ROW", (string) $i);
                     $dtpl->setVariable("PAR_COLUMN", (string) $j);
 
-                    $dtpl->setVariable("PAR_TA_CONTENT", $s_text);
+                    $dtpl->setVariable(
+                        "PAR_TA_CONTENT",
+                        $this->getCellContent($i, $j)
+                    );
 
                     $cs = $res2->nodeset[$j]->get_attribute("ColSpan");
                     $rs = $res2->nodeset[$j]->get_attribute("RowSpan");
@@ -1206,13 +1162,125 @@ class ilPCTableGUI extends ilPageContentGUI
             $dtpl->parseCurrentBlock();
         }
 
-
         $dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
+        
+        // add int link parts
+        $dtpl->setCurrentBlock("int_link_prep");
+        $dtpl->setVariable(
+            "INT_LINK_PREP",
+            ilInternalLinkGUI::getInitHTML(
+                $ilCtrl->getLinkTargetByClass(
+                    array("ilpageeditorgui", "ilinternallinkgui"),
+                    "",
+                    false,
+                    true,
+                    false
+                )
+            )
+        );
+        $dtpl->parseCurrentBlock();
 
         if ($initial) {
             $dtpl->touchBlock("script");
         }
 
         return $dtpl->get();
+    }
+
+    protected function getColumnCaption(int $nr) : string
+    {
+        $cap = "";
+        $base = 26;
+        while ($nr > 0) {
+            $chr = ($nr - 1) % $base;
+            $cap = chr($chr + 65) . $cap;
+            $nr = ($nr - 1 - $chr) / $base;
+        }
+        return $cap;
+    }
+
+    protected function getCellContent(int $i, int $j) : string
+    {
+        $tab_node = $this->content_obj->getNode();
+        $cnt_i = 0;
+        $content = "";
+        $template_xml = "";
+        // get correct cell and dump content of all its childrem
+        foreach ($tab_node->first_child()->child_nodes() as $child) {
+            if ($i == $cnt_i) {
+                $cnt_j = 0;
+                foreach ($child->child_nodes() as $child2) {
+                    if ($j == $cnt_j) {
+                        foreach ($child2->child_nodes() as $cell_content_node) {
+                            $content .= $this->dom->dump_node($cell_content_node);
+                        }
+                    }
+                    $cnt_j++;
+                }
+            }
+            $cnt_i++;
+        }
+        $trans = $this->pg_obj->getLanguageVariablesXML();
+        $mobs = $this->pg_obj->getMultimediaXML();
+        if ($this->getStyleId() > 0) {
+            if (ilObject::_lookupType($this->getStyleId()) == "sty") {
+                $style = new ilObjStyleSheet($this->getStyleId());
+                $template_xml = $style->getTemplateXML();
+            }
+        }
+
+        $content = $content . $mobs . $trans . $template_xml;
+
+        return $this->renderCell(
+            $content,
+            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking(),
+            $this->getPage()
+        );
+    }
+
+    /**
+     * Static render table function
+     */
+    protected function renderCell(
+        $content,
+        $unmask = true,
+        $page_object = null
+    ) : string {
+        global $DIC;
+
+        $ilUser = $DIC->user();
+        $content = "<dummy>" . $content . "</dummy>";
+
+        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+        $args = array( '/_xml' => $content, '/_xsl' => $xsl );
+        $xh = xslt_create();
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
+        $enlarge_path = ilUtil::getImagePath("enlarge.svg");
+        $params = array('webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
+        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+        xslt_free($xh);
+
+        // unmask user html
+        if ($unmask) {
+            $output = str_replace("&lt;", "<", $output);
+            $output = str_replace("&gt;", ">", $output);
+            $output = str_replace("&amp;", "&", $output);
+        }
+
+        // for all page components...
+        if (isset($page_object)) {
+            $defs = ilCOPagePCDef::getPCDefinitions();
+            foreach ($defs as $def) {
+                //ilCOPagePCDef::requirePCClassByName($def["name"]);
+                $pc_class = $def["pc_class"];
+                $pc_obj = new $pc_class($page_object);
+
+                // post xsl page content modification by pc elements
+                $output = $pc_obj->modifyPageContentPostXsl((string) $output, "presentation", false);
+            }
+        }
+
+
+        return $output;
     }
 }

@@ -1,6 +1,6 @@
 # Cron
 
-The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”,
+The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”,
 “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”,
 and “OPTIONAL” in this document are to be interpreted as
 described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
@@ -35,7 +35,7 @@ Possible reasons to set this action:
   the administrator.
 * `STATUS_RESET`
   This status indicates that cron job
-  has been reseted.
+  has been rested.
 * `STATUS_FAIL`
   This status indicates that an non-critical
   error appeared in the execution of the cron
@@ -46,7 +46,7 @@ an instance of `ilCronJobResult`
 and MUST set status before returned by a method.
 
 ```php
-public function run()
+public function run() : ilCronJobResult
 {
   $result = new ilCronJobResult();
 

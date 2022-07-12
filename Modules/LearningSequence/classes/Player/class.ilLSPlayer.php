@@ -1,12 +1,28 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\UI\Component\Listing\Workflow\Step;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 use ILIAS\UI\Factory;
+use ILIAS\Refinery;
 use ILIAS\UI\Component\Component;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 /**
  * Implementation of KioskMode Player
@@ -34,6 +50,7 @@ class ilLSPlayer
     protected ilKioskPageRenderer $page_renderer;
     protected Factory $ui_factory;
     protected ScreenContext $current_context;
+    protected Refinery\Factory $refinery;
 
     public function __construct(
         ilLSLearnerItemsQueries $ls_items,
@@ -43,7 +60,8 @@ class ilLSPlayer
         ilLSViewFactory $view_factory,
         ilKioskPageRenderer $renderer,
         Factory $ui_factory,
-        ScreenContext $current_context
+        ScreenContext $current_context,
+        Refinery\Factory $refinery
     ) {
         $this->ls_items = $ls_items;
         $this->control_builder = $control_builder;
@@ -53,9 +71,10 @@ class ilLSPlayer
         $this->page_renderer = $renderer;
         $this->ui_factory = $ui_factory;
         $this->current_context = $current_context;
+        $this->refinery = $refinery;
     }
 
-    public function play(ArrayAccess $get) : ?string
+    public function play(RequestWrapper $get) : ?string
     {
         //init state and current item
         $items = $this->ls_items->getItems();
@@ -77,9 +96,15 @@ class ilLSPlayer
 
         $current_item_ref_id = $current_item->getRefId();
         //now, digest parameter:
-        $command = $get[self::PARAM_LSO_COMMAND];
-        $param = (int) $get[self::PARAM_LSO_PARAMETER];
-
+        $command = null;
+        if ($get->has(self::PARAM_LSO_COMMAND)) {
+            $command = $get->retrieve(self::PARAM_LSO_COMMAND, $this->refinery->kindlyTo()->string());
+        }
+        $param = null;
+        if ($get->has(self::PARAM_LSO_PARAMETER)) {
+            $param = $get->retrieve(self::PARAM_LSO_PARAMETER, $this->refinery->kindlyTo()->int());
+        }
+        
         switch ($command) {
             case self::LSO_CMD_SUSPEND:
             case self::LSO_CMD_FINISH:
@@ -176,9 +201,7 @@ class ilLSPlayer
         $current_item_ref_id = $this->ls_items->getCurrentItemRefId();
         if ($current_item_ref_id !== 0) {
             $valid_ref_ids = array_map(
-                function ($item) {
-                    return $item->getRefId();
-                },
+                fn ($item) => $item->getRefId(),
                 array_values($this->ls_items->getItems())
             );
             if (in_array($current_item_ref_id, $valid_ref_ids)) {
@@ -191,11 +214,11 @@ class ilLSPlayer
     protected function updateViewState(
         ILIAS\KioskMode\State $state,
         ILIAS\KioskMode\View $view,
-        ArrayAccess $get
+        RequestWrapper $get
     ) : ILIAS\KioskMode\State {
-        $command = $get[self::PARAM_LSO_COMMAND];
-        $param = (int) $get[self::PARAM_LSO_PARAMETER];
-        if (!is_null($command)) {
+        if ($get->has(self::PARAM_LSO_COMMAND) && $get->has(self::PARAM_LSO_PARAMETER)) {
+            $command = $get->retrieve(self::PARAM_LSO_COMMAND, $this->refinery->kindlyTo()->string());
+            $param = $get->retrieve(self::PARAM_LSO_PARAMETER, $this->refinery->kindlyTo()->int());
             $state = $view->updateGet($state, $command, $param);
         }
         return $state;
@@ -282,13 +305,12 @@ class ilLSPlayer
 
     protected function renderComponentView($state, ILIAS\KioskMode\View $view) : Component
     {
-        $component = $view->render(
+        return $view->render(
             $state,
             $this->ui_factory,
             $this->url_builder,
             []
         );
-        return $component;
     }
 
 

@@ -13,7 +13,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand() : string
     {
         return 'showLocalUnitCategories';
     }
@@ -21,7 +21,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    public function getUnitCategoryOverviewCommand()
+    public function getUnitCategoryOverviewCommand() : string
     {
         if ($this->isCRUDContext()) {
             return 'showLocalUnitCategories';
@@ -33,9 +33,9 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return boolean
      */
-    public function isCRUDContext()
+    public function isCRUDContext() : bool
     {
-        if (!isset($_GET[self::REQUEST_PARAM_SUB_CONTEXT_ID]) || $_GET[self::REQUEST_PARAM_SUB_CONTEXT_ID] == $this->repository->getConsumerId()) {
+        if (!$this->request->isset(self::REQUEST_PARAM_SUB_CONTEXT_ID) || $this->request->raw(self::REQUEST_PARAM_SUB_CONTEXT_ID) == $this->repository->getConsumerId()) {
             return true;
         } else {
             return false;
@@ -45,7 +45,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    public function getUniqueId()
+    public function getUniqueId() : string
     {
         $id = $this->repository->getConsumerId();
         if ($this->isCRUDContext()) {
@@ -61,7 +61,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      *
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         /**
          * @var $ilHelp ilHelpGUI
@@ -78,7 +78,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      *
      */
-    protected function handleSubtabs()
+    protected function handleSubtabs() : void
     {
         /**
          * @var $ilTabs ilTabsGUI
@@ -102,7 +102,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      *
      */
-    protected function showLocalUnitCategories()
+    protected function showLocalUnitCategories() : void
     {
         /**
          * @var $ilToolbar ilToolbarGUI
@@ -136,7 +136,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @param array $categories
      */
-    protected function showUnitCategories(array $categories)
+    protected function showUnitCategories(array $categories) : void
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilLocalUnitCategoryTableGUI.php';
         $table = new ilLocalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());
@@ -145,51 +145,30 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function confirmImportGlobalCategory()
+    protected function confirmImportGlobalCategory() : void
     {
-        if (!isset($_GET['category_id'])) {
+        if (!$this->request->isset('category_id')) {
             $this->showGlobalUnitCategories();
             return;
         }
-        $_POST['category_ids'] = array($_GET['category_id']);
-
-        $this->confirmImportGlobalCategories();
+        $this->confirmImportGlobalCategories(array($this->request->raw('category_id')));
     }
 
-    /**
-     *
-     */
-    protected function confirmImportGlobalCategories()
+    protected function confirmImportGlobalCategories(array $category_ids) : void
     {
-        if (!isset($_POST['category_ids']) || !is_array($_POST['category_ids'])) {
-            $this->showGlobalUnitCategories();
-            return;
-        }
-        
         // @todo: Confirmation Currently not implemented, so forward to import
-        $this->importGlobalCategories();
+        $this->importGlobalCategories($category_ids);
     }
 
-    /**
-     *
-     */
-    protected function importGlobalCategories()
+    protected function importGlobalCategories(array $category_ids) : void
     {
         if ($this->isCRUDContext()) {
             $this->{$this->getDefaultCommand()}();
             return;
         }
-        
-        if (!isset($_POST['category_ids']) || !is_array($_POST['category_ids'])) {
-            $this->showGlobalUnitCategories();
-            return;
-        }
-        
+
         $i = 0;
-        foreach ($_POST['category_ids'] as $category_id) {
+        foreach ($category_ids as $category_id) {
             try {
                 $category = $this->repository->getUnitCategoryById((int) $category_id);
             } catch (ilException $e) {
@@ -205,7 +184,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         }
 
         if ($i) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         }
 
         $this->ctrl->setParameter($this, 'question_fi', 0);

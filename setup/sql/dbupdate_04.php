@@ -2056,11 +2056,11 @@ if ($wiki_type_id) {
 <?php
 
 $client_id = basename(CLIENT_DATA_DIR);
-$web_path = ilUtil::getWebspaceDir() . $client_id;
+$web_path = ilFileUtils::getWebspaceDir() . $client_id;
 $sec_path = $web_path . "/sec";
 
 if (!file_exists($sec_path)) {
-    ilUtil::makeDir($sec_path);
+    ilFileUtils::makeDir($sec_path);
 }
 
 $mods = array("ilBlog", "ilPoll", "ilPortfolio");
@@ -18016,63 +18016,9 @@ while ($rec = $ilDB->fetchAssoc($set)) {
 ?>
 <#5088>
 <?php
-    require_once('./Services/Component/classes/class.ilPluginAdmin.php');
-    require_once('./Services/Component/classes/class.ilPlugin.php');
-    require_once('./Services/UICore/classes/class.ilCtrl.php');
-
-    // Mantis #17842
-    /** @var $ilCtrl ilCtrl */
-    global $ilCtrl, $ilPluginAdmin, $DIC;
-    if (is_null($ilPluginAdmin)) {
-        $GLOBALS['ilPluginAdmin'] = new ilPluginAdmin();
-        $DIC["ilPluginAdmin"] = function ($c) {
-            return $GLOBALS['ilPluginAdmin'];
-        };
-    }
-    if (is_null($ilCtrl)) {
-        $GLOBALS['ilCtrl'] = new ilCtrl();
-        $DIC["ilCtrl"] = function ($c) {
-            return $GLOBALS['ilCtrl'];
-        };
-    }
-    global $ilCtrl;
-
-    function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data)
-    {
-        global $ilCtrl;
-        $prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
-        $ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data), $prefix);
-    }
-
-    include_once("./Services/Component/classes/class.ilModule.php");
-    $modules = ilModule::getAvailableCoreModules();
-    foreach ($modules as $m) {
-        $plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE, $m["subdir"]);
-        foreach ($plugin_slots as $ps) {
-            include_once("./Services/Component/classes/class.ilPluginSlot.php");
-            $slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
-            foreach ($slot->getPluginsInformation() as $p) {
-                $plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
-                if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
-                    writeCtrlClassEntry($slot, $p);
-                }
-            }
-        }
-    }
-    include_once("./Services/Component/classes/class.ilService.php");
-    $services = ilService::getAvailableCoreServices();
-    foreach ($services as $s) {
-        $plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE, $s["subdir"]);
-        foreach ($plugin_slots as $ps) {
-            $slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
-            foreach ($slot->getPluginsInformation() as $p) {
-                $plugin_db_data = ilPlugin::getPluginRecord($p["component_type"], $p["component_name"], $p["slot_id"], $p["name"]);
-                if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p, $plugin_db_data) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p))) {
-                    writeCtrlClassEntry($slot, $p);
-                }
-            }
-        }
-    }
+    // this db-update step would've created the database entries for the plugin ctrl structure,
+    // which since the introduction of artifacts is no longer necessary. Therefore, I removed
+    // the logic of this step.
 ?>
 <#5089>
 <?php
@@ -20944,7 +20890,7 @@ while ($row = $ilDB->fetchAssoc($result)) {
 
             if (!is_dir(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . $directory_relative_path)) {
                 //echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
-                ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . $directory_relative_path);
+                ilFileUtils::makeDirParents(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . $directory_relative_path);
             }
             if (!file_exists(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . $file_relative_path) &&
                 file_exists($file_full_path)) {
@@ -22687,7 +22633,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 <#5322>
 <?php
 /** @var $ilDB ilDBInterface */
-if (in_array($ilDB->getDBType(), [ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES])) {
+if (in_array($ilDB->getDBType(), ['pdo-postgre', 'postgres'])) {
     // Migrate accepted criteria for missing documents (file did not exists during migration)
     $res = $ilDB->query(
         "

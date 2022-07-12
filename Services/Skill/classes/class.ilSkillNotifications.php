@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+
 /**
  * Course/group skill notification
  *
@@ -28,6 +30,7 @@ class ilSkillNotifications extends ilCronJob
     protected ilObjUser $user;
     protected ilIniFile $client_ini;
     protected ilTree $tree;
+    protected SkillTreeService $tree_service;
 
     public function __construct()
     {
@@ -43,6 +46,7 @@ class ilSkillNotifications extends ilCronJob
         if (isset($DIC["tree"])) {
             $this->tree = $DIC->repositoryTree();
         }
+        $this->tree_service = $DIC->skills()->tree();
     }
 
     public function getId() : string
@@ -166,7 +170,7 @@ class ilSkillNotifications extends ilCronJob
         $last_obj_id = 0;
 
         // order skill achievements per virtual skill tree
-        $vtree = new ilVirtualSkillTree();
+        $vtree = $this->tree_service->getGlobalVirtualSkillTree();
         $a_achievements = $vtree->getOrderedNodeset($a_achievements, "skill_id", "tref_id");
 
         foreach ($a_achievements as $skill_level) {

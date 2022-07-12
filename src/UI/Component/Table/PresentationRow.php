@@ -1,94 +1,92 @@
-<?php
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\UI\Component\Triggerable;
 use \ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Listing\Descriptive;
+use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Dropdown\Dropdown;
 
 /**
  * This describes a Row used in Presentation Table.
  * A row consists (potentially) of title, subtitle, important fields (in the
- * collapased row) and further fields to be shown in the expanded row.
+ * collapsed row) and further fields to be shown in the expanded row.
  */
-interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable
+interface PresentationRow extends Component, Triggerable
 {
-
     /**
      * Get a row like this with the given headline.
-     *
-     * @param string 	$headline
-     * @return \ILIAS\UI\Component\Table\PresentationRow
      */
-    public function withHeadline($headline);
+    public function withHeadline(string $headline) : PresentationRow;
 
     /**
      * Get a row like this with the given subheadline.
-     *
-     * @param string 	$subheadline
-     * @return \ILIAS\UI\Component\Table\PresentationRow
      */
-    public function withSubheadline($subheadline);
+    public function withSubheadline(string $subheadline) : PresentationRow;
 
     /**
      * Get a row like this with the record-fields and labels
      * to be shown in the collapsed row.
      *
      * @param array<string,string> 	$fields
-     * @return \ILIAS\UI\Component\Table\PresentationRow
      */
-    public function withImportantFields(array $fields);
+    public function withImportantFields(array $fields) : PresentationRow;
 
     /**
      * Get a row like this with a descriptive listing as content.
-     *
-     * @param \ILIAS\UI\Component\Listing\Descriptive $content
      */
-    public function withContent(\ILIAS\UI\Component\Listing\Descriptive $content);
+    public function withContent(Descriptive $content) : PresentationRow;
 
     /**
      * Get a row like this with a headline for the field-list in the expanded row.
-     *
-     * @param string 	$headline
-     * @return \ILIAS\UI\Component\Table\PresentationRow
      */
-    public function withFurtherFieldsHeadline($headline);
+    public function withFurtherFieldsHeadline(string $headline) : PresentationRow;
 
     /**
      * Get a row like this with the record-fields and labels to be shown
      * in the list of the expanded row.
      *
      * @param array<string,string> 	$fields
-     * @return \ILIAS\UI\Component\Table\PresentationRow
      */
-    public function withFurtherFields(array $fields);
+    public function withFurtherFields(array $fields) : PresentationRow;
 
     /**
      * Get a row like this with a button or a dropdown for actions in the expanded row.
      *
-     * @param \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Dropdown\Dropdown 	$action
-     * @return \ILIAS\UI\Component\Table\PresentationRow
+     * @param Button|Dropdown $action
      */
-    public function withAction($action);
+    public function withAction($action) : PresentationRow;
 
     /**
      * Get the signal to expand the row.
-     *
-     * @return Signal
      */
-    public function getShowSignal();
+    public function getShowSignal() : Signal;
 
     /**
      * Get the signal to collapse the row.
-     *
-     * @return Signal
      */
-    public function getCloseSignal();
+    public function getCloseSignal() : Signal;
 
     /**
      * Get the signal to toggle (expand/collapse) the row.
-     *
-     * @return Signal
      */
-    public function getToggleSignal();
+    public function getToggleSignal() : Signal;
 }

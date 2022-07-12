@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBuddySystemRelationRepository
@@ -14,11 +29,11 @@ class ilBuddySystemRelationRepository
     protected ilDBInterface $db;
     protected int $usrId;
 
-    public function __construct(int $usrId)
+    public function __construct(int $usrId, ilDBInterface $db = null)
     {
         global $DIC;
 
-        $this->db = $DIC['ilDB'];
+        $this->db = $db ?? $DIC->database();
         $this->usrId = $usrId;
     }
 
@@ -32,9 +47,21 @@ class ilBuddySystemRelationRepository
 
         $res = $this->db->queryF(
             '
-			SELECT usr_id, buddy_usr_id, ts, %s rel_type FROM buddylist WHERE usr_id = %s
+			SELECT
+			       buddylist.usr_id, buddylist.buddy_usr_id, buddylist.ts, %s rel_type
+            FROM buddylist
+			INNER JOIN usr_data ud
+                ON ud.usr_id = buddylist.usr_id
+            INNER JOIN usr_data udbuddy
+                ON udbuddy.usr_id = buddylist.buddy_usr_id
+			WHERE buddylist.usr_id = %s
 			UNION
-			SELECT usr_id, buddy_usr_id, ts, (CASE WHEN ignored = 1 THEN %s ELSE %s END) rel_type FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s
+			SELECT
+			       buddylist_requests.usr_id, buddylist_requests.buddy_usr_id, buddylist_requests.ts, (CASE WHEN ignored = 1 THEN %s ELSE %s END) rel_type
+			FROM buddylist_requests
+			INNER JOIN usr_data ud ON ud.usr_id = buddylist_requests.usr_id
+			INNER JOIN usr_data udbuddy ON udbuddy.usr_id = buddylist_requests.buddy_usr_id
+			WHERE buddylist_requests.usr_id = %s OR buddylist_requests.buddy_usr_id = %s
 			',
             [
                 'text',
@@ -70,15 +97,17 @@ class ilBuddySystemRelationRepository
                 new ilBuddySystemLinkedRelationState(),
                 (int) $row['usr_id'],
                 (int) $row['buddy_usr_id'],
-                $row['usr_id'] === $this->usrId,
+                (int) $row['usr_id'] === $this->usrId,
                 (int) $row['ts']
             );
-        } elseif (self::TYPE_IGNORED === $row['rel_type']) {
+        }
+
+        if (self::TYPE_IGNORED === $row['rel_type']) {
             return new ilBuddySystemRelation(
                 new ilBuddySystemIgnoredRequestRelationState(),
                 (int) $row['usr_id'],
                 (int) $row['buddy_usr_id'],
-                $row['usr_id'] === $this->usrId,
+                (int) $row['usr_id'] === $this->usrId,
                 (int) $row['ts']
             );
         }
@@ -87,20 +116,20 @@ class ilBuddySystemRelationRepository
             new ilBuddySystemRequestedRelationState(),
             (int) $row['usr_id'],
             (int) $row['buddy_usr_id'],
-            $row['usr_id'] === $this->usrId,
+            (int) $row['usr_id'] === $this->usrId,
             (int) $row['ts']
         );
     }
 
     public function destroy() : void
     {
-        $this->db->queryF(
+        $this->db->manipulateF(
             'DELETE FROM buddylist WHERE usr_id = %s OR buddy_usr_id = %s',
             ['integer', 'integer'],
             [$this->usrId, $this->usrId]
         );
 
-        $this->db->queryF(
+        $this->db->manipulateF(
             'DELETE FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s',
             ['integer', 'integer'],
             [$this->usrId, $this->usrId]

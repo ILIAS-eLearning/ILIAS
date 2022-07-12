@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * LM editor explorer GUI class
@@ -9,13 +23,16 @@
  */
 class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 {
-    protected ilObjLearningModule $lm;
-
     /**
-     * Constructor
+     * ilLMEditorExplorerGUI constructor.
+     * @param object|string $a_parent_obj
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjContentObject $a_lm, $a_id = "")
-    {
+    public function __construct(
+        $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjContentObject $a_lm,
+        string $a_id = ""
+    ) {
         global $DIC;
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_lm, $a_id);
 
@@ -25,12 +42,9 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 
 
     /**
-     * Get node icon
-     *
-     * @param array $a_node node array
-     * @return string icon path
+     * @param object|array $a_node
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_lm.svg");
@@ -71,12 +85,9 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
     }
 
     /**
-     * Get node icon alt text
-     *
-     * @param array $a_node node array
-     * @return string alt text
+     * @param object|array $a_node
      */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
         
@@ -108,15 +119,19 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
     }
     
     /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
+     * @param object|array $a_node
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
-        
+
+        if ($a_node["child"] == "") {
+            $a_node["child"] = null;
+        }
+        $obj_id = ($this->obj_id == "")
+            ? null
+            : $this->obj_id;
+
         switch ($a_node["type"]) {
             case "du":
                 $ret = $ilCtrl->getLinkTargetByClass("ilobjlearningmodulegui", "chapters");
@@ -125,14 +140,15 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
             case "pg":
                 $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
-                $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $this->obj_id);
+                $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $obj_id);
                 return $ret;
 
             case "st":
                 $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(array("ilobjlearningmodulegui", "ilstructureobjectgui"), "view");
-                $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $this->obj_id);
+                $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $obj_id);
                 return $ret;
         }
+        return "";
     }
 }

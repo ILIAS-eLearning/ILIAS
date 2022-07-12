@@ -14,16 +14,11 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -35,7 +30,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerMatching', $instance);
     }
 
-    public function test_setGetPoints()
+    public function test_setGetPoints() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -50,7 +45,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetTermId()
+    public function test_setGetTermId() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -65,7 +60,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPicture()
+    public function test_setGetPicture() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -80,7 +75,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPictureId()
+    public function test_setGetPictureId() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -95,7 +90,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPictureId_NegativeShouldNotSetValue()
+    public function test_setGetPictureId_NegativeShouldNotSetValue() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -110,7 +105,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetDefinition()
+    public function test_setGetDefinition() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -125,7 +120,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetDefinitionId()
+    public function test_setGetDefinitionId() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';

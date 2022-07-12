@@ -12,12 +12,14 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
 
     protected function setUp() : void
     {
+        global $DIC;
+
         parent::setUp();
 
         $this->addGlobal_ilAccess();
 
         $this->testObj = new ilTestCorrectionsGUI(
-            $this->dic,
+            $DIC,
             $this->createMock(ilObjTest::class)
         );
     }

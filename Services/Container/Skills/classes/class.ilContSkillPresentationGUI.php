@@ -49,7 +49,7 @@ class ilContSkillPresentationGUI
 
         $this->container_gui = $a_container_gui;
         /* @var $obj ilContainer */
-        $obj = $this->container_gui->object;
+        $obj = $this->container_gui->getObject();
         $this->container = $obj;
 
         $this->container_skills = new ilContainerSkills($this->container->getId());
@@ -80,7 +80,7 @@ class ilContSkillPresentationGUI
                 break;
             
             default:
-                if ($cmd == "show") {
+                if ($cmd === "show") {
                     $this->$cmd();
                 }
         }
@@ -90,7 +90,7 @@ class ilContSkillPresentationGUI
     {
         $type = $this->container->getType();
         $ref_id = $this->container->getRefId();
-        $this->tpl->setPermanentLink($type, "", $ref_id . "_comp", "", "");
+        $this->tpl->setPermanentLink($type, 0, $ref_id . "_comp", "", "");
     }
 
     protected function getPersonalSkillsGUI() : ilPersonalSkillsGUI
@@ -140,7 +140,7 @@ class ilContSkillPresentationGUI
         if ($access->checkAccess('read', '', $ref_id) && ilContainer::_lookupContainerSetting(
             $obj_id,
             ilObjectServiceSettingsGUI::SKILLS,
-            false
+            '0'
         )) {
             $skmg_set = new ilSetting("skmg");
             if ($skmg_set->get("enable_skmg")) {

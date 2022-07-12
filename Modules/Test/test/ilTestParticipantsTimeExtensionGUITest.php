@@ -9,14 +9,27 @@
 class ilTestParticipantsTimeExtensionGUITest extends ilTestBaseTestCase
 {
     private ilTestParticipantsTimeExtensionGUI $testObj;
-
+    private $backup_dic;
+    
     protected function setUp() : void
     {
         parent::setUp();
-
+        global $DIC;
+    
+        $this->backup_dic = $DIC;
+        $DIC = new ILIAS\DI\Container([
+            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
+                          ->getMock()
+        ]);
         $this->testObj = new ilTestParticipantsTimeExtensionGUI($this->createMock(ilObjTest::class));
     }
-
+    
+    protected function tearDown() : void
+    {
+        global $DIC;
+        $DIC = $this->backup_dic;
+    }
+    
     public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestParticipantsTimeExtensionGUI::class, $this->testObj);

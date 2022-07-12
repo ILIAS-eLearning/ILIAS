@@ -1,104 +1,73 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-include_once("./Services/News/interfaces/interface.ilNewsRendererGUI.php");
 /**
  * Default renderer
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesNews
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 {
-    protected $lng_key;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected string $lng_key;
+    protected ilCtrl$ctrl;
+    protected ilLanguage $lng;
+    protected ilNewsItem $news_item;
+    protected int $news_ref_id;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilNewsItem
-     */
-    protected $news_item;
-
-    /**
-     * @var int
-     */
-    protected $news_ref_id;
-
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->refinery = $DIC->refinery();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setNewsItem(ilNewsItem $a_news_item, $a_news_ref_id)
-    {
+    public function setNewsItem(
+        ilNewsItem $a_news_item,
+        int $a_news_ref_id
+    ) : void {
         $this->news_item = $a_news_item;
         $this->news_ref_id = $a_news_ref_id;
     }
 
-    /**
-     * Get news item
-     *
-     * @return ilNewsItem
-     */
-    public function getNewsItem()
+    public function getNewsItem() : ilNewsItem
     {
         return $this->news_item;
     }
 
-    /**
-     * Get news ref id
-     *
-     * @return int ref id
-     */
-    public function getNewsRefId()
+    public function getNewsRefId() : int
     {
         return $this->news_ref_id;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function setLanguage($a_lang_key)
+    public function setLanguage(string $lang_key) : void
     {
-        $this->lng_key = $a_lang_key;
+        $this->lng_key = $lang_key;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getTimelineContent()
+    public function getTimelineContent() : string
     {
         return $this->getDetailContent();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDetailContent()
+    public function getDetailContent() : string
     {
         if ($this->news_item->getContentTextIsLangVar()) {
             $this->lng->loadLanguageModule($this->news_item->getContextObjType());
@@ -118,13 +87,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
         return $content;
     }
 
-    /**
-     * Make clickable
-     *
-     * @param
-     * @return
-     */
-    public function makeClickable($a_str)
+    public function makeClickable(string $a_str) : string
     {
         // this fixes bug 8744.
         // If the string already contains a tags our makeClickable does not work
@@ -132,25 +95,15 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
             return $a_str;
         }
 
-        return ilUtil::makeClickable($a_str);
+        return $this->refinery->string()->makeClickable()->transform($a_str);
     }
 
-
-    /**
-     * @param ilAdvancedSelectionListGUI $list
-     */
-    public function addTimelineActions(ilAdvancedSelectionListGUI $list)
+    public function addTimelineActions(ilAdvancedSelectionListGUI $list) : void
     {
     }
 
-    /**
-     * Get object link
-     *
-     * @return string link href url
-     */
-    public function getObjectLink()
+    public function getObjectLink() : string
     {
-        include_once("./Services/Link/classes/class.ilLink.php");
         return ilLink::_getLink($this->getNewsRefId());
     }
 }

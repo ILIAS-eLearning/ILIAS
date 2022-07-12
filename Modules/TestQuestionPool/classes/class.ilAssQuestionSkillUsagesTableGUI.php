@@ -34,7 +34,8 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
      * @var ilDBInterface
      */
     private $myDb;
-    
+    private int $poolId;
+
     /**
      * @param ilCtrl $myCtrl
      * @param ilGlobalTemplateInterface $myTpl
@@ -61,23 +62,24 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         switch ($this->myCtrl->getNextClass()) {
             case strtolower(__CLASS__):
             case '':
 
                 $command = $this->myCtrl->getCmd(self::CMD_SHOW) . 'Cmd';
-                $this->$command();
+                return (bool) $this->$command();
                 break;
             
             default:
                 
                 throw new ilTestQuestionPoolException('unsupported next class');
         }
+        return false;
     }
     
-    private function showCmd()
+    private function showCmd() : void
     {
         $this->initColumns();
         
@@ -89,22 +91,22 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         $this->myTpl->setContent($this->myCtrl->getHTML($this));
     }
     
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_skill_col'), 'skill_title', '50%');
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_numq_col'), 'num_questions', '');
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_sklpnt_col'), 'max_skill_points', '');
     }
     
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('SKILL_TITLE', $data['skill_title']);
-        $this->tpl->setVariable('SKILL_PATH', $data['skill_path']);
-        $this->tpl->setVariable('NUM_QUESTIONS', $data['num_questions']);
-        $this->tpl->setVariable('MAX_SKILL_POINTS', $data['max_skill_points']);
+        $this->tpl->setVariable('SKILL_TITLE', $a_set['skill_title']);
+        $this->tpl->setVariable('SKILL_PATH', $a_set['skill_path']);
+        $this->tpl->setVariable('NUM_QUESTIONS', $a_set['num_questions']);
+        $this->tpl->setVariable('MAX_SKILL_POINTS', $a_set['max_skill_points']);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'num_questions':
@@ -115,7 +117,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         return false;
     }
     
-    private function getUniqueAssignedSkillsStats()
+    private function getUniqueAssignedSkillsStats() : array
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->myDb);
@@ -127,7 +129,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         return $assignmentList->getUniqueAssignedSkills();
     }
     
-    private function buildTableRowsArray($assignedSkills)
+    private function buildTableRowsArray($assignedSkills) : array
     {
         $rows = array();
         

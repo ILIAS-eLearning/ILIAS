@@ -1,56 +1,33 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
-
 
 /**
-* News Settings.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjNewsSettingsGUI: ilPermissionGUI
-*
-* @ingroup ServicesNews
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * News Settings.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilObjNewsSettingsGUI: ilPermissionGUI
+ */
 class ilObjNewsSettingsGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilNewsCache $acache;
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    private static $ERROR_MESSAGE;
-    /**
-     * Contructor
-     *
-     * @access public
-     */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
-        global $DIC;
-
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
-        $this->access = $DIC->access();
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->settings = $DIC->settings();
         $this->type = 'nwss';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -58,58 +35,43 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('feed');
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if ($cmd === null || $cmd === '' || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $ilAccess = $this->access;
+        $rbacsystem = $this->rbac_system;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "news_edit_news_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
-                array("editSettings", "view")
+                ["editSettings", "view"]
             );
         }
 
@@ -117,16 +79,19 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
-                array(),
+                [],
                 'ilpermissiongui'
             );
         }
     }
 
-    /**
-    * Edit news settings.
-    */
-    public function editSettings()
+    public function editSettings() : void
+    {
+        $form = $this->getSettingsForm();
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    public function getSettingsForm() : ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -143,16 +108,12 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $news_default_visibility = ($news_set->get("default_visibility") != "")
             ? $news_set->get("default_visibility")
             : "users";
-        $disable_repository_feeds = $feed_set->get("disable_rep_feeds");
-        $nr_personal_desktop_feeds = $ilSetting->get("block_limit_pdfeed");
-        
+
         $allow_shorter_periods = $news_set->get("allow_shorter_periods");
         $allow_longer_periods = $news_set->get("allow_longer_periods");
     
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         $rss_period = ilNewsItem::_lookupRSSPeriod();
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("news_settings"));
@@ -164,7 +125,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $cb_prop->setValue("1");
         $cb_prop->setInfo($lng->txt("news_enable_internal_news_info"));
-        $cb_prop->setChecked($enable_internal_news);
+        $cb_prop->setChecked((bool) $enable_internal_news);
         $form->addItem($cb_prop);
 
         // Default Visibility
@@ -179,39 +140,40 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $form->addItem($radio_group);
 
         // Number of news items per object
-        $nr_opts = array(50 => 50, 100 => 100, 200 => 200);
+        $nr_opts = [50 => 50, 100 => 100, 200 => 200];
         $nr_sel = new ilSelectInputGUI(
             $lng->txt("news_nr_of_items"),
             "news_max_items"
         );
         $nr_sel->setInfo($lng->txt("news_nr_of_items_info"));
         $nr_sel->setOptions($nr_opts);
-        $nr_sel->setValue($news_set->get("max_items"));
+        $nr_sel->setValue((string) $news_set->get("max_items"));
         $form->addItem($nr_sel);
 
         // Access Cache
-        $min_opts = array(0 => 0, 1 => 1, 2 => 2, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 60 => 60);
+        $min_opts = [0 => 0, 1 => 1, 2 => 2, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 60 => 60];
         $min_sel = new ilSelectInputGUI(
             $lng->txt("news_cache"),
             "news_acc_cache_mins"
         );
         $min_sel->setInfo($lng->txt("news_cache_info"));
         $min_sel->setOptions($min_opts);
-        $min_sel->setValue($news_set->get("acc_cache_mins"));
+        $min_sel->setValue((string) $news_set->get("acc_cache_mins"));
         $form->addItem($min_sel);
         
         // PD News Period
-        $per_opts = array(
+        $per_opts = [
             7 => "1 " . $lng->txt("week"),
             30 => "1 " . $lng->txt("month"),
-            366 => "1 " . $lng->txt("year"));
+            366 => "1 " . $lng->txt("year")
+        ];
         $per_sel = new ilSelectInputGUI(
             $lng->txt("news_pd_period"),
             "news_pd_period"
         );
         $per_sel->setInfo($lng->txt("news_pd_period_info"));
         $per_sel->setOptions($per_opts);
-        $per_sel->setValue((int) ilNewsItem::_lookupDefaultPDPeriod());
+        $per_sel->setValue((string) ilNewsItem::_lookupDefaultPDPeriod());
         $form->addItem($per_sel);
 
         // Allow user to choose lower values
@@ -221,7 +183,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $sp_prop->setValue("1");
         $sp_prop->setInfo($lng->txt("news_allow_shorter_periods_info"));
-        $sp_prop->setChecked($allow_shorter_periods);
+        $sp_prop->setChecked((bool) $allow_shorter_periods);
         $form->addItem($sp_prop);
 
         // Allow user to choose higher values
@@ -231,7 +193,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $lp_prop->setValue("1");
         $lp_prop->setInfo($lng->txt("news_allow_longer_periods_info"));
-        $lp_prop->setChecked($allow_longer_periods);
+        $lp_prop->setChecked((bool) $allow_longer_periods);
         $form->addItem($lp_prop);
 
         // Enable rss for internal news
@@ -241,10 +203,10 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $cb_prop->setValue("1");
         $cb_prop->setInfo($lng->txt("news_enable_internal_rss_info"));
-        $cb_prop->setChecked($enable_internal_rss);
+        $cb_prop->setChecked((bool) $enable_internal_rss);
 
         // RSS News Period
-        $rssp_opts = array(
+        $rssp_opts = [
             2 => "2 " . $lng->txt("days"),
             3 => "3 " . $lng->txt("days"),
             5 => "5 " . $lng->txt("days"),
@@ -255,13 +217,13 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             120 => "4 " . $lng->txt("months"),
             180 => "6 " . $lng->txt("months"),
             365 => "1 " . $lng->txt("year")
-        );
+        ];
         $rssp_sel = new ilSelectInputGUI(
             $lng->txt("news_rss_period"),
             "news_rss_period"
         );
         $rssp_sel->setOptions($rssp_opts);
-        $rssp_sel->setValue((int) $rss_period);
+        $rssp_sel->setValue($rss_period);
         $cb_prop->addSubItem($rssp_sel);
 
         // Section Header: RSS
@@ -270,10 +232,10 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $form->addItem($sh);
 
         // title format for rss entries
-        $options = array(
+        $options = [
             "" => $lng->txt("news_rss_title_format_obj_news"),
             "news_obj" => $lng->txt("news_rss_title_format_news_obj"),
-        );
+        ];
         $si = new ilSelectInputGUI($lng->txt("news_rss_title_format"), "rss_title_format");
         $si->setOptions($options);
         $si->setValue($rss_title_format);
@@ -288,23 +250,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $cb_prop->setValue("1");
         $cb_prop->setInfo($lng->txt("news_enable_private_feed_info"));
-        $cb_prop->setChecked($enable_private_feed);
-        $form->addItem($cb_prop);
-
-
-        // Section Header: External Web Feeds Settings
-        $sh = new ilFormSectionHeaderGUI();
-        $sh->setTitle($lng->txt("feed_settings"));
-        $form->addItem($sh);
-
-        // Disable External Web Feeds in catetegories
-        $cb_prop = new ilCheckboxInputGUI(
-            $lng->txt("feed_disable_rep_feeds"),
-            "disable_repository_feeds"
-        );
-        $cb_prop->setValue("1");
-        $cb_prop->setInfo($lng->txt("feed_disable_rep_feeds_info"));
-        $cb_prop->setChecked($disable_repository_feeds);
+        $cb_prop->setChecked((bool) $enable_private_feed);
         $form->addItem($cb_prop);
 
         if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
@@ -312,14 +258,10 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             $form->addCommandButton("saveSettings", $lng->txt("save"));
             $form->addCommandButton("view", $lng->txt("cancel"));
         }
-
-        $this->tpl->setContent($form->getHTML());
+        return $form;
     }
 
-    /**
-    * Save news and external webfeeds settings
-    */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
@@ -328,38 +270,37 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $ilCtrl->redirect($this, "view");
         }
-        
+
         // empty news cache
-        include_once("./Services/News/classes/class.ilNewsCache.php");
         $this->acache = new ilNewsCache();
         $this->acache->deleteAllEntries();
         
         $news_set = new ilSetting("news");
         $feed_set = new ilSetting("feed");
 
+        $form = $this->getSettingsForm();
 
+        if ($form->checkInput()) {
+            $ilSetting->set("block_activated_news", $form->getInput("enable_internal_news"));
+            $ilSetting->set("block_activated_pdnews", $form->getInput("enable_internal_news"));
+            $news_set->set("enable_rss_for_internal", $form->getInput("enable_internal_rss"));
+            $news_set->set("max_items", $form->getInput("news_max_items"));
+            $news_set->set("acc_cache_mins", $form->getInput("news_acc_cache_mins"));
+            $news_set->set("pd_period", $form->getInput("news_pd_period"));
+            $news_set->set("default_visibility", $form->getInput("news_default_visibility"));
+            $news_set->set("allow_shorter_periods", $form->getInput("allow_shorter_periods"));
+            $news_set->set("allow_longer_periods", $form->getInput("allow_longer_periods"));
+            $news_set->set("rss_period", $form->getInput("news_rss_period"));
+            $news_set->set("rss_title_format", $form->getInput("rss_title_format"));
 
-        $ilSetting->set("block_activated_news", $_POST["enable_internal_news"]);
-        $ilSetting->set("block_activated_pdnews", $_POST["enable_internal_news"]);
-        $news_set->set("enable_rss_for_internal", $_POST["enable_internal_rss"]);
-        $news_set->set("max_items", $_POST["news_max_items"]);
-        $news_set->set("acc_cache_mins", $_POST["news_acc_cache_mins"]);
-        $news_set->set("pd_period", $_POST["news_pd_period"]);
-        $news_set->set("default_visibility", $_POST["news_default_visibility"]);
-        $news_set->set("allow_shorter_periods", $_POST["allow_shorter_periods"] ?? "");
-        $news_set->set("allow_longer_periods", $_POST["allow_longer_periods"] ?? "");
-        $news_set->set("rss_period", $_POST["news_rss_period"]);
-        $news_set->set("rss_title_format", $_POST["rss_title_format"]);
-        
-        $feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"] ?? "");
+            if ($form->getInput("enable_internal_rss")) {
+                $news_set->set("enable_private_feed", $form->getInput("enable_private_feed"));
+            } else {
+                $news_set->set("enable_private_feed", '0');
+            }
 
-        if ($_POST["enable_internal_rss"] != 0) {
-            $news_set->set("enable_private_feed", $_POST["enable_private_feed"] ?? "");
-        } else {
-            $news_set->set("enable_private_feed", 0);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
-        
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
         
         $ilCtrl->redirect($this, "view");
     }

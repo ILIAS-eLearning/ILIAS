@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,32 +22,21 @@
 */
 
 /**
-* Class ilFulltextMediaPoolSearch
+* Class ilLikeMediaPoolSearch
 *
 * class for searching media pool folders and titles of mob's
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilMediaPoolSearch.php';
 
 class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 {
-    public function __createAndCondition()
+    public function __createAndCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        /*
-        $concat  = " CONCAT(";
-        $concat .= 'title,description';
-        $concat .= ") ";
-        */
-        $concat = $ilDB->concat(
+        $concat = $this->db->concat(
             array(
                 array('title','text')
                 )
@@ -63,21 +52,17 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
             #$and .= $concat;
             #$and .= ("LIKE ('%".$word."%')");
             #$and .= $ilDB->like($concat,'text','%'.$word.'%');
-            $and .= $ilDB->like('title', 'text', '%' . $word . '%');
+            $and .= $this->db->like('title', 'text', '%' . $word . '%');
         }
         return $and . ") ";
     }
     
     /**
      * Condition for mob keyword search
-     * @return
+     * @return string
      */
-    public function __createKeywordAndCondition()
+    public function __createKeywordAndCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $concat = ' keyword ';
 
         $and = "  WHERE  ";
@@ -86,7 +71,7 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
             if ($counter++) {
                 $and .= " OR ";
             }
-            $and .= $ilDB->like($concat, 'text', '%' . $word . '%');
+            $and .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         return $and;
     }

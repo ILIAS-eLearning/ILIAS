@@ -1,59 +1,48 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFieldFactory
  * This Class handles the creation of all field-classes
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilDclFieldFactory
 {
-
-    /**
-     * @var string
-     */
-    public static $field_base_path_patter = "./Modules/DataCollection/classes/Fields/%s/";
-    /**
-     * @var string
-     */
-    public static $default_prefix = "ilDcl";
-    /**
-     * @var string
-     */
-    public static $record_field_class_patter = "%sRecordFieldModel";
-    /**
-     * @var string
-     */
-    public static $field_class_patter = "%sFieldModel";
-    /**
-     * @var string
-     */
-    public static $record_class_patter = "%sRecordModel";
-    /**
-     * @var string
-     */
-    public static $record_representation_class_pattern = "%sRecordRepresentation";
-    /**
-     * @var string
-     */
-    public static $field_representation_class_pattern = "%sFieldRepresentation";
-    /**
-     * @var array
-     */
-    protected static $record_field_cache = array();
-
+    public static string $field_base_path_patter = "./Modules/DataCollection/classes/Fields/%s/";
+    public static string $default_prefix = "ilDcl";
+    public static string $record_field_class_patter = "%sRecordFieldModel";
+    public static string $field_class_patter = "%sFieldModel";
+    public static string $record_representation_class_pattern = "%sRecordRepresentation";
+    public static string $field_representation_class_pattern = "%sFieldRepresentation";
+    protected static array $record_field_cache = array();
 
     /**
      * Creates a RecordField instance and loads the field and record representation
-     *
-     * @param ilDclBaseFieldModel  $field
-     * @param ilDclBaseRecordModel $record
-     *
-     * @return mixed
+     * @param object|ilDclBaseFieldModel  $field
+     * @param object|ilDclBaseRecordModel $record
      * @throws ilDclException
+     * @throws Exception
      */
-    public static function getRecordFieldInstance(ilDclBaseFieldModel $field, ilDclBaseRecordModel $record)
+    public static function getRecordFieldInstance(
+        object $field,  //object|ilDclBaseFieldModel
+        object $record //object|ilDclBaseRecordModel
+    ) : ?ilDclBaseRecordFieldModel
     {
         if (!empty(self::$record_field_cache[$field->getId()][$record->getId()])) {
             return self::$record_field_cache[$field->getId()][$record->getId()];
@@ -76,24 +65,17 @@ class ilDclFieldFactory
                 return $instance;
             }
         }
+
+        throw new RuntimeException("file not found " . $path);
+        return null;
     }
 
-
-    /**
-     * @var array
-     */
-    protected static $field_class_cache = array();
-
+    protected static array $field_class_cache = array();
 
     /**
      * Concatenates Classname from datatype and pattern
-     *
-     * @param $datatype
-     * @param $class_pattern
-     *
-     * @return string
      */
-    public static function getFieldClass($datatype, $class_pattern)
+    public static function getFieldClass(string $datatype, string $class_pattern) : string
     {
         if (!empty(self::$field_class_cache[$datatype . $class_pattern])) {
             return self::$field_class_cache[$datatype . $class_pattern];
@@ -107,36 +89,14 @@ class ilDclFieldFactory
         return $class;
     }
 
-
-    /**
-     * Get Filename from datatype and pattern
-     *
-     * @param $datatype
-     * @param $class_pattern
-     *
-     * @return string
-     */
-    public static function getFieldClassFile($datatype, $class_pattern)
+    public static function getFieldClassFile(string $datatype, string $class_pattern) : string
     {
         return "class." . self::getFieldClass($datatype, $class_pattern) . ".php";
     }
 
+    protected static array $field_representation_cache = array();
 
-    /**
-     * @var array
-     */
-    protected static $field_representation_cache = array();
-
-
-    /**
-     * Returns FieldRepresentation from BaseFieldModel
-     *
-     * @param ilDclBaseFieldModel $field
-     *
-     * @return ilDclBaseFieldRepresentation
-     * @throws ilDclException
-     */
-    public static function getFieldRepresentationInstance(ilDclBaseFieldModel $field)
+    public static function getFieldRepresentationInstance(ilDclBaseFieldModel $field) : ilDclBaseFieldRepresentation
     {
         // when the datatype overview is generated no field-models are available, so an empty instance is used => no caching there
         if ($field->getId() != null && !empty(self::$field_representation_cache[$field->getId()])) {
@@ -164,29 +124,22 @@ class ilDclFieldFactory
         return $instance;
     }
 
-
-    /**
-     * @var array
-     */
-    protected static $record_representation_cache = array();
-
+    protected static array $record_representation_cache = array();
 
     /**
      * Get RecordRepresentation from RecordFieldModel
-     *
-     * @param ilDclBaseRecordFieldModel $record_field
-     *
-     * @return ilDclBaseRecordRepresentation
      * @throws ilDclException
      */
-    public static function getRecordRepresentationInstance(ilDclBaseRecordFieldModel $record_field)
-    {
+    public static function getRecordRepresentationInstance(
+        ilDclBaseRecordFieldModel $record_field
+    ) : ilDclBaseRecordRepresentation {
         // there are some field types which have no recordFieldModel object (e.g rating) => no caching
         if ($record_field->getId() != null && !empty(self::$record_representation_cache[$record_field->getId()])) {
             return self::$record_representation_cache[$record_field->getId()];
         }
 
-        $class_path = self::getClassPathByInstance($record_field->getField(), self::$record_representation_class_pattern);
+        $class_path = self::getClassPathByInstance($record_field->getField(),
+            self::$record_representation_class_pattern);
         $instance = null;
 
         if (file_exists($class_path)) {
@@ -208,17 +161,11 @@ class ilDclFieldFactory
         return $instance;
     }
 
-
     /**
      * Get FieldModel from field-id and datatype
-     *
-     * @param      $field_id
-     * @param null $datatype
-     *
-     * @return mixed
      * @throws ilDclException
      */
-    public static function getFieldModelInstance($field_id, $datatype = null)
+    public static function getFieldModelInstance(int $field_id, ?int $datatype = null) : ilDclBaseFieldModel
     {
         $base = new ilDclBaseFieldModel($field_id);
         if ($datatype != null) {
@@ -230,25 +177,17 @@ class ilDclFieldFactory
         return $ilDclBaseFieldModel;
     }
 
-
-    /**
-     * @var array
-     */
-    protected static $field_model_cache = array();
-
+    protected static array $field_model_cache = array();
 
     /**
      * Gets the correct instance of a fieldModel class
      * Checks if a field is a plugin a replaces the fieldModel with the necessary class
-     *
-     * @param ilDclBaseFieldModel $field
-     * @param null                $field_id
-     *
-     * @return ilDclBaseFieldModel
      * @throws ilDclException
      */
-    public static function getFieldModelInstanceByClass(ilDclBaseFieldModel $field, $field_id = null)
-    {
+    public static function getFieldModelInstanceByClass(
+        ilDclBaseFieldModel $field,
+        ?int $field_id = null
+    ) : ilDclBaseFieldModel {
         if ($field->getId() != null && !empty(self::$field_model_cache[$field->getId()])) {
             return self::$field_model_cache[$field->getId()];
         }
@@ -278,21 +217,13 @@ class ilDclFieldFactory
         return $instance;
     }
 
+    protected static array $field_type_cache = array();
 
-    /**
-     * @var array
-     */
-    protected static $field_type_cache = array();
-
-
-    /**
-     *
-     * @param ilDclBaseFieldModel $field
-     *
-     * @return string
-     */
-    public static function getFieldTypeByInstance(ilDclBaseFieldModel $field)
+    public static function getFieldTypeByInstance(ilDclBaseFieldModel $field) : string
     {
+        global $DIC;
+        $component_factory = $DIC["component.factory"];
+        $component_repository = $DIC["component.repository"];
         $datatype = $field->getDatatype();
 
         if (!empty(self::$field_type_cache[$datatype->getId()])) {
@@ -307,8 +238,8 @@ class ilDclFieldFactory
 
         if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
             if ($field->hasProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME)) {
-                $plugin_data
-                    = ilPlugin::getPluginObject(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID, $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
+                $pd = $component_repository->getPluginByName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
+                $plugin_data = $component_factory->getPlugin($pd->getId());
                 $fieldtype = $plugin_data->getPluginClassPrefix() . ucfirst($plugin_data->getPluginName());
             } else {
                 $fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
@@ -322,36 +253,23 @@ class ilDclFieldFactory
         return $fieldtype;
     }
 
-
-    /**
-     * @param ilDclBaseFieldModel $field
-     * @param                     $class_pattern
-     *
-     * @return string
-     */
-    public static function getClassByInstance(ilDclBaseFieldModel $field, $class_pattern)
+    public static function getClassByInstance(ilDclBaseFieldModel $field, string $class_pattern) : string
     {
         $fieldtype = self::getFieldTypeByInstance($field);
 
         return self::getFieldClass($fieldtype, $class_pattern);
     }
 
+    protected static array $class_path_cache = array();
 
     /**
-     * @var array
-     */
-    protected static $class_path_cache = array();
-
-
-    /**
-     * @param ilDclBaseFieldModel $field
-     * @param                     $class_pattern
-     *
-     * @return string
      * @throws ilDclException
      */
-    public static function getClassPathByInstance(ilDclBaseFieldModel $field, $class_pattern)
+    public static function getClassPathByInstance(ilDclBaseFieldModel $field, string $class_pattern) : string
     {
+        global $DIC;
+        $component_factory = $DIC["component.factory"];
+        $component_repository = $DIC["component.repository"];
         $datatype = $field->getDatatype();
 
         if ($field->getId() != null && !empty(self::$class_path_cache[$field->getId()][$class_pattern])) {
@@ -360,9 +278,7 @@ class ilDclFieldFactory
 
         if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
             if ($field->hasProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME)) {
-                $plugin_data
-                    = ilPlugin::getPluginObject(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID, $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
-                if ($plugin_data == null) {
+                if ($component_repository->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID)->hasPluginName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME))) {
                     throw new ilDclException(
                         "Something went wrong by initializing the FieldHook-Plugin '"
                         . $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME) . "' on Component '"
@@ -370,13 +286,17 @@ class ilDclFieldFactory
                         . $field->getTitle()
                     );
                 }
+                $pd = $component_repository->getPluginByName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
+                $plugin_data = $component_factory->getPlugin($pd->getId());
 
                 $class_path = $plugin_data->getDirectory() . "/classes/";
             } else {
-                $class_path = sprintf(self::$field_base_path_patter, ucfirst(self::parseDatatypeTitle($datatype->getTitle())));
+                $class_path = sprintf(self::$field_base_path_patter,
+                    ucfirst(self::parseDatatypeTitle($datatype->getTitle())));
             }
         } else {
-            $class_path = sprintf(self::$field_base_path_patter, ucfirst(self::parseDatatypeTitle($datatype->getTitle())));
+            $class_path = sprintf(self::$field_base_path_patter,
+                ucfirst(self::parseDatatypeTitle($datatype->getTitle())));
         }
 
         $return = $class_path . self::getFieldClassFile(self::getFieldTypeByInstance($field), $class_pattern);
@@ -388,16 +308,11 @@ class ilDclFieldFactory
         return $return;
     }
 
-
     /**
      * Parse string to FieldClass format
      * Replaces _ with camelcase-notation
-     *
-     * @param $title
-     *
-     * @return string
      */
-    public static function parseDatatypeTitle($title)
+    public static function parseDatatypeTitle(string $title) : string
     {
         $parts = explode("_", $title);
         $func = function ($value) {
@@ -410,28 +325,12 @@ class ilDclFieldFactory
         return $title;
     }
 
-
-    /**
-     * Creates a RecordModel instance
-     *
-     * @param $record_id
-     *
-     * @return ilDclBaseRecordModel
-     */
-    public static function getRecordModelInstance($record_id)
+    public static function getRecordModelInstance(int $record_id) : ilDclBaseRecordModel
     {
         return new ilDclBaseRecordModel($record_id);
     }
 
-
-    /**
-     * Get plugin-name from FieldModel
-     *
-     * @param ilDclBaseFieldModel $object
-     *
-     * @return string
-     */
-    public static function getPluginNameFromFieldModel(ilDclBaseFieldModel $object)
+    public static function getPluginNameFromFieldModel(ilDclBaseFieldModel $object) : string
     {
         $class_name = get_class($object);
         $class_name = substr($class_name, 2, -(strlen(self::$field_class_patter) - 2));

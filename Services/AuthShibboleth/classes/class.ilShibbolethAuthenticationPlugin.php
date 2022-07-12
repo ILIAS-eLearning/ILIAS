@@ -1,30 +1,17 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-include_once './Services/Component/classes/class.ilPlugin.php';
-include_once './Services/AuthShibboleth/interfaces/interface.ilShibbolethRoleAssignmentPlugin.php';
-require_once('./Services/AuthShibboleth/interfaces/interface.ilShibbolethAuthenticationPluginInt.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Plugin definition
  *
@@ -36,177 +23,75 @@ require_once('./Services/AuthShibboleth/interfaces/interface.ilShibbolethAuthent
  */
 abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilShibbolethAuthenticationPluginInt
 {
+    /**
+     * @var ilShibbolethAuthenticationPlugin[]
+     */
+    protected array $active_plugins = [];
 
     /**
-     * @var array
+     * @param mixed $a_value
      */
-    protected $active_plugins = array();
-
-
-    /**
-     * Get Component Type
-     *
-     * @return        string        Component Type
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-
-    /**
-     * Get Component Name
-     *
-     * @return    string Component Name
-     */
-    final public function getComponentName()
-    {
-        return 'AuthShibboleth';
-    }
-
-
-    /**
-     * Get Slot Name
-     *
-     * @return string Slot Name
-     */
-    final public function getSlot()
-    {
-        return 'ShibbolethAuthenticationHook';
-    }
-
-
-    /**
-     * Get Slot Id
-     *
-     * @return string Slot Id
-     */
-    final public function getSlotId()
-    {
-        return 'shibhk';
-    }
-
-
-    /**
-     *  Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-    }
-
-
-    /**
-     * @param $a_user_data
-     * @param $a_keyword
-     * @param $a_value
-     *
-     * @return bool
-     */
-    protected function checkValue($a_user_data, $a_keyword, $a_value)
+    protected function checkValue(array $a_user_data, string $a_keyword, $a_value) : bool
     {
         if (!$a_user_data[$a_keyword]) {
             return false;
         }
         if (is_array($a_user_data[$a_keyword])) {
             foreach ($a_user_data[$a_keyword] as $values) {
-                if (strcasecmp(trim($values), $a_value) == 0) {
+                if (strcasecmp(trim($values), $a_value) === 0) {
                     return true;
                 }
             }
 
             return false;
         }
-        if (strcasecmp(trim($a_user_data[$a_keyword]), trim($a_value)) == 0) {
-            return true;
-        }
-
-        return false;
+        return strcasecmp(trim($a_user_data[$a_keyword]), trim($a_value)) === 0;
     }
 
 
-    /**
-     * @param ilObjUser $user
-     *
-     * @return ilObjUser
-     */
-    public function beforeLogin(ilObjUser $user)
+    public function beforeLogin(ilObjUser $user) : ilObjUser
     {
         return $user;
     }
 
 
-    /**
-     * @param ilObjUser $user
-     *
-     * @return ilObjUser
-     */
-    public function afterLogin(ilObjUser $user)
+    public function afterLogin(ilObjUser $user) : ilObjUser
     {
         return $user;
     }
 
 
-    /**
-     * @param ilObjUser $user
-     *
-     * @return ilObjUser
-     */
-    public function beforeCreateUser(ilObjUser $user)
+    public function beforeCreateUser(ilObjUser $user) : ilObjUser
     {
         return $user;
     }
 
 
-    /**
-     * @param ilObjUser $user
-     *
-     * @return ilObjUser
-     */
-    public function afterCreateUser(ilObjUser $user)
+    public function afterCreateUser(ilObjUser $user) : ilObjUser
     {
         return $user;
     }
 
 
-    /**
-     * @param ilObjUser $user
-     *
-     * @return ilObjUser
-     */
-    public function beforeLogout(ilObjUser $user)
+    public function beforeLogout(ilObjUser $user) : ilObjUser
     {
         return $user;
     }
 
 
-    /**
-     * @param ilObjUser $user
-     *
-     * @return ilObjUser
-     */
-    public function afterLogout(ilObjUser $user)
+    public function afterLogout(ilObjUser $user) : ilObjUser
     {
         return $user;
     }
 
 
-    /**
-     * @param ilObjUser $user
-     *
-     * @return ilObjUser
-     */
-    public function beforeUpdateUser(ilObjUser $user)
+    public function beforeUpdateUser(ilObjUser $user) : ilObjUser
     {
         return $user;
     }
 
 
-    /**
-     * @param ilObjUser $user
-     *
-     * @return ilObjUser
-     */
-    public function afterUpdateUser(ilObjUser $user)
+    public function afterUpdateUser(ilObjUser $user) : ilObjUser
     {
         return $user;
     }

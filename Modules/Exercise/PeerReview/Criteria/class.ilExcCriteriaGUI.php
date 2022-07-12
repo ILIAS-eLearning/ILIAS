@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Exercise\GUIRequest;
 
 /**
@@ -91,7 +105,7 @@ class ilExcCriteriaGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "view");
     }
     
@@ -103,7 +117,7 @@ class ilExcCriteriaGUI
         
         $ids = $this->request->getCriteriaIds();
         if (count($ids) == 0) {
-            ilUtil::sendInfo($lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "view");
         }
         
@@ -138,7 +152,7 @@ class ilExcCriteriaGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "view");
     }
     
@@ -191,7 +205,7 @@ class ilExcCriteriaGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         
-        $new_type = $this->request->getType();
+        $new_type = $this->request->getCriteriaType();
         if (!$new_type) {
             $ilCtrl->redirect($this, "view");
         }
@@ -240,7 +254,7 @@ class ilExcCriteriaGUI
                 $a_crit_obj->update();
             }
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "view");
         }
         
@@ -252,7 +266,7 @@ class ilExcCriteriaGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $new_type = $this->request->getType();
+        $new_type = $this->request->getCriteriaType();
         if (!$new_type) {
             $ilCtrl->redirect($this, "view");
         }

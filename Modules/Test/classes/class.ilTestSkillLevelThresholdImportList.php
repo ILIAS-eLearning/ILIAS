@@ -28,7 +28,7 @@ class ilTestSkillLevelThresholdImportList implements Iterator
         $this->importedSkillLevelThresholds[] = $importedSkillLevelThreshold;
     }
     
-    public function getThresholdsByImportSkill($importSkillBaseId, $importSkillTrefId)
+    public function getThresholdsByImportSkill($importSkillBaseId, $importSkillTrefId) : array
     {
         $thresholds = array();
         
@@ -50,14 +50,11 @@ class ilTestSkillLevelThresholdImportList implements Iterator
     /**
      * @return ilTestSkillLevelThresholdImport
      */
-    public function current()
+    public function current() : ilTestSkillLevelThresholdImport
     {
         return current($this->importedSkillLevelThresholds);
     }
     
-    /**
-     * @return ilTestSkillLevelThresholdImport
-     */
     public function next()
     {
         return next($this->importedSkillLevelThresholds);
@@ -74,7 +71,7 @@ class ilTestSkillLevelThresholdImportList implements Iterator
     /**
      * @return bool
      */
-    public function valid()
+    public function valid() : bool
     {
         return key($this->importedSkillLevelThresholds) !== null;
     }

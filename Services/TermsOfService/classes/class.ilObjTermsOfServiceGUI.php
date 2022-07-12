@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author            Michael Jansen <mjansen@databay.de>
@@ -22,7 +37,6 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         $this->dic = $DIC;
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->error = $DIC['ilErr'];
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
@@ -48,8 +62,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         switch (strtolower($nextClass)) {
             case strtolower(ilTermsOfServiceDocumentGUI::class):
+                /** @var ilObjTermsOfService $obj */
+                $obj = $this->object;
                 $documentGui = new ilTermsOfServiceDocumentGUI(
-                    $this->object,
+                    $obj,
                     $this->dic['tos.criteria.type.factory'],
                     $this->dic->ui()->mainTemplate(),
                     $this->dic->user(),
@@ -65,14 +81,17 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->filesystem(),
                     $this->dic->upload(),
                     $tableDataProviderFactory,
-                    new ilTermsOfServiceTrimmedDocumentPurifier(new ilTermsOfServiceDocumentHtmlPurifier())
+                    new ilTermsOfServiceTrimmedDocumentPurifier(new ilTermsOfServiceDocumentHtmlPurifier()),
+                    $this->dic->refinery()
                 );
                 $this->ctrl->forwardCommand($documentGui);
                 break;
 
             case strtolower(ilTermsOfServiceAcceptanceHistoryGUI::class):
+                /** @var ilObjTermsOfService $obj */
+                $obj = $this->object;
                 $documentGui = new ilTermsOfServiceAcceptanceHistoryGUI(
-                    $this->object,
+                    $obj,
                     $this->dic['tos.criteria.type.factory'],
                     $this->dic->ui()->mainTemplate(),
                     $this->dic->ctrl(),
@@ -83,7 +102,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->refinery(),
                     $this->dic->ui()->factory(),
                     $this->dic->ui()->renderer(),
-                    $tableDataProviderFactory
+                    $tableDataProviderFactory,
                 );
                 $this->ctrl->forwardCommand($documentGui);
                 break;
@@ -94,7 +113,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                 break;
 
             default:
-                if ($cmd === '' || $cmd === 'view' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || $cmd === 'view' || !method_exists($this, $cmd)) {
                     $cmd = 'settings';
                 }
                 $this->$cmd();
@@ -104,16 +123,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
     public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget(
-                'settings',
-                $this->ctrl->getLinkTarget($this, 'settings'),
-                '',
-                [strtolower(self::class)]
-            );
-        }
-
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'tos_agreement_documents_tab_label',
                 $this->ctrl->getLinkTargetByClass(ilTermsOfServiceDocumentGUI::class),
@@ -122,9 +132,18 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             );
         }
 
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
+            $this->tabs_gui->addTarget(
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'settings'),
+                '',
+                [strtolower(self::class)]
+            );
+        }
+
         if (
-            (defined('USER_FOLDER_ID') && $this->rbacsystem->checkAccess('read', USER_FOLDER_ID)) &&
-            $this->rbacsystem->checkAccess('read', $this->object->getRefId())
+            (defined('USER_FOLDER_ID') && $this->rbac_system->checkAccess('read', USER_FOLDER_ID)) &&
+            $this->rbac_system->checkAccess('read', $this->object->getRefId())
         ) {
             $this->tabs_gui->addTarget(
                 'tos_acceptance_history',
@@ -134,7 +153,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             );
         }
 
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass([self::class, ilPermissionGUI::class], 'perm'),
@@ -146,11 +165,13 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
     protected function getSettingsForm() : ilTermsOfServiceSettingsFormGUI
     {
+        /** @var ilObjTermsOfService $obj */
+        $obj = $this->object;
         $form = new ilTermsOfServiceSettingsFormGUI(
-            $this->object,
+            $obj,
             $this->ctrl->getFormAction($this, 'saveSettings'),
             'saveSettings',
-            $this->rbacsystem->checkAccess('write', $this->object->getRefId())
+            $this->rbac_system->checkAccess('write', $this->object->getRefId())
         );
 
         ilAdministrationSettingsFormHandler::addFieldsToForm(
@@ -164,16 +185,16 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
     protected function saveSettings() : void
     {
-        if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $form = $this->getSettingsForm();
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, 'settings');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -186,13 +207,13 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
 
         if (0 === ilTermsOfServiceDocument::where([])->count()) {
-            ilUtil::sendInfo($this->lng->txt('tos_no_documents_exist'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_no_documents_exist'));
         }
     }
 
     protected function settings() : void
     {
-        if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 

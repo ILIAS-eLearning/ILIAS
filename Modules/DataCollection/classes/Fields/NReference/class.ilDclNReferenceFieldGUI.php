@@ -1,35 +1,35 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclNReferenceFieldGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDclNReferenceFieldGUI
 {
+    protected ilDclNReferenceRecordFieldModel $field;
 
-    /**
-     * @var ilDclNReferenceRecordFieldModel
-     */
-    protected $field;
-
-
-    /**
-     * @param ilDclNReferenceRecordFieldModel $field
-     */
     public function __construct(ilDclNReferenceRecordFieldModel $field)
     {
         $this->field = $field;
     }
 
-
-    /**
-     * @param ilDclNReferenceRecordFieldModel $field
-     * @param null                            $options
-     *
-     * @return string
-     */
-    public function getSingleHTML($options = null)
+    public function getSingleHTML(?array $options = null) : string
     {
         $values = $this->field->getValue();
 
@@ -42,16 +42,11 @@ class ilDclNReferenceFieldGUI
         return $tpl->get();
     }
 
-
-    /**
-     * @param $record_field
-     * @param $values
-     * @param $options
-     *
-     * @return ilTemplate
-     */
-    protected function buildTemplate(ilDclNReferenceRecordFieldModel $record_field, $values, $options)
-    {
+    protected function buildTemplate(
+        ilDclNReferenceRecordFieldModel $record_field,
+        array $values,
+        ?array $options
+    ) : ilTemplate {
         $tpl = new ilTemplate("tpl.reference_list.html", true, true, "Modules/DataCollection");
         $tpl->setCurrentBlock("reference_list");
         foreach ($values as $value) {
@@ -63,7 +58,8 @@ class ilDclNReferenceFieldGUI
             } else {
                 $tpl->setCurrentBlock("reference");
                 if (!$options) {
-                    $tpl->setVariable("CONTENT", $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef()));
+                    $tpl->setVariable("CONTENT",
+                        $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef()));
                 } else {
                     $tpl->setVariable("CONTENT", $record_field->getLinkHTML($options['link']['name'], $value));
                 }
@@ -75,11 +71,7 @@ class ilDclNReferenceFieldGUI
         return $tpl;
     }
 
-
-    /**
-     * @return array|mixed|string
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $values = $this->field->getValue();
         $record_field = $this->field;
@@ -115,7 +107,7 @@ class ilDclNReferenceFieldGUI
                 $is_numeric = true;
                 break;
         }
-        $elements = ilUtil::sortArray($elements, 'sort', 'asc', $is_numeric);
+        $elements = ilArrayUtil::sortArray($elements, 'sort', 'asc', $is_numeric);
 
         //concat
         foreach ($elements as $element) {

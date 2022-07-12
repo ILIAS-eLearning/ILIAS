@@ -1,114 +1,59 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Abstract parent class for all page component plugin classes.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilPageComponentPlugin extends ilPlugin
 {
-    const TXT_CMD_INSERT = "cmd_insert";
-    const CMD_INSERT = "insert";
-    const CMD_EDIT = "edit";
+    public const TXT_CMD_INSERT = "cmd_insert";
+    public const CMD_INSERT = "insert";
+    public const CMD_EDIT = "edit";
 
-    /**
-     *
-     * @var ilPageObject|null
-     */
-    private $page_obj = null;
-    
-    /**
-     * Get Component Type
-     *
-     * @return        string        Component Type
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-    
-    /**
-     * Get Component Name.
-     *
-     * @return        string        Component Name
-     */
-    final public function getComponentName()
-    {
-        return "COPage";
-    }
-    
-    /**
-     * Get Slot Name.
-     *
-     * @return        string        Slot Name
-     */
-    final public function getSlot()
-    {
-        return "PageComponent";
-    }
-    
-    /**
-    * Get Slot ID.
-    *
-    * @return        string        Slot Id
-    */
-    final public function getSlotId()
-    {
-        return "pgcp";
-    }
-    
-    /**
-    * Object initialization done by slot.
-    */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-    
+    private ?ilPageObject $page_obj = null;
+    protected string $mode;
+
     /**
      * Determines the resources that allow to include the
      * new content component.
-     *
-     * @param	string		$a_type		Parent type (e.g. "cat", "lm", "glo", "wiki", ...)
-     *
-     * @return	boolean		true/false if the resource type allows
+     * @param string $a_type Parent type (e.g. "cat", "lm", "glo", "wiki", ...)
+     * @return bool true/false if the resource type allows
      */
-    abstract public function isValidParentType($a_type);
+    abstract public function isValidParentType(string $a_type) : bool;
     
-    /**
-     * Get Javascript files
-     */
-    public function getJavascriptFiles($a_mode)
+    public function getJavascriptFiles(string $a_mode) : array
     {
         return array();
     }
     
-    /**
-     * Get css files
-     */
-    public function getCssFiles($a_mode)
+    public function getCssFiles(string $a_mode) : array
     {
         return array();
     }
     
-    /**
-     * Set Mode.
-     *
-     * @param	string	$a_mode	Mode
-     */
-    final public function setMode($a_mode)
+    final public function setMode(string $a_mode) : void
     {
         $this->mode = $a_mode;
     }
 
-    /**
-     * Get Mode.
-     *
-     * @return	string	Mode
-     */
-    final public function getMode()
+    final public function getMode() : string
     {
         return $this->mode;
     }
@@ -116,10 +61,9 @@ abstract class ilPageComponentPlugin extends ilPlugin
     /**
      * Get UI plugin class
      */
-    public function getUIClassInstance()
+    public function getUIClassInstance() : ilPageComponentPluginGUI
     {
         $class = "il" . $this->getPluginName() . "PluginGUI";
-        $this->includeClass("class." . $class . ".php");
         $obj = new $class();
         $obj->setPlugin($this);
         return $obj;
@@ -129,18 +73,16 @@ abstract class ilPageComponentPlugin extends ilPlugin
      * Inject the page object
      * This must be public to be called by ilPCPlugged
      * But the page object should not directly be accessible by plugins
-     * @param ilPageObject
      */
-    public function setPageObj($a_page_obj)
+    public function setPageObj(ilPageObject $a_page_obj) : void
     {
         $this->page_obj = $a_page_obj;
     }
 
     /**
      * Get the id of the page
-     * @return int
      */
-    public function getPageId()
+    public function getPageId() : int
     {
         if (isset($this->page_obj)) {
             return $this->page_obj->getId();
@@ -150,9 +92,8 @@ abstract class ilPageComponentPlugin extends ilPlugin
 
     /**
      * Get the object id of the parent object
-     * @return int
      */
-    public function getParentId()
+    public function getParentId() : int
     {
         if (isset($this->page_obj)) {
             return $this->page_obj->getParentId();
@@ -162,9 +103,8 @@ abstract class ilPageComponentPlugin extends ilPlugin
 
     /**
      * Get the object type og the parent object
-     * @return string
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         if (isset($this->page_obj)) {
             return $this->page_obj->getParentType();
@@ -177,8 +117,26 @@ abstract class ilPageComponentPlugin extends ilPlugin
      * @param array 	$a_properties		(properties saved in the page, should be modified if neccessary)
      * @param string	$a_plugin_version	(plugin version of the properties)
      */
-    public function onClone(&$a_properties, $a_plugin_version)
-    {
+    public function onClone(
+        array &$a_properties,
+        string $a_plugin_version
+    ) : void {
+    }
+
+    /**
+     * This function is called after repository (container) objects have been copied
+     *
+     * @param array $a_properties properties saved in the page, should be modified if neccessary
+     * @param array $mapping repository object mapping array
+     * @param int $source_ref_id ref id of source object
+     * @param string $a_plugin_version plugin version of the properties
+     */
+    public function afterRepositoryCopy(
+        array &$a_properties,
+        array $mapping,
+        int $source_ref_id,
+        string $a_plugin_version
+    ) : void {
     }
 
     /**
@@ -186,7 +144,9 @@ abstract class ilPageComponentPlugin extends ilPlugin
      * @param array 	$a_properties		properties saved in the page (will be deleted afterwards)
      * @param string	$a_plugin_version	plugin version of the properties
      */
-    public function onDelete($a_properties, $a_plugin_version)
-    {
+    public function onDelete(
+        array $a_properties,
+        string $a_plugin_version
+    ) : void {
     }
 }

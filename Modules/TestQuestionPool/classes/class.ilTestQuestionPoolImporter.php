@@ -1,5 +1,18 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 include_once("./Services/Export/classes/class.ilXmlImporter.php");
 
@@ -35,7 +48,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             $newObj->setOnline(true);
 
-            $_SESSION['qpl_import_subdir'] = $this->getImportPackageName();
+            ilSession::set('qpl_import_subdir', $this->getImportPackageName());
 
             $newObj->setOnline(true);
         } elseif ($new_id = $a_mapping->getMapping('Modules/TestQuestionPool', 'qpl', "new_id")) {
@@ -80,17 +93,17 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': xml file: ' . $xml_file . ", qti file:" . $qti_file);
         
-        if (isset($_SESSION["qpl_import_idents"])) {
-            $idents = $_SESSION["qpl_import_idents"];
-            unset($_SESSION["qpl_import_idents"]);
+        if (ilSession::get("qpl_import_idents") !== null) {
+            $idents = ilSession::get("qpl_import_idents");
+            ilSession::clear("qpl_import_idents");
         } else {
             $idents = null;
         }
         
         // start parsing of QTI files
         include_once "./Services/QTI/classes/class.ilQTIParser.php";
-        $qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, $newObj->getId(), $idents);
-        $result = $qtiParser->startParsing();
+        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $newObj->getId(), $idents);
+        $qtiParser->startParsing();
 
         // import page data
         if (strlen($xml_file)) {
@@ -153,7 +166,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
                 if ($new_tax_ids !== false) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage($tid, $new);
+                        ilObjTaxonomy::saveUsage( (int)$tid, $new);
                     }
                 }
                 
@@ -173,7 +186,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      * Create qti and xml file name
      * @return array
      */
-    protected function parseXmlFileNames()
+    protected function parseXmlFileNames() : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
@@ -186,21 +199,21 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         return array($xml,$qti);
     }
 
-    private function getImportDirectoryContainer()
+    private function getImportDirectoryContainer() : string
     {
         $dir = $this->getImportDirectory();
         $dir = dirname($dir);
         return $dir;
     }
 
-    private function getImportPackageName()
+    private function getImportPackageName() : string
     {
         $dir = $this->getImportDirectory();
         $name = basename($dir);
         return $name;
     }
     
-    protected function importQuestionSkillAssignments($xmlFile, ilImportMapping $mappingRegistry, $targetParentObjId)
+    protected function importQuestionSkillAssignments($xmlFile, ilImportMapping $mappingRegistry, $targetParentObjId) : void
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentXmlParser.php';
         $parser = new ilAssQuestionSkillAssignmentXmlParser($xmlFile);

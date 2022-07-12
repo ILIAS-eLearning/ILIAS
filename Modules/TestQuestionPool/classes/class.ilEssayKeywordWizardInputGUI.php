@@ -1,23 +1,39 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
-    /**
-     * Set Value.
-     *
-     * @param    string    $a_value    Value
-     */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->values = array();
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index, $a_value['points_unchecked'][$index], $a_value['imagename'][$index]);
+                    if (isset($a_value['points'])) {
+                        $value = $a_value['points'][$index];
+                    } else {
+                        $value = 0.0;
+                    }
+                    if (isset($a_value['points_unchecked'])) {
+                        $value_unchecked = $a_value['points_unchecked'][$index];
+                    } else {
+                        $value_unchecked = 0.0;
+                    }
+                    $answer = new ASS_AnswerMultipleResponseImage($value, $value, $index, $value_unchecked);
                     array_push($this->values, $answer);
                 }
             }
@@ -26,25 +42,25 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
-     *
      * @return    boolean        Input ok, true/false
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
 
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive(
+            $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString(
                     "assessment"
                 )
             );
+        } else {
+            $foundvalues = $_POST[$this->getPostVar()];
         }
-        $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {
@@ -82,10 +98,9 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
     /**
      * Insert property html
-     *
-     * @return    int    Size
+     * @return    void    Size
      */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -96,10 +111,16 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
             if ($this->getSingleline()) {
                 if (is_object($value)) {
                     $tpl->setCurrentBlock("prop_text_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                    );
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPointsChecked()));
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsChecked())
+                    );
                     $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('singleline');
@@ -116,7 +137,10 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 if (!$this->getSingleline()) {
                     if (is_object($value)) {
                         $tpl->setCurrentBlock("prop_points_propval");
-                        $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
+                        $tpl->setVariable(
+                            "PROPERTY_VALUE",
+                            ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints())
+                        );
                         $tpl->parseCurrentBlock();
                     }
                 }

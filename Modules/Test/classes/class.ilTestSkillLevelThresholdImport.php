@@ -44,7 +44,7 @@ class ilTestSkillLevelThresholdImport
     /**
      * @return int
      */
-    public function getImportSkillBaseId()
+    public function getImportSkillBaseId() : ?int
     {
         return $this->importSkillBaseId;
     }
@@ -60,7 +60,7 @@ class ilTestSkillLevelThresholdImport
     /**
      * @return int
      */
-    public function getImportSkillTrefId()
+    public function getImportSkillTrefId() : ?int
     {
         return $this->importSkillTrefId;
     }
@@ -76,7 +76,7 @@ class ilTestSkillLevelThresholdImport
     /**
      * @return int
      */
-    public function getImportLevelId()
+    public function getImportLevelId() : ?int
     {
         return $this->importLevelId;
     }
@@ -92,7 +92,7 @@ class ilTestSkillLevelThresholdImport
     /**
      * @return int
      */
-    public function getOrderIndex()
+    public function getOrderIndex() : ?int
     {
         return $this->orderIndex;
     }
@@ -108,7 +108,7 @@ class ilTestSkillLevelThresholdImport
     /**
      * @return int
      */
-    public function getThreshold()
+    public function getThreshold() : ?int
     {
         return $this->threshold;
     }
@@ -124,7 +124,7 @@ class ilTestSkillLevelThresholdImport
     /**
      * @return string
      */
-    public function getOriginalLevelTitle()
+    public function getOriginalLevelTitle() : ?string
     {
         return $this->originalLevelTitle;
     }
@@ -140,7 +140,7 @@ class ilTestSkillLevelThresholdImport
     /**
      * @return string
      */
-    public function getOriginalLevelDescription()
+    public function getOriginalLevelDescription() : ?string
     {
         return $this->originalLevelDescription;
     }

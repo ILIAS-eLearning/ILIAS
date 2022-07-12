@@ -37,7 +37,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @return ilXmlWriter
      */
-    public function getXmlWriter()
+    public function getXmlWriter() : ?ilXmlWriter
     {
         return $this->xmlWriter;
     }
@@ -45,7 +45,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    public function setXmlWriter(ilXmlWriter $xmlWriter)
+    public function setXmlWriter(ilXmlWriter $xmlWriter) : void
     {
         $this->xmlWriter = $xmlWriter;
     }
@@ -53,7 +53,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @return array
      */
-    public function getQuestionIds()
+    public function getQuestionIds() : array
     {
         return $this->questionIds;
     }
@@ -61,7 +61,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @param array $questionIds
      */
-    public function setQuestionIds($questionIds)
+    public function setQuestionIds($questionIds) : void
     {
         $this->questionIds = $questionIds;
     }
@@ -69,7 +69,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @return ilAssQuestionSkillAssignmentList
      */
-    public function getAssignmentList()
+    public function getAssignmentList() : ?ilAssQuestionSkillAssignmentList
     {
         return $this->assignmentList;
     }
@@ -77,12 +77,12 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @param ilAssQuestionSkillAssignmentList $assignmentList
      */
-    public function setAssignmentList($assignmentList)
+    public function setAssignmentList($assignmentList) : void
     {
         $this->assignmentList = $assignmentList;
     }
 
-    public function export()
+    public function export() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

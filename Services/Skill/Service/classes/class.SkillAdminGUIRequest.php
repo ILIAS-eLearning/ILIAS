@@ -43,9 +43,9 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->int("ref_id");
     }
 
-    public function getObjId() : int
+    public function getNodeId() : int
     {
-        return $this->int("obj_id");
+        return $this->int("node_id");
     }
 
     public function getRootId() : int
@@ -68,9 +68,9 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->bool("tmpmode");
     }
 
-    public function getTemplatesTree() : bool
+    public function getTemplatesTree() : int
     {
-        return $this->bool("templates_tree");
+        return $this->int("templates_tree");
     }
 
     public function getBackCommand() : string
@@ -93,6 +93,9 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->bool("local_context");
     }
 
+    /**
+     * @return int[]
+     */
     public function getOrder() : array
     {
         return $this->intArray("order");
@@ -103,41 +106,65 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->int("level_id");
     }
 
+    /**
+     * @return int[]
+     */
     public function getLevelIds() : array
     {
         return $this->getIds();
     }
 
+    /**
+     * @return string[]
+     */
     public function getAssignedLevelIds() : array
     {
         return $this->strArray("ass_id");
     }
 
+    /**
+     * @return int[]
+     */
     public function getResourceIds() : array
     {
         return $this->getIds();
     }
 
+    /**
+     * @return bool[]
+     */
     public function getSuggested() : array
     {
         return $this->boolArray("suggested");
     }
 
+    /**
+     * @return bool[]
+     */
     public function getTrigger() : array
     {
         return $this->boolArray("trigger");
     }
 
+    /**
+     * @return string[]
+     */
     public function getTitles() : array
     {
         return $this->strArray("title");
     }
 
+    /**
+     * @return int[]
+     */
     public function getNodeIds() : array
     {
         return $this->getIds();
     }
 
+    /**
+     * @return int[]
+     */
     public function getProfileIds() : array
     {
         return $this->getIds();
@@ -148,16 +175,25 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->str("user_login");
     }
 
+    /**
+     * @return int[]
+     */
     public function getUsers() : array
     {
         return $this->intArray("user");
     }
 
+    /**
+     * @return int[]
+     */
     public function getUserIds() : array
     {
         return $this->getIds();
     }
 
+    /**
+     * @return string[]
+     */
     public function getSelectedIds(string $post_var) : array
     {
         return $this->strArray($post_var);

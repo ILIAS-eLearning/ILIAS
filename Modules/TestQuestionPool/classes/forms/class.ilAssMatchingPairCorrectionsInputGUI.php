@@ -12,12 +12,12 @@
  */
 class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
 {
-    public function getPairs()
+    public function getPairs() : array
     {
         return $this->pairs;
     }
     
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if (is_array($a_value)) {
             if (is_array($a_value['points'])) {
@@ -28,13 +28,13 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
         }
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
@@ -62,7 +62,7 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
         return $this->checkSubItemsInput();
     }
     
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

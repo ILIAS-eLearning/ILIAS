@@ -1,38 +1,50 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * class for DOM utilities
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDOMUtil
 {
-
     /**
-    * searches for an element $a_node_name within the childs of $parent_node
-    * if no node is found, a new is created before the childs with names of
-    * $a_successors. the content of the node is set to $a_content and the
-    * attributes to $a_attributes
-    */
+     * searches for an element $a_node_name within the childs of $parent_node
+     * if no node is found, a new is created before the childs with names of
+     * $a_successors. the content of the node is set to $a_content and the
+     * attributes to $a_attributes
+     */
     public static function setFirstOptionalElement(
-        $doc,
-        $parent_node,
-        $a_node_name,
-        $a_successors,
-        $a_content,
-        $a_attributes,
-        $a_remove_childs = true
-    ) {
+        php4DOMDocument $doc,
+        php4DOMElement $parent_node,
+        string $a_node_name,
+        array $a_successors,
+        string $a_content,
+        array $a_attributes,
+        bool $a_remove_childs = true
+    ) : void {
         $search = $a_successors;
         $search[] = $a_node_name;
+        $child_name = "";
+        $child = null;
 
         $childs = $parent_node->child_nodes();
-        $cnt_childs = count($childs);
         $found = false;
-        //echo "A";
         foreach ($childs as $child) {
             $child_name = $child->node_name();
             //echo "B$child_name";
@@ -44,8 +56,8 @@ class ilDOMUtil
         }
         // didn't find element
         if (!$found) {
-            $new_node = &$doc->create_element($a_node_name);
-            $new_node = &$parent_node->append_child($new_node);
+            $new_node = $doc->create_element($a_node_name);
+            $new_node = $parent_node->append_child($new_node);
             if ($a_content != "") {
                 $new_node->set_content($a_content);
             }
@@ -63,8 +75,8 @@ class ilDOMUtil
                 }
                 ilDOMUtil::set_attributes($child, $a_attributes);
             } else {
-                $new_node = &$doc->create_element($a_node_name);
-                $new_node = &$child->insert_before($new_node, $child);
+                $new_node = $doc->create_element($a_node_name);
+                $new_node = $child->insert_before($new_node, $child);
                 if ($a_content != "") {
                     $new_node->set_content($a_content);
                 }
@@ -74,13 +86,13 @@ class ilDOMUtil
     }
 
     /**
-    * set attributes of a node
-    *
-    * @param	object	$a_node			node
-    * @param	array	$a_attributes	attributes array (attribute_name => attribute_value pairs)
-    */
-    public static function set_attributes($a_node, $a_attributes)
-    {
+     * set attributes of a node
+     * @param	array	$a_attributes	attributes array (attribute_name => attribute_value pairs)
+     */
+    public static function set_attributes(
+        php4DOMElement $a_node,
+        array $a_attributes
+    ) : void {
         foreach ($a_attributes as $attribute => $value) {
             if ($value != "") {
                 $a_node->set_attribute($attribute, $value);
@@ -93,10 +105,12 @@ class ilDOMUtil
     }
 
     /**
-    * delete all childs of a node by names in $a_node_names
-    */
-    public static function deleteAllChildsByName($a_parent, $a_node_names)
-    {
+     * delete all childs of a node by names in $a_node_names
+     */
+    public static function deleteAllChildsByName(
+        php4DOMElement $a_parent,
+        array $a_node_names
+    ) : void {
         $childs = $a_parent->child_nodes();
         foreach ($childs as $child) {
             $child_name = $child->node_name();
@@ -107,20 +121,20 @@ class ilDOMUtil
     }
 
     /**
-    * Places a new node $a_node_name directly before nodes with names of
-    * $a_successors. The content of the node is set to $a_content and the
-    * attributes to $a_attributes
-    */
+     * Places a new node $a_node_name directly before nodes with names of
+     * $a_successors. The content of the node is set to $a_content and the
+     * attributes to $a_attributes
+     */
     public static function addElementToList(
-        $doc,
-        $parent_node,
-        $a_node_name,
-        $a_successors,
-        $a_content,
-        $a_attributes
-    ) {
+        php4DOMDocument $doc,
+        php4DOMElement $parent_node,
+        string $a_node_name,
+        array $a_successors,
+        string $a_content,
+        array $a_attributes
+    ) : php4DOMElement {
         $search = $a_successors;
-
+        $child = null;
         $childs = $parent_node->child_nodes();
         $cnt_childs = count($childs);
         $found = false;
@@ -132,22 +146,17 @@ class ilDOMUtil
             }
         }
         // didn't successors -> append at the end
+        $new_node = $doc->create_element($a_node_name);
         if (!$found) {
-            $new_node = $doc->create_element($a_node_name);
             $new_node = $parent_node->append_child($new_node);
-            if ($a_content != "") {
-                $new_node->set_content($a_content);
-            }
-            ilDOMUtil::set_attributes($new_node, $a_attributes);
         } else {
-            $new_node = $doc->create_element($a_node_name);
             $new_node = $child->insert_before($new_node, $child);
-            if ($a_content != "") {
-                $new_node->set_content($a_content);
-            }
-            ilDOMUtil::set_attributes($new_node, $a_attributes);
         }
-        
+        if ($a_content != "") {
+            $new_node->set_content($a_content);
+        }
+        ilDOMUtil::set_attributes($new_node, $a_attributes);
+
         return $new_node;
     }
 } // END class.ilDOMUtil

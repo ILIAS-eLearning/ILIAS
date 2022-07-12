@@ -1,12 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Dashboard UI
- *
  * @author Alexander Killing <killing@leifos.de>
- *
  * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
  * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
@@ -15,126 +24,47 @@
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
  *
  */
-class ilDashboardGUI
+class ilDashboardGUI implements ilCtrlBaseClassInterface
 {
     public const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
     public const DISENGAGE_MAINBAR = "dash_mb_disengage";
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected ilSetting $settings;
+    protected ilRbacSystem $rbacsystem;
+    protected ilHelpGUI $help;
+    public \ilGlobalTemplateInterface $tpl;
+    public \ilLanguage $lng;
+    public string $cmdClass = '';
+    protected ilAdvancedSelectionListGUI $action_menu;
+    protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
+    protected int $requested_view;
+    protected int $requested_prt_id;
+    protected int $requested_gtp;
+    protected string $requested_dsh;
+    protected int $requested_wsp_id;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var \ilGlobalTemplateInterface
-     */
-    public $tpl;
-
-    /**
-     * @var \ilLanguage
-     */
-    public $lng;
-
-    /**
-     * @var string
-     */
-    public $cmdClass = '';
-
-    /**
-     * @var ilAdvancedSelectionListGUI
-     */
-    protected $action_menu;
-
-    /**
-     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
-     */
-    protected $tool_context;
-
-    /**
-     * @var int
-     */
-    protected $requested_view;
-
-    /**
-     * @var int
-     */
-    protected $requested_prt_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_gtp;
-
-    /**
-     * @var string
-     */
-    protected $requested_dsh;
-
-    /**
-     * @var int
-     */
-    protected $requested_wsp_id;
-
-    /**
-    * constructor
-    */
     public function __construct()
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->user = $DIC->user();
-        $this->error = $DIC["ilErr"];
         $this->settings = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->help = $DIC["ilHelp"];
         $tpl = $DIC["tpl"];
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $ilUser = $DIC->user();
-        $ilErr = $DIC["ilErr"];
-        
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+
         $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        
-        $ilCtrl->setContext(
-            $ilUser->getId(),
+
+        $this->ctrl->setContextObject(
+            $this->user->getId(),
             "user"
         );
 
@@ -143,11 +73,9 @@ class ilDashboardGUI
         $this->lng->loadLanguageModule("dash");
         $this->lng->loadLanguageModule("mmbr");
 
-        // catch hack attempts
         if ($this->user->getId() == ANONYMOUS_USER_ID) {
-            $ilErr->raiseError($this->lng->txt("msg_not_available_for_anon"), $ilErr->MESSAGE);
+            throw new ilPermissionException($this->lng->txt("msg_not_available_for_anon"));
         }
-
 
         $params = $DIC->http()->request()->getQueryParams();
         $this->cmdClass = ($params['cmdClass'] ?? "");
@@ -161,19 +89,14 @@ class ilDashboardGUI
         $this->action_menu = new ilAdvancedSelectionListGUI();
     }
     
-    /**
-    * execute command
-    */
     public function executeCommand() : void
     {
         $context = $this->tool_context;
         $context->stack()->desktop();
         $ilSetting = $this->settings;
-        $ilErr = $this->error;
 
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
-
         switch ($next_class) {
 
                 // profile
@@ -192,13 +115,6 @@ class ilDashboardGUI
                 $this->ctrl->forwardCommand($settings_gui);
                 break;
 
-            // profile
-            /* probably not used anymore
-            case "ilobjusergui":
-                $user_gui = new ilObjUserGUI("", $_GET["user"], false, false);
-                $this->ctrl->forwardCommand($user_gui);
-                break;*/
-            
             case 'ilcalendarpresentationgui':
                 $this->getStandardTemplates();
                 $this->displayHeader();
@@ -212,7 +128,7 @@ class ilDashboardGUI
                 // pd notes
             case "ilpdnotesgui":
                 if ($ilSetting->get('disable_notes') && $ilSetting->get('disable_comments')) {
-                    ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                     ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
                     return;
                 }
@@ -261,7 +177,7 @@ class ilDashboardGUI
 
             case 'ilcontactgui':
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
-                    $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+                    throw new ilPermissionException($this->lng->txt('msg_no_perm_read'));
                 }
 
                 $this->getStandardTemplates();
@@ -323,27 +239,18 @@ class ilDashboardGUI
         }
     }
 
-    /**
-    * get standard templates
-    */
-    public function getStandardTemplates()
+    public function getStandardTemplates() : void
     {
         $this->tpl->loadStandardTemplate();
     }
     
-    /**
-    * show desktop
-    */
-    public function show()
+    public function show() : void
     {
         // preload block settings
         ilBlockSetting::preloadPDBlockSettings();
-
-        // display infopanel if something happened
-        ilUtil::infoPanel();
         
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
         $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
         
         $this->tpl->setContent($this->getCenterColumnHTML());
@@ -372,10 +279,6 @@ class ilDashboardGUI
         $this->tpl->printToStdout();
     }
     
-    
-    /**
-     * Display center column
-     */
     public function getCenterColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
@@ -422,9 +325,6 @@ class ilDashboardGUI
         return $html;
     }
 
-    /**
-    * Display right column
-    */
     public function getRightColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
@@ -462,60 +362,15 @@ class ilDashboardGUI
         return $html;
     }
 
-    /**
-    * Display left column
-    */
-    public function getLeftColumnHTML() : string
-    {
-        $ilCtrl = $this->ctrl;
-
-        $column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
-        $this->initColumn($column_gui);
-
-        $html = "";
-        if ($column_gui->getScreenMode() == IL_SCREEN_FULL) {
-            return "";
-        }
-
-        if ($ilCtrl->getNextClass() == "ilcolumngui" &&
-            $column_gui->getCmdSide() == IL_COL_LEFT &&
-            $column_gui->getScreenMode() == IL_SCREEN_SIDE) {
-            $html = $ilCtrl->forwardCommand($column_gui);
-        } else {
-            if (!$ilCtrl->isAsynch()) {
-                $html = "";
-                
-                // user interface plugin slot + default rendering
-                $uip = new ilUIHookProcessor(
-                    "Services/Dashboard",
-                    "left_column",
-                    array("personal_desktop_gui" => $this)
-                );
-                if (!$uip->replaced()) {
-                    $html = $ilCtrl->getHTML($column_gui);
-                }
-                $html = $uip->getHTML($html);
-            }
-        }
-
-        return $html;
-    }
-
     public function prepareContentView() : void
     {
         $this->tpl->loadStandardTemplate();
-                
-        // display infopanel if something happened
-        ilUtil::infoPanel();
 
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd.svg"));
         $this->tpl->setTitle($this->lng->txt("personal_desktop"));
         $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
     }
 
-    /**
-    * set personal desktop tabs
-    */
     public function setTabs() : void
     {
         $ilHelp = $this->help;
@@ -523,9 +378,6 @@ class ilDashboardGUI
         $ilHelp->setScreenIdComponent("pd");
     }
 
-    /**
-     * Jump to memberships
-     */
     public function jumpToMemberships() : void
     {
         $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), $this->requested_view);
@@ -535,9 +387,6 @@ class ilDashboardGUI
         $this->ctrl->redirect($this, "show");
     }
 
-    /**
-     * Jump to selected items
-     */
     public function jumpToSelectedItems() : void
     {
         $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), $this->requested_view);
@@ -547,9 +396,6 @@ class ilDashboardGUI
         $this->show();
     }
 
-    /**
-     * workaround for menu in calendar only
-     */
     public function jumpToProfile() : void
     {
         $this->ctrl->redirectByClass("ilpersonalprofilegui");
@@ -574,55 +420,36 @@ class ilDashboardGUI
         }
     }
     
-    /**
-     * workaround for menu in calendar only
-     */
     public function jumpToSettings() : void
     {
         $this->ctrl->redirectByClass("ilpersonalsettingsgui");
     }
     
-
-    /**
-    * workaround for menu in calendar only
-    */
     public function jumpToNews() : void
     {
         $this->ctrl->redirectByClass("ilpdnewsgui");
     }
     
-    /**
-     * Jump to calendar
-     */
     public function jumpToCalendar() : void
     {
         global $DIC;
         $request = $DIC->http()->request();
+        
+        $query_params = $request->getQueryParams();
 
-        if ($request->getQueryParams()["cal_view"]) {
-            $cal_view = $request->getQueryParams()["cal_view"];
+        if (array_key_exists("cal_view", $query_params) && $query_params["cal_view"]) {
+            $cal_view = $query_params["cal_view"];
             $this->ctrl->setParameter($this, "cal_view", $cal_view);
         }
 
-        if (!empty($request->getQueryParams()["cal_agenda_per"])) {
-            $cal_period = $request->getQueryParams()["cal_agenda_per"];
+        if (!empty($query_params["cal_agenda_per"])) {
+            $cal_period = $query_params["cal_agenda_per"];
             $this->ctrl->setParameter($this, "cal_agenda_per", $cal_period);
         }
 
         $this->ctrl->redirectByClass("ilcalendarpresentationgui");
     }
 
-    /**
-     * Jump to contacts
-     */
-    public function jumpToContacts() : void
-    {
-        $this->ctrl->redirectByClass(array('ildashboardgui', 'ilcontactgui'));
-    }
-
-    /**
-     * Jump to personal workspace
-     */
     public function jumpToWorkspace() : void
     {
         // incoming back link from shared resource
@@ -643,55 +470,31 @@ class ilDashboardGUI
         $this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
     }
 
-    /**
-     *
-     */
     protected function jumpToMyStaff() : void
     {
         $this->ctrl->redirectByClass(ilMyStaffGUI::class);
     }
     
-    /**
-     * Jump to badges
-     */
     public function jumpToBadges() : void
     {
         $this->ctrl->redirectByClass(["ilAchievementsGUI", "ilbadgeprofilegui"]);
     }
     
-    /**
-     * Jump to personal skills
-     */
     public function jumpToSkills() : void
     {
         $this->ctrl->redirectByClass("ilpersonalskillsgui");
     }
     
-
-    /**
-     * Init ilColumnGUI
-     * @var ilColumnGUI $a_column_gui
-     */
     public function initColumn(ilColumnGUI $a_column_gui) : void
     {
-        $pd_set = new ilSetting("pd");
-        if ($pd_set->get("enable_block_moving")) {
-            $a_column_gui->setEnableMovement(true);
-        }
         $a_column_gui->setActionMenu($this->action_menu);
     }
     
-    /**
-    * display header and locator
-    */
     public function displayHeader() : void
     {
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
     }
 
-    /**
-     * Temporary workaround for toggling the help
-     */
     protected function toggleHelp() : void
     {
         if (ilSession::get("show_help_tool") == "1") {
@@ -702,11 +505,6 @@ class ilDashboardGUI
         $this->ctrl->redirect($this, "show");
     }
 
-
-    /**
-     * Get main content
-     * @return string
-     */
     protected function getMainContent() : string
     {
         $html = "";
@@ -728,55 +526,30 @@ class ilDashboardGUI
         return $tpl->get();
     }
 
-    /**
-     * Render favourites
-     *
-     * @return string
-     */
     protected function renderFavourites() : string
     {
         $block = new ilPDSelectedItemsBlockGUI();
         return $block->getHTML();
     }
 
-    /**
-     * Render recommended content
-     *
-     * @return string
-     */
     protected function renderRecommendedContent() : string
     {
         $db_rec_content = new ilDashboardRecommendedContentGUI();
         return $db_rec_content->render();
     }
 
-    /**
-     * Render study programmes
-     *
-     * @return string
-     */
     protected function renderStudyProgrammes() : string
     {
         $st_block = ilStudyProgrammeDIC::dic()['ilStudyProgrammeDashboardViewGUI'];
         return $st_block->getHTML();
     }
 
-    /**
-     * Render memberships
-     *
-     * @return string
-     */
     protected function renderMemberships() : string
     {
         $block = new ilPDMembershipBlockGUI();
         return $block->getHTML();
     }
 
-    /**
-     * Render learning sequences
-     *
-     * @return string
-     */
     protected function renderLearningSequences() : string
     {
         $st_block = new ilDashboardLearningSequenceGUI();

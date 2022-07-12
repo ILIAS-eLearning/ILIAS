@@ -1,99 +1,75 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Modal class
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUIComponent
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilModalGUI
 {
-    protected $heading = "";
-    protected $body = "";
-    protected $id = "";
-    const TYPE_LARGE = "large";
-    const TYPE_MEDIUM = "medium";
-    const TYPE_SMALL = "small";
+    protected string $heading = "";
+    protected string $body = "";
+    protected string $id = "";
 
-    protected $type = self::TYPE_MEDIUM;
-    protected $buttons = array();
+    public const TYPE_LARGE = "large";
+    public const TYPE_MEDIUM = "medium";
+    public const TYPE_SMALL = "small";
 
-    /**
-     * Constructor
-     */
+    protected string $type = self::TYPE_MEDIUM;
+    protected array $buttons = array();
+
     protected function __construct()
     {
     }
 
-    /**
-     * Get instance
-     *
-     * @return ilModalGUI panel instance
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new ilModalGUI();
     }
 
-    /**
-     * Set id
-     *
-     * @param string $a_val id
-     */
-    public function setId($a_val)
+    public function setId(string $a_val) : void
     {
         $this->id = $a_val;
     }
 
-    /**
-     * Get id
-     *
-     * @return string id
-     */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
 
-    /**
-     * Set heading
-     *
-     * @param string $a_val heading
-     */
-    public function setHeading($a_val)
+    public function setHeading(string $a_val) : void
     {
         $this->heading = $a_val;
     }
 
-    /**
-     * Get heading
-     *
-     * @return string heading
-     */
-    public function getHeading()
+
+    public function getHeading() : string
     {
         return $this->heading;
     }
 
-    /**
-     * Set body
-     *
-     * @param string $a_val body
-     */
-    public function setBody($a_val)
+    public function setBody(string $a_val) : void
     {
         $this->body = $a_val;
     }
 
-    /**
-     * Get body
-     *
-     * @return string body
-     */
-    public function getBody()
+    public function getBody() : string
     {
         return $this->body;
     }
@@ -103,48 +79,31 @@ class ilModalGUI
      *
      * @param string $a_val type const ilModalGUI::TYPE_SMALL|ilModalGUI::TYPE_MEDIUM|ilModalGUI::TYPE_LARGE
      */
-    public function setType($a_val)
+    public function setType(string $a_val) : void
     {
         $this->type = $a_val;
     }
     
-    /**
-     * Get type
-     *
-     * @return string type
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-     * Add button
-     *
-     * @param ilButtonBase $but button
-     */
-    public function addButton(ilButtonBase $but)
+    public function addButton(ilButtonBase $but) : void
     {
         $this->buttons[] = $but;
     }
 
     /**
      * Get buttons
-     *
      * @return ilButtonBase[]
      */
-    public function getButtons()
+    public function getButtons() : array
     {
         return $this->buttons;
     }
 
-
-    /**
-     * Get HTML
-     *
-     * @return string html
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $tpl = new ilTemplate("tpl.modal.html", true, true, "Services/UIComponent/Modal");
 
@@ -176,19 +135,12 @@ class ilModalGUI
         return $tpl->get();
     }
 
-    /**
-     * Init javascript
-     */
-    public static function initJS(ilGlobalTemplateInterface $a_main_tpl = null)
+    public static function initJS(ilGlobalTemplateInterface $a_main_tpl = null) : void
     {
         global $DIC;
 
-        if ($a_main_tpl != null) {
-            $tpl = $a_main_tpl;
-        } else {
-            $tpl = $DIC["tpl"];
-        }
+        $tpl = $a_main_tpl ?? $DIC["tpl"];
 
-        $tpl->addJavascript("./Services/UIComponent/Modal/js/Modal.js");
+        $tpl->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
     }
 }

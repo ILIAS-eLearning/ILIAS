@@ -1,44 +1,39 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Tree\Expandable;
 
-class DataNode
-{
-    /**
-     * @var string
-     */
-    protected $label = "";
-
-    /**
-     * @var array
-     */
-    protected $children = [];
-
-    public function __construct(string $label, array $children = [])
-    {
-        $this->label = $label;
-        $this->children = $children;
-    }
-    public function getLabel()
-    {
-        return $this->label;
-    }
-    public function getChildren()
-    {
-        return $this->children;
-    }
-}
-
-function expandable2()
+function expandable2() : string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
+    $getDataNode = function (string $label, array $children = []) {
+        return new class($label, $children) {
+            protected string $label = '';
+            protected array$children = [];
 
-    $n11 = new DataNode('1.1');
-    $n12 = new DataNode('1.2', array(new DataNode('1.2.1')));
-    $n1 = new DataNode('1', [$n11, $n12]);
+            public function __construct(string $label, array $children = [])
+            {
+                $this->label = $label;
+                $this->children = $children;
+            }
+
+            public function getLabel() : string
+            {
+                return $this->label;
+            }
+
+            public function getChildren() : array
+            {
+                return $this->children;
+            }
+        };
+    };
+
+    $n11 = $getDataNode('1.1');
+    $n12 = $getDataNode('1.2', [$getDataNode('1.2.1')]);
+    $n1 = $getDataNode('1', [$n11, $n12]);
     $data = [$n1];
 
     $recursion = new class implements \ILIAS\UI\Component\Tree\TreeRecursion {

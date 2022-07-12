@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
@@ -18,7 +35,6 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Class AbstractModificationProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractModificationProvider extends AbstractProvider implements ModificationProvider
@@ -27,12 +43,11 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     /**
      * @var ContextCollection
      */
-    protected $context_collection;
+    protected ContextCollection $context_collection;
     /**
      * @var ToolFactory
      */
     protected $factory;
-
 
     /**
      * @inheritDoc
@@ -44,7 +59,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
         $this->factory = $this->globalScreen()->layout()->factory();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -52,7 +66,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
 
     /**
      * @inheritDoc
@@ -62,6 +75,10 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
         return null;
     }
 
+    public function getResponsiveLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
+    {
+        return null;
+    }
 
     /**
      * @inheritDoc
@@ -71,7 +88,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
         return null;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -79,7 +95,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
 
     /**
      * @inheritDoc
@@ -89,7 +104,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
         return null;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -97,7 +111,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
 
     /**
      * @inheritDoc

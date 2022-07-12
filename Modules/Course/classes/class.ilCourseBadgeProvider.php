@@ -1,25 +1,32 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Badge/interfaces/interface.ilBadgeProvider.php";
-
+<?php declare(strict_types=0);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilCourseBadgeProvider
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ModulesCourse
  */
 class ilCourseBadgeProvider implements ilBadgeProvider
 {
-    public function getBadgeTypes()
+    public function getBadgeTypes() : array
     {
-        include_once "Modules/Course/classes/Badges/class.ilCourseMeritBadge.php";
-        include_once "Modules/Course/classes/Badges/class.ilCourseLPBadge.php";
-        return array(
-            new ilCourseMeritBadge()
-            ,new ilCourseLPBadge()
-        );
+        return [
+            new ilCourseMeritBadge(),
+            new ilCourseLPBadge()
+        ];
     }
 }

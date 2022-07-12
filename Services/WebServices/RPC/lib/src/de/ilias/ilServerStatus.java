@@ -24,7 +24,8 @@ package de.ilias;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ilServerStatus {
 	
@@ -32,7 +33,7 @@ public class ilServerStatus {
 	public static final String STOPPED = "Stopped";
 	public static final String INDEXING = "Indexing";
 	
-	private static Logger logger = Logger.getLogger(ilServerStatus.class);
+	private static Logger logger = LogManager.getLogger(ilServerStatus.class);
 	
 	private static HashMap<String, Boolean> indexer = new HashMap<String, Boolean>();
 	private static boolean active = false;

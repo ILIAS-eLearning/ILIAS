@@ -1,32 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/User/classes/class.ilObjUser.php';
-include_once './Services/User/classes/class.ilUserClipboard.php';
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Show administrate clipboard content
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilUserClipboardTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilUserClipboard
-     */
-    private $clipboard;
+    private ilUserClipboard $clipboard;
     
-    /**
-     * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     * @param int $a_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_id
+    ) {
         $this->setId('obj_table_' . $a_id);
         parent::__construct($a_parent_obj, $a_parent_cmd, '');
         
@@ -34,10 +36,7 @@ class ilUserClipboardTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('user');
     }
     
-    /**
-     * init table
-     */
-    public function init()
+    public function init() : void
     {
         $this->setTitle($this->lng->txt('clipboard_table_title'));
         
@@ -65,10 +64,9 @@ class ilUserClipboardTableGUI extends ilTable2GUI
     }
 
     /**
-     * Fill row
-     * @param type $a_set
+     * @param array<string,mixed> $a_set
      */
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_POSTNAME', 'uids');
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
@@ -76,10 +74,7 @@ class ilUserClipboardTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
     }
     
-    /**
-     * Parse clipboard content
-     */
-    public function parse()
+    public function parse() : void
     {
         $content = array();
         foreach ($this->clipboard->getValidatedContent() as $user_id) {

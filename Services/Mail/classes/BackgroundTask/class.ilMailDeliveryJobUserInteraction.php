@@ -1,10 +1,28 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class ilMailDeliveryJobUserInteraction
@@ -12,59 +30,41 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOp
  */
 class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 {
-    const OPTION_CANCEL = 'cancel';
+    public const OPTION_CANCEL = 'cancel';
 
-    /**
-     * @inheritdoc
-     */
     public function getOptions(array $input) : array
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getRemoveOption()
+    public function getRemoveOption() : Option
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOutputType()
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket)
-    {
-        return $input;
+    public function interaction(
+        array $input,
+        ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option,
+        ILIAS\BackgroundTasks\Bucket $bucket
+    ) : Value {
+        return $input[0];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getMessage(array $input)
+    public function getMessage(array $input) : string
     {
         return '';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function canBeSkipped(array $input) : bool
     {
         return true;

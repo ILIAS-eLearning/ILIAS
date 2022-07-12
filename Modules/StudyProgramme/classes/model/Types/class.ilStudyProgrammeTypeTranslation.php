@@ -1,4 +1,21 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * Class ilStudyProgrammeTypeTranslation
  * This class represents a translation for a given ilStudyProgrammeType object and language.
@@ -7,125 +24,63 @@
  */
 class ilStudyProgrammeTypeTranslation
 {
-    /**
-     *
-     * @var int
-     */
-    protected $id;
-
-    /**
-     *
-     * @var int
-     */
-    protected $prg_type_id = 0;
-
-    /**
-     *
-     * @var string
-     */
-    protected $lang = '';
-
-    /**
-     *
-     * @var string
-     */
-    protected $member = '';
-
-    /**
-     *
-     * @var string
-     */
-    protected $value = '';
+    protected int $id;
+    protected int $prg_type_id = 0;
+    protected string $lang = '';
+    protected string $member = '';
+    protected string $value = '';
 
     public function __construct(int $id)
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
     public function getId() : int
     {
         return $this->id;
     }
 
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
-
-    /**
-     * @return int
-     */
     public function getPrgTypeId() : int
     {
         return $this->prg_type_id;
     }
 
-
-    /**
-     * @param int $prg_type_id
-     */
-    public function setPrgTypeId(int $prg_type_id)
+    public function setPrgTypeId(int $prg_type_id) : void
     {
         $this->prg_type_id = $prg_type_id;
     }
 
-
-    /**
-     * @return string
-     */
     public function getLang() : string
     {
         return $this->lang;
     }
 
-
-    /**
-     * @param string $lang
-     */
-    public function setLang(string $lang)
+    public function setLang(string $lang) : void
     {
         $this->lang = $lang;
     }
 
-
-    /**
-     * @return string
-     */
     public function getMember() : string
     {
         return $this->member;
     }
 
-
-    /**
-     * @param string $member
-     */
-    public function setMember(string $member)
+    public function setMember(string $member) : void
     {
         $this->member = $member;
     }
 
-
-    /**
-     * @return string
-     */
     public function getValue() : string
     {
         return $this->value;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setValue(string $value)
+    public function setValue(string $value) : void
     {
         $this->value = $value;
     }

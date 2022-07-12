@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Identification\Serializer;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Identification\Serializer;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
@@ -6,16 +23,15 @@ use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use LogicException;
 
 /**
  * Class PluginSerializer
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class PluginSerializer implements SerializerInterface
 {
-    const DIVIDER = '|';
-
+    protected const DIVIDER = '|';
 
     /**
      * @inheritdoc
@@ -30,12 +46,11 @@ class PluginSerializer implements SerializerInterface
         $str = "{$identification->getPluginId()}{$divider}{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
 
         if (strlen($str) > SerializerInterface::MAX_LENGTH) {
-            throw new \LogicException("Serialized Identifications MUST be shorter than " . SerializerInterface::MAX_LENGTH . " characters");
+            throw new LogicException("Serialized Identifications MUST be shorter than " . SerializerInterface::MAX_LENGTH . " characters");
         }
 
         return $str;
     }
-
 
     /**
      * @inheritdoc
@@ -52,7 +67,6 @@ class PluginSerializer implements SerializerInterface
 
         return $f->identifier($internal_identifier);
     }
-
 
     /**
      * @inheritDoc

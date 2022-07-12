@@ -1,77 +1,71 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ADT based-object base class
- *
  * Currently "mixed" with ActiveRecord-pattern, could be splitted
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesADT
  */
 abstract class ilADTBasedObject
 {
-    protected $properties = array(); // [array]
-    protected $db_errors = array(); // [array]
-        
+    protected ilADT $properties;
+    protected array $db_errors = [];
+
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+
     /**
      * Constructor
-     *
      * Tries to read record from DB, in accordance to current ILIAS behaviour
-     *
-     * @return self
      */
     public function __construct()
     {
+        global $DIC;
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
         $this->properties = $this->initProperties();
-        
+
         // :TODO: to keep constructor "open" we COULD use func_get_args()
         $this->parsePrimary(func_get_args());
         $this->read();
     }
-    
-    
+
+
     //
     // properties
     //
-    
+
     /**
      * Init properties (aka set ADT definition)
-     *
      * @return ilADT
      */
-    abstract protected function initProperties();
-    
+    abstract protected function initProperties() : ilADT;
+
     /**
      * Get all properties
-     *
-     * @return array ilADT
      */
-    public function getProperties()
+    public function getProperties() : ilADT
     {
         return $this->properties;
     }
-    
+
     /**
      * Validate
-     *
      * @return bool
      */
-    public function isValid()
+    public function isValid() : bool
     {
         return $this->properties->isValid();
     }
-        
+
     /**
      * Get property magic method ("get<PropertyName>()")
-     *
      * Setters are type-specific and cannot be magic
-     *
-     * @throws Exception
      * @param string $a_method
-     * @param mixed $a_value
+     * @param mixed  $a_value
      * @return ilADT
+     * @throws Exception
      */
     public function __call($a_method, $a_value)
     {
@@ -84,78 +78,69 @@ abstract class ilADTBasedObject
                     throw new Exception("ilADTObject unknown property " . $parsed);
                 }
                 return $this->properties->getElement($parsed);
-            
+
             default:
-                throw new Exception("ilADTObject unknown method " . $parsed);
+                throw new Exception("ilADTObject unknown type: " . $type);
         }
     }
-    
-    
+
+
     //
     // CRUD / active record
     //
-    
+
     /**
      * Parse incoming primary key
-     *
-     * @see __construct()
      * @param array $a_args
+     * @see __construct()
      */
-    abstract protected function parsePrimary(array $a_args);
-    
+    abstract protected function parsePrimary(array $a_args) : void;
+
     /**
      * Check if currently has primary
-     *
      * @return bool
      */
-    abstract protected function hasPrimary();
-    
+    abstract protected function hasPrimary() : bool;
+
     /**
      * Create new primary key, e.g. sequence
-     *
      * @return bool
      */
-    abstract protected function createPrimaryKey();
-    
+    abstract protected function createPrimaryKeyb() : bool;
+
     /**
      * Init (properties) DB bridge
-     *
-     * @param ilADTGroupDBBridge $a_adt_db
+     * @param ilADTDBBridge $a_adt_db
      */
-    abstract protected function initDBBridge(ilADTGroupDBBridge $a_adt_db);
-    
+    abstract protected function initDBBridge(ilADTDBBridge $a_adt_db) : void;
+
     /**
      * Init active record helper for current table, primary and properties
-     *
      * @return ilADTActiveRecord
      */
-    protected function initActiveRecordInstance()
+    protected function initActiveRecordInstance() : ilADTActiveRecord
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->hasPrimary()) {
             throw new Exception("ilADTBasedObject no primary");
         }
-        
+
         $factory = ilADTFactory::getInstance();
-        $this->adt_db = $factory->getDBBridgeForInstance($this->properties);
-        $this->initDBBridge($this->adt_db);
-        
+        $adt_db = $factory->getDBBridgeForInstance($this->properties);
+        $this->initDBBridge($adt_db);
+
         // use custom error handling
-        include_once "Services/ADT/classes/class.ilADTDBException.php";
-        $ilDB->exception = "ilADTDBException";
-                        
-        return $factory->getActiveRecordInstance($this->adt_db);
+        //FIXME
+        //$this->db->exception = "ilADTDBException";
+
+        /** @noinspection PhpParamsInspection */
+        return $factory->getActiveRecordInstance($adt_db);
     }
-    
+
     /**
      * Read record
-     *
-     * @return boolean
+     * @return bool
      */
-    public function read()
+    public function read() : bool
     {
         if ($this->hasPrimary()) {
             $rec = $this->initActiveRecordInstance();
@@ -163,20 +148,19 @@ abstract class ilADTBasedObject
         }
         return false;
     }
-    
+
     /**
      * Create record (only if valid)
-     *
-     * @return boolean
+     * @return bool
      */
-    public function create()
+    public function create() : bool
     {
         if ($this->hasPrimary()) {
             return $this->update();
         }
-        
+
         if ($this->isValid()) {
-            if ($this->createPrimaryKey()) {
+            if ($this->createPrimaryKeyb()) {
                 try {
                     $rec = $this->initActiveRecordInstance();
                     $rec->create();
@@ -189,18 +173,17 @@ abstract class ilADTBasedObject
         }
         return false;
     }
-    
+
     /**
      * Update record (only if valid)
-     *
-     * @return boolean
+     * @return bool
      */
-    public function update()
+    public function update() : bool
     {
         if (!$this->hasPrimary()) {
             return $this->create();
         }
-        
+
         if ($this->isValid()) {
             try {
                 $rec = $this->initActiveRecordInstance();
@@ -213,13 +196,12 @@ abstract class ilADTBasedObject
         }
         return false;
     }
-    
+
     /**
      * Delete record
-     *
-     * @return boolean
+     * @return bool
      */
-    public function delete()
+    public function delete() : bool
     {
         if ($this->hasPrimary()) {
             $rec = $this->initActiveRecordInstance();
@@ -228,66 +210,55 @@ abstract class ilADTBasedObject
         }
         return false;
     }
-    
+
     /**
      * Get DB errors
-     *
      * @return array
      */
-    public function getDBErrors()
+    public function getDBErrors() : array
     {
         return $this->db_errors;
     }
-    
+
     /**
      * Translate DB error codes
-     *
      * @param array $a_codes
      * @return array
      */
-    public function translateDBErrorCodes(array $a_codes)
+    public function translateDBErrorCodes(array $a_codes) : array
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         $res = array();
-    
+
         foreach ($a_codes as $code) {
             switch ($code) {
-                case MDB2_ERROR_CONSTRAINT:
-                    $res[] = $lng->txt("adt_error_db_constraint");
-                    break;
-                    
                 default:
                     $res[] = "Unknown ADT error code " . $code;
                     break;
             }
         }
-        
         return $res;
     }
-    
+
     /**
      * Get translated error codes (DB, Validation)
-     *
-     * @param type $delimiter
+     * @param string $delimiter
      * @return string
      */
-    public function getAllTranslatedErrors($delimiter = "\n")
+    public function getAllTranslatedErrors(string $delimiter = "\n") : string
     {
         $tmp = array();
-        
+
         foreach ($this->getProperties()->getValidationErrorsByElements() as $error_code => $element_id) {
             $tmp[] = $element_id . " [validation]: " . $this->getProperties()->translateErrorCode($error_code);
         }
-        
+
         foreach ($this->getDBErrors() as $element_id => $codes) {
             $tmp[] = $element_id . " [db]: " . implode($delimiter, $this->translateDBErrorCodes($codes));
         }
-        
-        if (sizeof($tmp)) {
+
+        if (count($tmp)) {
             return get_class($this) . $delimiter . implode($delimiter, $tmp);
         }
+        return '';
     }
 }

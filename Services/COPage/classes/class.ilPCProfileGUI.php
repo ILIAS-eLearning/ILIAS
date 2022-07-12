@@ -1,40 +1,47 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCProfileGUI
- *
  * Handles user commands on personal data
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilPCProfileGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected \ILIAS\HTTP\Services $http;
+    protected ilToolbarGUI $toolbar;
 
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
+        $this->http = $DIC->http();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -44,19 +51,15 @@ class ilPCProfileGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
     /**
      * Insert new personal data form.
-     *
-     * @param ilPropertyFormGUI $a_form
      */
-    public function insert(ilPropertyFormGUI $a_form = null)
+    public function insert(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
 
@@ -70,10 +73,8 @@ class ilPCProfileGUI extends ilPageContentGUI
 
     /**
      * Edit personal data form.
-     *
-     * @param ilPropertyFormGUI $a_form
      */
-    public function edit(ilPropertyFormGUI $a_form = null)
+    public function edit(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
 
@@ -87,11 +88,8 @@ class ilPCProfileGUI extends ilPageContentGUI
 
     /**
      * Init profile form
-     *
-     * @param bool $a_insert
-     * @return ilPropertyFormGUI
      */
-    protected function initForm($a_insert = false)
+    protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $ilToolbar = $this->toolbar;
@@ -160,13 +158,11 @@ class ilPCProfileGUI extends ilPageContentGUI
 
     /**
      * Gather field values
-     *
-     * @return array
      */
-    protected function getFieldsValues()
+    protected function getFieldsValues() : array
     {
         $fields = array();
-        foreach ($_POST as $name => $value) {
+        foreach ($this->http->request()->getParsedBody() as $name => $value) {
             if (substr($name, 0, 4) == "chk_") {
                 if ($value) {
                     $fields[] = substr($name, 4);
@@ -177,9 +173,9 @@ class ilPCProfileGUI extends ilPageContentGUI
     }
 
     /**
-    * Create new personal data.
-    */
-    public function create()
+     * Create new personal data.
+     */
+    public function create() : void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -199,9 +195,9 @@ class ilPCProfileGUI extends ilPageContentGUI
     }
 
     /**
-    * Update personal data.
-    */
-    public function update()
+     * Update personal data.
+     */
+    public function update() : void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,87 +22,40 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAdvancedMetaData
-*/
-
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilAdvancedMDSearch extends ilAbstractSearch
 {
-    protected $definition;
-    protected $adt;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param obj query parser
-     *
-     */
+    protected ?ilAdvancedMDFieldDefinition $definition = null;
+    protected ?ilADTSearchBridge $adt = null;
+
     public function __construct($query_parser)
     {
         parent::__construct($query_parser);
     }
-    
-    /**
-     * set Definition
-     *
-     * @access public
-     * @param obj field definition object
-     *
-     */
-    public function setDefinition($a_def)
+
+    public function setDefinition(ilAdvancedMDFieldDefinition $a_def) : void
     {
         $this->definition = $a_def;
     }
-    
-    /**
-     * get definition
-     *
-     * @access public
-     *
-     */
-    public function getDefinition()
+
+    public function getDefinition() : ilAdvancedMDFieldDefinition
     {
         return $this->definition;
     }
-    
-    /**
-     * set search element
-     *
-     * @access public
-     * @param ilADTSearchBridge
-     *
-     */
-    public function setSearchElement($a_adt)
+
+    public function setSearchElement(ilADTSearchBridge $a_adt) : void
     {
         $this->adt = $a_adt;
     }
-    
-    /**
-     * get search element
-     *
-     * @access public
-     * @return ilADTSearchBridge
-     */
-    public function getSearchElement()
+
+    public function getSearchElement() : ilADTSearchBridge
     {
         return $this->adt;
     }
-    
-    /**
-     * perform search
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function performSearch()
+
+    public function performSearch() : ilSearchResult
     {
         $this->query_parser->parse();
 
@@ -116,9 +69,9 @@ class ilAdvancedMDSearch extends ilAbstractSearch
             );
             $locate = $this->__createLocateString();
         }
-        
+
         $search_type = strtolower(substr(get_class($this), 12, -6));
-        
+
         $res_field = $this->getDefinition()->searchObjects(
             $this->getSearchElement(),
             $this->query_parser,
@@ -134,5 +87,6 @@ class ilAdvancedMDSearch extends ilAbstractSearch
             }
             return $this->search_result;
         }
+        return $this->search_result;
     }
 }

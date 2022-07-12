@@ -1,69 +1,64 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilADNTabHandling
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilADNTabHandling
 {
-
-    /**
-     * @var int
-     */
-    private $ref_id;
-    /**
-     * @var ilRbacSystem
-     */
-    private $rbacsystem;
-    /**
-     * @var ilTabsGUI
-     */
-    private $tabs;
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilHelpGUI
-     */
-    private $help;
-
+    private int $ref_id;
+    
+    private ilRbacSystem $rbacsystem;
+    
+    private ilTabsGUI $tabs;
+    
+    private ilLanguage $lng;
+    
+    protected ilCtrl $ctrl;
+    
+    private ilHelpGUI $help;
+    
     /**
      * ilMMTabHandling constructor.
-     * @param int $ref_id
      */
     public function __construct(int $ref_id)
     {
         global $DIC;
-
+        
         $this->ref_id = $ref_id;
-        $this->tabs   = $DIC['ilTabs'];
-        $this->lng    = $DIC->language();
+        $this->tabs = $DIC['ilTabs'];
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('adn');
-        $this->ctrl       = $DIC['ilCtrl'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->help       = $DIC->help();
+        $this->help = $DIC->help();
     }
-
-    /**
-     * @param string      $tab
-     * @param string|null $subtab
-     * @param bool        $backtab
-     * @param string|null $calling_class
-     */
-    public function initTabs(string $tab, string $subtab = null, bool $backtab = false, $calling_class = "")
+    
+    public function initTabs(string $tab, string $subtab = null, bool $backtab = false) : void
     {
         $this->tabs->clearTargets(); // clears Help-ID
-
+        
         // Help Screen-ID
         $this->help->setScreenIdComponent('adn');
         $this->help->setScreenId($tab);
         $this->help->setSubScreenId($subtab);
-
+        
         if ($this->rbacsystem->checkAccess('visible,read', $this->ref_id)) {
             $this->tabs->addTab(
                 ilObjAdministrativeNotificationGUI::TAB_MAIN,
@@ -92,19 +87,19 @@ class ilADNTabHandling
             $this->tabs->activateSubTab($subtab);*/
         }
         if ($this->rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
-           $this->tabs->addTab(
+            $this->tabs->addTab(
                 'perm_settings',
                 $this->lng->txt('perm_settings'),
                 $this->ctrl->getLinkTargetByClass(array(ilObjAdministrativeNotificationGUI::class, ilPermissionGUI::class), 'perm')
             );
         }
         if ($backtab) {
-           /* $this->tabs->clearTargets();
-            if ($calling_class == ilMMSubItemGUI::class) {
-                $this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, $subtab));
-            } else {
-                $this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, $subtab));
-            }*/
+            /* $this->tabs->clearTargets();
+             if ($calling_class == ilMMSubItemGUI::class) {
+                 $this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, $subtab));
+             } else {
+                 $this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, $subtab));
+             }*/
         }
         $this->tabs->activateTab($tab);
     }

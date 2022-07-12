@@ -28,12 +28,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->pairs = array();
         $this->terms = array();
@@ -44,16 +39,16 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
             if (is_array($a_value['term'])) {
                 foreach ($a_value['term'] as $idx => $term) {
-                    array_push($this->pairs, new assAnswerMatchingPair(new assAnswerMatchingTerm('', '', $term), new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]), $a_value['points'][$idx]));
+                    $this->pairs[] = new assAnswerMatchingPair(new assAnswerMatchingTerm('', '', $term), new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]), $a_value['points'][$idx]);
                 }
             }
             $term_ids = explode(",", $a_value['term_id']);
             foreach ($term_ids as $id) {
-                array_push($this->terms, new assAnswerMatchingTerm('', '', $id));
+                $this->terms[] = new assAnswerMatchingTerm('', '', $id);
             }
             $definition_ids = explode(",", $a_value['definition_id']);
             foreach ($definition_ids as $id) {
-                array_push($this->definitions, new assAnswerMatchingDefinition('', '', $id));
+                $this->definitions[] = new assAnswerMatchingDefinition('', '', $id);
             }
         }
     }
@@ -63,7 +58,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_terms	Terms
     */
-    public function setTerms($a_terms)
+    public function setTerms($a_terms) : void
     {
         $this->terms = $a_terms;
     }
@@ -73,7 +68,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_definitions	Definitions
     */
-    public function setDefinitions($a_definitions)
+    public function setDefinitions($a_definitions) : void
     {
         $this->definitions = $a_definitions;
     }
@@ -83,7 +78,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_pairs	Pairs
     */
-    public function setPairs($a_pairs)
+    public function setPairs($a_pairs) : void
     {
         $this->pairs = $a_pairs;
     }
@@ -93,7 +88,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -103,25 +98,25 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $foundvalues = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+        } else {
+            $foundvalues = $_POST[$this->getPostVar()];
         }
-        $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['term'])) {
@@ -168,10 +163,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
     /**
     * Insert property html
-    *
-    * @return	int	Size
+    * @return	void	Size
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -182,12 +176,12 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         foreach ($this->pairs as $pair) {
             $counter = 1;
             $tpl->setCurrentBlock("option_term");
-            $tpl->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($lng->txt('please_select')));
+            $tpl->setVariable("TEXT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($lng->txt('please_select')));
             $tpl->setVariable("VALUE_OPTION", 0);
             $tpl->parseCurrentBlock();
             foreach ($this->terms as $term) {
                 $tpl->setCurrentBlock("option_term");
-                $tpl->setVariable("VALUE_OPTION", ilUtil::prepareFormOutput($term->identifier));
+                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($term->identifier));
                 $tpl->setVariable("TEXT_OPTION", $lng->txt('term') . " " . $counter);
                 if ($pair->term->identifier == $term->identifier) {
                     $tpl->setVariable('SELECTED_OPTION', ' selected="selected"');
@@ -197,12 +191,12 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             }
             $counter = 1;
             $tpl->setCurrentBlock("option_definition");
-            $tpl->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($lng->txt('please_select')));
+            $tpl->setVariable("TEXT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($lng->txt('please_select')));
             $tpl->setVariable("VALUE_OPTION", 0);
             $tpl->parseCurrentBlock();
             foreach ($this->definitions as $definition) {
                 $tpl->setCurrentBlock("option_definition");
-                $tpl->setVariable("VALUE_OPTION", ilUtil::prepareFormOutput($definition->identifier));
+                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($definition->identifier));
                 $tpl->setVariable("TEXT_OPTION", $lng->txt('definition') . " " . $counter);
                 if ($pair->definition->identifier == $definition->identifier) {
                     $tpl->setVariable('SELECTED_OPTION', ' selected="selected"');

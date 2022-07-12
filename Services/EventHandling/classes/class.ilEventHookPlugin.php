@@ -1,68 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Abstract parent class for all event hook plugin classes.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilEventHookPlugin extends ilPlugin
 {
     /**
-    * Get Component Type
-    *
-    * @return	string	Component Type
-    */
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-    
-    /**
-    * Get Component Name.
-    *
-    * @return	string	Component Name
-    */
-    final public function getComponentName()
-    {
-        return "EventHandling";
-    }
-
-    /**
-    * Get Slot Name.
-    *
-    * @return	string	Slot Name
-    */
-    final public function getSlot()
-    {
-        return "EventHook";
-    }
-
-    /**
-    * Get Slot ID.
-    *
-    * @return	string	Slot Id
-    */
-    final public function getSlotId()
-    {
-        return "evhk";
-    }
-
-    /**
-    * Object initialization done by slot.
-    */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-
-    /**
      * Handle the event
      *
      * @param	string		component, e.g. "Services/User"
-     * @param	event		event, e.g. "afterUpdate"
+     * @param	string		event, e.g. "afterUpdate"
      * @param	array		array of event specific parameters
      */
-    abstract public function handleEvent($a_component, $a_event, $a_parameter);
+    abstract public function handleEvent(
+        string $a_component,
+        string $a_event,
+        array $a_parameter
+    ) : void;
 }

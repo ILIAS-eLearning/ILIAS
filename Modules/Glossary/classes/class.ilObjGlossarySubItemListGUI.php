@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Show glossary terms
@@ -9,16 +23,9 @@
  */
 class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
 
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_cmd_class)
+    public function __construct(string $a_cmd_class)
     {
         global $DIC;
 
@@ -26,18 +33,14 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    /**
-     * get html
-     * @return
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $lng = $this->lng;
         $ilUser = $this->user;
         
         $lng->loadLanguageModule('content');
         foreach ($this->getSubItemIds(true) as $sub_item) {
-            if (is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(), $sub_item))) {
+            if (is_object($this->getHighlighter()) && $this->getHighlighter()->getContent($this->getObjId(), $sub_item) !== '') {
                 $this->tpl->setCurrentBlock('sea_fragment');
                 $this->tpl->setVariable('TXT_FRAGMENT', $this->getHighlighter()->getContent($this->getObjId(), $sub_item));
                 $this->tpl->parseCurrentBlock();
@@ -46,8 +49,6 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
             $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('cont_term'));
             $this->tpl->setVariable('SEPERATOR', ':');
             
-            #$this->getItemListGUI()->setChildId($sub_item);
-
             $src_string = ilUserSearchCache::_getInstance($ilUser->getId())->getUrlEncodedQuery();
             
             $this->tpl->setVariable('LINK', ilLink::_getLink(

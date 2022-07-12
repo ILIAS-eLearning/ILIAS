@@ -1,35 +1,40 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
 
 use Closure;
 use LogicException;
 use ReflectionFunction;
+use ReflectionException;
 
 /**
  * Class AbstractLayoutModification
- *
  * @package ILIAS\GlobalScreen\Scope\Layout\Factory
  */
 abstract class AbstractLayoutModification implements LayoutModification
 {
+    private int $priority;
+    private ?Closure $modification = null;
 
-    /**
-     * @var int
-     */
-    private $priority;
-    /**
-     * @var Closure
-     */
-    private $modification = null;
-
-
-    /**
-     * @inheritDoc
-     */
     public function isFinal() : bool
     {
         return false;
     }
-
 
     /**
      * @inheritDoc
@@ -39,13 +44,12 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $this->priority ?? LayoutModification::PRIORITY_LOW;
     }
 
-
     /**
      * @inheritDoc
      */
     final public function withPriority(int $priority) : LayoutModification
     {
-        if ((self::PRIORITY_LOW <= $priority) && ($priority <= self::PRIORITY_HIGH)) {
+        if ((self::PRIORITY_LOW > $priority) || ($priority > self::PRIORITY_HIGH)) {
             throw new LogicException("\$priority MUST be between LayoutModification::PRIORITY_LOW, LayoutModification::PRIORITY_MEDIUM or LayoutModification::PRIORITY_HIGH");
         }
         $clone = clone $this;
@@ -53,7 +57,6 @@ abstract class AbstractLayoutModification implements LayoutModification
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -66,7 +69,6 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -78,10 +80,8 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @param Closure $closure
-     *
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
     final public function withModification(Closure $closure) : LayoutModification
@@ -92,7 +92,6 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -101,7 +100,6 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $this->modification;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -109,7 +107,6 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         return ($this->modification instanceof Closure && $this->checkClosure());
     }
-
 
     /**
      * @return bool
@@ -140,7 +137,7 @@ abstract class AbstractLayoutModification implements LayoutModification
                     return false;
                 }
             }
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             return false;
         }
 

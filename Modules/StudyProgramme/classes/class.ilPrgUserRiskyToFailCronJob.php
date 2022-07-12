@@ -1,39 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilPrgUserRiskyToFailCronJob extends ilCronJob
 {
-    const ID = 'prg_user_risky_to_fail';
+    private const ID = 'prg_user_risky_to_fail';
 
     /**
-     * @var ilStudyProgrammeSettingsRepository
+     * @var mixed
      */
-    protected $programme_settings_db;
-
-    /**
-     * @var ilStudyProgrammeProgressRepository
-     */
-    protected $user_progress_db;
-
-    /**
-     * @var ilStudyProgrammeEvents
-     */
-    protected $events;
-    
-    /**
-     * @var Pimple\Container;
-     */
-    protected $dic;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected $log;
+    protected ilLanguage $lng;
+    protected Pimple\Container $dic;
 
     public function __construct()
     {
@@ -87,7 +79,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         $programmes_to_send = $this->getSettingsRepository()
             ->getProgrammeIdsWithRiskyToFailSettings();
 
-        if (count($programmes_to_send) == 0) {
+        if (count($programmes_to_send) === 0) {
             return $result;
         }
 
@@ -102,7 +94,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         $progresses = $this->getProgressRepository()
             ->getRiskyToFail($programmes_and_due);
         
-        if (count($progresses) == 0) {
+        if (count($progresses) === 0) {
             return $result;
         }
 
@@ -122,7 +114,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         return $result;
     }
 
-    protected function getNow() : \DateTimeImmutable
+    protected function getNow() : DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
@@ -137,7 +129,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         return $this->dic['ilStudyProgrammeUserProgressDB'];
     }
 
-    protected function getEvents()
+    protected function getEvents() : ilStudyProgrammeEvents
     {
         return $this->dic['ilStudyProgrammeEvents'];
     }

@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -34,10 +50,10 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
                                             ->getMock();
 
         $customUserPlaceholderObject->method("getPlaceholderDescriptions")
-                                    ->willReturn(array(
+                                    ->willReturn([
                                         '+SOMETHING' => 'SOMEWHAT',
                                         '+SOMETHING_ELSE' => 'ANYTHING'
-                                    ));
+                                    ]);
 
         $customUserPlaceholderObject->method('createPlaceholderHtmlDescription')
                                   ->willReturn('');
@@ -46,7 +62,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
-        $this->assertEquals('', $html);
+        $this->assertSame('', $html);
     }
 
     public function testPlaceholderDescriptions() : void
@@ -66,10 +82,10 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $defaultPlaceholder->method('getPlaceholderDescriptions')
             ->willReturn(
-                array(
+                [
                     'SOMETHING' => 'SOMEWHAT',
                     'SOMETHING_ELSE' => 'ANYTHING'
-                )
+                ]
             );
 
         $customUserPlaceholderObject = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderDescription::class)
@@ -78,10 +94,10 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $customUserPlaceholderObject->method('getPlaceholderDescriptions')
             ->willReturn(
-                array(
+                [
                     '+SOMETHING' => 'SOMEWHAT',
                     '+SOMETHING_ELSE' => 'ANYTHING'
-                )
+                ]
             );
 
         $placeholderDescriptionObject = new ilCoursePlaceholderDescription(200, $defaultPlaceholder, $languageMock, null, $customUserPlaceholderObject);
@@ -89,7 +105,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
         $this->assertEquals(
-            array(
+            [
                 'COURSE_TITLE' => 'Something translated',
                 'SOMETHING' => 'SOMEWHAT',
                 'SOMETHING_ELSE' => 'ANYTHING',
@@ -97,7 +113,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
                 '+SOMETHING_ELSE' => 'ANYTHING',
                 'DATE_COMPLETED' => 'Something translated',
                 'DATETIME_COMPLETED' => 'Something translated'
-            ),
+            ],
             $placeHolders
         );
     }

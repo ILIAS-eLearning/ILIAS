@@ -1,17 +1,25 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once './Services/Exceptions/classes/class.ilException.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclInputException extends ilException
@@ -26,17 +34,8 @@ class ilDclInputException extends ilException
     const CUSTOM_MESSAGE = 7;
     const REGEX_CONFIG_EXCEPTION = 8;
 
-
-    /**
-     * @var int
-     */
-    protected $exception_type;
-
-    /**
-     * @var string
-     */
-    protected $additional_text;
-
+    protected string $exception_type;
+    protected string $additional_text;
 
     /**
      * @param string $exception_type
@@ -48,20 +47,12 @@ class ilDclInputException extends ilException
         $this->additional_text = $additional_text;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getExceptionType()
+    public function getExceptionType() : string
     {
         return $this->exception_type;
     }
 
-
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString() : string
     {
         global $DIC;
         $lng = $DIC['lng'];

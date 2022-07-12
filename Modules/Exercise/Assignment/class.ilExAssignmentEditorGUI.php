@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Exercise\Assignment\Mandatory;
 
 /**
@@ -94,7 +108,6 @@ class ilExAssignmentEditorGUI
                 
                 $fstorage = new ilFSWebStorageExercise($this->exercise_id, $this->assignment->getId());
                 $fstorage->create();
-
                 $fs_gui = new ilExAssignmentFileSystemGUI($fstorage->getPath());
                 $fs_gui->setTitle($lng->txt("exc_instruction_files"));
                 $fs_gui->setTableId("excassfil" . $this->assignment->getId());
@@ -127,6 +140,8 @@ class ilExAssignmentEditorGUI
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
+
+        $ilCtrl->setParameter($this, "ass_id", null);
 
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));
         
@@ -703,7 +718,6 @@ class ilExAssignmentEditorGUI
                     }
                 }
             }
-
             if ($valid) {
                 $res = array(
                     // core
@@ -722,10 +736,9 @@ class ilExAssignmentEditorGUI
                     $res["mandatory"] = $a_form->getInput("mandatory");
                 }
 
+                $res['team_creator'] = $a_form->getInput("team_creator");
+                $res["team_creation"] = $a_form->getInput("team_creation");
                 if ($a_form->getInput("team_creator") == ilExAssignment::TEAMS_FORMED_BY_TUTOR) {
-                    $res['team_creator'] = $a_form->getInput("team_creator");
-                    $res["team_creation"] = $a_form->getInput("team_creation");
-
                     if ($a_form->getInput("team_creation") == ilExAssignment::TEAMS_FORMED_BY_RANDOM) {
                         $res["number_teams"] = $a_form->getInput("number_teams");
                         $res["min_participants_team"] = $a_form->getInput("min_participants_team");
@@ -786,7 +799,7 @@ class ilExAssignmentEditorGUI
                 
                 return $res;
             } else {
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
 
@@ -826,7 +839,7 @@ class ilExAssignmentEditorGUI
         //$a_ass->setMaxCharLimit($a_input['max_char_limit']);
 
         if (!$this->random_manager->isActivated()) {
-            $a_ass->setPeerReview((bool) $a_input["peer"]);
+            $a_ass->setPeerReview((bool) ($a_input["peer"] ?? false));
         }
         
         // peer review default values (on separate form)
@@ -841,9 +854,9 @@ class ilExAssignmentEditorGUI
         }
         
         if (isset($a_input["fb"])) {
-            $a_ass->setFeedbackCron($a_input["fb_cron"]); // #13380
-            $a_ass->setFeedbackDate($a_input["fb_date"]);
-            $a_ass->setFeedbackDateCustom($a_input["fb_date_custom"]);
+            $a_ass->setFeedbackCron((bool) $a_input["fb_cron"]); // #13380
+            $a_ass->setFeedbackDate((int) $a_input["fb_date"]);
+            $a_ass->setFeedbackDateCustom((int) $a_input["fb_date_custom"]);
         }
         
         // id needed for file handling
@@ -937,12 +950,12 @@ class ilExAssignmentEditorGUI
             $this->importFormToAssignment($ass, $input);
 
             $this->generateTeams($ass, $input);
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
             $ass_type_gui->importFormToAssignment($ass, $form);
             $ass->update();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
             // because of sub-tabs we stay on settings screen
             $ilCtrl->setParameter($this, "ass_id", $ass->getId());
@@ -998,7 +1011,7 @@ class ilExAssignmentEditorGUI
         }
                     
         if ($this->assignment->getAssignmentType()->usesTeams()) {
-            $values["team_creator"] = $this->assignment->getTeamTutor();
+            $values["team_creator"] = (string) (int) $this->assignment->getTeamTutor();
         }
 
         if ($this->assignment->getFeedbackDateCustom()) {
@@ -1029,7 +1042,8 @@ class ilExAssignmentEditorGUI
 
         $values["deadline_mode"] = $this->assignment->getDeadlineMode();
         $values["relative_deadline"] = $this->assignment->getRelativeDeadline();
-        $values["rel_deadline_last_subm"] = new ilDateTime($this->assignment->getRelDeadlineLastSubmission(), IL_CAL_UNIX);
+        $dt = new ilDateTime($this->assignment->getRelDeadlineLastSubmission(), IL_CAL_UNIX);
+        $values["rel_deadline_last_subm"] = $dt->get(IL_CAL_DATETIME);
 
 
         $a_form->setValuesByArray($values);
@@ -1145,7 +1159,7 @@ class ilExAssignmentEditorGUI
                 $this->assignment->recalculateLateSubmissions();
             }
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editAssignment");
         } else {
             $this->setAssignmentHeader();
@@ -1162,9 +1176,10 @@ class ilExAssignmentEditorGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
+        $ilCtrl->setParameterByClass(ilObjExerciseGUI::class, "ass_id", null);
         if (count($this->requested_ass_ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listAssignments");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1198,7 +1213,7 @@ class ilExAssignmentEditorGUI
         }
 
         if ($delete) {
-            ilUtil::sendSuccess($lng->txt("exc_assignments_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("exc_assignments_deleted"), true);
         }
         $ilCtrl->setParameter($this, "ass_id", "");
         $ilCtrl->redirect($this, "listAssignments");
@@ -1214,7 +1229,7 @@ class ilExAssignmentEditorGUI
             $this->requested_order
         );
         
-        ilUtil::sendSuccess($lng->txt("exc_saved_order"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("exc_saved_order"), true);
         $ilCtrl->redirect($this, "listAssignments");
     }
     
@@ -1225,7 +1240,7 @@ class ilExAssignmentEditorGUI
                 
         ilExAssignment::orderAssByDeadline($this->exercise_id);
         
-        ilUtil::sendSuccess($lng->txt("exc_saved_order"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("exc_saved_order"), true);
         $ilCtrl->redirect($this, "listAssignments");
     }
 
@@ -1279,7 +1294,7 @@ class ilExAssignmentEditorGUI
             $ilCtrl->redirect($this, "returnToParent");
         }
         
-        ilUtil::deliverFile($this->assignment->getGlobalFeedbackFilePath(), $this->assignment->getFeedbackFile());
+        ilFileDelivery::deliverFileLegacy($this->assignment->getGlobalFeedbackFilePath(), $this->assignment->getFeedbackFile());
     }
     
     
@@ -1441,7 +1456,7 @@ class ilExAssignmentEditorGUI
     /**
      * @throws ilDateTimeException
      */
-    protected function getPeerReviewValues($a_form) : void
+    protected function getPeerReviewValues(\ilPropertyFormGUI $a_form) : void
     {
         $values = array();
         
@@ -1615,7 +1630,7 @@ class ilExAssignmentEditorGUI
 
                 return $res;
             } else {
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
         return null;
@@ -1628,21 +1643,21 @@ class ilExAssignmentEditorGUI
         ilExAssignment $a_ass,
         array $a_input
     ) : void {
-        $a_ass->setPeerReviewMin($a_input["peer_min"]);
-        $a_ass->setPeerReviewDeadline($a_input["peer_dl"]);
-        $a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);
-        $a_ass->setPeerReviewPersonalized($a_input["peer_prsl"]);
+        $a_ass->setPeerReviewMin((int) $a_input["peer_min"]);
+        $a_ass->setPeerReviewDeadline((int) $a_input["peer_dl"]);
+        $a_ass->setPeerReviewSimpleUnlock((bool) $a_input["peer_unlock"]);
+        $a_ass->setPeerReviewPersonalized((bool) $a_input["peer_prsl"]);
         
         // #18964
         $a_ass->setPeerReviewValid($a_input["peer_valid"]
             ?: ilExAssignment::PEER_REVIEW_VALID_NONE);
 
-        $a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
-        $a_ass->setPeerReviewChars($a_input["peer_char"]);
-        $a_ass->setPeerReviewText($a_input["peer_text"]);
-        $a_ass->setPeerReviewRating($a_input["peer_rating"]);
+        $a_ass->setPeerReviewFileUpload((bool) $a_input["peer_file"]);
+        $a_ass->setPeerReviewChars((int) $a_input["peer_char"]);
+        $a_ass->setPeerReviewText((bool) $a_input["peer_text"]);
+        $a_ass->setPeerReviewRating((bool) $a_input["peer_rating"]);
         $a_ass->setPeerReviewCriteriaCatalogue($a_input["crit_cat"] > 0
-            ? $a_input["crit_cat"]
+            ? (int) $a_input["crit_cat"]
             : null);
     
         $a_ass->update();
@@ -1664,7 +1679,7 @@ class ilExAssignmentEditorGUI
         $input = $this->processPeerReviewForm($form);
         if (is_array($input)) {
             $this->importPeerReviewFormToAssignment($this->assignment, $input);
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editPeerReview");
         } else {
             $this->setAssignmentHeader();
@@ -1746,7 +1761,7 @@ class ilExAssignmentEditorGUI
                 }
             } elseif ($a_input['team_creation'] == ilExAssignment::TEAMS_FORMED_BY_ASSIGNMENT) {
                 ilExAssignmentTeam::adoptTeams($a_input["ass_adpt"], $a_assignment->getId());
-                ilUtil::sendInfo($this->lng->txt("exc_teams_assignment_adopted"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("exc_teams_assignment_adopted"), true);
             }
         }
     }

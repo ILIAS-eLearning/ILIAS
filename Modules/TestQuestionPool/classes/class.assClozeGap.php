@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Transformation;
+
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
@@ -46,7 +48,7 @@ class assClozeGap
      * @var boolean
      */
     public $shuffle;
-    
+
     private $gap_size = 0;
 
     /**
@@ -77,7 +79,7 @@ class assClozeGap
      *
      * @see $type for mapping.
      */
-    public function setType($a_type = 0)
+    public function setType($a_type = 0) : void
     {
         $this->type = $a_type;
     }
@@ -85,13 +87,13 @@ class assClozeGap
     /**
      * Gets the items of a cloze gap
      *
-     * @param ilRandomArrayElementProvider $shuffler
+     * @param Transformation $shuffler
      * @return assAnswerCloze[] The list of items
      */
-    public function getItems(ilRandomArrayElementProvider $shuffler)
+    public function getItems(Transformation $shuffler) : array
     {
         if ($this->getShuffle()) {
-            return $shuffler->shuffle($this->items);
+            return $shuffler->transform($this->items);
         }
         
         return $this->items;
@@ -106,7 +108,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function getItemsRaw()
+    public function getItemsRaw() : array
     {
         return $this->items;
     }
@@ -120,7 +122,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function getItemCount()
+    public function getItemCount() : int
     {
         return count($this->items);
     }
@@ -134,7 +136,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function addItem($a_item)
+    public function addItem($a_item) : void
     {
         $order = $a_item->getOrder();
         if (array_key_exists($order, $this->items)) {
@@ -167,7 +169,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function setItemPoints($order, $points)
+    public function setItemPoints($order, $points) : void
     {
         foreach ($this->items as $key => $item) {
             if ($item->getOrder() == $order) {
@@ -185,7 +187,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function deleteItem($order)
+    public function deleteItem($order) : void
     {
         if (array_key_exists($order, $this->items)) {
             unset($this->items[$order]);
@@ -207,7 +209,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function setItemLowerBound($order, $bound)
+    public function setItemLowerBound($order, $bound) : void
     {
         foreach ($this->items as $key => $item) {
             if ($item->getOrder() == $order) {
@@ -226,7 +228,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function setItemUpperBound($order, $bound)
+    public function setItemUpperBound($order, $bound) : void
     {
         foreach ($this->items as $key => $item) {
             if ($item->getOrder() == $order) {
@@ -245,7 +247,7 @@ class assClozeGap
      * @see $items
      * @return assAnswerCloze|null
      */
-    public function getItem($a_index)
+    public function getItem($a_index) : ?assAnswerCloze
     {
         if (array_key_exists($a_index, $this->items)) {
             return $this->items[$a_index];
@@ -262,7 +264,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function clearItems()
+    public function clearItems() : void
     {
         $this->items = array();
     }
@@ -274,7 +276,7 @@ class assClozeGap
      *
      * @param boolean $a_shuffle Shuffle state
      */
-    public function setShuffle($a_shuffle = true)
+    public function setShuffle($a_shuffle = true) : void
     {
         $this->shuffle = (bool) $a_shuffle;
     }
@@ -284,7 +286,7 @@ class assClozeGap
      *
      * @return boolean Shuffle state
      */
-    public function getShuffle()
+    public function getShuffle() : bool
     {
         return $this->shuffle;
     }
@@ -297,7 +299,7 @@ class assClozeGap
     * @return integer The maximum width of the gap defined by the longest answer
     * @access public
     */
-    public function getMaxWidth()
+    public function getMaxWidth() : int
     {
         $maxwidth = 0;
         foreach ($this->items as $item) {
@@ -316,7 +318,7 @@ class assClozeGap
     * @return array The indexs of the best solutions
     * @access public
     */
-    public function getBestSolutionIndexes()
+    public function getBestSolutionIndexes() : array
     {
         $maxpoints = 0;
         foreach ($this->items as $key => $item) {
@@ -334,11 +336,11 @@ class assClozeGap
     }
 
     /**
-     * @param ilRandomArrayElementProvider $shuffler
+     * @param Transformation $shuffler
      * @param null | array $combinations
      * @return string
      */
-    public function getBestSolutionOutput(ilRandomArrayElementProvider $shuffler, $combinations = null)
+    public function getBestSolutionOutput(Transformation $shuffler, $combinations = null) : string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -384,7 +386,7 @@ class assClozeGap
     /**
      * @param integer $gap_size
      */
-    public function setGapSize($gap_size)
+    public function setGapSize($gap_size) : void
     {
         $this->gap_size = $gap_size;
     }
@@ -392,12 +394,12 @@ class assClozeGap
     /**
      * @return int
      */
-    public function getGapSize()
+    public function getGapSize() : int
     {
         return $this->gap_size;
     }
     
-    public function numericRangeExists()
+    public function numericRangeExists() : bool
     {
         if ($this->getType() != CLOZE_NUMERIC) {
             return false;

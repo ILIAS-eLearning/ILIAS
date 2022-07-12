@@ -62,10 +62,6 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
      */
     private $questions = array();
 
-    /**
-     * @param ilDB $db
-     * @param ilPluginAdmin $pluginAdmin
-     */
     public function __construct(ilDBInterface $db, ilPluginAdmin $pluginAdmin)
     {
         $this->db = $db;
@@ -77,7 +73,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         $this->testObjId = $testObjId;
     }
 
-    public function getTestObjId()
+    public function getTestObjId() : int
     {
         return $this->testObjId;
     }
@@ -87,7 +83,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         $this->testId = $testId;
     }
 
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->testId;
     }
@@ -97,7 +93,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         $this->poolId = $poolId;
     }
 
-    public function getPoolId()
+    public function getPoolId() : int
     {
         return $this->poolId;
     }
@@ -107,7 +103,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         $this->taxFilters[$taxId] = $taxNodes;
     }
 
-    public function getTaxonomyFilters()
+    public function getTaxonomyFilters() : array
     {
         return $this->taxFilters;
     }
@@ -181,7 +177,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         }
     }
 
-    private function getConditionalExpression()
+    private function getConditionalExpression() : string
     {
         $CONDITIONS = $this->getTaxonomyFilterExpressions();
         
@@ -196,7 +192,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         return strlen($CONDITIONS) ? 'AND ' . $CONDITIONS : '';
     }
 
-    private function getTaxonomyFilterExpressions()
+    private function getTaxonomyFilterExpressions() : array
     {
         $expressions = array();
 
@@ -233,7 +229,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         return $expressions;
     }
     
-    private function getLifecycleFilterExpressions()
+    private function getLifecycleFilterExpressions() : array
     {
         if (count($this->lifecycleFilter)) {
             return array(
@@ -245,7 +241,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     }
     
     // fau: taxFilter/typeFilter - get the expressions for a type filter
-    private function getTypeFilterExpressions()
+    private function getTypeFilterExpressions() : array
     {
         if (count($this->typeFilter)) {
             return array(
@@ -257,7 +253,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     }
     // fau;
 
-    private function isActiveQuestionType($questionData)
+    private function isActiveQuestionType($questionData) : bool
     {
         if (!isset($questionData['plugin'])) {
             return false;
@@ -267,7 +263,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
             return true;
         }
         
-        return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['plugin_name']);
+        return $this->pluginAdmin->isActive(ilComponentInfo::TYPE_MODULES, 'TestQuestionPool', 'qst', $questionData['plugin_name']);
     }
 
     public function resetQuestionList()
@@ -280,7 +276,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         $this->poolId = -1;
     }
     
-    public function getQuestions()
+    public function getQuestions() : array
     {
         return array_values($this->questions);
     }
@@ -290,7 +286,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function rewind()
+    public function rewind() : ilTestRandomQuestionSetSourcePoolDefinition
     {
         return reset($this->questions);
     }
@@ -298,7 +294,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function current()
+    public function current() : ilTestRandomQuestionSetSourcePoolDefinition
     {
         return current($this->questions);
     }
@@ -306,7 +302,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     /**
      * @return integer
      */
-    public function key()
+    public function key() : int
     {
         return key($this->questions);
     }
@@ -314,7 +310,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function next()
+    public function next() : ilTestRandomQuestionSetSourcePoolDefinition
     {
         return next($this->questions);
     }
@@ -322,7 +318,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     /**
      * @return boolean
      */
-    public function valid()
+    public function valid() : bool
     {
         return key($this->questions) !== null;
     }

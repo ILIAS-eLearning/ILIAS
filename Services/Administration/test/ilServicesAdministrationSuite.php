@@ -1,17 +1,37 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestSuite;
 
+require_once 'libs/composer/vendor/autoload.php';
+
+/**
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilServicesAdministrationSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
-        $suite = new ilServicesAdministrationSuite();
-        
-        include_once("./Services/Administration/test/ilSettingTest.php");
-        $suite->addTestSuite("ilSettingTest");
-        
+        $suite = new self();
+
+        require_once("./Services/Administration/test/AdminGUIRequestTest.php");
+        $suite->addTestSuite("AdminGUIRequestTest");
+
         return $suite;
     }
 }

@@ -1,32 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilMMCustomItemFacade
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMCustomItemFacade extends ilMMAbstractItemFacade
 {
-
-    /**
-     * @var ilMMCustomItemStorage|null
-     */
-    protected $custom_item_storage;
-    /**
-     * @var string
-     */
-    protected $action = '';
-    /**
-     * @var string
-     */
-    protected $type = '';
-    /**
-     * @var bool
-     */
-    protected $top_item = false;
-
+    protected ?ilMMCustomItemStorage $custom_item_storage;
+    
+    protected string $action = '';
+    
+    protected string $type = '';
+    
+    protected bool $top_item = false;
+    
     /**
      * @inheritDoc
      */
@@ -44,11 +47,11 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
             }
         }
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function update()
+    public function update() : void
     {
         if ($this->isCustom()) {
             $mm = $this->getCustomStorage();
@@ -65,34 +68,32 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         }
         parent::update();
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function delete()
+    public function delete() : void
     {
         if (!$this->isDeletable()) {
             throw new LogicException("Non Custom items can't be deleted");
         }
-
+        
         $cm = $this->getCustomStorage();
         if ($cm instanceof ilMMCustomItemStorage) {
             $cm->delete();
         }
         parent::delete();
     }
-
-    /**
-     * @return ilMMCustomItemStorage|null
-     */
-    private function getCustomStorage()
+    
+    private function getCustomStorage() : ?ilMMCustomItemStorage
     {
-        $id = $this->gs_item->getProviderIdentification()->getInternalIdentifier();
+        $id = $this->raw_item->getProviderIdentification()->getInternalIdentifier();
+        /** @var ilMMCustomItemStorage $mm */
         $mm = ilMMCustomItemStorage::find($id);
-
+        
         return $mm;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -100,7 +101,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return true;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -108,7 +109,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return true;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -116,7 +117,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return true;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -124,7 +125,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return true;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -132,7 +133,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return "Custom";
     }
-
+    
     /**
      * @return string
      */
@@ -140,15 +141,15 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return "";
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function setAction(string $action)
+    public function setAction(string $action) : void
     {
         $this->action = $action;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -156,31 +157,31 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return $this->type;
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function setType(string $type)
+    public function setType(string $type) : void
     {
         $this->type = $type;
     }
-
+    
     /**
      * @inheritDoc
      */
     public function isTopItem() : bool
     {
-        if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
+        if ($this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
             return parent::isTopItem();
         }
 
         return $this->top_item;
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function setIsTopItm(bool $top_item)
+    public function setIsTopItm(bool $top_item) : void
     {
         $this->top_item = $top_item;
     }

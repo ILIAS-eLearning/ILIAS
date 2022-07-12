@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data\Factory;
 
@@ -8,40 +23,15 @@ use ILIAS\Data\Factory;
  */
 class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
 {
-    /** @var ilAccessibilityDocument */
-    protected $document;
+    protected ilAccessibilityDocument $document;
+    protected ilAccessibilityDocumentCriterionAssignment $assignment;
+    protected string $formAction;
+    protected ilObjUser $actor;
+    protected string $saveCommand;
+    protected string $cancelCommand;
+    protected string $translatedError = '';
+    protected ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory;
 
-    /** @var ilAccessibilityDocumentCriterionAssignment */
-    protected $assignment;
-
-    /** @var string */
-    protected $formAction;
-
-    /** @var ilObjUser */
-    protected $actor;
-
-    /** @var string */
-    protected $saveCommand;
-
-    /** @var string */
-    protected $cancelCommand;
-
-    /** @var string */
-    protected $translatedError = '';
-
-    /** @var ilAccessibilityCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-
-    /**
-     * ilAccessibilityCriterionFormGUI constructor.
-     * @param ilAccessibilityDocument                      $document
-     * @param ilAccessibilityDocumentCriterionAssignment   $assignment
-     * @param ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilObjUser                                     $actor
-     * @param string                                        $formAction
-     * @param string                                        $saveCommand
-     * @param string                                        $cancelCommand
-     */
     public function __construct(
         ilAccessibilityDocument $document,
         ilAccessibilityDocumentCriterionAssignment $assignment,
@@ -64,17 +54,11 @@ class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    /**
-     * @param bool $status
-     */
     public function setCheckInputCalled(bool $status) : void
     {
         $this->check_input_called = $status;
     }
 
-    /**
-     *
-     */
     protected function initForm() : void
     {
         if ($this->assignment->getId() > 0) {
@@ -109,7 +93,6 @@ class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
                 }
                 $this->addItem($languageSelection);
             }
-            $this->addItem($criteriaSelection);
         } else {
             $criteriaSelection = new ilRadioGroupInputGUI($this->lng->txt('acc_form_criterion'), 'criterion');
             $criteriaSelection->setRequired(true);
@@ -133,31 +116,24 @@ class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
                     $criterionGui->appendOption($criteriaSelection, new ilAccessibilityCriterionConfig());
                 }
             }
-            $this->addItem($criteriaSelection);
         }
+        $this->addItem($criteriaSelection);
 
         $this->addCommandButton($this->saveCommand, $this->lng->txt('save'));
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    /**
-     * @return bool
-     */
     public function hasTranslatedError() : bool
     {
         return strlen($this->translatedError) > 0;
     }
 
-    /**
-     * @return string
-     */
     public function getTranslatedError() : string
     {
         return $this->translatedError;
     }
 
     /**
-     * @return bool
      * @throws ilAccessibilityDuplicateCriterionAssignmentException
      */
     public function saveObject() : bool
@@ -193,9 +169,6 @@ class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    /**
-     *
-     */
     protected function fillObject() : bool
     {
         if (!$this->checkInput()) {

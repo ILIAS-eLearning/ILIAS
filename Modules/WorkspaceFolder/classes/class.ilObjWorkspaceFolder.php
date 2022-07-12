@@ -1,29 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- * Class ilObjWorkspaceFolder
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjWorkspaceFolder extends ilObject2
 {
-    public $folder_tree;
+    public ilWorkspaceTree $folder_tree;
+    protected ilObjUser $current_user;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $current_user;
-
-    /**
-     * Constructor
-     * @access	public
-     * @param	integer	reference_id or object_id
-     * @param	boolean	treat the id as reference_id (true) or object_id (false)
-     */
-    public function __construct($a_id = 0, $a_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_reference = true
+    ) {
         global $DIC;
 
         parent::__construct($a_id, $a_reference);
@@ -31,60 +35,34 @@ class ilObjWorkspaceFolder extends ilObject2
         $this->current_user = $DIC->user();
     }
 
-    public function initType()
+    protected function initType() : void
     {
         $this->type = "wfld";
     }
 
-    public function setFolderTree($a_tree)
+    public function setFolderTree(ilWorkspaceTree $a_tree) : void
     {
-        $this->folder_tree = &$a_tree;
+        $this->folder_tree = $a_tree;
     }
     
-    /**
-     * Clone folder
-     *
-     * @access public
-     * @param object clone
-     * @param int target id
-     * @param int copy id
-     */
-    public function doCloneObject($a_new_object, $a_target_id, $a_copy_id = 0)
-    {
-    }
 
     /**
-     * Clone object dependencies (crs items, preconditions)
-     *
-     * @access public
-     * @param int target ref id of new course
-     * @param int copy id
-     *
+     * Get container view mode
      */
-    public function cloneDependencies($a_target_id, $a_copy_id)
-    {
-    }
-
-    /**
-    * Get container view mode
-    */
-    public function getViewMode()
+    public function getViewMode() : int
     {
         return ilContainer::VIEW_BY_TYPE;
     }
 
     /**
-    * Add additional information to sub item, e.g. used in
-    * courses for timings information etc.
-    */
-    public function addAdditionalSubItemInformation(&$a_item_data)
+     * Add additional information to sub item, e.g. used in
+     * courses for timings information etc.
+     */
+    public function addAdditionalSubItemInformation(array &$a_item_data) : void
     {
     }
 
-    /**
-     * @return bool
-     */
-    public function gotItems($node_id)
+    public function gotItems(int $node_id) : bool
     {
         $tree = new ilWorkspaceTree($this->current_user->getId());
         $nodes = $tree->getChilds($node_id, "title");

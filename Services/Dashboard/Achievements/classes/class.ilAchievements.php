@@ -1,26 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Maybe a separate service in the future. Needs a generic approach.
  *
  * Currently only the main menu (and personal desktop) should use this.
  *
- * @author killing@leifos.de
- * @ingroup ServicesPersonalDesktop
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAchievements
 {
-    /**
-     * @var ilCertificateActiveValidator
-     */
-    private $validator;
-
-    /**
-     * @var ilLearningHistoryService
-     */
-    protected $learing_history;
+    private ilCertificateActiveValidator $validator;
+    protected ilLearningHistoryService $learing_history;
 
     // all services being covered under the achievements menu item
     public const SERV_LEARNING_HISTORY = 1;
@@ -30,7 +33,7 @@ class ilAchievements
     public const SERV_CERTIFICATES = 5;
 
     // this also determines the order of tabs
-    protected $services = [
+    protected array $services = [
         self::SERV_LEARNING_HISTORY,
         self::SERV_COMPETENCES,
         self::SERV_LEARNING_PROGRESS,
@@ -38,19 +41,9 @@ class ilAchievements
         self::SERV_CERTIFICATES
     ];
 
-    /**
-     * @var ilSetting
-     */
-    protected $setting;
+    protected ilSetting $setting;
+    protected ilSetting $skmg_setting;
 
-    /**
-     * @var ilSetting
-     */
-    protected $skmg_setting;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         /** @var ILIAS\DI\Container $DIC */
@@ -63,27 +56,24 @@ class ilAchievements
     }
 
     /**
-     * Is subservice active?
-     *
-     * @param int service
-     * @return bool
+     * Is sub-service active?
      */
     public function isActive(int $service) : bool
     {
         switch ($service) {
             case self::SERV_LEARNING_HISTORY:
-                return (bool) $this->learing_history->isActive();
+                return $this->learing_history->isActive();
 
             case self::SERV_COMPETENCES:
                 return (bool) $this->skmg_setting->get("enable_skmg");
 
             case self::SERV_LEARNING_PROGRESS:
-                return (bool) (ilObjUserTracking::_enabledLearningProgress() &&
+                return ilObjUserTracking::_enabledLearningProgress() &&
                     (ilObjUserTracking::_hasLearningProgressOtherUsers() ||
-                        ilObjUserTracking::_hasLearningProgressLearner()));
+                        ilObjUserTracking::_hasLearningProgressLearner());
 
             case self::SERV_BADGES:
-                return (bool) ilBadgeHandler::getInstance()->isActive();
+                return ilBadgeHandler::getInstance()->isActive();
 
             case self::SERV_CERTIFICATES:
                 return $this->validator->validate();
@@ -93,9 +83,7 @@ class ilAchievements
     }
 
     /**
-     * Is any subservice active?
-     *
-     * @return bool
+     * Is any sub-service active?
      */
     public function isAnyActive() : bool
     {
@@ -109,7 +97,6 @@ class ilAchievements
 
     /**
      * Get active services
-     *
      * @return int[]
      */
     public function getActiveServices() : array

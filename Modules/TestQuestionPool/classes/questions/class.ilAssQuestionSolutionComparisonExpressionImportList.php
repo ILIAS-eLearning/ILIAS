@@ -46,7 +46,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return int
      */
-    public function getImportQuestionId()
+    public function getImportQuestionId() : ?int
     {
         return $this->importQuestionId;
     }
@@ -54,7 +54,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @param int $importQuestionId
      */
-    public function setImportQuestionId($importQuestionId)
+    public function setImportQuestionId($importQuestionId) : void
     {
         $this->importQuestionId = $importQuestionId;
     }
@@ -62,7 +62,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return int
      */
-    public function getImportSkillBaseId()
+    public function getImportSkillBaseId() : ?int
     {
         return $this->importSkillBaseId;
     }
@@ -70,7 +70,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @param int $importSkillBaseId
      */
-    public function setImportSkillBaseId($importSkillBaseId)
+    public function setImportSkillBaseId($importSkillBaseId) : void
     {
         $this->importSkillBaseId = $importSkillBaseId;
     }
@@ -78,7 +78,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return int
      */
-    public function getImportSkillTrefId()
+    public function getImportSkillTrefId() : ?int
     {
         return $this->importSkillTrefId;
     }
@@ -86,7 +86,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @param int $importSkillTrefId
      */
-    public function setImportSkillTrefId($importSkillTrefId)
+    public function setImportSkillTrefId($importSkillTrefId) : void
     {
         $this->importSkillTrefId = $importSkillTrefId;
     }
@@ -94,12 +94,12 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return array
      */
-    public function getExpressions()
+    public function getExpressions() : array
     {
         return $this->expressions;
     }
     
-    public function addExpression(ilAssQuestionSolutionComparisonExpressionImport $expression)
+    public function addExpression(ilAssQuestionSolutionComparisonExpressionImport $expression) : void
     {
         $expression->setImportQuestionId($this->getImportQuestionId());
         $expression->setImportSkillBaseId($this->getImportSkillBaseId());
@@ -111,7 +111,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return ilAssQuestionSolutionComparisonExpressionImport
      */
-    public function current()
+    public function current() : ilAssQuestionSolutionComparisonExpressionImport
     {
         return current($this->expressions);
     }
@@ -119,7 +119,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return ilAssQuestionSolutionComparisonExpressionImport
      */
-    public function next()
+    public function next() : ilAssQuestionSolutionComparisonExpressionImport
     {
         return next($this->expressions);
     }
@@ -135,7 +135,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return bool
      */
-    public function valid()
+    public function valid() : bool
     {
         return key($this->expressions) !== null;
     }
@@ -148,12 +148,12 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
         return reset($this->expressions);
     }
     
-    public function sleep()
+    public function sleep() : void
     {
         // TODO: Implement __sleep() method.
     }
     
-    public function wakeup()
+    public function wakeup() : void
     {
         // TODO: Implement __wakeup() method.
     }

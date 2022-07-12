@@ -18,10 +18,13 @@ Previous versions of ILIAS supported the so called `db-update-files`. These file
 will keep on working for some time technically, but are deprecated as decided by
 the [Jour Fixe on 2021-06-08](https://docu.ilias.de/goto_docu_wiki_wpage_5889_1357.html).
 
+General directions on how to use the database in ILIAS are to be found [in the according
+readme of Services/Database](Services/Database/README.md).
+
 ## Schema Updates
 
 To create a schema update, you first need an integration with the setup. Create
-a class that implements from `ILIAS\Setup\Agent`, you MUST put it in the subfolder
+a class that implements `ILIAS\Setup\Agent`, you MUST put it in the subfolder
 `classes/Setup` in your component. If you only want to introduce some update steps
 you could just extend from the `NullAgent`.
 
@@ -34,7 +37,7 @@ class MySetupAgent extends Setup\Agent\NullAgent
 ```
 
 Your actual updates of the database go into another file, which implements the
-`ilDatabaseUpdateSteps` interfac. The name SHOULD always start with `il$COMPONENT`
+`ilDatabaseUpdateSteps` interface. The name SHOULD always start with `il$COMPONENT`
 and end with `Steps`. You will want to put something descriptive in between, e.g.
 `ilMyComponentSettingsTableSteps`. The file SHOULD always be put into the same folder
 as the agent. You MAY put your steps in a `Steps` folder in the `Setup`-folder, if
@@ -64,7 +67,22 @@ class MySetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new MyDBUpdateSteps());
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilMyDBUpdateSteps());
+    }
+}
+``` 
+
+To ensure that the setup/status command will output the current database step status
+of your component add the method `getStatusObjective` to your Agent. 
+
+```php
+use ILIAS\Setup;
+
+class MySetupAgent extends Setup\Agent\NullAgent
+{
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MyDBUpdateSteps());
     }
 }
 ``` 
@@ -73,7 +91,7 @@ In the MyDBUpdateSteps you can add your consecutive steps by adding methods acco
 to this schema:
 
 ```php
-class MyDBUpdateSteps implements ilDatabaseUpdateSteps
+class ilMyDBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
@@ -102,7 +120,7 @@ A few words of warning:
 
 * Make sure to understand, that this mechanism really is about schema updates.
 Do not perform other kinds of updates (e.g. the migrations, creating files, ...)
-with this. There is a more general mechanism (the [`Objectives`](src/Setup/README.md#on-objective)
+with this. There is a more general mechanism (the [`Objectives`](src/Setup/README.md#on-objective))
 to do this.
 * Only use the provided `\ilDBInterface` in the methods. Do not use other things from
 the environment or the globals, they might not be there if you need them.
@@ -202,5 +220,5 @@ environment. Via `getPreconditions`, the migration can announce which other
 `Objective`s need to be achieved first to fill the environment with the required
 ressources. With `getRemainingAmountOfSteps` you can tell the setup, how many steps
 still need to be performed to finish the migration. When the administrator requests
-migration steps to be performed, the `step`s method will be called to perform the
+migration steps to be performed, the `step` method will be called to perform the
 single steps.

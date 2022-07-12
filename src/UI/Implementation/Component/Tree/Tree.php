@@ -1,8 +1,21 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Tree;
 
 use ILIAS\UI\Component\Tree as ITree;
@@ -25,25 +38,10 @@ abstract class Tree implements ITree\Tree
      */
     protected $data;
 
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var ITree\TreeRecursion
-     */
-    protected $recursion;
-
-    /**
-     * @var bool
-     */
-    protected $highlight_nodes_on_click = false;
-
-    /**
-     * @var bool
-     */
-    protected $is_sub = false;
+    protected string $label;
+    protected ITree\TreeRecursion $recursion;
+    protected bool $highlight_nodes_on_click = false;
+    protected bool $is_sub = false;
 
 
     public function __construct(string $label, ITree\TreeRecursion $recursion)
@@ -103,7 +101,6 @@ abstract class Tree implements ITree\Tree
     {
         return $this->recursion;
     }
-
 
     /**
      * @inheritdoc

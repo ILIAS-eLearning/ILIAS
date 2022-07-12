@@ -1,124 +1,59 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Crawler\Entry;
+
+use JsonSerializable;
 
 /**
  * Stores Information of UI Components parsed from YAML, examples and less files
- * @author              Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ *
+ * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  */
-class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
+class ComponentEntry extends AbstractEntryPart implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    protected $id = "";
-
-    /**
-     * @var string
-     */
-    protected $title = "";
-
-    /**
-     * @var bool
-     */
-    protected $is_abstract = false;
-
-    /**
-     * @var array
-     */
-    protected $status_list_entry = array("Accepted", "Proposed", "To be revised");
-
-    /**
-     * @var array
-     */
-    protected $status_list_implementation = array("Implemented", "Partly implemented", "To be implemented");
-
-    /**
-     * @var string
-     */
-    protected $status_entry = "";
-
-    /**
-     * @var string
-     */
-    protected $status_implementation = "";
-
-    /**
-     * @var ComponentEntryDescription
-     */
-    protected $description = null;
-
-    /**
-     * @var string
-     */
-    protected $background = "";
-
-    /**
-     * @var string
-     */
-    protected $context = [];
-
-    /**
-     * @var string
-     */
-    protected $selector = "";
-
-    /**
-     * @var array
-     */
-    protected $feature_wiki_references = array();
-
-    /**
-     * @var ComponentEntryRules
-     */
-    protected $rules = null;
-
-    /**
-     * @var string
-     */
-    protected $parent = false;
 
     /**
      * @var string[]
      */
-    protected $children = array();
+    protected array $children = array();
 
-    /**
-     * @var array
-     */
-    protected $less_variables = array();
+    protected string $id = "";
+    protected string $title = "";
+    protected bool $is_abstract = false;
+    protected array $status_list_entry = array("Accepted", "Proposed", "To be revised");
+    protected array $status_list_implementation = array("Implemented", "Partly implemented", "To be implemented");
+    protected string $status_entry = "";
+    protected string $status_implementation = "";
+    protected ?ComponentEntryDescription $description = null;
+    protected string $background = "";
+    protected array $context = [];
+    protected string $selector = "";
+    protected array $feature_wiki_references = array();
+    protected ?ComponentEntryRules $rules = null;
+    protected ?string $parent = null;
+    protected array $less_variables = array();
+    protected string $path = "";
+    protected ?array $examples = null;
+    protected string $examples_path = "";
+    protected string $examples_namespace = "";
+    protected string $namesapce = "";
 
-    /**
-     * @var string
-     */
-    protected $path = "";
-
-    /**
-     * @var array
-     */
-    protected $examples = null;
-
-    /**
-     * @var string
-     */
-    protected $examples_path = "";
-
-    /**
-     * @var string
-     */
-    protected $examples_namespace = "";
-
-    /**
-     * @var string
-     */
-    protected $namesapce = "";
-
-    /**
-     * ComponentEntry constructor.
-     * @param $entry_data
-     */
     public function __construct($entry_data)
     {
         parent::__construct();
@@ -128,13 +63,13 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         $this->setTitle($entry_data['title']);
         $this->assert()->isIndex('namespace', $entry_data);
         $this->setNamespace($entry_data['namespace']);
-        $this->setIsAbstract($entry_data['abstract']);
+        $this->setIsAbstract((bool) $entry_data['abstract']);
         $this->setStatusEntry("Proposed");
         $this->setStatusImplementation("Partly implemented");
         if (array_key_exists('description', $entry_data)) {
             $this->setDescription(new ComponentEntryDescription($entry_data['description']));
         }
-        if (array_key_exists('rules', $entry_data)) {
+        if (array_key_exists('rules', $entry_data) && is_array($entry_data['rules'])) {
             $this->setRules(new ComponentEntryRules($entry_data['rules']));
         }
 
@@ -151,7 +86,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
             $this->setFeatureWikiReferences($entry_data['featurewiki']);
         }
         if (array_key_exists('parent', $entry_data)) {
-            $this->setParent($entry_data['parent']);
+            $this->setParent((string) $entry_data['parent']);
         }
         if (array_key_exists('children', $entry_data)) {
             $this->setChildren($entry_data['children']);
@@ -165,7 +100,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->assert()->isString($id, false);
         $this->id = $id;
@@ -176,7 +111,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->title;
     }
 
-    public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         $this->assert()->isString($title, false);
         $this->title = $title;
@@ -187,7 +122,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->is_abstract;
     }
 
-    public function setIsAbstract(bool $is_abstract)
+    public function setIsAbstract(bool $is_abstract) : void
     {
         $this->is_abstract = $is_abstract;
     }
@@ -197,7 +132,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->status_entry;
     }
 
-    public function setStatusEntry(string $status_entry)
+    public function setStatusEntry(string $status_entry) : void
     {
         $this->assert()->isString($status_entry);
         $this->status_entry = $status_entry;
@@ -208,7 +143,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->status_implementation;
     }
 
-    public function setStatusImplementation(string $status_implementation)
+    public function setStatusImplementation(string $status_implementation) : void
     {
         $this->assert()->isString($status_implementation);
 
@@ -220,19 +155,15 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->description;
     }
 
-    /**
-     * @return array
-     */
-    public function getDescriptionAsArray()
+    public function getDescriptionAsArray() : array
     {
         return $this->description->getDescription();
     }
 
     /**
-     * @param ComponentEntryDescription $description
      * @throws \ILIAS\UI\Implementation\Crawler\Exception\CrawlerException
      */
-    public function setDescription(ComponentEntryDescription $description)
+    public function setDescription(ComponentEntryDescription $description) : void
     {
         $this->assert()->isTypeOf($description, ComponentEntryDescription::class);
         $this->description = $description;
@@ -243,7 +174,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->background;
     }
 
-    public function setBackground(string $background)
+    public function setBackground(string $background) : void
     {
         $this->assert()->isString($background);
         $this->background = $background;
@@ -254,7 +185,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->context;
     }
 
-    public function setContext(array $context)
+    public function setContext(array $context) : void
     {
         $this->assert()->isArray($context);
         $this->context = $context;
@@ -265,7 +196,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->feature_wiki_references;
     }
 
-    public function setFeatureWikiReferences(array $feature_wiki_references)
+    public function setFeatureWikiReferences(array $feature_wiki_references) : void
     {
         $this->assert()->isArray($feature_wiki_references);
         $this->feature_wiki_references = $feature_wiki_references;
@@ -285,7 +216,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         }
     }
 
-    public function setRules(ComponentEntryRules $rules)
+    public function setRules(ComponentEntryRules $rules) : void
     {
         $this->assert()->isTypeOf($rules, ComponentEntryRules::class);
         $this->rules = $rules;
@@ -296,13 +227,13 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->selector;
     }
 
-    public function setSelector(string $selector)
+    public function setSelector(string $selector) : void
     {
         $this->assert()->isString($selector);
         $this->selector = $selector;
     }
 
-    public function setLessVariables(array $less_variables)
+    public function setLessVariables(array $less_variables) : void
     {
         $this->assert()->isArray($less_variables);
         $this->less_variables = $less_variables;
@@ -318,47 +249,47 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->path;
     }
 
-    public function setPath(string $path)
+    public function setPath(string $path) : void
     {
         $this->assert()->isString($path);
         $this->path = $path;
     }
 
-    public function getParent() : string
+    public function getParent() : ?string
     {
         return $this->parent;
     }
 
-    public function setParent(string $parent)
+    public function setParent(string $parent) : void
     {
         $this->parent = $parent;
     }
 
     /**
-     * @return \string[]
+     * @return string[]
      */
-    public function getChildren()
+    public function getChildren() : array
     {
         return $this->children;
     }
 
     /**
-     * @param \string[] $children
+     * @param string[] $children
      */
-    public function setChildren($children)
+    public function setChildren(array $children) : void
     {
         $this->children = $children;
     }
 
-    public function addChild(string $child)
+    public function addChild(string $child) : void
     {
         $this->children[] = $child;
     }
 
     /**
-     * @param \string[] $children
+     * @param string[] $children
      */
-    public function addChildren($children)
+    public function addChildren(array $children) : void
     {
         $this->setChildren(array_merge($this->children, $children));
     }
@@ -368,7 +299,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->examples;
     }
 
-    protected function readExamples()
+    protected function readExamples() : void
     {
         $this->examples = array();
         $case_insensitive_path = $this->getCaseInsensitiveExampleFolder();
@@ -403,7 +334,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return "";
     }
 
-    public function getExamplesPath()
+    public function getExamplesPath() : string
     {
         if (!$this->examples_path) {
             $path_components = str_replace(
@@ -418,7 +349,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         return $this->examples_path;
     }
 
-    public function getExamplesNamespace()
+    public function getExamplesNamespace() : string
     {
         if (!$this->examples_namespace) {
             $this->examples_namespace = str_replace(

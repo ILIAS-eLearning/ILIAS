@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  *
  * TODO: import/export reminder data with the exercise/assignment.
@@ -22,15 +36,15 @@ class ilExAssignmentReminder
     protected ilTree $tree;
 
     protected ?bool $rmd_status = null;
-    protected int $rmd_start;
-    protected int $rmd_end;
-    protected int $rmd_frequency;
-    protected int $rmd_last_send;
-    protected int $rmd_tpl_id;
+    protected int $rmd_start = 0;
+    protected int $rmd_end = 0;
+    protected int $rmd_frequency = 0;
+    protected int $rmd_last_send = 0;
+    protected int $rmd_tpl_id = 0;
 
-    protected int $ass_id;
-    protected int $exc_id;
-    protected string $rmd_type;
+    protected int $ass_id = 0;
+    protected int $exc_id = 0;
+    protected string $rmd_type = "";
 
     protected ilLogger $log;
     protected ilAccessHandler $access;
@@ -253,7 +267,7 @@ class ilExAssignmentReminder
             if ($rec["last_send_day"] == "" || $next_send <= $today) {
                 if ($end_day >= $today) {
                     $this->log->debug("included");
-                    array_push($array_data, $rem);
+                    $array_data[] = $rem;
                 }
             }
         }
@@ -332,7 +346,7 @@ class ilExAssignmentReminder
                                     "reminder_type" => $rem["type"],
                                     "template_id" => $rem["template_id"]
                                 );
-                                array_push($users_to_remind, $member_data);
+                                $users_to_remind[] = $member_data;
                             }
                         }
                     }
@@ -383,8 +397,8 @@ class ilExAssignmentReminder
                                     "reminder_type" => $rem["type"],
                                     "template_id" => $rem["template_id"]
                                 );
-                                array_push($users_to_remind, $member_data);
-                                array_push($unike_usr_id, $user_id);
+                                $users_to_remind[] = $member_data;
+                                $unike_usr_id[] = $user_id;
                             }
                         }
                     }
@@ -426,7 +440,7 @@ class ilExAssignmentReminder
                                 "reminder_type" => $reminder["type"],
                                 "template_id" => $reminder["template_id"]
                             );
-                            array_push($users_to_remind, $member_data);
+                            $users_to_remind[] = $member_data;
                         }
                     }
                 }
@@ -552,7 +566,7 @@ class ilExAssignmentReminder
         }
 
         $this->updateRemindersLastDate($reminders);
-        return sizeof($reminders);
+        return count($reminders);
     }
 
     //see ilObjSurvey.

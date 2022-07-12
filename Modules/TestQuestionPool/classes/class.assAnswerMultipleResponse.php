@@ -21,7 +21,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     *
     * The points given to the answer when the answer is not checked
     *
-    * @var double
+    * @var float|int|string|null
     */
     public $points_unchecked;
 
@@ -36,15 +36,9 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     * @param integer $order A nonnegative value representing a possible display or sort order
     * @access public
     */
-    public function __construct(
-        $answertext = "",
-        $points_checked = 0.0,
-        $order = 0,
-        $points_unchecked = 0,
-        $id = -1
-    ) {
-        parent::__construct($answertext, $points_checked, $order, $id);
-        $this->setPointsUnchecked($points_unchecked);
+    public function __construct(string $answertext = "", float $points = 0.0, int $order = 0, int $id = -1, int $state = 0)
+    {
+        parent::__construct($answertext, $points, $order, $id, $state);
     }
 
 
@@ -57,7 +51,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     * @access public
     * @see $points_unchecked
     */
-    public function getPointsUnchecked()
+    public function getPointsUnchecked() : float
     {
         return $this->points_unchecked;
     }
@@ -71,7 +65,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     * @access public
     * @see $state
     */
-    public function setPointsUnchecked($points_unchecked = 0.0)
+    public function setPointsUnchecked($points_unchecked = 0.0) : void
     {
         $new_points = str_replace(",", ".", $points_unchecked);
         
@@ -82,12 +76,12 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
         }
     }
 
-    public function setPointsChecked($points_checked)
+    public function setPointsChecked($points_checked) : void
     {
         $this->setPoints($points_checked);
     }
     
-    public function getPointsChecked()
+    public function getPointsChecked() : float
     {
         return $this->getPoints();
     }

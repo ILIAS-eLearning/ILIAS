@@ -1,38 +1,50 @@
-<?php
-/* Copyright (c) 2019 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item\Notification as INotification;
-use \ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use \ILIAS\UI\Component\JavaScriptBindable as IJavaScriptBindable;
+use ILIAS\UI\Component\JavaScriptBindable as IJavaScriptBindable;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Link;
+use ILIAS\UI\Component as C;
 
 class Notification extends Item implements INotification, IJavaScriptBindable
 {
     use JavaScriptBindable;
-    /**
-     * @var Legacy|null
-     */
-    protected $additional_content = null;
-    /**
-     * @var \ILIAS\UI\Component\Symbol\Icon\Icon
-     */
-    protected $lead_icon;
-    /**
-     * @var string
-     */
-    protected $close_action;
+
+    protected ?Legacy $additional_content = null;
+    protected Icon $lead_icon;
+    protected ?string $close_action = null;
+
     /**
      * @var INotification[]
      */
-    protected $aggregate_notifications = [];
+    protected array $aggregate_notifications = [];
 
     /**
-     * @param                                      $title
-     * @param \ILIAS\UI\Component\Symbol\Icon\Icon $icon
+     * @param Shy|Link\Standard|string $title
+     * @param Icon $icon
      */
-    public function __construct($title, \ILIAS\UI\Component\Symbol\Icon\Icon $icon)
+    public function __construct($title, Icon $icon)
     {
         $this->lead_icon = $icon;
         parent::__construct($title);
@@ -99,7 +111,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon) : INotification
+    public function withLeadIcon(Icon $icon) : INotification
     {
         $clone = clone $this;
         $clone->lead_icon = $icon;
@@ -109,8 +121,26 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getLeadIcon() : \ILIAS\UI\Component\Symbol\Icon\Icon
+    public function getLeadIcon() : Icon
     {
         return $this->lead_icon;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withActions(C\Dropdown\Standard $actions) : C\Item\Notification
+    {
+        $clone = clone $this;
+        $clone->actions = $actions;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getActions() : ?C\Dropdown\Standard
+    {
+        return $this->actions;
     }
 }

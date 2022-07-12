@@ -16,20 +16,16 @@ use org\bovigo\vfs;
  */
 class ilBasicNodeTest extends ilWorkflowEngineBaseTest
 {
-    private $workflow;
-    private $test_dir;
+    private ilEmptyWorkflow $workflow;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        $this->test_dir = vfs\vfsStream::setup('example');
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -39,7 +35,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $node = new ilBasicNode($this->workflow);
@@ -52,7 +48,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -64,11 +60,11 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->workflow) {
             $this->assertEquals($actual, $this->workflow);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
     
-    public function testIsActiveAndActivate()
+    public function testIsActiveAndActivate() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -84,7 +80,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($actual);
     }
     
-    public function testDeactivate()
+    public function testDeactivate() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -102,7 +98,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($was_activated, $was_deactivated);
     }
     
-    public function testCheckTransitionPreconditionsValid()
+    public function testCheckTransitionPreconditionsValid() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -118,7 +114,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($preconditions);
     }
     
-    public function testCheckTransitionPreconditionsInvalid()
+    public function testCheckTransitionPreconditionsInvalid() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -134,7 +130,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($preconditions);
     }
     
-    public function testAttemptTransitionValid()
+    public function testAttemptTransitionValid() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -150,7 +146,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($result);
     }
 
-    public function testAttemptTransitionInvalid()
+    public function testAttemptTransitionInvalid() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -165,7 +161,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($result);
     }
     
-    public function testExecuteTransition()
+    public function testExecuteTransition() : void
     { // This is test #100 of the WorkflowEngine, written on 9th of May, 2012
         // @ 14:15
 
@@ -184,13 +180,15 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($state);
     }
     
-    public function testExecuteActivitiesViaExecuteTransition()
+    public function testExecuteActivitiesViaExecuteTransition() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
         $detector = new ilSimpleDetector($node);
         $node->addDetector($detector);
+
+        vfs\vfsStream::setup('example');
 
         require_once './Services/WorkflowEngine/classes/activities/class.ilLoggingActivity.php';
         $activity = new ilLoggingActivity($node);
@@ -205,16 +203,16 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
 
         // Assert
         $expected = ' :: MESSAGE :: TEST';
-        $fp = fopen(vfs\vfsStream::url('example/ilTransitionLog.txt'), 'r');
+        $fp = fopen(vfs\vfsStream::url('example/ilTransitionLog.txt'), 'rb');
         $line = fgets($fp);
-        $actual = substr($line, 25, strlen($line) - 27);
+        $actual = substr($line, 25, -2);
         $this->assertEquals(
             $actual,
             $expected
         );
     }
 
-    public function testExecuteEmitterViaExecuteTransition()
+    public function testExecuteEmitterViaExecuteTransition() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -242,7 +240,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($t_node->isActive());
     }
     
-    public function testAddDetector()
+    public function testAddDetector() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -257,7 +255,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($detector, $detectors[0]);
     }
 
-    public function testAddEmitter()
+    public function testAddEmitter() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -272,7 +270,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($emitter, $emitters[0]);
     }
 
-    public function testAddActivity()
+    public function testAddActivity() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -287,7 +285,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($activity, $activities[0]);
     }
 
-    public function testNotifyDetectorSatisfaction()
+    public function testNotifyDetectorSatisfaction() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);
@@ -314,7 +312,7 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($node->isActive());
     }
 
-    public function testSetGetIsForwardConditionNode()
+    public function testSetGetIsForwardConditionNode() : void
     {
         // Arrange
         $node = new ilBasicNode($this->workflow);

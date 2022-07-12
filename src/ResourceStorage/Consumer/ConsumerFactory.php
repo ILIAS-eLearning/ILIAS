@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -13,19 +28,11 @@ use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
  */
 class ConsumerFactory
 {
-
-    /**
-     * @var StorageHandlerFactory
-     */
-    private $storage_handler_factory;
-    /**
-     * @var FileNamePolicy
-     */
-    protected $file_name_policy;
+    private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $storage_handler_factory;
+    protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
 
     /**
      * ConsumerFactory constructor.
-     * @param StorageHandlerFactory $storage_handler_factory
      * @param FileNamePolicy|null   $file_name_policy
      */
     public function __construct(
@@ -36,10 +43,6 @@ class ConsumerFactory
         $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
     }
 
-    /**
-     * @param StorableResource $resource
-     * @return DownloadConsumer
-     */
     public function download(StorableResource $resource) : DownloadConsumer
     {
         return new DownloadConsumer(
@@ -49,10 +52,6 @@ class ConsumerFactory
         );
     }
 
-    /**
-     * @param StorableResource $resource
-     * @return InlineConsumer
-     */
     public function inline(StorableResource $resource) : InlineConsumer
     {
         return new InlineConsumer(
@@ -62,10 +61,6 @@ class ConsumerFactory
         );
     }
 
-    /**
-     * @param StorableResource $resource
-     * @return FileStreamConsumer
-     */
     public function fileStream(StorableResource $resource) : FileStreamConsumer
     {
         return new FileStreamConsumer(
@@ -75,8 +70,6 @@ class ConsumerFactory
     }
 
     /**
-     * @param StorableResource $resource
-     * @return AbsolutePathConsumer
      * @deprecated
      */
     public function absolutePath(StorableResource $resource) : AbsolutePathConsumer
@@ -88,10 +81,6 @@ class ConsumerFactory
         );
     }
 
-    /**
-     * @param StorableResource $resource
-     * @return SrcConsumer
-     */
     public function src(StorableResource $resource) : SrcConsumer
     {
         return new SrcConsumer(

@@ -1,23 +1,44 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\RootFolder\StandardGUIRequest;
 
 /**
  * Class ilObjRootFolderListGUI
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjRootFolderListGUI extends ilObjectListGUI
 {
+    protected StandardGUIRequest $root_request;
+
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
         parent::__construct();
+
+        $this->root_request = $DIC
+            ->rootFolder()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
-    /**
-    * initialisation
-    */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = false;
         $this->delete_enabled = true;
@@ -31,21 +52,14 @@ class ilObjRootFolderListGUI extends ilObjectListGUI
         $this->commands = ilObjRootFolderAccess::_getCommands();
     }
 
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         global $ilCtrl;
 
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
+        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->root_request->getRefId());
 
         return $cmd_link;
     }
-} // END class.ilObjRootFolderGUI
+}

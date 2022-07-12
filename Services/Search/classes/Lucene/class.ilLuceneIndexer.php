@@ -1,23 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
 * Class for indexing hmtl ,pdf, txt files and htlm Learning modules.
 * This indexer is called by cron.php
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @package ServicesSearch
 */
 class ilLuceneIndexer extends ilCronJob
 {
-    /**
-     * @var int ilServer connection timeout in seconds
-     */
-    protected $timeout = 60;
+    protected int $timeout = 60;
+
+    protected ilLanguage $lng;
+    protected ilSetting $setting;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->setting = $DIC->settings();
+    }
     
     public function getId() : string
     {
@@ -26,20 +32,12 @@ class ilLuceneIndexer extends ilCronJob
     
     public function getTitle() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("cron_lucene_index");
+        return $this->lng->txt("cron_lucene_index");
     }
     
     public function getDescription() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("cron_lucene_index_info");
+        return $this->lng->txt("cron_lucene_index_info");
     }
     
     public function getDefaultScheduleType() : int
@@ -64,17 +62,12 @@ class ilLuceneIndexer extends ilCronJob
     
     public function run() : ilCronJobResult
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $error_message = null;
         
         try {
-            include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
             ilRpcClientFactory::factory('RPCIndexHandler', 60)->index(
-                CLIENT_ID . '_' . $ilSetting->get('inst_id', 0),
+                CLIENT_ID . '_' . $this->setting->get('inst_id', "0"),
                 true
             );
         } catch (Exception $e) {
@@ -105,12 +98,11 @@ class ilLuceneIndexer extends ilCronJob
      * @param int[] $a_obj_ids
      * @return bool
      */
-    public static function updateLuceneIndex($a_obj_ids)
+    public static function updateLuceneIndex(array $a_obj_ids) : bool
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
         if (!ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
             return false;
         }
@@ -118,9 +110,8 @@ class ilLuceneIndexer extends ilCronJob
         try {
             ilLoggerFactory::getLogger('src')->info('Lucene update index call BEGIN --- ');
 
-            include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
             ilRpcClientFactory::factory('RPCIndexHandler', 1)->indexObjects(
-                CLIENT_ID . '_' . $ilSetting->get('inst_id', 0),
+                CLIENT_ID . '_' . $ilSetting->get('inst_id', "0"),
                 $a_obj_ids
             );
             ilLoggerFactory::getLogger('src')->info('Lucene update index call --- END');

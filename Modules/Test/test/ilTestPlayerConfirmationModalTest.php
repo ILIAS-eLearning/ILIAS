@@ -59,7 +59,7 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
 
         foreach ([51, 291, 15, 681] as $id) {
             $button = ilLinkButton::getInstance();
-            $button->setId($id);
+            $button->setId((string) $id);
             $expected[] = $button;
         }
 

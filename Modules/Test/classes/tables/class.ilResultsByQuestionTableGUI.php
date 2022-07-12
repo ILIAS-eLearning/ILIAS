@@ -35,7 +35,7 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set['number_of_answers'] > 0) {
             $this->tpl->setVariable("PDF_EXPORT", $a_set['output']);
@@ -47,11 +47,7 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
         $this->tpl->setVariable("FILE_UPLOADS", $a_set['file_uploads']);
     }
 
-    /**
-     * @param string $a_field
-     * @return bool
-     */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'qid':

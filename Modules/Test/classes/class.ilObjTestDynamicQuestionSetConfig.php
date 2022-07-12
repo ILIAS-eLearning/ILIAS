@@ -45,7 +45,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return integer
      */
-    public function getSourceQuestionPoolId()
+    public function getSourceQuestionPoolId() : ?int
     {
         return $this->sourceQuestionPoolId;
     }
@@ -65,7 +65,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return string
      */
-    public function getSourceQuestionPoolTitle()
+    public function getSourceQuestionPoolTitle() : string
     {
         return $this->sourceQuestionPoolTitle;
     }
@@ -83,7 +83,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
     /**
      * @return boolean
      */
-    public function isAnswerStatusFilterEnabled()
+    public function isAnswerStatusFilterEnabled() : ?bool
     {
         return $this->answerStatusFilterEnabled;
     }
@@ -101,7 +101,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function isTaxonomyFilterEnabled()
+    public function isTaxonomyFilterEnabled() : ?bool
     {
         return $this->taxonomyFilterEnabled;
     }
@@ -121,7 +121,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return integer $orderingTaxonomyId
      */
-    public function getOrderingTaxonomyId()
+    public function getOrderingTaxonomyId() : ?int
     {
         return $this->orderingTaxonomyId;
     }
@@ -160,7 +160,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function loadFromDb()
+    public function loadFromDb() : bool
     {
         $res = $this->db->queryF(
             "SELECT * FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
@@ -204,7 +204,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function deleteFromDb()
+    public function deleteFromDb() : bool
     {
         $aff = $this->db->manipulateF(
             "DELETE FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
@@ -221,7 +221,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      * @param $testId
      * @return boolean
      */
-    private function dbRecordExists($testId)
+    private function dbRecordExists($testId) : bool
     {
         $res = $this->db->queryF(
             "SELECT COUNT(*) cnt FROM tst_dyn_quest_set_cfg WHERE test_fi = %s",
@@ -280,7 +280,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function isQuestionSetConfigured()
+    public function isQuestionSetConfigured() : bool
     {
         return $this->getSourceQuestionPoolId() > 0;
     }
@@ -290,7 +290,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function doesQuestionSetRelatedDataExist()
+    public function doesQuestionSetRelatedDataExist() : bool
     {
         return $this->isQuestionSetConfigured();
     }
@@ -325,7 +325,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
      * @param ilTree $tree
      * @return string
      */
-    public function getSourceQuestionPoolSummaryString(ilLanguage $lng)
+    public function getSourceQuestionPoolSummaryString(ilLanguage $lng) : string
     {
         $poolRefs = $this->getSourceQuestionPoolRefIds();
         
@@ -363,7 +363,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
     /**
      * @return integer
      */
-    private function getSourceQuestionPoolNumQuestions()
+    private function getSourceQuestionPoolNumQuestions() : int
     {
         $query = "
 			SELECT COUNT(*) num from qpl_questions
@@ -381,7 +381,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
         return $row['num'];
     }
     
-    public function areDepenciesInVulnerableState()
+    public function areDepenciesInVulnerableState() : bool
     {
         if (!$this->getSourceQuestionPoolId()) {
             return false;
@@ -398,7 +398,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
         return true;
     }
     
-    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng)
+    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng) : string
     {
         $msg = sprintf(
             $lng->txt('tst_dyn_quest_set_pool_trashed'),
@@ -408,7 +408,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
         return $msg;
     }
     
-    public function areDepenciesBroken()
+    public function areDepenciesBroken() : bool
     {
         if (!$this->getSourceQuestionPoolId()) {
             return false;
@@ -423,7 +423,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
         return true;
     }
     
-    public function getDepenciesBrokenMessage(ilLanguage $lng)
+    public function getDepenciesBrokenMessage(ilLanguage $lng) : string
     {
         $msg = sprintf(
             $lng->txt('tst_dyn_quest_set_pool_deleted'),
@@ -433,7 +433,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
         return $msg;
     }
 
-    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd)
+    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd) : bool
     {
         //vd($nextClass, $cmd);
 
@@ -468,7 +468,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
         return false;
     }
 
-    public function getHiddenTabsOnBrokenDepencies()
+    public function getHiddenTabsOnBrokenDepencies() : array
     {
         return array(
             'settings', 'manscoring', 'scoringadjust', 'statistics', 'history', 'export'
@@ -477,7 +477,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
     
     private $sourceQuestionPoolRefIds = null;
     
-    public function getSourceQuestionPoolRefIds()
+    public function getSourceQuestionPoolRefIds() : array
     {
         if ($this->sourceQuestionPoolRefIds === null) {
             $this->sourceQuestionPoolRefIds = ilObject::_getAllReferences($this->getSourceQuestionPoolId());
@@ -485,39 +485,13 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
         
         return $this->sourceQuestionPoolRefIds;
     }
-    
-    /**
-     * @param integer $poolObjId
-     * @return \ilDynamicTestQuestionChangeListener
-     */
-    public static function getPoolQuestionChangeListener(ilDBInterface $db, $poolObjId)
-    {
-        $query = "
-			SELECT obj_fi
-			FROM tst_dyn_quest_set_cfg
-			INNER JOIN tst_tests
-			ON tst_tests.test_id = tst_dyn_quest_set_cfg.test_fi
-			WHERE source_qpl_fi = %s
-		";
-        
-        $res = $db->queryF($query, array('integer'), array($poolObjId));
-        
-        require_once 'Modules/Test/classes/class.ilDynamicTestQuestionChangeListener.php';
-        $questionChangeListener = new ilDynamicTestQuestionChangeListener($db);
-        
-        while ($row = $db->fetchAssoc($res)) {
-            $questionChangeListener->addTestObjId($row['obj_fi']);
-        }
-        
-        return $questionChangeListener;
-    }
 
-    public function isResultTaxonomyFilterSupported()
+    public function isResultTaxonomyFilterSupported() : bool
     {
         return false;
     }
     
-    public function isAnyQuestionFilterEnabled()
+    public function isAnyQuestionFilterEnabled() : bool
     {
         if ($this->isTaxonomyFilterEnabled()) {
             return true;
@@ -530,7 +504,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
         return false;
     }
     
-    public function getSourceQuestionPoolLink()
+    public function getSourceQuestionPoolLink() : string
     {
         $refId = current(ilObject::_getAllReferences($this->getSourceQuestionPoolId()));
         $href = ilLink::_getLink($refId, 'qpl');

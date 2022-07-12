@@ -46,7 +46,7 @@ class ilAssQuestionType
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -54,7 +54,7 @@ class ilAssQuestionType
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }
@@ -62,7 +62,7 @@ class ilAssQuestionType
     /**
      * @return string
      */
-    public function getTag()
+    public function getTag() : string
     {
         return $this->tag;
     }
@@ -70,7 +70,7 @@ class ilAssQuestionType
     /**
      * @param string $tag
      */
-    public function setTag($tag)
+    public function setTag($tag) : void
     {
         $this->tag = $tag;
     }
@@ -78,7 +78,7 @@ class ilAssQuestionType
     /**
      * @return bool
      */
-    public function isPlugin()
+    public function isPlugin() : bool
     {
         return $this->plugin;
     }
@@ -86,7 +86,7 @@ class ilAssQuestionType
     /**
      * @param bool $plugin
      */
-    public function setPlugin($plugin)
+    public function setPlugin($plugin) : void
     {
         $this->plugin = $plugin;
     }
@@ -94,7 +94,7 @@ class ilAssQuestionType
     /**
      * @return string
      */
-    public function getPluginName()
+    public function getPluginName() : string
     {
         return $this->pluginName;
     }
@@ -102,7 +102,7 @@ class ilAssQuestionType
     /**
      * @param string $pluginName
      */
-    public function setPluginName($pluginName)
+    public function setPluginName($pluginName) : void
     {
         $this->pluginName = $pluginName;
     }
@@ -110,26 +110,29 @@ class ilAssQuestionType
     /**
      * @return bool
      */
-    public function isImportable()
+    public function isImportable() : bool
     {
         if (!$this->isPlugin()) {
             return true;
         }
+        return false;
 
+        /* Plugins MUST overwrite this method an report back their activation status
         require_once 'Modules/TestQuestionPool/classes/class.ilQuestionsPlugin.php';
         return $this->pluginAdmin->isActive(
-            IL_COMP_MODULE,
+            ilComponentInfo::TYPE_MODULES,
             ilQuestionsPlugin::COMP_NAME,
             ilQuestionsPlugin::SLOT_ID,
             $this->getPluginName()
         );
+        */
     }
     
     /**
      * @param array $questionTypeData
      * @return array
      */
-    public static function completeMissingPluginName($questionTypeData)
+    public static function completeMissingPluginName($questionTypeData) : array
     {
         if ($questionTypeData['plugin'] && !strlen($questionTypeData['plugin_name'])) {
             $questionTypeData['plugin_name'] = $questionTypeData['type_tag'];

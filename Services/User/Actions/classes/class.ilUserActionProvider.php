@@ -1,34 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * A class that provides a collection of actions on users
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUser
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilUserActionProvider
 {
-    /**
-     * @var int
-     */
-    protected $user_id;
+    protected int $user_id;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -37,51 +34,32 @@ abstract class ilUserActionProvider
         $this->db = $DIC->database();
     }
 
-    /**
-     * Set user id
-     *
-     * @param int $a_val user id
-     */
-    public function setUserId($a_val)
+    public function setUserId(int $a_val) : void
     {
         $this->user_id = $a_val;
     }
 
-    /**
-     * Get user id
-     *
-     * @return int user id
-     */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user_id;
     }
 
     /**
      * Collect actions for a target user
-     *
-     * @param int $a_target_user target user
-     * @return ilUserActionCollection collection of users
      */
-    abstract public function collectActionsForTargetUser($a_target_user);
+    abstract public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection;
 
     /**
      * @return string component id as defined in services.xml/module.xml
      */
-    abstract public function getComponentId();
+    abstract public function getComponentId() : string;
 
     /**
      * @return array[string] keys must be unique action ids (strings), values should be the names of the actions (from ilLanguage)
      */
-    abstract public function getActionTypes();
+    abstract public function getActionTypes() : array;
 
-    /**
-     * Get js scripts
-     *
-     * @param string $a_action_type
-     * @return array
-     */
-    public function getJsScripts($a_action_type)
+    public function getJsScripts(string $a_action_type) : array
     {
         return array();
     }

@@ -22,7 +22,8 @@ class ilParticipantsTestResultsGUI
     const CMD_PERFORM_DELETE_ALL_USER_RESULTS = 'confirmDeleteAllUserResults';
     const CMD_CONFIRM_DELETE_SELECTED_USER_RESULTS = 'deleteSingleUserResults';
     const CMD_PERFORM_DELETE_SELECTED_USER_RESULTS = 'confirmDeleteSelectedUserData';
-    
+    private \ILIAS\Test\InternalRequestService $testrequest;
+
     /**
      * @var ilObjTest
      */
@@ -42,11 +43,18 @@ class ilParticipantsTestResultsGUI
      * @var ilTestObjectiveOrientedContainer
      */
     protected $objectiveParent;
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct()
+    {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->testrequest = $DIC->test()->internal()->request();
+    }
     
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ?ilObjTest
     {
         return $this->testObj;
     }
@@ -62,7 +70,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ?ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -78,7 +86,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ?ilTestAccess
     {
         return $this->testAccess;
     }
@@ -94,7 +102,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilTestObjectiveOrientedContainer
      */
-    public function getObjectiveParent()
+    public function getObjectiveParent() : ?ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }
@@ -142,7 +150,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilParticipantsTestResultsTableGUI
      */
-    protected function buildTableGUI()
+    protected function buildTableGUI() : ilParticipantsTestResultsTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         require_once 'Modules/Test/classes/tables/class.ilParticipantsTestResultsTableGUI.php';
@@ -159,13 +167,9 @@ class ilParticipantsTestResultsGUI
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
         if ($this->getQuestionSetConfig()->areDepenciesBroken()) {
-            ilUtil::sendFailure(
-                $this->getQuestionSetConfig()->getDepenciesBrokenMessage($DIC->language())
-            );
+            $this->main_tpl->setOnScreenMessage('failure', $this->getQuestionSetConfig()->getDepenciesBrokenMessage($DIC->language()));
         } elseif ($this->getQuestionSetConfig()->areDepenciesInVulnerableState()) {
-            ilUtil::sendInfo(
-                $this->questionSetConfig->getDepenciesInVulnerableStateMessage($DIC->language())
-            );
+            $this->main_tpl->setOnScreenMessage('info', $this->questionSetConfig->getDepenciesInVulnerableStateMessage($DIC->language()));
         }
         
         $manageParticipantFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
@@ -249,13 +253,12 @@ class ilParticipantsTestResultsGUI
         
         require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-        //$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
         $participantData->setParticipantAccessFilter($accessFilter);
         $participantData->load($this->getTestObj()->getTestId());
         
         $this->getTestObj()->removeTestResults($participantData);
         
-        ilUtil::sendSuccess($DIC->language()->txt("tst_all_user_data_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt("tst_all_user_data_deleted"), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
     
@@ -267,7 +270,7 @@ class ilParticipantsTestResultsGUI
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
         if (!is_array($_POST["chbUser"]) || count($_POST["chbUser"]) == 0) {
-            ilUtil::sendInfo($DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
             $DIC->ctrl()->redirect($this);
         }
         
@@ -283,7 +286,6 @@ class ilParticipantsTestResultsGUI
         
         require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-        //$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
         $participantData->setParticipantAccessFilter($accessFilter);
         
         $participantData->setActiveIdsFilter((array) $_POST["chbUser"]);
@@ -322,7 +324,6 @@ class ilParticipantsTestResultsGUI
             
             require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
             $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-            //$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
             $participantData->setParticipantAccessFilter($accessFilter);
             $participantData->setActiveIdsFilter($_POST["chbUser"]);
             
@@ -330,7 +331,7 @@ class ilParticipantsTestResultsGUI
             
             $this->getTestObj()->removeTestResults($participantData);
             
-            ilUtil::sendSuccess($DIC->language()->txt("tst_selected_user_data_deleted"), true);
+            $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt("tst_selected_user_data_deleted"), true);
         }
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_PARTICIPANTS);
@@ -342,7 +343,7 @@ class ilParticipantsTestResultsGUI
     protected function showDetailedResultsCmd()
     {
         if (is_array($_POST) && count($_POST)) {
-            $_SESSION["show_user_results"] = $_POST["chbUser"];
+            ilSession::set('show_user_results', $_POST["chbUser"]);
         }
         $this->showUserResults($show_pass_details = true, $show_answers = true, $show_reached_points = true);
     }
@@ -353,7 +354,7 @@ class ilParticipantsTestResultsGUI
     protected function showUserAnswersCmd()
     {
         if (is_array($_POST) && count($_POST)) {
-            $_SESSION["show_user_results"] = $_POST["chbUser"];
+            ilSession::set('show_user_results', $_POST["chbUser"]);
         }
         $this->showUserResults($show_pass_details = false, $show_answers = true);
     }
@@ -364,7 +365,7 @@ class ilParticipantsTestResultsGUI
     protected function showPassOverviewCmd()
     {
         if (is_array($_POST) && count($_POST)) {
-            $_SESSION["show_user_results"] = $_POST["chbUser"];
+            ilSession::set('show_user_results', $_POST["chbUser"]);
         }
         $this->showUserResults($show_pass_details = true, $show_answers = false);
     }
@@ -381,10 +382,10 @@ class ilParticipantsTestResultsGUI
         $DIC->tabs()->clearTargets();
         $DIC->tabs()->clearSubTabs();
         
-        $show_user_results = $_SESSION["show_user_results"];
+        $show_user_results = ilSession::get("show_user_results");
         
         if (!is_array($show_user_results) || count($show_user_results) == 0) {
-            ilUtil::sendInfo($DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_PARTICIPANTS);
         }
         
@@ -408,7 +409,7 @@ class ilParticipantsTestResultsGUI
      *
      * @return ilTemplate
      */
-    public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results)
+    public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results) : ilTemplate
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -438,15 +439,15 @@ class ilParticipantsTestResultsGUI
         $DIC->ctrl()->setParameter($this, 'pdf', '');
         
         if ($show_answers) {
-            if (isset($_GET['show_best_solutions'])) {
-                $_SESSION['tst_results_show_best_solutions'] = true;
-            } elseif (isset($_GET['hide_best_solutions'])) {
-                $_SESSION['tst_results_show_best_solutions'] = false;
-            } elseif (!isset($_SESSION['tst_results_show_best_solutions'])) {
-                $_SESSION['tst_results_show_best_solutions'] = false;
+            if ($this->testrequest->isset('show_best_solutions')) {
+                ilSession::set('tst_results_show_best_solutions', true);
+            } elseif ($this->testrequest->isset('hide_best_solutions')) {
+                ilSession::set('tst_results_show_best_solutions', false);
+            } elseif (ilSession::get('tst_results_show_best_solutions') !== null) {
+                ilSession::set('tst_results_show_best_solutions', false);
             }
             
-            if ($_SESSION['tst_results_show_best_solutions']) {
+            if (ilSession::get('tst_results_show_best_solutions')) {
                 $DIC->ctrl()->setParameter($this, 'hide_best_solutions', '1');
                 $toolbar->setHideBestSolutionsLinkTarget($DIC->ctrl()->getLinkTarget($this, $DIC->ctrl()->getCmd()));
                 $DIC->ctrl()->setParameter($this, 'hide_best_solutions', '');
@@ -517,21 +518,20 @@ class ilParticipantsTestResultsGUI
                 $this->getTestObj()->getTitleFilenameCompliant(),
                 PDF_USER_RESULT
             );
-        } else {
-            return $template;
         }
+        return $template;
     }
     
     /**
      * @return bool
      */
-    protected function isPdfDeliveryRequest()
+    protected function isPdfDeliveryRequest() : bool
     {
-        if (!isset($_GET['pdf'])) {
+        if (!$this->testrequest->isset('pdf')) {
             return false;
         }
         
-        if (!(bool) $_GET['pdf']) {
+        if (!(bool) $this->testrequest->raw('pdf')) {
             return false;
         }
         

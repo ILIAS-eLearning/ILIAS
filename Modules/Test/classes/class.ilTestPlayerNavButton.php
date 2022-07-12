@@ -30,7 +30,7 @@ class ilTestPlayerNavButton extends ilLinkButton
         $this->rightGlyph = $glyph;
     }
 
-    protected function renderCaption()
+    protected function renderCaption() : string
     {
         $caption = '';
 
@@ -51,7 +51,7 @@ class ilTestPlayerNavButton extends ilLinkButton
     /**
      * @return string
      */
-    public function getNextCommand()
+    public function getNextCommand() : string
     {
         return $this->nextCommand;
     }
@@ -67,7 +67,7 @@ class ilTestPlayerNavButton extends ilLinkButton
     /**
      * @return string
      */
-    public function render()
+    public function render() : string
     {
         $this->prepareRender();
 
@@ -83,7 +83,7 @@ class ilTestPlayerNavButton extends ilLinkButton
         return '<a' . $this->renderAttributes($attr) . '>' . $this->renderCaption() . '</a>';
     }
 
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self(self::TYPE_LINK);
     }

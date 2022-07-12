@@ -15,7 +15,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			public function __construct()
 			{
 		
-			$this->defineInstanceVar("DataInput_1", "dataInput", false, "", "mixed", "undefined" );
+			$this->defineInstanceVar("DataInput_1", "dataInput");
 			$this->registerInputVar("DataInput_1", array("type" => "robjselect","allowedtype" => "crs","requirement" => "required","caption" => "Kurs","description" => "Bitte wählen Sie einen Kurs für den Prozess aus."));
 
 			$_v_StartEvent_1 = new ilBasicNode($this);
@@ -48,13 +48,13 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_CallActivity_1_outputDataEmitter->setName($_v_CallActivity_1_outputDataEmitter);
 			$_v_CallActivity_1->addEmitter($_v_CallActivity_1_outputDataEmitter);
 		
-			$this->defineInstanceVar("DataObject_1","dataObject", false, "", "mixed", "undefined" );
+			$this->defineInstanceVar("DataObject_1","dataObject");
 		
 			$_v_EndEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_1);
 			$_v_EndEvent_1->setName('$_v_EndEvent_1');
 		
-			$this->defineInstanceVar("DataObjectReference_1","dataObjectReference", true, "DataObject_1" );
+			$this->defineInstanceVar("DataObjectReference_1","dataObjectReference");
 		
 			$_v_EndEvent_1_detector = new ilSimpleDetector($_v_EndEvent_1);
 			$_v_EndEvent_1_detector->setName('$_v_EndEvent_1_detector');

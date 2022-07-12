@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilForumNotificationMailData
@@ -7,115 +22,47 @@
  */
 interface ilForumNotificationMailData
 {
-    /**
-     * @return int
-     */
-    public function getRefId();
+    public function getRefId() : int;
 
-    /**
-     * @return int
-     */
-    public function getObjId();
+    public function getObjId() : int;
 
-    /**
-     * @return int frm_data.top_pk
-     */
-    public function getForumId();
-    
-    /**
-     * @return string frm_data.top_name
-     */
-    public function getForumTitle();
+    public function getForumId() : int;
 
-    /**
-     * @return int
-     */
-    public function getThreadId();
-    
-    /**
-     * @return string frm_threads.thr_subject
-     */
-    public function getThreadTitle();
+    public function getForumTitle() : string;
 
-    /**
-     * @return int
-     */
-    public function getPostId();
+    public function getThreadId() : int;
 
-    /**
-     * @return string frm_posts.pos_subject
-     */
-    public function getPostTitle();
+    public function getThreadTitle() : string;
 
-    /**
-     * @return string frm_posts.pos_message
-     */
-    public function getPostMessage();
-    
-    /**
-     * @return string frm_posts.pos_author_id
-     */
-    public function getPosAuthorId();
+    public function getPostId() : int;
 
-    /**
-     * @return int
-     */
-    public function getPostUpdateUserId();
-    
-    /**
-     * @return string frm_posts.pos_display_user_id
-     */
-    public function getPosDisplayUserId();
+    public function getPostTitle() : string;
 
-    /**
-     * @return string frm_posts.pos_usr_alias
-     */
-    public function getPosUserAlias();
+    public function getPostMessage() : ?string;
 
-    /**
-     * @param \ilLanguage $user_lang
-     * @return string
-     */
-    public function getPostUserName(\ilLanguage $user_lang);
+    public function getPosAuthorId() : int;
 
-    /**
-     * @return string frm_posts.pos_date
-     */
-    public function getPostDate();
+    public function getPostUpdateUserId() : int;
 
-    /**
-     * @return string frm_posts.pos_update
-     */
-    public function getPostUpdate();
+    public function getPosDisplayUserId() : int;
 
-    /**
-     * @param \ilLanguage $user_lang
-     * @return string
-     */
-    public function getPostUpdateUserName(\ilLanguage $user_lang);
-    
-    /**
-     * @return string frm_posts.pos_cens
-     */
-    public function getPostCensored();
+    public function getPosUserAlias() : string;
 
-    /**
-     * @return string frm_posts.pos_cens_date
-     */
-    public function getPostCensoredDate();
+    public function getPostUserName(ilLanguage $user_lang) : string;
 
-    /**
-     * @return string
-     */
-    public function getCensorshipComment();
-    
-    /**
-     * @return array file names
-     */
-    public function getAttachments();
+    public function getPostDate() : string;
 
-    /**
-     * @return string
-     */
-    public function getDeletedBy();
+    public function getPostUpdate() : string;
+
+    public function getPostUpdateUserName(ilLanguage $user_lang) : string;
+
+    public function isPostCensored() : bool;
+
+    public function getPostCensoredDate() : string;
+
+    public function getCensorshipComment() : string;
+
+    public function getAttachments() : array;
+
+    public function getDeletedBy() : string;
 }

@@ -1,30 +1,37 @@
-<?php
+<?php declare(strict_types = 1);
 
-use ILIAS\FileUpload\Collection\Exception\ElementAlreadyExistsException;
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 abstract class ilWebDAVBaseMountInstructions
 {
-    /** @var ilWebDAVMountInstructionsRepository */
-    protected $repo;
-
-    /** @var ilWebDAVUriBuilder */
-    protected $uri_builder;
-
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var string */
-    protected $language;
+    protected ilWebDAVMountInstructionsRepository $repo;
+    protected ilWebDAVUriBuilder $uri_builder;
+    protected ilSetting $settings;
+    protected string $language;
 
     public function __construct(
-        ilWebDAVMountInstructionsRepository $a_repo,
-        ilWebDAVUriBuilder $a_uri_builder,
-        ilSetting $a_settings,
+        ilWebDAVMountInstructionsRepository $repo,
+        ilWebDAVUriBuilder $uri_builder,
+        ilSetting $settings,
         string $language
     ) {
-        $this->repo = $a_repo;
-        $this->uri_builder = $a_uri_builder;
-        $this->settings = $a_settings;
+        $this->repo = $repo;
+        $this->uri_builder = $uri_builder;
+        $this->settings = $settings;
         $this->language = $language;
     }
 

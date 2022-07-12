@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,53 +21,34 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Calendar/classes/class.ilCalendarRecurrence.php');
-
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
-
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarRecurrences
 {
     /**
      * get all recurrences of an appointment
-     *
-     * @access public
-     * @param int cal_id
-     * @return ilCalendarRecurrence[]
-     * @static
      */
-    public static function _getRecurrences($a_cal_id)
+    public static function _getRecurrences(int $a_cal_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT rule_id FROM cal_recurrence_rules " .
             "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer') . " ";
         $res = $ilDB->query($query);
         $recurrences = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $recurrences[] = new ilCalendarRecurrence($row->rule_id);
+            $recurrences[] = new ilCalendarRecurrence((int) $row->rule_id);
         }
         return $recurrences;
     }
-    
-    /**
-     * get first recurrence
-     *
-     * @access public
-     * @param int cal id
-     * @return
-     * @static
-     */
-    public static function _getFirstRecurrence($a_cal_id)
+
+    public static function _getFirstRecurrence($a_cal_id) : ilCalendarRecurrence
     {
-        if ($recs = self::_getRecurrences($a_cal_id)) {
+        $recs = self::_getRecurrences($a_cal_id);
+        if (count($recs)) {
             return $recs[0];
         }
         $new_rec = new ilCalendarRecurrence();

@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\DI\Container;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**
  * Class ilMMTopItemGUI
@@ -30,7 +32,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_MOVE = 'move';
     const CMD_FLUSH = 'flush';
 
-    private function dispatchCommand($cmd)
+    private function dispatchCommand(string $cmd) : string
     {
         global $DIC;
         switch ($cmd) {
@@ -38,7 +40,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 $this->access->checkAccessAndThrowException("visible,read");
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, $cmd);
 
-                return $this->index($DIC);
+                return $this->index();
             case self::CMD_ADD:
                 $this->access->checkAccessAndThrowException('write');
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
@@ -110,7 +112,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         global $DIC;
         $r = $DIC->http()->request()->getParsedBody();
         foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
-            $item = $this->repository->getItemFacadeForIdentificationString($identification_string);
+            $item = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
             $item->setPosition((int) $data['position']);
             $item->setActiveStatus((bool) $data['active']);
             $this->repository->updateItem($item);
@@ -145,7 +147,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      */
     private function index() : string
     {
-
         if ($this->access->hasUserPermissionTo('write')) {
             // ADD NEW
             $b = ilLinkButton::getInstance();
@@ -175,12 +176,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-    private function cancel()
+    private function cancel() : void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
     }
 
-    private function doubleCancel()
+    private function doubleCancel() : void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_CANCEL);
     }
@@ -190,7 +191,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function add(\ILIAS\DI\Container $DIC) : string
+    private function add(Container $DIC) : string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
 
@@ -198,11 +199,11 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     }
 
     /**
-     * @param \ILIAS\DI\Container $DIC
+     * @param Container $DIC
      * @return string
      * @throws Throwable
      */
-    private function create(\ILIAS\DI\Container $DIC) : string
+    private function create(Container $DIC) : string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
         if ($f->save()) {
@@ -217,7 +218,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function edit(\ILIAS\DI\Container $DIC) : string
+    private function edit(Container $DIC) : string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->getMMItemFromRequest(), $this->repository);
 
@@ -225,11 +226,11 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     }
 
     /**
-     * @param \ILIAS\DI\Container $DIC
+     * @param Container $DIC
      * @return string
      * @throws Throwable
      */
-    private function update(\ILIAS\DI\Container $DIC) : string
+    private function update(Container $DIC) : string
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isEditable()) {
@@ -250,7 +251,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         if ($item->isDeletable()) {
             $this->repository->deleteItem($item);
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_topitem_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_topitem_deleted"), true);
         $this->cancel();
     }
 
@@ -286,7 +287,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     private function flush() : void
     {
         $this->repository->flushLostItems();
-        ilUtil::sendSuccess($this->lng->txt("msg_subitem_flushed"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_subitem_flushed"), true);
         $this->cancel();
     }
 
@@ -297,7 +298,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         ilMMItemTranslationStorage::flushDB();
         ilMMTypeActionStorage::flushDB();
 
-        ilUtil::sendSuccess($this->lng->txt('msg_restored'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_restored'), true);
 
         $this->cancel();
     }
@@ -321,18 +322,18 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
             $f = $this->repository->getItemFacadeForIdentificationString($data[0]);
             $item->setParent($data[0]);
             $this->repository->updateItem($item);
-            ilUtil::sendSuccess($this->lng->txt('msg_moved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_moved'), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt('msg_not_moved'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_not_moved'), true);
         }
 
         $this->cancel();
     }
 
     /**
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+     * @return Standard
      */
-    private function getMoveForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    private function getMoveForm() : Standard
     {
         $this->ctrl->saveParameter($this, self::IDENTIFIER);
         $f = $this->ui->factory();

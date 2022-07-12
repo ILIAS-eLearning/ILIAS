@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * ListGUI implementation for Example object plugin. This one
@@ -22,9 +25,14 @@
  */
 abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
+    protected ilComponentFactory $component_factory;
+    protected ?ilObjectPlugin $plugin;
+
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         global $DIC;
+
+        $this->component_factory = $DIC["component.factory"];
 
         parent::__construct($a_context);
 
@@ -32,9 +40,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
         $this->user = $DIC->user();
     }
 
-    protected ?ilObjectPlugin $plugin;
-
-    final public function init()
+    final public function init() : void
     {
         $this->initListActions();
         $this->initType();
@@ -57,15 +63,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     protected function getPlugin() : ?ilObjectPlugin
     {
         if (!$this->plugin) {
-            /** @var $p ilObjectPlugin */
-            $p =
-                ilPlugin::getPluginObject(
-                    IL_COMP_SERVICE,
-                    "Repository",
-                    "robj",
-                    ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType())
-                );
-            $this->plugin = $p;
+            $this->plugin = $this->component_factory->getPlugin($this->getType());
         }
         return $this->plugin;
     }
@@ -81,24 +79,23 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     {
         return $this->plugin->txt($a_str);
     }
-    
 
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
         return ilFrameTargetInfo::_getFrame("MainContent");
     }
 
-    public function getProperties()
+    public function getProperties() : array
     {
         return [];
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         
         // separate method for this line
         $cmd_link = "ilias.php?baseClass=ilObjPluginDispatchGUI&amp;" .
-            "cmd=forward&amp;ref_id=" . $this->ref_id . "&amp;forwardCmd=" . $a_cmd;
+            "cmd=forward&amp;ref_id=" . $this->ref_id . "&amp;forwardCmd=" . $cmd;
 
         return $cmd_link;
     }

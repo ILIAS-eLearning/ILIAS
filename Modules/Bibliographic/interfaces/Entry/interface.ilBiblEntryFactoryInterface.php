@@ -1,100 +1,51 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * Interface ilBiblEntryFactoryInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Interface ilBiblEntryFactoryInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblEntryFactoryInterface
 {
-
+    
     /**
-     * @param int    $id
-     * @param string $type_string
-     *
-     * @return \ilBiblEntryInterface
      * @deprecated REFACTOR This has to be refactored to type_id and not type_string
-     *
      */
-    public function findByIdAndTypeString($id, $type_string) : ilBiblEntryInterface;
-
-
+    public function findByIdAndTypeString(int $id, string $type_string) : ilBiblEntryInterface;
+    
+    public function findOrCreateEntry(int $id, int $bibliographic_obj_id, string $entry_type) : \ilBiblEntryInterface;
+    
+    public function createEntry(int $bibliographic_obj_id, string $entry_type) : \ilBiblEntryInterface;
+    
+    public function getEmptyInstance() : \ilBiblEntry;
+    
     /**
-     * @param int    $id
-     * @param int    $bibliographic_obj_id
-     * @param string $entry_type
-     *
-     * @return \ilBiblEntryInterface
-     */
-    public function findOrCreateEntry($id, $bibliographic_obj_id, $entry_type);
-
-
-    /**
-     * @param $bibliographic_obj_id
-     * @param $entry_type
-     *
-     * @return \ilBiblEntryInterface
-     */
-    public function createEntry($bibliographic_obj_id, $entry_type);
-
-
-    /**
-     * @return \ilBiblEntryInterface
-     */
-    public function getEmptyInstance();
-
-
-    /**
-     * @param                            $object_id
      * @param \ilBiblTableQueryInfo|null $info
-     *
      * @return \ilBiblEntryInterface[]
      */
-    public function filterEntriesForTable($object_id, ilBiblTableQueryInfo $info = null);
-
-
-    /**
-     * @param                            $object_id
-     * @param \ilBiblTableQueryInfo|null $info
-     *
-     * @return array
-     */
-    public function filterEntryIdsForTableAsArray($object_id, ilBiblTableQueryInfo $info = null);
-
-
-    /**
-     * @param int $id
-     *
-     */
-    public function deleteEntryById($id);
-
-
-    /**
-     * Read all entries from the database
-     *
-     * @param int $object_id
-     *
-     * @return \ilBiblEntryInterface[]
-     */
-    public function getAllEntries($object_id);
-
-
-    /**
-     * Get entry from the database
-     *
-     * @param int $object_id
-     *
-     * @return \ilBiblEntryInterface
-     */
-    public function getEntryById($id);
-
-
+    public function filterEntriesForTable(int $object_id, ilBiblTableQueryInfo $info = null) : array;
+    
+    public function filterEntryIdsForTableAsArray(int $object_id, ?ilBiblTableQueryInfo $info = null) : array;
+    
+    public function deleteEntryById(int $id) : void;
+    
     /**
      * Reads all the entrys attributes from database
-     *
-     * @param integer $entry_id
-     *
-     * @return ilBiblEntryInterface[]
      */
-    public function loadParsedAttributesByEntryId($entry_id);
+    public function loadParsedAttributesByEntryId(int $entry_id) : array;
 }

@@ -80,7 +80,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return int
      */
-    public function getObjectiveOrientedContainerId()
+    public function getObjectiveOrientedContainerId() : ?int
     {
         return $this->objectiveOrientedContainerId;
     }
@@ -96,7 +96,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return int
      */
-    public function getTestObjId()
+    public function getTestObjId() : ?int
     {
         return $this->testObjId;
     }
@@ -112,7 +112,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return int
      */
-    public function getTestRefId()
+    public function getTestRefId() : ?int
     {
         return $this->testRefId;
     }
@@ -128,7 +128,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUserId() : ?int
     {
         return $this->userId;
     }
@@ -176,13 +176,13 @@ class ilTestResultHeaderLabelBuilder
 
     private function initCourseTitle()
     {
-        $this->crsTitle = $this->objCache->lookupTitle($this->getObjectiveOrientedContainerId());
+        $this->crsTitle = $this->objCache->lookupTitle((int) $this->getObjectiveOrientedContainerId());
     }
 
     /**
      * @return string
      */
-    public function getPassOverviewHeaderLabel()
+    public function getPassOverviewHeaderLabel() : string
     {
         if (!$this->getObjectiveOrientedContainerId()) {
             return $this->lng->txt('tst_results_overview');
@@ -218,7 +218,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return string
      */
-    public function getPassDetailsHeaderLabel($attemptNumber)
+    public function getPassDetailsHeaderLabel($attemptNumber) : string
     {
         if (!$this->getObjectiveOrientedContainerId()) {
             return sprintf(
@@ -244,17 +244,17 @@ class ilTestResultHeaderLabelBuilder
         return '';
     }
     
-    private function isInitialTest()
+    private function isInitialTest() : bool
     {
         return $this->testType == self::LO_TEST_TYPE_INITIAL;
     }
 
-    private function isQualifyingTest()
+    private function isQualifyingTest() : bool
     {
         return $this->testType == self::LO_TEST_TYPE_QUALIFYING;
     }
 
-    private function isInitialTestForAllObjectives()
+    private function isInitialTestForAllObjectives() : bool
     {
         if ($this->testType != self::LO_TEST_TYPE_INITIAL) {
             return false;
@@ -267,7 +267,7 @@ class ilTestResultHeaderLabelBuilder
         return true;
     }
 
-    private function isInitialTestPerObjective()
+    private function isInitialTestPerObjective() : bool
     {
         if ($this->testType != self::LO_TEST_TYPE_INITIAL) {
             return false;
@@ -280,7 +280,7 @@ class ilTestResultHeaderLabelBuilder
         return true;
     }
 
-    private function isQualifyingTestForAllObjectives()
+    private function isQualifyingTestForAllObjectives() : bool
     {
         if ($this->testType != self::LO_TEST_TYPE_QUALIFYING) {
             return false;
@@ -293,7 +293,7 @@ class ilTestResultHeaderLabelBuilder
         return true;
     }
 
-    private function isQualifyingTestPerObjective()
+    private function isQualifyingTestPerObjective() : bool
     {
         if ($this->testType != self::LO_TEST_TYPE_QUALIFYING) {
             return false;
@@ -312,17 +312,17 @@ class ilTestResultHeaderLabelBuilder
         return ilCourseObjective::lookupObjectiveTitle($loRun->getObjectiveId());
     }
     
-    private function getObjectivesString()
+    private function getObjectivesString() : string
     {
         return implode(', ', $this->objectives);
     }
     
-    private function getAttemptLabel($attemptNumber)
+    private function getAttemptLabel($attemptNumber) : string
     {
         return sprintf($this->lng->txt('tst_res_lo_try_n'), $attemptNumber);
     }
     
-    public function getListOfAnswersHeaderLabel($attemptNumber)
+    public function getListOfAnswersHeaderLabel($attemptNumber) : string
     {
         $langVar = 'tst_eval_results_by_pass';
 
@@ -333,12 +333,12 @@ class ilTestResultHeaderLabelBuilder
         return sprintf($this->lng->txt($langVar), $attemptNumber);
     }
     
-    public function getVirtualListOfAnswersHeaderLabel()
+    public function getVirtualListOfAnswersHeaderLabel() : string
     {
         return $this->lng->txt('tst_eval_results_lo');
     }
     
-    public function getVirtualPassDetailsHeaderLabel($objectiveTitle)
+    public function getVirtualPassDetailsHeaderLabel($objectiveTitle) : string
     {
         if ($this->isInitialTest()) {
             return sprintf(

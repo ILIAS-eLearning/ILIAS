@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -37,7 +52,7 @@ class ilUserCertificateRepository
     /**
      * @param ilUserCertificate $userCertificate
      * @return ilUserCertificate
-     * @throws ilDatabaseException|JsonException
+     * @throws ilDatabaseException
      */
     public function save(ilUserCertificate $userCertificate) : ilUserCertificate
     {
@@ -84,7 +99,6 @@ class ilUserCertificateRepository
     /**
      * @param int $userId
      * @return ilUserCertificatePresentation[]
-     * @throws JsonException
      */
     public function fetchActiveCertificates(int $userId) : array
     {
@@ -153,7 +167,6 @@ AND currently_active = 1';
      * @param int $startTimestamp
      * @param int $endTimeStamp
      * @return ilUserCertificatePresentation[]
-     * @throws JsonException
      */
     public function fetchActiveCertificatesInIntervalForPresentation(
         int $userId,
@@ -226,7 +239,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
      * @param int $userId
      * @param int $objectId
      * @return ilUserCertificate
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function fetchActiveCertificate(int $userId, int $objectId) : ilUserCertificate
     {
@@ -267,7 +280,7 @@ AND currently_active = 1';
      * @param int $userId
      * @param int $objectId
      * @return ilUserCertificatePresentation
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function fetchActiveCertificateForPresentation(int $userId, int $objectId) : ilUserCertificatePresentation
     {
@@ -413,7 +426,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
     /**
      * @param int $id
      * @return ilUserCertificate
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function fetchCertificate(int $id) : ilUserCertificate
     {
@@ -438,7 +451,6 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
      * @param int   $userId
      * @param int[] $objectIds
      * @return int[]
-     * @throws JsonException
      */
     public function fetchObjectIdsWithCertificateForUser(int $userId, array $objectIds) : array
     {
@@ -479,7 +491,6 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
     /**
      * @param int $objectId
      * @return int[]
-     * @throws JsonException
      */
     public function fetchUserIdsWithCertificateForObject(int $objectId) : array
     {
@@ -516,7 +527,6 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
      * @param int $objId
      * @param int $userId
      * @return ilUserCertificate[]
-     * @throws JsonException
      */
     private function fetchCertificatesOfObject(int $objId, int $userId) : array
     {

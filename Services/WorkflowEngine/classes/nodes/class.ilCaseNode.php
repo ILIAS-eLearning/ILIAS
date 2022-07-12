@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Case node of the petri net based workflow engine.
@@ -11,25 +23,16 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
  * and no activities.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilCaseNode extends ilBaseNode
 {
-    /** @var bool $is_exclusive_join */
-    private $is_exclusive_join;
-
-    /** @var bool $is_exclusive_fork */
-    private $is_exclusive_fork;
-
+    private bool $is_exclusive_join = false;
+    private bool $is_exclusive_fork = false;
     /** @var ilEmitter[] $else_emitters */
-    public $else_emitters;
-
-    /** @var bool $is_exclusive */
-    public $is_exclusive;
-
-    private $condition_emitter_pairs = [];
+    public array $else_emitters;
+    public bool $is_exclusive;
+    private array $condition_emitter_pairs = [];
 
     /**
      * Default constructor.
@@ -39,25 +42,19 @@ class ilCaseNode extends ilBaseNode
     public function __construct(ilWorkflow $context)
     {
         $this->context = $context;
-        $this->detectors = array();
-        $this->emitters = array();
-        $this->else_emitters = array();
-        $this->activities = array();
+        $this->detectors = [];
+        $this->emitters = [];
+        $this->else_emitters = [];
+        $this->activities = [];
         $this->is_exclusive = false;
     }
 
-    /**
-     * @param mixed $is_exclusive
-     */
-    public function setIsExclusiveJoin($is_exclusive)
+    public function setIsExclusiveJoin($is_exclusive) : void// TODO PHP8-REVIEW Missing type hint or PHPDoc
     {
         $this->is_exclusive_join = $is_exclusive;
     }
 
-    /**
-     * @param mixed $is_exclusive
-     */
-    public function setIsExclusiveFork($is_exclusive)
+    public function setIsExclusiveFork($is_exclusive) : void// TODO PHP8-REVIEW Missing type hint or PHPDoc
     {
         $this->is_exclusive_fork = $is_exclusive;
     }
@@ -94,14 +91,14 @@ class ilCaseNode extends ilBaseNode
      * to one or another outcome. This method only returns false, if the return
      * value of the method is neither true nor false.
      *
-     * @return boolean True, if node is ready to transit.
+     * @return bool True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions()
+    public function checkTransitionPreconditions() : bool
     {
         // queries the $detectors if their conditions are met.
         $isPreconditionMet = true;
         foreach ($this->detectors as $detector) {
-            if ($isPreconditionMet == true) {
+            if ($isPreconditionMet === true) {
                 $isPreconditionMet = $detector->getDetectorState();
                 if ($isPreconditionMet && ($this->is_exclusive_join || $this->is_exclusive_fork || $this->is_exclusive)) {
                     break;
@@ -117,16 +114,16 @@ class ilCaseNode extends ilBaseNode
      * Basically, this checks for preconditions and transits, returning true or
      * false if preconditions are not met, aka detectors are not fully satisfied.
      *
-     * @return boolean True, if transition succeeded.
+     * @return bool True, if transition succeeded.
      */
-    public function attemptTransition()
+    public function attemptTransition() : bool
     {
-        if ($this->checkTransitionPreconditions() == true) {
+        if ($this->checkTransitionPreconditions() === true) {
             $this->executeTransition();
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -135,14 +132,14 @@ class ilCaseNode extends ilBaseNode
     public function executeTransition()
     {
         $this->deactivate();
-        if (count($this->activities) != 0) {
+        if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
                 $activity->execute();
             }
         }
 
         foreach ($this->condition_emitter_pairs as $pair) {
-            $eval_function = function ($that) use ($pair) {
+            $eval_function = static function ($that) use ($pair) {
                 return eval($pair['expression']);
             };
 
@@ -160,14 +157,14 @@ class ilCaseNode extends ilBaseNode
      * Adds an emitter to one of the lists attached to the node.
      *
      * @param ilEmitter $emitter
-     * @param boolean   $else_emitter True, if the emitter should be an 'else'-emitter.
+     * @param string|bool   $else True, if the emitter should be an 'else'-emitter.
      */
-    public function addEmitter(ilEmitter $emitter, $expression = 'return true;')
+    public function addEmitter(ilEmitter $emitter, $else = 'return true;') : void
     {
-        $this->condition_emitter_pairs[] = array(
+        $this->condition_emitter_pairs[] = [
             'emitter' => $emitter,
-            'expression' => $expression
-        );
+            'expression' => $else
+        ];
     }
 
     /**
@@ -175,9 +172,9 @@ class ilCaseNode extends ilBaseNode
      *
      * @param ilDetector $detector ilDetector which is now satisfied.
      *
-     * @return mixed|void
+     * @return void
      */
-    public function notifyDetectorSatisfaction(ilDetector $detector)
+    public function notifyDetectorSatisfaction(ilDetector $detector) : void
     {
         if ($this->isActive()) {
             $this->attemptTransition();

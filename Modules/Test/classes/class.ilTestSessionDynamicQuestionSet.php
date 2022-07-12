@@ -20,7 +20,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
      * @var ilTestDynamicQuestionSetFilterSelection
      */
     private $questionSetFilterSelection = null;
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -31,7 +31,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
     /**
      * @return ilTestDynamicQuestionSetFilterSelection
      */
-    public function getQuestionSetFilterSelection()
+    public function getQuestionSetFilterSelection() : ilTestDynamicQuestionSetFilterSelection
     {
         return $this->questionSetFilterSelection;
     }
@@ -52,7 +52,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->anonymous_id = $row["anonymous_id"];
             $this->test_id = $row["test_fi"];
             $this->lastsequence = $row["lastindex"];
-            $this->pass = $row["tries"];
             $this->submitted = ($row["submitted"]) ? true : false;
             $this->submittedTimestamp = $row["submittimestamp"];
             $this->tstamp = $row["tstamp"];
@@ -63,7 +62,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
         }
     }
     
-    public function loadTestSession($test_id, $user_id = "", $anonymous_id = "")
+    public function loadTestSession($test_id, $user_id = "", $anonymous_id = "") : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -86,7 +85,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             );
         } else {
             if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
-                return null;
+                return;
             }
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
@@ -105,7 +104,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->anonymous_id = $row["anonymous_id"];
             $this->test_id = $row["test_fi"];
             $this->lastsequence = $row["lastindex"];
-            $this->pass = $row["tries"];
             $this->submitted = ($row["submitted"]) ? true : false;
             $this->submittedTimestamp = $row["submittimestamp"];
             $this->tstamp = $row["tstamp"];
@@ -118,7 +116,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
         }
     }
     
-    public function saveToDb()
+    public function saveToDb() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -151,7 +149,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             );
         } else {
             if (!$this->activeIDExists($this->getUserId(), $this->getTestId())) {
-                $anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : null;
+                $anonymous_id = ($this->getAnonymousId()) ?: null;
 
                 $next_id = $ilDB->nextId('tst_active');
                 $affectedRows = $ilDB->insert(
@@ -191,7 +189,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
         );
     }
     
-    public function getCurrentQuestionId()
+    public function getCurrentQuestionId() : int
     {
         return $this->getLastSequence();
     }

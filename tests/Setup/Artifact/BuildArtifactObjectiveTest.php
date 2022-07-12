@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Tests\Setup\Artifact;
 
 use ILIAS\Setup;
@@ -12,21 +26,14 @@ class BuildArtifactObjectiveTest extends TestCase
 {
     protected \PHPUnit\Framework\MockObject\MockObject $o;
 
-    /**
-     * @var Artifact|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $artifact;
-
-    /**
-     * @var Setup\Environment|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $env;
+    protected Artifact $artifact;
+    protected Setup\Environment $env;
 
     public function setUp() : void
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
-            ->setMethods(["build", "buildIn", "getArtifactPath"])
+            ->onlyMethods(["build", "buildIn", "getArtifactPath"])
             ->getMock();
 
         $this->artifact = $this->createMock(Setup\Artifact::class);
@@ -37,7 +44,7 @@ class BuildArtifactObjectiveTest extends TestCase
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
-            ->setMethods(["build", "getArtifactPath"])
+            ->onlyMethods(["build", "getArtifactPath"])
             ->getMock();
 
         $this->o

@@ -1,8 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -15,7 +31,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
     protected ilObjTermsOfService $tos;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilRbacSystem $rbacsystem;
     protected ilErrorHandling $error;
@@ -29,7 +45,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         ilObjTermsOfService $tos,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         ilGlobalTemplateInterface $tpl,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,
         ilErrorHandling $error,
@@ -67,7 +83,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
 
         switch (strtolower($nextClass)) {
             default:
-                if ($cmd === '' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
                     $cmd = 'showAcceptanceHistory';
                 }
                 $this->$cmd();
@@ -134,7 +150,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
             );
             $this->http->saveResponse(
                 $this->http->response()
-                    ->withHeader('Content-Type', 'application/json')
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                     ->withBody(
                         Streams::ofString($auto->getList($query))
                     )

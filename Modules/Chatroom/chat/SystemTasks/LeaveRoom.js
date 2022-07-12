@@ -23,7 +23,7 @@ module.exports = function(req, res)
 
 	function createLeaveRoomCallback(namespace, room, notice, userlistMainAction) {
 		return function createLeaveRoom(socketId){
-			namespace.getIO().connected[socketId].leave(room.getId());
+			namespace.getIO().sockets.get(socketId).leave(room.getId());
 			namespace.getIO().in(socketId).emit('notice', notice);
 			namespace.getIO().in(socketId).emit('userlist', userlistMainAction);
 		};

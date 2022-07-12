@@ -1,14 +1,18 @@
 # Condition Service
 
-##Container as Condition Controller
+## Container as Condition Controller
 
-If a component `Modules/[Container]` wants to take over the control of conditions for its children elements it needs to implement `ilConditionControllerInterface` in a class `il[Container]ConditionController` located under `Modules/[Container]/classes/class.il[Container]ConditionController.php`.
+If a component `Modules/[Container]` wants to take over the control of conditions for its children elements it needs to
+implement `ilConditionControllerInterface` in a class `il[Container]ConditionController` located
+under `Modules/[Container]/classes/class.il[Container]ConditionController.php`.
 
 The constructor of the class MUST be public accessible and MUST NOT make use of mandatory parameters.
 
-The method `isContainerConditionController($container_ref_id)` MUST return `true` if the container currently controls the conditions, otherwise `false`.
+The method `isContainerConditionController($container_ref_id)` MUST return `true` if the container currently controls
+the conditions, otherwise `false`.
 
-The method `getConditionSetForRepositoryObject` MUST return a valid instance of `ilConditionSet` for a valid `ref_id` for a children of the container.
+The method `getConditionSetForRepositoryObject` MUST return a valid instance of `ilConditionSet` for a valid `ref_id`
+for a children of the container.
 
 The instance MUST be created by using the `$DIC->conditions()` service object. Example:
 

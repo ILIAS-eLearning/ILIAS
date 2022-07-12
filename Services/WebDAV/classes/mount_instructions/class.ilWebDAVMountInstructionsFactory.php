@@ -1,21 +1,37 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
- * Class ilWebDAVMountInstructionsfactory
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use Psr\Http\Message\RequestInterface;
+
+/**
  * @author Stephan Winiker <stephan.winiker@hslu.ch>
  * $Id$
  */
 class ilWebDAVMountInstructionsFactory
 {
-    private $repo;
-    private $request;
-    private $user;
+    private ilWebDAVMountInstructionsRepositoryImpl $repo;
+    private RequestInterface $request;
+    private ilObjUser $user;
     
     public function __construct(
         ilWebDAVMountInstructionsRepositoryImpl $a_repo,
-        \Psr\Http\Message\RequestInterface $a_request,
-        \ilObjUser $a_user
+        RequestInterface $a_request,
+        ilObjUser $a_user
     ) {
         $this->repo = $a_repo;
         $this->request = $a_request;
@@ -38,19 +54,21 @@ class ilWebDAVMountInstructionsFactory
             return new ilWebDAVObjectlessMountInstructions(
                 $this->repo,
                 $uri_builder,
-                new ilSetting('file_access'),
+                new ilSetting(),
                 $path_value
             );
-        } elseif (substr($path_value, 0, 4) == 'ref_') {
+        }
+        
+        if (substr($path_value, 0, 4) == 'ref_') {
             return new ilWebDAVObjectMountInstructions(
                 $this->repo,
                 $uri_builder,
-                new ilSetting('file_access'),
+                new ilSetting(),
                 $this->user->getLanguage(),
                 (int) substr($path_value, 4)
             );
-        } else {
-            throw new InvalidArgumentException("Invalid path given");
         }
+        
+        throw new InvalidArgumentException("Invalid path given");
     }
 }

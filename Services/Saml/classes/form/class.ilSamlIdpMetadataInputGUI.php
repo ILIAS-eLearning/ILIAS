@@ -1,10 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilSamlIdpMetadataInputGUI
- * @author Michael Jansen <mjansen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
 {
     protected ilSamlIdpXmlMetadataParser $idpMetadataParser;
@@ -19,8 +30,8 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
     {
         return $this->idpMetadataParser;
     }
-
-    public function checkInput()
+    
+    public function checkInput() : bool
     {
         $valid = parent::checkInput();
         if (!$valid) {
@@ -28,20 +39,22 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
         }
 
         try {
-            $httpValue = (string) ($_POST[$this->getPostVar()] ?? '');
+            $httpValue = $this->raw($this->getPostVar());
 
             $this->idpMetadataParser->parse($httpValue);
-            if ($this->idpMetadataParser->hasErrors()) {
-                $this->setAlert(implode('<br />', $this->idpMetadataParser->getErrors()));
+            if ($this->idpMetadataParser->result()->isError()) {
+                $this->setAlert(implode(' ', [$this->lng->txt('auth_saml_add_idp_md_error'), $this->idpMetadataParser->result()->error()]));
                 return false;
             }
 
-            if (!$this->idpMetadataParser->getEntityId()) {
-                $this->setAlert($GLOBALS['DIC']->language()->txt('auth_saml_add_idp_md_error'));
+            if (!$this->idpMetadataParser->result()->value()) {
+                $this->setAlert($this->lng->txt('auth_saml_add_idp_md_error'));
                 return false;
             }
+
+            $this->value = $this->stripSlashesAddSpaceFallback($this->idpMetadataParser->result()->value());
         } catch (Exception $e) {
-            $this->setAlert($GLOBALS['DIC']->language()->txt('auth_saml_add_idp_md_error'));
+            $this->setAlert($this->lng->txt('auth_saml_add_idp_md_error'));
             return false;
         }
 

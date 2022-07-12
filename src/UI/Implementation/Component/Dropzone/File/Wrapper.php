@@ -1,99 +1,75 @@
-<?php
-
-namespace ILIAS\UI\Implementation\Component\Dropzone\File;
-
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
+<?php declare(strict_types=1);
 
 /**
- * Class Wrapper
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author  nmaerchy <nm@studer-raimann.ch>
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @package ILIAS\UI\Implementation\Component\Dropzone\File
- */
-class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
-{
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
+use ILIAS\UI\Component\Input\Factory as InputFactory;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Component;
+use LogicException;
+use ilLanguage;
+use ILIAS\UI\Component\Input\Field\Input;
+
+/**
+ * @author  nmaerchy <nm@studer-raimann.ch>
+ * @author  Thibeau Fuhrer <thibeau@sr.solutions>
+ */
+class Wrapper extends File implements WrapperInterface
+{
     /**
      * @var Component[]
      */
-    protected $components;
+    protected array $components;
 
     /**
-     * @var string
+     * @param Component[]|Component $content
      */
-    protected $title = "";
+    public function __construct(
+        InputFactory $input_factory,
+        ilLanguage $language,
+        UploadHandler $upload_handler,
+        string $post_url,
+        $content,
+        ?Input $metadata_input
+    ) {
+        parent::__construct($input_factory, $language, $upload_handler, $post_url, $metadata_input);
 
+        $content = $this->toArray($content);
+        $this->checkArgListElements('content', $content, [Component::class]);
+        $this->checkEmptyArray($content);
 
-    /**
-     * @param string                $url
-     * @param Component[]|Component $content Component(s) being wrapped by this dropzone
-     */
-    public function __construct($url, $content)
-    {
-        parent::__construct($url);
-        $this->components = $this->toArray($content);
-        $types = array( Component::class );
-        $this->checkArgListElements('content', $this->components, $types);
-        $this->checkEmptyArray($this->components);
+        $this->components = $content;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function withContent($content)
-    {
-        $clone = clone $this;
-        $clone->components = $this->toArray($content);
-        $types = array( Component::class );
-        $this->checkArgListElements('content', $clone->components, $types);
-        $this->checkEmptyArray($clone->components);
-
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withTitle($title)
-    {
-        $this->checkStringArg("title", $title);
-        $clone = clone $this;
-        $clone->title = $title;
-
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContent()
+    public function getContent() : array
     {
         return $this->components;
     }
 
-
     /**
      * Checks if the passed array contains at least one element, throws a LogicException otherwise.
-     *
-     * @param array $array
-     *
-     * @throws \LogicException if the passed in argument counts 0
+     * @throws LogicException if the passed in argument counts 0
      */
-    private function checkEmptyArray(array $array)
+    private function checkEmptyArray(array $array) : void
     {
         if (count($array) === 0) {
-            throw new \LogicException("At least one component from the UI framework is required, otherwise
+            throw new LogicException("At least one component from the UI framework is required, otherwise
 			the wrapper dropzone is not visible.");
         }
     }

@@ -1,8 +1,20 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/Mail/classes/class.ilMimeMailNotification.php';
-include_once './Services/Mail/classes/class.ilMimeMail.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailCronOrphanedMailsNotification
@@ -10,27 +22,13 @@ include_once './Services/Mail/classes/class.ilMimeMail.php';
  */
 class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($a_is_personal_workspace = false)
-    {
-        parent::__construct($a_is_personal_workspace);
-    }
-
-    /**
-     * @param string $a_code
-     */
-    protected function initLanguageByIso2Code($a_code = '')
+    protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('user');
     }
 
-    /**
-     *
-     */
-    public function send()
+    public function send() : void
     {
         foreach ($this->getRecipients() as $rcp) {
             try {
@@ -54,7 +52,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
         }
     }
     
-    public function appendOrphandMailsBody()
+    public function appendOrphandMailsBody() : void
     {
         $additional_information = $this->getAdditionalInformation();
         $mail_folders = $additional_information['mail_folders'];

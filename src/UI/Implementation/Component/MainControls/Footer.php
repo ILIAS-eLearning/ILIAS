@@ -1,36 +1,46 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Component\Modal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Link\Link;
+use ILIAS\Data\URI;
 
-/**
- * Footer
- */
 class Footer implements MainControls\Footer
 {
     use ComponentHelper;
 
-    private $text = '';
-
-    private $links = [];
-
-    /** @var array<Modal\RoundTrip, Button\Shy>[] */
-    private $modalsWithTriggers = [];
+    private string $text;
+    private array $links;
 
     /**
-     * @var string
+     * @var [Modal\RoundTrip, Button\Shy][]
      */
-    protected $permanent_url = "";
+    private array $modalsWithTriggers = [];
+    protected ?URI $permanent_url = null;
 
     public function __construct(array $links, string $text = '')
     {
-        $types = [\ILIAS\UI\Component\Link\Link::class,];
+        $types = [Link::class,];
         $this->checkArgListElements('links', $links, $types);
         $this->links = $links;
         $this->text = $text;
@@ -46,18 +56,21 @@ class Footer implements MainControls\Footer
         return $this->text;
     }
 
-    public function withPermanentURL(\ILIAS\Data\URI $url) : MainControls\Footer
+    public function withPermanentURL(URI $url) : MainControls\Footer
     {
         $clone = clone $this;
         $clone->permanent_url = $url;
         return $clone;
     }
 
-    public function getPermanentURL()
+    public function getPermanentURL() : ?URI
     {
         return $this->permanent_url;
     }
 
+    /**
+     * @return array containing entries with [Modal\RoundTrip, Button\Shy]
+     */
     public function getModals() : array
     {
         return $this->modalsWithTriggers;
@@ -66,7 +79,7 @@ class Footer implements MainControls\Footer
     public function withAdditionalModalAndTrigger(
         Modal\RoundTrip $roundTripModal,
         Button\Shy $shyButton
-    ) : \ILIAS\UI\Component\MainControls\Footer {
+    ) : MainControls\Footer {
         $shyButton = $shyButton->withOnClick($roundTripModal->getShowSignal());
 
         $clone = clone $this;

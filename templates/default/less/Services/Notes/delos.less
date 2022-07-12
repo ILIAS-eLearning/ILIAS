@@ -1,7 +1,7 @@
 /* Services/Notes */
 
 #notes_embedded_outer {
-    background-color: @il-main-bg;
+    /* background-color: @il-main-bg; */
 }
 #notes_embedded_outer .il_ContainerItemCommands {
     padding-top: 15px;
@@ -34,14 +34,14 @@ div.ilNotesUImage {
 }
 
 div.ilNoteText {
-	font-size: 95%;
+	font-size: @il-font-size-small;
 	margin-top: 5px;
 }
 
 div.ilNotesHeader {
 	background-color: @il-main-dark-bg;
 	margin-bottom: 5px;
-	padding: @padding-base-vertical @padding-base-horizontal;
+	padding: @il-padding-base-vertical @il-padding-base-horizontal;
 	h3 {
 		img {
 			width: 40px;
@@ -61,13 +61,13 @@ div.ilNotesHeader {
 }
 
 h3.ilNotesHeader {
-	font-size: 110%;
+	font-size: @il-font-size-large;
 	color: @il-text-color;
 	display: inline;
 }
 
 h4.ilNoteTitle {
-	font-size: 100%;
+	font-size: @il-font-size-base;
 	margin: 0;
 	padding: 0;
 }
@@ -93,4 +93,34 @@ div.ilNoteInput {
 	.ilNoteList input[type="checkbox"] {
 		position: absolute;
 	}
+}
+
+[data-note-el='edit-form-area'] > button {
+	margin-bottom: @il-padding-xlarge-vertical;
+}
+
+.il-notes-section .panel {
+	h2 {
+		display:none;
+	}
+	.dropdown-menu {
+		right: 0;
+		left: inherit;
+	}
+}
+
+.il-notes-section .il-standard-form-header {
+	.il-standard-form-cmd {
+		visibility: hidden;
+	}
+}
+
+.il-notes-section {
+	.il-section-input-header, .il-standard-form-footer, .il-standard-form-header {
+		background-color: @il-main-dark-bg;
+	}
+}
+
+.il-notes-section textarea {
+	height: 6em;
 }

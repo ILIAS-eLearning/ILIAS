@@ -1,13 +1,28 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use Closure;
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use LogicException;
 use ReflectionFunction;
 use ReflectionType;
+use Throwable;
 
 /**
  * Trait SymbolDecoratorTrait
@@ -16,12 +31,8 @@ use ReflectionType;
  */
 trait SymbolDecoratorTrait
 {
-
-    /**
-     * @var Closure
-     */
-    private $symbol_decorator;
-
+    private ?Closure $symbol_decorator = null;
+    
     /**
      * @param Closure $symbol_decorator
      * @return hasSymbol
@@ -35,16 +46,16 @@ trait SymbolDecoratorTrait
             $existing = $this->symbol_decorator;
             $this->symbol_decorator = static function (Symbol $c) use ($symbol_decorator, $existing) : Symbol {
                 $component = $existing($c);
-
+                
                 return $symbol_decorator($component);
             };
         } else {
             $this->symbol_decorator = $symbol_decorator;
         }
-
+        
         return $this;
     }
-
+    
     /**
      * @return Closure|null
      */
@@ -52,7 +63,7 @@ trait SymbolDecoratorTrait
     {
         return $this->symbol_decorator;
     }
-
+    
     private function checkClosure(Closure $c) : bool
     {
         try {
@@ -71,9 +82,9 @@ trait SymbolDecoratorTrait
             if ($return_type->getName() !== Symbol::class) {
                 return false;
             }
-
+            
             return true;
-        } catch (\Throwable $i) {
+        } catch (Throwable $i) {
             return false;
         }
     }

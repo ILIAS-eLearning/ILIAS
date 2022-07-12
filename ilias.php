@@ -1,20 +1,25 @@
 <?php
-
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
-/**
- * ilias.php. main script.
- * For changes please contact the maintainer in
- * Services/Init/maintenance.json
- */
-
-require_once("Services/Init/classes/class.ilInitialisation.php");
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+/** @noRector */
+require_once("libs/composer/vendor/autoload.php");
 ilInitialisation::initILIAS();
 
 /**
  * @var $DIC \ILIAS\DI\Container
  */
-global $DIC, $ilBench;
+global $DIC;
 
 $DIC->ctrl()->callBaseClass();
-$ilBench->save();
+$DIC['ilBench']->save();

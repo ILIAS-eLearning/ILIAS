@@ -1,39 +1,52 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Panel\Listing;
+
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Item\Group;
+use ILIAS\UI\Component\Dropdown;
 
 /**
  * Interface Appointment
  * @package ILIAS\UI\Component\Panel\Listing
  */
-interface Listing extends \ILIAS\UI\Component\Component
+interface Listing extends Component
 {
     /**
      * Gets the title of the appointment listing
-     *
-     * @return string
      */
-    public function getTitle();
+    public function getTitle() : string;
 
     /**
      * Get item list
      *
-     * @return \ILIAS\UI\Component\Item\Group[]
+     * @return Group[]
      */
-    public function getItemGroups();
+    public function getItemGroups() : array;
 
     /**
-     * Sets the action drop down to be displayed on the right of the title
-     * @param \ILIAS\UI\Component\Dropdown\Standard $actions
-     * @return Listing
+     * Sets the action dropdown to be displayed on the right of the title
      */
-    public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions);
+    public function withActions(Dropdown\Standard $actions) : Listing;
 
     /**
-     * Gets the action drop down to be displayed on the right of the title
-     * @return \ILIAS\UI\Component\Dropdown\Standard|null
+     * Gets the action dropdown to be displayed on the right of the title
      */
-    public function getActions();
+    public function getActions() : ?Dropdown\Standard;
 }

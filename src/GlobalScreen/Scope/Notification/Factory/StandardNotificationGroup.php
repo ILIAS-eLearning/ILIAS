@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Notification\Factory;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Notification\Factory;
 
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\NotificationRenderer;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\StandardNotificationGroupRenderer;
@@ -6,9 +23,7 @@ use ILIAS\UI\Factory as UIFactory;
 
 /**
  * Class StandardNotificationGroup
- *
  * Groups a set of Notification.
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StandardNotificationGroup extends AbstractBaseNotification implements isStandardItem
@@ -17,26 +32,20 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
     /**
      * @var StandardNotification[]
      */
-    private $notifications = [];
+    private array $notifications = [];
 
     /**
      * @var string
      */
-    protected $title = "";
+    protected string $title = "";
 
-
-    /**
-     * @param string $title
-     * @return StandardNotificationGroup
-     */
-    public function withTitle(string $title) : StandardNotificationGroup
+    public function withTitle(string $title) : self
     {
         $clone = clone $this;
         $clone->title = $title;
 
         return $clone;
     }
-
 
     /**
      * @return string
@@ -46,19 +55,12 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
         return $this->title;
     }
 
-
-    /**
-     * @param StandardNotification $notification
-     *
-     * @return StandardNotificationGroup
-     */
-    public function addNotification(StandardNotification $notification) : StandardNotificationGroup
+    public function addNotification(StandardNotification $notification) : self
     {
         $this->notifications[] = $notification;
 
         return $this;
     }
-
 
     /**
      * @return StandardNotification[]

@@ -1,46 +1,43 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTableHelper
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDclTableHelper
 {
-
-    /**
-     * @var int
-     */
-    protected $obj_id = 0;
-    /**
-     * @var int
-     */
-    protected $ref_id = 0;
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbac_review;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
-     * @var ilDBInterface
-     */
-    protected $database;
-
+    protected int $obj_id = 0;
+    protected int $ref_id = 0;
+    protected ilRbacReview $rbac_review;
+    protected ilObjUser $user;
+    protected ilDBInterface $database;
 
     /**
      * ilDclTableHelper constructor.
-     *
-     * @param int           $obj_id
-     * @param int           $ref_id
-     * @param ilRbacReview  $rbac_review
-     * @param ilObjUser     $user
-     * @param ilDBInterface $database
      */
-    public function __construct(int $obj_id, int $ref_id, ilRbacReview $rbac_review, ilObjUser $user, ilDBInterface $database)
-    {
+    public function __construct(
+        int $obj_id,
+        int $ref_id,
+        ilRbacReview $rbac_review,
+        ilObjUser $user,
+        ilDBInterface $database
+    ) {
         $this->obj_id = $obj_id;
         $this->ref_id = $ref_id;
         $this->rbac_review = $rbac_review;
@@ -48,11 +45,7 @@ class ilDclTableHelper
         $this->database = $database;
     }
 
-
-    /**
-     * @return array
-     */
-    public function getRoleTitlesWithoutReadRightOnAnyStandardView()
+    public function getRoleTitlesWithoutReadRightOnAnyStandardView() : array
     {
         $visible_tables_for_data_collection = $this->getAllVisibleTablesForDataColleciton();
         $standard_views_for_data_collection = $this->getStandardViewsByVisibleTables($visible_tables_for_data_collection);
@@ -75,11 +68,7 @@ class ilDclTableHelper
         return $role_titles;
     }
 
-
-    /**
-     * @return array $roles_with_read_acces_ids
-     */
-    protected function getRolesIdsWithReadAccessOnDataCollection()
+    protected function getRolesIdsWithReadAccessOnDataCollection() : array
     {
         $rbac_roles = $this->rbac_review->getParentRoleIds($this->ref_id);
         $roles_with_read_acces_ids = [];
@@ -95,13 +84,7 @@ class ilDclTableHelper
         return $roles_with_read_acces_ids;
     }
 
-
-    /**
-     * @param array $views_for_data_collection
-     *
-     * @return array $roles
-     */
-    protected function getRolesIdsByViews($views_for_data_collection)
+    protected function getRolesIdsByViews(array $views_for_data_collection) : array
     {
         $roles_ids = [];
         /**
@@ -119,13 +102,7 @@ class ilDclTableHelper
         return $roles_ids;
     }
 
-
-    /**
-     * @param array $visible_tables_for_data_collection
-     *
-     * @return array
-     */
-    protected function getStandardViewsByVisibleTables($visible_tables_for_data_collection)
+    protected function getStandardViewsByVisibleTables(array $visible_tables_for_data_collection) : array
     {
         $standard_views_for_data_collection = [];
         foreach ($visible_tables_for_data_collection as $visible_table) {
@@ -139,11 +116,7 @@ class ilDclTableHelper
         return $standard_views_for_data_collection;
     }
 
-
-    /**
-     * @return array
-     */
-    protected function getAllVisibleTablesForDataColleciton()
+    protected function getAllVisibleTablesForDataColleciton() : array
     {
         $visible_tables_for_data_collection = [];
         $res = $this->database->queryF(
@@ -158,8 +131,7 @@ class ilDclTableHelper
         return $visible_tables_for_data_collection;
     }
 
-
-    protected function hasUserReadAccessOnAnyVisibleTableView()
+    protected function hasUserReadAccessOnAnyVisibleTableView() : bool
     {
         // admin user has always access to the views of a data collection
         if ($this->user->getId() == 6) {
@@ -175,7 +147,8 @@ class ilDclTableHelper
         foreach ($roles_ids as $role_id) {
             $assigned_users = $this->rbac_review->assignedUsers($role_id);
             if (!empty($assigned_users)) {
-                $user_ids_with_read_right_on_any_standard_view[] = array_merge($user_ids_with_read_right_on_any_standard_view, $assigned_users);
+                $user_ids_with_read_right_on_any_standard_view[] = array_merge($user_ids_with_read_right_on_any_standard_view,
+                    $assigned_users);
             }
         }
 
@@ -187,18 +160,11 @@ class ilDclTableHelper
         }
     }
 
-
-    /**
-     * @param      $needle
-     * @param      $haystack
-     * @param bool $strict
-     *
-     * @return bool
-     */
-    protected function in_array_r($needle, $haystack, $strict = false)
+    protected function in_array_r(string $needle, array $haystack, bool $strict = false) : bool
     {
         foreach ($haystack as $item) {
-            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $strict))) {
+            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle,
+                        $item, $strict))) {
                 return true;
             }
         }

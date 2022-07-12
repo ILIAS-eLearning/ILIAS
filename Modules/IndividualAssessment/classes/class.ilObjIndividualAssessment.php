@@ -1,57 +1,49 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the IndividualAssessment is used.
- * It caries a LPStatus, which is set Individually.
- *
- * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
+ * It carries a LPStatus, which is set Individually.
  */
-
 class ilObjIndividualAssessment extends ilObject
 {
     use ilIndividualAssessmentDIC;
 
-    /**
-     * @var bool|null
-     */
-    protected $lp_active = null;
+    protected ?bool $lp_active = null;
+    protected ilIndividualAssessmentSettings $settings;
+    protected ilIndividualAssessmentSettingsStorageDB $settings_storage;
+    protected ilIndividualAssessmentMembersStorageDB $members_storage;
+    protected ilIndividualAssessmentAccessHandler $access_handler;
+    protected ilAccessHandler $il_access_handler;
+    protected ?Pimple\Container $dic = null;
 
-    /**
-     * @var ilIndividualAssessmentSettings
-     */
-    protected $settings;
+    protected ilIndividualAssessmentInfoSettings $info_settings;
+    protected ilIndividualAssessmentFileStorage $file_storage;
 
-    /**
-     * @var ilIndividualAssessmentSettingsStorageDB
-     */
-    protected $settings_storage;
-
-    /**
-     * @var ilIndividualAssessmentMembersStorageDB
-     */
-    protected $members_storage;
-
-    /**
-     * @var ilIndividualAssessmentAccessHandler
-     */
-    protected $access_handler;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $il_access_handler;
-
-    /**
-     * @var Pimple\Container
-     */
-    protected $dic;
-
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
         $this->type = 'iass';
         $this->il_access_handler = $DIC["ilAccess"];
+
         parent::__construct($a_id, $a_call_by_reference);
+
         $this->settings_storage = new ilIndividualAssessmentSettingsStorageDB($DIC['ilDB']);
         $this->members_storage = new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
         $this->access_handler = new ilIndividualAssessmentAccessHandler(
@@ -66,11 +58,11 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function create()
+    public function create() : int
     {
-        parent::create();
+        $id = parent::create();
         $this->settings = new ilIndividualAssessmentSettings(
-            (int) $this->getId(),
+            $this->getId(),
             '',
             '',
             '',
@@ -79,12 +71,13 @@ class ilObjIndividualAssessment extends ilObject
             false
         );
         $this->settings_storage->createSettings($this->settings);
+        return $id;
     }
 
     /**
      * @inheritdoc
      */
-    public function read()
+    public function read() : void
     {
         parent::read();
         global $DIC;
@@ -104,7 +97,7 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * Set the settings
      */
-    public function setSettings(ilIndividualAssessmentSettings $settings)
+    public function setSettings(ilIndividualAssessmentSettings $settings) : void
     {
         $this->settings = $settings;
         $this->setTitle($settings->getTitle());
@@ -122,17 +115,15 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * Set info settings
      */
-    public function setInfoSettings(ilIndividualAssessmentInfoSettings $info)
+    public function setInfoSettings(ilIndividualAssessmentInfoSettings $info) : void
     {
         $this->info_settings = $info;
     }
 
     /**
      * Get the members object associated with this.
-     *
-     * @return	ilIndividualAssessmentMembers
      */
-    public function loadMembers()
+    public function loadMembers() : ilIndividualAssessmentMembers
     {
         return $this->members_storage->loadMembers($this);
     }
@@ -142,17 +133,15 @@ class ilObjIndividualAssessment extends ilObject
      *
      * @return	ilIndividualAssessmentMember[]
      */
-    public function loadMembersAsSingleObjects(string $filter = null, string $sort = null)
+    public function loadMembersAsSingleObjects(string $filter = null, string $sort = null) : array
     {
         return $this->members_storage->loadMembersAsSingleObjects($this, $filter, $sort);
     }
 
     /**
      * Get the members object associated with this and visible by the current user.
-     *
-     * @return	ilIndividualAssessmentMembers
      */
-    public function loadVisibleMembers()
+    public function loadVisibleMembers() : ilIndividualAssessmentMembers
     {
         return $this->members_storage->loadMembers($this)
                 ->withAccessHandling($this->il_access_handler);
@@ -160,10 +149,8 @@ class ilObjIndividualAssessment extends ilObject
 
     /**
      * Update the members object associated with this.
-     *
-     * @param	ilIndividualAssessmentMembers	$members
      */
-    public function updateMembers(ilIndividualAssessmentMembers $members)
+    public function updateMembers(ilIndividualAssessmentMembers $members) : void
     {
         $members->updateStorageAndRBAC($this->members_storage, $this->access_handler);
     }
@@ -171,33 +158,32 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function delete()
+    public function delete() : bool
     {
         $this->settings_storage->deleteSettings($this);
         $this->members_storage->deleteMembers($this);
-        parent::delete();
+        return parent::delete();
     }
 
     /**
      * @inheritdoc
      */
-    public function update()
+    public function update() : bool
     {
         parent::update();
         $this->settings_storage->updateSettings($this->settings);
+        return true;
     }
 
-    public function updateInfo()
+    public function updateInfo() : void
     {
         $this->settings_storage->updateInfoSettings($this->info_settings);
     }
 
     /**
      * Get the member storage object used by this.
-     *
-     * @return ilIndividualAssessmentMembersStorage
      */
-    public function membersStorage()
+    public function membersStorage() : ilIndividualAssessmentMembersStorage
     {
         return $this->members_storage;
     }
@@ -205,17 +191,15 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
         $this->access_handler->initDefaultRolesForObject($this);
     }
 
     /**
      * Get the access handler of this.
-     *
-     * @return	IndividualAssessmentAccessHandler
      */
-    public function accessHandler()
+    public function accessHandler() : IndividualAssessmentAccessHandler
     {
         return $this->access_handler;
     }
@@ -223,15 +207,15 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $settings = $this->getSettings();
         $info_settings = $this->getInfoSettings();
         $new_settings = new ilIndividualAssessmentSettings(
-            (int) $new_obj->getId(),
-            (int) $new_obj->getTitle(),
-            (int) $new_obj->getDescription(),
+            $new_obj->getId(),
+            $new_obj->getTitle(),
+            $new_obj->getDescription(),
             $settings->getContent(),
             $settings->getRecordTemplate(),
             $settings->isEventTimePlaceRequired(),
@@ -240,7 +224,7 @@ class ilObjIndividualAssessment extends ilObject
         $new_obj->settings = $new_settings;
 
         $new_info_settings = new ilIndividualAssessmentInfoSettings(
-            (int) $new_obj->getId(),
+            $new_obj->getId(),
             $info_settings->getContact(),
             $info_settings->getResponsibility(),
             $info_settings->getPhone(),
@@ -263,10 +247,8 @@ class ilObjIndividualAssessment extends ilObject
 
     /**
      * Get the file storage system
-     *
-     * @return ilIndividualAssessmentFileStorage
      */
-    public function getFileStorage()
+    public function getFileStorage() : ilIndividualAssessmentFileStorage
     {
         if ($this->file_storage === null) {
             $this->file_storage = ilIndividualAssessmentFileStorage::getInstance($this->getId());
@@ -275,14 +257,11 @@ class ilObjIndividualAssessment extends ilObject
     }
 
     /**
-     * Check wether the LP is activated for current object.
-     *
-     * @return bool
+     * Check whether the LP is activated for current object.
      */
-    public function isActiveLP()
+    public function isActiveLP() : bool
     {
         if ($this->lp_active === null) {
-            require_once 'Modules/IndividualAssessment/classes/LearningProgress/class.ilIndividualAssessmentLPInterface.php';
             $this->lp_active = ilIndividualAssessmentLPInterface::isActiveLP($this->getId());
         }
         return $this->lp_active;
@@ -299,7 +278,7 @@ class ilObjIndividualAssessment extends ilObject
      *
      * @return int the obj_id or 0 if root is reached
      */
-    public function getParentContainerIdByType($id, array $types)
+    public function getParentContainerIdByType(int $id, array $types) : int
     {
         global $DIC;
 
@@ -308,9 +287,9 @@ class ilObjIndividualAssessment extends ilObject
 
         while ($node['type'] !== "root") {
             if (in_array($node['type'], $types)) {
-                return $node['ref_id'];
+                return (int) $node['ref_id'];
             }
-            $node = $tree->getParentNodeData($node['ref_id']);
+            $node = $tree->getParentNodeData((int) $node['ref_id']);
         }
         return 0;
     }

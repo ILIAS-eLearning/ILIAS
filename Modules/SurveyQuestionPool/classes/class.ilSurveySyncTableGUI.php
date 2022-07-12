@@ -1,33 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Survey sync table GUI class
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.de>
  */
 class ilSurveySyncTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected SurveyQuestion $question;
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * Constructor
-     *
-     * @param object $a_parent_obj parent gui object
-     * @param string $a_parent_cmd parent default command
-     * @param ilSurveyQuestion $a_question
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, SurveyQuestion $a_question)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        SurveyQuestion $a_question
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -65,7 +68,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
     /**
      * Import data from DB
      */
-    protected function importData()
+    protected function importData() : void
     {
         $ilAccess = $this->access;
         $lng = $this->lng;
@@ -73,7 +76,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
         $table_data = array();
         foreach ($this->question->getCopyIds(true) as $survey_obj_id => $questions) {
             $survey_id = new ilObjSurvey($survey_obj_id, false);
-            $survey_id->loadFromDB();
+            $survey_id->loadFromDb();
             $survey_id = $survey_id->getSurveyId();
             
             $ref_ids = ilObject::_getAllReferences($survey_obj_id);
@@ -118,16 +121,10 @@ class ilSurveySyncTableGUI extends ilTable2GUI
         $this->setData($table_data);
     }
     
-    /**
-     * Fill table row
-     *
-     * @param array $a_set data array
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
+
         $this->tpl->setVariable("TXT_PATH", $lng->txt("path"));
         
         if ($a_set["message"]) {
@@ -150,24 +147,18 @@ class ilSurveySyncTableGUI extends ilTable2GUI
     
     /**
      * Build path with deep-link
-     *
-     * @param	array	$ref_ids
-     * @return	array
      */
-    protected function buildPath($ref_ids)
+    protected function buildPath(array $ref_ids) : array
     {
         $tree = $this->tree;
-        $ilCtrl = $this->ctrl;
 
-        if (!count($ref_ids)) {
-            return false;
-        }
+        $result = [];
         foreach ($ref_ids as $ref_id) {
             $path = "...";
             
             $counter = 0;
             $path_full = $tree->getPathFull($ref_id);
-            if (sizeof($path_full)) {
+            if (count($path_full)) {
                 foreach ($path_full as $data) {
                     if (++$counter < (count($path_full) - 1)) {
                         continue;

@@ -1,17 +1,25 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/Tree/classes/class.ilTree.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- *
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCmsTree extends ilTree
 {
-    public function __construct($a_tree_id)
+    public function __construct(int $a_tree_id)
     {
         parent::__construct($a_tree_id, self::lookupRootId($a_tree_id));
 
@@ -20,38 +28,33 @@ class ilECSCmsTree extends ilTree
         $this->useCache(false);
     }
 
-    public function insertRootNode($tree, $a_child)
+    public function insertRootNode(int $tree, int $a_child) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'INSERT INTO ecs_cms_tree ' .
             '(tree,child,parent,lft,rgt,depth) ' .
             'VALUES ( ' .
-            $ilDB->quote($tree, 'integer') . ', ' .
-            $ilDB->quote($a_child, 'integer') . ', ' .
-            $ilDB->quote(0, 'integer') . ', ' .
-            $ilDB->quote(1, 'integer') . ', ' .
-            $ilDB->quote(100, 'integer') . ', ' .
-            $ilDB->quote(1, 'integer') . ' )';
+            $this->db->quote($tree, 'integer') . ', ' .
+            $this->db->quote($a_child, 'integer') . ', ' .
+            $this->db->quote(0, 'integer') . ', ' .
+            $this->db->quote(1, 'integer') . ', ' .
+            $this->db->quote(100, 'integer') . ', ' .
+            $this->db->quote(1, 'integer') . ' )';
 
-        $ilDB->manipulate($query);
-        
-        
+        $this->db->manipulate($query);
+
         return true;
     }
     
     /**
      * Delete tree by tree_id
      */
-    public static function deleteByTreeId($a_tree_id)
+    public static function deleteByTreeId(int $a_tree_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $GLOBALS['DIC']->logger()->wsrv()->debug('Deleting cms tree: ' . $a_tree_id);
+        $DIC->logger()->wsrv()->debug('Deleting cms tree: ' . $a_tree_id);
         $query = 'DELETE FROM ecs_cms_tree ' .
                 'WHERE tree = ' . $ilDB->quote($a_tree_id, 'integer');
         $ilDB->manipulate($query);
@@ -60,18 +63,13 @@ class ilECSCmsTree extends ilTree
 
     /**
      * Check if tree exists
-     * @param int $a_tree_id
      */
-    public function treeExists($a_tree_id)
+    public function treeExists(int $a_tree_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = 'SELECT COUNT(*) num FROM ecs_cms_tree WHERE tree = ' . $ilDB->quote($a_tree_id, 'integer');
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->num > 0 ? true : false;
+        $query = 'SELECT COUNT(*) num FROM ecs_cms_tree WHERE tree = ' . $this->db->quote($a_tree_id, 'integer');
+        $res = $this->db->query($query);
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return $row->num > 0;
         }
         return false;
     }
@@ -80,7 +78,7 @@ class ilECSCmsTree extends ilTree
     /**
      * lookup root id
      */
-    public static function lookupRootId($a_tree_id)
+    public static function lookupRootId($a_tree_id) : int
     {
         global $DIC;
 
@@ -88,8 +86,8 @@ class ilECSCmsTree extends ilTree
 
         $query = 'SELECT child FROM ecs_cms_tree WHERE tree = ' . $ilDB->quote($a_tree_id, 'integer');
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->child;
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->child;
         }
         return 0;
     }

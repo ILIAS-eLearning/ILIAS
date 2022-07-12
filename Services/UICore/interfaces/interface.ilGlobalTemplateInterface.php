@@ -1,326 +1,280 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fschmid
- * Date: 2019-03-18
- * Time: 11:22
- */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * special template class to simplify handling of ITX/PEAR
- *
- * @author     Stefan Kesseler <skesseler@databay.de>
- * @author     Sascha Hofmann <shofmann@databay.de>
- * @version    $Id$
+ * @author Stefan Kesseler <skesseler@databay.de>
+ * @author Sascha Hofmann <shofmann@databay.de>
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 interface ilGlobalTemplateInterface
 {
+    public const MESSAGE_TYPE_FAILURE = 'failure';
+    public const MESSAGE_TYPE_SUCCESS = "success";
+    public const MESSAGE_TYPE_QUESTION = "question";
+    public const MESSAGE_TYPE_INFO = "info";
+
+    /**
+     * @var array available types for messages.
+     */
+    public const MESSAGE_TYPES = [
+        self::MESSAGE_TYPE_FAILURE,
+        self::MESSAGE_TYPE_INFO,
+        self::MESSAGE_TYPE_SUCCESS,
+        self::MESSAGE_TYPE_QUESTION,
+    ];
+
+    /**
+     * @var string default block for several operations.
+     */
+    public const DEFAULT_BLOCK = 'DEFAULT';
 
     /**
      * Make the template hide the footer.
      */
-    public function hideFooter();
-
+    public function hideFooter() : void;
 
     /**
      * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
-     * ilUtil::sendSuccess() and ilUtil::sendFailure()
-     *
-     * @param string $a_type   \ilTemplate::MESSAGE_TYPE_SUCCESS,
-     *                         \ilTemplate::MESSAGE_TYPE_FAILURE,,
-     *                         \ilTemplate::MESSAGE_TYPE_QUESTION,
-     *                         \ilTemplate::MESSAGE_TYPE_INFO
-     * @param string $a_txt    The message to be sent
-     * @param bool   $a_keep   Keep this message over one redirect
+     * ilUtil::sendSuccess() and ilUtil::sendFailure().
      */
-    public function setOnScreenMessage($a_type, $a_txt, $a_keep = false);
-
+    public function setOnScreenMessage(string $type, string $a_txt, bool $a_keep = false) : void;
 
     /**
      * Add a javascript file that should be included in the header.
      */
-    public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2);
-
+    public function addJavaScript(string $a_js_file, bool $a_add_version_parameter = true, int $a_batch = 2) : void;
 
     /**
      * Add on load code
      */
-    public function addOnLoadCode($a_code, $a_batch = 2);
-
+    public function addOnLoadCode(string $a_code, int $a_batch = 2) : void;
 
     /**
      * Get js onload code for ajax calls
-     *
-     * @return string
      */
-    public function getOnLoadCodeForAsynch();
-
+    public function getOnLoadCodeForAsynch() : string;
 
     /**
      * Reset javascript files
      */
-    public function resetJavascript();
+    public function resetJavascript() : void;
 
-
-    public function fillJavaScriptFiles($a_force = false);
-
+    /**
+     * Probably adds javascript files.
+     */
+    public function fillJavaScriptFiles(bool $a_force = false) : void;
 
     /**
      * Add a css file that should be included in the header.
      */
-    public function addCss($a_css_file, $media = "screen");
-
+    public function addCss(string $a_css_file, string $media = "screen") : void;
 
     /**
      * Add a css file that should be included in the header.
      */
-    public function addInlineCss($a_css, $media = "screen");
+    public function addInlineCss(string $a_css, string $media = "screen") : void;
 
-
-    public function setBodyClass($a_class = "");
-
+    /**
+     * Sets the body-tags class.
+     */
+    public function setBodyClass(string $a_class = "") : void;
 
     /**
      * This loads the standard template "tpl.adm_content.html" and
      * "tpl.statusline.html" the CONTENT and STATUSLINE placeholders
      * if they are not already loaded.
      */
-    public function loadStandardTemplate();
-
+    public function loadStandardTemplate() : void;
 
     /**
      * Sets title in standard template.
-     *
      * Will override the header_page_title.
      */
-    public function setTitle($a_title, $hidden = false);
-
+    public function setTitle(string $a_title, bool $hidden = false) : void;
 
     /**
-     * Sets descripton below title in standard template.
+     * Sets description below title in standard template.
      */
-    public function setDescription($a_descr);
-
+    public function setDescription(string $a_descr) : void;
 
     /**
      * set title icon
      */
-    public function setTitleIcon($a_icon_path, $a_icon_desc = "");
-
+    public function setTitleIcon(string $a_icon_path, string $a_icon_desc = "") : void;
 
     /**
      * Set alert properties
-     *
-     * @param array $a_props
-     *
-     * @return void
+     * @param array<int, array> $alerts
      */
-    public function setAlertProperties(array $a_props);
-
+    public function setAlertProperties(array $alerts) : void;
 
     /**
      * Clear header
      */
-    public function clearHeader();
-
+    public function clearHeader() : void;
 
     /**
      * Set header action menu
-     *
-     * @param string $a_gui $a_header
      */
-    public function setHeaderActionMenu($a_header);
-
+    public function setHeaderActionMenu(string $a_header) : void;
 
     /**
      * Sets the title of the page (for browser window).
      */
-    public function setHeaderPageTitle($a_title);
-
+    public function setHeaderPageTitle(string $a_title) : void;
 
     /**
      * Insert locator.
      */
-    public function setLocator();
-
+    public function setLocator() : void;
 
     /**
      * sets tabs in standard template
      */
-    public function setTabs($a_tabs_html);
-
+    public function setTabs(string $a_tabs_html) : void;
 
     /**
      * sets subtabs in standard template
      */
-    public function setSubTabs($a_tabs_html);
-
+    public function setSubTabs(string $a_tabs_html) : void;
 
     /**
      * Sets content for standard template.
      */
-    public function setContent($a_html);
-
+    public function setContent(string $a_html) : void;
 
     /**
      * Sets content of left column.
      */
-    public function setLeftContent($a_html);
-
+    public function setLeftContent(string $a_html) : void;
 
     /**
      * Sets content of left navigation column.
      */
-    public function setLeftNavContent($a_content);
-
+    public function setLeftNavContent(string $a_content) : void;
 
     /**
      * Sets content of right column.
      */
-    public function setRightContent($a_html);
+    public function setRightContent(string $a_html) : void;
 
-
-    public function setPageFormAction($a_action);
-
+    /**
+     * Sets the pages form action.
+     */
+    public function setPageFormAction(string $a_action) : void;
 
     /**
      * Set target parameter for login (public sector).
      * This is used by the main menu
      */
-    public function setLoginTargetPar($a_val);
-
-
-    /**
-     * @param string
-     *
-     * @return    string
-     */
-    public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true);
-
+    public function setLoginTargetPar(string $a_val) : void;
 
     /**
-     * @param string|bool $part
-     * @param bool        $a_fill_tabs fill template variable {TABS} with content of ilTabs
-     * @param bool        $a_skip_main_menu
+     * Renders the page with specific elements enabled.
      */
-    public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false);
+    public function getSpecial(
+        string $part = self::DEFAULT_BLOCK,
+        bool $add_error_mess = false,
+        bool $handle_referer = false,
+        bool $add_ilias_footer = false,
+        bool $add_standard_elements = false,
+        bool $a_main_menu = true,
+        bool $a_tabs = true
+    ) : string;
 
+    /**
+     * @param bool $has_tabs       if template variable {TABS} should be filled with content of ilTabs
+     * @param bool $skip_main_menu if the main menu should be rendered.
+     */
+    public function printToStdout(
+        string $part = self::DEFAULT_BLOCK,
+        bool $has_tabs = true,
+        bool $skip_main_menu = false
+    ) : void;
 
     /**
      * Use this method to get the finally rendered page as string
-     *
-     * @return string
      */
     public function printToString() : string;
 
+    /**
+     * Sets a tree or flat icon.
+     * @param string $a_mode ("tree" | "flat")
+     */
+    public function setTreeFlatIcon(string $a_link, string $a_mode) : void;
 
     /**
-     * set tree/flat icon
-     *
-     * @param string        link target
-     * @param strong        mode ("tree" | "flat")
+     * Add a lightbox html to the template.
      */
-    public function setTreeFlatIcon($a_link, $a_mode);
-
-
-    /**
-     * Add lightbox html
-     */
-    public function addLightbox($a_html, $a_id);
-
+    public function addLightbox(string $a_html, string $a_id) : void;
 
     /**
      * Add admin panel commands as toolbar
-     *
-     * @param ilToolbarGUI $toolb
-     * @param bool         $a_top_only
+     * @param bool $is_bottom_panel if the panel should be rendered at the bottom of the page as well.
+     * @param bool $has_arrow       if the panel should be rendered with an arrow icon.
      */
-    public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false);
+    public function addAdminPanelToolbar(
+        ilToolbarGUI $toolbar,
+        bool $is_bottom_panel = true,
+        bool $has_arrow = false
+    ) : void;
 
-
-    public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "");
-
+    /**
+     * Generates and sets a permanent ilias link.
+     */
+    public function setPermanentLink(
+        string $a_type,
+        ?int $a_id,
+        string $a_append = "",
+        string $a_target = "",
+        string $a_title = ""
+    ) : void;
 
     /**
      * Reset all header properties: title, icon, description, alerts, action menu
      */
-    public function resetHeaderBlock($a_reset_header_action = true);
-
+    public function resetHeaderBlock(bool $a_reset_header_action = true) : void;
 
     /**
      * Enables the file upload into this object by dropping a file.
      */
-    public function enableDragDropFileUpload($a_ref_id);
-
-
-    /**
-     * @param string
-     *
-     * @return    string
-     */
-    public function get($part = "DEFAULT");
-
-
-    public function setVariable($variable, $value = '');
-
+    public function setFileUploadRefId(int $a_ref_id) : void;
 
     /**
-     * @access    public
-     *
-     * @param string
-     *
-     * @return    ???
+     * Renders the given block and returns the html string.
      */
-    public function setCurrentBlock($part = "DEFAULT");
+    public function get(string $part = self::DEFAULT_BLOCK) : string;
 
+    /**
+     * Sets the given variable to the given value.
+     * @param mixed $value
+     */
+    public function setVariable(string $variable, $value = '') : void;
+
+    /**
+     * Sets the template to the given block.
+     */
+    public function setCurrentBlock(string $part = self::DEFAULT_BLOCK) : bool;
+
+    /**
+     * Parses the given block.
+     */
+    public function parseCurrentBlock(string $block_name = self::DEFAULT_BLOCK) : bool;
 
     /**
      * overwrites ITX::touchBlock.
-     *
-     * @access    public
-     *
-     * @param string
-     *
-     * @return    ???
      */
-    public function touchBlock($block);
-
-
-    /**
-     * Überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausführt
-     *
-     * @access    public
-     *
-     * @param string
-     *
-     * @return    string
-     */
-    public function parseCurrentBlock($part = "DEFAULT");
-
+    public function touchBlock(string $block) : bool;
 
     /**
      * overwrites ITX::addBlockFile
-     *
-     * @access    public
-     *
-     * @param string
-     * @param string
-     * @param string  $tplname   template name
-     * @param boolean $in_module should be set to true, if template file is in module subdirectory
-     *
-     * @return    boolean/string
      */
-    public function addBlockFile($var, $block, $tplname, $in_module = false);
-
+    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null) : bool;
 
     /**
      * check if block exists in actual template
-     *
-     * @access    private
-     *
-     * @param string blockname
-     *
-     * @return    boolean
+     * @param string $block_name
      */
-    public function blockExists($a_blockname);
+    public function blockExists(string $block_name) : bool;
 }

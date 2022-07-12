@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Menu;
 
 use ILIAS\UI\Component\Menu as IMenu;
@@ -16,13 +30,11 @@ class Drilldown extends Menu implements IMenu\Drilldown
 {
     use JavaScriptBindable;
 
-    /**
-     * @var Signal
-     */
-    protected $signal;
+    protected Signal $signal;
+    protected ?string $persistence_id = null;
 
     /**
-     * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
+     * @param array <Sub|Component\Clickable|Component\Divider\Horizontal> $items
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -38,5 +50,20 @@ class Drilldown extends Menu implements IMenu\Drilldown
     public function getBacklinkSignal() : Signal
     {
         return $this->signal;
+    }
+
+    public function withPersistenceId(?string $id) : self
+    {
+        if (is_null($id)) {
+            return $this;
+        }
+        $clone = clone $this;
+        $clone->persistence_id = $id;
+        return $clone;
+    }
+    
+    public function getPersistenceId() : ?string
+    {
+        return $this->persistence_id;
     }
 }

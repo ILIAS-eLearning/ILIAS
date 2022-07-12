@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,17 +14,9 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
     const CONTEXT_INFO_SCREEN = 'contInfoScreen';
     const CONTEXT_DYN_TEST_PLAYER = 'contDynTestPlayer';
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
     
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI)
+    public function __construct(ilCtrl $ctrl, ilLanguage $lng, object $parentGUI)
     {
         $this->ctrl = $ctrl;
         $this->lng = $lng;
@@ -32,10 +24,10 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
         $this->setFormAction($this->ctrl->getFormAction($parentGUI));
     }
     
-    public function build($activeId, $pass, $context)
+    public function build(int $activeId, int $pass, string $context) : void
     {
-        $this->addHiddenItem('active_id', $activeId);
-        $this->addHiddenItem('pass', $pass);
+        $this->addHiddenItem('active_id', (string) $activeId);
+        $this->addHiddenItem('pass', (string) $pass);
         
         switch ($context) {
             case self::CONTEXT_PASS_OVERVIEW:

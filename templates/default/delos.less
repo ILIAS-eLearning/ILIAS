@@ -37,10 +37,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // Core CSS
 @import "@{bsbase}scaffolding.less";
 @import "@{bsbase}type.less";
-@import "@{bsbase}code.less";
-@import "@{bsbase}grid.less";
 @import "@{bsbase}tables.less";
-@import "@{bsbase}forms.less";
 @import "@{bsbase}buttons.less";
 
 
@@ -50,7 +47,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{bsbase}button-groups.less";
 @import "@{bsbase}input-groups.less";
 @import "@{bsbase}navs.less";
-@import "@{bsbase}navbar.less";
 @import "@{bsbase}pagination.less";
 @import "@{bsbase}pager.less";
 @import "@{bsbase}labels.less";
@@ -64,7 +60,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{bsbase}panels.less";
 @import "@{bsbase}responsive-embed.less";
 @import "@{bsbase}wells.less";
-@import "@{bsbase}close.less";
 @import "@{bsbase}breadcrumbs.less";
 
 // Components w/ JavaScript
@@ -76,6 +71,16 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // Utility classes
 @import "@{bsbase}utilities.less";
 @import "@{bsbase}responsive-utilities.less";
+
+// Bootstrap overrides
+@boostrap_delos: "less/bootstrap/";
+@import "@{boostrap_delos}focus-mixin.less";
+@import "@{boostrap_delos}code.less";
+@import "@{boostrap_delos}bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
+@import "@{boostrap_delos}screenreader-only-mixins.less";
+@import "@{boostrap_delos}grid.less";
+@import "@{boostrap_delos}forms.less";
+@import "@{boostrap_delos}navbar.less";
 
 // UI framework
 @uibase: "../../src/UI/templates/default/";
@@ -105,9 +110,10 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Menu/menu.less";
 @import "@{uibase}Symbol/symbol.less";
 @import "@{uibase}Link/link.less";
+@import "@{uibase}Toast/toast.less";
+@import "@{uibase}Player/player.less";
 
 @import "less/variables.less"; //ILIAS Less variables
-@import "less/bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
 
 // UI framework components which make use of variables from less/variables.less
 // Note: These files need to be imported after less/variables.less
@@ -123,8 +129,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // general multi line cap
 @import "less/multi-line-cap.less";
 
-// tab focus ilias mixin
-@import "less/focus-mixin.less";
+
 
 /* flex grid support start */
 
@@ -151,6 +156,10 @@ All parts that aren't checked yet are actually marked with "rtl-review"
     }
   }
   .col(1); // kickstart it
+}
+
+script {
+	display: none!important;
 }
 
 .row-flex {
@@ -288,7 +297,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 // warning inline text
 span.ilAlert {
-	color: @brand-warning;
+	color: @il-warning-color;
 }
 
 /* Drop Downs */
@@ -357,7 +366,6 @@ span.ilAlert {
 	margin-bottom: 0;
 }
 
-
 /* ILIAS part candidates */
 
 html, body {
@@ -365,8 +373,16 @@ html, body {
 	overflow: hidden;
 }
 html {
+	font-size: 100%;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		-webkit-text-size-adjust: none;
+	}
+}
+html, body {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		overflow: initial;
+		height: auto;
+		min-height: 100vh;
 	}
 }
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
@@ -435,7 +451,7 @@ ul ul, ol ol {
 }
 
 small, sub, sup {
-	font-size: .8em;
+	font-size: @il-font-size-xsmall;
 }
 
 em, i {
@@ -476,6 +492,8 @@ a {
 		color: @link-hover-color;
 		text-decoration: underline;
 	}
+	
+	.il-focus();
 }
 
 hr {
@@ -485,7 +503,7 @@ hr {
 }
 
 table {
-	font-size: 100%;
+	font-size: @il-font-size-base;
 }
 
 img {
@@ -512,7 +530,7 @@ tr, td {
 
 code {
 	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: @il-text-light-color;
 }
 
@@ -662,7 +680,7 @@ div.input {
 	border: 1px solid @il-main-border-dark-color;
 	padding: 3px;
 	text-decoration: none;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	background-color: white;
 	overflow: auto;
 }
@@ -716,7 +734,7 @@ div.ilAdminRow {
 
 table.std {
 	color: @il-text-color;
-	background-color: #bbb;
+	background-color: @il-main-dark-bg;
 	border-spacing: 0;
 	border-collapse: collapse;
 	border: 1px solid #9eadba;
@@ -855,7 +873,7 @@ td.boxed {
 /*Link, Visited, Hover, Focus, Activ*/
 a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited,
 a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited {
-	font-size: 80%;
+	font-size: @il-font-size-small;
 	text-decoration: none;
 	margin: 0 3px 0 0;
 	white-space: nowrap;
@@ -891,7 +909,7 @@ h3.il_ContainerItemTitle {
 	padding: 0;
 	margin: 0;
 	font-weight: normal;
-	font-size: 100%;
+	font-size: @il-font-size-base;
 	display: inline;
 }
 
@@ -909,7 +927,7 @@ div.il_ItemProperties {
 	margin: 2px 0 5px;
 	text-align: left;
 	font-weight: normal;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 [dir="rtl"] div.il_ItemProperties {
@@ -920,7 +938,7 @@ div.il_ItemNotice {
 	margin: 2px 0 5px;
 	text-align: left;
 	font-weight: normal;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: green;
 }
 
@@ -938,14 +956,14 @@ a.il_ItemProperty:hover {
 }
 
 span.il_ItemAlertProperty {
-	color: @brand-warning;
+	color: @il-warning-color;
 }
 
 /* Table Links */
 /* --- description text ---*/
 div.il_Description, td.il_Description {
 	margin: 2px 0 5px;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	font-weight: normal;
 	text-align: left;
 }
@@ -956,7 +974,7 @@ div.il_Description, td.il_Description {
 }
 
 div.il_Description_no_margin, td.il_Description_no_margin {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	font-style: italic;
 	text-align: left;
 }
@@ -967,7 +985,7 @@ div.il_Description_no_margin, td.il_Description_no_margin {
 }
 
 div.il_info {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	text-align: left;
 }
 
@@ -979,12 +997,14 @@ div.il_info {
 /* ---------------- headlines ------------------ */
 
 a#il_mhead_t_focus {
-	color: darken(@il-secondary-color, 20%);
+	//This is a violation of our color rules. We do this only for product placement reasons for the PM.
+	color: @il-neutral-color;
 	vertical-align: middle;
-	font-size: 26px;
+	font-size: @il-font-size-h1;
+	font-weight: 400;
     cursor: default;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
-        font-size: 20px;
+        font-size: @il-font-size-xxlarge;
     }
     &[href] {
         cursor: pointer;
@@ -1003,7 +1023,7 @@ h2.ilHeader {
 	padding: 0;
 	margin: 0;
 	display: inline;
-	font-size: @font-size-h3;
+	font-size: @il-font-size-xlarge;
 	color: @il-neutral-color;
 }
 
@@ -1055,17 +1075,15 @@ div.ilHeadAction ul.dropdown-menu button {
 }
 
 div.ilHeaderDesc {
-	font-size: 90%;
+	font-size: @il-font-size-base;
 	padding: 0;
 	color: @il-text-color;
-	font-weight: 300;
 }
 
 div.ilHeaderAlert {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	padding: 0;
-	font-weight: 300;
-	color: @brand-warning;
+	color: @il-warning-color;
 }
 
 div.il_HeaderInner {
@@ -1094,7 +1112,12 @@ div.il_TreeIcons {
 /* ----------------- permanent link  ------------- */
 #current_perma_link {
 	color: @il-text-color;
-	font-size: 90%;
+	font-size: @il-font-size-small;
+	
+	&:focus-visible {
+		outline: @il-focus-outline-inner-width solid @il-focus-protection-color;
+		outline-offset: @il-focus-outline-outer-width;
+	}
 }
 a.permalink_label {
 	> span.glyphicon {
@@ -1153,30 +1176,35 @@ div.invisible_border {
 
 /* ------- Helptext --------- */
 span.il_Helptext {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	font-weight: normal;
 }
 
 /* ----------------- alternative text styles ------------- */
+.base {
+	text-decoration: none;
+	font-size: @il-font-size-base;
+}
+
 .small {
 	text-decoration: none;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 .xsmall {
 	text-decoration: none;
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 }
 
 .smallgreen {
 	text-decoration: none;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: green;
 }
 
 .smallred {
 	text-decoration: none;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: @il-danger-color;
 }
 
@@ -1201,7 +1229,7 @@ div.Access {
 
 .asterisk {
 	color: @il-danger-color;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 .default {
@@ -1218,7 +1246,7 @@ div.Access {
 .subtitle {
 	font-style: italic;
 	font-weight: normal;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 .questiontext {
@@ -1431,7 +1459,7 @@ div.ilSideBarHead{
 }
 
 div.ilSideBarHead h3, div.ilSideBarHead h1 {
-	font-size: 110%;
+	font-size: @il-font-size-large;
 	color: @il-text-color;
 	display: inline;
 	padding: 0;
@@ -1450,7 +1478,7 @@ div.ilSideBarContent{
 	float: left;
 	background-color: @dropdown-bg;
 	border: 1px solid @il-main-border-color;
-	font-size: 90%;
+	font-size: @il-font-size-small;
     .box-shadow(2px 2px 4px #c0c0c0);
 	.ui-menu-item {
 		margin: 0;
@@ -1525,6 +1553,10 @@ div.ilSideBarContent{
 	overflow-y: auto;
 	/* prevent horizontal scrollbar */
 	overflow-x: hidden;
+
+	li.ui-menu-item {
+		cursor: pointer;
+	}
 }
 
 /* Icon Default */
@@ -1550,12 +1582,9 @@ img.ilSmallIcon {
 	-webkit-hyphens: auto;
 	hyphens: auto;
 }
-span.ilIcalIcon {
-	text-align: initial;
-}
 
 /* Component Imports */
-
+@import "less/Services/AccessControl/delos.less";
 @import "less/Services/Accordion/delos.less";
 @import "less/Modules/ScormAicc/delos.less";
 @import "less/Services/Form/delos.less";
@@ -1578,7 +1607,6 @@ span.ilIcalIcon {
 @import "less/Modules/Bibliographic/delos.less";
 @import "less/Services/MediaObjects/delos.less";
 @import "less/Services/Chart/delos.less";
-@import "less/Services/Captcha/delos.less";
 @import "less/Services/User/delos.less";
 @import "less/Services/Style/delos.less";
 @import "less/Modules/Course/delos.less";
@@ -1621,6 +1649,9 @@ span.ilIcalIcon {
 @import "less/Modules/LearningSequence/delos.less";
 @import "less/Services/LearningHistory/delos.less";
 @import "less/Services/Preview/delos.less";
+@import "less/Services/WebDAV/delos.less";
+@import "less/Modules/Test/delos.less";
+@import "less/Modules/MediaCast/delos.less";
 
 .noMargin {
 	margin: 0;
@@ -1647,42 +1678,8 @@ img[src$="icon_checked.svg"] {
 }
 
 .glyphicon-ok {
-    font-size: 11px;
+    font-size: @il-font-size-small;
 	text-align: center;
-}
-
-div.ilNewObjectSelector {
-	display: block;
-	text-align: right;
-	margin-bottom: 8px;
-    padding: 0;
-    width: 100%;
-	> .btn-group.open {
-		display: inline-block;
-        width: 100%;
-        #ilAdvSelListAnchorText_asl {
-            float: right;
-        }
-		#ilAdvSelListAnchorText_asl + .dropdown-menu {
-            top: 30px;
-			right: 0;
-			left: auto;
-			.dropdown-header{
-				margin-right:1px;
-			}
-
-
-
-		}
-    }
-}
-
-[dir="rtl"] div.ilNewObjectSelector {
-    > .btn-group {
-        #ilAdvSelListAnchorText_asl {
-            float: left;
-        }
-    }
 }
 
 .pdMailRow {
@@ -1768,43 +1765,6 @@ table.mceToolbar {
 	}
 }
 
-//mantis #0017724, 17884, #17943
-#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
-#ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
-#mm_adm_tr + span + ul.dropdown-menu > li > div.row,
-#mm_adm_tr + ul.dropdown-menu > li > div.row {
-	@media only screen and (min-width: @screen-lg-min) {
-		.row{
-			width: auto;
-		}
-		ul{
-			min-width: 250px;
-		}
-	}
-    @media only screen and (max-width: @grid-float-breakpoint-max) {
-        width: 100% !important;
-        margin: 0;
-    }
-}
-#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row
-{
-	@media only screen and (max-width: @screen-md-min){
-		min-width: 250px;
-	}
-	@media only screen and (min-width: @screen-md-min) and (max-width: @screen-lg-min){
-		min-width: 500px;
-	}
-	@media only screen and (min-width: @screen-lg-min) {
-		min-width: 750px;
-	}
-}
-#ilAdvSelListAnchorText_asl + ul.dropdown-menu {
-	@media only screen and (max-width: @screen-sm-min) {
-		position: absolute;
-		background-color: @il-main-bg;
-	}
-}
-
 
 //Horizontal Scroll Bar for Code, see: #27132
 .code-container{
@@ -1835,4 +1795,4 @@ div.ilGoogleMap {
 
 }
 
-@import "less/print.less";
+@import "less/print.less"; 

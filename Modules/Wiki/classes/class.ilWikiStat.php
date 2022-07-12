@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Wiki statistics class
@@ -74,51 +88,49 @@
  *
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.de>
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesWiki
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiStat
 {
-    const EVENT_PAGE_CREATED = 1;
-    const EVENT_PAGE_UPDATED = 2;
-    const EVENT_PAGE_READ = 3;
-    const EVENT_PAGE_DELETED = 4;
-    const EVENT_PAGE_RATING = 5;
-    
-    const KEY_FIGURE_WIKI_NUM_PAGES = 1;
-    const KEY_FIGURE_WIKI_NEW_PAGES = 2;
-    const KEY_FIGURE_WIKI_NEW_PAGES_AVG = 3;
-    const KEY_FIGURE_WIKI_EDIT_PAGES = 4;
-    const KEY_FIGURE_WIKI_EDIT_PAGES_AVG = 5;
-    const KEY_FIGURE_WIKI_DELETED_PAGES = 6;
-    const KEY_FIGURE_WIKI_READ_PAGES = 7;
-    const KEY_FIGURE_WIKI_USER_EDIT_PAGES = 8;
-    const KEY_FIGURE_WIKI_USER_EDIT_PAGES_AVG = 9;
-    const KEY_FIGURE_WIKI_NUM_RATING = 10;
-    const KEY_FIGURE_WIKI_NUM_RATING_AVG = 11;
-    const KEY_FIGURE_WIKI_RATING_AVG = 12;
-    const KEY_FIGURE_WIKI_INTERNAL_LINKS = 13;
-    const KEY_FIGURE_WIKI_INTERNAL_LINKS_AVG = 14;
-    const KEY_FIGURE_WIKI_EXTERNAL_LINKS = 15;
-    const KEY_FIGURE_WIKI_EXTERNAL_LINKS_AVG = 16;
-    const KEY_FIGURE_WIKI_WORDS = 17;
-    const KEY_FIGURE_WIKI_WORDS_AVG = 18;
-    const KEY_FIGURE_WIKI_CHARS = 19;
-    const KEY_FIGURE_WIKI_CHARS_AVG = 20;
-    const KEY_FIGURE_WIKI_FOOTNOTES = 21;
-    const KEY_FIGURE_WIKI_FOOTNOTES_AVG = 22;
-    
-    const KEY_FIGURE_WIKI_PAGE_CHANGES = 23;
-    const KEY_FIGURE_WIKI_PAGE_CHANGES_AVG = 24;
-    const KEY_FIGURE_WIKI_PAGE_USER_EDIT = 25;
-    const KEY_FIGURE_WIKI_PAGE_READ = 26;
-    const KEY_FIGURE_WIKI_PAGE_INTERNAL_LINKS = 27;
-    const KEY_FIGURE_WIKI_PAGE_EXTERNAL_LINKS = 28;
-    const KEY_FIGURE_WIKI_PAGE_WORDS = 29;
-    const KEY_FIGURE_WIKI_PAGE_CHARS = 30;
-    const KEY_FIGURE_WIKI_PAGE_FOOTNOTES = 31;
-    const KEY_FIGURE_WIKI_PAGE_RATINGS = 32;
+    public const EVENT_PAGE_CREATED = 1;
+    public const EVENT_PAGE_UPDATED = 2;
+    public const EVENT_PAGE_READ = 3;
+    public const EVENT_PAGE_DELETED = 4;
+    public const EVENT_PAGE_RATING = 5;
+
+    public const KEY_FIGURE_WIKI_NUM_PAGES = 1;
+    public const KEY_FIGURE_WIKI_NEW_PAGES = 2;
+    public const KEY_FIGURE_WIKI_NEW_PAGES_AVG = 3;
+    public const KEY_FIGURE_WIKI_EDIT_PAGES = 4;
+    public const KEY_FIGURE_WIKI_EDIT_PAGES_AVG = 5;
+    public const KEY_FIGURE_WIKI_DELETED_PAGES = 6;
+    public const KEY_FIGURE_WIKI_READ_PAGES = 7;
+    public const KEY_FIGURE_WIKI_USER_EDIT_PAGES = 8;
+    public const KEY_FIGURE_WIKI_USER_EDIT_PAGES_AVG = 9;
+    public const KEY_FIGURE_WIKI_NUM_RATING = 10;
+    public const KEY_FIGURE_WIKI_NUM_RATING_AVG = 11;
+    public const KEY_FIGURE_WIKI_RATING_AVG = 12;
+    public const KEY_FIGURE_WIKI_INTERNAL_LINKS = 13;
+    public const KEY_FIGURE_WIKI_INTERNAL_LINKS_AVG = 14;
+    public const KEY_FIGURE_WIKI_EXTERNAL_LINKS = 15;
+    public const KEY_FIGURE_WIKI_EXTERNAL_LINKS_AVG = 16;
+    public const KEY_FIGURE_WIKI_WORDS = 17;
+    public const KEY_FIGURE_WIKI_WORDS_AVG = 18;
+    public const KEY_FIGURE_WIKI_CHARS = 19;
+    public const KEY_FIGURE_WIKI_CHARS_AVG = 20;
+    public const KEY_FIGURE_WIKI_FOOTNOTES = 21;
+    public const KEY_FIGURE_WIKI_FOOTNOTES_AVG = 22;
+
+    public const KEY_FIGURE_WIKI_PAGE_CHANGES = 23;
+    public const KEY_FIGURE_WIKI_PAGE_CHANGES_AVG = 24;
+    public const KEY_FIGURE_WIKI_PAGE_USER_EDIT = 25;
+    public const KEY_FIGURE_WIKI_PAGE_READ = 26;
+    public const KEY_FIGURE_WIKI_PAGE_INTERNAL_LINKS = 27;
+    public const KEY_FIGURE_WIKI_PAGE_EXTERNAL_LINKS = 28;
+    public const KEY_FIGURE_WIKI_PAGE_WORDS = 29;
+    public const KEY_FIGURE_WIKI_PAGE_CHARS = 30;
+    public const KEY_FIGURE_WIKI_PAGE_FOOTNOTES = 31;
+    public const KEY_FIGURE_WIKI_PAGE_RATINGS = 32;
     
     //
     // WRITE
@@ -126,14 +138,13 @@ class ilWikiStat
     
     /**
      * Handle wiki page event
-     *
-     * @param int $a_event
-     * @param ilWikiPage $a_page_obj
-     * @param int $a_user_id
-     * @param int $a_additional_data
      */
-    public static function handleEvent($a_event, ilWikiPage $a_page_obj, $a_user_id = null, array $a_additional_data = null)
-    {
+    public static function handleEvent(
+        int $a_event,
+        ilWikiPage $a_page_obj,
+        ?int $a_user_id = null,
+        array $a_additional_data = null
+    ) : void {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -141,11 +152,11 @@ class ilWikiStat
         if (!$a_user_id) {
             $a_user_id = $ilUser->getId();
         }
-        if (!$a_user_id || $a_user_id == ANONYMOUS_USER_ID) {
+        if (!$a_user_id || $a_user_id === ANONYMOUS_USER_ID) {
             return;
         }
         
-        switch ((int) $a_event) {
+        switch ($a_event) {
             case self::EVENT_PAGE_CREATED:
                 self::handlePageCreated($a_page_obj, $a_user_id);
                 break;
@@ -167,16 +178,13 @@ class ilWikiStat
                 break;
             
             default:
-                return;
         }
     }
     
     /**
      * Get current time frame (hourly)
-     *
-     * @return string
      */
-    protected static function getTimestamp()
+    protected static function getTimestamp() : string
     {
         return date("Y-m-d H:00:00");
     }
@@ -186,13 +194,12 @@ class ilWikiStat
      *
      * - Handles update/insert depending on time frame
      * - supports increment/decrement custom values
-     *
-     * @param string $a_table
-     * @param array $a_primary
-     * @param array $a_values
      */
-    protected static function writeData($a_table, array $a_primary, array $a_values)
-    {
+    protected static function writeData(
+        string $a_table,
+        array $a_primary,
+        array $a_values
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -220,9 +227,9 @@ class ilWikiStat
                 if ($is_update) {
                     $values = array();
                     foreach ($a_values as $column => $value) {
-                        if ($value[0] == "increment") {
+                        if ($value[0] === "increment") {
                             $values[] = $column . " = " . $column . "+1";
-                        } elseif ($value[0] == "decrement") {
+                        } elseif ($value[0] === "decrement") {
                             $values[] = $column . " = " . $column . "-1";
                         } else {
                             $values[] = $column . " = " . $ilDB->quote($value[1], $value[0]);
@@ -243,9 +250,9 @@ class ilWikiStat
                     $values = array();
                     foreach ($a_values as $column => $value) {
                         $columns[] = $column;
-                        if ($value[0] == "increment") {
+                        if ($value[0] === "increment") {
                             $value[0] = "integer";
-                        } elseif ($value[0] == "decrement") {
+                        } elseif ($value[0] === "decrement") {
                             $value[0] = "integer";
                             $value[1] = 0;
                         }
@@ -268,27 +275,28 @@ class ilWikiStat
     
     /**
      * Write data to wiki_stat
-     *
-     * @param int $a_wiki_id
-     * @param array $a_values
      */
-    protected static function writeStat($a_wiki_id, $a_values)
-    {
+    protected static function writeStat(
+        string $a_wiki_id,
+        array $a_values
+    ) : bool {
         $primary = array(
             "wiki_id" => array("integer", $a_wiki_id)
         );
-        self::writeData("wiki_stat", $primary, $a_values);
+        return self::writeData("wiki_stat", $primary, $a_values);
     }
     
     /**
      * Write data to wiki_stat_page
-     *
      * @param int $a_wiki_id
      * @param int $a_page_id
      * @param array $a_values
      */
-    protected static function writeStatPage($a_wiki_id, $a_page_id, $a_values)
-    {
+    protected static function writeStatPage(
+        int $a_wiki_id,
+        int $a_page_id,
+        array $a_values
+    ) : void {
         $primary = array(
             "wiki_id" => array("integer", $a_wiki_id),
             "page_id" => array("integer", $a_page_id),
@@ -298,14 +306,13 @@ class ilWikiStat
     
     /**
      * Write data to wiki_stat_page_user
-     *
-     * @param int $a_wiki_id
-     * @param int $a_page_id
-     * @param int $a_user_id
-     * @param array $a_values
      */
-    protected static function writeStatPageUser($a_wiki_id, $a_page_id, $a_user_id, $a_values)
-    {
+    protected static function writeStatPageUser(
+        int $a_wiki_id,
+        int $a_page_id,
+        int $a_user_id,
+        array $a_values
+    ) : void {
         $primary = array(
             "wiki_id" => array("integer", $a_wiki_id),
             "page_id" => array("integer", $a_page_id),
@@ -316,13 +323,12 @@ class ilWikiStat
     
     /**
      * Write to wiki_stat_user
-     *
-     * @param int $a_wiki_id
-     * @param int $a_user_id
-     * @param array $a_values
      */
-    protected static function writeStatUser($a_wiki_id, $a_user_id, $a_values)
-    {
+    protected static function writeStatUser(
+        int $a_wiki_id,
+        int $a_user_id,
+        array $a_values
+    ) : void {
         $primary = array(
             "wiki_id" => array("integer", $a_wiki_id),
             "user_id" => array("integer", $a_user_id)
@@ -332,24 +338,20 @@ class ilWikiStat
     
     /**
      * Count pages in wiki
-     *
-     * @param int $a_wiki_id
-     * @return int
      */
-    protected static function countPages($a_wiki_id)
-    {
-        return sizeof(ilWikiPage::getAllWikiPages($a_wiki_id));
+    protected static function countPages(
+        int $a_wiki_id
+    ) : int {
+        return count(ilWikiPage::getAllWikiPages($a_wiki_id));
     }
     
     /**
      * Get average rating for wiki or wiki page
-     *
-     * @param int $a_wiki_id
-     * @param int $a_page_id
-     * @return array
      */
-    protected static function getAverageRating($a_wiki_id, $a_page_id = null)
-    {
+    protected static function getAverageRating(
+        int $a_wiki_id,
+        ?int $a_page_id = null
+    ) : array {
         if (!$a_page_id) {
             return ilRating::getOverallRatingForObject(
                 $a_wiki_id,
@@ -367,12 +369,11 @@ class ilWikiStat
     
     /**
      * Handle wiki page creation
-     *
-     * @param ilWikiPage $a_page_obj
-     * @param int $a_user_id
      */
-    public static function handlePageCreated(ilWikiPage $a_page_obj, $a_user_id)
-    {
+    public static function handlePageCreated(
+        ilWikiPage $a_page_obj,
+        int $a_user_id
+    ) : void {
         // wiki: num_pages (count)
         self::writeStat(
             $a_page_obj->getWikiId(),
@@ -395,13 +396,12 @@ class ilWikiStat
     
     /**
      * Handle wiki page update
-     *
-     * @param ilWikiPage $a_page_obj
-     * @param int $a_user_id
-     * @param array $a_page_data
      */
-    public static function handlePageUpdated(ilWikiPage $a_page_obj, $a_user_id, array $a_page_data = null)
-    {
+    public static function handlePageUpdated(
+        ilWikiPage $a_page_obj,
+        int $a_user_id,
+        array $a_page_data = null
+    ) : void {
         // page_user: changes+1
         self::writeStatPageUser(
             $a_page_obj->getWikiId(),
@@ -425,14 +425,10 @@ class ilWikiStat
         self::writeStatPage($a_page_obj->getWikiId(), $a_page_obj->getId(), $values);
     }
     
-    /**
-     * Handle wiki page read
-     *
-     * @param ilWikiPage $a_page_obj
-     * @param int $a_user_id
-     */
-    public static function handlePageRead(ilWikiPage $a_page_obj, $a_user_id)
-    {
+    public static function handlePageRead(
+        ilWikiPage $a_page_obj,
+        int $a_user_id
+    ) : void {
         // page_user: read_events+1
         self::writeStatPageUser(
             $a_page_obj->getWikiId(),
@@ -444,14 +440,10 @@ class ilWikiStat
         );
     }
     
-    /**
-     * Handle wiki page deletion
-     *
-     * @param ilWikiPage $a_page_obj
-     * @param int $a_user_id
-     */
-    public static function handlePageDeletion(ilWikiPage $a_page_obj, $a_user_id)
-    {
+    public static function handlePageDeletion(
+        ilWikiPage $a_page_obj,
+        int $a_user_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -462,7 +454,7 @@ class ilWikiStat
             " WHERE wiki_id = " . $ilDB->quote($a_page_obj->getWikiId(), "integer") .
             " AND page_id = " . $ilDB->quote($a_page_obj->getId(), "integer") .
             " ORDER BY ts DESC";
-        $ilDB->setLimit(1);
+        $ilDB->setLimit(1, 0);
         $set = $ilDB->query($sql);
         
         // #15748
@@ -479,7 +471,7 @@ class ilWikiStat
                 "num_ratings" => array("integer", $data["num_ratings"]),
                 "avg_rating" => array("integer", $data["avg_rating"]),
             );
-            self::writeStatPage((int) $a_page_obj->getWikiId(), $a_page_obj->getId(), $values);
+            self::writeStatPage($a_page_obj->getWikiId(), $a_page_obj->getId(), $values);
         }
         
         // mark all page entries as deleted
@@ -500,14 +492,10 @@ class ilWikiStat
         );
     }
     
-    /**
-     * Handle wiki page rating
-     *
-     * @param ilWikiPage $a_page_obj
-     * @param int $a_user_id
-     */
-    public static function handlePageRating(ilWikiPage $a_page_obj, $a_user_id)
-    {
+    public static function handlePageRating(
+        ilWikiPage $a_page_obj,
+        int $a_user_id
+    ) : void {
         // do page first!
         $rating = self::getAverageRating($a_page_obj->getWikiId(), $a_page_obj->getId());
         
@@ -547,8 +535,17 @@ class ilWikiStat
     // READ HELPER
     //
 
-    protected static function getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, $a_table, $a_field, $a_aggr_value, $a_sub_field = null, $a_sub_id = null, $a_build_full_period = false)
-    {
+    protected static function getWikiAggr(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to,
+        string $a_table,
+        string $a_field,
+        string $a_aggr_value,
+        ?string $a_sub_field = null,
+        ?int $a_sub_id = null,
+        bool $a_build_full_period = false
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -557,7 +554,7 @@ class ilWikiStat
         $deleted = null;
         
         $sql = "SELECT ts_day, " . sprintf($a_aggr_value, $a_field) . " " . $a_field;
-        if ($a_table == "wiki_stat_page" && $a_sub_field) {
+        if ($a_table === "wiki_stat_page" && $a_sub_field) {
             $sql .= ", MAX(deleted) deleted";
         }
         $sql .= " FROM " . $a_table .
@@ -578,7 +575,7 @@ class ilWikiStat
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[$row["ts_day"]] = $row[$a_field];
             
-            $deleted = max($row["deleted"], $deleted);
+            $deleted = max(($row["deleted"] ?? 0), $deleted);
         }
         
         if ($a_build_full_period) {
@@ -586,7 +583,7 @@ class ilWikiStat
             $period_last = $a_day_to;
             
             // check if sub was deleted in period
-            if ($a_table == "wiki_stat_page" && $a_sub_field && $deleted) {
+            if ($a_table === "wiki_stat_page" && $a_sub_field && $deleted) {
                 $sql = "SELECT MAX(ts_day) last_day, MIN(ts_day) first_day" .
                     " FROM " . $a_table .
                     " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
@@ -604,7 +601,7 @@ class ilWikiStat
             }
             
             $last_before_period = null;
-            if (!$res[$a_day_from]) {
+            if (!($res[$a_day_from] ?? false)) {
                 $last_before_period = self::getWikiLast($a_wiki_id, $a_day_from, $a_table, $a_field, $a_sub_field, $a_sub_id);
             }
             
@@ -615,8 +612,14 @@ class ilWikiStat
         return $res;
     }
     
-    protected static function getWikiLast($a_wiki_id, $a_day_from, $a_table, $a_field, $a_sub_field = null, $a_sub_id = null)
-    {
+    protected static function getWikiLast(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_table,
+        string $a_field,
+        ?string $a_sub_field = null,
+        ?int $a_sub_id = null
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -631,14 +634,25 @@ class ilWikiStat
         }
         $sql .= " GROUP BY ts_day" .
             " ORDER BY ts_day DESC";
-        $ilDB->setLimit(1);
+        $ilDB->setLimit(1, 0);
         $set = $ilDB->query($sql);
         $last_before_period = $ilDB->fetchAssoc($set);
-        return $last_before_period["latest"];
+        return (int) ($last_before_period["latest"] ?? 0);
     }
     
-    protected static function getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, $a_table, $a_field, $a_aggr_by, $a_aggr_value, $a_aggr_sub, $a_sub_field = null, $a_sub_id = null, $a_build_full_period = false)
-    {
+    protected static function getWikiAggrSub(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to,
+        string $a_table,
+        string $a_field,
+        string $a_aggr_by,
+        string $a_aggr_value,
+        string $a_aggr_sub,
+        ?string $a_sub_field = null,
+        ?int $a_sub_id = null,
+        bool $a_build_full_period = false
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -670,7 +684,7 @@ class ilWikiStat
         } else {
             $tmp = $all_aggr_ids = $deleted_in_period = $first_day_in_period = array();
             
-            if ($a_table != "wiki_stat_page") {
+            if ($a_table !== "wiki_stat_page") {
                 echo "can only build full period averages for wiki_stat_page";
                 exit();
             }
@@ -710,7 +724,7 @@ class ilWikiStat
             $set = $ilDB->query($sql);
             while ($row = $ilDB->fetchAssoc($set)) {
                 if (!in_array($row[$a_aggr_by], $all_aggr_ids)) {
-                    var_dump("unexpected wiki_stat_page_entry", $row);
+                    throw new ilWikiException("Unexpected wiki_stat_page_entry: " . print_r($row, true));
                 }
                 $tmp[$row[$a_aggr_by]][$row["ts_day"]] = $row[$a_field];
             }
@@ -718,25 +732,21 @@ class ilWikiStat
             // build full period for each sub
             foreach ($all_aggr_ids as $aggr_by_id) {
                 // last of entry of sub is before period
-                if (!is_array($tmp[$aggr_by_id])) {
+                if (!isset($tmp[$aggr_by_id])) {
                     $tmp[$aggr_by_id] = array();
                 }
                 
                 // get last value before period to add missing entries in period
                 $last_before_period = null;
-                if (!$tmp[$aggr_by_id][$a_day_from]) {
+                if (!($tmp[$aggr_by_id][$a_day_from] ?? false)) {
                     $last_before_period = self::getWikiLast($a_wiki_id, $a_day_from, $a_table, $a_field, $a_aggr_by, $aggr_by_id);
                 }
                 
                 // if sub was created in period (see above), shorten period accordingly
-                $first_period_day = isset($first_day_in_period[$aggr_by_id])
-                    ? $first_day_in_period[$aggr_by_id]
-                    : $a_day_from;
+                $first_period_day = $first_day_in_period[$aggr_by_id] ?? $a_day_from;
                 
                 // if sub was deleted in period (see above), shorten period accordingly
-                $last_period_day = isset($deleted_in_period[$aggr_by_id])
-                    ? $deleted_in_period[$aggr_by_id]
-                    : $a_day_to;
+                $last_period_day = $deleted_in_period[$aggr_by_id] ?? $a_day_to;
                 
                 // allow zero as we need to correct number of valid subs per day (see below - AVG)
                 self::buildFullPeriodData($tmp[$aggr_by_id], $first_period_day, $last_period_day, $last_before_period, true);
@@ -751,7 +761,7 @@ class ilWikiStat
             foreach ($res as $day => $values) {
                 switch ($a_aggr_value) {
                     case "AVG(%s)":
-                        $res[$day] = array_sum($values) / sizeof($values);
+                        $res[$day] = array_sum($values) / count($values);
                         break;
                     
                     case "SUM(%s)":
@@ -759,7 +769,7 @@ class ilWikiStat
                         break;
                     
                     default:
-                        var_dump("unsupport aggr " . $a_aggr_value);
+                        throw new ilWikiException("Wiki: unsupport aggr " . $a_aggr_value);
                         break;
                 }
             }
@@ -768,8 +778,13 @@ class ilWikiStat
         return $res;
     }
         
-    protected static function buildFullPeriodData(array &$a_res, $a_day_from, $a_day_to, $a_last_before_period, $a_allow_zero = false)
-    {
+    protected static function buildFullPeriodData(
+        array &$a_res,
+        string $a_day_from,
+        string $a_day_to,
+        ?int $a_last_before_period = null,
+        bool $a_allow_zero = false
+    ) : void {
         // build full data for period
         $safety = 0;
         $last = null;
@@ -803,33 +818,51 @@ class ilWikiStat
     // READ WIKI
     //
     
-    protected static function getWikiNumPages($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiNumPages(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat", "num_pages", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiNewPagesSum($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiNewPagesSum(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_user", "new_pages", "SUM(%s)");
     }
     
-    protected static function getWikiNewPagesAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiNewPagesAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_user", "new_pages", "user_id", "AVG(%s)", "SUM(%s)");
     }
     
-    protected static function getWikiDeletedPages($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiDeletedPages(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat", "del_pages", "SUM(%s)");
     }
     
-    protected static function getWikiReadPages($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiReadPages(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page_user", "read_events", "SUM(%s)");
     }
     
-    protected static function getWikiEditPagesSum($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiEditPagesSum(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -853,8 +886,11 @@ class ilWikiStat
         return $res;
     }
     
-    protected static function getWikiEditPagesAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiEditPagesAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -883,8 +919,13 @@ class ilWikiStat
         return $res;
     }
     
-    protected static function getWikiUserEditPages($a_wiki_id, $a_day_from, $a_day_to, $a_sub_field = null, $a_sub_id = null)
-    {
+    protected static function getWikiUserEditPages(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to,
+        ?string $a_sub_field = null,
+        ?int $a_sub_id = null
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -911,8 +952,11 @@ class ilWikiStat
         return $res;
     }
     
-    protected static function getWikiUserEditPagesAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiUserEditPagesAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -941,75 +985,114 @@ class ilWikiStat
         return $res;
     }
         
-    protected static function getWikiNumRating($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiNumRating(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_ratings", "SUM(%s)");
     }
     
-    protected static function getWikiNumRatingAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiNumRatingAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_ratings", "page_id", "AVG(%s)", "SUM(%s)");
     }
     
-    protected static function getWikiRatingAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiRatingAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         $res = self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat", "avg_rating", "AVG(%s)");
         
         foreach (array_keys($res) as $day) {
             // int-to-float
-            $res[$day] = $res[$day] / 100;
+            $res[$day] /= 100;
         }
         
         return $res;
     }
     
-    protected static function getWikiInternalLinks($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiInternalLinks(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "int_links", "page_id", "SUM(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiInternalLinksAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiInternalLinksAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "int_links", "page_id", "AVG(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiExternalLinks($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiExternalLinks(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "ext_links", "page_id", "SUM(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiExternalLinksAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiExternalLinksAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "ext_links", "page_id", "AVG(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiWords($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiWords(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_words", "page_id", "SUM(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiWordsAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiWordsAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_words", "page_id", "AVG(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiCharacters($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiCharacters(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_chars", "page_id", "SUM(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiCharactersAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiCharactersAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_chars", "page_id", "AVG(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiFootnotes($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiFootnotes(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "footnotes", "page_id", "SUM(%s)", "MAX(%s)", null, null, true);
     }
     
-    protected static function getWikiFootnotesAvg($a_wiki_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiFootnotesAvg(
+        int $a_wiki_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "footnotes", "page_id", "AVG(%s)", "MAX(%s)", null, null, true);
     }
     
@@ -1018,53 +1101,93 @@ class ilWikiStat
     // READ PAGE
     //
     
-    protected static function getWikiPageChanges($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageChanges(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page_user", "changes", "SUM(%s)", "page_id", $a_page_id);
     }
     
-    protected static function getWikiPageChangesAvg($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageChangesAvg(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page_user", "changes", "user_id", "AVG(%s)", "SUM(%s)", "page_id", $a_page_id);
     }
     
-    protected static function getWikiPageUserEdit($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageUserEdit(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiUserEditPages($a_wiki_id, $a_day_from, $a_day_to, "page_id", $a_page_id);
     }
     
-    protected static function getWikiPageRead($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageRead(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page_user", "read_events", "SUM(%s)", "page_id", $a_page_id);
     }
     
-    protected static function getWikiPageInternalLinks($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageInternalLinks(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "int_links", "MAX(%s)", "page_id", $a_page_id, true);
     }
     
-    protected static function getWikiPageExternalLinks($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageExternalLinks(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "ext_links", "MAX(%s)", "page_id", $a_page_id, true);
     }
     
-    protected static function getWikiPageWords($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageWords(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_words", "MAX(%s)", "page_id", $a_page_id, true);
     }
     
-    protected static function getWikiPageCharacters($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageCharacters(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_chars", "MAX(%s)", "page_id", $a_page_id, true);
     }
     
-    protected static function getWikiPageFootnotes($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageFootnotes(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "footnotes", "MAX(%s)", "page_id", $a_page_id, true);
     }
     
-    protected static function getWikiPageRatings($a_wiki_id, $a_page_id, $a_day_from, $a_day_to)
-    {
+    protected static function getWikiPageRatings(
+        int $a_wiki_id,
+        int $a_page_id,
+        string $a_day_from,
+        string $a_day_to
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_ratings", "SUM(%s)", "page_id", $a_page_id);
     }
     
@@ -1073,8 +1196,9 @@ class ilWikiStat
     // GUI HELPER
     //
 
-    public static function getAvailableMonths($a_wiki_id)
-    {
+    public static function getAvailableMonths(
+        int $a_wiki_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1093,7 +1217,7 @@ class ilWikiStat
         return $res;
     }
             
-    public static function getFigures()
+    public static function getFigures() : array
     {
         return array(
             self::KEY_FIGURE_WIKI_NUM_PAGES
@@ -1121,7 +1245,7 @@ class ilWikiStat
         );
     }
     
-    public static function getFiguresPage()
+    public static function getFiguresPage() : array
     {
         return array(
             self::KEY_FIGURE_WIKI_PAGE_CHANGES
@@ -1137,8 +1261,9 @@ class ilWikiStat
         );
     }
     
-    public static function getFigureTitle($a_figure)
-    {
+    public static function getFigureTitle(
+        int $a_figure
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -1183,8 +1308,12 @@ class ilWikiStat
         return $map[$a_figure];
     }
     
-    public static function getFigureData($a_wiki_id, $a_figure, $a_from, $a_to)
-    {
+    public static function getFigureData(
+        int $a_wiki_id,
+        int $a_figure,
+        string $a_from,
+        string $a_to
+    ) : array {
         switch ($a_figure) {
             case self::KEY_FIGURE_WIKI_NUM_PAGES:
                 return self::getWikiNumPages($a_wiki_id, $a_from, $a_to);
@@ -1206,13 +1335,13 @@ class ilWikiStat
                 
             case self::KEY_FIGURE_WIKI_READ_PAGES:
                 return self::getWikiReadPages($a_wiki_id, $a_from, $a_to);
-                
+
             case self::KEY_FIGURE_WIKI_USER_EDIT_PAGES:
                 return self::getWikiUserEditPages($a_wiki_id, $a_from, $a_to);
-                
+
             case self::KEY_FIGURE_WIKI_USER_EDIT_PAGES_AVG:
-                return self::getWikiUserEditPages($a_wiki_id, $a_from, $a_to);
-                
+                return self::getWikiUserEditPagesAvg($a_wiki_id, $a_from, $a_to);
+
             case self::KEY_FIGURE_WIKI_NUM_RATING:
                 return self::getWikiNumRating($a_wiki_id, $a_from, $a_to);
                 
@@ -1252,10 +1381,16 @@ class ilWikiStat
             case self::KEY_FIGURE_WIKI_FOOTNOTES_AVG:
                 return self::getWikiFootnotesAvg($a_wiki_id, $a_from, $a_to);
         }
+        return [];
     }
     
-    public static function getFigureDataPage($a_wiki_id, $a_page_id, $a_figure, $a_from, $a_to)
-    {
+    public static function getFigureDataPage(
+        int $a_wiki_id,
+        int $a_page_id,
+        int $a_figure,
+        string $a_from,
+        string $a_to
+    ) : array {
         switch ($a_figure) {
             case self::KEY_FIGURE_WIKI_PAGE_CHANGES:
                 return self::getWikiPageChanges($a_wiki_id, $a_page_id, $a_from, $a_to);
@@ -1287,9 +1422,10 @@ class ilWikiStat
             case self::KEY_FIGURE_WIKI_PAGE_RATINGS:
                 return self::getWikiPageRatings($a_wiki_id, $a_page_id, $a_from, $a_to);
         }
+        return [];
     }
     
-    public static function getFigureOptions()
+    public static function getFigureOptions() : array
     {
         $res = array();
         
@@ -1300,7 +1436,7 @@ class ilWikiStat
         return $res;
     }
     
-    public static function getFigureOptionsPage()
+    public static function getFigureOptionsPage() : array
     {
         $res = array();
         

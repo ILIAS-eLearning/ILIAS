@@ -26,7 +26,7 @@ class ilAssQuestionHintTracking
         $this->pass = $pass;
     }
 
-    public function setActiveId($activeId)
+    public function setActiveId($activeId) : void
     {
         $this->activeId = $activeId;
     }
@@ -36,7 +36,7 @@ class ilAssQuestionHintTracking
         return $this->activeId;
     }
 
-    public function setPass($pass)
+    public function setPass($pass) : void
     {
         $this->pass = $pass;
     }
@@ -46,7 +46,7 @@ class ilAssQuestionHintTracking
         return $this->pass;
     }
 
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId) : void
     {
         $this->questionId = $questionId;
     }
@@ -64,7 +64,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface					$ilDB
      * @return	boolean					$requestsExist
      */
-    public function requestsExist()
+    public function requestsExist() : bool
     {
         if (self::getNumExistingRequests($this->getQuestionId(), $this->getActiveId(), $this->getPass()) > 0) {
             return true;
@@ -81,7 +81,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface					$ilDB
      * @return	integer					$numExisingRequests
      */
-    public function getNumExistingRequests()
+    public function getNumExistingRequests() : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -115,7 +115,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface		$ilDB
      * @return	boolean		$requestsPossible
      */
-    public function requestsPossible()
+    public function requestsPossible() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -158,7 +158,7 @@ class ilAssQuestionHintTracking
      * @param	integer	$hintId
      * @return	boolean	$isRequested
      */
-    public function isRequested($hintId)
+    public function isRequested($hintId) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -197,7 +197,7 @@ class ilAssQuestionHintTracking
      * @return	ilAssQuestionHint	$nextRequestableHint
      * @throws	ilTestException
      */
-    public function getNextRequestableHint()
+    public function getNextRequestableHint() : ilAssQuestionHint
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -248,7 +248,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface					$ilDB
      * @return	ilAssQuestionHintList	$requestedHintsList
      */
-    public function getRequestedHintsList()
+    public function getRequestedHintsList() : ilAssQuestionHintList
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -288,7 +288,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface				$ilDB
      * @param	ilAssQuestionHint	$questionHint
      */
-    public function storeRequest(ilAssQuestionHint $questionHint)
+    public function storeRequest(ilAssQuestionHint $questionHint) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -315,7 +315,7 @@ class ilAssQuestionHintTracking
      * @global ilDBInterface $ilDB
      * @return ilAssQuestionHintRequestStatisticData $requestsStatisticData
      */
-    public function getRequestStatisticDataByQuestionAndTestpass()
+    public function getRequestStatisticDataByQuestionAndTestpass() : ilAssQuestionHintRequestStatisticData
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -359,7 +359,7 @@ class ilAssQuestionHintTracking
      * @param integer $activeId
      * @return ilAssQuestionHintRequestStatisticRegister
      */
-    public static function getRequestRequestStatisticDataRegisterByActiveId($activeId)
+    public static function getRequestRequestStatisticDataRegisterByActiveId($activeId) : ilAssQuestionHintRequestStatisticRegister
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticRegister.php';
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';
@@ -410,7 +410,7 @@ class ilAssQuestionHintTracking
      * Deletes all hint requests relating to a question included in given question ids
      * @param array[integer] $questionIds
      */
-    public static function deleteRequestsByQuestionIds($questionIds)
+    public static function deleteRequestsByQuestionIds($questionIds) : void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -435,7 +435,7 @@ class ilAssQuestionHintTracking
      * @global ilDBInterface $ilDB
      * @param array[integer] $activeIds
      */
-    public static function deleteRequestsByActiveIds($activeIds)
+    public static function deleteRequestsByActiveIds($activeIds) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

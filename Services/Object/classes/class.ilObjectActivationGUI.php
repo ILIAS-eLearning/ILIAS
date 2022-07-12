@@ -1,6 +1,21 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjectActivationGUI
  *
@@ -10,77 +25,25 @@
  */
 class ilObjectActivationGUI
 {
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilErrorHandling $error;
+    protected ilTabsGUI $tabs_gui;
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
+    protected ilObjUser $user;
+    protected ilHelpGUI $help;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
+    protected int $parent_ref_id;
+    protected int $item_id;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ?int $timing_mode = null;
+    protected ?ilObjectActivation $activation = null;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var int
-     */
-    protected $parent_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $item_id;
-
-    /**
-     * @var \ilGlobalTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var int|null
-     */
-    protected $timing_mode = null;
-
-    /**
-     * @var int|null
-     */
-    protected $activation = null;
-
-    /**
-     * ilObjectActivationGUI constructor.
-     * @param $a_ref_id
-     * @param $a_item_id
-     */
-    public function __construct($a_ref_id, $a_item_id)
+    public function __construct(int $ref_id, int $item_id)
     {
         global $DIC;
 
@@ -88,46 +51,41 @@ class ilObjectActivationGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('crs');
-
         $this->error = $DIC['ilErr'];
         $this->tabs_gui = $DIC->tabs();
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
         $this->user = $DIC->user();
         $this->help = $DIC["ilHelp"];
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
 
-
-        $this->parent_ref_id = $a_ref_id;
-        $this->item_id = $a_item_id;
+        $this->parent_ref_id = $ref_id;
+        $this->item_id = $item_id;
 
         $this->ctrl->saveParameter($this, 'item_id');
     }
 
-    /**
-     * Execute command
-     * @throws ilCtrlException
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $tpl = $this->tpl;
-
         $this->__setTabs();
 
         $cmd = $this->ctrl->getCmd();
 
         // Check if item id is given and valid
         if (!$this->item_id) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_item_id_given"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_item_id_given"), true);
             $this->ctrl->returnToParent($this);
         }
         
-        $tpl->loadStandardTemplate();
+        $this->tpl->loadStandardTemplate();
         
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilconditionhandlergui':
                 // preconditions for single course items
                 $this->ctrl->saveParameter($this, 'item_id');
-                $new_gui = new ilConditionHandlerGUI($this, (int) $_GET['item_id']);
+                $item_id = $this->request_wrapper->retrieve("item_id", $this->refinery->kindlyTo()->int());
+                $new_gui = new ilConditionHandlerGUI($item_id);
                 $this->ctrl->forwardCommand($new_gui);
                 $this->tabs_gui->setTabActive('preconditions');
                 break;
@@ -144,101 +102,68 @@ class ilObjectActivationGUI
                 break;
         }
         
-        $tpl->printToStdout();
+        $this->tpl->printToStdout();
     }
 
-    /**
-     * @return int
-     */
-    public function getItemId()
+    public function getItemId() : int
     {
         return $this->item_id;
     }
 
-    public function getTimingMode()
+    public function getTimingMode() : ?int
     {
         return $this->timing_mode;
     }
 
-    /**
-     * Get parent ref_id
-     * @return int
-     */
-    public function getParentId()
+    public function getParentId() : int
     {
         return $this->parent_ref_id;
     }
 
-    /**
-     * Get item object
-     * @return ilObjectActivation
-     */
-    public function getActivation()
+    public function getActivation() : ?ilObjectActivation
     {
         return $this->activation;
     }
 
-
-    /**
-     * cancel action handler
-     */
-    public function cancel()
+    public function cancel() : void
     {
         $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->parent_ref_id);
         $this->ctrl->redirectByClass('ilrepositorygui');
     }
 
-    /**
-     * edit timings
-     *
-     * @access public
-     * @return
-     */
-    public function edit(ilPropertyFormGUI $form = null)
+    public function edit(ilPropertyFormGUI $form = null) : void
     {
-        $ilErr = $this->error;
-        $ilAccess = $this->access;
-        $tpl = $this->tpl;
-
         // #19997 - see ilObjectListGUI::insertTimingsCommand()
         if (
-            !$ilAccess->checkAccess('write', '', $this->parent_ref_id) &&
-            !$ilAccess->checkAccess('write', '', $this->getItemId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+            !$this->access->checkAccess('write', '', $this->parent_ref_id) &&
+            !$this->access->checkAccess('write', '', $this->getItemId())
+        ) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
         
         if (!$form instanceof ilPropertyFormGUI) {
             // show edit warning if timings are on
-            if ($GLOBALS['tree']->checkForParentType($this->getParentId(), 'crs')) {
+            if ($this->tree->checkForParentType($this->getParentId(), 'crs')) {
                 if ($this->getActivation()->getTimingType() == ilObjectActivation::TIMINGS_PRESETTING) {
-                    ilUtil::sendInfo($this->lng->txt('crs_timings_warning_timing_exists'));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('crs_timings_warning_timing_exists'));
                 }
             }
 
             $form = $this->initFormEdit();
         }
-        $tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
     
-    /**
-     * init form edit
-     *
-     * @access protected
-     * @return
-     */
-    protected function initFormEdit()
+    protected function initFormEdit() : ilPropertyFormGUI
     {
-        $tree = $this->tree;
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
 
         $title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getItemId()));
         $form->setTitle($title . ': ' . $this->lng->txt('crs_edit_timings'));
 
-
         $availability = new ilCheckboxInputGUI($this->lng->txt('crs_timings_availability_enabled'), 'availability');
-        $availability->setValue(1);
+        $availability->setValue("1");
         $availability->setChecked($this->getActivation()->getTimingType() == ilObjectActivation::TIMINGS_ACTIVATION);
 
         $start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_start'), 'timing_start');
@@ -253,10 +178,9 @@ class ilObjectActivationGUI
 
         $isv = new ilCheckboxInputGUI($this->lng->txt('crs_timings_visibility_short'), 'visible');
         $isv->setInfo($this->lng->txt('crs_timings_visibility'));
-        $isv->setValue(1);
-        $isv->setChecked((bool) $this->getActivation()->enabledVisible());
+        $isv->setValue("1");
+        $isv->setChecked($this->getActivation()->enabledVisible());
         $availability->addSubItem($isv);
-
 
         $form->addItem($availability);
 
@@ -266,24 +190,14 @@ class ilObjectActivationGUI
         return $form;
     }
 
-    /**
-     * update
-     *
-     * @access public
-     * @return
-     */
-    public function update()
+    public function update() : void
     {
-        $ilErr = $this->error;
-        $ilAccess = $this->access;
-        $tpl = $this->tpl;
-        $ilUser = $this->user;
-
         // #19997 - see ilObjectListGUI::insertTimingsCommand()
         if (
-            !$ilAccess->checkAccess('write', '', $this->parent_ref_id) &&
-            !$ilAccess->checkAccess('write', '', $this->getItemId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+            !$this->access->checkAccess('write', '', $this->parent_ref_id) &&
+            !$this->access->checkAccess('write', '', $this->getItemId())
+        ) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $form = $this->initFormEdit();
@@ -314,10 +228,10 @@ class ilObjectActivationGUI
 
             if ($valid) {
                 $this->getActivation()->update($this->getItemId(), $this->getParentId());
-                ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
                 $this->ctrl->redirect($this, "edit");
             } else {
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
         }
 
@@ -325,21 +239,16 @@ class ilObjectActivationGUI
         $this->edit($form);
     }
 
-    /**
-     * @return bool
-     */
-    protected function __setTabs()
+    protected function __setTabs() : bool
     {
-        $ilCtrl = $this->ctrl;
-        $ilHelp = $this->help;
-        
         $this->tabs_gui->clearTargets();
 
-        $ilHelp->setScreenIdComponent("obj");
+        $this->help->setScreenIdComponent("obj");
 
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->parent_ref_id);
-        $back_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->parent_ref_id);
+        $back_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "");
+        $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->string());
+        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $back_link);
         
         $this->tabs_gui->addTarget(
@@ -359,16 +268,10 @@ class ilObjectActivationGUI
         return true;
     }
 
-    /**
-     * Init type of timing mode
-     */
-    protected function initTimingMode()
+    protected function initTimingMode() : void
     {
         // Check for parent course and if available read timing mode (abs | rel)
-        $crs_ref_id = $GLOBALS['tree']->checkForParentType(
-            $this->parent_ref_id,
-            'crs'
-        );
+        $crs_ref_id = $this->tree->checkForParentType($this->parent_ref_id, 'crs');
         $crs_obj_id = ilObject::_lookupObjId($crs_ref_id);
 
         if ($crs_obj_id) {
@@ -378,10 +281,7 @@ class ilObjectActivationGUI
         }
     }
 
-    /**
-     * Init item
-     */
-    protected function initItem()
+    protected function initItem() : void
     {
         $this->activation = new ilObjectActivation();
         $this->getActivation()->read($this->item_id, $this->getParentId());

@@ -1,12 +1,30 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Cache for object definitions, based on ilGlobalCache.
  */
 class ilCachedObjectDefinition
 {
+    protected static ?ilCachedObjectDefinition $instance = null;
+
+    protected ilGlobalCache $global_cache;
     protected array $cached_results = [];
-    protected static ilCachedObjectDefinition $instance;
     protected bool $changed = false;
     protected array $il_object_def = [];
     protected array $subobj_for_parent = [];
@@ -24,31 +42,59 @@ class ilCachedObjectDefinition
     protected function readFromDB() : void
     {
         global $DIC;
-        $ilDB = $DIC->database();
-        /**
-         * @var $ilDB ilDB
-         */
+        $db = $DIC->database();
 
-        $set = $ilDB->query('SELECT * FROM il_object_def');
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        $sql =
+            "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
+            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
+            . "FROM il_object_def" . PHP_EOL
+        ;
+        $set = $db->query($sql);
+        while ($rec = $db->fetchAssoc($set)) {
             $this->il_object_def[$rec['id']] = $rec;
         }
 
-        $set = $ilDB->query('SELECT * FROM il_object_subobj');
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        $sql =
+            "SELECT parent, subobj, mmax" . PHP_EOL
+            . "FROM il_object_subobj" . PHP_EOL
+        ;
+        $set = $db->query($sql);
+        while ($rec = $db->fetchAssoc($set)) {
             $parent = $rec['parent'];
             $this->subobj_for_parent[$parent][] = $rec;
         }
-        $set = $ilDB->query('SELECT DISTINCT(id) AS sid, parent, il_object_def.* FROM il_object_def, il_object_subobj WHERE NOT (' . $ilDB->quoteIdentifier('system') . ' = 1) AND NOT (sideblock = 1) AND subobj = id');
-        while ($rec = $ilDB->fetchAssoc($set)) {
+
+        $sql =
+            "SELECT DISTINCT(id) AS sid, parent, id, class_name, component, location, checkbox, inherit," . PHP_EOL
+            . "translate, devmode, allow_link, allow_copy, rbac, system, sideblock, default_pos, grp," . PHP_EOL
+            . "default_pres_pos, export, repository, workspace, administration, amet, orgunit_permissions," . PHP_EOL
+            . "lti_provider, offline_handling" . PHP_EOL
+            . "FROM il_object_def, il_object_subobj" . PHP_EOL
+            . "WHERE NOT (" . $db->quoteIdentifier('system') . " = 1)" . PHP_EOL
+            . "AND NOT (sideblock = 1)" . PHP_EOL
+            . "AND subobj = id" . PHP_EOL
+        ;
+        $set = $db->query($sql);
+        while ($rec = $db->fetchAssoc($set)) {
             $this->grouped_rep_obj_types[$rec['parent']][] = $rec;
         }
-        $set = $ilDB->query('SELECT * FROM il_object_group');
-        while ($rec = $ilDB->fetchAssoc($set)) {
+
+        $sql =
+            "SELECT id, name, default_pres_pos" . PHP_EOL
+            . "FROM il_object_group" . PHP_EOL
+        ;
+        $set = $db->query($sql);
+        while ($rec = $db->fetchAssoc($set)) {
             $this->il_object_group[$rec['id']] = $rec;
         }
-        $set = $ilDB->query('SELECT * FROM il_object_sub_type');
-        while ($rec = $ilDB->fetchAssoc($set)) {
+
+        $sql =
+            "SELECT obj_type, sub_type, amet" . PHP_EOL
+            . "FROM il_object_sub_type" . PHP_EOL
+        ;
+        $set = $db->query($sql);
+        while ($rec = $db->fetchAssoc($set)) {
             $this->il_object_sub_type[$rec['obj_type']][] = $rec;
         }
     }
@@ -91,7 +137,6 @@ class ilCachedObjectDefinition
         self::$instance = null;
     }
 
-
     /**
      * @param mixed $parent
      *
@@ -107,7 +152,7 @@ class ilCachedObjectDefinition
 
             $return = array();
             foreach ($parent as $p) {
-                if (is_array($this->subobj_for_parent[$p])) {
+                if (isset($this->subobj_for_parent[$p]) && is_array($this->subobj_for_parent[$p])) {
                     foreach ($this->subobj_for_parent[$p] as $rec) {
                         $return[] = $rec;
                     }
@@ -131,7 +176,6 @@ class ilCachedObjectDefinition
             $ilGlobalCache->set('ilCachedObjectDefinition', $this);
         }
     }
-
 
     /**
      * @param mixed $parent
@@ -162,7 +206,7 @@ class ilCachedObjectDefinition
 
             return $return;
         } else {
-            return $this->grouped_rep_obj_types[$parent];
+            return $this->grouped_rep_obj_types[$parent] ?? null;
         }
     }
 }

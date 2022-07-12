@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
 {
@@ -15,23 +29,17 @@ class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
         $this->rbacreview = $DIC->rbac()->review();
     }
 
-    /**
-     * @return string
-     */
-    public function getRadioOptionTitle()
+    
+    public function getRadioOptionTitle() : string
     {
         return $this->lng->txt('mail_lso_roles');
     }
 
-    /**
-     * @param $ref_id
-     * @return array sorted_roles
-     */
-    public function getMailRoles($ref_id)
+    public function getMailRoles(int $ref_id) : array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 
-        $sorted_role_ids = array();
+        $sorted_role_ids = [];
         $counter = 2;
 
         foreach ($role_ids as $role_id) {

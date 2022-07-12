@@ -1,26 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Image utility class
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaImageUtil
 {
     /**
      * Get image size from location
-     *
-     * @param string $a_location
-     * @return array
+     * @throws ilCurlConnectionException
      */
-    public static function getImageSize($a_location)
+    public static function getImageSize(string $a_location) : ?array
     {
         if (substr($a_location, 0, 4) == "http") {
             if (ilCurlConnection::_isCurlExtensionLoaded()) {
-                $dir = ilUtil::getDataDir() . "/temp/mob/remote_img";
-                ilUtil::makeDirParents($dir);
+                $dir = ilFileUtils::getDataDir() . "/temp/mob/remote_img";
+                ilFileUtils::makeDirParents($dir);
                 $filename = $dir . "/" . uniqid();
                 $file = fopen($filename, "w");
                 $c = new ilCurlConnection($a_location);
@@ -33,18 +45,23 @@ class ilMediaImageUtil
                 $c->setOpt(CURLOPT_FILE, $file);
                 try {
                     $c->exec();
-                    $size = @getimagesize($filename);
+                    $size = getimagesize($filename);
                 } catch (ilCurlConnectionException $e) {
-                    $size = false;
+                    $size = null;
                 }
                 $c->close();
                 fclose($file);
                 unlink($filename);
             } else {
-                $size = @getimagesize($a_location);
+                $size = getimagesize($a_location);
             }
         } else {
-            $size = @getimagesize($a_location);
+            if (is_file($a_location)) {
+                $size = getimagesize($a_location);
+            }
+        }
+        if (!isset($size)) {
+            $size = [0,0];
         }
         return $size;
     }

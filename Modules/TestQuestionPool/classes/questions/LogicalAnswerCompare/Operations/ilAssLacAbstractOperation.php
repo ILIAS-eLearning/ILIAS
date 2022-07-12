@@ -20,12 +20,12 @@ abstract class ilAssLacAbstractOperation extends ilAssLacAbstractComposite
     /**
      * @return string
      */
-    abstract public function getPattern();
+    abstract public function getPattern() : string;
 
     /**
      * @param boolean $negated
      */
-    public function setNegated($negated)
+    public function setNegated($negated) : void
     {
         $this->negated = $negated;
     }
@@ -33,7 +33,7 @@ abstract class ilAssLacAbstractOperation extends ilAssLacAbstractComposite
     /**
      * @return boolean
      */
-    public function isNegated()
+    public function isNegated() : bool
     {
         return $this->negated;
     }

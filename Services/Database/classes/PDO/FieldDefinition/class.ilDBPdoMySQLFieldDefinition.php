@@ -1,18 +1,29 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilDBPdoMySQLFieldDefinition
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 {
-
-    /**
-     * @param $field
-     * @return \ilDBPdo|string
-     */
-    public function getTypeDeclaration($field): string
+    public function getTypeDeclaration(array $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -109,12 +120,9 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 
 
     /**
-     * @param $name
-     * @param $field
-     * @return \ilDBPdo|string
      * @throws \ilDatabaseException
      */
-    protected function getIntegerDeclaration($name, $field): string
+    protected function getIntegerDeclaration(string $name, array $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -139,14 +147,13 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 
 
     /**
-     * @param $field
      * @throws \ilDatabaseException
      */
-    protected function mapNativeDatatypeInternal($field): array
+    protected function mapNativeDatatypeInternal(array $field) : array
     {
         $db_type = strtolower($field['type']);
         $db_type = strtok($db_type, '(), ');
-        if ($db_type == 'national') {
+        if ($db_type === 'national') {
             $db_type = strtok('(), ');
         }
         if (!empty($field['length'])) {
@@ -206,7 +213,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                     }
                 } elseif (strpos($db_type, 'text') !== false) {
                     $type[] = 'clob';
-                    if ($decimal == 'binary') {
+                    if ($decimal === 'binary') {
                         $type[] = 'blob';
                     }
                 }
@@ -223,7 +230,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                     foreach ($matches[0] as $value) {
                         $length = max($length, strlen($value) - 2);
                     }
-                    if ($length == '1' && count($matches[0]) == 2) {
+                    if ($length == '1' && count($matches[0]) === 2) {
                         $type[] = 'boolean';
                         if (preg_match('/^(is|has)/', $field['name'])) {
                             $type = array_reverse($type);
@@ -233,7 +240,6 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                 $type[] = 'integer';
                 // no break
             case 'set':
-                /** @noinspection SuspiciousAssignmentsInspection */
                 $fixed = false;
                 $type[] = 'text';
                 $type[] = 'integer';

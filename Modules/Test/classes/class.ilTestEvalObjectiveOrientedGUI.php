@@ -130,9 +130,11 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
                 $objectivesList,
                 false
             );
-            $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getVirtualPassDetailsHeaderLabel(
-                $objectivesList->getObjectiveTitleById($loId)
-            ));
+            $overviewTableGUI->setTitle(
+                $testResultHeaderLabelBuilder->getVirtualPassDetailsHeaderLabel(
+                    $objectivesList->getObjectiveTitleById($loId)
+                )
+            );
 
             require_once 'Modules/Test/classes/class.ilTestLearningObjectivesStatusGUI.php';
             $loStatus = new ilTestLearningObjectivesStatusGUI($this->lng);

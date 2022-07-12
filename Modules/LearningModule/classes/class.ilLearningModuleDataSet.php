@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * LearningModule Data set class
@@ -12,59 +25,41 @@
  * - lm_data_transl: data from lm_data_transl
  * - lm_menu: data from lm_menu
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLearningModuleDataSet extends ilDataSet
 {
-    protected $master_lang_only = false;
-    protected $transl_into = false;
-    protected $transl_into_lm = null;
-    protected $transl_lang = "";
+    protected \ILIAS\Notes\Service $notes;
+    protected ilObjLearningModule $current_obj;
+    protected bool $master_lang_only = false;
+    protected bool $transl_into = false;
+    protected ?ilObjLearningModule $transl_into_lm = null;
+    protected string $transl_lang = "";
+    protected ilLogger$lm_log;
 
-    /**
-     * @var ilLogger
-     */
-    protected $lm_log;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        parent::__construct();
+        global $DIC;
 
+        parent::__construct();
         $this->lm_log = ilLoggerFactory::getLogger('lm');
+        $this->notes = $DIC->notes();
     }
-    /**
-     * Set master language only (export)
-     *
-     * @param bool $a_val export only master language
-     */
-    public function setMasterLanguageOnly($a_val)
+
+    public function setMasterLanguageOnly(bool $a_val) : void
     {
         $this->master_lang_only = $a_val;
     }
     
-    /**
-     * Get master language only (export)
-     *
-     * @return bool export only master language
-     */
-    public function getMasterLanguageOnly()
+    public function getMasterLanguageOnly() : bool
     {
         return $this->master_lang_only;
     }
 
-    /**
-     * Set translation import mode
-     *
-     * @param ilObjLearningModule $a_lm learning module
-     * @param string $a_lang language
-     */
-    public function setTranslationImportMode($a_lm, $a_lang = "")
-    {
+    public function setTranslationImportMode(
+        ilObjLearningModule $a_lm,
+        string $a_lang = ""
+    ) : void {
         if ($a_lm != null) {
             $this->transl_into = true;
             $this->transl_into_lm = $a_lm;
@@ -74,62 +69,31 @@ class ilLearningModuleDataSet extends ilDataSet
         }
     }
 
-    /**
-     * Get translation import mode
-     *
-     * @return bool check if translation import is activated
-     */
-    public function getTranslationImportMode()
+    public function getTranslationImportMode() : bool
     {
         return $this->transl_into;
     }
 
-    /**
-     * Get translation lm (import
-     *
-     * @return ilObjLearningModule learning module
-     */
-    public function getTranslationLM()
+    public function getTranslationLM() : ilObjLearningModule
     {
         return $this->transl_into_lm;
     }
 
-    /**
-     * Get translation language (import
-     *
-     * @return string language
-     */
-    public function getTranslationLang()
+    public function getTranslationLang() : string
     {
         return $this->transl_lang;
     }
 
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
     public function getSupportedVersions() : array
     {
         return array("5.1.0", "5.4.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/LearningModule/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/LearningModule/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param string $a_entity  entity
-     * @param string $a_version version number
-     * @return array types array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "lm") {
@@ -245,13 +209,9 @@ class ilLearningModuleDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
@@ -259,7 +219,8 @@ class ilLearningModuleDataSet extends ilDataSet
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }
-                
+
+        $q = "";
         if ($a_entity == "lm") {
             switch ($a_version) {
                 case "5.1.0":
@@ -288,7 +249,8 @@ class ilLearningModuleDataSet extends ilDataSet
                     $this->data = array();
                     while ($rec = $ilDB->fetchAssoc($set)) {
                         // comments activated?
-                        $rec["comments"] = ilNote::commentsActivated($rec["id"], 0, "lm");
+                        $rec["comments"] =
+                            $this->notes->domain()->commentsActive((int) $rec["id"]);
 
                         if ($this->getMasterLanguageOnly()) {
                             $rec["for_translation"] = 1;
@@ -302,9 +264,6 @@ class ilLearningModuleDataSet extends ilDataSet
 
                         $this->data[] = $rec;
                     }
-                    break;
-
-
                     break;
             }
         }
@@ -387,9 +346,6 @@ class ilLearningModuleDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -399,8 +355,8 @@ class ilLearningModuleDataSet extends ilDataSet
         switch ($a_entity) {
             case "lm":
                 return array(
-                    "lm_tree" => array("ids" => $a_rec["Id"]),
-                    "lm_menu" => array("ids" => $a_rec["Id"])
+                    "lm_tree" => array("ids" => $a_rec["Id"] ?? null),
+                    "lm_menu" => array("ids" => $a_rec["Id"] ?? null)
                 );
 
             case "lm_tree":
@@ -408,7 +364,7 @@ class ilLearningModuleDataSet extends ilDataSet
                     return [];
                 } else {
                     return array(
-                        "lm_data_transl" => array("ids" => $a_rec["Child"])
+                        "lm_data_transl" => array("ids" => $a_rec["Child"] ?? null)
                     );
                 }
         }
@@ -416,14 +372,13 @@ class ilLearningModuleDataSet extends ilDataSet
         return [];
     }
     
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         //var_dump($a_rec);
 
         switch ($a_entity) {
@@ -454,14 +409,14 @@ class ilLearningModuleDataSet extends ilDataSet
                 $newObj->setActiveNumbering(ilUtil::yn2tf($a_rec["Numbering"]));
                 $newObj->setHistoryUserComments(ilUtil::yn2tf($a_rec["HistUserComments"]));
                 $newObj->setPublicAccessMode($a_rec["PublicAccessMode"]);
-                $newObj->setPublicNotes(ilUtil::yn2tf($a_rec["PubNotes"]));
+                $newObj->setPublicNotes(ilUtil::yn2tf($a_rec["PubNotes"] ?? "n"));
                 // Header Page/ Footer Page ???
                 $newObj->setLayoutPerPage($a_rec["LayoutPerPage"]);
                 $newObj->setRating($a_rec["Rating"]);
                 $newObj->setHideHeaderFooterPrint($a_rec["HideHeadFootPrint"]);
                 $newObj->setDisableDefaultFeedback($a_rec["DisableDefFeedback"]);
                 $newObj->setRatingPages($a_rec["RatingPages"]);
-                $newObj->setForTranslation($a_rec["ForTranslation"]);
+                $newObj->setForTranslation($a_rec["ForTranslation"] ?? false);
                 $newObj->setProgressIcons($a_rec["ProgrIcons"]);
                 $newObj->setStoreTries($a_rec["StoreTries"]);
                 $newObj->setRestrictForwardNavigation($a_rec["RestrictForwNav"]);
@@ -472,11 +427,11 @@ class ilLearningModuleDataSet extends ilDataSet
                     $a_mapping->addMapping("Modules/LearningModule", "lm_footer_page", $a_rec["FooterPage"], "-");
                 }
 
-                $newObj->update(true);
+                $newObj->update();
                 $this->current_obj = $newObj;
 
                 // activated comments
-                ilNote::activateComments($newObj->getId(), 0, "lm", (int) $a_rec["Comments"]);
+                $this->notes->domain()->activateComments($newObj->getId());
 
                 $a_mapping->addMapping("Modules/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("Modules/LearningModule", "lm_style", $newObj->getId(), $a_rec["StyleId"]);
@@ -501,7 +456,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             $st_obj->setShortTitle($a_rec["ShortTitle"]);
                             $st_obj->setImportId($a_rec["ImportId"]);
                             $st_obj->create(true);
-                            ilLMObject::putInTree($st_obj, $parent, IL_LAST_NODE);
+                            ilLMObject::putInTree($st_obj, $parent, ilTree::POS_LAST_NODE);
                             $a_mapping->addMapping(
                                 "Modules/LearningModule",
                                 "lm_tree",
@@ -525,7 +480,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             $pg_obj->setShortTitle($a_rec["ShortTitle"]);
                             $pg_obj->setImportId($a_rec["ImportId"]);
                             $pg_obj->create(true, true);
-                            ilLMObject::putInTree($pg_obj, $parent, IL_LAST_NODE);
+                            ilLMObject::putInTree($pg_obj, $parent, ilTree::POS_LAST_NODE);
                             $a_mapping->addMapping(
                                 "Modules/LearningModule",
                                 "lm_tree",
@@ -589,7 +544,7 @@ class ilLearningModuleDataSet extends ilDataSet
                                 $imp_id[2] == "st"
                                 ) {
                                 $st_id = $imp_id[3];
-                                if (ilLMObject::_lookupContObjId($st_id) == $this->getTranslationLM()->getId()) {
+                                if (ilLMObject::_lookupContObjID($st_id) == $this->getTranslationLM()->getId()) {
                                     $trans = new ilLMObjTranslation($st_id, $this->getTranslationLang());
                                     $trans->setTitle($a_rec["Title"]);
                                     $trans->save();
@@ -612,7 +567,7 @@ class ilLearningModuleDataSet extends ilDataSet
                                 $imp_id[2] == "pg"
                             ) {
                                 $pg_id = $imp_id[3];
-                                if (ilLMObject::_lookupContObjId($pg_id) == $this->getTranslationLM()->getId()) {
+                                if (ilLMObject::_lookupContObjID($pg_id) == $this->getTranslationLM()->getId()) {
                                     $trans = new ilLMObjTranslation($pg_id, $this->getTranslationLang());
                                     $trans->setTitle($a_rec["Title"]);
                                     $trans->save();
@@ -664,7 +619,6 @@ class ilLearningModuleDataSet extends ilDataSet
                     $lm_menu_ed->create();
                 }
                 break;
-
         }
     }
 }

@@ -1,68 +1,71 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitPositionAccess
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
 {
+    protected static array $ref_id_obj_type_map = array();
+    private \ilOrgUnitUserAssignmentQueries $ua;
+    private \ilOrgUnitGlobalSettings $set;
+    private ilAccess $access;
+    private ilObjUser $user;
 
-    /**
-     * @var \ilOrgUnitUserAssignmentQueries
-     */
-    protected $ua;
-    /**
-     * @var \ilOrgUnitGlobalSettings
-     */
-    protected $set;
-    /**
-     * @var array
-     */
-    protected static $ref_id_obj_type_map = array();
-
-
-    /**
-     * ilOrgUnitPositionAccess constructor.
-     */
-    public function __construct()
+    public function __construct(ilAccess $access)
     {
+        global $DIC;
         $this->set = ilOrgUnitGlobalSettings::getInstance();
         $this->ua = ilOrgUnitUserAssignmentQueries::getInstance();
+        $this->access = $access;
+        $this->user = $DIC->user();
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission)
-    {
+    /** @return int[] Filtered List of ILIAS-User-IDs */
+    public function filterUserIdsForCurrentUsersPositionsAndPermission(
+        array $user_ids,
+        string $permission
+    ) : array {
         $current_user_id = $this->getCurrentUsersId();
-
         return $this->filterUserIdsForUsersPositionsAndPermission($user_ids, $current_user_id, $permission);
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission)
-    {
-        // FSX TODO no permission is checked or existing
+
+    /** @return int[] Filtered List of ILIAS-User-IDs */
+    public function filterUserIdsForUsersPositionsAndPermission(
+        array $user_ids,
+        int $for_user_id,
+        string $permission
+    ) : array {
         $assignment_of_user = $this->ua->getAssignmentsOfUserId($for_user_id);
         $other_users_in_same_org_units = [];
         foreach ($assignment_of_user as $assignment) {
-            $other_users_in_same_org_units = $other_users_in_same_org_units + $this->ua->getUserIdsOfOrgUnit($assignment->getOrguId());
+            $other_users_in_same_org_units += $this->ua->getUserIdsOfOrgUnit($assignment->getOrguId());
         }
 
         return array_intersect($user_ids, $other_users_in_same_org_units);
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function isCurrentUserBasedOnPositionsAllowedTo($permission, array $on_user_ids)
+    /** @param int[] $on_user_ids */
+    public function isCurrentUserBasedOnPositionsAllowedTo(string $permission, array $on_user_ids) : bool
     {
         $current_user_id = $this->getCurrentUsersId();
 
@@ -70,22 +73,22 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids)
-    {
-        $filtered_user_ids = $this->filterUserIdsForUsersPositionsAndPermission($on_user_ids, $which_user_id, $permission);
+    /** @param int[] $on_user_ids */
+    public function isUserBasedOnPositionsAllowedTo(
+        int $which_user_id,
+        string $permission,
+        array $on_user_ids
+    ) : bool {
+        $filtered_user_ids = $this->filterUserIdsForUsersPositionsAndPermission($on_user_ids, $which_user_id,
+            $permission);
 
         return ($on_user_ids === array_intersect($on_user_ids, $filtered_user_ids)
             && $filtered_user_ids === array_intersect($filtered_user_ids, $on_user_ids));
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids)
+    /** @param int[] $user_ids */
+    public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids) : array
     {
         // If context is not activated, return same array of $user_ids
         if (!$this->set->getObjectPositionSettingsByType($this->getTypeForRefId($ref_id))->isActive()) {
@@ -98,11 +101,13 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids)
-    {
+    /** @param int[] $user_ids */
+    public function filterUserIdsByPositionOfUser(
+        int $user_id,
+        string $pos_perm,
+        int $ref_id,
+        array $user_ids
+    ) : array {
         // If context is not activated, return same array of $user_ids
         if (!$this->set->getObjectPositionSettingsByType($this->getTypeForRefId($ref_id))->isActive()) {
             return $user_ids;
@@ -130,7 +135,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                             case ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS:
-                                $allowed = $this->ua->getUserIdsOfOrgUnitsOfUsersPosition($position->getId(), $user_id, true);
+                                $allowed = $this->ua->getUserIdsOfOrgUnitsOfUsersPosition($position->getId(), $user_id,
+                                    true);
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                         }
@@ -138,11 +144,13 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                     default:
                         switch ($authority->getScope()) {
                             case ilOrgUnitAuthority::SCOPE_SAME_ORGU:
-                                $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(), $authority->getOver());
+                                $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(),
+                                    $authority->getOver());
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                             case ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS:
-                                $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(), $authority->getOver(), true);
+                                $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(),
+                                    $authority->getOver(), true);
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                         }
@@ -155,10 +163,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function checkPositionAccess($pos_perm, $ref_id)
+    public function checkPositionAccess(string $pos_perm, int $ref_id) : bool
     {
         // If context is not activated, return same array of $user_ids
         if (!$this->isPositionActiveForRefId($ref_id)) {
@@ -182,10 +187,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function hasCurrentUserAnyPositionAccess($ref_id)
+    public function hasCurrentUserAnyPositionAccess(int $ref_id) : bool
     {
         // If context is not activated, return same array of $user_ids
         if (!$this->isPositionActiveForRefId($ref_id)) {
@@ -205,14 +207,10 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id)
+    public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id) : bool
     {
-        global $DIC;
         // If RBAC allows, just return true
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return true;
         }
 
@@ -225,14 +223,16 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids)
-    {
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(
+        string $rbac_perm,
+        string $pos_perm,
+        int $ref_id,
+        array $user_ids
+    ) : array {
         global $DIC;
+
         // If RBAC allows, just return true
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return $user_ids;
         }
         // If context is not activated, return same array of $user_ids
@@ -244,13 +244,9 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id)
+    public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id) : bool
     {
-        global $DIC;
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return true;
         }
 
@@ -262,30 +258,13 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     // Helpers
     //
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    private function dic()
+    private function getCurrentUsersId() : int
     {
-        return $GLOBALS['DIC'];
+        return $this->user->getId();
     }
 
 
-    /**
-     * @return int
-     */
-    private function getCurrentUsersId()
-    {
-        return $this->dic()->user()->getId();
-    }
-
-
-    /**
-     * @param $ref_id
-     *
-     * @return mixed
-     */
-    private function getTypeForRefId($ref_id)
+    private function getTypeForRefId(int $ref_id) : string
     {
         if (!isset(self::$ref_id_obj_type_map[$ref_id])) {
             self::$ref_id_obj_type_map[$ref_id] = ilObject2::_lookupType($ref_id, true);
@@ -294,24 +273,12 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return self::$ref_id_obj_type_map[$ref_id];
     }
 
-
-    /**
-     * @param $ref_id
-     *
-     * @return int
-     */
-    private function getObjIdForRefId($ref_id)
+    private function getObjIdForRefId(int $ref_id) : int
     {
         return ilObject2::_lookupObjectId($ref_id);
     }
-
-
-    /**
-     * @param $ref_id
-     *
-     * @return bool
-     */
-    private function isPositionActiveForRefId($ref_id)
+    
+    private function isPositionActiveForRefId(int $ref_id) : bool
     {
         $obj_id = $this->getObjIdForRefId($ref_id); // TODO this will change to ref_id!!
 

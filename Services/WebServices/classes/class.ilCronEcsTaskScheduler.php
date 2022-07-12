@@ -9,35 +9,13 @@
  */
 class ilCronEcsTaskScheduler extends \ilCronJob
 {
-
-    /**
-     * @var string
-     */
     public const ID = 'ecs_task_handler';
-
-    /**
-     * @var int
-     */
     public const DEFAULT_SCHEDULE_VALUE = 1;
 
-    /**
-     * @var null | \ilLogger
-     */
-    private $logger = null;
+    private ilLogger $logger;
+    private ilLanguage $lng;
+    private ilCronJobResult $result;
 
-    /**
-     * @var null | \ilLanguage
-     */
-    protected $lng = null;
-
-    /**
-     * @var null | \ilCronJobResult
-     */
-    protected $result = null;
-
-    /**
-     * ilCronEcsTaskScheduler constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -90,7 +68,7 @@ class ilCronEcsTaskScheduler extends \ilCronJob
 
         $servers = \ilECSServerSettings::getInstance();
 
-        foreach ($servers->getServers() as $server) {
+        foreach ($servers->getServers(ilECSServerSettings::ACTIVE_SERVER) as $server) {
             try {
                 $this->logger->info('Starting task execution for ecs server: ' . $server->getTitle());
                 $scheduler = \ilECSTaskScheduler::_getInstanceByServerId($server->getServerId());

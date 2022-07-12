@@ -1,61 +1,80 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-* Saves usages of page content elements in pages
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup
-*/
+ * Saves usages of page content elements in pages
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPageContentUsage
 {
-    /**
-    * Save usages
-    */
-    public static function saveUsage($a_pc_type, $a_pc_id, $a_usage_type, $a_usage_id, $a_usage_hist_nr = 0, $a_lang = "-")
-    {
+    public static function saveUsage(
+        string $a_pc_type,
+        int $a_pc_id,
+        string $a_usage_type,
+        int $a_usage_id,
+        int $a_usage_hist_nr = 0,
+        string $a_lang = "-"
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
         
         $ilDB->replace("page_pc_usage", array(
             "pc_type" => array("text", $a_pc_type),
-            "pc_id" => array("integer", (int) $a_pc_id),
+            "pc_id" => array("integer", $a_pc_id),
             "usage_type" => array("text", $a_usage_type),
-            "usage_id" => array("integer", (int) $a_usage_id),
+            "usage_id" => array("integer", $a_usage_id),
             "usage_lang" => array("text", $a_lang),
-            "usage_hist_nr" => array("integer", (int) $a_usage_hist_nr)
+            "usage_hist_nr" => array("integer", $a_usage_hist_nr)
             ), array());
     }
 
-    /**
-    * Delete all usages
-    */
-    public static function deleteAllUsages($a_pc_type, $a_usage_type, $a_usage_id, $a_usage_hist_nr = 0, $a_lang = "-")
-    {
+    public static function deleteAllUsages(
+        string $a_pc_type,
+        string $a_usage_type,
+        int $a_usage_id,
+        int $a_usage_hist_nr = 0,
+        string $a_lang = "-"
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
         
-        $and_hist = ($a_usage_hist_nr !== false)
-            ? " AND usage_hist_nr = " . $ilDB->quote((int) $a_usage_hist_nr, "integer")
+        $and_hist = ($a_usage_hist_nr !== 0)
+            ? " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer")
             : "";
         
         $ilDB->manipulate($q = "DELETE FROM page_pc_usage WHERE usage_type = " .
             $ilDB->quote($a_usage_type, "text") .
-            " AND usage_id = " . $ilDB->quote((int) $a_usage_id, "integer") .
+            " AND usage_id = " . $ilDB->quote($a_usage_id, "integer") .
             " AND usage_lang = " . $ilDB->quote($a_lang, "text") .
             $and_hist .
             " AND pc_type = " . $ilDB->quote($a_pc_type, "text"));
     }
     
     /**
-    * Get usages
-    */
-    public static function getUsages($a_pc_type, $a_pc_id, $a_incl_hist = true)
-    {
+     * Get usages
+     */
+    public static function getUsages(
+        string $a_pc_type,
+        int $a_pc_id,
+        bool $a_incl_hist = true
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -78,16 +97,19 @@ class ilPageContentUsage
 
     /**
      * Get page content usages for page
-     *
-     * @param
-     * @return
      */
-    public static function getUsagesOfPage($a_usage_id, $a_usage_type, $a_hist_nr = 0, $a_all_hist_nrs = false, $a_lang = "-")
-    {
+    public static function getUsagesOfPage(
+        int $a_usage_id,
+        string $a_usage_type,
+        int $a_hist_nr = 0,
+        bool $a_all_hist_nrs = false,
+        string $a_lang = "-"
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
 
+        $hist_str = "";
         if (!$a_all_hist_nrs) {
             $hist_str = " AND usage_hist_nr = " . $ilDB->quote($a_hist_nr, "integer");
         }
@@ -107,7 +129,6 @@ class ilPageContentUsage
                 "id" => $rec["pc_id"]
             );
         }
-
         return $usages;
     }
 }

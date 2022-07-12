@@ -46,7 +46,7 @@ class ilSetupConfigStoredObjective extends ilSetupObjective
             $this->config->getServerTimeZone()->getName()
         );
 
-        $ini->setVariable("clients", "default", $this->config->getClientId());
+        $ini->setVariable("clients", "default", (string) $this->config->getClientId());
 
         if (!$ini->write()) {
             throw new Setup\UnachievableException("Could not write ilias.ini.php");
@@ -65,7 +65,7 @@ class ilSetupConfigStoredObjective extends ilSetupObjective
         return
             $ini->readVariable("server", "absolute_path") !== dirname(__DIR__, 2) ||
             $ini->readVariable("server", "timezone") !== $this->config->getServerTimeZone()->getName() ||
-            $ini->readVariable("clients", "default") !== $this->config->getClientId()
+            $ini->readVariable("clients", "default") !== (string) $this->config->getClientId()
         ;
     }
 }

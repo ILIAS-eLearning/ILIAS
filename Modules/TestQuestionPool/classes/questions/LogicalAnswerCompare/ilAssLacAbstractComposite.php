@@ -22,7 +22,7 @@ abstract class ilAssLacAbstractComposite implements ilAssLacCompositeInterface
      *
      * @param ilAssLacCompositeInterface $node
      */
-    public function addNode(ilAssLacCompositeInterface $node)
+    public function addNode(ilAssLacCompositeInterface $node) : void
     {
         $this->nodes[] = $node;
     }
@@ -31,7 +31,7 @@ abstract class ilAssLacAbstractComposite implements ilAssLacCompositeInterface
      * Describes a Composite tree Structure as human readable string
      * @return string
      */
-    public function describe()
+    public function describe() : string
     {
         $description = "";
         if (\count($this->nodes) > 0) {

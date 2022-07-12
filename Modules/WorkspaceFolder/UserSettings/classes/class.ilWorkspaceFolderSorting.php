@@ -1,29 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @author killing@leifos.de
- * @ingroup
- */
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilWorkspaceFolderSorting
 {
-    const SORT_DERIVED = 0;
-    const SORT_ALPHABETICAL_ASC = 1;
-    const SORT_ALPHABETICAL_DESC = 2;
-    const SORT_CREATION_ASC = 3;
-    const SORT_CREATION_DESC = 4;
+    public const SORT_DERIVED = 0;
+    public const SORT_ALPHABETICAL_ASC = 1;
+    public const SORT_ALPHABETICAL_DESC = 2;
+    public const SORT_CREATION_ASC = 3;
+    public const SORT_CREATION_DESC = 4;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
-    /**
-     * Constructor
-     */
     public function __construct(ilLanguage $lng = null)
     {
         global $DIC;
@@ -35,16 +37,11 @@ class ilWorkspaceFolderSorting
         $this->lng->loadLanguageModule("wfld");
     }
 
-    /**
-     * Get options by type
-     *
-     * @param $wsp_type
-     * @param $selected
-     * @param $parent_effective
-     * @return array
-     */
-    public function getOptionsByType($wsp_type, $selected, $parent_effective)
-    {
+    public function getOptionsByType(
+        string $wsp_type,
+        int $selected,
+        int $parent_effective
+    ) : array {
         $sort_options = ($wsp_type == "wfld")
             ? [self::SORT_DERIVED => $this->lng->txt("wfld_derive")]
             : [];
@@ -65,13 +62,7 @@ class ilWorkspaceFolderSorting
         return $sort_options;
     }
 
-    /**
-     * Get label
-     *
-     * @param int $option
-     * @return string
-     */
-    protected function getLabel(int $option)
+    protected function getLabel(int $option) : string
     {
         switch ($option) {
             case self::SORT_DERIVED: return $this->lng->txt("wfld_derive");
@@ -83,31 +74,21 @@ class ilWorkspaceFolderSorting
         return "";
     }
 
-    /**
-     * Sort nodes
-     *
-     * @param $nodes
-     * @param $sorting
-     * @return array
-     */
-    public function sortNodes($nodes, $sorting)
+    public function sortNodes(array $nodes, int $sorting) : array
     {
         switch ($sorting) {
             case self::SORT_ALPHABETICAL_ASC:
-                $nodes = ilUtil::sortArray($nodes, "title", "asc");
+                $nodes = ilArrayUtil::sortArray($nodes, "title", "asc");
                 break;
             case self::SORT_ALPHABETICAL_DESC:
-                $nodes = ilUtil::sortArray($nodes, "title", "desc");
+                $nodes = ilArrayUtil::sortArray($nodes, "title", "desc");
                 break;
-
             case self::SORT_CREATION_ASC:
-                $nodes = ilUtil::sortArray($nodes, "create_date", "asc");
+                $nodes = ilArrayUtil::sortArray($nodes, "create_date", "asc");
                 break;
-
             case self::SORT_CREATION_DESC:
-                $nodes = ilUtil::sortArray($nodes, "create_date", "desc");
+                $nodes = ilArrayUtil::sortArray($nodes, "create_date", "desc");
                 break;
-
         }
         return $nodes;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\Search\Provider;
 
@@ -67,7 +67,7 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
             ->withPosition(1)
             ->withAvailableCallable(
                 function () {
-                    return (bool) $this->dic->rbac()->system()->checkAccess('search', ilSearchSettings::_getSearchSettingRefId());
+                    return $this->dic->rbac()->system()->checkAccess('search', ilSearchSettings::_getSearchSettingRefId());
                 }
             );
 

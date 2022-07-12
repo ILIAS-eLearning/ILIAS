@@ -1,12 +1,26 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 
 /**
- * Class ilContentPagePageCommandForwarder
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Style\Content\Object\ObjectFacade;
+
 class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 {
     /**
@@ -25,7 +39,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected ilObjContentPage $parentObject;
@@ -33,28 +47,48 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     protected ilObjUser $actor;
     /** @var callable[] */
     protected array $updateListeners = [];
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
+    protected ObjectFacade $content_style_domain;
+    protected bool $isMediaRequest = false;
 
     public function __construct(
-        ServerRequestInterface $request,
-        ilCtrl $ctrl,
+        GlobalHttpState $http,
+        ilCtrlInterface $ctrl,
         ilTabsGUI $tabs,
         ilLanguage $lng,
         ilObjContentPage $parentObject,
-        ilObjUser $actor
+        ilObjUser $actor,
+        Refinery $refinery,
+        ObjectFacade $content_style_domain
     ) {
+        $this->http = $http;
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->lng = $lng;
         $this->parentObject = $parentObject;
         $this->actor = $actor;
+        $this->refinery = $refinery;
+        $this->content_style_domain = $content_style_domain;
 
         $this->lng->loadLanguageModule('content');
 
-        $this->backUrl = $request->getQueryParams()['backurl'] ?? '';
+        $this->backUrl = '';
+        if ($this->http->wrapper()->query()->has('backurl')) {
+            $this->backUrl = $this->http->wrapper()->query()->retrieve(
+                'backurl',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
 
         if ($this->backUrl !== '') {
             $this->ctrl->setParameterByClass(ilContentPagePageGUI::class, 'backurl', rawurlencode($this->backUrl));
         }
+    }
+
+    public function setIsMediaRequest(bool $isMediaRequest) : void
+    {
+        $this->isMediaRequest = $isMediaRequest;
     }
 
     /**
@@ -67,6 +101,14 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         }
     }
 
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function updateContentPageOnPageUpdate(array $parameters) : void
+    {
+        $this->parentObject->update();
+    }
+
     public function addUpdateListener(callable $updateListener) : void
     {
         $this->updateListeners[] = $updateListener;
@@ -76,13 +118,10 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     {
         $pageObjectGUI = new ilContentPagePageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
         $pageObjectGUI->setStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->parentObject->getStyleSheetId(),
-                $this->parentObject->getType()
-            )
+            $this->content_style_domain->getEffectiveStyleId()
         );
 
-        $pageObjectGUI->obj->addUpdateListener($this->parentObject, 'update');
+        $pageObjectGUI->obj->addUpdateListener($this, 'updateContentPageOnPageUpdate', []);
 
         return $pageObjectGUI;
     }
@@ -144,10 +183,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         $pageObjectGUI->setEnabledTabs(false);
 
         $pageObjectGUI->setStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->parentObject->getStyleSheetId(),
-                $this->parentObject->getType()
-            )
+            $this->content_style_domain->getEffectiveStyleId()
         );
 
         return $pageObjectGUI;
@@ -161,10 +197,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         $pageObjectGUI->setEnabledTabs(false);
 
         $pageObjectGUI->setStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->parentObject->getStyleSheetId(),
-                $this->parentObject->getType()
-            )
+            $this->content_style_domain->getEffectiveStyleId()
         );
 
         return $pageObjectGUI;
@@ -183,16 +216,16 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
      */
     public function forward(string $ctrlLink = '') : string
     {
+        $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
+        $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
+
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:
 
-                $pageObjectGui = $this->buildEditingPageObjectGUI('');
+                $pageObjectGui = $this->buildEditingPageObjectGUI($this->isMediaRequest ? $language : '');
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:
-                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
-                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
-
                 $pageObjectGUI = $this->buildPresentationPageObjectGUI($language);
 
                 if (is_string($ctrlLink) && $ctrlLink !== '') {
@@ -204,9 +237,6 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
                 return $this->ctrl->getHTML($pageObjectGUI);
 
             case self::PRESENTATION_MODE_EMBEDDED_PRESENTATION:
-                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
-                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
-
                 $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI($language);
 
                 if (is_string($ctrlLink) && $ctrlLink !== '') {

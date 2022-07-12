@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -19,7 +22,8 @@
 class ilContainerSortingSettings
 {
     protected ilTree $tree;
-    private static array $instances = array();
+    /** @var array<int, self>  */
+    private static array $instances = [];
     protected int $obj_id;
     protected int $sort_mode = ilContainer::SORT_TITLE;
     protected int $sort_direction = ilContainer::SORT_DIRECTION_ASC;
@@ -42,11 +46,7 @@ class ilContainerSortingSettings
     
     public static function getInstanceByObjId(int $a_obj_id) : self
     {
-        if (isset(self::$instances[$a_obj_id])) {
-            return self::$instances[$a_obj_id];
-        }
-
-        return self::$instances[$a_obj_id] = new self($a_obj_id);
+        return self::$instances[$a_obj_id] ?? (self::$instances[$a_obj_id] = new self($a_obj_id));
     }
     
     /**
@@ -54,14 +54,14 @@ class ilContainerSortingSettings
      */
     public function loadEffectiveSettings() : self
     {
-        if ($this->getSortMode() != ilContainer::SORT_INHERIT) {
+        if ($this->getSortMode() !== ilContainer::SORT_INHERIT) {
             return $this;
         }
 
         $effective_settings = $this->getInheritedSettings($this->obj_id);
         $inherited = clone $this;
         
-        if ($effective_settings->getSortMode() == ilContainer::SORT_INHERIT) {
+        if ($effective_settings->getSortMode() === ilContainer::SORT_INHERIT) {
             $inherited->setSortMode(ilContainer::SORT_TITLE);
         } else {
             $inherited->setSortMode($effective_settings->getSortMode());
@@ -87,7 +87,7 @@ class ilContainerSortingSettings
             $parent_obj_id = ilObject::_lookupObjId($cont_ref_id);
             $parent_settings = self::getInstanceByObjId($parent_obj_id);
             
-            if ($parent_settings->getSortMode() == ilContainer::SORT_INHERIT) {
+            if ($parent_settings->getSortMode() === ilContainer::SORT_INHERIT) {
                 return $this->getInheritedSettings($parent_obj_id);
             }
             return $parent_settings;
@@ -109,12 +109,12 @@ class ilContainerSortingSettings
 
         $ilDB = $DIC->database();
         
-        $query = "SELECT * FROM container_sorting_set " .
+        $query = "SELECT sort_mode FROM container_sorting_set " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
         
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->sort_mode;
+            return (int) $row->sort_mode;
         }
         return ilContainer::SORT_INHERIT;
     }
@@ -126,13 +126,13 @@ class ilContainerSortingSettings
         $ilDB = $DIC->database();
 
         // Try to read from table
-        $query = "SELECT * FROM container_sorting_set " .
+        $query = "SELECT sort_mode FROM container_sorting_set " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
         
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->sort_mode != ilContainer::SORT_INHERIT) {
-                return $row->sort_mode;
+            if ((int) $row->sort_mode !== ilContainer::SORT_INHERIT) {
+                return (int) $row->sort_mode;
             }
         }
         return self::lookupSortModeFromParentContainer($a_obj_id);
@@ -215,7 +215,7 @@ class ilContainerSortingSettings
 
     public function setSortNewItemsOrder(int $a_order) : void
     {
-        $this->new_items_order = (int) $a_order;
+        $this->new_items_order = $a_order;
     }
 
     public function update() : void
@@ -264,10 +264,10 @@ class ilContainerSortingSettings
             
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->sort_mode = $row->sort_mode;
-            $this->sort_direction = $row->sort_direction;
-            $this->new_items_position = $row->new_items_position;
-            $this->new_items_order = $row->new_items_order;
+            $this->sort_mode = (int) $row->sort_mode;
+            $this->sort_direction = (int) $row->sort_direction;
+            $this->new_items_position = (int) $row->new_items_position;
+            $this->new_items_order = (int) $row->new_items_order;
             return;
         }
     }
@@ -307,7 +307,7 @@ class ilContainerSortingSettings
     ) : void {
         $settings = self::getInstanceByObjId($obj_id);
 
-        $attr = array();
+        $attr = [];
         switch ($settings->getSortMode()) {
             case ilContainer::SORT_MANUAL:
                 $order = 'Title';
@@ -323,38 +323,38 @@ class ilContainerSortingSettings
                         break;
                 }
 
-                $attr = array(
-                    'direction' => $settings->getSortDirection() == ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
-                    'position' => $settings->getSortNewItemsPosition() == ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM ? "Bottom" : "Top",
+                $attr = [
+                    'direction' => $settings->getSortDirection() === ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
+                    'position' => $settings->getSortNewItemsPosition() === ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM ? "Bottom" : "Top",
                     'order' => $order,
                     'type' => 'Manual'
-                );
+                ];
 
                 break;
 
             case ilContainer::SORT_CREATION:
-                $attr = array(
-                    'direction' => $settings->getSortDirection() == ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
+                $attr = [
+                    'direction' => $settings->getSortDirection() === ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
                     'type' => 'Creation'
-                );
+                ];
                 break;
 
             case ilContainer::SORT_TITLE:
-                $attr = array(
-                    'direction' => $settings->getSortDirection() == ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
+                $attr = [
+                    'direction' => $settings->getSortDirection() === ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
                     'type' => 'Title'
-                );
+                ];
                 break;
             case ilContainer::SORT_ACTIVATION:
-                $attr = array(
-                    'direction' => $settings->getSortDirection() == ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
+                $attr = [
+                    'direction' => $settings->getSortDirection() === ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
                     'type' => 'Activation'
-                );
+                ];
                 break;
             case ilContainer::SORT_INHERIT:
-                $attr = array(
+                $attr = [
                     'type' => 'Inherit'
-                );
+                ];
         }
         $xml->xmlElement('Sort', $attr);
     }
@@ -368,7 +368,7 @@ class ilContainerSortingSettings
     ) : void {
         $settings = self::getInstanceByObjId($obj_id);
 
-        switch ($attibs['type']) {
+        switch ($attibs['type'] ?? '') {
             case 'Manual':
                 $settings->setSortMode(ilContainer::SORT_MANUAL);
                 break;
@@ -383,7 +383,7 @@ class ilContainerSortingSettings
                 break;
         }
 
-        switch ($attibs['direction']) {
+        switch ($attibs['direction'] ?? '') {
             case 'ASC':
                 $settings->setSortDirection(ilContainer::SORT_DIRECTION_ASC);
                 break;

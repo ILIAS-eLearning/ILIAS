@@ -1,213 +1,212 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
 
 /**
-* TableGUI class for search results
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWebResource
-*/
-
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * TableGUI class for search results
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesWebResource
+ */
 class ilWebResourceLinkTableGUI extends ilTable2GUI
 {
-    protected $editable = false;
-    protected $web_res = null;
-    
-    protected $link_sort_mode = null;
-    protected $link_sort_enabled = false;
+    protected bool $editable = false;
+    protected ilLinkResourceItems $webresource_items;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_sorting = false)
-    {
+    protected int $link_sort_mode;
+    protected bool $link_sort_enabled = false;
+
+    protected ilAccessHandler $access;
+
+    public function __construct(
+        ?object $a_parent_obj,
+        string $a_parent_cmd,
+        bool $a_sorting = false
+    ) {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
+        $this->access = $DIC->access();
+
         // Initialize
-        if ($ilAccess->checkAccess('write', '', $this->getParentObject()->object->getRefId())) {
+        if ($this->access->checkAccess(
+            'write',
+            '',
+            $this->getParentObject()->getObject()->getRefId()
+        )) {
             $this->editable = true;
         }
-        
+
         $this->enableLinkSorting($a_sorting);
-        $this->web_res = new ilLinkResourceItems($this->getParentObject()->object->getId());
-        
-        
-        $this->setTitle($lng->txt('web_resources'));
-        
+        $this->webresource_items = new ilLinkResourceItems(
+            $this->getParentObject()->getObject()->getId()
+        );
+
+        $this->setTitle($this->lng->txt('web_resources'));
+
         if ($this->isEditable()) {
             if ($this->isLinkSortingEnabled()) {
                 $this->setLimit(9999);
-                $this->addColumn($lng->txt('position'), '', '10px');
-                $this->addColumn($lng->txt('title'), '', '90%');
+                $this->addColumn($this->lng->txt('position'), '', '10px');
+                $this->addColumn($this->lng->txt('title'), '', '90%');
                 $this->addColumn('', '', '10%');
-                
-                $this->addMultiCommand('saveSorting', $this->lng->txt('sorting_save'));
+
+                $this->addMultiCommand(
+                    'saveSorting',
+                    $this->lng->txt('sorting_save')
+                );
             } else {
-                $this->addColumn($lng->txt('title'), '', '90%');
+                $this->addColumn($this->lng->txt('title'), '', '90%');
                 $this->addColumn('', '', '10%');
             }
         } else {
-            $this->addColumn($lng->txt('title'), '', '100%');
+            $this->addColumn($this->lng->txt('title'), '', '100%');
         }
-        
+
         $this->initSorting();
-        
+
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction(
+            $this->ctrl->getFormAction($this->getParentObject())
+        );
         $this->setRowTemplate("tpl.webr_link_row.html", 'Modules/WebResource');
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(false);
     }
-    
-    /**
-     * Enable sorting of links
-     * @param object $a_status
-     * @return
-     */
-    public function enableLinkSorting($a_status)
+
+    public function enableLinkSorting(bool $a_status) : void
     {
         $this->link_sort_enabled = $a_status;
     }
-    
-    /**
-     * Check if link sorting is enabled
-     * @return
-     */
-    public function isLinkSortingEnabled()
+
+    public function isLinkSortingEnabled() : bool
     {
-        return (bool) $this->link_sort_enabled;
+        return $this->link_sort_enabled;
     }
-    
-    /**
-     * Parse Links
-     * @return
-     */
-    public function parse()
+
+    public function parse() : void
     {
-        $rows = array();
-        
+        $rows = [];
+
         $items = $this->getWebResourceItems()->getActivatedItems();
         $items = $this->getWebResourceItems()->sortItems($items);
-        
-        include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
-        include_once "Services/Form/classes/class.ilLinkInputGUI.php";
-        
+
         $counter = 1;
         foreach ($items as $link) {
-            /* now done in ObjLinkRessourceGUI::callLink()
-            if(ilParameterAppender::_isEnabled())
-            {
-                $link = ilParameterAppender::_append($link);
-            }
-            */
             $tmp['position'] = ($counter++) * 10;
             $tmp['title'] = $link['title'];
             $tmp['description'] = $link['description'];
             $tmp['target'] = $link['target'];
             $tmp['link_id'] = $link['link_id'];
             $tmp['internal'] = ilLinkInputGUI::isInternalLink($link["target"]);
-            
+
             $rows[] = $tmp;
         }
         $this->setData($rows);
     }
-    
-    /**
-     * @see ilTable2GUI::fillRow()
-     */
-    protected function fillRow($a_set)
-    {
-        global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
-        $ilCtrl->setParameterByClass(get_class($this->getParentObject()), 'link_id', $a_set['link_id']);
-        
+    protected function fillRow(array $a_set) : void
+    {
+        $this->ctrl->setParameterByClass(
+            get_class($this->getParentObject()),
+            'link_id',
+            $a_set['link_id']
+        );
+
         $this->tpl->setVariable('TITLE', $a_set['title']);
-        if (strlen($a_set['description'])) {
+        if (strlen($a_set['description']) !== 0) {
             $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         }
         // $this->tpl->setVariable('TARGET',$a_set['target']);
         $this->tpl->setVariable(
             'TARGET',
-            $ilCtrl->getLinkTarget($this->parent_obj, "callLink")
+            $this->ctrl->getLinkTarget($this->parent_obj, "callLink")
         );
-        
+
         if (!$a_set['internal']) {
             $this->tpl->setVariable('FRAME', ' target="_blank"');
             $this->tpl->touchBlock('noopener');
         }
-        
+
         if (!$this->isEditable()) {
             return;
         }
-        
+
         if ($this->isLinkSortingEnabled()) {
             $this->tpl->setVariable('VAL_POS', $a_set['position']);
             $this->tpl->setVariable('VAL_ITEM', $a_set['link_id']);
         }
-        
+
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setSelectionHeaderClass("small");
         $actions->setItemLinkClass("xsmall");
-        
-        $actions->setListTitle($lng->txt('actions'));
-        $actions->setId($a_set['link_id']);
-        
+
+        $actions->setListTitle($this->lng->txt('actions'));
+        $actions->setId((string) $a_set['link_id']);
+
         $actions->addItem(
-            $lng->txt('edit'),
+            $this->lng->txt('edit'),
             '',
-            $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editLink')
+            $this->ctrl->getLinkTargetByClass(
+                get_class($this->getParentObject()),
+                'editLink'
+            )
         );
         $actions->addItem(
-            $lng->txt('webr_deactivate'),
+            $this->lng->txt('webr_deactivate'),
             '',
-            $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'deactivateLink')
+            $this->ctrl->getLinkTargetByClass(
+                get_class($this->getParentObject()),
+                'deactivateLink'
+            )
         );
         $actions->addItem(
-            $lng->txt('delete'),
+            $this->lng->txt('delete'),
             '',
-            $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'confirmDeleteLink')
+            $this->ctrl->getLinkTargetByClass(
+                get_class($this->getParentObject()),
+                'confirmDeleteLink'
+            )
         );
         $this->tpl->setVariable('ACTION_HTML', $actions->getHTML());
     }
-    
-    
-    
-    
+
     /**
      * Get Web resource items object
-     * @return object	ilLinkResourceItems
+     * @return object    ilLinkResourceItems
      */
-    protected function getWebResourceItems()
+    protected function getWebResourceItems() : \ilLinkResourceItems
     {
-        return $this->web_res;
+        return $this->webresource_items;
     }
-    
-    
+
     /**
      * Check if links are editable
      * @return
      */
-    protected function isEditable()
+    protected function isEditable() : bool
     {
-        return (bool) $this->editable;
+        return $this->editable;
     }
-    
-    protected function initSorting()
+
+    protected function initSorting() : void
     {
         $this->link_sort_mode = ilContainerSortingSettings::_lookupSortMode(
-            $this->getParentObject()->object->getId()
+            $this->getParentObject()->getObject()->getId()
         );
     }
 }

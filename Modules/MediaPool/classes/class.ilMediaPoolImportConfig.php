@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Import configuration for media pools
@@ -9,53 +23,34 @@
  */
 class ilMediaPoolImportConfig extends ilImportConfig
 {
-    protected $transl_into = false;
-    protected $transl_into_lm = null;
-    protected $transl_lang = "";
+    protected bool $transl_into = false;
+    protected ?ilObjMediaPool $transl_into_mep = null;
+    protected string $transl_lang = "";
 
-    /**
-     * Set translation import mode
-     *
-     * @param ilObjLearningModule $a_lm learning module
-     * @param string $a_lang language
-     */
-    public function setTranslationImportMode($a_lm, $a_lang = "")
-    {
-        if ($a_lm != null) {
+    public function setTranslationImportMode(
+        ?ilObjMediaPool $a_mep,
+        string $a_lang = ""
+    ) : void {
+        if ($a_mep !== null) {
             $this->transl_into = true;
-            $this->transl_into_lm = $a_lm;
+            $this->transl_into_mep = $a_mep;
             $this->transl_lang = $a_lang;
         } else {
             $this->transl_into = false;
         }
     }
 
-    /**
-     * Get translation import mode
-     *
-     * @return bool check if translation import is activated
-     */
-    public function getTranslationImportMode()
+    public function getTranslationImportMode() : bool
     {
         return $this->transl_into;
     }
 
-    /**
-     * Get translation lm
-     *
-     * @return ilObjLearningModule learning module
-     */
-    public function getTranslationLM()
+    public function getTranslationMep() : ?ilObjMediaPool
     {
-        return $this->transl_into_lm;
+        return $this->transl_into_mep;
     }
 
-    /**
-     * Get translation language
-     *
-     * @return string language
-     */
-    public function getTranslationLang()
+    public function getTranslationLang() : string
     {
         return $this->transl_lang;
     }

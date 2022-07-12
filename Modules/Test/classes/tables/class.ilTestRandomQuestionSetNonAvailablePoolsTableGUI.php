@@ -13,16 +13,6 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 {
     const IDENTIFIER = 'NonAvailPoolsTbl';
     
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl = null;
-    
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
     {
         parent::__construct($parentGUI, $parentCMD);
@@ -31,14 +21,14 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->lng = $lng;
     }
     
-    private function setTableIdentifiers()
+    private function setTableIdentifiers() : void
     {
         $this->setId(self::IDENTIFIER);
         $this->setPrefix(self::IDENTIFIER);
         $this->setFormName(self::IDENTIFIER);
     }
     
-    public function build()
+    public function build() : void
     {
         $this->setTableIdentifiers();
         
@@ -57,7 +47,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->addColumns();
     }
     
-    protected function addColumns()
+    protected function addColumns() : void
     {
         $this->addColumn($this->lng->txt('title'), '', '30%');
         $this->addColumn($this->lng->txt('path'), '', '30%');
@@ -65,7 +55,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('actions'), '', '');
     }
     
-    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList) : void
     {
         $rows = array();
         
@@ -87,7 +77,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
     
-    protected function getDerivePoolLink($poolId)
+    protected function getDerivePoolLink($poolId) : string
     {
         $this->ctrl->setParameter($this->parent_obj, 'derive_pool_id', $poolId);
         
@@ -99,22 +89,22 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         return $link;
     }
     
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
-        if ($set['status'] == ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_LOST) {
-            $link = $this->getDerivePoolLink($set['id']);
+        if ($a_set['status'] == ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_LOST) {
+            $link = $this->getDerivePoolLink($a_set['id']);
             $this->tpl->setCurrentBlock('single_action');
             $this->tpl->setVariable('ACTION_HREF', $link);
             $this->tpl->setVariable('ACTION_TEXT', $this->lng->txt('tst_derive_new_pool'));
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable('TITLE', $set['title']);
-        $this->tpl->setVariable('PATH', $set['path']);
-        $this->tpl->setVariable('STATUS', $this->getStatusText($set['status']));
+        $this->tpl->setVariable('TITLE', $a_set['title']);
+        $this->tpl->setVariable('PATH', $a_set['path']);
+        $this->tpl->setVariable('STATUS', $this->getStatusText($a_set['status']));
     }
     
-    protected function getStatusText($status)
+    protected function getStatusText($status) : string
     {
         return $this->lng->txt('tst_non_avail_pool_msg_status_' . $status);
     }

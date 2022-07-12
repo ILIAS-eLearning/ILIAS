@@ -1,9 +1,26 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Tree\Node\Factory;
 use ILIAS\UI\Component\Tree\Node\Node;
 use ILIAS\UI\Component\Tree\Tree;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class Mail Explorer
@@ -13,20 +30,15 @@ use ILIAS\UI\Component\Tree\Tree;
  */
 class ilMailExplorer extends ilTreeExplorerGUI
 {
-    /** @var ilMailGUI */
-    private $parentObject;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
+    private int $currentFolderId = 0;
 
-    /** @var int */
-    protected $currentFolderId = 0;
-
-    /**
-     * ilMailExplorer constructor.
-     * @param $parentObject
-     * @param $userId
-     */
-    public function __construct($parentObject, $userId)
+    public function __construct(ilMailGUI $parentObject, int $userId)
     {
-        $this->parentObject = $parentObject;
+        global $DIC;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->tree = new ilTree($userId);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
@@ -40,73 +52,54 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->setOrderField('title,m_type');
     }
 
-    /**
-     *
-     */
     protected function initFolder() : void
     {
-        $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
-        if (0 === $folderId) {
-            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? 0);
+        if ($this->http->wrapper()->post()->has('mobj_id')) {
+            $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
+            $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        } else {
+            $folderId = $this->refinery->kindlyTo()->int()->transform(ilSession::get('mobj_id'));
         }
 
-        $this->currentFolderId = (int) $folderId;
+        $this->currentFolderId = $folderId;
     }
 
-    /**
-     * @return string
-     */
-    public function getTreeLabel()
+    public function getTreeLabel() : string
     {
         return $this->lng->txt("mail_folders");
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTreeComponent() : Tree
     {
         $f = $this->ui->factory();
 
-        $tree = $f->tree()
+        return $f->tree()
             ->expandable($this->getTreeLabel(), $this)
-            ->withData($this->tree->getChilds((int) $this->tree->readRootId()))
+            ->withData($this->tree->getChilds($this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
-
-        return $tree;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function build(
         Factory $factory,
         $record,
         $environment = null
     ) : Node {
-        $node = parent::build($factory, $record, $environment);
-
-        return $node->withHighlighted($this->currentFolderId === (int) $record['child']);
+        return parent::build($factory, $record, $environment)->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getNodeStateToggleCmdClasses($record) : array
     {
         return [
-            'ilMailGUI',
+            ilMailGUI::class,
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $content = $a_node['title'];
 
-        if ($a_node['child'] == $this->getNodeId($this->getRootNode())) {
+        if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $content = $this->lng->txt('mail_folders');
         } elseif ($a_node['depth'] < 3) {
             $content = $this->lng->txt('mail_' . $a_node['title']);
@@ -115,12 +108,14 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $content;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getNodeIcon($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
-        if ($a_node['child'] == $this->getNodeId($this->getRootNode())) {
+        return $this->getNodeContent($a_node);
+    }
+
+    public function getNodeIcon($a_node) : string
+    {
+        if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('icon_mail.svg');
         } else {
             $iconType = $a_node['m_type'];
@@ -134,18 +129,15 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $icon;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
-        if ($a_node['child'] == $this->getNodeId($this->getRootNode())) {
+        if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $a_node['child'] = 0;
         }
 
-        $this->ctrl->setParameterByClass('ilMailFolderGUI', 'mobj_id', $a_node['child']);
-        $href = $this->ctrl->getLinkTargetByClass(['ilMailGUI', 'ilMailFolderGUI']);
-        $this->ctrl->clearParametersByClass('ilMailFolderGUI');
+        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $a_node['child']);
+        $href = $this->ctrl->getLinkTargetByClass([ilMailGUI::class, ilMailFolderGUI::class]);
+        $this->ctrl->clearParametersByClass(ilMailFolderGUI::class);
 
         return $href;
     }

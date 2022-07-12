@@ -1,62 +1,47 @@
-<?php
-//hsuhh-patch: begin
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * Interface to the ClamAV virus protector
- * @author        Ralf Schenk <rs@databay.de>
- * @version       $Id$
- * @extends       ilVirusScanner
- */
-
-
-require_once "./Services/VirusScanner/classes/class.ilVirusScanner.php";
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilVirusScannerICapRemote extends ilVirusScanner
 {
-    /** @var string */
-    private $host;
-    /** @var int */
-    private $port;
+    private string $host;
+    private int $port;
     /** @var resource */
     private $socket;
-    /** @var string */
-    public $userAgent = 'PHP-CLIENT/0.1.0';
+    public string $userAgent = 'PHP-CLIENT/0.1.0';
 
-    /**
-     * ilVirusScannerICap constructor.
-     * @param $a_scancommand
-     * @param $a_cleancommand
-     */
-    public function __construct($a_scancommand, $a_cleancommand)
+    public function __construct(string $scan_command, string $clean_command)
     {
-        parent::__construct($a_scancommand, $a_cleancommand);
+        parent::__construct($scan_command, $clean_command);
         $this->host = IL_ICAP_HOST;
-        $this->port = IL_ICAP_PORT;
+        $this->port = (int) IL_ICAP_PORT;
     }
 
-    /**
-     * @param $service
-     * @return array
-     */
-    public function options($service)
+    public function options(string $service) : array
     {
-        $request  = $this->getRequest('OPTIONS', $service);
+        $request = $this->getRequest('OPTIONS', $service);
         $response = $this->send($request);
-        if(strlen($response) > 0) {
+        if ($response !== '') {
             return $this->parseResponse($response);
         }
         return [];
     }
 
-    /**
-     * @param       $method
-     * @param       $service
-     * @param array $body
-     * @param array $headers
-     * @return string
-     */
-    public function getRequest($method, $service, $body = [], $headers = [])
+    public function getRequest(string $method, string $service, array $body = [], array $headers = []) : string
     {
         if (!array_key_exists('Host', $headers)) {
             $headers['Host'] = $this->host;
@@ -67,23 +52,23 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         if (!array_key_exists('Connection', $headers)) {
             $headers['Connection'] = 'close';
         }
-        $bodyData     = '';
-        $hasBody      = false;
+        $bodyData = '';
+        $hasBody = false;
         $encapsulated = [];
         foreach ($body as $type => $data) {
             switch ($type) {
                 case 'req-hdr':
                 case 'res-hdr':
                     $encapsulated[$type] = strlen($bodyData);
-                    $bodyData            .= $data;
+                    $bodyData .= $data;
                     break;
                 case 'req-body':
                 case 'res-body':
                     $encapsulated[$type] = strlen($bodyData);
-                    $bodyData            .= dechex(strlen($data)) . "\r\n";
-                    $bodyData            .= $data;
-                    $bodyData            .= "\r\n";
-                    $hasBody             = true;
+                    $bodyData .= dechex(strlen($data)) . "\r\n";
+                    $bodyData .= $data;
+                    $bodyData .= "\r\n";
+                    $hasBody = true;
                     break;
             }
         }
@@ -108,93 +93,77 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         return $request;
     }
 
-    /**
-     * @param $request
-     * @return string
-     */
-    public function send($request)
+    public function send(string $request) : string
     {
         $response = '';
-        try{
+        try {
             $this->connect();
             socket_write($this->socket, $request);
             while ($buffer = socket_read($this->socket, 2048)) {
                 $response .= $buffer;
             }
             $this->disconnect();
-        } catch(ErrorException $e){
+        } catch (ErrorException $e) {
             $this->log->warning("Cannot connect to icap://{$this->host}:{$this->port} (Socket error: " . $this->getLastSocketError() . ")");
         }
         return $response;
     }
 
-    /**
-     * @return bool
-     * @throws ErrorException
-     */
-    private function connect()
+    private function connect() : bool
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        try{
+        try {
             if (!socket_connect($this->socket, $this->host, $this->port)) {
                 return false;
             }
-        } catch(ErrorException $e){
+        } catch (ErrorException $e) {
             throw $e;
         }
 
         return true;
     }
 
-    /**
-     * Get last error code from socket object
-     * @return int Socket error code
-     */
-    public function getLastSocketError()
+    public function getLastSocketError() : int
     {
         return socket_last_error($this->socket);
     }
 
-    /**
-     *
-     */
-    private function disconnect()
+    private function disconnect() : void
     {
         socket_shutdown($this->socket);
         socket_close($this->socket);
     }
 
     /**
-     * @param $string
-     * @return array
+     * @return array<string, array<string, string>>|array<string, string>
      */
-    private function parseResponse($string)
+    private function parseResponse(string $string) : array
     {
         $response = [
             'protocol' => [],
-            'headers'  => [],
-            'body'     => [],
-            'rawBody'  => ''
+            'headers' => [],
+            'body' => [],
+            'rawBody' => ''
         ];
         foreach (preg_split('/\r?\n/', $string) as $line) {
             if ([] === $response['protocol']) {
                 if (0 !== strpos($line, 'ICAP/')) {
                     throw new RuntimeException('Unknown ICAP response');
                 }
-                $parts                = preg_split('/ +/', $line, 3);
+                $parts = preg_split('/ +/', $line, 3);
                 $response['protocol'] = [
-                    'icap'    => isset($parts[0]) ? $parts[0] : '',
-                    'code'    => isset($parts[1]) ? $parts[1] : '',
-                    'message' => isset($parts[2]) ? $parts[2] : '',
+                    'icap' => $parts[0] ?? '',
+                    'code' => $parts[1] ?? '',
+                    'message' => $parts[2] ?? '',
                 ];
                 continue;
             }
             if ('' === $line) {
                 break;
             }
-            $parts = preg_split('/: /', $line, 2);
+            $parts = explode(": ", $line, 2);
             if (isset($parts[0])) {
-                $response['headers'][$parts[0]] = isset($parts[1]) ? $parts[1] : '';
+                $response['headers'][$parts[0]] = $parts[1] ?? '';
             }
         }
         $body = preg_split('/\r?\n\r?\n/', $string, 2);
@@ -202,10 +171,10 @@ class ilVirusScannerICapRemote extends ilVirusScanner
             $response['rawBody'] = $body[1];
             if (array_key_exists('Encapsulated', $response['headers'])) {
                 $encapsulated = [];
-                $params       = preg_split('/, /', $response['headers']['Encapsulated']);
+                $params = explode(", ", $response['headers']['Encapsulated']);
                 if (count($params) > 0) {
                     foreach ($params as $param) {
-                        $parts = preg_split('/=/', $param);
+                        $parts = explode("=", $param);
                         if (count($parts) !== 2) {
                             continue;
                         }
@@ -234,27 +203,21 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     }
 
     /**
-     * @param       $service
-     * @param array $body
-     * @param array $headers
-     * @return array
+     * @return array<string, array<string, string>>|array<string, string>
      */
-    public function respMod($service, $body = [], $headers = [])
+    public function respMod(string $service, array $body = [], array $headers = []) : array
     {
-        $request  = $this->getRequest('RESPMOD', $service, $body, $headers);
+        $request = $this->getRequest('RESPMOD', $service, $body, $headers);
         $response = $this->send($request);
         return $this->parseResponse($response);
     }
 
     /**
-     * @param       $service
-     * @param array $body
-     * @param array $headers
-     * @return array
+     * @return array<string, array<string, string>>|array<string, string>
      */
-    public function reqMod($service, $body = [], $headers = [])
+    public function reqMod(string $service, array $body = [], array $headers = []) : array
     {
-        $request  = $this->getRequest('REQMOD', $service, $body, $headers);
+        $request = $this->getRequest('REQMOD', $service, $body, $headers);
         $response = $this->send($request);
         return $this->parseResponse($response);
     }

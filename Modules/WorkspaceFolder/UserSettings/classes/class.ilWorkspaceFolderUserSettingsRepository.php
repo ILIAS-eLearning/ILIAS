@@ -1,31 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Stores user settings per workspace folder
  * Table: wfld_user_setting (rw)
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWorkspaceFolderUserSettingsRepository
 {
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected int $user_id;
+    protected ilDBInterface $db;
 
     /**
      * Constructor
      */
-    public function __construct($user_id, ilDBInterface $db = null)
-    {
+    public function __construct(
+        int $user_id,
+        ilDBInterface $db = null
+    ) {
         global $DIC;
 
         $this->user_id = $user_id;
@@ -34,11 +42,6 @@ class ilWorkspaceFolderUserSettingsRepository
             : $DIC->database();
     }
 
-    /**
-     * Get Sortation of workspace folder
-     * @param int $wfld_id folder object id
-     * @return int
-     */
     public function getSortation(int $wfld_id) : int
     {
         $db = $this->db;
@@ -51,14 +54,9 @@ class ilWorkspaceFolderUserSettingsRepository
             array($this->user_id, $wfld_id)
         );
         $rec = $db->fetchAssoc($set);
-        return (int) $rec["sortation"];
+        return (int) ($rec["sortation"] ?? 0);
     }
 
-    /**
-     * Get Sortation of workspace folder
-     * @param int[] $wfld_id folder object ids
-     * @return int[]
-     */
     public function getSortationMultiple(array $wfld_ids) : array
     {
         $db = $this->db;
@@ -83,11 +81,6 @@ class ilWorkspaceFolderUserSettingsRepository
         return $ret;
     }
 
-    /**
-     * Update sortation for workspace folder
-     * @param int $wfld_id folder object id
-     * @param int $sortation
-     */
     public function updateSortation(int $wfld_id, int $sortation)
     {
         $db = $this->db;

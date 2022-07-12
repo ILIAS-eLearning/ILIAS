@@ -14,7 +14,6 @@ class ContentRenderer
         \ilContext::init(\ilContext::CONTEXT_WAC);
         \ilInitialisation::initILIAS();
         global $DIC;
-        $DIC->ctrl()->setTargetScript('ilias.php');
 
         $GS = $DIC->globalScreen();
 

@@ -1,47 +1,24 @@
-<?php
-
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * Class ilObjPollListGUI
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjPollListGUI extends ilObjectListGUI
 {
-    /**
-    * initialisation
-    */
-    public function init()
-    {
-        $this->copy_enabled = false;
-        $this->delete_enabled = true;
-        $this->cut_enabled = false;
-        $this->subscribe_enabled = false;
-        $this->link_enabled = false;
-        $this->info_screen_enabled = true;
-        $this->type = "poll";
-        $this->gui_class_name = "ilobjpollgui";
-
-        // general commands array
-        $this->commands = ilObjPollAccess::_getCommands();
-    }
-    
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
-    public function getProperties()
-    {
-
-        // BEGIN ChangeEvent: Get parent properties
-        $props = parent::getProperties();
-        // END ChangeEvent: Get parent properties
-
-        return $props;
-    }
 }

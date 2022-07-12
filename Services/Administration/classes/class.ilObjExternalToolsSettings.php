@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjExternalToolsSettings
@@ -9,51 +23,11 @@
  */
 class ilObjExternalToolsSettings extends ilObject
 {
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_call_by_reference = true
+    ) {
         $this->type = "extt";
         parent::__construct($a_id, $a_call_by_reference);
     }
-
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
-    public function update()
-    {
-        if (!parent::update()) {
-            return false;
-        }
-
-        // put here object specific stuff
-        
-        return true;
-    }
-    
-
-    /**
-    * delete object and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
-    {
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
-        }
-        
-        //put here your module specific stuff
-        
-        return true;
-    }
-} // END class.ilObjExternalToolsSettings
+}

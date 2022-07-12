@@ -7,8 +7,8 @@ import {abstract} from '../util.js';
 import {get as getProjection} from '../proj.js';
 
 /**
- * A function that returns a string or an array of strings representing source
- * attributions.
+ * A function that takes a {@link module:ol/PluggableMap~FrameState} and returns a string or
+ * an array of strings representing source attributions.
  *
  * @typedef {function(import("../PluggableMap.js").FrameState): (string|Array<string>)} Attribution
  */
@@ -26,11 +26,11 @@ import {get as getProjection} from '../proj.js';
 
 /**
  * @typedef {Object} Options
- * @property {AttributionLike} [attributions]
+ * @property {AttributionLike} [attributions] Attributions.
  * @property {boolean} [attributionsCollapsible=true] Attributions are collapsible.
  * @property {import("../proj.js").ProjectionLike} [projection] Projection. Default is the view projection.
- * @property {import("./State.js").default} [state='ready']
- * @property {boolean} [wrapX=false]
+ * @property {import("./State.js").default} [state='ready'] State.
+ * @property {boolean} [wrapX=false] WrapX.
  */
 
 /**
@@ -51,10 +51,10 @@ class Source extends BaseObject {
     super();
 
     /**
-     * @private
+     * @protected
      * @type {import("../proj/Projection.js").default}
      */
-    this.projection_ = getProjection(options.projection);
+    this.projection = getProjection(options.projection);
 
     /**
      * @private
@@ -90,11 +90,34 @@ class Source extends BaseObject {
      * @type {boolean}
      */
     this.wrapX_ = options.wrapX !== undefined ? options.wrapX : false;
+
+    /**
+     * @protected
+     * @type {function(import("../View.js").ViewOptions):void}
+     */
+    this.viewResolver = null;
+
+    /**
+     * @protected
+     * @type {function(Error):void}
+     */
+    this.viewRejector = null;
+
+    const self = this;
+    /**
+     * @private
+     * @type {Promise<import("../View.js").ViewOptions>}
+     */
+    this.viewPromise_ = new Promise(function (resolve, reject) {
+      self.viewResolver = resolve;
+      self.viewRejector = reject;
+    });
   }
 
   /**
    * Get the attribution function for the source.
    * @return {?Attribution} Attribution function.
+   * @api
    */
   getAttributions() {
     return this.attributions_;
@@ -102,6 +125,7 @@ class Source extends BaseObject {
 
   /**
    * @return {boolean} Attributions are collapsible.
+   * @api
    */
   getAttributionsCollapsible() {
     return this.attributionsCollapsible_;
@@ -113,7 +137,7 @@ class Source extends BaseObject {
    * @api
    */
   getProjection() {
-    return this.projection_;
+    return this.projection;
   }
 
   /**
@@ -122,6 +146,13 @@ class Source extends BaseObject {
    */
   getResolutions() {
     return abstract();
+  }
+
+  /**
+   * @return {Promise<import("../View.js").ViewOptions>} A promise for view-related properties.
+   */
+  getView() {
+    return this.viewPromise_;
   }
 
   /**

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
 use DateTimeImmutable;
@@ -12,23 +27,12 @@ use ILIAS\ResourceStorage\Revision\FileRevision;
  */
 class ClonedRevisionInfoResolver implements InfoResolver
 {
-    /**
-     * @var int
-     */
-    protected $next_version_number;
-    /**
-     * @var FileRevision
-     */
-    protected $existing_revision;
-    /**
-     * @var \ILIAS\ResourceStorage\Information\Information
-     */
-    protected $info;
+    protected int $next_version_number;
+    protected \ILIAS\ResourceStorage\Revision\FileRevision $existing_revision;
+    protected \ILIAS\ResourceStorage\Information\Information $info;
 
     /**
      * ClonedRevisionInfoResolver constructor.
-     * @param int          $next_version_number
-     * @param FileRevision $existing_revision
      */
     public function __construct(int $next_version_number, FileRevision $existing_revision)
     {
@@ -76,5 +80,4 @@ class ClonedRevisionInfoResolver implements InfoResolver
     {
         return $this->info->getSize();
     }
-
 }

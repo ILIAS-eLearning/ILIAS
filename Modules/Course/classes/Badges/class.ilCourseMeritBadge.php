@@ -1,43 +1,61 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Badge/interfaces/interface.ilBadgeType.php";
-
+<?php declare(strict_types=0);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilCourseMeritBadge
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ModulesCourse
  */
 class ilCourseMeritBadge implements ilBadgeType
 {
-    public function getId()
-    {
-        return "merit";
-    }
-    
-    public function getCaption()
+    protected ilLanguage $lng;
+
+    public function __construct()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        return $lng->txt("badge_crs_merit");
+        $this->lng = $DIC->language();
     }
-    
-    public function isSingleton()
+
+    public function getId() : string
+    {
+        return "merit";
+    }
+
+    public function getCaption() : string
+    {
+        return $this->lng->txt("badge_crs_merit");
+    }
+
+    public function isSingleton() : bool
     {
         return true;
     }
-    
-    public function getValidObjectTypes()
+
+    /**
+     * @return string[]
+     */
+    public function getValidObjectTypes() : array
     {
-        return array("crs", "grp");
+        return ["crs", "grp"];
     }
-    
-    public function getConfigGUIInstance()
+
+    public function getConfigGUIInstance() : ?ilBadgeTypeGUI
     {
-        // no config
+        return null;
     }
 }

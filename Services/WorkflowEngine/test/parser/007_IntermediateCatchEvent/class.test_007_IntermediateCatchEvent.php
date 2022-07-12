@@ -12,27 +12,27 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 {
     #region Helper
-    public $base_path = './Services/WorkflowEngine/test/parser/';
-    public $suite_path = '007_IntermediateCatchEvent/';
+    public string $base_path = './Services/WorkflowEngine/test/parser/';
+    public string $suite_path = '007_IntermediateCatchEvent/';
 
-    public function getTestInputFilename($test_name)
+    public function getTestInputFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name)
+    public function getTestOutputFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name)
+    public function getTestGoldsampleFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         parent::setUp();
@@ -40,7 +40,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithSimpleIntermediateMessageEventShouldOutputAccordingly()
+    public function test_WorkflowWithSimpleIntermediateMessageEventShouldOutputAccordingly() : void
     {
         $test_name = 'IntermediateCatchEvent_Message_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -50,16 +50,16 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         $ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $ildb_mock->expects($this->any())->method('quote')->will($this->returnCallback(''));
+        $ildb_mock->method('quote')->willReturn('');
         $i = 0;
-        $ildb_mock->expects($this->any())->method('nextId')->will($this->returnValue($i++));
-        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(1));
+        $ildb_mock->method('nextId')->willReturn($i++);
+        $ildb_mock->method('insert')->willReturn(1);
 
         global $ilDB;
         $ilDB = $ildb_mock;
@@ -119,7 +119,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithSimpleIntermediateSignalEventShouldOutputAccordingly()
+    public function test_WorkflowWithSimpleIntermediateSignalEventShouldOutputAccordingly() : void
     {
         $test_name = 'IntermediateCatchEvent_Signal_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -129,16 +129,16 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         $ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $ildb_mock->expects($this->any())->method('quote')->will($this->returnCallback(''));
+        $ildb_mock->method('quote')->willReturn('');
         $i = 0;
-        $ildb_mock->expects($this->any())->method('nextId')->will($this->returnValue($i++));
-        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(1));
+        $ildb_mock->method('nextId')->willReturn($i++);
+        $ildb_mock->method('insert')->willReturn(1);
 
         global $ilDB;
         $ilDB = $ildb_mock;
@@ -198,7 +198,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithSimpleIntermediateTimerEventShouldOutputAccordingly()
+    public function test_WorkflowWithSimpleIntermediateTimerEventShouldOutputAccordingly() : void
     {
         $test_name = 'IntermediateCatchEvent_Timer_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -208,16 +208,16 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         $ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $ildb_mock->expects($this->any())->method('quote')->will($this->returnCallback(''));
+        $ildb_mock->method('quote')->willReturn('');
         $i = 0;
-        $ildb_mock->expects($this->any())->method('nextId')->will($this->returnValue($i++));
-        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(1));
+        $ildb_mock->method('nextId')->willReturn($i++);
+        $ildb_mock->method('insert')->willReturn(1);
 
         global $ilDB;
         $ilDB = $ildb_mock;

@@ -1,14 +1,24 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
 use ILIAS\UI\Factory;
 
-/**
- * Class ilCronManagerTableFilterMediator
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilCronManagerTableFilterMediator
 {
     private const FILTER_PROPERTY_NAME_TITLE = 'title';
@@ -105,7 +115,7 @@ class ilCronManagerTableFilterMediator
             self::FILTER_PROPERTY_NAME_RESULT => $result,
         ];
 
-        $filter = $this->uiService->filter()->standard(
+        return $this->uiService->filter()->standard(
             'cron_job_adm_table',
             $action,
             $fields,
@@ -113,8 +123,6 @@ class ilCronManagerTableFilterMediator
             true,
             true
         );
-
-        return $filter;
     }
 
     public function filteredJobs(Standard $filter) : ilCronJobCollection

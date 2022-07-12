@@ -1,26 +1,42 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\ViewControl;
+
+use ILIAS\UI\Component\Component;
 
 /**
  * Trait for adding view controls to a component
  */
-interface HasViewControls
+interface HasViewControls extends Component
 {
     /**
      * Add View Controls
      *
      * @param array $view_controls Array Of ViewControls
-     * @return \ILIAS\UI\Component\Component
+     * @return static
      */
-    public function withViewControls(array $view_controls) : HasViewControls;
+    public function withViewControls(array $view_controls);
 
     /**
      * Get View Controls
      *
-     * @return array Array of ViewControls
+     * @return array|null Array of ViewControls
      */
     public function getViewControls() : ?array;
 }

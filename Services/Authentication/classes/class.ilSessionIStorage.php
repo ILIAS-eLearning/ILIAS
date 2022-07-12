@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Session based immediate storage.
@@ -21,14 +35,12 @@
  * requests by (i)frames.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
  */
 class ilSessionIStorage
 {
-    protected $session_id = "";
-    protected $component_id = "";
-    protected static $values = array();
+    private string $session_id = "";
+    private string $component_id;
+    private static array $values = [];
     
     /**
      * Constructor
@@ -36,10 +48,10 @@ class ilSessionIStorage
      * @param string $a_component_id component id (e.g. "crs", "lm", ...)
      * @param string $a_sess_id session id
      */
-    public function __construct($a_component_id, $a_sess_id = "")
+    public function __construct(string $a_component_id, string $a_sess_id = "")
     {
         $this->component_id = $a_component_id;
-        if ($a_sess_id != "") {
+        if ($a_sess_id !== "") {
             $this->session_id = $a_sess_id;
         } else {
             $this->session_id = session_id();
@@ -58,7 +70,7 @@ class ilSessionIStorage
      *
      * @param string $a_val value
      */
-    public function set($a_key, $a_val)
+    public function set(string $a_key, string $a_val) : void
     {
         global $DIC;
 
@@ -75,7 +87,7 @@ class ilSessionIStorage
                 "vkey" => array("text", $a_key)
                 ),
             array("value" => array("text", $a_val))
-            );
+        );
     }
 
     /**
@@ -88,10 +100,7 @@ class ilSessionIStorage
 
         $ilDB = $DIC['ilDB'];
         
-        if (
-            isset(self::$values[$this->component_id]) && is_array(self::$values[$this->component_id]) &&
-            isset(self::$values[$this->component_id][$a_key])
-        ) {
+        if (isset(self::$values[$this->component_id][$a_key]) && is_array(self::$values[$this->component_id])) {
             return self::$values[$this->component_id][$a_key];
         }
         
@@ -100,7 +109,7 @@ class ilSessionIStorage
             " WHERE session_id = " . $ilDB->quote($this->session_id, "text") .
             " AND component_id = " . $ilDB->quote($this->component_id, "text") .
             " AND vkey = " . $ilDB->quote($a_key, "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $value = (string) ($rec['value'] ?? '');
 
@@ -113,24 +122,20 @@ class ilSessionIStorage
     
     /**
      * Destroy session(s). This is called by ilSession->destroy
-     *
-     * @param
-     * @return
+     * @param $a_session_id string|array ids of sessions to be deleted
      */
-    public static function destroySession($a_session_id)
+    public static function destroySession($a_session_id) : void
     {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if (!is_array($a_session_id)) {
             $q = "DELETE FROM usr_sess_istorage WHERE session_id = " .
-                $ilDB->quote($a_session_id, "text");
+                $DIC->database()->quote($a_session_id, "text");
         } else {
             $q = "DELETE FROM usr_sess_istorage WHERE " .
-                $ilDB->in("session_id", $a_session_id, "", "text");
+                $DIC->database()->in("session_id", $a_session_id, false, "text");
         }
-
-        $ilDB->manipulate($q);
+    
+        $DIC->database()->manipulate($q);
     }
 }

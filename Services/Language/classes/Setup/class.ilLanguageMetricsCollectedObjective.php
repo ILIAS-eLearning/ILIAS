@@ -1,15 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Setup;
 
 class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    /**
-     * @var \ilSetupLanguage
-     */
-    protected $il_setup_language;
+    protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
         Setup\Metrics\Storage $storage,
@@ -18,9 +30,11 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         parent::__construct($storage);
         $this->il_setup_language = $il_setup_language;
     }
-        
 
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    /**
+     * @inheritDoc
+     */
+    protected function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -28,7 +42,10 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    /**
+     * @inheritDoc
+     */
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         if ($client_ini) {
@@ -55,7 +72,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             $local_file = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_STABLE,
                 Setup\Metrics\Metric::TYPE_BOOL,
-                in_array($lang, $local_languages),
+                in_array($lang, $local_languages, true),
                 "Is there a local language file for the language?"
             );
             $local_changes = new Setup\Metrics\Metric(
@@ -72,7 +89,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                     "local_changes" => $local_changes
                 ]
             );
-        };
+        }
         $installed_languages = new Setup\Metrics\Metric(
             Setup\Metrics\Metric::STABILITY_STABLE,
             Setup\Metrics\Metric::TYPE_COLLECTION,

@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+
 include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
 
 /**
@@ -14,16 +16,23 @@ include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionE
 */
 class assClozeTestExport extends assQuestionExport
 {
+    private RandomGroup $randomGroup;
+
+    public function __construct($object)
+    {
+        global $DIC;
+
+        parent::__construct($object);
+
+        $this->randomGroup = $DIC->refinery()->random();
+    }
+
     /**
     * Returns a QTI xml representation of the question
-    *
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
-    *
-    * @return string The QTI xml representation of the question
-    * @access public
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -144,7 +153,7 @@ class assClozeTestExport extends assQuestionExport
                         $a_xml_writer->xmlStartTag("render_choice", $attrs);
 
                         // add answers
-                        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answeritem) {
+                        foreach ($gap->getItems($this->randomGroup->dontShuffle()) as $answeritem) {
                             $attrs = array(
                                 "ident" => $answeritem->getOrder()
                             );
@@ -249,7 +258,7 @@ class assClozeTestExport extends assQuestionExport
             $gap = $this->object->getGap($i);
             switch ($gap->getType()) {
                 case CLOZE_SELECT:
-                    foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answer) {
+                    foreach ($gap->getItems($this->randomGroup->dontShuffle()) as $answer) {
                         $attrs = array(
                             "continue" => "Yes"
                         );
@@ -280,7 +289,7 @@ class assClozeTestExport extends assQuestionExport
                     break;
                 case CLOZE_NUMERIC:
                 case CLOZE_TEXT:
-                    foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answer) {
+                    foreach ($gap->getItems($this->randomGroup->dontShuffle()) as $answer) {
                         $attrs = array(
                             "continue" => "Yes"
                         );
@@ -508,7 +517,7 @@ class assClozeTestExport extends assQuestionExport
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter)
+    protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter) : void
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
         $feedbackIdentifierList = new ilAssSpecificFeedbackIdentifierList();
@@ -537,7 +546,7 @@ class assClozeTestExport extends assQuestionExport
      * @param ilAssSpecificFeedbackIdentifier $fbIdentifier
      * @return string
      */
-    public function buildQtiExportIdent(ilAssSpecificFeedbackIdentifier $fbIdentifier)
+    public function buildQtiExportIdent(ilAssSpecificFeedbackIdentifier $fbIdentifier) : string
     {
         return "{$fbIdentifier->getQuestionIndex()}_{$fbIdentifier->getAnswerIndex()}";
     }

@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Item group items table
@@ -9,21 +23,15 @@
  */
 class ilItemGroupItemsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected array $items;
+    protected ilItemGroupItems $item_group_items;
+    protected ilTree $tree;
+    protected ilObjectDefinition $obj_def;
 
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_def;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        ilObjItemGroupGUI $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $lng = $DIC->language();
@@ -36,7 +44,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         $this->tree = $tree;
         $this->obj_def = $objDefinition;
 
-        $this->item_group_items = new ilItemGroupItems($a_parent_obj->object->getRefId());
+        $this->item_group_items = new ilItemGroupItems($a_parent_obj->getObject()->getRefId());
         $this->items = $this->item_group_items->getItems();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -56,13 +64,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         $this->addCommandButton("saveItemAssignment", $lng->txt("save"));
     }
     
-    /**
-     * Get materials
-     *
-     * @param
-     * @return
-     */
-    public function getMaterials()
+    public function getMaterials() : void
     {
         $materials = array();
         $items = $this->item_group_items->getAssignableItems();
@@ -72,21 +74,18 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
             $materials[] = $item;
         }
         
-        $materials = ilUtil::sortArray($materials, "sorthash", "asc");
+        $materials = ilArrayUtil::sortArray($materials, "sorthash", "asc");
         $this->setData($materials);
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 
         $this->tpl->setVariable("ITEM_REF_ID", $a_set["child"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("IMG", ilUtil::img(
-            ilObject::_getIcon($a_set["obj_id"], "tiny"),
+            ilObject::_getIcon((int) $a_set["obj_id"], "tiny"),
             "",
             "",
             "",

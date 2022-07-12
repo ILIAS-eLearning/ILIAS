@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
@@ -14,6 +28,7 @@ class TupleTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
+    /** @var Transformation[] */
     private array $transformations;
 
     /**
@@ -38,7 +53,7 @@ class TupleTransformation implements Transformation
     /**
      * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         if (!is_array($from)) {
             $from = [$from];
@@ -58,7 +73,7 @@ class TupleTransformation implements Transformation
         foreach ($from as $key => $value) {
             if (!array_key_exists($key, $this->transformations)) {
                 throw new ConstraintViolationException(
-                    sprintf('Matching value "%s" not found', $value),
+                    sprintf('Matching key "%s" not found', $key),
                     'matching_values_not_found',
                     $value
                 );
@@ -66,6 +81,7 @@ class TupleTransformation implements Transformation
             $transformedValue = $this->transformations[$key]->transform($value);
             $result[] = $transformedValue;
         }
+
         return $result;
     }
 

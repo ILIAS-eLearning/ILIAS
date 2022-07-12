@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilMailCronOrphanedMailsNotificationCollectionObj
@@ -7,61 +22,39 @@
  */
 class ilMailCronOrphanedMailsNotificationCollectionObj
 {
-    /**
-     * @var int
-     */
-    protected $user_id = 0;
+    protected int $user_id = 0;
+    /** @var array<int, ilMailCronOrphanedMailsFolderObject> */
+    protected array $folder_objects = [];
 
-    /**
-     * @var ilMailCronOrphanedMailsFolderObject[]
-     */
-    protected $folder_objects = array();
-
-    /**
-     * @param $user_id
-     */
-    public function __construct($user_id)
+    public function __construct(int $user_id)
     {
         $this->setUserId($user_id);
     }
-    
-    /**
-     * @return int
-     */
-    public function getUserId()
+
+    public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    /**
-     * @param int $user_id
-     */
-    public function setUserId($user_id)
+    public function setUserId(int $user_id) : void
     {
         $this->user_id = $user_id;
     }
 
-    /**
-     * @param ilMailCronOrphanedMailsFolderObject $folder_obj
-     */
-    public function addFolderObject(ilMailCronOrphanedMailsFolderObject $folder_obj)
+    public function addFolderObject(ilMailCronOrphanedMailsFolderObject $folder_obj) : void
     {
         $this->folder_objects[$folder_obj->getFolderId()] = $folder_obj;
     }
 
-    /**
-     * @param $folder_id
-     * @return ilMailCronOrphanedMailsFolderObject
-     */
-    public function getFolderObjectById($folder_id)
+    public function getFolderObjectById(int $folder_id) : ?ilMailCronOrphanedMailsFolderObject
     {
-        return $this->folder_objects[$folder_id];
+        return $this->folder_objects[$folder_id] ?? null;
     }
 
     /**
-     * @return ilMailCronOrphanedMailsFolderObject[]
+     * @return array<int, ilMailCronOrphanedMailsFolderObject>
      */
-    public function getFolderObjects()
+    public function getFolderObjects() : array
     {
         return $this->folder_objects;
     }

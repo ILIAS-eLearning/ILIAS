@@ -1,7 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * GUI class for scorm verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -14,10 +25,13 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         return "scov";
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function create() : void
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
+        $ilTabs = $DIC->tabs();
 
         $this->lng->loadLanguageModule("scov");
 
@@ -30,6 +44,11 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
+    /**
+     * @throws JsonException
+     * @throws ilCtrlException
+     * @throws ilException
+     */
     public function save() : void
     {
         global $DIC;
@@ -55,7 +74,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
-                ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
                 $this->create();
             }
 
@@ -67,10 +86,10 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
 
                 $this->afterSave($newObj);
             } else {
-                ilUtil::sendFailure($this->lng->txt("msg_failed"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
         }
         $this->create();
     }
@@ -79,15 +98,15 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     {
         $file = $this->object->getFilePath();
         if ($file) {
-            ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
+            ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
 
     public function render(bool $a_return = false, string $a_url = '') : string
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
 
         if (!$a_return) {
             $this->deliver();
@@ -137,18 +156,20 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
 
     public static function _goto(string $a_target) : void
     {
+        global $DIC;
         $id = explode("_", $a_target);
 
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
-        exit;
+        $DIC->ctrl->setParameterByClass(
+            "ilsharedresourceGUI",
+            "wsp_id",
+            $id[0]
+        );
+        $DIC->ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
     /**
-     * @param string $key
-     * @param mixed   $default
-     * @return mixed|null
+     * @param mixed $default
+     * @return mixed
      */
     protected function getRequestValue(string $key, $default = null)
     {
@@ -156,10 +177,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
             return $this->request->getQueryParams()[$key];
         }
 
-        if (isset($this->request->getParsedBody()[$key])) {
-            return $this->request->getParsedBody()[$key];
-        }
-
-        return $default ?? null;
+        return $this->request->getParsedBody()[$key] ?? $default ?? null;
     }
 }

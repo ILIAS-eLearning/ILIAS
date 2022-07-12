@@ -1,6 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\MainControls\Slate;
+
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This is what a factory for slates looks like.
@@ -25,7 +43,6 @@ interface Factory
      *       generated using other UI Components.
      *
      * ----
-     *
      * @param string $name
      * @param \ILIAS\UI\Component\Symbol\Symbol $symbol
      * @param \ILIAS\UI\Component\Legacy\Legacy $content
@@ -33,7 +50,7 @@ interface Factory
      */
     public function legacy(
         string $name,
-        \ILIAS\UI\Component\Symbol\Symbol $symbol,
+        Symbol $symbol,
         \ILIAS\UI\Component\Legacy\Legacy $content
     ) : Legacy;
 
@@ -63,7 +80,7 @@ interface Factory
      */
     public function combined(
         string $name,
-        \ILIAS\UI\Component\Symbol\Symbol $symbol
+        Symbol $symbol
     ) : Combined;
 
     /**
@@ -124,4 +141,44 @@ interface Factory
      * @return \ILIAS\UI\Component\MainControls\Slate\Notification
      */
     public function notification(string $name, array $notification_items) : Notification;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Drilldown Slates provide further menu structure in a slate.
+     *     Only one level of the (contained) menu tree is visible at a time.
+     *   composition: >
+     *     A Drilldown Slate contains exactly one Drilldown Menu.
+     *   effect: >
+     *     Same as Drilldown Menu: Clicking on a Button containing lower levels,
+     *     the Drilldown will display those.
+     *     Clicking on a leaf-Button will trigger its action.
+     *   rivals:
+     *      Combined Slates: >
+     *          Combined Slates can hold other slates and buttons, which might
+     *          give the impression of a menu; Drilldown Slates contain an actual Menu.
+     *          Therefore, they are less heterogeneous than Combined Slates but
+     *          clear and dedicated in their nature of providing a navigational
+     *          menu structure.
+     *
+     * context:
+     *   - The Drilldown Slate is used in the Main Bar.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Drilldowns in Slates MUST use this component.
+     *
+     * ----
+     * @param string $name
+     * @param \ILIAS\UI\Component\Symbol\Symbol $symbol
+     * @return \ILIAS\UI\Component\MainControls\Slate\Drilldown
+     */
+    public function drilldown(
+        string $name,
+        \ILIAS\UI\Component\Symbol\Symbol $symbol,
+        \ILIAS\UI\Component\Menu\Drilldown $drilldown
+    ) : Drilldown;
 }

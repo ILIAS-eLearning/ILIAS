@@ -1,4 +1,20 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+let actionId = 0;
 
 /**
  * Action
@@ -18,7 +34,7 @@ export default class Action {
   /**
    * @type {number}
    */
-  //  static next_id = 1;
+  //next_id = 1;
 
   /**
    * @type {number}
@@ -30,12 +46,13 @@ export default class Action {
    * @param {string} type
    * @param {Object} params
    */
-  constructor(component, type, params= {}) {
+  constructor(component, type, params= {}, queueable = false) {
     this.component = component;
     this.type = type;
-    //this.id = Action.next_id++;       // maybe switch to uuid in the future
-    this.id = 1;
+    actionId++;
+    this.id = actionId;
     this.params = params;
+    this.queueable = queueable;
   }
 
   /**
@@ -64,6 +81,13 @@ export default class Action {
    */
   getParams () {
     return this.params;
+  }
+
+  /**
+   * @returns {bool}
+   */
+  getQueueable () {
+    return this.queueable;
   }
 
 }

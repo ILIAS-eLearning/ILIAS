@@ -1,46 +1,51 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailCachedAddressType
  */
 class ilMailCachedAddressType implements ilMailAddressType
 {
-    /** @var array[] */
-    protected static $usrIdsByAddressCache = [];
+    /** @var array<string, int[]>  */
+    protected static array $usrIdsByAddressCache = [];
+    /** @var array<string, bool> */
+    protected static array $isValidCache = [];
+    protected ilMailAddressType $inner;
+    protected bool $useCache = true;
 
-    /** @var bool[] */
-    protected static $isValidCache = [];
-
-    /** @var ilMailAddressType */
-    protected $inner;
-
-    /** @var bool */
-    protected $useCache = true;
-
-    /**
-     * ilMailCachedRoleAddressType constructor.
-     * @param ilMailAddressType $inner
-     * @param bool $useCache
-     */
     public function __construct(ilMailAddressType $inner, bool $useCache)
     {
         $this->inner = $inner;
         $this->useCache = $useCache;
     }
+    
+    public static function clearCache() : void
+    {
+        self::$isValidCache = [];
+        self::$usrIdsByAddressCache = [];
+    }
 
-    /**
-     * @return string
-     */
     private function getCacheKey() : string
     {
         $address = $this->getAddress();
         return (string) $address;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function validate(int $senderId) : bool
     {
         $cacheKey = $this->getCacheKey();
@@ -52,25 +57,16 @@ class ilMailCachedAddressType implements ilMailAddressType
         return self::$isValidCache[$cacheKey];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getErrors() : array
     {
         return $this->inner->getErrors();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAddress() : ilMailAddress
     {
         return $this->inner->getAddress();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         $cacheKey = $this->getCacheKey();

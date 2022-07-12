@@ -1,28 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-define("SPACE_PRESERVE", "1");
-define("SPACE_DEFAULT", "2");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * QTI mattext class
@@ -34,148 +27,147 @@ define("SPACE_DEFAULT", "2");
 */
 class ilQTIMattext
 {
-    public $texttype;
-    public $label;
-    public $charset;
-    public $uri;
-    public $xmlspace;
-    public $xmllang;
-    public $entityref;
-    public $width;
-    public $height;
-    public $x0;
-    public $y0;
-    public $content;
-    
-    public function __construct()
-    {
-    }
+    public const SPACE_PRESERVE = "1";
+    public const SPACE_DEFAULT = "2";
 
-    public function setTexttype($a_texttype)
+    public ?string $texttype = null;
+    public ?string $label = null;
+    public ?string $charset = null;
+    public ?string $uri = null;
+    public ?string $xmlspace = null;
+    public ?string $xmllang = null;
+    public ?string $entityref = null;
+    public ?string $width = null;
+    public ?string $height = null;
+    public ?string $x0 = null;
+    public ?string $y0 = null;
+    public ?string $content = null;
+
+    public function setTexttype(string $a_texttype) : void
     {
         $this->texttype = $a_texttype;
     }
-    
-    public function getTexttype()
+
+    public function getTexttype() : ?string
     {
         return $this->texttype;
     }
-    
-    public function setLabel($a_label)
+
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
-    
-    public function getLabel()
+
+    public function getLabel() : ?string
     {
         return $this->label;
     }
-    
-    public function setHeight($a_height)
+
+    public function setHeight(string $a_height) : void
     {
         $this->height = $a_height;
     }
-    
-    public function getHeight()
+
+    public function getHeight() : ?string
     {
         return $this->height;
     }
-    
-    public function setWidth($a_width)
+
+    public function setWidth(string $a_width) : void
     {
         $this->width = $a_width;
     }
-    
-    public function getWidth()
+
+    public function getWidth() : ?string
     {
         return $this->width;
     }
-    
-    public function setCharset($a_charset)
+
+    public function setCharset(string $a_charset) : void
     {
         $this->charset = $a_charset;
     }
-    
-    public function getCharset()
+
+    public function getCharset() : ?string
     {
         return $this->charset;
     }
-    
-    public function setUri($a_uri)
+
+    public function setUri(string $a_uri) : void
     {
         $this->uri = $a_uri;
     }
-    
-    public function getUri()
+
+    public function getUri() : ?string
     {
         return $this->uri;
     }
-    
-    public function setXmllang($a_xmllang)
+
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
-    public function getXmllang()
+
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
-    
-    public function setXmlspace($a_xmlspace)
+
+    public function setXmlspace(string $a_xmlspace) : void
     {
         switch (strtolower($a_xmlspace)) {
             case "preserve":
             case "1":
-                $this->xmlspace = SPACE_PRESERVE;
+                $this->xmlspace = self::SPACE_PRESERVE;
                 break;
             case "default":
             case "2":
-                $this->xmlspace = SPACE_DEFAULT;
+                $this->xmlspace = self::SPACE_DEFAULT;
                 break;
         }
     }
-    
-    public function getXmlspace()
+
+    public function getXmlspace() : ?string
     {
         return $this->xmlspace;
     }
     
-    public function setX0($a_x0)
+    public function setX0(string $a_x0) : void
     {
         $this->x0 = $a_x0;
     }
     
-    public function getX0()
+    public function getX0() : ?string
     {
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0(string $a_y0) : void
     {
         $this->y0 = $a_y0;
     }
     
-    public function getY0()
+    public function getY0() : ?string
     {
         return $this->y0;
     }
-    
-    public function setEntityref($a_entityref)
+
+    public function setEntityref(string $a_entityref) : void
     {
         $this->entityref = $a_entityref;
     }
-    
-    public function getEntityref()
+
+    public function getEntityref() : ?string
     {
         return $this->entityref;
     }
-    
-    public function setContent($a_content)
+
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
-    
-    public function getContent()
+
+    public function getContent() : ?string
     {
         return $this->content;
     }

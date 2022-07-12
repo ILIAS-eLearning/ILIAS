@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilMultipleImagesInputGUI.php';
-
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -39,7 +37,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      *
      * @param $stylingDisabled
      */
-    public function setStylingDisabled($stylingDisabled)
+    public function setStylingDisabled($stylingDisabled) : void
     {
     }
     
@@ -48,7 +46,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      *
      * @return bool
      */
-    public function getStylingDisabled()
+    public function getStylingDisabled() : bool
     {
         return false;
     }
@@ -56,7 +54,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
     /**
      * @param ilAssOrderingElementList $elementList
      */
-    public function setElementList(ilAssOrderingElementList $elementList)
+    public function setElementList(ilAssOrderingElementList $elementList) : void
     {
         $this->setIdentifiedMultiValues($elementList->getRandomIdentifierIndexedElements());
     }
@@ -65,7 +63,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      * @param integer $questionId
      * @return ilAssOrderingElementList
      */
-    public function getElementList($questionId)
+    public function getElementList($questionId) : ilAssOrderingElementList
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
@@ -75,7 +73,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      * @param string $filenameInput
      * @return bool
      */
-    protected function isValidFilenameInput($filenameInput)
+    protected function isValidFilenameInput($filenameInput) : bool
     {
         /* @var ilAssOrderingElement $filenameInput */
         return (bool) strlen($filenameInput->getContent());

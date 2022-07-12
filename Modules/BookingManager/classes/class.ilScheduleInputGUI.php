@@ -1,38 +1,36 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* This class represents a text property in a property form.
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-* @ingroup	ModulesBookingManager
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * This class represents a text property in a property form.
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilScheduleInputGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var array
-     */
-    protected $value = [];
-
-    /**
-     * @var string
-     */
-    protected $validationFailureMessage;
+    protected ilGlobalTemplateInterface $tpl;
+    protected array $value = [];
+    protected string $validationFailureMessage;
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -40,31 +38,17 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	array	$a_value	Value
-    */
-    public function setValue(array $a_value)
+    public function setValue(array $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	array	Value
-    */
     public function getValue() : array
     {
         return $this->value;
     }
 
-    /**
-     * Set message string for validation failure
-     * @param string $a_msg
-     */
-    public function setValidationFailureMessage(string $a_msg)
+    public function setValidationFailureMessage(string $a_msg) : void
     {
         $this->validationFailureMessage = $a_msg;
     }
@@ -75,26 +59,21 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     }
 
     /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+     * Set value by array
+     *
+     * @param	array	$a_values	value array
+     */
+    public function setValueByArray(array $a_values) : void
     {
-        $this->setValue((array) self::getPostData($this->getPostVar(), false));
+        $this->setValue($this->getPostData($this->getPostVar(), false));
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return bool		Input ok, true/false
-    */
     public function checkInput() : bool
     {
         $lng = $this->lng;
         
-        $data = self::getPostData($this->getPostVar(), false);
-        if (sizeof($data)) {
+        $data = $this->getPostData($this->getPostVar(), false);
+        if (count($data)) {
             // slots may not overlap
             foreach ($data as $slot => $days) {
                 if (!$days) {
@@ -136,23 +115,30 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 
         return true;
     }
-    
-    public static function getPostData($a_post_var, $a_remove_invalid = true)
+
+    public function getInput() : array
     {
+        return $this->getPostData($this->getPostVar());
+    }
+
+    public function getPostData(
+        string $a_post_var,
+        $a_remove_invalid = true
+    ) : array {
         $res = array();
         for ($loop = 0; $loop < 240; $loop++) {
-            $days = $_POST[$a_post_var . "_days~" . $loop];
+            $days = $this->strArray($a_post_var . "_days~" . $loop);
             $from = self::parseTime(
-                $_POST[$a_post_var . "_from_hh~" . $loop],
-                $_POST[$a_post_var . "_from_mm~" . $loop]
+                $this->str($a_post_var . "_from_hh~" . $loop),
+                $this->str($a_post_var . "_from_mm~" . $loop)
             );
             $to = self::parseTime(
-                $_POST[$a_post_var . "_to_hh~" . $loop],
-                $_POST[$a_post_var . "_to_mm~" . $loop]
+                $this->str($a_post_var . "_to_hh~" . $loop),
+                $this->str($a_post_var . "_to_mm~" . $loop)
             );
             
             // only if any part was edited (js based gui)
-            if ($days || $from != "00:00" || $to != "00:00") {
+            if ($days || $from !== "00:00" || $to !== "00:00") {
                 $slot = $from . "-" . $to;
                 if ($days) {
                     if (isset($res[$slot])) {
@@ -164,20 +150,17 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                     $res[$slot] = array();
                 }
                 
-                if ($a_remove_invalid && !($days && $from && $to && $from != $to)) {
+                if ($a_remove_invalid && !($days && $from && $to && $from !== $to)) {
                     unset($res[$slot]);
                 }
             }
         }
-        
         return $res;
     }
     
-    /**
-    * Render item
-    */
-    protected function render($a_mode = "")
-    {
+    protected function render(
+        string $a_mode = ""
+    ) : string {
         $lng = $this->lng;
         
         $tpl = new ilTemplate("tpl.schedule_input.html", true, true, "Modules/BookingManager");
@@ -202,7 +185,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                 $tpl->setVariable("DAY", $day_value);
                 $tpl->setVariable("TXT_DAY", $lng->txt($day . "_short"));
                 
-                if ($days_select && in_array($day_value, $days_select)) {
+                if ($days_select && in_array($day_value, $days_select, true)) {
                     $tpl->setVariable("DAY_STATUS", " checked=\"checked\"");
                 }
                 
@@ -250,10 +233,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         return $tpl->get();
     }
     
-    /**
-     * Insert property html
-     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = $this->tpl;
         
@@ -268,11 +248,11 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     
     /**
      * Parse/normalize incoming time values
-     * @param	string	$a_hours
-     * @param	string	$a_minutes
      */
-    protected static function parseTime($a_hours, $a_minutes)
-    {
+    protected static function parseTime(
+        string $a_hours,
+        string $a_minutes
+    ) : string {
         $hours = (int) $a_hours;
         $min = (int) $a_minutes;
         if ($hours > 23 || $min > 59) {

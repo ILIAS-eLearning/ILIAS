@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * ilContainerStartObjectsContentTableGUI
@@ -29,7 +32,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
     protected ilFavouritesManager $fav_manager;
     
     public function __construct(
-        object $a_parent_obj,
+        ?object $a_parent_obj,
         string $a_parent_cmd,
         ilContainerStartObjects $a_start_objects,
         bool $a_enable_desktop = true
@@ -48,7 +51,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         
         $this->start_object = $a_start_objects;
-        $this->enable_desktop = (bool) $a_enable_desktop;
+        $this->enable_desktop = $a_enable_desktop;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
             
@@ -79,10 +82,10 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $lm_continue = new ilCourseLMHistory($this->start_object->getRefId(), $ilUser->getId());
         $continue_data = $lm_continue->getLMHistory();
 
-        $items = array();
+        $items = [];
         $counter = 0;
         foreach ($this->start_object->getStartObjects() as $start) {
-            $obj_id = $ilObjDataCache->lookupObjId($start['item_ref_id']);
+            $obj_id = $ilObjDataCache->lookupObjId((int) $start['item_ref_id']);
             $ref_id = $start['item_ref_id'];
             $type = $ilObjDataCache->lookupType($obj_id);
             
@@ -98,8 +101,8 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             }
             
             // add/remove desktop
-            $actions = array();
-            if ((bool) $this->enable_desktop) {
+            $actions = [];
+            if ($this->enable_desktop) {
                 // add to desktop link
                 if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id)) {
                     if ($ilAccess->checkAccess('read', '', $ref_id)) {
@@ -119,7 +122,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             }
             
             $default_params = null;
-            if ($type == "tst") {
+            if ($type === "tst") {
                 $default_params["crs_show_result"] = $ref_id;
             }
             /* continue is currently inactive
@@ -131,13 +134,14 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             }
             */
 
-            if ($accomplished == 'accomplished') {
+            if ($accomplished === 'accomplished') {
                 $icon = ilUtil::getImagePath("icon_ok.svg");
             } else {
                 $icon = ilUtil::getImagePath("icon_not_ok.svg");
             }
             
-            $items[] = array("nr" => ++$counter,
+            $items[] = [
+                "nr" => ++$counter,
                 "obj_id" => $obj_id,
                 "ref_id" => $ref_id,
                 "type" => $type,
@@ -146,7 +150,8 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                 "description" => $ilObjDataCache->lookupDescription($obj_id),
                 "status" => $this->lng->txt('crs_objective_' . $accomplished),
                 "status_img" => $icon,
-                "actions" => $actions);
+                "actions" => $actions
+            ];
         }
         
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
@@ -156,7 +161,6 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $preloader->preload();
         unset($preloader);
 
-        reset($items);
         $this->setData($items);
     }
         
@@ -182,7 +186,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             $item_list_gui = $this->item_list_guis[$a_type];
         }
         
-        $item_list_gui->setDefaultCommandParameters(array());
+        $item_list_gui->setDefaultCommandParameters([]);
         
         return $item_list_gui;
     }
@@ -234,8 +238,8 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         }
         return "";
     }
-    
-    public function fillRow($a_set) : void
+
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VAL_NR", $a_set["nr"]);
         

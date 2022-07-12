@@ -1,34 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCTableGUI
- *
  * User Interface for Data Table Editing
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected \ILIAS\HTTP\Services $http;
+    protected ilGlobalTemplateInterface $main_tpl;
 
-
-    /**
-     * @var \ilTemplate
-     */
-    protected $main_tpl;
-
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -38,14 +41,16 @@ class ilPCDataTableGUI extends ilPCTableGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->http = $DIC->http();
     }
 
     /**
-    * execute command
-    */
+     * execute command
+     * @return mixed
+     */
     public function executeCommand()
     {
-        $this->getCharacteristicsOfCurrentStyle("table");	// scorm-2004
+        $this->getCharacteristicsOfCurrentStyle(["table"]);	// scorm-2004
         
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -68,191 +73,17 @@ class ilPCDataTableGUI extends ilPCTableGUI
     ////
 
     /**
-    * Edit data of table. (classic version)
-    */
-    public function editDataCl()
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        //var_dump($_GET);
-        //var_dump($_POST);
-
-        $this->setTabs();
-
-        $this->displayValidationError();
-        
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tabledata.html", "Services/COPage");
-        $dtpl = $this->tpl;
-        //$dtpl = new ilTemplate("tpl.tabledata.html", true, true, "Services/COPage");
-        $dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
-        $dtpl->setVariable("BB_MENU", $this->getBBMenu("cell_0_0"));
-
-        ilYuiUtil::initDragDrop();
-        ilYuiUtil::initConnection();
-        $this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
-        $this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
-
-        // get all rows
-        $xpc = xpath_new_context($this->dom);
-        $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
-            "/Table/TableRow";
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0; $i < count($res->nodeset); $i++) {
-            $xpc2 = xpath_new_context($this->dom);
-            $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
-                "/Table/TableRow[$i+1]/TableData";
-            $res2 = xpath_eval($xpc2, $path2);
-            
-            // if this is the first row -> col icons
-            if ($i == 0) {
-                for ($j = 0; $j < count($res2->nodeset); $j++) {
-                    if ($j == 0) {
-                        $dtpl->touchBlock("empty_td");
-                    }
-
-                    if ($j == 0) {
-                        if (count($res2->nodeset) == 1) {
-                            $move_type = "none";
-                        } else {
-                            $move_type = "forward";
-                        }
-                    } elseif ($j == (count($res2->nodeset) - 1)) {
-                        $move_type = "backward";
-                    } else {
-                        $move_type = "both";
-                    }
-                    $dtpl->setCurrentBlock("col_icon");
-                    $dtpl->setVariable("COL_ICON_ALT", $lng->txt("content_column"));
-                    $dtpl->setVariable("COL_ICON", ilUtil::getImagePath("col.svg"));
-                    $dtpl->setVariable("COL_ONCLICK", "COL_" . $move_type);
-                    $dtpl->setVariable("NR", $j);
-                    $dtpl->parseCurrentBlock();
-                }
-                $dtpl->setCurrentBlock("row");
-                $dtpl->parseCurrentBlock();
-            }
-
-
-            for ($j = 0; $j < count($res2->nodeset); $j++) {
-                // first col: row icons
-                if ($j == 0) {
-                    if ($i == 0) {
-                        if (count($res->nodeset) == 1) {
-                            $move_type = "none";
-                        } else {
-                            $move_type = "forward";
-                        }
-                    } elseif ($i == (count($res->nodeset) - 1)) {
-                        $move_type = "backward";
-                    } else {
-                        $move_type = "both";
-                    }
-                    $dtpl->setCurrentBlock("row_icon");
-                    $dtpl->setVariable("ROW_ICON_ALT", $lng->txt("content_row"));
-                    $dtpl->setVariable("ROW_ICON", ilUtil::getImagePath("row.svg"));
-                    $dtpl->setVariable("ROW_ONCLICK", "ROW_" . $move_type);
-                    $dtpl->setVariable("NR", $i);
-                    $dtpl->parseCurrentBlock();
-                }
-                
-                // cell
-                if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
-                    $dtpl->setCurrentBlock("cell");
-                    
-                    if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
-                        $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
-                    } else {
-                        $s_text = ilPCParagraph::xml2output($this->content_obj->getCellText($i, $j));
-                    }
-    
-                    $dtpl->setVariable("PAR_TA_NAME", "cell[" . $i . "][" . $j . "]");
-                    $dtpl->setVariable("PAR_TA_ID", "cell_" . $i . "_" . $j);
-                    $dtpl->setVariable("PAR_TA_CONTENT", $s_text);
-                    
-                    $cs = $res2->nodeset[$j]->get_attribute("ColSpan");
-                    $rs = $res2->nodeset[$j]->get_attribute("RowSpan");
-                    //					$dtpl->setVariable("WIDTH", "140");
-                    //					$dtpl->setVariable("HEIGHT", "80");
-                    if ($cs > 1) {
-                        $dtpl->setVariable("COLSPAN", 'colspan="' . $cs . '"');
-                        $dtpl->setVariable("WIDTH", (140 + ($cs - 1) * 146));
-                    }
-                    if ($rs > 1) {
-                        $dtpl->setVariable("ROWSPAN", 'rowspan="' . $rs . '"');
-                        $dtpl->setVariable("HEIGHT", (80 + ($rs - 1) * 86));
-                    }
-                    $dtpl->parseCurrentBlock();
-                }
-            }
-            $dtpl->setCurrentBlock("row");
-            $dtpl->parseCurrentBlock();
-        }
-        
-        // init menues
-        $types = array("row", "col");
-        $moves = array("none", "backward", "both", "forward");
-        $commands = array(
-            "row" => array(	"newRowAfter" => "cont_ed_new_row_after",
-                            "newRowBefore" => "cont_ed_new_row_before",
-                            "moveRowUp" => "cont_ed_row_up",
-                            "moveRowDown" => "cont_ed_row_down",
-                            "deleteRow" => "cont_ed_delete_row"),
-            "col" => array(	"newColAfter" => "cont_ed_new_col_after",
-                            "newColBefore" => "cont_ed_new_col_before",
-                            "moveColLeft" => "cont_ed_col_left",
-                            "moveColRight" => "cont_ed_col_right",
-                            "deleteCol" => "cont_ed_delete_col")
-        );
-        foreach ($types as $type) {
-            foreach ($moves as $move) {
-                foreach ($commands[$type] as $command => $lang_var) {
-                    if ($move == "none" && (substr($command, 0, 4) == "move" || substr($command, 0, 6) == "delete")) {
-                        continue;
-                    }
-                    if (($move == "backward" && (in_array($command, array("movedown", "moveright")))) ||
-                        ($move == "forward" && (in_array($command, array("moveup", "moveleft"))))) {
-                        continue;
-                    }
-                    $this->tpl->setCurrentBlock("menu_item");
-                    $this->tpl->setVariable("MENU_ITEM_TITLE", $lng->txt($lang_var));
-                    $this->tpl->setVariable("CMD", $command);
-                    $this->tpl->setVariable("TYPE", $type);
-                    $this->tpl->parseCurrentBlock();
-                }
-                $this->tpl->setCurrentBlock("menu");
-                $this->tpl->setVariable("TYPE", $type);
-                $this->tpl->setVariable("MOVE", $move);
-                $this->tpl->parseCurrentBlock();
-            }
-        }
-        
-        // update/cancel
-        $this->tpl->setCurrentBlock("commands");
-        $this->tpl->setVariable("BTN_NAME", "update");
-        $this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-        $this->tpl->parseCurrentBlock();
-        
-        $this->tpl->setVariable(
-            "FORMACTION2",
-            $ilCtrl->getFormAction($this, "tableAction")
-        );
-        $this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
-    }
-    
-    /**
      * Update table data in dom and update page in db
      */
-    public function update($a_redirect = true)
+    public function update(bool $a_redirect = true) : void
     {
         $lng = $this->lng;
 
         // handle input data
         $data = array();
-        //var_dump($_POST["cell"]);
-        //var_dump($_GET);
-        if (is_array($_POST["cell"])) {
-            foreach ($_POST["cell"] as $i => $row) {
+        $cell = $this->request->getArrayArray("cell");
+        if (is_array($cell)) {
+            foreach ($cell as $i => $row) {
                 if (is_array($row)) {
                     foreach ($row as $j => $cell) {
                         $data[$i][$j] =
@@ -275,7 +106,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->updated = $this->pg_obj->update();
 
         if ($a_redirect) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editData");
         }
     }
@@ -283,19 +114,20 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update via JavaScript
      */
-    public function updateJS()
+    public function updateJS() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
                 
-        if ($_POST["cancel_update"]) {
+        if ($this->request->getString("cancel_update") != "") {
             //			$this->ctrl->redirect($this, "editData");
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         }
 
         // handle input data
         $data = array();
-        foreach ($_POST as $k => $content) {
+        $post = $this->http->request()->getParsedBody();
+        foreach ($post as $k => $content) {
             if (substr($k, 0, 5) != "cell_") {
                 continue;
             }
@@ -334,31 +166,33 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         $this->updated = $this->pg_obj->update();
 
-        
+        $tab_cmd_id = $this->request->getInt("tab_cmd_id");
+        $tab_cmd_type = $this->request->getString("tab_cmd_type");
+        $tab_cmd = $this->request->getString("tab_cmd");
+
         // perform table action? (move...?)
         //$this->update(false);
         $this->pg_obj->addHierIDs();
         $failed = false;
-        if ($_POST["tab_cmd"] != "") {
-            $cell_hier_id = ($_POST["tab_cmd_type"] == "col")
-                ? $this->hier_id . "_1_" . ($_POST["tab_cmd_id"] + 1)
-                : $this->hier_id . "_" . ($_POST["tab_cmd_id"] + 1) . "_1";
+        if ($tab_cmd != "") {
+            $cell_hier_id = ($tab_cmd_type == "col")
+                ? $this->hier_id . "_1_" . ($tab_cmd_id + 1)
+                : $this->hier_id . "_" . ($tab_cmd_id + 1) . "_1";
             $cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
             if (is_object($cell_obj)) {
-                $tab_cmd = $_POST["tab_cmd"];
                 $cell_obj->$tab_cmd();
                 $ret = $this->pg_obj->update();
                 if ($ret !== true) {
-                    ilUtil::sendFailure($ret[0][1], true);
+                    $this->main_tpl->setOnScreenMessage('failure', $ret[0][1], true);
                     $failed = true;
                 }
             }
         }
 
         if (!$failed) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
-        if ($_POST["save_return"]) {
+        if ($this->request->getString("save_return") != "") {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         } else {
             $this->ctrl->redirect($this, "editData");
@@ -367,17 +201,17 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 
     /**
-    * Get new table object
-    */
-    public function getNewTableObject()
+     * Get new table object
+     */
+    public function getNewTableObject() : ilPCDataTable
     {
         return new ilPCDataTable($this->getPage());
     }
     
     /**
-    * After creation processing
-    */
-    public function afterCreation()
+     * After creation processing
+     */
+    public function afterCreation() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -389,35 +223,60 @@ class ilPCDataTableGUI extends ilPCTableGUI
     }
     
     /**
-    * Perform operation on table (adding, moving, deleting rows/cols)
-    */
-    public function tableAction()
+     * Perform operation on table (adding, moving, deleting rows/cols)
+     */
+    public function tableAction() : void
     {
         $ilCtrl = $this->ctrl;
 
         $this->update(false);
         $this->pg_obj->addHierIDs();
 
-        $cell_hier_id = ($_POST["type"] == "col")
-            ? $this->hier_id . "_1_" . ($_POST["id"] + 1)
-            : $this->hier_id . "_" . ($_POST["id"] + 1) . "_1";
+        $type = $this->request->getString("type");
+        $action = $this->request->getString("action");
+        $id = $this->request->getInt("id");
+
+        $cell_hier_id = ($type == "col")
+            ? $this->hier_id . "_1_" . ($id + 1)
+            : $this->hier_id . "_" . ($id + 1) . "_1";
         $cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
         if (is_object($cell_obj)) {
-            $action = (string) ($_POST["action"]);
             $cell_obj->$action();
-            $_SESSION["il_pg_error"] = $this->pg_obj->update();
+            $this->edit_repo->setPageError($this->pg_obj->update());
         }
         $ilCtrl->redirect($this, "editData");
     }
     
     /**
-    * Set tabs
-    */
-    public function setTabs($data_tab_txt_key = "")
+     * Set tabs
+     */
+    public function setTabs(string $data_tab_txt_key = "") : void
     {
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-        
         parent::setTabs("cont_ed_edit_data");
+    }
+
+    protected function getCellContent(int $i, int $j) : string
+    {
+        $cmd = $this->ctrl->getCmd();
+        if ($cmd == "update") {
+            $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
+        } else {
+            $s_text = ilPCParagraph::xml2output(
+                $this->content_obj->getCellText($i, $j),
+                true,
+                false
+            );
+            include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
+            $s_text = ilPCParagraphGUI::xml2outputJS(
+                $s_text,
+                "TableContent",
+                $this->content_obj->readPCId() . "_" . $i . "_" . $j
+            );
+        }
+
+        // #20628
+        $s_text = str_replace("{", "&#123;", $s_text);
+        $s_text = str_replace("}", "&#125;", $s_text);
+        return $s_text;
     }
 }

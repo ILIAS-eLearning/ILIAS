@@ -1,133 +1,136 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
-use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
+use Error;
 use ILIAS\Data\Result\Ok;
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Refinery\To\Transformation\NewMethodTransformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
-
-require_once('./libs/composer/vendor/autoload.php');
+use TypeError;
+use InvalidArgumentException;
 
 class NewMethodTransformationTest extends TestCase
 {
-    private $instance;
-
-    public function setUp() : void
-    {
-        $this->instance = new NewMethodTransformationTestClass();
-    }
-
     /**
      * @throws \ilException
      * @throws \ReflectionException
      */
-    public function testNewObjectTransformation()
+    public function testNewObjectTransformation() : void
     {
         $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'myMethod');
 
-        $result = $transformation->transform(array('hello', 42));
+        $result = $transformation->transform(['hello', 42]);
 
-        $this->assertEquals(array('hello', 42), $result);
+        $this->assertEquals(['hello', 42], $result);
     }
 
-    public function testNewMethodTransformationThrowsTypeErrorOnInvalidConstructorArguments()
+    public function testNewMethodTransformationThrowsTypeErrorOnInvalidConstructorArguments() : void
     {
         $this->expectNotToPerformAssertions();
 
         $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'myMethod');
 
         try {
-            $object = $transformation->transform(array('hello', 'world'));
-        } catch (\TypeError $exception) {
+            $object = $transformation->transform(['hello', 'world']);
+        } catch (TypeError $exception) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testClassDoesNotExistWillThrowException()
+    public function testClassDoesNotExistWillThrowException() : void
     {
         $this->expectNotToPerformAssertions();
 
         try {
             $transformation = new NewMethodTransformation('BreakdanceMcFunkyPants', 'myMethod');
-        } catch (\Error $exception) {
+        } catch (Error $exception) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testMethodDoesNotExistOnClassWillThrowException()
+    public function testMethodDoesNotExistOnClassWillThrowException() : void
     {
         $this->expectNotToPerformAssertions();
 
         try {
             $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'someMethod');
-        } catch (\InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $exception) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testPrivateMethodCanNotBeCalledInTransform()
+    public function testPrivateMethodCanNotBeCalledInTransform() : void
     {
         $this->expectNotToPerformAssertions();
 
         $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'myPrivateMethod');
 
         try {
-            $object = $transformation->transform(array('hello', 10));
-        } catch (\Error $error) {
+            $object = $transformation->transform(['hello', 10]);
+        } catch (Error $error) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testPrivateMethodCanNotBeCalledInApplyto()
+    public function testPrivateMethodCanNotBeCalledInApplyto() : void
     {
         $this->expectNotToPerformAssertions();
 
         $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'myPrivateMethod');
         try {
-            $object = $transformation->applyTo(new Ok(array('hello', 10)));
-        } catch (\Error $error) {
+            $object = $transformation->applyTo(new Ok(['hello', 10]));
+        } catch (Error $error) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testMethodThrowsExceptionInTransform()
+    public function testMethodThrowsExceptionInTransform() : void
     {
         $this->expectNotToPerformAssertions();
 
         $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'methodThrowsException');
 
         try {
-            $object = $transformation->transform(array('hello', 10));
-        } catch (\Exception $exception) {
+            $object = $transformation->transform(['hello', 10]);
+        } catch (Exception $exception) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testMethodThrowsExceptionInApplyTo()
+    public function testMethodThrowsExceptionInApplyTo() : void
     {
         $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'methodThrowsException');
 
-        $object = $transformation->applyTo(new Ok(array('hello', 10)));
+        $object = $transformation->applyTo(new Ok(['hello', 10]));
 
         $this->assertTrue($object->isError());
     }
@@ -135,18 +138,18 @@ class NewMethodTransformationTest extends TestCase
 
 class NewMethodTransformationTestClass
 {
-    public function myMethod(string $string, int $integer)
+    public function myMethod(string $string, int $integer) : array
     {
-        return array($string, $integer);
+        return [$string, $integer];
     }
 
-    private function myPrivateMethod(string $string, int $integer)
+    private function myPrivateMethod(string $string, int $integer) : array
     {
-        return array($string, $integer);
+        return [$string, $integer];
     }
 
-    public function methodThrowsException(string $string, int $integer)
+    public function methodThrowsException(string $string, int $integer) : void
     {
-        throw new \Exception('SomeException');
+        throw new Exception('SomeException');
     }
 }

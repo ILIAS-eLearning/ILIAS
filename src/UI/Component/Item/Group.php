@@ -1,40 +1,50 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Item;
+
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Dropdown\Standard;
 
 /**
  * Common interface to item groups
  */
-interface Group extends \ILIAS\UI\Component\Component
+interface Group extends Component
 {
     /**
      * Gets the title of the group
-     *
-     * @return string
      */
-    public function getTitle();
+    public function getTitle() : string;
 
     /**
      * Gets item of the group
      *
-     * @return \ILIAS\UI\Component\Item\Item[]
+     * @return Item[]
      */
-    public function getItems();
+    public function getItems() : array;
 
     /**
      * Create a new appointment item with a set of actions to perform on it.
-     *
-     * @param \ILIAS\UI\Component\Dropdown\Standard $dropdown
-     * @return Group
      */
-    public function withActions(\ILIAS\UI\Component\Dropdown\Standard $dropdown);
+    public function withActions(Standard $dropdown) : Group;
 
     /**
      * Get the actions Dropdown of the group
-     *
-     * @return \ILIAS\UI\Component\Dropdown\Standard
      */
-    public function getActions();
+    public function getActions() : ?Standard;
 }

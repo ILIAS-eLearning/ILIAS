@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Responsible for loading the UI Framework into the dependency injection container of ILIAS
  */
 class InitHttpServices
 {
-    public function init(\ILIAS\DI\Container $container){
+    public function init(\ILIAS\DI\Container $container) : void
+    {
         $container['http.request_factory'] = function ($c) {
             return new \ILIAS\HTTP\Request\RequestFactoryImpl();
         };
@@ -21,9 +23,12 @@ class InitHttpServices
             return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
         };
 
+        $container['http.security'] = function ($c) {
+            throw new OutOfBoundsException('TODO');
+        };
+
         $container['http'] = function ($c) {
             return new \ILIAS\HTTP\Services($c);
         };
     }
-
 }

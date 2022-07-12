@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Manages business logic in media slate editing
@@ -9,26 +23,13 @@
  */
 class ilPCMediaObjectQuickEdit
 {
-    /**
-     * @var ilPCMediaObject
-     */
-    protected $pcmedia;
+    protected ilPCMediaObject $pcmedia;
+    protected ilObjMediaObject $mob;
+    protected int $usage_cnt;
 
-    /**
-     * @var ilObjMediaObject
-     */
-    protected $mob;
-
-    /**
-     * @var int
-     */
-    protected $usage_cnt;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilPCMediaObject $pcmedia)
-    {
+    public function __construct(
+        ilPCMediaObject $pcmedia
+    ) {
         $this->pcmedia = $pcmedia;
         $this->mob = $pcmedia->getMediaObject();
         $this->usage_cnt = count($this->mob->getUsages());
@@ -55,7 +56,7 @@ class ilPCMediaObjectQuickEdit
     /**
      * Set title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         if (!$this->isTitleReadOnly()) {
             $this->mob->setTitle($title);
@@ -79,7 +80,7 @@ class ilPCMediaObjectQuickEdit
     /**
      * Set style class
      */
-    public function setClass(string $class)
+    public function setClass(string $class) : void
     {
         $this->pcmedia->setClass($class);
     }
@@ -98,7 +99,7 @@ class ilPCMediaObjectQuickEdit
     /**
      * Set horizontal alignment
      */
-    public function setHorizontalAlign(string $align)
+    public function setHorizontalAlign(string $align) : void
     {
         $this->pcmedia->getStandardMediaAliasItem()->setHorizontalAlign($align);
     }
@@ -113,7 +114,7 @@ class ilPCMediaObjectQuickEdit
         return ($this->mob->hasFullscreenItem() && $this->pcmedia->getFullscreenMediaAliasItem()->exists());
     }
 
-    public function setUseFullscreen(bool $use_fullscreen)
+    public function setUseFullscreen(bool $use_fullscreen) : void
     {
         $full_alias = $this->pcmedia->getFullscreenMediaAliasItem();
         // if fullscreen should be used...
@@ -170,7 +171,7 @@ class ilPCMediaObjectQuickEdit
     /**
      * Set caption (pc if more usages, otherwise mob)
      */
-    public function setCaption(string $caption)
+    public function setCaption(string $caption) : void
     {
         $std_alias = $this->pcmedia->getStandardMediaAliasItem();
         $std_item = $this->mob->getMediaItem("Standard");
@@ -201,7 +202,7 @@ class ilPCMediaObjectQuickEdit
     /**
      * Set text representation (pc if more usages, otherwise mob)
      */
-    public function setTextRepresentation(string $alt_text)
+    public function setTextRepresentation(string $alt_text) : void
     {
         $std_alias = $this->pcmedia->getStandardMediaAliasItem();
         $std_item = $this->mob->getMediaItem("Standard");

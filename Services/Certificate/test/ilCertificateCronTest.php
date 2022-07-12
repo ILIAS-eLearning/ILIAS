@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -42,7 +57,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('language')
             ->willReturn($languageMock);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -64,7 +79,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $title = $cron->getTitle();
 
-        $this->assertEquals('SomeTitle', $title);
+        $this->assertSame('SomeTitle', $title);
     }
 
     public function testGetDescription() : void
@@ -125,14 +140,12 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $title = $cron->getDescription();
 
-        $this->assertEquals('SomeDescription', $title);
+        $this->assertSame('SomeDescription', $title);
     }
 
     public function testGetId() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
@@ -166,7 +179,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -207,7 +220,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $id = $cron->getId();
 
-        $this->assertEquals('certificate', $id);
+        $this->assertSame('certificate', $id);
     }
 
     public function testActivation() : void
@@ -248,7 +261,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -330,7 +343,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -412,7 +425,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -453,7 +466,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $flexibleSchedule = $cron->getDefaultScheduleType();
 
-        $this->assertEquals(2, $flexibleSchedule);
+        $this->assertSame(2, $flexibleSchedule);
     }
 
     public function testGetDefaultScheduleValue() : void
@@ -494,7 +507,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -535,6 +548,6 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $scheduleValue = $cron->getDefaultScheduleValue();
 
-        $this->assertEquals(1, $scheduleValue);
+        $this->assertSame(1, $scheduleValue);
     }
 }

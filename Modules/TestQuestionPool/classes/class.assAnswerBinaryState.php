@@ -25,32 +25,21 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class ASS_AnswerBinaryState extends ASS_AnswerSimple
 {
-    /**
-     * State of the answer
-     *
-     * An integer value indicating the state of the answer. Either the answer is checked/set (=1) or unchecked/unset (=0)
-     *
-     * @var integer
-     */
-    protected $state;
+    private bool $checked;
 
     /**
      * ASS_AnswerBinaryState constructor
-     *
      * The constructor takes possible arguments an creates an instance of the ASS_AnswerBinaryState object.
-     *
      * @param string  $answertext A string defining the answer text
      * @param double  $points     The number of points given for the selected answer
      * @param integer $order      A nonnegative value representing a possible display or sort order
      * @param integer $state      A integer value indicating the state of the answer
      * @param integer $id         The database id of the answer
-     *
-     * @return ASS_AnswerBinaryState
      */
-    public function __construct($answertext = "", $points = 0.0, $order = 0, $state = 0, $id = -1)
+    public function __construct(string $answertext = "", float $points = 0.0, int $order = 0, bool $checked = false, int $id = -1)
     {
         parent::__construct($answertext, $points, $order, $id);
-        $this->state = $state;
+        $this->checked = $checked;
     }
 
     /**
@@ -61,9 +50,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function getState()
+    public function getState() : bool
     {
-        return $this->state;
+        return $this->checked;
     }
 
     /**
@@ -74,9 +63,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function isStateChecked()
+    public function isStateChecked() : bool
     {
-        return $this->state;
+        return $this->checked;
     }
 
     /**
@@ -87,9 +76,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function isStateSet()
+    public function isStateSet() : bool
     {
-        return $this->state;
+        return $this->checked;
     }
 
     /**
@@ -100,9 +89,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function isStateUnset()
+    public function isStateUnset() : bool
     {
-        return !$this->state;
+        return !$this->checked;
     }
 
     /**
@@ -113,9 +102,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @return boolean state
      * @see $state
      */
-    public function isStateUnchecked()
+    public function isStateUnchecked() : bool
     {
-        return !$this->state;
+        return !$this->checked;
     }
 
     /**
@@ -127,9 +116,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setState($state = 0)
+    public function setState(bool $state = false) : void
     {
-        $this->state = $state;
+        $this->checked = $state;
     }
 
     /**
@@ -139,9 +128,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setChecked()
+    public function setChecked() : void
     {
-        $this->state = 1;
+        $this->checked = true;
     }
 
     /**
@@ -151,9 +140,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setSet()
+    public function setSet() : void
     {
-        $this->state = 1;
+        $this->checked = true;
     }
 
     /**
@@ -163,9 +152,9 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setUnset()
+    public function setUnset() : void
     {
-        $this->state = 0;
+        $this->checked = false;
     }
 
     /**
@@ -175,8 +164,8 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setUnchecked()
+    public function setUnchecked() : void
     {
-        $this->state = 0;
+        $this->checked = false;
     }
 }

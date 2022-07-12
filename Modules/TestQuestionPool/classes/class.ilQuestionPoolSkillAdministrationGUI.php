@@ -60,6 +60,8 @@ class ilQuestionPoolSkillAdministrationGUI
      */
     private $poolOBJ;
     
+    /** @var string|int|null  */
+    private $refId;
     
     public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjQuestionPool $poolOBJ, $refId)
     {
@@ -75,7 +77,7 @@ class ilQuestionPoolSkillAdministrationGUI
         $this->refId = $refId;
     }
 
-    private function isAccessDenied()
+    private function isAccessDenied() : bool
     {
         if (!$this->poolOBJ->isSkillServiceEnabled()) {
             return true;
@@ -92,7 +94,7 @@ class ilQuestionPoolSkillAdministrationGUI
         return false;
     }
 
-    public function manageTabs($activeSubTabId)
+    public function manageTabs($activeSubTabId) : void
     {
         $link = $this->ctrl->getLinkTargetByClass(
             'ilAssQuestionSkillAssignmentsGUI',
@@ -118,7 +120,7 @@ class ilQuestionPoolSkillAdministrationGUI
         $this->tabs->activateSubTab($activeSubTabId);
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         if ($this->isAccessDenied()) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);

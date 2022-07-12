@@ -35,7 +35,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingPersistWorkingStateOperation()
+    protected function onBeforeExecutingPersistWorkingStateOperation() : void
     {
         $this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
     }
@@ -43,7 +43,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onAfterExecutingPersistWorkingStateOperation()
+    protected function onAfterExecutingPersistWorkingStateOperation() : void
     {
         $this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
     }
@@ -51,7 +51,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserSolutionAdoptOperation()
+    protected function onBeforeExecutingUserSolutionAdoptOperation() : void
     {
         $this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
     }
@@ -59,7 +59,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onAfterExecutingUserSolutionAdoptOperation()
+    protected function onAfterExecutingUserSolutionAdoptOperation() : void
     {
         $this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
     }
@@ -67,7 +67,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * @param string $processName
      */
-    private function requestLock($processName)
+    private function requestLock($processName) : void
     {
         $lockFilePath = $this->getLockFilePath($processName);
         $this->lockFileHandles[$processName] = fopen($lockFilePath, 'w');
@@ -78,7 +78,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
      * @param string $processName
      * @return string
      */
-    private function getLockFilePath($processName)
+    private function getLockFilePath($processName) : string
     {
         $path = $this->lockFileStorage->getPath();
         return $path . '/' . $processName . '.lock';
@@ -87,7 +87,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * @param string $processName
      */
-    private function releaseLock($processName)
+    private function releaseLock($processName) : void
     {
         flock($this->lockFileHandles[$processName], LOCK_UN);
         fclose($this->lockFileHandles[$processName]);

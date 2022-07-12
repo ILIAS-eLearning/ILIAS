@@ -1,102 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
-   viewBox="0 0 8.4666665 8.4666669"
-   version="1.1"
-   id="svg8"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="Fliese_leer2.svg">
-  <defs
-     id="defs2" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="5.2"
-     inkscape:cx="3.8233553"
-     inkscape:cy="18.510386"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     units="px"
-     inkscape:pagecheckerboard="true"
-     inkscape:showpageshadow="false"
-     inkscape:window-width="1625"
-     inkscape:window-height="1368"
-     inkscape:window-x="1231"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0" />
-  <metadata
-     id="metadata5">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-288.53332)">
-    <image
-       y="288.58463"
-       x="0.027355317"
-       id="image4526"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
-bWFnZVJlYWR5ccllPAAAAyppVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
-bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
-eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0
-NjcyOSwgMjAxMi8wNS8wMy0xMzo0MDowMyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo
-dHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlw
-dGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAv
-IiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RS
-ZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpD
-cmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIEVsZW1lbnRzIDEyLjAgV2luZG93cyIgeG1wTU06
-SW5zdGFuY2VJRD0ieG1wLmlpZDpGOTgwRkRBNTRBREYxMUU4QjUwMEU1M0Q5N0Y4RURFMSIgeG1w
-TU06RG9jdW1lbnRJRD0ieG1wLmRpZDpGOTgwRkRBNjRBREYxMUU4QjUwMEU1M0Q5N0Y4RURFMSI+
-IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkY5ODBGREEzNEFE
-RjExRThCNTAwRTUzRDk3RjhFREUxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkY5ODBGREE0
-NEFERjExRThCNTAwRTUzRDk3RjhFREUxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+
-IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+H7sqlQAAA4hJREFUeNrsVs2OG0UQrqru
-8dhee71JlkVIq7AISA75QYoESNy48QZw4hF4LU48AHekoICQIiLhCAUJJZJXWWfXyXrHnp7uKqp6
-7MVIkXJAubk9Hk/PVH1V39dVPUYRgbc5CN7y2AbYBvj/w4+fz5+eh4JQJ9jGRBD4d5qHICDni8Rw
-pevuvDtwhEnAoSyiPJycL6M4A1m3lehTudYj//u0+nly0XNIqAf4fCZA0i+geiBi24wCwgIXTTra
-LW8d7Ki9oSHGxL9M5rPAJbWSmLW61Awf7nW85l46O5xCE3o1IXLGw5DbAC2ZxBJZel2/3y/QOIGm
-HCI/n9eFo0GhCBk+G2sMz1JmQLtBGYdAyFK3zG2ajxxIokDX0ycHOzevdXsd8s7VTbr/7PyPF8tG
-VQMsCLIGIhvS6h3fiq5P3Arx8kI1tWCA5jIk+vJodLhXZkdU9B/Gp3+eLfreFQ49ijfJ1IFpHaCl
-6Fv+WYoVjzb37CBkZ1Tp7703ONzribBJQHD/2Xx8Vg0Lp2JlPXOy2AoLbcVEVlXBS0QOwizo2hys
-GOwj5unEOA879P6ok4U19BDl0eSiTNSuk/6QkFd79TUBFJpndZwuU1+jqrq85MYBUypUEq/6onOS
-1xwMnmG37wfdQiQXjZZH5EWl5gDMFoTEO1080Bs18zykeWAth6jmA/HYJKgTk5KHCHGBVJCUjroF
-ld6rvipLU6760eJpvoqsS5uYPTVEEaBiRYSgoGnVB+pHqmzDxgCXUfXJBaaypwDSAMwlVyhqlnJ6
-5r74aO/KrpIwmUoPOyDHmqqFNzdZNSOsUXJpJMDAhE3UmsDQ2LkOGAIFm1LTUAhQ2/T0tHr4ZNb2
-BrB4T/euD/kiKA9oje2Izq4NAdZoulzeVjpEra7XvjrbiisEfvrt+OqguPvx1dx38vmt/eOT6sH4
-xFvjKH9qm8t4yLoPVK6U3Nfffnf8YqEGJsnm9rO5I6I0zI//fvnqVV2Wrixcp8CbR6NRv1PVMSXd
-QjgnIxtZKVXYH5XWaG987ausukbq8GA8/fXx9Mbh6JuvPvDefXbn4NPb70xOqu9/fPKyis6qDuS/
-7H0TWdtS5JLj60feYa3j6pTmunNmHbR9tGH6Xa8AdUiecBNBK0rB8a+ns+msNiEF3vgHBjPxQd/f
-uD6kXEK6IiGYenrO5SOXEunTkW6B2/9F2wDbAPCPAAMAVxnqkpnTHjsAAAAASUVORK5CYII=
-"
-       style="image-rendering:optimizeQuality"
-       preserveAspectRatio="none"
-       height="8.4666662"
-       width="8.4666662" />
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000008130361240087175230000013210702474413375641_);fill:#52668C;}
+	.st1{fill:none;}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" x="66.4" y="37.9" width="187.3" height="244.1"/>
+	</defs>
+	<clipPath id="SVGID_00000049223915595588177540000006405432948785813638_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<path style="clip-path:url(#SVGID_00000049223915595588177540000006405432948785813638_);fill:#52668C;" d="M208.6,137h-80v15h80
+		V137z M208.6,110.6h-80v15h80V110.6z M238.6,267l-133.3,0.1c-10.2-0.1-19.3-9.4-21.5-14.6c-1.5-3.4-2.4-16.7-2.4-27V67.2
+		c1.4,1.6,2.8,3.2,4.2,4.6c8.3,8.3,16.4,8.3,21.7,8.3c0.7,0,1.3,0,2,0c0.1,0,0.1,0,0.2,0L238.4,80L238.6,267z M253.6,274.4l-0.3-202
+		c0-4.1-3.4-7.5-7.5-7.5h0l-136.3,0.2c-0.7,0-1.5,0-2.2,0c-4.5,0-7.3,0-11.2-3.9c-2.2-2.2-4.7-5.2-7-8.2h133.7
+		c4.1,0,7.5-3.4,7.5-7.5s-3.4-7.5-7.5-7.5H74.4c-1.8,0-3.5,0.7-4.9,1.8c-1.9,1.4-3.2,3.6-3.2,6.1v179.5c0,5.8,0.3,25.1,3.6,33
+		c4.1,9.5,18.1,23.6,35.3,23.7l140.9-0.1c2,0,3.9-0.8,5.3-2.2C252.9,278.3,253.6,276.4,253.6,274.4"/>
+</g>
+<rect class="st1" width="320" height="320"/>
 </svg>

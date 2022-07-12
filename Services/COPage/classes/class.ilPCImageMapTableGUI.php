@@ -1,33 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for pc image map editor
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCImageMapTableGUI extends ilImageMapTableGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected string $parent_node_name;
+    protected ilPCMediaObject $pc_media_object;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    
-    /**
-    * Constructor
-    */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_pc_media_object,
-        $a_parent_node_name
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilPCMediaObject $a_pc_media_object,
+        string $a_parent_node_name
     ) {
         global $DIC;
 
@@ -40,16 +43,13 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_pc_media_object->getMediaObject());
     }
 
-    /**
-    * Get items of current folder
-    */
-    public function getItems()
+    public function getItems() : void
     {
         $std_alias_item = new ilMediaAliasItem(
             $this->pc_media_object->dom,
             $this->pc_media_object->hier_id,
             "Standard",
-            $this->pc_media_object->getPcId(),
+            $this->pc_media_object->getPCId(),
             $this->parent_node_name
         );
         $areas = $std_alias_item->getMapAreas();
@@ -57,24 +57,16 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         foreach ($areas as $k => $a) {
             $areas[$k]["title"] = $a["Link"]["Title"];
         }
-        $areas = ilUtil::sortArray($areas, "title", "asc", false, true);
+        $areas = ilArrayUtil::sortArray($areas, "title", "asc", false, true);
         $this->setData($areas);
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-
         $i = $a_set["Nr"];
         $this->tpl->setVariable(
             "CHECKBOX",
-            ilUtil::formCheckBox("", "area[]", $i)
+            ilLegacyFormElementsUtil::formCheckbox("", "area[]", $i)
         );
         $this->tpl->setVariable("VAR_NAME", "name_" . $i);
         $this->tpl->setVariable("VAL_NAME", trim($a_set["Link"]["Title"]));
@@ -82,7 +74,7 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         
         $this->tpl->setVariable(
             "VAL_HIGHL_MODE",
-            ilUtil::formSelect(
+            ilLegacyFormElementsUtil::formSelect(
                 $a_set["HighlightMode"],
                 "hl_mode_" . $i,
                 $this->highl_modes,
@@ -92,7 +84,7 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         );
         $this->tpl->setVariable(
             "VAL_HIGHL_CLASS",
-            ilUtil::formSelect(
+            ilLegacyFormElementsUtil::formSelect(
                 $a_set["HighlightClass"],
                 "hl_class_" . $i,
                 $this->highl_classes,

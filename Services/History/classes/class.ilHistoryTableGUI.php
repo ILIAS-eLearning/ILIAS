@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Lists History entrys in chronological order
@@ -9,16 +23,19 @@
  */
 class ilHistoryTableGUI extends ilTable2GUI
 {
-    protected $obj_id;
-    protected $obj_type;
-    protected $ref_id;
-    protected $ilCtrl;
-
-    protected $comment_visibility = false;
+    protected int $obj_id;
+    protected string $obj_type;
+    protected int $ref_id;
+    protected ilCtrl $ilCtrl;
+    protected bool $comment_visibility = false;
 
     
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_obj_type = null)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_obj_id,
+        string $a_obj_type = null
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
@@ -29,19 +46,13 @@ class ilHistoryTableGUI extends ilTable2GUI
         $this->ilCtrl = $ilCtrl;
     }
     
-    /**
-    * Get data and put it into an array
-    */
-    public function getDataFromDb()
+    public function getDataFromDb() : void
     {
         $entries = ilHistory::_getEntriesForObject($this->getObjId(), $this->getObjType());
         $this->setData($entries);
     }
 
-    /**
-     * init table
-     */
-    public function initTable()
+    public function initTable() : void
     {
         $this->setRowTemplate("tpl.history_row.html", "Services/History");
         $this->setFormAction($this->ilCtrl->getFormAction($this->getParentObject()));
@@ -54,10 +65,7 @@ class ilHistoryTableGUI extends ilTable2GUI
         $this->getDataFromDb();
     }
     
-    /**
-    * Fill a single data row.
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TXT_USER", ilUserUtil::getNamePresentation($a_set["user_id"], false, false));
         $this->tpl->setVariable(
@@ -100,15 +108,14 @@ class ilHistoryTableGUI extends ilTable2GUI
                     $this->ilCtrl->getLinkTargetByClass($class, $cmd)
                 );
                 $this->tpl->setVariable("TXT_LINK", $a_set["title"]);
-                $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock("item_title");
                 $this->tpl->setVariable(
                     "TXT_TITLE",
                     ilObject::_lookupTitle($a_set["obj_id"])
                 );
-                $this->tpl->parseCurrentBlock();
             }
+            $this->tpl->parseCurrentBlock();
         }
 
         if ($this->isCommentVisible() && $a_set["user_comment"] != "") {
@@ -121,10 +128,8 @@ class ilHistoryTableGUI extends ilTable2GUI
 
     /**
      * format info parameters into info text
-     * @param $a_set
-     * @return mixed|string
      */
-    protected function createInfoText($a_set)
+    protected function createInfoText(array $a_set) : string
     {
         $info_params = explode(",", $a_set["info_params"]);
 
@@ -148,57 +153,32 @@ class ilHistoryTableGUI extends ilTable2GUI
         return $info_text;
     }
 
-    /**
-     * set comments visible
-     *
-     * @param $a_visible
-     */
-    public function setCommentVisibility($a_visible)
+    public function setCommentVisibility(bool $a_visible) : void
     {
-        $this->comment_visibility = (bool) $a_visible;
+        $this->comment_visibility = $a_visible;
     }
 
-    /**
-     * comments visible?
-     * @return bool
-     */
-    public function isCommentVisible()
+    public function isCommentVisible() : bool
     {
         return $this->comment_visibility;
     }
 
-    /**
-     * set object id
-     * @param $a_obj_id
-     */
-    public function setObjId($a_obj_id)
+    public function setObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    /**
-     * get object id
-     * @return mixed
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * set object type (not required)
-     * @param $a_obj_type
-     */
-    public function setObjType($a_obj_type)
+    public function setObjType(string $a_obj_type) : void
     {
         $this->obj_type = $a_obj_type;
     }
 
-    /**
-     * get object type (if not set, it will be set via object id)
-     * @return mixed
-     */
-    public function getObjType()
+    public function getObjType() : string
     {
         if (!$this->obj_type) {
             $this->setObjType(ilObject::_lookupType($this->getObjId()));

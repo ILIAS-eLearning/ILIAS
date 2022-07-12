@@ -5,6 +5,20 @@ namespace ILIAS\Filesystem\Finder\Comparator;
 
 use InvalidArgumentException;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 /**
  * Class Base
  * @package ILIAS\Filesystem\Finder\Comparator
@@ -12,42 +26,27 @@ use InvalidArgumentException;
  */
 abstract class BaseComparator
 {
-    /** @var string */
-    private $target = '';
-    /** @var string */
-    private $operator = '==';
+    private string $target = '';
+    private string $operator = '==';
 
-    /**
-     * @return string
-     */
     public function getTarget() : string
     {
         return $this->target;
     }
 
-    /**
-     * @param string $target
-     */
-    public function setTarget(string $target)
+    public function setTarget(string $target) : void
     {
         $this->target = $target;
     }
 
-    /**
-     * @return string
-     */
     public function getOperator() : string
     {
         return $this->operator;
     }
 
-    /**
-     * @param string $operator
-     * @throws InvalidArgumentException
-     */
-    public function setOperator(string $operator)
+    public function setOperator(string $operator) : void
     {
-        if (0 === strlen($operator)) {
+        if ($operator === '') {
             $operator = '==';
         }
 
@@ -58,10 +57,6 @@ abstract class BaseComparator
         $this->operator = $operator;
     }
 
-    /**
-     * @param string $test
-     * @return bool
-     */
     public function test(string $test) : bool
     {
         switch ($this->operator) {
@@ -78,9 +73,9 @@ abstract class BaseComparator
                 return $test <= $this->target;
 
             case '!=':
-                return $test != $this->target;
+                return $test !== $this->target;
         }
 
-        return $test == $this->target;
+        return $test === $this->target;
     }
 }

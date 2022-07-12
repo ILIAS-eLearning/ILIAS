@@ -1,11 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Exporter class for meta data
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilCOPageExporter extends ilXmlExporter
 {
@@ -27,7 +40,7 @@ class ilCOPageExporter extends ilXmlExporter
      *
      * @var array  	plugin_name => depencency definition array
      */
-    protected $plugin_dependencies = array();
+    protected array $plugin_dependencies = array();
 
     /**
      * Initialisation
@@ -35,8 +48,8 @@ class ilCOPageExporter extends ilXmlExporter
     public function init() : void
     {
         global $DIC;
-        /** @var ilPluginAdmin $ilPluginAdmin */
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC["component.repository"];
 
         $this->ds = new ilCOPageDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -47,8 +60,9 @@ class ilCOPageExporter extends ilXmlExporter
         }
 
         // collect all page component plugins that have their own exporter
-        foreach (ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "COPage", "pgcp") as $plugin_name) {
-            if ($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+        foreach ($component_repository->getPluginSlotById("pgcp")->getActivePlugins() as $plugin) {
+            $plugin_name = $plugin->getName();
+            if ($plugin->supportsExport()) {
                 require_once('Customizing/global/plugins/Services/COPage/PageComponent/'
                     . $plugin_name . '/classes/class.il' . $plugin_name . 'Exporter.php');
 
@@ -61,16 +75,11 @@ class ilCOPageExporter extends ilXmlExporter
         }
     }
 
-
-    /**
-     * Get head dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
-     */
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
-    {
+    public function getXmlExportHeadDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ) : array {
         if ($a_entity == "pg") {
             // get all media objects and files of the page
             $mob_ids = array();
@@ -116,15 +125,11 @@ class ilCOPageExporter extends ilXmlExporter
         return array();
     }
     
-    /**
-     * Get tail dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return        array        array of array with keys "component", entity", "ids"
-     */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
-    {
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ) : array {
         if ($a_entity == "pgtp") {
             $pg_ids = array();
             foreach ($a_ids as $id) {
@@ -147,16 +152,11 @@ class ilCOPageExporter extends ilXmlExporter
         return array();
     }
 
-
-    /**
-     * Get xml representation
-     * @param string	entity
-     * @param string	schema version
-     * @param array		ids
-     * @return string	xml
-     */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
-    {
+    public function getXmlRepresentation(
+        string $a_entity,
+        string $a_schema_version,
+        string $a_id
+    ) : string {
         if ($a_entity == "pg") {
             $id = explode(":", $a_id);
 
@@ -193,25 +193,21 @@ class ilCOPageExporter extends ilXmlExporter
         if ($a_entity == "pgtp") {
             return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
         }
+        return "";
     }
 
-    /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
-     */
-    public function getValidSchemaVersions(string $a_entity) : array
-    {
+    public function getValidSchemaVersions(
+        string $a_entity
+    ) : array {
         if ($a_entity == "pg") {
             return array(
                 "4.2.0" => array(
-                    "namespace" => "http://www.ilias.de/Services/COPage/pg/4_2",
+                    "namespace" => "https://www.ilias.de/Services/COPage/pg/4_2",
                     "xsd_file" => "ilias_pg_4_2.xsd",
                     "min" => "4.2.0",
                     "max" => ""),
                 "4.1.0" => array(
-                    "namespace" => "http://www.ilias.de/Services/COPage/pg/4_1",
+                    "namespace" => "https://www.ilias.de/Services/COPage/pg/4_1",
                     "xsd_file" => "ilias_pg_4_1.xsd",
                     "min" => "4.1.0",
                     "max" => "4.1.99")
@@ -220,13 +216,14 @@ class ilCOPageExporter extends ilXmlExporter
         if ($a_entity == "pgtp") {
             return array(
                 "4.2.0" => array(
-                    "namespace" => "http://www.ilias.de/Services/COPage/pgtp/4_1",
+                    "namespace" => "https://www.ilias.de/Services/COPage/pgtp/4_1",
                     "xsd_file" => "ilias_pgtp_4_1.xsd",
                     "uses_dataset" => true,
                     "min" => "4.2.0",
                     "max" => "")
             );
         }
+        return [];
     }
 
     /**
@@ -236,11 +233,10 @@ class ilCOPageExporter extends ilXmlExporter
      *
      * Called from getXmlRepresentation() for each handled page object
      * Extracted data is used by dependent exporters afterwards
-     *
-     * @param ilPageObject $a_page
      */
-    protected function extractPluginProperties($a_page)
-    {
+    protected function extractPluginProperties(
+        ilPageObject $a_page
+    ) : void {
         if (empty($this->plugin_dependencies)) {
             return;
         }

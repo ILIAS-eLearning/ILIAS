@@ -1,10 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class for permanent links
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
  */
 class ilPermanentLinkGUI
@@ -21,10 +35,14 @@ class ilPermanentLinkGUI
     protected string $title = "";
 
     /**
-    * Example: type = "wiki", id (ref_id) = "234", append = "_Start_Page"
-    */
-    public function __construct($a_type, $a_id, $a_append = "", $a_target = "")
-    {
+     * Example: type = "wiki", id (ref_id) = "234", append = "_Start_Page"
+     */
+    public function __construct(
+        string $a_type,
+        int $a_id,
+        string $a_append = "",
+        string $a_target = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -37,13 +55,17 @@ class ilPermanentLinkGUI
         $this->setTarget($a_target);
     }
     
-    // Set Include permanent link text.
+    /**
+     * Set Include permanent link text.
+     */
     public function setIncludePermanentLinkText(bool $a_includepermanentlinktext) : void
     {
         $this->includepermanentlinktext = $a_includepermanentlinktext;
     }
-
-    // Include permanent link text
+    
+    /**
+     * Include permanent link text
+     */
     public function getIncludePermanentLinkText() : bool
     {
         return $this->includepermanentlinktext;
@@ -126,7 +148,7 @@ class ilPermanentLinkGUI
         if ($this->getTitle() != "") {
             $title = $this->getTitle();
         } elseif (is_numeric($this->getId())) {
-            $obj_id = $ilObjDataCache->lookupObjId($this->getId());
+            $obj_id = $ilObjDataCache->lookupObjId((int) $this->getId());
             $title = $ilObjDataCache->lookupTitle($obj_id);
         }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,26 +22,20 @@
 */
 
 /**
-* Class ilFulltextGlossarydefinitionSearch
+* Class ilLikeGlossaryDefinitionSearch
 *
 * class for searching media pool folders and titles of mob's
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilGlossaryDefinitionSearch.php';
 
 class ilLikeGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 {
-    public function __createWhereCondition()
+    public function __createWhereCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $concat = " term ";
 
         $and = "  WHERE ( ";
@@ -50,7 +44,7 @@ class ilLikeGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
             if ($counter++) {
                 $and .= " OR";
             }
-            $and .= $ilDB->like($concat, 'text', '%' . $word . '%');
+            $and .= $this->db->like($concat, 'text', '%' . $word . '%');
             #$and .= $concat;
             #$and .= ("LIKE ('%".$word."%')");
         }

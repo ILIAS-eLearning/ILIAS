@@ -12,14 +12,14 @@
  */
 class ilAssClozeTestCombinationVariantsInputGUI extends ilAnswerWizardInputGUI
 {
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         foreach ($this->values as $index => $value) {
             $this->values[$index]['points'] = $a_value['points'][$index];
         }
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
@@ -65,7 +65,7 @@ class ilAssClozeTestCombinationVariantsInputGUI extends ilAnswerWizardInputGUI
         return true;
     }
     
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate('tpl.prop_gap_combi_answers_input.html', true, true, 'Modules/TestQuestionPool');
         

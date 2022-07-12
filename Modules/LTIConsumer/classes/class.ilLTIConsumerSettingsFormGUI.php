@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumerSettingsFormGUI
  *
@@ -16,16 +26,12 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
     /**
      * @var ilObjLTIConsumer
      */
-    protected $object;
+    protected ilObjLTIConsumer $object;
     
     /**
      * ilLTIConsumerSettingsFormGUI constructor.
-     * @param ilObjLTIConsumer $object
-     * @param $formaction
-     * @param $saveCommand
-     * @param $cancelCommand
      */
-    public function __construct(ilObjLTIConsumer $object, $formaction, $saveCommand, $cancelCommand)
+    public function __construct(ilObjLTIConsumer $object, string $formaction, string $saveCommand, string $cancelCommand)
     {
         $this->object = $object;
         
@@ -33,13 +39,8 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         
         $this->initForm($formaction, $saveCommand, $cancelCommand);
     }
-    
-    /**
-     * @param $formaction
-     * @param $saveCommand
-     * @param $cancelCommand
-     */
-    protected function initForm($formaction, $saveCommand, $cancelCommand)
+
+    protected function initForm(string $formaction, string $saveCommand, string $cancelCommand) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
@@ -76,7 +77,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         }
         $this->addItem($item);
         
-        if ($this->object->getProvider()->isProviderKeyCustomizable()) {
+        if ($this->object->getProvider()->getLtiVersion() == 'LTI-1p0' && $this->object->getProvider()->isProviderKeyCustomizable()) {
             $sectionHeader = new ilFormSectionHeaderGUI();
             $sectionHeader->setTitle($DIC->language()->txt('lti_con_prov_authentication'));
             $this->addItem($sectionHeader);
@@ -106,7 +107,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             $masteryScore->setMaxvalueShouldBeLess(false);
             $masteryScore->setMaxValue(100);
             $masteryScore->setSize(4);
-            $masteryScore->setValue($this->object->getMasteryScorePercent());
+            $masteryScore->setValue((string) $this->object->getMasteryScorePercent());
             $this->addItem($masteryScore);
         }
         
@@ -165,19 +166,19 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             $item->addSubItem($subitem);
             
             $highscore = new ilCheckboxInputGUI($DIC->language()->txt("highscore_enabled"), "highscore_enabled");
-            $highscore->setValue(1);
+            $highscore->setValue("1");
             $highscore->setChecked($this->object->getHighscoreEnabled());
             $highscore->setInfo($DIC->language()->txt("highscore_description"));
             $highscore_tables = new ilRadioGroupInputGUI($DIC->language()->txt('highscore_mode'), 'highscore_mode');
             $highscore_tables->setRequired(true);
-            $highscore_tables->setValue($this->object->getHighscoreMode());
-            $highscore_table_own = new ilRadioOption($DIC->language()->txt('highscore_own_table'), ilObjLTIConsumer::HIGHSCORE_SHOW_OWN_TABLE);
+            $highscore_tables->setValue((string) $this->object->getHighscoreMode());
+            $highscore_table_own = new ilRadioOption($DIC->language()->txt('highscore_own_table'), (string) ilObjLTIConsumer::HIGHSCORE_SHOW_OWN_TABLE);
             $highscore_table_own->setInfo($DIC->language()->txt('highscore_own_table_description'));
             $highscore_tables->addOption($highscore_table_own);
-            $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_top_table'), ilObjLTIConsumer::HIGHSCORE_SHOW_TOP_TABLE);
+            $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_top_table'), (string) ilObjLTIConsumer::HIGHSCORE_SHOW_TOP_TABLE);
             $highscore_table_other->setInfo($DIC->language()->txt('highscore_top_table_description'));
             $highscore_tables->addOption($highscore_table_other);
-            $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_all_tables'), ilObjLTIConsumer::HIGHSCORE_SHOW_ALL_TABLES);
+            $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_all_tables'), (string) ilObjLTIConsumer::HIGHSCORE_SHOW_ALL_TABLES);
             $highscore_table_other->setInfo($DIC->language()->txt('highscore_all_tables_description'));
             $highscore_tables->addOption($highscore_table_other);
             $highscore->addSubItem($highscore_tables);
@@ -186,21 +187,21 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             $highscore_top_num->setRequired(true);
             $highscore_top_num->setMinValue(1);
             $highscore_top_num->setSuffix($DIC->language()->txt("highscore_top_num_unit"));
-            $highscore_top_num->setValue($this->object->getHighscoreTopNum(null));
+            $highscore_top_num->setValue((string) $this->object->getHighscoreTopNum(0));
             $highscore_top_num->setInfo($DIC->language()->txt("highscore_top_num_description"));
             $highscore->addSubItem($highscore_top_num);
             $highscore_achieved_ts = new ilCheckboxInputGUI($DIC->language()->txt("highscore_achieved_ts"), "highscore_achieved_ts");
-            $highscore_achieved_ts->setValue(1);
+            $highscore_achieved_ts->setValue("1");
             $highscore_achieved_ts->setChecked($this->object->getHighscoreAchievedTS());
             $highscore_achieved_ts->setInfo($DIC->language()->txt("highscore_achieved_ts_description"));
             $highscore->addSubItem($highscore_achieved_ts);
             $highscore_percentage = new ilCheckboxInputGUI($DIC->language()->txt("highscore_percentage"), "highscore_percentage");
-            $highscore_percentage->setValue(1);
+            $highscore_percentage->setValue("1");
             $highscore_percentage->setChecked($this->object->getHighscorePercentage());
             $highscore_percentage->setInfo($DIC->language()->txt("highscore_percentage_description"));
             $highscore->addSubItem($highscore_percentage);
             $highscore_wtime = new ilCheckboxInputGUI($DIC->language()->txt("highscore_wtime"), "highscore_wtime");
-            $highscore_wtime->setValue(1);
+            $highscore_wtime->setValue("1");
             $highscore_wtime->setChecked($this->object->getHighscoreWTime());
             $highscore_wtime->setInfo($DIC->language()->txt("highscore_wtime_description"));
             $highscore->addSubItem($highscore_wtime);
@@ -210,16 +211,13 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         }
     }
     
-    /**
-     * @param ilObjLTIConsumer $object
-     */
-    public function initObject(ilObjLTIConsumer $object)
+    public function initObject(ilObjLTIConsumer $object) : void
     {
         $object->setTitle($this->getInput('title'));
         $object->setDescription($this->getInput('description'));
         $object->setOfflineStatus(!(bool) $this->getInput('online'));
         
-        if ($object->getProvider()->isProviderKeyCustomizable()) {
+        if ($object->getProvider()->getLtiVersion() == 'LTI-1p0' && $object->getProvider()->isProviderKeyCustomizable()) {
             $object->setCustomLaunchKey($this->getInput('provider_key'));
             $object->setCustomLaunchSecret($this->getInput('provider_secret'));
         }

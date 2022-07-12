@@ -1,20 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
  * Class ilMMItemTranslationStorage
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMItemTranslationStorage extends CachedActiveRecord
 {
-
+    
     /**
      * @param IdentificationInterface $identification
      * @param string                  $language_key
      * @param string                  $translation
-     *
      * @return ilMMItemTranslationStorage
      */
     public static function storeTranslation(IdentificationInterface $identification, string $language_key, string $translation) : self
@@ -30,30 +28,26 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
             $mt->setIdentification($identification->serialize());
             $mt->create();
         }
-
+        
         $mt->setTranslation($translation);
         $mt->setLanguageKey($language_key);
         $mt->update();
-
+        
         return $mt;
     }
-
-
+    
     /**
      * @param IdentificationInterface $identification
      * @param string                  $translation
-     *
      * @return ilMMItemTranslationStorage
      */
     public static function storeDefaultTranslation(IdentificationInterface $identification, string $translation) : self
     {
         return self::storeTranslation($identification, self::getDefaultLanguage(), $translation);
     }
-
-
+    
     /**
      * @param IdentificationInterface $identification
-     *
      * @return string
      */
     public static function getDefaultTranslation(IdentificationInterface $identification) : string
@@ -62,32 +56,29 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
             return "";
         }
         $lng = self::getDefaultLanguage();
-        $key = "{$identification->serialize()}|{$lng}";
+        $key = "{$identification->serialize()}|$lng";
         /**
          * @var $item self
          */
         if ($item = self::find($key)) {
             return $item->getTranslation();
         }
-
+        
         return "";
     }
-
-
+    
     /**
      * @param IdentificationInterface $identification
-     *
      * @return bool
      */
     public static function hasDefaultTranslation(IdentificationInterface $identification) : bool
     {
         $lng = self::getDefaultLanguage();
-        $key = "{$identification->serialize()}|{$lng}";
-
+        $key = "{$identification->serialize()}|$lng";
+        
         return self::find($key) instanceof self;
     }
-
-
+    
     /**
      * @return string
      */
@@ -95,54 +86,44 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     {
         static $default_language;
         global $DIC;
-        if (!$default_language) {
+        if (!isset($default_language)) {
             $default_language = $DIC->language()->getDefaultLanguage() ? $DIC->language()->getDefaultLanguage() : "en";
         }
-
+        
         return $default_language;
     }
-
-
+    
     /**
-     * @var string
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     64
      */
-    protected $id;
+    protected ?string $id;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $identification;
+    protected string $identification;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     4000
      */
-    protected $translation = '';
+    protected string $translation = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     8
      */
-    protected $language_key = '';
+    protected string $language_key = '';
     /**
      * @var string
      */
     protected string $connector_container_name = "il_mm_translation";
-
-
+    
     /**
      * @return string
      */
@@ -150,17 +131,15 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     {
         return $this->id;
     }
-
-
+    
     /**
      * @param string $id
      */
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id = $id;
     }
-
-
+    
     /**
      * @return string
      */
@@ -168,17 +147,15 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     {
         return $this->identification;
     }
-
-
+    
     /**
      * @param string $identification
      */
-    public function setIdentification(string $identification)
+    public function setIdentification(string $identification) : void
     {
         $this->identification = $identification;
     }
-
-
+    
     /**
      * @return string
      */
@@ -186,17 +163,15 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     {
         return $this->translation;
     }
-
-
+    
     /**
      * @param string $translation
      */
-    public function setTranslation(string $translation)
+    public function setTranslation(string $translation) : void
     {
         $this->translation = $translation;
     }
-
-
+    
     /**
      * @return string
      */
@@ -204,17 +179,15 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     {
         return $this->language_key;
     }
-
-
+    
     /**
      * @param string $language_key
      */
-    public function setLanguageKey(string $language_key)
+    public function setLanguageKey(string $language_key) : void
     {
         $this->language_key = $language_key;
     }
-
-
+    
     /**
      * @inheritDoc
      */

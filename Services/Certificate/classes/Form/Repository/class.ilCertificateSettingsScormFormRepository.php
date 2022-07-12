@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
@@ -21,7 +35,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -82,8 +96,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 
     public function save(array $formFields) : void
     {
-        $this->setting->set('certificate_' . $this->object->getId(), $formFields['certificate_enabled_scorm']);
-        $this->setting->set('certificate_short_name_' . $this->object->getId(), $formFields['short_name']);
+        $this->setting->set('certificate_' . $this->object->getId(), (string) $formFields['certificate_enabled_scorm']);
+        $this->setting->set('certificate_short_name_' . $this->object->getId(), (string) $formFields['short_name']);
     }
 
     public function fetchFormFieldData(string $content) : array
@@ -91,11 +105,11 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
         $formFields['certificate_enabled_scorm'] = $this->setting->get(
             'certificate_' . $this->object->getId(),
-            $formFields['certificate_enabled_scorm']
+            (string) $formFields['certificate_enabled_scorm']
         );
         $formFields['short_name'] = $this->setting->get(
             'certificate_short_name_' . $this->object->getId(),
-            $formFields['short_name']
+            (string) $formFields['short_name']
         );
 
         return $formFields;

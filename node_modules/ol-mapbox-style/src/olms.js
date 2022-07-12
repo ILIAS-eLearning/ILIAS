@@ -1,6 +1,6 @@
-import olms, {apply, applyBackground, applyStyle} from './index';
-import stylefunction from './stylefunction';
-import {assign} from './util';
+import olms, {apply, applyBackground, applyStyle} from './index.js';
+import stylefunction from './stylefunction.js';
+import {assign} from './util.js';
 
 assign(olms, {apply, applyBackground, applyStyle, stylefunction});
 

@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestSettingsGUI.php';
+/**
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
+*********************************************************************/
 
 /**
  * GUI class that manages the editing of general test settings/properties
@@ -69,8 +82,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
      * @param ilTemplate      $tpl
      * @param ilDBInterface   $db
      * @param ilObjTestGUI    $testGUI
-     *
-     * @return \ilObjTestSettingsGeneralGUI
      */
     public function __construct(
         ilCtrl $ctrl,
@@ -92,7 +103,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $this->pluginAdmin = $pluginAdmin;
 
         $this->testGUI = $testGUI;
-        $this->testOBJ = $testGUI->object;
+        $this->testOBJ = $testGUI->getObject();
 
         require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $this->testOBJ);
@@ -112,8 +123,8 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     {
         // allow only write access
         
-        if (!$this->access->checkAccess('write', '', $this->testGUI->ref_id)) {
-            ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
+        if (!$this->access->checkAccess('write', '', $this->testGUI->getRefId())) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirect($this->testGUI, 'infoScreen');
         }
         
@@ -145,7 +156,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
     private function confirmedSaveFormCmd()
     {
-        return $this->saveFormCmd(true);
+        $this->saveFormCmd(true);
     }
     
     private function saveFormCmd($isConfirmedSave = false)
@@ -160,14 +171,14 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         // return to form when any form validation errors exist
 
         if ($errors) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-            return $this->showFormCmd($form);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->showFormCmd($form);
         }
 
         // check for required confirmation and redirect if neccessary
 
         if (!$isConfirmedSave && $this->isScoreRecalculationRequired($form)) {
-            return $this->showConfirmation($form);
+            $this->showConfirmation($form);
         }
 
         // saving the form leads to isScoreRecalculationRequired($form)
@@ -185,7 +196,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
         // redirect to form output
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 
@@ -271,7 +282,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $this->tpl->setContent($this->ctrl->getHTML($confirmation));
     }
     
-    private function buildForm()
+    private function buildForm() : ilPropertyFormGUI
     {
         include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -301,7 +312,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     private function addScoringSettingsFormSection(ilPropertyFormGUI $form)
     {
         $fields = array(
-            'count_system', 'mc_scoring', 'score_cutting', 'pass_scoring', 'pass_deletion_allowed'
+            'count_system', 'score_cutting', 'pass_scoring', 'pass_deletion_allowed'
         );
 
         if ($this->isSectionHeaderRequired($fields)) {
@@ -319,18 +330,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $opt->setInfo($this->lng->txt('tst_count_correct_solutions_desc'));
         $count_system->setValue($this->testOBJ->getCountSystem());
         $form->addItem($count_system);
-
-        // mc questions
-        $mc_scoring = new ilRadioGroupInputGUI($this->lng->txt('tst_score_mcmr_questions'), 'mc_scoring');
-        $mc_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_mcmr_zero_points_when_unanswered'), 0, ''));
-        $opt->setInfo($this->lng->txt('tst_score_mcmr_zero_points_when_unanswered_desc'));
-        $mc_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_mcmr_use_scoring_system'), 1, ''));
-        $opt->setInfo($this->lng->txt('tst_score_mcmr_use_scoring_system_desc'));
-        $mc_scoring->setValue($this->testOBJ->getMCScoring());
-        // fau: testNav - set the deprecated mc scoring option to disabled
-        $mc_scoring->setDisabled(true);
-        // fau.
-        $form->addItem($mc_scoring);
 
         // score cutting
         $score_cutting = new ilRadioGroupInputGUI($this->lng->txt('tst_score_cutting'), 'score_cutting');
@@ -355,12 +354,10 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_not_allowed'), 0, ''));
         $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_allowed'), 1, ''));
         $passDeletion->setValue($this->testOBJ->isPassDeletionAllowed());
-        $form->addItem($passDeletion);
 
         // disable scoring settings
         if (!$this->areScoringSettingsWritable()) {
             $count_system->setDisabled(true);
-            $mc_scoring->setDisabled(true);
             $score_cutting->setDisabled(true);
             $pass_scoring->setDisabled(true);
         }
@@ -374,10 +371,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         if ($this->areScoringSettingsWritable()) {
             if ($this->formPropertyExists($form, 'count_system')) {
                 $this->testOBJ->setCountSystem($form->getItemByPostVar('count_system')->getValue());
-            }
-
-            if ($this->formPropertyExists($form, 'mc_scoring')) {
-                $this->testOBJ->setMCScoring($form->getItemByPostVar('mc_scoring')->getValue());
             }
 
             if ($this->formPropertyExists($form, 'score_cutting')) {
@@ -407,6 +400,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $resultsAccessEnabled->setChecked($this->testOBJ->isScoreReportingEnabled());
         $resultsAccessSetting = new ilRadioGroupInputGUI($this->lng->txt('tst_results_access_setting'), 'results_access_setting');
         $resultsAccessSetting->setRequired(true);
+
         $optAlways = new ilRadioOption($this->lng->txt('tst_results_access_always'));
         $optAlways->setInfo($this->lng->txt('tst_results_access_always_desc'));
         $optAlways->setValue(ilObjTest::SCORE_REPORTING_IMMIDIATLY);
@@ -435,12 +429,12 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $resultsAccessSetting->addOption($optionDate);
         $resultsAccessSetting->setValue($this->testOBJ->getScoreReporting());
         $resultsAccessEnabled->addSubItem($resultsAccessSetting);
+
         // show pass details
         $showPassDetails = new ilCheckboxInputGUI($this->lng->txt('tst_show_pass_details'), 'pass_details');
         $showPassDetails->setInfo($this->lng->txt('tst_show_pass_details_desc'));
         $showPassDetails->setChecked($this->testOBJ->getShowPassDetails());
         $resultsAccessEnabled->addSubItem($showPassDetails);
-        $form->addItem($resultsAccessEnabled);
 
         // grading
         $chb_only_passed_failed = new ilCheckboxInputGUI($this->lng->txt('tst_results_grading_opt_show_status'), 'grading_status');
@@ -454,6 +448,14 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $chb_resulting_mark_only->setValue(1);
         $chb_resulting_mark_only->setChecked($this->testOBJ->isShowGradingMarkEnabled());
         $resultsAccessEnabled->addSubItem($chb_resulting_mark_only);
+
+        $passDeletion = new ilRadioGroupInputGUI($this->lng->txt('tst_pass_deletion'), 'pass_deletion_allowed');
+        $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_not_allowed'), 0, ''));
+        $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_allowed'), 1, ''));
+        $passDeletion->setValue($this->testOBJ->isPassDeletionAllowed());
+        $resultsAccessEnabled->addSubItem($passDeletion);
+
+        $form->addItem($resultsAccessEnabled);
     }
 
     /**
@@ -513,7 +515,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         // best solution in test results
         $results_print_best_solution = new ilCheckboxInputGUI($this->lng->txt('tst_results_print_best_solution'), 'print_bs_with_res');
         $results_print_best_solution->setInfo($this->lng->txt('tst_results_print_best_solution_info'));
-        $results_print_best_solution->setChecked((bool) $this->testOBJ->isBestSolutionPrintedWithResult());
+        $results_print_best_solution->setChecked($this->testOBJ->isBestSolutionPrintedWithResult());
         $showSolutionDetails->addSubItem($results_print_best_solution);
 
         // show solution feedback ==> solution feedback in test results
@@ -750,7 +752,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         }
     }
     
-    private function isScoreReportingAvailable()
+    private function isScoreReportingAvailable() : bool
     {
         if (!$this->testOBJ->getScoreReporting()) {
             return false;
@@ -766,7 +768,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         return true;
     }
 
-    private function areScoringSettingsWritable()
+    private function areScoringSettingsWritable() : bool
     {
         if (!$this->testOBJ->participantDataExist()) {
             return true;
@@ -779,7 +781,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         return false;
     }
 
-    private function isScoreRecalculationRequired(ilPropertyFormGUI $form)
+    private function isScoreRecalculationRequired(ilPropertyFormGUI $form) : bool
     {
         if (!$this->testOBJ->participantDataExist()) {
             return false;
@@ -796,15 +798,10 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         return true;
     }
 
-    private function hasScoringSettingsChanged(ilPropertyFormGUI $form)
+    private function hasScoringSettingsChanged(ilPropertyFormGUI $form) : bool
     {
         $countSystem = $form->getItemByPostVar('count_system');
         if (is_object($countSystem) && $countSystem->getValue() != $this->testOBJ->getCountSystem()) {
-            return true;
-        }
-
-        $mcScoring = $form->getItemByPostVar('mc_scoring');
-        if (is_object($mcScoring) && $mcScoring->getValue() != $this->testOBJ->getMCScoring()) {
             return true;
         }
 
@@ -823,11 +820,11 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
     private $availableTaxonomyIds = null;
 
-    private function getAvailableTaxonomyIds()
+    private function getAvailableTaxonomyIds() : array
     {
-        if ($this->getAvailableTaxonomyIds === null) {
+        if ($this->getAvailableTaxonomyIds() === null) {
             require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-            $this->availableTaxonomyIds = (array) ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());
+            $this->availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());
         }
 
         return $this->availableTaxonomyIds;

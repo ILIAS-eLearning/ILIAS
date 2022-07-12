@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use PHPUnit\Framework\TestCase;
 
 class LSLearnerItemTest extends TestCase
@@ -54,7 +68,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithPostCondition(LSItem $object)
+    public function testTurnedOffWithPostCondition(LSItem $object) : void
     {
         $this->expectException(LogicException::class);
         $object->withPostCondition($this->post_condition);
@@ -63,7 +77,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithOrderNumber(LSItem $object)
+    public function testTurnedOffWithOrderNumber(LSItem $object) : void
     {
         $this->expectException(LogicException::class);
         $object->withOrderNumber(self::ORDER_NUMBER);
@@ -72,7 +86,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithOnline(LSItem $object)
+    public function testTurnedOffWithOnline(LSItem $object) : void
     {
         $this->expectException(LogicException::class);
         $object->withOnline(self::IS_ONLINE);

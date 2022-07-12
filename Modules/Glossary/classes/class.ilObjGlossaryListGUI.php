@@ -1,21 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjGlossaryListGUI
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjGlossaryListGUI extends ilObjectListGUI
 {
-
-    /**
-    * initialisation
-    *
-    * this method should be overwritten by derived classes
-    */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -31,18 +39,9 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
         $this->commands = ilObjGlossaryAccess::_getCommands();
     }
 
-    /**
-    * Overwrite this method, if link target is not build by ctrl class
-    * (e.g. "lm_presentation.php", "forum.php"). This is the case
-    * for all links now, but bringing everything to ilCtrl should
-    * be realised in the future.
-    *
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id;
                 break;
@@ -53,7 +52,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 
             case "properties":
                 $this->ctrl->setParameterByClass("ilobjglossarygui", "ref_id", $this->ref_id);
-                $cmd_link = $this->ctrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui"), $a_cmd);
+                $cmd_link = $this->ctrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui"), $cmd);
                 break;
 
             case "infoScreen":
@@ -62,24 +61,17 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
                 
             default:
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $cmd);
+                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
                 break;
         }
 
         return $cmd_link;
     }
 
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
             case "edit":
             case "properties":
@@ -95,25 +87,14 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
     }
 
 
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
-        $rbacsystem = $this->rbacsystem;
-
         $props = array();
-
         if (!ilObjGlossaryAccess::_lookupOnline($this->obj_id)) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                 "value" => $lng->txt("offline"));
         }
         return $props;
     }
-} // END class.ilObjCategoryGUI
+}

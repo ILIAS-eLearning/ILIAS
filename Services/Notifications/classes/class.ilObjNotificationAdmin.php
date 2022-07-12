@@ -1,25 +1,33 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/** @defgroup ServicesNotifications Services/Notifications
- */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
-* Class ilObjNotificationAdmin
-*
-* @author Jan Posselt <jposselt@databay.de>
-* @version $Id$
-*
-* @ingroup ModulesNotification
-*/
+ * @author Ingmar Szmais <iszmais@databay.de>
+ */
 class ilObjNotificationAdmin extends ilObject
 {
+    protected int $root_ref_id = 0;
+    protected int $root_id = 0;
+
     /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
+     * @inheritDoc
+     */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         $this->type = 'nota';
@@ -27,19 +35,43 @@ class ilObjNotificationAdmin extends ilObject
     }
 
     /**
-    * create object
-    *
-    * @param bool upload mode (if enabled no entries in file_data will be done)
-    */
-    public function create()
+     * @access	public
+     */
+    public function delete() : bool
     {
-        return parent::create();
+        return false;
+    }
+
+    public function getRootRefId() : int
+    {
+        $this->loadRootRefIdAndId();
+
+        return $this->root_ref_id;
+    }
+
+    public function getRootId() : int
+    {
+        $this->loadRootRefIdAndId();
+
+        return $this->root_id;
     }
 
     /**
-    * @access	public
-    */
-    public function delete()
+     * @throws PDOException
+     */
+    private function loadRootRefIdAndId() : void
     {
+        if ($this->root_ref_id === 0 || $this->root_id === 0) {
+            $q = "SELECT object_reference.obj_id, object_reference.ref_id FROM object_data
+			INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
+			WHERE type = %s";
+            $set = $this->db->queryF($q, ['text'], ['nota']);
+            if ($res = $this->db->fetchAssoc($set)) {
+                $this->root_id = (int) $res["obj_id"];
+                $this->root_ref_id = (int) $res["ref_id"];
+            } else {
+                throw new PDOException('Node "nota" not found.');
+            }
+        }
     }
-} // END class.ilObjFile
+}

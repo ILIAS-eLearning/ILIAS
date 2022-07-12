@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use \Psr\Http\Message\RequestInterface;
 
@@ -41,8 +55,8 @@ class ilRatingCategoryGUI
         $this->toolbar = $DIC->toolbar();
         $this->request = $DIC->http()->request();
         $lng = $DIC->language();
-        
-        $this->parent_id = (int) $a_parent_id;
+
+        $this->parent_id = $a_parent_id;
         $this->export_callback = $a_export_callback;
         $this->export_subobj_title = $a_export_subobj_title;
         
@@ -69,7 +83,7 @@ class ilRatingCategoryGUI
         
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("listCategories");
-        
+
         switch ($next_class) {
             default:
                 $this->$cmd();
@@ -162,7 +176,7 @@ class ilRatingCategoryGUI
             $cat->setDescription($form->getInput("desc"));
             $cat->save();
             
-            ilUtil::sendSuccess($lng->txt("rating_category_created"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_created"));
             $ilCtrl->redirect($this, "listCategories");
         }
         
@@ -196,7 +210,7 @@ class ilRatingCategoryGUI
             $cat->setDescription($form->getInput("desc"));
             $cat->update();
             
-            ilUtil::sendSuccess($lng->txt("rating_category_updated"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_updated"));
             $ilCtrl->redirect($this, "listCategories");
         }
         
@@ -223,7 +237,7 @@ class ilRatingCategoryGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listCategories");
     }
     
@@ -259,7 +273,7 @@ class ilRatingCategoryGUI
         
         if ($this->cat_id) {
             ilRatingCategory::delete($this->cat_id);
-            ilUtil::sendSuccess($lng->txt("rating_category_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_deleted"), true);
         }
         
         // fix order

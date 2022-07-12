@@ -27,12 +27,12 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     /**
      * @param ilAssQuestionSkillAssignmentImport $assignment
      */
-    public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment)
+    public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment) : void
     {
         $this->assignments[] = $assignment;
     }
     
-    public function assignmentsExist()
+    public function assignmentsExist() : bool
     {
         return count($this->assignments) > 0;
     }
@@ -40,7 +40,7 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     /**
      * @return ilAssQuestionSkillAssignmentImport
      */
-    public function current()
+    public function current() : ilAssQuestionSkillAssignmentImport
     {
         return current($this->assignments);
     }
@@ -48,7 +48,7 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     /**
      * @return ilAssQuestionSkillAssignmentImport
      */
-    public function next()
+    public function next() : ilAssQuestionSkillAssignmentImport
     {
         return next($this->assignments);
     }
@@ -65,7 +65,7 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     /**
      * @return bool
      */
-    public function valid()
+    public function valid() : bool
     {
         $res = key($this->assignments);
         return $res !== null;
@@ -79,12 +79,12 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
         return reset($this->assignments);
     }
     
-    public function sleep()
+    public function sleep() : void
     {
         // TODO: Implement __sleep() method.
     }
     
-    public function wakeup()
+    public function wakeup() : void
     {
         // TODO: Implement __wakeup() method.
     }

@@ -1,16 +1,34 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumNotificationCache
- *
  * @author Niels Theen <ntheen@databay.de>
  */
 class ilForumNotificationCache
 {
     /** @var array<string, mixed> */
-    private $storage = [];
+    private array $storage = [];
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     public function fetch(string $id)
     {
         if (false === $this->exists($id)) {
@@ -20,6 +38,11 @@ class ilForumNotificationCache
         return $this->storage[$id];
     }
 
+    /**
+     * @param string $key
+     * @param mixed $data
+     * @return void
+     */
     public function store(string $key, $data) : void
     {
         $this->storage[$key] = $data;
@@ -32,9 +55,9 @@ class ilForumNotificationCache
 
     /**
      * @param array $values
-     * @return string A MD5 encoded key based on the given arrays
+     * @return string An´ MD5 encoded key based on the given arrays
      */
-    public function createKeyByValues(array $values)
+    public function createKeyByValues(array $values) : string
     {
         foreach ($values as &$value) {
             if ($value !== null && !is_scalar($value)) {
@@ -47,8 +70,6 @@ class ilForumNotificationCache
             $value = (string) $value;
         }
 
-        $cacheKey = md5(implode('|', $values));
-
-        return $cacheKey;
+        return md5(implode('|', $values));
     }
 }

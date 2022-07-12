@@ -1,40 +1,48 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCList
  *
  * List content object (see ILIAS DTD)
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCList extends ilPageContent
 {
-    public $list_node;
+    public php4DOMElement $list_node;
 
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         $this->setType("list");
     }
 
-    /**
-    * Set pc node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->list_node = $a_node->first_child();		// this is the Table node
     }
 
-    /**
-    * Create new list
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->list_node = $this->dom->create_element("List");
@@ -42,9 +50,9 @@ class ilPCList extends ilPageContent
     }
 
     /**
-    * Add a number of items to list
-    */
-    public function addItems($a_nr)
+     * Add a number of items to list
+     */
+    public function addItems(int $a_nr) : void
     {
         for ($i = 1; $i <= $a_nr; $i++) {
             $new_item = $this->dom->create_element("ListItem");
@@ -52,37 +60,11 @@ class ilPCList extends ilPageContent
         }
     }
 
-    /**
-    * Set order type
-    */
-    /*	function setOrderType($a_type = "Unordered")
-        {
-            switch ($a_type)
-            {
-                case "Unordered":
-                    $this->list_node->set_attribute("Type", "Unordered");
-                    if ($this->list_node->has_attribute("NumberingType"))
-                    {
-                        $this->list_node->remove_attribute("NumberingType");
-                    }
-                    break;
-
-                case "Number":
-                case "Roman":
-                case "roman":
-                case "Alphabetic":
-                case "alphabetic":
-                case "Decimal":
-                    $this->list_node->set_attribute("Type", "Ordered");
-                    $this->list_node->set_attribute("NumberingType", $a_type);
-                    break;
-            }
-        }*/
 
     /**
-    * Get order type
-    */
-    public function getOrderType()
+     * Get order type
+     */
+    public function getOrderType() : string
     {
         if ($this->list_node->get_attribute("Type") == "Unordered") {
             return "Unordered";
@@ -97,17 +79,13 @@ class ilPCList extends ilPageContent
             case "alphabetic":
             case "Decimal":
                 return $nt;
-                break;
-                
+
             default:
                 return "Number";
         }
     }
 
-    /**
-    * Get list type
-    */
-    public function getListType()
+    public function getListType() : string
     {
         if ($this->list_node->get_attribute("Type") == "Unordered") {
             return "Unordered";
@@ -115,20 +93,15 @@ class ilPCList extends ilPageContent
         return "Ordered";
     }
 
-    /**
-    * Set list type
-    *
-    * @param	string		list type
-    */
-    public function setListType($a_val)
+    public function setListType(string $a_val) : void
     {
         $this->list_node->set_attribute("Type", $a_val);
     }
 
     /**
-    * Get numbering type
-    */
-    public function getNumberingType()
+     * Get numbering type
+     */
+    public function getNumberingType() : string
     {
         $nt = $this->list_node->get_attribute("NumberingType");
         switch ($nt) {
@@ -139,19 +112,13 @@ class ilPCList extends ilPageContent
             case "alphabetic":
             case "Decimal":
                 return $nt;
-                break;
-                
+
             default:
                 return "Number";
         }
     }
 
-    /**
-    * Set numbering type
-    *
-    * @param	string	numbering type
-    */
-    public function setNumberingType($a_val)
+    public function setNumberingType(string $a_val) : void
     {
         if ($a_val != "") {
             $this->list_node->set_attribute("NumberingType", $a_val);
@@ -162,12 +129,7 @@ class ilPCList extends ilPageContent
         }
     }
 
-    /**
-    * Set start value
-    *
-    * @param	int		start value
-    */
-    public function setStartValue($a_val)
+    public function setStartValue(int $a_val) : void
     {
         if ($a_val != "") {
             $this->list_node->set_attribute("StartValue", $a_val);
@@ -178,22 +140,12 @@ class ilPCList extends ilPageContent
         }
     }
     
-    /**
-    * Get start value
-    *
-    * @return	int		start value
-    */
-    public function getStartValue()
+    public function getStartValue() : int
     {
-        return $this->list_node->get_attribute("StartValue");
+        return (int) $this->list_node->get_attribute("StartValue");
     }
     
-    /**
-    * Set style class
-    *
-    * @param	string		style class
-    */
-    public function setStyleClass($a_val)
+    public function setStyleClass(string $a_val) : void
     {
         if (!in_array($a_val, array("", "BulletedList", "NumberedList"))) {
             $this->list_node->set_attribute("Class", $a_val);
@@ -204,12 +156,7 @@ class ilPCList extends ilPageContent
         }
     }
     
-    /**
-    * Get style class
-    *
-    * @return	string		style class
-    */
-    public function getStyleClass()
+    public function getStyleClass() : string
     {
         return $this->list_node->get_attribute("Class");
     }

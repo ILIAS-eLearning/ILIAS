@@ -49,7 +49,8 @@ class ilAssQuestionTypeOrderer
         'assFileUpload',
         'assLongMenu'
     );
-    
+    private array $types;
+
     /**
      * @var array
      */
@@ -75,20 +76,20 @@ class ilAssQuestionTypeOrderer
         self::$flippedQuestionTypeOrder = array_flip(self::$fixQuestionTypeOrder);
         #vd($unOrderedTypes);
         $this->types = $unOrderedTypes;
-        
+
         switch ($orderMode) {
             case self::ORDER_MODE_FIX:
-                
+
                 uasort($this->types, array($this, 'fixQuestionTypeOrderSortCallback'));
                 break;
-            
+
             case self::ORDER_MODE_ALPHA:
-                
+
                 ksort($this->types);
                 break;
-            
+
             default:
-                
+
                 throw new ilTestQuestionPoolException('invalid order mode given: ' . $orderMode);
         }
 
@@ -100,7 +101,7 @@ class ilAssQuestionTypeOrderer
      *
      * @return array $orderedQuestionTypes
      */
-    public function getOrderedTypes($withDeprecatedTypes = true)
+    public function getOrderedTypes($withDeprecatedTypes = true) : array
     {
         if ($withDeprecatedTypes) {
             return $this->types;
@@ -127,7 +128,7 @@ class ilAssQuestionTypeOrderer
      * @param array $b
      * @return integer
      */
-    public function fixQuestionTypeOrderSortCallback($a, $b)
+    public function fixQuestionTypeOrderSortCallback($a, $b) : int
     {
         if (self::$flippedQuestionTypeOrder[ $a['type_tag'] ] > self::$flippedQuestionTypeOrder[ $b['type_tag'] ]) {
             return 1;

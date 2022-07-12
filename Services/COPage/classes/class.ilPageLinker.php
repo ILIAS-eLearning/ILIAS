@@ -1,39 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Page linker
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageLinker implements \ILIAS\COPage\PageLinker
 {
-    /**
-     * @var bool
-     */
-    protected $offline;
+    protected bool $offline;
+    protected string $profile_back_url;
+    protected ilCtrl $ctrl;
+    protected string $cmd_gui;
 
-    /**
-     * @var string
-     */
-    protected $profile_back_url;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var string
-     */
-    protected $cmd_gui;
-
-    /**
-     * Constructor
-     */
-    public function __construct(string $cmd_gui_class, $offline = false, $profile_back_url = "", ilCtrl $ctrl = null)
-    {
+    public function __construct(
+        string $cmd_gui_class,
+        bool $offline = false,
+        string $profile_back_url = "",
+        ilCtrl $ctrl = null
+    ) {
         global $DIC;
 
         $this->offline = $offline;
@@ -45,29 +44,19 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
             : $ctrl;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function setOffline($offline = true)
+    public function setOffline(bool $offline = true) : void
     {
         $this->offline = $offline;
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function getLayoutLinkTargets() : array
     {
         $targets = [];
-
         return $targets;
     }
 
-    /**
-     * Get XMl for Link Targets
-     */
-    public function getLinkTargetsXML()
+    public function getLinkTargetsXML() : string
     {
         $layoutLinkTargets = $this->getLayoutLinkTargets();
 
@@ -83,10 +72,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         return $link_info;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getLinkXML($int_links) : string
+    public function getLinkXML(array $int_links) : string
     {
         $link_info = "<IntLinkInfos>";
         foreach ($int_links as $int_link) {
@@ -181,7 +167,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                             $href = "";
                             if (ilUserUtil::hasPublicProfile($target_id)) {
                                 $href = $this->ctrl->getLinkTargetByClass(
-                                    ["ildashboardgui", "ilpublicuserprofilegui"],
+                                    ["ilpublicuserprofilegui"],
                                     "getHTML",
                                     "",
                                     false,
@@ -208,9 +194,6 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         return $link_info;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getFullscreenLink() : string
     {
         if ($this->offline) {

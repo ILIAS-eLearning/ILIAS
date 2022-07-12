@@ -1,5 +1,18 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
@@ -15,6 +28,9 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilObjQuestionPool extends ilObject
 {
+    private array $mob_ids;
+    private array $file_ids;
+
     /**
     * Online status of questionpool
     *
@@ -58,22 +74,23 @@ class ilObjQuestionPool extends ilObject
         $this->type = "qpl";
         parent::__construct($a_id, $a_call_by_reference);
         $this->setOnline(0);
-        
+
         $this->skillServiceEnabled = false;
     }
 
     /**
     * create questionpool object
     */
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
-        
+        $id = parent::create();
+
         // meta data will be created by
         // import parser
         if (!$a_upload) {
             $this->createMetaData();
         }
+        return $id;
     }
 
     /**
@@ -82,20 +99,20 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function createReference()
+    public function createReference() : int
     {
         $result = parent::createReference();
         $this->saveToDb();
         return $result;
     }
-    
+
     /**
     * update object data
     *
     * @access	public
     * @return	boolean
     */
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
         if (!parent::update()) {
@@ -113,7 +130,7 @@ class ilObjQuestionPool extends ilObject
         $ilUser = $DIC['ilUser'];
         include_once "./Services/MetaData/classes/class.ilMD.php";
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_gen = &$md->getGeneral();
+        $md_gen = $md->getGeneral();
         if ($md_gen == false) {
             include_once "./Services/MetaData/classes/class.ilMDCreator.php";
             $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
@@ -129,7 +146,7 @@ class ilObjQuestionPool extends ilObject
     * @param	boolean
     * @access	public
     */
-    public function read($a_force_db = false)
+    public function read($a_force_db = false) : void
     {
         parent::read($a_force_db);
         $this->loadFromDb();
@@ -142,7 +159,7 @@ class ilObjQuestionPool extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -154,15 +171,15 @@ class ilObjQuestionPool extends ilObject
 
         //put here your module specific stuff
         $this->deleteQuestionpool();
-        
+
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
         $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getId());
         $qsaImportFails->deleteRegisteredImportFails();
-        
+
         return true;
     }
 
-    public function deleteQuestionpool()
+    public function deleteQuestionpool() : void
     {
         $questions = &$this->getAllQuestions();
 
@@ -174,11 +191,11 @@ class ilObjQuestionPool extends ilObject
 
         // delete export files
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
         $directory = $qpl_data_dir . "/qpl_" . $this->getId();
         if (is_dir($directory)) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::delDir($directory);
+            ilFileUtils::delDir($directory);
         }
     }
 
@@ -188,27 +205,13 @@ class ilObjQuestionPool extends ilObject
     * @param integer $question_id The database id of the question
     * @access private
     */
-    public function deleteQuestion($question_id)
+    public function deleteQuestion($question_id) : void
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        
+
         $question = assQuestion::instantiateQuestion($question_id);
-        $this->addQuestionChangeListeners($question);
         $question->delete($question_id);
-    }
-    
-    /**
-     * @param assQuestion $question
-     */
-    public function addQuestionChangeListeners(assQuestion $question)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
-        foreach (ilObjTest::getPoolQuestionChangeListeners($ilDB, $this->getId()) as $listener) {
-            $question->addQuestionChangeListener($listener);
-        }
     }
 
     /**
@@ -216,11 +219,11 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function loadFromDb()
+    public function loadFromDb() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $result = $ilDB->queryF(
             "SELECT * FROM qpl_questionpool WHERE obj_fi = %s",
             array('integer'),
@@ -234,23 +237,23 @@ class ilObjQuestionPool extends ilObject
             $this->setSkillServiceEnabled($row['skill_service']);
         }
     }
-    
+
     /**
     * Saves a ilObjQuestionpool object to a database
     *
     * @access public
     */
-    public function saveToDb()
+    public function saveToDb() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $result = $ilDB->queryF(
             "SELECT id_questionpool FROM qpl_questionpool WHERE obj_fi = %s",
             array('integer'),
             array($this->getId())
         );
-        
+
         if ($result->numRows() == 1) {
             $result = $ilDB->update(
                 'qpl_questionpool',
@@ -267,7 +270,7 @@ class ilObjQuestionPool extends ilObject
             );
         } else {
             $next_id = $ilDB->nextId('qpl_questionpool');
-            
+
             $result = $ilDB->insert('qpl_questionpool', array(
                 'id_questionpool' => array('integer', $next_id),
                 'isonline' => array('text', $this->getOnline()),
@@ -279,21 +282,14 @@ class ilObjQuestionPool extends ilObject
             ));
         }
     }
-    
-    /**
-    * Returns the question type of a question with a given id
-    *
-    * @param integer $question_id The database id of the question
-    * @result string The question type string
-    * @access private
-    */
+
     public function getQuestiontype($question_id)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         if ($question_id < 1) {
-            return;
+            return null;
         }
 
         $result = $ilDB->queryF(
@@ -301,12 +297,12 @@ class ilObjQuestionPool extends ilObject
             array('integer'),
             array($question_id)
         );
+
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchAssoc($result);
             return $data["type_tag"];
-        } else {
-            return;
         }
+        return null;
     }
 
     /**
@@ -316,11 +312,11 @@ class ilObjQuestionPool extends ilObject
     * @return boolean The number of datasets which are affected by the use of the query.
     * @access public
     */
-    public function isInUse($question_id)
+    public function isInUse($question_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $result = $ilDB->queryF(
             "SELECT COUNT(solution_id) solution_count FROM tst_solutions WHERE question_fi = %s",
             array('integer'),
@@ -341,16 +337,16 @@ class ilObjQuestionPool extends ilObject
         $question_gui = new $question_type_gui();
         return $question_gui;
     }
-    
+
     /**
     * Duplicates a question for a questionpool
     *
     * @param integer $question_id The database id of the question
     * @access public
     */
-    public function duplicateQuestion($question_id)
+    public function duplicateQuestion($question_id) : int
     {
-        $question = &$this->createQuestion("", $question_id);
+        $question = $this->createQuestion("", $question_id);
         $newtitle = $question->object->getTitle();
         if ($question->object->questionTitleExists($this->getId(), $question->object->getTitle())) {
             $counter = 2;
@@ -364,7 +360,7 @@ class ilObjQuestionPool extends ilObject
         ilObjQuestionPool::_updateQuestionCount($this->getId());
         return $new_id;
     }
-    
+
     /**
     * Copies a question into another question pool
     *
@@ -372,9 +368,9 @@ class ilObjQuestionPool extends ilObject
     * @param integer $questionpool_to Database id of the target questionpool
     * @access public
     */
-    public function copyQuestion($question_id, $questionpool_to)
+    public function copyQuestion($question_id, $questionpool_to) : int
     {
-        $question_gui = &$this->createQuestion("", $question_id);
+        $question_gui = $this->createQuestion("", $question_id);
         if ($question_gui->object->getObjId() == $questionpool_to) {
             // the question is copied into the same question pool
             return $this->duplicateQuestion($question_id);
@@ -397,11 +393,11 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function getPrintviewQuestions()
+    public function getPrintviewQuestions() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query_result = $ilDB->queryF(
             "SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin, qpl_questions.tstamp updated FROM qpl_questions, qpl_qst_type WHERE qpl_questions.original_id IS NULL AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s",
             array('integer'),
@@ -427,14 +423,14 @@ class ilObjQuestionPool extends ilObject
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    private function exportXMLSettings($xmlWriter)
+    private function exportXMLSettings($xmlWriter) : void
     {
         $xmlWriter->xmlStartTag('Settings');
 
         $xmlWriter->xmlElement('ShowTaxonomies', null, (int) $this->getShowTaxonomies());
         $xmlWriter->xmlElement('NavTaxonomy', null, (int) $this->getNavTaxonomyId());
         $xmlWriter->xmlElement('SkillService', null, (int) $this->isSkillServiceEnabled());
-        
+
         $xmlWriter->xmlEndTag('Settings');
     }
 
@@ -444,11 +440,11 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions)
+    public function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions) : void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        
+
         $this->mob_ids = array();
         $this->file_ids = array();
 
@@ -488,22 +484,22 @@ class ilObjQuestionPool extends ilObject
 
         $a_xml_writer->xmlEndTag("ContentObject");
     }
-    
+
     /**
      * @param ilXmlWriter $a_xml_writer
      * @param $questions
      */
-    protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions)
+    protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
         $assignmentList->setParentObjId($this->getId());
         $assignmentList->loadFromDb();
         $assignmentList->loadAdditionalSkillData();
-        
+
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
         $skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
         $skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
@@ -518,7 +514,7 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function exportXMLMetaData(&$a_xml_writer)
+    public function exportXMLMetaData(&$a_xml_writer) : void
     {
         include_once("Services/MetaData/classes/class.ilMD2XML.php");
         $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
@@ -544,7 +540,7 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog, $questions)
+    public function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog, $questions) : void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -558,7 +554,7 @@ class ilObjQuestionPool extends ilObject
             $attrs = array();
             $a_xml_writer->xmlStartTag("PageObject", $attrs);
 
-            
+
             // export xml to writer object
             $ilBench->start("ContentObjectExport", "exportPageObject_XML");
             include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
@@ -573,7 +569,7 @@ class ilObjQuestionPool extends ilObject
             $a_xml_writer->appendXML($xml);
             $page_object->freeDom();
             unset($page_object);
-            
+
             $ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 
             // collect media objects
@@ -591,7 +587,7 @@ class ilObjQuestionPool extends ilObject
                 $this->file_ids[$file_id] = $file_id;
             }
             $ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
-            
+
             $a_xml_writer->xmlEndTag("PageObject");
             //unset($page_obj);
 
@@ -599,13 +595,7 @@ class ilObjQuestionPool extends ilObject
         }
     }
 
-    /**
-    * export media objects to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
+    public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog) : void
     {
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
@@ -624,7 +614,7 @@ class ilObjQuestionPool extends ilObject
     * export files of file itmes
     *
     */
-    public function exportFileItems($a_target_dir, &$expLog)
+    public function exportFileItems($a_target_dir, &$expLog) : void
     {
         include_once("./Modules/File/classes/class.ilObjFile.php");
 
@@ -641,28 +631,28 @@ class ilObjQuestionPool extends ilObject
     * (data_dir/qpl_data/qpl_<id>/export, depending on data
     * directory that is set in ILIAS setup/ini)
     */
-    public function createExportDirectory()
+    public function createExportDirectory() : void
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
-        ilUtil::makeDir($qpl_data_dir);
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
+        ilFileUtils::makeDir($qpl_data_dir);
         if (!is_writable($qpl_data_dir)) {
             $this->ilias->raiseError("Questionpool Data Directory (" . $qpl_data_dir
                 . ") not writeable.", $this->ilias->error_obj->FATAL);
         }
-        
+
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $qpl_dir = $qpl_data_dir . "/qpl_" . $this->getId();
-        ilUtil::makeDir($qpl_dir);
+        ilFileUtils::makeDir($qpl_dir);
         if (!@is_dir($qpl_dir)) {
             $this->ilias->raiseError("Creation of Questionpool Directory failed.", $this->ilias->error_obj->FATAL);
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
-        ilUtil::makeDir($this->getExportDirectory('xls'));
+        ilFileUtils::makeDir($this->getExportDirectory('xls'));
         if (!@is_dir($this->getExportDirectory('xls'))) {
             $this->ilias->raiseError("Creation of Export Directory failed.", $this->ilias->error_obj->FATAL);
         }
-        ilUtil::makeDir($this->getExportDirectory('zip'));
+        ilFileUtils::makeDir($this->getExportDirectory('zip'));
         if (!@is_dir($this->getExportDirectory('zip'))) {
             $this->ilias->raiseError("Creation of Export Directory failed.", $this->ilias->error_obj->FATAL);
         }
@@ -671,7 +661,7 @@ class ilObjQuestionPool extends ilObject
     /**
     * get export directory of questionpool
     */
-    public function getExportDirectory($type = "")
+    public function getExportDirectory($type = "") : string
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
         switch ($type) {
@@ -681,10 +671,10 @@ class ilObjQuestionPool extends ilObject
                 break;
             case 'xls':
             case 'zip':
-                $export_dir = ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export_$type";
+                $export_dir = ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export_$type";
                 break;
             default:
-                $export_dir = ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export";
+                $export_dir = ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export";
                 break;
         }
         return $export_dir;
@@ -695,15 +685,15 @@ class ilObjQuestionPool extends ilObject
     * (data_dir/qpl_data/qpl_<id>/import, depending on data
     * directory that is set in ILIAS setup/ini)
     */
-    public static function _createImportDirectory()
+    public static function _createImportDirectory() : string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        
+
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
-        ilUtil::makeDir($qpl_data_dir);
-        
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
+        ilFileUtils::makeDir($qpl_data_dir);
+
         if (!is_writable($qpl_data_dir)) {
             $ilias->raiseError("Questionpool Data Directory (" . $qpl_data_dir
                 . ") not writeable.", $ilias->error_obj->FATAL);
@@ -711,7 +701,7 @@ class ilObjQuestionPool extends ilObject
 
         // create questionpool directory (data_dir/qpl_data/qpl_import)
         $qpl_dir = $qpl_data_dir . "/qpl_import";
-        ilUtil::makeDir($qpl_dir);
+        ilFileUtils::makeDir($qpl_dir);
         if (!@is_dir($qpl_dir)) {
             $ilias->raiseError("Creation of Questionpool Directory failed.", $ilias->error_obj->FATAL);
         }
@@ -721,24 +711,21 @@ class ilObjQuestionPool extends ilObject
     /**
     * set import directory
     */
-    public static function _setImportDirectory($a_import_dir = null)
+    public static function _setImportDirectory($a_import_dir = null) : void
     {
         if (strlen($a_import_dir)) {
-            $_SESSION["qpl_import_dir"] = $a_import_dir;
+            ilSession::set("qpl_import_dir", $a_import_dir);
         } else {
-            unset($_SESSION["qpl_import_dir"]);
+            ilSession::clear("qpl_import_dir");
         }
     }
 
     /**
     * get import directory of lm
     */
-    public static function _getImportDirectory()
+    public static function _getImportDirectory() : string
     {
-        if (strlen($_SESSION["qpl_import_dir"])) {
-            return $_SESSION["qpl_import_dir"];
-        }
-        return null;
+        return ilSession::get("qpl_import_dir") ?? '';
     }
 
     public function getImportDirectory()
@@ -751,11 +738,11 @@ class ilObjQuestionPool extends ilObject
     *
     * @return array An array containing all question ids of the questionpool
     */
-    public function &getAllQuestions()
+    public function &getAllQuestions() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $result = $ilDB->queryF(
             "SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.tstamp > 0 AND original_id IS NULL",
             array('integer'),
@@ -767,12 +754,12 @@ class ilObjQuestionPool extends ilObject
         }
         return $questions;
     }
-    
-    public function &getAllQuestionIds()
+
+    public function &getAllQuestionIds() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query_result = $ilDB->queryF(
             "SELECT question_id, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE original_id IS NULL AND qpl_questions.tstamp > 0 AND obj_fi = %s AND complete = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
             array('integer','text'),
@@ -792,33 +779,29 @@ class ilObjQuestionPool extends ilObject
         }
         return $questions;
     }
-    
-    public function checkQuestionParent($questionId)
+
+    public function checkQuestionParent($questionId) : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $row = $DIC->database()->fetchAssoc($DIC->database()->queryF(
             "SELECT COUNT(question_id) cnt FROM qpl_questions WHERE question_id = %s AND obj_fi = %s",
             array('integer', 'integer'),
             array($questionId, $this->getId())
         ));
-        
+
         return (bool) $row['cnt'];
     }
-    
+
     /**
     * get array of (two) new created questions for
     * import id
     */
-    public function getImportMapping()
+    public function getImportMapping() : array
     {
-        if (!is_array($this->import_mapping)) {
-            return array();
-        } else {
-            return $this->import_mapping;
-        }
+        return array();
     }
-    
+
     /**
     * Returns a QTI xml representation of a list of questions
     *
@@ -826,13 +809,13 @@ class ilObjQuestionPool extends ilObject
     * @return string The QTI xml representation of the questions
     * @access public
     */
-    public function questionsToXML($questions)
+    public function questionsToXML($questions) : string
     {
         $xml = "";
         // export button was pressed
         if (count($questions) > 0) {
             foreach ($questions as $key => $value) {
-                $question = &$this->createQuestion("", $value);
+                $question = $this->createQuestion("", $value);
                 $xml .= $question->object->toXML();
             }
             if (count($questions) > 1) {
@@ -842,7 +825,7 @@ class ilObjQuestionPool extends ilObject
         $xml = preg_replace("/(<\?xml[^>]*?>)/", "\\1" . "<!DOCTYPE questestinterop SYSTEM \"ims_qtiasiv1p2p1.dtd\">", $xml);
         return $xml;
     }
-    
+
     /**
     * Returns the number of questions in a question pool
     *
@@ -851,7 +834,7 @@ class ilObjQuestionPool extends ilObject
     * @return integer The number of questions in the questionpool object
     * @access public
     */
-    public static function _getQuestionCount($questionpool_id, $complete_questions_only = false)
+    public static function _getQuestionCount($questionpool_id, $complete_questions_only = false) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -871,7 +854,7 @@ class ilObjQuestionPool extends ilObject
         $row = $ilDB->fetchAssoc($result);
         return $row["question_count"];
     }
-    
+
     /**
     * Sets the questionpool online status
     *
@@ -879,7 +862,7 @@ class ilObjQuestionPool extends ilObject
     * @see online
     * @access public
     */
-    public function setOnline($a_online_status)
+    public function setOnline($a_online_status) : void
     {
         switch ($a_online_status) {
             case 0:
@@ -891,45 +874,45 @@ class ilObjQuestionPool extends ilObject
                 break;
         }
     }
-    
-    public function getOnline()
+
+    public function getOnline() : string
     {
         if (strcmp($this->online, "") == 0) {
             $this->online = "0";
         }
         return $this->online;
     }
-    
-    public function setShowTaxonomies($showTaxonomies)
+
+    public function setShowTaxonomies($showTaxonomies) : void
     {
         $this->showTaxonomies = $showTaxonomies;
     }
-    
-    public function getShowTaxonomies()
+
+    public function getShowTaxonomies() : ?bool
     {
         return $this->showTaxonomies;
     }
-    
-    public function setNavTaxonomyId($navTaxonomyId)
+
+    public function setNavTaxonomyId($navTaxonomyId) : void
     {
         $this->navTaxonomyId = $navTaxonomyId;
     }
-    
-    public function getNavTaxonomyId()
+
+    public function getNavTaxonomyId() : ?int
     {
         return $this->navTaxonomyId;
     }
-    
-    public function isNavTaxonomyActive()
+
+    public function isNavTaxonomyActive() : bool
     {
         return $this->getShowTaxonomies() && (int) $this->getNavTaxonomyId();
     }
-    
+
     public static function _lookupOnline($a_obj_id, $is_reference = false)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         if ($is_reference) {
             $result = $ilDB->queryF(
                 "SELECT qpl_questionpool.isonline FROM qpl_questionpool,object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questionpool.obj_fi",
@@ -949,18 +932,18 @@ class ilObjQuestionPool extends ilObject
         }
         return 0;
     }
-    
+
     /**
     * Checks a question pool for questions with the same maximum points
     *
     * @param integer $a_obj_id Object id of the question pool
     * @access private
     */
-    public static function _hasEqualPoints($a_obj_id, $is_reference = false)
+    public static function _hasEqualPoints($a_obj_id, $is_reference = false) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         if ($is_reference) {
             $result = $ilDB->queryF(
                 "SELECT count(DISTINCT qpl_questions.points) equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND qpl_questions.tstamp > 0 AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
@@ -984,21 +967,21 @@ class ilObjQuestionPool extends ilObject
         }
         return 0;
     }
-    
+
     /**
     * Copies/Moves a question from the clipboard
     *
     * @access private
     */
-    public function pasteFromClipboard()
+    public function pasteFromClipboard() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
         $success = false;
-        if (array_key_exists("qpl_clipboard", $_SESSION)) {
+        if (ilSession::get("qpl_clipboard") != null) {
             $success = true;
-            foreach ($_SESSION["qpl_clipboard"] as $question_object) {
+            foreach (ilSession::get("qpl_clipboard") as $question_object) {
                 if (strcmp($question_object["action"], "move") == 0) {
                     $result = $ilDB->queryF(
                         "SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
@@ -1017,14 +1000,14 @@ class ilObjQuestionPool extends ilObject
                         if (!$affectedRows) {
                             $success = false;
                         }
-                        
+
                         // move question data to the new target directory
                         $source_path = CLIENT_WEB_DIR . "/assessment/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
                         if (@is_dir($source_path)) {
                             $target_path = CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/";
                             if (!@is_dir($target_path)) {
                                 include_once "./Services/Utilities/classes/class.ilUtil.php";
-                                ilUtil::makeDirParents($target_path);
+                                ilFileUtils::makeDirParents($target_path);
                             }
                             rename($source_path, $target_path . $question_object["question_id"]);
                         }
@@ -1041,56 +1024,65 @@ class ilObjQuestionPool extends ilObject
         }
         // update question count of question pool
         ilObjQuestionPool::_updateQuestionCount($this->getId());
-        unset($_SESSION["qpl_clipboard"]);
-        
-        return (bool) $success;
+        ilSession::clear("qpl_clipboard");
+
+        return $success;
     }
-    
+
     /**
     * Copies a question to the clipboard
     *
     * @param integer $question_id Object id of the question
     * @access private
     */
-    public function copyToClipboard($question_id)
+    public function copyToClipboard($question_id) : void
     {
-        if (!array_key_exists("qpl_clipboard", $_SESSION)) {
-            $_SESSION["qpl_clipboard"] = array();
+        if (ilSession::get("qpl_clipboard") == null) {
+            ilSession::set("qpl_clipboard", array());
         }
-        $_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "copy");
+        $clip = ilSession::get('qpl_clipboard');
+        $clip[$question_id] = array("question_id" => $question_id, "action" => "copy");
+        ilSession::set('qpl_clipboard', $clip);
+        //$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "copy");
     }
-    
+
     /**
     * Moves a question to the clipboard
     *
     * @param integer $question_id Object id of the question
     * @access private
     */
-    public function moveToClipboard($question_id)
+    public function moveToClipboard($question_id) : void
     {
-        if (!array_key_exists("qpl_clipboard", $_SESSION)) {
-            $_SESSION["qpl_clipboard"] = array();
+        if (ilSession::get("qpl_clipboard") == null) {
+            ilSession::set("qpl_clipboard", array());
         }
-        $_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
+        $clip = ilSession::get('qpl_clipboard');
+        $clip[$question_id] = array("question_id" => $question_id, "action" => "move");
+        ilSession::set('qpl_clipboard', $clip);
+        //$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
     }
-    
-    public function cleanupClipboard($deletedQuestionId)
+
+    public function cleanupClipboard($deletedQuestionId) : void
     {
-        if (!isset($_SESSION['qpl_clipboard'])) {
-            return;
-        }
-        
-        if (!isset($_SESSION['qpl_clipboard'][$deletedQuestionId])) {
+        if (ilSession::get('qpl_clipboard') == null) {
             return;
         }
 
-        unset($_SESSION['qpl_clipboard'][$deletedQuestionId]);
-        
-        if (!count($_SESSION['qpl_clipboard'])) {
-            unset($_SESSION['qpl_clipboard']);
+        $clip = ilSession::get('qpl_clipboard');
+        if (!isset($clip[$deletedQuestionId])) {
+            return;
+        }
+
+        unset($clip[$deletedQuestionId]);
+
+        if (!count($clip)) {
+            ilSession::clear('qpl_clipboard');
+        } else {
+            ilSession::set('qpl_clipboard', $clip);
         }
     }
-    
+
     /**
     * Returns true, if the question pool is writeable by a given user
     *
@@ -1098,7 +1090,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $user_id The database id of the user
     * @access public
     */
-    public static function _isWriteable($object_id, $user_id)
+    public static function _isWriteable($object_id, $user_id) : bool
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -1114,7 +1106,7 @@ class ilObjQuestionPool extends ilObject
         }
         return false;
     }
-    
+
     /**
     * Returns an array containing the qpl_question and qpl_qst_type fields for an array of question ids
     *
@@ -1122,11 +1114,11 @@ class ilObjQuestionPool extends ilObject
     * @return array An array containing the details of the requested questions
     * @access public
     */
-    public function &getQuestionDetails($question_ids)
+    public function &getQuestionDetails($question_ids) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $result = array();
         $query_result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND " . $ilDB->in('qpl_questions.question_id', $question_ids, false, 'integer') . " ORDER BY qpl_questions.title");
         if ($query_result->numRows()) {
@@ -1145,12 +1137,12 @@ class ilObjQuestionPool extends ilObject
     * @return array An array containing the details of the requested questions
     * @access public
     */
-    public function &getDeleteableQuestionDetails($question_ids)
+    public function &getDeleteableQuestionDetails($question_ids) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
-        
+
         $result = array();
         $query_result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND " . $ilDB->in('qpl_questions.question_id', $question_ids, false, 'integer') . " ORDER BY qpl_questions.title");
         if ($query_result->numRows()) {
@@ -1165,7 +1157,7 @@ class ilObjQuestionPool extends ilObject
                     // of the original question must changed with the reference of the copy
 
                     // 1. Create a copy of the original question
-                    $question = &$this->createQuestion("", $row["question_id"]);
+                    $question = $this->createQuestion("", $row["question_id"]);
                     $duplicate_id = $question->object->duplicate(true);
                     if ($duplicate_id > 0) {
                         // 2. replace the question id in the solutions
@@ -1211,7 +1203,7 @@ class ilObjQuestionPool extends ilObject
     * @return string The full path to the question pool including the locator
     * @access public
     */
-    public function _getFullPathToQpl($ref_id)
+    public function _getFullPathToQpl($ref_id) : string
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -1238,7 +1230,7 @@ class ilObjQuestionPool extends ilObject
     * @return array The available question pools
     * @access public
     */
-    public static function _getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $showPath = false, $with_questioncount = false, $permission = "read", $usr_id = "")
+    public static function _getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $showPath = false, $with_questioncount = false, $permission = "read", $usr_id = "") : array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -1303,11 +1295,11 @@ class ilObjQuestionPool extends ilObject
         return $result_array;
     }
 
-    public function &getQplQuestions()
+    public function &getQplQuestions() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $questions = array();
         $result = $ilDB->queryF(
             "SELECT qpl_questions.question_id FROM qpl_questions WHERE qpl_questions.original_id IS NULL AND qpl_questions.tstamp > 0 AND qpl_questions.obj_fi = %s",
@@ -1319,13 +1311,13 @@ class ilObjQuestionPool extends ilObject
         }
         return $questions;
     }
-    
+
     /**
     * Creates a 1:1 copy of the object and places the copy in a given repository
     *
     * @access public
     */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
@@ -1335,7 +1327,7 @@ class ilObjQuestionPool extends ilObject
         $newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
         $newObj->setShowTaxonomies($this->getShowTaxonomies());
         $newObj->saveToDb();
-        
+
         // clone the questions in the question pool
         $questions = &$this->getQplQuestions();
         $questionIdsMap = array();
@@ -1343,7 +1335,7 @@ class ilObjQuestionPool extends ilObject
             $newQuestionId = $newObj->copyQuestion($question_id, $newObj->getId());
             $questionIdsMap[$question_id] = $newQuestionId;
         }
-        
+
         // clone meta data
         include_once "./Services/MetaData/classes/class.ilMD.php";
         $md = new ilMD($this->getId(), 0, $this->getType());
@@ -1368,17 +1360,17 @@ class ilObjQuestionPool extends ilObject
         return $newObj;
     }
 
-    public function getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true)
+    public function getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true) : array
     {
         return self::_getQuestionTypes($all_tags, $fixOrder, $withDeprecatedTypes);
     }
 
-    public static function _getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true)
+    public static function _getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        
+
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
         $lng->loadLanguageModule("assessment");
@@ -1386,17 +1378,14 @@ class ilObjQuestionPool extends ilObject
         $types = array();
         while ($row = $ilDB->fetchAssoc($result)) {
             if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types))) {
-                global $DIC;
                 $ilLog = $DIC['ilLog'];
-                
+
                 if ($row["plugin"] == 0) {
                     $types[$lng->txt($row["type_tag"])] = $row;
                 } else {
-                    global $DIC;
-                    $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                    $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                    foreach ($pl_names as $pl_name) {
-                        $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                    $component_factory = $DIC['component.factory'];
+                    //$plugins = $component_repository->getPluginSlotById("qst")->getActivePlugins();
+                    foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                         if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                             $types[$pl->getQuestionTypeTranslation()] = $row;
                         }
@@ -1404,12 +1393,12 @@ class ilObjQuestionPool extends ilObject
                 }
             }
         }
-        
+
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionTypeOrderer.php';
         $orderMode = ($fixOrder ? ilAssQuestionTypeOrderer::ORDER_MODE_FIX : ilAssQuestionTypeOrderer::ORDER_MODE_ALPHA);
         $orderer = new ilAssQuestionTypeOrderer($types, $orderMode);
         $types = $orderer->getOrderedTypes($withDeprecatedTypes);
-        
+
         return $types;
     }
 
@@ -1426,16 +1415,17 @@ class ilObjQuestionPool extends ilObject
         if ($row = $ilDB->fetchAssoc($result)) {
             return $row['type_tag'];
         }
+        return null;
     }
 
-    public static function getQuestionTypeTranslations()
+    public static function getQuestionTypeTranslations() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $ilLog = $DIC['ilLog'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
+        $component_factory = $DIC['component.factory'];
+
         $lng->loadLanguageModule("assessment");
         $result = $ilDB->query("SELECT * FROM qpl_qst_type");
         $types = array();
@@ -1443,9 +1433,7 @@ class ilObjQuestionPool extends ilObject
             if ($row["plugin"] == 0) {
                 $types[$row['type_tag']] = $lng->txt($row["type_tag"]);
             } else {
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                foreach ($pl_names as $pl_name) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                     if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                         $types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
                     }
@@ -1461,7 +1449,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @todo		Make it more flexible
     */
-    public static function &_getSelfAssessmentQuestionTypes($all_tags = false)
+    public static function &_getSelfAssessmentQuestionTypes($all_tags = false) : array
     {
         /*		$allowed_types = array(
                     "assSingleChoice" => 1,
@@ -1501,11 +1489,11 @@ class ilObjQuestionPool extends ilObject
     }
 
 
-    public function &getQuestionList()
+    public function &getQuestionList() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $questions = array();
         $result = $ilDB->queryF(
             "SELECT qpl_questions.*, qpl_qst_type.* FROM qpl_questions, qpl_qst_type WHERE qpl_questions.original_id IS NULL AND qpl_questions.obj_fi = %s AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
@@ -1517,14 +1505,14 @@ class ilObjQuestionPool extends ilObject
         }
         return $questions;
     }
-    
+
     /**
     * Updates the number of available questions for a question pool in the database
     *
     * @param integer $object_id Object id of the questionpool to examine
     * @access public
     */
-    public static function _updateQuestionCount($object_id)
+    public static function _updateQuestionCount($object_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1534,40 +1522,37 @@ class ilObjQuestionPool extends ilObject
             array(ilObjQuestionPool::_getQuestionCount($object_id, true), time(), $object_id)
         );
     }
-    
+
     /**
     * Checks wheather or not a question plugin with a given name is active
     *
     * @param string $a_pname The plugin name
     * @access public
     */
-    public function isPluginActive($questionType)
+    public function isPluginActive($questionType) : bool
     {
         /* @var ilPluginAdmin $ilPluginAdmin */
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
-        $plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($plugins as $pluginName) {
-            if ($pluginName == $questionType) { // plugins having pname == qtype
+        $component_factory = $DIC['component.factory'];
+
+        foreach ($component_factory->getActivePluginsInSlot("qst") as $plugin) {
+            if ($plugin->getPluginName() == $questionType) { // plugins having pname == qtype
                 return true;
             }
-            
+
             /* @var ilQuestionsPlugin $plugin */
-            $plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pluginName);
-            
             if ($plugin->getQuestionType() == $questionType) { // plugins havin an independent name
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     /*
     * Remove all questions with owner = 0
     */
-    public function purgeQuestions()
+    public function purgeQuestions() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1584,7 +1569,7 @@ class ilObjQuestionPool extends ilObject
      *
      * @return array
      */
-    public function getTaxonomyIds()
+    public function getTaxonomyIds() : array
     {
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         return ilObjTaxonomy::getUsageOfObject($this->getId());
@@ -1593,7 +1578,7 @@ class ilObjQuestionPool extends ilObject
     /**
      * @return boolean
      */
-    public function isSkillServiceEnabled()
+    public function isSkillServiceEnabled() : bool
     {
         return $this->skillServiceEnabled;
     }
@@ -1601,14 +1586,14 @@ class ilObjQuestionPool extends ilObject
     /**
      * @param boolean $skillServiceEnabled
      */
-    public function setSkillServiceEnabled($skillServiceEnabled)
+    public function setSkillServiceEnabled($skillServiceEnabled) : void
     {
         $this->skillServiceEnabled = $skillServiceEnabled;
     }
-    
+
     private static $isSkillManagementGloballyActivated = null;
 
-    public static function isSkillManagementGloballyActivated()
+    public static function isSkillManagementGloballyActivated() : ?bool
     {
         if (self::$isSkillManagementGloballyActivated === null) {
             $skmgSet = new ilSkillManagementSettings();
@@ -1618,8 +1603,8 @@ class ilObjQuestionPool extends ilObject
 
         return self::$isSkillManagementGloballyActivated;
     }
-    
-    public function fromXML($xmlFile)
+
+    public function fromXML($xmlFile) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolXMLParser.php';
         $parser = new ilObjQuestionPoolXMLParser($this, $xmlFile);

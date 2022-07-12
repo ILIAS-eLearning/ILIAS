@@ -1,8 +1,22 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Membership/classes/class.ilMembershipGUI.php';
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
  * GUI class for membership features
@@ -17,10 +31,22 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
  */
 class ilGroupMembershipGUI extends ilMembershipGUI
 {
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
+    public function __construct(ilObjectGUI $repository_gui, ilObject $repository_obj)
+    {
+        global $DIC;
+
+        parent::__construct($repository_gui, $repository_obj);
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
+    }
+
     /**
      * @return ilAbstractMailMemberRoles | null
      */
-    protected function getMailMemberRoles()
+    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberGroupRoles();
     }
@@ -31,36 +57,38 @@ class ilGroupMembershipGUI extends ilMembershipGUI
      * @param int[] $a_user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
     {
-        return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+        return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
             'manage_members',
             $this->getParentObject()->getRefId(),
             $a_user_ids
         );
     }
-    
+
     /**
-     * @access public
+     * @param int[]  $user_ids
+     * @param int $a_type
+     * @return bool
+     * @throws ilCtrlException
      */
-    public function assignMembers($user_ids, $a_type)
+    public function assignMembers(array $user_ids, int $a_type) : bool
     {
-        if (empty($user_ids[0])) {
+        if (!count($user_ids)) {
             $this->lng->loadLanguageModule('search');
-            ilUtil::sendFailure($this->lng->txt('search_err_user_not_exist'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);
             return false;
         }
 
         $assigned = false;
-        foreach ((array) $user_ids as $new_member) {
+        foreach ($user_ids as $new_member) {
             if ($this->getMembersObject()->isAssigned($new_member)) {
                 continue;
             }
             switch ($a_type) {
                 case $this->getParentObject()->getDefaultAdminRole():
-                    $this->getMembersObject()->add($new_member, IL_GRP_ADMIN);
-                    include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+                    $this->getMembersObject()->add($new_member, ilParticipants::IL_GRP_ADMIN);
                     $this->getMembersObject()->sendNotification(
                         ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -69,8 +97,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                     break;
                 
                 case $this->getParentObject()->getDefaultMemberRole():
-                    $this->getMembersObject()->add($new_member, IL_GRP_MEMBER);
-                    include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+                    $this->getMembersObject()->add($new_member, ilParticipants::IL_GRP_MEMBER);
                     $this->getMembersObject()->sendNotification(
                         ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -80,14 +107,13 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                     
                 default:
                     if (in_array($a_type, $this->getParentObject()->getLocalGroupRoles(true))) {
-                        $this->getMembersObject()->add($new_member, IL_GRP_MEMBER);
+                        $this->getMembersObject()->add($new_member, ilParticipants::IL_GRP_MEMBER);
                         $this->getMembersObject()->updateRoleAssignments($new_member, (array) $a_type);
                     } else {
                         ilLoggerFactory::getLogger('crs')->notice('Can not find role with id .' . $a_type . ' to assign users.');
-                        ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"), true);
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_cannot_find_role"), true);
                         return false;
                     }
-                    include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
                     $this->getMembersObject()->sendNotification(
                         ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -98,24 +124,46 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         }
         
         if ($assigned) {
-            ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_member_assigned"), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('grp_users_already_assigned'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('grp_users_already_assigned'), true);
         }
         $this->ctrl->redirect($this, 'participants');
+        return true;
     }
 
     /**
      * save in participants table
      */
-    protected function updateParticipantsStatus()
+    protected function updateParticipantsStatus() : void
     {
-        $participants = (array) $_POST['visible_member_ids'];
-        $notification = (array) $_POST['notification'];
-        $contact = (array) $_POST['contact'];
-
-        ilLoggerFactory::getLogger('grp')->dump($contact);
-
+        $participants = [];
+        if ($this->http->wrapper()->post()->has('visible_member_ids')) {
+            $participants = $this->http->wrapper()->post()->retrieve(
+                'visible_member_ids',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        $notification = [];
+        if ($this->http->wrapper()->post()->has('notification')) {
+            $notification = $this->http->wrapper()->post()->retrieve(
+                'notification',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        $contact = [];
+        if ($this->http->wrapper()->post()->has('contact')) {
+            $contact = $this->http->wrapper()->post()->retrieve(
+                'contact',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         foreach ($participants as $mem_id) {
             if ($this->getMembersObject()->isAdmin($mem_id)) {
                 $this->getMembersObject()->updateContact($mem_id, in_array($mem_id, $contact));
@@ -125,27 +173,21 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                 $this->getMembersObject()->updateNotification($mem_id, false);
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'participants');
     }
     
     
-    /**
-     * @return \ilParticpantTableGUI
-     */
-    protected function initParticipantTableGUI()
+    protected function initParticipantTableGUI() : ilGroupParticipantsTableGUI
     {
-        include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
         $show_tracking =
             (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData())
         ;
         if ($show_tracking) {
-            include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
 
-        include_once './Modules/Group/classes/class.ilGroupParticipantsTableGUI.php';
         return new ilGroupParticipantsTableGUI(
             $this,
             $this->getParentObject(),
@@ -153,14 +195,8 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         );
     }
     
-    /**
-     * init edit participants table gui
-     * @param array $participants
-     * @return \ilGroupEditParticipantsTableGUI
-     */
-    protected function initEditParticipantTableGUI(array $participants)
+    protected function initEditParticipantTableGUI(array $participants) : ilGroupEditParticipantsTableGUI
     {
-        include_once './Modules/Group/classes/class.ilGroupEditParticipantsTableGUI.php';
         $table = new ilGroupEditParticipantsTableGUI($this, $this->getParentObject());
         $table->setTitle($this->lng->txt($this->getParentObject()->getType() . '_header_edit_members'));
         $table->setData($this->getParentGUI()->readMemberData($participants));
@@ -173,51 +209,31 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     /**
      * Init participant view template
      */
-    protected function initParticipantTemplate()
+    protected function initParticipantTemplate() : void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.grp_edit_members.html', 'Modules/Group');
     }
     
-    /**
-     * @todo refactor delete
-     */
-    public function getLocalTypeRole($a_translation = false)
+    public function getLocalTypeRole(bool $a_translation = false) : array
     {
         return $this->getParentObject()->getLocalGroupRoles($a_translation);
     }
     
-    /**
-     * Update lp from status
-     */
-    protected function updateLPFromStatus()
+
+    protected function initWaitingList() : ilGroupWaitingList
     {
-        return null;
-    }
-    
-    /**
-     * init waiting list
-     * @return ilGroupWaitingList
-     */
-    protected function initWaitingList()
-    {
-        include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
-        $wait = new ilGroupWaitingList($this->getParentObject()->getId());
-        return $wait;
+        return new ilGroupWaitingList($this->getParentObject()->getId());
     }
 
     /**
-     * @return int
+     * @inheritDoc
      */
-    protected function getDefaultRole()
+    protected function getDefaultRole() : ?int
     {
-        return $this->getParentGUI()->object->getDefaultMemberRole();
+        return $this->getParentGUI()->getObject()->getDefaultMemberRole();
     }
     
-    /**
-     * @param array $a_members
-     * @return array
-     */
-    public function getPrintMemberData($a_members)
+    public function getPrintMemberData(array $a_members) : array
     {
         $member_data = $this->readMemberData($a_members, array());
         $member_data = $this->getParentGUI()->addCustomData($member_data);
@@ -226,22 +242,24 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     
     /**
      * Callback from attendance list
-     * @param int $a_user_id
-     * @return array
      */
-    public function getAttendanceListUserData($a_user_id)
+    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
     {
-        if (is_array($this->member_data) && array_key_exists($a_user_id, $this->member_data)) {
-            $user_data = $this->member_data[$a_user_id];
-            $user_data['access'] = $this->member_data['access_time'];
-            $user_data['progress'] = $this->lng->txt($this->member_data['progress']);
+        if (is_array($this->member_data) && array_key_exists($user_id, $this->member_data)) {
+            $user_data = $this->member_data[$user_id];
+            if (isset($this->member_data['access_time'])) {
+                $user_data['access'] = $this->member_data['access_time'];
+            }
+            if (isset($this->member_data['progress'])) {
+                $user_data['progress'] = $this->lng->txt($this->member_data['progress']);
+            }
             return $user_data;
         }
         return [];
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function getMailContextOptions() : array
     {

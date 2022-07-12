@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -9,7 +23,9 @@ use ILIAS\UI\Implementation\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Implementation\Component\Input\Field\Input;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use \ILIAS\Data;
+use ILIAS\Data;
+use ILIAS\Refinery\Factory as Refinery;
+use PHPUnit\Framework\MockObject\MockObject;
 
 abstract class Input11 extends Input
 {
@@ -21,16 +37,32 @@ abstract class Input12 extends Input
 class OptionalGroupInputTest extends ILIAS_UI_TestBase
 {
     /**
-     * @var \ILIAS\Refinery\Factory
+     * @var Input11|mixed|MockObject
      */
-    private $refinery;
+    protected $child1;
+
+    /**
+     * @var Input12|mixed|MockObject
+     */
+    protected $child2;
+
+    protected Data\Factory $data_factory;
+
+    /**
+     * @var ilLanguage|mixed|MockObject
+     */
+    protected $language;
+
+    protected Refinery $refinery;
+    protected \ILIAS\UI\Component\Input\Field\Input $optional_group;
+    protected OptionalGroup $group;
 
     public function setUp() : void
     {
         $this->child1 = $this->createMock(Input11::class);
         $this->child2 = $this->createMock(Input12::class);
         $this->data_factory = new Data\Factory();
-        $this->language = $this->createMock(\ilLanguage::class);
+        $this->language = $this->createMock(ilLanguage::class);
         $this->refinery = new ILIAS\Refinery\Factory($this->data_factory, $this->language);
 
         $this->child1
@@ -48,14 +80,14 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
             "LABEL",
             "BYLINE"
         ))->withNameFrom(new class implements NameSource {
-            public function getNewName()
+            public function getNewName() : string
             {
                 return "name0";
             }
         });
     }
 
-    public function testWithDisabledDisablesChildren()
+    public function testWithDisabledDisablesChildren() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -77,7 +109,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->optional_group, $new_group);
     }
 
-    public function testWithRequiredDoesNotRequire()
+    public function testWithRequiredDoesNotRequire() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -95,9 +127,9 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->optional_group, $new_group);
     }
 
-    public function testOptionalGroupMayOnlyHaveInputChildren()
+    public function testOptionalGroupMayOnlyHaveInputChildren() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->group = new OptionalGroup(
             $this->data_factory,
@@ -109,7 +141,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testOptionalGroupForwardsValuesOnWithValue()
+    public function testOptionalGroupForwardsValuesOnWithValue() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -141,21 +173,19 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->optional_group, $new_group);
     }
 
-    public function testGroupOnlyDoesNoAcceptNonArrayValue()
+    public function testGroupOnlyDoesNoAcceptNonArrayValue() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $new_group = $this->optional_group->withValue(1);
+        $this->expectException(InvalidArgumentException::class);
+        $this->optional_group->withValue(1);
     }
 
-    public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength()
+    public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $new_group = $this->optional_group->withValue([1]);
+        $this->expectException(InvalidArgumentException::class);
+        $this->optional_group->withValue([1]);
     }
 
-    public function testGroupAcceptsNullButDoesNotForward()
+    public function testGroupAcceptsNullButDoesNotForward() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -180,7 +210,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $new_group->getValue());
     }
 
-    public function testGroupForwardsValuesOnGetValue()
+    public function testGroupForwardsValuesOnGetValue() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -200,7 +230,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(["one", "two"], $vals);
     }
 
-    public function testWithInputCallsChildrenAndAppliesOperations()
+    public function testWithInputCallsChildrenAndAppliesOperations() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -235,7 +265,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
 
         $called = false;
         $new_group = $this->optional_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) : string {
                 $called = true;
                 $this->assertEquals(["two", "one"], $v);
                 return "result";
@@ -249,7 +279,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->data_factory->ok("result"), $new_group->getContent());
     }
 
-    public function testWithInputDoesNotApplyOperationsOnError()
+    public function testWithInputDoesNotApplyOperationsOnError() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -288,8 +318,8 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
             ->willReturn($i18n);
 
         $new_group = $this->optional_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) {
-                $this->assertFalse(true, "This should not happen.");
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () : void {
+                $this->fail("This should not happen.");
             }))
             ->withInput($input_data);
 
@@ -299,7 +329,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($new_group->getContent()->isError());
     }
 
-    public function testWithInputDoesNotCallChildrenWhenUnchecked()
+    public function testWithInputDoesNotCallChildrenWhenUnchecked() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -326,7 +356,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
 
         $called = false;
         $new_group = $this->optional_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) : string {
                 $called = true;
                 $this->assertEquals(null, $v);
                 return "result";

@@ -13,11 +13,11 @@ require_once 'libs/composer/vendor/autoload.php';
 class assFormulaQuestionTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
-
+    protected $backup_dic;
+    
     protected function setUp() : void
     {
         parent::setUp();
-
         $lng = $this->getMockBuilder(\ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -26,7 +26,12 @@ class assFormulaQuestionTest extends assBaseTestCase
 
         $this->setGlobalVariable('lng', $lng);
     }
-
+    
+    protected function tearDown() : void
+    {
+        global $DIC;
+        $DIC = $this->backup_dic;
+    }
 
     /**
      * @dataProvider simpleRatedCalculationsData
@@ -44,7 +49,7 @@ class assFormulaQuestionTest extends assBaseTestCase
         $userResult,
         $userResultUnit,
         $expectedResult
-    ) {
+    ) : void {
         $isCorrect = $result->isCorrect($variables, $results, $userResult, $userResultUnit);
         $this->assertEquals($expectedResult, $isCorrect);
     }
@@ -52,8 +57,15 @@ class assFormulaQuestionTest extends assBaseTestCase
     /**
      *
      */
-    public function simpleRatedCalculationsData()
+    public function simpleRatedCalculationsData() : array
     {
+        global $DIC;
+    
+        $this->backup_dic = $DIC;
+        $DIC = new ILIAS\DI\Container([
+            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
+                          ->getMock()
+        ]);
         $points = 5;
         $precision = 2;
 

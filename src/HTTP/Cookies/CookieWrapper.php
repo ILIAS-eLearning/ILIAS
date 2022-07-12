@@ -4,11 +4,22 @@ namespace ILIAS\HTTP\Cookies;
 
 use Dflydev\FigCookies\SetCookie;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class CookieWrapper
- *
  * Facade class for the FigCookies SetCookie class.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @package ILIAS\HTTP\Cookies
  * @since   5.3
@@ -16,26 +27,16 @@ use Dflydev\FigCookies\SetCookie;
  */
 class CookieWrapper implements Cookie
 {
-
-    /**
-     * Underlying implementation.
-     *
-     * @var SetCookie $cookie
-     */
-    private $cookie;
-
-
+    private SetCookie $cookie;
+    
     /**
      * CookieFacade constructor.
-     *
-     * @param SetCookie $cookie
      */
     public function __construct(SetCookie $cookie)
     {
         $this->cookie = $cookie;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -43,8 +44,7 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->getName();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -52,8 +52,7 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->getValue();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -61,8 +60,7 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->getExpires();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -70,8 +68,7 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->getMaxAge();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -79,8 +76,7 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->getPath();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -88,8 +84,7 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->getDomain();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -97,8 +92,7 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->getSecure();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -106,116 +100,106 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->getHttpOnly();
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function withValue(string $value = null) : \ILIAS\HTTP\Cookies\Cookie
+    public function withValue(string $value = null) : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withValue($value);
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function withExpires($expires = null) : \ILIAS\HTTP\Cookies\Cookie
+    public function withExpires($expires = null) : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withExpires($expires);
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function rememberForLongTime() : \ILIAS\HTTP\Cookies\Cookie
+    public function rememberForLongTime() : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->rememberForever();
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function expire() : \ILIAS\HTTP\Cookies\Cookie
+    public function expire() : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->expire();
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function withMaxAge(int $maxAge = null) : \ILIAS\HTTP\Cookies\Cookie
+    public function withMaxAge(int $maxAge = null) : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withMaxAge($maxAge);
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function withPath(string $path = null) : \ILIAS\HTTP\Cookies\Cookie
+    public function withPath(string $path = null) : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withPath($path);
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function withDomain(string $domain = null) : \ILIAS\HTTP\Cookies\Cookie
+    public function withDomain(string $domain = null) : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withDomain($domain);
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function withSecure(bool $secure = null) : \ILIAS\HTTP\Cookies\Cookie
+    public function withSecure(bool $secure = null) : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withSecure($secure);
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    public function withHttpOnly(bool $httpOnly = null) : \ILIAS\HTTP\Cookies\Cookie
+    public function withHttpOnly(bool $httpOnly = null) : Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withHttpOnly($httpOnly);
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -223,16 +207,13 @@ class CookieWrapper implements Cookie
     {
         return $this->cookie->__toString();
     }
-
-
+    
     /**
      * Returns the underlying implementation.
      * Only for package/service internal use!!!
-     *
-     * @return SetCookie
      * @internal
      */
-    public function getImplementation()
+    public function getImplementation() : SetCookie
     {
         return $this->cookie;
     }

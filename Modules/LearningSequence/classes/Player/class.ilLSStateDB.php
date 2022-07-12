@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Persistence for View-States
  */
@@ -114,7 +128,7 @@ class ilLSStateDB
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($insert_first, $lso_ref_id, $usr_id, $current_item, $serialized) {
+            function (ilDBInterface $db) use ($insert_first, $lso_ref_id, $usr_id, $current_item, $serialized) : void {
                 if ($insert_first) {
                     $this->insert($lso_ref_id, $usr_id);
                 }
@@ -127,7 +141,7 @@ class ilLSStateDB
 
     protected function entryExistsFor(int $lso_ref_id, int $usr_id) : bool
     {
-        return count($this->select($lso_ref_id, [$usr_id])) > 0;
+        return $this->select($lso_ref_id, [$usr_id]) !== [];
     }
 
     protected function insert(int $lso_ref_id, int $usr_id) : void
@@ -164,7 +178,6 @@ class ilLSStateDB
     }
 
     /**
-     * @param int $lso_ref_id
      * @param int[] $usr_ids
      */
     public function deleteFor(int $lso_ref_id, array $usr_ids = []) : void
@@ -174,7 +187,7 @@ class ilLSStateDB
             . "WHERE lso_ref_id = " . $this->db->quote($lso_ref_id, "integer") . PHP_EOL
         ;
 
-        if (count($usr_ids) > 0) {
+        if ($usr_ids !== []) {
             $query .= "AND usr_id IN (" . implode(',', $usr_ids) . ")";
         }
 
@@ -184,14 +197,14 @@ class ilLSStateDB
     public function deleteForItem(int $lso_ref_id, int $item_ref_id) : void
     {
         $all_states = $this->select($lso_ref_id);
-        if (count($all_states) === 0) {
+        if ($all_states === []) {
             return;
         }
 
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($lso_ref_id, $all_states, $item_ref_id) {
+            function (ilDBInterface $db) use ($lso_ref_id, $all_states, $item_ref_id) : void {
                 foreach ($all_states as $usr_id => $state_entry) {
                     $current_item = $state_entry['current_item'];
                     $states = $state_entry['states'];
@@ -204,7 +217,7 @@ class ilLSStateDB
                         unset($states[$item_ref_id]);
                     }
                     $serialized = $this->serializeStates($states);
-                    $this->update($db, $lso_ref_id, $usr_id, $current_item, $serialized);
+                    $this->update($db, $lso_ref_id, (int) $usr_id, $current_item, $serialized);
                 }
             }
         );
@@ -252,9 +265,8 @@ class ilLSStateDB
     }
 
     /**
-     * @param int   $lso_ref_id
      * @param int[] $usr_ids
-     * @return array<string, array<mixed>>
+     * @return array<string, array>
      */
     protected function select(int $lso_ref_id, array $usr_ids = []) : array
     {
@@ -264,7 +276,7 @@ class ilLSStateDB
             . "WHERE lso_ref_id = " . $this->db->quote($lso_ref_id, "integer") . PHP_EOL
         ;
 
-        if (count($usr_ids) > 0) {
+        if ($usr_ids !== []) {
             $query .= "AND usr_id IN (" . implode(',', $usr_ids) . ")";
         }
 

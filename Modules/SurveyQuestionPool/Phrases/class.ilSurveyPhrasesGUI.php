@@ -1,47 +1,48 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
 
 /**
  * Survey phrases GUI class
- *
  * The ilSurveyPhrases GUI class creates the GUI output for
  * survey phrases (collections of survey categories)
  * of ordinal survey question types.
- *
  * @author		Helmut Schottmüller <ilias@aurealis.de>
  */
 class ilSurveyPhrasesGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilPropertyFormGUI $form;
+    protected EditingGUIRequest $request;
+    protected ilRbacSystem $rbacsystem;
+    protected ilToolbarGUI $toolbar;
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    public $object;
-    public $gui_object;
-    public $lng;
-    public $tpl;
-    public $ctrl;
-    public $tree;
-    public $ref_id;
+    protected ilSurveyPhrases $object;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilTree $tree;
+    protected int $ref_id;
     
-    /**
-    * ilSurveyPhrasesGUI constructor
-    *
-    */
-    public function __construct($a_object)
-    {
+    public function __construct(
+        ilObjSurveyQuestionPoolGUI $a_object
+    ) {
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -55,63 +56,49 @@ class ilSurveyPhrasesGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
-        $this->gui_object = $a_object;
         $this->object = new ilSurveyPhrases();
         $this->tree = $tree;
-        $this->ref_id = $a_object->ref_id;
+        $this->ref_id = $a_object->getRefId();
         $this->ctrl->saveParameter($this, "p_id");
+        $this->request = $DIC->surveyQuestionPool()
+                                  ->internal()
+                                  ->gui()
+                                  ->editing()
+                                  ->request();
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
-        $cmd = $this->getCommand($cmd);
         switch ($next_class) {
             default:
-                $ret = &$this->$cmd();
+                $ret = $this->$cmd();
                 break;
         }
-        return $ret;
+        return (string) $ret;
     }
 
     /**
-    * Retrieves the ilCtrl command
-    */
-    public function getCommand($cmd)
+     * Creates a confirmation form to delete personal phases from the database
+     */
+    public function deletePhrase() : void
     {
-        return $cmd;
-    }
-    
-    /**
-    * Creates a confirmation form to delete personal phases from the database
-    */
-    public function deletePhrase()
-    {
-        ilUtil::sendInfo();
-
-        $checked_phrases = $_POST['phrase'];
-        if (count($checked_phrases)) {
-            ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_phrases"));
+        $checked_phrases = $this->request->getPhraseIds();
+        if (count($checked_phrases) > 0) {
+            $this->tpl->setOnScreenMessage('question', $this->lng->txt("qpl_confirm_delete_phrases"));
             $this->deletePhrasesForm($checked_phrases);
-            return;
         } else {
-            ilUtil::sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_delete_phrase_select_none"));
             $this->phrases();
-            return;
         }
     }
 
     /**
-    * Displays a form to manage the user created phrases
-    *
-    * @access	public
-    */
-    public function phrases()
+     * List phrases
+     */
+    public function phrases() : void
     {
         $rbacsystem = $this->rbacsystem;
         $ilToolbar = $this->toolbar;
@@ -125,40 +112,43 @@ class ilSurveyPhrasesGUI
             $ilToolbar->addButtonInstance($button);
         
             $table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
-            $phrases = &ilSurveyPhrases::_getAvailablePhrases(1);
+            $phrases = ilSurveyPhrases::_getAvailablePhrases(1);
             $data = array();
             foreach ($phrases as $phrase_id => $phrase_array) {
-                $categories = &ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-                array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join(", ", $categories)));
+                $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+                $data[] = array('phrase_id' => $phrase_id,
+                                'phrase' => $phrase_array["title"],
+                                'answers' => implode(", ", $categories)
+                );
             }
             $table_gui->setData($data);
             $this->tpl->setContent($table_gui->getHTML());
         } else {
-            ilUtil::sendInfo($this->lng->txt("cannot_manage_phrases"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_manage_phrases"));
         }
     }
 
-    /**
-    * cancel delete phrases
-    */
-    public function cancelDeletePhrase()
+    public function cancelDeletePhrase() : void
     {
         $this->ctrl->redirect($this, "phrases");
     }
     
-    /**
-    * confirm delete phrases
-    */
-    public function confirmDeletePhrase()
+    public function confirmDeletePhrase() : void
     {
-        $phrases = $_POST['phrase'];
+        $phrases = $this->request->getPhraseIds();
         $this->object->deletePhrases($phrases);
-        ilUtil::sendSuccess($this->lng->txt("qpl_phrases_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("qpl_phrases_deleted"), true);
         $this->ctrl->redirect($this, "phrases");
     }
 
-    protected function getCategoriesForPhrase($phrase_id)
-    {
+    /**
+     * @todo move this to a repo class
+     * @param int $phrase_id
+     * @return SurveyCategories
+     */
+    protected function getCategoriesForPhrase(
+        int $phrase_id
+    ) : SurveyCategories {
         $ilDB = $this->db;
         
         $categories = new SurveyCategories();
@@ -174,9 +164,13 @@ class ilSurveyPhrasesGUI
         }
         return $categories;
     }
-    
-    protected function getPhraseTitle($phrase_id)
-    {
+
+    /**
+     * @todo move this to a repo class
+     */
+    protected function getPhraseTitle(
+        int $phrase_id
+    ) : string {
         $ilDB = $this->db;
         
         $result = $ilDB->queryF(
@@ -188,101 +182,113 @@ class ilSurveyPhrasesGUI
             $row = $ilDB->fetchAssoc($result);
             return $row['title'];
         }
-        return null;
+        return "";
     }
     
     /**
-    * Creates a confirmation form to delete personal phases from the database
-    *
-    * @param array $checked_phrases An array with the id's of the phrases checked for deletion
-    */
-    public function deletePhrasesForm($checked_phrases)
-    {
+     * Creates a confirmation form to delete personal phases from the database
+     * @param array $checked_phrases array with the id's of the phrases checked for deletion
+     */
+    public function deletePhrasesForm(
+        array $checked_phrases
+    ) : void {
         $table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases', true);
-        $phrases = &ilSurveyPhrases::_getAvailablePhrases(1);
+        $phrases = ilSurveyPhrases::_getAvailablePhrases(1);
         $data = array();
         foreach ($checked_phrases as $phrase_id) {
             $phrase_array = $phrases[$phrase_id];
-            $categories = &ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-            array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join(", ", $categories)));
+            $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+            $data[] = array('phrase_id' => $phrase_id,
+                            'phrase' => $phrase_array["title"],
+                            'answers' => implode(", ", $categories)
+            );
         }
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
     
-    public function cancelEditPhrase()
+    public function cancelEditPhrase() : void
     {
         $this->ctrl->redirect($this, 'phrases');
     }
     
-    public function saveEditPhrase()
+    public function saveEditPhrase() : void
     {
         $result = $this->writePostData();
-        if ($result == 0) {
-            if ($_GET['p_id']) {
-                $this->object->updatePhrase($_GET['p_id']);
-                ilUtil::sendSuccess($this->lng->txt('phrase_saved'), true);
+        if ($result === 0) {
+            if ($this->request->getPhraseId()) {
+                $this->object->updatePhrase($this->request->getPhraseId());
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('phrase_saved'), true);
             } else {
                 $this->object->savePhrase();
-                ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('phrase_added'), true);
             }
             $this->ctrl->redirect($this, 'phrases');
         }
     }
 
     /**
-    * Evaluates a posted edit form and writes the form data in the question object
-    *
-    * @return integer A positive value, if one of the required fields wasn't set, else 0
-    * @access private
-    */
-    public function writePostData($always = false)
-    {
-        $ilDB = $this->db;
-        $hasErrors = (!$always) ? $this->phraseEditor(true) : false;
+     * Evaluates a posted edit form and writes the form data in the question object
+     * @return int a positive value, if one of the required fields wasn't set, else 0
+     */
+    public function writePostData(
+        bool $always = false
+    ) : int {
+        $hasErrors = !$always && $this->phraseEditor(true);
         if (!$hasErrors) {
-            $this->object->title = $_POST["title"];
+            $form = $this->form;
+            $this->object->title = $form->getInput("title");
             $categories = new SurveyCategories();
-            foreach ($_POST['answers']['answer'] as $key => $value) {
+
+            $answers = $this->request->getAnswers();
+            foreach ($answers['answer'] as $key => $value) {
                 if (strlen($value)) {
-                    $categories->addCategory($value, $_POST['answers']['other'][$key], 0, null, $_POST['answers']['scale'][$key]);
+                    $categories->addCategory($value, $answers['other'][$key] ?? 0, 0, null, $answers['scale'][$key] ?? null);
                 }
             }
-            if (strlen($_POST['answers']['neutral'])) {
-                $categories->addCategory($_POST['answers']['neutral'], 0, 1, null, $_POST['answers_neutral_scale']);
+            if ($this->request->getNeutral() !== "") {
+                $categories->addCategory(
+                    $this->request->getNeutral(),
+                    0,
+                    1,
+                    null,
+                    $this->request->getNeutralScale() ? (int) $this->request->getNeutralScale() : null
+                );
             }
             $this->object->categories = $categories;
             return 0;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
     
-    public function newPhrase()
+    public function newPhrase() : void
     {
         $this->ctrl->redirect($this, 'phraseEditor');
     }
     
-    public function editPhrase()
+    public function editPhrase() : void
     {
-        if (!array_key_exists('phrase', $_POST)) {
-            ilUtil::sendFailure($this->lng->txt('no_phrase_selected'), true);
+        $ids = $this->request->getPhraseIds();
+        if (count($ids) === 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_phrase_selected'), true);
             $this->ctrl->redirect($this, 'phrases');
         }
-        if ((array_key_exists('phrase', $_POST)) && count($_POST['phrase']) > 1) {
-            ilUtil::sendFailure($this->lng->txt('select_max_one_item'), true);
+        if (count($ids) > 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_max_one_item'), true);
             $this->ctrl->redirect($this, 'phrases');
         }
-        $phrase_id = (array_key_exists('phrase', $_POST)) ? $_POST['phrase'][key($_POST['phrase'])] : null;
+        $phrase_id = $ids[key($ids)];
         if ($phrase_id) {
             $this->ctrl->setParameter($this, 'p_id', $phrase_id);
         }
         $this->ctrl->redirect($this, 'phraseEditor');
     }
 
-    public function phraseEditor($checkonly = false)
-    {
-        $save = (strcmp($this->ctrl->getCmd(), "saveEditPhrase") == 0) ? true : false;
+    public function phraseEditor(
+        bool $checkonly = false
+    ) : bool {
+        $save = strcmp($this->ctrl->getCmd(), "saveEditPhrase") === 0;
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'phraseEditor'));
@@ -291,7 +297,7 @@ class ilSurveyPhrasesGUI
         $form->setTableWidth("100%");
         $form->setId("phraseeditor");
 
-        $phrase_id = $_GET['p_id'];
+        $phrase_id = $this->request->getPhraseId();
 
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -308,7 +314,7 @@ class ilSurveyPhrasesGUI
         $answers->setUseOtherAnswer(false);
         $answers->setShowNeutralCategory(true);
         $answers->setNeutralCategoryTitle($this->lng->txt('matrix_neutral_answer'));
-        $categories = &$this->getCategoriesForPhrase($phrase_id);
+        $categories = $this->getCategoriesForPhrase($phrase_id);
         if (!$categories->getCategoryCount()) {
             $categories->addCategory("");
         }
@@ -333,6 +339,7 @@ class ilSurveyPhrasesGUI
         if (!$checkonly) {
             $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
         }
+        $this->form = $form;
         return $errors;
     }
 }

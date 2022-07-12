@@ -1,41 +1,37 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Collection of ECS settings
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
- *
- * @ingroup ServicesWebServicesECS
+ * @author Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
  */
 class ilECSServerSettings
 {
-    private static $instance = null;
+    public const ALL_SERVER = 0;
+    public const ACTIVE_SERVER = 1;
+    public const INACTIVE_SERVER = 2;
 
-    private $servers = array();
+    private static ilECSServerSettings $instance;
+
+    // Injected
+    private ilDBInterface $db;
+
+    // Local
+    private array $servers;
 
 
     /**
@@ -43,7 +39,11 @@ class ilECSServerSettings
      */
     protected function __construct()
     {
-        $this->readActiveServers();
+        global $DIC;
+
+        $this->db = $DIC->database();
+
+        $this->readServers();
     }
 
     /**
@@ -51,79 +51,63 @@ class ilECSServerSettings
      *
      * @return ilECSServerSettings
      */
-    public static function getInstance()
+    public static function getInstance() : ilECSServerSettings
     {
-        if (self::$instance) {
-            return self::$instance;
-        }
-        return self::$instance = new ilECSServerSettings();
+        return self::$instance ?? (self::$instance = new ilECSServerSettings());
     }
 
     /**
      * Check if there is any active server
      * @return bool
      */
-    public function activeServerExists()
+    public function activeServerExists() : bool
     {
-        return count($this->getServers()) ? true : false;
+        return count($this->getServers(static::ACTIVE_SERVER)) ? true : false;
     }
 
     /**
      * Check if there is any server
-     * @return bool
      */
-    public function serverExists()
+    public function serverExists() : bool
     {
-        return count($this->getServers()) ? true : false;
+        return count($this->getServers(static::ALL_SERVER)) ? true : false;
     }
 
     /**
      * Get servers
+     * The function must be called with  ALL_SERVER, ACTIVE_SERVER or INACTIVE_SERVER
      * @return ilECSSetting[]
      */
-    public function getServers()
+    public function getServers(int $server_type) : array
     {
-        return (array) $this->servers;
-    }
-
-    /**
-     * Read inactive servers
-     * @global ilDB $ilDB
-     */
-    public function readInactiveServers()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = 'SELECT server_id FROM ecs_server ' .
-            'WHERE active =  ' . $ilDB->quote(0, 'integer') . ' ' .
-            'ORDER BY title ';
-        $res = $ilDB->query($query);
-
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->servers[$row->server_id] = ilECSSetting::getInstanceByServerId($row->server_id);
+        switch ($server_type) {
+            case static::ALL_SERVER:
+                return $this->servers;
+                break;
+            case static::ACTIVE_SERVER:
+                return array_filter($this->servers, static fn (ilECSSetting $server) => $server->isEnabled());
+                break;
+            case static::INACTIVE_SERVER:
+                return array_filter($this->servers, static fn (ilECSSetting $server) => !$server->isEnabled());
+                break;
+            default:
+                throw new InvalidArgumentException();
         }
     }
 
     /**
-     * Read all actice servers
-     * @global ilDB $ilDB
+     * Read all servers
      */
-    private function readActiveServers()
+    private function readServers() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT server_id FROM ecs_server ' .
-            'WHERE active =  ' . $ilDB->quote(1, 'integer') . ' ' .
             'ORDER BY title ';
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
 
         $this->servers = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->servers[$row->server_id] = ilECSSetting::getInstanceByServerId($row->server_id);
+            $server_id = (int) $row->server_id;
+            $this->servers[$server_id] = ilECSSetting::getInstanceByServerId($server_id);
         }
     }
 }

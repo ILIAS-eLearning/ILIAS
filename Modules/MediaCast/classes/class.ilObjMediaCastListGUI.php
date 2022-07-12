@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ListGUI class for media cast objects.
@@ -9,10 +23,9 @@
  */
 class ilObjMediaCastListGUI extends ilObjectListGUI
 {
-    /**
-    * initialisation
-    */
-    public function init()
+    protected int $child_id;
+
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -27,17 +40,9 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         $this->commands = ilObjMediaCastAccess::_getCommands();
     }
 
-
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             default:
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
                 break;
@@ -47,16 +52,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
     }
 
 
-
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         $props = array();
@@ -69,28 +65,21 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         return $props;
     }
 
-
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         // separate method for this line
-        $cmd_link = "ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$a_cmd";
+        $cmd_link = "ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
 
         return $cmd_link;
     }
 
-    public function setChildId($a_child_id)
+    public function setChildId(int $a_child_id) : void
     {
         $this->child_id = $a_child_id;
     }
-    public function getChildId()
+
+    public function getChildId() : int
     {
         return $this->child_id;
     }
-} // END class.ilObjMediaCastListGUI
+}

@@ -1,41 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Media cast data set class
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaCastDataSet extends ilDataSet
 {
-    protected $order = array(); // [array]
+    protected ilObjMediaCast $current_obj;
+    protected array $order = array();
     
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
     public function getSupportedVersions() : array
     {
         return array("5.0.0", "4.1.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/MediaCast/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/MediaCast/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "mcst") {
@@ -65,21 +65,17 @@ class ilMediaCastDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
-    {
+    public function readData(
+        string $a_entity,
+        string $a_version,
+        array $a_ids
+    ) : void {
         $ilDB = $this->db;
 
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
-                
+
         if ($a_entity == "mcst") {
             switch ($a_version) {
                 case "4.1.0":
@@ -121,9 +117,6 @@ class ilMediaCastDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -133,17 +126,13 @@ class ilMediaCastDataSet extends ilDataSet
         return [];
     }
     
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
-        //echo $a_entity;
-        //var_dump($a_rec);
-
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "mcst":
                 
@@ -152,7 +141,7 @@ class ilMediaCastDataSet extends ilDataSet
                 } else {
                     $newObj = new ilObjMediaCast();
                     $newObj->setType("mcst");
-                    $newObj->create(true);
+                    $newObj->create();
                 }
                 
                 $newObj->setTitle($a_rec["Title"]);
@@ -186,7 +175,7 @@ class ilMediaCastDataSet extends ilDataSet
                     );
                 }
 
-                $newObj->update(true);
+                $newObj->update();
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("Modules/MediaCast", "mcst", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
@@ -195,12 +184,11 @@ class ilMediaCastDataSet extends ilDataSet
                     $a_rec["Id"] . ":mcst:0:",
                     $newObj->getId() . ":mcst:0:"
                 );
-//var_dump($a_mapping->mappings["Services/News"]["news_context"]);
                 break;
         }
     }
     
-    public function getOrder()
+    public function getOrder() : array
     {
         return $this->order;
     }

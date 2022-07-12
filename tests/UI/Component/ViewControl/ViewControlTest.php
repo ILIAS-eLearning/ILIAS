@@ -1,32 +1,47 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
-use \ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ViewControlTest extends ILIAS_UI_TestBase
 {
-    protected $actions = array(
+    protected array $actions = [
         "ILIAS" => "http://www.ilias.de",
         "Github" => "http://www.github.com"
-    );
+    ];
 
-    protected $aria_label = "Mode View Controler";
-    protected $role = "group";
-    protected $active = "Github";
+    protected string $aria_label = "Mode View Controler";
+    protected string $role = "group";
+    protected string $active = "Github";
 
-    public function getViewControlFactory()
+    public function getViewControlFactory() : I\Component\ViewControl\Factory
     {
         return new I\Component\ViewControl\Factory(new SignalGenerator());
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $view_control_f = $this->getViewControlFactory();
-        $button_f = new I\Component\Button\Factory();
 
         $back = new I\Component\Button\Standard("", "http://www.ilias.de");
         $next = new I\Component\Button\Standard("", "http://www.github.com");
@@ -41,8 +56,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Section", $section);
     }
 
-
-    public function test_viewcontrol_section_get_previous_actions()
+    public function test_viewcontrol_section_get_previous_actions() : void
     {
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
 
@@ -55,7 +69,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Button", $action);
     }
 
-    public function test_viewcontrol_section_get_next_actions()
+    public function test_viewcontrol_section_get_next_actions() : void
     {
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
 
@@ -68,7 +82,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Button", $action);
     }
 
-    public function test_render_viewcontrol_section()
+    public function test_render_viewcontrol_section() : void
     {
         $view_control_f = $this->getViewControlFactory();
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
@@ -94,7 +108,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Factory", $f);
     }
 
-    public function test_viewcontrol_with_active()
+    public function test_viewcontrol_with_active() : void
     {
         $f = $this->getViewControlFactory();
 
@@ -102,15 +116,14 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertNotEquals($this->active, $f->mode($this->actions, $this->aria_label)->withActive("Dummy text")->getActive());
     }
 
-    public function test_viewcontrol_get_actions()
+    public function test_viewcontrol_get_actions() : void
     {
         $f = $this->getViewControlFactory();
-        $r = $this->getDefaultRenderer();
 
         $this->assertIsArray($f->mode($this->actions, $this->aria_label)->getLabelledActions());
     }
 
-    public function test_render_viewcontrol_mode()
+    public function test_render_viewcontrol_mode() : void
     {
         $f = $this->getViewControlFactory();
         $r = $this->getDefaultRenderer();
@@ -118,6 +131,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
 
         $html = $this->normalizeHTML($r->render($mode));
 
+        $activate_first_item = false;
         $active = $mode->getActive();
         if ($active == "") {
             $activate_first_item = true;
@@ -139,30 +153,28 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function counter()
+        return new class extends NoUIFactory {
+            public function counter() : C\Counter\Factory
             {
                 return new I\Component\Counter\Factory();
             }
-            public function button()
+            public function button() : C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
         };
-        return $factory;
     }
 
-    protected function getSectionExpectedHTML()
+    protected function getSectionExpectedHTML() : string
     {
-        $expected = <<<EOT
+        return <<<EOT
 <div class="il-viewcontrol-section">
 <a class="btn btn-default " href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de" id="id_1"><span class="glyphicon glyphicon-chevron-left"></span></a>
 <button class="btn btn-default" data-action="">Today</button>
 <a class="btn btn-default " href="http://www.github.com" aria-label="next" data-action="http://www.github.com" id="id_2"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
 EOT;
-        return $expected;
     }
 }

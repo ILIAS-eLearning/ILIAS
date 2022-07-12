@@ -24,25 +24,21 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
     /**
      * Image filename
      *
-     * @var string
+     * @var int|string
      */
     protected $image;
 
     /**
      * ASS_AnswerBinaryStateImage constructor
-     *
      * The constructor takes possible arguments an creates an instance of the ASS_AnswerBinaryStateImage object.
-     *
      * @param string  $answertext A string defining the answer text
      * @param double  $points     The number of points given for the selected answer
      * @param integer $order      A nonnegative value representing a possible display or sort order
      * @param integer $state      A integer value indicating the state of the answer
      * @param string  $a_image    The image filename
      * @param integer $id         The database id of the answer
-     *
-     * @return ASS_AnswerBinaryStateImage
      */
-    public function __construct($answertext = "", $points = 0.0, $order = 0, $state = 0, $a_image = "", $id = -1)
+    public function __construct($answertext = "", $points = 0.0, $order = 0, $state = 0, $a_image = "", int $id = -1)
     {
         parent::__construct($answertext, $points, $order, $id);
         $this->image = $a_image;
@@ -56,7 +52,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      * @return string The image filename
      * @see $image
      */
-    public function getImage()
+    public function getImage() : string
     {
         return $this->image;
     }
@@ -70,7 +66,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      *
      * @see $image
      */
-    public function setImage($a_image = 0)
+    public function setImage($a_image = 0) : void
     {
         $this->image = $a_image;
     }

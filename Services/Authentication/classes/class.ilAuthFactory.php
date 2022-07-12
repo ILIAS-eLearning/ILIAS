@@ -1,93 +1,88 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Authentication frontend factory
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
- *
- * @ingroup ServicesAuthentication
  */
 class ilAuthFactory
 {
     /**
-     * @var int
      * Web based authentication
      */
-    const CONTEXT_WEB = 1;
+    public const CONTEXT_WEB = 1;
 
     /**
-     * @var int
      * HTTP Auth used for WebDAV and CalDAV
      * If a special handling for WebDAV or CalDAV is required
      * overwrite ilAuthHTTP with ilAuthCalDAV and create new
      * constants.
      */
-    const CONTEXT_HTTP = 2;
+    public const CONTEXT_HTTP = 2;
     
     
     /**
-     * @var int
      * SOAP based authentication
      */
-    const CONTEXT_SOAP = 3;
+    public const CONTEXT_SOAP = 3;
 
-    /**
-     * @var int
-     */
-    const CONTEXT_CAS = 5;
+    public const CONTEXT_CAS = 5;
     
     /**
-     * @var int
      * Maybe not required. HTTP based authentication for calendar access
      */
-    const CONTEXT_CALENDAR = 6;
+    public const CONTEXT_CALENDAR = 6;
     
     
     /**
-     * @var int
      * Calendar authentication with auth token
      */
-    const CONTEXT_CALENDAR_TOKEN = 7;
+    public const CONTEXT_CALENDAR_TOKEN = 7;
     
     
     /**
-     * @var int
      * Calendar authentication with auth token
      */
-    const CONTEXT_ECS = 8;
+    public const CONTEXT_ECS = 8;
     
     
 
     /**
-     * @var int
      * Apache based authentication
      */
-    const CONTEXT_APACHE = 10;
+    public const CONTEXT_APACHE = 10;
 
-    /**
-     * @var int
-     */
-    private static $context = self::CONTEXT_WEB;
+    private static int $context = self::CONTEXT_WEB;
 
     /**
      *
      * @return int current context
      */
-    public static function getContext()
+    public static function getContext() : int
     {
         return self::$context;
     }
     
     /**
      * set context
-     * @param int $a_context
-     * @return
      */
-    public static function setContext($a_context)
+    public static function setContext(int $a_context) : void
     {
         self::$context = $a_context;
     }

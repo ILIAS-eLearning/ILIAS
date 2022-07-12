@@ -6,10 +6,6 @@ require_once 'Services/Mail/classes/class.ilMailNotification.php';
 
 class ilTestManScoringParticipantNotification extends ilMailNotification
 {
-    private $userId = null;
-    private $questionGuiList = null;
-    private $notificationData = null;
-    
     public function __construct($userId, $testRefId)
     {
         parent::__construct();
@@ -23,7 +19,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
         $this->initMail();
     }
     
-    public function send()
+    public function send() : void
     {
         $this->buildSubject();
         
@@ -34,14 +30,14 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
         );
     }
     
-    private function buildSubject()
+    private function buildSubject() : void
     {
         $info = $this->getAdditionalInformation();
         
         $this->setSubject(sprintf($this->getLanguageText('tst_notify_manscoring_done_body_msg_subject'), $info['test_title']));
     }
     
-    private function buildBody()
+    private function buildBody() : void
     {
         //	Salutation
         
@@ -90,7 +86,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
         $this->getMail()->appendInstallationSignature(true);
     }
     
-    private function setRecipient($userId)
+    private function setRecipient($userId) : void
     {
         $this->setRecipients(array($userId));
     }
@@ -100,7 +96,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
         return current($this->getRecipients());
     }
     
-    private function convertFeedbackForMail($feedback)
+    private function convertFeedbackForMail($feedback) : ?string
     {
         if (strip_tags($feedback) != $feedback) {
             $feedback = preg_replace('/<br(.*\/)>/m', "\n", $feedback);

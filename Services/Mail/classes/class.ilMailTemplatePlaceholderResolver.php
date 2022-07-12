@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailTemplatePlaceholderResolver
@@ -7,29 +22,15 @@
  */
 class ilMailTemplatePlaceholderResolver
 {
-    /** @var ilMailTemplateContext */
-    protected $context;
+    protected ilMailTemplateContext $context;
+    protected string $message = '';
 
-    /** @var string */
-    protected $message = '';
-
-    /**
-     * ilMailTemplateProcessor constructor.
-     * @param ilMailTemplateContext $context
-     * @param string $a_message
-     */
     public function __construct(ilMailTemplateContext $context, string $a_message)
     {
         $this->context = $context;
         $this->message = $a_message;
     }
 
-    /**
-     * @param ilObjUser|null $user
-     * @param array $contextParameters
-     * @param $replaceEmptyPlaceholders bool
-     * @return string
-     */
     public function resolve(
         ilObjUser $user = null,
         array $contextParameters = [],
@@ -39,29 +40,45 @@ class ilMailTemplatePlaceholderResolver
 
         foreach ($this->context->getPlaceholders() as $key => $ph_definition) {
             $result = $this->context->resolvePlaceholder($key, $contextParameters, $user);
-            if (!$replaceEmptyPlaceholders && 0 === strlen($result)) {
+            if (!$replaceEmptyPlaceholders && $result === '') {
                 continue;
             }
 
             $startTag = '\[IF_' . strtoupper($key) . '\]';
             $endTag = '\[\/IF_' . strtoupper($key) . '\]';
 
-            if (strlen($result) > 0) {
+            if ($result !== '') {
                 $message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $message);
 
-                if (array_key_exists('supportsCondition', $ph_definition) && $ph_definition['supportsCondition']) {
-                    $message = preg_replace('/' . $startTag . '(.*?)' . $endTag . '/imsU', '$1', $message);
+                if (array_key_exists('supportsCondition', $ph_definition) &&
+                    $ph_definition['supportsCondition']
+                ) {
+                    $message = preg_replace(
+                        '/' . $startTag . '(.*?)' . $endTag . '/imsU',
+                        '$1',
+                        $message
+                    );
                 }
             } else {
                 $message = preg_replace(
-                    '/[[:space:]]{1,1}\[' . $ph_definition['placeholder'] . '\][[:space:]]{1,1}/ims',
+                    '/[[:space:]]\[' . $ph_definition['placeholder'] . '\][[:space:]]/ims',
                     ' ',
                     $message
                 );
-                $message = preg_replace('/\[' . $ph_definition['placeholder'] . '\]/ims', '', $message);
+                $message = preg_replace(
+                    '/\[' . $ph_definition['placeholder'] . '\]/ims',
+                    '',
+                    $message
+                );
 
-                if (array_key_exists('supportsCondition', $ph_definition) && $ph_definition['supportsCondition']) {
-                    $message = preg_replace('/' . $startTag . '.*?' . $endTag . '/imsU', '', $message);
+                if (array_key_exists('supportsCondition', $ph_definition) &&
+                    $ph_definition['supportsCondition']
+                ) {
+                    $message = preg_replace(
+                        '/' . $startTag . '.*?' . $endTag . '/imsU',
+                        '',
+                        $message
+                    );
                 }
             }
         }

@@ -1,34 +1,61 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitPositionGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPositionGUI extends BaseCommands
 {
-    const SUBTAB_SETTINGS = 'settings';
-    const SUBTAB_PERMISSIONS = 'obj_orgunit_positions';
-    const CMD_CONFIRM_DELETION = 'confirmDeletion';
-    const CMD_ASSIGN = 'assign';
+    public const SUBTAB_SETTINGS = 'settings';
+    public const SUBTAB_PERMISSIONS = 'obj_orgunit_positions';
+    public const CMD_CONFIRM_DELETION = 'confirmDeletion';
+    public const CMD_ASSIGN = 'assign';
+    protected ilToolbarGUI $toolbar;
+    private \ilGlobalTemplateInterface $main_tpl;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private \ILIAS\HTTP\Services $http;
+    private ilLanguage $language;
 
     public function __construct()
     {
         global $DIC;
+        
+        parent::__construct();
+        
+        $main_tpl = $DIC->ui()->mainTemplate();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->toolbar = $DIC->toolbar();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->http = $DIC->http();
+        $this->language = $DIC->language();
 
         if (!ilObjOrgUnitAccess::_checkAccessPositions((int) $_GET['ref_id'])) {
-            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
-            $DIC->ctrl()->redirectByClass(ilObjOrgUnitGUI::class);
+            $main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
+            $DIC->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }
     }
 
-
-    /**
-     * @return array
-     */
-    protected function getPossibleNextClasses()
+    protected function getPossibleNextClasses() : array
     {
         return array(
             ilOrgUnitDefaultPermissionGUI::class,
@@ -36,74 +63,64 @@ class ilOrgUnitPositionGUI extends BaseCommands
         );
     }
 
-
-    /**
-     * @return string
-     */
-    protected function getActiveTabId()
+    protected function getActiveTabId() : string
     {
         return ilObjOrgUnitGUI::TAB_POSITIONS;
     }
 
-
-    protected function index()
+    protected function index() : void
     {
         self::initAuthoritiesRenderer();
         $b = ilLinkButton::getInstance();
-        $b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
+        $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
         $b->setCaption('add_position');
-        $this->dic()->toolbar()->addButtonInstance($b);
+        $this->toolbar->addButtonInstance($b);
 
         $table = new ilOrgUnitPositionTableGUI($this, self::CMD_INDEX);
         $this->setContent($table->getHTML());
     }
 
-
-    protected function add()
+    protected function add() : void
     {
         $form = new ilOrgUnitPositionFormGUI($this, new ilOrgUnitPosition());
-        $this->tpl()->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
-
-    protected function create()
+    protected function create() : void
     {
         $form = new ilOrgUnitPositionFormGUI($this, new ilOrgUnitPosition());
-        if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->txt('msg_position_created'), true);
-            $this->ctrl()->redirect($this, self::CMD_INDEX);
+        if ($form->saveObject() === true) {
+            $this->main_tpl->setOnScreenMessage('success', $this->language->txt('msg_position_created'), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
-        $this->tpl()->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
-
-    protected function edit()
+    protected function edit() : void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_SETTINGS);
         $position = $this->getPositionFromRequest();
         $form = new ilOrgUnitPositionFormGUI($this, $position);
         $form->fillForm();
-        $this->tpl()->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
-
-    protected function update()
+    protected function update() : void
     {
         $position = $this->getPositionFromRequest();
         $form = new ilOrgUnitPositionFormGUI($this, $position);
         $form->setValuesByPost();
-        if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->txt('msg_position_updated'), true);
-            $this->ctrl()->redirect($this, self::CMD_INDEX);
+        if ($form->saveObject() === true) {
+            $this->main_tpl->setOnScreenMessage('success', $this->language->txt('msg_position_updated'), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
-        $this->tpl()->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
-
-    protected function assign()
+    protected function assign() : void
     {
         $position = $this->getPositionFromRequest();
         if ($position->isCorePosition()) {
@@ -115,15 +132,15 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $employee_position = ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
         foreach ($assignments as $assignment) {
-            ilOrgUnitUserAssignment::findOrCreateAssignment($assignment->getUserId(), $employee_position->getId(), $assignment->getOrguId());
+            ilOrgUnitUserAssignment::findOrCreateAssignment($assignment->getUserId(), $employee_position->getId(),
+                $assignment->getOrguId());
             $assignment->delete();
         }
 
-        ilUtil::sendSuccess($this->txt('msg_assignment_to_employee_done'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->language->txt('msg_assignment_to_employee_done'), true);
     }
 
-
-    protected function confirmDeletion()
+    protected function confirmDeletion() : void
     {
         $position = $this->getPositionFromRequest();
         if ($position->isCorePosition()) {
@@ -131,16 +148,16 @@ class ilOrgUnitPositionGUI extends BaseCommands
         }
         self::initAuthoritiesRenderer();
         $this->dic()->language()->loadLanguageModule('orgu');
-        $position_string = $this->dic()->language()->txt("position") . ": ";
-        $authority_string = $this->dic()->language()->txt("authorities") . ": ";
-        $user_string = $this->dic()->language()->txt("user_assignments") . ": ";
+        $position_string = $this->language->txt("position") . ": ";
+        $authority_string = $$this->language->txt("authorities") . ": ";
+        $user_string = $this->language->txt("user_assignments") . ": ";
         $ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
 
         $confirmation = new ilConfirmationGUI();
-        $confirmation->setFormAction($this->ctrl()->getFormAction($this));
-        $confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $confirmation->setConfirm($this->txt(self::CMD_DELETE), self::CMD_DELETE);
-        $confirmation->setHeaderText($this->txt('msg_confirm_deletion'));
+        $confirmation->setFormAction($this->ctrl->getFormAction($this));
+        $confirmation->setCancel($this->language->txt(self::CMD_CANCEL), self::CMD_CANCEL);
+        $confirmation->setConfirm($this->language->txt(self::CMD_DELETE), self::CMD_DELETE);
+        $confirmation->setHeaderText($this->language->txt('msg_confirm_deletion'));
         $confirmation->addItem(self::AR_ID, $position->getId(), $position_string
             . $position->getTitle());
         // Authorities
@@ -161,50 +178,39 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $checkbox_assign_users->setOptionTitle('Assign affected users to employee role');
         $confirmation->addItem('assign_users', '', $checkbox_assign_users->render());
 
-        $this->tpl()->setContent($confirmation->getHTML());
+        $this->tpl->setContent($confirmation->getHTML());
     }
 
-
-    protected function delete()
+    protected function delete() : void
     {
         if ($_POST['assign_users']) {
             $this->assign();
         }
         $position = $this->getPositionFromRequest();
         $position->deleteWithAllDependencies();
-        ilUtil::sendSuccess($this->txt('msg_deleted'), true);
-        $this->ctrl()->redirect($this, self::CMD_INDEX);
+        $this->main_tpl->setOnScreenMessage('success', $this->language->txt('msg_deleted'), true);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
-
-    protected function cancel()
+    protected function cancel() : void
     {
-        $this->ctrl()->redirect($this, self::CMD_INDEX);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
-
-    /**
-     * @return mixed
-     */
-    protected function getARIdFromRequest()
+    protected function getARIdFromRequest() : string
     {
-        $get = $this->dic()->http()->request()->getQueryParams()[self::AR_ID];
-        $post = $this->dic()->http()->request()->getParsedBody()[self::AR_ID];
+        $get = $this->http->request()->getQueryParams()[self::AR_ID];
+        $post = $this->http->request()->getParsedBody()[self::AR_ID];
 
         return $post ? $post : $get;
     }
 
-
-    /**
-     * @return \ilOrgUnitPosition
-     */
-    protected function getPositionFromRequest()
+    protected function getPositionFromRequest() : ?ActiveRecord
     {
         return ilOrgUnitPosition::find($this->getARIdFromRequest());
     }
 
-
-    public static function initAuthoritiesRenderer()
+    public static function initAuthoritiesRenderer() : string
     {
         $lang = $GLOBALS['DIC']->language();
         $lang->loadLanguageModule('orgu');
@@ -240,22 +246,23 @@ class ilOrgUnitPositionGUI extends BaseCommands
                     break;
                 default:
                     $over_txt = ilOrgUnitPosition::findOrGetInstance($ilOrgUnitAuthority->getOver())
-                        ->getTitle();
+                                                 ->getTitle();
                     break;
             }
 
             return " " . $t["over"] . " " . $over_txt . " " . $t["in"] . " " . $in_txt;
         });
+        return "";
     }
 
-
-    public function addSubTabs()
+    public function addSubTabs() : void
     {
-        $this->ctrl()->saveParameter($this, 'arid');
-        $this->ctrl()->saveParameterByClass(ilOrgUnitDefaultPermissionGUI::class, 'arid');
-        $this->pushSubTab(self::SUBTAB_SETTINGS, $this->ctrl()
-            ->getLinkTarget($this, self::CMD_EDIT));
-        $this->pushSubTab(self::SUBTAB_PERMISSIONS, $this->ctrl()
-            ->getLinkTargetByClass(ilOrgUnitDefaultPermissionGUI::class, self::CMD_INDEX));
+        $this->ctrl->saveParameter($this, 'arid');
+        $this->ctrl->saveParameterByClass(ilOrgUnitDefaultPermissionGUI::class, 'arid');
+        $this->pushSubTab(self::SUBTAB_SETTINGS, $this->ctrl
+                                                      ->getLinkTarget($this, self::CMD_EDIT));
+        $this->pushSubTab(self::SUBTAB_PERMISSIONS, $this->ctrl
+                                                         ->getLinkTargetByClass(ilOrgUnitDefaultPermissionGUI::class,
+                                                             self::CMD_INDEX));
     }
 }

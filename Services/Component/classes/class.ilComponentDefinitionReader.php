@@ -2,9 +2,6 @@
 
 /* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- *
- */
 class ilComponentDefinitionReader
 {
     /**
@@ -15,7 +12,7 @@ class ilComponentDefinitionReader
     public function __construct(
         ilComponentDefinitionProcessor ...$processor
     ) {
-        $this->processor = $processor;
+        $this->processors = $processor;
     }
 
     /**
@@ -24,7 +21,7 @@ class ilComponentDefinitionReader
      */
     public function purge() : void
     {
-        foreach ($this->processor as $p) {
+        foreach ($this->processors as $p) {
             $p->purge();
         }
     }
@@ -35,13 +32,13 @@ class ilComponentDefinitionReader
      */
     public function readComponentDefinitions() : void
     {
-        foreach ($this->getComponents() as list($type, $component, $path)) {
+        foreach ($this->getComponents() as [$type, $component, $path]) {
             $file = $this->readFile($path);
-            foreach ($this->processor as $processor) {
+            foreach ($this->processors as $processor) {
                 $processor->beginComponent($component, $type);
             }
             $this->parseComponentXML($type, $component, $file);
-            foreach ($this->processor as $processor) {
+            foreach ($this->processors as $processor) {
                 $processor->endComponent($component, $type);
             }
         }
@@ -83,40 +80,63 @@ class ilComponentDefinitionReader
 
     public function beginTag($_, string $name, array $attributes) : void
     {
-        foreach ($this->processor as $processor) {
+        foreach ($this->processors as $processor) {
             $processor->beginTag($name, $attributes);
         }
     }
 
     public function endTag($_, string $name) : void
     {
-        foreach ($this->processor as $processor) {
+        foreach ($this->processors as $processor) {
             $processor->endTag($name);
         }
     }
 
     /**
-     * Get paths to all component.xmls in the core.
-     *
-     * TODO: Currently this wraps the existing methods `ilModule::getAvailableCoreModules`
-     * and `ilService::getAvailableCoreServices`, we will want to replace this by some
-     * artifact some day.
-     *
-     * @return string[]
+     * @return Iterator<string>
      */
-    protected function getComponents() : array
+    protected function getComponents() : \Iterator
     {
-        $modules_dir = __DIR__ . "/../../../Modules";
-        $services_dir = __DIR__ . "/../../../Services";
-        return array_merge(
-            array_map(
-                fn ($path) => ["Modules", $path["subdir"], realpath($modules_dir . "/" . $path["subdir"] . "/module.xml")],
-                ilModule::getAvailableCoreModules()
-            ),
-            array_map(
-                fn ($path) => ["Services", $path["subdir"], realpath($services_dir . "/" . $path["subdir"] . "/service.xml")],
-                ilService::getAvailableCoreServices()
-            )
-        );
+        foreach ($this->getComponentInfo("Modules", "module.xml") as $i) {
+            yield $i;
+        }
+        foreach ($this->getComponentInfo("Services", "service.xml") as $i) {
+            yield $i;
+        }
+    }
+
+    /**
+     * @return Iterator<array>
+     */
+    protected function getComponentInfo(string $type, string $name) : \Iterator
+    {
+        $dir = __DIR__ . "/../../../" . $type;
+        foreach ($this->getComponentPaths($dir, $name) as $c) {
+            yield [
+                $type,
+                $c,
+                realpath($dir . "/" . $c . "/" . $name)
+            ];
+        }
+    }
+
+    /**
+     * @return Iterator<string>
+     */
+    protected function getComponentPaths(string $root, string $name) : \Iterator
+    {
+        $dir = opendir($root);
+        while ($sub = readdir($dir)) {
+            if ($sub === "." || $sub === "..") {
+                continue;
+            }
+            if (!is_dir($root . "/" . $sub)) {
+                continue;
+            }
+            if (!is_file($root . "/" . $sub . "/" . $name)) {
+                continue;
+            }
+            yield $sub;
+        }
     }
 }

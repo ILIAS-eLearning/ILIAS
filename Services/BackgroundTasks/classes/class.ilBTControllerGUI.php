@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
@@ -9,7 +25,7 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBTControllerGUI
+class ilBTControllerGUI implements ilCtrlBaseClassInterface
 {
     use DIC;
     const FROM_URL = 'from_url';
@@ -58,7 +74,7 @@ class ilBTControllerGUI
     }
 
 
-    protected function abortBucket()
+    protected function abortBucket() : void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $from_url = $this->getFromURL();
@@ -77,7 +93,7 @@ class ilBTControllerGUI
      * Loads one single aggregate notification item representing a button async
      * to replace an existing one.
      */
-    protected function getAsyncReplacementItem()
+    protected function getAsyncReplacementItem() : void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
@@ -90,23 +106,16 @@ class ilBTControllerGUI
     }
 
 
-    /**
-     * @return string
-     */
-    protected function getFromURL()
+    protected function getFromURL() : string
     {
-        $from_url = self::unhash($this->http()->request()->getQueryParams()[self::FROM_URL]);
-
-        return $from_url;
+        return self::unhash($this->http()->request()->getQueryParams()[self::FROM_URL]);
     }
 
 
     /**
      * @param $url
-     *
-     * @return string
      */
-    public static function hash($url)
+    public static function hash($url) : string
     {
         return base64_encode($url);
     }
@@ -114,10 +123,8 @@ class ilBTControllerGUI
 
     /**
      * @param $url
-     *
-     * @return string
      */
-    public static function unhash($url)
+    public static function unhash($url) : string
     {
         return base64_decode($url);
     }

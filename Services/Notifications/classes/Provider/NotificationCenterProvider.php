@@ -1,11 +1,28 @@
-<?php namespace ILIAS\Notifications\Provider;
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
+namespace ILIAS\Notifications\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 
 /**
- * Class NotificationCenterProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class NotificationCenterProvider extends AbstractStaticMetaBarProvider
@@ -32,13 +49,7 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                 ->withAmountOfNewNotifications($new)
                 ->withNotifications($nc->getNotifications())
                 ->withAvailableCallable(function () : bool {
-                    //This is a heavily incomplete fix for: #26586
-                    //This should be fixed by the auth service
-                    if ($this->dic->ctrl()->getCmd() == "showLogout") {
-                        return false;
-                    }
-
-                    return true;
+                    return $this->dic->ctrl()->getCmd() !== "showLogout";
                 })
                 ->withVisibilityCallable(
                     function () : bool {

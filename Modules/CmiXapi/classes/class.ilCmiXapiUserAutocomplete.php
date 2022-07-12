@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiUserAutocomplete
  *
@@ -14,35 +24,23 @@
  */
 class ilCmiXapiUserAutocomplete extends ilUserAutoComplete
 {
-    /**
-     * @var int
-     */
-    protected $objId;
+    protected int $objId;
     
-    /**
-     * @param int $objId
-     */
-    public function __construct($objId)
+    public function __construct(int $objId)
     {
         parent::__construct();
         $this->objId = $objId;
     }
     
-    /**
-     * {@inheritdoc}
-     */
-    protected function getFromPart()
+    protected function getFromPart() : string
     {
         global $DIC;
         
         $fromPart = parent::getFromPart();
-        
-        $fromPart .= "
-			INNER JOIN cmix_users
-			ON cmix_users.obj_id = {$DIC->database()->quote($this->objId, 'integer')}
-			AND cmix_users.usr_id = ud.usr_id
+        return $fromPart . "
+			INNER JOIN (SELECT DISTINCT usr_id, obj_id FROM cmix_users) c
+			ON c.obj_id = {$DIC->database()->quote($this->objId, 'integer')}
+			AND c.usr_id = ud.usr_id
 		";
-        
-        return $fromPart;
     }
 }

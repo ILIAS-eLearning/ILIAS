@@ -1,34 +1,29 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+<?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * @author Nadia Matuschek <nmatuschek@databay.de>
- * @version $Id$
  */
 class ilMailMemberSearchTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @inheritdoc
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
+    public function __construct(ilMailMemberSearchGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
-
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC['lng'];
 
         $obj_id = ilObject::_lookupObjectId($a_parent_obj->ref_id);
         $this->setId('mmsearch_' . $obj_id);
@@ -54,10 +49,7 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

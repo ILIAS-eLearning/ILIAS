@@ -1,52 +1,54 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\Notifications\ilNotificationOSDGUI;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\UICore\PageContentProvider;
+use ILIAS\Accessibility\GlobalPageHandler;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
- * Class ilGlobalPageTemplate
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 {
+    protected HTTPServices $http;
+    protected Services $gs;
+    protected UIServices $ui;
+    protected PageContentGUI $legacy_content_template;
+    protected ilLanguage $lng;
+    protected ilSetting $il_settings;
+    protected Refinery $refinery;
 
     /**
-     * @var array
+     * @var string[]
      */
-    private static $ignored_blocks = ['ContentStyle', "DEFAULT", "SyntaxStyle", ""];
-    //
-    // SERVICES
-    //
-    /**
-     * @var HTTPServices
-     */
-    private $http;
-    /**
-     * @var Services
-     */
-    private $gs;
-    /**
-     * @var UIServices
-     */
-    private $ui;
-    /**
-     * @var PageContentGUI
-     */
-    private $legacy_content_template;
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
+    protected static array $ignored_blocks = [
+        self::DEFAULT_BLOCK,
+        'ContentStyle',
+        "SyntaxStyle",
+        "",
+    ];
 
-
-    /**
-     * @inheritDoc
-     */
     public function __construct(Services $gs, UIServices $ui, HTTPServices $http)
     {
         global $DIC;
@@ -56,176 +58,131 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
         $this->il_settings = $DIC->settings();
+        $this->refinery = $DIC->refinery();
     }
 
-
-    private function prepareOutputHeaders()
+    protected function prepareOutputHeaders() : void
     {
-        $this->http->saveResponse($this->http->response()->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
-        $this->http->saveResponse($this->http->response()->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
+        $this->http->saveResponse(
+            $this->http->response()->withAddedHeader(
+                'P3P',
+                'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'
+            )
+        );
+
+        $this->http->saveResponse(
+            $this->http->response()->withAddedHeader('Content-type', 'text/html; charset=UTF-8')
+        );
 
         if (defined("ILIAS_HTTP_PATH")) {
-            $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
+            $this->gs->layout()->meta()->setBaseURL(
+                (substr(ILIAS_HTTP_PATH, -1) === '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/')
+            );
         }
+
         $this->gs->layout()->meta()->setTextDirection($this->lng->getTextDirection());
     }
 
-
-    private function prepareBasicJS()
+    /**
+     * @throws JsonException
+     */
+    protected function prepareBasicJS() : void
     {
-        \iljQueryUtil::initjQuery($this);
-        \iljQueryUtil::initjQueryUI($this);
+        iljQueryUtil::initjQuery($this);
+        iljQueryUtil::initjQueryUI($this);
         $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
-        \ilUIFramework::init($this);
-        \ilBuddySystemGUI::initializeFrontend($this);
-        \ilOnScreenChatGUI::initializeFrontend($this);
-        \ILIAS\Accessibility\GlobalPageHandler::initPage($this);
+        ilUIFramework::init($this);
+        ilBuddySystemGUI::initializeFrontend($this);
+        ilOnScreenChatGUI::initializeFrontend($this);
+        GlobalPageHandler::initPage($this);
 
         $sessionReminder = new ilSessionReminderGUI(
-            ilSessionReminder::createInstanceWithCurrentUserSession(),
+            ilSessionReminder::byLoggedInUser(),
             $this,
             $this->lng
         );
-        $sessionReminder->populatePage();
 
+        $sessionReminder->populatePage();
         $onScreenNotifier = new ilNotificationOSDGUI($this, $this->lng);
         $onScreenNotifier->populatePage();
     }
 
-
-    private function prepareBasicCSS()
+    protected function prepareBasicCSS() : void
     {
-        $this->gs->layout()->meta()->addCss(\ilUtil::getStyleSheetLocation());
-        $this->gs->layout()->meta()->addCss(\ilUtil::getNewContentStyleSheetLocation());
+        $this->gs->layout()->meta()->addCss(ilUtil::getStyleSheetLocation());
+        $this->gs->layout()->meta()->addCss(ilUtil::getNewContentStyleSheetLocation());
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
-    {
+    public function printToStdout(
+        string $part = self::DEFAULT_BLOCK,
+        bool $a_fill_tabs = true,
+        bool $a_skip_main_menu = false
+    ) : void {
         $this->prepareOutputHeaders();
         $this->prepareBasicJS();
         $this->prepareBasicCSS();
 
-        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+        PageContentProvider::setContent($this->legacy_content_template->renderPage(self::DEFAULT_BLOCK, true));
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
 
         // save language usages as late as possible
-        \ilObjLanguageAccess::_saveUsages();
-
-        // see #26968
-        $this->handleReferer();
+        ilObjLanguageAccess::_saveUsages();
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function printToString() : string
     {
         $this->prepareOutputHeaders();
         $this->prepareBasicJS();
         $this->prepareBasicCSS();
 
-        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+        PageContentProvider::setContent($this->legacy_content_template->renderPage(self::DEFAULT_BLOCK, true));
 
         return $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
-
-    //
-    // NEEDED METHODS, but wrapped and will triage to the internal template or to the
-    //
-
-    // CSS & JS
-    /**
-     * @inheritDoc
-     */
-    public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
+    public function addJavaScript(string $a_js_file, bool $a_add_version_parameter = true, int $a_batch = 2) : void
     {
         $this->gs->layout()->meta()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function addCss($a_css_file, $media = "screen")
+    public function addCss(string $a_css_file, string $media = "screen") : void
     {
         $this->gs->layout()->meta()->addCss($a_css_file, $media);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function addOnLoadCode($a_code, $a_batch = 2)
+    public function addOnLoadCode(string $a_code, int $a_batch = 2) : void
     {
         $this->gs->layout()->meta()->addOnloadCode($a_code, $a_batch);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function addInlineCss($a_css, $media = "screen")
+    public function addInlineCss(string $a_css, string $media = "screen") : void
     {
         $this->gs->layout()->meta()->addInlineCss($a_css, $media);
     }
 
-
-    // CONTENT
-
-
-    /**
-     * @inheritDoc
-     */
-    public function setContent($a_html)
+    public function setContent(string $a_html) : void
     {
         $this->legacy_content_template->setMainContent($a_html);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setLeftContent($a_html)
+    public function setLeftContent(string $a_html) : void
     {
         $this->legacy_content_template->setLeftContent($a_html);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setRightContent($a_html)
+    public function setRightContent(string $a_html) : void
     {
         $this->legacy_content_template->setRightContent($a_html);
     }
 
-    // Filter section
-
-
-    /**
-     * @param string $filter
-     */
-    public function setFilter(string $filter)
+    public function setFilter(string $filter) : void
     {
         $this->legacy_content_template->setFilter($filter);
     }
 
-
-    // MAIN INFOS
-
-
-    /**
-     * @inheritDoc
-     */
-    public function setTitle($a_title, $hidden = false)
+    public function setTitle(string $a_title, bool $hidden = false) : void
     {
-        $this->legacy_content_template->setTitle((string) $a_title, $hidden);
+        $this->legacy_content_template->setTitle($a_title, $hidden);
 
         $short_title = (string) $this->il_settings->get('short_inst_name');
         if (trim($short_title) === "") {
@@ -233,314 +190,196 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         }
 
         PageContentProvider::setShortTitle($short_title);
-        PageContentProvider::setViewTitle((string) $a_title);
+        PageContentProvider::setViewTitle($a_title);
         $header_title = ilObjSystemFolder::_getHeaderTitle();
         PageContentProvider::setTitle($header_title);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setDescription($a_descr)
+    public function setDescription(string $a_descr) : void
     {
         $this->legacy_content_template->setTitleDesc($a_descr);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setTitleIcon($a_icon_path, $a_icon_desc = "")
+    public function setTitleIcon(string $a_icon_path, string $a_icon_desc = "") : void
     {
         $this->legacy_content_template->setIconPath($a_icon_path);
         $this->legacy_content_template->setIconDesc($a_icon_desc);
     }
 
-
-    public function setBanner(string $img_src)
+    public function setBanner(string $img_src) : void
     {
         $this->legacy_content_template->setBanner($img_src);
     }
 
-    // ALERTS & OS-MESSAGES
-
-
-    /**
-     * @inheritDoc
-     */
-    public function setAlertProperties(array $a_props)
+    public function setAlertProperties(array $a_props) : void
     {
         $this->legacy_content_template->setTitleAlerts($a_props);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setOnScreenMessage($a_type, $a_txt, $a_keep = false)
+    public function setOnScreenMessage(string $a_type, string $a_txt, bool $a_keep = false) : void
     {
         $this->legacy_content_template->setOnScreenMessage($a_type, $a_txt, $a_keep);
     }
 
-    // SPECIAL FEATURES
-
-
-    /**
-     * @inheritDoc
-     */
-    public function enableDragDropFileUpload($a_ref_id)
+    public function setFileUploadRefId(int $a_ref_id) : void
     {
-        $this->legacy_content_template->setEnableFileupload((int) $a_ref_id);
+        $this->legacy_content_template->setFileUploadRefId($a_ref_id);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setHeaderActionMenu($a_header)
+    public function setHeaderActionMenu(string $a_header) : void
     {
         $this->legacy_content_template->setHeaderAction($a_header);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setHeaderPageTitle($a_title)
+    public function setHeaderPageTitle(string $a_title) : void
     {
         $this->legacy_content_template->setHeaderPageTitle($a_title);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function addLightbox($a_html, $a_id)
-    { //
+    public function addLightbox(string $a_html, string $a_id) : void
+    {
         $this->legacy_content_template->addLightbox($a_html, $a_id);
     }
 
-
-    /**
-     * @param $a_action
-     */
-    public function setPageFormAction($a_action)
+    public function setPageFormAction(string $a_action) : void
     {
         $this->legacy_content_template->setPageFormAction($a_action);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false)
+    public function addAdminPanelToolbar(ilToolbarGUI $toolb, bool $a_bottom_panel = true, bool $a_arrow = false) : void
     {
         $this->legacy_content_template->setAdminPanelCommandsToolbar($toolb);
         $this->legacy_content_template->setAdminPanelArrow($a_arrow);
         $this->legacy_content_template->setAdminPanelBottom($a_bottom_panel);
     }
 
-
-
-    //
-    // Currently needed but should vanish soon
-    //
-
-    /**
-     * @param        $variable
-     * @param string $value
-     */
-    public function setVariable($variable, $value = '')
+    public function setVariable(string $variable, $value = '') : void
     {
         if ($variable === "LOCATION_CONTENT_STYLESHEET" || $variable === "LOCATION_SYNTAX_STYLESHEET") {
             $this->addCss($value);
 
             return;
         }
-        $this->legacy_content_template->setVariable($variable, $value);
+
+        $this->legacy_content_template->setVariable(
+            $variable,
+            $this->refinery->kindlyTo()->string()->transform($value)
+        );
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function resetJavascript()
+    public function resetJavascript() : void
     {
         $this->gs->layout()->meta()->getJs()->clear();
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function get($part = "DEFAULT")
+    public function get(string $part = self::DEFAULT_BLOCK) : string
     {
         return $this->legacy_content_template->get($part);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setCurrentBlock($blockname = "DEFAULT")
+    public function setCurrentBlock(string $blockname = self::DEFAULT_BLOCK) : bool
     {
         if (in_array($blockname, self::$ignored_blocks)) {
-            return; // TODO why is this needed?
+            return false;
         }
 
         if ($this->blockExists($blockname)) {
-            $this->legacy_content_template->setCurrentBlock($blockname);
-        } else {
-            throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
+            return $this->legacy_content_template->setCurrentBlock($blockname);
         }
+        throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function touchBlock($blockname)
+    public function touchBlock(string $blockname) : bool
     {
         if (in_array($blockname, self::$ignored_blocks)) {
-            return; // TODO why is this needed?
+            return false;
         }
+
         if ($this->blockExists($blockname)) {
             $this->legacy_content_template->touchBlock($blockname);
-        } else {
-            throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
+            return true;
         }
+
+        throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function parseCurrentBlock($blockname = "DEFAULT")
+    public function parseCurrentBlock(string $blockname = self::DEFAULT_BLOCK) : bool
     {
         if (in_array($blockname, self::$ignored_blocks)) {
-            return; // TODO why is this needed?
+            return false; // TODO why is this needed?
         }
         if ($this->blockExists($blockname)) {
             return $this->legacy_content_template->parseCurrentBlock($blockname);
-        } else {
-            throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
         }
+
+        throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function addBlockFile($var, $block, $tplname, $in_module = false)
+    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null) : bool
     {
         if ($this->blockExists($block)) {
             $this->legacy_content_template->removeBlockData($block);
         }
 
-        return $this->legacy_content_template->addBlockFile($var, $block, $tplname, $in_module);
+        return $this->legacy_content_template->addBlockFile($var, $block, $template_name, $in_module);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function blockExists($blockname)
+    public function blockExists(string $blockname) : bool
     {
         if (in_array($blockname, self::$ignored_blocks)) {
-            return false; // TODO why is this needed?
+            return false;
         }
 
         return $this->legacy_content_template->blockExists($blockname);
     }
 
-
-
-
-    //
-    // Currently part of the interface but no applicable in ilGlobalPageTemplate
-    //
-
-    /**
-     * @inheritDoc
-     */
-    public function loadStandardTemplate()
+    public function loadStandardTemplate() : void
     {
         // Nothing to do
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setLocator()
+    public function setLocator() : void
     {
         // Nothing to do
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
-    {
+    public function setPermanentLink(
+        string $a_type,
+        ?int $a_id,
+        string $a_append = "",
+        string $a_target = "",
+        string $a_title = ""
+    ) : void {
         $href = ilLink::_getStaticLink($a_id, $a_type, true, $a_append);
         PageContentProvider::setPermaLink($href);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setTreeFlatIcon($a_link, $a_mode)
+    public function setTreeFlatIcon(string $a_link, string $a_mode) : void
     {
         // Nothing to do
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function hideFooter()
+    public function hideFooter() : void
     {
         // Nothing to do
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setLeftNavContent($a_content)
+    public function setLeftNavContent(string $a_content) : void
     {
         // Nothing to do, this should be handled in Slates later
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function resetHeaderBlock($a_reset_header_action = true)
+    public function resetHeaderBlock(bool $a_reset_header_action = true) : void
     {
         // Nothing to do
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setLoginTargetPar($a_val)
+    public function setLoginTargetPar(string $a_val) : void
     {
         // Nothing to do
     }
 
-    //
-    // NO LONGER AVAILABLE
-    //
-
-    /**
-     * @inheritDoc
-     */
-    public function getOnLoadCodeForAsynch()
+    public function getOnLoadCodeForAsynch() : string
     {
         // see e.g. bug #26413
         $js = "";
@@ -555,115 +394,40 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         return "";
     }
 
-
-    /**
-     * @param bool $a_force
-     */
-    public function fillJavaScriptFiles($a_force = false)
+    public function fillJavaScriptFiles(bool $a_force = false) : void
     {
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setBodyClass($a_class = "")
+    public function setBodyClass(string $a_class = "") : void
     {
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function clearHeader()
+    public function clearHeader() : void
     {
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setTabs($a_tabs_html)
+    public function setTabs(string $a_tabs_html) : void
     {
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function setSubTabs($a_tabs_html)
+    public function setSubTabs(string $a_tabs_html) : void
     {
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
-    { //
+    public function getSpecial(
+        string $part = self::DEFAULT_BLOCK,
+        bool $add_error_mess = false,
+        bool $handle_referer = false,
+        bool $add_ilias_footer = false,
+        bool $add_standard_elements = false,
+        bool $a_main_menu = true,
+        bool $a_tabs = true
+    ) : string {
         throw new NotImplementedException();
-    }
-
-    /**
-     * Old method from global template
-     * fixing #26968
-     */
-    private function handleReferer()
-    {
-        if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
-            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php")
-            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "chat.php"))) {
-            // referer is modified if query string contains cmd=gateway and $_POST is not empty.
-            // this is a workaround to display formular again in case of error and if the referer points to another page
-            $url_parts = @parse_url($_SERVER["REQUEST_URI"]);
-            if (!$url_parts) {
-                $protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://';
-                $host = $_SERVER['HTTP_HOST'];
-                $path = $_SERVER['REQUEST_URI'];
-                $url_parts = @parse_url($protocol . $host . $path);
-            }
-
-            if (isset($url_parts["query"]) && preg_match("/cmd=gateway/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
-                foreach ($_POST as $key => $val) {
-                    if (is_array($val)) {
-                        $val = key($val);
-                    }
-
-                    $str .= "&" . $key . "=" . $val;
-                }
-
-                $_SESSION["referer"] = preg_replace("/cmd=gateway/", substr($str, 1), $_SERVER["REQUEST_URI"]);
-                $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-            } elseif (isset($url_parts["query"]) && preg_match("/cmd=post/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
-                foreach ($_POST as $key => $val) {
-                    if (is_array($val)) {
-                        $val = key($val);
-                    }
-
-                    $str .= "&" . $key . "=" . $val;
-                }
-
-                $_SESSION["referer"] = preg_replace("/cmd=post/", substr($str, 1), $_SERVER["REQUEST_URI"]);
-                if (isset($_GET['ref_id'])) {
-                    $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-                } else {
-                    $_SESSION['referer_ref_id'] = 0;
-                }
-            } else {
-                $_SESSION["referer"] = $_SERVER["REQUEST_URI"];
-                if (isset($_GET['ref_id'])) {
-                    $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-                } else {
-                    $_SESSION['referer_ref_id'] = 0;
-                }
-            }
-
-            unset($_SESSION["error_post_vars"]);
-        }
     }
 }

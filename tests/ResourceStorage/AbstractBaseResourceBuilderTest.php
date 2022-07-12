@@ -1,6 +1,7 @@
 <?php
 
 namespace ILIAS\ResourceStorage;
+
 /** @noRector  */
 require_once('AbstractBaseTest.php');
 /** @noRector  */
@@ -21,8 +22,19 @@ use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
-require_once('DummyIDGenerator.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class AbstractBaseResourceBuilderTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -57,10 +69,7 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
      * @var \PHPUnit\Framework\MockObject\MockObject|StorageHandler
      */
     protected $storage_handler;
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
+    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
     /**
      * @var StakeholderRepository|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -79,6 +88,7 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         parent::setUp();
         $this->storage_handler = $this->createMock(StorageHandler::class);
         $this->storage_handler_factory = $this->createMock(StorageHandlerFactory::class);
+        $this->storage_handler_factory->method('getPrimary')->willReturn($this->storage_handler);
         $this->revision_repository = $this->createMock(RevisionRepository::class);
         $this->resource_repository = $this->createMock(ResourceRepository::class);
         $this->information_repository = $this->createMock(InformationRepository::class);
@@ -89,12 +99,6 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
     }
 
     /**
-     * @param string $expected_file_name
-     * @param string $expected_mime_type
-     * @param int    $expected_size
-     * @param int    $expected_version_number
-     * @param int    $expected_owner_id
-     * @return array
      * @throws \Exception
      */
     protected function mockResourceAndRevision(
@@ -138,4 +142,3 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         return array($upload_result, $info_resolver, $identification);
     }
 }
-

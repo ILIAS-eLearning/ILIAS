@@ -1,27 +1,32 @@
 <?php
 
 /**
- * Class ilBiblTranslationFactory
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Class ilBiblTranslationFactory
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
 {
-
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
-    /**
-     * @var \ilBiblFieldFactoryInterface
-     */
-    protected $field_factory;
-
+    protected \ILIAS\DI\Container $dic;
+    protected \ilBiblFieldFactoryInterface $field_factory;
 
     /**
      * ilBiblTranslationFactory constructor.
-     *
-     * @param \ilBiblFieldFactoryInterface $field_factory
      */
     public function __construct(ilBiblFieldFactoryInterface $field_factory)
     {
@@ -30,13 +35,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
         $this->field_factory = $field_factory;
     }
 
-
-    /**
-     * @param \ilBiblFieldInterface $field
-     *
-     * @return string
-     */
-    public function translate(ilBiblFieldInterface $field)
+    public function translate(ilBiblFieldInterface $field) : string
     {
         if ($this->translationExistsForFieldAndUsersLanguage($field)) {
             return $this->getInstanceForFieldAndUsersLanguage($field)->getTranslation();
@@ -53,11 +52,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
         return $field->getIdentifier();
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function translateAttribute(ilBiblAttributeInterface $attribute)
+    public function translateAttribute(ilBiblAttributeInterface $attribute) : string
     {
         $field = $this->field_factory->findOrCreateFieldOfAttribute($attribute);
 
@@ -65,33 +60,20 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     }
 
 
-    /**
-     * @inheritDoc
-     */
-    public function translateAttributeString($type_id, ilBiblAttributeInterface $attribute)
+    public function translateAttributeString(int $type_id, ilBiblAttributeInterface $attribute) : string
     {
         $field = $this->getFieldFactory()
-            ->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getIdentifier());
+                      ->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getIdentifier());
 
         return $this->translate($field);
     }
 
-
-    /**
-     * @return \ilBiblFieldFactoryInterface
-     */
-    public function getFieldFactory()
+    public function getFieldFactory() : \ilBiblFieldFactoryInterface
     {
         return $this->field_factory;
     }
 
-
-    /**
-     * @param \ilBiblFieldInterface $field
-     *
-     * @return string
-     */
-    private function translateInCore(ilBiblFieldInterface $field)
+    private function translateInCore(ilBiblFieldInterface $field) : string
     {
         $prefix = $this->getFieldFactory()->getType()->getStringRepresentation();
         $middle = "default";
@@ -102,71 +84,69 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
         return $this->dic->language()->txt(strtolower($topic));
     }
 
-
     /**
      * @inheritDoc
      */
-    public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field)
+    public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field) : bool
     {
         return !is_null($this->getInstanceForFieldAndUsersLanguage($field));
     }
 
-
     /**
      * @inheritDoc
      */
-    public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field)
+    public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : bool
     {
         return !is_null($this->getInstanceForFieldAndSystemsLanguage($field));
     }
 
-
     /**
      * @inheritDoc
      */
-    public function translationExistsForField(ilBiblFieldInterface $field)
+    public function translationExistsForField(ilBiblFieldInterface $field) : bool
     {
         return $this->getCollectionOfTranslationsForField($field)->hasSets();
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field)
+    public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface
     {
         global $DIC;
-
+    
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getCollectionOfTranslationsForField($field)
-            ->where(["language_key" => $DIC->user()->getCurrentLanguage(),])
-            ->first();
+                    ->where(["language_key" => $DIC->user()->getCurrentLanguage(),])
+                    ->first();
     }
-
 
     /**
      * @inheritDoc
      */
-    public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field)
+    public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface
     {
         global $DIC;
         $lng = $DIC->language()->getDefaultLanguage();
-
+    
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getCollectionOfTranslationsForField($field)
-            ->where(["language_key" => $lng,])
-            ->first();
+                    ->where(["language_key" => $lng,])
+                    ->first();
     }
-
 
     /**
      * @inheritDoc
      */
-    public function findArCreateInstanceForFieldAndlanguage(ilBiblFieldInterface $field, $language_key)
-    {
+    public function findArCreateInstanceForFieldAndlanguage(
+        ilBiblFieldInterface $field,
+        string $language_key
+    ) : \ilBiblTranslationInterface {
         $inst = $this->getCollectionOfTranslationsForField($field)
-            ->where(["language_key" => $language_key,])
-            ->get();
+                     ->where(["language_key" => $language_key,])
+                     ->get();
 
-        if (!$inst) {
+        if ($inst === []) {
             $inst = new ilBiblTranslation();
             $inst->setFieldId($field->getId());
             $inst->setLanguageKey($language_key);
@@ -176,49 +156,40 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
         return $inst;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getAllTranslationsForField(ilBiblFieldInterface $field)
+    public function getAllTranslationsForField(ilBiblFieldInterface $field) : array
     {
         return $this->getCollectionOfTranslationsForField($field)->get();
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field)
+    public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field) : array
     {
         return $this->getCollectionOfTranslationsForField($field)->getArray();
     }
 
-
-    /**
-     * @param \ilBiblFieldInterface $field
-     *
-     * @return \ActiveRecordList
-     */
-    private function getCollectionOfTranslationsForField(ilBiblFieldInterface $field)
+    private function getCollectionOfTranslationsForField(ilBiblFieldInterface $field) : \ActiveRecordList
     {
         return ilBiblTranslation::where(['field_id' => $field->getId()])->orderBy('language_key');
     }
 
-
     /**
      * @inheritDoc
      */
-    public function findById($id)
+    public function findById(int $id) : \ilBiblTranslationInterface
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilBiblTranslation::findOrFail($id);
     }
 
-
     /**
      * @inheritDoc
      */
-    public function deleteById($id)
+    public function deleteById(int $id) : bool
     {
         self::findById($id)->delete();
 

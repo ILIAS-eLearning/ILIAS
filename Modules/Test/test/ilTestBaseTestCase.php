@@ -9,6 +9,8 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Implementation\Factory;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
  * Class ilTestBaseClass
@@ -16,17 +18,59 @@ use ILIAS\UI\Implementation\Factory;
  */
 class ilTestBaseTestCase extends TestCase
 {
-    protected Container $dic;
+    protected ?Container $dic = null;
 
     /**
      * @inheritdoc
      */
     protected function setUp() : void
     {
-        $this->dic = new Container();
-        $GLOBALS['DIC'] = $this->dic;
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+
+        $this->addGlobal_tpl();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_ilias();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilErr();
+        $this->addGlobal_tree();
+        $this->addGlobal_lng();
+        $this->addGlobal_ilAppEventHandler();
+        $this->addGlobal_objDefinition();
+        $this->addGlobal_refinery();
+
+        $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
+        
+        $http_mock = $this
+            ->getMockBuilder(\ILIAS\HTTP\Services::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['request', 'wrapper'])->getMock();
+
+        $request_mock = $this
+            ->getMockBuilder(\GuzzleHttp\Psr7\ServerRequest::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getParsedBody'])->getMock();
+        $request_mock->method('getParsedBody')->willReturn(array());
+        $http_mock->method('request')->willReturn($request_mock);
+
+        $wrapper_mock = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
+        $http_mock->method('wrapper')->willReturn($wrapper_mock);
+
+        $this->setGlobalVariable('http', $http_mock);
 
         parent::setUp();
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     /**
@@ -40,7 +84,7 @@ class ilTestBaseTestCase extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
+        $DIC[$name] = static function (Container $c) use ($value) {
             return $value;
         };
     }
@@ -215,5 +259,12 @@ class ilTestBaseTestCase extends TestCase
     protected function addGlobal_uiRenderer() : void
     {
         $this->setGlobalVariable("ui.renderer", $this->createMock(ILIAS\UI\Implementation\DefaultRenderer::class));
+    }
+
+    protected function addGlobal_refinery() : void
+    {
+        $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
+        $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
+        $this->setGlobalVariable("refinery", $refineryMock);
     }
 }

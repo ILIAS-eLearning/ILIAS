@@ -1,33 +1,33 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Object/classes/class.ilObjectAccess.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjWorkflowEngineAccess
- *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilObjWorkflowEngineAccess extends ilObjectAccess
 {
     /**
-     * checks wether a user may invoke a command or not
+     * checks whether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
-     *
-     * @param	string $cmd        command (not permission!)
-     * @param	string $permission permission
-     * @param	int    $ref_id     reference id
-     * @param	int    $a_obj_id   object id
-     * @param	int    $user_id    user id (if not provided, current user is taken)
-     *
-     * @return	boolean		true, if everything is ok
      */
-    public function _checkAccess($cmd, $permission, $ref_id, $a_obj_id, $user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -35,16 +35,15 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($user_id == "") {
+        if (is_null($user_id)) {
             $user_id = $ilUser->getId();
         }
 
         // Deal with commands
         switch ($cmd) {
             case "view":
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
                     return false;
-                break;
 
             case 'leave':
         }
@@ -53,22 +52,15 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         switch ($permission) {
             case 'visible':
                     return $rbacsystem->checkAccessOfUser($user_id, 'visible', $ref_id);
-                break;
 
             case 'read':
                     return $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
-                break;
         }
 
         return true; // ORLY?
     }
 
-    /**
-     * @param string $target
-     *
-     * @return bool
-     */
-    public static function _checkGoto($target)
+    public static function _checkGoto(string $target) : bool
     {
         //$workflow = substr($params, 2, strpos($params,'EVT')-2);
         //$event = substr($params, strpos($params, 'EVT')+3);

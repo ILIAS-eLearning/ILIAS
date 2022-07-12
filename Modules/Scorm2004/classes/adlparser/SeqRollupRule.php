@@ -1,25 +1,17 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /*
     PHP port of ADL SeqRollupRule.java
     @author Hendrik Holtmann <holtmann@mac.com>
@@ -68,30 +60,30 @@
     
     class SeqRollupRule
     {
-        public $mAction = ROLLUP_ACTION_SATISFIED;
+        public int $mAction = ROLLUP_ACTION_SATISFIED;
         
-        public $mChildActivitySet = ROLLUP_SET_ALL;
+        public string $mChildActivitySet = ROLLUP_SET_ALL;
    
-        public $mMinCount = 0;
+        public int $mMinCount = 0;
             
-        public $mMinPercent = 0.0;
+        public float $mMinPercent = 0.0;
         
-        public $mConditions = null;
+        public ?array $mConditions = null;
         
         public function __construct()
         {
             //$this->mRules=$iRules;
         }
         
-        public function setRollupAction($iAction)
+        public function setRollupAction(string $iAction) : void
         {
-            if ($iAction == "satisfied") {
+            if ($iAction === "satisfied") {
                 $this->mAction = ROLLUP_ACTION_SATISFIED;
-            } elseif ($iAction == "notSatisfied") {
+            } elseif ($iAction === "notSatisfied") {
                 $this->mAction = ROLLUP_ACTION_NOTSATISFIED;
-            } elseif ($iAction == "completed") {
+            } elseif ($iAction === "completed") {
                 $this->mAction = ROLLUP_ACTION_COMPLETED;
-            } elseif ($iAction == "incomplete") {
+            } elseif ($iAction === "incomplete") {
                 $this->mAction = ROLLUP_ACTION_INCOMPLETE;
             }
         }

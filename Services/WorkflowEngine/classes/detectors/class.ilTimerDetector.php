@@ -1,10 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilExternalDetector.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilTimerDetector is part of the petri net based workflow engine.
@@ -13,8 +23,6 @@ require_once './Services/WorkflowEngine/interfaces/ilExternalDetector.php';
  * time limit.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
@@ -26,106 +34,81 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      * @see class.ilEventDetector for detailed information on these values.
      */
 
-    /** @var string $event_type */
-    private $event_type = 'time_passed';
-
-    /** @var string $event_content */
-    private $event_content = 'time_passed';
-
-    /** @var string $event_subject_type */
-    private $event_subject_type = 'none';
-
-    /** @var string $event_subject_identifier SIC! */
-    private $event_subject_identifier = '0';
-
-    /** @var string $event_context_type */
-    private $event_context_type = 'none';
-
-    /** @var string $event_context_identifier SIC! */
-    private $event_context_identifier = '0';
-
-    /** @var bool $relative_timer */
-    private $timer_relative;
+    private string $event_type = 'time_passed';
+    private string $event_content = 'time_passed';
+    private string $event_subject_type = 'none';
+    private string $event_subject_identifier = '0';
+    private string $event_context_type = 'none';
+    private string $event_context_identifier = '0';
+    private bool $timer_relative;
 
     /**
      * Timestamp of the start of the timer.
      *
-     * @var integer  Unix timestamp
+     * @var int  Unix timestamp
      */
-    private $timer_start = 0;
+    private int $timer_start = 0;
 
     /**
      * Limit of the timer to run.
      *
-     * @var integer Seconds to determine the timers runtime.
+     * @var int Seconds to determine the timers runtime.
      */
-    private $timer_limit = 0;
+    private int $timer_limit = 0;
 
     /**
      * This holds the start of the listening period.
-     * @var integer Unix timestamp, start of listening period.
+     * @var int Unix timestamp, start of listening period.
      */
-    private $listening_start = 0;
+    private int $listening_start = 0;
 
     /**
      * This holds the end of the listening period.
-     * @var integer Unix timestamp, end of listening period.
+     * @var int Unix timestamp, end of listening period.
      */
-    private $listening_end = 0;
+    private int $listening_end = 0;
 
     /**
      * This holds the database id of the detector, if set, or null.
      *
-     * @var integer Database Id of the detector
+     * @var int Database Id of the detector
      */
-    private $db_id = null;
-
-    /**
-     * Default constructor, passing the context to the parent constructor.
-     *
-     * @param ilNode $context
-     */
-    public function __construct($context)
-    {
-        parent::__construct($context);
-    }
+    private ?int $db_id = null;
 
     /**
      * Sets the timers start datetime.
-     *
-     * @param integer $timer_start Unix timestamp.
+     * @param int $timer_start Unix timestamp.
      */
-    public function setTimerStart($timer_start)
+    public function setTimerStart(int $timer_start) : void
     {
-        $this->timer_start = (int) $timer_start;
+        $this->timer_start = $timer_start;
     }
 
     /**
      * Returns the currently set timer start.
      *
-     * @return integer Unix timestamp of the timers start.
+     * @return int Unix timestamp of the timers start.
      */
-    public function getTimerStart()
+    public function getTimerStart() : int
     {
         return $this->timer_start;
     }
 
     /**
      * Sets the timers limit
-     *
-     * @param integer $timer_limit Seconds of the timers runtime.
+     * @param int $timer_limit Seconds of the timers runtime.
      */
-    public function setTimerLimit($timer_limit)
+    public function setTimerLimit(int $timer_limit) : void
     {
-        $this->timer_limit = (int) $timer_limit;
+        $this->timer_limit = $timer_limit;
     }
 
     /**
      * Returns the currently set timers limit.
      *
-     * @return integer Seconds of the timers limit.
+     * @return int Seconds of the timers limit.
      */
-    public function getTimerLimit()
+    public function getTimerLimit() : int
     {
         return $this->timer_limit;
     }
@@ -138,15 +121,14 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @param array $params
      *
-     * @return boolean False, if detector was already satisfied before.
+     * @return bool False, if detector was already satisfied before.
      */
-    public function trigger($params)
+    public function trigger($params) : ?bool
     {
-        if ($this->getDetectorState() == true) {
+        if ($this->getDetectorState() === true) {
             return false;
         }
 
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
         if ($this->timer_limit + $this->timer_start <= ilWorkflowUtils::time()) {
             $this->setDetectorState(true);
         }
@@ -156,21 +138,19 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Returns if the detector is currently listening.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isListening()
+    public function isListening() : bool
     {
         // No listening phase = always listening.
-        if ($this->listening_start == 0 && $this->listening_end == 0) {
+        if ($this->listening_start === 0 && $this->listening_end === 0) {
             return true;
         }
 
         // Listening started?
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
         if ($this->listening_start < ilWorkflowUtils::time()) {
             // Listening not ended or infinite?
-            if ($this->listening_end > ilWorkflowUtils::time()
-                || $this->listening_end == 0) {
+            if ($this->listening_end === 0 || $this->listening_end > ilWorkflowUtils::time()) {
                 return true;
             }
         }
@@ -180,18 +160,15 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
 
     /**
      * Sets the timeframe, in which the detector is listening.
-     *
-     * @param integer $listening_start Unix timestamp start of listening period.
-     * @param integer $listening_end   Unix timestamp end of listening period.
-     *
-     * @throws \ilWorkflowInvalidArgumentException
+     * @param int $listening_start Unix timestamp start of listening period.
+     * @param int $listening_end   Unix timestamp end of listening period.
+     * @throws ilWorkflowInvalidArgumentException
      */
-    public function setListeningTimeframe($listening_start, $listening_end)
+    public function setListeningTimeframe(int $listening_start, int $listening_end)
     {
         $this->listening_start = $listening_start;
 
-        if ($this->listening_start > $listening_end && $listening_end != 0) {
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowInvalidArgumentException.php';
+        if ($this->listening_start > $listening_end && $listening_end !== 0) {
             throw new ilWorkflowInvalidArgumentException('Listening timeframe is (start vs. end) is invalid.');
         }
 
@@ -201,15 +178,15 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Method called on activation.
      */
-    public function onActivate()
+    public function onActivate() : void
     {
         if ($this->timer_relative) {
-            if ($this->timer_start == 0) {
+            if ($this->timer_start === 0) {
                 $this->listening_start = time();
             } else {
                 $this->listening_start = $this->timer_start;
             }
-            if ($this->timer_limit != 0) {
+            if ($this->timer_limit !== 0) {
                 $this->listening_end = $this->listening_start + $this->timer_limit;
             } else {
                 $this->listening_end = 0;
@@ -222,7 +199,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Method called on deactivation.
      */
-    public function onDeactivate()
+    public function onDeactivate() : void
     {
         $this->setDetectorState(false);
         $this->deleteDetectorFromDb();
@@ -231,9 +208,9 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Sets the database id of the detector.
      *
-     * @param integer $a_id
+     * @param int $a_id
      */
-    public function setDbId($a_id)
+    public function setDbId($a_id) : void
     {
         $this->db_id = $a_id;
     }
@@ -241,39 +218,33 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Returns the database id of the detector if set.
      *
-     * @return integer
+     * @return int
      */
-    public function getDbId()
+    public function getDbId() : int
     {
-        if ($this->db_id != null) {
+        if ($this->db_id !== null) {
             return $this->db_id;
-        } else {
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowObjectStateException.php';
-            throw new ilWorkflowObjectStateException('No database ID set.');
         }
+
+        throw new ilWorkflowObjectStateException('No database ID set.');
     }
 
     /**
      * Returns, if the detector has a database id.
      *
-     * @return boolean If a database id is set.
+     * @return bool If a database id is set.
      */
-    public function hasDbId()
+    public function hasDbId() : bool
     {
-        if ($this->db_id == null) {
-            return false;
-        }
-
-        return true;
+        return $this->db_id !== null;
     }
 
     /**
      * Passes this detector to the ilWorkflowDBHelper in order to write or update
      * the detector data to the database.
      */
-    public function writeDetectorToDb()
+    public function writeDetectorToDb() : void
     {
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::writeDetector($this);
     }
 
@@ -281,63 +252,56 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      * Passes this detector to the ilWorkflowDbHelper in order to remove the
      * detector data from the database.
      */
-    public function deleteDetectorFromDb()
+    public function deleteDetectorFromDb() : void
     {
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::deleteDetector($this);
     }
 
     /**
      * Returns the event type and content currently set to the detector.
      *
-     * @return  array array('type' => $this->event_type, 'content' => $this->event_content)
+     * @return array{type: string, content: string}
      */
-    public function getEvent()
+    public function getEvent() : array
     {
-        return array('type' => $this->event_type, 'content' => $this->event_content);
+        return ['type' => $this->event_type, 'content' => $this->event_content];
     }
 
     /**
      * Get the event subject set to the detector.
      *
-     * @return array array('type' => $this->event_subject_type, 'identifier' => $this->event_subject_identifier)
+     * @return array{type: string, identifier: string}
      */
-    public function getEventSubject()
+    public function getEventSubject() : array
     {
-        return array('type' => $this->event_subject_type, 'identifier' => $this->event_subject_identifier);
+        return ['type' => $this->event_subject_type, 'identifier' => $this->event_subject_identifier];
     }
 
     /**
      * Get the event context set to the detector.
      *
-     * @return array array('type' => $this->event_context_type, 'identifier' => $this->event_context_identifier)
+     * @return array{type: string, identifier: string}
      */
-    public function getEventContext()
+    public function getEventContext() : array
     {
-        return array('type' => $this->event_context_type, 'identifier' => $this->event_context_identifier);
+        return ['type' => $this->event_context_type, 'identifier' => $this->event_context_identifier];
     }
 
     /**
      * Returns the listening timefrage of the detector.
-     * @return array array ('listening_start' => $this->listening_start, 'listening_end' => $this->listening_end)
+     * @return array{listening_start: int, listening_end: int}
      */
-    public function getListeningTimeframe()
+    public function getListeningTimeframe() : array
     {
-        return array('listening_start' => $this->listening_start, 'listening_end' => $this->listening_end);
+        return ['listening_start' => $this->listening_start, 'listening_end' => $this->listening_end];
     }
 
-    /**
-     * @return bool
-     */
-    public function isTimerRelative()
+    public function isTimerRelative() : bool
     {
         return $this->timer_relative;
     }
 
-    /**
-     * @param bool $timer_relative
-     */
-    public function setTimerRelative($timer_relative)
+    public function setTimerRelative(bool $timer_relative) : void
     {
         $this->timer_relative = $timer_relative;
     }

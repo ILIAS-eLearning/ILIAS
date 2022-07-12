@@ -1,6 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\COPage\PC\EditGUIRequest;
+use ILIAS\COPage\Editor\EditSessionRepository;
+
+use ILIAS\Style;
 
 /**
  * User Interface for Editing of Page Content Objects (Paragraphs, Tables, ...)
@@ -9,65 +28,70 @@
  */
 class ilPageContentGUI
 {
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    public $content_obj;
-    public $tpl;
-    public $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    public $pg_obj;
-    public $hier_id;
-    public $dom;
+    protected EditSessionRepository $edit_repo;
+    protected string $pc_id = "";
+    protected array $chars;
+    protected ?ilObjStyleSheet $style = null;
+    public ?ilPageContent $content_obj;
+    public ilGlobalTemplateInterface $tpl;
+    public ilLanguage $lng;
+    public ilCtrl $ctrl;
+    public ilPageObject $pg_obj;
+    public string $hier_id = "";
+    public php4DOMDocument $dom;
+    /** @var array|bool */
     public $updated;
-    public $target_script;
-    public $return_location;
-    public $page_config = null;
+    public string $target_script = "";
+    public string $return_location = "";
+    public ?ilPageConfig $page_config = null;
+    protected ilLogger $log;
+    protected int $styleid = 0;
+    protected EditGUIRequest $request;
+    protected string $sub_command = "";
+    protected int $requested_ref_id = 0;
 
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    public static $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
+    public static string $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
 
     // common bb buttons (special ones are iln and wln)
-    protected static $common_bb_buttons = array(
+    protected static array $common_bb_buttons = array(
         "str" => "Strong", "emp" => "Emph", "imp" => "Important",
         "sup" => "Sup", "sub" => "Sub",
         "com" => "Comment",
         "quot" => "Quotation", "acc" => "Accent", "code" => "Code", "tex" => "Tex",
         "fn" => "Footnote", "xln" => "ExternalLink"
         );
+    protected Style\Content\CharacteristicManager $char_manager;
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj,
+        string $a_hier_id = "",
+        string $a_pc_id = "0"
+    ) {
         global $DIC;
 
-        $this->error = $DIC["ilErr"];
-        $tpl = $DIC["tpl"];
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
 
         $this->log = ilLoggerFactory::getLogger('copg');
 
-        $this->tpl = $tpl;
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $lng;
         $this->pg_obj = $a_pg_obj;
         $this->ctrl = $ilCtrl;
         $this->content_obj = $a_content_obj;
+        $service = $DIC->copage()->internal();
+        $this->request = $service
+            ->gui()
+            ->pc()
+            ->editRequest();
+        $this->edit_repo = $service
+            ->repo()
+            ->edit();
+        $this->sub_command = $this->request->getSubCmd();
+        $this->requested_ref_id = $this->request->getRefId();
 
-        if ($a_hier_id !== 0) {
+        if ($a_hier_id !== "0") {
             $this->hier_id = $a_hier_id;
             $this->pc_id = $a_pc_id;
             //echo "-".$this->pc_id."-";
@@ -75,304 +99,175 @@ class ilPageContentGUI
         }
     }
 
-    /**
-     * Set content object
-     *
-     * @param object $a_val content object
-     */
-    public function setContentObject($a_val)
+    public function setContentObject(ilPageContent $a_val) : void
     {
         $this->content_obj = $a_val;
     }
     
-    /**
-     * Get content object
-     *
-     * @return object content object
-     */
-    public function getContentObject()
+    public function getContentObject() : ilPageContent
     {
         return $this->content_obj;
     }
     
-    /**
-     * Set page
-     *
-     * @param object $a_val page object
-     */
-    public function setPage($a_val)
+    public function setPage(ilPageObject $a_val) : void
     {
         $this->pg_obj = $a_val;
     }
     
-    /**
-     * Get page
-     *
-     * @return object page object
-     */
-    public function getPage()
+    public function getPage() : ilPageObject
     {
         return $this->pg_obj;
     }
 
-    /**
-     * Set Page Config
-     *
-     * @param	object	Page Config
-     */
-    public function setPageConfig($a_val)
+    public function setPageConfig(ilPageConfig $a_val) : void
     {
         $this->page_config = $a_val;
     }
 
-    /**
-     * Get Page Config
-     *
-     * @return	object	Page Config
-     */
-    public function getPageConfig()
+    public function getPageConfig() : ilPageConfig
     {
         return $this->page_config;
     }
 
-    /**
-    * Get common bb buttons
-    */
-    public static function _getCommonBBButtons()
+    public static function _getCommonBBButtons() : array
     {
         return self::$common_bb_buttons;
     }
 
-    // scorm2004-start
-    /**
-    * Set Style Id.
-    *
-    * @param	int	$a_styleid	Style Id
-    */
-    public function setStyleId($a_styleid)
+    public function setStyleId(int $a_styleid) : void
     {
         $this->styleid = $a_styleid;
     }
 
-    /**
-    * Get Style Id.
-    *
-    * @return	int	Style Id
-    */
-    public function getStyleId()
+    public function getStyleId() : int
     {
         return $this->styleid;
     }
 
-    /**
-    * Get style object
-    */
-    public function getStyle()
+    public function getStyle() : ?ilObjStyleSheet
     {
         if ((!is_object($this->style) || $this->getStyleId() != $this->style->getId()) && $this->getStyleId() > 0) {
             if (ilObject::_lookupType($this->getStyleId()) == "sty") {
                 $this->style = new ilObjStyleSheet($this->getStyleId());
             }
         }
-        
         return $this->style;
     }
     
     /**
-    * Get characteristics of current style
-    */
-    public function getCharacteristicsOfCurrentStyle($a_type)
+     * Get characteristics of current style and call
+     * setCharacteristics, if style is given
+     */
+    public function getCharacteristicsOfCurrentStyle(array $a_type) : void
     {
+        global $DIC;
+        $service = $DIC->contentStyle()->internal();
+        $access_manager = $service->domain()->access(
+            $this->requested_ref_id,
+            $DIC->user()->getId()
+        );
+
         if ($this->getStyleId() > 0 &&
             ilObject::_lookupType($this->getStyleId()) == "sty") {
-            $style = new ilObjStyleSheet($this->getStyleId());
-            $chars = array();
+            $char_manager = $service->domain()->characteristic(
+                $this->getStyleId(),
+                $access_manager
+            );
+
             if (!is_array($a_type)) {
                 $a_type = array($a_type);
             }
-            foreach ($a_type as $at) {
-                $chars = array_merge($chars, $style->getCharacteristics($at, true));
-            }
+            $chars = $char_manager->getByTypes($a_type, false, false);
             $new_chars = array();
-            if (is_array($chars)) {
-                foreach ($chars as $char) {
-                    if ($this->chars[$char] != "") {	// keep lang vars for standard chars
-                        $new_chars[$char] = $this->chars[$char];
-                    } else {
-                        $new_chars[$char] = $char;
+            foreach ($chars as $char) {
+                if (($this->chars[$char->getCharacteristic()] ?? "") != "") {	// keep lang vars for standard chars
+                    $title = $char_manager->getPresentationTitle(
+                        $char->getType(),
+                        $char->getCharacteristic()
+                    );
+                    if ($title == "") {
+                        $title = $this->chars[$char->getCharacteristic()];
                     }
-                    asort($new_chars);
+                    $new_chars[$char->getCharacteristic()] = $title;
+                } else {
+                    $new_chars[$char->getCharacteristic()] = $char_manager->getPresentationTitle(
+                        $char->getType(),
+                        $char->getCharacteristic()
+                    );
                 }
             }
             $this->setCharacteristics($new_chars);
         }
     }
 
-    /**
-    * Set Characteristics
-    */
-    public function setCharacteristics($a_chars)
+    public function setCharacteristics(array $a_chars) : void
     {
         $this->chars = $a_chars;
     }
 
-    /**
-    * Get characteristics
-    */
-    public function getCharacteristics()
+    public function getCharacteristics() : array
     {
-        return $this->chars ? $this->chars : array();
+        return $this->chars ?? [];
     }
-    // scorm2004-end
 
-
-    /**
-    * get hierarchical id in dom object
-    */
-    public function getHierId()
+    public function getHierId() : string
     {
         return $this->hier_id;
     }
 
     /**
-    * get hierarchical id in dom object
-    */
-    public function setHierId($a_hier_id)
+     * set hierarchical id in dom object
+     */
+    public function setHierId(string $a_hier_id) : void
     {
         $this->hier_id = $a_hier_id;
     }
 
-    /**
-    * Get the bb menu incl. script
-    */
-    public function getBBMenu($a_ta_name = "par_content")
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
-        $btpl = new ilTemplate("tpl.bb_menu.html", true, true, "Services/COPage");
-
-        // not nice, should be set by context per method
-        if ($this->getPageConfig()->getEnableInternalLinks()) {
-            $btpl->setCurrentBlock("bb_ilink_button");
-            $btpl->setVariable(
-                "BB_LINK_ILINK",
-                $this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp")
-            );
-            $btpl->parseCurrentBlock();
-            
-            // add int link parts
-            $btpl->setCurrentBlock("int_link_prep");
-            $btpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
-                $ilCtrl->getLinkTargetByClass(
-                    array("ilpageeditorgui", "ilinternallinkgui"),
-                    "",
-                    false,
-                    true,
-                    false
-                ),
-                true
-            ));
-            $btpl->parseCurrentBlock();
-        }
-
-        if ($this->getPageConfig()->getEnableKeywords()) {
-            $btpl->touchBlock("bb_kw_button");
-            $btpl->setVariable("TXT_KW", $this->lng->txt("cont_text_keyword"));
-        }
-        if ($this->pg_obj->getParentType() == "wpg") {
-            $btpl->setCurrentBlock("bb_wikilink_button2");
-            $btpl->setVariable("TXT_WIKI_BUTTON2", $lng->txt("obj_wiki"));
-            $btpl->setVariable("WIKI_BUTTON2_URL", $ilCtrl->getLinkTargetByClass("ilwikipagegui", ""));
-            $btpl->parseCurrentBlock();
-
-            $btpl->setCurrentBlock("bb_wikilink_button");
-            $btpl->setVariable("TXT_WLN2", $lng->txt("wiki_wiki_page"));
-            $btpl->parseCurrentBlock();
-        }
-        $mathJaxSetting = new ilSetting("MathJax");
-        $style = $this->getStyle();
-        //echo URL_TO_LATEX;
-        foreach (self::$common_bb_buttons as $c => $st) {
-            if (ilPageEditorSettings::lookupSettingByParentType($this->pg_obj->getParentType(), "active_" . $c, true)) {
-                if ($c != "tex" || $mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
-                    if (!in_array($c, array("acc", "com", "quot", "code"))) {
-                        $btpl->touchBlock("bb_" . $c . "_button");
-                        $btpl->setVariable("TXT_" . strtoupper($c), $this->lng->txt("cont_text_" . $c));
-                        $lng->toJS("cont_text_" . $c);
-                    }
-                }
-            }
-        }
-        
-        if ($this->getPageConfig()->getEnableAnchors()) {
-            $btpl->touchBlock("bb_anc_button");
-            $btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor") . ":");
-            $lng->toJS("cont_anchor");
-        }
-
-        $btpl->setVariable("CHAR_STYLE_SELECT", ilPCParagraphGUI::getCharStyleSelector($this->pg_obj->getParentType(), "il.COPageBB.setCharacterClass", $this->getStyleId()));
-        
-        // footnote
-        //		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
-        
-        //		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
-        $btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln_link"));
-        $lng->toJS("cont_text_iln");
-        //		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
-        //		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
-        $btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
-        $btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
-        $lng->toJS("wiki_wiki_page");
-        
-        $btpl->setVariable("PAR_TA_NAME", $a_ta_name);
-        
-        return $btpl->get();
-    }
-
-    /**
-    * delete content element
-    */
-    public function delete()
+    // delete content element
+    public function delete() : void
     {
         $updated = $this->pg_obj->deleteContent($this->hier_id);
         if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
+            $this->edit_repo->setPageError($updated);
         } else {
-            unset($_SESSION["il_pg_error"]);
+            $this->edit_repo->clearPageError();
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
     /**
-    * move content element after another element
-    */
-    public function moveAfter()
+     * move content element after another element
+     * @throws ilCOPagePCEditException
+     */
+    public function moveAfter() : void
     {
-        $ilErr = $this->error;
-
+        $target = $this->request->getStringArray("target");
         // check if a target is selected
-        if (!isset($_POST["target"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        if (count($target) == 0) {
+            throw new ilCOPagePCEditException(
+                $this->lng->txt("no_checkbox")
+            );
         }
 
         // check if only one target is selected
-        if (count($_POST["target"]) > 1) {
-            $ilErr->raiseError($this->lng->txt("only_one_target"), $ilErr->MESSAGE);
+        if (count($target) > 1) {
+            throw new ilCOPagePCEditException(
+                $this->lng->txt("only_one_target")
+            );
         }
 
-        $a_hid = explode(":", $_POST["target"][0]);
+        $a_hid = explode(":", $target[0]);
         //echo "-".$a_hid[0]."-".$a_hid[1]."-";
 
         // check if target is within source
         if ($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id))) {
-            $ilErr->raiseError($this->lng->txt("cont_target_within_source"), $ilErr->MESSAGE);
+            throw new ilCOPagePCEditException($this->lng->txt("cont_target_within_source"));
         }
 
         // check whether target is allowed
         $curr_node = $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
         if (is_object($curr_node) && $curr_node->node_name() == "FileItem") {
-            $ilErr->raiseError($this->lng->txt("cont_operation_not_allowed"), $ilErr->MESSAGE);
+            throw new ilCOPagePCEditException($this->lng->txt("cont_operation_not_allowed"));
         }
 
         // strip "c" "r" of table ids from hierarchical id
@@ -387,46 +282,46 @@ class ilPageContentGUI
         $updated = $this->pg_obj->moveContentAfter(
             $this->hier_id,
             $a_hid[0],
-            $this->content_obj->getPcId(),
+            $this->content_obj->getPCId(),
             $a_hid[1]
         );
         if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
+            $this->edit_repo->setPageError($updated);
         } else {
-            unset($_SESSION["il_pg_error"]);
+            $this->edit_repo->clearPageError();
         }
         $this->log->debug("return to parent jump" . $this->hier_id);
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
     /**
-    * move content element before another element
-    */
-    public function moveBefore()
+     * move content element before another element
+     * @throws ilCOPagePCEditException
+     */
+    public function moveBefore() : void
     {
-        $ilErr = $this->error;
-
+        $target = $this->request->getStringArray("target");
         // check if a target is selected
-        if (!isset($_POST["target"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        if (count($target) == 0) {
+            throw new ilCOPagePCEditException($this->lng->txt("no_checkbox"));
         }
 
         // check if target is within source
-        if (count($_POST["target"]) > 1) {
-            $ilErr->raiseError($this->lng->txt("only_one_target"), $ilErr->MESSAGE);
+        if (count($target) > 1) {
+            throw new ilCOPagePCEditException($this->lng->txt("only_one_target"));
         }
 
-        $a_hid = explode(":", $_POST["target"][0]);
+        $a_hid = explode(":", $target[0]);
         
         // check if target is within source
         if ($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id))) {
-            $ilErr->raiseError($this->lng->txt("cont_target_within_source"), $ilErr->MESSAGE);
+            throw new ilCOPagePCEditException($this->lng->txt("cont_target_within_source"));
         }
 
         // check whether target is allowed
         $curr_node = $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
         if (is_object($curr_node) && $curr_node->node_name() == "FileItem") {
-            $ilErr->raiseError($this->lng->txt("cont_operation_not_allowed"), $ilErr->MESSAGE);
+            throw new ilCOPagePCEditException($this->lng->txt("cont_operation_not_allowed"));
         }
 
         // strip "c" "r" of table ids from hierarchical id
@@ -441,28 +336,27 @@ class ilPageContentGUI
         $updated = $this->pg_obj->moveContentBefore(
             $this->hier_id,
             $a_hid[0],
-            $this->content_obj->getPcId(),
+            $this->content_obj->getPCId(),
             $a_hid[1]
         );
         if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
+            $this->edit_repo->setPageError($updated);
         } else {
-            unset($_SESSION["il_pg_error"]);
+            $this->edit_repo->clearPageError();
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
     
     
     /**
-    * split page to new page at specified position
-    */
-    public function splitPage()
+     * split page to new page at specified position
+     * @throws ilCOPagePCEditException
+     */
+    public function splitPage() : void
     {
-        $ilErr = $this->error;
-        
         if ($this->pg_obj->getParentType() != "lm") {
-            $ilErr->raiseError("Split method called for wrong parent type (" .
-            $this->pg_obj->getParentType() . ")", $ilErr->FATAL);
+            throw new ilCOPagePCEditException("Split method called for wrong parent type (" .
+                $this->pg_obj->getParentType() . ")");
         } else {
             $lm_page = ilLMPageObject::_splitPage(
                 $this->pg_obj->getId(),
@@ -479,15 +373,14 @@ class ilPageContentGUI
     }
 
     /**
-    * split page to next page at specified position
-    */
-    public function splitPageNext()
+     * split page to next page at specified position
+     * @throws ilCOPagePCEditException
+     */
+    public function splitPageNext() : void
     {
-        $ilErr = $this->error;
-        
         if ($this->pg_obj->getParentType() != "lm") {
-            $ilErr->raiseError("Split method called for wrong parent type (" .
-            $this->pg_obj->getParentType() . ")", $ilErr->FATAL);
+            throw new ilCOPagePCEditException("Split method called for wrong parent type (" .
+            $this->pg_obj->getParentType() . ")");
         } else {
             $succ_id = ilLMPageObject::_splitPageNext(
                 $this->pg_obj->getId(),
@@ -504,10 +397,7 @@ class ilPageContentGUI
         $this->ctrl->returnToParent($this, "jump" . ($this->hier_id - 1));
     }
 
-    /**
-    * display validation errors
-    */
-    public function displayValidationError()
+    public function displayValidationError() : void
     {
         if (is_array($this->updated)) {
             $error_str = "<b>Error(s):</b><br>";
@@ -517,25 +407,25 @@ class ilPageContentGUI
                     $error_str .= htmlentities($err_mess) . "<br />";
                 }
             }
-            ilUtil::sendFailure($error_str);
+            $this->tpl->setOnScreenMessage('failure', $error_str);
         } elseif ($this->updated != "" && $this->updated !== true) {
-            ilUtil::sendFailure("<b>Error(s):</b><br />" .
+            $this->tpl->setOnScreenMessage('failure', "<b>Error(s):</b><br />" .
                 $this->updated);
         }
     }
     
     /**
-    * cancel creating page content
-    */
-    public function cancelCreate()
+     * cancel creating page content
+     */
+    public function cancelCreate() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
     /**
-    * cancel update
-    */
-    public function cancelUpdate()
+     * cancel update
+     */
+    public function cancelUpdate() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -543,7 +433,7 @@ class ilPageContentGUI
     /**
      * Cancel
      */
-    public function cancel()
+    public function cancel() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -552,7 +442,7 @@ class ilPageContentGUI
      * gui function
      * set enabled if is not enabled and vice versa
      */
-    public function deactivate()
+    public function deactivate() : void
     {
         $obj = &$this->content_obj;
         
@@ -561,34 +451,21 @@ class ilPageContentGUI
         } else {
             $obj->enable();
         }
-        
-        $updated = $this->pg_obj->update($this->hier_id);
-        if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
-        } else {
-            unset($_SESSION["il_pg_error"]);
-        }
-    
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
      * Cut single element
      */
-    public function cut()
+    public function cut() : void
     {
-        $lng = $this->lng;
-        
-        $obj = $this->content_obj;
-        
         $updated = $this->pg_obj->cutContents(array($this->hier_id . ":" . $this->pc_id));
         if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
+            $this->edit_repo->setPageError($updated);
         } else {
-            unset($_SESSION["il_pg_error"]);
+            $this->edit_repo->clearPageError();
         }
     
-        //ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
         $this->log->debug("return to parent jump" . $this->hier_id);
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -596,23 +473,17 @@ class ilPageContentGUI
     /**
      * Copy single element
      */
-    public function copy()
+    public function copy() : void
     {
-        $lng = $this->lng;
-        
-        $obj = $this->content_obj;
-        
-        //ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
         $this->pg_obj->copyContents(array($this->hier_id . ":" . $this->pc_id));
-  
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
 
     /**
-    * Get table templates
-    */
-    public function getTemplateOptions($a_type)
+     * Get table templates
+     */
+    public function getTemplateOptions(string $a_type = "") : array
     {
         $style = $this->getStyle();
 
@@ -627,11 +498,7 @@ class ilPageContentGUI
         return array();
     }
 
-    /**
-     * Redirect to parent
-     * @param string $hier_id
-     */
-    protected function redirectToParent($hier_id = "")
+    protected function redirectToParent(string $hier_id = "") : void
     {
         $ilCtrl = $this->ctrl;
         if ($hier_id == "") {
@@ -641,7 +508,7 @@ class ilPageContentGUI
         $ilCtrl->returnToParent($this, "add" . $pcid);
     }
 
-    protected function getParentReturn($hier_id = "")
+    protected function getParentReturn(string $hier_id = "") : string
     {
         if ($hier_id == "") {
             $hier_id = $this->hier_id;
@@ -649,5 +516,26 @@ class ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $pcid = $this->pg_obj->getPCIdForHierId($hier_id);
         return $ilCtrl->getParentReturn($this) . "#add" . $pcid;
+    }
+
+    protected function updateAndReturn() : void
+    {
+        $up = $this->pg_obj->update();
+        if ($up === true) {
+            $this->edit_repo->clearPageError();
+        } else {
+            $this->edit_repo->setPageError($this->pg_obj->update());
+        }
+        $this->redirectToParent();
+    }
+
+    protected function setCurrentTextLang(string $lang_key) : void
+    {
+        $this->edit_repo->setTextLang($this->requested_ref_id, $lang_key);
+    }
+
+    protected function getCurrentTextLang() : string
+    {
+        return $this->edit_repo->getTextLang($this->requested_ref_id);
     }
 }

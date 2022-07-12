@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Tutor repository class.
  *
@@ -16,11 +30,10 @@
  */
 class ilExcTutorRepository
 {
-    public function __construct()
-    {
-    }
-
     // Get exercise IDs of exercises a user is currently tutor (being notified)
+    /**
+     * @return int[]
+     */
     public function getExerciseIdsBeingTutor(int $user_id) : array
     {
         return ilNotification::getActivatedNotifications(ilNotification::TYPE_EXERCISE_SUBMISSION, $user_id);

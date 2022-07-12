@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
-
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -12,92 +9,52 @@
  */
 class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilObjTest $testOBJ;
+    private ?string $oldQuestionSetType;
+    private ?string $newQuestionSetType;
+    private ?bool $questionLossInfoEnabled;
 
-    /**
-     * @var ilObjTest
-     */
-    protected $testOBJ;
-
-    /**
-     * @var string
-     */
-    private $oldQuestionSetType;
-
-    /**
-     * @var string
-     */
-    private $newQuestionSetType;
-
-    /**
-     * @var bool
-     */
-    private $questionLossInfoEnabled;
-
-    /**
-     * @param ilLanguage $lng
-     * @param ilObjTest $testOBJ
-     */
-    public function __construct(ilLanguage $lng, ilObjTest $testOBJ)
+    public function __construct(ilObjTest $testOBJ)
     {
-        $this->lng = $lng;
         $this->testOBJ = $testOBJ;
         
         parent::__construct();
     }
 
-    /**
-     * @param string $oldQuestionSetType
-     */
-    public function setOldQuestionSetType($oldQuestionSetType)
+    public function setOldQuestionSetType(string $oldQuestionSetType)
     {
         $this->oldQuestionSetType = $oldQuestionSetType;
     }
 
-    /**
-     * @return string
-     */
-    public function getOldQuestionSetType()
+    public function getOldQuestionSetType() : ?string
     {
         return $this->oldQuestionSetType;
     }
 
-    /**
-     * @param string $newQuestionSetType
-     */
-    public function setNewQuestionSetType($newQuestionSetType)
+    public function setNewQuestionSetType(string $newQuestionSetType)
     {
         $this->newQuestionSetType = $newQuestionSetType;
     }
 
-    /**
-     * @return string
-     */
-    public function getNewQuestionSetType()
+    public function getNewQuestionSetType() : string
     {
         return $this->newQuestionSetType;
     }
 
     /**
-     * @param boolean $questionLossInfoEnabled
+     * @param bool $questionLossInfoEnabled
      */
-    public function setQuestionLossInfoEnabled($questionLossInfoEnabled)
+    public function setQuestionLossInfoEnabled(bool $questionLossInfoEnabled) : void
     {
         $this->questionLossInfoEnabled = $questionLossInfoEnabled;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isQuestionLossInfoEnabled()
+    public function isQuestionLossInfoEnabled() : bool
     {
         return $this->questionLossInfoEnabled;
     }
 
-    private function buildHeaderText()
+    private function buildHeaderText() : string
     {
         $headerText = sprintf(
             $this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
@@ -112,12 +69,12 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
         return $headerText;
     }
 
-    public function build()
+    public function build() : void
     {
         $this->setHeaderText($this->buildHeaderText());
     }
 
-    public function populateParametersFromPost()
+    public function populateParametersFromPost() : void
     {
         foreach ($_POST as $key => $value) {
             if (strcmp($key, "cmd") != 0) {
@@ -132,10 +89,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
         }
     }
 
-    /**
-     * @param ilPropertyForm $form
-     */
-    public function populateParametersFromPropertyForm(ilPropertyFormGUI $form, $timezone)
+    public function populateParametersFromPropertyForm(ilPropertyFormGUI $form, $timezone) : void
     {
         foreach ($form->getInputItemsRecursive() as $key => $item) {
             switch ($item->getType()) {
@@ -151,7 +105,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
                         if (!($date instanceof ilDate)) {
                             $this->addHiddenItem($item->getPostVar(), $date . ' ' . $time);
                         } else {
-                            $this->addHiddenItem($item->getPostVar(), $date);
+                            $this->addHiddenItem($item->getPostVar(), (string) $date);
                         }
                     } else {
                         $this->addHiddenItem($item->getPostVar(), '');
@@ -161,11 +115,11 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 
                 case 'duration':
 
-                    $this->addHiddenItem("{$item->getPostVar()}[MM]", (int) $item->getMonths());
-                    $this->addHiddenItem("{$item->getPostVar()}[dd]", (int) $item->getDays());
-                    $this->addHiddenItem("{$item->getPostVar()}[hh]", (int) $item->getHours());
-                    $this->addHiddenItem("{$item->getPostVar()}[mm]", (int) $item->getMinutes());
-                    $this->addHiddenItem("{$item->getPostVar()}[ss]", (int) $item->getSeconds());
+                    $this->addHiddenItem("{$item->getPostVar()}[MM]", (string) $item->getMonths());
+                    $this->addHiddenItem("{$item->getPostVar()}[dd]", (string) $item->getDays());
+                    $this->addHiddenItem("{$item->getPostVar()}[hh]", (string) $item->getHours());
+                    $this->addHiddenItem("{$item->getPostVar()}[mm]", (string) $item->getMinutes());
+                    $this->addHiddenItem("{$item->getPostVar()}[ss]", (string) $item->getSeconds());
 
                     break;
 
@@ -180,7 +134,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
                             if (!($date instanceof ilDate)) {
                                 $this->addHiddenItem($postVar, $date . ' ' . $time);
                             } else {
-                                $this->addHiddenItem($postVar, $date);
+                                $this->addHiddenItem($postVar, $date->get(IL_CAL_UNIX));
                             }
                         } else {
                             $this->addHiddenItem($postVar, '');
@@ -214,14 +168,14 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
                 case 'checkbox':
 
                     if ($item->getChecked()) {
-                        $this->addHiddenItem($item->getPostVar(), 1);
+                        $this->addHiddenItem($item->getPostVar(), '1');
                     }
 
                     break;
 
                 default:
 
-                    $this->addHiddenItem($item->getPostVar(), $item->getValue());
+                    $this->addHiddenItem($item->getPostVar(), (string) $item->getValue());
             }
         }
     }

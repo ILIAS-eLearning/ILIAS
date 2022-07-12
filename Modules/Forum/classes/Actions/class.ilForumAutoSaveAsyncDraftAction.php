@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumSaveAsyncDraftAction
@@ -87,7 +102,7 @@ class ilForumAutoSaveAsyncDraftAction
                 $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
                 $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
                 $draftObj->setPostUserAlias($inputValues['alias']);
-                $draftObj->setNotify($inputValues['notify']);
+                $draftObj->setNotificationStatus($inputValues['notify']);
                 $draftObj->setUpdateUserId($this->actor->getId());
                 $draftObj->setPostAuthorId($this->actor->getId());
                 $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
@@ -131,7 +146,7 @@ class ilForumAutoSaveAsyncDraftAction
             $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
             $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
             $draftObj->setPostUserAlias($inputValues['alias']);
-            $draftObj->setNotify($inputValues['notify']);
+            $draftObj->setNotificationStatus($inputValues['notify']);
             $draftObj->setPostAuthorId($this->actor->getId());
             $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
             $draftObj->saveDraft();
@@ -182,18 +197,15 @@ class ilForumAutoSaveAsyncDraftAction
         }
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     protected function getInputValuesFromForm() : array
     {
         $inputValues = [];
 
-        $inputValues['subject'] = (string) $this->form->getInput('subject');
-        $inputValues['message'] = (string) $this->form->getInput('message');
+        $inputValues['subject'] = $this->form->getInput('subject');
+        $inputValues['message'] = $this->form->getInput('message');
         $inputValues['notify'] = (int) $this->form->getInput('notify');
         $inputValues['alias'] = ilForumUtil::getPublicUserAlias(
-            (string) $this->form->getInput('alias'),
+            $this->form->getInput('alias'),
             $this->forumProperties->isAnonymized()
         );
 

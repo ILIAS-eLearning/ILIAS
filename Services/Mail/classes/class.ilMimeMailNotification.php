@@ -1,31 +1,40 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once 'Services/Mail/classes/class.ilMimeMail.php';
-include_once 'Services/Mail/classes/class.ilMailNotification.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Base class for mime mail notifications
- * @version $Id$
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesMail
  */
 abstract class ilMimeMailNotification extends ilMailNotification
 {
-    /**
-     * @var ilMimeMail
-     */
-    protected $mime_mail;
-    
-    /**
-     * @var string
-     */
-    protected $current_recipient;
+    protected ilMimeMail $mime_mail;
+    protected string $current_recipient;
+    protected ilMailMimeSenderFactory $senderFactory;
 
-    /**
-     * @param string $a_rcp
-     */
-    public function sendMimeMail($a_rcp)
+    public function __construct(bool $a_is_personal_workspace = false)
+    {
+        global $DIC;
+        $this->senderFactory = $DIC["mail.mime.sender.factory"];
+        parent::__construct($a_is_personal_workspace);
+    }
+
+    public function sendMimeMail(string $a_rcp) : void
     {
         $this->mime_mail->To($a_rcp);
         $this->mime_mail->Subject($this->getSubject(), true);
@@ -33,52 +42,36 @@ abstract class ilMimeMailNotification extends ilMailNotification
         $this->mime_mail->Send();
     }
 
-    /**
-     * @return ilMimeMail
-     */
-    protected function initMimeMail()
+    protected function initMimeMail() : ilMimeMail
     {
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
-
         $this->mime_mail = new ilMimeMail();
-        $this->mime_mail->From($senderFactory->system());
+        $this->mime_mail->From($this->senderFactory->system());
 
         return $this->mime_mail;
     }
-
-    /**
-     * @param string $a_code
-     */
-    protected function initLanguageByIso2Code($a_code = '')
+    
+    protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('registration');
     }
-
-    /**
-     * @param int $a_usr_id
-     */
-    protected function initLanguage($a_usr_id)
+    
+    protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('registration');
     }
 
     /**
-     * @param string $rcp
+     * @param int|string|ilObjUser $rcp
      * @throws ilMailException
      */
-    protected function handleCurrentRecipient($rcp)
+    protected function handleCurrentRecipient($rcp) : void
     {
-        require_once 'Services/Mail/exceptions/class.ilMailException.php';
-        
         if (is_numeric($rcp)) {
-            /**
-             * @var $rcp ilObjUser
-             */
-            $rcp = ilObjectFactory::getInstanceByObjId($rcp, false);
-            if (!$rcp) {
+            /** @var ilObjUser $rcp */
+            $rcp = ilObjectFactory::getInstanceByObjId((int) $rcp, false);
+            if (!($rcp instanceof ilObjUser)) {
                 throw new ilMailException('no_recipient_found');
             }
             $this->setCurrentRecipient($rcp->getEmail());
@@ -87,9 +80,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
             $this->setCurrentRecipient($rcp);
             $this->initLanguageByIso2Code();
         } elseif ($rcp instanceof ilObjUser) {
-            /**
-             * @var $rcp ilObjUser
-             */
             $this->setCurrentRecipient($rcp->getEmail());
             $this->initLanguage($rcp->getId());
         } else {
@@ -97,37 +87,24 @@ abstract class ilMimeMailNotification extends ilMailNotification
         }
     }
 
-    /**
-     * @param string $current_recipient
-     */
-    public function setCurrentRecipient($current_recipient)
+    public function setCurrentRecipient(string $current_recipient) : ilMimeMailNotification
     {
         $this->current_recipient = $current_recipient;
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getCurrentRecipient()
+    
+    public function getCurrentRecipient() : string
     {
         return $this->current_recipient;
     }
 
-    /**
-     * @param ilMimeMail $mime_mail
-     * @return ilMimeMailNotification
-     */
-    public function setMimeMail($mime_mail)
+    public function setMimeMail(ilMimeMail $mime_mail) : ilMimeMailNotification
     {
         $this->mime_mail = $mime_mail;
         return $this;
     }
 
-    /**
-     * @return ilMimeMail
-     */
-    public function getMimeMail()
+    public function getMimeMail() : ilMimeMail
     {
         return $this->mime_mail;
     }

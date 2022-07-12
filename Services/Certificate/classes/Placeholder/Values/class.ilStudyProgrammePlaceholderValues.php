@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
 {
@@ -84,16 +98,22 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         );
 
         if (!$latest_progress) {
-            throw new \ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
+            throw new ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
         }
 
         $type = $object->getSubType();
-        $placeholders['PRG_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
-        $placeholders['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
-        $placeholders['PRG_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
-        $placeholders['PRG_POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
-        $placeholders['PRG_COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate() instanceof \DateTimeImmutable ? $latest_progress->getCompletionDate()->format('d.m.Y') : '');
-        $placeholders['PRG_EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() instanceof \DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : '');
+        $placeholders['PRG_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
+        $placeholders['PRG_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
+        $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
+        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
+        $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
+            )->format('d.m.Y') : ''
+        );
+        $placeholders['PRG_EXPIRES_AT'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $latest_progress->getValidityOfQualification(
+            ) instanceof DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
+        );
         return $placeholders;
     }
 
@@ -111,11 +131,11 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $type = $object->getSubType();
-        $today = ilUtil::prepareFormOutput((new DateTime())->format('d.m.Y'));
-        $placeholders['PRG_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
-        $placeholders['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
-        $placeholders['PRG_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
-        $placeholders['PRG_POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
+        $today = ilLegacyFormElementsUtil::prepareFormOutput((new DateTime())->format('d.m.Y'));
+        $placeholders['PRG_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
+        $placeholders['PRG_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
+        $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
+        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
         $placeholders['PRG_COMPLETION_DATE'] = $today;
         $placeholders['PRG_EXPIRES_AT'] = $today;
         return $placeholders;

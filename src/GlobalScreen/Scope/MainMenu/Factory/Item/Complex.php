@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use Closure;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
@@ -17,35 +34,29 @@ use ILIAS\UI\Component\Component;
  * Class Complex
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymbol, supportsAsynchronousLoading, isInterchangeableItem
+class Complex extends AbstractChildItem implements
+    hasContent,
+    hasTitle,
+    hasSymbol,
+    supportsAsynchronousLoading,
+    isInterchangeableItem,
+    isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
 
-    /**
-     * @var Closure
-     */
-    private $content_wrapper;
-    /**
-     * @var
-     */
-    private $content;
-    /**
-     * @var string
-     */
-    private $title = '';
-    /**
-     * @var bool
-     */
-    private $supports_async_loading = false;
+    private ?Closure $content_wrapper = null;
+    private ?Component $content = null;
+    private string $title = '';
+    private bool $supports_async_loading = false;
 
     /**
      * @inheritDoc
      */
     public function withContentWrapper(Closure $content_wrapper) : hasContent
     {
-        $clone                  = clone($this);
+        $clone = clone($this);
         $clone->content_wrapper = $content_wrapper;
 
         return $clone;
@@ -56,7 +67,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withContent(Component $ui_component) : hasContent
     {
-        $clone          = clone($this);
+        $clone = clone($this);
         $clone->content = $ui_component;
 
         return $clone;
@@ -82,7 +93,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -101,7 +112,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
     {
-        $clone                         = clone($this);
+        $clone = clone($this);
         $clone->supports_async_loading = $supported;
 
         return $clone;

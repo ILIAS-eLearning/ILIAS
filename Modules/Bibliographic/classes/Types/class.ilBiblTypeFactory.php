@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblTypeFactory
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -66,10 +82,8 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
         switch ($file_ending) {
             case "ris":
                 return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
-                break;
             case "bib":
                 return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
-                break;
             default:
                 throw new ilException("no data type found for this file ending");
         }
@@ -81,10 +95,6 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
      */
     public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst) : int
     {
-        if ($type_inst instanceof ilRis) {
-            return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
-        } elseif ($type_inst instanceof ilBibTex) {
-            return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
-        }
+        return $type_inst->getId();
     }
 }

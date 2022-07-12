@@ -1,15 +1,32 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Class ilFileVersionFormGUI
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilFileVersionFormGUI extends ilPropertyFormGUI
+class ilFileVersionFormGUI
 {
     const MODE_ADD = 1;
     const MODE_REPLACE = 2;
@@ -17,157 +34,117 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
     const F_DESCRIPTION = "description";
     const F_FILE = "file";
     const F_SAVE_MODE = 'save_mode';
-    /**
-     * @var
-     */
-    protected $dnd = true;
-    /**
-     * @var int
-     */
-    private $save_mode = self::MODE_ADD;
-    /**
-     * @var FileUpload
-     */
-    private $upload;
-    /**
-     * @var ilObjFile
-     */
-    private $file;
-    /**
-     * @var ilFileVersionsGUI
-     */
-    private $calling_gui;
-
-
+    
+    private \ilObjFile $file;
+    private ?\ILIAS\UI\Component\Input\Container\Form\Standard $form;
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
+    private RequestInterface $request;
+    private ilGlobalTemplateInterface $global_tpl;
+    private ilLanguage $lng;
+    private \ILIAS\ResourceStorage\Services $resource_services;
+    
+    private int $save_mode = self::MODE_ADD;
+    private string $post_url;
+    
     /**
      * ilFileVersionFormGUI constructor.
-     *
-     * @param ilFileVersionsGUI $file_version_gui
      */
     public function __construct(ilFileVersionsGUI $file_version_gui, $mode = self::MODE_ADD)
     {
         global $DIC;
         $this->file = $file_version_gui->getFile();
-        $this->upload = $DIC->upload();
-        $this->calling_gui = $file_version_gui;
+        ;
         $this->lng = $DIC->language();
         $this->save_mode = $mode;
-        parent::__construct();
-        $this->initForm();
-        $this->setTarget('_top');
-        $this->setFormAction($DIC->ctrl()->getFormAction($file_version_gui));
-    }
-
-
-    private function initForm()
-    {
-        // Buttons and Title
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->request = $DIC->http()->request();
+        $this->global_tpl = $DIC->ui()->mainTemplate();
+        $this->resource_services = $DIC->resourceStorage();
+        $this->post_url = $DIC->ctrl()->getFormAction(
+            $file_version_gui,
+            $this->resolveParentCommand($mode)
+        );
         $this->lng->loadLanguageModule('file');
-        switch ($this->save_mode) {
-            case self::MODE_REPLACE:
-                ilUtil::sendInfo($this->lng->txt('replace_file_info'));
-                $this->setTitle($this->lng->txt('replace_file'));
-                $this->addCommandButton(ilFileVersionsGUI::CMD_CREATE_REPLACING_VERSION, $this->lng->txt('replace_file'));
-                break;
-            case self::MODE_ADD:
-                ilUtil::sendInfo($this->lng->txt('file_new_version_info'));
-                $this->setTitle($this->lng->txt('file_new_version'));
-                $this->addCommandButton(ilFileVersionsGUI::CMD_CREATE_NEW_VERSION, $this->lng->txt('file_new_version'));
-                break;
-        }
-        $this->addCommandButton(ilFileVersionsGUI::CMD_DEFAULT, $this->lng->txt('cancel'));
-
-        // Title
-        $title = new ilTextInputGUI($this->lng->txt(self::F_TITLE), self::F_TITLE);
-        $title->setInfo($this->lng->txt("if_no_title_then_filename"));
-        $title->setSize(min(40, ilObject::TITLE_LENGTH));
-
-        $title->setMaxLength(ilObject::TITLE_LENGTH);
-
-        $this->addItem($title);
-
-        // File Description
-        $description = new ilTextAreaInputGUI($this->lng->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
-        $this->addItem($description);
-
-        // File
-        if ($this->dnd) {
-            // File (D&D)
-            $file = new ilFileStandardDropzoneInputGUI(
-                ilFileVersionsGUI::CMD_DEFAULT,
-                $this->lng->txt(self::F_FILE),
-                self::F_FILE
-            );
-            $file->setRequired(true);
-            // $file->setUploadUrl($this->ctrl->getLinkTarget($this->calling_gui, ilFileVersionsGUI::C, "", true, true));
-            $file->setMaxFiles(1);
-            $this->addItem($file);
-        } else {
-            // File (classical)
-            $in_file = new ilFileInputGUI($this->lng->txt(self::F_FILE), self::F_FILE);
-            $in_file->setRequired(true);
-            $this->addItem($in_file);
-        }
+        $this->initForm();
     }
-
-
-    /**
-     * @return bool
-     * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     */
-    public function saveObject()
+    
+    private function initForm() : void
     {
-        if (!$this->checkInput()) {
-            return false;
-        }
-        if (!$this->upload->hasUploads()) {
-            return false;
-        }
-
-        // bugfix mantis 26271
-        global $DIC;
-        $DIC->upload()->register(new ilCountPDFPagesPreProcessors());
-
-        $file = $this->getInput(self::F_FILE);
-        $file_temp_name = $file['tmp_name'];
-
-        $this->upload->process();
-
-        /**
-         * @var $result UploadResult
-         */
-        $result = $this->upload->getResults()[$file_temp_name];
-        if ($result->getStatus() === ProcessingStatus::REJECTED) {
-            return false;
-        }
-        $input_title = (string) ilUtil::stripSlashes($this->getInput(self::F_TITLE));
-        if (strlen(trim($input_title)) === 0) {
-            $input_title = ilUtil::stripSlashes($result->getName());
-        }
-
         switch ($this->save_mode) {
-            case self::MODE_ADD:
-                $this->file->appendUpload($result, $input_title);
-                break;
             case self::MODE_REPLACE:
-                $this->file->replaceWithUpload($result, $input_title);
+                $this->global_tpl->setOnScreenMessage('info', $this->lng->txt('replace_file_info'));
+                $group_title = $this->lng->txt('replace_file');
+                break;
+            case self::MODE_ADD:
+            default:
+                $this->global_tpl->setOnScreenMessage('info', $this->lng->txt('file_new_version_info'));
+                $group_title = $this->lng->txt('file_new_version');
                 break;
         }
-
-        $this->file->setDescription($this->getInput((string) self::F_DESCRIPTION));
+        
+        $inputs = [
+            self::F_TITLE => $this->ui_factory->input()->field()->text(
+                $this->lng->txt(self::F_TITLE),
+                $this->lng->txt("if_no_title_then_filename")
+            )->withRequired(false)
+                                              ->withMaxLength(ilObject::TITLE_LENGTH),
+            self::F_DESCRIPTION => $this->ui_factory->input()->field()->textarea(
+                $this->lng->txt(self::F_DESCRIPTION)
+            ),
+            self::F_FILE => $this->ui_factory->input()->field()->file(
+                new ilFileVersionsUploadHandlerGUI(
+                    $this->file,
+                    $this->save_mode === self::MODE_REPLACE
+                        ? ilFileVersionsUploadHandlerGUI::MODE_REPLACE
+                        : ilFileVersionsUploadHandlerGUI::MODE_APPEND
+                ),
+                $this->lng->txt(self::F_FILE)
+            )->withMaxFileSize(ilFileUtils::getUploadSizeLimitBytes())
+        ];
+        
+        $group = $this->ui_factory->input()->field()->group($inputs, $group_title);
+        
+        $this->form = $this->ui_factory->input()->container()->form()->standard($this->post_url, [$group]);
+    }
+    
+    public function saveObject() : bool
+    {
+        $this->form = $this->form->withRequest($this->request);
+        $data = $this->form->getData()[0];
+        
+        $title = $data[self::F_TITLE] !== '' ? $data[self::F_TITLE] : $this->file->getTitle();
+        $description = $data[self::F_DESCRIPTION] !== '' ? $data[self::F_DESCRIPTION] : $this->file->getDescription();
+        $revision_number = (int) $data[self::F_FILE][0];
+        
+        // Title differs, update Revision and Object
+        $rid = $this->resource_services->manage()->find($this->file->getResourceId());
+        $resource = $this->resource_services->manage()->getResource($rid);
+        $new_revision = $resource->getSpecificRevision($revision_number);
+        $new_revision->setTitle($title);
+        $this->resource_services->manage()->updateRevision($new_revision);
+        
+        $this->file->setTitle($title);
+        $this->file->setDescription($description);
         $this->file->update();
-
+        
         return true;
     }
-
-
-    public function fillForm()
+    
+    public function getHTML() : string
     {
-        $values = [];
-        $values[self::F_TITLE] = $this->file->getTitle();
-        $values[self::F_DESCRIPTION] = $this->file->getDescription();
-
-        $this->setValuesByArray($values);
+        return $this->ui_renderer->render($this->form);
+    }
+    
+    private function resolveParentCommand(int $mode) : string
+    {
+        switch ($mode) {
+            case self::MODE_ADD:
+            default:
+                return ilFileVersionsGUI::CMD_CREATE_NEW_VERSION;
+            case self::MODE_REPLACE:
+                return ilFileVersionsGUI::CMD_CREATE_REPLACING_VERSION;
+        }
     }
 }

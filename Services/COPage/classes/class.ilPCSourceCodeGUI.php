@@ -1,39 +1,50 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCSourcecodeGUI
  *
  * User Interface for Paragraph Editing
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCSourceCodeGUI extends ilPageContentGUI
 {
     /**
-     * @var ilObjUser
+     * @var mixed
      */
-    protected $user;
+    protected string $requested_par_downloadtitle;
+    protected string $requested_par_content;
+    protected ilObjUser $user;
 
-    
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -43,17 +54,12 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
-    /**
-    * edit paragraph form
-    */
-    public function edit()
+    public function edit() : void
     {
         $form = $this->initPropertyForm($this->lng->txt("cont_edit_src"), "update", "cancelCreate");
 
@@ -67,14 +73,15 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
         $this->displayValidationError();
 
-        if (key($_POST["cmd"]) == "update") {
+        $cmd = $this->ctrl->getCmd();
+        if ($cmd == "update") {
             $form->setValuesByPost();
         } else {
             $form->getItemByPostVar("par_language")->setValue($this->content_obj->getLanguage());
             $form->getItemByPostVar("par_subcharacteristic")->setValue($this->content_obj->getSubCharacteristic());
             $form->getItemByPostVar("par_downloadtitle")->setValue($this->content_obj->getDownloadTitle());
             $form->getItemByPostVar("par_showlinenumbers")->setChecked(
-                $this->content_obj->getShowLineNumbers() == "y"?true:false
+                $this->content_obj->getShowLineNumbers() == "y"
             );
             //			$form->getItemByPostVar("par_autoindent")->setChecked(
             //				$this->content_obj->getAutoIndent()=="y"?true:false);
@@ -92,10 +99,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->tpl->setContent($form->getHTML());
     }
     
-    /**
-    * insert paragraph form
-    */
-    public function insert()
+    public function insert() : void
     {
         $ilUser = $this->user;
 
@@ -111,11 +115,12 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
         $this->displayValidationError();
 
-        if (key($_POST["cmd"]) == "create_src") {
+        $cmd = $this->ctrl->getCmd();
+        if ($cmd == "create_src") {
             $form->setValuesByPost();
         } else {
-            if ($_SESSION["il_text_lang_" . $_GET["ref_id"]] != "") {
-                $form->getItemByPostVar("par_language")->setValue($_SESSION["il_text_lang_" . $_GET["ref_id"]]);
+            if ($this->getCurrentTextLang() != "") {
+                $form->getItemByPostVar("par_language")->setValue($this->getCurrentTextLang());
             } else {
                 $form->getItemByPostVar("par_language")->setValue($ilUser->getLanguage());
             }
@@ -129,33 +134,34 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
-    /**
-    * update paragraph in dom and update page in db
-    */
-    public function update()
+    public function update() : void
     {
+        $this->requested_par_content = $this->request->getRaw("par_content");
+        $this->requested_par_downloadtitle = str_replace('"', '', $this->request->getString("par_downloadtitle"));
+
         $this->upload_source();
 
         // set language and characteristic
         
-        $this->content_obj->setLanguage($_POST["par_language"]);
-        $this->content_obj->setCharacteristic($_POST["par_characteristic"]);
+        $this->content_obj->setLanguage(
+            $this->request->getString("par_language")
+        );
+        $this->content_obj->setCharacteristic($this->request->getString("par_characteristic"));
 
-        //echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content"])).":<br>"; exit;
-
-         
         // set language and characteristic
-        $this->content_obj->setLanguage($_POST["par_language"]);
-        $this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
-        $this->content_obj->setDownloadTitle(str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
-        $this->content_obj->setShowLineNumbers($_POST["par_showlinenumbers"]?"y":"n");
-        //$this->content_obj->setAutoIndent($_POST["par_autoindent"]?"y":"n");
-        $this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
+        $this->content_obj->setLanguage($this->request->getString("par_language"));
+        $this->content_obj->setSubCharacteristic($this->request->getString("par_subcharacteristic"));
+        $this->content_obj->setDownloadTitle(
+            str_replace('"', '', $this->requested_par_downloadtitle)
+        );
+        $this->content_obj->setShowLineNumbers(
+            $this->request->getString("par_showlinenumbers") ? "y" : "n"
+        );
+        $this->content_obj->setSubCharacteristic($this->request->getString("par_subcharacteristic"));
         $this->content_obj->setCharacteristic("Code");
 
         $this->updated = $this->content_obj->setText(
-            $this->content_obj->input2xml($_POST["par_content"], 0, false)
+            $this->content_obj->input2xml($this->requested_par_content, 0, false)
         );
 
         if ($this->updated !== true) {
@@ -173,33 +179,35 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         }
     }
     
-    /**
-    * cancel update
-    */
-    public function cancelUpdate()
+    public function cancelUpdate() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
-    /**
-    * create new paragraph in dom and update page in db
-    */
-    public function create()
+    public function create() : void
     {
         $this->content_obj = new ilPCSourceCode($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        $this->content_obj->setLanguage($_POST["par_language"]);
+        $this->content_obj->setLanguage($this->request->getString("par_language"));
 
-        $_SESSION["il_text_lang_" . $_GET["ref_id"]] = $_POST["par_language"];
+        $this->setCurrentTextLang($this->request->getString("par_language"));
+
+        $this->requested_par_content = $this->request->getRaw("par_content");
+        $this->requested_par_downloadtitle = str_replace('"', '', $this->request->getString("par_downloadtitle"));
 
         $uploaded = $this->upload_source();
                 
-        $this->content_obj->setCharacteristic($_POST["par_characteristic"]);
-        $this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
-        $this->content_obj->setDownloadTitle(str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
-        $this->content_obj->setShowLineNumbers($_POST["par_showlinenumbers"]?'y':'n');
+        $this->content_obj->setCharacteristic(
+            $this->request->getString("par_characteristic")
+        );
+        $this->content_obj->setSubCharacteristic(
+            $this->request->getString("par_subcharacteristic")
+        );
+        $this->content_obj->setDownloadTitle(str_replace('"', '', $this->requested_par_downloadtitle));
+        $this->content_obj->setShowLineNumbers(
+            $this->request->getString("par_showlinenumbers") ? 'y' : 'n'
+        );
         $this->content_obj->setCharacteristic('Code');
-        //$this->content_obj->setAutoIndent   	($_POST["par_autoindent"]?'y':'n');
 
         if ($uploaded) {
             $this->insert();
@@ -207,7 +215,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         }
         
         $this->updated = $this->content_obj->setText(
-            $this->content_obj->input2xml($_POST["par_content"], 0, false)
+            $this->content_obj->input2xml($this->requested_par_content, 0, false)
         );
         
         if ($this->updated !== true) {
@@ -217,22 +225,19 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         
         $this->updated = $this->pg_obj->update();
 
-        if ($this->updated === true && !$uploaded) {
+        if ($this->updated === true) {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         } else {
             $this->insert();
         }
     }
     
-    /**
-    * cancel creating paragraph
-    */
-    public function cancelCreate()
+    public function cancelCreate() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
         
-    public function upload_source()
+    public function upload_source() : bool
     {
         if (isset($_FILES['userfile']['name'])) {
             $userfile = $_FILES['userfile']['tmp_name'];
@@ -240,12 +245,18 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             if ($userfile == "" || !is_uploaded_file($userfile)) {
                 $error_str = "<b>Error(s):</b><br>Upload error: file name must not be empty!";
                 $this->tpl->setVariable("MESSAGE", $error_str);
-                $this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"]), 0, false));
+                $this->content_obj->setText(
+                    $this->content_obj->input2xml(
+                        $this->request->getRaw("par_content"),
+                        0,
+                        false
+                    )
+                );
                 return false;
             }
 
-            $_POST["par_content"] = file_get_contents($userfile);
-            $_POST["par_downloadtitle"] = $_FILES['userfile']['name'];
+            $this->requested_par_content = file_get_contents($userfile);
+            $this->requested_par_downloadtitle = $_FILES['userfile']['name'];
             return true;
         }
         
@@ -255,10 +266,9 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
     /**
      * Get selectable programming languages
-     *
      * @return string[]
      */
-    public function getProgLangOptions()
+    public function getProgLangOptions() : array
     {
         $prog_langs = array(
             "" => "other");
@@ -268,16 +278,11 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         return $prog_langs;
     }
 
-    /**
-     * initiates property form GUI class
-     *
-     * @param string $a_title
-     * @param string $a_cmd
-     * @param string $a_cmd_cancel
-     * @return ilPropertyFormGUI form class
-     */
-    public function initPropertyForm($a_title, $a_cmd, $a_cmd_cancel)
-    {
+    public function initPropertyForm(
+        string $a_title,
+        string $a_cmd,
+        string $a_cmd_cancel
+    ) : ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setTitle($a_title);
         $form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));

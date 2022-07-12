@@ -1,7 +1,21 @@
-<?php
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Input\Container;
 
 /**
@@ -9,7 +23,6 @@ namespace ILIAS\UI\Component\Input\Container;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -29,7 +42,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Input\Container\Form\Factory
      */
-    public function form();
+    public function form() : Form\Factory;
 
     /**
      * ---
@@ -158,7 +171,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Input\Container\Filter\Factory
      */
-    public function filter();
+    public function filter() : Filter\Factory;
 
     /**
      * ---
@@ -187,7 +200,6 @@ interface Factory
      *        visualization.
      *
      * ---
-     *
      * @return \ILIAS\UI\Component\Input\Container\ViewControl\Factory
      */
     public function viewControl() : ViewControl\Factory;

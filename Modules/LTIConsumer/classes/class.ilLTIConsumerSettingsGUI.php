@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumerSettingsGUI
  *
@@ -27,24 +37,26 @@ class ilLTIConsumerSettingsGUI
     /**
      * @var ilObjLTIConsumer
      */
-    protected $object;
+    protected ilObjLTIConsumer $object;
     
     /**
      * @var ilLTIConsumerAccess
      */
-    protected $access;
-    
+    protected ilLTIConsumerAccess $access;
+    private \ilGlobalTemplateInterface $main_tpl;
+
     /**
      * ilLTIConsumerAccess constructor.
-     * @param ilObjLTIConsumer $object
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
         $this->access = $access;
     }
     
-    protected function initSubTabs()
+    protected function initSubTabs() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
@@ -73,7 +85,7 @@ class ilLTIConsumerSettingsGUI
         }
     }
     
-    protected function needsProviderSettingsSubTab()
+    protected function needsProviderSettingsSubTab() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -91,7 +103,7 @@ class ilLTIConsumerSettingsGUI
     /**
      * Execute Command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -134,7 +146,7 @@ class ilLTIConsumerSettingsGUI
         }
     }
     
-    protected function showSettingsCmd(ilLTIConsumerSettingsFormGUI $form = null)
+    protected function showSettingsCmd(ilLTIConsumerSettingsFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -145,7 +157,7 @@ class ilLTIConsumerSettingsGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
-    protected function saveSettingsCmd()
+    protected function saveSettingsCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -157,18 +169,18 @@ class ilLTIConsumerSettingsGUI
             $form->initObject($this->object);
             $this->object->update();
             
-            if ($oldMasteryScore != $this->object->getMasteryScore()) {
+            if ($oldMasteryScore !== $this->object->getMasteryScore()) {
                 ilLPStatusWrapper::_refreshStatus($this->object->getId());
             }
             
-            ilUtil::sendSuccess($DIC->language()->txt('msg_obj_modified'), true);
+            $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('msg_obj_modified'), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
         }
         
         $this->showSettingsCmd($form);
     }
     
-    protected function buildForm()
+    protected function buildForm() : \ilLTIConsumerSettingsFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -182,14 +194,14 @@ class ilLTIConsumerSettingsGUI
         return $form;
     }
     
-    protected function deliverCertificateCmd()
+    protected function deliverCertificateCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $validator = new ilCertificateDownloadValidator();
 
-        if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
-            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+        if (!$validator->isCertificateDownloadable($DIC->user()->getId(), $this->object->getId())) {
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class, ilObjLTIConsumerGUI::DEFAULT_CMD);
         }
 
@@ -205,6 +217,6 @@ class ilLTIConsumerSettingsGUI
             $DIC->language()->txt('error_creating_certificate_pdf')
         );
 
-        $pdfAction->downloadPdf((int) $DIC->user()->getId(), (int) $this->object->getId());
+        $pdfAction->downloadPdf($DIC->user()->getId(), $this->object->getId());
     }
 }

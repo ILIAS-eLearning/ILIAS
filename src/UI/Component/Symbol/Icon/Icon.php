@@ -1,14 +1,30 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Symbol\Icon;
+
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This describes how an icon could be modified during construction of UI.
  */
-interface Icon extends \ILIAS\UI\Component\Symbol\Symbol
+interface Icon extends Symbol
 {
-
     // sizes of icons
     public const SMALL = 'small';
     public const MEDIUM = 'medium';
@@ -18,61 +34,37 @@ interface Icon extends \ILIAS\UI\Component\Symbol\Symbol
     /**
      * Get the name of the icon.
      * Name will be used as CSS-class, e.g.
-     *
-     * @return string
      */
-    public function getName();
-
-    /**
-     * Get the label of this icon.
-     *
-     * @return string
-     */
-    public function getLabel();
+    public function getName() : string;
 
     /**
      * Set the abbreviation for this icon.
-     *
-     * @param string $abbreviation
-     * @return \ILIAS\UI\Component\Symbol\Icon\Icon
      */
-    public function withAbbreviation($abbreviation);
+    public function withAbbreviation(string $abbreviation) : Icon;
 
     /**
      * Get the abbreviation of this icon.
-     *
-     * @return string
      */
-    public function getAbbreviation();
+    public function getAbbreviation() : ?string;
 
     /**
      * Set the size for this icon.
-     * Size can be'small', 'medium' or 'large'.
-     *
-     * @param string $size
-     * @return \ILIAS\UI\Component\Symbol\Icon\Icon
+     * Size can be 'small', 'medium' or 'large'.
      */
-    public function withSize($size);
+    public function withSize(string $size) : Icon;
 
     /**
      * Get the size of this icon.
-     *
-     * @return string
      */
-    public function getSize();
+    public function getSize() : string;
 
     /**
      * Is the Icon disabled?
-     *
-     * @return bool
      */
-    public function isDisabled();
+    public function isDisabled() : bool;
 
     /**
      * Get an icon like this, but marked as disabled.
-     *
-     * @param bool $is_disabled
-     * @return Icon
      */
-    public function withDisabled($is_disabled);
+    public function withDisabled(bool $is_disabled) : Icon;
 }

@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilLSItemsDB
  */
@@ -59,7 +72,7 @@ class ilLSItemsDB
 
     protected function getIconPathForType(string $type) : string
     {
-        return ilObject2::_getIcon("", "big", $type);
+        return ilObject2::_getIcon(0, "big", $type);
     }
 
     /**
@@ -69,9 +82,7 @@ class ilLSItemsDB
     protected function getConditionsForChildren(array $children) : array
     {
         $ref_ids = array_map(
-            function ($i) {
-                return (int) $i['child'];
-            },
+            fn ($i) => (int) $i['child'],
             $children
         );
 
@@ -121,7 +132,9 @@ class ilLSItemsDB
         $this->storePostconditions($ls_items);
     }
 
-    protected function getObjectFor(int $ref_id) : ilObject
+    // The typehint on ilObject is intentional, we expect this to return some object
+    // or need to error instead.
+    protected function getObjectFor(int $ref_id) : \ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id);
     }

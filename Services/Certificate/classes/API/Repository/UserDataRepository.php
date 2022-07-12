@@ -1,15 +1,30 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace Certificate\API\Repository;
 
 use Certificate\API\Data\UserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
+use ilCtrlInterface;
 use ilDBConstants;
 use ilUserCertificateApiGUI;
 use ilDBInterface;
 use ilLogger;
-use ilCtrl;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -19,20 +34,20 @@ class UserDataRepository
     private ilDBInterface $database;
     private ilLogger $logger;
     private string $defaultTitle;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
 
     /**
-     * @param ilDBInterface $database
-     * @param ilLogger      $logger
-     * @param ilCtrl        $ctrl
-     * @param string|null   $defaultTitle The default title is use if the title of an repository object could not be
+     * @param ilDBInterface   $database
+     * @param ilLogger        $logger
+     * @param ilCtrlInterface $ctrl
+     * @param string|null     $defaultTitle The default title is use if the title of an repository object could not be
      *                                    determined. This could be the case if the object is deleted from system and
      *                                    mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
         ilDBInterface $database,
         ilLogger $logger,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ?string $defaultTitle = null
     ) {
         $this->database = $database;
@@ -220,9 +235,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
             }
         }
 
-        $orderBy = 'ORDER BY ' . implode(', ', $orders);
-
-        return $orderBy;
+        return 'ORDER BY ' . implode(', ', $orders);
     }
 
     /**
@@ -296,8 +309,6 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
             return '';
         }
 
-        $sql = 'WHERE ' . implode(' AND ', $wheres);
-
-        return $sql;
+        return 'WHERE ' . implode(' AND ', $wheres);
     }
 }

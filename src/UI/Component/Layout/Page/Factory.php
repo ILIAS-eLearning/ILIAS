@@ -1,10 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Layout\Page;
 
-use ILIAS\UI\Component\MainControls;
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\MainControls\Mainbar;
+use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Toast\Container;
+use ILIAS\UI\Component\MainControls\Footer;
 
 /**
  * This is what a factory for pages looks like.
@@ -61,22 +80,29 @@ interface Factory
      *        the Footer is nested in the HTML element "main", the HTML element of the
      *        Footer MUST additionally be declared with the ARIA role "Contentinfo".
      * ----
-     *
      * @param  \ILIAS\UI\Component\Component[] $content
-     * @param  \ILIAS\UI\Component\MainControls\MetaBar $Metabar
+     * @param  \ILIAS\UI\Component\MainControls\MetaBar $metabar
      * @param  \ILIAS\UI\Component\MainControls\MetaBar $mainbar
      * @param  \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs $locator
+     * @param  \ILIAS\UI\Component\Image\Image $logo
+     * @param  \ILIAS\UI\Component\Image\Image $responsive_logo
+     * @param  \ILIAS\UI\Component\Toast\Container $overlay
      * @param  \ILIAS\UI\Component\MainControls\Footer $footer
      * @param  string $title
+     * @param  string $short_title
+     * @param  string $view_title
      * @return \ILIAS\UI\Component\Layout\Page\Standard
      */
     public function standard(
         array $content,
-        MainControls\MetaBar $metabar = null,
-        MainControls\MainBar $mainbar = null,
+        MetaBar $metabar = null,
+        MainBar $mainbar = null,
         Breadcrumbs $locator = null,
         Image $logo = null,
-        MainControls\Footer $footer = null,
+        Image $responsive_logo = null,
+        string $favicon_path = '',
+        Container $overlay = null,
+        Footer $footer = null,
         string $title = '',
         string $short_title = '',
         string $view_title = ''

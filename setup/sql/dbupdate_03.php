@@ -545,7 +545,7 @@ $res = $ilDB->query($query);
                 )
             )
         );
-            
+        
         $ilDB->addPrimaryKey("exc_mem_ass_status", array("ass_id", "usr_id"));
     }
 ?>
@@ -959,29 +959,29 @@ $res = $ilDB->query($query);
         include_once("./Services/Migration/DBUpdate_3004/classes/class.ilDBUpdate3004.php");
         
         $new_ex_path = CLIENT_DATA_DIR . "/ilExercise";
-            
+        
         $old_ex_path = CLIENT_DATA_DIR . "/exercise";
-            
+        
         $old_ex_files = array();
-            
+        
         if (is_dir($old_ex_path)) {
             $dh_old_ex_path = opendir($old_ex_path);
-                
+            
             // old exercise files into an assoc array to
             // avoid reading of all files each time
-                
+            
             while ($file = readdir($dh_old_ex_path)) {
                 if (is_dir($old_ex_path . "/" . $file)) {
                     continue;
                 }
-                list($obj_id, $rest) = split('_', $file, 2);
+                [$obj_id, $rest] = split('_', $file, 2);
                 $old_ex_files[$obj_id][] = array("full" => $file,
                         "rest" => $rest);
             }
         }
 
         //var_dump($old_ex_files);
-            
+        
         $set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
         while ($rec = $ilDB->fetchAssoc($set)) {
             // move exercise files to assignment directories
@@ -992,7 +992,7 @@ $res = $ilDB->query($query);
                             "/ass_" . $rec["id"] . "/" . $file["rest"];
                             
                     if (is_file($old)) {
-                        ilUtil::makeDirParents(dirname($new));
+                        ilFileUtils::makeDirParents(dirname($new));
                         rename($old, $new);
                         //echo "<br><br>move: ".$old.
 //	"<br>to: ".$new;
@@ -1005,7 +1005,7 @@ $res = $ilDB->query($query);
                 $old = $old_ex_path . "/" . $rec["exc_id"];
                 $new = $new_ex_path . "/" . ilDBUpdate3004::createPathFromId($rec["exc_id"], "exc") .
                         "/subm_" . $rec["id"];
-                ilUtil::makeDirParents(dirname($new));
+                ilFileUtils::makeDirParents(dirname($new));
                 rename($old, $new);
                 //echo "<br><br>move: ".$old.
 //	"<br>to: ".$new;
@@ -3698,7 +3698,7 @@ $ilDB->addTableColumn("sahs_lm", "entry_page", array(
 <#3213>
 <?php
 // convert old qpl export files
-$qpl_export_base = ilUtil::getDataDir() . "/qpl_data/";
+$qpl_export_base = ilFileUtils::getDataDir() . "/qpl_data/";
 // quit if import dir not available
 if (@is_dir($qpl_export_base) && is_writeable($qpl_export_base)) {
     // open directory
@@ -3720,7 +3720,7 @@ if (@is_dir($qpl_export_base) && is_writeable($qpl_export_base)) {
                                         switch ($matches[4]) {
                                             case 'zip':
                                                 if (!@is_dir($qpl_export_base . $entry . '/' . 'export_zip')) {
-                                                    ilUtil::makeDir($qpl_export_base . $entry . '/' . 'export_zip');
+                                                    ilFileUtils::makeDir($qpl_export_base . $entry . '/' . 'export_zip');
                                                 }
                                                 @rename($qpl_export_base . $entry . '/' . $q_entry . '/' . $exp_entry, $qpl_export_base . $entry . '/' . 'export_zip' . '/' . $matches[1] . 'qpl_' . $matches[3] . '.zip');
                                                 break;
@@ -3730,7 +3730,7 @@ if (@is_dir($qpl_export_base) && is_writeable($qpl_export_base)) {
                             }
                             $exp_dir->close();
                             if (@is_dir($qpl_export_base . $entry . '/' . $q_entry)) {
-                                ilUtil::delDir($qpl_export_base . $entry . '/' . $q_entry);
+                                ilFileUtils::delDir($qpl_export_base . $entry . '/' . $q_entry);
                             }
                         }
                     }
@@ -3804,7 +3804,7 @@ $fields = array(
 );
 $ilDB->createTable('sahs_sc13_sco', $fields);
 $ilDB->addPrimaryKey("sahs_sc13_sco", array("id"));
-    
+
 ?>
 <#3220>
 <?php
@@ -4977,18 +4977,18 @@ while ($rec = $ilDB->fetchAssoc($set)) {	// all styles
     $a_style_id = $rec["obj_id"];
     
     $sty_data_dir = CLIENT_WEB_DIR . "/sty";
-    ilUtil::makeDir($sty_data_dir);
-
+    ilFileUtils::makeDir($sty_data_dir);
+    
     $style_dir = $sty_data_dir . "/sty_" . $a_style_id;
-    ilUtil::makeDir($style_dir);
-
+    ilFileUtils::makeDir($style_dir);
+    
     // create images subdirectory
     $im_dir = $style_dir . "/images";
-    ilUtil::makeDir($im_dir);
-
+    ilFileUtils::makeDir($im_dir);
+    
     // create thumbnails directory
     $thumb_dir = $style_dir . "/images/thumbnails";
-    ilUtil::makeDir($thumb_dir);
+    ilFileUtils::makeDir($thumb_dir);
     
     //	ilObjStyleSheet::_createImagesDirectory($rec["obj_id"]);
     $imdir = CLIENT_WEB_DIR . "/sty/sty_" . $a_style_id .
@@ -7169,7 +7169,7 @@ $ilDB->manipulateF(
     ilChatroomInstaller::install();
 
     require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
-    ilNotificationSetupHelper::setupTables();
+    \ILIAS\Notifications\ilNotificationSetupHelper::setupTables();
 
     $settings = new ilSetting('notifications');
     $settings->set('enable_mail', 1);
@@ -7985,7 +7985,7 @@ $setting->set("enable_sahs_pd", 1);
 <?php
 
     $chat_modetator_tpl_id = $ilDB->nextId('object_data');
-            
+    
     $ilDB->manipulateF(
         "
 		INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) " .
@@ -8120,8 +8120,8 @@ if (!$ilDB->tableExists('note_settings')) {
 <?php
     $statement = $ilDB->queryF(
     '
-		SELECT obj_id FROM object_data 
-		WHERE type = %s 
+		SELECT obj_id FROM object_data
+		WHERE type = %s
 		AND title = %s',
     array('text', 'text'),
     array('rolt', 'il_chat_moderator')
@@ -8166,8 +8166,8 @@ if (!$ilDB->tableExists('note_settings')) {
 
     $statement = $ilDB->queryF(
         '
-		SELECT obj_id FROM object_data 
-		WHERE type = %s 
+		SELECT obj_id FROM object_data
+		WHERE type = %s
 		AND title = %s',
         array('text', 'text'),
         array('rolt', 'il_chat_moderator')
@@ -8199,8 +8199,8 @@ if (!$ilDB->tableExists('note_settings')) {
 <?php
     $statement = $ilDB->queryF(
     '
-		SELECT obj_id FROM object_data 
-		WHERE type = %s 
+		SELECT obj_id FROM object_data
+		WHERE type = %s
 		AND title = %s',
     array('text', 'text'),
     array('rolt', 'il_chat_moderator')
@@ -8373,7 +8373,7 @@ if (!$ilDB->tableExists('note_settings')) {
 
             // first page has public profile as default
             $xml = "<PageObject>" .
-                "<PageContent PCID=\"" . ilUtil::randomHash() . "\">" .
+                "<PageContent PCID=\"" . ilPageObject::randomHash() . "\">" .
                     "<Profile Mode=\"inherit\" User=\"" . $user_id . "\"/>" .
                 "</PageContent>" .
             "</PageObject>";
@@ -9290,8 +9290,8 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
     $ilchtrbacfix = $setting->get("ilchtrbacfix");
     if (!$ilchtrbacfix) {
         $result = $ilDB->query(
-            'SELECT ops_id 
-			FROM rbac_operations 
+            'SELECT ops_id
+			FROM rbac_operations
 			WHERE operation = ' . $ilDB->quote('create_chat', 'text')
         );
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -9309,13 +9309,13 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 
         if ($chat_id && $chatroom_id) {
             $result = $ilDB->query(
-                'SELECT * 
+                'SELECT *
 				FROM rbac_pa
 				WHERE ' . $ilDB->like('ops_id', 'text', '%i:' . $chat_id . ';%')
             );
 
             $statement = $ilDB->prepareManip(
-                'UPDATE rbac_pa 
+                'UPDATE rbac_pa
 				SET ops_id = ?
 				WHERE rol_id = ?
 				AND ref_id = ?',
@@ -9385,13 +9385,13 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
             );
             
             $ilDB->manipulate(
-                'UPDATE rbac_ta 
+                'UPDATE rbac_ta
 				SET ops_id = ' . $ilDB->quote($chatroom_id, 'integer') . '
 				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
             );
 
             $ilDB->manipulate(
-                'UPDATE rbac_templates 
+                'UPDATE rbac_templates
 				SET ops_id = ' . $ilDB->quote($chatroom_id, 'integer') . '
 				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
             );
@@ -9403,7 +9403,7 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 <#3544>
 <?php
     $ilDB->manipulate(
-    'UPDATE rbac_templates 
+    'UPDATE rbac_templates
 		SET type = ' . $ilDB->quote('chtr', 'text') . '
 		WHERE type = ' . $ilDB->quote('chat', 'text')
     );
@@ -10728,7 +10728,7 @@ if (!$ilDB->tableColumnExists('media_item', 'highlight_class')) {
         $ilDB->dropTableColumn("booking_object", "type_id");
         $ilDB->dropTable("booking_type");
     }
-        
+    
 ?>
 <#3625>
 <?php
@@ -10996,10 +10996,10 @@ $res = $ilDB->query(
 	SELECT mattorphaned.mail_id, mattorphaned.path
 	FROM mail_attachment mattorphaned
 	WHERE mattorphaned.mail_id NOT IN (
-		SELECT matt.mail_id 
+		SELECT matt.mail_id
 		FROM mail_attachment matt
-		INNER JOIN mail 
-			ON mail.mail_id = matt.mail_id 
+		INNER JOIN mail
+			ON mail.mail_id = matt.mail_id
 		INNER JOIN usr_data
 			ON usr_data.usr_id = mail.user_id
 	)'
@@ -11085,7 +11085,7 @@ if ($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb') {
 		ON m2.mail_id = m1.mail_id');
 } else {
     // Oracle and Postgres
-    $ilDB->manipulate(' 
+    $ilDB->manipulate('
 		DELETE FROM mail
 		WHERE mail.mail_id IN (
 			SELECT mail.mail_id
@@ -11452,10 +11452,10 @@ $ilDB->addPrimaryKey('syst_style_cat', array('skin_id', 'style_id', 'substyle', 
         
         while ($rec = $ilDB->fetchAssoc($sets)) {
             // now check, whether some core image files are missing
-            ilUtil::makeDir(CLIENT_WEB_DIR . "/sty");
-            ilUtil::makeDir(CLIENT_WEB_DIR . "/sty/sty_" . $rec["obj_id"]);
+            ilFileUtils::makeDir(CLIENT_WEB_DIR . "/sty");
+            ilFileUtils::makeDir(CLIENT_WEB_DIR . "/sty/sty_" . $rec["obj_id"]);
             $tdir = CLIENT_WEB_DIR . "/sty/sty_" . $rec["obj_id"] . "/images";
-            ilUtil::makeDir($tdir);
+            ilFileUtils::makeDir($tdir);
             $sfile = "./Services/Style/basic_style/images/advknow.png";
             $cim = "advknow.png";
             if (!is_file($tdir . "/" . $cim) && is_file($sfile)) {
@@ -11566,7 +11566,7 @@ ilDBUpdateNewObjectType::addRBACOperations($hlps_type_id, $rbac_ops);
 ?>
 <#3667>
 <?php
-    
+
 #9350: removing visible permission for side blocks (feed, poll)
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::deleteRBACOperation(
@@ -12034,7 +12034,7 @@ if (!$ilDB->tableColumnExists('tst_tests', 'obligations_enabled')) {
 $text_questions = $ilDB->query(
     'SELECT question_fi, keywords, points
 	 FROM qpl_questions
-	 JOIN qpl_qst_essay ON qpl_questions.question_id = qpl_qst_essay.question_fi 
+	 JOIN qpl_qst_essay ON qpl_questions.question_id = qpl_qst_essay.question_fi
 	 WHERE keywords IS NOT NULL'
     );
 
@@ -13240,7 +13240,7 @@ if (trim($ade) && !trim($fbr)) {
 <?php
 
     $blog_contributor_tpl_id = $ilDB->nextId('object_data');
-        
+    
     $ilDB->manipulateF(
         "INSERT INTO object_data (obj_id, type, title, description," .
         " owner, create_date, last_update) VALUES (%s, %s, %s, %s, %s, %s, %s)",
@@ -13352,7 +13352,7 @@ $ilDB->manipulate(
 ?>
 <#3774>
 <?php
-            
+
 $bcset = $ilDB->query("SELECT obj_id FROM object_data" .
         " WHERE type = " . $ilDB->quote("rolt", "text") .
         " AND title = " . $ilDB->quote("il_blog_contributor", "text"));
@@ -13708,7 +13708,7 @@ $grp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('grp');
 if ($grp_type_id) {
     $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('create_crsr');
     ilDBUpdateNewObjectType::addRBACOperation($grp_type_id, $ops_id);
-        
+    
     $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('create_catr');
     ilDBUpdateNewObjectType::addRBACOperation($grp_type_id, $ops_id);
 }
@@ -13720,7 +13720,7 @@ if ($grp_type_id) {
 ?>
 <#3801>
 <?php
-    
+
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');
 ilDBUpdateNewObjectType::deleteRBACOperation('rcat', $ops_id);
@@ -13762,7 +13762,7 @@ ilDBUpdateNewObjectType::deleteRBACOperation('rcat', $ops_id);
             "subdir_type" => array("notnull" => true,"length" => 1,"type" => "integer"),
             "directory" => array("notnull" => false,"length" => 64,"type" => "text")
         );
-            
+        
         $ilDB->createTable("ecs_cmap_rule", $fields);
         $ilDB->createSequence('ecs_cmap_rule');
         $ilDB->addPrimaryKey('ecs_cmap_rule', array('rid'));
@@ -13798,7 +13798,7 @@ if (!$ilDB->tableColumnExists('il_dcl_table', 'export_enabled')) {
             "usr_id" => array("notnull" => false,"length" => 64,"type" => "text"),
             "status" => array("notnull" => true,"length" => 1,"type" => "integer")
         );
-            
+        
         $ilDB->createTable("ecs_course_assignments", $fields);
         $ilDB->createSequence('ecs_course_assignments');
         $ilDB->addPrimaryKey('ecs_course_assignments', array('id'));
@@ -14080,7 +14080,7 @@ if ($ilDB->tableColumnExists('tos_versions', 'path')) {
             "job_result_type" => array("notnull" => false,"length" => 1,"type" => "integer"),
             "job_result_ts" => array("notnull" => false,"length" => 4,"type" => "integer")
         );
-            
+        
         $ilDB->createTable("cron_job", $fields);
         $ilDB->addPrimaryKey("cron_job", array("job_id"));
     }
@@ -14484,8 +14484,8 @@ if (!$ilDB->sequenceExists('il_bibl_attribute')) {
 <#3847>
 <?php
 // create file upload directory for bibliographic module
-$bibl_data_dir = ilUtil::getDataDir() . "/bibl";
-ilUtil::makeDir($bibl_data_dir);
+$bibl_data_dir = ilFileUtils::getDataDir() . "/bibl";
+ilFileUtils::makeDir($bibl_data_dir);
 ?>
 <#3848>
 <?php
@@ -14835,7 +14835,7 @@ if (!$ilDB->tableExists('ut_lp_coll_manual')) {
 <#3863>
 <?php
 
-$base_path = ilUtil::getDataDir();
+$base_path = ilFileUtils::getDataDir();
 
 $set = $ilDB->query("SELECT at.*,ea.exc_id" .
     " FROM exc_assignment ea" .
@@ -15472,7 +15472,7 @@ if (!$ilDB->tableExists('il_disk_quota')) {
 function quotaHandleFile($a_obj_id, $a_owner_id)
 {
     global $ilDB;
-        
+    
     // see ilFileSystemStorage::_createPathFromId()
     $tpath = array();
     $tfound = false;
@@ -15486,13 +15486,13 @@ function quotaHandleFile($a_obj_id, $a_owner_id)
         }
     }
     
-    $file_path = ilUtil::getDataDir() . "/ilFile/";
+    $file_path = ilFileUtils::getDataDir() . "/ilFile/";
     if (count($tpath)) {
         $file_path .= (implode('/', $tpath) . '/');
     }
     $file_path .= "file_" . $a_obj_id;
     if (file_exists($file_path)) {
-        $file_size = (int) ilUtil::dirsize($file_path);
+        $file_size = (int) ilFileUtils::dirsize($file_path);
         if ($file_size > 0) {
             $ilDB->manipulate("INSERT INTO il_disk_quota" .
                 " (owner_id, src_type, src_obj_id, src_size)" .
@@ -15564,7 +15564,7 @@ function quotaHandleMob($a_obj_id, $a_owner_id)
     
     $file_path = CLIENT_WEB_DIR . "/mobs/mm_" . $a_obj_id;
     if (file_exists($file_path)) {
-        $file_size = (int) ilUtil::dirsize($file_path);
+        $file_size = (int) ilFileUtils::dirsize($file_path);
         if ($file_size > 0) {
             $ilDB->manipulate("INSERT INTO il_disk_quota" .
                 " (owner_id, src_type, src_obj_id, src_size)" .
@@ -15622,7 +15622,7 @@ while ($row = $ilDB->fetchAssoc($set)) {
 function quotaHandleFileStorage($a_type, $a_obj_id, $a_owner_id, $a_dir)
 {
     global $ilDB;
-        
+    
     // see ilFileSystemStorage::_createPathFromId()
     $tpath = array();
     $tfound = false;
@@ -15642,7 +15642,7 @@ function quotaHandleFileStorage($a_type, $a_obj_id, $a_owner_id, $a_dir)
     }
     $file_path .= $a_type . "_" . $a_obj_id;
     if (file_exists($file_path)) {
-        $file_size = (int) ilUtil::dirsize($file_path);
+        $file_size = (int) ilFileUtils::dirsize($file_path);
         if ($file_size > 0) {
             $ilDB->manipulate("INSERT INTO il_disk_quota" .
                 " (owner_id, src_type, src_obj_id, src_size)" .
@@ -15689,7 +15689,7 @@ while ($row = $ilDB->fetchAssoc($set)) {
 function quotaHandleVerification($a_type, $a_obj_id, $a_owner_id)
 {
     global $ilDB;
-        
+    
     // see ilFileSystemStorage::_createPathFromId()
     $tpath = array();
     $tfound = false;
@@ -15703,13 +15703,13 @@ function quotaHandleVerification($a_type, $a_obj_id, $a_owner_id)
         }
     }
     
-    $file_path = ilUtil::getDataDir() . "/ilVerification/";
+    $file_path = ilFileUtils::getDataDir() . "/ilVerification/";
     if (count($tpath)) {
         $file_path .= (implode('/', $tpath) . '/');
     }
     $file_path .= "vrfc_" . $a_obj_id;
     if (file_exists($file_path)) {
-        $file_size = (int) ilUtil::dirsize($file_path);
+        $file_size = (int) ilFileUtils::dirsize($file_path);
         if ($file_size > 0) {
             $ilDB->manipulate("INSERT INTO il_disk_quota" .
                 " (owner_id, src_type, src_obj_id, src_size)" .
@@ -16578,7 +16578,7 @@ if (!$ilDB->tableExists('copg_pc_def')) {
     $ilDB->createTable('copg_pc_def', $fields);
     $ilDB->addPrimaryKey('copg_pc_def', array('pc_type'));
 }
-    
+
 ?>
 <#3962>
 <?php
@@ -16703,7 +16703,7 @@ if (!$ilDB->tableExists('il_new_item_grp')) {
     $ilDB->addPrimaryKey('il_new_item_grp', array('id'));
     $ilDB->createSequence('il_new_item_grp');
 }
-    
+
 ?>
 <#3977>
 <?php
@@ -17240,7 +17240,7 @@ if (!$ilDB->tableExists('copg_pobj_def')) {
     $ilDB->createTable('copg_pobj_def', $fields);
     $ilDB->addPrimaryKey('copg_pobj_def', array('parent_type'));
 }
-    
+
 ?>
 <#4020>
 <?php
@@ -17495,7 +17495,7 @@ if (!$ilDB->tableExists('skl_usage')) {
     $ilDB->createTable('skl_usage', $fields);
     $ilDB->addPrimaryKey('skl_usage', array('obj_id', 'skill_id', 'tref_id'));
 }
-    
+
 ?>
 <#4038>
 <?php
@@ -17526,7 +17526,7 @@ $ilDB->manipulate("UPDATE cal_entries ce".
     " SET ce.subtitle = ".$ilDB->quote("#consultationhour#", "text").
     " WHERE ccat.type = ".$ilDB->quote(4, "integer"));
 */
-    
+
 $entry_ids = array();
 $set = $ilDB->query("SELECT ce.cal_id" .
     " FROM cal_entries ce" .
@@ -17612,7 +17612,7 @@ if (!$ilDB->tableExists('copg_multilang')) {
     $ilDB->createTable('copg_multilang', $fields);
     $ilDB->addPrimaryKey('copg_multilang', array('parent_type', 'parent_id'));
 }
-    
+
 ?>
 <#4047>
 <?php
@@ -17639,7 +17639,7 @@ if (!$ilDB->tableExists('copg_multilang_lang')) {
     $ilDB->createTable('copg_multilang_lang', $fields);
     $ilDB->addPrimaryKey('copg_multilang_lang', array('parent_type', 'parent_id', 'lang'));
 }
-    
+
 ?>
 <#4048>
 <?php

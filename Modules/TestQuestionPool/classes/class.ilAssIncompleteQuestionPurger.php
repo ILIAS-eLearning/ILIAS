@@ -31,18 +31,18 @@ class ilAssIncompleteQuestionPurger
         return $this->ownerId;
     }
 
-    public function setOwnerId($ownerId)
+    public function setOwnerId($ownerId) : void
     {
         $this->ownerId = $ownerId;
     }
     
-    public function purge()
+    public function purge() : void
     {
         $questionIds = $this->getPurgableQuestionIds();
         $this->purgeQuestionIds($questionIds);
     }
     
-    private function getPurgableQuestionIds()
+    private function getPurgableQuestionIds() : array
     {
         $INtypes = $this->db->in('object_data.type', $this->getIgnoredContainerObjectTypes(), true, 'text');
         
@@ -67,7 +67,7 @@ class ilAssIncompleteQuestionPurger
         return $questionIds;
     }
     
-    private function purgeQuestionIds($questionIds)
+    private function purgeQuestionIds($questionIds) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
         
@@ -77,12 +77,12 @@ class ilAssIncompleteQuestionPurger
         }
     }
     
-    protected function setIgnoredContainerObjectTypes($ignoredContainerObjectTypes)
+    protected function setIgnoredContainerObjectTypes($ignoredContainerObjectTypes) : void
     {
         $this->ignoredContainerObjectTypes = $ignoredContainerObjectTypes;
     }
     
-    protected function getIgnoredContainerObjectTypes()
+    protected function getIgnoredContainerObjectTypes() : array
     {
         return $this->ignoredContainerObjectTypes;
     }

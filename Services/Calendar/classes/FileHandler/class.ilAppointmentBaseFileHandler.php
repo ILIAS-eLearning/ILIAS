@@ -1,28 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Base file handler class for appointment classes
- *
  * @author Alex Killing <killing@leifos.de>
  * @ingroup
  */
 class ilAppointmentBaseFileHandler
 {
-    protected $appointment;
+    protected array $appointment;
 
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
+    protected ilLogger $logger;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected ilObjUser $user;
 
-    /**
-     * Constructor
-     *
-     * @param
-     */
-    public function __construct($a_appointment)
+    public function __construct(array $a_appointment)
     {
         global $DIC;
 
@@ -33,22 +27,15 @@ class ilAppointmentBaseFileHandler
         $this->appointment = $a_appointment;
     }
 
-
-    /**
-     * Get instance
-     * @return self
-     */
-    public static function getInstance($a_appointment)
-    {
-        return new static($a_appointment);
-    }
-
-    public function getCatId($a_entry_id)
+    public function getCatId(int $a_entry_id) : int
     {
         return ilCalendarCategoryAssignments::_lookupCategory($a_entry_id);
     }
 
-    public function getCatInfo()
+    /**
+     * @return array
+     */
+    public function getCatInfo() : array
     {
         $cat_id = $this->getCatId($this->appointment['event']->getEntryId());
 
@@ -81,12 +68,14 @@ class ilAppointmentBaseFileHandler
                 break;
 
             case ilCalendarCategory::TYPE_GLOBAL:
-                if ($this->rbacsystem->checkAccess('edit_event', ilCalendarSettings::_getInstance()->getCalendarSettingsId())) {
+                if ($this->rbacsystem->checkAccess(
+                    'edit_event',
+                    ilCalendarSettings::_getInstance()->getCalendarSettingsId()
+                )) {
                     $cat_info["editable"] = true;
                 }
                 break;
         }
-
         return $cat_info;
     }
 }

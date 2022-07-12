@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -13,18 +29,12 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     const TABLE_NAME = 'il_bibl_data';
 
 
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
 
 
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
@@ -32,8 +42,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
 
 
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
@@ -42,112 +50,80 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      * @con_is_unique  true
      * @con_sequence   true
      */
-    protected $id;
+    protected ?int $id = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      * @con_is_notnull true
      */
-    protected $filename;
+    protected ?string $filename = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      * @con_is_notnull true
      */
-    protected $is_online;
+    protected ?int $is_online = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      * @con_is_notnull true
      */
-    protected $file_type;
+    protected ?int $file_type = null;
 
     /**
-     * @var string
      *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     255
      * @con_is_notnull true
      */
-    protected $rid;
+    protected ?string $rid = null;
 
-    /**
-     * @return integer
-     */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
 
 
-    /**
-     * @param integer $id
-     */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getFilename()
+    public function getFilename() : ?string
     {
         return $this->filename;
     }
 
 
-    /**
-     * @param string $filename
-     */
-    public function setFilename($filename)
+    public function setFilename(string $filename) : void
     {
         $this->filename = $filename;
     }
-
-
-    /**
-     * @return integer
-     */
-    public function getIsOnline()
+    
+    public function isOnline() : bool
     {
-        return $this->is_online;
+        return (bool) $this->is_online;
     }
 
 
-    /**
-     * @param integer $is_online
-     */
-    public function setIsOnline($is_online)
+    public function setIsOnline(int $is_online) : void
     {
         $this->is_online = $is_online;
     }
 
 
-    /**
-     * @return integer
-     */
-    public function getFileType()
+    public function getFileType() : int
     {
         return $this->file_type;
     }
 
 
-    /**
-     * @param integer $file_type
-     */
-    public function setFileType($file_type)
+    public function setFileType(int $file_type) : void
     {
         $this->file_type = $file_type;
     }
@@ -160,11 +136,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
         return $this->rid;
     }
 
-    /**
-     * @param string $rid
-     * @return ilBiblData
-     */
-    public function setResourceId(string $rid) : ilBiblData
+    public function setResourceId(string $rid) : self
     {
         $this->rid = $rid;
         return $this;

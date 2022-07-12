@@ -1,29 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\COPage\Editor\Components\PageComponentEditor;
 
 /**
  * COPage PC elements definition handler
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilCOPagePCDef
 {
-    public static $pc_def = null;
-    public static $pc_def_by_name = null;
-    public static $pc_gui_classes = array();
-    public static $pc_gui_classes_lc = array();
-    public static $pc_def_by_gui_class_cl = array();
+    public static array $pc_def = [];
+    public static array $pc_def_by_name = [];
+    public static array $pc_gui_classes = array();
+    public static array $pc_gui_classes_lc = array();
+    public static array $pc_def_by_gui_class_cl = array();
     
-    /**
-     * Init
-     *
-     * @param
-     * @return
-     */
-    public static function init()
+    public static function init() : void
     {
         global $DIC;
 
@@ -43,14 +51,7 @@ class ilCOPagePCDef
         }
     }
     
-    
-    /**
-     * Get PC definitions
-     *
-     * @param
-     * @return
-     */
-    public static function getPCDefinitions()
+    public static function getPCDefinitions() : array
     {
         self::init();
         return self::$pc_def;
@@ -58,11 +59,8 @@ class ilCOPagePCDef
     
     /**
      * Get PC definition by type
-     *
-     * @param string type
-     * @return array definition
      */
-    public static function getPCDefinitionByType($a_pc_type)
+    public static function getPCDefinitionByType(string $a_pc_type) : array
     {
         self::init();
         return self::$pc_def[$a_pc_type];
@@ -70,65 +68,29 @@ class ilCOPagePCDef
     
     /**
      * Get PC definition by name
-     *
-     * @param string name
-     * @return array definition
      */
-    public static function getPCDefinitionByName($a_pc_name)
-    {
+    public static function getPCDefinitionByName(
+        string $a_pc_name
+    ) : array {
         self::init();
         return self::$pc_def_by_name[$a_pc_name];
     }
     
     /**
      * Get PC definition by name
-     *
-     * @param string name
-     * @return array definition
      */
-    public static function getPCDefinitionByGUIClassName($a_gui_class_name)
-    {
+    public static function getPCDefinitionByGUIClassName(
+        string $a_gui_class_name
+    ) : array {
         self::init();
         $a_gui_class_name = strtolower($a_gui_class_name);
         return self::$pc_def_by_gui_class_cl[$a_gui_class_name];
     }
     
-    /**
-     * Get instance
-     *
-     * @param
-     * @return
-     */
-    public static function requirePCClassByName($a_name)
-    {
-        $pc_def = self::getPCDefinitionByName($a_name);
-        $pc_class = "ilPC" . $pc_def["name"];
-        $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
-        //include_once($pc_path);
-    }
-    
-    /**
-     * Get instance
-     *
-     * @param
-     * @return
-     */
-    public static function requirePCGUIClassByName($a_name)
-    {
-        $pc_def = self::getPCDefinitionByName($a_name);
-        $pc_class = "ilPC" . $pc_def["name"] . "GUI";
-        $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
-        //include_once($pc_path);
-    }
-    
-    /**
-     * Is given class name a pc gui class?
-     *
-     * @param
-     * @return
-     */
-    public static function isPCGUIClassName($a_class_name, $a_lower_case = false)
-    {
+    public static function isPCGUIClassName(
+        string $a_class_name,
+        bool $a_lower_case = false
+    ) : bool {
         if ($a_lower_case) {
             return in_array($a_class_name, self::$pc_gui_classes_lc);
         } else {
@@ -138,12 +100,10 @@ class ilCOPagePCDef
 
     /**
      * Get instance
-     *
-     * @param string $a_name
-     * @return mixed|null
      */
-    public static function getPCEditorInstanceByName($a_name)
-    {
+    public static function getPCEditorInstanceByName(
+        string $a_name
+    ) : ?PageComponentEditor {
         $pc_def = self::getPCDefinitionByName($a_name);
         $pc_class = "ilPC" . $pc_def["name"] . "EditorGUI";
         if (class_exists($pc_class)) {

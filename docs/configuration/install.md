@@ -124,7 +124,7 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 | wkhtmltopdf    | 0.12.5                      |
 | Ghostscript    | 9.26                        |
 | Imagemagick    | 6.8.9-9 Q16                 |
-
+| MathJax        | 2.7.9                       |
 
 <a name="other-platforms"></a>
 ## Other Platforms or Configurations
@@ -209,7 +209,7 @@ systemctl restart httpd.service
 ### PHP Installation and Configuration
 
 Refer to the to documentation of your installation to install either PHP 7.4 to
-PHP 8.0 including packages for gd, mysq, mbstring, curl, dom, zip and xml.
+PHP 8.0 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -731,7 +731,7 @@ each ILIAS release.
 | 8.x             | 7.4.x, 8.0.x                          |
 | 7.x             | 7.3.x, 7.4.x                          |
 | 6.x             | 7.2.x, 7.3.x, 7.4.x                   |
-| 5.4.x           | 7.0.x, 7.1.x, 7.2.x, 7.3.x            |
+| 5.4.x           | 7.2.x, 7.3.x, 7.4.x                   |
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
@@ -744,17 +744,17 @@ each ILIAS release.
 <a name="dbms"></a>
 ## DBMS
 
-| ILIAS Version   | MySQL Version                       | MariaDB Version         | Postgres (experimental)  |
-|-----------------|-------------------------------------|-------------------------|--------------------------|
-| 7.0 - 7.x       | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3        |                          |
-| 6.0 - 6.x       | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3  | 9.x                      |
-| 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |                          |
-| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |                          |
-| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |                          |
-| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                         |                          |
-| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x               |                         |                          |
-| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                         |                          |
-| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                       |                         |                          |
+| ILIAS Version   | MySQL Version                       | MariaDB Version         |
+|-----------------|-------------------------------------|-------------------------|
+| 7.0 - 7.x       | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3        |
+| 6.0 - 6.x       | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3  |
+| 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |
+| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |
+| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |
+| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                         |
+| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x               |                         |
+| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                         |
+| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                       |                         |
 
 <a name="imagemagick"></a>
 ## ImageMagick

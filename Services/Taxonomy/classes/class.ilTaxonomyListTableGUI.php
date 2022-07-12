@@ -1,15 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for taxonomy list
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyListTableGUI extends ilTable2GUI
 {
-    protected \ilAccessHandler $access;
+    protected ilAccessHandler $access;
     protected int $requested_tax_id;
     protected int $assigned_object_id;
 
@@ -25,10 +38,10 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->assigned_object_id = $a_assigned_object_id;
-        
+
         $this->setData(ilObjTaxonomy::getUsageOfObject($this->assigned_object_id, true));
         $this->setTitle($lng->txt("obj_taxf"));
         $this->setDescription($a_info);
@@ -36,21 +49,22 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("description"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.taxonomy_list_row.html", "Services/Taxonomy");
 
+        // @todo introduce request wrapper
         $params = $DIC->http()->request()->getQueryParams();
         $this->requested_tax_id = (int) ($params["tax_id"] ?? null);
     }
-    
+
     /**
      * @inheritDoc
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -1,40 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Object/classes/class.ilObjectLP.php");
-
 class ilIndividualAssessmentLP extends ilObjectLP
 {
-    protected $members_ids = null;
-    
     /**
-     * @inheritdoc
+     * @var int[]|string[]
      */
-    public function getDefaultMode()
+    protected ?array $members_ids = null;
+
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_INDIVIDUAL_ASSESSMENT;
     }
-    
-    /**
-     * @inheritdoc
-     */
-    public function getValidModes()
+
+    public function getValidModes() : array
     {
-        return array(ilLPObjSettings::LP_MODE_INDIVIDUAL_ASSESSMENT
-                    ,ilLPObjSettings::LP_MODE_DEACTIVATED);
+        return [
+            ilLPObjSettings::LP_MODE_INDIVIDUAL_ASSESSMENT,
+            ilLPObjSettings::LP_MODE_DEACTIVATED
+        ];
     }
     
     /**
-     * Get an array of member ids participating in the obnject coresponding to this.
-     *
-     * @return int|string[]
+     * Get an array of member ids participating in the object corresponding to this.
      */
-    public function getMembers($a_search = true)
+    public function getMembers(bool $a_search = true) : array
     {
         if ($this->members_ids === null) {
-            global $DIC;
-            require_once("Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php");
             $iass = new ilObjIndividualAssessment($this->obj_id, false);
             $this->members_ids = $iass->loadMembers()->membersIds();
         }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -6,8 +6,7 @@ use ILIAS\Calendar\FileHandler\ilFileProperty;
 
 /**
  * Course appointment file handler
- *
- * @author Alex Killing <killing@leifos.de>
+ * @author  Alex Killing <killing@leifos.de>
  * @ingroup ServicesCalendar
  */
 class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler
@@ -31,7 +30,6 @@ class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implem
                 $file_property = new ilFileProperty();
                 $file_property->setAbsolutePath($course_file->getAbsolutePath());
                 $file_property->setFileName($course_file->getFileName());
-
                 $files[] = $file_property;
             }
         }

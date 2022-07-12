@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Factory for derived task subservice
@@ -9,13 +23,12 @@
  */
 class ilDerivedTaskFactory
 {
-    protected \ilTaskServiceDependencies $_deps;
+    protected ilTaskServiceDependencies $_deps;
 
-    protected \ilTaskService $service;
+    protected ilTaskService $service;
 
     /**
      * Constructor
-     * @param ilTaskServiceDependencies $_deps
      */
     public function __construct(ilTaskService $service)
     {
@@ -33,11 +46,8 @@ class ilDerivedTaskFactory
 
     /**
      * Entry collector
-     *
-     * @param
-     * @return
      */
-    public function collector() : \ilDerivedTaskCollector
+    public function collector() : ilDerivedTaskCollector
     {
         return new ilDerivedTaskCollector($this->service);
     }
@@ -46,7 +56,7 @@ class ilDerivedTaskFactory
      * Get all task providers
      *
      * @param bool $active_only get only active providers
-     * @param int $user_id get instances for user with user id
+     * @param int|null $user_id get instances for user with user id
      * @return ilLearningHistoryProviderInterface[]
      */
     public function getAllProviders(bool $active_only = false, int $user_id = null) : array

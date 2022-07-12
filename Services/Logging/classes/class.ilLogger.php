@@ -1,24 +1,19 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './libs/composer/vendor/autoload.php';
-include_once __DIR__ . '/public/class.ilLogLevel.php';
-
+include_once __DIR__ . '/../../../libs/composer/vendor/autoload.php';
 
 use Monolog\Logger;
 use Monolog\Processor\MemoryPeakUsageProcessor;
 
 /**
  * Component logger with individual log levels by component id
- *
- *
  * @author Stefan Meyer
- * @version $Id$
- *
  */
 abstract class ilLogger
 {
-    private $logger = null;
+    private Logger $logger;
     
     public function __construct(Logger $logger)
     {
@@ -27,70 +22,69 @@ abstract class ilLogger
     
     /**
      * Check whether current logger is handling a log level
-     * @param int $a_level
-     * @return bool
      */
-    public function isHandling($a_level)
+    public function isHandling(int $a_level) : bool
     {
         return $this->getLogger()->isHandling($a_level);
     }
     
-    public function log($a_message, $a_level = ilLogLevel::INFO)
+    public function log(string $a_message, int $a_level = ilLogLevel::INFO) : void
     {
-        return $this->getLogger()->log($a_level, $a_message);
-    }
-    
-    public function dump($a_variable, $a_level = ilLogLevel::INFO)
-    {
-        return $this->log(print_r($a_variable, true), $a_level);
-    }
-    
-    public function debug($a_message, $a_context = array())
-    {
-        return $this->getLogger()->debug($a_message, $a_context);
-    }
-    
-    public function info($a_message)
-    {
-        return $this->getLogger()->info($a_message);
+        $this->getLogger()->log($a_level, $a_message);
     }
 
-    public function notice($a_message)
+    /**
+     * @param  mixed $a_variable
+     * @param int    $a_level
+     * @return void
+     */
+    public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
     {
-        return $this->getLogger()->notice($a_message);
+        $this->log((string) print_r($a_variable, true), $a_level);
+    }
+    
+    public function debug(string $a_message, array $a_context = array()) : void
+    {
+        $this->getLogger()->debug($a_message, $a_context);
+    }
+    
+    public function info(string $a_message) : void
+    {
+        $this->getLogger()->info($a_message);
     }
 
-    public function warning($a_message)
+    public function notice(string $a_message) : void
     {
-        return $this->getLogger()->warning($a_message);
+        $this->getLogger()->notice($a_message);
+    }
+
+    public function warning(string $a_message) : void
+    {
+        $this->getLogger()->warning($a_message);
     }
     
-    public function error($a_message)
+    public function error(string $a_message) : void
     {
-        return $this->getLogger()->error($a_message);
+        $this->getLogger()->error($a_message);
     }
     
-    public function critical($a_message)
+    public function critical(string $a_message) : void
     {
         $this->getLogger()->critical($a_message);
     }
 
-    public function alert($a_message)
+    public function alert(string $a_message) : void
     {
-        return $this->getLogger()->alert($a_message);
+        $this->getLogger()->alert($a_message);
     }
     
     
-    public function emergency($a_message)
+    public function emergency(string $a_message) : void
     {
-        return $this->getLogger()->emergency($a_message);
+        $this->getLogger()->emergency($a_message);
     }
     
-    /**
-     * Get logger instance
-     * @return \Logger
-     */
-    public function getLogger()
+    public function getLogger() : Logger
     {
         return $this->logger;
     }
@@ -99,39 +93,32 @@ abstract class ilLogger
      * write log message
      * @deprecated since version 5.1
      * @see ilLogger->info(), ilLogger()->debug(), ...
+     *
+     * @param int $_level
      */
-    public function write($a_message, $a_level = ilLogLevel::INFO)
+    public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
     {
-        include_once './Services/Logging/classes/public/class.ilLogLevel.php';
         if (!in_array($a_level, ilLogLevel::getLevels())) {
             $a_level = ilLogLevel::INFO;
         }
-        
-        $this->getLogger()->log($a_level, $a_message);
+        $this->getLogger()->log((int) $a_level, $a_message);
     }
 
     /**
      * Write language log
      * @deprecated since version 5.1
      */
-    public function writeLanguageLog($a_topic, $a_lang_key)
+    public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
     {
         $this->getLogger()->debug("Language (" . $a_lang_key . "): topic -" . $a_topic . "- not present");
     }
     
-    /**
-     * log stack trace
-     * @param type $a_level
-     * @param type $a_message
-     * @throws \Exception
-     */
-    public function logStack($a_level = null, $a_message = '')
+    public function logStack(?int $a_level = null, string $a_message = '') : void
     {
         if (is_null($a_level)) {
             $a_level = ilLogLevel::INFO;
         }
 
-        include_once './Services/Logging/classes/public/class.ilLogLevel.php';
         if (!in_array($a_level, ilLogLevel::getLevels())) {
             $a_level = ilLogLevel::INFO;
         }
@@ -147,9 +134,8 @@ abstract class ilLogger
     /**
      * Write memory peak usage
      * Automatically called at end of script
-     * @param int $a_level
      */
-    public function writeMemoryPeakUsage($a_level)
+    public function writeMemoryPeakUsage(int $a_level) : void
     {
         $this->getLogger()->pushProcessor(new MemoryPeakUsageProcessor());
         $this->getLogger()->log($a_level, 'Memory usage: ');

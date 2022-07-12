@@ -35,7 +35,7 @@ class ilAssLacMissingBracket extends ilAssLacException implements ilAssLacFormAl
     /**
      * @return string
      */
-    public function getBracket()
+    public function getBracket() : string
     {
         return $this->bracket;
     }
@@ -44,7 +44,7 @@ class ilAssLacMissingBracket extends ilAssLacException implements ilAssLacFormAl
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng) : string
     {
         return sprintf(
             $lng->txt("ass_lac_missing_bracket"),

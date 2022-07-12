@@ -1,42 +1,54 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Panel\Listing;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Item\Group;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(C\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
-        if ($component instanceof Component\Panel\Listing\Standard) {
+        if ($component instanceof C\Panel\Listing\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
+        return '';
     }
 
-    protected function renderStandard(Component\Panel\Listing\Listing $component, RendererInterface $default_renderer)
+    protected function renderStandard(C\Panel\Listing\Listing $component, RendererInterface $default_renderer) : string
     {
-        global $DIC;
-
-
         $tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
 
         foreach ($component->getItemGroups() as $group) {
-            if ($group instanceof \ILIAS\UI\Component\Item\Group) {
+            if ($group instanceof Group) {
                 $tpl->setCurrentBlock("group");
                 $tpl->setVariable("ITEM_GROUP", $default_renderer->render($group));
                 $tpl->parseCurrentBlock();
             }
         }
-
 
         $title = $component->getTitle();
         $tpl->setVariable("LIST_TITLE", $title);
@@ -53,9 +65,8 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
-        return array(Component\Panel\Listing\Standard::class
-        );
+        return array(C\Panel\Listing\Standard::class);
     }
 }

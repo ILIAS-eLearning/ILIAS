@@ -1,23 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Factory for importer/exporter implementers
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilImportExportFactory
 {
-    const PLUGINS_DIR = "Plugins";
+    public const PLUGINS_DIR = "Plugins";
 
-    public static function getExporterClass($a_type)
+    public static function getExporterClass(string $a_type) : string
     {
         /**
          * @var $objDefinition ilObjectDefinition
          */
         global $DIC;
-
         $objDefinition = $DIC['objDefinition'];
 
         if ($objDefinition->isPlugin($a_type)) {
@@ -37,7 +49,7 @@ class ilImportExportFactory
             if (class_exists($class)) {
                 return $class;
             }
-            
+
             // the next line had a "@" in front of the include_once
             // I removed this because it tages ages to track down errors
             // if the include class contains parse errors.
@@ -46,11 +58,11 @@ class ilImportExportFactory
                 return $class;
             }
         }
-            
+
         throw new InvalidArgumentException('Invalid exporter type given');
     }
-    
-    public static function getComponentForExport($a_type)
+
+    public static function getComponentForExport(string $a_type) : string
     {
         /**
          * @var $objDefinition ilObjectDefinition
@@ -58,7 +70,6 @@ class ilImportExportFactory
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
-
         if ($objDefinition->isPlugin($a_type)) {
             return self::PLUGINS_DIR . "/" . $a_type;
         } else {
@@ -68,23 +79,22 @@ class ilImportExportFactory
 
     /**
      * Get the importer class of a component
-     *
-     * @param string $a_component	component
-     * @return string	class name of the importer class (or empty if the importer should be ignored)
-     * @throws	InvalidArgumentException	the importer class is not found but should not be ignored
+     * @param string $a_component component
+     * @return string    class name of the importer class (or empty if the importer should be ignored)
+     * @throws    InvalidArgumentException    the importer class is not found but should not be ignored
      */
-    public static function getImporterClass($a_component)
+    public static function getImporterClass(string $a_component) : string
     {
         /**
          * @var $objDefinition ilObjectDefinition
          */
         global $DIC;
         $objDefinition = $DIC['objDefinition'];
-        
+
         $parts = explode('/', $a_component);
         $component_type = $parts[0];
         $component = $parts[1];
-        
+        $class = '';
         if ($component_type == self::PLUGINS_DIR &&
             $objDefinition->isPlugin($component)) {
             $classname = 'il' . $objDefinition->getClassName($component) . 'Importer';
@@ -113,7 +123,7 @@ class ilImportExportFactory
                 return $class;
             }
         }
-            
+
         throw new InvalidArgumentException('Invalid importer type given: ' . "./" . $a_component . "/classes/class." . $class . ".php");
     }
 }

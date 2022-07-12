@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Wiki Data set class
@@ -9,21 +23,13 @@
  * - wiki: data from il_wiki_data
  * - wpg: data from il_wiki_page
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiDataSet extends ilDataSet
 {
-    /**
-     * @var ilLogger
-     */
-    protected $wiki_log;
+    protected ?ilObjWiki $current_obj = null;
+    protected ilLogger $wiki_log;
 
-    /**
-     * construct
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,35 +39,19 @@ class ilWikiDataSet extends ilDataSet
         $this->wiki_log = ilLoggerFactory::getLogger('wiki');
     }
 
-
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
     public function getSupportedVersions() : array
     {
         return array("4.1.0", "4.3.0", "4.4.0", "5.1.0", "5.4.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/Wiki/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/Wiki/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "wiki") {
+        if ($a_entity === "wiki") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -147,7 +137,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wpg") {
+        if ($a_entity === "wpg") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -178,7 +168,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wiki_imp_page") {
+        if ($a_entity === "wiki_imp_page") {
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
@@ -192,11 +182,6 @@ class ilWikiDataSet extends ilDataSet
         return array();
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
@@ -205,7 +190,7 @@ class ilWikiDataSet extends ilDataSet
             $a_ids = array($a_ids);
         }
                 
-        if ($a_entity == "wiki") {
+        if ($a_entity === "wiki") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, description," .
@@ -248,7 +233,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wpg") {
+        if ($a_entity === "wpg") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, wiki_id" .
@@ -287,7 +272,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wiki_imp_page") {
+        if ($a_entity === "wiki_imp_page") {
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
@@ -299,9 +284,6 @@ class ilWikiDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -311,25 +293,21 @@ class ilWikiDataSet extends ilDataSet
         switch ($a_entity) {
             case "wiki":
                 return array(
-                    "wpg" => array("ids" => $a_rec["Id"]),
-                    "wiki_imp_page" => array("ids" => $a_rec["Id"])
+                    "wpg" => array("ids" => $a_rec["Id"] ?? null),
+                    "wiki_imp_page" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
 
         return [];
     }
     
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
-        //echo $a_entity;
-        //var_dump($a_rec);
-
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "wiki":
 
@@ -352,7 +330,6 @@ class ilWikiDataSet extends ilDataSet
                 
                 // >= 4.3
                 if (isset($a_rec["PageToc"])) {
-                    // $newObj->setImportantPages($a_rec["ImpPages"]);
                     $newObj->setPageToc($a_rec["PageToc"]);
                     $newObj->setRatingAsBlock($a_rec["RatingSide"]);
                     $newObj->setRatingForNewPages($a_rec["RatingNew"]);
@@ -396,8 +373,8 @@ class ilWikiDataSet extends ilDataSet
             case "wiki_imp_page":
                 $wiki_id = $a_mapping->getMapping("Modules/Wiki", "wiki", $a_rec["WikiId"]);
                 $page_id = $a_mapping->getMapping("Modules/Wiki", "wpg", $a_rec["PageId"]);
-                if ($wiki_id > 0 && $page_id > 0 && is_object($this->current_obj) && $this->current_obj->getId() == $wiki_id) {
-                    $this->current_obj->addImportantPage($page_id, $a_rec["Ord"], $a_rec["Indent"]);
+                if ($wiki_id > 0 && $page_id > 0 && is_object($this->current_obj) && $this->current_obj->getId() === (int) $wiki_id) {
+                    $this->current_obj->addImportantPage((int) $page_id, (int) $a_rec["Ord"], (int) $a_rec["Indent"]);
                 }
                 break;
         }

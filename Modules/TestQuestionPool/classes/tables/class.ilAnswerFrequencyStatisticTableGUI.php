@@ -74,7 +74,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     /**
      * @param bool $actionsColumnEnabled
      */
-    public function setActionsColumnEnabled(bool $actionsColumnEnabled)
+    public function setActionsColumnEnabled(bool $actionsColumnEnabled) : void
     {
         $this->actionsColumnEnabled = $actionsColumnEnabled;
     }
@@ -90,7 +90,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     /**
      * @param string $additionalHtml
      */
-    public function setAdditionalHtml(string $additionalHtml)
+    public function setAdditionalHtml(string $additionalHtml) : void
     {
         $this->additionalHtml = $additionalHtml;
     }
@@ -98,7 +98,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     /**
      * @param string $additionalHtml
      */
-    public function addAdditionalHtml(string $additionalHtml)
+    public function addAdditionalHtml(string $additionalHtml) : void
     {
         $this->additionalHtml .= $additionalHtml;
     }
@@ -114,12 +114,12 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     /**
      * @param int $questionIndex
      */
-    public function setQuestionIndex(int $questionIndex)
+    public function setQuestionIndex(int $questionIndex) : void
     {
         $this->questionIndex = $questionIndex;
     }
     
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn($this->DIC->language()->txt('tst_corr_answ_stat_tbl_header_answer'), '');
         $this->addColumn($this->DIC->language()->txt('tst_corr_answ_stat_tbl_header_frequency'), '');
@@ -133,20 +133,20 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         }
     }
     
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', \ilUtil::prepareFormOutput($data['answer']));
+        $this->tpl->setVariable('ANSWER', ilLegacyFormElementsUtil::prepareFormOutput($a_set['answer']));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');
-        $this->tpl->setVariable('FREQUENCY', $data['frequency']);
+        $this->tpl->setVariable('FREQUENCY', $a_set['frequency']);
         $this->tpl->parseCurrentBlock();
         
         if ($this->isActionsColumnEnabled()) {
-            if (isset($data['addable'])) {
+            if (isset($a_set['addable'])) {
                 $this->tpl->setCurrentBlock('actions');
-                $this->tpl->setVariable('ACTIONS', $this->buildAddAnswerAction($data));
+                $this->tpl->setVariable('ACTIONS', $this->buildAddAnswerAction($a_set));
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock('actions');
@@ -156,7 +156,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         }
     }
     
-    protected function buildAddAnswerAction($data)
+    protected function buildAddAnswerAction($data) : string
     {
         $uid = md5($this->getQuestionIndex() . $data['answer']);
         
@@ -182,7 +182,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         return $uiRenderer->render($showModalButton);
     }
     
-    protected function buildAddAnswerModalGui($uid, $data)
+    protected function buildAddAnswerModalGui($uid, $data) : ilModalGUI
     {
         $formAction = $this->DIC->ctrl()->getFormAction(
             $this->getParentObject(),

@@ -1,29 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Classic table for rep object lists, including checkbox
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDashObjectsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, int $sub_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $sub_id
+    ) {
         global $DIC;
 
         $this->id = "dash_obj_" . $sub_id;
@@ -32,7 +33,6 @@ class ilDashObjectsTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        //$this->setData($this->getItems());
         $this->setTitle($this->lng->txt(""));
 
         $this->addColumn("", "", "", true);
@@ -40,38 +40,19 @@ class ilDashObjectsTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(false);
         $this->setEnableHeader(false);
 
-        //$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.dash_obj_row.html", "Services/Dashboard");
 
-        //$this->addMultiCommand("", $this->lng->txt(""));
-        //$this->addCommandButton("", $this->lng->txt(""));
         $this->setLimit(9999);
     }
 
     /**
-     * Get items
-     *
-     * @return array[]
-     */
-    /*
-    protected function getItems()
-    {
-        $items = [];
-
-        return $items;
-    }*/
-
-    /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-
         $tpl->setVariable("ID", $a_set["ref_id"]);
-        $tpl->setVariable("ICON", ilObject::_getIcon($a_set["obj_id"]));
+        $tpl->setVariable("ICON", ilObject::_getIcon((int) $a_set["obj_id"]));
         $tpl->setVariable("TITLE", $a_set["title"]);
     }
 }

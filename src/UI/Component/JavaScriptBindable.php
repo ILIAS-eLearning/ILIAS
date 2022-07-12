@@ -1,14 +1,29 @@
-<?php
-
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-namespace ILIAS\UI\Component;
+<?php declare(strict_types=1);
 
 /**
- * Interface to be extended by components that have the possibility to bind
- * to Javascript.
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+namespace ILIAS\UI\Component;
+
+use Closure;
+
+/**
+ * Interface to be extended by components that have the possibility to bind to Javascript.
  */
-interface JavaScriptBindable
+interface JavaScriptBindable extends Component
 {
     /**
      * Add some JS-code that binds to the given component on load.
@@ -23,7 +38,7 @@ interface JavaScriptBindable
      *
      * This binding to an id can not be achieved via an getId-method. The id of an HTML
      * element can not be known at creation time of the component, since we don't know how
-     * often a component will be rendered there. Thus, a truely unique id can only be
+     * often a component will be rendered there. Thus, a truly unique id can only be
      * created at rendering time. To still give full flexibility to the user of a component,
      * we use a closure to create the binding code. A strictly less powerfull alternative
      * would have been to pass some string with a known placeholder for the id.
@@ -37,10 +52,9 @@ interface JavaScriptBindable
      *			return "alert('Component has id: $id');";
      *		});
      *
-     * @param	\Closure	$binder
-     * @return	self
+     * @return static
      */
-    public function withOnLoadCode(\Closure $binder);
+    public function withOnLoadCode(Closure $binder);
 
     /**
      * Add some onload-code to the component instead of replacing the existing one.
@@ -48,15 +62,12 @@ interface JavaScriptBindable
      * Must work like getOnLoadCode was called and the result of the existing binder
      * (if any) and the result of the new binder are concatenated in a new binder.
      *
-     * @param	\Closure	$binder
-     * @return	self
+     * @return static
      */
-    public function withAdditionalOnLoadCode(\Closure $binder);
+    public function withAdditionalOnLoadCode(Closure $binder);
 
     /**
      * Get the currently bound on load code.
-     *
-     * @return	\Closure|null
      */
-    public function getOnLoadCode();
+    public function getOnLoadCode() : ?Closure;
 }

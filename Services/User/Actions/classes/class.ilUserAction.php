@@ -1,97 +1,77 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Action that can be performed on a user
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUser
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserAction
 {
-    protected $text;
-    protected $href;
-    protected $data;
-    protected $type;
-
+    protected string $text = "";
+    protected string $href = "";
     /**
-     * Set text
-     *
-     * @param string $a_val text
+     * @var array<string,string>
      */
-    public function setText($a_val)
+    protected array $data = [];
+    protected string $type = "";
+
+    public function setText(string $a_val) : void
     {
         $this->text = $a_val;
     }
 
-    /**
-     * Get text
-     *
-     * @return string text
-     */
-    public function getText()
+    public function getText() : string
     {
         return $this->text;
     }
 
-    /**
-     * Set href
-     *
-     * @param string $a_val href
-     */
-    public function setHref($a_val)
+    public function setHref(string $a_val) : void
     {
         $this->href = $a_val;
     }
 
-    /**
-     * Get href
-     *
-     * @return string href
-     */
-    public function getHref()
+    public function getHref() : string
     {
         return $this->href;
     }
 
-    /**
-     * Set type
-     *
-     * @param string $a_val type
-     */
-    public function setType($a_val)
+    public function setType(string $a_val) : void
     {
         $this->type = $a_val;
     }
 
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
     /**
-     * Set data attributes
-     *
-     * @param array $a_val array of key => value pairs which will be transformed to data-<key>="value" attributes of link)
+     * @param array<string,string> $a_val array of key => value pairs which will be transformed to data-<key>="value" attributes of link)
      */
-    public function setData($a_val)
+    public function setData(array $a_val) : void
     {
         $this->data = $a_val;
     }
 
     /**
-     * Get data attributes
-     *
      * @return array array of key => value pairs which will be transformed to data-<key>="value" attributes of link
      */
-    public function getData()
+    public function getData() : array
     {
         return $this->data;
     }

@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilObjLearningSequence extends ilContainer
 {
     const OBJ_TYPE = 'lso';
@@ -23,8 +36,7 @@ class ilObjLearningSequence extends ilContainer
     protected ?ilLearningSequenceActivation $ls_activation = null;
     protected ?ArrayAccess $di = null;
     protected ?ArrayAccess $local_di = null;
-    protected ?ilObjLearningSequenceAccess $ls_access;
-
+    protected ?ilObjLearningSequenceAccess $ls_access = null;
     protected ArrayAccess $dic;
     protected ilCtrl $ctrl;
     protected ilNewsService $il_news;
@@ -42,7 +54,6 @@ class ilObjLearningSequence extends ilContainer
         $this->user = $DIC['ilUser'];
         $this->tree = $DIC['tree'];
         $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
-        $this->rbacadmin = $DIC['rbacadmin'];
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->il_news = $DIC->news();
         $this->il_condition_handler = new ilConditionHandler();
@@ -50,12 +61,12 @@ class ilObjLearningSequence extends ilContainer
         parent::__construct($id, $call_by_reference);
     }
 
-    public static function getInstanceByRefId(int $ref_id)
+    public static function getInstanceByRefId(int $ref_id) : ?\ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id, false);
     }
 
-    public function read()
+    public function read() : void
     {
         $this->getLSSettings();
         if ($this->getRefId()) {
@@ -113,7 +124,7 @@ class ilObjLearningSequence extends ilContainer
         );
     }
 
-    public function cloneObject($target_id, $copy_id = 0, $omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningSequence $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
@@ -122,11 +133,11 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneMetaData($new_obj);
         $this->cloneSettings($new_obj);
         $this->cloneLPSettings($new_obj->getId());
-        $this->cloneActivation($new_obj, (int) $copy_id);
+        $this->cloneActivation($new_obj, $copy_id);
 
         $roles = $new_obj->getLSRoles();
         $roles->addLSMember(
-            (int) $this->user->getId(),
+            $this->user->getId(),
             $roles->getDefaultAdminRole()
         );
         return $new_obj;
@@ -142,7 +153,7 @@ class ilObjLearningSequence extends ilContainer
             $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_admin');
         }
 
-        $this->rbacadmin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
+        $this->rbac_admin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
         $this->log->write(__METHOD__ . ' : Finished copying of role lso_admin.');
 
         $member = $this->getDefaultMemberRole();
@@ -152,7 +163,7 @@ class ilObjLearningSequence extends ilContainer
             $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_member');
         }
 
-        $this->rbacadmin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
+        $this->rbac_admin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
         $this->log->write(__METHOD__ . ' : Finished copying of role lso_member.');
 
         return true;
@@ -260,7 +271,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->ls_activation;
     }
 
-    public function updateActivation(ilLearningSequenceActivation $settings)
+    public function updateActivation(ilLearningSequenceActivation $settings) : void
     {
         $this->getActivationDB()->store($settings);
         $this->ls_activation = $settings;
@@ -275,7 +286,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->ls_settings;
     }
 
-    public function updateSettings(ilLearningSequenceSettings $settings)
+    public function updateSettings(ilLearningSequenceSettings $settings) : void
     {
         $this->getSettingsDB()->store($settings);
         $this->ls_settings = $settings;
@@ -305,7 +316,7 @@ class ilObjLearningSequence extends ilContainer
 
         return $this->ls_participants;
     }
-    public function getMembersObject() //used by Services/Membership/classes/class.ilMembershipGUI.php
+    public function getMembersObject() : \ilLearningSequenceParticipants //used by Services/Membership/classes/class.ilMembershipGUI.php
     {
         return $this->getLSParticipants();
     }
@@ -332,7 +343,7 @@ class ilObjLearningSequence extends ilContainer
      * Update LSItems
      * @param LSItem[]
      */
-    public function storeLSItems(array $ls_items)
+    public function storeLSItems(array $ls_items) : void
     {
         $db = $this->getLSItemsDB();
         $db->storeItems($ls_items);
@@ -342,7 +353,7 @@ class ilObjLearningSequence extends ilContainer
      * Delete post conditions for ref ids.
      * @param int[]
      */
-    public function deletePostConditionsForSubObjects(array $ref_ids)
+    public function deletePostConditionsForSubObjects(array $ref_ids) : void
     {
         $rep_utils = new ilRepUtil();
         $rep_utils->deleteObjects($this->getRefId(), $ref_ids);
@@ -382,7 +393,7 @@ class ilObjLearningSequence extends ilContainer
     }
 
     /**
-     * @return LSLearnerItem[]|[]
+     * @return LSLearnerItem[]
      */
     public function getLSLearnerItems(int $usr_id) : array
     {
@@ -401,7 +412,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * Get mail to members type
      */
-    public function getMailToMembersType()
+    public function getMailToMembersType() : int
     {
         return 0;
     }
@@ -409,20 +420,24 @@ class ilObjLearningSequence extends ilContainer
     /**
      * Goto target learning sequence.
      */
-    public static function _goto(int $target, string $add = "")
+    public static function _goto(int $target, string $add = "") : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
+        $request_wrapper = $DIC->http()->wrapper()->query();
+        $refinery = $DIC->refinery();
 
         if (substr($add, 0, 5) == 'rcode') {
             if ($ilUser->getId() == ANONYMOUS_USER_ID) {
+                $request_target = $request_wrapper->retrieve("target", $refinery->kindlyTo()->string());
                 // Redirect to login for anonymous
                 ilUtil::redirect(
-                    "login.php?target=" . $_GET["target"] . "&cmd=force_login&lang=" .
+                    "login.php?target=" . $request_target . "&cmd=force_login&lang=" .
                     $ilUser->getCurrentLanguage()
                 );
             }
@@ -447,13 +462,10 @@ class ilObjLearningSequence extends ilContainer
                 ilObjectGUI::_gotoRepositoryNode($target, "infoScreenGoto");
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    ilUtil::sendFailure(
-                        sprintf(
-                            $lng->txt("msg_no_perm_read_item"),
-                            ilObject::_lookupTitle(ilObject::_lookupObjId($target))
-                        ),
-                        true
-                    );
+                    $main_tpl->setOnScreenMessage('failure', sprintf(
+                        $lng->txt("msg_no_perm_read_item"),
+                        ilObject::_lookupTitle(ilObject::_lookupObjId($target))
+                    ), true);
                     ilObjectGUI::_gotoRepositoryRoot();
                 }
             }
@@ -478,7 +490,7 @@ class ilObjLearningSequence extends ilContainer
         $item->setContent("lso_news_online_txt");
         $ns->data()->save($item);
     }
-    public function announceLSOOffline()
+    public function announceLSOOffline() : void
     {
         //NYI
     }
@@ -488,6 +500,21 @@ class ilObjLearningSequence extends ilContainer
         $act_db = $this->getActivationDB();
         $act_db->setEffectiveOnlineStatus($this->getRefId(), $status);
     }
+
+    public function getCurrentUserCurriculum() : string
+    {
+        $dic = $this->getLocalDI();
+        $curriculum = $dic["player.curriculumbuilder"]->getLearnerCurriculum(false);
+        return $dic['ui.renderer']->render($curriculum);
+    }
+
+    public function getCurrentUserLaunchButtons() : string
+    {
+        $dic = $this->getLocalDI();
+        $buttons = $dic["player.launchlinksbuilder"]->getLaunchbuttonsComponent();
+        return $dic['ui.renderer']->render($buttons);
+    }
+
 
     /***************************************************************************
     * Role Stuff
@@ -526,7 +553,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * @param array<int|string> $user_ids
      * @param string[] $columns
-     * @return array<int|string, array<mixed>>
+     * @return array<int|string, array>
      */
     public function readMemberData(array $user_ids, array $columns = null) : array
     {
@@ -551,5 +578,53 @@ class ilObjLearningSequence extends ilContainer
         return [
             ilLPStatus::LP_STATUS_COMPLETED_NUM
         ];
+    }
+
+    const CP_INTRO = -1;
+    const CP_EXTRO = -2;
+    const CP_TYPE = 'cont';
+    
+    public function getContentPageId(int $factor) : int
+    {
+        if (!in_array($factor, [self::CP_INTRO, self::CP_EXTRO])) {
+            throw new \InvalidArgumentException("not a valid modifier for page id: '$factor'");
+        }
+        return $this->getId() * $factor;
+    }
+
+    public function hasContentPage(int $factor) : bool
+    {
+        $page_id = $this->getContentPageId($factor);
+        return ilContainerPage::_exists(self::CP_TYPE, $page_id);
+    }
+
+    public function createContentPage(int $factor) : void
+    {
+        if ($this->hasContentPage($factor)) {
+            throw new \LogicException('will not create content page - it already exists.');
+        }
+        $page_id = $this->getContentPageId($factor);
+        $new_page_object = new \ilContainerPage();
+        $new_page_object->setId($page_id);
+        $new_page_object->setParentId($this->getId());
+        $new_page_object->createFromXML();
+    }
+
+    public function getContentPageHTML(int $factor) : string
+    {
+        if (!$this->hasContentPage($factor)) {
+            return '';
+        }
+        $page_id = $this->getContentPageId($factor);
+        $gui = new ilObjLearningSequenceEditIntroGUI(
+            self::CP_TYPE,
+            $page_id
+        );
+
+        $gui->setPresentationTitle("");
+        $gui->setTemplateOutput(false);
+        $gui->setHeader("");
+        $ret = $gui->showPage();
+        return $ret;
     }
 }

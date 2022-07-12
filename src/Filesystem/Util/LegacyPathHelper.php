@@ -6,6 +6,19 @@ namespace ILIAS\Filesystem\Util;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\FilesystemsAware;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class LegacyPathHelper
  *
@@ -154,11 +167,15 @@ final class LegacyPathHelper
             case $real_possible_path === $absolute_path:
                 return "";
             case strpos($absolute_path, $possible_path) === 0:
-                return substr($absolute_path,
-                    strlen($possible_path) + 1);                             //also remove the trailing slash
+                return substr(
+                    $absolute_path,
+                    strlen($possible_path) + 1
+                );                             //also remove the trailing slash
             case strpos($absolute_path, $real_possible_path) === 0:
-                return substr($absolute_path,
-                    strlen($real_possible_path) + 1);                             //also remove the trailing slash
+                return substr(
+                    $absolute_path,
+                    strlen($real_possible_path) + 1
+                );                             //also remove the trailing slash
             default:
                 throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
         }

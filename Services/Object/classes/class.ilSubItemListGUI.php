@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Base class for all sub item list gui's
  *
@@ -9,191 +23,115 @@
  */
 abstract class ilSubItemListGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected static int $MAX_SUBITEMS = 5;
+    protected static array $details = [];
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
 
-    protected static $MAX_SUBITEMS = 5;
-    
-    protected $cmdClass = null;
+    protected string $cmd_class;
 
-    protected $tpl;
-    private $highlighter = null;
+    protected ilTemplate $tpl;
+    protected ?ilLuceneHighlighterResultParser $highlighter = null;
+    protected array $subitem_ids = [];
+    protected ?ilObjectListGUI $item_list_gui = null;
+    protected int $ref_id;
+    protected int $obj_id;
+    protected string $type;
     
-    private static $details = array();
-    
-    private $subitem_ids = array();
-    private $item_list_gui;
-    private $ref_id;
-    private $obj_id;
-    private $type;
-    
-    /**
-     * Constructor
-     * @param
-     * @return
-     */
-    public function __construct($a_cmd_class)
+    public function __construct(string $cmd_class)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         
-        $this->cmdClass = $a_cmd_class;
+        $this->cmd_class = $cmd_class;
         self::$MAX_SUBITEMS = ilSearchSettings::getInstance()->getMaxSubitems();
     }
     
     /**
      * set show details.
-     * Show all subitem links for a specific object
+     * Show all sub item links for a specific object
      * As long as static::setShowDetails is not possible this method is final
-     *
-     * @return
-     * @param	int		$a_obj_id	object id
-     * @static
      */
-    final public static function setShowDetails($a_obj_id)
+    final public static function setShowDetails(int $obj_id) : void
     {
-        $_SESSION['lucene_search']['details'][$a_obj_id] = true;
+        $_SESSION['lucene_search']['details'][$obj_id] = true;
     }
      
     /**
-     * reset details
      * As long as static::resetDetails is not possible this method is final
-     *
-     * @return
-     * @static
      */
-    final public static function resetDetails()
+    final public static function resetDetails() : void
     {
-        $_SESSION['lucene_search']['details'] = array();
+        $_SESSION['lucene_search']['details'] = [];
     }
     
     /**
-     * enabled show details
      * As long as static::enableDetails is not possible this method is final
-     *
-     * @param	int		$a_obj_id	object id
-     * @return	bool
-     * @static
      */
-    final public static function enabledDetails($a_obj_id)
+    final public static function enabledDetails(int $obj_id) : bool
     {
-        return isset($_SESSION['lucene_search']['details'][$a_obj_id]) and $_SESSION['lucene_search']['details'][$a_obj_id];
+        return isset($_SESSION['lucene_search']['details'][$obj_id]) && $_SESSION['lucene_search']['details'][$obj_id];
     }
     
-    /**
-     * get cmd class
-     * @return
-     */
-    public function getCmdClass()
+    public function getCmdClass() : string
     {
-        return $this->cmdClass;
+        return $this->cmd_class;
     }
-    
 
-    /**
-     * set highlighter
-     * @param
-     * @return
-     */
-    public function setHighlighter($a_highlighter)
+    public function setHighlighter(?ilLuceneHighlighterResultParser $highlighter) : void
     {
-        $this->highlighter = $a_highlighter;
+        $this->highlighter = $highlighter;
     }
     
-    /**
-     * get highlighter
-     * @param
-     * @return
-     */
-    public function getHighlighter()
+    public function getHighlighter() : ?ilLuceneHighlighterResultParser
     {
         return $this->highlighter;
     }
     
-    /**
-     * get ref id
-     * @return
-     */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
     
-    /**
-     * get obj id
-     * @return
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * get type
-     * @return
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
     
-    /**
-     * get sub item ids
-     * @param	bool	$a_limited
-     * @return
-     */
-    public function getSubItemIds($a_limited = false)
+    public function getSubItemIds(bool $limited = false) : array
     {
-        if ($a_limited and !self::enabledDetails($this->getObjId())) {
+        if ($limited && !self::enabledDetails($this->getObjId())) {
             return array_slice($this->subitem_ids, 0, self::$MAX_SUBITEMS);
         }
         
         return $this->subitem_ids;
     }
     
-    /**
-     * get item list gui
-     * @return
-     */
-    public function getItemListGUI()
+    public function getItemListGUI() : ?ilObjectListGUI
     {
         return $this->item_list_gui;
     }
 
-    /**
-     * init
-     * @param
-     * @return
-     */
-    public function init($item_list_gui, $a_ref_id, $a_subitem_ids)
+    public function init(ilObjectListGUI $item_list_gui, int $ref_id, array $subitem_ids) : void
     {
         $this->tpl = new ilTemplate('tpl.subitem_list.html', true, true, 'Services/Object');
         $this->item_list_gui = $item_list_gui;
-        $this->ref_id = $a_ref_id;
+        $this->ref_id = $ref_id;
         $this->obj_id = ilObject::_lookupObjId($this->getRefId());
         $this->type = ilObject::_lookupType($this->getObjId());
-        
-        $this->subitem_ids = $a_subitem_ids;
+        $this->subitem_ids = $subitem_ids;
     }
     
-    /**
-     * show details link
-     * @return
-     */
-    protected function showDetailsLink()
+    protected function showDetailsLink() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
         if (count($this->getSubItemIds()) <= self::$MAX_SUBITEMS) {
             return;
         }
@@ -203,22 +141,24 @@ abstract class ilSubItemListGUI
 
         $additional = count($this->getSubItemIds()) - self::$MAX_SUBITEMS;
         
-        $ilCtrl->setParameterByClass(get_class($this->getCmdClass()), 'details', (int) $this->getObjId());
-        $link = $ilCtrl->getLinkTargetByClass(get_class($this->getCmdClass()), '');
-        $ilCtrl->clearParametersByClass(get_class($this->getCmdClass()));
+        $this->ctrl->setParameterByClass($this->getCmdClass(), 'details', $this->getObjId());
+        $link = $this->ctrl->getLinkTargetByClass($this->getCmdClass(), '');
+        $this->ctrl->clearParametersByClass($this->getCmdClass());
         
         $this->tpl->setCurrentBlock('choose_details');
         $this->tpl->setVariable('LUC_DETAILS_LINK', $link);
-        $this->tpl->setVariable('LUC_NUM_HITS', sprintf($lng->txt('lucene_more_hits_link'), $additional));
+        $this->tpl->setVariable('LUC_NUM_HITS', sprintf($this->lng->txt('lucene_more_hits_link'), $additional));
         $this->tpl->parseCurrentBlock();
     }
     
     // begin-patch mime_filter
-    protected function parseRelevance($sub_item)
+    protected function parseRelevance(int $sub_item) : void
     {
-        if (!ilSearchSettings::getInstance()->isSubRelevanceVisible() ||
-            !ilSearchSettings::getInstance()->enabledLucene()) {
-            return '';
+        if (
+            !ilSearchSettings::getInstance()->isSubRelevanceVisible() ||
+            !ilSearchSettings::getInstance()->enabledLucene()
+        ) {
+            return;
         }
         
         $relevance = $this->getHighlighter()->getRelevance($this->getObjId(), $sub_item);
@@ -230,5 +170,5 @@ abstract class ilSubItemListGUI
     }
     // end-patch mime_filter
     
-    abstract public function getHTML();
+    abstract public function getHTML() : string;
 }

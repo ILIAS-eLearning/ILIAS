@@ -4,6 +4,19 @@ namespace ILIAS\HTTP\Wrapper;
 
 use ILIAS\Refinery\Transformation;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface RequestWrapper
  *
@@ -13,18 +26,11 @@ interface RequestWrapper
 {
 
     /**
-     * @param string         $key
-     * @param Transformation $transformation
      *
      * @return mixed
      */
     public function retrieve(string $key, Transformation $transformation);
 
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
     public function has(string $key) : bool;
 }

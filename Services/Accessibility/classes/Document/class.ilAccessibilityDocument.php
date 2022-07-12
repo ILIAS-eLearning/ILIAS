@@ -1,22 +1,37 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityDocument
  */
 class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySignableDocument
 {
-    const TABLE_NAME = 'acc_documents';
+    public const TABLE_NAME = 'acc_documents';
 
     /**
-     * @var string
+     * @var int
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           4
      * @db_is_primary       true
      * @con_sequence        true
      */
-    protected $id;
+    protected ?int $id;
 
     /**
      * @var int
@@ -24,7 +39,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $creation_ts = 0;
+    protected ?int $creation_ts = 0;
 
     /**
      * @var int
@@ -32,7 +47,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $modification_ts = 0;
+    protected ?int $modification_ts = 0;
 
     /**
      * @var int
@@ -40,7 +55,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $owner_usr_id = 0;
+    protected ?int $owner_usr_id = 0;
 
     /**
      * @var int
@@ -48,7 +63,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $last_modified_usr_id = 0;
+    protected ?int $last_modified_usr_id = 0;
 
     /**
      * @var int
@@ -56,7 +71,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $sorting = 0;
+    protected ?int $sorting = 0;
 
     /**
      * @var string
@@ -64,76 +79,55 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @db_fieldtype        text
      * @db_length           255
      */
-    protected $title = '';
+    protected ?string $title = '';
 
     /**
      * @var string
      * @db_has_field        true
      * @db_fieldtype        clob
      */
-    protected $text = '';
+    protected ?string $text = '';
 
     /**
      * @var ilAccessibilityDocumentCriterionAssignment[]
      */
-    protected $criteria = [];
+    protected array $criteria = [];
 
     /**
      * @var ilAccessibilityDocumentCriterionAssignment[]
      */
-    protected $initialPersistedCriteria = [];
+    protected array $initialPersistedCriteria = [];
 
-    /**
-     * @var bool
-     */
-    private $criteriaFetched = false;
+    private bool $criteriaFetched = false;
 
-    /**
-     * @inheritdoc
-     */
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function content() : string
     {
         return $this->text;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function title() : string
     {
         return $this->title;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function id() : int
     {
         return (int) $this->id;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function read()
+    public function read() : void
     {
         parent::read();
 
         $this->fetchAllCriterionAssignments();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function buildFromArray(array $array): \ActiveRecord
+    public function buildFromArray(array $array) : \ActiveRecord
     {
         $document = parent::buildFromArray($array);
 
@@ -142,9 +136,6 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         return $document;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function create() : void
     {
         $this->setCreationTs(time());
@@ -160,9 +151,6 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         $this->initialPersistedCriteria = $this->criteria;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function update()
     {
         $this->setModificationTs(time());
@@ -192,9 +180,6 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         parent::update();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function delete()
     {
         foreach ($this->initialPersistedCriteria as $criterionAssignment) {
@@ -207,16 +192,12 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         parent::delete();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function criteria() : array
     {
         return $this->criteria;
     }
 
     /**
-     * @param ilAccessibilityDocumentCriterionAssignment $criterionAssignment
      * @throws ilAccessibilityDuplicateCriterionAssignmentException
      */
     public function attachCriterion(ilAccessibilityDocumentCriterionAssignment $criterionAssignment) : void
@@ -236,7 +217,6 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
     }
 
     /**
-     * @param ilAccessibilityDocumentCriterionAssignment
      * @throws OutOfBoundsException
      */
     public function detachCriterion(ilAccessibilityDocumentCriterionAssignment $criterionAssignment) : void

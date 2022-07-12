@@ -1,10 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI;
 
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Link\Standard;
+use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
+use ILIAS\UI\Component\Deck\Deck;
+use ILIAS\UI\Component\Card\Card;
+use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * This is how the factory for UI elements looks. This should provide access
@@ -13,10 +32,8 @@ use \ILIAS\UI\Component as C;
  * Consumers of the UI-Service MUST program against this interface and not
  * use any concrete implementations from Internal.
  */
-
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -43,7 +60,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Counter\Factory
      */
-    public function counter();
+    public function counter() : C\Counter\Factory;
 
     /**
      * ---
@@ -67,7 +84,35 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Image\Factory
      */
-    public function image();
+    public function image() : C\Image\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Player component is used to play and control a media source. The source
+     *       is either a relative web root path or a URL of an external resource.
+     *   composition: >
+     *       The Player component is composed by a play/pause button, a playtime presentation,
+     *       a volume button, a volume slider and a time slider. Players dedicated to
+     *       concrete media types MAY add additional visual elements.
+     * rules:
+     *   accessibility:
+     *     1: >
+     *        The play/pause button MUST be accessible via tab key and allow to start/stop the media when the
+     *        space/return key is being pressed.
+     *     2: >
+     *        The playing position SHOULD be adjustable by using the cursor left/right keys.
+     *     3: >
+     *        The volume SHOULD be adjustable by using the cursor up/down keys.
+     *   style:
+     *     1: >
+     *        The widget will be presented with the full width of its container. The controls will use a default
+     *        high contrast presentation provided by the respective library being used.
+     * ----
+     * @return  \ILIAS\UI\Component\Player\Factory
+     */
+    public function player() : C\Player\Factory;
 
     /**
      * ---
@@ -84,10 +129,9 @@ interface Factory
      *       Dividers MUST only be used in container components that explicitly state
      *       and define the usage of Dividers within the container.
      * ---
-     *
      * @return \ILIAS\UI\Component\Divider\Factory
      **/
-    public function divider();
+    public function divider() : C\Divider\Factory;
 
     /**
      * ---
@@ -135,8 +179,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Link\Factory
      */
-    public function link();
-
+    public function link() : C\Link\Factory;
 
     /**
      * ---
@@ -218,7 +261,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Button\Factory
      */
-    public function button();
+    public function button() : C\Button\Factory;
 
     /**
      * ---
@@ -300,7 +343,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Dropdown\Factory
      */
-    public function dropdown();
+    public function dropdown() : C\Dropdown\Factory;
 
     /**
      * ---
@@ -335,7 +378,7 @@ interface Factory
      * @param 	\ILIAS\UI\Component\Link\Standard[] 	$crumbs 	a list of Links
      * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
      **/
-    public function breadcrumbs(array $crumbs);
+    public function breadcrumbs(array $crumbs) : Breadcrumbs;
 
     /**
      * ---
@@ -348,7 +391,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\ViewControl\Factory
      */
-    public function viewControl();
+    public function viewControl() : C\ViewControl\Factory;
 
     /**
      * ---
@@ -359,12 +402,17 @@ interface Factory
      *      Charts are composed of various graphical and textual elements representing the raw data.
      *
      * rules:
+     *   usage:
+     *     1: Charts MAY be used to present a big amount of data.
+     *     2: >
+     *        Charts SHOULD be used when the graphical presentation of data is easier
+     *        to understand than the textual presentation.
      *   style:
      *      1: Charts SHOULD not rely on colors to convey information.
      * ---
      * @return \ILIAS\UI\Component\Chart\Factory
      */
-    public function chart();
+    public function chart() : C\Chart\Factory;
 
     /**
      * ---
@@ -381,7 +429,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Input\Factory
      */
-    public function input();
+    public function input() : C\Input\Factory;
 
     /**
      * ---
@@ -417,7 +465,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Card\Factory
      */
-    public function card();
+    public function card() : C\Card\Factory;
 
     /**
      * ---
@@ -444,7 +492,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Card\Card[] $cards
      * @return \ILIAS\UI\Component\Deck\Deck
      */
-    public function deck(array $cards);
+    public function deck(array $cards) : Deck;
 
     /**
      * ---
@@ -462,7 +510,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Listing\Factory
      */
-    public function listing();
+    public function listing() : C\Listing\Factory;
 
     /**
      * ---
@@ -481,7 +529,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Panel\Factory
      */
-    public function panel();
+    public function panel() : C\Panel\Factory;
 
     /**
      * ---
@@ -510,7 +558,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Item\Factory
      */
-    public function item();
+    public function item() : C\Item\Factory;
 
     /**
      * ---
@@ -545,10 +593,9 @@ interface Factory
      *       If a Modal contains a form, it MUST NOT be rendered within another form. This
      *       will break the HTML-engine of the client, since forms in forms are not allowed.
      * ---
-     *
      * @return \ILIAS\UI\Component\Modal\Factory
      **/
-    public function modal();
+    public function modal() : C\Modal\Factory;
 
     /**
      * ---
@@ -610,10 +657,9 @@ interface Factory
      *        opening of the Popover or the element being clicked if the Popover was
      *        closed on click.
      * ---
-     *
      * @return \ILIAS\UI\Component\Popover\Factory
      */
-    public function popover();
+    public function popover() : C\Popover\Factory;
 
     /**
      * ---
@@ -630,10 +676,9 @@ interface Factory
      *       Dropzones MUST be highlighted if the user is dragging compatible elements
      *       inside or over the browser window.
      * ---
-     *
      * @return \ILIAS\UI\Component\Dropzone\Factory
      */
-    public function dropzone();
+    public function dropzone() : C\Dropzone\Factory;
 
     /**
      * ---
@@ -650,11 +695,10 @@ interface Factory
      *          This component MUST only be used to ensure backwards compatibility with existing UI elements in ILIAS,
      *          therefore it SHOULD only contain Elements which cannot be generated using other UI Components from the UI Service.
      * ---
-     *
      * @param   string $content
      * @return  \ILIAS\UI\Component\Legacy\Legacy
      */
-    public function legacy($content);
+    public function legacy(string $content) : Legacy;
 
     /**
      * ---
@@ -665,14 +709,14 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Table\Factory
      */
-    public function table();
+    public function table() : C\Table\Factory;
 
     /**
      * ---
      * description:
      *   purpose: >
      *     Message Boxes inform the user about the state of the system or an ongoing user task. Such as the successful
-     *     completion, the need for further input  of an actual error or stopping users in their tracks in high-risk tasks.
+     *     completion, the need for further input of an actual error or stopping users in their tracks in high-risk tasks.
      *   composition: >
      *     Message Boxes consist of a mandatory message text, optional Buttons and an optional Unordered List of Links.
      *     There are four main types of Message Boxes, each is displayed in the according color:
@@ -683,7 +727,9 @@ interface Factory
      *   effect: >
      *     Message Boxes convey information and optionally provide interaction by using Buttons and navigation by
      *     using Links.
-     *
+     *   rivals:
+     *     Toast: Toast are primarily used for less serious information wich can be optional ignored by the user, while
+     *        MessageBox handling more serious information and there are more intrusive in influencing the users workflow.
      * rules:
      *   interaction:
      *     1: >
@@ -694,13 +740,13 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\MessageBox\Factory
      */
-    public function messageBox();
+    public function messageBox() : C\MessageBox\Factory;
 
     /**
      * ---
      * description:
      *   purpose: >
-     *       Layout components are compontents used for the overall construction of
+     *       Layout components are components used for the overall construction of
      *       the user interface. They assign places to certain components and thus
      *       provide a learnable structure where similar things are found in similar
      *       locations throughout the system. In ultimo, the page itself is included here.
@@ -710,7 +756,6 @@ interface Factory
      *       the exclusive "what" in many other components.
      *
      * ---
-     *
      * @return \ILIAS\UI\Component\Layout\Factory
      */
     public function layout() : C\Layout\Factory;
@@ -734,7 +779,6 @@ interface Factory
      *     1: Main Controls MUST NOT change the state of entities in the system.
      *
      * ---
-     *
      * @return \ILIAS\UI\Component\MainControls\Factory
      */
     public function mainControls() : C\MainControls\Factory;
@@ -756,7 +800,7 @@ interface Factory
      * rules:
      *   usage:
      *     1: >
-     *       A Tree SHOULD NOT be used for data-structures with little hierachy.
+     *       A Tree SHOULD NOT be used for data-structures with little hierarchy.
      *       E.g., listing objects and their properties would call for a
      *       Presentation Table rather than a Tree (see "rivals"), since this is
      *       a two-dimensional structure only.
@@ -768,8 +812,8 @@ interface Factory
      *     2: Each element serving as a tree node has role "treeitem".
      *     3: Each root node is contained in the element with role "tree".
      *     4: >
-     *       Each parent node contains an an element with role "group" that contains
-     *       the subnodes of that parent.
+     *       Each parent node contains an element with role "group" that contains
+     *       the sub nodes of that parent.
      *     5: >
      *       Each parent node uses "aria-expanded" (with values "true" or "false") to
      *       indicate if it is expanded or not.
@@ -777,7 +821,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Tree\Factory
      */
-    public function tree();
+    public function tree() : C\Tree\Factory;
 
     /**
      * ---
@@ -788,7 +832,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Menu\Factory
      */
-    public function menu() : Component\Menu\Factory;
+    public function menu() : C\Menu\Factory;
 
     /**
      * ---
@@ -796,9 +840,58 @@ interface Factory
      *   purpose: >
      *     Symbols are graphical representations of concepts or contexts
      *     quickly comprehensible or generally known to the user.
-     *
+     *   composition:
+     *     Symbols contain a graphical along with textual representation describing, what the graphic is depicting.
+     * rules:
+     *   accessibility:
+     *     1: Symbols MUST have labels which then might be used to display some alternative text (e.g. as alt attribute).
+     *     2: The label of the Symbol MUST NOT be displayed, if the Symbol has a purely decorative function (as e.g. in
+     *        primary buttons).
      * ---
      * @return \ILIAS\UI\Component\Symbol\Factory
      */
     public function symbol() : Component\Symbol\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose:
+     *     Toasts are temporary messages from the system published to the user.
+     *     Toasts are used to attract attention from a user without affecting the user experience permanently.
+     *   composition:
+     *     Toasts contain an information which is temporarily displayed decentralized from the main content.
+     *   effect:
+     *     If the user does not interact with the item it will vanish after a global configurable amount of time.
+     *   rivals:
+     *     OSD notification: OSD notification are of the similar purpose as toast but arent a component ATM(26.04.2021).
+     *        Therefore toast suppose to replace and unify this UI violation.
+     *     Message Box: The Message Box it primarily used to catch the users awarness for serious problems or error and
+     *        is therefore more intrusive or even used to interrupt the users workflow, while toast will provide some
+     *        less serious information which can be optional ignored by  the user.
+     *     System Info: System Info is used for system specific information without temporal dependencies, while toast
+     *        are used  for temporal information without semantic dependencies. Therefore Toast can be used for matching
+     *        information about the system to increase their temporal awareness without changing the workflow of system
+     *        infos.
+     * rules:
+     *   usage:
+     *     1: The Toast SHOULD be used for all Notifications which include temporal relevant information for a user.
+     *     2: The Toast SHOULD NOT be used for Notifications which are not time relevant to the point of their creation.
+     *   composition:
+     *     1: If a notification has temporal relevance for a user, it SHOULD be preceded by a Toast.
+     *   interaction:
+     *     1: Click interactions with the Toast MUST remove it permanently.
+     *   style:
+     *     1: The Toast MUST be visible on the top layer of the page, Therefore it MUST cover up all other UI Items in
+     *        its space.
+     *     2: The Toast disappear after a certain amount of time or earlier by user interaction. No interaction can
+     *        extends the Toast time of appearance above the global defined amount.
+     *   accessibility:
+     *     1: All interactions SHOULD be only accessible as long a the Toast is not vanished.
+     *     2: All Toast MUST alert screen readers when appearing and therefore MUST declare the role "alert" or
+     *        aria-live.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Toast\Factory
+     */
+    public function toast() : C\Toast\Factory;
 }

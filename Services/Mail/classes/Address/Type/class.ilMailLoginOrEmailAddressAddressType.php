@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailLoginOrEmailAddressAddressType
@@ -7,16 +22,8 @@
  */
 class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
 
-    /**
-     * ilMailMailingListAddressType constructor.
-     * @param ilMailAddressTypeHelper $typeHelper
-     * @param ilMailAddress $address
-     * @param ilLogger $logger
-     * @param ilRbacSystem $rbacsystem
-     */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
@@ -24,57 +31,54 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
         ilRbacSystem $rbacsystem
     ) {
         parent::__construct($typeHelper, $address, $logger);
-
         $this->rbacsystem = $rbacsystem;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isValid(int $senderId) : bool
     {
-        if ($this->address->getHost() == $this->typeHelper->getInstallationHost()) {
+        if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
             $usrId = $this->typeHelper->getUserIdByLogin($this->address->getMailbox());
         } else {
             $usrId = false;
         }
 
-        if (!$usrId && $this->address->getHost() == $this->typeHelper->getInstallationHost()) {
+        if (!$usrId && $this->address->getHost() === $this->typeHelper->getInstallationHost()) {
             $this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
             return false;
         }
 
         if (
             $usrId &&
-            !$this->rbacsystem->checkAccessOfUser($usrId, 'internal_mail', $this->typeHelper->getGlobalMailSystemId())
+            $this->typeHelper->receivesInternalMailsOnly($usrId) &&
+            !$this->rbacsystem->checkAccessOfUser(
+                $usrId,
+                'internal_mail',
+                $this->typeHelper->getGlobalMailSystemId()
+            )
         ) {
-            if ($this->typeHelper->receivesInternalMailsOnly($usrId)) {
-                $this->logger->debug(sprintf(
-                    "Address '%s' not valid. Found id %s, but user can't use mail system and wants to receive emails only internally.",
-                    $this->address->getMailbox(),
-                    $usrId
-                ));
-                $this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
-                return false;
-            }
+            $this->logger->debug(sprintf(
+                "Address '%s' not valid. Found id %s, " .
+                "but user can't use mail system and wants to receive emails only internally.",
+                $this->address->getMailbox(),
+                $usrId
+            ));
+            $this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
+            return false;
         }
 
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
-        if ($this->address->getHost() == $this->typeHelper->getInstallationHost()) {
+        if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
             $address = $this->address->getMailbox();
         } else {
             $address = (string) $this->address;
         }
 
         $usrIds = array_filter([
-            $this->typeHelper->getUserIdByLogin($address)
+            $this->typeHelper->getUserIdByLogin($address),
         ]);
 
         if (count($usrIds) > 0) {
@@ -83,7 +87,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
                 $address,
                 implode(', ', array_unique($usrIds))
             ));
-        } elseif (strlen($address) > 0) {
+        } elseif ($address !== '') {
             $this->logger->debug(sprintf(
                 "Did not find any user account for address (login) '%s'",
                 $address

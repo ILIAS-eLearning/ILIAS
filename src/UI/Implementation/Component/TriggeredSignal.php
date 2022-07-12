@@ -1,4 +1,21 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component;
 
 use ILIAS\UI\Component as C;
@@ -11,22 +28,10 @@ use ILIAS\UI\Component as C;
  */
 class TriggeredSignal
 {
+    private C\Signal $signal;
+    private string $event;
 
-    /**
-     * @var C\Signal
-     */
-    private $signal;
-
-    /**
-     * @var string
-     */
-    private $event;
-
-    /**
-     * @param C\Signal $signal
-     * @param string $event
-     */
-    public function __construct(C\Signal $signal, $event)
+    public function __construct(C\Signal $signal, string $event)
     {
         $this->signal = $signal;
         $this->event = $event;
@@ -35,7 +40,7 @@ class TriggeredSignal
     /**
      * @inheritdoc
      */
-    public function getSignal()
+    public function getSignal() : C\Signal
     {
         return $this->signal;
     }
@@ -43,7 +48,7 @@ class TriggeredSignal
     /**
      * @inheritdoc
      */
-    public function getEvent()
+    public function getEvent() : string
     {
         return $this->event;
     }

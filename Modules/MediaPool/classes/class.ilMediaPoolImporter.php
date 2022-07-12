@@ -1,18 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Importer class for media pools
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaPoolImporter extends ilXmlImporter
 {
+    protected ilImportConfig $config;
+    protected ilMediaPoolDataSet $ds;
 
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
         $this->ds = new ilMediaPoolDataSet();
@@ -21,7 +34,7 @@ class ilMediaPoolImporter extends ilXmlImporter
         $this->config = $this->getImport()->getConfig("Modules/MediaPool");
         if ($this->config->getTranslationImportMode()) {
             $this->ds->setTranslationImportMode(
-                $this->config->getTranslationLM(),
+                $this->config->getTranslationMep(),
                 $this->config->getTranslationLang()
             );
             $cop_config = $this->getImport()->getConfig("Services/COPage");
@@ -35,14 +48,12 @@ class ilMediaPoolImporter extends ilXmlImporter
         }
     }
 
-
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),
@@ -52,13 +63,9 @@ class ilMediaPoolImporter extends ilXmlImporter
         );
     }
 
-    /**
-     * Final processing
-     *
-     * @param	array		mapping array
-     */
-    public function finalProcessing(ilImportMapping $a_mapping) : void
-    {
+    public function finalProcessing(
+        ilImportMapping $a_mapping
+    ) : void {
         $pg_map = $a_mapping->getMappingsOfEntity("Modules/MediaPool", "pg");
 
         foreach ($pg_map as $pg_id) {

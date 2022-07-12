@@ -76,7 +76,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
     /**
      * forward method
      */
-    public function forward()
+    public function forward() : void
     {
         $this->tabs->setTabActive('settings');
         $this->lng->loadLanguageModule('tax');

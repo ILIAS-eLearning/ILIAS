@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class ValueToTaskContainer extends \ActiveRecord
@@ -8,11 +24,8 @@ class ValueToTaskContainer extends \ActiveRecord
     {
         return "il_bt_value_to_task";
     }
-
-
+    
     /**
-     * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -20,127 +33,79 @@ class ValueToTaskContainer extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $id;
+    protected ?int $id = null;
     /**
-     * @var int
-     *
      * @con_fieldtype  integer
      * @con_has_field  true
      * @con_length     8
      */
-    protected $task_id;
+    protected ?int $task_id = null;
     /**
-     * @var int
-     *
      * @con_fieldtype  integer
      * @con_has_field  true
      * @con_length     8
      */
-    protected $value_id;
+    protected ?int $value_id = null;
     /**
-     * @var int
-     *
      * @con_fieldtype  integer
      * @con_has_field  true
      * @con_length     8
      */
-    protected $bucket_id;
+    protected ?int $bucket_id = null;
     /**
-     * @var int
-     *
      * @con_fieldtype  integer
      * @con_has_field  true
      * @con_length     8
      */
-    protected $position;
-
-
-    /**
-     * @return int
-     */
-    public function getId()
+    protected ?int $position = null;
+    
+    public function getId() : int
     {
         return $this->id;
     }
-
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
-
-
-    /**
-     * @return int
-     */
-    public function getTaskId()
+    
+    public function getTaskId() : int
     {
         return $this->task_id;
     }
-
-
-    /**
-     * @param int $task_id
-     */
-    public function setTaskId($task_id)
+    
+    public function setTaskId(int $task_id) : void
     {
         $this->task_id = $task_id;
     }
-
-
-    /**
-     * @return int
-     */
-    public function getValueId()
+    
+    public function getValueId() : int
     {
         return $this->value_id;
     }
-
-
-    /**
-     * @param int $value_id
-     */
-    public function setValueId($value_id)
+    
+    public function setValueId(int $value_id) : void
     {
         $this->value_id = $value_id;
     }
-
-
-    /**
-     * @return int
-     */
-    public function getBucketId()
+    
+    public function getBucketId() : int
     {
         return $this->bucket_id;
     }
-
-
-    /**
-     * @param int $bucket_id
-     */
-    public function setBucketId($bucket_id)
+    
+    public function setBucketId(int $bucket_id) : void
     {
         $this->bucket_id = $bucket_id;
     }
-
-    /**
-     * @return int
-     */
-    public function getPosition()
+    
+    public function getPosition() : int
     {
         return $this->position;
     }
-
-    /**
-     * @param int $position
-     */
-    public function setPosition($position)
+    
+    public function setPosition(int $position) : void
     {
         $this->position = $position;
     }
-
-
 }

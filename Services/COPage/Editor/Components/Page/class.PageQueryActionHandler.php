@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Page;
 
@@ -15,41 +29,13 @@ use ILIAS\COPage\Editor\Components\MediaObject\MediaObjectStyleSelector;
  */
 class PageQueryActionHandler implements Server\QueryActionHandler
 {
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilPageObjectGUI
-     */
-    protected $page_gui;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var Server\UIWrapper
-     */
-    protected $ui_wrapper;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ilPluginAdmin
-     */
-    protected $plugin_admin;
-
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilLanguage $lng;
+    protected \ilPageObjectGUI $page_gui;
+    protected \ilObjUser $user;
+    protected Server\UIWrapper $ui_wrapper;
+    protected \ilCtrl $ctrl;
+    protected \ilComponentFactory $component_factory;
 
     public function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -60,34 +46,27 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->page_gui = $page_gui;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_factory = $DIC["component.factory"];
 
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
     /**
-     * @param $query
-     * @param $body
-     * @return Server\Response
+     * @throws Exception
      */
-    public function handle($query) : Server\Response
+    public function handle(array $query) : Server\Response
     {
         switch ($query["action"]) {
             case "ui.all":
                 return $this->allCommand();
-                break;
+
             case "component.edit.form":
                 return $this->componentEditFormResponse($query);
-                break;
+
         }
         throw new Exception("Unknown action " . $query["action"]);
     }
 
-    /**
-     * All command
-     * @param
-     * @return
-     */
     protected function allCommand() : Server\Response
     {
         $ctrl = $this->ctrl;
@@ -105,6 +84,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->multiActions = $this->getMultiActions();
         $o->pasteMessage = $this->getPasteMessage();
         $o->errorMessage = $this->getErrorMessage();
+        $o->errorModalMessage = $this->getErrorModalMessage();
         $o->config = $this->getConfig();
         $o->components = $this->getComponentsEditorUI();
         $o->pcModel = $this->getPCModel();
@@ -114,36 +94,29 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->confirmation = $this->getConfirmationTemplate();
         $o->autoSaveInterval = $this->getAutoSaveInterval();
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
-        $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"])) &&
+        $o->pasting = in_array(\ilEditClipboard::getAction(), ["copy", "cut"]) &&
             count($this->user->getPCClipboardContent()) > 0;
         $o->loaderUrl = \ilUtil::getImagePath("loader.svg");
         return new Server\Response($o);
     }
 
-    /**
-     * Get config
-     * @return \stdClass
-     */
-    protected function getConfig()
+    protected function getConfig() : \stdClass
     {
         $config = new \stdClass();
         $config->user = $this->user->getLogin();
         $config->content_css =
-            \ilObjStyleSheet::getContentStylePath((int) $this->page_gui->getStyleId()) . ", " .
+            \ilObjStyleSheet::getContentStylePath($this->page_gui->getStyleId()) . ", " .
             \ilUtil::getStyleSheetLocation() . ", " .
             "./Services/COPage/css/tiny_extra.css";
         $config->text_formats = \ilPCParagraphGUI::_getTextCharacteristics($this->page_gui->getStyleId());
         $config->editPlaceholders = $this->page_gui->getPageConfig()->getEnablePCType("PlaceHolder");
+        $config->activatedProtection =
+            ($this->page_gui->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED);
 
         return $config;
     }
 
-    /**
-     * Get add commands
-     * @param
-     * @return
-     */
-    protected function getAddCommands()
+    protected function getAddCommands() : array
     {
         $lng = $this->lng;
 
@@ -161,30 +134,17 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         }
 
         // plugins
-        $pl_names = $this->plugin_admin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
-        );
-        foreach ($pl_names as $pl_name) {
-            $plugin = $this->plugin_admin->getPluginObject(
-                IL_COMP_SERVICE,
-                "COPage",
-                "pgcp",
-                $pl_name
-            );
+        foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $commands["plug_" . $plugin->getPluginName()] =
                 $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
         }
-
         return $commands;
     }
 
     /**
-     * Get page help (drag drop explanation)
-     * @return string
+     * Get page help (general)
      */
-    protected function getPageEditHelp()
+    protected function getPageEditHelp() : string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
@@ -202,10 +162,9 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     }
 
     /**
-     * Get page help (drag drop explanation)
-     * @return string
+     * Get page help (multi editing)
      */
-    protected function getMultiEditHelp()
+    protected function getMultiEditHelp() : string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
@@ -217,11 +176,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $tpl->get();
     }
 
-    /**
-     * Get page help (drag drop explanation)
-     * @return string
-     */
-    protected function getTopActions()
+    protected function getTopActions() : string
     {
         $ui = $this->ui;
         $ctrl = $this->ctrl;
@@ -256,14 +211,12 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             ]
         );
         $tpl->setVariable("SWITCH", $html);
+        $tpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
 
         return $tpl->get();
     }
 
-    /**
-     * Add actions menu
-     */
-    public function getActionsDropDown()
+    public function getActionsDropDown() : \ILIAS\UI\Component\Dropdown\Standard
     {
         $ui = $this->ui;
         $user = $this->user;
@@ -275,8 +228,6 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         // determine media, html and javascript mode
         $sel_media_mode = ($user->getPref("ilPageEditor_MediaMode") != "disable");
         $sel_html_mode = ($user->getPref("ilPageEditor_HTMLMode") != "disable");
-        $sel_js_mode = \ilPageEditorGUI::_doJSEditing();
-
         $items = [];
 
         // activate/deactivate
@@ -374,11 +325,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
     /**
      * Add multi-language actions to menu
-     *
-     * @param
-     * @return
      */
-    public function getMultiLangActions()
+    public function getMultiLangActions() : array
     {
         $config = $this->page_gui->getPageConfig();
         $page = $this->page_gui->getPageObject();
@@ -414,7 +362,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                             $lng->txt("meta_l_" . $al),
                             $ctrl->getLinkTarget($this->page_gui, "switchToLanguage")
                         );
-                        $ctrl->setParameter($this->page_gui, "totransl", $_GET["totransl"]);
+                        $ctrl->setParameter($this->page_gui, "totransl", "");
                     }
                 }
             }
@@ -423,7 +371,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $items;
     }
 
-    public function getMultiLangInfo()
+    public function getMultiLangInfo() : string
     {
         $info = "";
 
@@ -451,12 +399,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $info;
     }
 
-
-    /**
-     * Get multi actions
-     * @return string
-     */
-    protected function getMultiActions()
+    protected function getMultiActions() : string
     {
         $groups = [
             [
@@ -479,9 +422,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
     /**
      * Confirmation screen for cut/paste step
-     * @return string
      */
-    protected function getPasteMessage()
+    protected function getPasteMessage() : string
     {
         $lng = $this->lng;
 
@@ -492,19 +434,22 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
     /**
      * Confirmation screen for cut/paste step
-     * @return string
      */
-    protected function getErrorMessage()
+    protected function getErrorMessage() : string
     {
         $html = $this->ui_wrapper->getRenderedFailureBox();
 
         return $html;
     }
 
-    /**
-     * Format selection
-     */
-    protected function getFormatSelection()
+    protected function getErrorModalMessage() : string
+    {
+        $html = $this->ui_wrapper->getRenderedModalFailureBox();
+
+        return $html;
+    }
+
+    protected function getFormatSelection() : string
     {
         $lng = $this->lng;
         $ui = $this->ui;
@@ -544,19 +489,13 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
     /**
      * Get page component model
-     * @param
-     * @return
      */
-    protected function getPCModel()
+    protected function getPCModel() : array
     {
         return $this->page_gui->getPageObject()->getPCModel();
     }
 
-    /**
-     * @param array $query
-     * @return Server\Response
-     */
-    protected function componentEditFormResponse($query) : Server\Response
+    protected function componentEditFormResponse(array $query) : Server\Response
     {
         $pc_edit = \ilCOPagePCDef::getPCEditorInstanceByName($query["cname"]);
         $form = "";
@@ -565,7 +504,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 $this->ui_wrapper,
                 $this->page_gui->getPageObject()->getParentType(),
                 $this->page_gui,
-                (int) $this->page_gui->getStyleId(),
+                $this->page_gui->getStyleId(),
                 $query["pcid"]
             );
         }
@@ -576,10 +515,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
     /**
      * Get components ui elements
-     * @param
-     * @return
      */
-    protected function getComponentsEditorUI()
+    protected function getComponentsEditorUI() : array
     {
         $ui = [];
         foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
@@ -589,31 +526,25 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                     $this->ui_wrapper,
                     $this->page_gui->getPageObject()->getParentType(),
                     $this->page_gui,
-                    (int) $this->page_gui->getStyleId()
+                    $this->page_gui->getStyleId()
                 );
             }
         }
         return $ui;
     }
 
-    /**
-     * Get components ui elements
-     * @return array
-     */
-    protected function getComponentsDefinitions()
+    protected function getComponentsDefinitions() : array
     {
         $pcdef = [];
         foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
             $pcdef["types"][$def["name"]] = $def["pc_type"];
             $pcdef["names"][$def["pc_type"]] = $def["name"];
+            $pcdef["txt"][$def["pc_type"]] = $this->lng->txt("cont_" . "pc_" . $def["pc_type"]);
         }
         return $pcdef;
     }
 
-    /**
-     * Get modal template
-     */
-    public function getModalTemplate()
+    public function getModalTemplate() : array
     {
         $ui = $this->ui;
         $modal = $ui->factory()->modal()->roundtrip('#title#', $ui->factory()->legacy('#content#'))
@@ -629,7 +560,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get confirmation template
      */
-    public function getConfirmationTemplate()
+    public function getConfirmationTemplate() : string
     {
         $ui = $this->ui;
 
@@ -639,10 +570,9 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     }
 
     /**
-     * Get auto save intervall
-     * @return int
+     * Get auto save interval
      */
-    protected function getAutoSaveInterval()
+    protected function getAutoSaveInterval() : int
     {
         $aset = new \ilSetting("adve");
         return (int) $aset->get("autosave");

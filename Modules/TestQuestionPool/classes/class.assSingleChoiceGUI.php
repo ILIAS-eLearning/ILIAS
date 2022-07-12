@@ -71,7 +71,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      * @param bool	$checkonly	get the setting for checking a POST
      * @return bool
      */
-    protected function getEditAnswersSingleLine($checkonly = false)
+    protected function getEditAnswersSingleLine($checkonly = false) : bool
     {
         if ($checkonly) {
             // form posting is checked
@@ -84,7 +84,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             return $this->object->getMultilineAnswerSetting() ? false : true;
         } else {
             // a saved question is edited
-            return $this->object->isSingleline;
+            return $this->object->isSingleline();
         }
     }
 
@@ -92,7 +92,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      * Creates an output of the edit form for the question
      *
      */
-    public function editQuestion($checkonly = false)
+    public function editQuestion($checkonly = false) : bool
     {
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
@@ -124,9 +124,37 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $errors = false;
     
         if ($save) {
-            $form->setValuesByPost();
+            foreach ($this->request->getParsedBody() as $key => $value) {
+                $item = $form->getItemByPostVar($key);
+                if ($item !== null) {
+                    switch (get_class($item)) {
+                        case 'ilDurationInputGUI':
+                            $item->setHours($value['hh']);
+                            $item->setMinutes($value['mm']);
+                            $item->setSeconds($value['ss']);
+                            break;
+                        default:
+                            $item->setValue($value);
+                    }
+                }
+            }
+
             $errors = !$form->checkInput();
-            $form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+            foreach ($this->request->getParsedBody() as $key => $value) {
+                $item = $form->getItemByPostVar($key);
+                if ($item !== null) {
+                    switch (get_class($item)) {
+                        case 'ilDurationInputGUI':
+                            $item->setHours($value['hh']);
+                            $item->setMinutes($value['mm']);
+                            $item->setSeconds($value['ss']);
+                            break;
+                        default:
+                            $item->setValue($value);
+                    }
+                }
+            } // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+
             if ($errors) {
                 $checkonly = false;
             }
@@ -141,7 +169,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Upload an image
     */
-    public function uploadchoice()
+    public function uploadchoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['uploadchoice']);
@@ -151,7 +179,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Remove an image
     */
-    public function removeimagechoice()
+    public function removeimagechoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimagechoice']);
@@ -163,7 +191,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Add a new answer
     */
-    public function addchoice()
+    public function addchoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addchoice']);
@@ -174,7 +202,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Remove an answer
     */
-    public function removechoice()
+    public function removechoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removechoice']);
@@ -184,16 +212,15 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     /**
     * Get the question solution output
-    *
-    * @param integer $active_id The active user id
-    * @param integer $pass The test pass
-    * @param boolean $graphicalOutput Show visual feedback for right/wrong answers
-    * @param boolean $result_output Show the reached points for parts of the question
-    * @param boolean $show_question_only Show the question without the ILIAS content around
-    * @param boolean $show_feedback Show the question feedback
+    * @param integer $active_id             The active user id
+    * @param integer $pass                  The test pass
+    * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
+    * @param boolean $result_output         Show the reached points for parts of the question
+    * @param boolean $show_question_only    Show the question without the ILIAS content around
+    * @param boolean $show_feedback         Show the question feedback
     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring Show specific information for the manual scoring output
-    * @return The solution output of the question as HTML code
+    * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
+    * @return string The solution output of the question as HTML code
     */
     public function getSolutionOutput(
         $active_id,
@@ -205,7 +232,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $show_correct_solution = false,
         $show_manual_scoring = false,
         $show_question_text = true
-    ) {
+    ) : string {
         // shuffle output
         $keys = $this->getChoiceKeys();
 
@@ -280,8 +307,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     $alt = $answer->getAnswertext();
                 }
                 $alt = preg_replace("/<[^>]*?>/", "", $alt);
-                $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                 $template->parseCurrentBlock();
             }
             if ($show_feedback) {
@@ -344,7 +371,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $solutionoutput;
     }
     
-    public function getPreview($show_question_only = false, $showInlineFeedback = false)
+    public function getPreview($show_question_only = false, $showInlineFeedback = false) : string
     {
         $keys = $this->getChoiceKeys();
         
@@ -366,8 +393,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock("answer_image");
@@ -379,8 +406,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
                     $template->setVariable("ATTR", $attr);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 }
             }
@@ -412,8 +439,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     }
     
     // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false)
-    // hey.
+    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false) : string
+        // hey.
     {
         $keys = $this->getChoiceKeys();
 
@@ -452,8 +479,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock("answer_image");
@@ -465,8 +492,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
                     $template->setVariable("ATTR", $attr);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 }
             }
@@ -534,47 +561,18 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
         $ilTabs->clearTargets();
         
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
+        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->request->getQuestionId());
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
+            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "addchoice", "removechoice", "removeimagechoice", "uploadchoice", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -587,7 +585,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -610,7 +608,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $choiceKeys = array_keys($this->object->answers);
         
         if ($this->object->getShuffle()) {
-            $choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
+            $choiceKeys = $this->object->getShuffler()->transform($choiceKeys);
         }
         
         return $choiceKeys;
@@ -623,20 +621,20 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $this->object->prepareTextareaOutput($output, true);
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $this->object->setShuffle($_POST["shuffle"]);
         $this->object->setMultilineAnswerSetting($_POST["types"]);
-        if (is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
-            $this->object->isSingleline = true;
-            ilUtil::sendInfo($this->lng->txt('info_answer_type_change'), true);
+        if (isset($_POST['choice']) && isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
+            $this->object->setIsSingleline(true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
         } else {
-            $this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
+            $this->object->setIsSingleline($_POST["types"] == 0 ? true : false);
         }
         $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
     }
 
-    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         $isSingleline = $this->getEditAnswersSingleLine();
         // shuffle
@@ -690,36 +688,38 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionQuestionPostVars()
+    public function getAfterParticipationSuppressionQuestionPostVars() : array
     {
         return array();
     }
 
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
-        if ($this->object->isSingleline) {
+        if ($this->object->isSingleline()) {
             foreach ($_POST['choice']['answer'] as $index => $answertext) {
                 $answertext = ilUtil::secureString($answertext);
 
-                $picturefile = $_POST['choice']['imagename'][$index];
-                $file_org_name = $_FILES['choice']['name']['image'][$index];
-                $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
+                $picturefile = '';
+                if (isset($_POST['choice']['imagename'])) {
+                    $picturefile = $_POST['choice']['imagename'][$index];
+                    $file_org_name = $_FILES['choice']['name']['image'][$index];
+                    $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
 
-                if (strlen($file_temp_name)) {
-                    // check suffix
-                    $file_name_parts = explode(".", $file_org_name);
-                    $suffix = strtolower(array_pop($file_name_parts));
-                    if (in_array($suffix, array( "jpg", "jpeg", "png", "gif" ))) {
-                        // upload image
-                        $filename = $this->object->buildHashedImageFilename($file_org_name);
-                        if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
-                            $picturefile = $filename;
+                    if (strlen($file_temp_name)) {
+                        // check suffix
+                        $file_name_parts = explode(".", $file_org_name);
+                        $suffix = strtolower(array_pop($file_name_parts));
+                        if (in_array($suffix, array("jpg", "jpeg", "png", "gif"))) {
+                            // upload image
+                            $filename = $this->object->buildHashedImageFilename($file_org_name);
+                            if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
+                                $picturefile = $filename;
+                            }
                         }
                     }
                 }
-
                 $this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index, $picturefile);
             }
         } else {
@@ -730,7 +730,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
     }
 
-    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         $isSingleline = $this->getEditAnswersSingleLine();
 
@@ -750,6 +750,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
         $choices->setValues($this->object->getAnswers());
         $form->addItem($choices);
+        return $form;
     }
 
     /**
@@ -761,7 +762,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars()
+    public function getAfterParticipationSuppressionAnswerPostVars() : array
     {
         return array();
     }
@@ -769,19 +770,17 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers)
+    public function getAggregatedAnswersView(array $relevant_answers) : string
     {
         return  $this->renderAggregateView(
             $this->aggregateAnswers($relevant_answers, $this->object->getAnswers())
         )->get();
     }
 
-    public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question)
+    public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question) : array
     {
         $aggregate = array();
         foreach ($answers_defined_on_question as $answer) {
@@ -808,7 +807,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      *
      * @return ilTemplate
      */
-    public function renderAggregateView($aggregate)
+    public function renderAggregateView($aggregate) : ilTemplate
     {
         $tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
         
@@ -829,7 +828,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $tpl;
     }
 
-    private function populateInlineFeedback($template, $answer_id, $user_solution)
+    private function populateInlineFeedback($template, $answer_id, $user_solution) : void
     {
         $feedbackOutputRequired = false;
 

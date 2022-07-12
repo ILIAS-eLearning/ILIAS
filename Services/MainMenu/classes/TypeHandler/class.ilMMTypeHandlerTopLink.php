@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 
 /**
  * Class ilMMTypeHandlerTopLink
@@ -13,7 +14,7 @@ class ilMMTypeHandlerTopLink extends ilMMAbstractBaseTypeHandlerAction implement
 {
     public function matchesForType() : string
     {
-        return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem::class;
+        return TopLinkItem::class;
     }
 
 

@@ -1,20 +1,30 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclIliasRecordRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
 
-    /**
-     * @param bool $link
-     *
-     * @return string
-     */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true) : string
     {
         $title = $this->getRecordField()->getValueForRepresentation();
         if (!$title) {
@@ -35,8 +45,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         return $html;
     }
 
-
-    public function getSingleHTML(array $options = null, $link = true)
+    public function getSingleHTML(array $options = null, bool $link = true) : string
     {
         $value = $this->getRecordField()->getValue();
         if (!$value) {
@@ -51,18 +60,9 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         return $value;
     }
 
-
-    /**
-     * @param $title
-     * @param $show_action_menu
-     *
-     * @return string
-     */
-    public function getLinkHTML($title, $show_action_menu = false)
+    public function getLinkHTML(string $title, bool $show_action_menu = false) : string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $this->getRecordField();
+        $lng = $this->lng;
         $link = ilLink::_getStaticLink($this->getRecordField()->getValue());
         if ($show_action_menu) {
             $field = $this->getRecordField()->getField();
@@ -83,13 +83,10 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         }
     }
 
-
     /**
      * @param string $mode copy|link
-     *
-     * @return string
      */
-    protected function getActionLink($mode)
+    protected function getActionLink(string $mode) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

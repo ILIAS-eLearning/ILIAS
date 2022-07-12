@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -13,16 +27,12 @@ use \ILIAS\UI\Implementation as I;
  */
 class PanelListingTest extends ILIAS_UI_TestBase
 {
-
-    /**
-     * @return \ILIAS\UI\Implementation\Factory
-     */
-    public function getFactory()
+    public function getFactory() : C\Panel\Listing\Factory
     {
         return new I\Component\Panel\Listing\Factory();
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getFactory();
 
@@ -39,7 +49,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Panel\\Listing\\Standard", $std_list);
     }
 
-    public function test_get_title_get_groups()
+    public function test_get_title_get_groups() : void
     {
         $f = $this->getFactory();
 
@@ -55,11 +65,11 @@ class PanelListingTest extends ILIAS_UI_TestBase
 
         $c = $f->standard("title", $groups);
 
-        $this->assertEquals($c->getTitle(), "title");
-        $this->assertEquals($c->getItemGroups(), $groups);
+        $this->assertEquals("title", $c->getTitle());
+        $this->assertEquals($groups, $c->getItemGroups());
     }
 
-    public function test_with_actions()
+    public function test_with_actions() : void
     {
         $f = $this->getFactory();
 
@@ -73,10 +83,10 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $c = $f->standard("title", $groups)
             ->withActions($actions);
 
-        $this->assertEquals($c->getActions(), $actions);
+        $this->assertEquals($actions, $c->getActions());
     }
 
-    public function test_render_base()
+    public function test_render_base() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -123,7 +133,7 @@ EOT;
         );
     }
 
-    public function test_render_with_actions()
+    public function test_render_with_actions() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

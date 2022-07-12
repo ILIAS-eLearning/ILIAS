@@ -94,6 +94,9 @@ var mainbar = function() {
                         state = mb.model.getState();
                         if(id in state.tools) {
                             mb.model.actions.engageTool(id);
+                            after_render = function() {
+                                mb.renderer.focusSubentry(id);
+                            };
                         }
                         if(id in state.entries) { //toggle
                             if(state.entries[id].engaged) {
@@ -152,6 +155,7 @@ var mainbar = function() {
                     after_render();
                 }
                 mb.persistence.store(mb.model.getState());
+                mb.renderer.dispatchResizeNotification();
             });
         }
     },
@@ -174,7 +178,10 @@ var mainbar = function() {
             return false;
         }
     },
-    adjustToScreenSize = function() {
+    adjustToScreenSize = function(event) {
+         if(event.detail && event.detail.mainbar_induced) {
+            return;
+        }
         var mb = il.UI.maincontrols.mainbar,
             amount = mb.renderer.calcAmountOfButtons();
 

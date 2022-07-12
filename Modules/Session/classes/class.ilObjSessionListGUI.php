@@ -1,27 +1,21 @@
-<?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once('Services/Object/classes/class.ilObjectListGUI.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 
 /**
@@ -33,34 +27,26 @@ include_once('Services/Object/classes/class.ilObjectListGUI.php');
 */
 class ilObjSessionListGUI extends ilObjectListGUI
 {
-    protected $app_info = array();
-    
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @return
-     */
+    protected ilCtrlInterface $ctrl;
+    protected ilLanguage $lng;
+    protected array $app_info = [];
+    protected bool $subitems_enabled = false;
+    protected string $title = "";
+
     public function __construct()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
         
-        $lng->loadLanguageModule('crs');
-        $lng->loadLanguageModule('sess');
+        $this->lng->loadLanguageModule('crs');
+        $this->lng->loadLanguageModule('sess');
         
         parent::__construct();
     }
-    
-    /**
-     * Initialisation
-     *
-     * @access public
-     * @return void
-     */
-    public function init()
+
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -76,7 +62,6 @@ class ilObjSessionListGUI extends ilObjectListGUI
         $this->enableSubstitutions($this->substitutions->isActive());
 
         // general commands array
-        include_once('./Modules/Session/classes/class.ilObjSessionAccess.php');
         $this->commands = ilObjSessionAccess::_getCommands();
     }
     
@@ -84,73 +69,42 @@ class ilObjSessionListGUI extends ilObjectListGUI
      * get title
      * Overwritten since sessions prepend the date of the session
      * to the title
-     *
-     * @access public
-     * @param
-     * @return
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         $app_info = $this->getAppointmentInfo();
         $title = strlen($this->title) ? (': ' . $this->title) : '';
-        return ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']) . $title;
+        return ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], (bool) $app_info['fullday']) . $title;
     }
-    
-    
-    
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
-    {
-        global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
+    public function getCommandLink($a_cmd) : string
+    {
+        $ilCtrl = $this->ctrl;
         
         // separate method for this line
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
         $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
         return $cmd_link;
     }
     
     /**
      * Only check cmd access for cmd 'register' and 'unregister'
-     * @param string $a_permission
-     * @param object $a_cmd
-     * @param object $a_ref_id
-     * @param object $a_type
-     * @param object $a_obj_id [optional]
-     * @return
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
+    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = null) : bool
     {
-        if ($a_cmd != 'register' and $a_cmd != 'unregister') {
+        if ($a_cmd != 'register' && $a_cmd != 'unregister') {
             $a_cmd = '';
         }
         return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
     }
-    
-    
-    /**
-     * get properties
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function getProperties()
+
+    public function getProperties() : array
     {
         $app_info = $this->getAppointmentInfo();
 
         $props = [];
-        include_once './Modules/Session/classes/class.ilObjSession.php';
         $session_data = new ilObjSession($this->obj_id, false);
-        include_once './Modules/Session/classes/class.ilSessionParticipants.php';
         $part = ilSessionParticipants::getInstance($this->ref_id);
 
         if ($session_data->isRegistrationUserLimitEnabled()) {
@@ -176,7 +130,6 @@ class ilObjSessionListGUI extends ilObjectListGUI
             }
         }
         if ($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL) {
-            include_once './Modules/Session/classes/class.ilObjSession.php';
             $session_data = ilObjSession::lookupSession($this->obj_id);
             
             if (strlen($session_data['location'])) {
@@ -226,39 +179,26 @@ class ilObjSessionListGUI extends ilObjectListGUI
 
         // booking information
         $repo = ilObjSessionAccess::getBookingInfoRepo();
-        $book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
-        $props = $book_info->appendProperties($this->obj_id, $props);
-
+        if ($repo instanceof ilBookingReservationDBRepository) {
+            $book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
+            $props = $book_info->appendProperties($this->obj_id, $props);
+        }
         return $props;
     }
 
-    
-    
-    /**
-     * get appointment info
-     *
-     * @access protected
-     * @return array
-     */
-    protected function getAppointmentInfo()
+    protected function getAppointmentInfo() : array
     {
         if (isset($this->app_info[$this->obj_id])) {
             return $this->app_info[$this->obj_id];
         }
-        include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
         return $this->app_info[$this->obj_id] = ilSessionAppointment::_lookupAppointment($this->obj_id);
     }
-    
-    /**
-     * Get assigned items of event.
-     * @return
-     * @param object $a_sess_id
-     */
-    protected static function lookupAssignedMaterials($a_sess_id)
+
+    protected static function lookupAssignedMaterials(int $a_sess_id) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $query = 'SELECT * FROM event_items ei ' .
                 'JOIN tree ON item_id = child ' .

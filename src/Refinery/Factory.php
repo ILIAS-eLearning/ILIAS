@@ -1,22 +1,34 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\In;
 use ILIAS\Refinery\To;
-use ILIAS\Refinery\ByTrying;
+use ILIAS\Refinery\Random\Group as RandomGroup;
+use ilLanguage;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Factory
 {
     private \ILIAS\Data\Factory $dataFactory;
-    private \ilLanguage $language;
+    private ilLanguage $language;
 
-    public function __construct(\ILIAS\Data\Factory $dataFactory, \ilLanguage $language)
+    public function __construct(\ILIAS\Data\Factory $dataFactory, ilLanguage $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;
@@ -109,7 +121,7 @@ class Factory
     /**
      * Contains constraints for null types
      */
-    public function null() : IsNull
+    public function null() : Constraint
     {
         return new IsNull($this->dataFactory, $this->language);
     }
@@ -144,6 +156,16 @@ class Factory
      */
     public function byTrying(array $transformations) : ByTrying
     {
-        return new ByTrying($transformations, $this->dataFactory, $this->language);
+        return new ByTrying($transformations, $this->dataFactory);
+    }
+
+    public function random() : RandomGroup
+    {
+        return new RandomGroup();
+    }
+
+    public function identity() : Transformation
+    {
+        return new IdentityTransformation();
     }
 }

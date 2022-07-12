@@ -1,48 +1,47 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Badge type interface
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @ingroup ServicesBadge
  */
 interface ilBadgeType
 {
     /**
      * Get typ id (unique for component)
-     *
-     * @return string
      */
-    public function getId();
-    
-    /**
-     * Get caption
-     *
-     * @return string
-     */
-    public function getCaption();
-    
+    public function getId() : string;
+
+    public function getCaption() : string;
+
     /**
      * Can only be created once?
-     *
-     * @return bool
      */
-    public function isSingleton();
+    public function isSingleton() : bool;
 
     /**
      * Get valid (repository) "parent" object types
-     *
-     * @return array
+     * @return string[]
      */
-    public function getValidObjectTypes();
+    public function getValidObjectTypes() : array;
         
     /**
      * Get GUI config instance
-     *
-     * @return ilBadgeTypeGUI|null
      */
-    public function getConfigGUIInstance();
+    public function getConfigGUIInstance() : ?ilBadgeTypeGUI;
 }

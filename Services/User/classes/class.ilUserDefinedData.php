@@ -1,21 +1,32 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilUserDefinedData
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-* @ingroup ServicesUser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Class ilUserDefinedData
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilUserDefinedData
 {
-    public $db = null;
-    public $user_data = array();
-    public $usr_id = null;
+    public ?ilDBInterface $db = null;
+    public array $user_data = array(); // Missing array type.
+    public ?int $usr_id = null;
 
-    public function __construct($a_usr_id)
+    public function __construct(int $a_usr_id)
     {
         global $DIC;
 
@@ -29,11 +40,8 @@ class ilUserDefinedData
     
     /**
      * Lookup data
-     * @param array $a_user_ids
-     * @param array $a_field_ids
-     * @return
      */
-    public static function lookupData($a_user_ids, $a_field_ids)
+    public static function lookupData(array $a_user_ids, array $a_field_ids) : array // Missing array type.
     {
         global $DIC;
 
@@ -49,7 +57,6 @@ class ilUserDefinedData
             $udfd[$row['usr_id']][$row['field_id']] = $row['value'];
         }
         
-        include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
         $def_helper = ilCustomUserFieldsHelper::getInstance();
         foreach ($def_helper->getActivePlugins() as $plugin) {
             foreach ($plugin->lookupUserData($a_user_ids, $a_field_ids) as $user_id => $usr_data) {
@@ -62,32 +69,27 @@ class ilUserDefinedData
         return $udfd;
     }
 
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->usr_id;
     }
 
-    public function set($a_field, $a_value)
+    public function set(string $a_field, string $a_value) : void
     {
         $this->user_data[$a_field] = $a_value;
     }
-    public function get($a_field)
+
+    public function get(string $a_field) : string
     {
-        return isset($this->user_data[$a_field]) ? $this->user_data[$a_field] : '';
+        return $this->user_data[$a_field] ?? '';
     }
 
-    /**
-     * Get all fields
-     */
-    public function getAll()
+    public function getAll() : array // Missing array type.
     {
         return $this->user_data;
     }
     
-    /**
-     * Update data
-     */
-    public function update()
+    public function update() : void
     {
         global $DIC;
 
@@ -118,15 +120,9 @@ class ilUserDefinedData
                 );
             }
         }
-        return true;
     }
     
-    /**
-     * Delete data of user
-     *
-     * @param	int		user id
-     */
-    public static function deleteEntriesOfUser($a_user_id)
+    public static function deleteEntriesOfUser(int $a_user_id) : void
     {
         global $DIC;
 
@@ -144,10 +140,8 @@ class ilUserDefinedData
 
     /**
      * Delete data of particular field
-     *
-     * @param	int		field id
      */
-    public static function deleteEntriesOfField($a_field_id)
+    public static function deleteEntriesOfField(int $a_field_id) : void
     {
         global $DIC;
 
@@ -165,12 +159,11 @@ class ilUserDefinedData
 
     /**
      * Delete data of particular value of a (selection) field
-     *
-     * @param	int			field id
-     * * @param	string		value
      */
-    public static function deleteFieldValue($a_field_id, $a_value)
-    {
+    public static function deleteFieldValue(
+        int $a_field_id,
+        string $a_value
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -182,9 +175,8 @@ class ilUserDefinedData
         );
     }
 
-    public function toXML()
+    public function toXML() : string
     {
-        include_once './Services/Xml/classes/class.ilXmlWriter.php';
         $xml_writer = new ilXmlWriter();
 
         $this->addToXML($xml_writer);
@@ -193,13 +185,11 @@ class ilUserDefinedData
     }
 
     /**
-    *	add user defined field data to xml (using usr dtd)
-    *	@param ilXmlWriter $xml_writer
-    */
-    public function addToXML($xml_writer)
+     * add user defined field data to xml (using usr dtd)
+     */
+    public function addToXML(ilXmlWriter $xml_writer) : void
     {
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $udf_obj = &ilUserDefinedFields::_getInstance();
+        $udf_obj = ilUserDefinedFields::_getInstance();
 
         foreach ($udf_obj->getDefinitions() as $definition) {
             if ($definition["export"] != false) {
@@ -214,17 +204,17 @@ class ilUserDefinedData
     }
 
     // Private
-    public function __read()
+    public function __read() : void
     {
         $this->user_data = array();
         $query = "SELECT * FROM udf_text " .
-            "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer') . "";
+            "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $this->user_data["f_" . $row["field_id"]] = $row["value"];
         }
         $query = "SELECT * FROM udf_clob " .
-            "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer') . "";
+            "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $this->user_data["f_" . $row["field_id"]] = $row["value"];

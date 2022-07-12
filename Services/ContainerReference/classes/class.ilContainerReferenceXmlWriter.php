@@ -1,35 +1,36 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class for container reference export
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilContainerReferenceXmlWriter extends ilXmlWriter
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    public const MODE_SOAP = 1;
+    public const MODE_EXPORT = 2;
 
-    const MODE_SOAP = 1;
-    const MODE_EXPORT = 2;
-    
-    private $mode = self::MODE_SOAP;
-    private $xml;
-    private $ref;
+    protected ilSetting $settings;
 
-    /**
-    * constructor
-    * @param	string	xml version
-    * @param	string	output encoding
-    * @param	string	input encoding
-    * @access	public
-    */
+    private int $mode = self::MODE_SOAP;
+    private ?ilContainerReference $ref;
+
     public function __construct(ilContainerReference $ref = null)
     {
         global $DIC;
@@ -39,40 +40,24 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
         $this->ref = $ref;
     }
 
-    /**
-     * Set export mode
-     * @param int $a_mode
-     */
-    public function setMode($a_mode)
+    public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
 
-    /**
-     * get export mode
-     * @return int
-     */
-    public function getMode()
+    public function getMode() : int
     {
         return $this->mode;
     }
 
-    /**
-     * Get category object
-     * @return ilContainerReference
-     */
-    public function getReference()
+    public function getReference() : ?ilContainerReference
     {
         return $this->ref;
     }
 
-
-    /**
-     * Start wrting xml
-     */
-    public function export($a_with_header = true)
+    public function export(bool $a_with_header = true) : void
     {
-        if ($this->getMode() == self::MODE_EXPORT) {
+        if ($this->getMode() === self::MODE_EXPORT) {
             if ($a_with_header) {
                 $this->buildHeader();
             }
@@ -83,69 +68,47 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
         }
     }
 
-    /**
-     * get XML
-     * @return string
-     */
-    public function getXml()
+    public function getXml() : string
     {
         return $this->xmlDumpMem(false);
     }
 
-    /**
-     * Build xml header
-     * @return bool
-     */
-    protected function buildHeader()
+    protected function buildHeader() : void
     {
         $ilSetting = $this->settings;
 
         $this->xmlSetDtdDef("<!DOCTYPE container reference PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_container_reference_4_3.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS container reference " . $this->getReference()->getId() . " of installation " . $ilSetting->get('inst_id') . ".");
         $this->xmlHeader();
-
-        return true;
     }
     
-    /**
-     * Build target element
-     */
-    protected function buildTarget()
+    protected function buildTarget() : void
     {
-        $this->xmlElement('Target', array('id' => $this->getReference()->getTargetId()));
+        $this->xmlElement('Target', ['id' => $this->getReference()->getTargetId()]);
     }
     
-    /**
-     * Build title element
-     */
-    protected function buildTitle()
+    protected function buildTitle() : void
     {
         $title = '';
-        if ($this->getReference()->getTitleType() == ilContainerReference::TITLE_TYPE_CUSTOM) {
+        if ($this->getReference()->getTitleType() === ilContainerReference::TITLE_TYPE_CUSTOM) {
             $title = $this->getReference()->getTitle();
         }
         
         $this->xmlElement(
             'Title',
-            array(
+            [
                     'type' => $this->getReference()->getTitleType()
-                ),
+            ],
             $title
         );
     }
 
-    /**
-     * Build category xml
-     */
-    protected function buildReference()
+    protected function buildReference() : void
     {
         $this->xmlStartTag('ContainerReference');
     }
     
-    /**
-     * Add footer elements
-     */
-    protected function buildFooter()
+    protected function buildFooter() : void
     {
         $this->xmlEndTag('ContainerReference');
     }

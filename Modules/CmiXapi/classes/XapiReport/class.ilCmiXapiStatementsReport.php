@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiStatementsReport
  *
@@ -14,31 +24,37 @@
  */
 class ilCmiXapiStatementsReport
 {
-    /**
-     * @var array
-     */
-    protected $response;
+    protected string $response;
     
-    /**
-     * @var array
-     */
-    protected $statements;
+    protected array $statements;
     
-    /**
-     * @var int
-     */
-    protected $maxCount;
+    protected int $maxCount;
     
     /**
      * @var ilCmiXapiUser[]
      */
-    protected $cmixUsersByIdent;
+    protected array $cmixUsersByIdent;
+
+    protected string $userLanguage;
+    /**
+    * @var ilObjCmiXapi::CONT_TYPE_GENERIC|ilObjCmiXapi::CONT_TYPE_CMI5
+    */
+    protected string $contentType;
     
-    public function __construct(string $responseBody, $objId)
+    protected bool $isMixedContentType;
+
+    public function __construct(string $responseBody, int $objId)
     {
+        global $DIC;
+        $this->userLanguage = $DIC->user()->getLanguage();
+
         $responseBody = json_decode($responseBody, true);
         
-        if (count($responseBody)) {
+        $this->contentType = ilObjCmiXapi::getInstance($objId, false)->getContentType();
+        
+        $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
+        
+        if (count($responseBody) > 0) {
             $this->response = current($responseBody);
             $this->statements = $this->response['statements'];
             $this->maxCount = $this->response['maxcount'];
@@ -53,26 +69,32 @@ class ilCmiXapiStatementsReport
         }
     }
     
-    public function getMaxCount()
+    public function getMaxCount() : int
     {
         return $this->maxCount;
     }
     
-    public function getStatements()
+    /**
+     * @return mixed[]
+     */
+    public function getStatements() : array
     {
         return $this->statements;
     }
     
-    public function hasStatements()
+    public function hasStatements() : bool
     {
         return (bool) count($this->statements);
     }
     
-    public function getTableData()
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getTableData() : array
     {
         $data = [];
         
-        foreach ($this->statements as $index => $statement) {
+        foreach ($this->statements as $statement) {
             $data[] = [
                 'date' => $this->fetchDate($statement),
                 'actor' => $this->fetchActor($statement),
@@ -86,35 +108,111 @@ class ilCmiXapiStatementsReport
         
         return $data;
     }
-    
-    protected function fetchDate($statement)
+
+    /**
+     * @return mixed
+     */
+    protected function fetchDate(array $statement)
     {
         return $statement['timestamp'];
     }
     
-    protected function fetchActor($statement)
+    protected function fetchActor(array $statement) : \ilCmiXapiUser
     {
-        $ident = str_replace('mailto:', '', $statement['actor']['mbox']);
+        if ($this->isMixedContentType) {
+            $ident = str_replace('mailto:', '', $statement['actor']['mbox']);
+            if (empty($ident)) {
+                $ident = $statement['actor']['account']['name'];
+            }
+        } elseif ($this->contentType == ilObjCmiXapi::CONT_TYPE_CMI5) {
+            $ident = $statement['actor']['account']['name'];
+        } else {
+            $ident = str_replace('mailto:', '', $statement['actor']['mbox']);
+        }
         return $this->cmixUsersByIdent[$ident];
     }
     
-    protected function fetchVerbId($statement)
+    protected function fetchVerbId(array $statement) : string
     {
         return $statement['verb']['id'];
     }
     
-    protected function fetchVerbDisplay($statement)
+    protected function fetchVerbDisplay(array $statement) : string
     {
         return $statement['verb']['display']['en-US'];
     }
     
-    protected function fetchObjectName($statement)
+    protected function fetchObjectName(array $statement) : string
     {
-        return $statement['object']['definition']['name']['en-US'];
+        $ret = urldecode($statement['object']['id']);
+        $lang = self::getLanguageEntry($statement['object']['definition']['name'], $this->userLanguage);
+        $langEntry = $lang['languageEntry'];
+        if ($langEntry != '') {
+            $ret = $langEntry;
+        }
+        return $ret;
     }
     
-    protected function fetchObjectInfo($statement)
+    protected function fetchObjectInfo(array $statement) : string
     {
         return $statement['object']['definition']['description']['en-US'];
+    }
+
+    /**
+     *  with multiple language keys like [de-DE] [en-US]
+     * @return array<string, mixed>
+     */
+    public static function getLanguageEntry(array $obj, string $userLanguage) : array
+    {
+        $defaultLanguage = 'en-US';
+        $defaultLanguageEntry = '';
+        $defaultLanguageExists = false;
+        $firstLanguage = '';
+        $firstLanguageEntry = '';
+        $firstLanguageExists = false;
+        $userLanguage = '';
+        $userLanguageEntry = '';
+        $userLanguageExists = false;
+        $language = '';
+        $languageEntry = '';
+        try {
+            foreach ($obj as $k => $v) {
+                // save $firstLanguage
+                if ($firstLanguage == '') {
+                    $f = '/^[a-z]+-?.*/';
+                    if (preg_match($f, $k)) {
+                        $firstLanguageExists = true;
+                        $firstLanguage = $k;
+                        $firstLanguageEntry = $v;
+                    }
+                }
+                // check defaultLanguage
+                if ($k == $defaultLanguage) {
+                    $defaultLanguageExists = true;
+                    $defaultLanguageEntry = $v;
+                }
+                // check userLanguage
+                $p = '/^' . $userLanguage . '-?./';
+                preg_match($p, $k);
+                if (preg_match($p, $k)) {
+                    $userLanguageExists = true;
+                    $userLanguage = $k;
+                    $userLanguageEntry = $v;
+                }
+            }
+        } catch (Exception $e) {
+        };
+
+        if ($userLanguageExists) {
+            $language = $userLanguage;
+            $languageEntry = $userLanguageEntry;
+        } elseif ($defaultLanguageExists) {
+            $language = $userLanguage;
+            $languageEntry = $userLanguageEntry;
+        } elseif ($firstLanguageExists) {
+            $language = $firstLanguage;
+            $languageEntry = $firstLanguageEntry;
+        }
+        return ['language' => $language, 'languageEntry' => $languageEntry];
     }
 }

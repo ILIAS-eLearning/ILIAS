@@ -1,10 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSettingActivity
@@ -28,27 +38,21 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @todo Check for constraints imposed by ilSetting.
      *
-     * @var string Name of a setting, $ilSetting constraints are in effect.
+     * Name of a setting, $ilSetting constraints are in effect.
      */
-    private $setting_name = '';
+    private string $setting_name = '';
 
     /**
      * Holds the value of the setting to be used by this activity.
      *
      * @todo Check for constraints imposed by ilSetting.
      *
-     * @var string Value of a setting, $ilSetting constraints are in effect.
+     * alue of a setting, $ilSetting constraints are in effect.
      */
-    private $setting_value = '';
+    private string $setting_value = '';
 
-    /** @var string $name */
-    protected $name;
+    protected string $name;
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $context
-     */
     public function __construct(ilNode $context)
     {
         $this->context = $context;
@@ -56,14 +60,11 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Sets the name of the setting to be written to.
-     *
-     * @see $setting_name
-     *
      * @param string $name Name of the setting.
-     *
      * @return void
+     *@see $setting_name
      */
-    public function setSettingName($name)
+    public function setSettingName(string $name) : void
     {
         $this->setting_name = $name;
     }
@@ -75,21 +76,18 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getSettingName()
+    public function getSettingName() : string
     {
         return $this->setting_name;
     }
 
     /***
      * Sets the value of the setting.
-     *
-     * @see $setting_value
-     *
      * @param string $value Value to be set.
-     *
      * @return void
+     *@see $setting_value
      */
-    public function setSettingValue($value)
+    public function setSettingValue(string $value) : void
     {
         $this->setting_value = $value;
     }
@@ -101,20 +99,18 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getSettingValue()
+    public function getSettingValue() : string
     {
         return $this->setting_value;
     }
 
     /**
      * Sets the setting name and value for this activity.
-     *
      * @param string $name  Name of the setting.
      * @param string $value Value to be set.
-     *
      * @return void
      */
-    public function setSetting($name, $value)
+    public function setSetting(string $name, string $value) : void
     {
         $this->setSettingName($name);
         $this->setSettingValue($value);
@@ -122,12 +118,10 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Executes this action according to its settings.
-     *
-     * @todo Use exceptions / internal logging.
-     *
      * @return void
+     * @todo Use exceptions / internal logging.
      */
-    public function execute()
+    public function execute() : void
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -146,18 +140,12 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name) : void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

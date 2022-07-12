@@ -15,45 +15,13 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 {
-    /**
-     * global $ilCtrl object
-     *
-     * @var ilCtrl
-     */
-    public $ctrl = null;
+    public ilObjTest $testOBJ;
     
-    /**
-     * global $lng object
-     *
-     * @var ilLanguage
-     */
-    public $lng = null;
+    public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;
     
-    /**
-     * object instance for current test
-     *
-     * @var ilObjTest
-     */
-    public $testOBJ = null;
-    
-    /**
-     * global $lng object
-     *
-     * @var ilTestRandomQuestionSetConfigGUI
-     */
-    public $questionSetConfigGUI = null;
-    
-    /**
-     * global $lng object
-     *
-     * @var ilTestRandomQuestionSetConfig
-     */
-    public $questionSetConfig = null;
+    public ilTestRandomQuestionSetConfig $questionSetConfig;
 
-    /**
-     * @var bool
-     */
-    protected $editModeEnabled = true;
+    protected bool $editModeEnabled = true;
 
     /**
      * @param ilCtrl $ctrl
@@ -71,25 +39,20 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         $this->testOBJ = $testOBJ;
         $this->questionSetConfigGUI = $questionSetConfigGUI;
         $this->questionSetConfig = $questionSetConfig;
+        parent::__construct();
     }
 
-    /**
-     * @return boolean
-     */
-    public function isEditModeEnabled()
+    public function isEditModeEnabled() : bool
     {
         return $this->editModeEnabled;
     }
 
-    /**
-     * @param boolean $editModeEnabled
-     */
-    public function setEditModeEnabled($editModeEnabled)
+    public function setEditModeEnabled(bool $editModeEnabled) : void
     {
         $this->editModeEnabled = $editModeEnabled;
     }
     
-    public function build()
+    public function build() : void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->questionSetConfigGUI));
         
@@ -113,6 +76,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         );
         
         $requirePoolsQuestionsHomoScored->setChecked(
+            (bool)
             $this->questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired()
         );
         
@@ -173,7 +137,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         }
     }
 
-    private function fetchValidQuestionAmountConfigModeWithFallbackModePerTest(ilTestRandomQuestionSetConfig $config)
+    private function fetchValidQuestionAmountConfigModeWithFallbackModePerTest(ilTestRandomQuestionSetConfig $config) : ?string
     {
         switch ($config->getQuestionAmountConfigurationMode()) {
             case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:
@@ -185,7 +149,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         return ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
     }
     
-    public function save()
+    public function save() : void
     {
         $this->questionSetConfig->setPoolsWithHomogeneousScoredQuestionsRequired(
             $this->getItemByPostVar('quest_points_equal_per_pool')->getChecked()
@@ -215,6 +179,6 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
                 break;
         }
         
-        return $this->questionSetConfig->saveToDb($this->testOBJ->getTestId());
+        $this->questionSetConfig->saveToDb();
     }
 }

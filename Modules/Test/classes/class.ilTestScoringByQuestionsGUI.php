@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 include_once 'Modules/Test/classes/inc.AssessmentConstants.php';
 include_once 'Modules/Test/classes/class.ilTestScoringGUI.php';
@@ -28,7 +43,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand() : string
     {
         return 'showManScoringByQuestionParticipantsTable';
     }
@@ -36,7 +51,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     /**
      * @return string
      */
-    protected function getActiveSubTabId()
+    protected function getActiveSubTabId() : string
     {
         return 'man_scoring_by_qst';
     }
@@ -57,7 +72,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             false == $ilAccess->checkAccess("write", "", $this->ref_id) &&
             false == $ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
         ) {
-            ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
         }
 
@@ -74,15 +89,14 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
         $tpl->addJavaScript("./Services/Form/js/Form.js");
         $tpl->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-        $tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
         $this->lng->toJSMap(['answer' => $this->lng->txt('answer')]);
 
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
-        $table->setManualScoringPointsPostData($manPointsPost);
 
-        $qst_id = $table->getFilterItemByPostVar('question')->getValue();
+        $qst_id = (int) $table->getFilterItemByPostVar('question')->getValue();
         $passNr = $table->getFilterItemByPostVar('pass')->getValue();
         $finalized_filter = $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
+        $answered_filter = $table->getFilterItemByPostVar('only_answered')->getChecked();
         $table_data = [];
         $selected_questionData = null;
         $complete_feedback = $this->object->getCompleteManualFeedback($qst_id);
@@ -121,10 +135,13 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         ($finalized_filter != self::ONLY_FINALIZED || $feedback['finalized_evaluation'] == 1) &&
                         ($finalized_filter != self::EXCEPT_FINALIZED || $feedback['finalized_evaluation'] != 1);
 
+                    $check_answered = ($answered_filter == false || $questionData['answered']);
+
                     if (
                         isset($questionData['qid']) &&
                         $questionData['qid'] == $selected_questionData['question_id'] &&
-                        $check_filter
+                        $check_filter &&
+                        $check_answered
                     ) {
                         $table_data[] = [
                             'pass_id' => $passNr - 1,
@@ -132,9 +149,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             'qst_id' => $questionData['qid'],
                             'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                             'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
-                            'participant' => $participant,
-                            'feedback' => $feedback,
-                        ];
+                            'name' => $participant->getName()
+                        ] + $feedback;
                     }
                 }
             }
@@ -179,12 +195,12 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 exit();
             }
 
-            ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
         }
 
         if (false == isset($_POST['scoring']) || false == is_array($_POST['scoring'])) {
-            ilUtil::sendFailure($this->lng->txt('tst_save_manscoring_failed_unknown'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_save_manscoring_failed_unknown'));
             $this->showManScoringByQuestionParticipantsTable();
             return;
         }
@@ -192,7 +208,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $pass = key($_POST['scoring']);
         $activeData = current($_POST['scoring']);
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-        $oneExceededMaxPoints = false;
         $manPointsPost = [];
         $skipParticipant = [];
         $maxPointsByQuestionId = [];
@@ -217,8 +232,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             }
             
             foreach ((array) $questions as $qst_id => $reached_points) {
-                $this->saveFeedback($active_id, $qst_id, $pass, $ajax);
-
                 if (false == isset($manPointsPost[$pass])) {
                     $manPointsPost[$pass] = [];
                 }
@@ -228,17 +241,13 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
                 $manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
-                    $oneExceededMaxPoints = true;
+                    $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1), false);
+                    $this->showManScoringByQuestionParticipantsTable($manPointsPost);
+                    return;
                 }
             }
         }
-        
-        if ($oneExceededMaxPoints) {
-            ilUtil::sendFailure(sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
-            $this->showManScoringByQuestionParticipantsTable($manPointsPost);
-            return;
-        }
-        
+
         $changed_one = false;
         $lastAndHopefullyCurrentQuestionId = null;
 
@@ -289,7 +298,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $pass + 1
             );
 
-            ilUtil::sendSuccess($msg, true);
+            $this->tpl->setOnScreenMessage('success', $msg, true);
 
             if (isset($active_id)) {
                 $correction_feedback = $this->object->getSingleManualFeedback($active_id, $qst_id, $pass);
@@ -345,9 +354,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
     protected function getAnswerDetail()
     {
-        $active_id = (int) $_GET['active_id'];
-        $pass = (int) $_GET['pass_id'];
-        $question_id = (int) $_GET['qst_id'];
+        $active_id = $this->testrequest->getActiveId();
+        $pass = $this->testrequest->getPassId();
+        $question_id = (int) $this->testrequest->raw('qst_id');
         
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {
             exit; // illegal ajax call
@@ -527,6 +536,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $reached_points_form->setMinValue(0);
         $reached_points_form->setDisabled($disable);
         $reached_points_form->setValue($reached_points);
+        $reached_points_form->setClientSideValidation(true);
         $form->addItem($reached_points_form);
 
         $hidden_points = new ilHiddenInputGUI('qst_max_points');
@@ -553,6 +563,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $form->addItem($evaluated);
 
         $form->addCommandButton('checkConstraintsBeforeSaving', $this->lng->txt('save'));
+
+        $CharSelector = ilCharSelectorGUI::_getCurrentGUI();
+        $CharSelector->getConfig()->setAvailability(ilCharSelectorConfig::DISABLED);
 
         $tmp_tpl->setVariable(
             'MANUAL_FEEDBACK',
@@ -631,7 +644,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
      * @param $pass
      * @return bool
      */
-    protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass)
+    protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass) : bool
     {
         return (
             isset($_POST[$post_value][$pass][$active_id][$qst_id]) &&

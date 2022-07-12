@@ -1,51 +1,47 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeMailMemberSearchGUI
 {
-    /**
-     * @var ilObjGroupGUI|ilObjCourseGUI
-     */
-    protected $gui;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var array
-     */
-    protected $assignments;
+    protected array $assignments = [];
+    private ?string $back_target = null;
 
     public function __construct(
         ilCtrl $ctrl,
         ilGlobalTemplateInterface $tpl,
         ilLanguage $lng,
-        ilAccessHandler $access
+        ilAccessHandler $access,
+        ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->access = $access;
+        $this->http_wrapper = $http_wrapper;
+        $this->refinery = $refinery;
 
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('search');
@@ -61,48 +57,42 @@ class ilStudyProgrammeMailMemberSearchGUI
         $this->assignments = $assignments;
     }
 
-    public function getBackTarget() : string
+    public function getBackTarget() : ?string
     {
         return $this->back_target;
     }
 
-    public function setBackTarget(string $target)
+    public function setBackTarget(string $target) : void
     {
         $this->back_target = $target;
     }
 
     public function executeCommand() : void
     {
-        $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->ctrl->setReturn($this, '');
 
-        switch ($next_class) {
-            default:
-                switch ($cmd) {
-                    case 'sendMailToSelectedUsers':
-                        $this->sendMailToSelectedUsers();
-                        break;
-                    case 'showSelectableUsers':
-                    case 'members':
-                        $this->showSelectableUsers();
-                        break;
-                    case 'cancel':
-                        $this->redirectToParent();
-                        break;
-                    default:
-                        throw new Exception('Unknown command ' . $cmd);
-                        break;
-                }
+        switch ($cmd) {
+            case 'sendMailToSelectedUsers':
+                $this->sendMailToSelectedUsers();
                 break;
+            case 'showSelectableUsers':
+            case 'members':
+                $this->showSelectableUsers();
+                break;
+            case 'cancel':
+                $this->redirectToParent();
+                break;
+            default:
+                throw new Exception('Unknown command ' . $cmd);
         }
     }
 
     protected function showSelectableUsers() : void
     {
         $this->tpl->loadStandardTemplate();
-        $tbl = new ilStudyProgrammeMailMemberSearchTableGUI($this, 'showSelectableUsers');
+        $tbl = new ilStudyProgrammeMailMemberSearchTableGUI($this, $this->getRootPrgObjId(), 'showSelectableUsers');
         $tbl->setData($this->getProcessData());
 
         $this->tpl->setContent($tbl->getHTML());
@@ -137,26 +127,34 @@ class ilStudyProgrammeMailMemberSearchGUI
 
     protected function sendMailToSelectedUsers() : bool
     {
-        if (!isset($_POST['user_ids']) || !count($_POST['user_ids'])) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+        $user_ids = [];
+        if ($this->http_wrapper->post()->has("user_ids")) {
+            $user_ids = $this->http_wrapper->post()->retrieve(
+                "user_ids",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
+
+        if (!count($user_ids)) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
         }
 
         $rcps = array();
-        foreach ($_POST['user_ids'] as $usr_id) {
+        foreach ($user_ids as $usr_id) {
             $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
 
         if (!count(array_filter($rcps))) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
         }
         ilMailFormCall::setRecipients($rcps);
 
         $members_gui = $this->getPRGMembersGUI();
-        ilUtil::redirect(ilMailFormCall::getRedirectTarget(
+        $this->ctrl->redirectToURL(ilMailFormCall::getRedirectTarget(
             $members_gui,
             'view',
             array(),
@@ -191,7 +189,12 @@ class ilStudyProgrammeMailMemberSearchGUI
 
     protected function redirectToParent() : void
     {
-        ilUtil::redirect($this->getBackTarget());
+        $back_target = $this->getBackTarget();
+        if (is_null($back_target)) {
+            throw new LogicException("Can't redirect. No back target given.");
+        }
+
+        $this->ctrl->redirectToURL($back_target);
     }
 
     protected function createMailSignature() : string
@@ -199,14 +202,21 @@ class ilStudyProgrammeMailMemberSearchGUI
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt('prg_mail_permanent_link');
         $link .= chr(13) . chr(10) . chr(13) . chr(10);
-        include_once 'Services/Link/classes/class.ilLink.php';
         $link .= ilLink::_getLink($this->getRootPrgRefId());
         return rawurlencode(base64_encode($link));
     }
 
     protected function getRootPrgRefId() : int
     {
-        $assignment = array_shift($this->getAssignments());
+        $assignments = $this->getAssignments();
+        $assignment = array_shift($assignments);
         return ilObjStudyProgramme::getRefIdFor($assignment->getRootId());
+    }
+
+    protected function getRootPrgObjId() : int
+    {
+        $assignments = $this->getAssignments();
+        $assignment = array_shift($assignments);
+        return (int) $assignment->getRootId();
     }
 }

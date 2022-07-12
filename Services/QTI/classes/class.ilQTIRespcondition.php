@@ -1,28 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-define("CONTINUE_YES", "1");
-define("CONTINUE_NO", "2");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * QTI respcondition class
@@ -34,86 +27,74 @@ define("CONTINUE_NO", "2");
 */
 class ilQTIRespcondition
 {
-    public $continue;
-    public $title;
-    public $comment;
-    public $conditionvar;
-    public $setvar;
-    public $displayfeedback;
-    public $respcond_extension;
-    
-    public function __construct()
-    {
-        $this->setvar = array();
-        $this->displayfeedback = array();
-    }
-    
-    public function setContinue($a_continue)
+    public const CONTINUE_YES = "1";
+    public const CONTINUE_NO = "2";
+
+    public ?string $continue = null;
+    public ?string $title = null;
+    public ?string $comment = null;
+    public ?ilQTIConditionvar $conditionvar = null;
+    /** @var ilQTISetvar[] */
+    public array $setvar = [];
+    /** @var ilQTIDisplayfeedback[] */
+    public array $displayfeedback = [];
+
+    public function setContinue(string $a_continue) : void
     {
         switch (strtolower($a_continue)) {
             case "1":
             case "yes":
-                $this->continue = CONTINUE_YES;
+                $this->continue = self::CONTINUE_YES;
                 break;
             case "2":
             case "no":
-                $this->continue = CONTINUE_NO;
+                $this->continue = self::CONTINUE_NO;
                 break;
         }
     }
-    
-    public function getContinue()
+
+    public function getContinue() : ?string
     {
         return $this->continue;
     }
-    
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
-    
-    public function getTitle()
+
+    public function getTitle() : ?string
     {
         return $this->title;
     }
-    
-    public function setComment($a_comment)
+
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
-    public function getComment()
+
+    public function getComment() : ?string
     {
         return $this->comment;
     }
-    
-    public function setConditionvar($a_conditionvar)
+
+    public function setConditionvar(ilQTIConditionvar $a_conditionvar) : void
     {
         $this->conditionvar = $a_conditionvar;
     }
-    
-    public function getConditionvar()
+
+    public function getConditionvar() : ?ilQTIConditionvar
     {
         return $this->conditionvar;
     }
-    
-    public function setRespcond_extension($a_respcond_extension)
+
+    public function addSetvar(ilQTISetvar $a_setvar) : void
     {
-        $this->respcond_extension = $a_respcond_extension;
+        $this->setvar[] = $a_setvar;
     }
     
-    public function getRespcond_extension()
+    public function addDisplayfeedback(ilQTIDisplayfeedback $a_displayfeedback) : void
     {
-        return $this->respcond_extension;
-    }
-    
-    public function addSetvar($a_setvar)
-    {
-        array_push($this->setvar, $a_setvar);
-    }
-    
-    public function addDisplayfeedback($a_displayfeedback)
-    {
-        array_push($this->displayfeedback, $a_displayfeedback);
+        $this->displayfeedback[] = $a_displayfeedback;
     }
 }

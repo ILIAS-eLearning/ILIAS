@@ -6,20 +6,29 @@ use ILIAS\MainMenu\Tests\DummyIDGenerator;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FileNamePolicyTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
 {
-    /**
-     * @param string $denied_ending
-     * @return ResourceBuilder
-     */
     protected function getResourceBuilder(string $denied_ending) : ResourceBuilder
     {
         $policy = $this->getFileNamePolicy($denied_ending);
-        $resource_builder = new ResourceBuilder(
+        return new ResourceBuilder(
             $this->storage_handler_factory,
             $this->revision_repository,
             $this->resource_repository,
@@ -28,13 +37,9 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
             $this->locking,
             $policy
         );
-        return $resource_builder;
     }
 
-    /**
-     * @return FileNamePolicy
-     */
-    protected function getFileNamePolicy(string $denied_ending)
+    protected function getFileNamePolicy(string $denied_ending) : \ILIAS\ResourceStorage\Policy\FileNamePolicy
     {
         return new class($denied_ending) implements FileNamePolicy {
             public function __construct(string $denied_ending)
@@ -64,7 +69,6 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
             {
                 return $filename_with_extension;
             }
-
         };
     }
 
@@ -80,7 +84,9 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
             $expected_file_name,
             "",
-            0, 1, 0
+            0,
+            1,
+            0
         );
 
         // RUN
@@ -105,7 +111,9 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
             $expected_file_name,
             "",
-            0, 1, 0
+            0,
+            1,
+            0
         );
 
         // RUN
@@ -117,4 +125,3 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         $resource_builder->store($resource);
     }
 }
-

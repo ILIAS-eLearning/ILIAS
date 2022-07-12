@@ -1,17 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-declare(strict_types=1);
-
+use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
+use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeDeadlineSettingsTest extends TestCase
 {
-    const VALID_DEADLINE_PERIOD_1 = 11;
-    const VALID_DEADLINE_PERIOD_2 = 22;
-    const INVALID_DEADLINE_PERIOD = -1;
-    const VALID_DEADLINE_DATE = '2019-02-14';
+    private const VALID_DEADLINE_PERIOD_1 = 11;
+    private const VALID_DEADLINE_PERIOD_2 = 22;
+    private const INVALID_DEADLINE_PERIOD = -1;
+    private const VALID_DEADLINE_DATE = '2019-02-14';
 
     public function testSuccessfulCreate() : void
     {
@@ -31,7 +45,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
                 self::INVALID_DEADLINE_PERIOD,
                 new DateTime(self::VALID_DEADLINE_DATE)
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -59,7 +73,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
 
         try {
             $obj->withDeadlinePeriod(self::INVALID_DEADLINE_PERIOD);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -112,7 +126,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
 
         $switchable_group = $field->getInputs()['prg_deadline'];
         $this->assertInstanceOf(
-            'ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup',
+            SwitchableGroup::class,
             $switchable_group
         );
 
@@ -123,7 +137,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         $inputs = $switchable_group->getInputs();
         foreach ($inputs as $input) {
             $this->assertInstanceOf(
-                'ILIAS\UI\Implementation\Component\Input\Field\Group',
+                Group::class,
                 $input
             );
         }

@@ -1,31 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "../../../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Component as I;
-use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
-use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
-use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
-use ILIAS\UI\Implementation\Render\JavaScriptBinding;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as I;
 
 /**
  * Tests for the SimpleNode.
  */
 class BylineNodeTest extends ILIAS_UI_TestBase
 {
-    /**
-     * @var I\Tree\Node\Factory
-     */
-    private $node_factory;
-
-    /**
-     * @var C\Symbol\Icon\Standard|I\Symbol\Icon\Standard
-     */
-    private $icon;
+    private I\Tree\Node\Factory $node_factory;
+    private C\Symbol\Icon\Standard $icon;
 
     public function setUp() : void
     {
@@ -34,7 +37,7 @@ class BylineNodeTest extends ILIAS_UI_TestBase
         $this->icon = $icon_factory->standard("", '');
     }
 
-    public function testCreateBylineNode()
+    public function testCreateBylineNode() : void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline', $this->icon);
         $this->assertEquals('My Label', $node->getLabel());
@@ -42,7 +45,7 @@ class BylineNodeTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->icon, $node->getIcon());
     }
 
-    public function testRendering()
+    public function testRendering() : void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline');
 
@@ -64,7 +67,7 @@ EOT;
         );
     }
 
-    public function testRenderingWithIcon()
+    public function testRenderingWithIcon() : void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline', $this->icon);
 
@@ -89,7 +92,7 @@ EOT;
         );
     }
 
-    public function testRenderingWithAsync()
+    public function testRenderingWithAsync() : void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline');
         $node = $node->withAsyncURL('something.de');
@@ -116,7 +119,7 @@ EOT;
         );
     }
 
-    public function testRenderingExpanded()
+    public function testRenderingExpanded() : void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline');
         $node = $node->withAsyncURL('something.de')->withExpanded(true);

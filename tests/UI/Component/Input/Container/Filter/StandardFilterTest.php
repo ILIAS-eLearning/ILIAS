@@ -1,26 +1,43 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
 require_once(__DIR__ . "/FilterTest.php");
 
-use ILIAS\UI\Implementation\Component\SignalGenerator;
-use \ILIAS\Data;
-use ILIAS\Refinery;
+use ILIAS\Data;
+use ILIAS\UI\Implementation\Component as I;
 
 class WithNoUIFactories extends NoUIFactory
 {
-    protected $button_factory;
-    protected $symbol_factory;
-    protected $popover_factory;
-    protected $legacy_factory;
-    protected $listing_factory;
+    protected I\Button\Factory $button_factory;
+    protected I\Symbol\Factory $symbol_factory;
+    protected I\Popover\Factory $popover_factory;
+    protected I\Legacy\Factory $legacy_factory;
+    protected I\Listing\Factory $listing_factory;
 
-
-    public function __construct($button_factory, $symbol_factory, $popover_factory, $legacy_factory, $listing_factory)
-    {
+    public function __construct(
+        I\Button\Factory $button_factory,
+        I\Symbol\Factory $symbol_factory,
+        I\Popover\Factory $popover_factory,
+        I\Legacy\Factory $legacy_factory,
+        I\Listing\Factory $listing_factory
+    ) {
         $this->button_factory = $button_factory;
         $this->symbol_factory = $symbol_factory;
         $this->popover_factory = $popover_factory;
@@ -28,28 +45,27 @@ class WithNoUIFactories extends NoUIFactory
         $this->listing_factory = $listing_factory;
     }
 
-
-    public function button()
+    public function button() : I\Button\Factory
     {
         return $this->button_factory;
     }
 
-    public function symbol() : \ILIAS\UI\Component\Symbol\Factory
+    public function symbol() : I\Symbol\Factory
     {
         return $this->symbol_factory;
     }
 
-    public function popover()
+    public function popover() : I\Popover\Factory
     {
         return $this->popover_factory;
     }
 
-    public function legacy($content)
+    public function legacy($content) : I\Legacy\Legacy
     {
         return $this->legacy_factory->legacy("");
     }
 
-    public function listing()
+    public function listing() : I\Listing\Factory
     {
         return $this->listing_factory;
     }
@@ -61,56 +77,56 @@ class WithNoUIFactories extends NoUIFactory
 
 class StandardFilterTest extends ILIAS_UI_TestBase
 {
-    protected function buildFactory()
+    protected function buildFactory() : I\Input\Container\Filter\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
-            new SignalGenerator(),
+        return new I\Input\Container\Filter\Factory(
+            new I\SignalGenerator(),
             $this->buildInputFactory()
         );
     }
 
-    protected function buildInputFactory()
+    protected function buildInputFactory() : I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
-        return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
-            new SignalGenerator(),
+        $language = $this->createMock(ilLanguage::class);
+        return new I\Input\Field\Factory(
+            new I\SignalGenerator(),
             $df,
             new ILIAS\Refinery\Factory($df, $language),
             $language
         );
     }
 
-    protected function buildButtonFactory()
+    protected function buildButtonFactory() : I\Button\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Button\Factory;
+        return new I\Button\Factory;
     }
 
-    protected function buildSymbolFactory()
+    protected function buildSymbolFactory() : I\Symbol\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Symbol\Factory(
-            new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory,
-            new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory,
-            new ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory
+        return new I\Symbol\Factory(
+            new I\Symbol\Icon\Factory,
+            new I\Symbol\Glyph\Factory,
+            new I\Symbol\Avatar\Factory
         );
     }
 
-    protected function buildPopoverFactory()
+    protected function buildPopoverFactory() : I\Popover\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Popover\Factory(new SignalGenerator());
+        return new I\Popover\Factory(new I\SignalGenerator());
     }
 
-    protected function buildLegacyFactory()
+    protected function buildLegacyFactory() : I\Legacy\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Legacy\Factory(new SignalGenerator());
+        return new I\Legacy\Factory(new I\SignalGenerator());
     }
 
-    protected function buildListingFactory()
+    protected function buildListingFactory() : I\Listing\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Listing\Factory;
+        return new I\Listing\Factory;
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : WithNoUIFactories
     {
         return new WithNoUIFactories(
             $this->buildButtonFactory(),
@@ -121,7 +137,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_activated_collapsed()
+    public function test_render_activated_collapsed() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -154,13 +170,13 @@ class StandardFilterTest extends ILIAS_UI_TestBase
         <div class="il-filter-bar">
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="false">
 			<button class="btn btn-bulky" data-action="" id="id_2">
-				<span class="glyph" aria-label="collapse_content" role="img">
+				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
-				<span class="glyph" aria-label="expand_content" role="img">
+				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
@@ -180,7 +196,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
             <span id="3"></span>
         </div>
         <div class="il-filter-input-section row collapse ">
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
@@ -191,7 +207,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
@@ -207,7 +223,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
@@ -219,10 +235,10 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                     </span>
                 </div>
             </div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" aria-label="add" role="img">
+        				<span class="glyph" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -232,13 +248,13 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			</div>
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
-			        <span class="glyph" aria-label="apply" role="img">
+			        <span class="glyph" role="img">
 			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
-                    <span class="glyph" aria-label="reset" role="img">
+                    <span class="glyph" role="img">
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
@@ -255,7 +271,7 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
 
-    public function test_render_deactivated_collapsed()
+    public function test_render_deactivated_collapsed() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -288,13 +304,13 @@ EOT;
         <div class="il-filter-bar">
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="false">
 			<button class="btn btn-bulky" data-action="" id="id_2">
-				<span class="glyph" aria-label="collapse_content" role="img">
+				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
-				<span class="glyph" aria-label="expand_content" role="img">
+				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
@@ -314,7 +330,7 @@ EOT;
             <span id="3"></span>
         </div>
         <div class="il-filter-input-section row collapse ">
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
@@ -325,7 +341,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
@@ -341,7 +357,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
@@ -353,10 +369,10 @@ EOT;
                     </span>
                 </div>
             </div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" aria-label="add" role="img">
+        				<span class="glyph" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -366,13 +382,13 @@ EOT;
 			</div>
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
-			        <span class="glyph" aria-label="apply" role="img">
+			        <span class="glyph" role="img">
 			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
-                    <span class="glyph" aria-label="reset" role="img">
+                    <span class="glyph" role="img">
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
@@ -389,7 +405,7 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
 
-    public function test_render_activated_expanded()
+    public function test_render_activated_expanded() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -422,13 +438,13 @@ EOT;
         <div class="il-filter-bar">
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="true">
 			<button class="btn btn-bulky" data-action="" id="id_2">
-				<span class="glyph" aria-label="expand_content" role="img">
+				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
-				<span class="glyph" aria-label="collapse_content" role="img">
+				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
@@ -448,7 +464,7 @@ EOT;
             <span id="3"></span>
         </div>
         <div class="il-filter-input-section row collapse in">
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
@@ -459,7 +475,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
@@ -475,7 +491,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
@@ -487,10 +503,10 @@ EOT;
                     </span>
                 </div>
             </div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" aria-label="add" role="img">
+        				<span class="glyph" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -500,13 +516,13 @@ EOT;
 			</div>
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
-			        <span class="glyph" aria-label="apply" role="img">
+			        <span class="glyph" role="img">
 			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
-                    <span class="glyph" aria-label="reset" role="img">
+                    <span class="glyph" role="img">
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
@@ -523,7 +539,7 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
 
-    public function test_render_deactivated_expanded()
+    public function test_render_deactivated_expanded() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -556,13 +572,13 @@ EOT;
         <div class="il-filter-bar">
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="true">
 			<button class="btn btn-bulky" data-action="" id="id_2">
-				<span class="glyph" aria-label="expand_content" role="img">
+				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
-				<span class="glyph" aria-label="collapse_content" role="img">
+				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
@@ -582,7 +598,7 @@ EOT;
             <span id="3"></span>
         </div>
         <div class="il-filter-input-section row collapse in">
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
@@ -593,7 +609,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
@@ -609,7 +625,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
@@ -621,10 +637,10 @@ EOT;
                     </span>
                 </div>
             </div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" aria-label="add" role="img">
+        				<span class="glyph" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -634,13 +650,13 @@ EOT;
 			</div>
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
-			        <span class="glyph" aria-label="apply" role="img">
+			        <span class="glyph" role="img">
 			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
-                    <span class="glyph" aria-label="reset" role="img">
+                    <span class="glyph" role="img">
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>

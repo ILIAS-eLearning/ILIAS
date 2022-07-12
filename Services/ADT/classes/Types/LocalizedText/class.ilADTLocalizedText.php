@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,17 +7,11 @@
  */
 class ilADTLocalizedText extends ilADTText
 {
-    /**
-     * @var array
-     */
-    private $translations = [];
+    private array $translations = [];
 
-    /**
-     * @param string $language
-     */
-    public function getTextForLanguage(string $language)
+    public function getTextForLanguage(string $language) : string
     {
-        if (strlen($this->getTranslations()[$language])) {
+        if (array_key_exists($language, $this->getTranslations) && strlen($this->getTranslations()[$language])) {
             return $this->getTranslations()[$language];
         }
         return $this->getText();
@@ -26,16 +20,12 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @return array
      */
-    public function getTranslations()
+    public function getTranslations() : array
     {
         return $this->translations;
     }
 
-    /**
-     * @param string $language
-     * @param string $translation
-     */
-    public function setTranslation(string $language, string $translation)
+    public function setTranslation(string $language, string $translation) : void
     {
         $this->translations[$language] = $translation;
     }
@@ -43,7 +33,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTLocalizedTextDefinition;
     }
@@ -51,15 +41,15 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function equals(ilADT $adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
-        if (!$this->getDefinition()->isComparableTo($adt)) {
+        if (!$this->getDefinition()->isComparableTo($a_adt)) {
+            return null;
+        }
+        if ($this->getTranslations() != count($a_adt->getTranslations())) {
             return false;
         }
-        if (count($this->getTranslations() != count($adt->getTranslations()))) {
-            return false;
-        }
-        foreach ($adt->getTranslations() as $key => $value) {
+        foreach ($a_adt->getTranslations() as $key => $value) {
             if (!isset($this->getTranslations()[$key])) {
                 return false;
             }
@@ -73,21 +63,23 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function isLarger(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function isNull()
+    public function isNull() : bool
     {
         return !$this->getLength() && !count($this->getTranslations());
     }
@@ -95,27 +87,31 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
-        return md5(serialize($this->getTranslations()));
+        if (!$this->isNull()) {
+            return md5(serialize($this->getTranslations()));
+        }
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
             $obj->translations = $this->getTranslations();
             return $obj;
         }
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->translations = $a_std->translations;

@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
- declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
  /**
  * Class ilStudyProgrammeAutoMembershipsTableGUI
@@ -10,12 +24,12 @@
 class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
 {
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        $a_template_context = ""
+        ilObjStudyProgrammeAutoMembershipsGUI $parent_obj,
+        string $parent_cmd = "",
+        string $template_context = ""
     ) {
         $this->setId("sp_ac_list");
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+        parent::__construct($parent_obj, $parent_cmd, $template_context);
         $this->setTitle($this->lng->txt('auto_membership_title'));
         $this->setDescription($this->lng->txt('auto_membership_description'));
         $this->setEnableTitle(true);
@@ -25,7 +39,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setRowTemplate("tpl.automembers_table_row.html", "Modules/StudyProgramme");
         $this->setShowRowsSelector(false);
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, "view"));
         $this->disable('sort');
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt('auto_membership_src_type'), 'type');
@@ -39,16 +53,9 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
-        list($ams, $title, $usr, $actions) = $set;
-
-        $username = ilObjUser::_lookupName($ams->getLastEditorId());
-        $editor = implode(' ', [
-            $username['firstname'],
-            $username['lastname'],
-            '(' . $username['login'] . ')'
-        ]);
+        [$ams, $title, $usr, $actions] = $a_set;
 
         $id = $ams->getSourceType() . '-' . $ams->getSourceId();
         $status = $ams->isEnabled()  ? $this->lng->txt('active') : $this->lng->txt('inactive');
@@ -66,6 +73,6 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
     protected function getDatePresentation(int $timestamp) : string
     {
         $date = new ilDateTime($timestamp, IL_CAL_UNIX);
-        return ilDatePresentation::formatDate($date);
+        return ilDatePresentation::formatDate($date) ?? "";
     }
 }

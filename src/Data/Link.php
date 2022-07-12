@@ -9,15 +9,8 @@ namespace ILIAS\Data;
  */
 class Link
 {
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var URI
-     */
-    protected $url;
+    protected string $label;
+    protected URI $url;
 
     public function __construct(string $label, URI $url)
     {

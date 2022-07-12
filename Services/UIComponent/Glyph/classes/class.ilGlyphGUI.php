@@ -1,34 +1,44 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- *
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlyphGUI
 {
-    const UP = "up";
-    const DOWN = "down";
-    const ADD = "add";
-    const REMOVE = "remove";
-    const PREVIOUS = "previous";
-    const NEXT = "next";
-    const CALENDAR = "calendar";
-    const CLOSE = "close";
-    const ATTACHMENT = "attachment";
-    const CARET = "caret";
-    const DRAG = "drag";
-    const SEARCH = "search";
-    const FILTER = "filter";
-    const NO_TEXT = "**notext**";
-    const INFO = "info";
-    const EXCLAMATION = "exclamation";
+    public const UP = "up";
+    public const DOWN = "down";
+    public const ADD = "add";
+    public const REMOVE = "remove";
+    public const PREVIOUS = "previous";
+    public const NEXT = "next";
+    public const CALENDAR = "calendar";
+    public const CLOSE = "close";
+    public const ATTACHMENT = "attachment";
+    public const CARET = "caret";
+    public const DRAG = "drag";
+    public const SEARCH = "search";
+    public const FILTER = "filter";
+    public const NO_TEXT = "**notext**";
+    public const INFO = "info";
+    public const EXCLAMATION = "exclamation";
 
-    protected static $map = array(
+    protected static array $map = array(
         "up" => array("class" => "glyphicon glyphicon-chevron-up", "txt" => "up"),
         "down" => array("class" => "glyphicon glyphicon-chevron-down", "txt" => "down"),
         "add" => array("class" => "glyphicon glyphicon-plus", "txt" => "add"),
@@ -46,23 +56,17 @@ class ilGlyphGUI
         "info" => array("class" => "glyphicon glyphicon-info-sign", "txt" => "info")
     );
 
-    /**
-     * Get glyph html
-     *
-     * @param string $a_glyph glyph constant
-     * @param string $a_text text representation
-     * @return string html
-     */
-    public static function get($a_glyph, $a_text = "")
-    {
+    public static function get(
+        string $a_glyph,
+        string $a_text = ""
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
 
-        $html = "";
-        $text = ($a_text == "")
+        $text = ($a_text === "")
             ? $lng->txt(self::$map[$a_glyph]["txt"])
-            : (($a_text == self::NO_TEXT)
+            : (($a_text === self::NO_TEXT)
                 ? ""
                 : $a_text);
         switch ($a_glyph) {

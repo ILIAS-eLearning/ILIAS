@@ -633,7 +633,7 @@
 									line.append($('<span class="chat recipient">@</span>').append(message.target.username))
 								}
 								else {
-									line.append($('<span class="chat recipient">@</span>').append('unkown'))
+									line.append($('<span class="chat recipient">@</span>').append('unknown'))
 								}
 							}
 

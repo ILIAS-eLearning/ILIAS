@@ -14,16 +14,11 @@ class assAnswerMultipleResponseImageTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
@@ -34,7 +29,7 @@ class assAnswerMultipleResponseImageTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerMultipleResponseImage', $instance);
     }
 
-    public function test_setGetImage()
+    public function test_setGetImage() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';

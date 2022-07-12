@@ -33,7 +33,7 @@ class ilTestService
      * @param	boolean		$short
      * @return	array		$passOverwiewData
      */
-    public function getPassOverviewData($active_id, $short = false)
+    public function getPassOverviewData($active_id, $short = false) : array
     {
         $passOverwiewData = array();
         
@@ -115,9 +115,8 @@ class ilTestService
      * @access public
      * @param integer $active_id Active ID of the active user
      * @param integer $pass Test pass
-     * @return string HTML code of the list of answers
      */
-    public function getManScoringQuestionGuiList($activeId, $pass)
+    public function getManScoringQuestionGuiList($activeId, $pass) : array
     {
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $manScoringQuestionTypes = ilObjAssessmentFolder::_getManualScoring();
@@ -156,7 +155,7 @@ class ilTestService
      * @param integer $activeId
      * @return boolean $manScoringDone
      */
-    public static function isManScoringDone($activeId)
+    public static function isManScoringDone($activeId) : bool
     {
         $assessmentSetting = new ilSetting("assessment");
         return $assessmentSetting->get("manscoring_done_" . $activeId, false);
@@ -202,7 +201,7 @@ class ilTestService
         return $virtualSequence;
     }
     
-    public function getVirtualSequenceUserResults(ilTestVirtualSequence $virtualSequence)
+    public function getVirtualSequenceUserResults(ilTestVirtualSequence $virtualSequence) : array
     {
         $resultsByPass = array();
         
@@ -242,7 +241,7 @@ class ilTestService
      * @param bool $obligationsFilter
      * @return array
      */
-    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, $obligationsFilterEnabled)
+    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, $obligationsFilterEnabled) : array
     {
         $result_array = $testSequence->getSequenceSummary($obligationsFilterEnabled);
 
@@ -261,7 +260,7 @@ class ilTestService
                 $this->object->isFollowupQuestionAnswerFixationEnabled()
                 && !$value['presented'] && !$firstQuestion
             );
-            
+
             $description = "";
             if ($this->object->getListOfQuestionsDescription()) {
                 $description = $value["description"];
@@ -296,7 +295,7 @@ class ilTestService
                 'obligatory' => $value['obligatory'],
                 'isAnswered' => $value['isAnswered']
             );
-            
+
             $firstQuestion = false;
             // fau.
         }

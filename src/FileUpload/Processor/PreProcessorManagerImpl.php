@@ -7,6 +7,19 @@ use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use Psr\Http\Message\StreamInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class PreProcessorManagerImpl
  *
@@ -25,12 +38,12 @@ final class PreProcessorManagerImpl implements PreProcessorManager
     /**
      * @var PreProcessor[] $processors
      */
-    private $processors = [];
+    private array $processors = [];
 
     /**
      * @inheritDoc
      */
-    public function with(PreProcessor $processor)
+    public function with(PreProcessor $processor) : void
     {
         $this->processors[] = $processor;
     }
@@ -39,7 +52,7 @@ final class PreProcessorManagerImpl implements PreProcessorManager
     /**
      * @inheritDoc
      */
-    public function process(FileStream $stream, Metadata $metadata)
+    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
     {
         try {
             $result = null;

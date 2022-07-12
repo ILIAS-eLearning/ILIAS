@@ -1,41 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * News service dependencies
- *
- * @author killing@leifos.de
- * @ingroup ServiceNews
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNewsServiceDependencies
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected ilNewsObjectAdapterInterface $obj_adapter;
+    protected ilObjUser $user;
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilNewsObjectAdapterInterface
-     */
-    protected $obj_adapter;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * Constructor
-     * @param ilLanguage $lng
-     */
-    public function __construct(ilLanguage $lng, ilSetting $settings, ilObjUser $user, ilNewsObjectAdapterInterface $obj_adapter)
-    {
+    public function __construct(
+        ilLanguage $lng,
+        ilSetting $settings,
+        ilObjUser $user,
+        ilNewsObjectAdapterInterface $obj_adapter
+    ) {
         $this->lng = $lng;
         $this->settings = $settings;
         $this->user = $user;
@@ -44,40 +41,23 @@ class ilNewsServiceDependencies
 
     /**
      * Get object adapter
-     *
-     * @return ilNewsObjectAdapterInterface
      */
-    public function obj()
+    public function obj() : ilNewsObjectAdapterInterface
     {
         return $this->obj_adapter;
     }
 
-
-    /**
-     * Get language object
-     *
-     * @return ilLanguage
-     */
     public function language() : ilLanguage
     {
         return $this->lng;
     }
 
-    /**
-     * Get settings object
-     *
-     * @return ilSetting
-     */
     public function settings() : ilSetting
     {
         return $this->settings;
     }
 
-    /**
-     * Get current user
-     *
-     * @return ilObjUser
-     */
+    // Get current user
     public function user() : ilObjUser
     {
         return $this->user;

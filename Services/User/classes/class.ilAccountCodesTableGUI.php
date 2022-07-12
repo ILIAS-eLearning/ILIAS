@@ -1,24 +1,36 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
-* TableGUI class for account codes
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilAccountCodesTableGUI:
-* @ingroup ServicesUser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * TableGUI class for account codes
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilAccountCodesTableGUI extends ilTable2GUI
 {
     /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+     * @var array<string,string>
+     */
+    public array $filter;
+
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
@@ -50,7 +62,6 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         $this->setTopCommands(true);
         $this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
         
-        include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
         $button = ilSubmitButton::getInstance();
         $button->setCaption("user_account_codes_export");
         $button->setCommand("exportCodes");
@@ -60,20 +71,13 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    /**
-    * Get user items
-    */
-    public function getItems()
+    public function getItems() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
 
         $this->determineOffsetAndOrder();
-        
-        include_once("./Services/User/classes/class.ilAccountCode.php");
         
         $codes_data = ilAccountCode::getCodesData(
             ilUtil::stripSlashes($this->getOrderField()),
@@ -125,22 +129,13 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         $this->setData($result);
     }
     
-    
-    /**
-    * Init filter
-    */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
-        
-        include_once("./Services/User/classes/class.ilAccountCode.php");
         
         // code
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($lng->txt("user_account_code"), "query");
         $ti->setMaxLength(ilAccountCode::CODE_LENGTH);
         $ti->setSize(20);
@@ -150,9 +145,8 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         $this->filter["code"] = $ti->getValue();
         
         // generated
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $options = array("" => $lng->txt("user_account_code_generated_all"));
-        foreach ((array) ilAccountCode::getGenerationDates() as $date) {
+        foreach (ilAccountCode::getGenerationDates() as $date) {
             $options[$date] = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_UNIX));
         }
         $si = new ilSelectInputGUI($lng->txt("user_account_code_generated"), "generated");
@@ -161,16 +155,16 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         $si->readFromSession();
         $this->filter["generated"] = $si->getValue();
     }
-    
+
     /**
-    * Fill table row
-    */
-    protected function fillRow($code)
+     * @param array<string,string> $a_set
+     */
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("ID", $code["code_id"]);
-        $this->tpl->setVariable("VAL_CODE", $code["code"]);
-        $this->tpl->setVariable("VAL_VALID_UNTIL", $code["valid_until"]);
-        $this->tpl->setVariable("VAL_GENERATED", $code["generated"]);
-        $this->tpl->setVariable("VAL_USED", $code["used"]);
+        $this->tpl->setVariable("ID", $a_set["code_id"]);
+        $this->tpl->setVariable("VAL_CODE", $a_set["code"]);
+        $this->tpl->setVariable("VAL_VALID_UNTIL", $a_set["valid_until"]);
+        $this->tpl->setVariable("VAL_GENERATED", $a_set["generated"]);
+        $this->tpl->setVariable("VAL_USED", $a_set["used"]);
     }
 }

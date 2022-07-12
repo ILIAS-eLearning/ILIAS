@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilAtomQueryLock
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -9,8 +25,13 @@
  */
 class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
 {
-
+    /**
+     * @var string[]
+     */
     protected array $locked_table_full_names = [];
+    /**
+     * @var string[]
+     */
     protected array $locked_table_names = [];
 
 
@@ -29,7 +50,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
     /**
      * @throws \ilAtomQueryException
      */
-    protected function runWithLocks(): void
+    protected function runWithLocks() : void
     {
         $this->ilDBInstance->lockTables($this->getLocksForDBInstance());
         try {
@@ -46,7 +67,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
      * @throws \ilAtomQueryException
      * @return array<int, array<string, int|string|bool>>
      */
-    protected function getLocksForDBInstance(): array
+    protected function getLocksForDBInstance() : array
     {
         $locks = array();
         foreach ($this->tables as $table) {

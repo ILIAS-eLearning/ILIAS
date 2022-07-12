@@ -2,6 +2,19 @@
 
 namespace ILIAS\FileUpload\Collection;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ImmutableMapWrapper
  *
@@ -16,11 +29,7 @@ namespace ILIAS\FileUpload\Collection;
  */
 final class ImmutableMapWrapper implements ImmutableStringMap
 {
-
-    /**
-     * @var StringMap
-     */
-    private $map;
+    private \ILIAS\FileUpload\Collection\StringMap $map;
 
 
     /**
@@ -39,7 +48,7 @@ final class ImmutableMapWrapper implements ImmutableStringMap
     /**
      * @inheritDoc
      */
-    public function get($key)
+    public function get(string $key) : string
     {
         return $this->map->get($key);
     }
@@ -48,7 +57,7 @@ final class ImmutableMapWrapper implements ImmutableStringMap
     /**
      * @inheritDoc
      */
-    public function toArray()
+    public function toArray() : array
     {
         return $this->map->toArray();
     }
@@ -57,7 +66,7 @@ final class ImmutableMapWrapper implements ImmutableStringMap
     /**
      * @inheritDoc
      */
-    public function has($key)
+    public function has(string $key) : bool
     {
         return $this->map->has($key);
     }

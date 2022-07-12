@@ -11,22 +11,18 @@
 	<!-- END preview -->
 	<!-- preload none is currently not working in IE: http://www.longtailvideo.com/html5 (April 2012) -->
 	<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
-	<div id="player_{PLAYER_NR}_vtwrap" {STYLE} class="{WRAP_CLASS}">
-		<div>
-			<video src="{FILE}" id="player_{PLAYER_NR}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}"></video>
-			<div style="padding-top: 10px; font-size: 80%; color: #808080;">
+	<div id="player_{PLAYER_NR}_vtwrap" class="il-vt-wrap {CLASS}">
+		<div >
+				<!-- BEGIN source --><!-- END source -->
+			<video id="player_{PLAYER_NR}" src="{FILE}" xwidth="{DISPLAY_WIDTH}" xheight="{DISPLAY_HEIGHT}" style="max-width: 100%;" class="{CLASS}" poster="{POSTER}" preload="none"></video>
+			<!--<div style="padding-top: 10px; font-size: 80%; color: #808080;">
 				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
 				<p>{TITLE}</p>
 				<div>{DESCRIPTION}</div>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </div>
-	<script>
-	$(function() {
-		il.MediaObjects.setPlayerConfig('player_{PLAYER_NR}', {event_url: '{EVENT_URL}'});
-	});
-	</script>
 <!-- END mejs_video -->
 <!-- BEGIN youtube -->
 <div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter" tabindex="0" aria-label="{TXT_PLAY}">
@@ -39,13 +35,14 @@
 		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
 	<!-- END ytpreview -->
-	<div id="player_{PLAYER_NR}_vtwrap" class="{CLASS}">
-		<iframe id="player_{PLAYER_NR}" frameborder="0" allowfullscreen="1" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" src="https://www.youtube.com/embed/{PV}">
-		</iframe>
-		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
-			<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
+	<div id="player_{PLAYER_NR}_vtwrap" class="il-vt-wrap {CLASS}">
+		<div>
+		<video id="player_{PLAYER_NR}" xwidth="{DISPLAY_WIDTH}" xheight="{DISPLAY_HEIGHT}" src="{SRC}" style="max-width: 100%;" class="{CLASS}" poster="{POSTER}" preload="none"></video>
+		<!-- <div style="padding-top: 10px; font-size: 80%; color: #808080;">
+			<a href="#" onclick="il.MediaObjects.processCloseIcon(event); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
 			<p>{TITLE}</p>
 			<div>{DESCRIPTION}</div>
+		</div> -->
 		</div>
 	</div>
 </div>
@@ -72,14 +69,15 @@
 	</div>
 	<!-- END apreview -->
 	<div style="{ASTYLE}">
-	<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}" preload="none"></audio>
+	<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}" preload="meta"></audio>
 	<script>
 	$(function() {
 		$('#player_{APLAYER_NR}').mediaelementplayer({
 			success: function (mediaElement, domObject) {
 				// add event listener
 				mediaElement.addEventListener('play', function(e) {
-					il.MediaObjects.playerStarted('player_{APLAYER_NR}');
+					il.MediaObjects.current_player_id = 'player_{APLAYER_NR}';
+					il.MediaObjects.playerStarted('');
 					}, false);		
 				}
 		});

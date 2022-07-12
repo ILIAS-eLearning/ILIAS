@@ -1,31 +1,37 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityTableGUI
  */
 abstract class ilAccessibilityTableGUI extends ilTable2GUI
 {
-    /** @var ilAccessibilityTableDataProvider|null */
-    protected $provider;
+    protected ?ilAccessibilityTableDataProvider $provider;
+    protected array $visibleOptionalColumns = [];
+    protected array $optionalColumns = [];
+    protected array $filter = [];
+    protected array $optional_filter = [];
 
-    /** @var array */
-    protected $visibleOptionalColumns = [];
-
-    /** @var array */
-    protected $optionalColumns = [];
-
-    /** @var array */
-    protected $filter = [];
-
-    /** @var array */
-    protected $optional_filter = [];
-
-    /**
-     * @inheritdoc
-     */
-    public function __construct($a_parent_obj, $command = '', $a_template_context = '')
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $command = '',
+        string $a_template_context = ''
+    ) {
         parent::__construct($a_parent_obj, $command, $a_template_context);
 
         $columns = $this->getColumnDefinition();
@@ -37,67 +43,47 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
                 $this->addColumn(
                     $column['txt'],
                     isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
-                    isset($column['width']) ? $column['width'] : '',
-                    isset($column['is_checkbox']) ? (bool) $column['is_checkbox'] : false
+                    $column['width'] ?? '',
+                    isset($column['is_checkbox']) && (bool) $column['is_checkbox']
                 );
             }
         }
     }
 
-    /**
-     * @param ilAccessibilityTableDataProvider $provider
-     */
     public function setProvider(ilAccessibilityTableDataProvider $provider) : void
     {
         $this->provider = $provider;
     }
 
-    /**
-     * @return ilAccessibilityTableDataProvider|null
-     */
     public function getProvider() : ? ilAccessibilityTableDataProvider
     {
         return $this->provider;
     }
 
-    /**
-     * @param array $params
-     * @param array $filter
-     */
     protected function onBeforeDataFetched(array &$params, array &$filter) : void
     {
     }
 
     /**
      * This method can be used to add some field values dynamically or manipulate existing values of the table row array
-     * @param array $row
      */
     protected function prepareRow(array &$row) : void
     {
     }
 
-    /**
-     * @param array $data
-     */
     protected function preProcessData(array &$data) : void
     {
     }
 
     /**
      * Define a final formatting for a cell value
-     * @param string $column
-     * @param array  $row
-     * @return string
      */
     protected function formatCellValue(string $column, array $row) : string
     {
         return trim($row[$column]);
     }
 
-    /**
-     * @return array
-     */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $optionalColumns = array_filter($this->getColumnDefinition(), function ($column) {
             return isset($column['optional']) && $column['optional'];
@@ -111,10 +97,6 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
         return $columns;
     }
 
-    /**
-     * @param int $index
-     * @return bool
-     */
     protected function isColumnVisible(int $index) : bool
     {
         $columnDefinition = $this->getColumnDefinition();
@@ -135,10 +117,7 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**
-     * @param array $row
-     */
-    final protected function fillRow($row)
+    final protected function fillRow(array $row) : void
     {
         $this->prepareRow($row);
 
@@ -159,14 +138,8 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @return array
-     */
     abstract protected function getColumnDefinition() : array;
 
-    /**
-     *
-     */
     public function populate() : void
     {
         if ($this->getExternalSegmentation() && $this->getExternalSorting()) {

@@ -1,52 +1,65 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\Data;
+use ILIAS\UI\Implementation\Component\Symbol\Avatar\Letter;
+use ILIAS\UI\Implementation\Component\Symbol\Avatar\Picture;
 
 /**
  * Test items
  */
 class ItemTest extends ILIAS_UI_TestBase
 {
-
-    /**
-     * @return \ILIAS\UI\Implementation\Factory
-     */
-    public function getFactory()
+    public function getFactory() : C\Item\Factory
     {
         return new I\Component\Item\Factory();
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Item\\Standard", $f->standard("title"));
     }
 
-    public function test_get_title()
+    public function test_get_title() : void
     {
         $f = $this->getFactory();
         $c = $f->standard("title");
 
-        $this->assertEquals($c->getTitle(), "title");
+        $this->assertEquals("title", $c->getTitle());
     }
 
-    public function test_with_description()
+    public function test_with_description() : void
     {
         $f = $this->getFactory();
 
         $c = $f->standard("title")->withDescription("description");
 
-        $this->assertEquals($c->getDescription(), "description");
+        $this->assertEquals("description", $c->getDescription());
     }
 
-    public function test_with_properties()
+    public function test_with_properties() : void
     {
         $f = $this->getFactory();
 
@@ -56,7 +69,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getProperties(), $props);
     }
 
-    public function test_with_progress()
+    public function test_with_progress() : void
     {
         $f = $this->getFactory();
         $chart = new I\Component\Chart\ProgressMeter\ProgressMeter(100, 50);
@@ -66,7 +79,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getProgress(), $chart);
     }
 
-    public function test_with_actions()
+    public function test_with_actions() : void
     {
         $f = $this->getFactory();
 
@@ -79,10 +92,10 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getActions(), $actions);
     }
 
-    public function test_with_color()
+    public function test_with_color() : void
     {
         $f = $this->getFactory();
-        $df = new \ILIAS\Data\Factory();
+        $df = new Data\Factory();
 
         $color = $df->color('#ff00ff');
 
@@ -91,7 +104,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getColor(), $color);
     }
 
-    public function test_with_lead_image()
+    public function test_with_lead_image() : void
     {
         $f = $this->getFactory();
 
@@ -102,7 +115,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getLead(), $image);
     }
 
-    public function test_with_lead_icon()
+    public function test_with_lead_icon() : void
     {
         $f = $this->getFactory();
 
@@ -110,28 +123,60 @@ class ItemTest extends ILIAS_UI_TestBase
 
         $c = $f->standard("title")->withLeadIcon($icon);
 
-        $this->assertEquals($c->getLead(), $icon);
+        $this->assertEquals($icon, $c->getLead());
     }
 
-    public function test_with_lead_text()
+    public function test_with_lead_letter_avatar() : void
+    {
+        $f = $this->getFactory();
+
+        $avatar = new Letter('il');
+
+        $c = $f->standard("title")->withLeadAvatar($avatar);
+
+        $this->assertEquals($avatar, $c->getLead());
+    }
+
+    public function test_with_lead_picture_avatar() : void
+    {
+        $f = $this->getFactory();
+
+        $avatar = new Picture('./templates/default/images/no_photo_xsmall.jpg', 'demo.user');
+
+        $c = $f->standard("title")->withLeadAvatar($avatar);
+
+        $this->assertEquals($avatar, $c->getLead());
+    }
+
+    public function test_with_lead_text() : void
     {
         $f = $this->getFactory();
 
         $c = $f->standard("title")->withLeadText("text");
 
-        $this->assertEquals($c->getLead(), "text");
+        $this->assertEquals("text", $c->getLead());
     }
 
-    public function test_with_no_lead()
+    public function test_with_no_lead() : void
     {
         $f = $this->getFactory();
 
         $c = $f->standard("title")->withLeadText("text")->withNoLead();
 
-        $this->assertEquals($c->getLead(), null);
+        $this->assertEquals(null, $c->getLead());
     }
 
-    public function test_render_base()
+    public function test_with_audio_player() : void
+    {
+        $f = $this->getFactory();
+
+        $audio = new I\Component\Player\Audio("src", "transcript");
+        $c = $f->standard("title")->withAudioPlayer($audio);
+
+        $this->assertEquals($c->getAudioPlayer(), $audio);
+    }
+
+    public function test_render_base() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -200,7 +245,7 @@ EOT;
         );
     }
 
-    public function test_render_lead_image()
+    public function test_render_lead_image() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -213,10 +258,10 @@ EOT;
         $expected = <<<EOT
 <div class="il-item il-std-item ">
 	<div class="row">
-		<div class="col-sm-3">
+		<div class="col-xs-2 col-sm-3">
 			<img src="src" class="img-standard" alt="str" />
 		</div>
-		<div class="col-sm-9">
+		<div class="col-xs-10 col-sm-9">
             <div class="il-item-title">title</div>
 		</div>
 	</div>
@@ -229,7 +274,7 @@ EOT;
         );
     }
 
-    public function test_render_lead_icon()
+    public function test_render_lead_icon() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -258,7 +303,70 @@ EOT;
         );
     }
 
-    public function test_render_progress()
+    public function test_render_lead_letter_avatar() : void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $avatar = new Letter('il');
+
+        $c = $f->standard("title")->withLeadAvatar($avatar);
+
+        $html = $r->render($c);
+
+        $expected = <<<EOT
+<div class="il-item il-std-item ">
+    <div class="media">
+        <div class="media-left">
+            <span class="il-avatar il-avatar-letter il-avatar-size-large il-avatar-letter-color-11" aria-label="user_avatar" role="img">
+                <span class="abbreviation">il</span>
+            </span>
+        </div>
+        <div class="media-body">
+            <div class="il-item-title">title</div>
+        </div>
+    </div>
+</div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function test_render_lead_picture_avatar() : void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $avatar = new Picture('./templates/default/images/no_photo_xsmall.jpg', 'demo.user');
+
+        $c = $f->standard("title")->withLeadAvatar($avatar);
+
+        $html = $r->render($c);
+        $expected = <<<EOT
+<div class="il-item il-std-item ">
+    <div class="media">
+        <div class="media-left">
+            <span class="il-avatar il-avatar-picture il-avatar-size-large">
+                <img src="./templates/default/images/no_photo_xsmall.jpg" alt="user_avatar"/>
+            </span>
+        </div>
+        <div class="media-body">
+            <div class="il-item-title">title</div>
+        </div>
+    </div>
+</div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function test_render_progress() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -274,7 +382,7 @@ EOT;
 	    <div class="col-sm-9">
             <div class="il-item-title">title</div>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-xs-3 col-sm-2 col-lg-2">
 		    <div class="il-chart-progressmeter-box ">
 		        <div class="il-chart-progressmeter-container">
 		            <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
@@ -306,7 +414,7 @@ EOT;
         );
     }
 
-    public function test_render_progress_and_lead_image()
+    public function test_render_progress_and_lead_image() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -320,13 +428,13 @@ EOT;
         $expected = <<<EOT
 <div class="il-item il-std-item ">
 	<div class="row">
-	    <div class="col-sm-3">
+	    <div class="col-xs-3 col-sm-3 col-lg-2">
 			<img src="src" class="img-standard" alt="str" />
 		</div>
-	    <div class="col-sm-6">
+	    <div class="col-xs-6 col-sm-7 col-lg-8">
             <div class="il-item-title">title</div>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-xs-3 col-sm-2 col-lg-2">
 		    <div class="il-chart-progressmeter-box ">
 		        <div class="il-chart-progressmeter-container">
 		            <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
@@ -358,7 +466,7 @@ EOT;
         );
     }
 
-    public function test_render_progress_and_lead_icon()
+    public function test_render_progress_and_lead_icon() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -410,11 +518,11 @@ EOT;
         );
     }
 
-    public function test_render_lead_text_and_color()
+    public function test_render_lead_text_and_color() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
-        $df = new \ILIAS\Data\Factory();
+        $df = new Data\Factory();
 
         $color = $df->color('#ff00ff');
 
@@ -441,13 +549,13 @@ EOT;
         );
     }
 
-    public function test_shy_title_and_property()
+    public function test_shy_title_and_property() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
-        $df = new \ILIAS\Data\Factory();
+        $df = new Data\Factory();
 
-        $color = $df->color('#ff00ff');
+        $df->color('#ff00ff');
 
         $c = $f->standard(new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"))
             ->withProperties(array("test" => new I\Component\Button\Shy("GitHub", "https://www.github.com")));
@@ -478,7 +586,7 @@ EOT;
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_link_title()
+    public function test_link_title() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -491,5 +599,28 @@ EOT;
 EOT;
 
         $this->assertHTMLEquals($expected, $html);
+    }
+
+    public function test_render_audio_player() : void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $audio = new I\Component\Player\Audio("src", "");
+        $c = $f->standard("title")->withAudioPlayer($audio);
+
+        $html = $r->render($c);
+        $expected = <<<EOT
+<div class="il-item il-std-item ">
+    <div class="il-item-title">title</div>
+    <div class="il-item-audio"><div class="il-audio-container">
+    <audio class="il-audio-player" id="id_1" src="src" preload="meta"></audio>
+</div></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
     }
 }

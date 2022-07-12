@@ -25,18 +25,55 @@ namespace ILIAS\Skill\Service;
  */
 class SkillService implements SkillServiceInterface
 {
+    /**
+     * @var int ref id of skill management administration node
+     */
+    protected int $skmg_ref_id = 0;
+    protected \ilTree $repository_tree;
+    protected \ilRbacSystem $rbac_system;
+    protected int $usr_id = 0;
+
     public function __construct()
     {
+        global $DIC;
+
+        $this->repository_tree = $DIC->repositoryTree();
+        $skmg_obj = current(\ilObject::_getObjectsByType("skmg"));
+        $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences($skmg_obj["obj_id"]));
+        $this->rbac_system = $DIC->rbac()->system();
+        $this->usr_id = $DIC->user()->getId();
     }
 
+    /**
+     * External user service facade
+     */
     public function user(int $id) : SkillUserService
     {
         return new SkillUserService($id);
     }
 
+    /**
+     * External ui service facade
+     */
     public function ui() : SkillUIService
     {
         return new SkillUIService();
+    }
+
+    /**
+     * External tree service facade
+     */
+    public function tree() : SkillTreeService
+    {
+        return new SkillTreeService($this->internal());
+    }
+
+    /**
+     * External profile service facade
+     */
+    public function profile() : SkillProfileService
+    {
+        return new SkillProfileService($this->internal());
     }
 
     /**
@@ -44,6 +81,11 @@ class SkillService implements SkillServiceInterface
      */
     public function internal() : SkillInternalService
     {
-        return new SkillInternalService();
+        return new SkillInternalService(
+            $this->skmg_ref_id,
+            $this->repository_tree,
+            $this->rbac_system,
+            $this->usr_id
+        );
     }
 }

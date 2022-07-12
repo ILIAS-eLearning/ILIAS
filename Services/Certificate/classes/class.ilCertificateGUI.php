@@ -1,26 +1,20 @@
 <?php declare(strict_types=1);
 
-/*
-  +----------------------------------------------------------------------------+
-  | ILIAS open source                                                          |
-  +----------------------------------------------------------------------------+
-  | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-  |                                                                            |
-  | This program is free software; you can redistribute it and/or              |
-  | modify it under the terms of the GNU General Public License                |
-  | as published by the Free Software Foundation; either version 2             |
-  | of the License, or (at your option) any later version.                     |
-  |                                                                            |
-  | This program is distributed in the hope that it will be useful,            |
-  | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-  | GNU General Public License for more details.                               |
-  |                                                                            |
-  | You should have received a copy of the GNU General Public License          |
-  | along with this program; if not, write to the Free Software                |
-  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-  +----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
@@ -31,14 +25,13 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
 
 /**
  * GUI class to create PDF certificates
  * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @version       $Id$
  * @ingroup       Services
- * @ilCtrl_Calls  : ilCertificateGUI ilPropertyFormGUI
+ * @ilCtrl_Calls  ilCertificateGUI: ilPropertyFormGUI
  */
 class ilCertificateGUI
 {
@@ -46,7 +39,7 @@ class ilCertificateGUI
     private Filesystem $fileSystem;
     private WrapperFactory $httpWrapper;
     private Factory $refinery;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilTree $tree;
     protected ILIAS $ilias;
     protected ilGlobalPageTemplate $tpl;
@@ -55,11 +48,9 @@ class ilCertificateGUI
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     private ilCertificateTemplateRepository $templateRepository;
-    private ilFormFieldParser $formFieldParser;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private int $objectId;
     private ilCertificateFormRepository $settingsFormFactory;
-    private ilCertificatePlaceholderValues $placeholderValuesObject;
     private ilXlsFoParser $xlsFoParser;
     private ilCertificateDeleteAction $deleteAction;
     private ilCertificateTemplateExportAction $exportAction;
@@ -70,6 +61,7 @@ class ilCertificateGUI
     private ilSetting $settings;
     private ilPageFormats $pageFormats;
     private Filesystem $tmp_file_system;
+    private ilLogger $logger;
 
     public function __construct(
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -81,7 +73,6 @@ class ilCertificateGUI
         ?ilCertificateTemplateRepository $templateRepository = null,
         ?ilPageFormats $pageFormats = null,
         ?ilXlsFoParser $xlsFoParser = null,
-        ?ilFormFieldParser $formFieldParser = null,
         ?ilCertificateTemplateExportAction $exportAction = null,
         ?ilCertificateBackgroundImageUpload $upload = null,
         ?ilCertificateTemplatePreviewAction $previewAction = null,
@@ -112,11 +103,9 @@ class ilCertificateGUI
 
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
-        $this->placeholderValuesObject = $placeholderValuesObject;
-
         $this->objectId = $objectId;
 
-        $logger = $DIC->logger()->cert();
+        $this->logger = $DIC->logger()->cert();
 
         if (null === $settingsFormFactory) {
             $settingsFormFactory = new ilCertificateSettingsFormRepository(
@@ -133,7 +122,7 @@ class ilCertificateGUI
         $this->settingsFormFactory = $settingsFormFactory;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateDatabaseRepository($DIC->database(), $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($DIC->database(), $this->logger);
         }
         $this->templateRepository = $templateRepository;
 
@@ -141,11 +130,6 @@ class ilCertificateGUI
             $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
         }
         $this->deleteAction = $deleteAction;
-
-        if (null === $formFieldParser) {
-            $formFieldParser = new ilFormFieldParser();
-        }
-        $this->formFieldParser = $formFieldParser;
 
         if (null === $pageFormats) {
             $pageFormats = new ilPageFormats($DIC->language());
@@ -162,7 +146,7 @@ class ilCertificateGUI
                 $DIC->upload(),
                 $certificatePath,
                 $DIC->language(),
-                $logger
+                $this->logger
             );
         }
         $this->backgroundImageUpload = $upload;
@@ -267,7 +251,7 @@ class ilCertificateGUI
         try {
             $this->previewAction->createPreviewPdf($this->objectId);
         } catch (Exception $exception) {
-            ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf', true));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
             $this->certificateEditor();
         }
     }
@@ -412,7 +396,7 @@ class ilCertificateGUI
 
             /** @var ilObject $object */
             $object = ilObjectFactory::getInstanceByObjId($this->objectId);
-            if (ilLPObjSettings::LP_MODE_DEACTIVATED == $mode && $object->getType() !== 'crs') {
+            if (ilLPObjSettings::LP_MODE_DEACTIVATED === $mode && $object->getType() !== 'crs') {
                 global $DIC;
 
                 $renderer = $DIC->ui()->renderer();
@@ -492,13 +476,13 @@ class ilCertificateGUI
                             $this->fileUpload->process();
                         }
 
-                        /** @var UploadResult $result */
                         $uploadResults = $this->fileUpload->getResults();
                         $pending_card_file = $form->getInput('certificate_card_thumbnail_image');
                         $cardThumbnailFileName = 'card_thumbnail_image_' . $nextVersion . '.svg';
                         if (isset($uploadResults[$temporaryFileName])) {
+                            /** @var UploadResult $result */
                             $result = $uploadResults[$temporaryFileName];
-                            if ($result->getStatus() == ProcessingStatus::OK) {
+                            if ($result->isOK()) {
                                 $this->fileUpload->moveOneFileTo(
                                     $result,
                                     $this->certificatePath,
@@ -545,7 +529,7 @@ class ilCertificateGUI
                     ])
                 );
 
-                $active = (bool) $form_fields['active'];
+                $active = (bool) ($form_fields['active'] ?? false);
 
                 if ($newHashValue !== $previousCertificateTemplate->getCertificateHash()) {
                     $certificateTemplate = new ilCertificateTemplate(
@@ -563,20 +547,24 @@ class ilCertificateGUI
                     );
 
                     $this->templateRepository->save($certificateTemplate);
-                    ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
                     $this->ctrl->redirect($this, "certificateEditor");
                 }
 
                 if ($previousCertificateTemplate->getId() !== null && $previousCertificateTemplate->isCurrentlyActive() !== $active) {
                     $this->templateRepository->updateActivity($previousCertificateTemplate, $active);
-                    ilUtil::sendInfo($this->lng->txt('certificate_change_active_status'), true);
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_change_active_status'), true);
                     $this->ctrl->redirect($this, "certificateEditor");
                 }
 
-                ilUtil::sendInfo($this->lng->txt('certificate_same_not_saved'), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_same_not_saved'), true);
                 $this->ctrl->redirect($this, "certificateEditor");
             } catch (Exception $e) {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $e->getMessage()
+                );
+                $this->logger->error($e->getTraceAsString());
             }
         }
 
@@ -598,21 +586,19 @@ class ilCertificateGUI
     private function createFormatArray(ilCertificateTemplate $certificateTemplate) : array
     {
         if ('' === $certificateTemplate->getCertificateHash()) {
-            $format = $this->settings->get('pageformat');
+            $format = $this->settings->get('pageformat', '');
             $formats = $this->pageFormats->fetchPageFormats();
 
-            $formFieldArray = [
+            return [
                 'pageformat' => $format,
-                'pagewidth' => $formats['width'],
-                'pageheight' => $formats['height'],
+                'pagewidth' => $formats['width'] ?? '',
+                'pageheight' => $formats['height'] ?? '',
                 'margin_body_top' => ilPageFormats::DEFAULT_MARGIN_BODY_TOP,
                 'margin_body_right' => ilPageFormats::DEFAULT_MARGIN_BODY_RIGHT,
                 'margin_body_bottom' => ilPageFormats::DEFAULT_MARGIN_BODY_BOTTOM,
                 'margin_body_left' => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
                 'certificate_text' => $certificateTemplate->getCertificateContent()
             ];
-
-            return $formFieldArray;
         }
         return $this->settingsFormFactory->fetchFormFieldData($certificateTemplate->getCertificateContent());
     }

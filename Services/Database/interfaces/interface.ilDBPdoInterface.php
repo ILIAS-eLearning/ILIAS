@@ -1,42 +1,49 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Interface ilDBPdoInterface
  */
 interface ilDBPdoInterface extends ilDBInterface
 {
-
     public function getServerVersion(bool $native = false) : int;
 
-    /**
-     * @return mixed[]
-     */
     public function queryCol(string $query, int $type = ilDBConstants::FETCHMODE_DEFAULT, int $colnum = 0) : array;
 
-    /**
-     * @param array|null $types
-     * @return mixed[]
-     */
     public function queryRow(
         string $query,
-        array $types = null,
+        ?array $types = null,
         int $fetchmode = ilDBConstants::FETCHMODE_DEFAULT
     ) : array;
 
-    /**
-     * @param mixed $value
-     */
-    public function escape($value, bool $escape_wildcards = false) : string;
+    public function escape(string $value, bool $escape_wildcards = false) : string;
 
     public function escapePattern(string $text) : string;
-
+    
+    public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB) : bool;
     /**
      * @return array of failed tables
      */
     public function migrateAllTablesToEngine(string $engine = ilDBConstants::MYSQL_ENGINE_INNODB) : array;
 
     public function supportsEngineMigration() : bool;
-
+    
+    public function migrateTableCollation(string $table_name, string $collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4) : bool;
     /**
      * @return array of failed tables
      */
@@ -44,10 +51,7 @@ interface ilDBPdoInterface extends ilDBInterface
 
     public function supportsCollationMigration() : bool;
 
-    /**
-     * @param string $name
-     */
-    public function addUniqueConstraint(string $table, array $fields, $name = "con") : bool;
+    public function addUniqueConstraint(string $table, array $fields, string $name = "con") : bool;
 
     public function dropUniqueConstraint(string $table, string $name = "con") : bool;
 

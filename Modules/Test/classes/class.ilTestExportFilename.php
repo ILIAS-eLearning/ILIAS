@@ -32,7 +32,7 @@ class ilTestExportFilename
     /**
      * @return int
      */
-    public function getTimestamp()
+    public function getTimestamp() : int
     {
         return $this->timestamp;
     }
@@ -43,7 +43,7 @@ class ilTestExportFilename
      * @return string
      * @throws ilException
      */
-    public function getPathname($extension, $additional = '')
+    public function getPathname($extension, $additional = '') : string
     {
         if (!is_string($extension) || !strlen($extension)) {
             throw new ilException('Missing file extension! Please pass a file extension of type string.');

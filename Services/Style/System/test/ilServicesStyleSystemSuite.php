@@ -1,28 +1,38 @@
 <?php
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
-
 class ilServicesStyleSystemSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : TestSuite
     {
         $suite = new ilServicesStyleSystemSuite();
 
-        $base_dir = "./Services/Style/System/test/";
+        $base_dir = './Services/Style/System/test/';
+        $rec_it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir));
 
-        $dir = opendir($base_dir);
-        while ($file = readdir($dir)) {
-            if (strpos($file, 'Test.php') !== false) {
-                include_once($base_dir . $file);
-                $test_class = str_replace(".php", "", $file);
+        foreach ($rec_it as $file) {
+            if (strpos($file->getFilename(), 'Test.php') !== false) {
+                include_once($file->getPathname());
+                $test_class = str_replace('.php', '', $file->getFilename());
                 $suite->addTestSuite($test_class);
             }
         }

@@ -14,14 +14,12 @@ abstract class ilAssLacAbstractManufacturer implements ilAssLacManufacturerInter
 
     /**
      * Matches a delivered string with a the pattern returned by getPattern implemented in the explicit Manufacturer
-     *
      * @param string $subject
-     * @throws ilAssLacUnableToParseCondition
-     *
-     * @see ManufacturerInterface::getPattern()
      * @return array
+     *@throws ilAssLacUnableToParseCondition
+     * @see ManufacturerInterface::getPattern()
      */
-    public function match($subject)
+    public function match(string $subject) : array
     {
         $matches = array();
         $num_matches = preg_match_all($this->getPattern(), $subject, $matches);

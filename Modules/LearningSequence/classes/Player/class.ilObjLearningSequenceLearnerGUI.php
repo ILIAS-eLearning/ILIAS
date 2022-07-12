@@ -1,8 +1,23 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+ 
 class ilObjLearningSequenceLearnerGUI
 {
     const CMD_STANDARD = 'learnerView';
@@ -10,11 +25,10 @@ class ilObjLearningSequenceLearnerGUI
     const CMD_UNSUBSCRIBE = 'unsubscribe';
     const CMD_VIEW = 'view';
     const CMD_START = 'start';
+    const PARAM_LSO_NEXT_ITEM = 'lsoni';
+    const LSO_CMD_NEXT = 'lson';
+    const LSO_CMD_PREV = 'lsop';
 
-    protected int $ls_ref_id;
-    protected bool $has_items;
-    protected string $first_access;
-    protected int $usr_id;
     protected ilAccess $access;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -25,13 +39,15 @@ class ilObjLearningSequenceLearnerGUI
     protected ilLearningSequenceRoles $roles;
     protected ilLearningSequenceSettings $settings;
     protected ilLSCurriculumBuilder $curriculum_builder;
+    protected ilLSLaunchlinksBuilder $launchlinks_builder;
     protected ilLSPlayer $player;
-    protected ArrayAccess $get;
+    protected string $intro;
+    protected string $extro;
+    protected RequestWrapper $get;
+    
+
 
     public function __construct(
-        int $ls_ref_id,
-        bool $has_items,
-        string $first_access,
         int $usr_id,
         ilAccess $access,
         ilCtrl $ctrl,
@@ -43,12 +59,12 @@ class ilObjLearningSequenceLearnerGUI
         ilLearningSequenceRoles $roles,
         ilLearningSequenceSettings $settings,
         ilLSCurriculumBuilder $curriculum_builder,
+        ilLSLaunchlinksBuilder $launchlinks_builder,
         ilLSPlayer $player,
-        ArrayAccess $get
+        string $intro,
+        string $extro,
+        RequestWrapper $get
     ) {
-        $this->ls_ref_id = $ls_ref_id;
-        $this->has_items = $has_items;
-        $this->first_access = $first_access;
         $this->usr_id = $usr_id;
         $this->access = $access;
         $this->ctrl = $ctrl;
@@ -60,7 +76,10 @@ class ilObjLearningSequenceLearnerGUI
         $this->roles = $roles;
         $this->settings = $settings;
         $this->curriculum_builder = $curriculum_builder;
+        $this->launchlinks_builder = $launchlinks_builder;
         $this->player = $player;
+        $this->intro = $intro;
+        $this->extro = $extro;
         $this->get = $get;
     }
 
@@ -77,7 +96,7 @@ class ilObjLearningSequenceLearnerGUI
                 $this->ctrl->redirect($this, self::CMD_VIEW);
                 break;
             case self::CMD_UNSUBSCRIBE:
-                if ($this->userMayUnparticipate()) {
+                if ($this->launchlinks_builder->currentUserMayUnparticipate()) {
                     $this->roles->leave($this->usr_id);
                 }
                 $this->ctrl->redirect($this, self::CMD_STANDARD);
@@ -86,10 +105,6 @@ class ilObjLearningSequenceLearnerGUI
                 $this->play();
                 break;
 
-            case LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP:
-                $this->getCurrentItemLearningProgress();
-
-                // no break
             default:
                 throw new ilException(
                     "ilObjLearningSequenceLearnerGUI: " .
@@ -100,15 +115,20 @@ class ilObjLearningSequenceLearnerGUI
 
     protected function view(string $cmd) : void
     {
-        $this->initToolbar($cmd);
-        
-        $content = $this->getMainContent($cmd);
-        $this->tpl->setContent(
-            $this->getWrappedHTML($content)
+        $content = $this->getWrappedHTML(
+            $this->getMainContent($cmd)
         );
-        
-        $curriculum = $this->curriculum_builder->getLearnerCurriculum();
-        if (count($curriculum->getSteps()) > 0) {
+
+        $this->tpl->setContent($content);
+
+        $element = '<' . ilPCLauncher::PCELEMENT . '>';
+        if (!str_contains($content, $element)) {
+            $this->initToolbar($cmd);
+        }
+
+        $element = '<' . ilPCCurriculum::PCELEMENT . '>';
+        if (!str_contains($content, $element)) {
+            $curriculum = $this->curriculum_builder->getLearnerCurriculum();
             $this->tpl->setRightContent(
                 $this->getWrappedHTML([$curriculum])
             );
@@ -123,73 +143,14 @@ class ilObjLearningSequenceLearnerGUI
         }
     }
 
-    protected function userMayUnparticipate() : bool
+    protected function initToolbar(string $cmd)
     {
-        return $this->access->checkAccess('unparticipate', '', $this->ls_ref_id);
-    }
-
-    protected function userMayJoin() : bool
-    {
-        return $this->access->checkAccess('participate', '', $this->ls_ref_id);
-    }
-
-    protected function initToolbar(string $cmd) : void
-    {
-        $is_member = $this->roles->isMember($this->usr_id);
-        $completed = $this->roles->isCompletedByUser($this->usr_id);
-        $has_items = $this->has_items;
-
-        if (!$is_member) {
-            if ($has_items) {
-                $may_subscribe = $this->userMayJoin();
-                if ($may_subscribe) {
-                    $this->toolbar->addButton(
-                        $this->lng->txt("lso_player_start"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_START)
-                    );
-                }
-            }
-        } else {
-            if (!$completed) {
-                if ($has_items) {
-                    $label = "lso_player_resume";
-                    if ($this->first_access === '-1') {
-                        $label = "lso_player_start";
-                    }
-
-                    $this->toolbar->addButton(
-                        $this->lng->txt($label),
-                        $this->ctrl->getLinkTarget($this, self::CMD_VIEW)
-                    );
-                }
-            } else {
-                if ($has_items) {
-                    $this->toolbar->addButton(
-                        $this->lng->txt("lso_player_review"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_VIEW)
-                    );
-                }
-                if ($cmd === self::CMD_STANDARD) {
-                    $this->toolbar->addButton(
-                        $this->lng->txt("lso_player_extro"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_EXTRO)
-                    );
-                }
-                if ($cmd === self::CMD_EXTRO) {
-                    $this->toolbar->addButton(
-                        $this->lng->txt("lso_player_abstract"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_STANDARD)
-                    );
-                }
-            }
-
-            $may_unsubscribe = $this->userMayUnparticipate();
-            if ($may_unsubscribe) {
-                $this->toolbar->addButton(
-                    $this->lng->txt("unparticipate"),
-                    $this->ctrl->getLinkTarget($this, self::CMD_UNSUBSCRIBE)
-                );
-            }
+        foreach ($this->launchlinks_builder->getLinks() as $entry) {
+            list($label, $link) = $entry;
+            $this->toolbar->addButton(
+                $label,
+                $link
+            );
         }
     }
 
@@ -204,29 +165,34 @@ class ilObjLearningSequenceLearnerGUI
         return $this->renderer->render($components);
     }
 
-    /**
-     * @return array<mixed>
-     */
     private function getMainContent(string $cmd) : array
     {
-        $txt = '';
-        $img = '';
+        $img = null;
+        $contents = [];
 
         if ($cmd === self::CMD_STANDARD) {
-            $txt = $this->settings->getAbstract();
-            $img = $this->settings->getAbstractImage();
+            if ($this->intro === '') {
+                $contents[] = $this->ui_factory->legacy($this->settings->getAbstract());
+                $img = $this->settings->getAbstractImage();
+                if ($img) {
+                    $contents[] = $this->ui_factory->image()->responsive($img, '');
+                }
+            } else {
+                $contents[] = $this->ui_factory->legacy($this->intro);
+            }
         }
 
         if ($cmd === self::CMD_EXTRO) {
-            $txt = $this->settings->getExtro();
-            $img = $this->settings->getExtroImage();
+            if ($this->extro === '') {
+                $contents[] = $this->ui_factory->legacy($this->settings->getExtro());
+                $img = $this->settings->getExtroImage();
+                if ($img) {
+                    $contents[] = $this->ui_factory->image()->responsive($img, '');
+                }
+            } else {
+                $contents[] = $this->ui_factory->legacy($this->intro);
+            }
         }
-
-        $contents = [$this->ui_factory->legacy($txt)];
-        if ($img !== '') {
-            $contents[] = $this->ui_factory->image()->responsive($img, '');
-        }
-
         return $contents;
     }
 
@@ -237,7 +203,7 @@ class ilObjLearningSequenceLearnerGUI
         switch ($response) {
             case null:
                 //render the page
-                $this->tpl->enableDragDropFileUpload(null);
+                $this->tpl->setFileUploadRefId(0);
                 $this->tpl->setContent('THIS SHOULD NOT SHOW');
                 return;
 
@@ -252,11 +218,5 @@ class ilObjLearningSequenceLearnerGUI
         }
         $href = $this->ctrl->getLinkTarget($this, $cmd, '', false, false);
         \ilUtil::redirect($href);
-    }
-
-    protected function getCurrentItemLearningProgress() : void
-    {
-        print $this->player->getCurrentItemLearningProgress();
-        exit;
     }
 }

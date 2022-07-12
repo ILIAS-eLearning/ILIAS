@@ -1,59 +1,50 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use \ILIAS\Wiki\Export\WikiHtmlExport;
+use ILIAS\Wiki\Export\WikiHtmlExport;
 
 /**
  *  Class manages user html export
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiUserHTMLExport
 {
-    const PROCESS_OTHER_USER = 0;	// another user has started a running export
-    const PROCESS_STARTED = 1;		// export has been started by current user
-    const PROCESS_UPTODATE = 2;		// no export necessary, current export is up-to-date
+    public const PROCESS_OTHER_USER = 0;	// another user has started a running export
+    public const PROCESS_STARTED = 1;		// export has been started by current user
+    public const PROCESS_UPTODATE = 2;		// no export necessary, current export is up-to-date
 
+    public const NOT_RUNNING = 0;
+    public const RUNNING = 1;
 
-    const NOT_RUNNING = 0;
-    const RUNNING = 1;
+    protected ?array $data = null;
+    protected ilDBInterface $db;
+    protected \ilObjWiki $wiki;
+    protected ilObjUser $user;
+    protected ilLogger$log;
+    protected bool $with_comments = false;
 
-    protected $data;
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var \ilObjWiki
-     */
-    protected $wiki;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * @var bool
-     */
-    protected $with_comments = false;
-
-    /**
-     * Construct
-     *
-     * @param
-     * @return
-     */
-    public function __construct(ilObjWiki $a_wiki, ilDBInterface $a_db, ilObjUser $a_user, $with_comments = false)
-    {
+    public function __construct(
+        ilObjWiki $a_wiki,
+        ilDBInterface $a_db,
+        ilObjUser $a_user,
+        bool $with_comments = false
+    ) {
         $this->db = $a_db;
         $this->wiki = $a_wiki;
         $this->user = $a_user;
@@ -63,13 +54,7 @@ class ilWikiUserHTMLExport
         $this->log->debug("comments: " . $this->with_comments);
     }
 
-    /**
-     * Read
-     *
-     * @param
-     * @return
-     */
-    protected function read()
+    protected function read() : void
     {
         $set = $this->db->query(
             "SELECT * FROM wiki_user_html_export " .
@@ -81,13 +66,7 @@ class ilWikiUserHTMLExport
         }
     }
 
-    /**
-     * Get process
-     *
-     * @param
-     * @return
-     */
-    protected function getProcess()
+    protected function getProcess() : int
     {
         $this->log->debug("getProcess");
         $last_change = ilPageObject::getLastChangeByParent("wpg", $this->wiki->getId());
@@ -102,7 +81,7 @@ class ilWikiUserHTMLExport
             $this->read();
             $ts = ilUtil::now();
 
-            if ($this->data["start_ts"] != "" &&
+            if (($this->data["start_ts"] ?? "") != "" &&
                 $this->data["start_ts"] > $last_change) {
                 if ($file_exists) {
                     $ret = self::PROCESS_UPTODATE;
@@ -139,7 +118,7 @@ class ilWikiUserHTMLExport
                 $this->read();
             }
 
-            if ($this->data["start_ts"] == $ts && $this->data["usr_id"] == $this->user->getId()) {
+            if (($this->data["start_ts"] ?? "") == $ts && $this->data["usr_id"] == $this->user->getId()) {
                 //  we started the process
                 $ret = self::PROCESS_STARTED;
                 $this->log->debug("return: " . self::PROCESS_STARTED);
@@ -158,18 +137,14 @@ class ilWikiUserHTMLExport
         return $ret;
     }
 
-    /**
-     * Update status
-     *
-     * @param
-     * @return
-     */
-    public function updateStatus($a_progress, $a_status)
-    {
+    public function updateStatus(
+        int $a_progress,
+        int $a_status
+    ) : void {
         $this->db->manipulate(
             "UPDATE wiki_user_html_export SET " .
-            " progress = " . $this->db->quote((int) $a_progress, "integer") . "," .
-            " status = " . $this->db->quote((int) $a_status, "integer") .
+            " progress = " . $this->db->quote($a_progress, "integer") . "," .
+            " status = " . $this->db->quote($a_status, "integer") .
             " WHERE wiki_id = " . $this->db->quote($this->wiki->getId(), "integer") .
             " AND usr_id = " . $this->db->quote($this->user->getId(), "integer") .
             " AND with_comments = " . $this->db->quote($this->with_comments, "integer")
@@ -178,13 +153,7 @@ class ilWikiUserHTMLExport
         $this->read();
     }
 
-    /**
-     * Get Progress
-     *
-     * @param
-     * @return
-     */
-    public function getProgress()
+    public function getProgress() : array
     {
         $set = $this->db->query(
             "SELECT progress, status FROM wiki_user_html_export " .
@@ -196,24 +165,14 @@ class ilWikiUserHTMLExport
         return array("progress" => (int) $rec["progress"], "status" => (int) $rec["status"]);
     }
 
-
-    /**
-     * Init user html export
-     *
-     * @param
-     * @return
-     */
-    public function initUserHTMLExport()
+    public function initUserHTMLExport() : void
     {
         // get process, if not already running or export is up-to-date, return corresponding status
         echo $this->getProcess();
         exit;
     }
 
-    /**
-     * Start user html export
-     */
-    public function startUserHTMLExport()
+    public function startUserHTMLExport() : void
     {
         ignore_user_abort(true);
         // do the export
@@ -229,10 +188,7 @@ class ilWikiUserHTMLExport
         exit;
     }
 
-    /**
-     * Does file exist?
-     */
-    protected function doesFileExist()
+    protected function doesFileExist() : bool
     {
         $exp = new WikiHtmlExport($this->wiki);
         if ($this->with_comments) {
@@ -244,10 +200,7 @@ class ilWikiUserHTMLExport
         return is_file($file);
     }
 
-    /**
-     * Deliver file
-     */
-    public function deliverFile()
+    public function deliverFile() : void
     {
         $this->log->debug("deliver");
 
@@ -259,6 +212,6 @@ class ilWikiUserHTMLExport
         }
         $file = $exp->getUserExportFile();
         $this->log->debug("file: " . $file);
-        ilUtil::deliverFile($file, pathinfo($file, PATHINFO_BASENAME));
+        ilFileDelivery::deliverFileLegacy($file, pathinfo($file, PATHINFO_BASENAME));
     }
 }

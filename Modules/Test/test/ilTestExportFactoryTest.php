@@ -43,9 +43,5 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
         $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
         $testObj = new ilTestExportFactory($objTest);
         $this->assertInstanceOf(ilTestExportRandomQuestionSet::class, $testObj->getExporter());
-
-        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_DYNAMIC);
-        $testObj = new ilTestExportFactory($objTest);
-        $this->assertInstanceOf(ilTestExportDynamicQuestionSet::class, $testObj->getExporter());
     }
 }

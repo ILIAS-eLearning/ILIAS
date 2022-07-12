@@ -5,11 +5,14 @@
 {TOP_FORMBUTTONS}
 <!-- BEGIN row -->
 <div class="ilInfoScreenSec form-horizontal" id="infoscreen_section_{SECTION_ID}"{SECTION_HIDDEN}>
-	<h2 class="ilHeader">{TXT_SECTION}</h2>
+	<div class="ilFormHeader clearfix">
+		<h2 class="ilHeader">{TXT_SECTION}</h2>
+	</div>
+
 	<!-- BEGIN property_row -->
 	<div class="form-group">
-		<div class="il_InfoScreenProperty control-label col-xs-3">{TXT_PROPERTY}</div>
-		<div class="il_InfoScreenPropertyValue col-xs-9">
+		<div class="il_InfoScreenProperty control-label col-sm-4 col-md-3 col-lg-2">{TXT_PROPERTY}</div>
+		<div class="il_InfoScreenPropertyValue col-sm-8 col-md-9 col-lg-10">
 			<!-- BEGIN pv -->{TXT_PROPERTY_VALUE}<!-- END pv -->
 			<!-- BEGIN lpv --><a href="{LINK_PROPERTY_VALUE}">{TXT_PROPERTY_LVALUE}</a><!-- END lpv -->
 		</div>

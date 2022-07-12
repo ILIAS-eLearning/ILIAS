@@ -1,19 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilUIHookPluginGUI
  *
- * @author  Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUIHookPluginGUI
 {
+    protected ?ilUserInterfaceHookPlugin $plugin_object = null;
 
-    /**
-     * @var ilUserInterfaceHookPlugin
-     */
-    protected $plugin_object = null;
     public const UNSPECIFIED = '';
     public const KEEP = '';
     public const REPLACE = 'r';
@@ -21,29 +32,18 @@ class ilUIHookPluginGUI
     public const PREPEND = 'p';
 
 
-    /**
-     * @param ilUserInterfaceHookPlugin $a_val
-     */
-    final public function setPluginObject($a_val)
+    final public function setPluginObject(ilUserInterfaceHookPlugin $a_val) : void
     {
         $this->plugin_object = $a_val;
     }
 
-
-    /**
-     * @return ilUserInterfaceHookPlugin
-     */
-    final public function getPluginObject()
+    final public function getPluginObject() : ?ilUserInterfaceHookPlugin
     {
         return $this->plugin_object;
     }
 
 
     /**
-     * @param string $a_comp component
-     * @param string $a_part string that identifies the part of the UI that is handled
-     * @param array  $a_par  array of parameters (depend on $a_comp and $a_part)
-     *
      * @return array array with entries "mode" => modification mode, "html" => your html
      * @deprecated Note this method is deprecated. There are several issues with hacking into already rendered html
      *             as provided here:
@@ -59,17 +59,16 @@ class ilUIHookPluginGUI
      * - ilUIHookPluginGUI::PREPEND (Prepend your HTML to the default HTML)
      *
      */
-    public function getHTML($a_comp, $a_part, $a_par = array())
-    {
+    public function getHTML(
+        string $a_comp,
+        string $a_part,
+        array $a_par = array()
+    ) : array {
         return array('mode' => self::KEEP, 'html' => '');
     }
 
 
     /**
-     * @param string $a_comp component
-     * @param string $a_part string that identifies the part of the UI that is handled
-     * @param array  $a_par  array of parameters (depend on $a_comp and $a_part)
-     *
      * @deprecated Note this method is deprecated. User Interface components are migrated towards the UIComponents and
      *             Global Screen which do not make use of the mechanism provided here. Make use of the extension possibilities provided
      *             by Global Screen and UI Components instead.
@@ -82,23 +81,23 @@ class ilUIHookPluginGUI
      * Allows to modify user interface objects before they generate their output.
      *
      */
-    public function modifyGUI($a_comp, $a_part, $a_par = array())
-    {
+    public function modifyGUI(
+        string $a_comp,
+        string $a_part,
+        array $a_par = array()
+    ) : void {
     }
 
 
     /**
-     * @param string    default html
-     * @param string    response from plugin
-     *
-     * @return    string    modified html
      * @deprecated Reason, see getHTML
      *
      * Modify HTML based on default html and plugin response
-     *
      */
-    final public function modifyHTML($a_def_html, $a_resp)
-    {
+    final public function modifyHTML(
+        string $a_def_html,
+        array $a_resp
+    ) : string {
         switch ($a_resp['mode']) {
             case self::REPLACE:
                 $a_def_html = $a_resp['html'];
@@ -120,7 +119,7 @@ class ilUIHookPluginGUI
      *
      * Can be used to interfere with the goto script behaviour
      */
-    public function gotoHook()
+    public function gotoHook() : void
     {
     }
 
@@ -130,7 +129,7 @@ class ilUIHookPluginGUI
      *
      * Can be used to interfere with the goto script behaviour
      */
-    public function checkGotoHook($a_target)
+    public function checkGotoHook(string $a_target) : array
     {
         return array('target' => false);
     }

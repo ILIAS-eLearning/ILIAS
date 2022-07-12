@@ -1,10 +1,19 @@
 <?php
-// declare(strict_types=1);
-
-require_once('./libs/composer/vendor/autoload.php');
-
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * TestCase for the ilWACCheckingInstanceTest
  *
@@ -24,24 +33,10 @@ class ilWACPathTest //extends MockeryTestCase
      */
     protected function setUp() : void
     {
-        require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
-        require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-
-        //setup container for HttpServiceAware classes
-        /*
-        $container = new \ILIAS\DI\Container();
-        $container['http'] = function ($c) {
-            return Mockery::mock(GlobalHttpState::class);
-        };
-
-
-        $GLOBALS["DIC"] = $container; */
-
-        parent::setUp();
     }
 
 
-    public function testMobs()
+    public function testMobs() : void
     {
         $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/mobs/mm_270/Koeniz_Komturei1.jpg');
         $this->assertEquals('mobs', $ilWacPath->getModuleType());
@@ -55,7 +50,7 @@ class ilWACPathTest //extends MockeryTestCase
     }
 
 
-    public function testUserImage()
+    public function testUserImage() : void
     {
         $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/usr_images/usr_6_small.jpg?t=63944');
         $this->assertEquals('usr_images', $ilWacPath->getModuleType());
@@ -70,7 +65,7 @@ class ilWACPathTest //extends MockeryTestCase
     }
 
 
-    public function testBlogInSec()
+    public function testBlogInSec() : void
     {
         $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/sec/ilBlog/blog_123/Header.mp4');
         $this->assertEquals('ilBlog', $ilWacPath->getModuleType());
@@ -85,7 +80,7 @@ class ilWACPathTest //extends MockeryTestCase
     }
 
 
-    public function testSubfolders()
+    public function testSubfolders() : void
     {
         $ilWacPathBase = new ilWACPath('http://trunk.local/data/trunk/lm_data/lm_123456/start.html');
         $ilWacPathSub = new ilWACPath('http://trunk.local/data/trunk/lm_data/lm_123456/subfolder/image.png');

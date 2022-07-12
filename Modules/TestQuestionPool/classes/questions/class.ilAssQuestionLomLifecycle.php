@@ -39,7 +39,7 @@ class ilAssQuestionLomLifecycle
     /**
      * @return string
      */
-    public function getIdentifier()
+    public function getIdentifier() : string
     {
         return $this->identifier;
     }
@@ -48,7 +48,7 @@ class ilAssQuestionLomLifecycle
      * @param string $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function setIdentifier($identifier)
+    public function setIdentifier($identifier) : void
     {
         $this->validateIdentifier($identifier);
         $this->identifier = $identifier;
@@ -57,7 +57,7 @@ class ilAssQuestionLomLifecycle
     /**
      * @return string[]
      */
-    public function getValidIdentifiers()
+    public function getValidIdentifiers() : array
     {
         return [self::DRAFT, self::FINAL, self::REVISED, self::UNAVAILABLE];
     }
@@ -66,7 +66,7 @@ class ilAssQuestionLomLifecycle
      * @param string $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function validateIdentifier($identifier)
+    public function validateIdentifier($identifier) : void
     {
         if (!in_array($identifier, $this->getValidIdentifiers())) {
             throw new ilTestQuestionPoolInvalidArgumentException(
@@ -78,7 +78,7 @@ class ilAssQuestionLomLifecycle
     /**
      * @return string
      */
-    public function getMappedIliasLifecycleIdentifer()
+    public function getMappedIliasLifecycleIdentifer() : string
     {
         switch ($this->getIdentifier()) {
             case self::UNAVAILABLE:

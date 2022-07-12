@@ -1,46 +1,47 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-declare(strict_types=1);
-
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeAssessmentSettings
 {
-    const STATUS_DRAFT = 10;
-    const STATUS_ACTIVE = 20;
-    const STATUS_OUTDATED = 30;
+    public const STATUS_DRAFT = 10;
+    public const STATUS_ACTIVE = 20;
+    public const STATUS_OUTDATED = 30;
 
-    public static $STATUS = array(
+    public static array $STATUS = [
         self::STATUS_DRAFT,
         self::STATUS_ACTIVE,
         self::STATUS_OUTDATED
-    );
+    ];
 
-    /**
-     * @var int
-     */
-    protected $points;
-
-    /**
-     * @var int
-     */
-    protected $status;
+    protected int $points;
+    protected int $status;
 
     public function __construct(int $points, int $status)
     {
         if (0 > $points) {
-            throw new InvalidArgumentException(
-                'Numbers less than 0 are not allowed'
-            );
+            throw new InvalidArgumentException('Numbers less than 0 are not allowed');
         }
 
         if (!in_array($status, self::$STATUS)) {
-            throw new InvalidArgumentException(
-                'No valid status: ' . '\'$status\''
-            );
+            throw new InvalidArgumentException("No valid status: '$status'");
         }
 
         $this->points = $points;
@@ -55,9 +56,7 @@ class ilStudyProgrammeAssessmentSettings
     public function withPoints(int $points) : ilStudyProgrammeAssessmentSettings
     {
         if (0 > $points) {
-            throw new InvalidArgumentException(
-                'Numbers less than 0 are not allowed'
-            );
+            throw new InvalidArgumentException('Numbers less than 0 are not allowed');
         }
 
         $clone = clone $this;
@@ -73,9 +72,7 @@ class ilStudyProgrammeAssessmentSettings
     public function withStatus(int $status) : ilStudyProgrammeAssessmentSettings
     {
         if (!in_array($status, self::$STATUS)) {
-            throw new InvalidArgumentException(
-                'No valid status: ' . '\'$status\''
-            );
+            throw new InvalidArgumentException("No valid status: '$status'");
         }
 
         $clone = clone $this;
@@ -85,13 +82,13 @@ class ilStudyProgrammeAssessmentSettings
 
     public function toFormInput(
         Field\Factory $input,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         Refinery $refinery
     ) : Field\Input {
         $num = $input
             ->numeric($lng->txt('prg_points'), $lng->txt('prg_points_byline'))
             ->withValue($this->getPoints())
-            ->withAdditionalTransformation($refinery->int()->isGreaterThan(-1))
+            ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
         ;
         $select = $input
             ->select(

@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Base class for object lp connectors
  *
@@ -9,184 +23,172 @@
  */
 class ilObjectLP
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected static ?array $type_defaults = null;
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilTree $tree;
+    protected ilDBInterface $db;
+    protected ilObjectDefinition $objectDefinition;
 
-    protected $obj_id; // [int]
-    protected $collection_instance; // [ilLPCollection]
-    protected $mode; // [int]
-    
-    protected static $type_defaults; // [array]
-    
-    protected function __construct($a_obj_id)
+    protected int $obj_id;
+
+    protected ?ilLPCollection $collection_instance = null;
+    protected ?int $mode = null;
+
+    protected function __construct(int $obj_id)
     {
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
         $this->db = $DIC->database();
-        $this->obj_id = (int) $a_obj_id;
+        $this->objectDefinition = $DIC['objDefinition'];
+
+        $this->obj_id = $obj_id;
     }
 
-    /**
-     * @param int $a_obj_id
-     * @return ilObjectLP
-     */
-    public static function getInstance($a_obj_id)
+    public static function getInstance(int $obj_id) : ilObjectLP
     {
         static $instances = array();
         
-        if (!isset($instances[$a_obj_id])) {
-            $type = ilObject::_lookupType($a_obj_id);
+        if (!isset($instances[$obj_id])) {
+            $type = ilObject::_lookupType($obj_id);
             $class = self::getTypeClass($type);
             if ($class) {
-                $instance = new $class($a_obj_id);
+                $instance = new $class($obj_id);
             } else {
                 // :TODO: should we return anything?
-                $instance = new self($a_obj_id);
+                $instance = new self($obj_id);
             }
-            $instances[$a_obj_id] = $instance;
+            $instances[$obj_id] = $instance;
         }
-    
-        return $instances[$a_obj_id];
+        return $instances[$obj_id];
     }
             
-    public static function getTypeClass($a_type)
+    public static function getTypeClass(string $type) : string
     {
         global $DIC;
-
         $objDefinition = $DIC["objDefinition"];
-        
-        if (self::isSupportedObjectType($a_type)) {
-            switch ($a_type) {
-                // container
 
+        if (self::isSupportedObjectType($type)) {
+            switch ($type) {
+                // container
                 case "crs":
                     return "ilCourseLP";
-
                 case 'crsr':
                     return 'ilCourseReferenceLP';
-
                 case "grp":
                     return "ilGroupLP";
-
                 case "fold":
                     return "ilFolderLP";
-
                 case "lso":
                     return "ilLSLP";
 
-
                 // learning resources
-
                 case "lm":
                     return "ilLearningModuleLP";
-
                 case "htlm":
                     return "ilHTMLLearningModuleLP";
-
                 case "sahs":
                     return "ilScormLP";
-                    
 
                 // misc
-
                 case "tst":
                     return "ilTestLP";
-
                 case "exc":
                     return "ilExerciseLP";
-                    
                 case 'file':
                     return 'ilFileLP';
-                    
                 case "mcst":
                     return "ilMediaCastLP";
-            
                 case "sess":
                     return  "ilSessionLP";
-                    
                 case "svy":
                     return  "ilSurveyLP";
-
                 case "prg":
                     return "ilStudyProgrammeLP";
-
                 case "iass":
                     return "ilIndividualAssessmentLP";
-
                 case "copa":
                     return "ilContentPageLP";
-
                 case 'cmix':
                     return ilCmiXapiLP::class;
-
                 case 'lti':
                     return ilLTIConsumerLP::class;
-
                 case 'frm':
                     return ilForumLP::class;
 
                 // plugin
-                case $objDefinition->isPluginTypeName($a_type):
+                case $objDefinition->isPluginTypeName($type):
                     return "ilPluginLP";
             }
         }
+        return "";
     }
-    public static function isSupportedObjectType($a_type)
+
+    public static function isSupportedObjectType(string $type) : bool
     {
         global $DIC;
-
         $objDefinition = $DIC["objDefinition"];
 
-        $valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc",
-            "sess", "svy", "file", "mcst", "prg", "iass", "copa", "lso", 'cmix', 'lti', 'crsr', 'frm');
+        $valid = [
+            "crs",
+            "grp",
+            "fold",
+            "lm",
+            "htlm",
+            "sahs",
+            "tst",
+            "exc",
+            "sess",
+            "svy",
+            "file",
+            "mcst",
+            "prg",
+            "iass",
+            "copa",
+            "lso",
+            'cmix',
+            'lti',
+            'crsr',
+            'frm'
+        ];
 
-        if (in_array($a_type, $valid)) {
+        if (in_array($type, $valid)) {
             return true;
         }
         
-        if ($objDefinition->isPluginTypeName($a_type)) {
-            return ilRepositoryObjectPluginSlot::isTypePluginWithLP($a_type);
+        if ($objDefinition->isPluginTypeName($type)) {
+            return ilRepositoryObjectPluginSlot::isTypePluginWithLP($type);
         }
         
         return false;
     }
         
-    public function resetCaches()
+    public function resetCaches() : void
     {
         $this->mode = null;
         $this->collection_instance = null;
     }
     
-    public function isAnonymized()
+    public function isAnonymized() : bool
     {
         // see ilLPCollectionOfRepositoryObjects::validateEntry()
         return false;
     }
-    
-    
-    //
-    // MODE
-    //
-    
-    public function getDefaultMode()
+
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_UNDEFINED;
     }
-    
-    public function getValidModes()
+
+    /**
+     * @return int[]
+     */
+    public function getValidModes() : array
     {
-        return array();
+        return [];
     }
     
-    public function getCurrentMode()
+    public function getCurrentMode() : int
     {
         if ($this->mode === null) {
             // using global type default if LP is inactive
@@ -211,7 +213,7 @@ class ilObjectLP
         return $this->mode;
     }
     
-    public function isActive()
+    public function isActive() : bool
     {
         // :TODO: check LP activation?
         
@@ -223,53 +225,42 @@ class ilObjectLP
         return true;
     }
     
-    public function getModeText($a_mode)
+    public function getModeText(int $mode) : string
     {
-        return ilLPObjSettings::_mode2Text($a_mode);
+        return ilLPObjSettings::_mode2Text($mode);
     }
     
-    public function getModeInfoText($a_mode)
+    public function getModeInfoText(int $mode) : string
     {
-        return ilLPObjSettings::_mode2InfoText($a_mode);
+        return ilLPObjSettings::_mode2InfoText($mode);
     }
     
-    public function getSettingsInfo()
+    public function getSettingsInfo() : string
     {
         // type-specific
+        return "";
     }
     
     
-    //
-    // COLLECTION
-    //
-        
-    public function getCollectionInstance()
+    public function getCollectionInstance() : ?ilLPCollection
     {
         if ($this->collection_instance === null) {
             $this->collection_instance = ilLPCollection::getInstanceByMode($this->obj_id, $this->getCurrentMode());
         }
-        
         return $this->collection_instance;
     }
-            
-    
-    //
-    // MEMBERS
-    //
-    
-    public function getMembers($a_search = true)
+
+    public function getMembers(bool $search = true) : array
     {
-        $tree = $this->tree;
-        
-        if (!$a_search) {
-            return;
+        if (!$search) {
+            return [];
         }
         
         $ref_ids = ilObject::_getAllReferences($this->obj_id);
         $ref_id = current($ref_ids);
         
         // walk path to find parent with specific members
-        $path = $tree->getPathId($ref_id);
+        $path = $this->tree->getPathId($ref_id);
         array_pop($path);
         foreach (array_reverse($path) as $path_ref_id) {
             $olp = self::getInstance(ilObject::_lookupObjId($path_ref_id));
@@ -278,98 +269,88 @@ class ilObjectLP
                 return $all;
             }
         }
+        return [];
     }
     
-    
-    //
-    // RESET
-    //
-    
-    final public function resetLPDataForCompleteObject($a_recursive = true)
+    final public function resetLPDataForCompleteObject(bool $recursive = true) : void
     {
         $user_ids = $this->gatherLPUsers();
         if (sizeof($user_ids)) {
-            $this->resetLPDataForUserIds(array_unique($user_ids), $a_recursive);
+            $this->resetLPDataForUserIds(array_unique($user_ids), $recursive);
         }
     }
     
-    final public function resetLPDataForUserIds(array $a_user_ids, $a_recursive = true)
+    final public function resetLPDataForUserIds(array $user_ids, bool $recursive = true) : void
     {
-        if ((bool) $a_recursive &&
-            method_exists($this, "getPossibleCollectionItems")) { // #15203
+        if ($recursive && method_exists($this, "getPossibleCollectionItems")) { // #15203
             $subitems = $this->getPossibleCollectionItems();
             if (is_array($subitems)) {
                 foreach ($subitems as $sub_ref_id) {
                     $olp = self::getInstance(ilObject::_lookupObjId($sub_ref_id));
-                    $olp->resetLPDataForUserIds($a_user_ids, false);
+                    $olp->resetLPDataForUserIds($user_ids, false);
                 }
             }
         }
         
-        $this->resetCustomLPDataForUserIds($a_user_ids, (bool) $a_recursive);
+        $this->resetCustomLPDataForUserIds($user_ids, $recursive);
                         
-        ilLPMarks::_deleteForUsers($this->obj_id, $a_user_ids);
+        ilLPMarks::_deleteForUsers($this->obj_id, $user_ids);
 
-        ilChangeEvent::_deleteReadEventsForUsers($this->obj_id, $a_user_ids);
+        ilChangeEvent::_deleteReadEventsForUsers($this->obj_id, $user_ids);
                 
         // update LP status to get collections up-to-date
-        foreach ($a_user_ids as $user_id) {
+        foreach ($user_ids as $user_id) {
             ilLPStatusWrapper::_updateStatus($this->obj_id, $user_id);
         }
     }
         
-    protected function resetCustomLPDataForUserIds(array $a_user_ids, $a_recursive = true)
+    protected function resetCustomLPDataForUserIds(array $user_ids, bool $recursive = true) : void
     {
         // this should delete all data that is relevant for the supported LP modes
     }
     
-    protected function gatherLPUsers()
+    protected function gatherLPUsers() : array
     {
         $user_ids = ilLPMarks::_getAllUserIds($this->obj_id);
-        
-        $user_ids = array_merge($user_ids, ilChangeEvent::_getAllUserIds($this->obj_id));
-        
-        return $user_ids;
+        return array_merge($user_ids, ilChangeEvent::_getAllUserIds($this->obj_id));
     }
-    
-    
-    //
-    // EVENTS
-    //
         
-    final public static function handleMove($a_source_ref_id)
+    final public static function handleMove(int $source_ref_id) : void
     {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
         $ilDB = $DIC->database();
         
-        $ref_ids = $tree->getSubTreeIds($a_source_ref_id);
-        $ref_ids[] = $a_source_ref_id;
+        $ref_ids = $tree->getSubTreeIds($source_ref_id);
+        $ref_ids[] = $source_ref_id;
         
         // get "parent" path to source node (not including source node)
-        $new_path = $tree->getPathId($a_source_ref_id);
+        $new_path = $tree->getPathId($source_ref_id);
         array_pop($new_path);
         $new_path = implode("/", $new_path);
-    
+
         // find collections with ref_ids
-        $set = $ilDB->query("SELECT DISTINCT(ut_lp_collections.obj_id) obj_id" .
-            " FROM object_reference" .
-            " JOIN ut_lp_collections ON" .
-            " (" . $ilDB->in("object_reference.ref_id", $ref_ids, "", "integer") .
-            " AND object_reference.ref_id = ut_lp_collections.item_id)");
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold"))) {
-                $coll_ref_id = ilObject::_getAllReferences($rec["obj_id"]);
+        $sql =
+            "SELECT DISTINCT(ut_lp_collections.obj_id) obj_id" . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "JOIN ut_lp_collections ON" . PHP_EOL
+            . "(" . $ilDB->in("object_reference.ref_id", $ref_ids, false, "integer") . PHP_EOL
+            . "AND object_reference.ref_id = ut_lp_collections.item_id)" . PHP_EOL
+        ;
+        $result = $ilDB->query($sql);
+        while ($row = $ilDB->fetchAssoc($result)) {
+            if (in_array(ilObject::_lookupType($row["obj_id"]), ["crs", "grp", "fold"])) {
+                $coll_ref_id = ilObject::_getAllReferences($row["obj_id"]);
                 $coll_ref_id = array_pop($coll_ref_id);
                 
                 // #13402
-                if ($coll_ref_id == $a_source_ref_id) {
+                if ($coll_ref_id == $source_ref_id) {
                     continue;
                 }
                 
                 // #17703 - collection has also been moved - nothing todo
-                if ($tree->isGrandChild($a_source_ref_id, $coll_ref_id)) {
+                if ($tree->isGrandChild($source_ref_id, $coll_ref_id)) {
                     continue;
                 }
                 
@@ -380,23 +361,25 @@ class ilObjectLP
                 // collection path is not inside new path
                 if (!stristr($new_path, $coll_path)) {
                     // delete all items of moved (sub-)tree
-                    $query = "DELETE FROM ut_lp_collections" .
-                        " WHERE obj_id = " . $ilDB->quote($rec["obj_id"], "integer") .
-                        " AND " . $ilDB->in("item_id", $ref_ids, "", "integer");
-                    $ilDB->manipulate($query);
+                    $sql =
+                        "DELETE FROM ut_lp_collections" . PHP_EOL
+                        . "WHERE obj_id = " . $ilDB->quote($row["obj_id"], "integer") . PHP_EOL
+                        . "AND " . $ilDB->in("item_id", $ref_ids, false, "integer") . PHP_EOL
+                    ;
+                    $ilDB->manipulate($sql);
                     
-                    ilLPStatusWrapper::_refreshStatus($rec["obj_id"]);
+                    ilLPStatusWrapper::_refreshStatus($row["obj_id"]);
                 }
             }
         }
     }
     
-    final public function handleToTrash()
+    final public function handleToTrash() : void
     {
         $this->updateParentCollections();
     }
     
-    final public function handleDelete()
+    final public function handleDelete() : void
     {
         ilLPMarks::deleteObject($this->obj_id);
 
@@ -410,41 +393,36 @@ class ilObjectLP
         $this->updateParentCollections();
     }
     
-    final protected function updateParentCollections()
+    final protected function updateParentCollections() : void
     {
-        $ilDB = $this->db;
-        
         // update parent collections?
-        $set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM " .
-                "object_reference JOIN ut_lp_collections ON " .
-                "(object_reference.obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-                " AND object_reference.ref_id = ut_lp_collections.item_id)");
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold"))) {
+        $sql =
+            "SELECT ut_lp_collections.obj_id obj_id" . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "JOIN ut_lp_collections ON" . PHP_EOL
+            . "(object_reference.obj_id = " . $this->db->quote($this->obj_id, "integer") . PHP_EOL
+            . "AND object_reference.ref_id = ut_lp_collections.item_id)" . PHP_EOL
+        ;
+        $result = $this->db->query($sql);
+        while ($row = $this->db->fetchAssoc($result)) {
+            if (in_array(ilObject::_lookupType($row["obj_id"]), array("crs", "grp", "fold"))) {
                 // remove from parent collection
-                $query = "DELETE FROM ut_lp_collections" .
-                    " WHERE obj_id = " . $ilDB->quote($rec["obj_id"], "integer") .
-                    " AND item_id = " . $ilDB->quote($this->obj_id, "integer");
-                $ilDB->manipulate($query);
+                $sql =
+                    "DELETE FROM ut_lp_collections" . PHP_EOL
+                    . "WHERE obj_id = " . $this->db->quote($row["obj_id"], "integer") . PHP_EOL
+                    . "AND item_id = " . $this->db->quote($this->obj_id, "integer") . PHP_EOL
+                ;
+                $this->db->manipulate($sql);
                 
-                ilLPStatusWrapper::_refreshStatus($rec["obj_id"]);
+                ilLPStatusWrapper::_refreshStatus($row["obj_id"]);
             }
         }
     }
     
-    
-    //
-    // LP-relevant memberships
-    //
-    
     /**
      * Find (lp-relevant) members for given object ids
-     *
-     * @param array $a_res
-     * @param int $a_usr_id
-     * @param array $a_obj_ids
      */
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+    protected static function isLPMember(array &$res, int $usr_id, array $obj_ids) : bool
     {
         // should be overwritten by object-type-specific class
         return false;
@@ -452,16 +430,14 @@ class ilObjectLP
     
     /**
      * Find (lp-relevant) memberships by path
-     *
-     * @param array $a_res
-     * @param int $a_usr_id
-     * @param int $a_parent_ref_id
-     * @param array $a_obj_ids
-     * @param bool $a_mapped_ref_ids
-     * @return array
      */
-    protected static function findMembershipsByPath(array &$a_res, $a_usr_id, $a_parent_ref_id, array $a_obj_ids, $a_mapped_ref_ids = false)
-    {
+    protected static function findMembershipsByPath(
+        array &$res,
+        int $usr_id,
+        int $parent_ref_id,
+        array $obj_ids,
+        bool $mapped_ref_ids = false
+    ) : array {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
@@ -469,31 +445,30 @@ class ilObjectLP
         $found = array();
                 
         // walk path to find course or group object and check members of that object
-        $path = $tree->getPathId($a_parent_ref_id);
+        $path = $tree->getPathId($parent_ref_id);
         foreach (array_reverse($path) as $path_ref_id) {
             $type = ilObject::_lookupType($path_ref_id, true);
-            if ($type == "crs" ||
-                $type == "grp") {
+            if ($type == "crs" || $type == "grp") {
                 $class = self::getTypeClass($type);
                 $path_ob_id = ilObject::_lookupObjId($path_ref_id);
                 $chk = array();
-                $class::isLPMember($chk, $a_usr_id, array($path_ob_id));
-                if (!$a_mapped_ref_ids) {
+                $class::isLPMember($chk, $usr_id, array($path_ob_id));
+                if (!$mapped_ref_ids) {
                     // we found a grp/crs in path of (single) parent - mark all objects
-                    foreach ($a_obj_ids as $obj_id) {
+                    foreach ($obj_ids as $obj_id) {
                         $found[] = $obj_id;
                         if ($chk[$path_ob_id] ?? false) {
-                            $a_res[$obj_id] = true;
+                            $res[$obj_id] = true;
                         }
                     }
                 } else {
                     // all children from current node are "lp-valid"
-                    foreach ($a_obj_ids as $obj_id => $ref_ids) {
+                    foreach ($obj_ids as $obj_id => $ref_ids) {
                         foreach ($ref_ids as $ref_id) {
                             if ($tree->isGrandChild($path_ref_id, $ref_id)) {
                                 $found[$obj_id][] = $ref_id;
                                 if ($chk[$path_ob_id]) {
-                                    $a_res[$obj_id] = true;
+                                    $res[$obj_id] = true;
                                 }
                                 break;
                             }
@@ -509,48 +484,48 @@ class ilObjectLP
     
     /**
      * Get all objects where given user is member (from LP POV)
-     *
-     * @param int $a_usr_id
-     * @param array $a_obj_ids
-     * @param int $a_parent_ref_id
-     * @param bool $a_mapped_ref_ids
-     * @return array
      */
-    public static function getLPMemberships($a_usr_id, array $a_obj_ids, $a_parent_ref_id = null, $a_mapped_ref_ids = false)
-    {
+    public static function getLPMemberships(
+        int $usr_id,
+        array $obj_ids,
+        ?int $parent_ref_id = null,
+        bool $mapped_ref_ids = false
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
         $tree = $DIC->repositoryTree();
-        
+
         // see ilTrQuery::getParticipantsForObject() [single object only]
         // this is optimized for larger number of objects, e.g. list GUIs
 
         $ref_map = [];
-        if ((bool) $a_mapped_ref_ids) {
-            $ref_map = $a_obj_ids;
-            $a_obj_ids = array_keys($a_obj_ids);
+        if ($mapped_ref_ids) {
+            $ref_map = $obj_ids;
+            $obj_ids = array_keys($obj_ids);
         }
         
-        $res = array();
+        $res = [];
         
         // get object types
-        $types_map = array();
-        $query = " SELECT obj_id, type" .
-            " FROM object_data" .
-            " WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer");
-        $set = $ilDB->query($query);
-        while ($row = $ilDB->fetchAssoc($set)) {
+        $types_map = [];
+        $sql =
+            "SELECT obj_id, type" . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE " . $ilDB->in("obj_id", $obj_ids, false, "integer") . PHP_EOL
+        ;
+        $result = $ilDB->query($sql);
+        while ($row = $ilDB->fetchAssoc($result)) {
             $types_map[$row["type"]][] = $row["obj_id"];
             $res[$row["obj_id"]] = false;
         }
         
-        $find_by_parent = array();
+        $find_by_parent = [];
         foreach ($types_map as $type => $type_obj_ids) {
             $class = self::getTypeClass($type);
             if ($class) {
                 // lp-supported type?
-                if (!$class::isLPMember($res, $a_usr_id, $type_obj_ids)) {
+                if (!$class::isLPMember($res, $usr_id, $type_obj_ids)) {
                     $find_by_parent = array_merge($find_by_parent, $type_obj_ids);
                 }
             }
@@ -558,8 +533,8 @@ class ilObjectLP
         
         if (sizeof($find_by_parent)) {
             // single parent for all objects (repository/ilObjectListGUI)
-            if ($a_parent_ref_id) {
-                if (self::findMembershipsByPath($res, $a_usr_id, $a_parent_ref_id, $find_by_parent)) {
+            if ($parent_ref_id) {
+                if (self::findMembershipsByPath($res, $usr_id, $parent_ref_id, $find_by_parent)) {
                     // we found a crs/grp in path, so no need to check read_events
                     $find_by_parent = null;
                 }
@@ -579,7 +554,7 @@ class ilObjectLP
                                 
                                 // we are checking the complete ref_map
                                 // to find all relevant objects in subtree of current ref_id
-                                $found = self::findMembershipsByPath($res, $a_usr_id, $parent_ref_id, $ref_map, true);
+                                $found = self::findMembershipsByPath($res, $usr_id, $parent_ref_id, $ref_map, true);
                                 if (is_array($found) && count($found) > 0) {
                                     // if any references were found in a crs/grp-subtree
                                     // remove from "read-event"-last-resort-pool
@@ -607,11 +582,14 @@ class ilObjectLP
             
             // last resort: use read_event?
             if (is_array($find_by_parent) && count($find_by_parent) > 0) {
-                $set = $ilDB->query("SELECT obj_id" .
-                    " FROM read_event" .
-                    " WHERE " . $ilDB->in("obj_id", $find_by_parent, "", "integer") .
-                    " AND usr_id = " . $ilDB->quote($a_usr_id, "integer"));
-                while ($row = $ilDB->fetchAssoc($set)) {
+                $sql =
+                    "SELECT obj_id" . PHP_EOL
+                    . "FROM read_event" . PHP_EOL
+                    . "WHERE " . $ilDB->in("obj_id", $find_by_parent, false, "integer") . PHP_EOL
+                    . "AND usr_id = " . $ilDB->quote($usr_id, "integer") . PHP_EOL
+                ;
+                $result = $ilDB->query($sql);
+                while ($row = $ilDB->fetchAssoc($result)) {
                     $res[$row["obj_id"]] = true;
                 }
             }
@@ -620,9 +598,9 @@ class ilObjectLP
         return $res;
     }
     
-    public function getMailTemplateId()
+    public function getMailTemplateId() : string
     {
-        // type-specific
+        return '';
     }
     
     
@@ -630,79 +608,68 @@ class ilObjectLP
     // type-specific support of features (should be enhanced)
     //
     
-    public static function supportsSpentSeconds($a_obj_type)
+    public static function supportsSpentSeconds(string $obj_type) : bool
     {
-        return !in_array($a_obj_type, ["exc", "file", "mcst", "mob", "htlm", "copa", 'cmix', 'lti', 'frm']);
+        return !in_array($obj_type, ["exc", "file", "mcst", "mob", "htlm", "copa", 'cmix', 'lti', 'frm']);
     }
     
-    public static function supportsMark($a_obj_type)
+    public static function supportsMark(string $obj_type) : bool
     {
-        return !in_array($a_obj_type, array("lm", "dbk"));
+        return !in_array($obj_type, ["lm", "dbk"]);
     }
     
-    public static function supportsMatrixView($a_obj_type)
+    public static function supportsMatrixView(string $obj_type) : bool
     {
-        return !in_array($a_obj_type, ['svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'frm', 'prg', 'copa', 'cmix', 'lti','crsr']);
+        $types = ['svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'frm', 'prg', 'copa', 'cmix', 'lti','crsr'];
+        return !in_array($obj_type, $types);
     }
     
-    
-    // type-wide default
-        
     /**
      * Get available type-specific default modes (no administration needed)
-     * @param bool $a_lp_active
-     * @return array
+     * @return int[]
      */
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $lp_active) : array
     {
         return array(ilLPObjSettings::LP_MODE_UNDEFINED);
     }
-    
-    protected static function getTypeDefaultFromDB($a_type)
+
+    protected static function getTypeDefaultFromDB(string $type) : ?int
     {
         global $DIC;
-
         $ilDB = $DIC->database();
-        
-        if (!is_array(self::$type_defaults)) {
-            self::$type_defaults = array();
-            $set = $ilDB->query("SELECT * FROM ut_lp_defaults");
-            while ($row = $ilDB->fetchAssoc($set)) {
-                self::$type_defaults[$row["type_id"]] = $row["lp_mode"];
+
+        if (is_null(self::$type_defaults)) {
+            self::$type_defaults = [];
+            $result = $ilDB->query("SELECT type_id, lp_mode FROM ut_lp_defaults");
+            while ($row = $ilDB->fetchAssoc($result)) {
+                self::$type_defaults[(string) $row["type_id"]] = (int) $row["lp_mode"];
             }
         }
-        return self::$type_defaults[$a_type];
+        return self::$type_defaults[$type] ?? null;
     }
     
-    public static function saveTypeDefaults(array $a_data)
+    public static function saveTypeDefaults(array $data) : void
     {
         global $DIC;
-
         $ilDB = $DIC->database();
         
         $ilDB->manipulate("DELETE FROM ut_lp_defaults");
-        foreach ($a_data as $type => $mode) {
-            $ilDB->insert("ut_lp_defaults", array(
-                "type_id" => array("text", $type),
-                "lp_mode" => array("integer", $mode)
-            ));
+        foreach ($data as $type => $mode) {
+            $ilDB->insert("ut_lp_defaults", [
+                "type_id" => ["text", $type],
+                "lp_mode" => ["integer", $mode]
+            ]);
         }
     }
     
-    /**
-     * Get current type default
-     *
-     * @param string $a_type
-     * @return int
-     */
-    public static function getTypeDefault($a_type)
+    public static function getTypeDefault(string $type) : int
     {
-        $db = self::getTypeDefaultFromDB($a_type);
+        $db = self::getTypeDefaultFromDB($type);
         if ($db !== null) {
             return $db;
         }
         
-        $class = self::getTypeClass($a_type);
+        $class = self::getTypeClass($type);
         $olp = new $class(0);
         return $olp->getDefaultMode();
     }
@@ -723,6 +690,7 @@ class ilObjectLP
 
     public function fetchIndividualModeFromFormSubmission(ilPropertyFormGUI $form) : int
     {
+        return 0;
     }
 
     public function appendModeConfiguration(int $mode, ilRadioOption $modeElement) : void

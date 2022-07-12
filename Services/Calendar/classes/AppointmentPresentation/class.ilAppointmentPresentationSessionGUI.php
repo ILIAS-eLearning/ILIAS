@@ -1,19 +1,13 @@
-<?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
+<?php declare(strict_types=1);
 
 /**
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
- *
+ * @author            Jesús López Reyes <lopez@leifos.com>
  * @ilCtrl_IsCalledBy ilAppointmentPresentationSessionGUI: ilCalendarAppointmentPresentationGUI
- *
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
         global $DIC;
 
@@ -21,14 +15,9 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
         $r = $DIC->ui()->renderer();
         $this->lng->loadLanguageModule("sess");
         $this->lng->loadLanguageModule("crs");
-        /**
-         * @var ilCalendarEntry
-         */
+
         $a_app = $this->appointment;
-        include_once "./Modules/Session/classes/class.ilObjSession.php";
-
         $cat_info = $this->getCatInfo();
-
         $refs = $this->getReadableRefIds($this->getObjIdForAppointment());
         $ref_id = current($refs);
 
@@ -53,12 +42,21 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
         //location
         if ($session_obj->getLocation()) {
-            $this->addInfoProperty($this->lng->txt("event_location"), ilUtil::makeClickable(nl2br($session_obj->getLocation())));
-            $this->addListItemProperty($this->lng->txt("event_location"), ilUtil::makeClickable(nl2br($session_obj->getLocation())));
+            $this->addInfoProperty(
+                $this->lng->txt("event_location"),
+                ilUtil::makeClickable(nl2br($session_obj->getLocation()))
+            );
+            $this->addListItemProperty(
+                $this->lng->txt("event_location"),
+                ilUtil::makeClickable(nl2br($session_obj->getLocation()))
+            );
         }
         //details/workflow
         if ($session_obj->getDetails()) {
-            $this->addInfoProperty($this->lng->txt("event_details_workflow"), ilUtil::makeClickable(nl2br($session_obj->getDetails())));
+            $this->addInfoProperty(
+                $this->lng->txt("event_details_workflow"),
+                ilUtil::makeClickable(nl2br($session_obj->getDetails()))
+            );
         }
         //lecturer name
         $str_lecturer = array();
@@ -79,14 +77,12 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
         $eventItems = ilObjectActivation::getItemsByEvent($this->getObjIdForAppointment());
         if (count($eventItems)) {
-            include_once('./Services/Link/classes/class.ilLink.php');
             $str = array();
             foreach ($eventItems as $file) {
                 if ($file['type'] == "file") {
                     $this->has_files = true;
                     $href = ilLink::_getStaticLink($file['ref_id'], "file", true, "download");
                     $link = $f->link()->standard($file['title'], $href);
-                    require_once('Modules/File/classes/class.ilObjFileAccess.php');
                     if (ilObjFileAccess::_isFileInline($file["title"])) {
                         $link = $link->withOpenInNewViewport(true);
                     }

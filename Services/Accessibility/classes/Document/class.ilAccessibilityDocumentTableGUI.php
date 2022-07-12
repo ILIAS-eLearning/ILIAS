@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -9,39 +24,16 @@ use ILIAS\UI\Renderer;
  */
 class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
 {
-    /** @var ILIAS\UI\Factory */
-    protected $uiFactory;
-
-    /** @var ILIAS\UI\Renderer */
-    protected $uiRenderer;
-
-    /** @var $bool */
-    protected $isEditable = false;
-
-    /** @var int */
-    protected $factor = 10;
-
-    /** @var int */
-    protected $i = 1;
-
-    /** @var int */
-    protected $numRenderedCriteria = 0;
-
-    /** @var ilAccessibilityCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-
+    protected ILIAS\UI\Factory $uiFactory;
+    protected ILIAS\UI\Renderer $uiRenderer;
+    protected bool $isEditable = false;
+    protected int $factor = 10;
+    protected int $i = 1;
+    protected int $numRenderedCriteria = 0;
+    protected ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory;
     /** @var ILIAS\UI\Component\Component[] */
-    protected $uiComponents = [];
+    protected array $uiComponents = [];
 
-    /**
-     * ilAccessibilityDocumentTableGUI constructor.
-     * @param ilAccessibilityControllerEnabled             $a_parent_obj
-     * @param string                                        $command
-     * @param ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param Factory                             $uiFactory
-     * @param Renderer                            $uiRenderer
-     * @param bool                                          $isEditable
-     */
     public function __construct(
         ilAccessibilityControllerEnabled $a_parent_obj,
         string $command,
@@ -78,9 +70,6 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getColumnDefinition() : array
     {
         $i = 0;
@@ -150,15 +139,11 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
                 'sortable' => false,
                 'width' => '10%'
             ];
-        };
+        }
 
         return $columns;
     }
 
-    /**
-     * @param array $data
-     * @return array
-     */
     protected function preProcessData(array &$data) : void
     {
         foreach ($data['items'] as $key => $document) {
@@ -177,7 +162,6 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
     }
 
     /**
-     * @inheritdoc
      * @throws ilDateTimeException
      * @throws ilAccessibilityCriterionTypeNotFoundException
      */
@@ -192,7 +176,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         } elseif ('actions' === $column) {
             return $this->formatActionsDropDown($column, $row);
         } elseif ('chb' === $column) {
-            return \ilUtil::formCheckbox(false, 'acc_id[]', $row['id']);
+            return ilLegacyFormElementsUtil::formCheckbox(false, 'acc_id[]', $row['id']);
         } elseif ('criteria' === $column) {
             return $this->formatCriterionAssignments($column, $row);
         }
@@ -201,9 +185,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
     }
 
     /**
-     * @param string $column
-     * @param array  $row
-     * @return string
+     * @throws ilCtrlException
      */
     protected function formatActionsDropDown(string $column, array $row) : string
     {
@@ -253,10 +235,8 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
     }
 
     /**
-     * @param string $column
-     * @param array  $row
-     * @return string
      * @throws ilAccessibilityCriterionTypeNotFoundException
+     * @throws ilCtrlException
      */
     protected function formatCriterionAssignments(string $column, array $row) : string
     {
@@ -329,11 +309,6 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         ]);
     }
 
-    /**
-     * @param string $column
-     * @param array  $row
-     * @return string
-     */
     protected function formatTitle(string $column, array $row) : string
     {
         $modal = $this->uiFactory
@@ -348,10 +323,6 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    /**
-     * @param array $row
-     * @return string
-     */
     protected function formatSorting(array $row) : string
     {
         $value = ($this->i++) * $this->factor;
@@ -367,10 +338,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         return $sortingField->render();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

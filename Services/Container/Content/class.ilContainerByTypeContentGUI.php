@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Shows all items grouped by type.
@@ -20,7 +23,10 @@
  */
 class ilContainerByTypeContentGUI extends ilContainerContentGUI
 {
-    protected bool $force_details;
+    /**
+     * @var null|array|int
+     */
+    protected $force_details = null;
     protected int $block_limit;
     protected ?ilContainerUserFilter $container_user_filter;
     
@@ -34,11 +40,11 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         $this->user = $DIC->user();
         parent::__construct($container_gui_obj);
         $this->initDetails();
-        $this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->object->getId(), "block_limit");
+        $this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->getObject()->getId(), "block_limit");
         $this->container_user_filter = $container_user_filter;
     }
     
-    public function getDetailsLevel(int $a_item_id) : int
+    protected function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
@@ -48,9 +54,9 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         }
         if ($a_item_id == $this->force_details) {
             return self::DETAILS_ALL;
-        } else {
-            return self::DETAILS_TITLE;
         }
+
+        return self::DETAILS_TITLE;
     }
 
     public function getMainContent() : string
@@ -76,15 +82,14 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
         // Show introduction, if repository is empty
         // @todo: maybe we move this
-        if ((!is_array($this->items) || count($this->items) == 0) &&
-            $this->getContainerObject()->getRefId() == ROOT_FOLDER_ID &&
+        if ((!is_array($this->items) || count($this->items) === 0) &&
+            $this->getContainerObject()->getRefId() === ROOT_FOLDER_ID &&
             $ilAccess->checkAccess("write", "", $this->getContainerObject()->getRefId())) {
             $html = $this->getIntroduction();
-            $tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
         } else {	// show item list otherwise
             $html = $this->renderItemList();
-            $tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
         }
+        $tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
 
         return $tpl->get();
     }
@@ -99,7 +104,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         $output_html = $this->getContainerGUI()->getContainerPageHTML();
         
         // get embedded blocks
-        if ($output_html != "") {
+        if ($output_html !== "") {
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
         }
 
@@ -113,12 +118,12 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
                 $this->renderer->setBlockPosition($type, ++$pos);
                 
                 $position = 1;
-                
+                $counter = 1;
                 foreach ($this->items[$type] as $item_data) {
                     $item_ref_id = $item_data["child"];
 
-                    if ($this->block_limit > 0 && !$this->getContainerGUI()->isActiveItemOrdering() && $position == $this->block_limit + 1) {
-                        if ($position == $this->block_limit + 1) {
+                    if ($this->block_limit > 0 && $counter == $this->block_limit + 1 && !$this->getContainerGUI()->isActiveItemOrdering()) {
+                        if ($counter == $this->block_limit + 1) {
                             // render more button
                             $this->renderer->addShowMoreButton($type);
                         }
@@ -128,6 +133,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
                     if (!$this->renderer->hasItem($item_ref_id)) {
                         $html = $this->renderItem($item_data, $position++);
                         if ($html != "") {
+                            $counter++;
                             $this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
                         }
                     }
@@ -144,7 +150,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
     {
         $this->handleSessionExpand();
 
-        if ($this->getContainerObject()->getType() == 'crs') {
+        if ($this->getContainerObject()->getType() === 'crs') {
             if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
                 $this->force_details = $session;
             } elseif ($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId())) {

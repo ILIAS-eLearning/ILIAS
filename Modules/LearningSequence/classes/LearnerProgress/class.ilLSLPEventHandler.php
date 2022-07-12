@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Handle LP-events.
  */
@@ -25,7 +39,7 @@ class ilLSLPEventHandler
         $refs = $this->getRefIdsOfObjId((int) $parameter['obj_id']);
         foreach ($refs as $ref_id) {
             $lso_id = $this->getParentLSOObjId((int) $ref_id);
-            if ($lso_id !== false) {
+            if ($lso_id !== null) {
                 $usr_id = $parameter['usr_id'];
                 $this->lpstatus::_updateStatus($lso_id, $usr_id);
             }
@@ -47,7 +61,7 @@ class ilLSLPEventHandler
     {
         $parent_nd = $this->tree->getParentNodeData($child_ref_id);
         if ($parent_nd['type'] === 'lso') {
-            return (int)$parent_nd['obj_id'];
+            return (int) $parent_nd['obj_id'];
         }
         return null;
     }

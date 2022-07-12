@@ -1,17 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Exceptions/classes/class.ilException.php';
 
 /**
  * Thrown if invalid tree strucutes are found
- *
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ServicesTree
- *
  */
 class ilInvalidTreeStructureException extends ilException
 {

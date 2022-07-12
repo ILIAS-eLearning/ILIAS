@@ -1,19 +1,31 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilObjStudyProgrammeReference extends ilContainerReference
 {
-    protected $referenced_object;
-    /**
-     * Constructor
-     * @param int $a_id reference id
-     * @param bool $a_call_by_reference
-     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    protected ?ilObjStudyProgramme $referenced_object = null;
+
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         global $DIC;
         $this->type = 'prgr';
         $this->tree = $DIC['tree'];
-        parent::__construct($a_id, $a_call_by_reference);
+        parent::__construct($id, $call_by_reference);
     }
 
     /**
@@ -21,19 +33,17 @@ class ilObjStudyProgrammeReference extends ilContainerReference
      *
      * Calls nodeInserted on parent object if parent object is a program.
      */
-    public function putInTree($a_parent_ref)
+    public function putInTree(int $a_parent_ref) : void
     {
-        $res = parent::putInTree($a_parent_ref);
+        parent::putInTree($a_parent_ref);
 
         if (ilObject::_lookupType($a_parent_ref, true) == "prg") {
             $par = ilObjStudyProgramme::getInstanceByRefId($a_parent_ref);
             $par->nodeInserted($this->getReferencedObject());
         }
-
-        return $res;
     }
 
-    public function getParent() : ?\ilObjStudyProgramme
+    public function getParent() : ?ilObjStudyProgramme
     {
         $parent_data = $this->tree->getParentNodeData($this->getRefId());
         if ($parent_data["type"] === "prg" && !$parent_data["deleted"]) {
@@ -42,9 +52,9 @@ class ilObjStudyProgrammeReference extends ilContainerReference
         return null;
     }
 
-    public function getReferencedObject()
+    public function getReferencedObject() : ilObjStudyProgramme
     {
-        if (!$this->referenced_object) {
+        if (is_null($this->referenced_object)) {
             $this->referenced_object = ilObjStudyProgramme::getInstanceByRefId($this->target_ref_id);
         }
         return $this->referenced_object;

@@ -1,8 +1,21 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once('./Services/Membership/classes/class.ilParticipants.php');
-include_once './Modules/Session/classes/class.ilEventParticipants.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Session participation handling.
@@ -14,56 +27,33 @@ include_once './Modules/Session/classes/class.ilEventParticipants.php';
  */
 class ilSessionParticipants extends ilParticipants
 {
-    const COMPONENT_NAME = 'Modules/Session';
+    public const COMPONENT_NAME = 'Modules/Session';
     
-    protected static $instances = array();
+    protected static array $instances = [];
 
-    protected $event_part = null;
-    
-    /**
-     * Constructor
-     *
-     * @access protected
-     * @param int ref_id of object
-     */
-    public function __construct($a_ref_id)
+    protected ilEventParticipants $event_part;
+
+    public function __construct(int $a_ref_id)
     {
         $this->event_part = new ilEventParticipants(ilObject::_lookupObjId($a_ref_id));
         parent::__construct(self::COMPONENT_NAME, $a_ref_id);
     }
-    
-    
-    /**
-     * Get instance
-     * @param int $a_ref_id
-     * @return ilSessionParticipants
-     */
-    public static function _getInstanceByObjId($a_obj_id)
+
+    public static function _getInstanceByObjId(int $a_obj_id) : ilSessionParticipants
     {
         $refs = ilObject::_getAllReferences($a_obj_id);
         return self::getInstance(array_pop($refs));
     }
 
-
-    
-    /**
-     * Get instance
-     * @param int $a_ref_id
-     * @return ilSessionParticipants
-     */
-    public static function getInstance($a_ref_id)
+    public static function getInstance(int $a_ref_id) : ilSessionParticipants
     {
         if (isset(self::$instances[$a_ref_id]) && self::$instances[$a_ref_id] instanceof self) {
             return self::$instances[$a_ref_id];
         }
         return self::$instances[$a_ref_id] = new self($a_ref_id);
     }
-    
-    /**
-     * Get event particpants object
-     * @return ilEventParticipants
-     */
-    public function getEventParticipants()
+
+    public function getEventParticipants() : ilEventParticipants
     {
         return $this->event_part;
     }
@@ -71,33 +61,21 @@ class ilSessionParticipants extends ilParticipants
     /**
      * no last admin restrictions for sessions
      * @param int[] $a_usr_ids
-     * @return boolean
      */
-    public function checkLastAdmin($a_usr_ids)
+    public function checkLastAdmin(array $a_usr_ids) : bool
     {
         return false;
     }
-    
-    /**
-     * Static function to check if a user is a participant of the container object
-     *
-     * @access public
-     * @param int ref_id
-     * @param int user id
-     * @static
-     */
-    public static function _isParticipant($a_ref_id, $a_usr_id)
+
+    public static function _isParticipant(int $a_ref_id, int $a_usr_id) : bool
     {
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         return ilEventParticipants::_isRegistered($a_usr_id, $obj_id);
     }
-        
-    /**
-     * read participant status
-     */
-    public function readParticipantsStatus()
+
+    protected function readParticipantsStatus() : void
     {
-        $this->participants_status = array();
+        $this->participants_status = [];
         foreach ($this->getMembers() as $mem_uid) {
             $this->participants_status[$mem_uid]['blocked'] = false;
             $this->participants_status[$mem_uid]['notification'] = false;
@@ -108,57 +86,35 @@ class ilSessionParticipants extends ilParticipants
     
     /**
      * Add user to session member role. Additionally the status registered or participated must be set manually
-     * @param int $a_usr_id
-     * @param int $a_role
      */
-    public function add($a_usr_id, $a_role = "")
+    public function add(int $a_usr_id, int $a_role = 0) : bool
     {
         if (parent::add($a_usr_id, $a_role)) {
             return true;
         }
         return false;
     }
-    
-    /**
-     * Register user
-     * @param int $a_usr_id
-     * @return boolean
-     */
-    public function register($a_usr_id)
+
+    public function register(int $a_usr_id) : bool
     {
         $this->logger->debug('Registering user: ' . $a_usr_id . ' for session: ' . $this->getObjId());
-        $this->add($a_usr_id, IL_SESS_MEMBER);
+        $this->add($a_usr_id, ilParticipants::IL_SESS_MEMBER);
         // in any (already participant since status attended) case register user.
         $this->getEventParticipants()->register($a_usr_id);
         return true;
     }
-    
-    /**
-     * Unregister user
-     * @param int $a_usr_id
-     * @return boolean
-     */
-    public function unregister($a_usr_id)
+
+    public function unregister(int $a_usr_id) : bool
     {
         // participated users are not dropped from role
-        if ($this->getEventParticipants()->hasParticipated($a_usr_id)) {
-            $this->getEventParticipants()->unregister($a_usr_id);
-            return true;
-        } else {
+        if (!$this->getEventParticipants()->hasParticipated($a_usr_id)) {
             $this->delete($a_usr_id);
-            $this->getEventParticipants()->unregister($a_usr_id);
-            return true;
         }
-        return false;
+        $this->getEventParticipants()->unregister($a_usr_id);
+        return true;
     }
 
-
-    /**
-     * @param int $a_type
-     * @param int $a_usr_id
-     * @param bool $a_force_email
-     */
-    public function sendNotification($a_type, $a_usr_id, $a_force_email = false)
+    public function sendNotification(int $a_type, int $a_usr_id, bool $a_force_email = false) : void
     {
         $mail = new ilSessionMembershipMailNotification();
 

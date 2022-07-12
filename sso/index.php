@@ -29,6 +29,5 @@ ilContext::init(ilContext::CONTEXT_APACHE_SSO);
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
-$ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd('doApacheAuthentication');
-$ilCtrl->callBaseClass();
+$ilCtrl->callBaseClass('ilStartUpGUI');

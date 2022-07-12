@@ -1,67 +1,55 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 class ilObjLearningSequenceSettingsGUI
 {
     const PROP_TITLE = 'title';
     const PROP_DESC = 'desc';
-    const PROP_ABSTRACT = 'abstract';
-    const PROP_ABSTRACT_IMAGE = 'abstract_img';
-    const PROP_EXTRO = 'extro';
-    const PROP_EXTRO_IMAGE = 'extro_img';
     const PROP_ONLINE = 'online';
     const PROP_AVAIL_PERIOD = 'online_period';
     const PROP_GALLERY = 'gallery';
 
+    const CMD_EDIT = "settings";
     const CMD_SAVE = "update";
     const CMD_CANCEL = "cancel";
 
-    private array $rte_allowed_tags = [
-        'br',
-        'em',
-        'h1',
-        'h2',
-        'h3',
-        'li',
-        'ol',
-        'p',
-        'strong',
-        'u',
-        'ul',
-        'a'
-    ];
-
-    private array $img_allowed_suffixes = [
-        'png',
-        'jpg',
-        'jpeg',
-        'gif'
-    ];
-
-    protected ilObjLearningSequence $obj;
-    protected ilCtrl $ctrl;
-    protected ilLanguage $lng;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilObjectService $obj_service;
-    protected ilLearningSequenceSettings $settings;
-    protected ilLearningSequenceActivation $activation;
-    protected string $obj_title;
-    protected string $obj_description;
+    const CMD_OLD_INTRO = "viewlegacyi";
+    const CMD_OLD_EXTRO = "viewlegacye";
 
     public function __construct(
         ilObjLearningSequence $obj,
         ilCtrl $ctrl,
         ilLanguage $lng,
         ilGlobalTemplateInterface $tpl,
-        ilObjectService $obj_service
+        ilObjectService $obj_service,
+        ArrayBasedRequestWrapper $post_wrapper,
+        ILIAS\Refinery\Factory $refinery,
+        ilToolbarGUI $toolbar
     ) {
         $this->obj = $obj;
         $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->obj_service = $obj_service;
+        $this->post_wrapper = $post_wrapper;
+        $this->refinery = $refinery;
 
         $this->settings = $obj->getLSSettings();
         $this->activation = $obj->getLSActivation();
@@ -70,18 +58,24 @@ class ilObjLearningSequenceSettingsGUI
 
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('obj');
+        $this->toolbar = $toolbar;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('settings');
 
         switch ($cmd) {
-            case "settings":
+            case self::CMD_EDIT:
             case self::CMD_SAVE:
             case self::CMD_CANCEL:
                 $content = $this->$cmd();
                 break;
+            case self::CMD_OLD_INTRO:
+            case self::CMD_OLD_EXTRO:
+                $content = $this->showLegacyPage($cmd);
+                break;
+            
             default:
                 throw new ilException("ilObjLearningSequenceSettingsGUI: Command not supported: $cmd");
 
@@ -91,6 +85,9 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function settings() : string
     {
+        $this->addLegacypagesToToolbar();
+        $this->tpl->setOnScreenMessage("info", $this->lng->txt("lso_intropages_deprecationhint"));
+
         $form = $this->buildForm();
         $this->fillForm($form);
         $this->addCommonFieldsToForm($form);
@@ -102,26 +99,51 @@ class ilObjLearningSequenceSettingsGUI
         $this->ctrl->returnToParent($this);
     }
 
-    private function initImgInput(ilImageFileInputGUI $inpt) : ilImageFileInputGUI
+
+    //TODO: remove in release 9
+    public function addLegacypagesToToolbar() : void
     {
-        $inpt->setSuffixes($this->img_allowed_suffixes);
-        $inpt->setALlowDeletion(true);
-        return $inpt;
+        $this->toolbar->addButton(
+            $this->lng->txt("lso_settings_old_intro"),
+            $this->ctrl->getLinkTarget($this, self::CMD_OLD_INTRO)
+        );
+
+        $this->toolbar->addButton(
+            $this->lng->txt("lso_settings_old_extro"),
+            $this->ctrl->getLinkTarget($this, self::CMD_OLD_EXTRO)
+        );
     }
 
-    private function initRTEInput(ilTextAreaInputGUI $inpt) : ilTextAreaInputGUI
+    protected function showLegacyPage(string $cmd) : string
     {
-        $inpt->setUseRte(true);
-        $inpt->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
-        $inpt->setRteTags($this->rte_allowed_tags);
-        return $inpt;
+        $this->toolbar->addButton(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, self::CMD_EDIT)
+        );
+
+        $out = [];
+        $settings = $this->settings;
+        if ($cmd === self::CMD_OLD_INTRO) {
+            $out[] = $settings->getAbstract();
+            $img = $settings->getAbstractImage();
+            if ($img) {
+                $out[] = '<img src="' . $img . '"/>';
+            }
+        }
+        if ($cmd === self::CMD_OLD_EXTRO) {
+            $out[] = $settings->getExtro();
+            $img = $settings->getExtroImage();
+            if ($img) {
+                $out[] = '<img src="' . $img . '"/>';
+            }
+        }
+
+        return implode('<hr>', $out);
     }
 
     protected function buildForm() : ilPropertyFormGUI
     {
-        $txt = function ($id) {
-            return $this->lng->txt($id);
-        };
+        $txt = fn ($id) => $this->lng->txt($id);
         $settings = $this->settings;
         $activation = $this->activation;
 
@@ -157,32 +179,6 @@ class ilObjLearningSequenceSettingsGUI
         }
 
         $section_misc = new ilFormSectionHeaderGUI();
-        $section_misc->setTitle($txt('lso_settings_misc'));
-        $show_members_gallery = new ilCheckboxInputGUI($txt("members_gallery"), self::PROP_GALLERY);
-        $show_members_gallery->setInfo($txt('lso_show_members_info'));
-
-        $abstract = $this->initRTEInput(
-            new ilTextAreaInputGUI($txt("abstract"), self::PROP_ABSTRACT)
-        );
-        $abstract_img = $this->initImgInput(
-            new ilImageFileInputGUI($txt("abstract_img"), self::PROP_ABSTRACT_IMAGE)
-        );
-        $abstract_img->setImage($settings->getAbstractImage());
-
-        $extro = $this->initRTEInput(
-            new ilTextAreaInputGUI($txt("extro"), self::PROP_EXTRO)
-        );
-        $extro_img = $this->initImgInput(
-            new ilImageFileInputGUI($txt("extro_img"), self::PROP_EXTRO_IMAGE)
-        );
-        $extro_img->setImage($settings->getExtroImage());
-
-        $section_intro = new ilFormSectionHeaderGUI();
-        $section_intro->setTitle($txt('lso_settings_intro'));
-        $section_extro = new ilFormSectionHeaderGUI();
-        $section_extro->setTitle($txt('lso_settings_extro'));
-
-        $section_misc = new ilFormSectionHeaderGUI();
         $section_misc->setTitle($txt('obj_features'));
         $show_members_gallery = new ilCheckboxInputGUI($txt("members_gallery"), self::PROP_GALLERY);
         $show_members_gallery->setInfo($txt('lso_show_members_info'));
@@ -193,15 +189,6 @@ class ilObjLearningSequenceSettingsGUI
         $form->addItem($section_avail);
         $form->addItem($online);
         $form->addItem($duration);
-
-        $form->addItem($section_intro);
-        $form->addItem($abstract);
-        $form->addItem($abstract_img);
-
-        $form->addItem($section_extro);
-        $form->addItem($extro);
-        $form->addItem($extro_img);
-
         $form->addItem($section_misc);
         $form->addItem($show_members_gallery);
 
@@ -211,17 +198,13 @@ class ilObjLearningSequenceSettingsGUI
         return $form;
     }
 
-    protected function fillForm(\ilPropertyFormGUI $form) : \ilPropertyFormGUI
+    protected function fillForm(ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         $settings = $this->settings;
         $activation = $this->activation;
         $values = [
             self::PROP_TITLE => $this->obj_title,
             self::PROP_DESC => $this->obj_description,
-            self::PROP_ABSTRACT => $settings->getAbstract(),
-            self::PROP_EXTRO => $settings->getExtro(),
-            self::PROP_ABSTRACT_IMAGE => $settings->getAbstractImage(),
-            self::PROP_EXTRO_IMAGE => $settings->getExtroImage(),
             self::PROP_ONLINE => $activation->getIsOnline(),
             self::PROP_GALLERY => $settings->getMembersGallery()
         ];
@@ -229,11 +212,9 @@ class ilObjLearningSequenceSettingsGUI
         return $form;
     }
 
-    protected function addCommonFieldsToForm(\ilPropertyFormGUI $form) : void
+    protected function addCommonFieldsToForm(ilPropertyFormGUI $form) : void
     {
-        $txt = function ($id) {
-            return $this->lng->txt($id);
-        };
+        $txt = fn ($id) => $this->lng->txt($id);
         $section_appearance = new ilFormSectionHeaderGUI();
         $section_appearance->setTitle($txt('cont_presentation'));
         $form->addItem($section_appearance);
@@ -250,59 +231,36 @@ class ilObjLearningSequenceSettingsGUI
         $this->addCommonFieldsToForm($form);
         if (!$form->checkInput()) {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("msg_form_save_error"));
             return $form->getHTML();
         }
 
-        $post = $_POST;
         $lso = $this->obj;
 
-        $lso->setTitle($post[self::PROP_TITLE]);
-        $lso->setDescription($post[self::PROP_DESC]);
+        $lso->setTitle($this->post_wrapper->retrieve(self::PROP_TITLE, $this->refinery->kindlyTo()->string()));
+        $lso->setDescription($this->post_wrapper->retrieve(self::PROP_DESC, $this->refinery->kindlyTo()->string()));
 
         $settings = $this->settings
-            ->withAbstract($post[self::PROP_ABSTRACT])
-            ->withExtro($post[self::PROP_EXTRO])
-            ->withMembersGallery((bool) $post[self::PROP_GALLERY])
+            ->withMembersGallery($this->post_wrapper->retrieve(self::PROP_GALLERY, $this->refinery->kindlyTo()->bool()))
         ;
 
         $inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
         $start = $inpt->getStart();
         $end = $inpt->getEnd();
         $activation = $this->activation
-            ->withIsOnline((bool) $post[self::PROP_ONLINE]);
+            ->withIsOnline($this->post_wrapper->retrieve(self::PROP_ONLINE, $this->refinery->kindlyTo()->bool()));
 
         if ($start) {
             $activation = $activation
-                ->withActivationStart(\DateTime::createFromFormat('Y-m-d H:i:s', (string) $start->get(IL_CAL_DATETIME)));
+                ->withActivationStart(DateTime::createFromFormat('Y-m-d H:i:s', (string) $start->get(IL_CAL_DATETIME)));
         } else {
             $activation = $activation->withActivationStart();
         }
         if ($end) {
             $activation = $activation
-                ->withActivationEnd(\DateTime::createFromFormat('Y-m-d H:i:s', (string) $end->get(IL_CAL_DATETIME)));
+                ->withActivationEnd(DateTime::createFromFormat('Y-m-d H:i:s', (string) $end->get(IL_CAL_DATETIME)));
         } else {
             $activation = $activation->withActivationEnd();
-        }
-
-        $inpt = $form->getItemByPostVar(self::PROP_ABSTRACT_IMAGE);
-        if ($inpt->getDeletionFlag()) {
-            $settings = $settings->withDeletion(ilLearningSequenceFilesystem::IMG_ABSTRACT);
-        } else {
-            $img = $_POST[self::PROP_ABSTRACT_IMAGE];
-            if ($img['size'] > 0) {
-                $settings = $settings->withUpload($img, ilLearningSequenceFilesystem::IMG_ABSTRACT);
-            }
-        }
-
-        $inpt = $form->getItemByPostVar(self::PROP_EXTRO_IMAGE);
-        if ($inpt->getDeletionFlag()) {
-            $settings = $settings->withDeletion(ilLearningSequenceFilesystem::IMG_EXTRO);
-        } else {
-            $img = $_POST[self::PROP_EXTRO_IMAGE];
-            if ($img['size'] > 0) {
-                $settings = $settings->withUpload($img, ilLearningSequenceFilesystem::IMG_EXTRO);
-            }
         }
 
         $form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->obj);
@@ -315,7 +273,7 @@ class ilObjLearningSequenceSettingsGUI
         $lso->updateActivation($activation);
         $lso->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this);
         return null;
     }

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailAddress
@@ -7,58 +22,36 @@
  */
 class ilMailAddress
 {
-    /** @var string */
-    protected $mailbox = '';
+    protected string $mailbox = '';
+    protected string $host = '';
 
-    /** @var string */
-    protected $host = '';
-
-    /**
-     * ilMailAddress constructor.
-     * @param string $mailbox
-     * @param string $host
-     */
     public function __construct(string $mailbox, string $host)
     {
         $this->mailbox = $mailbox;
         $this->host = $host;
     }
 
-    /**
-     * @param string $host
-     */
-    public function setHost(string $host)
+    public function setHost(string $host) : void
     {
         $this->host = $host;
     }
 
-    /**
-     * @param string $mailbox
-     */
-    public function setMailbox(string $mailbox)
+    public function setMailbox(string $mailbox) : void
     {
         $this->mailbox = $mailbox;
     }
 
-    /**
-     * @return string
-     */
     public function getHost() : string
     {
         return $this->host;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getMailbox() : string
     {
         return $this->mailbox;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         return implode('@', [

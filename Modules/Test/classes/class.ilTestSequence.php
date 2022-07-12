@@ -120,7 +120,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         $this->considerOptionalQuestionsEnabled = true;
     }
     
-    public function getActiveId()
+    public function getActiveId() : int
     {
         return $this->active_id;
     }
@@ -165,8 +165,6 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     
     /**
     * Loads the sequence data for a given active id
-    *
-    * @return string The filesystem path of the certificate
     */
     public function loadFromDb()
     {
@@ -299,13 +297,13 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     
     protected function saveNewlyPresentedQuestion()
     {
-        if ((int) $this->newlyPresentedQuestion) {
+        if ($this->newlyPresentedQuestion) {
             global $DIC; /* @var ILIAS\DI\Container $DIC */
             
             $DIC->database()->replace('tst_seq_qst_presented', array(
-                'active_fi' => array('integer', (int) $this->active_id),
-                'pass' => array('integer', (int) $this->pass),
-                'question_fi' => array('integer', (int) $this->newlyPresentedQuestion)
+                'active_fi' => array('integer', $this->active_id),
+                'pass' => array('integer', $this->pass),
+                'question_fi' => array('integer', $this->newlyPresentedQuestion)
             ), array());
         }
     }
@@ -320,8 +318,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
             $ilDB = $DIC['ilDB'];
             
             $ilDB->replace('tst_seq_qst_checked', array(
-                'active_fi' => array('integer', (int) $this->active_id),
-                'pass' => array('integer', (int) $this->pass),
+                'active_fi' => array('integer', $this->active_id),
+                'pass' => array('integer', $this->pass),
                 'question_fi' => array('integer', (int) $this->newlyCheckedQuestion)
             ), array());
         }
@@ -345,8 +343,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
         foreach ($this->optionalQuestions as $questionId) {
             $ilDB->replace('tst_seq_qst_optional', array(
-                'active_fi' => array('integer', (int) $this->active_id),
-                'pass' => array('integer', (int) $this->pass),
+                'active_fi' => array('integer', $this->active_id),
+                'pass' => array('integer', $this->pass),
                 'question_fi' => array('integer', (int) $questionId)
             ), array());
         }
@@ -366,7 +364,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         }
     }
     
-    public function isPostponedQuestion($question_id)
+    public function isPostponedQuestion($question_id) : bool
     {
         if (!is_array($this->sequencedata["postponed"])) {
             return false;
@@ -378,7 +376,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         }
     }
     
-    public function isHiddenQuestion($question_id)
+    public function isHiddenQuestion($question_id) : bool
     {
         if (!is_array($this->sequencedata["hidden"])) {
             return false;
@@ -390,7 +388,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         }
     }
     
-    public function isPostponedSequence($sequence)
+    public function isPostponedSequence($sequence) : bool
     {
         if (!array_key_exists($sequence, $this->questions)) {
             return false;
@@ -405,7 +403,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         }
     }
     
-    public function isHiddenSequence($sequence)
+    public function isHiddenSequence($sequence) : bool
     {
         if (!array_key_exists($sequence, $this->questions)) {
             return false;
@@ -449,14 +447,14 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         $this->newlyPresentedQuestion = $questionId;
     }
     
-    public function isQuestionPresented($questionId)
+    public function isQuestionPresented($questionId) : bool
     {
         return (
             $this->newlyPresentedQuestion == $questionId || in_array($questionId, $this->alreadyPresentedQuestions)
         );
     }
     
-    public function isNextQuestionPresented($questionId)
+    public function isNextQuestionPresented($questionId) : bool
     {
         $nextQstId = $this->getQuestionForSequence(
             $this->getNextSequence($this->getSequenceForQuestion($questionId))
@@ -482,7 +480,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         $this->newlyCheckedQuestion = $questionId;
     }
     
-    public function isQuestionChecked($questionId)
+    public function isQuestionChecked($questionId) : bool
     {
         return isset($this->alreadyCheckedQuestions[$questionId]);
     }
@@ -498,12 +496,12 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         }
     }
     
-    public function getUserQuestionCount()
+    public function getUserQuestionCount() : int
     {
         return count($this->getCorrectedSequence());
     }
     
-    public function getOrderedSequence()
+    public function getOrderedSequence() : array
     {
         $sequenceKeys = array();
         
@@ -511,18 +509,20 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
             if ($this->isHiddenSequence($sequenceKey) && !$this->isConsiderHiddenQuestionsEnabled()) {
                 continue;
             }
-            
+
+            /* Doesn't seem to ever work, commenting out for future forensic
             if ($this->isSequenceOptional($sequenceKey) && !$this->isConsiderOptionalQuestionsEnabled()) {
                 continue;
             }
-            
+            */
+
             $sequenceKeys[] = $sequenceKey;
         }
         
         return $sequenceKeys;
     }
     
-    public function getOrderedSequenceQuestions()
+    public function getOrderedSequenceQuestions() : array
     {
         $questions = array();
         
@@ -546,7 +546,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         return $this->getCorrectedSequence();
     }
 
-    public function getUserSequenceQuestions()
+    public function getUserSequenceQuestions() : array
     {
         $seq = $this->getCorrectedSequence();
         $found = array();
@@ -664,7 +664,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     * @param array $array An array which should be shuffled
     * @access public
     */
-    public function pcArrayShuffle($array)
+    public function pcArrayShuffle($array) : array
     {
         $keys = array_keys($array);
         shuffle($keys);
@@ -687,7 +687,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         }
     }
     
-    public function getSequenceSummary($obligationsFilterEnabled = false)
+    public function getSequenceSummary($obligationsFilterEnabled = false) : array
     {
         $correctedsequence = $this->getCorrectedSequence();
         $result_array = array();
@@ -730,7 +730,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         return $result_array;
     }
     
-    public function getPass()
+    public function getPass() : int
     {
         return $this->pass;
     }
@@ -740,7 +740,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         $this->pass = $pass;
     }
     
-    public function hasSequence()
+    public function hasSequence() : bool
     {
         if ((is_array($this->sequencedata["sequence"])) && (count($this->sequencedata["sequence"]) > 0)) {
             return true;
@@ -749,7 +749,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         }
     }
 
-    public function hasHiddenQuestions()
+    public function hasHiddenQuestions() : bool
     {
         if ((is_array($this->sequencedata["hidden"])) && (count($this->sequencedata["hidden"]) > 0)) {
             return true;
@@ -780,7 +780,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         }
     }
     
-    public function hasStarted(ilTestSession $testSession)
+    public function hasStarted(ilTestSession $testSession) : bool
     {
         if ($testSession->getLastSequence() < 1) {
             return false;
@@ -794,17 +794,17 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         return true;
     }
     
-    public function openQuestionExists()
+    public function openQuestionExists() : bool
     {
         return $this->getFirstSequence() !== false;
     }
 
-    public function getQuestionIds()
+    public function getQuestionIds() : array
     {
         return array_values($this->questions);
     }
 
-    public function questionExists($questionId)
+    public function questionExists($questionId) : bool
     {
         return in_array($questionId, $this->questions);
     }
@@ -814,17 +814,17 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         $this->optionalQuestions[$questionId] = $questionId;
     }
 
-    public function isQuestionOptional($questionId)
+    public function isQuestionOptional($questionId) : bool
     {
         return isset($this->optionalQuestions[$questionId]);
     }
     
-    public function hasOptionalQuestions()
+    public function hasOptionalQuestions() : bool
     {
         return (bool) count($this->optionalQuestions);
     }
 
-    public function getOptionalQuestions()
+    public function getOptionalQuestions() : array
     {
         return $this->optionalQuestions;
     }
@@ -853,7 +853,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     /**
      * @return boolean
      */
-    public function isAnsweringOptionalQuestionsConfirmed()
+    public function isAnsweringOptionalQuestionsConfirmed() : bool
     {
         return $this->answeringOptionalQuestionsConfirmed;
     }
@@ -869,7 +869,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     /**
      * @return boolean
      */
-    public function isConsiderHiddenQuestionsEnabled()
+    public function isConsiderHiddenQuestionsEnabled() : bool
     {
         return $this->considerHiddenQuestionsEnabled;
     }
@@ -885,7 +885,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     /**
      * @return boolean
      */
-    public function isConsiderOptionalQuestionsEnabled()
+    public function isConsiderOptionalQuestionsEnabled() : bool
     {
         return $this->considerOptionalQuestionsEnabled;
     }

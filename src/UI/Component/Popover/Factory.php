@@ -1,15 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Popover;
 
-use \ILIAS\UI\Component\Component as Component;
+use \ILIAS\UI\Component\Component;
 
 /**
  * Factory to create different types of Popovers.
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -32,12 +47,10 @@ interface Factory
      *          Popovers with fixed Position MUST only be attached to triggerers with
      *          fixed position.
      * ---
-     *
      * @param Component|Component[] $content
-     *
      * @return \ILIAS\UI\Component\Popover\Standard
      */
-    public function standard($content);
+    public function standard($content) : Standard;
 
 
     /**
@@ -52,12 +65,10 @@ interface Factory
      * rules:
      *   usage:
      *      1: Listing Popovers MUST be used if one needs to display lists inside a Popover.
-     *      2: Popovers with fixed Position MUST only be attached to triggerers with fixed position.
+     *      2: Popovers with fixed Position MUST only be attached to triggers with fixed position.
      * ---
-     *
      * @param Component[] $items
-     *
      * @return \ILIAS\UI\Component\Popover\Listing
      */
-    public function listing($items);
+    public function listing(array $items) : Listing;
 }

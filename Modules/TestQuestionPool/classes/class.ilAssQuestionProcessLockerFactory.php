@@ -57,7 +57,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @param int $questionId
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId) : void
     {
         $this->questionId = $questionId;
     }
@@ -65,7 +65,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @return int
      */
-    public function getQuestionId()
+    public function getQuestionId() : ?int
     {
         return $this->questionId;
     }
@@ -73,7 +73,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @param int $userId
      */
-    public function setUserId($userId)
+    public function setUserId($userId) : void
     {
         $this->userId = $userId;
     }
@@ -81,7 +81,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUserId() : ?int
     {
         return $this->userId;
     }
@@ -89,7 +89,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @param bool $assessmentLogEnabled
      */
-    public function setAssessmentLogEnabled($assessmentLogEnabled)
+    public function setAssessmentLogEnabled($assessmentLogEnabled) : void
     {
         $this->assessmentLogEnabled = $assessmentLogEnabled;
     }
@@ -97,12 +97,12 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @return bool
      */
-    public function isAssessmentLogEnabled()
+    public function isAssessmentLogEnabled() : bool
     {
         return $this->assessmentLogEnabled;
     }
 
-    private function getLockModeSettingValue()
+    private function getLockModeSettingValue() : ?string
     {
         return $this->settings->get('ass_process_lock_mode', ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
     }

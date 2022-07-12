@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Media Pool Data set class
@@ -11,17 +25,15 @@
  * - mob_mi_map_area: data from a table map_area
  * - mob_mi_parameter: data from a table mob_parameter
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ServicesMediaObjects
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaObjectDataSet extends ilDataSet
 {
-    protected $use_previous_import_ids = false;
+    protected ilMediaItem $current_media_item;
+    protected ilObjMediaObject $current_mob;
+    protected ilLogger $mob_log;
+    protected bool $use_previous_import_ids = false;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
@@ -33,46 +45,29 @@ class ilMediaObjectDataSet extends ilDataSet
      *
      * @param bool $a_val use previous import ids
      */
-    public function setUsePreviousImportIds($a_val)
+    public function setUsePreviousImportIds(bool $a_val) : void
     {
         $this->use_previous_import_ids = $a_val;
     }
 
-    /**
-     * Get use previous import ids
-     *
-     * @return bool use previous import ids
-     */
-    public function getUsePreviousImportIds()
+    public function getUsePreviousImportIds() : bool
     {
         return $this->use_previous_import_ids;
     }
 
     /**
-     * Get supported versions
-     * @param
-     * @return array
+     * @return string[]
      */
     public function getSupportedVersions() : array
     {
         return array("5.1.0", "4.3.0", "4.1.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Services/MediaObject/" . $a_entity;
+        return "https://www.ilias.de/xml/Services/MediaObject/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         // mob
@@ -101,6 +96,8 @@ class ilMediaObjectDataSet extends ilDataSet
         // media item
         if ($a_entity == "mob_media_item") {
             switch ($a_version) {
+                case "5.1.0":
+                case "4.3.0":
                 case "4.1.0":
                     return array(
                         "Id" => "integer",
@@ -117,22 +114,6 @@ class ilMediaObjectDataSet extends ilDataSet
                         "TextRepresentation" => "text"
                     );
 
-                case "4.3.0":
-                case "5.1.0":
-                    return array(
-                        "Id" => "integer",
-                        "MobId" => "integer",
-                        "Width" => "integer",
-                        "Height" => "integer",
-                        "Halign" => "text",
-                        "Caption" => "text",
-                        "Nr" => "integer",
-                        "Purpose" => "text",
-                        "Location" => "text",
-                        "LocationType" => "text",
-                        "Format" => "text",
-                        "TextRepresentation" => "text"
-                    );
             }
         }
 
@@ -172,15 +153,14 @@ class ilMediaObjectDataSet extends ilDataSet
                         );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
-    {
+    public function readData(
+        string $a_entity,
+        string $a_version,
+        array $a_ids
+    ) : void {
         $ilDB = $this->db;
 
         if (!is_array($a_ids)) {
@@ -221,6 +201,8 @@ class ilMediaObjectDataSet extends ilDataSet
         // media item
         if ($a_entity == "mob_media_item") {
             switch ($a_version) {
+                case "5.1.0":
+                case "4.3.0":
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign," .
                         "caption, nr, purpose, location, location_type, format, text_representation" .
@@ -228,13 +210,6 @@ class ilMediaObjectDataSet extends ilDataSet
                         $ilDB->in("mob_id", $a_ids, false, "integer"));
                     break;
 
-                case "4.3.0":
-                case "5.1.0":
-                    $this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign," .
-                        "caption, nr, purpose, location, location_type, format, text_representation" .
-                        " FROM media_item WHERE " .
-                        $ilDB->in("mob_id", $a_ids, false, "integer"));
-                    break;
             }
         }
 
@@ -300,25 +275,23 @@ class ilMediaObjectDataSet extends ilDataSet
         switch ($a_entity) {
             case "mob":
                 return array(
-                    "mob_media_item" => array("ids" => $a_rec["Id"])
+                    "mob_media_item" => array("ids" => $a_rec["Id"] ?? null)
                 );
                 
             case "mob_media_item":
                 return array(
-                    "mob_mi_map_area" => array("ids" => $a_rec["Id"]),
-                    "mob_mi_parameter" => array("ids" => $a_rec["Id"])
+                    "mob_mi_map_area" => array("ids" => $a_rec["Id"] ?? null),
+                    "mob_mi_parameter" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
         return [];
     }
-
-    /**
-     * Get xml record
-     * @param
-     * @return array
-     */
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
-    {
+    
+    public function getXmlRecord(
+        string $a_entity,
+        string $a_version,
+        array $a_set
+    ) : array {
         if ($a_entity == "mob") {
             $dir = ilObjMediaObject::_getDirectory($a_set["Id"]);
             $a_set["Dir"] = $dir;
@@ -327,16 +300,13 @@ class ilMediaObjectDataSet extends ilDataSet
         return $a_set;
     }
     
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
-        //echo $a_entity;
-        //var_dump($a_rec);
-
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "mob":
 
@@ -360,13 +330,12 @@ class ilMediaObjectDataSet extends ilDataSet
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
                     $target_dir = $dir = ilObjMediaObject::_getDirectory($newObj->getId());
                     $this->mob_log->debug("s:-$source_dir-,t:-$target_dir-");
-                    ilUtil::rCopy($source_dir, $target_dir);
+                    ilFileUtils::rCopy($source_dir, $target_dir);
                     ilObjMediaObject::renameExecutables($target_dir);
                     ilMediaSvgSanitizer::sanitizeDir($target_dir);	// see #20339
                 }
 
                 $a_mapping->addMapping("Services/MediaObjects", "mob", $a_rec["Id"], $newObj->getId());
-//echo "<br>++add++"."0:".$a_rec["Id"].":mob+0:".$newObj->getId().":mob"."+";
                 $a_mapping->addMapping(
                     "Services/MetaData",
                     "md",

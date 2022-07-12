@@ -117,43 +117,19 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     public function testSetAccessCodeToSession() : void
     {
-        $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX] = "";
+        ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, "");
         $this->testObj->setAccessCodeToSession(17);
-        $this->assertEquals([17], $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX]);
+        $this->assertEquals([17], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
     }
 
     public function testUnsetAccessCodeInSession() : void
     {
-        $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX] = "";
+        ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, "");
         $this->testObj->setAccessCodeToSession(17);
-        $this->assertEquals([17], $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX]);
+        $this->assertEquals([17], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
 
         $this->testObj->unsetAccessCodeInSession();
-        $this->assertEmpty($_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX]);
-    }
-
-    public function testGetAccessCodeFromSession() : void
-    {
-        $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX] = "";
-        $this->assertNull($this->testObj->getAccessCodeFromSession());
-
-        $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX] = [];
-        $this->assertNull($this->testObj->getAccessCodeFromSession());
-
-        $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX] = [0 => 17];
-        $this->assertEquals(17, $this->testObj->getAccessCodeFromSession());
-    }
-
-    public function testDoesAccessCodeInSessionExists() : void
-    {
-        $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX] = "";
-        $this->assertFalse($this->testObj->doesAccessCodeInSessionExists());
-
-        $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX] = [];
-        $this->assertFalse($this->testObj->doesAccessCodeInSessionExists());
-
-        $_SESSION[ilTestSession::ACCESS_CODE_SESSION_INDEX] = [0 => 17];
-        $this->assertTrue($this->testObj->doesAccessCodeInSessionExists());
+        $this->assertEmpty(ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
     }
 
     public function testIsAnonymousUser() : void

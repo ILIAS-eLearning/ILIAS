@@ -1,14 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Legacy;
 
-use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
  * Class Renderer
@@ -19,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
          * @var Legacy $component
@@ -34,20 +46,16 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return [Component\Legacy\Legacy::class];
     }
 
-    /**
-     * @param Legacy $component
-     * @return \ILIAS\UI\Implementation\Component\JavaScriptBindable
-     */
-    protected function registerSignals(Legacy $component)
+    protected function registerSignals(Legacy $component) : Component\JavaScriptBindable
     {
         $custom_signals = $component->getAllCustomSignals();
 
-        return $component->withAdditionalOnLoadCode(function ($id) use ($custom_signals) {
+        return $component->withAdditionalOnLoadCode(function ($id) use ($custom_signals) : string {
             $code = "";
             foreach ($custom_signals as $custom_signal) {
                 $signal_id = $custom_signal['signal'];

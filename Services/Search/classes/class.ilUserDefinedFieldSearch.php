@@ -1,19 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 /**
 * Class ilUserSearch
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @ingroup ServicesSearch
 */
 class ilUserDefinedFieldSearch extends ilAbstractSearch
 {
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();

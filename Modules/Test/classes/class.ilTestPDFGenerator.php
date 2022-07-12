@@ -21,7 +21,7 @@ class ilTestPDFGenerator
 
     const service = "Test";
 
-    private static function buildHtmlDocument($contentHtml, $styleHtml)
+    private static function buildHtmlDocument($contentHtml, $styleHtml) : string
     {
         return "
 			<html>
@@ -35,10 +35,11 @@ class ilTestPDFGenerator
     }
 
     /**
-     * @param $html
+     * @param $contentHtml
+     * @param $styleHtml
      * @return string
      */
-    private static function makeHtmlDocument($contentHtml, $styleHtml)
+    private static function makeHtmlDocument($contentHtml, $styleHtml) : string
     {
         if (!is_string($contentHtml) || !strlen(trim($contentHtml))) {
             return $contentHtml;
@@ -105,17 +106,18 @@ class ilTestPDFGenerator
         return $pdf_factory->deliverPDFFromHTMLString($pdf_output, $filename, $output_mode, self::service, $purpose);
     }
 
-    public static function preprocessHTML($html)
+    public static function preprocessHTML($html) : string
     {
         $html = self::makeHtmlDocument($html, '<style>' . self::getCssContent() . '</style>');
         
         return $html;
     }
 
-    protected static function getTemplatePath($a_filename, $module_path = 'Modules/Test/')
+    protected static function getTemplatePath($a_filename, $module_path = 'Modules/Test/') : string
     {
         // use ilStyleDefinition instead of account to get the current skin
         include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
+        $fname = '';
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $fname = "./Customizing/global/skin/" .
                     ilStyleDefinition::getCurrentSkin() . "/" . $module_path . basename($a_filename);
@@ -127,7 +129,7 @@ class ilTestPDFGenerator
         return $fname;
     }
 
-    protected static function getCssContent()
+    protected static function getCssContent() : string
     {
         $cssContent = file_get_contents(self::getTemplatePath('delos.css', ''));
         $cssContent .= file_get_contents(self::getTemplatePath('test_pdf.css'));

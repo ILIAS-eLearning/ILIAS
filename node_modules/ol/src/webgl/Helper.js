@@ -10,9 +10,7 @@ import {
   UNSIGNED_INT,
   UNSIGNED_SHORT,
   getContext,
-  getSupportedExtensions,
 } from '../webgl.js';
-import {assert} from '../asserts.js';
 import {clear} from '../obj.js';
 import {
   compose as composeTransform,
@@ -23,12 +21,11 @@ import {
 } from '../transform.js';
 import {create, fromTransform} from '../vec/mat4.js';
 import {getUid} from '../util.js';
-import {includes} from '../array.js';
 
 /**
  * @typedef {Object} BufferCacheEntry
- * @property {import("./Buffer.js").default} buffer
- * @property {WebGLBuffer} webGlBuffer
+ * @property {import("./Buffer.js").default} buffer Buffer.
+ * @property {WebGLBuffer} webGlBuffer WebGlBuffer.
  */
 
 /**
@@ -92,12 +89,12 @@ export const AttributeType = {
  * the main canvas which will then be sampled up (useful for saving resource on blur steps).
  * @property {string} [vertexShader] Vertex shader source
  * @property {string} [fragmentShader] Fragment shader source
- * @property {Object.<string,UniformValue>} [uniforms] Uniform definitions for the post process step
+ * @property {Object<string,UniformValue>} [uniforms] Uniform definitions for the post process step
  */
 
 /**
  * @typedef {Object} Options
- * @property {Object.<string,UniformValue>} [uniforms] Uniform definitions; property names must match the uniform
+ * @property {Object<string,UniformValue>} [uniforms] Uniform definitions; property names must match the uniform
  * names in the provided or default shaders.
  * @property {Array<PostProcessesOptions>} [postProcesses] Post-processes definitions
  */
@@ -105,7 +102,7 @@ export const AttributeType = {
 /**
  * @typedef {Object} UniformInternalDescription
  * @property {string} name Name
- * @property {UniformValue=} value Value
+ * @property {UniformValue} [value] Value
  * @property {WebGLTexture} [texture] Texture
  * @private
  */
@@ -238,7 +235,7 @@ export const AttributeType = {
  */
 class WebGLHelper extends Disposable {
   /**
-   * @param {Options=} opt_options Options.
+   * @param {Options} [opt_options] Options.
    */
   constructor(opt_options) {
     super();
@@ -248,9 +245,8 @@ class WebGLHelper extends Disposable {
     this.boundHandleWebGLContextLost_ = this.handleWebGLContextLost.bind(this);
 
     /** @private */
-    this.boundHandleWebGLContextRestored_ = this.handleWebGLContextRestored.bind(
-      this
-    );
+    this.boundHandleWebGLContextRestored_ =
+      this.handleWebGLContextRestored.bind(this);
 
     /**
      * @private
@@ -275,12 +271,15 @@ class WebGLHelper extends Disposable {
 
     /**
      * @private
+     * @type {Object<string, Object>}
+     */
+    this.extensionCache_ = {};
+
+    /**
+     * @private
      * @type {WebGLProgram}
      */
     this.currentProgram_ = null;
-
-    assert(includes(getSupportedExtensions(), 'OES_element_index_uint'), 63);
-    gl.getExtension('OES_element_index_uint');
 
     this.canvas_.addEventListener(
       ContextEventType.LOST,
@@ -311,13 +310,13 @@ class WebGLHelper extends Disposable {
 
     /**
      * @private
-     * @type {Object.<string, WebGLUniformLocation>}
+     * @type {Object<string, WebGLUniformLocation>}
      */
     this.uniformLocations_ = {};
 
     /**
      * @private
-     * @type {Object.<string, number>}
+     * @type {Object<string, number>}
      */
     this.attribLocations_ = {};
 
@@ -370,6 +369,21 @@ class WebGLHelper extends Disposable {
   }
 
   /**
+   * Get a WebGL extension.  If the extension is not supported, null is returned.
+   * Extensions are cached after they are enabled for the first time.
+   * @param {string} name The extension name.
+   * @return {Object} The extension or null if not supported.
+   */
+  getExtension(name) {
+    if (name in this.extensionCache_) {
+      return this.extensionCache_[name];
+    }
+    const extension = this.gl_.getExtension(name);
+    this.extensionCache_[name] = extension;
+    return extension;
+  }
+
+  /**
    * Just bind the buffer if it's in the cache. Otherwise create
    * the WebGL buffer, bind it, populate it, and add an entry to
    * the cache.
@@ -410,8 +424,8 @@ class WebGLHelper extends Disposable {
     const gl = this.getGL();
     const bufferKey = getUid(buf);
     const bufferCacheEntry = this.bufferCache_[bufferKey];
-    if (!gl.isContextLost()) {
-      gl.deleteBuffer(bufferCacheEntry.buffer);
+    if (bufferCacheEntry && !gl.isContextLost()) {
+      gl.deleteBuffer(bufferCacheEntry.webGlBuffer);
     }
     delete this.bufferCache_[bufferKey];
   }
@@ -428,6 +442,13 @@ class WebGLHelper extends Disposable {
       ContextEventType.RESTORED,
       this.boundHandleWebGLContextRestored_
     );
+
+    const extension = this.gl_.getExtension('WEBGL_lose_context');
+    if (extension) {
+      extension.loseContext();
+    }
+    delete this.gl_;
+    delete this.canvas_;
   }
 
   /**
@@ -435,9 +456,10 @@ class WebGLHelper extends Disposable {
    * Post process passes will be initialized here, the first one being bound as a render target for
    * subsequent draw calls.
    * @param {import("../PluggableMap.js").FrameState} frameState current frame state
+   * @param {boolean} [opt_disableAlphaBlend] If true, no alpha blending will happen.
    * @api
    */
-  prepareDraw(frameState) {
+  prepareDraw(frameState, opt_disableAlphaBlend) {
     const gl = this.getGL();
     const canvas = this.getCanvas();
     const size = frameState.size;
@@ -460,7 +482,10 @@ class WebGLHelper extends Disposable {
     gl.clearColor(0.0, 0.0, 0.0, 0.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFunc(
+      gl.ONE,
+      opt_disableAlphaBlend ? gl.ZERO : gl.ONE_MINUS_SRC_ALPHA
+    );
 
     gl.useProgram(this.currentProgram_);
     this.applyFrameState(frameState);
@@ -503,6 +528,8 @@ class WebGLHelper extends Disposable {
    */
   drawElements(start, end) {
     const gl = this.getGL();
+    this.getExtension('OES_element_index_uint');
+
     const elementType = gl.UNSIGNED_INT;
     const elementSize = 4;
 
@@ -709,8 +736,7 @@ class WebGLHelper extends Disposable {
   }
 
   /**
-   * Create a program for a vertex and fragment shader. The shaders compilation may have failed:
-   * use `WebGLHelper.getShaderCompileErrors()`to have details if any.
+   * Create a program for a vertex and fragment shader.  Throws if shader compilation fails.
    * @param {string} fragmentShaderSource Fragment shader source.
    * @param {string} vertexShaderSource Vertex shader source.
    * @return {WebGLProgram} Program
@@ -723,39 +749,41 @@ class WebGLHelper extends Disposable {
       fragmentShaderSource,
       gl.FRAGMENT_SHADER
     );
+
     const vertexShader = this.compileShader(
       vertexShaderSource,
       gl.VERTEX_SHADER
     );
-    this.shaderCompileErrors_ = null;
-
-    if (gl.getShaderInfoLog(fragmentShader)) {
-      this.shaderCompileErrors_ = `Fragment shader compilation failed:\n${gl.getShaderInfoLog(
-        fragmentShader
-      )}`;
-    }
-    if (gl.getShaderInfoLog(vertexShader)) {
-      this.shaderCompileErrors_ =
-        (this.shaderCompileErrors_ || '') +
-        `Vertex shader compilation failed:\n${gl.getShaderInfoLog(
-          vertexShader
-        )}`;
-    }
 
     const program = gl.createProgram();
     gl.attachShader(program, fragmentShader);
     gl.attachShader(program, vertexShader);
     gl.linkProgram(program);
-    return program;
-  }
 
-  /**
-   * Will return the last shader compilation errors. If no error happened, will return null;
-   * @return {string|null} Errors description, or null if last compilation was successful
-   * @api
-   */
-  getShaderCompileErrors() {
-    return this.shaderCompileErrors_;
+    if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+      const message = `Fragment shader compliation failed: ${gl.getShaderInfoLog(
+        fragmentShader
+      )}`;
+      throw new Error(message);
+    }
+    gl.deleteShader(fragmentShader);
+
+    if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+      const message = `Vertex shader compilation failed: ${gl.getShaderInfoLog(
+        vertexShader
+      )}`;
+      throw new Error(message);
+    }
+    gl.deleteShader(vertexShader);
+
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      const message = `GL program linking failed: ${gl.getShaderInfoLog(
+        vertexShader
+      )}`;
+      throw new Error(message);
+    }
+
+    return program;
   }
 
   /**
@@ -962,7 +990,7 @@ class WebGLHelper extends Disposable {
 /**
  * Compute a stride in bytes based on a list of attributes
  * @param {Array<AttributeDescription>} attributes Ordered list of attributes
- * @returns {number} Stride, ie amount of values for each vertex in the vertex buffer
+ * @return {number} Stride, ie amount of values for each vertex in the vertex buffer
  * @api
  */
 export function computeAttributesStride(attributes) {
@@ -977,7 +1005,7 @@ export function computeAttributesStride(attributes) {
 /**
  * Computes the size in byte of an attribute type.
  * @param {AttributeType} type Attribute type
- * @returns {number} The size in bytes
+ * @return {number} The size in bytes
  */
 function getByteSizeFromType(type) {
   switch (type) {

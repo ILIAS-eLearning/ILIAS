@@ -1,8 +1,17 @@
 <?php
-// declare(strict_types=1);
-
-require_once('class.ilWACSignedPath.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilWACToken
  *
@@ -11,67 +20,32 @@ require_once('class.ilWACSignedPath.php');
  */
 class ilWACToken
 {
-    const SALT_FILE_PATH = './data/wacsalt.php';
-    /**
-     * @var string
-     */
-    protected static $SALT = '';
-    /**
-     * @var string
-     */
-    protected $session_id = '';
-    /**
-     * @var int
-     */
-    protected $timestamp = 0;
-    /**
-     * @var string
-     */
-    protected $ip = '';
-    /**
-     * @var string
-     */
-    protected $token = '';
-    /**
-     * @var string
-     */
-    protected $raw_token = '';
-    /**
-     * @var string
-     */
-    protected $path = '';
-    /**
-     * @var string
-     */
-    protected $id = '';
-    /**
-     * @var string
-     */
-    protected $client = '';
-    /**
-     * @var int
-     */
-    protected $ttl = 0;
+    private const SALT_FILE_PATH = './data/wacsalt.php';
+    protected static string $SALT = '';
+    protected string $session_id = '';
+    protected int $timestamp = 0;
+    protected string $ip = '';
+    protected string $token = '';
+    protected string $raw_token = '';
+    protected string $path = '';
+    protected string $id = '';
+    protected string $client = '';
+    protected int $ttl = 0;
 
 
     /**
      * ilWACToken constructor.
-     *
-     * @param string $path
-     * @param string $client
-     * @param int $timestamp
-     * @param int $ttl
      */
-    public function __construct($path, $client, $timestamp = 0, $ttl = 0)
-    {
-        assert(is_string($path));
-        assert(is_string($client));
-        assert(is_int($timestamp));
-        assert(is_int($ttl));
+    public function __construct(
+        string $path,
+        string $client,
+        int $timestamp = 0,
+        int $ttl = 0
+    ) {
         $this->setClient($client);
         $this->setPath($path);
         $session_id = session_id();
-        $this->setSessionId($session_id ? $session_id : '-');
+        $this->setSessionId($session_id ?: '-');
         if (isset($_SERVER['REMOTE_ADDR'])) {
             $this->setIp($_SERVER['REMOTE_ADDR']);
         }
@@ -83,10 +57,7 @@ class ilWACToken
     }
 
 
-    /**
-     * @return void
-     */
-    public function generateToken()
+    public function generateToken() : void
     {
         $this->initSalt();
         $token = implode('-', array(
@@ -101,16 +72,14 @@ class ilWACToken
     }
 
 
-    /**
-     * @return void
-     */
-    protected function initSalt()
+    protected function initSalt() : void
     {
-        if (self::getSALT()) {
+        if (self::getSALT() !== '' && self::getSALT() !== '0') {
             return;
         }
         $salt = '';
         if (is_file(self::SALT_FILE_PATH)) {
+            /** @noRector */
             require self::SALT_FILE_PATH;
             self::setSALT($salt);
         }
@@ -123,10 +92,9 @@ class ilWACToken
 
 
     /**
-     * @return void
      * @throws ilWACException
      */
-    protected function generateSaltFile()
+    protected function generateSaltFile() : void
     {
         if (is_file(self::SALT_FILE_PATH)) {
             unlink(self::SALT_FILE_PATH);
@@ -144,210 +112,128 @@ class ilWACToken
     }
 
 
-    /**
-     * @return string
-     */
-    public function getSessionId()
+    public function getSessionId() : string
     {
-        return (string) $this->session_id;
+        return $this->session_id;
     }
 
 
-    /**
-     * @param string $session_id
-     * @return void
-     */
-    public function setSessionId($session_id)
+    public function setSessionId(string $session_id) : void
     {
-        assert(is_string($session_id));
         $this->session_id = $session_id;
     }
 
 
-    /**
-     * @return int
-     */
-    public function getTimestamp()
+    public function getTimestamp() : int
     {
-        return (int) $this->timestamp;
+        return $this->timestamp;
     }
 
 
-    /**
-     * @param int $timestamp
-     * @return void
-     */
-    public function setTimestamp($timestamp)
+    public function setTimestamp(int $timestamp) : void
     {
-        assert(is_int($timestamp));
         $this->timestamp = $timestamp;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getIp()
+    public function getIp() : string
     {
-        return (string) $this->ip;
+        return $this->ip;
     }
 
 
-    /**
-     * @param string $ip
-     * @return void
-     */
-    public function setIp($ip)
+    public function setIp(string $ip) : void
     {
-        assert(is_string($ip));
         $this->ip = $ip;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getToken()
+    public function getToken() : string
     {
-        return (string) $this->token;
+        return $this->token;
     }
 
 
-    /**
-     * @param string $token
-     * @return void
-     */
-    public function setToken($token)
+    public function setToken(string $token) : void
     {
-        assert(is_string($token));
         $this->token = $token;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath() : string
     {
-        return (string) $this->path;
+        return $this->path;
     }
 
 
-    /**
-     * @param string $path
-     * @return void
-     */
-    public function setPath($path)
+    public function setPath(string $path) : void
     {
-        assert(is_string($path));
         $this->path = $path;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId() : string
     {
-        return (string) $this->id;
+        return $this->id;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getHashedId()
+    public function getHashedId() : string
     {
-        return (string) md5($this->id);
+        return md5($this->id);
     }
 
 
-    /**
-     * @param string $id
-     */
-    public function setId($id)
+    public function setId(string $id) : void
     {
-        assert(is_string($id));
         $this->id = $id;
     }
 
 
-    /**
-     * @return string
-     */
-    public static function getSALT()
+    public static function getSALT() : string
     {
-        return (string) self::$SALT;
+        return self::$SALT;
     }
 
 
-    /**
-     * @param string $salt
-     * @return void
-     */
-    public static function setSALT($salt)
+    public static function setSALT(string $salt) : void
     {
-        assert(is_string($salt));
         self::$SALT = $salt;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getClient()
+    public function getClient() : string
     {
-        return (string) $this->client;
+        return $this->client;
     }
 
 
-    /**
-     * @param string $client
-     * @return void
-     */
-    public function setClient($client)
+    public function setClient(string $client) : void
     {
-        assert(is_string($client));
         $this->client = $client;
     }
 
 
-    /**
-     * @return int
-     */
-    public function getTTL()
+    public function getTTL() : int
     {
-        return (int) $this->ttl;
+        return $this->ttl;
     }
 
 
-    /**
-     * @param int $ttl
-     * @return void
-     */
-    public function setTTL($ttl)
+    public function setTTL(int $ttl) : void
     {
-        assert(is_int($ttl));
         $this->ttl = $ttl;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getRawToken()
+    public function getRawToken() : string
     {
-        return (string) $this->raw_token;
+        return $this->raw_token;
     }
 
 
-    /**
-     * @param string $raw_token
-     * @return void
-     */
-    public function setRawToken($raw_token)
+    public function setRawToken(string $raw_token) : void
     {
-        assert(is_string($raw_token));
         $this->raw_token = $raw_token;
     }
 }

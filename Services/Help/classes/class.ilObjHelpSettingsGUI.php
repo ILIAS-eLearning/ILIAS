@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Help\StandardGUIRequest;
 
 /**
  * Help settings gui class
@@ -11,52 +27,17 @@
  */
 class ilObjHelpSettingsGUI extends ilObject2GUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected StandardGUIRequest $help_request;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
-    {
+    public function __construct(
+        int $a_id = 0,
+        int $a_id_type = self::REPOSITORY_NODE_ID,
+        int $a_parent_node_id = 0
+    ) {
         global $DIC;
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
@@ -64,27 +45,20 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
         $this->tpl = $DIC["tpl"];
-        $this->db = $DIC->database();
+
+        $this->help_request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
 
-    /**
-     * Get type
-     */
-    public function getType()
+    public function getType() : string
     {
         return "hlps";
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $ilErr = $this->error;
-        $ilAccess = $this->access;
         $lng = $this->lng;
         $lng->loadLanguageModule("help");
 
@@ -93,32 +67,28 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-    * Edit news settings.
-    */
-    public function editSettings()
+    public function editSettings() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -128,8 +98,8 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         
         $ilTabs->activateTab("settings");
         
-        if (OH_REF_ID > 0) {
-            ilUtil::sendInfo("This installation is used for online help authoring. Help modules cannot be imported.");
+        if ((int) OH_REF_ID > 0) {
+            $this->tpl->setOnScreenMessage('info', "This installation is used for online help authoring. Help modules cannot be imported.");
             return;
         }
         
@@ -161,10 +131,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $this->tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * administration tabs show only permissions and trash folder
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTab(
@@ -183,41 +150,31 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         }
     }
 
-    
-    
-    
-    /**
-     * Upload help file
-     *
-     * @param
-     * @return
-     */
-    public function uploadHelpFile()
+    public function uploadHelpFile() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
         if ($this->checkPermissionBool("write")) {
             $this->object->uploadHelpModule($_FILES["help_file"]);
-            ilUtil::sendSuccess($lng->txt("help_module_uploaded"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("help_module_uploaded"), true);
         }
         
         $ilCtrl->redirect($this, "editSettings");
     }
     
-    /**
-     * Confirm help modules deletion
-     */
-    public function confirmHelpModulesDeletion()
+    public function confirmHelpModulesDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
 
         $this->checkPermission("write");
-            
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+
+        $ids = $this->help_request->getIds();
+
+        if (count($ids) === 0) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editSettings");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -226,43 +183,29 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
             $cgui->setCancel($lng->txt("cancel"), "editSettings");
             $cgui->setConfirm($lng->txt("delete"), "deleteHelpModules");
             
-            foreach ($_POST["id"] as $i) {
-                $cgui->addItem("id[]", $i, $this->object->lookupModuleTitle($i));
+            foreach ($ids as $i) {
+                $cgui->addItem("id[]", $i, $this->object::lookupModuleTitle($i));
             }
             
             $tpl->setContent($cgui->getHTML());
         }
     }
     
-    /**
-     * Delete help modules
-     *
-     * @param
-     * @return
-     */
-    public function deleteHelpModules()
+    public function deleteHelpModules() : void
     {
-        $ilDB = $this->db;
         $ilCtrl = $this->ctrl;
 
         $this->checkPermission("write");
-        
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $i) {
-                $this->object->deleteModule((int) $i);
-            }
+
+        $ids = $this->help_request->getIds();
+        foreach ($ids as $i) {
+            $this->object->deleteModule((int) $i);
         }
-        
+
         $ilCtrl->redirect($this, "editSettings");
     }
     
-    /**
-     * Activate module
-     *
-     * @param
-     * @return
-     */
-    public function activateModule()
+    public function activateModule() : void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
@@ -270,18 +213,12 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
         $this->checkPermission("write");
         
-        $ilSetting->set("help_module", (int) $_GET["hm_id"]);
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $ilSetting->set("help_module", $this->help_request->getHelpModuleId());
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
     
-    /**
-     * Deactivate module
-     *
-     * @param
-     * @return
-     */
-    public function deactivateModule()
+    public function deactivateModule() : void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
@@ -289,20 +226,14 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
         $this->checkPermission("write");
         
-        if ($ilSetting->get("help_module") == (int) $_GET["hm_id"]) {
+        if ((int) $ilSetting->get("help_module") === $this->help_request->getHelpModuleId()) {
             $ilSetting->set("help_module", "");
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "editSettings");
     }
-    
-    /**
-     * Set mode
-     *
-     * @param
-     * @return
-     */
-    public function setMode()
+
+    public function setMode() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -311,8 +242,11 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $this->checkPermission("write");
         
         if ($this->checkPermissionBool("write")) {
-            $ilSetting->set("help_mode", ilUtil::stripSlashes($_POST["help_mode"]));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $ilSetting->set(
+                "help_mode",
+                $this->help_request->getHelpModule()
+            );
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         
         $ilCtrl->redirect($this, "editSettings");

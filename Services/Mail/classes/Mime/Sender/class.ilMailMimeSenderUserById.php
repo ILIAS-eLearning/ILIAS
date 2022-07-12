@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailMimeSenderUserById
@@ -7,14 +22,9 @@
  */
 class ilMailMimeSenderUserById extends ilMailMimeSenderUser
 {
-    /** @var ilObjUser[] */
-    protected static $userInstances = [];
+    /** @var array<int, ilObjUser> */
+    protected static array $userInstances = [];
 
-    /**
-     * ilMailMimeSenderUserById constructor.
-     * @param ilSetting $settings
-     * @param int $usrId
-     */
     public function __construct(ilSetting $settings, int $usrId)
     {
         if (!array_key_exists($usrId, self::$userInstances)) {
@@ -24,11 +34,7 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
         parent::__construct($settings, self::$userInstances[$usrId]);
     }
 
-    /**
-     * @param int $usrId
-     * @param ilObjUser $user
-     */
-    public static function addUserToCache(int $usrId, ilObjUser $user)
+    public static function addUserToCache(int $usrId, ilObjUser $user) : void
     {
         self::$userInstances[$usrId] = $user;
     }

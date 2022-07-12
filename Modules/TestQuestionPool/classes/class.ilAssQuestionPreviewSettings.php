@@ -30,7 +30,7 @@ class ilAssQuestionPreviewSettings
         $this->contextRefId = $contextRefId;
     }
 
-    public function init()
+    public function init() : void
     {
         if ($this->isTestRefId()) {
             $this->initSettingsWithTestObject();
@@ -39,14 +39,14 @@ class ilAssQuestionPreviewSettings
         }
     }
     
-    public function isTestRefId()
+    public function isTestRefId() : bool
     {
         $objectType = ilObject::_lookupType($this->contextRefId, true);
         
         return $objectType == 'tst';
     }
     
-    private function initSettingsWithTestObject()
+    private function initSettingsWithTestObject() : void
     {
         /* @var ilObjTest $testOBJ */
         $testOBJ = ilObjectFactory::getInstanceByRefId($this->contextRefId);
@@ -59,7 +59,7 @@ class ilAssQuestionPreviewSettings
         $this->setReachedPointsEnabled($testOBJ->getAnswerFeedbackPoints());
     }
 
-    private function initSettingsFromPostParameters()
+    private function initSettingsFromPostParameters() : void
     {
         // get from post or from toolbar instance if possible
         
@@ -70,7 +70,7 @@ class ilAssQuestionPreviewSettings
         $this->setReachedPointsEnabled(true);
     }
 
-    public function setContextRefId($contextRefId)
+    public function setContextRefId($contextRefId) : void
     {
         $this->contextRefId = $contextRefId;
     }
@@ -91,52 +91,52 @@ class ilAssQuestionPreviewSettings
     /**
      * @param bool $reachedPointsEnabled
      */
-    public function setReachedPointsEnabled(bool $reachedPointsEnabled)
+    public function setReachedPointsEnabled(bool $reachedPointsEnabled) : void
     {
         $this->reachedPointsEnabled = $reachedPointsEnabled;
     }
 
-    public function setGenericFeedbackEnabled($genericFeedbackEnabled)
+    public function setGenericFeedbackEnabled($genericFeedbackEnabled) : void
     {
         $this->genericFeedbackEnabled = $genericFeedbackEnabled;
     }
 
-    public function isGenericFeedbackEnabled()
+    public function isGenericFeedbackEnabled() : bool
     {
         return $this->genericFeedbackEnabled;
     }
 
-    public function setSpecificFeedbackEnabled($specificFeedbackEnabled)
+    public function setSpecificFeedbackEnabled($specificFeedbackEnabled) : void
     {
         $this->specificFeedbackEnabled = $specificFeedbackEnabled;
     }
 
-    public function isSpecificFeedbackEnabled()
+    public function isSpecificFeedbackEnabled() : bool
     {
         return $this->specificFeedbackEnabled;
     }
 
-    public function setHintProvidingEnabled($hintProvidingEnabled)
+    public function setHintProvidingEnabled(bool $hintProvidingEnabled) : void
     {
         $this->hintProvidingEnabled = $hintProvidingEnabled;
     }
 
-    public function isHintProvidingEnabled()
+    public function isHintProvidingEnabled() : bool
     {
         return $this->hintProvidingEnabled;
     }
 
-    public function setBestSolutionEnabled($bestSolutionEnabled)
+    public function setBestSolutionEnabled($bestSolutionEnabled) : void
     {
         $this->bestSolutionEnabled = $bestSolutionEnabled;
     }
 
-    public function isBestSolutionEnabled()
+    public function isBestSolutionEnabled() : bool
     {
         return $this->bestSolutionEnabled;
     }
 
-    public function isInstantFeedbackNavigationRequired()
+    public function isInstantFeedbackNavigationRequired() : bool
     {
         if ($this->isGenericFeedbackEnabled()) {
             return true;
@@ -153,7 +153,7 @@ class ilAssQuestionPreviewSettings
         return false;
     }
 
-    public function isHintProvidingNavigationRequired()
+    public function isHintProvidingNavigationRequired() : bool
     {
         return $this->isHintProvidingEnabled();
     }

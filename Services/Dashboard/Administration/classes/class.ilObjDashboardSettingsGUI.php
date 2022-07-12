@@ -1,70 +1,44 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Dashboard settings
  *
- * @author Alex Killing <killing@leifos.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjDashboardSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjDashboardSettingsGUI: ilAdministrationGUI
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected ilPDSelectedItemsBlockViewSettings $viewSettings;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilDashboardSidePanelSettingsRepository $side_panel_settings;
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $ui_factory;
-
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $ui_renderer;
-
-    /**
-     * @var ilPDSelectedItemsBlockViewSettings
-     */
-    protected $viewSettings;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilDashboardSidePanelSettingsRepository
-     */
-    protected $side_panel_settings;
-
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
         $this->settings = $DIC->settings();
@@ -84,9 +58,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->side_panel_settings = new ilDashboardSidePanelSettingsRepository();
     }
 
-    /**
-     * Execute command
-     */
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -95,7 +66,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->prepareOutput();
 
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+            throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
         switch ($next_class) {
@@ -115,10 +86,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Get tabs
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -140,9 +108,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-    * Edit personal desktop settings.
-    */
     public function editSettings() : void
     {
         $this->setSettingsSubTabs("general");
@@ -151,10 +116,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($ui->renderer()->renderAsync($form));
     }
 
-    /**
-     * Init  form.
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
-     */
     public function initForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
@@ -198,9 +159,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    /**
-    * Save personal desktop settings
-    */
     public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
@@ -224,17 +182,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
 
 
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
     
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
     public function setSettingsSubTabs(string $a_active) : void
     {
         $rbacsystem = $this->rbacsystem;
@@ -270,9 +222,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $tabs->activateSubTab($a_active);
     }
 
-    /**
-     * Edit settings of courses and groups overview
-     */
     protected function editViewCoursesGroups() : void
     {
         $main_tpl = $this->tpl;
@@ -287,11 +236,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui_renderer->render($form));
     }
 
-    /**
-     * Get view courses and groups settings form
-     *
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
-     */
     protected function getViewSettingsForm(int $view) : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ctrl = $this->ctrl;
@@ -314,7 +258,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $default_pres = $ui_factory->input()->field()->radio($lng->txt("dash_default_presentation"))
             ->withOption('list', $lng->txt("dash_list"))
             ->withOption('tile', $lng->txt("dash_tile"));
-        $default_pres = $default_pres->withValue((string) $this->viewSettings->getDefaultPresentationByView($view));
+        $default_pres = $default_pres->withValue($this->viewSettings->getDefaultPresentationByView($view));
         $sec_presentation = $ui_factory->input()->field()->section(
             ["avail_pres" => $avail_pres, "default_pres" => $default_pres],
             $lng->txt("dash_presentation")
@@ -331,7 +275,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         foreach ($sortation_options as $k => $text) {
             $default_sort = $default_sort->withOption($k, $text);
         }
-        $default_sort = $default_sort->withValue((string) $this->viewSettings->getDefaultSortingByView($view));
+        $default_sort = $default_sort->withValue($this->viewSettings->getDefaultSortingByView($view));
         $sec_sortation = $ui_factory->input()->field()->section(
             ["avail_sort" => $avail_sort, "default_sort" => $default_sort],
             $lng->txt("dash_sortation")
@@ -346,9 +290,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     }
 
 
-    /**
-     * Save settings of courses and groups overview
-     */
     protected function saveViewCoursesGroups() : void
     {
         $this->saveViewSettings(
@@ -357,9 +298,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    /**
-     * Edit favourites view
-     */
     protected function editViewFavourites() : void
     {
         $main_tpl = $this->tpl;
@@ -376,9 +314,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui_renderer->render($form));
     }
 
-    /**
-     * Save settings of favourites overview
-     */
     protected function saveViewFavourites() : void
     {
         $this->saveViewSettings(
@@ -387,9 +322,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    /**
-     * Save settings of favourites overview
-     */
     protected function saveViewSettings(int $view, string $redirect_cmd) : void
     {
         $request = $this->request;
@@ -410,7 +342,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $form_data['presentation']['avail_pres'] ?: []
         );
 
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ctrl->redirect($this, $redirect_cmd);
     }
 }

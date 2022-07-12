@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -10,34 +25,20 @@ use ILIAS\UI\Renderer;
  */
 class ilMailTemplateTableGUI extends ilTable2GUI
 {
-    /** @var \ilMailTemplateContext[] */
-    protected $contexts = [];
-
-    /** @var bool */
-    protected $readOnly = false;
-
-    /** @var Factory */
-    protected $uiFactory;
-
-    /** @var Renderer */
-    protected $uiRenderer;
-
+    /** @var ilMailTemplateContext[] */
+    protected array $contexts = [];
+    protected bool $readOnly = false;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
     /** @var ILIAS\UI\Component\Component[] */
-    protected $uiComponents = [];
+    protected array $uiComponents = [];
 
-    /**
-     * @param        $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param Factory $uiFactory
-     * @param Renderer $uiRenderer
-     * @param bool $readOnly
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
+        ilMailTemplateGUI $a_parent_obj,
+        string $a_parent_cmd,
         Factory $uiFactory,
         Renderer $uiRenderer,
-        $readOnly = false
+        bool $readOnly = false
     ) {
         $this->uiFactory = $uiFactory;
         $this->uiRenderer = $uiRenderer;
@@ -63,21 +64,18 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.mail_template_row.html', 'Services/Mail');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-        $this->contexts = \ilMailTemplateContextService::getTemplateContexts();
+        $this->contexts = ilMailTemplateContextService::getTemplateContexts();
     }
 
-    /**
-     * @param  string $column
-     * @param array   $row
-     * @return string
-     */
-    protected function formatCellValue($column, array $row)
+    protected function formatCellValue(string $column, array $row) : string
     {
         if ('tpl_id' === $column) {
-            return \ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
-        } elseif ('lang' === $column) {
+            return ilLegacyFormElementsUtil::formCheckbox(false, 'tpl_id[]', (string) $row[$column]);
+        }
+        if ('lang' === $column) {
             return $this->lng->txt('meta_l_' . $row[$column]);
-        } elseif ($column == 'context') {
+        }
+        if ($column === 'context') {
             if (isset($this->contexts[$row[$column]])) {
                 $isDefaultSuffix = '';
                 if ($row['is_default']) {
@@ -86,20 +84,17 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 
                 return implode('', [
                     $this->contexts[$row[$column]]->getTitle(),
-                    $isDefaultSuffix
+                    $isDefaultSuffix,
                 ]);
-            } else {
-                return $this->lng->txt('mail_template_orphaned_context');
             }
+
+            return $this->lng->txt('mail_template_orphaned_context');
         }
 
-        return $row[$column];
+        return (string) $row[$column];
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
@@ -113,10 +108,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($a_set));
     }
 
-    /**
-     * @param array $row
-     * @return string
-     */
     protected function formatActionsDropDown(array $row) : string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);
@@ -148,6 +139,8 @@ class ilMailTemplateTableGUI extends ilTable2GUI
                     $this->lng->txt('delete'),
                     $this->lng->txt('mail_tpl_sure_delete_entry'),
                     $this->ctrl->getFormAction($this->getParentObject(), 'deleteTemplate')
+                )->withActionButtonLabel(
+                    'deleteTemplate'
                 );
 
             $this->uiComponents[] = $deleteModal;
@@ -186,10 +179,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

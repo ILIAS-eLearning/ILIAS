@@ -1,40 +1,29 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 2019 Richard Klees, ILIAS Open Source e.V.                    |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+<?php declare(strict_types=1);
 
 /**
-* A factory that builds ilSettings that can be used for DI.
-*
-* @author Richard Klees <richard.klees@concepts-and-training.de>
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-* @version $Id$
-*/
+/**
+ * A factory that builds ilSettings that can be used for DI.
+ *
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
+ */
 class ilSettingsFactory
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
     {
@@ -42,18 +31,19 @@ class ilSettingsFactory
     }
 
     /**
-     * Get currernt module
+     * Get setting instance for module
      */
-    public function settingsFor(string $a_module = "common")
+    public function settingsFor(string $a_module = "common") : ilSetting
     {
-        $tmp_dic = $GLOBALS["DIC"] ?? null;
+        // @todo: this function contains some open review issues which might be addressed by rklees.
+        $tmp_dic = $GLOBALS["DIC"] ?? null;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here or even better to integrate it into the classes attributes
         try {
             // ilSetting pulls the database once in the constructor, we force it to
             // use ours.
-            $DIC = new ILIAS\DI\Container;
+            $DIC = new ILIAS\DI\Container();
             $DIC["ilDB"] = $this->db;
             $DIC["ilBench"] = null;
-            $GLOBALS["DIC"] = $DIC;
+            $GLOBALS["DIC"] = $DIC;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here
 
             // Always load from db, as caching could be implemented as a
             // decorator to this.
@@ -61,13 +51,14 @@ class ilSettingsFactory
 
             // Provoke a setting to populate the value_type in ilSettings,
             // use a field that is likely to exist.
+            // ... code was strange in < ILIAS 8 (wrong parameter count, module name for keyword, ...)
+            // use dummy instead
             $settings->set(
-                "common",
-                "system_user_id",
-                $settings->get("common", "system_user_id")
+                "dummy",
+                $settings->get("dummy", "dummy")
             );
         } finally {
-            $GLOBALS["DIC"] = $tmp_dic;
+            $GLOBALS["DIC"] = $tmp_dic;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here
         }
 
         return $settings;

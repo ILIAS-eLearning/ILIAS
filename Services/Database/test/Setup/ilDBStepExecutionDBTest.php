@@ -1,7 +1,21 @@
-<?php /** @noinspection PhpUndefinedVariableInspection */
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use PHPUnit\Framework\TestCase;
 
 class ilDBStepExecutionDBTest extends TestCase
@@ -9,7 +23,7 @@ class ilDBStepExecutionDBTest extends TestCase
     public const CLASS_NAME_200 = "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
     public const CLASS_NAME_201 = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->db = $this->createMock(\ilDBInterface::class);
         $this->execution_db = new \ilDBStepExecutionDB($this->db, fn () => new \DateTime());
@@ -42,9 +56,10 @@ class ilDBStepExecutionDBTest extends TestCase
     public function testStartedThrowsOnStartStepNotLargerThenLastFinishedStep() : void
     {
         $STEP = 1;
-
+        $NOW = "2021-08-12 13:37:23.111111";
+        
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
@@ -60,8 +75,10 @@ class ilDBStepExecutionDBTest extends TestCase
 
     public function testStartedThrowsWhenLastStepNotFinished() : void
     {
+        $NOW = "2021-08-12 13:37:23.111111";
+        
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
@@ -84,9 +101,10 @@ class ilDBStepExecutionDBTest extends TestCase
     public function testFinishedThrowsWhenOtherStepThenLastIsFinished() : void
     {
         $STEP = 1;
+        $NOW = "2021-08-12 13:37:23.111111";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
@@ -132,7 +150,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $NOW = "2021-08-12 13:37:23.111111";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
@@ -166,7 +184,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $NOW = "2021-08-12 13:37:23.222222";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 

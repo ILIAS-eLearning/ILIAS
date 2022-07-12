@@ -1,8 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+use ILIAS\LTIOAuth;
 
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjLTIConsumerLaunch
  *
@@ -13,14 +25,11 @@
  */
 class ilLTIConsumerLaunch
 {
-    private static $last_oauth_base_string = "";
     // protected $context = null;
-    protected $ref_id;
+    protected int $ref_id;
 
     /**
      * ilObjLTIConsumerLaunch constructor.
-     * @param int $a_id
-     * @param bool $a_reference
      */
     public function __construct(int $a_ref_id)
     {
@@ -28,15 +37,14 @@ class ilLTIConsumerLaunch
     }
 
     /**
-    * get info about the context in which the link is used
-    *
-    * The most outer matching course or group is used
-    * If not found the most inner category or root node is used
-    *
-    * @param	array	list of valid types
-    * @return 	array	context array ("ref_id", "title", "type")
-    */
-    public function getContext($a_valid_types = array('crs', 'grp', 'cat', 'root'))
+     * get info about the context in which the link is used
+     * The most outer matching course or group is used
+     * If not found the most inner category or root node is used
+     *
+     * @param array|null $a_valid_types  list of valid types
+     * @return array|null  context array ("ref_id", "title", "type")
+     */
+    public function getContext(?array $a_valid_types = array('crs', 'grp', 'cat', 'root')) : ?array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $tree = $DIC->repositoryTree();
@@ -46,7 +54,7 @@ class ilLTIConsumerLaunch
 
             // check fromm inner to outer
             $path = array_reverse($tree->getPathFull($this->ref_id));
-            foreach ($path as $key => $row) {
+            foreach ($path as $row) {
                 if (in_array($row['type'], $a_valid_types)) {
                     // take an existing inner context outside a course
                     if (in_array($row['type'], array('cat', 'root')) && !empty($this->context)) {
@@ -67,22 +75,18 @@ class ilLTIConsumerLaunch
 
 
 
-    public static function getLTIContextType($a_type)
+    public static function getLTIContextType(string $a_type) : string
     {
         switch ($a_type) {
             case "crs":
                 return "CourseOffering";
-                break;
             case "grp":
                 return "Group";
-                break;
             case "root":
                 return "urn:lti:context-type:ilias/RootNode";
-                break;
             case "cat":
             default:
                 return "urn:lti:context-type:ilias/Category";
-                break;
         }
     }
 
@@ -99,32 +103,30 @@ class ilLTIConsumerLaunch
      * 					data => array (key => value)
      * 				)
      *
-     * @return array	signed data
+     * @return array|string	signed data
      */
-    public static function signOAuth($a_params)
+    public static function signOAuth(array $a_params)
     {
-        require_once('./Modules/LTIConsumer/lib/OAuth.php');
         switch ($a_params['sign_method']) {
             case "HMAC_SHA1":
-                $method = new OAuthSignatureMethod_HMAC_SHA1();
+                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
                 break;
             case "PLAINTEXT":
-                $method = new OAuthSignatureMethod_PLAINTEXT();
+                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_PLAINTEXT();
                 break;
-            case "RSA_SHA1":
-                $method = new OAuthSignatureMethod_RSA_SHA1();
-                break;
+//            case "RSA_SHA1":
+//                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_RSA_SHA1();
+//                break;
                 
             default:
                 return "ERROR: unsupported signature method!";
         }
-        
-        $consumer = new OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
-        $request = OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
+        $consumer = new ILIAS\LTIOAuth\OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
+        $request = ILIAS\LTIOAuth\OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
         $request->sign_request($method, $consumer, $a_params["token"]);
         
         // Pass this back up "out of band" for debugging
-        self::$last_oauth_base_string = $request->get_signature_base_string();
+//        self::$last_oauth_base_string = $request->get_signature_base_string();
         // die(self::$last_oauth_base_string);
         
         return $request->get_parameters();

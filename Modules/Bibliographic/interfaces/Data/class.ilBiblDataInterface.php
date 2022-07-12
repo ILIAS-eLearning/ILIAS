@@ -1,57 +1,45 @@
 <?php
 /**
- * Class ilBiblDataInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Class ilBiblDataInterface
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 interface ilBiblDataInterface
 {
-
+    public function getId() : ?int;
+    
+    public function setId(int $id) : void;
+    
     /**
-     * @return integer
+     * @deprecated
      */
-    public function getId();
-
-
+    public function getFilename() : ?string;
+    
     /**
-     * @param integer $id
+     * @deprecated
      */
-    public function setId($id);
-
-
-    /**
-     * @return string
-     */
-    public function getFilename();
-
-
-    /**
-     * @param string $filename
-     */
-    public function setFilename($filename);
-
-
-    /**
-     * @return integer
-     */
-    public function getIsOnline();
-
-
-    /**
-     * @param integer $is_online
-     */
-    public function setIsOnline($is_online);
-
-
-    /**
-     * @return integer
-     */
-    public function getFileType();
-
-
-    /**
-     * @param integer $file_type
-     */
-    public function setFileType($file_type);
+    public function setFilename(string $filename) : void;
+    
+    public function isOnline() : bool;
+    
+    public function setIsOnline(int $is_online) : void;
+    
+    public function getFileType() : int;
+    
+    public function setFileType(int $file_type) : void;
 }

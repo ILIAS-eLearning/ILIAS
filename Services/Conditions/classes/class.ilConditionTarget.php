@@ -1,66 +1,51 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Represents a condition target object
- *
- * @author killing@leifos.de
+ * @author  killing@leifos.de
  * @ingroup ServicesCondition
  */
 class ilConditionTarget
 {
-    /**
-     * @var int
-     */
-    protected $ref_id;
+    protected int $ref_id;
+    protected int $obj_id;
+    protected string $type;
 
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * Constructor
-     */
-    public function __construct($ref_id, $obj_id, $obj_type)
+    public function __construct(int $ref_id, int $obj_id, string $obj_type)
     {
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
         $this->type = $obj_type;
     }
 
-    /**
-     * Get ref id
-     *
-     * @return int ref id
-     */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
 
-    /**
-     * Get obj id
-     *
-     * @return int obj id
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * Get type
-     *
-     * @return string type
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }

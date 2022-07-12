@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttribute.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Storage of course attributes for assignment rules
@@ -11,18 +21,24 @@ include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttribu
  */
 class ilECSCourseAttributes
 {
-    private static $instances = null;
+    private static ?array $instances = null;
 
-    private $server_id = 0;
-    private $mid = 0;
+    private int $server_id ;
+    private int $mid;
     
-    private $attributes = array();
+    private array $attributes = array();
+    
+    private ilDBInterface $db;
     
     /**
      * Constructor
      */
-    public function __construct($a_server_id, $a_mid)
+    public function __construct(int $a_server_id, int $a_mid)
     {
+        global $DIC;
+        
+        $this->db = $DIC->database();
+        
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
         
@@ -31,44 +47,33 @@ class ilECSCourseAttributes
     
     /**
      * Get instance
-     * @param type $a_server_id
-     * @param type $a_mid
-     * @return ilECSCourseAttributes
      */
-    public static function getInstance($a_server_id, $a_mid)
+    public static function getInstance(int $a_server_id, int $a_mid) : \ilECSCourseAttributes
     {
-        if (isset(self::$instances[$a_server_id . '_' . $a_mid])) {
-            return self::$instances[$a_server_id . '_' . $a_mid];
-        }
-        return self::$instances[$a_server_id . '_' . $a_mid] = new ilECSCourseAttributes($a_server_id, $a_mid);
+        $id = $a_server_id . '_' . $a_mid;
+        return self::$instances[$id] ?? (self::$instances[$id] = new ilECSCourseAttributes($a_server_id, $a_mid));
     }
     
     /**
      * Get current attributes
-     * @return type
      */
-    public function getAttributes()
+    public function getAttributes() : array
     {
-        return (array) $this->attributes;
+        return $this->attributes;
     }
     
     /**
      * Get first defined attribute
-     * @return ilECSCourseAttribute
      */
-    public function getFirstAttribute()
+    public function getFirstAttribute() : ?\ilECSCourseAttribute
     {
-        foreach ($this->getAttributes() as $att) {
-            return $att;
-        }
-        return null;
+        return $this->getAttributes()[0] ?? null;
     }
     
     /**
      * Get first attribute name
-     * @return type
      */
-    public function getFirstAttributeName()
+    public function getFirstAttributeName() : string
     {
         if ($this->getFirstAttribute() instanceof ilECSCourseAttribute) {
             return $this->getFirstAttribute()->getName();
@@ -78,18 +83,16 @@ class ilECSCourseAttributes
     
     /**
      * Get attribute sequence
-     * @param type $a_last_attribute
-     * @return type
      */
-    public function getAttributeSequence($a_last_attribute)
+    public function getAttributeSequence($a_last_attribute) : array
     {
         if (!$a_last_attribute) {
-            return array();
+            return [];
         }
-        $sequence = array();
+        $sequence = [];
         foreach ($this->getAttributes() as $att) {
             $sequence[] = $att->getName();
-            if ($a_last_attribute == $att->getName()) {
+            if ($a_last_attribute === $att->getName()) {
                 break;
             }
         }
@@ -98,16 +101,15 @@ class ilECSCourseAttributes
     
     /**
      * Get upper attributes in hierarchy
-     * @param type $a_name
      */
-    public function getUpperAttributes($a_name)
+    public function getUpperAttributes($a_name) : array
     {
         $reverse_attributes = array_reverse($this->getAttributes());
         
         $found = false;
         $upper = array();
         foreach ($reverse_attributes as $att) {
-            if ($att->getName() == $a_name) {
+            if ($att->getName() === $a_name) {
                 $found = true;
                 continue;
             }
@@ -120,16 +122,15 @@ class ilECSCourseAttributes
     
     /**
      * Get next attribute name in sequence
-     * @param string $a_name
      */
-    public function getNextAttributeName($a_name)
+    public function getNextAttributeName(string $a_name) : string
     {
         if (!$a_name) {
             return $this->getFirstAttributeName();
         }
         $found = false;
         foreach ($this->getAttributes() as $att) {
-            if ($a_name == $att->getName()) {
+            if ($a_name === $att->getName()) {
                 $found = true;
                 continue;
             }
@@ -142,9 +143,8 @@ class ilECSCourseAttributes
     
     /**
      * Get next attribute name in sequence
-     * @param string $a_name
      */
-    public function getPreviousAttributeName($a_name)
+    public function getPreviousAttributeName(string $a_name) : string
     {
         if (!$a_name) {
             return '';
@@ -152,7 +152,7 @@ class ilECSCourseAttributes
         $found = false;
         $reverse_attributes = array_reverse($this->getAttributes());
         foreach ($reverse_attributes as $att) {
-            if ($a_name == $att->getName()) {
+            if ($a_name === $att->getName()) {
                 $found = true;
                 continue;
             }
@@ -166,7 +166,7 @@ class ilECSCourseAttributes
     /**
      * Get active attribute values
      */
-    public function getAttributeValues()
+    public function getAttributeValues() : array
     {
         $values = array();
         foreach ($this->getAttributes() as $att) {
@@ -178,34 +178,29 @@ class ilECSCourseAttributes
     /**
      * Delete all mappings
      */
-    public function delete()
+    public function delete() : void
     {
         foreach ($this->getAttributes() as $att) {
             $att->delete();
         }
-        $this->attributes = array();
+        $this->attributes = [];
     }
 
 
     /**
      * Read attributes
-     * @global type $ilDB
      */
-    protected function read()
+    protected function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $this->attributes = array();
+        $this->attributes = [];
         
         $query = 'SELECT * FROM ecs_crs_mapping_atts ' .
-                'WHERE sid = ' . $ilDB->quote($this->server_id, 'integer') . ' ' .
-                'AND mid = ' . $ilDB->quote($this->mid, 'integer') . ' ' .
+                'WHERE sid = ' . $this->db->quote($this->server_id, 'integer') . ' ' .
+                'AND mid = ' . $this->db->quote($this->mid, 'integer') . ' ' .
                 'ORDER BY id';
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->attributes[] = new ilECSCourseAttribute($row->id);
+            $this->attributes[] = new ilECSCourseAttribute((int) $row->id);
         }
     }
 }

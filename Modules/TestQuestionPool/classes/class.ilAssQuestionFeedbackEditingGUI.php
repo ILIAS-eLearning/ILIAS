@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class for feedback editing of assessment questions
@@ -20,7 +35,8 @@ class ilAssQuestionFeedbackEditingGUI
     const CMD_SHOW = 'showFeedbackForm';
     const CMD_SAVE = 'saveFeedbackForm';
     const CMD_SHOW_SYNC = 'showSync';
-    
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
      * gui instance of current question
      *
@@ -101,7 +117,8 @@ class ilAssQuestionFeedbackEditingGUI
         $this->questionGUI = $questionGUI;
         $this->questionOBJ = $questionGUI->object;
         $this->feedbackOBJ = $questionGUI->object->feedbackOBJ;
-        
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->ctrl = $ctrl;
         $this->access = $access;
         $this->tpl = $tpl;
@@ -114,7 +131,7 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access public
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
@@ -123,14 +140,13 @@ class ilAssQuestionFeedbackEditingGUI
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW);
         $nextClass = $this->ctrl->getNextClass($this);
         
-        $this->ctrl->setParameter($this, 'q_id', (int) $_GET['q_id']);
+        $this->ctrl->setParameter($this, 'q_id', $this->request->getQuestionId());
 
         $this->setContentStyle();
 
         switch ($nextClass) {
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackPageObjectCommandForwarder.php';
                 $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
                 $forwarder->forward();
                 break;
@@ -146,7 +162,7 @@ class ilAssQuestionFeedbackEditingGUI
     /**
      * Set content style
      */
-    protected function setContentStyle()
+    protected function setContentStyle() : void
     {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
     }
@@ -156,9 +172,8 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access private
      */
-    private function showFeedbackFormCmd()
+    private function showFeedbackFormCmd() : void
     {
-        require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->parseCurrentBlock();
@@ -180,7 +195,7 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access private
      */
-    private function saveFeedbackFormCmd()
+    private function saveFeedbackFormCmd() : void
     {
         $form = $this->buildForm();
         
@@ -194,15 +209,15 @@ class ilAssQuestionFeedbackEditingGUI
             $this->questionOBJ->updateTimestamp();
 
             if ($this->isSyncAfterSaveRequired()) {
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
                 $this->ctrl->redirect($this, self::CMD_SHOW_SYNC);
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, self::CMD_SHOW);
         }
         
-        ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
 
@@ -212,10 +227,8 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return \ilPropertyFormGUI
      */
-    private function buildForm()
+    private function buildForm() : ilPropertyFormGUI
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('feedback_generic'));
@@ -241,14 +254,14 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return boolean $isFormSaveable
      */
-    private function isFormSaveable()
+    private function isFormSaveable() : bool
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()
             && !($this->feedbackOBJ->isSaveableInPageObjectEditingMode())) {
             return false;
         }
         
-        $hasWriteAccess = $this->access->checkAccess("write", "", $_GET['ref_id']);
+        $hasWriteAccess = $this->access->checkAccess("write", "", $this->request->getRefId());
         $isSelfAssessmentEditingMode = $this->questionOBJ->getSelfAssessmentEditingMode();
         
         return $hasWriteAccess || $isSelfAssessmentEditingMode;
@@ -261,12 +274,12 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return boolean $isSyncAfterSaveRequired
      */
-    private function isSyncAfterSaveRequired()
+    private function isSyncAfterSaveRequired() : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         
-        if (!$_GET["calling_test"]) {
+        if (!$this->request->isset("calling_test")) {
             return false;
         }
         
@@ -274,18 +287,22 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
         
-        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id)) {
+        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->getOriginalId())) {
             return false;
         }
-        
-        if (!assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+
+        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->getOriginalId())) {
+            return false;
+        }
+
+        if (!assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
             return false;
         }
         
         return true;
     }
     
-    public function showSyncCmd()
+    public function showSyncCmd() : void
     {
         $this->questionGUI->originalSyncForm('', 'true');
     }

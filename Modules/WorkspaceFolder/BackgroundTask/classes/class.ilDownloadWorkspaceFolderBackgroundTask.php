@@ -1,63 +1,50 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
-
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Background task for downloads
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDownloadWorkspaceFolderBackgroundTask
 {
+    private ?ilLogger $logger = null;
+    protected ilLanguage $lng;
+    protected int $user_id;
+    /** @var int[] */
+    protected array $object_wsp_ids;
+    /**
+     * determines whether the task has been initiated by a
+     * folder's action drop-down to prevent a folder duplicate inside the zip.
+     */
+    protected bool $initiated_by_folder_action = false;
+    protected ?\ILIAS\BackgroundTasks\Task\TaskFactory $task_factory = null;
+    protected string $bucket_title;
+    protected bool $has_files = false;
 
-    /**
-     * @var ilLogger
-     */
-    private $logger = null;
-    /**
-     * @var int
-     */
-    protected $user_id;
-    /**
-     * @var int[]
-     */
-    protected $object_wsp_ids;
-    /**
-     * determines whether the task has been initiated by a folder's action drop-down to prevent a folder duplicate inside the zip.
-     *
-     * @var bool
-     */
-    protected $initiated_by_folder_action = false;
-    /**
-     * @var \ILIAS\BackgroundTasks\Task\TaskFactory
-     */
-    protected $task_factory = null;
-    /**
-     * title of the task showed in the main menu.
-     *
-     * @var string
-     */
-    protected $bucket_title;
-    /**
-     * if the task has collected files to create the ZIP file.
-     *
-     * @var bool
-     */
-    protected $has_files = false;
-
-
-    /**
-     * Constructor
-     *
-     * @param int $a_usr_id
-     * @param int[] $a_object_wsp_ids
-     * @param bool $a_initiated_by_folder_action
-     */
-    public function __construct(int $a_usr_id, array $a_object_wsp_ids, bool $a_initiated_by_folder_action = false)
-    {
+    public function __construct(
+        int $a_usr_id,
+        array $a_object_wsp_ids,
+        bool $a_initiated_by_folder_action = false
+    ) {
         global $DIC;
         $this->logger = ilLoggerFactory::getLogger("pwsp");
         $this->user_id = $a_usr_id;
@@ -67,24 +54,12 @@ class ilDownloadWorkspaceFolderBackgroundTask
         $this->lng = $DIC->language();
     }
 
-
-    /**
-     * set bucket title.
-     *
-     * @param $a_title
-     */
-    public function setBucketTitle($a_title)
+    public function setBucketTitle(string $a_title) : void
     {
         $this->bucket_title = $a_title;
     }
 
-
-    /**
-     * return bucket title.
-     *
-     * @return string
-     */
-    public function getBucketTitle()
+    public function getBucketTitle() : string
     {
         //TODO: fix ilUtil zip stuff
         // Error If name starts "-"
@@ -96,13 +71,7 @@ class ilDownloadWorkspaceFolderBackgroundTask
         return $this->bucket_title;
     }
 
-
-    /**
-     * Run task
-     *
-     * @return bool
-     */
-    public function run()
+    public function run() : bool
     {
         // This is our Bucket
         $this->logger->info('Started download workspace files background task');
@@ -112,7 +81,7 @@ class ilDownloadWorkspaceFolderBackgroundTask
 
         // Copy Definition
         $definition = new ilWorkspaceCopyDefinition();
-        $normalized_name = ilUtil::getASCIIFilename($this->getBucketTitle());
+        $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
         $definition->setObjectWspIds($this->object_wsp_ids);
         $this->logger->debug('Created copy definition and added the following tempdir: ' . $normalized_name);

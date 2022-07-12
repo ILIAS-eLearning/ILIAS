@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Preloader for object list GUIs
  *
@@ -9,44 +23,22 @@
  */
 class ilObjectListGUIPreloader
 {
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
+    protected ilObjectDefinition $obj_definition;
+    protected ilTree $tree;
+    protected ilObjectDataCache $obj_data_cache;
+    protected ilObjUser $user;
+    protected ilRbacSystem $rbacsystem;
+    protected ilFavouritesManager $fav_manager;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected int $context;
 
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $obj_data_cache;
+    protected array $obj_ids = [];
+    protected array $obj_ids_by_type = [];
+    protected array $ref_ids = [];
+    protected array $ref_ids_by_type = [];
+    protected array $types = [];
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    protected $context; // [int]
-    protected $obj_ids; // [array]
-    protected $obj_ids_by_type; // [array]
-    protected $ref_ids; // [array]
-    protected $ref_ids_by_type; // [array]
-    protected $types; // [array]
-
-    /**
-     * @var ilFavouritesManager
-     */
-    protected $fav_manager;
-    
-    public function __construct($a_context)
+    public function __construct(int $context)
     {
         global $DIC;
 
@@ -55,30 +47,24 @@ class ilObjectListGUIPreloader
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->user = $DIC->user();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->context = $a_context;
         $this->fav_manager = new ilFavouritesManager();
+        $this->context = $context;
     }
     
-    public function addItem($a_obj_id, $a_type, $a_ref_id = null)
+    public function addItem(int $obj_id, string $type, ?int $ref_id = null) : void
     {
-        $this->obj_ids[] = $a_obj_id;
-        $this->obj_ids_by_type[$a_type][] = $a_obj_id;
-        $this->types[] = $a_type;
+        $this->obj_ids[] = $obj_id;
+        $this->obj_ids_by_type[$type][] = $obj_id;
+        $this->types[] = $type;
         
-        if ($a_ref_id) {
-            $this->ref_ids[] = $a_ref_id;
-            $this->ref_ids_by_type[$a_type][] = $a_ref_id;
+        if ($ref_id) {
+            $this->ref_ids[] = $ref_id;
+            $this->ref_ids_by_type[$type][] = $ref_id;
         }
     }
     
-    public function preload()
+    public function preload() : void
     {
-        $objDefinition = $this->obj_definition;
-        $tree = $this->tree;
-        $ilObjDataCache = $this->obj_data_cache;
-        $ilUser = $this->user;
-        $rbacsystem = $this->rbacsystem;
-                                
         if (!$this->obj_ids) {
             return;
         }
@@ -93,7 +79,7 @@ class ilObjectListGUIPreloader
         foreach ($this->types as $type) {
             $this->obj_ids_by_type[$type] = array_unique($this->obj_ids_by_type[$type]);
             
-            if (is_array($this->ref_ids_by_type[$type])) {
+            if (isset($this->ref_ids_by_type[$type])) {
                 $this->ref_ids_by_type[$type] = array_unique($this->ref_ids_by_type[$type]);
             }
 
@@ -106,30 +92,32 @@ class ilObjectListGUIPreloader
                 );
             }
 
-            $class = $objDefinition->getClassName($type);
-            $location = $objDefinition->getLocation($type);
+            $class = $this->obj_definition->getClassName($type);
+            $location = $this->obj_definition->getLocation($type);
             if ($class && $location) { // #12775
                 $full_class = "ilObj" . $class . "Access";
-                include_once($location . "/class." . $full_class . ".php");
+                if (is_file($location . "/class." . $full_class . ".php")) {
+                    include_once($location . "/class." . $full_class . ".php");
+                }
                 if (class_exists($full_class)) {
                     call_user_func(
                         array($full_class, "_preloadData"),
-                        $this->obj_ids_by_type[$type],
-                        $this->ref_ids_by_type[$type]
+                        $this->obj_ids_by_type[$type] ?? [],
+                        $this->ref_ids_by_type[$type] ?? []
                     );
                 }
             }
         }
         
         if ($this->ref_ids) {
-            $tree->preloadDeleted($this->ref_ids);
-            $tree->preloadDepthParent($this->ref_ids);
-            $ilObjDataCache->preloadReferenceCache($this->ref_ids, false);
-            $rbacsystem->preloadRbacPaCache($this->ref_ids, $ilUser->getId());
+            $this->tree->preloadDeleted($this->ref_ids);
+            $this->tree->preloadDepthParent($this->ref_ids);
+            $this->obj_data_cache->preloadReferenceCache($this->ref_ids, false);
+            $this->rbacsystem->preloadRbacPaCache($this->ref_ids, $this->user->getId());
             
-            if ($ilUser->getId() != ANONYMOUS_USER_ID &&
+            if ($this->user->getId() != ANONYMOUS_USER_ID &&
                 $this->context != ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP) {
-                $this->fav_manager->loadData($ilUser->getId(), $this->ref_ids);
+                $this->fav_manager->loadData($this->user->getId(), $this->ref_ids);
             }
             
             ilObjectActivation::preloadData($this->ref_ids);

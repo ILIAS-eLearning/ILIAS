@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
@@ -35,52 +50,52 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         parent::__construct($a_title, $a_postvar);
     }
     
-    public function setPointsUncheckedFieldEnabled($pointsUncheckedFieldEnabled)
+    public function setPointsUncheckedFieldEnabled($pointsUncheckedFieldEnabled) : void
     {
         $this->pointsUncheckedFieldEnabled = (bool) $pointsUncheckedFieldEnabled;
     }
     
-    public function getPointsUncheckedFieldEnabled()
+    public function getPointsUncheckedFieldEnabled() : bool
     {
         return $this->pointsUncheckedFieldEnabled;
     }
     
-    public function setAreas($a_areas)
+    public function setAreas($a_areas) : void
     {
         $this->areas = $a_areas;
     }
     
-    public function getLineColor()
+    public function getLineColor() : string
     {
         return $this->line_color;
     }
     
-    public function setLineColor($a_color)
+    public function setLineColor($a_color) : void
     {
         $this->line_color = $a_color;
     }
     
-    public function getImagePath()
+    public function getImagePath() : string
     {
         return $this->image_path;
     }
     
-    public function setImagePath($a_path)
+    public function setImagePath($a_path) : void
     {
         $this->image_path = $a_path;
     }
     
-    public function getImagePathWeb()
+    public function getImagePathWeb() : string
     {
         return $this->image_path_web;
     }
     
-    public function setImagePathWeb($a_path_web)
+    public function setImagePathWeb($a_path_web) : void
     {
         $this->image_path_web = $a_path_web;
     }
     
-    public function setAreasByArray($a_areas)
+    public function setAreasByArray($a_areas) : void
     {
         if (is_array($a_areas['name'])) {
             $this->areas = array();
@@ -101,11 +116,17 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
                     -1,
                     $pointsUnchecked
                 ));
+
+                $imagemap = new ASS_AnswerImagemap($name, $a_areas['points'][$idx], $idx, 0, -1);
+                $imagemap->setCoords($a_areas['coords'][$idx]);
+                $imagemap->setArea($a_areas['shape'][$idx]);
+                $imagemap->setPointsUnchecked($pointsUnchecked);
+                array_push($this->areas, $imagemap);
             }
         }
     }
     
-    public function getAreas()
+    public function getAreas() : array
     {
         return $this->areas;
     }
@@ -115,36 +136,39 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     *
     * @param	array	$a_values	value array
     */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar() . '_name']);
-        $this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
+        if (isset($a_value[$this->getPostVar() . '_name'])) {
+            $this->setValue($a_values[$this->getPostVar() . '_name']);
+        }
+        if (isset($a_value[$this->getPostVar()]['coords'])) {
+            $this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
+        }
     }
 
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         parent::setValue($a_value);
     }
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
 
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         // remove trailing '/'
         $_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
 
         $filename = $_FILES[$this->getPostVar()]["name"];
         $filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
-        $suffix = $filename_arr["extension"];
+        $suffix = $filename_arr["extension"] ?? '';
         $mimetype = $_FILES[$this->getPostVar()]["type"];
         $size_bytes = $_FILES[$this->getPostVar()]["size"];
         $temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
@@ -201,7 +225,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         
         // virus handling
         if ($_FILES[$this->getPostVar()]["tmp_name"] != "") {
-            $vir = ilUtil::virusHandling($temp_name, $filename);
+            $vir = ilVirusScanner::virusHandling($temp_name, $filename);
             if ($vir[0] == false) {
                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                 return false;
@@ -209,9 +233,9 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         }
         
         $max = 0;
-        if (is_array($_POST[$this->getPostVar()]['coords']['name'])) {
+        if (isset($_POST[$this->getPostVar()]['coords']) && is_array($_POST[$this->getPostVar()]['coords']['name'])) {
             foreach ($_POST[$this->getPostVar()]['coords']['name'] as $idx => $name) {
-                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired)) {
+                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired())) {
                     $this->setAlert($lng->txt('form_msg_area_missing_points'));
                     return false;
                 }
@@ -235,7 +259,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     /**
     * Insert property html
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

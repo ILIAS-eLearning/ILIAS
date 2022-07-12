@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once 'Services/Object/classes/class.ilObject.php';
 require_once 'Services/Object/classes/class.ilObjectActivation.php';
@@ -17,7 +32,7 @@ class ilObjChatroom extends ilObject
     protected ?int $access_end = null;
     protected ?int $access_visibility = null;
 
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
 
@@ -65,9 +80,9 @@ class ilObjChatroom extends ilObject
         $this->access_end = $access_end;
     }
 
-    public function update()
+    public function update() : bool
     {
-        if ($this->ref_id) {
+        if ($this->referenced && $this->ref_id) {
             $activation = new ilObjectActivation();
             $activation->setTimingType($this->getAccessType());
             $activation->setTimingStart($this->getAccessBegin());
@@ -79,16 +94,16 @@ class ilObjChatroom extends ilObject
             $activation->setSuggestionEndRelative(0);
             $activation->setEarliestStart(0);
             $activation->setEarliestStartRelative(0);
-            $activation->toggleChangeable(0);
+            $activation->toggleChangeable(true);
             $activation->update($this->ref_id);
         }
 
         return parent::update();
     }
 
-    public function read()
+    public function read() : void
     {
-        if ($this->ref_id) {
+        if ($this->referenced && $this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
             $this->setAccessType((int) $activation['timing_type']);
             if ($this->getAccessType() === ilObjectActivation::TIMINGS_ACTIVATION) {
@@ -105,7 +120,7 @@ class ilObjChatroom extends ilObject
     {
         $settings = new ilSetting('chatroom');
 
-        return (int) $settings->get('public_room_ref', 0);
+        return (int) $settings->get('public_room_ref', '0');
     }
 
     public static function _getPublicObjId() : int
@@ -131,11 +146,9 @@ class ilObjChatroom extends ilObject
         return $userInfo;
     }
 
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
-        $role = $this->createDefaultRole();
-
-        return [];
+        $this->createDefaultRole();
     }
 
     protected function createDefaultRole() : ilObjRole
@@ -148,11 +161,11 @@ class ilObjChatroom extends ilObject
         );
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         $original_room = ilChatroom::byObjectId($this->getId());
 
-        $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $newObj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
         $objId = $newObj->getId();
 
@@ -163,7 +176,7 @@ class ilObjChatroom extends ilObject
 
         $room->saveSettings($original_settings);
 
-        $rbac_log_roles = $this->rbacreview->getParentRoleIds($newObj->getRefId(), false);
+        $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId(), false);
         $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 
@@ -175,7 +188,7 @@ class ilObjChatroom extends ilObject
         return $newObj;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         $this->db->manipulateF(
             'DELETE FROM chatroom_users WHERE chatroom_users.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',

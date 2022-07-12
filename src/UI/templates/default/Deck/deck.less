@@ -1,20 +1,23 @@
-.il-deck .row{
-  margin-left: -@padding-xs-horizontal;
-  margin-right: 0;
+.il-deck {
+  .row{
+    margin-left: -@il-margin-xs-horizontal;
+    margin-right: 0;
+    margin-bottom: @il-margin-xxlarge-vertical;
 
-  > div{
-    padding-left: @padding-xs-horizontal;
-    padding-right: @padding-xs-horizontal;
-    margin-bottom: @padding-large-vertical;
-  }
-
-  &.row-eq-height {
-    &:before {
-      content: none !important;
+    > div{
+      padding-left: @il-padding-xs-horizontal;
+      padding-right: @il-padding-xs-horizontal;
+      margin-bottom: @il-margin-large-vertical;
     }
 
-    &:after {
-      content: none !important;
+    &.row-eq-height {
+      &:before {
+        content: none !important;
+      }
+
+      &:after {
+        content: none !important;
+      }
     }
   }
 }

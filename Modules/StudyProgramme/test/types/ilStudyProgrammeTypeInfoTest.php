@@ -1,23 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeTypeInfoTest extends TestCase
 {
-    const VALID_TITLE_1 = 'Title 1';
-    const VALID_TITLE_2 = 'Title 2';
-    const VALID_TITLE_N = null;
-    const VALID_DESCRIPTION_1 = 'Description 1';
-    const VALID_DESCRIPTION_2 = 'Description 2';
-    const VALID_DESCRIPTION_N = null;
-    const VALID_LNG_CODE_1 = 'de';
-    const VALID_LNG_CODE_2 = 'en';
-    const VALID_LNG_CODE_N = null;
-
+    private const VALID_TITLE_1 = 'Title 1';
+    private const VALID_TITLE_2 = 'Title 2';
+    private const VALID_TITLE_N = null;
+    private const VALID_DESCRIPTION_1 = 'Description 1';
+    private const VALID_DESCRIPTION_2 = 'Description 2';
+    private const VALID_DESCRIPTION_N = null;
+    private const VALID_LNG_CODE_1 = 'de';
+    private const VALID_LNG_CODE_2 = 'en';
+    private const VALID_LNG_CODE_N = null;
 
     public function testSuccessCreate() : void
     {

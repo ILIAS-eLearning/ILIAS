@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Container\Content;
 
@@ -22,7 +25,7 @@ namespace ILIAS\Container\Content;
  */
 class BlockSessionRepository
 {
-    const KEY_BASE = "cont_block";
+    protected const KEY_BASE = "cont_block";
 
     public function __construct()
     {
@@ -35,7 +38,7 @@ class BlockSessionRepository
         string $a_value
     ) : void {
         \ilSession::set(self::KEY_BASE . "_" .
-            $a_block_id . "_" . $a_user_id . "_" . $a_property, (string) $a_value);
+            $a_block_id . "_" . $a_user_id . "_" . $a_property, $a_value);
     }
 
     public function getProperty(

@@ -1,30 +1,42 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Syntax highlighter wrapper class
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id\$
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSyntaxHighlighter
 {
-    const JAVA = "java";
-    const PHP = "php";
-    const C = "c";
-    const CPP = "cpp";
-    const HTML = "html4strict";
-    const XML = "xml";
-    const VISUAL_BASIC = "vb";
-    const LATEX = "latex";
-    const DELPHI = "delphi";
+    public const JAVA = "java";
+    public const PHP = "php";
+    public const C = "c";
+    public const CPP = "cpp";
+    public const HTML = "html4strict";
+    public const XML = "xml";
+    public const VISUAL_BASIC = "vb";
+    public const LATEX = "latex";
+    public const DELPHI = "delphi";
 
     /**
      * @var string[]
      */
-    protected static $langs = array(
+    protected static array $langs = array(
         self::JAVA => "Java",
         self::PHP => "PHP",
         self::C => "C",
@@ -38,83 +50,54 @@ class ilSyntaxHighlighter
     /**
      * @var string[]
      */
-    protected static $v51_map = array(
+    protected static array $v51_map = array(
         "php3" => "php",
         "java122" => "java",
         "html" => "html4strict"
     );
 
-    /**
-     * @var string language code
-     */
-    protected $lang;
+    protected string $lang;
 
-    /**
-     * Constructor
-     *
-     * @param string $a_lang language constant
-     * @return ilSyntaxHighlighter
-     */
-    protected function __construct($a_lang)
+    protected function __construct(string $a_lang)
     {
         $this->lang = $a_lang;
     }
 
-    /**
-     * Get instance
-     *
-     * @param string $a_lang language constant
-     * @return ilSyntaxHighlighter
-     */
-    public static function getInstance($a_lang)
+    public static function getInstance(string $a_lang) : self
     {
         return new self($a_lang);
     }
 
     /**
      * Get supported languages (keys are internal values, values are for representation)
-     *
-     * @param
      * @return string[]
      */
-    public static function getSupportedLanguages()
+    public static function getSupportedLanguages() : array
     {
         return self::$langs;
     }
 
     /**
      * Is language supported?
-     *
-     * @param string $a_lang
-     * @return bool
      */
-    public static function isSupported($a_lang)
+    public static function isSupported(string $a_lang) : bool
     {
         return isset(self::$langs[$a_lang]);
     }
 
     /**
      * Get new language id (for an old one)
-     *
-     * @param string $a_old_lang_id
-     * @return string
      */
-    public static function getNewLanguageId($a_old_lang_id)
+    public static function getNewLanguageId(string $a_old_lang_id) : string
     {
-        if (isset(self::$v51_map[$a_old_lang_id])) {
-            return self::$v51_map[$a_old_lang_id];
-        }
-        return $a_old_lang_id;
+        return self::$v51_map[$a_old_lang_id] ?? $a_old_lang_id;
     }
 
 
     /**
      * Get supported languages (keys are ILIAS <= 5.1 internal values, values are for representation)
-     *
-     * @param
-     * @return string[]
      */
-    public static function getSupportedLanguagesV51()
+    public static function getSupportedLanguagesV51() : array
     {
         $langs = array();
         $map = array_flip(self::$v51_map);
@@ -127,13 +110,7 @@ class ilSyntaxHighlighter
         return $langs;
     }
 
-    /**
-     * Highlight code
-     *
-     * @param string $a_code
-     * @return string highlighted code
-     */
-    public function highlight($a_code)
+    public function highlight(string $a_code) : string
     {
         include_once("./libs/composer/vendor/geshi/geshi/src/geshi.php");
         $geshi = new Geshi(html_entity_decode($a_code), $this->lang);

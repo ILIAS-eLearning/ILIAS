@@ -1,7 +1,24 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component;
 
-use ILIAS\UI\Component;
+use ILIAS\UI\Component as C;
 
 /**
  * Trait Triggerer
@@ -15,20 +32,17 @@ use ILIAS\UI\Component;
  */
 trait Triggerer
 {
-
     /**
-     * @var \ILIAS\UI\Implementation\Component\TriggeredSignal[]
+     * @var TriggeredSignal[]
      */
-    private $triggered_signals = array();
+    private array $triggered_signals = array();
 
     /**
      * Append a triggered signal to other signals of the same event
      *
-     * @param Component\Signal $signal
-     * @param string $event
-     * @return $this
+     * @return static
      */
-    protected function appendTriggeredSignal(Component\Signal $signal, $event)
+    protected function appendTriggeredSignal(C\Signal $signal, string $event)
     {
         $clone = clone $this;
         if (!isset($clone->triggered_signals[$event])) {
@@ -41,11 +55,9 @@ trait Triggerer
     /**
      * Add a triggered signal, replacing any other signals registered on the same event
      *
-     * @param Component\Signal $signal
-     * @param string $event
-     * @return $this
+     * @return static
      */
-    protected function withTriggeredSignal(Component\Signal $signal, $event)
+    protected function withTriggeredSignal(C\Signal $signal, string $event)
     {
         $clone = clone $this;
         $clone->setTriggeredSignal($signal, $event);
@@ -53,25 +65,21 @@ trait Triggerer
     }
 
     /**
-     * Add a triggered signal, replacing any othe signals registered on the same event.
+     * Add a triggered signal, replacing any other signals registered on the same event.
      *
      * ATTENTION: This mutates the original object and should only be used when there
      * is no other possibility.
-     *
-     * @param	Component\Signal 	$signal
-     * @param	string	$event
-     * @return	void
      */
-    protected function setTriggeredSignal(Component\Signal $signal, $event)
+    protected function setTriggeredSignal(C\Signal $signal, string $event) : void
     {
         $this->triggered_signals[$event] = array();
         $this->triggered_signals[$event][] = new TriggeredSignal($signal, $event);
     }
 
     /**
-     * @return \ILIAS\UI\Implementation\Component\TriggeredSignal[]
+     * @return TriggeredSignal[]
      */
-    public function getTriggeredSignals()
+    public function getTriggeredSignals() : array
     {
         return $this->flattenArray($this->triggered_signals);
     }
@@ -79,26 +87,20 @@ trait Triggerer
     /**
      * Get signals that are triggered for a certain event.
      *
-     * @param	string
-     * @return \ILIAS\UI\Component\Signal[]
+     * @return C\Signal[]
      */
-    public function getTriggeredSignalsFor($event)
+    public function getTriggeredSignalsFor(string $event) : array
     {
         if (!isset($this->triggered_signals[$event])) {
             return [];
         }
         return array_map(
-            function ($ts) {
-                return $ts->getSignal();
-            },
+            fn ($ts) => $ts->getSignal(),
             $this->triggered_signals[$event]
         );
     }
 
-    /**
-     * @return $this
-     */
-    public function withResetTriggeredSignals()
+    public function withResetTriggeredSignals() : C\Triggerer
     {
         $clone = clone $this;
         $clone->triggered_signals = array();
@@ -107,11 +109,8 @@ trait Triggerer
 
     /**
      * Flatten a multidimensional array to a single dimension
-     *
-     * @param array $array
-     * @return array
      */
-    private function flattenArray(array $array)
+    private function flattenArray(array $array) : array
     {
         $flatten = array();
         array_walk_recursive($array, function ($a) use (&$flatten) {

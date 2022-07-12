@@ -1,9 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\Divider\Horizontal;
@@ -20,9 +32,9 @@ class Combined extends Slate implements ISlate\Combined
     public const ENTRY_ACTION_TRIGGER = 'trigger';
 
     /**
-     * @var array<Slate|BulkyButton|BulkyLink>
+     * @var array<Slate|IBulkyButton|IBulkyLink>
      */
-    protected $contents = [];
+    protected array $contents = [];
 
     /**
      * @inheritdoc
@@ -51,7 +63,6 @@ class Combined extends Slate implements ISlate\Combined
         return $this->contents;
     }
 
-
     public function getTriggerSignal(string $entry_id) : Signal
     {
         $signal = $this->signal_generator->create();
@@ -60,7 +71,7 @@ class Combined extends Slate implements ISlate\Combined
         return $signal;
     }
 
-    public function withMappedSubNodes(callable $f)
+    public function withMappedSubNodes(callable $f) : ISlate\Combined
     {
         $clone = clone $this;
         $new_contents = [];

@@ -43,12 +43,6 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      */
     private $tableMode = null;
     
-    /**
-     * hint clipboard for ordering operations
-     *
-     * @access	private
-     * @var		ilAssQuestionHintOrderingClipboard
-     */
     private $hintOrderingClipboard = null;
     
     /**
@@ -129,7 +123,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      * @global	ilLanguage	$lng
      * @param	integer		$rowCount
      */
-    private function initAdministrationCommands($rowCount)
+    private function initAdministrationCommands($rowCount) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -175,7 +169,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function initTestoutputCommands()
+    private function initTestoutputCommands() : void
     {
         if ($this->parent_obj instanceof ilAssQuestionHintsGUI) {
             return;
@@ -201,7 +195,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      * @global	ilLanguage	$lng
      * @param	integer		$rowCount
      */
-    private function initAdministrationColumns($rowCount)
+    private function initAdministrationColumns($rowCount) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -229,7 +223,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      * @access	private
      * @global	ilLanguage	$lng
      */
-    private function initTestoutputColumns()
+    private function initTestoutputColumns() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -245,14 +239,13 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
     /**
      * returns the fact wether the passed field
      * is to be ordered numerically or not
-     *
      * @access	public
-     * @param	string	$field
+     * @param	string $a_field
      * @return	boolean	$numericOrdering
      */
-    public function numericOrdering($field)
+    public function numericOrdering(string $a_field) : bool
     {
-        switch ($field) {
+        switch ($a_field) {
             case 'hint_index':
             case 'hint_points':
                 
@@ -264,13 +257,12 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
     
     /**
      * renders a table row by filling wor data to table row template
-     *
      * @access	public
+     * @param	array		$a_set
+     *@global	ilLanguage	$lng
      * @global	ilCtrl		$ilCtrl
-     * @global	ilLanguage	$lng
-     * @param	array		$rowData
      */
-    public function fillRow($rowData)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -279,42 +271,42 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         if ($this->tableMode == self::TBL_MODE_ADMINISTRATION) {
             $list = new ilAdvancedSelectionListGUI();
             $list->setListTitle($lng->txt('actions'));
-            $list->setId("advsl_hint_{$rowData['hint_id']}_actions");
+            $list->setId("advsl_hint_{$a_set['hint_id']}_actions");
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $editPointsHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
-                $editPointsHref = ilUtil::appendUrlParameterString($editPointsHref, "hint_id={$rowData['hint_id']}", true);
+                $editPointsHref = ilUtil::appendUrlParameterString($editPointsHref, "hint_id={$a_set['hint_id']}", true);
                 $list->addItem($lng->txt('tst_question_hints_table_link_edit_hint_points'), '', $editPointsHref);
                 
                 $editPageHref = $ilCtrl->getLinkTargetByClass('ilasshintpagegui', 'edit');
-                $editPageHref = ilUtil::appendUrlParameterString($editPageHref, "hint_id={$rowData['hint_id']}", true);
+                $editPageHref = ilUtil::appendUrlParameterString($editPageHref, "hint_id={$a_set['hint_id']}", true);
                 $list->addItem($lng->txt('tst_question_hints_table_link_edit_hint_page'), '', $editPageHref);
             } else {
                 $editHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
-                $editHref = ilUtil::appendUrlParameterString($editHref, "hint_id={$rowData['hint_id']}", true);
+                $editHref = ilUtil::appendUrlParameterString($editHref, "hint_id={$a_set['hint_id']}", true);
                 $list->addItem($lng->txt('tst_question_hints_table_link_edit_hint'), '', $editHref);
             }
             
             $deleteHref = $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintsGUI::CMD_CONFIRM_DELETE);
-            $deleteHref = ilUtil::appendUrlParameterString($deleteHref, "hint_id={$rowData['hint_id']}", true);
+            $deleteHref = ilUtil::appendUrlParameterString($deleteHref, "hint_id={$a_set['hint_id']}", true);
             $list->addItem($lng->txt('tst_question_hints_table_link_delete_hint'), '', $deleteHref);
 
             $this->tpl->setVariable('ACTIONS', $list->getHTML());
 
-            $this->tpl->setVariable('HINT_ID', $rowData['hint_id']);
+            $this->tpl->setVariable('HINT_ID', $a_set['hint_id']);
 
-            $hintIndex = $rowData['hint_index'] * self::INDEX_TO_POSITION_FACTOR;
+            $hintIndex = $a_set['hint_index'] * self::INDEX_TO_POSITION_FACTOR;
         } else {
-            $showHref = $this->parent_obj->getHintPresentationLinkTarget($rowData['hint_id']);
+            $showHref = $this->parent_obj->getHintPresentationLinkTarget($a_set['hint_id']);
             
             $this->tpl->setVariable('HINT_HREF', $showHref);
 
-            $hintIndex = ilAssQuestionHint::getHintIndexLabel($lng, $rowData['hint_index']);
+            $hintIndex = ilAssQuestionHint::getHintIndexLabel($lng, $a_set['hint_index']);
         }
         
         $this->tpl->setVariable('HINT_INDEX', $hintIndex);
-        $txt = ilUtil::prepareTextareaOutput($rowData['hint_text'], true);
+        $txt = ilLegacyFormElementsUtil::prepareTextareaOutput($a_set['hint_text'], true);
         $this->tpl->setVariable('HINT_TEXT', $txt);
-        $this->tpl->setVariable('HINT_POINTS', $rowData['hint_points']);
+        $this->tpl->setVariable('HINT_POINTS', $a_set['hint_points']);
     }
 }

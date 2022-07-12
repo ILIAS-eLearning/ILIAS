@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Object class for plugins. This one wraps around ilObject
@@ -21,10 +24,12 @@
 abstract class ilObjectPlugin extends ilObject2
 {
     protected ilPlugin $plugin;
-    protected static array $plugin_by_type = [];
+    protected ilComponentFactory $component_factory;
 
     public function __construct(int $a_ref_id = 0)
     {
+        global $DIC;
+        $this->component_factory = $DIC["component.factory"];
         $this->initType();
         parent::__construct($a_ref_id, true);
         $this->plugin = $this->getPlugin();
@@ -37,53 +42,14 @@ abstract class ilObjectPlugin extends ilObject2
      */
     public static function getPluginObjectByType(string $type) : ?ilPlugin
     {
-        if (!isset(self::$plugin_by_type[$type]) || !self::$plugin_by_type[$type]) {
-            list($component, $component_name) = ilPlugin::lookupTypeInformationsForId($type);
-            if (
-                $component == IL_COMP_SERVICE &&
-                $component_name == "Repository"
-            ) {
-                self::loadRepoPlugin($type);
-            }
-
-            if (
-                $component == IL_COMP_MODULE &&
-                $component_name == "OrgUnit"
-            ) {
-                self::loadOrgUnitPlugin($type);
-            }
+        global $DIC;
+        $component_factory = $DIC["component.factory"];
+        try {
+            return $component_factory->getPlugin($type);
+        } catch (InvalidArgumentException $e) {
+            ilLoggerFactory::getLogger("obj")->log("There was an error while instantiating repo plugin obj of type: $type. Error: $e");
         }
-
-        return self::$plugin_by_type[$type];
-    }
-
-    protected static function loadRepoPlugin(string $type_id) : void
-    {
-        $plugin = null;
-        $name = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type_id);
-
-        if (!is_null($name)) {
-            $plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj", $name);
-        }
-
-        if (is_null($plugin)) {
-            ilLoggerFactory::getLogger("obj")->log("Try to get repo plugin obj by type: $type_id. No such type exists for Repository and Org Unit pluginss.");
-        }
-        self::$plugin_by_type[$type_id] = $plugin;
-    }
-
-    protected static function loadOrgUnitPlugin(string $type_id) : void
-    {
-        $plugin = null;
-        $name = ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $type_id);
-        if (!is_null($name)) {
-            $plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext", $name);
-        }
-
-        if (is_null($plugin)) {
-            ilLoggerFactory::getLogger("obj")->log("Try to get repo plugin obj by type: $type_id. No such type exists for Repository and Org Unit pluginss.");
-        }
-        self::$plugin_by_type[$type_id] = $plugin;
+        return null;
     }
 
     public static function lookupTxtById(
@@ -101,16 +67,7 @@ abstract class ilObjectPlugin extends ilObject2
     protected function getPlugin() : ilPlugin
     {
         if (!$this->plugin) {
-            $this->plugin =
-                ilPlugin::getPluginObject(
-                    IL_COMP_SERVICE,
-                    "Repository",
-                    "robj",
-                    ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType())
-                );
-            if (!is_object($this->plugin)) {
-                throw new ilPluginException("ilObjectPlugin: Could not instantiate plugin object for type " . $this->getType() . ".");
-            }
+            $this->plugin = $this->component_factory->getPluginById($this->getType());
         }
         return $this->plugin;
     }
@@ -127,5 +84,24 @@ abstract class ilObjectPlugin extends ilObject2
     public function getParentTypes() : array
     {
         return $this->plugin->getParentTypes();
+    }
+
+    /**
+     * Is searched lang var available in plugin lang files
+     *
+     * @param string $pluginId
+     * @param string $langVar
+     *
+     * @return bool
+     */
+    public static function langExitsById(string $pluginId, string $langVar) : bool
+    {
+        global $DIC;
+        $lng = $DIC->language();
+
+        $pl = self::getPluginObjectByType($pluginId);
+        $pl->loadLanguageModule();
+
+        return $lng->exists($pl->getPrefix() . "_" . $langVar);
     }
 }

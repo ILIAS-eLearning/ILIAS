@@ -1,26 +1,33 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitPermissionQueries
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPermissionQueries
 {
 
     /**
-     * @param      $context_name
-     *
-     * @param      $position_id
-     *
-     * @param bool $editable
-     *
-     * @return \ilOrgUnitPermission
-     * @throws \ilException
+     * @throws ilException
      */
-    public static function getTemplateSetForContextName($context_name, $position_id, $editable = false)
+    public static function getTemplateSetForContextName(string $context_name, string $position_id, bool $editable = false): ilOrgUnitPermission
     {
-        // TODO write performant query
         $context = ilOrgUnitOperationContextQueries::findByName($context_name);
         if (!$context) {
             throw new ilException('No context found');
@@ -50,14 +57,7 @@ class ilOrgUnitPermissionQueries
         return $template_set;
     }
 
-
-    /**
-     * @param $ref_id
-     * @param $position_id
-     *
-     * @return bool
-     */
-    public static function hasLocalSet($ref_id, $position_id)
+    public static function hasLocalSet(int $ref_id, int $position_id): bool
     {
         return (ilOrgUnitPermission::where([
             'parent_id' => $ref_id,
@@ -65,20 +65,14 @@ class ilOrgUnitPermissionQueries
         ])->hasSets());
     }
 
-
     /**
-     * @param $ref_id
-     *
-     * @param $position_id
-     *
-     * @return \ilOrgUnitPermission
-     *
-     * @throws \ilException
+     * @throws ilPositionPermissionsNotActive
+     * @throws ilException
      */
-    public static function getSetForRefId($ref_id, $position_id)
+    public static function getSetForRefId(int $ref_id, int $position_id): ilOrgUnitPermission
     {
         // TODO write performant query
-        self::checkRefIdAndPositionId($ref_id, $position_id);
+        self::assertRefIdAndPositionIdIsNotNull($ref_id, $position_id);
 
         $context = self::getContextByRefId($ref_id);
 
@@ -86,7 +80,8 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}", $context->getContext());
+            throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}",
+                $context->getContext());
         }
 
         /**
@@ -101,23 +96,19 @@ class ilOrgUnitPermissionQueries
             return $dedicated_set;
         }
 
-        return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
+        return self::getTemplateSetForContextName($context->getContext(), $position_id);
     }
 
-
     /**
-     * @param $ref_id
-     * @param $position_id
-     *
-     * @return \ilOrgUnitPermission
-     * @throws \ilException
+     * @throws ilPositionPermissionsNotActive
+     * @throws ilException
      */
-    public static function findOrCreateSetForRefId($ref_id, $position_id)
+    public static function findOrCreateSetForRefId(int $ref_id, int $position_id): ilOrgUnitPermission
     {
         /**
          * @var $dedicated_set ilOrgUnitPermission
          */
-        self::checkRefIdAndPositionId($ref_id, $position_id);
+        self::assertRefIdAndPositionIdIsNotNull($ref_id, $position_id);
 
         $context = self::getContextByRefId($ref_id);
 
@@ -125,7 +116,8 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
+            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}",
+                $context->getContext());
         }
 
         $dedicated_set = ilOrgUnitPermission::where([
@@ -151,20 +143,16 @@ class ilOrgUnitPermissionQueries
         return $set;
     }
 
-
     /**
-     * @param $ref_id
-     * @param $position_id
-     *
-     * @return bool
-     * @throws \ilException
+     * @throws ilPositionPermissionsNotActive
+     * @throws ilException
      */
-    public static function removeLocalSetForRefId($ref_id, $position_id)
+    public static function removeLocalSetForRefId(int $ref_id, int $position_id): bool
     {
         /**
          * @var $dedicated_set ilOrgUnitPermission
          */
-        self::checkRefIdAndPositionId($ref_id, $position_id);
+        self::assertRefIdAndPositionIdIsNotNull($ref_id, $position_id);
 
         $context = self::getContextByRefId($ref_id);
 
@@ -172,7 +160,8 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
+            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}",
+                $context->getContext());
         }
 
         $dedicated_set = ilOrgUnitPermission::where([
@@ -190,15 +179,11 @@ class ilOrgUnitPermissionQueries
         return false;
     }
 
-
     /**
-     * @param      $position_id
-     *
-     * @param bool $editable
-     *
-     * @return \ilOrgUnitPermission[]
+     * @return ilOrgUnitPermission[]
+     * @throws ilException
      */
-    public static function getAllTemplateSetsForAllActivedContexts($position_id, $editable = false)
+    public static function getAllTemplateSetsForAllActivedContexts(int $position_id, bool $editable = false): array
     {
         $activated_components = [];
         foreach (ilOrgUnitGlobalSettings::getInstance()->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
@@ -208,56 +193,16 @@ class ilOrgUnitPermissionQueries
         }
         $sets = [];
         foreach ($activated_components as $context) {
-            $sets[] = ilOrgUnitPermissionQueries::getTemplateSetForContextName($context, $position_id, $editable);
+            $sets[] = self::getTemplateSetForContextName($context, $position_id, $editable);
         }
 
         return $sets;
     }
 
-
     /**
-     * @param $user_id
-     * @param $ref_id
-     * @param $operation_string
+     * @throws ilException
      */
-    public static function getRelevantPermissionSetsForUserIdAndRefIdAndOperation($user_id, $ref_id, $operation_string)
-    {
-        $q = 'SELECT @OP_ID:= CONCAT("%\"",operation_id, "\"%") FROM il_orgu_op_contexts
-JOIN il_orgu_operations ON il_orgu_operations.context_id = il_orgu_op_contexts.id
-WHERE il_orgu_op_contexts.context IN(\'crs\', \'object\') AND operation_string = \'viewmembers\';';
-    }
-
-
-    private static function getAllowedOperationsOnRefIdAndPosition($ref_id, $position_id)
-    {
-        global $DIC;
-        $db = $DIC->database();
-
-        $q = 'SELECT @CONTEXT_TYPE:= object_data.type
-		 FROM object_reference
-		 JOIN object_data ON object_data.obj_id = object_reference.obj_id
-		 WHERE object_reference.ref_id = %s;';
-        $db->queryF($q, ['integer'], [$ref_id]);
-
-        $q = 'SELECT @OP_ID:= CONCAT("%\"", il_orgu_operations.operation_id, "%\"")
-					FROM il_orgu_operations 
-					JOIN il_orgu_op_contexts ON il_orgu_op_contexts.context = @CONTEXT_TYPE -- AND il_orgu_op_contexts.id = il_orgu_operations.context_id
-				WHERE il_orgu_operations.operation_string = %s';
-        $db->queryF($q, ['text'], [$pos_perm]);
-        $q = 'SELECT * FROM il_orgu_permissions WHERE operations LIKE @OP_ID AND position_id = %s;';
-        $r = $db->queryF($q, ['integer'], [$position_id]);
-
-        ($r->numRows() > 0);
-    }
-
-
-    /**
-     * @param $ref_id
-     *
-     * @return \ilOrgUnitOperationContext
-     * @throws \ilException
-     */
-    protected static function getContextByRefId($ref_id)
+    private static function getContextByRefId(int $ref_id): ilOrgUnitOperationContext
     {
         $context = ilOrgUnitOperationContextQueries::findByRefId($ref_id);
         if (!$context) {
@@ -267,14 +212,10 @@ WHERE il_orgu_op_contexts.context IN(\'crs\', \'object\') AND operation_string =
         return $context;
     }
 
-
     /**
-     * @param $ref_id
-     * @param $position_id
-     *
-     * @throws \ilException
+     * @throws ilException
      */
-    protected static function checkRefIdAndPositionId($ref_id, $position_id)
+    private static function assertRefIdAndPositionIdIsNotNull(int $ref_id, int $position_id): void
     {
         if (!$ref_id) {
             throw new ilException('$ref_id cannot be null');

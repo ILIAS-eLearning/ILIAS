@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a regular expression input property in a property form.
@@ -9,16 +23,13 @@
  */
 class ilRegExpInputGUI extends ilTextInputGUI
 {
-    private $pattern;
-    
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    private string $pattern = "";
+    protected string $nomatchmessage = "";
+
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -26,59 +37,31 @@ class ilRegExpInputGUI extends ilTextInputGUI
         $this->setType("feedurl");
     }
 
-    /**
-    * Set Message, if input does not match.
-    *
-    * @param	string	$a_nomatchmessage	Message, if input does not match
-    */
-    public function setNoMatchMessage($a_nomatchmessage)
+    public function setNoMatchMessage(string $a_nomatchmessage) : void
     {
         $this->nomatchmessage = $a_nomatchmessage;
     }
 
-    /**
-    * Get Message, if input does not match.
-    *
-    * @return	string	Message, if input does not match
-    */
-    public function getNoMatchMessage()
+    public function getNoMatchMessage() : string
     {
         return $this->nomatchmessage;
     }
 
-    /**
-     * set pattern
-     *
-     * @param string regular expression pattern
-     */
-    public function setPattern($pattern)
+    public function setPattern(string $pattern) : void
     {
         $this->pattern = $pattern;
     }
     
-    /**
-     * return pattern
-     *
-     * @return string
-     */
-    public function getPattern()
+    public function getPattern() : string
     {
         return $this->pattern;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
-        // this line is necessary, otherwise it is a security issue (Alex)
-        $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        
-        $value = $_POST[$this->getPostVar()];
+        $value = $this->getInput();
         
         if (!$this->getRequired() && strcasecmp($value, "") == 0) {
             return true;
@@ -86,7 +69,6 @@ class ilRegExpInputGUI extends ilTextInputGUI
         
         if ($this->getRequired() && trim($value) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
-
             return false;
         }
 
@@ -99,5 +81,10 @@ class ilRegExpInputGUI extends ilTextInputGUI
             }
         }
         return $result;
+    }
+
+    public function getInput() : string
+    {
+        return $this->str($this->getPostVar());
     }
 }

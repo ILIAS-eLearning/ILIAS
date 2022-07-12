@@ -40,7 +40,7 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
     }
     
 
-    public function initColumns()
+    public function initColumns() : void
     {
         $lng = $this->DIC->language();
         $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_answer'), '');
@@ -56,18 +56,18 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
         }
     }
     
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', \ilUtil::prepareFormOutput($data['answer']));
+        $this->tpl->setVariable('ANSWER', ilLegacyFormElementsUtil::prepareFormOutput($a_set['answer']));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');
-        $this->tpl->setVariable('FREQUENCY', $data['frequency_true']);
+        $this->tpl->setVariable('FREQUENCY', $a_set['frequency_true']);
         $this->tpl->parseCurrentBlock();
         
         $this->tpl->setCurrentBlock('frequency');
-        $this->tpl->setVariable('FREQUENCY', $data['frequency_false']);
+        $this->tpl->setVariable('FREQUENCY', $a_set['frequency_false']);
         $this->tpl->parseCurrentBlock();
     }
 }

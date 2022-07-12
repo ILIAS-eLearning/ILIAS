@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,17 +22,11 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesAdvancedMetaData
-*/
-include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSearch.php';
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ilCtrl_Calls
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilAdvancedMDLikeSearch extends ilAdvancedMDSearch
 {
-    // nothing to see here => ilAdvancedMDFieldDefinition::searchObjects()
 }

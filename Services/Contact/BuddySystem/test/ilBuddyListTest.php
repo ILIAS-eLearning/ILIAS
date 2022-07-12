@@ -1,12 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBuddyListTest
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddyListTest extends ilBuddySystemBaseTest
 {
@@ -15,11 +27,13 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
     protected function setUp() : void
     {
+        parent::setUp();
+
         $this->setGlobalVariable(
             'ilAppEventHandler',
             $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods(['raise'])->getMock()
         );
-        $this->setGlobalVariable('ilDB', $this->getMockBuilder(ilDBInterface::class)->getMock());
+        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable(
             'lng',
             $this->getMockBuilder(ilLanguage::class)
@@ -32,7 +46,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testInstanceCanBeCreatedByGlobalUserObject() : void
     {
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(['getId'])->getMock();
-        $user->expects($this->once())->method('getId')->will($this->returnValue(self::BUDDY_LIST_OWNER_ID));
+        $user->expects($this->once())->method('getId')->willReturn(self::BUDDY_LIST_OWNER_ID);
         $this->setGlobalVariable('ilUser', $user);
 
         ilBuddyList::getInstanceByGlobalUser();
@@ -41,8 +55,9 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testInstanceCannotBeCreatedByAnonymousGlobalUserObject() : void
     {
         $this->expectException(ilBuddySystemException::class);
+
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(['getId'])->getMock();
-        $user->expects($this->once())->method('getId')->will($this->returnValue(ANONYMOUS_USER_ID));
+        $user->expects($this->once())->method('getId')->willReturn(ANONYMOUS_USER_ID);
         $this->setGlobalVariable('ilUser', $user);
 
         ilBuddyList::getInstanceByGlobalUser();
@@ -78,7 +93,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testListIsInitiallyEmpty() : void
     {
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
-        $repo->expects($this->exactly(1))->method('getAll')->willReturn([]);
+        $repo->expects($this->once())->method('getAll')->willReturn([]);
 
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
@@ -107,7 +122,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         ];
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
-        $repo->expects($this->exactly(1))->method('getAll')->willReturn($relations);
+        $repo->expects($this->once())->method('getAll')->willReturn($relations);
 
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
@@ -126,18 +141,18 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             false,
             time()
         );
-        $expectedRelation->withUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->withBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $expectedRelation = $expectedRelation->withUsrId(self::BUDDY_LIST_OWNER_ID);
+        $expectedRelation = $expectedRelation->withBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
 
         $relations = [
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->exactly(2))->method('queryF');
-        $db->expects($this->exactly(2))->method('fetchAssoc')->will($this->returnValue([
+        $db->expects($this->exactly(2))->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
-        ]));
+        ]);
         $this->setGlobalVariable('ilDB', $db);
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
@@ -157,6 +172,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testRelationRequestCannotBeApprovedByTheRelationOwner() : void
     {
         $this->expectException(ilBuddySystemException::class);
+
         $expectedRelation = new ilBuddySystemRelation(
             new ilBuddySystemUnlinkedRelationState(),
             self::BUDDY_LIST_OWNER_ID,
@@ -169,16 +185,16 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->once())->method('queryF');
-        $db->expects($this->once())->method('fetchAssoc')->will($this->returnValue([
+        $db->expects($this->once())->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
-        ]));
+        ]);
         $this->setGlobalVariable('ilDB', $db);
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
         $repo->expects($this->once())->method('getAll')->willReturn($relations);
-        $repo->expects($this->exactly(1))->method('save')->with($expectedRelation);
+        $repo->expects($this->once())->method('save')->with($expectedRelation);
 
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
@@ -189,9 +205,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList->link($relation);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testRelationRequestCanBeApprovedByTheRelationTarget() : void
     {
         $expectedRelation = new ilBuddySystemRelation(
@@ -206,16 +219,16 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->expects($this->any())->method('queryF');
-        $db->expects($this->any())->method('fetchAssoc')->will($this->returnValue([
+        $db = $this->createMock(ilDBInterface::class);
+        $db->method('queryF');
+        $db->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
-        ]));
+        ]);
         $this->setGlobalVariable('ilDB', $db);
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
-        $repo->expects($this->any())->method('getAll')->willReturn($relations);
-        $repo->expects($this->any())->method('save')->with($expectedRelation);
+        $repo->method('getAll')->willReturn($relations);
+        $repo->method('save')->with($expectedRelation);
 
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
@@ -226,14 +239,14 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $other_buddylist->reset();
         $other_buddylist->setRepository($repo);
         $other_buddylist->link($expectedRelation);
+
+        $this->assertEquals(new ilBuddySystemLinkedRelationState(), $expectedRelation->getState());
     }
 
-    /**
-     *
-     */
     public function testRelationRequestCannotBeIgnoredByTheRelationOwner() : void
     {
         $this->expectException(ilBuddySystemException::class);
+
         $expectedRelation = new ilBuddySystemRelation(
             new ilBuddySystemUnlinkedRelationState(),
             self::BUDDY_LIST_OWNER_ID,
@@ -246,16 +259,16 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->once())->method('queryF');
-        $db->expects($this->once())->method('fetchAssoc')->will($this->returnValue([
+        $db->expects($this->once())->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
-        ]));
+        ]);
         $this->setGlobalVariable('ilDB', $db);
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
         $repo->expects($this->once())->method('getAll')->willReturn($relations);
-        $repo->expects($this->exactly(1))->method('save')->with($expectedRelation);
+        $repo->expects($this->once())->method('save')->with($expectedRelation);
 
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
@@ -266,9 +279,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList->ignore($relation);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testRelationRequestCanBeIgnoredByTheRelationTarget() : void
     {
         $expectedRelation = new ilBuddySystemRelation(
@@ -283,16 +293,16 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->expects($this->any())->method('queryF');
-        $db->expects($this->any())->method('fetchAssoc')->will($this->returnValue([
+        $db = $this->createMock(ilDBInterface::class);
+        $db->method('queryF');
+        $db->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
-        ]));
+        ]);
         $this->setGlobalVariable('ilDB', $db);
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
-        $repo->expects($this->any())->method('getAll')->willReturn($relations);
-        $repo->expects($this->any())->method('save')->with($expectedRelation);
+        $repo->method('getAll')->willReturn($relations);
+        $repo->method('save')->with($expectedRelation);
 
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
@@ -303,14 +313,14 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $other_buddylist->reset();
         $other_buddylist->setRepository($repo);
         $other_buddylist->ignore($expectedRelation);
+
+        $this->assertEquals(new ilBuddySystemIgnoredRequestRelationState(), $expectedRelation->getState());
     }
 
-    /**
-     *
-     */
     public function testRelationCannotBeRequestedForAnonymous() : void
     {
         $this->expectException(ilBuddySystemException::class);
+
         $expectedRelation = new ilBuddySystemRelation(
             new ilBuddySystemUnlinkedRelationState(),
             self::BUDDY_LIST_OWNER_ID,
@@ -329,12 +339,10 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList->request($expectedRelation);
     }
 
-    /**
-     *
-     */
     public function testRelationCannotBeRequestedForUnknownUserAccounts() : void
     {
         $this->expectException(ilBuddySystemException::class);
+
         $expectedRelation = new ilBuddySystemRelation(
             new ilBuddySystemUnlinkedRelationState(),
             self::BUDDY_LIST_BUDDY_ID,
@@ -342,12 +350,12 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             false,
             time()
         );
-        $expectedRelation->withUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->withBuddyUsrId(-3);
+        $expectedRelation = $expectedRelation->withUsrId(self::BUDDY_LIST_OWNER_ID);
+        $expectedRelation = $expectedRelation->withBuddyUsrId(-3);
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->once())->method('queryF');
-        $db->expects($this->once())->method('fetchAssoc')->will($this->returnValue(null));
+        $db->expects($this->once())->method('fetchAssoc')->willReturn(null);
         $this->setGlobalVariable('ilDB', $db);
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
@@ -358,11 +366,10 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList->reset();
         $buddyList->setRepository($repo);
         $buddyList->request($expectedRelation);
+
+        $this->assertEquals(new ilBuddySystemRequestedRelationState(), $expectedRelation->getState());
     }
 
-    /**
-     *
-     */
     public function testRepositoryIsEnquiredWhenBuddyListShouldBeDestroyed() : void
     {
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
@@ -374,9 +381,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList->destroy();
     }
 
-    /**
-     *
-     */
     public function testUnlinkedRelationIsReturnedWhenRelationWasRequestedForAnUnknownBuddyId() : void
     {
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
@@ -385,18 +389,15 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
         $buddyList->setRepository($repo);
-        $this->assertInstanceOf('ilBuddySystemUnlinkedRelationState', $buddyList->getRelationByUserId(-3)->getState());
+        $this->assertInstanceOf(ilBuddySystemUnlinkedRelationState::class, $buddyList->getRelationByUserId(-3)->getState());
     }
 
-    /**
-     *
-     */
     public function testValuesCanBeFetchedByGettersWhenSetBySetters() : void
     {
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
         $buddyList->setOwnerId(self::BUDDY_LIST_BUDDY_ID);
-        $this->assertEquals(self::BUDDY_LIST_BUDDY_ID, $buddyList->getOwnerId());
+        $this->assertSame(self::BUDDY_LIST_BUDDY_ID, $buddyList->getOwnerId());
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
         $repo->expects($this->never())->method('getAll')->willReturn([]);
@@ -416,9 +417,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $this->assertEquals(new ilBuddySystemRelationCollection($relations), $buddyList->getRelations());
     }
 
-    /**
-     *
-     */
     public function testDifferentRelationStatesCanBeRetrieved() : void
     {
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
@@ -499,7 +497,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $relations[self::BUDDY_LIST_BUDDY_ID + 7] = $relation;
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
-        $repo->expects($this->any())->method('getAll')->willReturn($relations);
+        $repo->method('getAll')->willReturn($relations);
         $buddyList->setRepository($repo);
 
         $this->assertCount(3, $buddyList->getLinkedRelations());
@@ -526,12 +524,10 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $property->setValue($relation, $state);
     }
 
-    /**
-     *
-     */
     public function testAlreadyGivenStateExceptionIsThrownWhenALinkedRelationShouldBeMarkedAsLinked() : void
     {
         $this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
+
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
 
@@ -553,6 +549,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testAlreadyGivenStateExceptionIsThrownWhenAnIgnoredRelationShouldBeMarkedAsIgnored() : void
     {
         $this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
+
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
 
@@ -574,6 +571,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testAlreadyGivenStateExceptionIsThrownWhenAnUnlinkedRelationShouldBeMarkedAsUnlinked() : void
     {
         $this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
+
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
 
@@ -595,6 +593,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testAlreadyGivenStateExceptionIsThrownWhenARequestedRelationShouldBeMarkedAsRequested() : void
     {
         $this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
+
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
 
@@ -610,10 +609,10 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
         $this->setPriorRelationState($relation, $state);
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->expects($this->any())->method('fetchAssoc')->will($this->returnValue([
+        $db = $this->createMock(ilDBInterface::class);
+        $db->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
-        ]));
+        ]);
         $this->setGlobalVariable('ilDB', $db);
 
         $buddyList->request($relation);
@@ -622,6 +621,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testStateTransitionExceptionIsThrownWhenALinkedRelationShouldBeMarkedAsIgnored() : void
     {
         $this->expectException(ilBuddySystemRelationStateTransitionException::class);
+
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
 

@@ -1,49 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Xml/classes/class.ilXmlWriter.php';
 
 /**
  * Settings for a single didactic template
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author   Stefan Meyer <meyer@leifos.com>
  * @defgroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateXmlWriter extends ilXmlWriter
 {
-    private $tpl = null;
+    private ilDidacticTemplateSetting $tpl;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_tpl_id)
+    public function __construct(int $a_tpl_id)
     {
         parent::__construct();
-
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
         $this->tpl = new ilDidacticTemplateSetting($a_tpl_id);
     }
 
-    /**
-     * Get template setting
-     * @return ilDidacticTemplateSetting
-     */
-    public function getSetting()
+    public function getSetting() : ilDidacticTemplateSetting
     {
         return $this->tpl;
     }
 
-    /**
-     * Write xml
-     */
-    public function write()
+    public function write() : void
     {
         $this->xmlHeader();
         $this->xmlStartTag('didacticTemplateDefinition');
 
         // add definition setting
         $this->getSetting()->toXml($this);
-
         $this->xmlEndTag('didacticTemplateDefinition');
     }
 }

@@ -1,59 +1,47 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * News render interface
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesNews
+ * @author Alexander Killing <killing@leifos.de>
  */
 interface ilNewsRendererGUI
 {
-    /**
-     * Constructor
-     */
     public function __construct();
 
-    /**
-     * Language key
-     *
-     * @param $i ilNewsItem news item
-     */
-    public function setLanguage($lang_key);
+    public function setLanguage(string $lang_key) : void;
 
-    /**
-     * Set news item
-     *
-     * @param ilNewsItem $a_news_item
-     * @param int $a_news_ref_id
-     */
-    public function setNewsItem(ilNewsItem $a_news_item, $a_news_ref_id);
+    public function setNewsItem(ilNewsItem $a_news_item, int $a_news_ref_id) : void;
 
     /**
      * Render content for timeline
-     *
-     * @return string html
      */
-    public function getTimelineContent();
+    public function getTimelineContent() : string;
 
     /**
      * Render content for detail view
-     *
-     * @return string html
      */
-    public function getDetailContent();
+    public function getDetailContent() : string;
 
-    /**
-     * @param ilAdvancedSelectionListGUI $list
-     */
-    public function addTimelineActions(ilAdvancedSelectionListGUI $list);
+    public function addTimelineActions(ilAdvancedSelectionListGUI $list) : void;
 
     /**
      * Get link href for object link
-     *
-     * @return string link href url
      */
-    public function getObjectLink();
+    public function getObjectLink() : string;
 }

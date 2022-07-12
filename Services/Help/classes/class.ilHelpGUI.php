@@ -1,62 +1,47 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+use ILIAS\Help\StandardGUIRequest;
 
 /**
  * Help GUI class.
- *
- * @author	Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilHelpGUI: ilLMPageGUI
- *
  */
-class ilHelpGUI
+class ilHelpGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    public const ID_PART_SCREEN = "screen";
+    public const ID_PART_SUB_SCREEN = "sub_screen";
+    public const ID_PART_COMPONENT = "component";
+    protected StandardGUIRequest $help_request;
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    protected ilCtrl $ctrl;
+    protected ilSetting $settings;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    public array $help_sections = array();
+    public array $def_screen_id = array();
+    public array $screen_id = array();
+    protected string $screen_id_component = '';
+    protected \ILIAS\DI\UIServices $ui;
+    protected ?array $raw_menu_items = null;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    public $help_sections = array();
-    const ID_PART_SCREEN = "screen";
-    const ID_PART_SUB_SCREEN = "sub_screen";
-    const ID_PART_COMPONENT = "component";
-    public $def_screen_id = array();
-    public $screen_id = array();
-
-    /** @var string */
-    protected $screen_id_component = '';
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ?array
-     */
-    protected $raw_menu_items = null;
-
-    /**
-    * constructor
-    */
     public function __construct()
     {
         global $DIC;
@@ -68,58 +53,35 @@ class ilHelpGUI
                 
         $this->ctrl = $ilCtrl;
         $this->ui = $DIC->ui();
+        $this->help_request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
     
-    /**
-     * Set default screen id
-     *
-     * @param
-     * @return
-     */
-    public function setDefaultScreenId($a_part, $a_id)
-    {
+    public function setDefaultScreenId(
+        string $a_part,
+        string $a_id
+    ) : void {
         $this->def_screen_id[$a_part] = $a_id;
     }
 
-    /**
-     * Set screen id
-     *
-     * @param
-     */
-    public function setScreenId($a_id)
+    public function setScreenId(string $a_id) : void
     {
         $this->screen_id[self::ID_PART_SCREEN] = $a_id;
     }
 
-    /**
-     * Set sub screen id
-     *
-     * @param
-     */
-    public function setSubScreenId($a_id)
+    public function setSubScreenId(string $a_id) : void
     {
         $this->screen_id[self::ID_PART_SUB_SCREEN] = $a_id;
     }
 
-    /**
-     * Set screen id component
-     *
-     * @param
-     * @return
-     */
-    public function setScreenIdComponent($a_comp)
+    public function setScreenIdComponent(string $a_comp) : void
     {
         $this->screen_id_component = $a_comp;
     }
     
-    
-    /**
-     * Get screen id
-     *
-     * @param
-     * @return
-     */
-    public function getScreenId()
+    public function getScreenId() : string
     {
         $comp = ($this->screen_id_component != "")
             ? $this->screen_id_component
@@ -144,88 +106,48 @@ class ilHelpGUI
         return $screen_id;
     }
     
-    
-    /**
-     * Add help section
-     *
-     * @param
-     * @return
-     */
-    public function addHelpSection($a_help_id, $a_level = 1)
-    {
+    public function addHelpSection(
+        string $a_help_id,
+        int $a_level = 1
+    ) : void {
         $this->help_sections[] = array("help_id" => $a_help_id, $a_level);
     }
     
-    /**
-     * Has sections?
-     *
-     * @param
-     * @return
-     */
-    public function hasSections()
+    public function hasSections() : bool
     {
         return ilHelpMapping::hasScreenIdSections($this->getScreenId());
     }
     
-    /**
-     * Get help sections
-     *
-     * @param
-     * @return
-     */
-    public function getHelpSections()
+    public function getHelpSections() : array
     {
-        return ilHelpMapping::getHelpSectionsForId($this->getScreenId(), (int) $_GET["ref_id"]);
+        return ilHelpMapping::getHelpSectionsForId(
+            $this->getScreenId(),
+            $this->help_request->getRefId()
+        );
     }
     
-    /**
-     * Get help section url parameter
-     *
-     * @param
-     * @return
-     */
-    public function setCtrlPar()
+    public function setCtrlPar() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        /*$h_ids = $sep = "";
-        foreach ($this->getHelpSections() as $hs)
-        {
-            $h_ids.= $sep.$hs;
-            $sep = ",";
-        }*/
-        $refId = (string) ($_GET["ref_id"] ?? 0);
+        $refId = (string) $this->help_request->getRefId();
         $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "." . $refId);
     }
-    
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : string
     {
-        $cmd = $this->ctrl->getCmd("showHelp");
-        $next_class = $this->ctrl->getNextClass($this);
-        
-        switch ($next_class) {
-            default:
-                return $this->$cmd();
-                break;
-        }
+        $cmd = $this->ctrl->getCmd("showHelp") ?: "showHelp";
+        return (string) $this->$cmd();
     }
     
-    /**
-     * Show online help
-     */
-    public function showHelp()
+    public function showHelp() : void
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("help");
         $ui = $this->ui;
 
-        if ($_GET["help_screen_id"] != "") {
-            ilSession::set("help_screen_id", $_GET["help_screen_id"]);
-            $help_screen_id = $_GET["help_screen_id"];
+        if ($this->help_request->getHelpScreenId() !== "") {
+            ilSession::set("help_screen_id", $this->help_request->getHelpScreenId());
+            $help_screen_id = $this->help_request->getHelpScreenId();
         } else {
             $help_screen_id = ilSession::get("help_screen_id");
         }
@@ -254,7 +176,7 @@ class ilHelpGUI
                 $grp_list = new ilGroupedListGUI();
                 foreach ($pages as $pg) {
                     $grp_list->addEntry(
-                        $this->replaceMenuItemTags((string) ilLMObject::_lookupTitle($pg["child"])),
+                        $this->replaceMenuItemTags(ilLMObject::_lookupTitle($pg["child"])),
                         "#",
                         "",
                         "return il.Help.showPage(" . $pg["child"] . ");"
@@ -285,38 +207,33 @@ class ilHelpGUI
         exit;
     }
     
-    /**
-     * Show page
-     *
-     * @param
-     * @return
-     */
-    public function showPage()
+    public function showPage() : void
     {
         $lng = $this->lng;
         $ui = $this->ui;
         
-        $page_id = (int) $_GET["help_page"];
+        $page_id = $this->help_request->getHelpPage();
         
         $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
 
         if (($t = ilSession::get("help_search_term")) != "") {
             $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($t) {
                 return
-                    "$(\"#$id\").click(function() { return il.Help.search('" . ilUtil::prepareFormOutput($t) . "'); return false;});";
+                    "$(\"#$id\").click(function() { return il.Help.search('" . ilLegacyFormElementsUtil::prepareFormOutput(
+                        $t
+                    ) . "'); return false;});";
             });
-            $h_tpl->setVariable("BACKBUTTON", $ui->renderer()->renderAsync($back_button));
         } else {
             $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) {
                 return
                     "$(\"#$id\").click(function() { return il.Help.listHelp(event, true); return false;});";
             });
-            $h_tpl->setVariable("BACKBUTTON", $ui->renderer()->renderAsync($back_button));
         }
-        
+        $h_tpl->setVariable("BACKBUTTON", $ui->renderer()->renderAsync($back_button));
+
         $h_tpl->setVariable(
             "HEAD",
-            $this->replaceMenuItemTags((string) ilLMObject::_lookupTitle($page_id))
+            $this->replaceMenuItemTags(ilLMObject::_lookupTitle($page_id))
         );
         
         if (!ilPageUtil::_existsAndNotEmpty("lm", $page_id)) {
@@ -339,9 +256,9 @@ class ilHelpGUI
         $link_xml = $this->getLinkXML($int_links);
         $link_xml .= $this->getLinkTargetsXML();
         //echo htmlentities($link_xml);
-        $page_gui->setLinkXML($link_xml);
+        $page_gui->setLinkXml($link_xml);
         
-        $ret = $this->replaceMenuItemTags((string) $page_gui->showPage());
+        $ret = $this->replaceMenuItemTags($page_gui->showPage());
 
         $h_tpl->setVariable("CONTENT", $ret);
         $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
@@ -357,25 +274,12 @@ class ilHelpGUI
         exit;
     }
     
-    /**
-     * Hide help
-     *
-     * @param
-     * @return
-     */
-    public function resetCurrentPage()
+    public function resetCurrentPage() : void
     {
         ilSession::clear("help_pg");
     }
     
-    
-    /**
-     * Get tab tooltip text
-     *
-     * @param string $a_tab_id tab id
-     * @return string tooltip text
-     */
-    public function getTabTooltipText($a_tab_id)
+    public function getTabTooltipText(string $a_tab_id) : string
     {
         if ($this->screen_id_component != "") {
             return ilHelp::getTooltipPresentationText($this->screen_id_component . "_" . $a_tab_id);
@@ -383,14 +287,10 @@ class ilHelpGUI
         return "";
     }
     
-    /**
-     * Render current help page
-     *
-     * @param
-     * @return
-     */
-    public function initHelp($a_tpl, $ajax_url)
-    {
+    public function initHelp(
+        ilGlobalTemplateInterface $a_tpl,
+        string $ajax_url
+    ) : void {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -398,10 +298,10 @@ class ilHelpGUI
         $ctrl = $DIC->ctrl();
 
         ilYuiUtil::initConnection();
-        $a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
-        $a_tpl->addJavascript("./Services/Accordion/js/accordion.js");
+        $a_tpl->addJavaScript("./Services/Help/js/ilHelp.js");
+        $a_tpl->addJavaScript("./Services/Accordion/js/accordion.js");
         iljQueryUtil::initMaphilight();
-        $a_tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
+        $a_tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
 
         $this->setCtrlPar();
         $a_tpl->addOnLoadCode(
@@ -413,7 +313,7 @@ class ilHelpGUI
 
         $module_id = (int) $ilSetting->get("help_module");
 
-        if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de") {
+        if (((int) OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() === "de") {
             if (ilSession::get("help_pg") > 0) {
                 $a_tpl->addOnLoadCode("il.Help.showCurrentPage(" . ilSession::get("help_pg") . ");", 3);
             } else {
@@ -427,53 +327,33 @@ class ilHelpGUI
         }
     }
 
-    /**
-     * Is help page active?
-     * @param
-     * @return
-     */
-    public function isHelpPageActive()
+    public function isHelpPageActive() : bool
     {
         return (ilSession::get("help_pg") > 0);
     }
 
-    /**
-     * Deactivate tooltips
-     *
-     * @param
-     * @return
-     */
-    public function deactivateTooltips()
+    public function deactivateTooltips() : void
     {
         $ilUser = $this->user;
         
         $ilUser->writePref("hide_help_tt", "1");
     }
     
-    /**
-     * Activate tooltips
-     *
-     * @param
-     * @return
-     */
-    public function activateTooltips()
+    public function activateTooltips() : void
     {
         $ilUser = $this->user;
         
         $ilUser->writePref("hide_help_tt", "0");
     }
     
-    /**
-     * get xml for links
-     */
-    public function getLinkXML($a_int_links)
-    {
-        $ilCtrl = $this->ctrl;
-
+    public function getLinkXML(
+        array $a_int_links
+    ) : string {
+        $href = "";
         $link_info = "<IntLinkInfos>";
         foreach ($a_int_links as $int_link) {
             $target = $int_link["Target"];
-            if (substr($target, 0, 4) == "il__") {
+            if (strpos($target, "il__") === 0) {
                 $target_arr = explode("_", $target);
                 $target_id = $target_arr[count($target_arr) - 1];
                 $type = $int_link["Type"];
@@ -489,7 +369,7 @@ class ilHelpGUI
                 switch ($type) {
                     case "PageObject":
                     case "StructureObject":
-                            if ($type == "PageObject") {
+                            if ($type === "PageObject") {
                                 $href = "#pg_" . $target_id;
                             } else {
                                 $href = "#";
@@ -508,9 +388,9 @@ class ilHelpGUI
     }
 
     /**
-    * Get XMl for Link Targets
-    */
-    public function getLinkTargetsXML()
+     * Get XMl for Link Targets
+     */
+    public function getLinkTargetsXML() : string
     {
         $link_info = "<LinkTargets>";
         $link_info .= "<LinkTarget TargetFrame=\"None\" LinkTarget=\"\" OnClick=\"return il.Help.openLink(event);\" />";
@@ -518,20 +398,14 @@ class ilHelpGUI
         return $link_info;
     }
 
-    /**
-     * Search
-     *
-     * @param
-     * @return
-     */
-    public function search()
+    public function search() : void
     {
         $lng = $this->lng;
         $ui = $this->ui;
 
-        $term = $_GET["term"];
+        $term = $this->help_request->getTerm();
 
-        if ($term == "") {
+        if ($term === "") {
             $term = ilSession::get("help_search_term");
         }
 
@@ -551,7 +425,7 @@ class ilHelpGUI
         $h_tpl->setCurrentBlock("search");
         $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
         $h_tpl->setVariable("HELP_SEARCH_LABEL", $this->lng->txt("help_search_label"));
-        $h_tpl->setVariable("VAL_SEARCH", ilUtil::prepareFormOutput($term));
+        $h_tpl->setVariable("VAL_SEARCH", ilLegacyFormElementsUtil::prepareFormOutput($term));
         $h_tpl->parseCurrentBlock();
 
         $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
@@ -575,49 +449,35 @@ class ilHelpGUI
         ilSession::set("help_search_term", $term);
 
         echo $h_tpl->get();
-        ;
         exit;
     }
 
-
-
-
-    /**
-     * Help page post processing
-     *
-     * @param string $content
-     * @return string
-     * @throws Throwable
-     */
-    protected function replaceMenuItemTags(string $content) : string
-    {
+    protected function replaceMenuItemTags(
+        string $content
+    ) : string {
         global $DIC;
 
         $mmc = $DIC->globalScreen()->collector()->mainmenu();
         if ($this->raw_menu_items == null) {
-            $mmc->collectStructure();
+            $mmc->collectOnce();
             $this->raw_menu_items = iterator_to_array($mmc->getRawItems());
         }
 
         foreach ($this->raw_menu_items as $item) {
             if ($item instanceof Item\LinkList) {
                 foreach ($item->getLinks() as $link) {
-                    $content = $this->replaceItemTag($mmc, $content, $link);
+                    $content = $this->replaceItemTag($content, $link);
                 }
             }
-            $content = $this->replaceItemTag($mmc, $content, $item);
+            $content = $this->replaceItemTag($content, $item);
         }
         return $content;
     }
 
-    /**
-     * Replace item tag
-     *
-     * @param
-     * @return
-     */
-    protected function replaceItemTag($mmc, string $content, \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item)
-    {
+    protected function replaceItemTag(
+        string $content,
+        \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item
+    ) : string {
         global $DIC;
         $mmc = $DIC->globalScreen()->collector()->mainmenu();
 
@@ -654,14 +514,16 @@ class ilHelpGUI
 
     /**
      * Get title for item
-     * @param \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item
-     * @return string
      * @throws Throwable
      */
-    protected function getTitleForItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item) : string
-    {
+    protected function getTitleForItem(
+        \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item
+    ) : string {
         global $DIC;
+
+        /** @var \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle $i */
+        $i = $item;
         $mmc = $DIC->globalScreen()->collector()->mainmenu();
-        return $mmc->getItemInformation()->customTranslationForUser($item)->getTitle();
+        return $mmc->getItemInformation()->customTranslationForUser($i)->getTitle();
     }
 }

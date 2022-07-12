@@ -1,39 +1,40 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @inheritdoc
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    public function __construct(ilStudyProgrammeMailMemberSearchGUI $parent_obj, int $root_obj_id, string $parent_cmd = "")
     {
         global $DIC;
 
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
 
-        $obj_id = ilObject::_lookupObjectId($a_parent_obj->ref_id);
-        $this->setId('mmsearch_' . $obj_id);
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->setId('mmsearch_' . $root_obj_id);
+        parent::__construct($parent_obj, $parent_cmd);
         $this->lng->loadLanguageModule('prg');
         $this->setTitle($this->lng->txt('members'));
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->ctrl->clearParameters($a_parent_obj);
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
+        $this->ctrl->clearParameters($parent_obj);
 
         $this->setRowTemplate('tpl.mail_member_search_row.html', 'Modules/StudyProgramme');
 
@@ -52,7 +53,7 @@ class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

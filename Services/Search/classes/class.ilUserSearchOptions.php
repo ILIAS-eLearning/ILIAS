@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,27 +30,24 @@
 *
 *
 */
-define('FIELD_TYPE_UDF_SELECT', 1);
-define('FIELD_TYPE_UDF_TEXT', 2);
-define('FIELD_TYPE_SELECT', 3);
-define('FIELD_TYPE_TEXT', 4);
-// begin-patch lok
-define('FIELD_TYPE_MULTI', 5);
-// end-patch lok
-
-
-
-
 class ilUserSearchOptions
 {
-    public $db = null;
+    public const FIELD_TYPE_UDF_SELECT = 1;
+    public const FIELD_TYPE_UDF_TEXT = 2;
+    public const FIELD_TYPE_SELECT = 3;
+    public const FIELD_TYPE_TEXT = 4;
+    // begin-patch lok
+    public const FIELD_TYPE_MULTI = 5;
+    // end-patch lok
+    public const FIELD_TYPE_UDF_WYSIWYG = 6;
+
 
     /**
      * Get info of searchable fields for selectable columns in table gui
      * @param bool $a_admin
      * @return array
      */
-    public static function getSelectableColumnInfo($a_admin = false)
+    public static function getSelectableColumnInfo(bool $a_admin = false) : array
     {
         $col_info = array();
         foreach (self::_getSearchableFieldsInfo($a_admin) as $field) {
@@ -69,17 +66,18 @@ class ilUserSearchOptions
         return $col_info;
     }
 
-    public static function _getSearchableFieldsInfo($a_admin = false)
+    public static function _getSearchableFieldsInfo(bool $a_admin = false) : array
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         // begin-patch lok
         $lng->loadLanguageModule('user');
         // end-patch lok
 
         $counter = 1;
+        $fields = [];
         foreach (ilUserSearchOptions::_getPossibleFields($a_admin) as $field) {
             // TODO: check enabled
             // DONE
@@ -87,7 +85,7 @@ class ilUserSearchOptions
                 continue;
             }
             $fields[$counter]['values'] = array();
-            $fields[$counter]['type'] = FIELD_TYPE_TEXT;
+            $fields[$counter]['type'] = self::FIELD_TYPE_TEXT;
             $fields[$counter]['lang'] = $lng->txt($field);
             $fields[$counter]['db'] = $field;
 
@@ -111,7 +109,7 @@ class ilUserSearchOptions
                 // SELECTS
                 
                 case 'gender':
-                    $fields[$counter]['type'] = FIELD_TYPE_SELECT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $fields[$counter]['values'] = array(
                         0 => $lng->txt('please_choose'),
                         'n' => $lng->txt('gender_n'),
@@ -121,7 +119,7 @@ class ilUserSearchOptions
                     break;
                 
                 case 'sel_country':
-                    $fields[$counter]['type'] = FIELD_TYPE_SELECT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $fields[$counter]['values'] = array(0 => $lng->txt('please_choose'));
                     
                     // #7843 -- see ilCountrySelectInputGUI
@@ -133,10 +131,9 @@ class ilUserSearchOptions
                     break;
                     
                 case 'org_units':
-                    $fields[$counter]['type'] = FIELD_TYPE_SELECT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
 
-                    include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
-                    $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+                                        $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
 
                     $options[0] = $lng->txt('select_one');
                     foreach ($paths as $org_ref_id => $path) {
@@ -151,32 +148,18 @@ class ilUserSearchOptions
                 case 'interests_general':
                 case 'interests_help_offered':
                 case 'interests_help_looking':
-                    $fields[$counter]['type'] = FIELD_TYPE_MULTI;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_MULTI;
                     break;
-                // end-patch lok
-                    
-                    
-                    
-                                        
-                /*
-                case 'active':
-                    $fields[$counter]['type'] = FIELD_TYPE_SELECT;
-                    $fields[$counter]['values'] = array(-1 => $lng->txt('please_choose'),
-                                                    '1' => $lng->txt('active'),
-                                                    '0' => $lng->txt('inactive'));
-
-                    break;
-                */
             }
             
             ++$counter;
         }
         $fields = ilUserSearchOptions::__appendUserDefinedFields($fields, $counter);
 
-        return $fields ? $fields : array();
+        return $fields ?: array();
     }
 
-    public static function _getPossibleFields($a_admin = false)
+    public static function _getPossibleFields(bool $a_admin = false) : array
     {
         return array('gender',
                      'lastname',
@@ -203,41 +186,39 @@ class ilUserSearchOptions
         // end-patch lok
     }
 
-    public static function _isSearchable($a_key)
+    public static function _isSearchable(string $a_key) : bool
     {
         return in_array($a_key, ilUserSearchOptions::_getPossibleFields());
     }
 
-    public static function _isEnabled($a_key)
+    public static function _isEnabled($a_key) : bool
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
+        $settings = $DIC->settings();
 
         // login is always enabled
         if ($a_key == 'login') {
             return true;
         }
-
-        return (bool) $ilias->getSetting('search_enabled_' . $a_key);
+        return (bool) $settings->get('search_enabled_' . $a_key);
     }
 
-    public static function _saveStatus($a_key, $a_enabled)
+    public static function _saveStatus(string $a_key, bool $a_enabled) : bool
     {
         global $DIC;
 
         $ilias = $DIC['ilias'];
 
-        $ilias->setSetting('search_enabled_' . $a_key, (int) $a_enabled);
+        $ilias->setSetting('search_enabled_' . $a_key, (string) $a_enabled);
         return true;
     }
 
-    public static function __appendUserDefinedFields($fields, $counter)
+    public static function __appendUserDefinedFields(array $fields, int $counter) : array
     {
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-
         $user_defined_fields = ilUserDefinedFields::_getInstance();
-        
+
+        $fields = [];
         foreach ($user_defined_fields->getSearchableDefinitions() as $definition) {
             $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($definition['field_values']);
             $fields[$counter]['lang'] = $definition['field_name'];
@@ -245,28 +226,35 @@ class ilUserSearchOptions
 
             switch ($definition['field_type']) {
                 case UDF_TYPE_TEXT:
-                    $fields[$counter]['type'] = FIELD_TYPE_UDF_TEXT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_TEXT;
                     break;
 
                 case UDF_TYPE_SELECT:
-                    $fields[$counter]['type'] = FIELD_TYPE_UDF_SELECT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
                     break;
+                
+                case UDF_TYPE_WYSIWYG:
+                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_WYSIWYG;
+                    break;
+
+                default:
+                    throw new \Exception('unsupported udf type');
             }
             ++$counter;
         }
-        return $fields ? $fields : array();
+        return $fields;
     }
 
-    public static function __prepareValues($a_values)
+    public static function __prepareValues(array $a_values) : array
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $new_values = array(0 => $lng->txt('please_choose'));
         foreach ($a_values as $value) {
             $new_values[$value] = $value;
         }
-        return $new_values ? $new_values : array();
+        return $new_values;
     }
 }

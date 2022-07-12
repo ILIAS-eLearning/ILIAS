@@ -59,7 +59,7 @@ class ilTestRandomQuestionSetPoolDeriver
     /**
      * @return int
      */
-    public function getTargetContainerRef()
+    public function getTargetContainerRef() : int
     {
         return $this->targetContainerRef;
     }
@@ -75,7 +75,7 @@ class ilTestRandomQuestionSetPoolDeriver
     /**
      * @return int
      */
-    public function getOwnerId()
+    public function getOwnerId() : int
     {
         return $this->ownerId;
     }
@@ -91,7 +91,7 @@ class ilTestRandomQuestionSetPoolDeriver
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinitionList
      */
-    public function getSourcePoolDefinitionList()
+    public function getSourcePoolDefinitionList() : ilTestRandomQuestionSetSourcePoolDefinitionList
     {
         return $this->sourcePoolDefinitionList;
     }
@@ -104,7 +104,7 @@ class ilTestRandomQuestionSetPoolDeriver
         $this->sourcePoolDefinitionList = $sourcePoolDefinitionList;
     }
     
-    protected function getQuestionsForPool(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool)
+    protected function getQuestionsForPool(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool) : array
     {
         $questionList = new ilTestRandomQuestionSetStagingPoolQuestionList(
             $this->db,
@@ -118,15 +118,15 @@ class ilTestRandomQuestionSetPoolDeriver
         $questionList->loadQuestions();
         
         $questions = array();
-        
-        foreach ($questionList as $questionId) {
+        $list = $questionList->getQuestions();
+        foreach ($list as $questionId) {
             $questions[] = assQuestion::_instantiateQuestion($questionId);
         }
         
         return $questions;
     }
     
-    protected function createNewPool(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool)
+    protected function createNewPool(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool) : ilObjQuestionPool
     {
         $pool = $this->poolFactory->createNewInstance($this->getTargetContainerRef());
         
@@ -138,7 +138,7 @@ class ilTestRandomQuestionSetPoolDeriver
         return $pool;
     }
     
-    protected function copyQuestionsToPool(ilObjQuestionPool $pool, $questions)
+    protected function copyQuestionsToPool(ilObjQuestionPool $pool, $questions) : array
     {
         $poolQidByTestQidMap = array();
         
@@ -162,7 +162,7 @@ class ilTestRandomQuestionSetPoolDeriver
         }
     }
     
-    protected function filterForQuestionRelatedTaxonomies($taxonomyIds, $relatedQuestionIds)
+    protected function filterForQuestionRelatedTaxonomies($taxonomyIds, $relatedQuestionIds) : array
     {
         require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
         
@@ -189,7 +189,7 @@ class ilTestRandomQuestionSetPoolDeriver
         return $filteredTaxIds;
     }
     
-    protected function duplicateTaxonomies($poolQidByTestQidMap, ilObjQuestionPool $pool)
+    protected function duplicateTaxonomies($poolQidByTestQidMap, ilObjQuestionPool $pool) : ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
         $taxDuplicator = new ilQuestionPoolTaxonomiesDuplicator();
@@ -207,7 +207,7 @@ class ilTestRandomQuestionSetPoolDeriver
         return $taxDuplicator->getDuplicatedTaxonomiesKeysMap();
     }
     
-    protected function buildOriginalTaxonomyFilterForDerivedPool(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap, $mappedTaxonomyFilter)
+    protected function buildOriginalTaxonomyFilterForDerivedPool(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap, $mappedTaxonomyFilter) : array
     {
         $originalTaxonomyFilter = array();
         
@@ -246,7 +246,7 @@ class ilTestRandomQuestionSetPoolDeriver
      * @param ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool
      * @return ilObjQuestionPool
      */
-    public function derive(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool)
+    public function derive(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool) : ilObjQuestionPool
     {
         $pool = $this->createNewPool($nonAvailablePool);
         $questions = $this->getQuestionsForPool($nonAvailablePool);

@@ -285,10 +285,18 @@ imported, the variable `icon-font-path` must be adapted accordingly.
 
 #### ILIAS 7
 
-The `icon-font-path` for glyphs has changed due to a move from the bootstrap
+The `icon-font-path` for glyphs has been renamend to `il-icon-font-path`
+and the location has changed due to a move from the bootstrap
 library to the new location for external libraries. The new location is:
 `"../../../../node_modules/bootstrap/fonts/"`. If a 5.2 style is
 imported, the variable `icon-font-path` must be adapted accordingly.
+
+In March 2022, we moved the general Test & Assessment CSS (ta.css and
+ta_split.css) to `less/Modules/Test/delos.less` (like other CSS for modules)
+to start refactoring this module's style code. As part of this change,
+the override mechanism that fetches a custom style for just the T&A has been
+removed. Please use the standard skin setup described in this document to style
+the Test & Assessment like the rest of your custom skin.
 
 ## Less Guideline
 

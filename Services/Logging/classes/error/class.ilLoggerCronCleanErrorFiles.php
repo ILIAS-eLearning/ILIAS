@@ -1,26 +1,18 @@
-<?php
-
-require_once("Services/Cron/classes/class.ilCronJob.php");
-require_once("Services/Logging/classes/error/class.ilLoggingErrorSettings.php");
-require_once("Services/Administration/classes/class.ilSetting.php");
-require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-require_once("Services/Form/classes/class.ilTextInputGUI.php");
-require_once("Services/Calendar/classes/class.ilDateTime.php");
-require_once("Services/Cron/classes/class.ilCronJobResult.php");
-require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-
+<?php declare(strict_types=1);
 
 class ilLoggerCronCleanErrorFiles extends ilCronJob
 {
-    const DEFAULT_VALUE_OLDER_THAN = 31;
+    protected const DEFAULT_VALUE_OLDER_THAN = 31;
+
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected ilLoggingErrorSettings $error_settings;
 
     public function __construct()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("logging");
         $this->settings = new ilSetting('log');
         $this->error_settings = ilLoggingErrorSettings::getInstance();
@@ -97,7 +89,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $result;
     }
 
-    protected function readLogDir($path)
+    protected function readLogDir(string $path) : array
     {
         $ret = array();
 
@@ -112,7 +104,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $ret;
     }
 
-    protected function deleteFile($path)
+    protected function deleteFile(string $path) : void
     {
         unlink($path);
     }

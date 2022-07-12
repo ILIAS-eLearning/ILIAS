@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Tabbed contents (see ILIAS DTD)
@@ -9,47 +23,38 @@
  */
 class ilPCTabs extends ilPageContent
 {
-    public $tabs_node;
-    const ACCORDION_HOR = "HorizontalAccordion";
-    const ACCORDION_VER = "VerticalAccordion";
-    const CAROUSEL = "Carousel";
+    public const ACCORDION_HOR = "HorizontalAccordion";
+    public const ACCORDION_VER = "VerticalAccordion";
+    public const CAROUSEL = "Carousel";
 
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public php4DOMElement $tabs_node;
+
+    public function init() : void
     {
         $this->setType("tabs");
     }
 
-    /**
-    * Set content node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->tabs_node = $a_node->first_child();		// this is the Tabs node
     }
 
-    /**
-    * Create new Tabs node
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->tabs_node = $this->dom->create_element("Tabs");
         $this->tabs_node = $this->node->append_child($this->tabs_node);
     }
 
-    /**
-    * Set attribute of tabs tag
-    *
-    * @param	string		attribute name
-    * @param	string		attribute value
-    */
-    protected function setTabsAttribute($a_attr, $a_value)
-    {
+    protected function setTabsAttribute(
+        string $a_attr,
+        string $a_value
+    ) : void {
         if (!empty($a_value)) {
             $this->tabs_node->set_attribute($a_attr, $a_value);
         } else {
@@ -60,12 +65,11 @@ class ilPCTabs extends ilPageContent
     }
 
     /**
-    * Set type of tabs
-    *
-    * @param	string		$a_type		("HorizontalTabs" | "Accordion")
-    */
-    public function setTabType($a_type = "HorizontalTabs")
-    {
+     * @param	string		$a_type		("HorizontalTabs" | "Accordion")
+     */
+    public function setTabType(
+        string $a_type = "HorizontalTabs"
+    ) : void {
         switch ($a_type) {
             case ilPCTabs::ACCORDION_VER:
             case ilPCTabs::ACCORDION_HOR:
@@ -75,98 +79,52 @@ class ilPCTabs extends ilPageContent
         }
     }
 
-    /**
-    * Get type of tabs
-    */
-    public function getTabType()
+    public function getTabType() : string
     {
         return $this->tabs_node->get_attribute("Type");
     }
     
-    /**
-    * Set content width
-    *
-    * @param	int		content width
-    */
-    public function setContentWidth($a_val)
+    public function setContentWidth(string $a_val) : void
     {
         $this->setTabsAttribute("ContentWidth", $a_val);
     }
     
-    /**
-    * Get content width
-    *
-    * @return	int		content width
-    */
-    public function getContentWidth()
+    public function getContentWidth() : string
     {
         return $this->tabs_node->get_attribute("ContentWidth");
     }
     
-    /**
-    * Set content height
-    *
-    * @param	int		content height
-    */
-    public function setContentHeight($a_val)
+    public function setContentHeight(string $a_val) : void
     {
         $this->setTabsAttribute("ContentHeight", $a_val);
     }
     
-    /**
-    * Get content height
-    *
-    * @return	int		content height
-    */
-    public function getContentHeight()
+    public function getContentHeight() : string
     {
         return $this->tabs_node->get_attribute("ContentHeight");
     }
 
-    /**
-    * Set horizontal align
-    *
-    * @param	string		horizontal align
-    */
-    public function setHorizontalAlign($a_val)
+    public function setHorizontalAlign(string $a_val) : void
     {
         $this->setTabsAttribute("HorizontalAlign", $a_val);
     }
     
-    /**
-    * Get horizontal align
-    *
-    * @return	string		horizontal align
-    */
-    public function getHorizontalAlign()
+    public function getHorizontalAlign() : string
     {
         return $this->tabs_node->get_attribute("HorizontalAlign");
     }
 
-    /**
-    * Set behavior
-    *
-    * @param	string		behavior
-    */
-    public function setBehavior($a_val)
+    public function setBehavior(string $a_val) : void
     {
         $this->setTabsAttribute("Behavior", $a_val);
     }
     
-    /**
-    * Get behavior
-    *
-    * @return	string	behavior
-    */
-    public function getBehavior()
+    public function getBehavior() : string
     {
         return $this->tabs_node->get_attribute("Behavior");
     }
     
-    /**
-    * Get captions
-    */
-    public function getCaptions()
+    public function getCaptions() : array
     {
         $captions = array();
         $tab_nodes = $this->tabs_node->child_nodes();
@@ -192,14 +150,11 @@ class ilPCTabs extends ilPageContent
         return $captions;
     }
 
-    /**
-    * Get caption
-    */
-    public function getCaption($a_hier_id, $a_pc_id)
-    {
-        $captions = array();
+    public function getCaption(
+        string $a_hier_id,
+        string $a_pc_id
+    ) : string {
         $tab_nodes = $this->tabs_node->child_nodes();
-        $k = 0;
         for ($i = 0; $i < count($tab_nodes); $i++) {
             if ($tab_nodes[$i]->node_name() == "Tab") {
                 if ($a_pc_id == $tab_nodes[$i]->get_attribute("PCID") &&
@@ -218,10 +173,11 @@ class ilPCTabs extends ilPageContent
     }
 
     /**
-    * Save positions of tabs
-    */
-    public function savePositions($a_pos)
-    {
+     * Save positions of tabs
+     */
+    public function savePositions(
+        array $a_pos
+    ) : void {
         asort($a_pos);
         
         // File Item
@@ -243,10 +199,7 @@ class ilPCTabs extends ilPageContent
         }
     }
 
-    /**
-    * Add Tab items
-    */
-    public function saveCaptions($a_captions)
+    public function saveCaptions(array $a_captions) : void
     {
         // iterate all tab nodes
         $tab_nodes = $this->tabs_node->child_nodes();
@@ -272,11 +225,10 @@ class ilPCTabs extends ilPageContent
         }
     }
 
-    /**
-    * Save positions of tabs
-    */
-    public function deleteTab($a_hier_id, $a_pc_id)
-    {
+    public function deleteTab(
+        string $a_hier_id,
+        string $a_pc_id
+    ) : void {
         // File Item
         $childs = $this->tabs_node->child_nodes();
         $nodes = array();
@@ -290,10 +242,7 @@ class ilPCTabs extends ilPageContent
         }
     }
 
-    /**
-    * Add a tab
-    */
-    public function addTab($a_caption)
+    public function addTab(string $a_caption) : void
     {
         $new_item = $this->dom->create_element("Tab");
         $new_item = $this->tabs_node->append_child($new_item);
@@ -307,88 +256,51 @@ class ilPCTabs extends ilPageContent
         );
     }
     
-    /**
-    * Set template
-    *
-    * @param	string	$a_template		template
-    */
-    public function setTemplate($a_template)
+    public function setTemplate(string $a_template) : void
     {
         $this->setTabsAttribute("Template", $a_template);
     }
 
-    /**
-    * Get template
-    *
-    * @return	string		template
-    */
-    public function getTemplate()
+    public function getTemplate() : string
     {
         return $this->tabs_node->get_attribute("Template");
     }
 
-    /**
-     * Get lang vars needed for editing
-     * @return array array of lang var keys
-     */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("pc_vacc", "pc_hacc", "pc_carousel");
     }
 
-
-    /**
-      * Set auto animation waiting time
-      *
-      * @param int $a_val auto animation time
-      */
-    public function setAutoTime($a_val)
+    public function setAutoTime(?int $a_val) : void
     {
-        $this->setTabsAttribute("AutoAnimWait", $a_val);
+        $this->setTabsAttribute("AutoAnimWait", (string) $a_val);
     }
 
-    /**
-     * Get auto animation waiting time
-     *
-     * @return int auto animation time
-     */
-    public function getAutoTime()
+    public function getAutoTime() : ?int
     {
-        return $this->tabs_node->get_attribute("AutoAnimWait");
+        $val = $this->tabs_node->get_attribute("AutoAnimWait");
+        if ($val) {
+            return (int) $val;
+        }
+        return null;
     }
 
-    /**
-     * Set random start
-     *
-     * @param bool $a_val random start
-     */
-    public function setRandomStart($a_val)
+    public function setRandomStart(bool $a_val) : void
     {
         $this->setTabsAttribute("RandomStart", $a_val);
     }
 
-    /**
-     * Get random start
-     *
-     * @return bool random start
-     */
-    public function getRandomStart()
+    public function getRandomStart() : bool
     {
-        return $this->tabs_node->get_attribute("RandomStart");
+        return (bool) $this->tabs_node->get_attribute("RandomStart");
     }
 
-    /**
-     * Get Javascript files
-     */
-    public function getJavascriptFiles($a_mode)
+    public function getJavascriptFiles(string $a_mode) : array
     {
         return ilAccordionGUI::getLocalJavascriptFiles();
     }
 
-    /**
-     * Get Javascript files
-     */
-    public function getCssFiles($a_mode)
+    public function getCssFiles(string $a_mode) : array
     {
         return ilAccordionGUI::getLocalCssFiles();
     }

@@ -1,44 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Cron job for definition for oer harvesting
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCronOerHarvester extends ilCronJob
 {
-    /**
-     * @param string
-     */
-    const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+    public const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+    public const DEFAULT_SCHEDULE_VALUE = 1;
 
-    /**
-     * @param int
-     */
-    const DEFAULT_SCHEDULE_VALUE = 1;
+    private ilLogger $logger;
+    private ilLanguage $lng;
 
-    /**
-     * @var \ilLogger
-     */
-    private $logger = null;
+    private ilOerHarvesterSettings $settings;
 
-    /**
-     * @var \ilLanguage
-     */
-    private $lng = null;
-
-    /**
-     * @var null
-     */
-    private $settings = null;
-
-
-    /**
-     * ilOerHarvester constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -96,7 +73,8 @@ class ilCronOerHarvester extends ilCronJob
         $target = new ilRepositorySelector2InputGUI(
             $this->lng->txt('meta_oer_target'),
             'target',
-            false
+            false,
+            $a_form
         );
 
         $explorer = $target->getExplorerGUI();
@@ -112,7 +90,6 @@ class ilCronOerHarvester extends ilCronJob
         $target->setRequired(true);
         $a_form->addItem($target);
 
-
         // copyright selection
         $checkbox_group = new ilCheckboxGroupInputGUI(
             $this->lng->txt('meta_oer_copyright_selection'),
@@ -127,7 +104,7 @@ class ilCronOerHarvester extends ilCronJob
         foreach (ilMDCopyrightSelectionEntry::_getEntries() as $copyright_entry) {
             $copyright_checkox = new ilCheckboxOption(
                 $copyright_entry->getTitle(),
-                $copyright_entry->getEntryId(),
+                (string) $copyright_entry->getEntryId(),
                 $copyright_entry->getDescription()
             );
             $checkbox_group->addOption($copyright_checkox);
@@ -135,10 +112,9 @@ class ilCronOerHarvester extends ilCronJob
         $a_form->addItem($checkbox_group);
     }
 
-
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
-        $this->settings->setTarget($a_form->getInput('target'));
+        $this->settings->setTarget((int) $a_form->getInput('target'));
         $this->settings->setCopyrightTemplates($a_form->getInput('copyright'));
         $this->settings->save();
 
@@ -155,20 +131,16 @@ class ilCronOerHarvester extends ilCronJob
         return $res;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id, &$a_fields, bool $a_is_active) : void
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
-        #23901
-        global $DIC;
-        $lng = $DIC->language();
-
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT:
 
                 $a_fields['meta_oer_harvester'] =
                     (
                         $a_is_active ?
-                        $lng->txt('enabled') :
-                        $lng->txt('disabled')
+                        $this->lng->txt('enabled') :
+                        $this->lng->txt('disabled')
                     );
                 break;
         }

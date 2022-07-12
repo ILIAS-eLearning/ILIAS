@@ -1,4 +1,20 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -11,21 +27,13 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilAdminGSToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_ADMIN_TREE = 'show_admin_tree';
+    public const SHOW_ADMIN_TREE = 'show_admin_tree';
 
-
-    /**
-     * @inheritDoc
-     */
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main()->administration();
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getToolsForContextStack(CalledContexts $called_contexts) : array
     {
         $tools = [];
@@ -47,16 +55,8 @@ class ilAdminGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-
-    /**
-     * @param int $ref_id
-     *
-     * @return string
-     */
     private function getTree() : string
     {
-        $exp = new ilAdministrationExplorerGUI("ilAdministrationGUI", "showTree");
-
-        return $exp->getHTML();
+        return (new ilAdministrationExplorerGUI("ilAdministrationGUI", "showTree"))->getHTML();
     }
 }

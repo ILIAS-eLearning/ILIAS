@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * TableGUI class for
  *
@@ -9,46 +23,27 @@
  */
 class ilObjClipboardTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $parent_obj, string $parent_cmd)
     {
-        global $DIC;
+        parent::__construct($parent_obj, $parent_cmd);
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setTitle($lng->txt("clipboard"));
+        $this->setTitle($this->lng->txt("clipboard"));
         
         $this->addColumn("", "", "1");
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("action"));
         
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
         $this->setRowTemplate("tpl.obj_cliboard_row.html", "Services/Object");
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $set) : void
     {
-        $lng = $this->lng;
-        //var_dump($a_set);
-        $this->tpl->setVariable("ICON", ilUtil::img(
-            ilObject::_getIcon($a_set["obj_id"], "tiny"),
-            $a_set["type_txt"]
-        ));
-        $this->tpl->setVariable("TITLE", $a_set["title"]);
-        $this->tpl->setVariable("CMD", $a_set["cmd"]);
+        $this->tpl->setVariable(
+            "ICON",
+            ilUtil::img(ilObject::_getIcon((int) $set["obj_id"], "tiny"), $set["type_txt"])
+        );
+        $this->tpl->setVariable("TITLE", $set["title"]);
+        $this->tpl->setVariable("CMD", $set["cmd"]);
     }
 }

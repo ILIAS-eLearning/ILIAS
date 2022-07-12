@@ -55,7 +55,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getImportQuestionId()
+    public function getImportQuestionId() : ?int
     {
         return $this->importQuestionId;
     }
@@ -63,7 +63,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $importQuestionId
      */
-    public function setImportQuestionId($importQuestionId)
+    public function setImportQuestionId($importQuestionId) : void
     {
         $this->importQuestionId = $importQuestionId;
     }
@@ -71,7 +71,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getImportSkillBaseId()
+    public function getImportSkillBaseId() : ?int
     {
         return $this->importSkillBaseId;
     }
@@ -79,7 +79,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $importSkillBaseId
      */
-    public function setImportSkillBaseId($importSkillBaseId)
+    public function setImportSkillBaseId($importSkillBaseId) : void
     {
         $this->importSkillBaseId = $importSkillBaseId;
     }
@@ -87,7 +87,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getImportSkillTrefId()
+    public function getImportSkillTrefId() : ?int
     {
         return $this->importSkillTrefId;
     }
@@ -95,7 +95,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $importSkillTrefId
      */
-    public function setImportSkillTrefId($importSkillTrefId)
+    public function setImportSkillTrefId($importSkillTrefId) : void
     {
         $this->importSkillTrefId = $importSkillTrefId;
     }
@@ -103,7 +103,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getOrderIndex()
+    public function getOrderIndex() : ?int
     {
         return $this->orderIndex;
     }
@@ -111,7 +111,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $orderIndex
      */
-    public function setOrderIndex($orderIndex)
+    public function setOrderIndex($orderIndex) : void
     {
         $this->orderIndex = $orderIndex;
     }
@@ -119,7 +119,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return string
      */
-    public function getExpression()
+    public function getExpression() : ?string
     {
         return $this->expression;
     }
@@ -127,7 +127,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param string $expression
      */
-    public function setExpression($expression)
+    public function setExpression($expression) : void
     {
         $this->expression = $expression;
     }
@@ -135,7 +135,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getPoints()
+    public function getPoints() : ?int
     {
         return $this->points;
     }
@@ -143,17 +143,17 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $points
      */
-    public function setPoints($points)
+    public function setPoints($points) : void
     {
         $this->points = $points;
     }
     
-    public function sleep()
+    public function sleep() : void
     {
         // TODO: Implement __sleep() method.
     }
     
-    public function wakeup()
+    public function wakeup() : void
     {
         // TODO: Implement __wakeup() method.
     }

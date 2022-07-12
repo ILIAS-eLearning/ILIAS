@@ -53,7 +53,7 @@ class ilTestDashboardGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -69,7 +69,7 @@ class ilTestDashboardGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -85,7 +85,7 @@ class ilTestDashboardGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ilTestAccess
     {
         return $this->testAccess;
     }
@@ -101,7 +101,7 @@ class ilTestDashboardGUI
     /**
      * @return ilTestTabsManager
      */
-    public function getTestTabs()
+    public function getTestTabs() : ilTestTabsManager
     {
         return $this->testTabs;
     }

@@ -62,7 +62,7 @@ const GETFEATUREINFO_IMAGE_SIZE = [101, 101];
  */
 class ImageWMS extends ImageSource {
   /**
-   * @param {Options=} [opt_options] ImageWMS options.
+   * @param {Options} [opt_options] ImageWMS options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};
@@ -113,7 +113,10 @@ class ImageWMS extends ImageSource {
      * @private
      * @type {import("./WMSServerType.js").default|undefined}
      */
-    this.serverType_ = /** @type {import("./WMSServerType.js").default|undefined} */ (options.serverType);
+    this.serverType_ =
+      /** @type {import("./WMSServerType.js").default|undefined} */ (
+        options.serverType
+      );
 
     /**
      * @private

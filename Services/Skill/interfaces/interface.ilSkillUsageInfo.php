@@ -28,8 +28,9 @@ interface ilSkillUsageInfo
     /**
      * Get title of an assigned item
      *
-     * @param array $a_cskill_ids array of common skill ids ("skill_id" => skill_id, "tref_id" => tref_id)
-     * @param array $a_usages
+     * @param array{skill_id: int, tref_id: int}[] $a_cskill_ids array of common skill ids
+     *
+     * @return array<string, array<string, array{key: string}[]>>
      */
-    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages);
+    public static function getUsageInfo(array $a_cskill_ids) : array;
 }

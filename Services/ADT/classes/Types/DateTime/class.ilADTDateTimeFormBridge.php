@@ -1,44 +1,34 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTDateTimeFormBridge extends ilADTFormBridge
 {
-    protected $invalid_input; // [bool]
-    protected $text_input; // [bool]
-    
-    protected function isValidADT(ilADT $a_adt)
+    protected bool $invalid_input;
+    protected bool $text_input;
+
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTDateTime);
     }
-    
-    public function setTextInputMode($a_value)
+
+    public function setTextInputMode(bool $a_value) : void
     {
-        $this->text_input = (bool) $a_value;
+        $this->text_input = $a_value;
     }
-    
-    public function addToForm()
+
+    public function addToForm() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-            
         $adt_date = $this->getADT()->getDate();
-
         $date = new ilDateTimeInputGUI($this->getTitle(), $this->getElementId());
         $date->setShowTime(true);
-
         $this->addBasicFieldProperties($date, $this->getADT()->getCopyOfDefinition());
-        
         $date->setDate($adt_date);
-
         $this->addToParentElement($date);
     }
-    
-    public function importFromPost()
+
+    public function importFromPost() : void
     {
-        $field = $this->getForm()->getItemByPostvar($this->getElementId());
-                
+        $field = $this->getForm()->getItemByPostVar($this->getElementId());
+
         // because of ilDateTime the ADT can only have valid dates
         if (!$field->hasInvalidInput()) {
             // ilPropertyFormGUI::checkInput() is pre-requisite
@@ -49,10 +39,10 @@ class ilADTDateTimeFormBridge extends ilADTFormBridge
             $this->invalid_input = true;
         }
     }
-    
-    public function validate()
+
+    public function validate() : bool
     {
         // :TODO: error handling is done by ilDateTimeInputGUI
-        return !(bool) $this->invalid_input;
+        return !$this->invalid_input;
     }
 }

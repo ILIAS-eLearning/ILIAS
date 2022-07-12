@@ -799,7 +799,7 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
 if ($lp_type_id) {
     $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
-    ilDBUpdateNewObjectType::deleteRBACOperation($lp_type_id, $ops_id);
+    ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
 }
 
 ?>
@@ -4407,7 +4407,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 // remove magpie cache dir
 $mcdir = CLIENT_WEB_DIR."/magpie_cache";
-ilUtil::delDir($mcdir);
+ilFileUtils::delDir($mcdir);
 ?>
 <#5675>
 <?php
@@ -4423,8 +4423,16 @@ if (!$ilDB->tableColumnExists('skl_profile_level', 'order_nr'))
 ?>
 <#5676>
 <?php
+$profiles = [];
+if ($ilDB->tableExists('skl_profile')) {
+    $set = $ilDB->query(
+        "SELECT * FROM skl_profile"
+    );
+    while ($rec = $ilDB->fetchAssoc($set)) {
+        $profiles[$rec["id"]] = $rec;
+    }
+}
 if ($ilDB->tableExists('skl_profile_level')) {
-    $profiles = ilSkillProfile::getProfiles();
     if (!empty($profiles)) {
         foreach ($profiles as $id => $profile) {
             $set = $ilDB->query(
@@ -6244,6 +6252,15 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     if (array_key_exists('options', $values)) {
         $idx = 0;
         foreach ($values['options'] as $option) {
+            $index = $idx + 1;
+            $exists_query = 'select field_id from adv_mdf_enum ' .
+                'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+                'and lang_code = ' . $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ' ' .
+                'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+            $exists_res = $ilDB->query($exists_query);
+            if ($exists_res->numRows() > 0) {
+                continue;
+            }
             $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                 'values ( ' .
                 $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
@@ -6261,6 +6278,15 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             }
             $idx = 0;
             foreach ($options as $option) {
+                $index = $idx + 1;
+                $exists_query = 'select field_id from adv_mdf_enum ' .
+                    'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+                    'and lang_code = ' . $ilDB->quote($lang, ilDBConstants::T_TEXT) . ' ' .
+                    'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+                $exists_res = $ilDB->query($exists_query);
+                if ($exists_res->numRows() > 0) {
+                    continue;
+                }
                 $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                     'values ( ' .
                     $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
@@ -6279,6 +6305,15 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     ) {
         $idx = 0;
         foreach ($values as $option) {
+            $index = $idx + 1;
+            $exists_query = 'select field_id from adv_mdf_enum ' .
+                'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+                'and lang_code = ' . $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ' ' .
+                'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+            $exists_res = $ilDB->query($exists_query);
+            if ($exists_res->numRows() > 0) {
+                continue;
+            }
             $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                 'values ( ' .
                 $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
@@ -6790,35 +6825,47 @@ if (!$ilDB->tableColumnExists('il_bibl_data', 'rid')) {
 ?>
 <#5797>
 <?php
-if (!$ilDB->indexExistsByFields('il_resource_revision', array('identification'))) {
+if ($ilDB->tableColumnExists('il_resource_revision', 'identification')
+    && !$ilDB->indexExistsByFields('il_resource_revision', array('identification'))
+) {
     $ilDB->addIndex(
         'il_resource_revision',
         array('identification'),
         'i1'
     );
 }
-if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('identification'))) {
+if ($ilDB->tableExists('il_resource_stakeh')
+    && $ilDB->tableColumnExists('il_resource_stakeh', 'identification')
+    && !$ilDB->indexExistsByFields('il_resource_stakeh', array('identification'))
+) {
     $ilDB->addIndex(
         'il_resource_stakeh',
         array('identification'),
         'i1'
     );
 }
-if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('stakeholder_id'))) {
+if ($ilDB->tableExists('il_resource_stakeh')
+    && $ilDB->tableColumnExists('il_resource_stakeh', 'stakeholder_id')
+    && !$ilDB->indexExistsByFields('il_resource_stakeh', array('stakeholder_id'))
+) {
     $ilDB->addIndex(
         'il_resource_stakeh',
         array('stakeholder_id'),
         'i2'
     );
 }
-if (!$ilDB->indexExistsByFields('il_resource_info', array('identification'))) {
+if ($ilDB->tableColumnExists('il_resource_info', 'identification')
+    && !$ilDB->indexExistsByFields('il_resource_info', array('identification'))
+) {
     $ilDB->addIndex(
         'il_resource_info',
         array('identification'),
         'i1'
     );
 }
-if (!$ilDB->indexExistsByFields('il_resource', array('storage_id'))) {
+if ($ilDB->tableColumnExists('il_resource', 'storage_id')
+    && !$ilDB->indexExistsByFields('il_resource', array('storage_id'))
+) {
     $ilDB->addIndex(
         'il_resource',
         array('storage_id'),

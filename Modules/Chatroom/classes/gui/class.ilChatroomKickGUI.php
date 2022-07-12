@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomKickGUI
@@ -13,7 +28,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
     {
         $data = new stdClass();
 
-        $data->user = $this->gui->object->getPersonalInformation($chat_user);
+        $data->user = $this->gui->getObject()->getPersonalInformation($chat_user);
         $data->userToKick = $messageString;
         $data->timestamp = date('c');
         $data->type = 'kick';
@@ -25,11 +40,11 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission(['read', 'moderate']);
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
-        $userToKick = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('user'));
-        $subRoomId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub', 0));
+        $userToKick = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
+        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int(), 0);
 
         $connector = $this->gui->getConnector();
         $response = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
@@ -44,11 +59,11 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 
     public function main() : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
-        $userToKick = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('user'));
-        $subRoomId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'));
+        $userToKick = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
+        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
 
         $connector = $this->gui->getConnector();
         $response = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
@@ -66,19 +81,23 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
      */
     public function sub() : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         if ($room) {
-            $subRoomId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'));
-            if (!$room->isOwnerOfPrivateRoom($this->ilUser->getId(), $subRoomId)) {
-                if (!ilChatroom::checkUserPermissions(['read', 'moderate'], $this->gui->ref_id)) {
-                    $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
-                    $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
-                }
+            $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
+            if (
+                !ilChatroom::checkUserPermissions(['read', 'moderate'], $this->gui->getRefId()) &&
+                !$room->isOwnerOfPrivateRoom(
+                    $this->ilUser->getId(),
+                    $subRoomId
+                )
+            ) {
+                $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
+                $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
             }
 
             $roomId = $room->getRoomId();
 
-            $userToKick = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('user'));
+            $userToKick = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
             if ($room->userIsInPrivateRoom($subRoomId, $userToKick)) {
                 $connector = $this->gui->getConnector();
                 $response = $connector->sendKick($roomId, $subRoomId, $userToKick);

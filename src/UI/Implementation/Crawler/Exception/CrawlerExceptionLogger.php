@@ -1,4 +1,21 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Crawler\Exception;
 
 /**
@@ -7,22 +24,22 @@ namespace ILIAS\UI\Implementation\Crawler\Exception;
  */
 class CrawlerExceptionLogger implements CrawlerExceptionHandler
 {
-    protected $exceptions = array();
+    protected array $exceptions = array();
 
     /**
      *	@inheritdoc
      */
-    public function handleException(CrawlerException $ex)
+    public function handleException(CrawlerException $ex) : void
     {
         $this->exceptions[] = $ex;
     }
 
     /**
-     * Get all exception thrown sofar and reset the logger.
+     * Get all exception thrown so far and reset the logger.
      *
      * @return	CrawlerException[]	$return
      */
-    public function exceptions()
+    public function exceptions() : array
     {
         $return = $this->exceptions;
         $this->exceptions = array();

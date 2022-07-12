@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * BlockGUI class for Tasks on PD
@@ -55,7 +71,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
     }
@@ -118,7 +134,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * get flat list for personal desktop
      */
-    public function fillRow($a_set) : void
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -204,7 +220,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     /**
      * @inheritdoc
@@ -224,7 +240,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?Item
     {
         $factory = $this->ui->factory();
         $lng = $this->lng;

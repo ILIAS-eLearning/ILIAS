@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Portfolio base
@@ -9,63 +23,52 @@
  */
 abstract class ilObjPortfolioBase extends ilObject2
 {
-    /**
-     * @var \ilSetting
-     */
-    protected $setting;
+    protected \ILIAS\Notes\Service $notes;
+    protected ilSetting $setting;
+    protected bool $online = false;
+    protected bool $comments = false;
+    protected string $bg_color = "";
+    protected string $font_color = "";
+    protected string $img = "";
+    protected string $ppic = "";
+    protected bool $style = false;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_id = 0, $a_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_reference = true
+    ) {
         global $DIC;
+
+        $this->notes = $DIC->notes();
+        
         parent::__construct($a_id, $a_reference);
 
         $this->setting = $DIC->settings();
 
         $this->db = $DIC->database();
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForObjId($this->getId());
     }
-
-    protected $online; // [bool]
-    protected $comments; // [bool]
-    protected $bg_color; // [string]
-    protected $font_color; // [string]
-    protected $img; // [string]
-    protected $ppic; // [string]
-    protected $style; // [bool]
 
 
     //
     // PROPERTIES
     //
 
-    /**
-     * Set online status
-     *
-     * @param bool $a_value
-     */
-    public function setOnline($a_value)
+    public function setOnline(bool $a_value) : void
     {
-        $this->online = (bool) $a_value;
+        $this->online = $a_value;
     }
 
-    /**
-     * Is online?
-     *
-     * @return bool
-     */
-    public function isOnline()
+    public function isOnline() : bool
     {
         return $this->online;
     }
     
-    /**
-     * Is online?
-     *
-     * @return bool
-     */
-    public static function lookupOnline($a_id)
+    public static function lookupOnline(int $a_id) : bool
     {
         global $DIC;
 
@@ -78,52 +81,27 @@ abstract class ilObjPortfolioBase extends ilObject2
         return  (bool) $row["is_online"];
     }
     
-    /**
-     * Set public comments status
-     *
-     * @param bool $a_value
-     */
-    public function setPublicComments($a_value)
+    public function setPublicComments(bool $a_value) : void
     {
-        $this->comments = (bool) $a_value;
+        $this->comments = $a_value;
     }
 
-    /**
-     * Active public comments?
-     *
-     * @return bool
-     */
-    public function hasPublicComments()
+    public function hasPublicComments() : bool
     {
         return $this->comments;
     }
-    
-    /**
-     * Get profile picture status
-     *
-     * @return bool
-     */
-    public function hasProfilePicture()
+
+    public function hasProfilePicture() : bool
     {
         return $this->ppic;
     }
 
-    /**
-     * Toggle profile picture status
-     *
-     * @param bool $a_status
-     */
-    public function setProfilePicture($a_status)
+    public function setProfilePicture(bool $a_status) : void
     {
-        $this->ppic = (bool) $a_status;
+        $this->ppic = $a_status;
     }
 
-    /**
-     * Get background color
-     *
-     * @return string
-     */
-    public function getBackgroundColor()
+    public function getBackgroundColor() : string
     {
         if (!$this->bg_color) {
             $this->bg_color = "ffffff";
@@ -132,21 +110,14 @@ abstract class ilObjPortfolioBase extends ilObject2
     }
 
     /**
-     * Set background color
-     *
-     * @param string $a_value
+     * Set background color, e.g. "efefef"
      */
-    public function setBackgroundColor($a_value)
+    public function setBackgroundColor(string $a_value) : void
     {
-        $this->bg_color = (string) $a_value;
+        $this->bg_color = $a_value;
     }
-    
-    /**
-     * Get font color
-     *
-     * @return string
-     */
-    public function getFontColor()
+
+    public function getFontColor() : string
     {
         if (!$this->font_color) {
             $this->font_color = "505050";
@@ -154,62 +125,32 @@ abstract class ilObjPortfolioBase extends ilObject2
         return $this->font_color;
     }
 
-    /**
-     * Set font color
-     *
-     * @param string $a_value
-     */
-    public function setFontColor($a_value)
+    public function setFontColor(string $a_value) : void
     {
-        $this->font_color = (string) $a_value;
+        $this->font_color = $a_value;
     }
     
     /**
      * Get banner image
-     *
-     * @return string
      */
-    public function getImage()
+    public function getImage() : string
     {
         return $this->img;
     }
 
     /**
      * Set banner image
-     *
-     * @param string $a_value
      */
-    public function setImage($a_value)
+    public function setImage(string $a_value) : void
     {
-        $this->img = (string) $a_value;
+        $this->img = $a_value;
     }
-    
-    /**
-     * Get style sheet id
-     *
-     * @return bool
-     */
-    public function getStyleSheetId()
-    {
-        return (int) $this->style;
-    }
-
-    /**
-     * Set style sheet id
-     *
-     * @param int $a_style
-     */
-    public function setStyleSheetId($a_style)
-    {
-        $this->style = (int) $a_style;
-    }
-    
     
     //
     // CRUD
     //
     
-    protected function doRead()
+    protected function doRead() : void
     {
         $ilDB = $this->db;
 
@@ -219,23 +160,24 @@ abstract class ilObjPortfolioBase extends ilObject2
         
         $this->setOnline((bool) $row["is_online"]);
         $this->setProfilePicture((bool) $row["ppic"]);
-        $this->setBackgroundColor($row["bg_color"]);
-        $this->setFontColor($row["font_color"]);
-        $this->setImage($row["img"]);
+        $this->setBackgroundColor((string) $row["bg_color"]);
+        $this->setFontColor((string) $row["font_color"]);
+        $this->setImage((string) $row["img"]);
         
         // #14661
-        $this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));
-        
-        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
+        $this->setPublicComments($this->notes->domain()->commentsActive($this->id));
         
         $this->doReadCustom($row);
     }
-    
-    protected function doReadCustom(array $a_row)
+
+    /**
+     * May be overwritten by derived classes
+     */
+    protected function doReadCustom(array $a_row) : void
     {
     }
 
-    protected function doCreate()
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
         
@@ -244,7 +186,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             $ilDB->quote(0, "integer") . ")");
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         $ilDB = $this->db;
         
@@ -252,28 +194,29 @@ abstract class ilObjPortfolioBase extends ilObject2
             "is_online" => array("integer", $this->isOnline()),
             "ppic" => array("integer", $this->hasProfilePicture()),
             "bg_color" => array("text", $this->getBackgroundColor()),
-            "font_color" => array("text", $this->getFontcolor()),
+            "font_color" => array("text", $this->getFontColor()),
             "img" => array("text", $this->getImage())
         );
         $this->doUpdateCustom($fields);
         
         // #14661
-        ilNote::activateComments($this->id, 0, $this->getType(), $this->hasPublicComments());
+        $this->notes->domain()->activateComments($this->id, $this->hasPublicComments());
         
-        ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
-                
         $ilDB->update(
             "usr_portfolio",
             $fields,
             array("id" => array("integer", $this->id))
         );
     }
-    
-    protected function doUpdateCustom(array &$a_fields)
+
+    /**
+     * May be overwritte by derived classes
+     */
+    protected function doUpdateCustom(array &$a_fields) : void
     {
     }
 
-    protected function doDelete()
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
         
@@ -284,7 +227,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             " WHERE id = " . $ilDB->quote($this->id, "integer"));
     }
     
-    abstract protected function deleteAllPages();
+    abstract protected function deleteAllPages() : void;
     
     
     //
@@ -293,43 +236,41 @@ abstract class ilObjPortfolioBase extends ilObject2
     
     /**
      * Get banner image incl. path
-     *
-     * @param bool $a_as_thumb
      */
-    public function getImageFullPath($a_as_thumb = false)
-    {
+    public function getImageFullPath(
+        bool $a_as_thumb = false
+    ) : string {
         if ($this->img) {
-            $path = $this->initStorage($this->id);
+            $path = self::initStorage($this->id);
             if (!$a_as_thumb) {
                 return $path . $this->img;
-            } else {
-                return $path . "thb_" . $this->img;
             }
+
+            return $path . "thb_" . $this->img;
         }
+        return "";
     }
     
     /**
      * remove existing file
      */
-    public function deleteImage()
+    public function deleteImage() : void
     {
         if ($this->id) {
             $storage = new ilFSStoragePortfolio($this->id);
             $storage->delete();
             
-            $this->setImage(null);
+            $this->setImage("");
         }
     }
         
     /**
      * Init file system storage
-     *
-     * @param type $a_id
-     * @param type $a_subdir
-     * @return string
      */
-    public static function initStorage($a_id, $a_subdir = null)
-    {
+    public static function initStorage(
+        int $a_id,
+        string $a_subdir = null
+    ) : string {
         $storage = new ilFSStoragePortfolio($a_id);
         $storage->create();
         
@@ -338,8 +279,8 @@ abstract class ilObjPortfolioBase extends ilObject2
         if ($a_subdir) {
             $path .= $a_subdir . "/";
             
-            if (!is_dir($path)) {
-                mkdir($path);
+            if (!is_dir($path) && !mkdir($path) && !is_dir($path)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
             }
         }
                 
@@ -348,12 +289,10 @@ abstract class ilObjPortfolioBase extends ilObject2
     
     /**
      * Upload new image file
-     *
-     * @param array $a_upload
-     * @return bool
      */
-    public function uploadImage(array $a_upload)
-    {
+    public function uploadImage(
+        array $a_upload
+    ) : bool {
         if (!$this->id) {
             return false;
         }
@@ -363,12 +302,12 @@ abstract class ilObjPortfolioBase extends ilObject2
         // #10074
         $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $a_upload["name"]);
     
-        $path = $this->initStorage($this->id);
+        $path = self::initStorage($this->id);
         $original = "org_" . $this->id . "_" . $clean_name;
         $thumb = "thb_" . $this->id . "_" . $clean_name;
         $processed = $this->id . "_" . $clean_name;
         
-        if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
+        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
             chmod($path . $original, 0770);
             
             $prfa_set = new ilSetting("prfa");
@@ -380,11 +319,13 @@ abstract class ilObjPortfolioBase extends ilObject2
 
             // take quality 100 to avoid jpeg artefacts when uploading jpeg files
             // taking only frame [0] to avoid problems with animated gifs
-            $original_file = ilUtil::escapeShellArg($path . $original);
-            $thumb_file = ilUtil::escapeShellArg($path . $thumb);
-            $processed_file = ilUtil::escapeShellArg($path . $processed);
-            ilUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-            ilUtil::execConvert($original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file);
+            $original_file = ilShellUtil::escapeShellArg($path . $original);
+            $thumb_file = ilShellUtil::escapeShellArg($path . $thumb);
+            $processed_file = ilShellUtil::escapeShellArg($path . $processed);
+            ilShellUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+            ilShellUtil::execConvert(
+                $original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file
+            );
             
             $this->setImage($processed);
             
@@ -404,8 +345,12 @@ abstract class ilObjPortfolioBase extends ilObject2
      * @param ilObjPortfolioBase $a_source
      * @param ilObjPortfolioBase $a_target
      */
-    protected static function cloneBasics(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target)
-    {
+    protected static function cloneBasics(
+        ilObjPortfolioBase $a_source,
+        ilObjPortfolioBase $a_target
+    ) : void {
+        global $DIC;
+
         // copy portfolio properties
         $a_target->setPublicComments($a_source->hasPublicComments());
         $a_target->setProfilePicture($a_source->hasProfilePicture());
@@ -419,25 +364,28 @@ abstract class ilObjPortfolioBase extends ilObject2
         $target_dir = $a_target->initStorage($a_target->getId());
         ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
         
-        // set/copy stylesheet
-        $style_id = $a_source->getStyleSheetId();
-        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-            $new_id = $style_obj->ilClone();
-            $a_target->setStyleSheetId($new_id);
-            $a_target->update();
+        // container settings
+        foreach (ilContainer::_getContainerSettings($a_source->getId()) as $keyword => $value) {
+            ilContainer::_writeContainerSetting($a_target->getId(), $keyword, $value);
         }
+
+        // style
+        $content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForObjId($a_source->getId());
+        $content_style_domain->cloneTo($a_target->getId());
     }
 
     /**
      * Build template from portfolio and vice versa
-     *
-     * @param ilObjPortfolioBase $a_source
-     * @param ilObjPortfolioBase $a_target
-     * @param array $a_recipe
      */
-    public static function clonePagesAndSettings(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target, array $a_recipe = null, $copy_all = false)
-    {
+    public static function clonePagesAndSettings(
+        ilObjPortfolioBase $a_source,
+        ilObjPortfolioBase $a_target,
+        ?array $a_recipe = null,
+        bool $copy_all = false
+    ) : void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -457,7 +405,30 @@ abstract class ilObjPortfolioBase extends ilObject2
         }
         
         self::cloneBasics($a_source, $a_target);
-        
+
+        // copy advanced metadata
+        $copy_id = ilCopyWizardOptions::_allocateCopyId();
+        ilAdvancedMDValues::_cloneValues($copy_id, $a_source->getId(), $a_target->getId());
+
+        // fix metadata record type assignment
+        // e.g. if portfolio is created from template
+        // we need to change this from prtt to prtf
+        foreach (\ilAdvancedMDRecord::_getSelectedRecordsByObject(
+            ilObject::_lookupType($a_source->getId()),
+            $a_target->getId(),
+            "pfpg",
+            false
+        ) as $rec) {
+            $rec->setAssignedObjectTypes(
+                [[
+                    "obj_type" => ilObject::_lookupType($a_target->getId()),
+                    "sub_type" => "pfpg",
+                    "optional" => 0
+                ]]
+            );
+            $rec->update();
+        }
+
         // personal skills
         $pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
         
@@ -467,7 +438,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         foreach (ilPortfolioPage::getAllPortfolioPages($source_id) as $page) {
             $page_id = $page["id"];
             
-            if ($direction == "t2p") {
+            if ($direction === "t2p") {
                 $source_page = new ilPortfolioTemplatePage($page_id);
                 $target_page = new ilPortfolioPage();
             } else {
@@ -491,8 +462,8 @@ abstract class ilObjPortfolioBase extends ilObject2
             $valid = false;
             switch ($page_type) {
                 // blog => blog template
-                case ilPortfolioTemplatePage::TYPE_BLOG:
-                    if ($direction == "p2t") {
+                case ilPortfolioPage::TYPE_BLOG:
+                    if ($direction === "p2t") {
                         $page_type = ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE;
                         $page_title = $lng->txt("obj_blog") . " " . (++$blog_count);
                         $valid = true;
@@ -501,28 +472,26 @@ abstract class ilObjPortfolioBase extends ilObject2
                 
                 // blog template => blog (needs recipe)
                 case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-                    if ($direction == "t2p" && (is_array($page_recipe) || $copy_all)) {
+                    if ($direction === "t2p" && (is_array($page_recipe) || $copy_all)) {
                         $page_type = ilPortfolioPage::TYPE_BLOG;
                         if ($copy_all) {
                             $page_title = self::createBlogInPersonalWorkspace($page_title);
                             $valid = true;
-                        } else {
-                            if ($page_recipe[0] == "blog") {
-                                switch ($page_recipe[1]) {
-                                    case "create":
-                                        $page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
-                                        $valid = true;
-                                        break;
+                        } elseif ($page_recipe[0] == "blog") {
+                            switch ($page_recipe[1]) {
+                                case "create":
+                                    $page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
+                                    $valid = true;
+                                    break;
 
-                                    case "reuse":
-                                        $page_title = $page_recipe[2];
-                                        $valid = true;
-                                        break;
+                                case "reuse":
+                                    $page_title = $page_recipe[2];
+                                    $valid = true;
+                                    break;
 
-                                    case "ignore":
-                                        // do nothing
-                                        break;
-                                }
+                                case "ignore":
+                                    // do nothing
+                                    break;
                             }
                         }
                     }
@@ -530,13 +499,18 @@ abstract class ilObjPortfolioBase extends ilObject2
 
                 // page editor
                 default:
-                    $target_page->setXMLContent($source_page->copyXmlContent(true)); // copy mobs
+                    $target_page->setXMLContent(
+                        $source_page->copyXmlContent(
+                            true,
+                            $a_target->getId(),
+                            $copy_id
+                        )
+                    );
                     $target_page->buildDom(true);
-
 
                     // parse content / blocks
 
-                    if ($direction == "t2p") {
+                    if ($direction === "t2p") {
                         $dom = $target_page->getDom();
                         if ($dom instanceof php4DOMDocument) {
                             $dom = $dom->myDOMDocument;
@@ -581,20 +555,23 @@ abstract class ilObjPortfolioBase extends ilObject2
                 
                 $target_page->setType($page_type);
                 $target_page->setTitle($page_title);
-                $target_page->create();
+                $target_page->create(false);
 
-                if ($page_type == ilPortfolioPage::TYPE_PAGE) {
+                if ($page_type === ilPortfolioPage::TYPE_PAGE) {
                     $target_page->update();	// handle mob usages!
                 }
                 $page_map[$source_page->getId()] = $target_page->getId();
             }
         }
-
         ilPortfolioPage::updateInternalLinks($page_map, $a_target);
     }
         
-    protected static function updateDomNodes($a_dom, $a_xpath, $a_attr_id, $a_attr_value)
-    {
+    protected static function updateDomNodes(
+        DOMDocument $a_dom,
+        string $a_xpath,
+        string $a_attr_id,
+        string $a_attr_value
+    ) : void {
         $xpath_temp = new DOMXPath($a_dom);
         $nodes = $xpath_temp->query($a_xpath);
         foreach ($nodes as $node) {
@@ -602,7 +579,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         }
     }
     
-    protected static function createBlogInPersonalWorkspace($a_title)
+    protected static function createBlogInPersonalWorkspace(string $a_title) : int
     {
         global $DIC;
 
@@ -634,14 +611,12 @@ abstract class ilObjPortfolioBase extends ilObject2
     }
 
     /**
-     * Fix internal portfolio links
-     *
-     * @param array
+     * Update internal portfolio links on title change
      */
-    public function fixLinksOnTitleChange($a_title_changes)
+    public function fixLinksOnTitleChange(array $a_title_changes) : void
     {
         foreach (ilPortfolioPage::getAllPortfolioPages($this->getId()) as $port_page) {
-            if ($this->getType() == "prtt") {
+            if ($this->getType() === "prtt") {
                 $page = new ilPortfolioTemplatePage($port_page["id"]);
             } else {
                 $page = new ilPortfolioPage($port_page["id"]);

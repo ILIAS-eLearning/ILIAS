@@ -1,28 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Setup;
+use ILIAS\Setup\Metrics\CollectedObjective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Metrics\Storage;
 
-class ilLoggingMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
+class ilLoggingMetricsCollectedObjective extends CollectedObjective
 {
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Environment $environment) : array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Environment $environment, Storage $storage) : void
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         if (!$ini) {
             return;
         }
 
         $storage->storeConfigBool(
             "enable",
-            $ini->readVariable("log", "enabled"),
+            (bool) $ini->readVariable("log", "enabled"),
             "Is the logging enabled on the installation?"
         );
         $storage->storeConfigText(

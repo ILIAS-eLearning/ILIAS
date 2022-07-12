@@ -1,48 +1,51 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 
-/**
- * Class ilUserProfileStartUpStep
- */
 class ilUserProfileStartUpStep extends StartUpSequenceStep
 {
-    /** @var ilObjUser */
-    private $user;
-    /** @var ilCtrl */
-    private $ctrl;
+    private ilObjUser $user;
+    private ilCtrl $ctrl;
+    protected \ILIAS\User\ProfileGUIRequest $profile_request;
+    protected bool $update_prompt = false;
 
-    /**
-     * ilUserProfileStartUpStep constructor.
-     * @param ilObjUser $user
-     * @param ilCtrl $ctrl
-     */
     public function __construct(ilObjUser $user, ilCtrl $ctrl)
     {
+        global $DIC;
+
         $this->user = $user;
         $this->ctrl = $ctrl;
+        $this->profile_request = new \ILIAS\User\ProfileGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
 
-    /**
-     * @var bool
-     */
-    protected $update_prompt = false;
-
-    /**
-     * @return boolean
-     */
     public function shouldStoreRequestTarget() : bool
     {
         return true;
     }
 
-    /**
-     * @return boolean
-     */
     public function isInFulfillment() : bool
     {
-        if (!isset($_GET['baseClass']) || strtolower($_GET['baseClass']) != 'ildashboardgui') {
+        $baseClass = $this->profile_request->getBaseClass();
+        if ($baseClass == "" || strtolower($baseClass) != 'ildashboardgui') {
             return false;
         }
 
@@ -57,9 +60,6 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
         );
     }
 
-    /**
-     * @return boolean
-     */
     public function shouldInterceptRequest() : bool
     {
         $user_log = ilLoggerFactory::getLogger("user");
@@ -87,7 +87,7 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
                         $user_log->debug("User has logged in and not prompted yet");
                         // check if first login + days < now
                         $deadline = new ilDateTime($user_prompt->getFirstLogin(), IL_CAL_DATETIME);
-                        $deadline->increment(IL_CAL_DAY, (int) $prompt_settings->getDays());
+                        $deadline->increment(IL_CAL_DAY, $prompt_settings->getDays());
                         $user_log->debug("Check Deadline: " . $deadline->get(IL_CAL_DATETIME) .
                             " < now: " . ilUtil::now());
                         if ($deadline->get(IL_CAL_DATETIME) < ilUtil::now()) {
@@ -106,7 +106,7 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
                     if ($deadline != "") {
                         $user_log->debug("User logged in already.");
                         $deadline = new ilDateTime($deadline, IL_CAL_DATETIME);
-                        $deadline->increment(IL_CAL_DAY, (int) $prompt_settings->getDays());
+                        $deadline->increment(IL_CAL_DAY, $prompt_settings->getDays());
                         $user_log->debug("Check Deadline: " . $deadline->get(IL_CAL_DATETIME) .
                             " < now: " . ilUtil::now());
                         if ($deadline->get(IL_CAL_DATETIME) < ilUtil::now()) {
@@ -122,9 +122,6 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
         return false;
     }
 
-    /**
-     * @return void
-     */
     public function execute() : void
     {
         $user_log = ilLoggerFactory::getLogger("user");
@@ -132,13 +129,10 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
         if ($this->update_prompt) {
             $user_log->debug("Update last prompt date for user :" . $this->user->getId());
             $user_prompt_service = new ilUserProfilePromptService();
-            $user_prompt_service->data()->saveLastUserPrompt((int) $this->user->getId());
+            $user_prompt_service->data()->saveLastUserPrompt($this->user->getId());
         }
 
-        $_GET['baseClass'] = 'ildashboardgui';
-        // sm: directly redirect to personal desktop -> personal profile
-        $this->ctrl->setTargetScript('ilias.php');
         $this->ctrl->setParameterByClass("ilpersonalprofilegui", "prompted", "1");
-        ilUtil::redirect($this->ctrl->getLinkTargetByClass(array('ildashboardgui', 'ilpersonalprofilegui'), 'showPersonalData', '', false, false));
+        $this->ctrl->redirectByClass(array('ildashboardgui', 'ilpersonalprofilegui'), 'showPersonalData');
     }
 }

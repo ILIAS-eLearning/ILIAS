@@ -16,8 +16,7 @@ The responsible GUI class for presenting the main features like *Settings*
 commands to *ilObjectMetaDataGUI*.
 
 
-```php
-<?php
+```<?php declare(strict_types=1);
 
 /*
  * ...

@@ -1,9 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
-use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
-use ILIAS\Filesystem\Util\LegacyPathHelper;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjFolder
@@ -12,16 +20,12 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  */
 class ilObjFolder extends ilContainer
 {
-    public $folder_tree;
+    public ?ilTree $folder_tree = null;
     
-    /**
-     * Constructor
-     * @access	public
-     * @param	integer	reference_id or object_id
-     * @param	boolean	treat the id as reference_id (true) or object_id (false)
-     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_call_by_reference = true
+    ) {
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -33,22 +37,14 @@ class ilObjFolder extends ilContainer
         $this->lng->loadLanguageModule('fold');
     }
 
-    public function setFolderTree($a_tree)
+    public function setFolderTree(ilTree $a_tree) : void
     {
-        $this->folder_tree = &$a_tree;
+        $this->folder_tree = $a_tree;
     }
     
-    /**
-     * Clone folder
-     *
-     * @access public
-     * @param int target id
-     * @param int copy id
-     *
-     */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());
@@ -58,11 +54,7 @@ class ilObjFolder extends ilContainer
         return $new_obj;
     }
 
-    /**
-    * insert folder into grp_tree
-    *
-    */
-    public function putInTree($a_parent)
+    public function putInTree(int $parent_ref_id) : void
     {
         $tree = $this->tree;
         
@@ -72,33 +64,22 @@ class ilObjFolder extends ilContainer
 
         if ($this->withReferences()) {
             // put reference id into tree
-            $this->folder_tree->insertNode($this->getRefId(), $a_parent);
+            $this->folder_tree->insertNode($this->getRefId(), $parent_ref_id);
         } else {
             // put object id into tree
-            $this->folder_tree->insertNode($this->getId(), $a_parent);
+            $this->folder_tree->insertNode($this->getId(), $parent_ref_id);
         }
     }
     
-    /**
-     * Clone object dependencies (crs items, preconditions)
-     *
-     * @access public
-     * @param int target ref id of new course
-     * @param int copy id
-     *
-     */
-    public function cloneDependencies($a_target_id, $a_copy_id)
+    public function cloneDependencies(int $target_id, int $copy_id) : bool
     {
-        parent::cloneDependencies($a_target_id, $a_copy_id);
+        parent::cloneDependencies($target_id, $copy_id);
 
-        ilObjectActivation::cloneDependencies($this->getRefId(), $a_target_id, $a_copy_id);
+        ilObjectActivation::cloneDependencies($this->getRefId(), $target_id, $copy_id);
         
         return true;
     }
 
-    /**
-    * Get container view mode
-    */
     public function getViewMode() : int
     {
         $tree = $this->tree;
@@ -113,9 +94,9 @@ class ilObjFolder extends ilContainer
         }
         if ($container_ref_id) {
             $view_mode = ilObjCourseAccess::_lookupViewMode(ilObject::_lookupObjId($container_ref_id));
-            if ($view_mode == ilContainer::VIEW_SESSIONS ||
-                $view_mode == ilContainer::VIEW_BY_TYPE ||
-                $view_mode == ilContainer::VIEW_SIMPLE) {
+            if ($view_mode === ilContainer::VIEW_SESSIONS ||
+                $view_mode === ilContainer::VIEW_BY_TYPE ||
+                $view_mode === ilContainer::VIEW_SIMPLE) {
                 $view = $view_mode;
             }
         }
@@ -123,23 +104,12 @@ class ilObjFolder extends ilContainer
         return $view;
     }
 
-    /**
-    * Add additional information to sub item, e.g. used in
-    * courses for timings information etc.
-    */
     public function addAdditionalSubItemInformation(array &$object) : void
     {
         ilObjectActivation::addAdditionalSubItemInformation($object);
     }
     
-    /**
-     * Overwritten read method
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function read()
+    public function read() : void
     {
         parent::read();
         

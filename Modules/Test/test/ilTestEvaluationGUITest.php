@@ -108,7 +108,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $objTest_mock
             ->expects($this->any())
             ->method("getAnonymity")
-            ->willReturn(true);
+            ->willReturn(1);
         $this->testObj->object = $objTest_mock;
 
         $this->assertEquals($expectedResult2, $this->testObj->getHeaderVars());

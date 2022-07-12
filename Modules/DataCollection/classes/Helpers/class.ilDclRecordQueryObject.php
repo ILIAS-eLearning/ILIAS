@@ -1,121 +1,92 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclRecordQueryObject
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilDclRecordQueryObject
 {
-    protected $selectStatement;
-    protected $joinStatement;
-    protected $whereStatement;
-    protected $groupStatement;
-    protected $orderStatement;
+    protected string $selectStatement = "";
+    protected string $joinStatement = "";
+    protected string $whereStatement = "";
+    protected string $groupStatement = "";
+    protected string $orderStatement = "";
 
-
-    /**
-     * @return mixed
-     */
-    public function getSelectStatement()
+    public function getSelectStatement() : string
     {
         return $this->selectStatement;
     }
 
-
-    /**
-     * @param mixed $selectStatement
-     */
-    public function setSelectStatement($selectStatement)
+    public function setSelectStatement(string $selectStatement) : void
     {
         $this->selectStatement = " " . $selectStatement;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getJoinStatement()
+    public function getJoinStatement() : string
     {
         return $this->joinStatement;
     }
 
-
-    /**
-     * @param mixed $joinStatement
-     */
-    public function setJoinStatement($joinStatement)
+    public function setJoinStatement(string $joinStatement) : void
     {
         $this->joinStatement = " " . $joinStatement;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getWhereStatement()
+    public function getWhereStatement() : string
     {
         return $this->whereStatement;
     }
 
-
-    /**
-     * @param mixed $whereStatement
-     */
-    public function setWhereStatement($whereStatement)
+    public function setWhereStatement(string $whereStatement) : void
     {
         $this->whereStatement = " " . $whereStatement;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getGroupStatement()
+    public function getGroupStatement() : string
     {
         return $this->groupStatement;
     }
 
-
-    /**
-     * @param mixed $groupStatement
-     */
-    public function setGroupStatement($groupStatement)
+    public function setGroupStatement(string $groupStatement) : void
     {
         $this->groupStatement = " " . $groupStatement;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getOrderStatement()
+    public function getOrderStatement() : string
     {
         return $this->orderStatement;
     }
 
-
-    /**
-     * @param mixed $orderStatement
-     */
-    public function setOrderStatement($orderStatement)
+    public function setOrderStatement(string $orderStatement) : void
     {
         $this->orderStatement = " " . $orderStatement;
     }
 
-
     /**
      * Apply custom sorting
-     *
-     * @param ilDclBaseFieldModel $field
-     * @param array               $all_records
-     * @param string              $direction
-     *
-     * @return array
      */
-    public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, $direction = 'asc')
-    {
+    public function applyCustomSorting(
+        ilDclBaseFieldModel $field,
+        array $all_records,
+        string $direction = 'asc'
+    ) : array {
         return $all_records;
     }
 }

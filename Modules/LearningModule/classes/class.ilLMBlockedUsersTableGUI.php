@@ -1,35 +1,42 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMBlockedUsersTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilObjLearningModule $lm;
+    protected ilAccessHandler $access;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjLearningModule $a_lm
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
         $lng = $DIC->language();
 
         $this->lm = $a_lm;
@@ -51,26 +58,17 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
         $this->addMultiCommand("sendMailToBlockedUsers", $lng->txt("send_mail"));
         $this->addMultiCommand("resetNumberOfTries", $lng->txt("cont_reset_nr_of_tries"));
         $this->addMultiCommand("unlockQuestion", $lng->txt("cont_unlock_allow_continue"));
-        //$this->addCommandButton("", $lng->txt(""));
     }
 
-    /**
-     * Get blocked users
-     *
-     * @return array array of blocked user information
-     */
-    protected function getBlockedUsers()
+    protected function getBlockedUsers() : array
     {
         /** @var ilLMTracker $track */
         $track = ilLMTracker::getInstance($this->lm->getRefId());
 
-        return $bl_users = $track->getBlockedUsersInformation();
+        return $track->getBlockedUsersInformation();
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

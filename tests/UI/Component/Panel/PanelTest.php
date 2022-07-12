@@ -1,21 +1,37 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
-use \ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ComponentDummy implements C\Component
 {
+    protected string $id;
+
     public function __construct($id = "")
     {
         $this->id = $id;
     }
-    public function getCanonicalName()
+    public function getCanonicalName() : string
     {
         return "Component Dummy";
     }
@@ -26,22 +42,22 @@ class ComponentDummy implements C\Component
  */
 class PanelTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function panelSecondary()
+        return new class extends NoUIFactory {
+            public function panelSecondary() : I\Component\Panel\Secondary\Factory
             {
                 return new I\Component\Panel\Secondary\Factory();
             }
-            public function dropdown()
+            public function dropdown() : I\Component\Dropdown\Factory
             {
                 return new I\Component\Dropdown\Factory();
             }
-            public function viewControl()
+            public function viewControl() : I\Component\ViewControl\Factory
             {
                 return new I\Component\ViewControl\Factory(new SignalGenerator());
             }
-            public function button()
+            public function button() : I\Component\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
@@ -54,20 +70,16 @@ class PanelTest extends ILIAS_UI_TestBase
                 );
             }
         };
-        return $factory;
     }
 
-    /**
-     * @return \ILIAS\UI\Implementation\Component\Panel\Factory
-     */
-    public function getPanelFactory()
+    public function getPanelFactory() : I\Component\Panel\Factory
     {
         return new I\Component\Panel\Factory(
             $this->createMock(C\Panel\Listing\Factory::class)
         );
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getPanelFactory();
 
@@ -86,15 +98,15 @@ class PanelTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_standard_get_title()
+    public function test_standard_get_title() : void
     {
         $f = $this->getPanelFactory();
         $p = $f->standard("Title", array(new ComponentDummy()));
 
-        $this->assertEquals($p->getTitle(), "Title");
+        $this->assertEquals("Title", $p->getTitle());
     }
 
-    public function test_standard_get_content()
+    public function test_standard_get_content() : void
     {
         $f = $this->getPanelFactory();
         $c = new ComponentDummy();
@@ -103,7 +115,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getContent(), array($c));
     }
 
-    public function test_standard_with_actions()
+    public function test_standard_with_actions() : void
     {
         $fp = $this->getPanelFactory();
 
@@ -119,7 +131,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getActions(), $actions);
     }
 
-    public function test_sub_with_actions()
+    public function test_sub_with_actions() : void
     {
         $fp = $this->getPanelFactory();
 
@@ -135,7 +147,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getActions(), $actions);
     }
 
-    public function test_sub_with_card()
+    public function test_sub_with_card() : void
     {
         $fp = $this->getPanelFactory();
 
@@ -148,7 +160,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getFurtherInformation(), $card);
     }
 
-    public function test_sub_with_secondary_panel()
+    public function test_sub_with_secondary_panel() : void
     {
         $fp = $this->getPanelFactory();
 
@@ -162,24 +174,24 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getFurtherInformation(), $secondary);
     }
 
-    public function test_report_get_title()
+    public function test_report_get_title() : void
     {
         $f = $this->getPanelFactory();
         $sub = $f->sub("Title", array(new ComponentDummy()));
         $p = $f->report("Title", array($sub));
 
-        $this->assertEquals($p->getTitle(), "Title");
+        $this->assertEquals("Title", $p->getTitle());
     }
 
-    public function test_report_get_content()
+    public function test_report_get_content() : void
     {
         $f = $this->getPanelFactory();
         $sub = $f->sub("Title", array(new ComponentDummy()));
-        $p = $f->report("Title", $sub);
+        $p = $f->report("Title", [$sub]);
 
         $this->assertEquals($p->getContent(), array($sub));
     }
-    public function test_render_standard()
+    public function test_render_standard() : void
     {
         $f = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -210,7 +222,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_sub()
+    public function test_render_sub() : void
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -222,13 +234,14 @@ EOT;
 
         $p = $fp->sub("Title", array())->withActions($actions);
         $card = new I\Component\Card\Card("Card Title");
+
         $p = $p->withFurtherInformation($card);
-        $html = $r->render($p);
+        $html = $this->brutallyTrimHTML($r->render($p));
 
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
 	<div class="panel-heading ilBlockHeader">
-		<h4>Title</h4>
+		<h3>Title</h3>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
@@ -241,21 +254,19 @@ EOT;
 			<div class="col-sm-8"></div>
 			<div class="col-sm-4">
 				<div class="il-card thumbnail">
-					<div class="card-no-highlight"></div>
-					<div class="caption">
-						<div class="card-title">Card Title</div>
-					</div>
-				</div>
+				    <div class="card-no-highlight"></div>
+                    <div class="caption card-title">Card Title</div>
+                </div>
 			</div>
 		</div>
 	</div>
 </div>
 EOT;
 
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 
-    public function test_render_sub_with_secondary_panel()
+    public function test_render_sub_with_secondary_panel() : void
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -269,7 +280,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
 	<div class="panel-heading ilBlockHeader">
-		<h4>Title</h4>
+		<h3>Title</h3>
 	</div>
 	<div class="panel-body">
 		<div class="row">
@@ -277,7 +288,7 @@ EOT;
 			<div class="col-sm-4">
 				<div class="panel panel-secondary panel-flex">
 					<div class="panel-heading ilHeader">
-					    <h4>Legacy panel title</h4>
+					    <h2>Legacy panel title</h2>
                     </div>
                     <div class="panel-body">Legacy content</div>
 				</div>
@@ -293,7 +304,7 @@ EOT;
         );
     }
 
-    public function test_render_report()
+    public function test_render_report() : void
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -302,26 +313,24 @@ EOT;
         $sub = $sub->withFurtherInformation($card);
         $report = $fp->report("Title", $sub);
 
-        $html = $r->render($report);
+        $html = $this->brutallyTrimHTML($r->render($report));
 
         $expected_html = <<<EOT
 <div class="panel panel-primary il-panel-report panel-flex">
     <div class="panel-heading ilHeader">
-        <h3>Title</h3>
+        <h2>Title</h2>
     </div>
     <div class="panel-body">
         <div class="panel panel-sub panel-flex">
             <div class="panel-heading ilBlockHeader">
-                <h4>Title</h4>
+                <h3>Title</h3>
             </div>
             <div class="panel-body"><div class="row">
                 <div class="col-sm-8"></div>
                     <div class="col-sm-4">
                         <div class="il-card thumbnail">
                             <div class="card-no-highlight"></div>
-                            <div class="caption">
-                                <div class="card-title">Card Title</div>
-                            </div>
+                            <div class="caption card-title">Card Title</div>
                         </div>
                     </div>
                 </div>
@@ -331,10 +340,10 @@ EOT;
 </div>
 EOT;
 
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 
-    public function test_with_view_controls()
+    public function test_with_view_controls() : void
     {
         $sort_options = [
             'a' => 'A',
@@ -343,13 +352,13 @@ EOT;
         $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
         $f = $this->getPanelFactory();
         $p = $f->standard("Title", [])
-            ->withViewControls([$sortation]);
+            ->withViewControls([$sortation])
         ;
 
         $this->assertEquals($p->getViewControls(), [$sortation]);
     }
 
-    public function test_render_with_sortation()
+    public function test_render_with_sortation() : void
     {
         $sort_options = [
             'a' => 'A',
@@ -388,7 +397,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_pagination()
+    public function test_render_with_pagination() : void
     {
         $pagination = $this->getUIFactory()->viewControl()->pagination()
             ->withTargetURL('http://ilias.de', 'page')

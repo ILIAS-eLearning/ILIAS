@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 2021 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * This interface tags classes that contain database update steps. It has no
  * requirements for any methods (currently), but instead is just used to mark
@@ -14,7 +28,7 @@
  * Implement update steps on one or more tables by creating methods that follow
  * this schema:
  *
- * public function step_1(\ilDBInterface $db) { ... }
+ * public function step_1() { ... }
  *
  * The ilDatabaseUpdateStepsExecutedObjective will figure out which of them
  * haven't been performed yet and need to be executed.
@@ -34,5 +48,5 @@ interface ilDatabaseUpdateSteps
      * Do not use anything from the globals or the DIC inside your steps, only use
      * the instance of the database provided here.
      */
-    public function prepare(\ilDBInterface $db);
+    public function prepare(\ilDBInterface $db) : void;
 }

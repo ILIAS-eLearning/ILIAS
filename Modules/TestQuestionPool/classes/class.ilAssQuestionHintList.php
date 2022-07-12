@@ -71,7 +71,7 @@ class ilAssQuestionHintList implements Iterator
      * @access	public
      * @return	boolean
      */
-    public function valid()
+    public function valid() : bool
     {
         return key($this->questionHints) !== null;
     }
@@ -91,7 +91,7 @@ class ilAssQuestionHintList implements Iterator
      * @access	public
      * @param	ilAssQuestionHint	$questionHint
      */
-    public function addHint(ilAssQuestionHint $questionHint)
+    public function addHint(ilAssQuestionHint $questionHint) : void
     {
         $this->questionHints[] = $questionHint;
     }
@@ -103,7 +103,7 @@ class ilAssQuestionHintList implements Iterator
      * @param	integer				$hintId
      * @return	ilAssQuestionHint	$questionHint
      */
-    public function getHint($hintId)
+    public function getHint($hintId) : ilAssQuestionHint
     {
         foreach ($this as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
@@ -125,7 +125,7 @@ class ilAssQuestionHintList implements Iterator
      * @param	integer		$hintId
      * @return	boolean		$hintExists
      */
-    public function hintExists($hintId)
+    public function hintExists($hintId) : bool
     {
         foreach ($this as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
@@ -147,7 +147,7 @@ class ilAssQuestionHintList implements Iterator
      *
      * @access	public
      */
-    public function reIndex()
+    public function reIndex() : void
     {
         $counter = 0;
         
@@ -168,7 +168,7 @@ class ilAssQuestionHintList implements Iterator
      * @param integer $duplicateQuestionId
      * @return array $hintIds containing the map from original hint ids to duplicate hint ids
      */
-    public static function duplicateListForQuestion($originalQuestionId, $duplicateQuestionId)
+    public static function duplicateListForQuestion($originalQuestionId, $duplicateQuestionId) : array
     {
         $hintIds = array();
         
@@ -199,7 +199,7 @@ class ilAssQuestionHintList implements Iterator
      * @access	public
      * @return	array	$tableData
      */
-    public function getTableData()
+    public function getTableData() : array
     {
         $tableData = array();
         
@@ -226,7 +226,7 @@ class ilAssQuestionHintList implements Iterator
      * @param	integer	$questionId
      * @return	self	$questionHintList
      */
-    public static function getListByQuestionId($questionId)
+    public static function getListByQuestionId($questionId) : ilAssQuestionHintList
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -273,12 +273,12 @@ class ilAssQuestionHintList implements Iterator
      * @param	array	$hintIds
      * @return	self	$questionHintList
      */
-    public static function getListByHintIds($hintIds)
+    public static function getListByHintIds($hintIds) : ilAssQuestionHintList
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         
-        $qht_hint_id__IN__hintIds = $ilDB->in('qht_hint_id', $hintIds, false, 'integer');
+        $qht_hint_id__IN__hintIds = $ilDB->in('qht_hint_id', (array) $hintIds, false, 'integer');
         
         $query = "
 			SELECT		qht_hint_id,
@@ -320,7 +320,7 @@ class ilAssQuestionHintList implements Iterator
      * @param	integer		$questionId
      * @return	integer		$nextIndex
      */
-    public static function getNextIndexByQuestionId($questionId)
+    public static function getNextIndexByQuestionId($questionId) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

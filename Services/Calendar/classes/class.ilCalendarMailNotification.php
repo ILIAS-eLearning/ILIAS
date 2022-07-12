@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,91 +21,66 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Mail/classes/class.ilMailNotification.php';
-
 /**
-* Distributes calendar mail notifications
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
+ * Distributes calendar mail notifications
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarMailNotification extends ilMailNotification
 {
-    const TYPE_GRP_NOTIFICATION = 1;
-    const TYPE_GRP_NEW_NOTIFICATION = 2;
-    const TYPE_CRS_NOTIFICATION = 3;
-    const TYPE_CRS_NEW_NOTIFICATION = 4;
-    const TYPE_BOOKING_CONFIRMATION = 5;
-    const TYPE_BOOKING_CANCELLATION = 6;
-    const TYPE_USER = 7;
-    const TYPE_USER_ANONYMOUS = 8;
-    const TYPE_BOOKING_REMINDER = 9;
-    
-    private $appointment_id = null;
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->setSender(ANONYMOUS_USER_ID);
-    }
-    
-    /**
-     * Set calendar appointment id
-     * @param object $a_id
-     * @return
-     */
-    public function setAppointmentId($a_id)
-    {
-        $this->appointment_id = $a_id;
+    public const TYPE_GRP_NOTIFICATION = 1;
+    public const TYPE_GRP_NEW_NOTIFICATION = 2;
+    public const TYPE_CRS_NOTIFICATION = 3;
+    public const TYPE_CRS_NEW_NOTIFICATION = 4;
+    public const TYPE_BOOKING_CONFIRMATION = 5;
+    public const TYPE_BOOKING_CANCELLATION = 6;
+    public const TYPE_USER = 7;
+    public const TYPE_USER_ANONYMOUS = 8;
+    public const TYPE_BOOKING_REMINDER = 9;
 
-        include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
-        $this->appointment = new ilCalendarEntry($this->getAppointmentId());
-    }
+    private ?int $appointment_id = null;
+    private ?ilCalendarEntry $appointment = null;
 
-    /**
-     * Get appointment
-     * @return ilCalendarEntry
-     */
-    public function getAppointment()
-    {
-        return $this->appointment;
-    }
-    
-    /**
-     * get appointment id
-     * @return
-     */
-    public function getAppointmentId()
-    {
-        return $this->appointment_id;
-    }
-    
-    public function appendAppointmentDetails()
-    {
-        include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
-        $app = new ilCalendarEntry($this->getAppointmentId());
-        $this->appendBody($app->appointmentToMailString($this->getLanguage()));
-    }
-    
-    
-    /**
-     *
-     * @return
-     */
-    public function send()
+    protected ilLanguage $lng;
+    protected ilRbacReview $rbacreview;
+
+    public function __construct(bool $a_is_personal_workspace = false)
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-        $lng = $DIC['lng'];
-        
+        parent::__construct($a_is_personal_workspace);
+        $this->lng = $DIC->language();
+        $this->rbacreview = $DIC->rbac()->review();
+    }
+
+    public function setAppointmentId(int $a_id) : void
+    {
+        $this->appointment_id = $a_id;
+        $this->appointment = new ilCalendarEntry($this->getAppointmentId());
+    }
+
+    public function getAppointment() : ?ilCalendarEntry
+    {
+        return $this->appointment;
+    }
+
+    public function getAppointmentId() : ?int
+    {
+        return $this->appointment_id;
+    }
+
+    public function appendAppointmentDetails() : void
+    {
+        $app = new ilCalendarEntry($this->getAppointmentId());
+        $this->appendBody($app->appointmentToMailString($this->getLanguage()));
+    }
+
+    public function send() : void
+    {
         switch ($this->getType()) {
             case self::TYPE_USER:
-                $rcp = array_pop($this->getRecipients());
+                $rcps = $this->getRecipients();
+                $rcp = array_pop($rcps);
                 $this->initLanguage($rcp);
                 $this->getLanguage()->loadLanguageModule('dateplaner');
                 $this->initMail();
@@ -134,9 +109,10 @@ class ilCalendarMailNotification extends ilMailNotification
 
             case self::TYPE_USER_ANONYMOUS:
 
-                $rcp = array_pop($this->getRecipients());
+                $rcps = $this->getRecipients();
+                $rcp = array_pop($rcps);
 
-                $this->setLanguage(ilLanguageFactory::_getLanguage($lng->getDefaultLanguage()));
+                $this->setLanguage(ilLanguageFactory::_getLanguage($this->lng->getDefaultLanguage()));
                 $this->getLanguage()->loadLanguageModule('dateplaner');
                 $this->getLanguage()->loadLanguageModule('mail');
                 $this->initMail();
@@ -159,14 +135,13 @@ class ilCalendarMailNotification extends ilMailNotification
 
                 $this->sendMail(
                     $this->getRecipients(),
-                    array('email'),
                     false
                 );
                 break;
 
             case self::TYPE_GRP_NEW_NOTIFICATION:
-                
-                $this->setLanguage(ilLanguageFactory::_getLanguage($lng->getDefaultLanguage()));
+
+                $this->setLanguage(ilLanguageFactory::_getLanguage($this->lng->getDefaultLanguage()));
                 $this->getLanguage()->loadLanguageModule('grp');
                 $this->getLanguage()->loadLanguageModule('dateplaner');
                 $this->initMail();
@@ -181,21 +156,24 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->appendBody("\n\n");
                 $this->appendBody($this->getLanguageText('grp_mail_permanent_link'));
                 $this->appendBody("\n\n");
-                
+
                 $this->appendAppointmentDetails();
-                
+
                 $this->appendBody("\n\n");
                 $this->appendBody($this->createPermanentLink());
                 $this->getMail()->appendInstallationSignature(true);
 
                 $this->addAttachment();
-                                        
-                $this->sendMail(array('#il_grp_admin_' . $this->getRefId(),'#il_grp_member_' . $this->getRefId()), false);
+
+                $this->sendMail(
+                    array('#il_grp_admin_' . $this->getRefId(), '#il_grp_member_' . $this->getRefId()),
+                    false
+                );
                 break;
 
             case self::TYPE_GRP_NOTIFICATION:
-                
-                $this->setLanguage(ilLanguageFactory::_getLanguage($lng->getDefaultLanguage()));
+
+                $this->setLanguage(ilLanguageFactory::_getLanguage($this->lng->getDefaultLanguage()));
                 $this->getLanguage()->loadLanguageModule('grp');
                 $this->getLanguage()->loadLanguageModule('dateplaner');
                 $this->initMail();
@@ -218,13 +196,16 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->getMail()->appendInstallationSignature(true);
 
                 $this->addAttachment();
-                                        
-                $this->sendMail(array('#il_grp_admin_' . $this->getRefId(),'#il_grp_member_' . $this->getRefId()), false);
+
+                $this->sendMail(
+                    array('#il_grp_admin_' . $this->getRefId(), '#il_grp_member_' . $this->getRefId()),
+                    false
+                );
                 break;
 
             case self::TYPE_CRS_NEW_NOTIFICATION:
-                
-                $this->setLanguage(ilLanguageFactory::_getLanguage($lng->getDefaultLanguage()));
+
+                $this->setLanguage(ilLanguageFactory::_getLanguage($this->lng->getDefaultLanguage()));
                 $this->getLanguage()->loadLanguageModule('crs');
                 $this->getLanguage()->loadLanguageModule('dateplaner');
                 $this->initMail();
@@ -246,13 +227,16 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->getMail()->appendInstallationSignature(true);
 
                 $this->addAttachment();
-                                        
-                $this->sendMail(array('#il_crs_admin_' . $this->getRefId(),'#il_crs_tutor_' . $this->getRefId(),'#il_crs_member_' . $this->getRefId()), false);
+
+                $this->sendMail(array('#il_crs_admin_' . $this->getRefId(),
+                                      '#il_crs_tutor_' . $this->getRefId(),
+                                      '#il_crs_member_' . $this->getRefId()
+                ), false);
                 break;
 
             case self::TYPE_CRS_NOTIFICATION:
-                
-                $this->setLanguage(ilLanguageFactory::_getLanguage($lng->getDefaultLanguage()));
+
+                $this->setLanguage(ilLanguageFactory::_getLanguage($this->lng->getDefaultLanguage()));
                 $this->getLanguage()->loadLanguageModule('crs');
                 $this->getLanguage()->loadLanguageModule('dateplaner');
                 $this->initMail();
@@ -275,15 +259,17 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->getMail()->appendInstallationSignature(true);
 
                 $this->addAttachment();
-                                        
-                $this->sendMail(array('#il_crs_admin_' . $this->getRefId(),'#il_crs_tutor_' . $this->getRefId(),'#il_crs_member_' . $this->getRefId()), false);
+
+                $this->sendMail(array('#il_crs_admin_' . $this->getRefId(),
+                                      '#il_crs_tutor_' . $this->getRefId(),
+                                      '#il_crs_member_' . $this->getRefId()
+                ), false);
                 break;
 
             case self::TYPE_BOOKING_CONFIRMATION:
 
-                $user_id = array_pop($this->getRecipients());
-                include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+                $rcps = $this->getRecipients();
+                $user_id = array_pop($rcps);
                 $entry = new ilCalendarEntry($this->getAppointmentId());
                 $booking = new ilBookingEntry($entry->getContextId());
 
@@ -296,11 +282,13 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
                 $this->appendBody("\n\n");
                 $this->appendBody(
-                    sprintf($this->getLanguageText('cal_booking_confirmation_body'), ilObjUser::_lookupFullname($booking->getObjId()))
+                    sprintf(
+                        $this->getLanguageText('cal_booking_confirmation_body'),
+                        ilObjUser::_lookupFullname($booking->getObjId())
+                    )
                 );
                 $this->appendBody("\n\n");
-
-                $this->appendAppointmentDetails($booking);
+                $this->appendAppointmentDetails();
 
                 /*
                 $this->appendBody("\n\n");
@@ -321,13 +309,13 @@ class ilCalendarMailNotification extends ilMailNotification
 
             case self::TYPE_BOOKING_CANCELLATION:
 
-                $user_id = array_pop($this->getRecipients());
-                include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+                $rcps = $this->getRecipients();
+                $user_id = array_pop($rcps);
                 $entry = new ilCalendarEntry($this->getAppointmentId());
                 $booking = new ilBookingEntry($entry->getContextId());
 
-                $user_id = array_pop($this->getRecipients());
+                $rcps = $this->getRecipients();
+                $user_id = array_pop($rcps);
                 $this->initLanguage($user_id);
                 $this->getLanguage()->loadLanguageModule('dateplaner');
                 $this->initMail();
@@ -337,11 +325,14 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
                 $this->appendBody("\n\n");
                 $this->appendBody(
-                    sprintf($this->getLanguageText('cal_booking_cancellation_body'), ilObjUser::_lookupFullname($booking->getObjId()))
+                    sprintf(
+                        $this->getLanguageText('cal_booking_cancellation_body'),
+                        ilObjUser::_lookupFullname($booking->getObjId())
+                    )
                 );
                 $this->appendBody("\n\n");
 
-                $this->appendAppointmentDetails($booking);
+                $this->appendAppointmentDetails();
 
                 $this->getMail()->appendInstallationSignature(true);
 
@@ -353,13 +344,12 @@ class ilCalendarMailNotification extends ilMailNotification
 
                 $this->sendMail(array($booking->getObjId()), true);
                 break;
-            
+
             case ilCalendarMailNotification::TYPE_BOOKING_REMINDER:
-                
-                $user_id = array_pop($this->getRecipients());
-                
-                include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+
+                $rcps = $this->getRecipients();
+                $user_id = array_pop($rcps);
+
                 $entry = new ilCalendarEntry($this->getAppointmentId());
                 $booking = new ilBookingEntry($entry->getContextId());
 
@@ -372,33 +362,28 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
                 $this->appendBody("\n\n");
                 $this->appendBody(
-                    sprintf($this->getLanguageText('cal_ch_booking_reminder_body'), ilObjUser::_lookupFullname($booking->getObjId()))
+                    sprintf(
+                        $this->getLanguageText('cal_ch_booking_reminder_body'),
+                        ilObjUser::_lookupFullname($booking->getObjId())
+                    )
                 );
                 $this->appendBody("\n\n");
-
-                $this->appendAppointmentDetails($booking);
-
+                $this->appendAppointmentDetails();
                 $this->getMail()->appendInstallationSignature(true);
                 $this->sendMail(array($user_id), true);
                 break;
         }
-        
+
         $this->deleteAttachments();
     }
 
-    protected function addAttachment()
+    protected function addAttachment() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        include_once './Services/Calendar/classes/Export/class.ilCalendarExport.php';
         $export = new ilCalendarExport();
         $export->setExportType(ilCalendarExport::EXPORT_APPOINTMENTS);
         $export->setAppointments(array($this->getAppointmentId()));
         $export->export();
 
-        include_once './Services/Mail/classes/class.ilFileDataMail.php';
         $attachment = new ilFileDataMail($this->getSender());
         $attachment->storeAsAttachment(
             'appointment.ics',
@@ -412,12 +397,8 @@ class ilCalendarMailNotification extends ilMailNotification
         );
     }
 
-    /**
-     * Delete attachments
-     */
-    protected function deleteAttachments()
+    protected function deleteAttachments() : void
     {
-        include_once './Services/Mail/classes/class.ilFileDataMail.php';
         $attachment = new ilFileDataMail($this->getSender());
         $attachment->unlinkFiles($this->getAttachments());
     }

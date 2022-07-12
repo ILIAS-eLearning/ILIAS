@@ -6,12 +6,12 @@ class assLongMenuImport extends assQuestionImport
 {
     public $object;
 
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
         $duration = $item->getDuration();
@@ -39,6 +39,32 @@ class assLongMenuImport extends assQuestionImport
                     break;
             }
         }
+
+        // fixLongMenuImageImport - process images in question and long menu text when question is imported
+        $questiontext = $this->object->getQuestion();
+        $longmenutext = $this->object->getLongMenuTextValue();
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
+                if ($tst_id > 0) {
+                    $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
+                } else {
+                    $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
+                }
+
+                global $DIC; /* @var ILIAS\DI\Container $DIC */
+                $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
+
+                $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
+
+                $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
+                $longmenutext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $longmenutext);
+            }
+        }
+        $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
+        $this->object->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc($longmenutext, 1));
+        // fau.
+
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
                 $correctness = 1;

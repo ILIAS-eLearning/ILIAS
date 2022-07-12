@@ -1,6 +1,21 @@
-<?php
-/* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+ 
 /**
 * Class ilObjLanguageAccess
 *
@@ -16,12 +31,7 @@
 */
 class ilObjLanguageAccess
 {
-    /**
-     * Cached result of permission check for page translation
-     * @var bool
-     */
-    protected static $cached_check_translate;
-
+    protected static bool $cached_check_translate;
 
     /**
     * Permission check for translations
@@ -30,10 +40,9 @@ class ilObjLanguageAccess
     * - The page translation of the current language must be turned on
     * - The user must have read and write permissions to the language folder
     *
-    * @access   static
-    * @return   boolean     translation possible (true/false)
+    * Return whether translation is possible (true/false)
     */
-    public static function _checkTranslate()
+    public static function _checkTranslate() : bool
     {
         global $DIC;
         $lng = $DIC->language();
@@ -47,11 +56,12 @@ class ilObjLanguageAccess
 
         if (!$ilSetting->get("lang_translate_" . $lng->getLangKey())) {
             self::$cached_check_translate = false;
+            return self::$cached_check_translate;
         }
 
         if ($ilUser->getId()) {
             $ref_id = self::_lookupLangFolderRefId();
-            self::$cached_check_translate = $rbacsystem->checkAccess("read,write", (int) $ref_id);
+            self::$cached_check_translate = $rbacsystem->checkAccess("read,write", $ref_id);
         } else {
             self::$cached_check_translate = false;
         }
@@ -64,10 +74,9 @@ class ilObjLanguageAccess
     * Permission check for language maintenance (import/export)
     * - The user must have read and write permissions to the language folder
     *
-    * @access   static
-    * @return   boolean     maintenance possible (true/false)
+    * Return whether maintenance is possible (true/false)
     */
-    public static function _checkMaintenance()
+    public static function _checkMaintenance() : bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -76,7 +85,7 @@ class ilObjLanguageAccess
 
         if ($ilUser->getId()) {
             $ref_id = self::_lookupLangFolderRefId();
-            return $rbacsystem->checkAccess("read,write", (int) $ref_id);
+            return $rbacsystem->checkAccess("read,write", $ref_id);
         }
         return false;
     }
@@ -85,9 +94,9 @@ class ilObjLanguageAccess
     /**
     * Lookup the ref_id of the global language folder
     *
-    * @return   int     	language folder ref_id
+    * Return language folder ref_id
     */
-    public static function _lookupLangFolderRefId()
+    public static function _lookupLangFolderRefId() : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -96,17 +105,17 @@ class ilObjLanguageAccess
         " WHERE r.obj_id = d.obj_id AND d.type = " . $ilDB->quote("lngf", "text");
         $set = $ilDB->query($q);
         $row = $ilDB->fetchAssoc($set);
-        return $row['ref_id'];
+        return (int) $row["ref_id"];
     }
     
 
     /**
     * Lookup the object ID for a language key
     *
-    * @param    string      language key
-    * @param    integer     language object id
+    * $a_key     language key
+    * Return     language object id
     */
-    public static function _lookupId($a_key)
+    public static function _lookupId(string $a_key) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -116,16 +125,16 @@ class ilObjLanguageAccess
         " AND title = " . $ilDB->quote($a_key, "text");
         $set = $ilDB->query($q);
         $row = $ilDB->fetchAssoc($set);
-        return $row['obj_id'];
+        return (int) $row["obj_id"];
     }
 
 
     /**
      * Get the link to translate the current page
      *
-     * @return  string  translation link
+     * Return translation link
      */
-    public static function _getTranslationLink()
+    public static function _getTranslationLink() : string
     {
         // ref id must be given to prevent params being deleted by ilAdministrtionGUI
         return "ilias.php"
@@ -146,47 +155,68 @@ class ilObjLanguageAccess
      *
      * @return   bool      page translation (true or false)
      */
-    public static function _isPageTranslation()
+    public static function _isPageTranslation() : bool
     {
-        $cmdClass = $_GET['cmdClass'] ?? "";
-        return (strtolower($cmdClass == 'ilobjlanguageextgui') and $_GET['view_mode'] == "translate");
+        global $DIC;
+        $cmdClass = "";
+        $view_mode_get = "";
+        if ($DIC->http()->wrapper()->query()->has("cmdClass")) {
+            $cmdClass = $DIC->http()->wrapper()->query()->retrieve(
+                "cmdClass",
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+        if ($DIC->http()->wrapper()->query()->has("view_mode")) {
+            $view_mode_get = $DIC->http()->wrapper()->query()->retrieve(
+                "view_mode",
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+        return (strtolower($cmdClass) === "ilobjlanguageextgui" && $view_mode_get === "translate");
     }
-
 
     /**
      * Store the collected language variable usages in the user session
      * This should be called as late as possible in a request
      */
-    public static function _saveUsages()
+    public static function _saveUsages() : void
     {
         global $DIC;
         $lng = $DIC->language();
 
         if (self::_checkTranslate() and !self::_isPageTranslation()) {
-            $_SESSION['lang_ext_maintenance']['used_modules'] = array_keys($lng->getUsedModules());
-            $_SESSION['lang_ext_maintenance']['used_topics'] = array_keys($lng->getUsedTopics());
+            ilSession::set("lang_ext_maintenance", array("used_modules" => array_keys($lng->getUsedModules())));
+            ilSession::set("lang_ext_maintenance", array("used_topics" => array_keys($lng->getUsedTopics())));
         }
     }
 
     /**
      * Get the stored modules from the user session
      *
-     * @return array    list of module names
+     * Return list of module names
      */
-    public static function _getSavedModules()
+    public static function _getSavedModules() : array
     {
-        $saved = $_SESSION['lang_ext_maintenance']['used_modules'];
+        $saved = null;
+        $lang_ext_maintenance_from_session = ilSession::get("lang_ext_maintenance");
+        if (is_array($lang_ext_maintenance_from_session)) {
+            $saved = $lang_ext_maintenance_from_session["used_modules"];
+        }
         return is_array($saved) ? $saved : array();
     }
 
     /**
      * Get the stored topics from the user session
      *
-     * @return array    list of module names
+     * Return list of module names
      */
-    public static function _getSavedTopics()
+    public static function _getSavedTopics() : array
     {
-        $saved = $_SESSION['lang_ext_maintenance']['used_topics'];
+        $saved = null;
+        $lang_ext_maintenance_from_session = ilSession::get("lang_ext_maintenance");
+        if (is_array($lang_ext_maintenance_from_session)) {
+            $saved = $lang_ext_maintenance_from_session["used_topics"];
+        }
         return is_array($saved) ? $saved : array();
     }
 }

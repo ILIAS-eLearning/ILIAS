@@ -1,58 +1,42 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a multi selection list property in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {
-    protected $options;
-    protected $value;
-    protected $select_all; // [bool]
-    protected $selected_first; // [bool]
-
-    /**
-     * Width for this field
-     *
-     * @access private
-     * @var integer width
-     */
-    private $width = 160;
-
-    /**
-     * Height for this field
-     *
-     * @access private
-     * @var integer height
-     */
-    private $height = 100;
-
-    /**
-     * @var string
-     */
-    protected $widthUnit = 'px';
-
-    /**
-     * @var string
-     */
-    protected $heightUnit = 'px';
-
-    /**
-     * @var array
-     */
-    protected $custom_attributes = array();
+    protected array $options = [];
+    protected array $value = [];
+    protected bool $select_all = false;
+    protected bool $selected_first = false;
+    private int $width = 160;
+    private int $height = 100;
+    protected string $widthUnit = 'px';
+    protected string $heightUnit = 'px';
+    protected array $custom_attributes = [];
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -61,155 +45,107 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
         $this->setValue(array());
     }
 
-    /**
-     * Sets the width of this field
-     *
-     * @access public
-     * @param integer $a_width
-     */
-    public function setWidth($a_width)
+    public function setWidth(int $a_width) : void
     {
-        $this->width = (int) $a_width;
+        $this->width = $a_width;
     }
 
-    /**
-     * Returns the width currently set for this field
-     *
-     * @access public
-     * @return integer width
-     */
-    public function getWidth()
+    public function getWidth() : int
     {
         return $this->width;
     }
 
-    /**
-     * Sets the height of this field
-     *
-     * @access public
-     * @param integer $a_height
-     */
-    public function setHeight($a_height)
+    public function setHeight(int $a_height) : void
     {
-        $this->height = (int) $a_height;
+        $this->height = $a_height;
     }
 
-    /**
-     * Returns the height currently set for this field
-     *
-     * @access public
-     * @return integer height
-     */
-    public function getHeight()
+    public function getHeight() : int
     {
         return $this->height;
     }
 
     /**
-    * Set Options.
-    *
-    * @param	array	$a_options	Options. Array ("value" => "option_text")
-    */
-    public function setOptions($a_options)
+     * @param array<string,string> $a_options Options. Array ("value" => "option_text")
+     */
+    public function setOptions(array $a_options) : void
     {
         $this->options = $a_options;
     }
 
     /**
-    * Get Options.
-    *
-    * @return	array	Options. Array ("value" => "option_text")
-    */
-    public function getOptions()
+     * @return array<string,string>
+     */
+    public function getOptions() : array
     {
         return $this->options;
     }
 
     /**
-    * Set Value.
-    *
-    * @param	array 		array with all activated selections
-    */
-    public function setValue($a_array)
+     * @param string[]
+     */
+    public function setValue(array $a_array) : void
     {
         $this->value = $a_array;
     }
 
     /**
-    * Get Value.
-    *
-    * @return	array 		array with all activated selections
-    */
-    public function getValue()
+     * @return string[]
+     */
+    public function getValue() : array
     {
         return is_array($this->value) ? $this->value : array();
     }
     
     /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+     * @param string[]
+     */
+    public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
-    }
-    
-    
-    public function enableSelectAll($a_value)
-    {
-        $this->select_all = (bool) $a_value;
-    }
-    
-    public function enableSelectedFirst($a_value)
-    {
-        $this->selected_first = (bool) $a_value;
+        $this->setValue($a_values[$this->getPostVar()] ?? []);
     }
 
+    public function enableSelectAll(bool $a_value) : void
+    {
+        $this->select_all = $a_value;
+    }
     
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function enableSelectedFirst(bool $a_value) : void
+    {
+        $this->selected_first = $a_value;
+    }
+
+    public function checkInput() : bool
     {
         $lng = $this->lng;
-        
-        if (is_array($_POST[$this->getPostVar()])) {
-            foreach ($_POST[$this->getPostVar()] as $k => $v) {
-                $_POST[$this->getPostVar()][$k] =
-                    ilUtil::stripSlashes($v);
-            }
-        } else {
-            $_POST[$this->getPostVar()] = array();
-        }
-        if ($this->getRequired() && count($_POST[$this->getPostVar()]) == 0) {
-            $this->setAlert($lng->txt("msg_input_is_required"));
 
+        $val = $this->getInput();
+        if ($this->getRequired() && count($val) == 0) {
+            $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        if (count($_POST[$this->getPostVar()]) > 0) {
+        if (count($val) > 0) {
             $options = array_map(function ($k) {
                 return (string) $k;
             }, array_keys($this->getOptions()));
-            foreach ($_POST[$this->getPostVar()] as $key => $val) {
-                if ($key != 0 || $val != "") {
-                    if (!in_array((string) $val, $options)) {
+            foreach ($val as $key => $val2) {
+                if ($key != 0 || $val2 != "") {
+                    if (!in_array((string) $val2, $options)) {
                         $this->setAlert($lng->txt("msg_unknown_value"));
                         return false;
                     }
                 }
             }
         }
-
         return true;
     }
 
-    /**
-    * Render item
-    */
-    public function render()
+    public function getInput() : array
+    {
+        return $this->strArray($this->getPostVar());
+    }
+
+    public function render() : string
     {
         $lng = $this->lng;
         
@@ -222,7 +158,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
                 // enable select all toggle
                 $tpl->setCurrentBlock("item");
                 $tpl->setVariable("VAL", "");
-                $tpl->setVariable("ID_VAL", ilUtil::prepareFormOutput("all__toggle"));
+                $tpl->setVariable("ID_VAL", ilLegacyFormElementsUtil::prepareFormOutput("all__toggle"));
                 $tpl->setVariable("IID", $this->getFieldId());
                 $tpl->setVariable("TXT_OPTION", "<em>" . $lng->txt("select_all") . "</em>");
                 $tpl->setVariable("POST_VAR", $this->getPostVar());
@@ -263,8 +199,8 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
                     );
                 }
 
-                $tpl->setVariable("VAL", ilUtil::prepareFormOutput($option_value));
-                $tpl->setVariable("ID_VAL", ilUtil::prepareFormOutput($option_value));
+                $tpl->setVariable("VAL", ilLegacyFormElementsUtil::prepareFormOutput($option_value));
+                $tpl->setVariable("ID_VAL", ilLegacyFormElementsUtil::prepareFormOutput($option_value));
                 $tpl->setVariable("IID", $this->getFieldId());
                 $tpl->setVariable("TXT_OPTION", $option_text);
                 $tpl->setVariable("POST_VAR", $this->getPostVar());
@@ -276,92 +212,72 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
         $tpl->setVariable("CUSTOM_ATTRIBUTES", implode(' ', $this->getCustomAttributes()));
 
         if ($this->getWidth()) {
-            $tpl->setVariable("WIDTH", $this->getWidth() . ($this->getWidthUnit()?$this->getWidthUnit():''));
+            $tpl->setVariable("WIDTH", $this->getWidth() . ($this->getWidthUnit()?:''));
         }
         if ($this->getHeight()) {
-            $tpl->setVariable("HEIGHT", $this->getHeight() . ($this->getHeightUnit()?$this->getHeightUnit():''));
+            $tpl->setVariable("HEIGHT", $this->getHeight() . ($this->getHeightUnit()?:''));
         }
         
         return $tpl->get();
     }
     
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-    * Get HTML for table filter
-    */
-    public function getTableFilterHTML()
+    public function getTableFilterHTML() : string
     {
         $html = $this->render();
         return $html;
     }
 
-
-    /**
-     * @return array
-     */
-    public function getCustomAttributes()
+    public function getCustomAttributes() : array
     {
         return $this->custom_attributes;
     }
 
-
-    /**
-     * @param array $custom_attributes
-     */
-    public function setCustomAttributes($custom_attributes)
+    public function setCustomAttributes(array $custom_attributes) : void
     {
         $this->custom_attributes = $custom_attributes;
     }
 
 
-    /**
-     * @param array $custom_attribute
-     */
-    public function addCustomAttribute($custom_attribute)
+    public function addCustomAttribute(string $custom_attribute) : void
     {
         $this->custom_attributes[] = $custom_attribute;
     }
 
-    /**
-     * @return string
-     */
-    public function getWidthUnit()
+    public function getWidthUnit() : string
     {
         return $this->widthUnit;
     }
 
-    /**
-     * @param string $widthUnit
-     */
-    public function setWidthUnit($widthUnit)
+    public function setWidthUnit(string $widthUnit) : void
     {
         $this->widthUnit = $widthUnit;
     }
 
-    /**
-     * @return string
-     */
-    public function getHeightUnit()
+    public function getHeightUnit() : string
     {
         return $this->heightUnit;
     }
 
-    /**
-     * @param string $heightUnit
-     */
-    public function setHeightUnit($heightUnit)
+    public function setHeightUnit(string $heightUnit) : void
     {
         $this->heightUnit = $heightUnit;
+    }
+
+    public function unserializeData(string $a_data) : void
+    {
+        $data = unserialize($a_data);
+
+        if (is_array($a_data)) {
+            $this->setValue($data);
+        } else {
+            $this->setValue([]);
+        }
     }
 }

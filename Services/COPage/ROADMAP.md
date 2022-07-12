@@ -18,6 +18,9 @@ Link formattings lead to subtle issues (e.g. #30906) sometimes, since they are n
 
 In general the old string manipulations should be replaced by DOM manipulations whenever possible when transforming the client side data.
 
+### Remove remaining hardcoded styles from code
+
+E.g. style_selector_reset and similar places.
 
 ## Mid Term
 
@@ -26,7 +29,11 @@ In general the old string manipulations should be replaced by DOM manipulations 
 Large pages, especially with a high number of elements, e.g. data tables with lots of cells decrease the performance. This is mainly due to the way the model is retrieved in the "all" command ($o->pcModel = $this->getPCModel()). An alternative would be to use an xml -> xslt -> json approach at least for paragraphs and to "bulk-query" them.
 See https://mantis.ilias.de/view.php?id=29680
 
-### Lower Cyclomatic Complexity (should also be done with ILIAS 7)
+### Replace or refactor mediawiki word-level-diff code
+
+This code is copied from an older mediawiki version. I compares two versions of page HTML outputs and marks differences. The code should either be replaced by a lib that provides the same functionality, refactored and integrated into own code or at least replaced by an up-to-date code excerpt from mediawiki.
+
+### Lower Cyclomatic Complexity
 
 This component suffers from record high cyclomatic complexity numbers. Refactorings should target and split up methods and classes to gain better maintainability.
 

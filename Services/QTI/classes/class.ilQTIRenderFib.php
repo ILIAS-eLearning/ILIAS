@@ -1,35 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-define("PROMPT_BOX", "1");
-define("PROMPT_DASHLINE", "2");
-define("PROMPT_ASTERISK", "3");
-define("PROMPT_UNDERLINE", "4");
-
-define("FIBTYPE_STRING", "1");
-define("FIBTYPE_INTEGER", "2");
-define("FIBTYPE_DECIMAL", "3");
-define("FIBTYPE_SCIENTIFIC", "4");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * QTI render fib class
@@ -41,155 +27,160 @@ define("FIBTYPE_SCIENTIFIC", "4");
 */
 class ilQTIRenderFib
 {
-    public $minnumber;
-    public $maxnumber;
-    public $response_labels;
-    public $material;
-    public $prompt;
-    public $encoding;
-    public $fibtype;
-    public $rows;
-    public $maxchars;
-    public $columns;
-    public $charset;
+    public const PROMPT_BOX = "1";
+    public const PROMPT_DASHLINE = "2";
+    public const PROMPT_ASTERISK = "3";
+    public const PROMPT_UNDERLINE = "4";
 
-    public function __construct()
-    {
-        $this->response_labels = array();
-        $this->material = array();
-        $this->encoding = "UTF-8";
-    }
-    
-    public function setPrompt($a_prompt)
+    public const FIBTYPE_STRING = "1";
+    public const FIBTYPE_INTEGER = "2";
+    public const FIBTYPE_DECIMAL = "3";
+    public const FIBTYPE_SCIENTIFIC = "4";
+
+    public ?string $minnumber = null;
+    public ?string $maxnumber = null;
+    /** @var ilQTIResponseLabel[] */
+    public array $response_labels = [];
+    /** @var ilQTIMaterial[] */
+    public array $material = [];
+    public ?string $prompt = null;
+    public string $encoding = "UTF-8";
+    public ?string $fibtype = null;
+    public ?string $rows = null;
+    public ?string $maxchars = null;
+    public ?string $columns = null;
+    public ?string $charset = null;
+
+    public function setPrompt(string $a_prompt) : void
     {
         switch (strtolower($a_prompt)) {
             case "1":
             case "box":
-                $this->prompt = PROMPT_BOX;
+                $this->prompt = self::PROMPT_BOX;
                 break;
             case "2":
             case "dashline":
-                $this->prompt = PROMPT_DASHLINE;
+                $this->prompt = self::PROMPT_DASHLINE;
                 break;
             case "3":
             case "asterisk":
-                $this->prompt = PROMPT_ASTERISK;
+                $this->prompt = self::PROMPT_ASTERISK;
                 break;
             case "4":
             case "underline":
-                $this->prompt = PROMPT_UNDERLINE;
+                $this->prompt = self::PROMPT_UNDERLINE;
                 break;
         }
     }
-    
-    public function getPrompt()
+
+    public function getPrompt() : ?string
     {
         return $this->prompt;
     }
-    
-    public function setFibtype($a_fibtype)
+
+    public function setFibtype(string $a_fibtype) : void
     {
         switch (strtolower($a_fibtype)) {
             case "1":
             case "string":
-                $this->fibtype = FIBTYPE_STRING;
+                $this->fibtype = self::FIBTYPE_STRING;
                 break;
             case "2":
             case "integer":
-                $this->fibtype = FIBTYPE_INTEGER;
+                $this->fibtype = self::FIBTYPE_INTEGER;
                 break;
             case "3":
             case "decimal":
-                $this->fibtype = FIBTYPE_DECIMAL;
+                $this->fibtype = self::FIBTYPE_DECIMAL;
                 break;
             case "4":
             case "scientific":
-                $this->fibtype = FIBTYPE_SCIENTIFIC;
+                $this->fibtype = self::FIBTYPE_SCIENTIFIC;
                 break;
         }
     }
-    
-    public function getFibtype()
+
+    public function getFibtype() : ?string
     {
         return $this->fibtype;
     }
-    
-    public function setMinnumber($a_minnumber)
+
+    public function setMinnumber(string $a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
-    
-    public function getMinnumber()
+
+    public function getMinnumber() : ?string
     {
         return $this->minnumber;
     }
-    
-    public function setMaxnumber($a_maxnumber)
+
+    public function setMaxnumber(string $a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
-    
-    public function getMaxnumber()
+
+    public function getMaxnumber() : ?string
     {
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label)
+    public function addResponseLabel(ilQTIResponseLabel $a_response_label) : void
     {
-        array_push($this->response_labels, $a_response_label);
+        $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material)
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
-        array_push($this->material, $a_material);
+        $this->material[] = $a_material;
     }
-    
-    public function setEncoding($a_encoding)
+
+    public function setEncoding(string $a_encoding) : void
     {
         $this->encoding = $a_encoding;
     }
-    
-    public function getEncoding()
+
+    public function getEncoding() : string
     {
         return $this->encoding;
     }
 
-    public function setRows($a_rows)
+    public function setRows(string $a_rows) : void
     {
         $this->rows = $a_rows;
     }
-    
-    public function getRows()
+
+    public function getRows() : ?string
     {
         return $this->rows;
     }
 
-    public function setMaxchars($a_maxchars)
+    public function setMaxchars(string $a_maxchars) : void
     {
         $this->maxchars = $a_maxchars;
     }
-    
-    public function getMaxchars()
+
+    public function getMaxchars() : ?string
     {
         return $this->maxchars;
     }
 
-    public function setColumns($a_columns)
+    public function setColumns(string $a_columns) : void
     {
         $this->columns = $a_columns;
     }
-    
-    public function getColumns()
+
+    public function getColumns() : ?string
     {
         return $this->columns;
     }
 
-    public function setCharset($a_charset)
+    public function setCharset(string $a_charset) : void
     {
         $this->charset = $a_charset;
     }
-    
-    public function getCharset()
+
+    public function getCharset() : ?string
     {
         return $this->charset;
     }

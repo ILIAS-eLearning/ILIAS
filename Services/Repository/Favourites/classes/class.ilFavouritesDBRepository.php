@@ -3,25 +3,31 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilFavouritesDBRepository
 {
+    /** @var array<string, bool>  */
     public static array $is_desktop_item = [];
+    protected ilDBInterface $db;
+    protected ilTree $tree;
 
     public function __construct(
-        \ilDBInterface $db = null,
+        ilDBInterface $db = null,
         ilTree $tree = null
     ) {
         global $DIC;
@@ -54,8 +60,8 @@ class ilFavouritesDBRepository
             $db->manipulateF(
                 "INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES " .
                 " (%s,%s,%s,%s)",
-                array("integer", "text", "integer", "text"),
-                array($ref_id,$type,$user_id,"")
+                ["integer", "text", "integer", "text"],
+                [$ref_id, $type, $user_id, ""]
             );
         }
     }
@@ -68,8 +74,8 @@ class ilFavouritesDBRepository
         $db->manipulateF(
             "DELETE FROM desktop_item WHERE " .
             " item_id = %s AND user_id = %s",
-            array("integer", "integer"),
-            array($ref_id, $user_id)
+            ["integer", "integer"],
+            [$ref_id, $user_id]
         );
     }
 
@@ -92,12 +98,12 @@ class ilFavouritesDBRepository
                 " WHERE " .
                 "it.item_id = oref.ref_id AND " .
                 "oref.obj_id = obj.obj_id AND " .
-                "it.user_id = %s", array("integer"), array($user_id));
-            $items = $all_parent_path = array();
+                "it.user_id = %s", ["integer"], [$user_id]);
+            $items = $all_parent_path = [];
             while ($item_rec = $ilDB->fetchAssoc($item_set)) {
-                if ($tree->isInTree($item_rec["ref_id"])
-                    && $item_rec["type"] != "rolf"
-                    && $item_rec["type"] != "itgr") {	// due to bug 11508
+                if ($item_rec["type"] !== "rolf" &&
+                    $item_rec["type"] !== "itgr" &&
+                    $tree->isInTree($item_rec["ref_id"])) { // due to bug 11508
                     $parent_ref = $tree->getParentId($item_rec["ref_id"]);
 
                     if (!isset($all_parent_path[$parent_ref])) {
@@ -114,19 +120,20 @@ class ilFavouritesDBRepository
                     $title = ilObject::_lookupTitle($item_rec["obj_id"]);
                     $desc = ilObject::_lookupDescription($item_rec["obj_id"]);
                     $items[$parent_path . $title . $item_rec["ref_id"]] =
-                        array("ref_id" => $item_rec["ref_id"],
-                            "obj_id" => $item_rec["obj_id"],
+                        [
+                            "ref_id" => (int) $item_rec["ref_id"],
+                            "obj_id" => (int) $item_rec["obj_id"],
                             "type" => $item_rec["type"],
                             "title" => $title,
                             "description" => $desc,
-                            "parent_ref" => $parent_ref);
+                            "parent_ref" => (int) $parent_ref
+                        ];
                 }
             }
-            ksort($items);
         } else {
-            $items = array();
+            $items = [];
             foreach ($a_types as $a_type) {
-                if ($a_type == "itgr") {
+                if ($a_type === "itgr") {
                     continue;
                 }
                 $item_set = $ilDB->queryF(
@@ -137,21 +144,25 @@ class ilFavouritesDBRepository
                     "it.type = %s AND " .
                     "it.user_id = %s " .
                     "ORDER BY title",
-                    array("text", "integer"),
-                    array($a_type, $user_id)
+                    ["text", "integer"],
+                    [$a_type, $user_id]
                 );
 
                 while ($item_rec = $ilDB->fetchAssoc($item_set)) {
                     $title = ilObject::_lookupTitle($item_rec["obj_id"]);
                     $desc = ilObject::_lookupDescription($item_rec["obj_id"]);
                     $items[$title . $a_type . $item_rec["ref_id"]] =
-                        array("ref_id" => $item_rec["ref_id"],
-                            "obj_id" => $item_rec["obj_id"], "type" => $a_type,
-                            "title" => $title, "description" => $desc);
+                        [
+                            "ref_id" => (int) $item_rec["ref_id"],
+                            "obj_id" => (int) $item_rec["obj_id"],
+                            "type" => $a_type,
+                            "title" => $title,
+                            "description" => $desc
+                        ];
                 }
             }
-            ksort($items);
         }
+        ksort($items);
         return $items;
     }
 
@@ -164,8 +175,8 @@ class ilFavouritesDBRepository
             $item_set = $db->queryF(
                 "SELECT item_id FROM desktop_item WHERE " .
                 "item_id = %s AND user_id = %s",
-                array("integer", "integer"),
-                array($ref_id, $user_id)
+                ["integer", "integer"],
+                [$ref_id, $user_id]
             );
 
             if ($db->fetchAssoc($item_set)) {

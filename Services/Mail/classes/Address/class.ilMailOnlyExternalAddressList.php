@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailOnlyExternalAddressList
@@ -7,20 +22,14 @@
  */
 class ilMailOnlyExternalAddressList implements ilMailAddressList
 {
-    /** @var ilMailAddressList */
-    protected $origin;
-
-    /** @var string */
-    protected $installationHost;
-
+    protected ilMailAddressList $origin;
+    protected string $installationHost;
     /** @var callable */
     protected $getUsrIdByLoginCallable;
 
     /**
-     * ilMailOnlyExternalAddressList constructor.
-     * @param ilMailAddressList $origin
-     * @param string $installationHost
-     * @param callable $getUsrIdByLoginCallable A callable which accepts a string as argument and returns an integer >= 0
+     * @param callable $getUsrIdByLoginCallable A callable which accepts a string as argument
+     *                                          and returns an integer >= 0
      */
     public function __construct(
         ilMailAddressList $origin,
@@ -32,14 +41,11 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
         $this->getUsrIdByLoginCallable = $getUsrIdByLoginCallable;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function value() : array
     {
         $addresses = $this->origin->value();
 
-        $filteredAddresses = array_filter($addresses, function (ilMailAddress $address) {
+        $filteredAddresses = array_filter($addresses, function (ilMailAddress $address) : bool {
             $c = $this->getUsrIdByLoginCallable;
             if ($c((string) $address)) {
                 // Fixed mantis bug #5875
@@ -50,7 +56,7 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
                 return false;
             }
 
-            if ('#' === substr($address->getMailbox(), 0, 1)) {
+            if (strpos($address->getMailbox(), '#') === 0) {
                 return false;
             }
 

@@ -9,10 +9,17 @@ import ObjectEventType from '../ObjectEventType.js';
 import SourceState from '../source/State.js';
 import {assert} from '../asserts.js';
 import {assign, clear} from '../obj.js';
-import {getChangeEventType} from '../Object.js';
 import {getIntersection} from '../extent.js';
 import {getUid} from '../util.js';
 import {listen, unlistenByKey} from '../events.js';
+
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("./Base").BaseLayerObjectEventTypes|
+ *     'change:layers', import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("./Base").BaseLayerObjectEventTypes|'change:layers', Return>} GroupOnSignature
+ */
 
 /**
  * @typedef {Object} Options
@@ -32,11 +39,8 @@ import {listen, unlistenByKey} from '../events.js';
  * visible.
  * @property {number} [maxZoom] The maximum view zoom level (inclusive) at which this layer will
  * be visible.
- * @property {number} [minZoom] The minimum view zoom level (exclusive) above which this layer will be
- * visible.
- * @property {number} [maxZoom] The maximum view zoom level (inclusive) at which this layer will
- * be visible.
  * @property {Array<import("./Base.js").default>|import("../Collection.js").default<import("./Base.js").default>} [layers] Child layers.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
  */
 
 /**
@@ -57,7 +61,7 @@ const Property = {
  */
 class LayerGroup extends BaseLayer {
   /**
-   * @param {Options=} opt_options Layer options.
+   * @param {Options} [opt_options] Layer options.
    */
   constructor(opt_options) {
     const options = opt_options || {};
@@ -67,6 +71,21 @@ class LayerGroup extends BaseLayer {
     let layers = options.layers;
 
     super(baseOptions);
+
+    /***
+     * @type {GroupOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {GroupOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {GroupOnSignature<void>}
+     */
+    this.un;
 
     /**
      * @private
@@ -80,10 +99,7 @@ class LayerGroup extends BaseLayer {
      */
     this.listenerKeys_ = {};
 
-    this.addEventListener(
-      getChangeEventType(Property.LAYERS),
-      this.handleLayersChanged_
-    );
+    this.addChangeListener(Property.LAYERS, this.handleLayersChanged_);
 
     if (layers) {
       if (Array.isArray(layers)) {
@@ -145,7 +161,9 @@ class LayerGroup extends BaseLayer {
    * @private
    */
   handleLayersAdd_(collectionEvent) {
-    const layer = /** @type {import("./Base.js").default} */ (collectionEvent.element);
+    const layer = /** @type {import("./Base.js").default} */ (
+      collectionEvent.element
+    );
     this.listenerKeys_[getUid(layer)] = [
       listen(
         layer,
@@ -163,7 +181,9 @@ class LayerGroup extends BaseLayer {
    * @private
    */
   handleLayersRemove_(collectionEvent) {
-    const layer = /** @type {import("./Base.js").default} */ (collectionEvent.element);
+    const layer = /** @type {import("./Base.js").default} */ (
+      collectionEvent.element
+    );
     const key = getUid(layer);
     this.listenerKeys_[key].forEach(unlistenByKey);
     delete this.listenerKeys_[key];
@@ -179,9 +199,9 @@ class LayerGroup extends BaseLayer {
    * @api
    */
   getLayers() {
-    return /** @type {!import("../Collection.js").default<import("./Base.js").default>} */ (this.get(
-      Property.LAYERS
-    ));
+    return /** @type {!import("../Collection.js").default<import("./Base.js").default>} */ (
+      this.get(Property.LAYERS)
+    );
   }
 
   /**
@@ -197,7 +217,7 @@ class LayerGroup extends BaseLayer {
   }
 
   /**
-   * @param {Array<import("./Layer.js").default>=} opt_array Array of layers (to be modified in place).
+   * @param {Array<import("./Layer.js").default>} [opt_array] Array of layers (to be modified in place).
    * @return {Array<import("./Layer.js").default>} Array of layers.
    */
   getLayersArray(opt_array) {
@@ -209,12 +229,16 @@ class LayerGroup extends BaseLayer {
   }
 
   /**
-   * @param {Array<import("./Layer.js").State>=} opt_states Optional list of layer states (to be modified in place).
+   * Get the layer states list and use this groups z-index as the default
+   * for all layers in this and nested groups, if it is unset at this point.
+   * If opt_states is not provided and this group's z-index is undefined
+   * 0 is used a the default z-index.
+   * @param {Array<import("./Layer.js").State>} [opt_states] Optional list
+   * of layer states (to be modified in place).
    * @return {Array<import("./Layer.js").State>} List of layer states.
    */
   getLayerStatesArray(opt_states) {
     const states = opt_states !== undefined ? opt_states : [];
-
     const pos = states.length;
 
     this.getLayers().forEach(function (layer) {
@@ -222,6 +246,10 @@ class LayerGroup extends BaseLayer {
     });
 
     const ownLayerState = this.getLayerState();
+    let defaultZIndex = ownLayerState.zIndex;
+    if (!opt_states && ownLayerState.zIndex === undefined) {
+      defaultZIndex = 0;
+    }
     for (let i = pos, ii = states.length; i < ii; i++) {
       const layerState = states[i];
       layerState.opacity *= ownLayerState.opacity;
@@ -245,6 +273,9 @@ class LayerGroup extends BaseLayer {
         } else {
           layerState.extent = ownLayerState.extent;
         }
+      }
+      if (layerState.zIndex === undefined) {
+        layerState.zIndex = defaultZIndex;
       }
     }
 

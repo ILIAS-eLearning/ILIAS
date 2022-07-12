@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiDateTimeDurationInputGUI
  *
@@ -14,7 +24,7 @@
  */
 class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
 {
-    public function getValue()
+    public function getValue() : array
     {
         $duration = array();
         
@@ -32,8 +42,9 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
     /**
      * @return ilCmiXapiDateTime|null
      */
-    public function getStartXapiDateTime()
+    public function getStartXapiDateTime() : ?ilCmiXapiDateTime
     {
+        $xapiDateTime = null;
         if ($this->getStart() instanceof ilDateTime) {
             try {
                 $xapiDateTime = ilCmiXapiDateTime::fromIliasDateTime($this->getStart());
@@ -41,15 +52,15 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
                 return null;
             }
         }
-        
         return $xapiDateTime;
     }
     
     /**
      * @return ilCmiXapiDateTime|null
      */
-    public function getEndXapiDateTime()
+    public function getEndXapiDateTime() : ?ilCmiXapiDateTime
     {
+        $xapiDateTime = null;
         if ($this->getEnd() instanceof ilDateTime) {
             try {
                 $xapiDateTime = ilCmiXapiDateTime::fromIliasDateTime($this->getEnd());
@@ -57,7 +68,6 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
                 return null;
             }
         }
-        
         return $xapiDateTime;
     }
 }

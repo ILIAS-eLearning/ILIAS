@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\ContentPage\GlobalSettings\StorageImpl;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
@@ -7,18 +22,11 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\CouldNotFindPageMetrics;
 use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
 
-/**
- * Class ilObjContentPageListGUI
- */
 class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageObjectConstants
 {
     private PageMetricsService $pageMetricsService;
 
-    /**
-     * ilObjContentPageListGUI constructor.
-     * @param int $a_context
-     */
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
+    public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         global $DIC;
 
@@ -29,10 +37,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -49,13 +54,10 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         $this->lng->loadLanguageModule('copa');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getInfoScreenStatus()
+    public function getInfoScreenStatus() : bool
     {
         if (ilContainer::_lookupContainerSetting(
-            (int) $this->obj_id,
+            $this->obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
             "1"
         )) {
@@ -65,19 +67,25 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getProperties()
+    public function getProperties() : array
     {
         $properties = [];
 
-        $settingsStorage = new StorageImpl($this->settings);
-        if (!$settingsStorage->getSettings()->isReadingTimeEnabled()) {
+        $maySee = $this->rbacsystem->checkAccess('visible', $this->ref_id);
+        $mayRead = $this->rbacsystem->checkAccess('read', $this->ref_id);
+
+        if (!$maySee && !$mayRead) {
             return $properties;
         }
 
-        if (!$this->access->checkAccess('read', '', $this->ref_id)) {
+        $properties = parent::getProperties();
+
+        if (!$mayRead || ilObject::lookupOfflineStatus($this->obj_id)) {
+            return $properties;
+        }
+
+        $settingsStorage = new StorageImpl($this->settings);
+        if (!$settingsStorage->getSettings()->isReadingTimeEnabled()) {
             return $properties;
         }
 
@@ -86,7 +94,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
             $language = $ot->getEffectiveContentLang($this->user->getCurrentLanguage(), $this->type);
 
             $pageMetrics = $this->pageMetricsService->get(
-                new GetPageMetricsCommand((int) $this->obj_id, $language)
+                new GetPageMetricsCommand($this->obj_id, $language)
             );
 
             $readingTimePropertyValue = sprintf(
@@ -111,9 +119,6 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         return $properties;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function checkInfoPageOnAsynchronousRendering() : bool
     {
         return true;

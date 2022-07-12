@@ -1,13 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Mini;
+use ILIAS\UI\Implementation\Render\Template;
 
 /**
  * Class Renderer
@@ -15,11 +29,10 @@ use ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Mini;
  */
 class Renderer extends AbstractComponentRenderer
 {
-
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
          * @var Component\Chart\ProgressMeter\ProgressMeter $component
@@ -30,28 +43,24 @@ class Renderer extends AbstractComponentRenderer
             /**
              * @var Component\Chart\ProgressMeter\FixedSize $component
              */
-            return $this->renderFixedSize($component, $default_renderer);
+            return $this->renderFixedSize($component);
         } elseif ($component instanceof Mini) {
             /**
              * @var Mini $component
              */
-            return $this->renderMini($component, $default_renderer);
+            return $this->renderMini($component);
         } else {
             /**
              * @var Component\Chart\ProgressMeter\Standard $component
              */
-            return $this->renderStandard($component, $default_renderer);
+            return $this->renderStandard($component);
         }
     }
 
     /**
      * Render standard progressmeter
-     *
-     * @param Component\Chart\ProgressMeter\Standard $component
-     * @param RendererInterface $default_renderer
-     * @return string
      */
-    protected function renderStandard(Component\Chart\ProgressMeter\Standard $component, RendererInterface $default_renderer)
+    protected function renderStandard(Component\Chart\ProgressMeter\Standard $component) : string
     {
         $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
         $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
@@ -63,12 +72,8 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * Render fixed size progressmeter
-     *
-     * @param Component\Chart\ProgressMeter\FixedSize $component
-     * @param RendererInterface $default_renderer
-     * @return string
      */
-    protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component, RendererInterface $default_renderer)
+    protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component) : string
     {
         $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
         $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
@@ -84,12 +89,8 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * Render mini progressmeter
-     *
-     * @param Component\Chart\ProgressMeter\Mini $component
-     * @param RendererInterface $default_renderer
-     * @return string
      */
-    protected function renderMini(Mini $component, RendererInterface $default_renderer)
+    protected function renderMini(Mini $component) : string
     {
         $tpl = $this->getTemplate("tpl.progressmeter_mini.html", true, true);
 
@@ -118,9 +119,9 @@ class Renderer extends AbstractComponentRenderer
 
     protected function getDefaultGraphicByComponent(
         Component\Chart\ProgressMeter\ProgressMeter $component,
-        \ILIAS\UI\Implementation\Render\Template $tpl,
+        Template $tpl,
         $hasComparison = false
-    ) {
+    ) : Template {
         $main_percentage = $component->getMainValueAsPercent();
 
         if ($hasComparison) {
@@ -178,12 +179,8 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * Modify visible template variables
-     *
-     * @param \ILIAS\UI\Implementation\Render\Template $tpl
-     * @param Component\Chart\ProgressMeter\ProgressMeter $component
-     * @return \ILIAS\UI\Implementation\Render\Template
      */
-    protected function modifyVisibleValues(\ILIAS\UI\Implementation\Render\Template $tpl, Component\Component $component)
+    protected function modifyVisibleValues(Template $tpl, Component\Component $component) : Template
     {
         $tpl->setVariable("MAIN", $component->getMainValueAsPercent() . ' %');
         if ($component->getRequired() != $component->getMaximum()) {
@@ -191,8 +188,18 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->setVariable("REQUIRED", '');
         }
-        $tpl->setVariable("TEXT_MAIN", htmlspecialchars($component->getMainText()));
-        $tpl->setVariable("TEXT_REQUIRED", htmlspecialchars($component->getRequiredText()));
+
+        $main_text = '';
+        if (!is_null($component->getMainText())) {
+            $main_text = $component->getMainText();
+        }
+
+        $required_text = '';
+        if (!is_null($component->getRequiredText())) {
+            $required_text = $component->getRequiredText();
+        }
+        $tpl->setVariable("TEXT_MAIN", htmlspecialchars($main_text));
+        $tpl->setVariable("TEXT_REQUIRED", htmlspecialchars($required_text));
         return $tpl;
     }
 
@@ -201,11 +208,8 @@ class Renderer extends AbstractComponentRenderer
      *
      * careful: marker position is no fixed positioning but
      *          a rotation value for marker box.
-     *
-     * @param int $percentage
-     * @return float
      */
-    protected function getMarkerPos($percentage)
+    protected function getMarkerPos(int $percentage) : float
     {
         return round((230 / 100 * ($percentage * 1)) - 115, 2, PHP_ROUND_HALF_UP);
     }
@@ -213,12 +217,11 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Test if value is not zero
      *
-     * @param int|float $a_val
-     * @return bool
+     * @param int|float $val
      */
-    protected function getIsValueSet($a_val)
+    protected function getIsValueSet($val) : bool
     {
-        return (isset($a_val) && $a_val > 0);
+        return (isset($val) && $val > 0);
     }
 
     /**
@@ -229,9 +232,8 @@ class Renderer extends AbstractComponentRenderer
      *
      * @param int|float $a_val
      * @param int|float $b_val
-     * @return bool
      */
-    protected function getIsReached($a_val, $b_val)
+    protected function getIsReached($a_val, $b_val) : bool
     {
         return ($a_val >= $b_val);
     }
@@ -239,7 +241,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return [Component\Chart\ProgressMeter\ProgressMeter::class];
     }

@@ -32,12 +32,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
         $this->validationRegexp = "";
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->values = array();
         if (is_array($a_value)) {
@@ -54,7 +49,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_suffixes	Accepted Suffixes
     */
-    public function setSuffixes($a_suffixes)
+    public function setSuffixes($a_suffixes) : void
     {
         $this->suffixes = $a_suffixes;
     }
@@ -64,7 +59,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Accepted Suffixes
     */
-    public function getSuffixes()
+    public function getSuffixes() : array
     {
         return $this->suffixes;
     }
@@ -74,7 +69,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values)
+    public function setValues($a_values) : void
     {
         $this->values = $a_values;
     }
@@ -84,7 +79,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -94,7 +89,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @param	object	$a_value	test object
     */
-    public function setQuestionObject($a_value)
+    public function setQuestionObject($a_value) : void
     {
         $this->qstObject = &$a_value;
     }
@@ -104,7 +99,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @return	object	Value
     */
-    public function getQuestionObject()
+    public function getQuestionObject() : ?object
     {
         return $this->qstObject;
     }
@@ -114,7 +109,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -124,23 +119,22 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         if (is_array($_FILES[$this->getPostVar()]['error']['image'])) {
             foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error) {
@@ -217,7 +211,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
                 $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
                 // virus handling
                 if (strlen($tmpname)) {
-                    $vir = ilUtil::virusHandling($tmpname, $filename);
+                    $vir = ilVirusScanner::virusHandling($tmpname, $filename);
                     if ($vir[0] == false) {
                         $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                         return false;
@@ -231,10 +225,9 @@ class ilImageWizardInputGUI extends ilTextInputGUI
 
     /**
     * Insert property html
-    *
-    * @return	int	Size
+    * @return	void	Size
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -252,7 +245,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
                 $tpl->setCurrentBlock('image');
                 $tpl->setVariable('SRC_IMAGE', $imagename);
                 $tpl->setVariable('IMAGE_NAME', $value);
-                $tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value));
+                $tpl->setVariable('ALT_IMAGE', ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
                 $tpl->setVariable("IMAGE_ROW_NUMBER", $i);
                 $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
@@ -303,7 +296,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
         $tpl->parseCurrentBlock();
         */
 
-        $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+        $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("TEXT_YES", $lng->txt('yes'));
         $tpl->setVariable("TEXT_NO", $lng->txt('no'));

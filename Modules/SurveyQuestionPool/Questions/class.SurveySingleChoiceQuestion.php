@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * SingleChoice survey question
@@ -12,26 +26,16 @@
  */
 class SurveySingleChoiceQuestion extends SurveyQuestion
 {
-    /**
-    * Categories contained in this question
-    *
-    * @var array
-    */
-    public $categories;
+    public SurveyCategories $categories;
 
-    /**
-    * SurveySingleChoiceQuestion constructor
-    *
-    * The constructor takes possible arguments an creates an instance of the SurveySingleChoiceQuestion object.
-    *
-    * @param string $title A title string to describe the question
-    * @param string $description A description string to describe the question
-    * @param string $author A string containing the name of the questions author
-    * @param integer $owner A numerical ID to identify the owner/creator
-    * @access public
-    */
-    public function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1, $orientation = 1)
-    {
+    public function __construct(
+        string $title = "",
+        string $description = "",
+        string $author = "",
+        string $questiontext = "",
+        int $owner = -1,
+        int $orientation = 1
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -44,13 +48,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     }
     
     /**
-    * Gets the available categories for a given phrase
-    *
-    * @param integer $phrase_id The database id of the given phrase
-    * @result array All available categories
-    * @access public
-    */
-    public function &getCategoriesForPhrase($phrase_id)
+     * Gets the available categories for a given phrase
+     */
+    public function getCategoriesForPhrase(int $phrase_id) : array
     {
         $ilDB = $this->db;
         $categories = array();
@@ -60,7 +60,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             array($phrase_id)
         );
         while ($row = $ilDB->fetchAssoc($result)) {
-            if (($row["defaultvalue"] == 1) and ($row["owner_fi"] == 0)) {
+            if ((int) $row["defaultvalue"] === 1 && (int) $row["owner_fi"] === 0) {
                 $categories[$row["category_id"]] = $this->lng->txt($row["title"]);
             } else {
                 $categories[$row["category_id"]] = $row["title"];
@@ -70,12 +70,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     }
     
     /**
-    * Adds a phrase to the question
-    *
-    * @param integer $phrase_id The database id of the given phrase
-    * @access public
-    */
-    public function addPhrase($phrase_id)
+     * Adds a phrase to the question
+     */
+    public function addPhrase(int $phrase_id) : void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -87,7 +84,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         );
         while ($row = $ilDB->fetchAssoc($result)) {
             $neutral = $row["neutral"];
-            if (($row["defaultvalue"] == 1) and ($row["owner_fi"] == 0)) {
+            if ((int) $row["defaultvalue"] === 1 && (int) $row["owner_fi"] === 0) {
                 $this->categories->addCategory($this->lng->txt($row["title"]), 0, $neutral);
             } else {
                 $this->categories->addCategory($row["title"], 0, $neutral);
@@ -95,14 +92,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         }
     }
     
-    /**
-    * Returns the question data fields from the database
-    *
-    * @param integer $id The question ID from the database
-    * @return array Array containing the question fields and data from the database
-    * @access public
-    */
-    public function getQuestionDataArray($id)
+    public function getQuestionDataArray(int $id) : array
     {
         $ilDB = $this->db;
         
@@ -111,96 +101,79 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             array('integer'),
             array($id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             return $ilDB->fetchAssoc($result);
         } else {
             return array();
         }
     }
     
-    /**
-    * Loads a SurveySingleChoiceQuestion object from the database
-    *
-    * @param integer $id The database id of the single choice survey question
-    * @access public
-    */
-    public function loadFromDb($id)
+    public function loadFromDb(int $question_id) : void
     {
         $ilDB = $this->db;
 
         $result = $ilDB->queryF(
             "SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = svy_question.question_id WHERE svy_question.question_id = %s",
             array('integer'),
-            array($id)
+            array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            $this->setId($data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->label = $data['label'];
-            $this->setDescription($data["description"]);
-            $this->setObjId($data["obj_fi"]);
-            $this->setAuthor($data["author"]);
-            $this->setOwner($data["owner_fi"]);
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
-            $this->setObligatory($data["obligatory"]);
-            $this->setComplete($data["complete"]);
-            $this->setOriginalId($data["original_id"]);
-            $this->setOrientation($data["orientation"]);
+            $this->setId((int) $data["question_id"]);
+            $this->setTitle((string) $data["title"]);
+            $this->label = (string) $data['label'];
+            $this->setDescription((string) $data["description"]);
+            $this->setObjId((int) $data["obj_fi"]);
+            $this->setAuthor((string) $data["author"]);
+            $this->setOwner((int) $data["owner_fi"]);
+            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
+            $this->setObligatory((bool) $data["obligatory"]);
+            $this->setComplete((bool) $data["complete"]);
+            $this->setOriginalId((int) $data["original_id"]);
+            $this->setOrientation((int) $data["orientation"]);
 
             $this->categories->flushCategories();
             $result = $ilDB->queryF(
                 "SELECT svy_variable.*, svy_category.title, svy_category.neutral FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
                 array('integer'),
-                array($id)
+                array($question_id)
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ? $data['scale'] : ($data['sequence'] + 1));
+                    $this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
                 }
             }
         }
-        parent::loadFromDb($id);
+        parent::loadFromDb($question_id);
     }
 
-    /**
-    * Returns true if the question is complete for use
-    *
-    * @result boolean True if the question is complete for use, otherwise false
-    * @access public
-    */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (
-            strlen($this->getTitle()) &&
-            strlen($this->getAuthor()) &&
-            strlen($this->getQuestiontext()) &&
+            $this->getTitle() !== '' &&
+            $this->getAuthor() !== '' &&
+            $this->getQuestiontext() !== '' &&
             $this->categories->getCategoryCount()
         ) {
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
     
-    /**
-    * Saves a SurveySingleChoiceQuestion object to a database
-    *
-    * @access public
-    */
-    public function saveToDb($original_id = "")
+    public function saveToDb(int $original_id = 0) : int
     {
         $ilDB = $this->db;
 
         $affectedRows = parent::saveToDb($original_id);
-        if ($affectedRows == 1) {
+        if ($affectedRows === 1) {
             $this->log->debug("Before save Category-> DELETE from svy_qst_sc WHERE question_fi = " . $this->getId() . " AND INSERT again the same id and orientation in svy_qst_sc");
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
                 array('integer'),
                 array($this->getId())
             );
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation) VALUES (%s, %s)",
                 array('integer', 'text'),
                 array(
@@ -212,9 +185,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             $this->saveMaterial();
             $this->saveCategoriesToDb();
         }
+        return $affectedRows;
     }
 
-    public function saveCategoriesToDb()
+    public function saveCategoriesToDb() : void
     {
         $ilDB = $this->db;
 
@@ -242,17 +216,13 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $this->saveCompletionStatus();
     }
 
-    /**
-    * Returns an xml representation of the question
-    *
-    * @return string The xml representation of the question
-    * @access public
-    */
-    public function toXML($a_include_header = true, $obligatory_state = "")
-    {
-        $a_xml_writer = new ilXmlWriter;
+    public function toXML(
+        bool $a_include_header = true,
+        bool $obligatory_state = false
+    ) : string {
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
-        $this->insertXML($a_xml_writer, $a_include_header, $obligatory_state);
+        $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
         if (!$a_include_header) {
             $pos = strpos($xml, "?>");
@@ -261,19 +231,14 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return $xml;
     }
     
-    /**
-    * Adds the question XML to a given XMLWriter object
-    *
-    * @param object $a_xml_writer The XMLWriter object
-    * @param boolean $a_include_header Determines wheather or not the XML should be used
-    * @access public
-    */
-    public function insertXML(&$a_xml_writer, $a_include_header = true)
-    {
+    public function insertXML(
+        ilXmlWriter $a_xml_writer,
+        bool $a_include_header = true
+    ) : void {
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
@@ -317,7 +282,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("responses");
 
         if (count($this->material)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches)) {
+            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"] ?? "", $matches)) {
                 $attrs = array(
                     "label" => $this->material["title"]
                 );
@@ -341,15 +306,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("question");
     }
 
-    /**
-    * Import additional meta data from the question import file. Usually
-    * the meta data section is used to store question elements which are not
-    * part of the standard XML schema.
-    *
-    * @return array $a_meta Array containing the additional meta data
-    * @access public
-    */
-    public function importAdditionalMetadata($a_meta)
+    public function importAdditionalMetadata(array $a_meta) : void
     {
         foreach ($a_meta as $key => $value) {
             switch ($value["label"]) {
@@ -361,27 +318,22 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     }
 
     /**
-    * Adds standard numbers as categories
-    *
-    * @param integer $lower_limit The lower limit
-    * @param integer $upper_limit The upper limit
-    * @access public
-    */
-    public function addStandardNumbers($lower_limit, $upper_limit)
-    {
+     * Adds standard numbers as categories
+     */
+    public function addStandardNumbers(
+        int $lower_limit,
+        int $upper_limit
+    ) : void {
         for ($i = $lower_limit; $i <= $upper_limit; $i++) {
             $this->categories->addCategory($i);
         }
     }
 
     /**
-    * Saves a set of categories to a default phrase
-    *
-    * @param array $phrases The database ids of the seleted phrases
-    * @param string $title The title of the default phrase
-    * @access public
-    */
-    public function savePhrase($title)
+     * Saves a set of categories to a default phrase
+     * note: data comes from session
+     */
+    public function savePhrase(string $title) : void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -395,7 +347,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $phrase_id = $next_id;
                 
         $counter = 1;
-        foreach ($_SESSION['save_phrase_data'] as $data) {
+        $phrase_data = $this->edit_manager->getPhraseData();
+        foreach ($phrase_data as $data) {
             $next_id = $ilDB->nextId('svy_category');
             $affectedRows = $ilDB->manipulateF(
                 "INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -412,48 +365,36 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             $counter++;
         }
     }
-    
-    /**
-    * Returns the question type of the question
-    *
-    * @return integer The question type of the question
-    * @access public
-    */
-    public function getQuestionType()
+
+    public function getQuestionType() : string
     {
         return "SurveySingleChoiceQuestion";
     }
 
-    /**
-    * Returns the name of the additional question data table in the database
-    *
-    * @return string The additional table name
-    * @access public
-    */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return "svy_qst_sc";
     }
     
-    /**
-    * Creates the user data of the svy_answer table from the POST data
-    *
-    * @return array User data according to the svy_answer table
-    * @access public
-    */
-    public function &getWorkingDataFromUserInput($post_data)
-    {
-        $entered_value = $post_data[$this->getId() . "_value"];
+    public function getWorkingDataFromUserInput(
+        array $post_data
+    ) : array {
+        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
         $data = array();
         if (strlen($entered_value)) {
-            array_push($data, array("value" => $entered_value, "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other']));
+            $data[] = array("value" => $entered_value,
+                            "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other'] ?? ""
+            );
         }
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $cat = $this->categories->getCategory($i);
             if ($cat->other) {
                 if ($i != $entered_value) {
-                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
-                        array_push($data, array("value" => $i, "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'], "uncheck" => true));
+                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
+                        $data[] = array("value" => $i,
+                                        "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'] ?? "",
+                                        "uncheck" => true
+                        );
                     }
                 }
             }
@@ -462,21 +403,18 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     }
 
     /**
-    * Checks the input of the active user for obligatory status
-    * and entered values
-    *
-    * @param array $post_data The contents of the $_POST array
-    * @param integer $survey_id The database ID of the active survey
-    * @return string Empty string if the input is ok, an error message otherwise
-    * @access public
-    */
-    public function checkUserInput($post_data, $survey_id)
-    {
-        $entered_value = $post_data[$this->getId() . "_value"];
+     * Checks the input of the active user for obligatory status
+     * and entered values
+     */
+    public function checkUserInput(
+        array $post_data,
+        int $survey_id
+    ) : string {
+        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
 
         $this->log->debug("Entered value = " . $entered_value);
         
-        if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) {
+        if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) {
             return "";
         }
         
@@ -491,10 +429,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
                     if (array_key_exists($this->getId() . "_" . $entered_value . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $entered_value . "_other"])) {
                         return $this->lng->txt("question_mr_no_other_answer");
                     }
-                } else {
-                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
-                        return $this->lng->txt("question_sr_no_other_answer_checked");
-                    }
+                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
+                    return $this->lng->txt("question_sr_no_other_answer_checked");
                 }
             }
         }
@@ -502,18 +438,21 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return "";
     }
 
-    public function saveUserInput($post_data, $active_id, $a_return = false)
-    {
+    public function saveUserInput(
+        array $post_data,
+        int $active_id,
+        bool $a_return = false
+    ) : ?array {
         $ilDB = $this->db;
 
         $entered_value = $post_data[$this->getId() . "_value"];
         
         if ($a_return) {
             return array(array("value" => $entered_value,
-                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"]));
+                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? ""));
         }
         if (strlen($entered_value) == 0) {
-            return;
+            return null;
         }
         
         $next_id = $ilDB->nextId('svy_answer');
@@ -523,24 +462,19 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $fields['question_fi'] = array("integer", $this->getId());
         $fields['active_fi'] = array("integer", $active_id);
         $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
-        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
+        $fields['textanswer'] = array("clob", isset($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
             $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
         $fields['tstamp'] = array("integer", time());
         
         $affectedRows = $ilDB->insert("svy_answer", $fields);
 
         $debug_value = (strlen($entered_value)) ? $entered_value : "NULL";
-        $debug_answer = ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : "NULL";
+        $debug_answer = $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? "NULL";
         $this->log->debug("INSERT svy_answer answer_id=" . $next_id . " question_fi=" . $this->getId() . " active_fi=" . $active_id . " value=" . $debug_value . " textanswer=" . $debug_answer);
+        return null;
     }
 
-    /**
-    * Import response data from the question import file
-    *
-    * @return array $a_data Array containing the response data
-    * @access public
-    */
-    public function importResponses($a_data)
+    public function importResponses(array $a_data) : void
     {
         foreach ($a_data as $id => $data) {
             $categorytext = "";
@@ -557,37 +491,18 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         }
     }
 
-    /**
-    * Returns if the question is usable for preconditions
-    *
-    * @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
-    * @access public
-    */
-    public function usableForPrecondition()
+    public function usableForPrecondition() : bool
     {
         return true;
     }
     
-    /**
-    * Returns the available relations for the question
-    *
-    * @return array An array containing the available relations
-    * @access public
-    */
-    public function getAvailableRelations()
+    public function getAvailableRelations() : array
     {
         return array("<", "<=", "=", "<>", ">=", ">");
     }
 
-    /**
-    * Returns the options for preconditions
-    *
-    * @return array
-    */
-    public function getPreconditionOptions()
+    public function getPreconditionOptions() : array
     {
-        $lng = $this->lng;
-        
         $options = array();
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $category = $this->categories->getCategory($i);
@@ -596,14 +511,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return $options;
     }
 
-    /**
-    * Creates a form property for the precondition value
-    *
-    * @return The ILIAS form element
-    * @access public
-    */
-    public function getPreconditionSelectValue($default, $title, $variable)
-    {
+    public function getPreconditionSelectValue(
+        string $default,
+        string $title,
+        string $variable
+    ) : ?ilFormPropertyGUI {
         $step3 = new ilSelectInputGUI($title, $variable);
         $options = $this->getPreconditionOptions();
         $step3->setOptions($options);
@@ -611,17 +523,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return $step3;
     }
 
-    /**
-    * Returns the output for a precondition value
-    *
-    * @param string $value The precondition value
-    * @return string The output of the precondition value
-    * @access public
-    */
-    public function getPreconditionValueOutput($value)
-    {
+    public function getPreconditionValueOutput(
+        string $value
+    ) : string {
         // #18136
-        $category = $this->categories->getCategoryForScale($value + 1);
+        $category = $this->categories->getCategoryForScale((int) $value + 1);
         
         // #17895 - see getPreconditionOptions()
         return $category->scale .
@@ -629,14 +535,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             ((strlen($category->title)) ? $category->title : $this->lng->txt('other_answer'));
     }
 
-    public function getCategories()
+    public function getCategories() : SurveyCategories
     {
         return $this->categories;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getMaxSumScore(int $survey_id) : int
     {
         global $DIC;
@@ -656,9 +559,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return (int) $rec["sum_sum_score"];
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function isSumScoreValid(int $nr_answer_records) : bool
     {
         if ($nr_answer_records == 1) {
@@ -667,18 +567,26 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return false;
     }
 
-    public static function compressable($id1, $id2)
-    {
+    public static function compressable(
+        int $id1,
+        int $id2
+    ) : bool {
+        /** @var SurveySingleChoiceQuestion $q1 */
         $q1 = SurveyQuestion::_instanciateQuestion($id1);
+        /** @var SurveySingleChoiceQuestion $q2 */
         $q2 = SurveyQuestion::_instanciateQuestion($id2);
-        if (self::getCompressCompareString($q1) == self::getCompressCompareString($q2)) {
+        if ($q1->getOrientation() !== 1 || $q2->getOrientation() !== 1) {
+            return false;
+        }
+        if (self::getCompressCompareString($q1) === self::getCompressCompareString($q2)) {
             return true;
         }
         return false;
     }
 
-    public static function getCompressCompareString($q)
-    {
+    public static function getCompressCompareString(
+        SurveySingleChoiceQuestion $q
+    ) : string {
         $str = "";
         for ($i = 0; $i < $q->categories->getCategoryCount(); $i++) {
             $cat = $q->categories->getCategory($i);

@@ -1,18 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Metric survey question GUI representation
- *
  * The SurveyMetricQuestionGUI class encapsulates the GUI representation
  * for metric survey question types.
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
 class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 {
-    protected function initObject()
+    protected function initObject() : void
     {
         $this->object = new SurveyMetricQuestion();
     }
@@ -22,12 +34,12 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
     // EDITOR
     //
     
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         $this->setQuestionTabsForClass("surveymetricquestiongui");
     }
     
-    protected function addFieldsToEditForm(ilPropertyFormGUI $a_form)
+    protected function addFieldsToEditForm(ilPropertyFormGUI $a_form) : void
     {
         // subtype
         $subtype = new ilRadioGroupInputGUI($this->lng->txt("subtype"), "type");
@@ -106,17 +118,25 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         }
     }
     
-    protected function importEditFormValues(ilPropertyFormGUI $a_form)
+    protected function importEditFormValues(ilPropertyFormGUI $a_form) : void
     {
         $type = (int) $a_form->getInput("type");
-        $this->object->setOrientation($a_form->getInput("orientation"));
-        $this->object->setSubtype($type);
-        $this->object->setMinimum($a_form->getInput("minimum" . $type));
-        $this->object->setMaximum($a_form->getInput("maximum" . $type));
+        $this->object->setOrientation((int) $a_form->getInput("orientation"));
+        $this->object->setSubtype((int) $type);
+        $min = ($a_form->getInput("minimum" . $type) != "")
+            ? (float) $a_form->getInput("minimum" . $type)
+            : null;
+        $max = ($a_form->getInput("maximum" . $type) != "")
+            ? (float) $a_form->getInput("maximum" . $type)
+            : null;
+        $this->object->setMinimum($min);
+        $this->object->setMaximum($max);
     }
     
-    public function getParsedAnswers(array $a_working_data = null, $a_only_user_anwers = false)
-    {
+    public function getParsedAnswers(
+        array $a_working_data = null,
+        $a_only_user_anwers = false
+    ) : array {
         $res = array();
         
         if (is_array($a_working_data)) {
@@ -128,19 +148,20 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
     
     /**
     * Creates a HTML representation of the question
-    *
     * Creates a HTML representation of the question
-    *
-    * @access private
+    * @param array|null $working_data * @param int|null $survey_id* @access private
     */
-    public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
-    {
+    public function getPrintView(
+        int $question_title = 1,
+        bool $show_questiontext = true,
+        ?int $survey_id = null,
+        ?array $working_data = null
+    ) : string {
         $user_answer = null;
-        if ($a_working_data) {
-            $user_answer = $this->getParsedAnswers($a_working_data);
+        if ($working_data) {
+            $user_answer = $this->getParsedAnswers($working_data);
             $user_answer = $user_answer[0]["value"];
         }
-                
         $template = new ilTemplate("tpl.il_svy_qpl_metric_printview.html", true, true, "Modules/SurveyQuestionPool");
         $template->setVariable("MIN_MAX", $this->object->getMinMaxText());
 
@@ -153,12 +174,9 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
         $template->setVariable("QUESTION_ID", $this->object->getId());
 
-        if (!is_array($a_working_data) || !trim($user_answer)) {
-            $solution_text = "";
+        if (!is_array($working_data) || !trim($user_answer)) {
             $len = 10;
-            for ($i = 0; $i < 10; $i++) {
-                $solution_text .= "&#160;";
-            }
+            $solution_text = str_repeat("&#160;", 10);
         } else {
             $solution_text = $user_answer;
         }
@@ -173,36 +191,20 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
     // EXECUTION
     //
 
-    /**
-    * Creates the question output form for the learner
-    *
-    * Creates the question output form for the learner
-    *
-    * @access public
-    */
-    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false)
-    {
+    public function getWorkingForm(
+        array $working_data = null,
+        int $question_title = 1,
+        bool $show_questiontext = true,
+        string $error_message = "",
+        int $survey_id = null,
+        bool $compress_view = false
+    ) : string {
         $template = new ilTemplate("tpl.il_svy_out_metric.html", true, true, "Modules/SurveyQuestionPool");
         $template->setCurrentBlock("material_metric");
         $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
         $template->parseCurrentBlock();
         $template->setVariable("MIN_MAX", $this->object->getMinMaxText());
-        /*if (strlen($this->object->getMinimum()))
-        {
-            $template->setCurrentBlock("minimum");
-            $template->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
-            $template->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
-            $template->parseCurrentBlock();
-        }
-        if (strlen($this->object->getMaximum()))
-        {
-            $template->setCurrentBlock("maximum");
-            $template->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
-            $template->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
-            $template->parseCurrentBlock();
-        }*/
 
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         if ($show_questiontext) {
             $this->outQuestionText($template);
         }
@@ -212,12 +214,12 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
         $template->setVariable("QUESTION_ID", $this->object->getId());
         if (is_array($working_data)) {
-            $template->setVariable("VALUE_METRIC", $working_data[0]["value"]);
+            $template->setVariable("VALUE_METRIC", $working_data[0]["value"] ?? "");
         }
 
         $template->setVariable("INPUT_SIZE", 10);
 
-        if (strcmp($error_message, "") != 0) {
+        if (strcmp($error_message, "") !== 0) {
             $template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
         }
         $template->parseCurrentBlock();

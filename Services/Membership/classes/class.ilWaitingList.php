@@ -1,280 +1,163 @@
-<?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+<?php declare(strict_types=1);
+    
 /**
-* Base class for course and group waiting lists
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMembership
-*/
-
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Base class for course and group waiting lists
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesMembership
+ */
 abstract class ilWaitingList
 {
-    private $db = null;
-    private $obj_id = 0;
-    private $user_ids = array();
-    private $users = array();
-    
-    public static $is_on_list = array();
+    public static array $is_on_list = [];
+    private int $obj_id = 0;
+    private array $user_ids = [];
+    private array $users = [];
+    protected ilDBInterface $db;
+    protected ilAppEventHandler $eventHandler;
 
-
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int obj_id
-     */
-    public function __construct($a_obj_id)
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
+        $this->eventHandler = $DIC->event();
         $this->obj_id = $a_obj_id;
-
-        $this->read();
+        if ($a_obj_id) {
+            $this->read();
+        }
     }
-    
-    /**
-     * Lookup waiting lit size
-     * @param int $a_obj_id
-     */
-    public static function lookupListSize($a_obj_id)
+
+    public static function lookupListSize(int $a_obj_id) : int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $query = 'SELECT count(usr_id) num from crs_waiting_list WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
-        
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (int) $row->num;
         }
         return 0;
     }
-    
-    /**
-     * delete all
-     *
-     * @access public
-     * @param int obj_id
-     * @static
-     */
-    public static function _deleteAll($a_obj_id)
+
+    public static function _deleteAll(int $a_obj_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "DELETE FROM crs_waiting_list WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-
-        return true;
     }
-    
-    /**
-     * Delete user
-     *
-     * @access public
-     * @param int user_id
-     * @static
-     */
-    public static function _deleteUser($a_usr_id)
+
+    public static function _deleteUser(int $a_usr_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "DELETE FROM crs_waiting_list WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
-
-        return true;
     }
-    
-    /**
-     * Delete one user entry
-     * @param int $a_usr_id
-     * @param int $a_obj_id
-     * @return
-     */
-    public static function deleteUserEntry($a_usr_id, $a_obj_id)
+
+    public static function deleteUserEntry(int $a_usr_id, int $a_obj_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $query = "DELETE FROM crs_waiting_list " .
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . ' ' .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $ilDB->query($query);
-        return true;
     }
-    
 
-    /**
-     * get obj id
-     *
-     * @access public
-     * @return int obj_id
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * add to list
-     *
-     * @access public
-     * @param int usr_id
-     */
-    public function addToList($a_usr_id)
+    public function addToList(int $a_usr_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if ($this->isOnList($a_usr_id)) {
             return false;
         }
         $query = "INSERT INTO crs_waiting_list (obj_id,usr_id,sub_time) " .
             "VALUES (" .
-            $ilDB->quote($this->getObjId(), 'integer') . ", " .
-            $ilDB->quote($a_usr_id, 'integer') . ", " .
-            $ilDB->quote(time(), 'integer') . " " .
+            $this->db->quote($this->getObjId(), 'integer') . ", " .
+            $this->db->quote($a_usr_id, 'integer') . ", " .
+            $this->db->quote(time(), 'integer') . " " .
             ")";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
         $this->read();
-
         return true;
     }
 
-    /**
-     * update subscription time
-     *
-     * @access public
-     * @param int usr_id
-     * @param int subsctription time
-     */
-    public function updateSubscriptionTime($a_usr_id, $a_subtime)
+    public function updateSubscriptionTime(int $a_usr_id, int $a_subtime) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "UPDATE crs_waiting_list " .
-            "SET sub_time = " . $ilDB->quote($a_subtime, 'integer') . " " .
-            "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($this->getObjId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-        return true;
+            "SET sub_time = " . $this->db->quote($a_subtime, 'integer') . " " .
+            "WHERE usr_id = " . $this->db->quote($a_usr_id, 'integer') . " " .
+            "AND obj_id = " . $this->db->quote($this->getObjId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
     }
 
-    /**
-     * remove usr from list
-     *
-     * @access public
-     * @param int usr_id
-     * @return
-     */
-    public function removeFromList($a_usr_id)
+    public function removeFromList(int $a_usr_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM crs_waiting_list " .
-            " WHERE obj_id = " . $ilDB->quote($this->getObjId(), 'integer') . " " .
-            " AND usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+            " WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer') . " " .
+            " AND usr_id = " . $this->db->quote($a_usr_id, 'integer') . " ";
+        $affected = $this->db->manipulate($query);
         $this->read();
-
-        return true;
+        return $affected > 0;
     }
 
-    /**
-     * check if is on waiting list
-     *
-     * @access public
-     * @param int usr_id
-     * @return
-     */
-    public function isOnList($a_usr_id)
+    public function isOnList(int $a_usr_id) : bool
     {
-        return isset($this->users[$a_usr_id]) ? true : false;
+        return isset($this->users[$a_usr_id]);
     }
-    
-    /**
-     * Check if a user on the waiting list
-     * @return bool
-     * @param object $a_usr_id
-     * @param object $a_obj_id
-     * @access public
-     * @static
-     */
-    public static function _isOnList($a_usr_id, $a_obj_id)
+
+    public static function _isOnList(int $a_usr_id, int $a_obj_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         if (isset(self::$is_on_list[$a_usr_id][$a_obj_id])) {
             return self::$is_on_list[$a_usr_id][$a_obj_id];
         }
-        
+
         $query = "SELECT usr_id " .
             "FROM crs_waiting_list " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
             "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->query($query);
-        return $res->numRows() ? true : false;
+        return (bool) $res->numRows();
     }
-    
+
     /**
      * Preload on list info. This is used, e.g. in the repository
      * to prevent multiple reads on the waiting list table.
      * The function is triggered in the preload functions of ilObjCourseAccess
      * and ilObjGroupAccess.
-     *
-     * @param array $a_usr_ids array of user ids
-     * @param array $a_obj_ids array of object ids
      */
-    public static function _preloadOnListInfo($a_usr_ids, $a_obj_ids)
+    public static function _preloadOnListInfo(array $a_usr_ids, array $a_obj_ids) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        if (!is_array($a_usr_ids)) {
-            $a_usr_ids = array($a_usr_ids);
-        }
-        if (!is_array($a_obj_ids)) {
-            $a_obj_ids = array($a_obj_ids);
-        }
         foreach ($a_usr_ids as $usr_id) {
             foreach ($a_obj_ids as $obj_id) {
                 self::$is_on_list[$usr_id][$obj_id] = false;
@@ -287,96 +170,63 @@ abstract class ilWaitingList
             $ilDB->in("usr_id", $a_usr_ids, false, "integer");
         $res = $ilDB->query($query);
         while ($rec = $ilDB->fetchAssoc($res)) {
-            self::$is_on_list[$rec["usr_id"]][$rec["obj_id"]] = true;
+            self::$is_on_list[(int) $rec["usr_id"]][(int) $rec["obj_id"]] = true;
         }
     }
-    
 
-    /**
-     * get number of users
-     *
-     * @access public
-     * @return int number of users
-     */
-    public function getCountUsers()
+    public function getCountUsers() : int
     {
         return count($this->users);
     }
-    
-    /**
-     * get position
-     *
-     * @access public
-     * @param int usr_id
-     * @return position of user otherwise -1
-     */
-    public function getPosition($a_usr_id)
+
+    public function getPosition(int $a_usr_id) : int
     {
         return isset($this->users[$a_usr_id]) ? $this->users[$a_usr_id]['position'] : -1;
     }
 
     /**
      * get all users on waiting list
-     *
      * @access public
-     * @return array array(position,time,usr_id)
+     * @return array<int, array<{position: int, time: int, usr_id: int}>>
      */
-    public function getAllUsers()
+    public function getAllUsers() : array
     {
-        return $this->users ? $this->users : array();
+        return $this->users;
     }
-    
+
     /**
      * get user
-     *
-     * @access public
      * @param int usr_id
-     * @return
+     * @return array<{position: int, time: int, usr_id: int}>
      */
-    public function getUser($a_usr_id)
+    public function getUser(int $a_usr_id) : array
     {
-        return isset($this->users[$a_usr_id]) ? $this->users[$a_usr_id] : false;
-    }
-    
-    /**
-     * Get all user ids of users on waiting list
-     *
-     *
-     */
-    public function getUserIds()
-    {
-        return $this->user_ids ? $this->user_ids : array();
+        return $this->users[$a_usr_id] ?? [];
     }
 
-
     /**
-     * Read waiting list
-     *
-     * @access private
-     * @param
-     * @return
+     * @return int[]
      */
-    private function read()
+    public function getUserIds() : array
     {
-        global $DIC;
+        return $this->user_ids;
+    }
 
-        $ilDB = $DIC['ilDB'];
-        
-        $this->users = array();
-
+    private function read() : void
+    {
+        $this->users = [];
         $query = "SELECT * FROM crs_waiting_list " .
-            "WHERE obj_id = " . $ilDB->quote($this->getObjId(), 'integer') . " ORDER BY sub_time";
+            "WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer') . " ORDER BY sub_time";
 
         $res = $this->db->query($query);
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             ++$counter;
-            $this->users[$row->usr_id]['position'] = $counter;
-            $this->users[$row->usr_id]['time'] = $row->sub_time;
-            $this->users[$row->usr_id]['usr_id'] = $row->usr_id;
-            
+            $this->users[(int) $row->usr_id]['position'] = $counter;
+            $this->users[(int) $row->usr_id]['time'] = (int) $row->sub_time;
+            $this->users[(int) $row->usr_id]['usr_id'] = (int) $row->usr_id;
+
             $this->user_ids[] = $row->usr_id;
         }
-        return true;
     }
 }

@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilLearningSequenceXMLWriter extends ilXmlWriter
 {
     protected ilObjLearningSequence $ls_object;
@@ -130,7 +144,7 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
 
         $collection = ilLPCollection::getInstanceByMode(
             $this->ls_object->getId(),
-            (int) $this->lp_settings->getMode()
+            $this->lp_settings->getMode()
         );
 
         if (!is_null($collection)) {
@@ -147,7 +161,7 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
 
     protected function encodeImage(string $path = null) : string
     {
-        if (is_null($path) || $path == "") {
+        if ($path == "") {
             return "";
         }
 

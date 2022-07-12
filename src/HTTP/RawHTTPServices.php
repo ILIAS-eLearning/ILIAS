@@ -11,6 +11,19 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Provides an interface to the ILIAS HTTP services.
  *
@@ -18,31 +31,12 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class RawHTTPServices implements GlobalHttpState
 {
-
-    /**
-     * @var ResponseSenderStrategy
-     */
-    private $sender;
-    /**
-     * @var CookieJarFactory $cookieJarFactory
-     */
-    private $cookieJarFactory;
-    /**
-     * @var RequestFactory $requestFactory
-     */
-    private $requestFactory;
-    /**
-     * @var ResponseFactory $responseFactory
-     */
-    private $responseFactory;
-    /**
-     * @var ServerRequestInterface $request
-     */
-    private $request;
-    /**
-     * @var ResponseInterface $response
-     */
-    private $response;
+    private \ILIAS\HTTP\Response\Sender\ResponseSenderStrategy $sender;
+    private \ILIAS\HTTP\Cookies\CookieJarFactory $cookieJarFactory;
+    private \ILIAS\HTTP\Request\RequestFactory $requestFactory;
+    private \ILIAS\HTTP\Response\ResponseFactory $responseFactory;
+    private ?\Psr\Http\Message\ServerRequestInterface $request = null;
+    private ?\Psr\Http\Message\ResponseInterface $response = null;
 
 
     /**
@@ -50,8 +44,6 @@ class RawHTTPServices implements GlobalHttpState
      *
      * @param ResponseSenderStrategy $senderStrategy   A response sender strategy.
      * @param CookieJarFactory       $cookieJarFactory Cookie Jar implementation.
-     * @param RequestFactory         $requestFactory
-     * @param ResponseFactory        $responseFactory
      */
     public function __construct(ResponseSenderStrategy $senderStrategy, CookieJarFactory $cookieJarFactory, RequestFactory $requestFactory, ResponseFactory $responseFactory)
     {

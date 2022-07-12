@@ -1,9 +1,24 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitImporter
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -11,35 +26,30 @@
 class ilOrgUnitImporter extends ilXmlImporter
 {
 
-    /**
-     * @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type
-     */
-    public $errors = [];
-    /**
-     * @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type
-     */
-    public $warnings = [];
-    /**
-     * @var array keys in {updated, edited, deleted}
-     */
-    public $stats;
+    /* @var array $lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type */
+    public array $errors = [];
+    /* @var array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type */
+    public array $warnings = [];
+    /* @var array keys in {updated, edited, deleted} */
+    public array $stats;
+    private ilDBInterface $database;
 
-
-    /**
-     * @param $id
-     * @param $type
-     *
-     * @return bool|int
-     */
-    protected function buildRef($id, $type)
+    public function __construct()
     {
-        if ($type == 'reference_id') {
+        global $DIC;
+        $this->database = $DIC->database();
+    }
+
+    /** @return bool|int */
+    protected function buildRef(int $id, string $type) /*: bool|int*/
+    {
+        if ($type === 'reference_id') {
             if (!ilObjOrgUnit::_exists($id, true)) {
                 return false;
             }
 
             return $id;
-        } elseif ($type == 'external_id') {
+        } elseif ($type === 'external_id') {
             $obj_id = ilObject::_lookupObjIdByImportId($id);
 
             if (ilObject::_lookupType($obj_id) !== 'orgu') {
@@ -68,110 +78,64 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-
-    /**
-     * @param string $external_id
-     *
-     * @return bool
-     */
-    public function hasMoreThanOneMatch($external_id)
+    public function hasMoreThanOneMatch(string $external_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
         $query = "SELECT * FROM object_data " .
             "INNER JOIN object_reference as ref on ref.obj_id = object_data.obj_id and ref.deleted is null " .
-            'WHERE object_data.type = "orgu" and import_id = ' . $ilDB->quote($external_id, "text") . " " .
+            'WHERE object_data.type = "orgu" and import_id = ' . $this->database->quote($external_id, "text") . " " .
             "ORDER BY create_date DESC";
 
-        $res = $ilDB->query($query);
+        $res = $this->database->query($query);
 
-        if ($ilDB->numRows($res) > 1) {
+        if ($this->database->numRows($res) > 1) {
             return true;
         } else {
             return false;
         }
     }
 
-
-    /**
-     * @return bool
-     */
-    public function hasErrors()
+    public function hasErrors() : bool
     {
         return count($this->errors) != 0;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function hasWarnings()
+    public function hasWarnings() : bool
     {
         return count($this->warnings) != 0;
     }
 
-
-    /**
-     * @param      $lang_var
-     * @param      $import_id
-     * @param null $action
-     */
-    public function addWarning($lang_var, $import_id, $action = null)
+    public function addWarning(string $lang_var, string $import_id, ?string $action = null) : void
     {
         $this->warnings[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-
-    /**
-     * @param      $lang_var
-     * @param      $import_id
-     * @param null $action
-     */
-    public function addError($lang_var, $import_id, $action = null)
+    public function addError(string $lang_var, string $import_id, ?string $action = null) : void
     {
         $this->errors[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-
-    /**
-     * @return array
-     */
-    public function getErrors()
+    public function getErrors() : array
     {
         return $this->errors;
     }
 
-
-    /**
-     * @return array
-     */
-    public function getWarnings()
+    public function getWarnings() : array
     {
         return $this->warnings;
     }
 
-
-    /**
-     * @return array
-     */
-    public function getStats()
+    public function getStats() : array
     {
         return $this->stats;
     }
 
-
-    /**
-     * @param string $a_entity
-     * @param string $a_id
-     * @param string $a_xml
-     * @param $a_mapping ilImportMapping
-     * @return void
-     * @deprecated
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    /** @deprecated */
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         $container_mappings = $a_mapping->getMappingsOfEntity("Services/Container", "objs");
         foreach ($container_mappings as $old => $new) {
             if (ilObject2::_lookupType($new) === 'orgu') {

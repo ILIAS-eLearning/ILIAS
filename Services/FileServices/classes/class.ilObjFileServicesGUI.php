@@ -1,4 +1,23 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
 
 /**
  * Class ilObjFileServicesGUI
@@ -6,49 +25,29 @@
  * @ilCtrl_IsCalledBy   ilObjFileServicesGUI: ilAdministrationGUI
  * @ilCtrl_Calls        ilObjFileServicesGUI: ilPermissionGUI
  */
-class ilObjFileServicesGUI extends ilObjectGUI
+class ilObjFileServicesGUI extends ilObject2GUI
 {
     const CMD_EDIT_SETTINGS = 'editSettings';
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var ilErrorHandling
-     */
-    public $error_handling;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * ilSetting
-     */
-    protected $settings;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
+    protected ilTabsGUI $tabs;
+    public ilLanguage $lng;
+    public ilErrorHandling $error_handling;
+    protected ilCtrl $ctrl;
+    protected ilSetting $settings;
+    public ilGlobalTemplateInterface $tpl;
+    protected Factory $refinery;
+    protected WrapperFactory $http;
+    protected ilFileServicesSettings $file_service_settings;
 
     /**
      * Constructor
      * @access public
      */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
     {
         global $DIC;
 
-        $this->type = "fils";
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        $this->type = ilObjFileServices::TYPE_FILE_SERVICES;
+        parent::__construct($id, $id_type, $parent_node_id);
 
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
@@ -57,33 +56,38 @@ class ilObjFileServicesGUI extends ilObjectGUI
         $this->tpl = $DIC['tpl'];
         $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
-        $this->rbacsystem = $DIC['rbacsystem'];
         $this->error_handling = $DIC["ilErr"];
+        $this->http = $DIC->http()->wrapper();
+        $this->ref_id = $this->http->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $this->refinery = $DIC->refinery();
+        $this->file_service_settings = new ilFileServicesSettings($DIC->settings());
     }
 
-    /**
-     * @param string $str
-     */
+    public function getType() : string
+    {
+        return ilObjFileServices::TYPE_FILE_SERVICES;
+    }
+
     protected function checkPermissionOrFail(string $str) : void
     {
         if (!$this->hasUserPermissionTo($str)) {
             $this->error_handling->raiseError(
                 $this->lng->txt('no_permission'),
-                $this->error_handling->error_obj->MESSAGE
+                $this->error->MESSAGE
             );
         }
     }
 
-    protected function hasUserPermissionTo($str) : bool
+    protected function hasUserPermissionTo(string $str) : bool
     {
-        return $this->access->checkAccess($str, '', $this->object->getRefId());
+        return $this->access->checkAccess($str, '', $this->ref_id);
     }
 
     /**
      * Execute command
      * @access public
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->lng->loadLanguageModule("fils");
 
@@ -106,47 +110,44 @@ class ilObjFileServicesGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
     /**
      * Get tabs
      */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess(
+            "visible,read",
+            $this->object->getRefId()
+        )
+        ) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
-                array(self::CMD_EDIT_SETTINGS, "view")
+                [self::CMD_EDIT_SETTINGS, "view"]
             );
         }
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess(
+            'edit_permission',
+            $this->object->getRefId()
+        )
+        ) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
-                array(),
-                'ilpermissiongui'
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"),
+                [],
+                ilPermissionGUI::class
             );
         }
     }
 
-    /**
-     * called by prepare output
-     */
     public function setTitleAndDescription() : void
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());
     }
 
-    /**
-     * Initializes the settings form.
-     */
     private function initSettingsForm() : ilPropertyFormGUI
     {
         $permission_to_write = $this->hasUserPermissionTo('write');
@@ -157,13 +158,15 @@ class ilObjFileServicesGUI extends ilObjectGUI
 
         // default positive list
         $ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_default_positive"), "");
-        $ne->setValue(implode(", ", ilFileUtils::getDefaultValidExtensionWhiteList()));
+        $ne->setValue(implode(", ", $this->file_service_settings->getDefaultWhitelist()));
         $ne->setInfo($this->lng->txt("file_suffix_default_positive_info"));
         $form->addItem($ne);
 
         // file suffix custom negative list
-        $ta = new ilTextAreaInputGUI($this->lng->txt(
-            "file_suffix_custom_negative"),
+        $ta = new ilTextAreaInputGUI(
+            $this->lng->txt(
+                "file_suffix_custom_negative"
+            ),
             "suffix_repl_additional"
         );
         $ta->setInfo($this->lng->txt("file_suffix_custom_negative_info"));
@@ -172,8 +175,10 @@ class ilObjFileServicesGUI extends ilObjectGUI
         $form->addItem($ta);
 
         // file suffix custom positive list
-        $ta = new ilTextAreaInputGUI($this->lng->txt(
-            "file_suffix_custom_positive"),
+        $ta = new ilTextAreaInputGUI(
+            $this->lng->txt(
+                "file_suffix_custom_positive"
+            ),
             "suffix_custom_white_list"
         );
         $ta->setInfo($this->lng->txt("file_suffix_custom_positive_info"));
@@ -183,7 +188,7 @@ class ilObjFileServicesGUI extends ilObjectGUI
 
         // resulting overall positive list
         $ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_overall_positive"), "");
-        $ne->setValue(implode(", ", ilFileUtils::getValidExtensions()));
+        $ne->setValue(implode(", ", $this->file_service_settings->getWhiteListedSuffixes()));
         $ne->setInfo($this->lng->txt("file_suffix_overall_positive_info"));
         $form->addItem($ne);
 
@@ -206,9 +211,6 @@ class ilObjFileServicesGUI extends ilObjectGUI
         return $form;
     }
 
-    /**
-     * Edit settings.
-     */
     protected function editSettings() : void
     {
         $this->tabs_gui->setTabActive('settings');
@@ -219,31 +221,35 @@ class ilObjFileServicesGUI extends ilObjectGUI
         $form = $this->initSettingsForm();
 
         // set current values
-        $val = array();
-        $val["suffix_repl_additional"] = $this->settings->get("suffix_repl_additional");
-        $val["suffix_custom_white_list"] = $this->settings->get("suffix_custom_white_list");
-        $val["suffix_custom_expl_black"] = $this->settings->get("suffix_custom_expl_black");
+        $val = [];
+        $val["suffix_repl_additional"] = implode(", ", $this->file_service_settings->getWhiteListNegative());
+        $val["suffix_custom_white_list"] = implode(", ", $this->file_service_settings->getWhiteListPositive());
+        $val["suffix_custom_expl_black"] = implode(", ", $this->file_service_settings->getProhibited());
         $form->setValuesByArray($val);
 
         // set content
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Save settings
-     */
-    protected function saveSettings():void
+    protected function saveSettings() : void
     {
         $this->checkPermissionOrFail("write");
 
         // get form
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
-            $this->settings->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
-            $this->settings->set("suffix_custom_white_list", $_POST["suffix_custom_white_list"]);
-            $this->settings->set("suffix_custom_expl_black", $_POST["suffix_custom_expl_black"]);
+            $trafo = function (string $id) : ?string {
+                return $this->http->post()->has($id)
+                    ? $this->http->post()->retrieve($id, $this->refinery->to()->string())
+                    : null;
+            };
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+
+            $this->settings->set("suffix_repl_additional", $trafo("suffix_repl_additional"));
+            $this->settings->set("suffix_custom_white_list", $trafo("suffix_custom_white_list"));
+            $this->settings->set("suffix_custom_expl_black", $trafo("suffix_custom_expl_black"));
+
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
         } else {
             $form->setValuesByPost();

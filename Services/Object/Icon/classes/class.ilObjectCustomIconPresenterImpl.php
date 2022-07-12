@@ -1,34 +1,35 @@
-<?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * Class ilObjectCustomIconPresenter
- */
-class ilObjectCustomIconPresenterImpl implements \ilObjectCustomIconPresenter
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+class ilObjectCustomIconPresenterImpl implements ilObjectCustomIconPresenter
 {
-    /** @var \ilObjectCustomIcon */
-    private $icon = null;
+    private ilObjectCustomIcon $icon;
 
-    /**
-     * ilObjectCustomIconPresenter constructor.
-     * @param ilObjectCustomIcon $icon
-     */
-    public function __construct(\ilObjectCustomIcon $icon)
+    public function __construct(ilObjectCustomIcon $icon)
     {
         $this->icon = $icon;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function exists() : bool
     {
         return $this->icon->exists();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFullPath() : string
     {
         return $this->icon->getFullPath();

@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
@@ -17,26 +31,12 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     use ComponentHelper;
     use HasViewControls;
 
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var \ILIAS\UI\Component\Dropdown\Standard
-     */
-    protected $actions = null;
-
-
-    /**
-     * @var null|\ILIAS\UI\Component\Button\Shy
-     */
-    protected $footer_component = null;
+    protected string $title;
+    protected ?C\Dropdown\Standard $actions = null;
+    protected ?C\Button\Shy $footer_component = null;
 
     /**
      * Gets the secondary panel title
-     *
-     * @return string
      */
     public function getTitle() : string
     {
@@ -45,8 +45,6 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 
     /**
      * Sets the action drop down to be displayed on the right of the title
-     * @param C\Dropdown\Standard $actions
-     * @return Secondary
      */
     public function withActions(C\Dropdown\Standard $actions) : C\Panel\Secondary\Secondary
     {
@@ -57,7 +55,6 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 
     /**
      * Gets the action drop down to be displayed on the right of the title
-     * @return C\Dropdown\Standard | null
      */
     public function getActions() : ?C\Dropdown\Standard
     {

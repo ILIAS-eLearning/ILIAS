@@ -1,6 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * XML writer for folders
@@ -9,68 +20,42 @@
  */
 class ilFolderXmlWriter extends ilXmlWriter
 {
-    private $add_header = true;
-    
-    private $obj_id = 0;
-    private $folder = null;
+    private bool $add_header;
+    private int $obj_id = 0;
+    private ?ilObject $folder = null;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_add_header)
+    public function __construct(bool $a_add_header)
     {
         $this->add_header = $a_add_header;
         parent::__construct();
     }
     
-    /**
-     * Set obj_id of weblink object
-     * @param int obj_id
-     * @return bool
-     */
-    public function setObjId($a_obj_id)
+    public function setObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
     }
     
-    /**
-     * Write XML
-     * @return
-     * @throws UnexpectedValueException Thrown if obj_id is not of type webr or no obj_id is given
-     */
-    public function write()
+    public function write() : void
     {
         $this->init();
         if ($this->add_header) {
             $this->buildHeader();
         }
-        $this->xmlStartTag('Folder', array('Id' => $this->folder->getId()));
-        $this->xmlElement('Title', array(), $this->folder->getTitle());
-        $this->xmlElement('Description', array(), $this->folder->getDescription());
+        $this->xmlStartTag('Folder', ['Id' => $this->folder->getId()]);
+        $this->xmlElement('Title', [], $this->folder->getTitle());
+        $this->xmlElement('Description', [], $this->folder->getDescription());
         ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->obj_id);
         $this->xmlEndTag('Folder');
     }
     
-    /**
-     * Build XML header
-     * @return
-     */
-    protected function buildHeader()
+    protected function buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_fold_4_5.dtd\">");
         $this->xmlSetGenCmt("Export of a ILIAS Folder");
         $this->xmlHeader();
-
-        return true;
     }
     
-    
-    /**
-     * Init xml writer
-     * @return bool
-     * @throws UnexpectedValueException Thrown if obj_id is not of type webr
-     */
-    protected function init()
+    protected function init() : void
     {
         $this->xmlClear();
         
@@ -80,7 +65,7 @@ class ilFolderXmlWriter extends ilXmlWriter
         if (!$this->folder = ilObjectFactory::getInstanceByObjId($this->obj_id, false)) {
             throw new UnexpectedValueException('Invalid obj_id given: ' . $this->obj_id);
         }
-        if ($this->folder->getType() != 'fold') {
+        if ($this->folder->getType() !== 'fold') {
             throw new UnexpectedValueException('Invalid obj_id given. Object is not of type folder');
         }
     }

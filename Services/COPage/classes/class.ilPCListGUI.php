@@ -1,23 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCListGUI
  *
  * User Interface for LM List Editing
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCListGUI extends ilPageContentGUI
 {
+    protected ilPropertyFormGUI $form;
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -26,10 +41,7 @@ class ilPCListGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -39,48 +51,54 @@ class ilPCListGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
 
     /**
-    * insert new list form
-    */
-    public function insert()
+     * insert new list form
+     */
+    public function insert() : void
     {
         $this->displayValidationError();
-        
         $this->initListForm("create");
         $this->tpl->setContent($this->form->getHTML());
     }
 
 
     /**
-    * Save list
-    */
-    public function create()
+     * Save list
+     */
+    public function create() : void
     {
         $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-    
+
         $this->initListForm("create");
         if ($this->form->checkInput()) {
             $this->content_obj = new ilPCList($this->getPage());
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-            $this->content_obj->addItems($_POST["nr_items"]);
-            $this->content_obj->setStartValue($_POST["start_value"]);
-            $this->content_obj->setListType($_POST["list_type"]);
-            if ($_POST["list_type"] == "Unordered") {
+            $this->content_obj->addItems($this->form->getInput("nr_items"));
+            $this->content_obj->setStartValue(
+                (int) $this->form->getInput("start_value")
+            );
+            $list_type = $this->form->getInput("list_type");
+            $this->content_obj->setListType(
+                $list_type
+            );
+            if ($list_type == "Unordered") {
                 $this->content_obj->setNumberingType("");
-                $this->content_obj->setStyleClass($_POST["bullet_style"]);
+                $this->content_obj->setStyleClass(
+                    $this->form->getInput("bullet_style")
+                );
             } else {
-                $this->content_obj->setNumberingType($_POST["numbering_type"]);
-                $this->content_obj->setStyleClass($_POST["number_style"]);
+                $this->content_obj->setNumberingType(
+                    $this->form->getInput("numbering_type")
+                );
+                $this->content_obj->setStyleClass(
+                    $this->form->getInput("number_style")
+                );
             }
             $this->updated = $this->pg_obj->update();
             if ($this->updated === true) {
@@ -88,40 +106,48 @@ class ilPCListGUI extends ilPageContentGUI
             }
         }
         $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
+        $tpl->setContent($this->form->getHTML());
     }
     
     /**
-    * edit properties form
-    */
-    public function edit()
+     * edit properties form
+     */
+    public function edit() : void
     {
         $this->displayValidationError();
-        
         $this->initListForm("edit");
         $this->getValues();
         $this->tpl->setContent($this->form->getHTML());
     }
 
     /**
-    * Save properties
-    */
-    public function saveProperties()
+     * Save properties
+     */
+    public function saveProperties() : void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         
         $this->initListForm("edit");
         if ($this->form->checkInput()) {
-            $this->content_obj->setStartValue($_POST["start_value"]);
-            $this->content_obj->setListType($_POST["list_type"]);
-            if ($_POST["list_type"] == "Unordered") {
+            $this->content_obj->setStartValue(
+                $this->form->getInput("start_value")
+            );
+            $list_type = $this->form->getInput("list_type");
+            $this->content_obj->setListType(
+                $list_type
+            );
+            if ($list_type == "Unordered") {
                 $this->content_obj->setNumberingType("");
-                $this->content_obj->setStyleClass($_POST["bullet_style"]);
+                $this->content_obj->setStyleClass(
+                    $this->form->getInput("bullet_style")
+                );
             } else {
-                $this->content_obj->setNumberingType($_POST["numbering_type"]);
-                $this->content_obj->setStyleClass($_POST["number_style"]);
+                $this->content_obj->setNumberingType(
+                    $this->form->getInput("numbering_type")
+                );
+                $this->content_obj->setStyleClass(
+                    $this->form->getInput("number_style")
+                );
             }
             
             $this->updated = $this->pg_obj->update();
@@ -130,16 +156,12 @@ class ilPCListGUI extends ilPageContentGUI
             }
         }
         $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
+        $tpl->setContent($this->form->getHTML());
     }
     
-    /**
-    * Init list form.
-    *
-    * @param        int        $a_mode        Edit Mode
-    */
-    public function initListForm($a_mode = "edit")
-    {
+    public function initListForm(
+        string $a_mode = "edit"
+    ) : void {
         $lng = $this->lng;
         $this->form = new ilPropertyFormGUI();
     
@@ -152,7 +174,7 @@ class ilPCListGUI extends ilPageContentGUI
             $this->lng->txt("cont_style"),
             "bullet_style"
         );
-        $this->getCharacteristicsOfCurrentStyle("list_u");
+        $this->getCharacteristicsOfCurrentStyle(["list_u"]);
         $options = $this->getCharacteristics();
         if ($a_mode == "edit" && $this->content_obj->getListType() == "Unordered"
                 && $this->content_obj->getStyleClass() != ""
@@ -183,7 +205,7 @@ class ilPCListGUI extends ilPageContentGUI
             $this->lng->txt("cont_style"),
             "number_style"
         );
-        $this->getCharacteristicsOfCurrentStyle("list_o");
+        $this->getCharacteristicsOfCurrentStyle(["list_o"]);
         $options = $this->getCharacteristics();
         if ($a_mode == "edit" && $this->content_obj->getListType() == "Ordered"
                 && $this->content_obj->getStyleClass() != ""
@@ -254,14 +276,8 @@ class ilPCListGUI extends ilPageContentGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
 
-    /**
-    * Get current values for list from
-    *
-    */
-    public function getValues()
+    public function getValues() : void
     {
-        $tpl = $this->tpl;
-        
         $values = array();
     
         $values["start_value"] = $this->content_obj->getStartValue();

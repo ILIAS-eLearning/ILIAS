@@ -1,40 +1,25 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-define('IL_LDAP_BIND_DEFAULT', 0);
-define('IL_LDAP_BIND_ADMIN', 1);
-define('IL_LDAP_BIND_TEST', 2);
-define('IL_LDAP_BIND_AUTH', 10);
+<?php declare(strict_types=1);
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesLDAP
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilLDAPQuery
 {
     public const LDAP_BIND_DEFAULT = 0;
@@ -42,112 +27,83 @@ class ilLDAPQuery
     public const LDAP_BIND_TEST = 2;
     public const LDAP_BIND_AUTH = 10;
 
-    /**
-     * @var string
-     * @deprecated with PHP 7.3 (LDAP_CONTROL_PAGEDRESULTS)
-     */
-    const IL_LDAP_CONTROL_PAGEDRESULTS = '1.2.840.113556.1.4.319';
+    private const IL_LDAP_SUPPORTED_CONTROL = 'supportedControl';
+    private const PAGINATION_SIZE = 100;
 
-    /**
-     * @var string
-     */
-    const IL_LDAP_SUPPORTED_CONTROL = 'supportedControl';
+    private string $ldap_server_url;
+    private ilLDAPServer $settings;
 
-    /**
-     * @var int
-     */
-    const PAGINATION_SIZE = 100;
+    private ilLogger $logger;
 
-    private $ldap_server_url = null;
-    private $settings = null;
-    
-    /**
-     * @var ilLogger
-     */
-    private $log = null;
-    
-    private $user_fields = array();
+    private ilLDAPAttributeMapping $mapping;
+
+    private array $user_fields = [];
+    private array $users = [];
 
     /**
      * LDAP Handle
      * @var resource
      */
     private $lh;
-    
+
     /**
-     * Constructur
-     *
-     * @access private
-     * @param object ilLDAPServer or subclass
      * @throws ilLDAPQueryException
-     *
      */
-    public function __construct(ilLDAPServer $a_server, $a_url = '')
+    public function __construct(ilLDAPServer $a_server, string $a_url = '')
     {
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
+
         $this->settings = $a_server;
-        
-        if (strlen($a_url)) {
+
+        if ($a_url !== '') {
             $this->ldap_server_url = $a_url;
         } else {
             $this->ldap_server_url = $this->settings->getUrl();
         }
-        
+
         $this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->settings->getServerId());
-        $this->log = $GLOBALS['DIC']->logger()->auth();
-        
+
         $this->fetchUserProfileFields();
         $this->connect();
     }
-    
-    // begin-patch ldap_multiple
+
     /**
      * Get server
-     * @return ilLDAPServer
      */
-    public function getServer()
+    public function getServer() : ilLDAPServer
     {
         return $this->settings;
     }
-    
-    /**
-     * Get logger
-     * @return ilLogger
-     */
-    public function getLogger()
-    {
-        return $this->log;
-    }
-    
+
     /**
      * Get one user by login name
      *
-     * @access public
-     * @param string login name
+     * @param string $a_name login name
      * @return array of user data
      */
-    public function fetchUser($a_name)
+    public function fetchUser(string $a_name) : array
     {
         if (!$this->readUserData($a_name)) {
-            return array();
-        } else {
-            return $this->users;
+            return [];
         }
+
+        return $this->users;
     }
-    
-    
+
+
     /**
      * Fetch all users
      *
-     * @access public
      * @return array array of user data
      */
-    public function fetchUsers()
+    public function fetchUsers() : array
     {
         // First of all check if a group restriction is enabled
         // YES: => fetch all group members
         // No:  => fetch all users
-        if (strlen($this->settings->getGroupName())) {
-            $this->log->debug('Searching for group members.');
+        if ($this->settings->getGroupName() !== '') {
+            $this->logger->debug('Searching for group members.');
 
             $groups = $this->settings->getGroupNames();
             if (count($groups) <= 1) {
@@ -158,26 +114,19 @@ class ilLDAPQuery
                 }
             }
         }
-        if (!strlen($this->settings->getGroupName()) or $this->settings->isMembershipOptional()) {
-            $this->log->info('Start reading all users...');
+        if ($this->settings->getGroupName() === '' || $this->settings->isMembershipOptional()) {
+            $this->logger->info('Start reading all users...');
             $this->readAllUsers();
             #throw new ilLDAPQueryException('LDAP: Called import of users without specifying group restrictions. NOT IMPLEMENTED YET!');
         }
-        return $this->users ? $this->users : array();
+        return $this->users;
     }
-    
+
     /**
      * Perform a query
-     *
-     * @access public
-     * @param string search base
-     * @param string filter
-     * @param int scope
-     * @param array attributes
-     * @return object ilLDAPResult
      * @throws ilLDAPQueryException
      */
-    public function query($a_search_base, $a_filter, $a_scope, $a_attributes)
+    public function query(string $a_search_base, string $a_filter, int $a_scope, array $a_attributes) : ilLDAPResult
     {
         $res = $this->queryByScope($a_scope, $a_search_base, $a_filter, $a_attributes);
         if ($res === false) {
@@ -189,59 +138,56 @@ class ilLDAPQuery
                     $a_scope
                 ));
         }
+
         return (new ilLDAPResult($this->lh, $res))->run();
     }
-    
+
     /**
      * Add value to an existing attribute
      *
-     * @access public
      * @throws ilLDAPQueryException
      */
-    public function modAdd($a_dn, $a_attribute)
+    public function modAdd(string $a_dn, array $a_attribute) : bool
     {
-        if (@ldap_mod_add($this->lh, $a_dn, $a_attribute)) {
+        if (ldap_mod_add($this->lh, $a_dn, $a_attribute)) {
             return true;
         }
+
         throw new ilLDAPQueryException(__METHOD__ . ' ' . ldap_error($this->lh));
     }
-    
+
     /**
      * Delete value from an existing attribute
      *
-     * @access public
      * @throws ilLDAPQueryException
      */
-    public function modDelete($a_dn, $a_attribute)
+    public function modDelete(string $a_dn, array $a_attribute) : bool
     {
-        if (@ldap_mod_del($this->lh, $a_dn, $a_attribute)) {
+        if (ldap_mod_del($this->lh, $a_dn, $a_attribute)) {
             return true;
         }
         throw new ilLDAPQueryException(__METHOD__ . ' ' . ldap_error($this->lh));
     }
-    
+
     /**
      * Fetch all users
      * This function splits the query to filters like e.g (uid=a*) (uid=b*)...
      * This avoids AD page_size_limit
-     *
-     * @access public
-     *
      */
-    private function readAllUsers()
+    private function readAllUsers() : void
     {
         // Build search base
-        if (($dn = $this->settings->getSearchBase()) && substr($dn, -1) != ',') {
+        $this->logger->debug($this->settings->getSearchBase());
+        $this->logger->debug($this->settings->getBaseDN());
+        if (($dn = $this->settings->getSearchBase()) && substr($dn, -1) !== ',') {
             $dn .= ',';
         }
         $dn .= $this->settings->getBaseDN();
-        $tmp_result = null;
-
         if ($this->checkPaginationEnabled()) {
             try {
                 $tmp_result = $this->runReadAllUsersPaged($dn);
             } catch (ilLDAPPagingException $e) {
-                $this->log->warning('Using LDAP with paging failed. Trying to use fallback.');
+                $this->logger->warning('Using LDAP with paging failed. Trying to use fallback.');
                 $tmp_result = $this->runReadAllUsersPartial($dn);
             }
         } else {
@@ -249,104 +195,101 @@ class ilLDAPQuery
         }
 
         if (!$tmp_result->numRows()) {
-            $this->log->notice('No users found. Aborting.');
+            $this->logger->notice('No users found. Aborting.');
         }
-        $this->log->info('Found ' . $tmp_result->numRows() . ' users.');
+        $this->logger->info('Found ' . $tmp_result->numRows() . ' users.');
         $attribute = strtolower($this->settings->getUserAttribute());
         foreach ($tmp_result->getRows() as $data) {
             if (isset($data[$attribute])) {
-                $this->readUserData($data[$attribute], false, false);
+                $this->readUserData($data[$attribute]);
             } else {
-                $this->log->warning('Unknown error. No user attribute found.');
+                $this->logger->warning('Unknown error. No user attribute found.');
             }
         }
         unset($tmp_result);
-
-        return true;
     }
 
     /**
      * read all users with ldap paging
      *
-     * @param string $dn
-     * @return ilLDAPResult
      * @throws ilLDAPPagingException
      */
-    private function runReadAllUsersPaged($dn)
+    private function runReadAllUsersPaged(string $dn) : ilLDAPResult
     {
         $filter = '(&' . $this->settings->getFilter();
         $filter .= ('(' . $this->settings->getUserAttribute() . '=*))');
-        $this->log->info('Searching with ldap search and filter ' . $filter . ' in ' . $dn);
+        $this->logger->info('Searching with ldap search and filter ' . $filter . ' in ' . $dn);
 
         $tmp_result = new ilLDAPResult($this->lh);
         $cookie = '';
         $estimated_results = 0;
         do {
-            try {
-                $res = ldap_control_paged_result($this->lh, self::PAGINATION_SIZE, true, $cookie);
-                if ($res === false) {
-                    throw new ilLDAPPagingException('Result pagination failed.');
-                }
-
-            } catch (Exception $e) {
-                $this->log->warning('Result pagination failed with message: ' . $e->getMessage());
-                throw new ilLDAPPagingException($e->getMessage());
-            }
-
+            // Setup our paged results control.
+            $controls = [
+                LDAP_CONTROL_PAGEDRESULTS => [
+                    'oid' => LDAP_CONTROL_PAGEDRESULTS,
+                    'isCritical' => true,
+                    'value' => [
+                        'size' => self::PAGINATION_SIZE,
+                        'cookie' => $cookie,
+                    ],
+                ],
+            ];
             $res = $this->queryByScope(
                 $this->settings->getUserScope(),
                 $dn,
                 $filter,
-                array($this->settings->getUserAttribute())
+                array($this->settings->getUserAttribute()),
+                $controls
             );
+
             $tmp_result->setResult($res);
             $tmp_result->run();
             try {
-                ldap_control_paged_result_response($this->lh, $res, $cookie, $estimated_results);
-                $this->log->debug('Estimated number of results: ' . $estimated_results);
+                $errcode = 0;
+                $dn = '';
+                $errmsg = '';
+                $referrals = [];
+                ldap_parse_result($this->lh, $res, $errcode, $dn, $errmsg, $referrals, $controls);
+                $cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
+                $this->logger->debug('Estimated number of results: ' . $estimated_results);
             } catch (Exception $e) {
-                $this->log->warning('Result pagination failed with message: ' . $e->getMessage());
+                $this->logger->warning('Result pagination failed with message: ' . $e->getMessage());
                 throw new ilLDAPPagingException($e->getMessage());
             }
-        } while ($cookie !== null && $cookie != '');
+        } while (!empty($cookie));
 
         // finally reset cookie
-        ldap_control_paged_result($this->lh, 10000, false, $cookie);
         return $tmp_result;
     }
 
     /**
-     * read all users partial by alphabet
-     *
+     * Read all users partial by alphabet
      * @param string $dn
      * @return ilLDAPResult
      */
-    private function runReadAllUsersPartial($dn)
+    private function runReadAllUsersPartial(string $dn) : ilLDAPResult
     {
         $filter = $this->settings->getFilter();
-        $page_filter = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-');
-        $chars = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+        $page_filter = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '-');
+        $chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
         $tmp_result = new ilLDAPResult($this->lh);
 
         foreach ($page_filter as $letter) {
             $new_filter = '(&';
             $new_filter .= $filter;
 
-            switch ($letter) {
-                case '-':
-                    $new_filter .= ('(!(|');
-                    foreach ($chars as $char) {
-                        $new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $char . '*)');
-                    }
-                    $new_filter .= ')))';
-                    break;
-
-                default:
-                    $new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $letter . '*))');
-                    break;
+            if ($letter === '-') {
+                $new_filter .= ('(!(|');
+                foreach ($chars as $char) {
+                    $new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $char . '*)');
+                }
+                $new_filter .= ')))';
+            } else {
+                $new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $letter . '*))');
             }
 
-            $this->log->info('Searching with ldap search and filter ' . $new_filter . ' in ' . $dn);
+            $this->logger->info('Searching with ldap search and filter ' . $new_filter . ' in ' . $dn);
             $res = $this->queryByScope(
                 $this->settings->getUserScope(),
                 $dn,
@@ -366,34 +309,34 @@ class ilLDAPQuery
      * @param array user data
      * @return bool
      */
-    public function checkGroupMembership($a_ldap_user_name, $ldap_user_data)
+    public function checkGroupMembership(string $a_ldap_user_name, array $ldap_user_data) : bool
     {
         $group_names = $this->getServer()->getGroupNames();
-        
+
         if (!count($group_names)) {
-            $this->getLogger()->debug('No LDAP group restrictions found');
+            $this->logger->debug('No LDAP group restrictions found');
             return true;
         }
-        
+
         $group_dn = $this->getServer()->getGroupDN();
         if (
             $group_dn &&
-            (substr($group_dn, -1) != ',')
+            (substr($group_dn, -1) !== ',')
         ) {
             $group_dn .= ',';
         }
         $group_dn .= $this->getServer()->getBaseDN();
-        
+
         foreach ($group_names as $group) {
             $user = $a_ldap_user_name;
             if ($this->getServer()->enabledGroupMemberIsDN()) {
                 if ($this->getServer()->enabledEscapeDN()) {
                     $user = ldap_escape($ldap_user_data['dn'], "", LDAP_ESCAPE_FILTER);
                 } else {
-                $user = $ldap_user_data['dn'];
+                    $user = $ldap_user_data['dn'];
+                }
             }
-            }
-            
+
             $filter = sprintf(
                 '(&(%s=%s)(%s=%s)%s)',
                 $this->getServer()->getGroupAttribute(),
@@ -402,53 +345,50 @@ class ilLDAPQuery
                 $user,
                 $this->getServer()->getGroupFilter()
             );
-            $this->getLogger()->debug('Current group search base: ' . $group_dn);
-            $this->getLogger()->debug('Current group filter: ' . $filter);
-            
+            $this->logger->debug('Current group search base: ' . $group_dn);
+            $this->logger->debug('Current group filter: ' . $filter);
+
             $res = $this->queryByScope(
                 $this->getServer()->getGroupScope(),
                 $group_dn,
                 $filter,
                 [$this->getServer()->getGroupMember()]
             );
-            
-            $this->getLogger()->dump($res);
-            
+
+            $this->logger->dump($res);
+
             $tmp_result = new ilLDAPResult($this->lh, $res);
             $tmp_result->run();
             $group_result = $tmp_result->getRows();
-            
-            $this->getLogger()->debug('Group query returned: ');
-            $this->getLogger()->dump($group_result, ilLogLevel::DEBUG);
-            
+
+            $this->logger->debug('Group query returned: ');
+            $this->logger->dump($group_result, ilLogLevel::DEBUG);
+
             if (count($group_result)) {
                 return true;
             }
         }
-        
+
         // group restrictions failed check optional membership
         if ($this->getServer()->isMembershipOptional()) {
-            $this->getLogger()->debug('Group restrictions failed, checking user filter.');
+            $this->logger->debug('Group restrictions failed, checking user filter.');
             if ($this->readUserData($a_ldap_user_name, true, true)) {
-                $this->getLogger()->debug('User filter matches.');
+                $this->logger->debug('User filter matches.');
                 return true;
             }
         }
-        $this->getLogger()->debug('Group restrictions failed.');
+        $this->logger->debug('Group restrictions failed.');
         return false;
     }
-    
+
 
     /**
      * Fetch group member ids
-     *
-     * @access public
-     *
      */
-    private function fetchGroupMembers($a_name = '')
+    private function fetchGroupMembers(string $a_name = '') : void
     {
-        $group_name = strlen($a_name) ? $a_name : $this->settings->getGroupName();
-        
+        $group_name = $a_name !== '' ? $a_name : $this->settings->getGroupName();
+
         // Build filter
         $filter = sprintf(
             '(&(%s=%s)%s)',
@@ -456,39 +396,39 @@ class ilLDAPQuery
             $group_name,
             $this->settings->getGroupFilter()
         );
-        
-        
+
+
         // Build search base
-        if (($gdn = $this->settings->getGroupDN()) && substr($gdn, -1) != ',') {
+        if (($gdn = $this->settings->getGroupDN()) && substr($gdn, -1) !== ',') {
             $gdn .= ',';
         }
         $gdn .= $this->settings->getBaseDN();
-        
-        $this->log->debug('Using filter ' . $filter);
-        $this->log->debug('Using DN ' . $gdn);
+
+        $this->logger->debug('Using filter ' . $filter);
+        $this->logger->debug('Using DN ' . $gdn);
         $res = $this->queryByScope(
             $this->settings->getGroupScope(),
             $gdn,
             $filter,
             array($this->settings->getGroupMember())
         );
-            
+
         $tmp_result = new ilLDAPResult($this->lh, $res);
         $tmp_result->run();
         $group_data = $tmp_result->getRows();
-        
-        
+
+
         if (!$tmp_result->numRows()) {
-            $this->log->info('No group found.');
-            return false;
+            $this->logger->info('No group found.');
+            return;
         }
-                
+
         $attribute_name = strtolower($this->settings->getGroupMember());
-        
+
         // All groups
         foreach ($group_data as $data) {
             if (is_array($data[$attribute_name])) {
-	            $this->log->debug('Found ' . count($data[$attribute_name]) . ' group members for group ' . $data['dn']);
+                $this->logger->debug('Found ' . count($data[$attribute_name]) . ' group members for group ' . $data['dn']);
                 foreach ($data[$attribute_name] as $name) {
                     $this->readUserData($name, true, true);
                 }
@@ -497,31 +437,26 @@ class ilLDAPQuery
             }
         }
         unset($tmp_result);
-        return;
     }
-    
+
     /**
      * Read user data
-     * @param bool check dn
-     * @param bool use group filter
-     * @access private
+     * @param bool $a_check_dn check dn
+     * @param bool $a_try_group_user_filter use group filter
      */
-    private function readUserData($a_name, $a_check_dn = false, $a_try_group_user_filter = false)
+    private function readUserData(string $a_name, bool $a_check_dn = false, bool $a_try_group_user_filter = false) : bool
     {
         $filter = $this->settings->getFilter();
-        if ($a_try_group_user_filter) {
-            if ($this->settings->isMembershipOptional()) {
-                $filter = $this->settings->getGroupUserFilter();
-            }
+        if ($a_try_group_user_filter && $this->settings->isMembershipOptional()) {
+            $filter = $this->settings->getGroupUserFilter();
         }
-        
+
         // Build filter
-        if ($this->settings->enabledGroupMemberIsDN() and $a_check_dn) {
+        if ($a_check_dn && $this->settings->enabledGroupMemberIsDN()) {
             $dn = $a_name;
-            #$res = $this->queryByScope(IL_LDAP_SCOPE_BASE,$dn,$filter,$this->user_fields);
 
             $fields = array_merge($this->user_fields, array('useraccountcontrol'));
-            $res = $this->queryByScope(IL_LDAP_SCOPE_BASE, strtolower($dn), $filter, $fields);
+            $res = $this->queryByScope(ilLDAPServer::LDAP_SCOPE_BASE, strtolower($dn), $filter, $fields);
         } else {
             $filter = sprintf(
                 '(&(%s=%s)%s)',
@@ -531,38 +466,36 @@ class ilLDAPQuery
             );
 
             // Build search base
-            if (($dn = $this->settings->getSearchBase()) && substr($dn, -1) != ',') {
+            if (($dn = $this->settings->getSearchBase()) && substr($dn, -1) !== ',') {
                 $dn .= ',';
             }
             $dn .= $this->settings->getBaseDN();
             $fields = array_merge($this->user_fields, array('useraccountcontrol'));
             $res = $this->queryByScope($this->settings->getUserScope(), strtolower($dn), $filter, $fields);
         }
-        
-        
+
+
         $tmp_result = new ilLDAPResult($this->lh, $res);
         $tmp_result->run();
         if (!$tmp_result->numRows()) {
-            $this->log->info('LDAP: No user data found for: ' . $a_name);
+            $this->logger->info('LDAP: No user data found for: ' . $a_name);
             unset($tmp_result);
             return false;
         }
-        
+
         if ($user_data = $tmp_result->get()) {
-            if (isset($user_data['useraccountcontrol'])) {
-                if (($user_data['useraccountcontrol'] & 0x02)) {
-                    $this->log->notice('LDAP: ' . $a_name . ' account disabled.');
-                    return;
-                }
+            if (isset($user_data['useraccountcontrol']) && ($user_data['useraccountcontrol'] & 0x02)) {
+                $this->logger->notice('LDAP: ' . $a_name . ' account disabled.');
+                return false;
             }
-            
+
             $account = $user_data[strtolower($this->settings->getUserAttribute())];
             if (is_array($account)) {
                 $user_ext = strtolower(array_shift($account));
             } else {
                 $user_ext = strtolower($account);
             }
-            
+
             // auth mode depends on ldap server settings
             $auth_mode = $this->settings->getAuthenticationMappingKey();
             $user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount($auth_mode, $user_ext);
@@ -572,66 +505,55 @@ class ilLDAPQuery
     }
 
     /**
-     * Parse authentication mode
-     * @return string auth mode
-     */
-    private function parseAuthMode()
-    {
-        return $this->settings->getAuthenticationMappingKey();
-    }
-    
-    /**
      * Query by scope
      * IL_SCOPE_SUB => ldap_search
      * IL_SCOPE_ONE => ldap_list
-     *
-     * @access private
-     * @param
-     *
+     * @param array|null $controls LDAP Control to be passed on the the ldap functions
+     * @return resource|null
      */
-    private function queryByScope($a_scope, $a_base_dn, $a_filter, $a_attributes)
+    private function queryByScope(int $a_scope, string $a_base_dn, string $a_filter, array $a_attributes, array $controls = null)
     {
-        $a_filter = $a_filter ? $a_filter : "(objectclass=*)";
+        $a_filter = $a_filter ?: "(objectclass=*)";
 
         switch ($a_scope) {
-            case IL_LDAP_SCOPE_SUB:
-                $res = @ldap_search($this->lh, $a_base_dn, $a_filter, $a_attributes);
+            case ilLDAPServer::LDAP_SCOPE_SUB:
+                $res = ldap_search($this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
                 break;
-                
-            case IL_LDAP_SCOPE_ONE:
-                $res = @ldap_list($this->lh, $a_base_dn, $a_filter, $a_attributes);
-                break;
-            
-            case IL_LDAP_SCOPE_BASE:
 
-                $res = @ldap_read($this->lh, $a_base_dn, $a_filter, $a_attributes);
+            case ilLDAPServer::LDAP_SCOPE_ONE:
+                $res = ldap_list($this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
+                break;
+
+            case ilLDAPServer::LDAP_SCOPE_BASE:
+                $res = ldap_read($this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
                 break;
 
             default:
-                $this->log->warning("LDAP: LDAPQuery: Unknown search scope");
+                throw new ilLDAPUndefinedScopeException(
+                    "Undefined LDAP Search Scope: " . $a_scope
+                );
         }
-        
-        $error = ldap_error($this->lh);
-        if (strcmp('Success', $error) !== 0) {
-            $this->getLogger()->warning($error);
-            $this->getLogger()->warning('Base DN:' . $a_base_dn);
-            $this->getLogger()->warning('Filter: ' . $a_filter);
+
+        $error = ldap_errno($this->lh);
+        if ($error) {
+            $this->logger->warning("LDAP Error Code: " . $error . "(" . ldap_err2str($error) . ")");
+            $this->logger->warning('Base DN:' . $a_base_dn);
+            $this->logger->warning('Filter: ' . $a_filter);
         }
-        
-        return $res;
+
+        return $res ?? null;
     }
-    
+
     /**
      * Connect to LDAP server
      *
-     * @access private
      * @throws ilLDAPQueryException
      *
      */
-    private function connect()
+    private function connect() : void
     {
-        $this->lh = @ldap_connect($this->ldap_server_url);
-        
+        $this->lh = ldap_connect($this->ldap_server_url);
+
         // LDAP Connect
         if (!$this->lh) {
             throw new ilLDAPQueryException("LDAP: Cannot connect to LDAP Server: " . $this->settings->getUrl());
@@ -645,94 +567,81 @@ class ilLDAPQuery
             if (!ldap_set_option($this->lh, LDAP_OPT_REFERRALS, true)) {
                 throw new ilLDAPQueryException("LDAP: Cannot switch on LDAP referrals");
             }
-            #@ldap_set_rebind_proc($this->lh,'referralRebind');
         } else {
             ldap_set_option($this->lh, LDAP_OPT_REFERRALS, false);
-            $this->log->debug('Switching referrals to false.');
+            $this->logger->debug('Switching referrals to false.');
         }
         // Start TLS
-        if ($this->settings->isActiveTLS()) {
-            if (!ldap_start_tls($this->lh)) {
-                throw new ilLDAPQueryException("LDAP: Cannot start LDAP TLS");
-            }
+        if ($this->settings->isActiveTLS() && !ldap_start_tls($this->lh)) {
+            throw new ilLDAPQueryException("LDAP: Cannot start LDAP TLS");
         }
     }
-    
+
     /**
      * Bind to LDAP server
      *
      * @access public
-     * @param int binding_type IL_LDAP_BIND_DEFAULT || IL_LDAP_BIND_ADMIN
+     * @param int binding_type ilLDAPQuery::LDAP_BIND_DEFAULT || ilLDAPQuery::LDAP_BIND_ADMIN
      * @throws ilLDAPQueryException on connection failure.
      *
      */
-    public function bind($a_binding_type = IL_LDAP_BIND_DEFAULT, $a_user_dn = '', $a_password = '')
+    public function bind(int $a_binding_type = ilLDAPQuery::LDAP_BIND_DEFAULT, string $a_user_dn = '', string $a_password = '') : void
     {
         switch ($a_binding_type) {
-            case IL_LDAP_BIND_TEST:
+            /** @noinspection PhpMissingBreakStatementInspection */
+            case self::LDAP_BIND_TEST:
                 ldap_set_option($this->lh, LDAP_OPT_NETWORK_TIMEOUT, ilLDAPServer::DEFAULT_NETWORK_TIMEOUT);
-                // fall through
-                // no break
-            case IL_LDAP_BIND_DEFAULT:
+            // fall through
+            // no break
+            case self::LDAP_BIND_DEFAULT:
                 // Now bind anonymously or as user
                 if (
-                    IL_LDAP_BIND_USER == $this->settings->getBindingType() &&
-                    strlen($this->settings->getBindUser())
+                    ilLDAPServer::LDAP_BIND_USER === $this->settings->getBindingType() &&
+                    $this->settings->getBindUser() !== ''
                 ) {
                     $user = $this->settings->getBindUser();
                     $pass = $this->settings->getBindPassword();
 
-                    define('IL_LDAP_REBIND_USER', $user);
-                    define('IL_LDAP_REBIND_PASS', $pass);
-                    $this->log->debug('Bind as ' . $user);
+                    $this->logger->debug('Bind as ' . $user);
                 } else {
                     $user = $pass = '';
-                    $this->log->debug('Bind anonymous');
+                    $this->logger->debug('Bind anonymous');
                 }
                 break;
-                
-            case IL_LDAP_BIND_ADMIN:
+
+            case self::LDAP_BIND_ADMIN:
                 $user = $this->settings->getRoleBindDN();
                 $pass = $this->settings->getRoleBindPassword();
-                
-                if (!strlen($user) or !strlen($pass)) {
+
+                if ($user === '' || $pass === '') {
                     $user = $this->settings->getBindUser();
                     $pass = $this->settings->getBindPassword();
                 }
-
-                define('IL_LDAP_REBIND_USER', $user);
-                define('IL_LDAP_REBIND_PASS', $pass);
                 break;
-                
-            case IL_LDAP_BIND_AUTH:
-                $this->log->debug('Trying to bind as: ' . $a_user_dn);
+
+            case self::LDAP_BIND_AUTH:
+                $this->logger->debug('Trying to bind as: ' . $a_user_dn);
                 $user = $a_user_dn;
                 $pass = $a_password;
                 break;
-                
-                
+
+
             default:
                 throw new ilLDAPQueryException('LDAP: unknown binding type in: ' . __METHOD__);
         }
-        
-        if (!@ldap_bind($this->lh, $user, $pass)) {
+
+        if (!ldap_bind($this->lh, $user, $pass)) {
             throw new ilLDAPQueryException('LDAP: Cannot bind as ' . $user . ' with message: ' . ldap_err2str(ldap_errno($this->lh)) . ' Trying fallback...', ldap_errno($this->lh));
-        } else {
-            $this->log->debug('Bind successful.');
         }
+
+        $this->logger->debug('Bind successful.');
     }
-    
+
     /**
      * fetch required fields of user profile data
-     *
-     * @access private
-     * @param
-     *
      */
-    private function fetchUserProfileFields()
+    private function fetchUserProfileFields() : void
     {
-        include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php');
-        
         $this->user_fields = array_merge(
             array($this->settings->getUserAttribute()),
             array('dn'),
@@ -740,78 +649,42 @@ class ilLDAPQuery
             ilLDAPRoleAssignmentRules::getAttributeNames($this->getServer()->getServerId())
         );
     }
-    
-    
-    /**
-     * Unbind
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function unbind()
-    {
-        if ($this->lh) {
-            @ldap_unbind($this->lh);
-        }
-    }
-    
-    
+
     /**
      * Destructor unbind from ldap server
-     *
-     * @access private
-     * @param
-     *
      */
     public function __destruct()
     {
         if ($this->lh) {
-            @ldap_unbind($this->lh);
+            ldap_unbind($this->lh);
         }
     }
 
     /**
      * Check if pagination is enabled (rfc: 2696)
-     * @return bool
      */
     public function checkPaginationEnabled() : bool
     {
-        if ($this->getServer()->getVersion() != 3) {
-            $this->log->info('Pagination control unavailable for ldap v' . $this->getServer()->getVersion());
+        if ($this->getServer()->getVersion() !== 3) {
+            $this->logger->info('Pagination control unavailable for ldap v' . $this->getServer()->getVersion());
             return false;
         }
 
         $result = ldap_read($this->lh, '', '(objectClass=*)', [self::IL_LDAP_SUPPORTED_CONTROL]);
         if ($result === false) {
-            $this->log->warning('Failed to query for pagination control');
+            $this->logger->warning('Failed to query for pagination control');
             return false;
         }
         $entries = (array) (ldap_get_entries($this->lh, $result)[0] ?? []);
         if (
             array_key_exists(strtolower(self::IL_LDAP_SUPPORTED_CONTROL), $entries) &&
             is_array($entries[strtolower(self::IL_LDAP_SUPPORTED_CONTROL)]) &&
-            in_array(self::IL_LDAP_CONTROL_PAGEDRESULTS, $entries[strtolower(self::IL_LDAP_SUPPORTED_CONTROL)])
+            in_array(LDAP_CONTROL_PAGEDRESULTS, $entries[strtolower(self::IL_LDAP_SUPPORTED_CONTROL)], true)
         ) {
-            $this->log->info('Using paged control');
+            $this->logger->info('Using paged control');
             return true;
         }
-        $this->log->info('Paged control disabled');
+        $this->logger->info('Paged control disabled');
         return false;
-    }
-}
-
-function referralRebind($a_ds, $a_url)
-{
-    global $DIC;
-
-    $ilLog = $DIC['ilLog'];
-    
-    $ilLog->write('LDAP: Called referralRebind.');
-    
-    ldap_set_option($a_ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    
-    if (!ldap_bind($a_ds, IL_LDAP_REBIND_USER, IL_LDAP_REBIND_PASS)) {
-        $ilLog->write('LDAP: Rebind failed');
     }
 }

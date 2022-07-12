@@ -1,32 +1,43 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
-* TableGUI class for custom defined user fields
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesUser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * TableGUI class for custom defined user fields
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 {
-    private $confirm_change = false;
-    private $permissions; // [ilUDFPermissionHelper]
-    private $perm_map; // [array]
-    
+    private bool $confirm_change = false;
+    private ilClaimingPermissionHelper $permissions;
     /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilUDFPermissionHelper $a_permissions)
-    {
+     * @var array<string,int>
+     */
+    private array $perm_map;
+    protected \ILIAS\User\StandardGUIRequest $request;
+
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilClaimingPermissionHelper $a_permissions
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
         $lng = $DIC['lng'];
         
         $this->permissions = $a_permissions;
@@ -58,17 +69,21 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
         $this->setData($fds);
         $this->addCommandButton("updateFields", $lng->txt("save"));
         $this->addMultiCommand("askDeleteField", $lng->txt("delete"));
+        $this->request = new \ILIAS\User\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
-    
+
     /**
-    * Fill table row
-    */
-    protected function fillRow($a_set)
+     * @param array<string,string> $a_set
+     * @throws ilTemplateException
+     */
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
         $ilCtrl = $DIC['ilCtrl'];
         
         $field = $a_set["field_id"];
@@ -115,7 +130,9 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
                     ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
         )
         );
-    
+
+        $req_checked = $this->request->getChecked();
+
         foreach ($props as $prop => $lv) {
             $up_prop = strtoupper($prop);
 
@@ -134,7 +151,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
                     $checked = true;
                 }
                 if ($this->confirm_change == 1) {	// confirm value
-                    $checked = $_POST["chb"][$prop . "_" . $field];
+                    $checked = $req_checked[$prop . "_" . $field] ?? false;
                 }
     
                 if ($checked) {
@@ -168,7 +185,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_FIELD", $a_set["field_name"]);
     }
     
-    public function setConfirmChange()
+    public function setConfirmChange() : void
     {
         $this->confirm_change = true;
     }

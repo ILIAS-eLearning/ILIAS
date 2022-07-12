@@ -34,11 +34,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function getSourcePoolDefinitionByOriginalPoolData($originalPoolData)
+    public function getSourcePoolDefinitionByOriginalPoolData($originalPoolData) : ilTestRandomQuestionSetSourcePoolDefinition
     {
         $sourcePoolDefinition = $this->buildDefinitionInstance();
 
         $sourcePoolDefinition->setPoolId($originalPoolData['qpl_id']);
+        $sourcePoolDefinition->setPoolRefId($originalPoolData['qpl_ref_id']);
         $sourcePoolDefinition->setPoolTitle($originalPoolData['qpl_title']);
         $sourcePoolDefinition->setPoolPath($originalPoolData['qpl_path']);
         $sourcePoolDefinition->setPoolQuestionCount($originalPoolData['count']);
@@ -49,7 +50,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function getSourcePoolDefinitionByDefinitionId($definitionId)
+    public function getSourcePoolDefinitionByDefinitionId($definitionId) : ilTestRandomQuestionSetSourcePoolDefinition
     {
         $sourcePoolDefinition = $this->buildDefinitionInstance();
 
@@ -61,7 +62,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function getEmptySourcePoolDefinition()
+    public function getEmptySourcePoolDefinition() : ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->buildDefinitionInstance();
     }
@@ -69,7 +70,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    private function buildDefinitionInstance()
+    private function buildDefinitionInstance() : ilTestRandomQuestionSetSourcePoolDefinition
     {
         return new ilTestRandomQuestionSetSourcePoolDefinition($this->db, $this->testOBJ);
     }

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
@@ -6,25 +7,10 @@
  */
 final class ilKioskModeService
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $language;
-
-    /**
-     * @var ilAccess
-     */
-    protected $access;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $language;
+    protected ilAccess $access;
+    protected ilObjectDefinition $obj_definition;
 
     public function __construct(
         ilCtrl $ctrl,
@@ -40,10 +26,8 @@ final class ilKioskModeService
 
     /**
      * Try to get a kiosk mode view for the given object.
-     *
-     * @return	ilKioskModeView|null
      */
-    public function getViewFor(\ilObject $object)
+    public function getViewFor(ilObject $object) : ?ilKioskModeView
     {
         $object_type = $object->getType();
         if (!$this->hasKioskMode($object_type)) {
@@ -72,12 +56,11 @@ final class ilKioskModeService
     }
 
     /**
-     * @return classname of type-specific kiosk view.
+     * @return string classname of type-specific kiosk view.
      */
     protected function getClassNameForType(string $object_type) : string
     {
         $class = $this->obj_definition->getClassName($object_type);
-        $full_class = "il" . $class . "KioskModeView";
-        return $full_class;
+        return "il" . $class . "KioskModeView";
     }
 }

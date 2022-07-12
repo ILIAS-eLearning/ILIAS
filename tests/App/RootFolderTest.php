@@ -13,6 +13,9 @@ final class RootFolderTest extends TestCase
         '.gitignore',
         '.htaccess',
         '.phpunit.result.cache',
+        'captainhook.local.json',
+        'phpstan.local.neon',
+        'phpstan-baseline.neon',
         '.php_cs.cache',
         'calendar.php',
         'captainhook.json',
@@ -31,8 +34,6 @@ final class RootFolderTest extends TestCase
         'login.php',
         'logout.php',
         'lti.php',
-        'objects.dtd',
-        'objects.xml',
         'openidconnect.php',
         'package-lock.json',
         'package.json',
@@ -50,6 +51,9 @@ final class RootFolderTest extends TestCase
         'studip_referrer.php',
         'unzip_test_file.zip',
         'webdav.php',
+        '.DS_Store',
+        '.buildpath',
+        '.project'
     ];
     
     private const ALLOWED_ROOT_FOLDER_DIRS = [
@@ -77,8 +81,24 @@ final class RootFolderTest extends TestCase
         'tests',
         'webservice',
         'xml',
+        '.settings'
     ];
-
+    
+    protected array $ALLOWED_ROOT_FOLDER_DIRS = [];
+    protected array $ALLOWED_ROOT_FOLDER_FILES = [];
+    
+    protected function setUp() : void
+    {
+        $this->ALLOWED_ROOT_FOLDER_DIRS = array_merge(
+            self::ALLOWED_ROOT_FOLDER_DIRS,
+            explode(",", (string) getenv('ALLOWED_ROOT_FOLDER_DIRS'))
+        );
+        $this->ALLOWED_ROOT_FOLDER_FILES = array_merge(
+            self::ALLOWED_ROOT_FOLDER_FILES,
+            explode(",", (string) getenv('ALLOWED_ROOT_FOLDER_FILES'))
+        );
+    }
+    
     private function getAppRootFolderOrFail() : string
     {
         $app_root_folder = getcwd();
@@ -109,7 +129,7 @@ final class RootFolderTest extends TestCase
         }
         sort($found_files);
 
-        $unexpected_files = array_diff($found_files, self::ALLOWED_ROOT_FOLDER_FILES);
+        $unexpected_files = array_diff($found_files, $this->ALLOWED_ROOT_FOLDER_FILES);
 
         $this->assertEmpty(
             $unexpected_files,
@@ -134,7 +154,7 @@ final class RootFolderTest extends TestCase
             $found_directories[] = $file->getBasename();
         }
 
-        $unexpected_directories = array_diff($found_directories, self::ALLOWED_ROOT_FOLDER_DIRS);
+        $unexpected_directories = array_diff($found_directories, $this->ALLOWED_ROOT_FOLDER_DIRS);
         sort($unexpected_directories);
 
         $this->assertEmpty(

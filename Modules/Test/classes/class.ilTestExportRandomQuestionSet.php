@@ -102,6 +102,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         foreach ($this->srcPoolDefList as $definition) {
             $attributes = array(
                 'id' => $definition->getId(),
+                'ref_id' => $definition->getPoolRefId(),
                 'poolId' => $definition->getPoolId(),
                 'poolQuestCount' => $definition->getPoolQuestionCount(),
                 'questAmount' => $definition->getQuestionAmount(),
@@ -123,7 +124,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         $xmlWriter->xmlEndTag('RandomQuestionSelectionDefinitions');
     }
 
-    protected function getQuestionsQtiXml()
+    protected function getQuestionsQtiXml() : string
     {
         $questionQtiXml = '';
 
@@ -141,7 +142,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
     /**
      * @return array
      */
-    protected function getQuestionIds()
+    protected function getQuestionIds() : array
     {
         $questionIds = array();
         
@@ -160,7 +161,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
      * @param $poolId
      * @return ilTestRandomQuestionSetStagingPoolQuestionList
      */
-    protected function getLoadedStagingPoolQuestionList($poolId)
+    protected function getLoadedStagingPoolQuestionList($poolId) : ilTestRandomQuestionSetStagingPoolQuestionList
     {
         if (!isset($this->stagingPoolQuestionListByPoolId[$poolId])) {
             global $DIC;

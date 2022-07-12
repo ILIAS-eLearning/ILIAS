@@ -1,9 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . '/ModalBase.php');
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Tests on implementation for the lightbox modal
@@ -12,21 +28,21 @@ use \ILIAS\UI\Implementation as I;
  */
 class LightboxTest extends ModalBase
 {
-    public function test_get_single_page()
+    public function test_get_single_page() : void
     {
         $page = $this->getLightboxPage();
         $lightbox = $this->getModalFactory()->lightbox($page);
         $this->assertEquals([$page], $lightbox->getPages());
     }
 
-    public function test_get_multiple_page()
+    public function test_get_multiple_page() : void
     {
         $pages = [$this->getLightboxPage(), $this->getLightboxPage()];
         $lightbox = $this->getModalFactory()->lightbox($pages);
         $this->assertEquals($pages, $lightbox->getPages());
     }
 
-    public function test_simple_image_page_rendering()
+    public function test_simple_image_page_rendering() : void
     {
         $image = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
         $lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->lightboxImagePage($image, 'title'));
@@ -35,7 +51,7 @@ class LightboxTest extends ModalBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_simple_text_page_rendering()
+    public function test_simple_text_page_rendering() : void
     {
         $lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->lightboxTextPage('HelloWorld', 'title'));
         $expected = $this->normalizeHTML($this->getExpectedTextPageHTML());
@@ -43,7 +59,7 @@ class LightboxTest extends ModalBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_different_page_type_rendering()
+    public function test_different_page_type_rendering() : void
     {
         $image1 = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
 
@@ -58,14 +74,14 @@ class LightboxTest extends ModalBase
         $this->assertEquals($expected, $actual);
     }
 
-    protected function getLightboxPage()
+    protected function getLightboxPage() : LightboxMockPage
     {
         return new LightboxMockPage();
     }
     
-    protected function getExpectedTextPageHTML()
+    protected function getExpectedTextPageHTML() : string
     {
-        $expected = <<<EOT
+        return <<<EOT
 <div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
@@ -123,13 +139,11 @@ HelloWorld
 	}, 0);
 </script>
 EOT;
-
-        return $expected;
     }
 
-    protected function getExpectedImagePageHTML()
+    protected function getExpectedImagePageHTML() : string
     {
-        $expected = <<<EOT
+        return <<<EOT
 <div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
@@ -198,13 +212,11 @@ EOT;
 	}, 0);
 </script>
 EOT;
-
-        return $expected;
     }
 
-    protected function getExpectedMixedPagesHTML()
+    protected function getExpectedMixedPagesHTML() : string
     {
-        $expected = <<<EOT
+        return <<<EOT
 <div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
@@ -294,18 +306,17 @@ HelloWorld
 	}, 0);
 </script>
 EOT;
-        return $expected;
     }
 }
 
 class LightboxMockPage implements C\Modal\LightboxPage
 {
-    public function getTitle()
+    public function getTitle() : string
     {
         return 'title';
     }
 
-    public function getComponent()
+    public function getComponent() : C\Component
     {
         return new ComponentDummy();
     }

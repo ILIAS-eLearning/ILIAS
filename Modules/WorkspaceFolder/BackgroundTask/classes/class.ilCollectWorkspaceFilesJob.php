@@ -1,29 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Description of class class
  *
- * @author killing@leifos.de
- *
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilCollectWorkspaceFilesJob extends AbstractJob
 {
-    private $logger = null;
+    private ?ilLogger $logger = null;
+    protected ilWorkspaceTree $tree;
 
-    /**
-     * @var ilWorkspaceTree
-     */
-    protected $tree;
-
-    /**
-     * Construct
-     */
     public function __construct()
     {
         global $DIC;
@@ -34,10 +42,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         $this->tree = new ilWorkspaceTree($user->getId());
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return
             [
@@ -46,27 +51,17 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
             ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getOutputType()
+    public function getOutputType() : Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isStateless()
+    public function isStateless() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     * @todo use filsystem service
-     */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer)
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
     {
         $this->logger->debug('Start collecting files!');
         $this->logger->dump($input);
@@ -109,8 +104,11 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         return $definition;
     }
 
-    private function getFileDirs($a_wsp_id, $a_file_name, $a_temp_dir)
-    {
+    private function getFileDirs(
+        int $a_wsp_id,
+        string $a_file_name,
+        string $a_temp_dir
+    ) : ?array {
         global $DIC;
 
         $user = $DIC->user();
@@ -118,29 +116,26 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         if ($ilAccess->checkAccessOfUser($this->tree, $user->getId(), "read", "", $a_wsp_id)) {
             $file = new ilObjFile($this->tree->lookupObjectId($a_wsp_id), false);
             $source_dir = $file->getFile($file->getVersion());
-            if (@!is_file($source_dir)) {
+            if (!is_file($source_dir)) {
                 $source_dir = $file->getFile();
             }
-            $target_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_file_name);
+            $target_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_file_name);
 
-            return $file_dirs = [
+            return [
                 "source_dir" => $source_dir,
                 "target_dir" => $target_dir
             ];
         }
-        return false;
+        return null;
     }
 
-    /**
-     * @param $a_wsp_id
-     * @param $a_folder_name
-     * @param $a_temp_dir
-     * @param $a_num_recursions
-     * @param $a_initiated_by_folder_action
-     * @return array
-     */
-    private function recurseFolder($a_wsp_id, $a_folder_name, $a_temp_dir, $a_num_recursions, $a_initiated_by_folder_action)
-    {
+    private function recurseFolder(
+        int $a_wsp_id,
+        string $a_folder_name,
+        string $a_temp_dir,
+        int $a_num_recursions,
+        bool $a_initiated_by_folder_action
+    ) : array {
         $num_recursions = $a_num_recursions + 1;
         $tree = $this->tree;
         $ilAccess = new ilWorkspaceAccessHandler($this->tree);
@@ -151,7 +146,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         if (($num_recursions <= 1) and ($a_initiated_by_folder_action)) {
             $temp_dir = $a_temp_dir;
         } else {
-            $temp_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_folder_name);
+            $temp_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_folder_name);
         }
 
 
@@ -178,10 +173,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         return $files;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }

@@ -1,151 +1,115 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
-* This class represents a user login property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * This class represents a user login property in a property form.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilUserLoginInputGUI extends ilFormPropertyGUI
 {
-    protected $value;
-    protected $size = 40;
-    protected $max_length = 80;
-    protected $checkunused = 0;
-
+    protected string $value = "";
+    protected int $size = 40;
+    protected int $max_length = 80;
+    protected int $checkunused = 0;
     /**
      * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
      */
-    protected $autocomplete_disabled = false;
+    protected bool $autocomplete_disabled = false;
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
 
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
 
-    /**
-    * Set Check whether login is unused.
-    *
-    * @param	int	$a_checkunused	user id of current user
-    */
-    public function setCurrentUserId($a_user_id)
+    public function setCurrentUserId(int $a_user_id) : void
     {
         $this->checkunused = $a_user_id;
     }
 
-    /**
-    * Get Check whether login is unused.
-    *
-    * @return	boolean	Check whether login is unused
-    */
-    public function getCurrentUserId()
+    public function getCurrentUserId() : int
     {
         return $this->checkunused;
     }
 
-    /**
-    * Set autocomplete
-    *
-    * @param	bool	$a_value	Value
-    */
-    public function setDisableHtmlAutoComplete($a_value)
+    public function setDisableHtmlAutoComplete(bool $a_value) : void
     {
-        $this->autocomplete_disabled = (bool) $a_value;
+        $this->autocomplete_disabled = $a_value;
     }
 
-    /**
-    * Get autocomplete
-    *
-    * @return	bool	Value
-    */
-    public function isHtmlAutoCompleteDisabled()
+    public function isHtmlAutoCompleteDisabled() : bool
     {
         return $this->autocomplete_disabled;
     }
     
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
-        
-        $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
+
+        $value = $this->getInput();
+        if ($this->getRequired() && $value == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
-
             return false;
         }
-        if (!ilUtil::isLogin($_POST[$this->getPostVar()])) {
+        if (!ilUtil::isLogin($value)) {
             $this->setAlert($lng->txt("login_invalid"));
-
             return false;
         }
         
-        if (ilObjUser::_loginExists($_POST[$this->getPostVar()], $this->getCurrentUserId())) {
+        if (ilObjUser::_loginExists($value, $this->getCurrentUserId())) {
             $this->setAlert($lng->txt("login_exists"));
-
             return false;
         }
-
         
         return true;
     }
 
-    /**
-    * Insert property html
-    */
-    public function insert($a_tpl)
+    public function getInput() : string
     {
-        $lng = $this->lng;
-        
+        return trim($this->str($this->getPostVar()));
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
+    {
         $a_tpl->setCurrentBlock("prop_login");
         $a_tpl->setVariable("POST_VAR", $this->getPostVar());
         $a_tpl->setVariable("ID", $this->getFieldId());
-        $a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+        $a_tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
         $a_tpl->setVariable("SIZE", $this->size);
         $a_tpl->setVariable("MAXLENGTH", $this->max_length);
         if ($this->getDisabled()) {

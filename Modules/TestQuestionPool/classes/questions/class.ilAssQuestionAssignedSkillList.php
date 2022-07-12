@@ -18,7 +18,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
      * @param integer $skillBaseId
      * @param integer $skillTrefId
      */
-    public function addSkill($skillBaseId, $skillTrefId)
+    public function addSkill($skillBaseId, $skillTrefId) : void
     {
         $this->skills[] = "{$skillBaseId}:{$skillTrefId}";
     }
@@ -26,7 +26,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
     /**
      * @return bool
      */
-    public function skillsExist()
+    public function skillsExist() : bool
     {
         return (bool) count($this->skills);
     }
@@ -34,7 +34,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
     /**
      * @return array
      */
-    public function current()
+    public function current() : array
     {
         return current($this->skills);
     }
@@ -42,7 +42,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
     /**
      * @return array
      */
-    public function next()
+    public function next() : array
     {
         return next($this->skills);
     }
@@ -59,7 +59,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
     /**
      * @return bool
      */
-    public function valid()
+    public function valid() : bool
     {
         $res = key($this->skills);
         return $res !== null;
@@ -76,12 +76,12 @@ class ilAssQuestionAssignedSkillList implements Iterator
     /**
      * @return array
      */
-    public function sleep()
+    public function sleep() : array
     {
         return array('skills');
     }
     
-    public function wakeup()
+    public function wakeup() : void
     {
         // TODO: Implement __wakeup() method.
     }

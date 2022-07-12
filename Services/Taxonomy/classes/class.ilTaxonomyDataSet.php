@@ -1,38 +1,44 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Taxonomy data set class
- *
  * This class implements the following entities:
  * - tax: data from table tax_data/object_data
  * - tax_usage: data from table tax_usage
  * - tax_tree: data from a join on tax_tree and tax_node
  * - tax_node_assignment: data from table tax_node_assignment
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyDataSet extends ilDataSet
 {
     protected ilObjTaxonomy $current_obj;
 
-    /**
-     * @inheritDoc
-     */
     public function getSupportedVersions() : array
     {
         return array("4.3.0");
     }
-    
-    /**
-     * @inheritDoc
-     */
+
     protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Services/Taxonomy/" . $a_entity;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -46,18 +52,19 @@ class ilTaxonomyDataSet extends ilDataSet
                         "Id" => "integer",
                         "Title" => "text",
                         "Description" => "text",
-                        "SortingMode" => "integer");
+                        "SortingMode" => "integer"
+                    );
             }
         }
-    
+
         // tax_usage
         if ($a_entity == "tax_usage") {
             switch ($a_version) {
                 case "4.3.0":
-                        return array(
-                            "TaxId" => "integer",
-                            "ObjId" => "integer"
-                        );
+                    return array(
+                        "TaxId" => "integer",
+                        "ObjId" => "integer"
+                    );
             }
         }
 
@@ -65,15 +72,15 @@ class ilTaxonomyDataSet extends ilDataSet
         if ($a_entity == "tax_tree") {
             switch ($a_version) {
                 case "4.3.0":
-                        return array(
-                            "TaxId" => "integer",
-                            "Child" => "integer",
-                            "Parent" => "integer",
-                            "Depth" => "integer",
-                            "Type" => "text",
-                            "Title" => "text",
-                            "OrderNr" => "integer"
-                        );
+                    return array(
+                        "TaxId" => "integer",
+                        "Child" => "integer",
+                        "Parent" => "integer",
+                        "Depth" => "integer",
+                        "Type" => "text",
+                        "Title" => "text",
+                        "OrderNr" => "integer"
+                    );
             }
         }
 
@@ -81,12 +88,12 @@ class ilTaxonomyDataSet extends ilDataSet
         if ($a_entity == "tax_node_assignment") {
             switch ($a_version) {
                 case "4.3.0":
-                        return array(
-                            "NodeId" => "integer",
-                            "Component" => "text",
-                            "ItemType" => "text",
-                            "ItemId" => "integer"
-                        );
+                    return array(
+                        "NodeId" => "integer",
+                        "Component" => "text",
+                        "ItemType" => "text",
+                        "ItemId" => "integer"
+                    );
             }
         }
         return [];
@@ -102,7 +109,7 @@ class ilTaxonomyDataSet extends ilDataSet
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }
-                
+
         // tax
         if ($a_entity == "tax") {
             switch ($a_version) {
@@ -154,7 +161,7 @@ class ilTaxonomyDataSet extends ilDataSet
             }
         }
     }
-    
+
     /**
      * Determine the dependent sets of data
      */
@@ -167,22 +174,21 @@ class ilTaxonomyDataSet extends ilDataSet
         switch ($a_entity) {
             case "tax":
                 return array(
-                    "tax_tree" => array("ids" => $a_rec["Id"]),
-                    "tax_usage" => array("ids" => $a_rec["Id"])
+                    "tax_tree" => array("ids" => $a_rec["Id"] ?? null),
+                    "tax_usage" => array("ids" => $a_rec["Id"] ?? null)
                 );
             case "tax_tree":
                 return array(
-                    "tax_node_assignment" => array("ids" => $a_rec["Child"])
+                    "tax_node_assignment" => array("ids" => $a_rec["Child"] ?? null)
                 );
         }
         return [];
     }
-    
+
     ////
     //// Needs abstraction (interface?) and version handling
     ////
-    
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
@@ -197,9 +203,9 @@ class ilTaxonomyDataSet extends ilDataSet
 
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
-                $newObj->setSortingMode($a_rec["SortingMode"]);
+                $newObj->setSortingMode((int) $a_rec["SortingMode"]);
                 $newObj->update();
-                
+
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("Services/Taxonomy", "tax", $a_rec["Id"], $newObj->getId());
                 break;
@@ -214,10 +220,10 @@ class ilTaxonomyDataSet extends ilDataSet
                         }
                         $node = new ilTaxonomyNode();
                         $node->setTitle($a_rec["Title"]);
-                        $node->setOrderNr($a_rec["OrderNr"]);
-                        $node->setTaxonomyId($tax_id);
+                        $node->setOrderNr((int) $a_rec["OrderNr"]);
+                        $node->setTaxonomyId((int) $tax_id);
                         $node->create();
-                        ilTaxonomyNode::putInTree($tax_id, $node, (int) $parent, "", $a_rec["OrderNr"]);
+                        ilTaxonomyNode::putInTree((int) $tax_id, $node, (int) $parent, 0, (int) $a_rec["OrderNr"]);
                         $a_mapping->addMapping(
                             "Services/Taxonomy",
                             "tax_tree",
@@ -225,31 +231,40 @@ class ilTaxonomyDataSet extends ilDataSet
                             $node->getId()
                         );
                         break;
-                        
+
                 }
-                
-                // no break
+
+            // no break
             case "tax_node_assignment":
                 $new_item_id = (int) $a_mapping->getMapping(
                     "Services/Taxonomy",
                     "tax_item",
-                    $a_rec["Component"] . ":" . $a_rec["ItemType"] . ":" . $a_rec["ItemId"]
+                    ($a_rec["Component"] ?? "") .
+                    ":" . ($a_rec["ItemType"] ?? "") . ":" .
+                    ($a_rec["ItemId"] ?? "")
                 );
-                $new_node_id = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_tree", $a_rec["NodeId"]);
+                $new_node_id = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_tree", $a_rec["NodeId"] ?? "");
 
                 // this is needed since 4.4 (but not exported with 4.3)
                 // with 4.4 this should be part of export/import
                 $new_item_id_obj = (int) $a_mapping->getMapping(
                     "Services/Taxonomy",
                     "tax_item_obj_id",
-                    $a_rec["Component"] . ":" . $a_rec["ItemType"] . ":" . $a_rec["ItemId"]
+                    ($a_rec["Component"] ?? "") .
+                    ":" . ($a_rec["ItemType"] ?? "") . ":" .
+                    ($a_rec["ItemId"] ?? "")
                 );
                 if ($new_item_id > 0 && $new_node_id > 0 && $new_item_id_obj > 0) {
-                    $node_ass = new ilTaxNodeAssignment($a_rec["Component"], $new_item_id_obj, $a_rec["ItemType"], $this->current_obj->getId());
+                    $node_ass = new ilTaxNodeAssignment(
+                        $a_rec["Component"],
+                        $new_item_id_obj,
+                        $a_rec["ItemType"],
+                        $this->current_obj->getId()
+                    );
                     $node_ass->addAssignment($new_node_id, $new_item_id);
                 }
                 break;
-                
+
             case "tax_usage":
                 $usage = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $a_rec["ObjId"]);
                 if ($usage != "") {

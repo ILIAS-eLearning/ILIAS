@@ -1,43 +1,45 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Skill\Service\SkillTreeService;
 
 /**
  * Explorer for skill management
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveySkillExplorer extends ilExplorer
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected array $parent;
+    protected array $node;
+    protected bool $templates;
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
+    protected array $force_open_path;
+    protected ilObjUser $user;
+    protected ilCtrl $ctrl;
+    protected array $all_nodes = [];
+    protected array $child_nodes = [];
+    protected SkillTreeService $skill_tree_service;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * id of root folder
-     * @var int root folder id
-     * @access private
-     */
-    public $root_id;
-    public $slm_obj;
-    public $output;
-
-    /**
-    * Constructor
-    * @access	public
-    * @param	string	scriptname
-    * @param    int user_id
-    */
-    public function __construct($a_target, $a_templates = false)
-    {
+    public function __construct(
+        string $a_target,
+        bool $a_templates = false
+    ) {
         global $DIC;
-
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -51,8 +53,9 @@ class ilSurveySkillExplorer extends ilExplorer
         $this->addFilter("scat");
         //		$this->addFilter("sktr");
         $this->setTitleLength(999);
-        
-        $this->tree = new ilSkillTree();
+
+        $this->skill_tree_service = $DIC->skills()->tree();
+        $this->tree = $this->skill_tree_service->getGlobalSkillTree();
         $this->root_id = $this->tree->readRootId();
         
         $this->setSessionExpandVariable("skpexpand");
@@ -69,96 +72,41 @@ class ilSurveySkillExplorer extends ilExplorer
             $this->node[$n["child"]] = $n;
             $this->child_nodes[$n["parent"]][] = $n;
             $this->parent[$n["child"]] = $n["parent"];
-            //echo "-$k-"; var_dump($n);
         }
-        
-        //		$this->buildSelectableTree($this->root_id);
+
+        $this->edit_request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
     
     /**
-     * Build selectable tree
-     *
-     * @param
-     * @return
+     * set force open path
      */
-    /*
-        function buildSelectableTree($a_node_id)
-        {
-            if (ilSkillTreeNode::_lookupSelfEvaluation($a_node_id))
-            {
-                $this->selectable[$a_node_id] = true;
-                $this->selectable[$this->parent[$a_node_id]] = true;
-            }
-            foreach ($this->getOriginalChildsOfNode($a_node_id) as $n)
-            {
-                $this->buildSelectableTree($n["child"]);
-            }
-            if ($this->selectable[$a_node_id] &&
-                !ilSkillTreeNode::_lookupDraft($a_node_id))
-            {
-                $this->selectable_child_nodes[$this->node[$a_node_id]["parent"]][] =
-                    $this->node[$a_node_id];
-            }
-        }*/
-    
-
-    /**
-    * set force open path
-    */
-    public function setForceOpenPath($a_path)
+    public function setForceOpenPath(array $a_path) : void
     {
         $this->force_open_path = $a_path;
     }
 
-    
-    /**
-    * check if links for certain object type are activated
-    *
-    * @param	string		$a_type			object type
-    *
-    * @return	boolean		true if linking is activated
-    */
-    public function isClickable($a_type, $a_obj_id = 0)
-    {
-        $ilUser = $this->user;
-        if ($a_type == "skll") {
-            return true;
-        }
-        return false;
+    public function isClickable(
+        string $type,
+        int $ref_id = 0
+    ) : bool {
+        return $type === "skll";
     }
     
-    /**
-    * build link target
-    */
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $ilCtrl = $this->ctrl;
-
         $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $a_node_id);
         $ret = $ilCtrl->getLinkTargetByClass("ilsurveyskillgui", "selectSkillForQuestion");
-        $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $this->edit_request->getObjId());
         
         return $ret;
     }
 
-    /**
-     * standard implementation for title, may be overwritten by derived classes
-     */
-    public function buildTitle($a_title, $a_id, $a_type)
-    {
-        $lng = $this->lng;
-        
-        if ($a_type == "sktr") {
-            $tid = ilSkillTemplateReference::_lookupTemplateId($a_id);
-        }
-        
-        return $a_title;
-    }
-
-    /**
-    * force expansion of node
-    */
-    public function forceExpanded($a_obj_id)
+    public function forceExpanded($a_obj_id) : bool
     {
         if (in_array($a_obj_id, $this->force_open_path)) {
             return true;
@@ -166,64 +114,12 @@ class ilSurveySkillExplorer extends ilExplorer
         return false;
     }
 
-    /**
-     * Get frame target
-     */
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
-    {
-        return "";
-    }
-    
-    /**
-     * Get maximum tree depth
-     *
-     * @param
-     * @return
-     */
-    /*	function getMaximumTreeDepth()
-        {
-            $this->tree->getMaximumDepth();
-        }*/
-
-    /**
-     * Get childs of node (selectable tree)
-     *
-     * @param int $a_parent_id parent id
-     * @return array childs
-     */
-    /*
-        function getChildsOfNode($a_parent_id)
-        {
-            if (is_array($this->selectable_child_nodes[$a_parent_id]))
-            {
-                $childs =  $this->selectable_child_nodes[$a_parent_id];
-                $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
-                return $childs;
-            }
-            return array();
-        }*/
-
-    /**
-     * Get original childs of node (whole tree)
-     *
-     * @param int $a_parent_id parent id
-     * @return array childs
-     */
-    /*	function getOriginalChildsOfNode($a_parent_id)
-        {
-            if (is_array($this->child_nodes[$a_parent_id]))
-            {
-                return $this->child_nodes[$a_parent_id];
-            }
-            return array();
-        }*/
-
-    /**
-     * get image path (may be overwritten by derived classes)
-     */
-    public function getImage($a_name, $a_type = "", $a_obj_id = "")
-    {
-        if (in_array($a_type, array("sktr"))) {
+    public function getImage(
+        string $a_name,
+        string $a_type = "",
+        $a_obj_id = ""
+    ) : string {
+        if ($a_type === "sktr") {
             return ilUtil::getImagePath("icon_skll_s.gif");
         }
         return ilUtil::getImagePath($a_name);

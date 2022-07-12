@@ -81,49 +81,35 @@ class ilTestSequenceFactory
      */
     public function getSequenceByActiveIdAndPass($activeId, $pass)
     {
-        if ($this->testSequences[$activeId][$pass] === null) {
-            switch ($this->testOBJ->getQuestionSetType()) {
-                case ilObjTest::QUESTION_SET_TYPE_FIXED:
+        if (!isset($this->testSequences[$activeId]) || $this->testSequences[$activeId][$pass] === null) {
+            if ($this->testOBJ->isFixedTest()) {
+                $this->testSequences[$activeId][$pass] = new ilTestSequenceFixedQuestionSet(
+                    $activeId,
+                    $pass,
+                    $this->testOBJ->isRandomTest()
+                );
+            }
 
-                    require_once 'Modules/Test/classes/class.ilTestSequenceFixedQuestionSet.php';
-                    $this->testSequences[$activeId][$pass] = new ilTestSequenceFixedQuestionSet(
-                        $activeId,
-                        $pass,
-                        $this->testOBJ->isRandomTest()
-                    );
-                    break;
-
-                case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-
-                    require_once 'Modules/Test/classes/class.ilTestSequenceRandomQuestionSet.php';
-                    $this->testSequences[$activeId][$pass] = new ilTestSequenceRandomQuestionSet(
-                        $activeId,
-                        $pass,
-                        $this->testOBJ->isRandomTest()
-                    );
-                    break;
-
-                case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-
-                    require_once 'Modules/Test/classes/class.ilTestSequenceDynamicQuestionSet.php';
-                    require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSet.php';
-                    $questionSet = new ilTestDynamicQuestionSet(
-                        $this->db,
-                        $this->lng,
-                        $this->pluginAdmin,
-                        $this->testOBJ
-                    );
-                    $this->testSequences[$activeId][$pass] = new ilTestSequenceDynamicQuestionSet(
-                        $this->db,
-                        $questionSet,
-                        $activeId
-                    );
-                    
-                    #$this->testSequence->setPreventCheckedQuestionsFromComingUpEnabled(
-                    #	$this->testOBJ->isInstantFeedbackAnswerFixationEnabled()
-                    #); // checked questions now has to come up any time, so they can be set to unchecked right at this moment
-                    
-                    break;
+            if ($this->testOBJ->isRandomTest()) {
+                $this->testSequences[$activeId][$pass] = new ilTestSequenceRandomQuestionSet(
+                    $activeId,
+                    $pass,
+                    $this->testOBJ->isRandomTest()
+                );
+            }
+            
+            if ($this->testOBJ->isDynamicTest()) {
+                $questionSet = new ilTestDynamicQuestionSet(
+                    $this->db,
+                    $this->lng,
+                    $this->pluginAdmin,
+                    $this->testOBJ
+                );
+                $this->testSequences[$activeId][$pass] = new ilTestSequenceDynamicQuestionSet(
+                    $this->db,
+                    $questionSet,
+                    $activeId
+                );
             }
         }
 

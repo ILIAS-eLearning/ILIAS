@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Search/classes/class.ilSearchSettings.php';
 
 /**
  * Class ilRepositoryObjectSearchGUI
@@ -9,75 +8,55 @@ include_once './Services/Search/classes/class.ilSearchSettings.php';
  *
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
  *
  * @package ServicesSearch
  *
  */
 class ilRepositoryObjectDetailSearch
 {
-    protected $settings = null;
+    protected ilSearchSettings $settings;
     
-    protected $obj_id;
-    protected $type;
-    protected $query_string;
+    protected int $obj_id;
+    protected string $type;
+    protected string $query_string;
     
-    /**
-     * constructor
-     */
-    public function __construct($a_obj_id)
+
+    public function __construct(int $a_obj_id)
     {
         $this->obj_id = $a_obj_id;
         $this->type = ilObject::_lookupType($this->getObjId());
         
         $this->settings = ilSearchSettings::getInstance();
     }
-    
-    /**
-     * Get settings
-     * @return ilSearchSettings
-     */
-    public function getSettings()
+
+    public function getSettings() : ilSearchSettings
     {
         return $this->settings;
     }
-    
-    /**
-     * get obj id
-     * @return type
-     */
-    public function getObjId()
+
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
     
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
     
     
-    public function setQueryString($a_query)
+    public function setQueryString(string $a_query) : void
     {
         $this->query_string = $a_query;
     }
     
 
-    /**
-     * get query string
-     */
-    public function getQueryString()
+    public function getQueryString() : string
     {
         return $this->query_string;
     }
-    
-    /**
-     * Perform search
-     * @return ilRepositoryObjectDetailSearchResult
-     *
-     * @throws ilLuceneQueryParserException
-     */
-    public function performSearch()
+
+    public function performSearch() : ilRepositoryObjectDetailSearchResult
     {
         if ($this->getSettings()->enabledLucene()) {
             return $this->performLuceneSearch();
@@ -87,12 +66,10 @@ class ilRepositoryObjectDetailSearch
     }
     
     /**
-     * Perform lucene search
      * @throws ilLuceneQueryParserException
      */
-    protected function performLuceneSearch()
+    protected function performLuceneSearch() : ilRepositoryObjectDetailSearchResult
     {
-        include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
         try {
             $qp = new ilLuceneQueryParser($this->getQueryString());
             $qp->parse();
@@ -100,12 +77,10 @@ class ilRepositoryObjectDetailSearch
             ilLoggerFactory::getLogger('src')->warning('Invalid query: ' . $e->getMessage());
             throw $e;
         }
-        
-        include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
+
         $searcher = ilLuceneSearcher::getInstance($qp);
         $searcher->highlight(array($this->getObjId()));
-        
-        include_once './Services/Search/classes/class.ilRepositoryObjectDetailSearchResult.php';
+
         $detail_search_result = new ilRepositoryObjectDetailSearchResult();
         
         if ($searcher->getHighlighter() instanceof ilLuceneHighlighterResultParser) {
@@ -125,30 +100,24 @@ class ilRepositoryObjectDetailSearch
     
     
     /**
-     * Perform DB  search
-     * @return ilRepositoryObjectDetailSearchResult
+     * @throws Exception
      */
-    protected function performDBSearch()
+    protected function performDBSearch() : ilRepositoryObjectDetailSearchResult
     {
-        // query parser
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
-
         $query_parser = new ilQueryParser($this->getQueryString());
         
         $query_parser->setCombination(
             ($this->getSettings()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND) ?
-                QP_COMBINATION_AND :
-                QP_COMBINATION_OR
+                ilQueryParser::QP_COMBINATION_AND :
+                ilQueryParser::QP_COMBINATION_OR
         );
         $query_parser->parse();
         
         if (!$query_parser->validate()) {
             throw new Exception($query_parser->getMessage());
         }
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
         $search_result = new ilSearchResult();
-        
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+
         $search = ilObjectSearchFactory::getByTypeSearchInstance($this->getType(), $query_parser);
         
         switch ($this->getType()) {
@@ -160,8 +129,7 @@ class ilRepositoryObjectDetailSearch
         $search->setIdFilter(array($this->getObjId()));
         
         $search_result->mergeEntries($search->performSearch());
-        
-        include_once './Services/Search/classes/class.ilRepositoryObjectDetailSearchResult.php';
+
         $detail_search_result = new ilRepositoryObjectDetailSearchResult();
         
         foreach ($search_result->getEntries() as $entry) {

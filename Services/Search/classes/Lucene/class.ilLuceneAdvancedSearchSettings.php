@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,41 +21,32 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
-include_once './Services/Administration/classes/class.ilSetting.php';
 
 /**
 * En/disable single lom/advanced meta data fields
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
 * @ingroup ServicesSearch
 */
 class ilLuceneAdvancedSearchSettings
 {
-    private static $instance = null;
-    private $fields = array();
+    private static ?ilLuceneAdvancedSearchSettings $instance = null;
+    private array $fields = [];
 
-    protected $storage = null;
+    protected ilSetting $storage;
 
     /**
      * Constructor
      */
     private function __construct()
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
         $this->storage = new ilSetting('lucene_adv_search');
         $this->read();
     }
     
-    public static function getInstance()
+    public static function getInstance() : ilLuceneAdvancedSearchSettings
     {
-        if (isset(self::$instance) and self::$instance != null) {
+        if (self::$instance instanceof ilLuceneAdvancedSearchSettings) {
             return self::$instance;
         }
         return self::$instance = new ilLuceneAdvancedSearchSettings();
@@ -64,32 +55,27 @@ class ilLuceneAdvancedSearchSettings
     /**
      * check if field is active
      */
-    public function isActive($a_field)
+    public function isActive(string $a_field) : bool
     {
-        return $this->fields[$a_field] ? $this->fields[$a_field] : false;
+        return $this->fields[$a_field] ?: false;
     }
     
-    /**
-     * set field active status
-     * @param bool	active
-     */
-    public function setActive($a_field, $a_status)
+    public function setActive(string $a_field, bool $a_status) : void
     {
-        $this->fields[$a_field] = (bool) $a_status;
+        $this->fields[$a_field] = $a_status;
     }
     
-    public function save()
+    public function save() : void
     {
         foreach ($this->fields as $name => $status) {
             $this->storage->set($name, $status ? "1" : "0");
         }
-        return true;
     }
     
-    private function read()
+    private function read() : void
     {
         foreach (ilLuceneAdvancedSearchFields::getFields() as $name => $translation) {
-            $this->fields[$name] = (bool) $this->storage->get($name, true);
+            $this->fields[$name] = (bool) $this->storage->get($name, 'true');
         }
     }
 }

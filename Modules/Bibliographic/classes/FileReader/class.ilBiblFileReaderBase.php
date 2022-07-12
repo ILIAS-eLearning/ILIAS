@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -17,26 +33,11 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     const ENCODING_UTF_8 = 'UTF-8';
     const ENCODING_ASCII = 'ASCII';
     const ENCODING_ISO_8859_1 = 'ISO-8859-1';
-    /**
-     * @var string
-     */
-    protected $file_content = '';
-    /**
-     * @var string
-     */
-    protected $path_to_file = '';
-    /**
-     * @var ilBiblEntryFactoryInterface
-     */
-    protected $entry_factory;
-    /**
-     * @var ilBiblFieldFactoryInterface
-     */
-    protected $field_factory;
-    /**
-     * @var ilBiblAttributeFactoryInterface
-     */
-    protected $attribute_factory;
+    protected string $file_content = '';
+    protected string $path_to_file = '';
+    protected \ilBiblEntryFactoryInterface $entry_factory;
+    protected \ilBiblFieldFactoryInterface $field_factory;
+    protected \ilBiblAttributeFactoryInterface $attribute_factory;
     /**
      * @var \ILIAS\ResourceStorage\Services
      */
@@ -44,7 +45,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 
     /**
      * ilBiblFileReaderBase constructor.
-     * @param ilBiblEntryFactoryInterface $entry_factory
      */
     public function __construct(
         ilBiblEntryFactoryInterface $entry_factory,
@@ -59,11 +59,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         $this->storage = $DIC["resource_storage"];
     }
 
-    /**
-     * @param ResourceIdentification $identification
-     * @return bool
-     */
-    public function readContent(ResourceIdentification $identification)
+    public function readContent(ResourceIdentification $identification) : bool
     {
         $stream = $this->storage->consume()->stream($identification)->getStream();
         $this->setFileContent($stream->getContents());
@@ -71,22 +67,15 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return true;
     }
 
-    /**
-     * @param $string
-     * @return string
-     */
-    protected function convertStringToUTF8($string)
+    protected function convertStringToUTF8(string $string) : string
     {
         if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
             || !function_exists("mb_convert_encoding")
         ) {
             return $string;
         }
-        try {
-            ob_end_clean();
-        } catch (Throwable $t) {
-            //
-        }
+
+        ob_end_clean();
 
         $mb_detect_encoding = mb_detect_encoding($string);
         mb_detect_order(array(self::ENCODING_UTF_8, self::ENCODING_ISO_8859_1));
@@ -104,30 +93,27 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $string;
     }
 
-    /**
-     * @return string
-     */
-    public function getFileContent()
+    public function getFileContent() : string
     {
         return $this->file_content;
     }
 
-    /**
-     * @param string $file_content
-     */
-    public function setFileContent($file_content)
+    public function setFileContent(string $file_content) : void
     {
         $this->file_content = $file_content;
     }
+    
+    abstract public function parseContent() : array;
 
     /**
      * @inheritDoc
      */
-    public function parseContentToEntries(ilObjBibliographic $bib)
+    public function parseContentToEntries(ilObjBibliographic $bib) : array
     {
         $entries_from_file = $this->parseContent();
         $entry_instances = [];
         //fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
+        
         foreach ($entries_from_file as $file_entry) {
             $type = null;
             $x = 0;
@@ -144,7 +130,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
                     $attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3) . '...';
                 }
                 // ty (RIS) or entryType (BIB) is the type and is treated seperately
-                if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {
+                if (strtolower($key) === 'ty' || strtolower($key) === 'entrytype') {
                     $type = $attribute;
                     continue;
                 }
@@ -154,9 +140,10 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
                 $parsed_entry[$x]['value'] = $attribute;
                 $x++;
             }
-            /**
-             * @var $entry_model ilBiblEntry
-             */
+     
+            if ($type === null) {
+                continue;
+            }
             //create the entry and fill data into database by executing doCreate()
             $entry_factory = $this->getEntryFactory();
             $entry_model = $entry_factory->getEmptyInstance();
@@ -166,7 +153,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
             foreach ($parsed_entry as $entry) {
                 $this->getAttributeFactory()->createAttribute($entry['name'], $entry['value'], $entry_model->getId());
             }
-            //$entry_model->doCreate();
             $entry_instances[] = $entry_model;
         }
 
@@ -176,7 +162,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritdoc
      */
-    public function getEntryFactory()
+    public function getEntryFactory() : ilBiblEntryFactoryInterface
     {
         return $this->entry_factory;
     }
@@ -184,7 +170,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritdoc
      */
-    public function getFieldFactory()
+    public function getFieldFactory() : ilBiblFieldFactoryInterface
     {
         return $this->field_factory;
     }
@@ -192,7 +178,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritDoc
      */
-    public function getAttributeFactory()
+    public function getAttributeFactory() : ilBiblAttributeFactoryInterface
     {
         return $this->attribute_factory;
     }

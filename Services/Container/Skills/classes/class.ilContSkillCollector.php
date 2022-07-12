@@ -17,6 +17,9 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+use ILIAS\Skill\Service\SkillProfileService;
+
 /**
  * Collector of skills for a container
  *
@@ -30,16 +33,22 @@ class ilContSkillCollector
     protected ilContainerGlobalProfiles $container_global_profiles;
     protected ilContainerLocalProfiles $container_local_profiles;
     protected ilSkillManagementSettings $skmg_settings;
+    protected SkillTreeService $tree_service;
+    protected SkillProfileService $profile_service;
 
     public function __construct(
         ilContainerSkills $a_cont_skills,
         ilContainerGlobalProfiles $a_cont_glb_profiles,
         ilContainerLocalProfiles $a_cont_lcl_profiles
     ) {
+        global $DIC;
+
         $this->container_skills = $a_cont_skills;
         $this->container_global_profiles = $a_cont_glb_profiles;
         $this->container_local_profiles = $a_cont_lcl_profiles;
         $this->skmg_settings = new ilSkillManagementSettings();
+        $this->tree_service = $DIC->skills()->tree();
+        $this->profile_service = $DIC->skills()->profile();
     }
 
     public function getSkillsForTableGUI() : array
@@ -52,7 +61,7 @@ class ilContSkillCollector
         $this->tab_skills = array_merge($s_skills, $p_skills);
 
         // order skills per virtual skill tree
-        $vtree = new ilVirtualSkillTree();
+        $vtree = $this->tree_service->getGlobalVirtualSkillTree();
         $this->tab_skills = $vtree->getOrderedNodeset($this->tab_skills, "base_skill_id", "tref_id");
 
         return $this->tab_skills;
@@ -66,12 +75,12 @@ class ilContSkillCollector
         $p_skills = [];
 
         foreach ($this->getProfileSkills() as $ps) {
-            $p_skills[$ps["base_skill_id"] . "-" . $ps["tref_id"]] = array(
+            $p_skills[$ps["base_skill_id"] . "-" . $ps["tref_id"]] = [
                 "base_skill_id" => $ps["base_skill_id"],
                 "tref_id" => $ps["tref_id"],
                 "title" => $ps["title"],
                 "profile" => $ps["profile"]
-            );
+            ];
         }
 
         $this->pres_skills = array_merge($s_skills, $p_skills);
@@ -81,12 +90,12 @@ class ilContSkillCollector
 
     protected function getSingleSkills() : array
     {
-        $s_skills = array_map(function ($v) {
-            return array(
+        $s_skills = array_map(static function (array $v) : array {
+            return [
                 "base_skill_id" => $v["skill_id"],
                 "tref_id" => $v["tref_id"],
                 "title" => ilBasicSkill::_lookupTitle($v["skill_id"], $v["tref_id"])
-            );
+            ];
         }, $this->container_skills->getSkills());
 
         return $s_skills;
@@ -98,15 +107,15 @@ class ilContSkillCollector
         // Global skills
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
             foreach ($this->container_global_profiles->getProfiles() as $gp) {
-                $profile = new ilSkillProfile($gp["profile_id"]);
+                $profile = $this->profile_service->getById($gp["profile_id"]);
                 $sklvs = $profile->getSkillLevels();
                 foreach ($sklvs as $s) {
-                    $p_skills[] = array(
+                    $p_skills[] = [
                         "base_skill_id" => $s["base_skill_id"],
                         "tref_id" => $s["tref_id"],
                         "title" => ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]),
                         "profile" => $profile->getTitle()
-                    );
+                    ];
                 }
             }
         }
@@ -114,15 +123,15 @@ class ilContSkillCollector
         // Local skills
         if ($this->skmg_settings->getAllowLocalProfiles()) {
             foreach ($this->container_local_profiles->getProfiles() as $lp) {
-                $profile = new ilSkillProfile($lp["profile_id"]);
+                $profile = $this->profile_service->getById($lp["profile_id"]);
                 $sklvs = $profile->getSkillLevels();
                 foreach ($sklvs as $s) {
-                    $p_skills[] = array(
+                    $p_skills[] = [
                         "base_skill_id" => $s["base_skill_id"],
                         "tref_id" => $s["tref_id"],
                         "title" => ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]),
                         "profile" => $profile->getTitle()
-                    );
+                    ];
                 }
             }
         }

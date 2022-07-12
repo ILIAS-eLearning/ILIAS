@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAuthProviderSaml
@@ -7,13 +22,14 @@
 class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
     protected ilSamlIdp $idp;
+    /** @var array<string, mixed> */
     protected array $attributes = [];
     protected string $return_to = '';
     protected string $uid = '';
     protected bool $force_new_account = false;
     protected string $migration_account = '';
 
-    public function __construct(ilAuthFrontendCredentials $credentials, ?int $a_idp_id = null)
+    public function __construct(ilAuthCredentials $credentials, ?int $a_idp_id = null)
     {
         parent::__construct($credentials);
 
@@ -46,12 +62,9 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         $this->uid = $this->attributes[$this->idp->getUidClaim()][0];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function doAuthentication(ilAuthStatus $status)
+    public function doAuthentication(ilAuthStatus $status) : bool
     {
-        if (!is_array($this->attributes) || 0 === count($this->attributes)) {
+        if (0 === count($this->attributes)) {
             $this->getLogger()->warning('Could not parse any attributes from SAML response.');
             $this->handleAuthenticationFail($status, 'err_wrong_login');
 
@@ -109,12 +122,15 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
             ));
             $internal_account = ilObjUser::_checkExternalAuthAccount($fallback_auth_mode, $this->uid, false);
 
-            $defaultAuth = AUTH_LOCAL;
+            $defaultAuth = ilAuthUtils::AUTH_LOCAL;
             if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
                 $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
             }
 
-            if ((!is_string($internal_account) || $internal_account === '') && ($defaultAuth == AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())) {
+            if (
+                (!is_string($internal_account) || $internal_account === '') &&
+                ($defaultAuth == ilAuthUtils::AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())
+            ) {
                 ilLoggerFactory::getLogger('auth')->debug(sprintf(
                     'Could not find ext_account "%s" for auth_mode "%s".',
                     $this->uid,
@@ -217,10 +233,6 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
             ilSession::set('tmp_return_to', null);
             ilSession::set('used_external_auth', true);
 
-            if ($this->return_to !== '') {
-                $_GET['target'] = $this->return_to;
-            }
-
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
             $status->setAuthenticatedUserId(ilObjUser::_lookupId($new_name));
 
@@ -233,17 +245,11 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function migrateAccount(ilAuthStatus $status)
+    public function migrateAccount(ilAuthStatus $status) : void
     {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function createNewAccount(ilAuthStatus $status)
+    public function createNewAccount(ilAuthStatus $status) : void
     {
         if (
             !is_array(ilSession::get('tmp_attributes')) ||
@@ -252,8 +258,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         ) {
             $this->getLogger()->warning('Cannot find user id for external account: ' . $this->getCredentials()->getUsername());
             $this->handleAuthenticationFail($status, 'err_wrong_login');
-
-            return false;
+            return;
         }
 
         $this->uid = $this->getCredentials()->getUsername();
@@ -262,38 +267,25 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
         $this->force_new_account = true;
 
-        return $this->handleSamlAuth($status);
+        $this->handleSamlAuth($status);
     }
 
-    /**
-     * Set external account name
-     * @param string $a_name
-     */
     public function setExternalAccountName(string $a_name) : void
     {
         $this->migration_account = $a_name;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExternalAccountName()
+    public function getExternalAccountName() : string
     {
         return $this->migration_account;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTriggerAuthMode()
+    public function getTriggerAuthMode() : string
     {
-        return AUTH_SAML . '_' . $this->idp->getIdpId();
+        return ilAuthUtils::AUTH_SAML . '_' . $this->idp->getIdpId();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUserAuthModeName()
+    public function getUserAuthModeName() : string
     {
         return 'saml_' . $this->idp->getIdpId();
     }
@@ -337,7 +329,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
             $xml_writer->xmlStartTag('User', ['Action' => 'Update', 'Id' => $usr_id]);
 
             $loginClaim = $a_user_data[$this->idp->getLoginClaim()][0];
-            if ($login !== $loginClaim) {
+            if (ilStr::strToLower($login) !== ilStr::strToLower($loginClaim)) {
                 $login = ilAuthUtils::_generateLogin($loginClaim);
                 $xml_writer->xmlElement('Login', [], $login);
             }
@@ -489,7 +481,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
                     break;
                 }
 
-                $definition = ilUserDefinedFields::_getInstance()->getDefinition($udf_data[1]);
+                $definition = ilUserDefinedFields::_getInstance()->getDefinition((int) $udf_data[1]);
                 $xml_writer->xmlElement(
                     'UserDefinedField',
                     ['Id' => $definition['il_id'], 'Name' => $definition['field_name']],

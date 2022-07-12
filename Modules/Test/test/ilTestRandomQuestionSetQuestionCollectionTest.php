@@ -38,7 +38,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
         $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
         $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
-        $this->assertEquals(3, count($this->testObj->getQuestions()));
+        $this->assertCount(3, $this->testObj->getQuestions());
     }
 
     public function testCurrent() : void

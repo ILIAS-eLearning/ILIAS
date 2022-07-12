@@ -1,28 +1,27 @@
-<div class="il-input-file" id="{ID}">
-<div class="il-input-file-dropzone">
-	{BUTTON}
-</div>
-<div class="il-input-file-filelist">
-	<div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red;" data-file-id="">
-		<div class="dz-details">
-			<div class="il-input-file-fileinfo">
-				<div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>
-				<div data-dz-size class="il-input-file-fileinfo-size"></div>
-				<div class="il-input-file-fileinfo-close">
-					<button type="button" class="close" data-dz-remove>
-						<span aria-hidden="true">&times;</span>
-						<span class="sr-only">Close</span>
-					</button>
-				</div>
-			</div>
+<div id="{ID}" class="ui-input-file">
+    <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
+        <!-- BEGIN block_file_preview -->
+        <div class="ui-input-file-input ui-input-dynamic-input">
+            <div class="ui-input-file-info">
+                {EXPAND_GLYPH}
+                {COLLAPSE_GLYPH}
+                <span data-dz-name>{FILE_NAME}</span>
+                <span data-dz-size>{FILE_SIZE}</span>
+                {REMOVAL_GLYPH}
+                <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+            </div>
 
-			<!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->
-			<!--			<div class="dz-success-mark"><span>✔</span></div>-->
-			<!--			<div class="dz-error-mark"><span>✘</span></div>-->
-			<div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>
-		</div>
+            <div class="ui-input-file-metadata" style="display: none;">
+                {METADATA_INPUTS}
+            </div>
+        </div>
+        <!-- END block_file_preview -->
+    </div>
 
-	</div>
-</div>
-<input class="input-template" type="hidden" name="{NAME}[]" value="" data-file-id="" />
+    <!-- BEGIN block_file_dropzone -->
+    <div class="ui-input-file-input-dropzone">
+        {ACTION_BUTTON}
+        <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+    </div>
+    <!-- END block_file_dropzone -->
 </div>

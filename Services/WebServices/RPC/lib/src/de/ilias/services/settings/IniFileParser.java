@@ -31,7 +31,8 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.prefs.Preferences;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ini4j.Ini;
 import org.ini4j.IniPreferences;
 
@@ -44,7 +45,7 @@ import org.ini4j.IniPreferences;
  */
 public class IniFileParser {
 
-	Logger logger = Logger.getLogger(IniFileParser.class);
+	Logger logger = LogManager.getLogger(IniFileParser.class);
 	
 	/**
 	 * 
@@ -79,7 +80,7 @@ public class IniFileParser {
 						serverSettings.setLogFile(purgeString(section.get("LogFile")));
 					if(section.containsKey("LogLevel"))
 						serverSettings.setLogLevel(purgeString(section.get("LogLevel")));
-					serverSettings.initLogger();
+					//serverSettings.initLogManager();
 					if(section.containsKey("NumThreads"))
 						serverSettings.setThreadNumber(purgeString(section.get("NumThreads")));
 					if(section.containsKey("RAMBufferSize"))

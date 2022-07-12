@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilRoleMailboxAddress
@@ -9,36 +24,18 @@
  */
 class ilRoleMailboxAddress
 {
-    /** @var int */
-    protected $roleId;
+    protected int $roleId;
+    protected bool $localize = true;
+    protected ilMailRfc822AddressParserFactory $parserFactory;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
-    /** @var bool */
-    protected $localize = true;
-
-    /** @var ilMailRfc822AddressParserFactory */
-    protected $parserFactory;
-
-    /** @var ilDBInterface */
-    protected $db;
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /**
-     * ilRoleMailboxAddress constructor.
-     * @param int $roleId
-     * @param bool $localize A boolean flag whether mailbox addresses should be localized
-     * @param ilMailRfc822AddressParserFactory|null $parserFactory
-     * @param ilDBInterface|null $db
-     * @param ilLanguage|null $lng
-     */
     public function __construct(
         int $roleId,
         bool $localize = true,
         ilMailRfc822AddressParserFactory $parserFactory = null,
         ilDBInterface $db = null,
         ilLanguage $lng = null
-
     ) {
         global $DIC;
 
@@ -137,7 +134,7 @@ class ilRoleMailboxAddress
         }
 
         $object_title = $row->object_title;
-        $object_ref = $row->object_ref;
+        $object_ref = (int) $row->object_ref;
         $role_title = $row->role_title;
 
         // In a perfect world, we could use the object_title in the
@@ -165,13 +162,13 @@ class ilRoleMailboxAddress
         //if (domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]/',$domain))
         // Fix for Mantis Bug: 7429 sending mail fails because of brakets
         // Fix for Mantis Bug: 9978 sending mail fails because of semicolon
-        if ($domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]|[;]/', $domain)) {
+        if ($domain !== null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]|[;]/', $domain)) {
             $domain = null;
         }
 
         // If the domain contains special characters, we put square
         //   brackets around it.
-        if ($domain != null &&
+        if ($domain !== null &&
             (preg_match('/[()<>@,;:\\".\[\]]/', $domain) ||
                 preg_match('/[^\x21-\x8f]/', $domain))
         ) {
@@ -181,7 +178,7 @@ class ilRoleMailboxAddress
         // If the role title is one of the ILIAS reserved role titles,
         //     we can use a shorthand version of it for the local part
         //     of the mailbox address.
-        if (strpos($role_title, 'il_') === 0 && $domain != null) {
+        if ($domain !== null && strpos($role_title, 'il_') === 0) {
             $unambiguous_role_title = $role_title;
 
             $pos = strpos($role_title, '_', 3) + 1;
@@ -198,7 +195,7 @@ class ilRoleMailboxAddress
         // domain, the local part must be unique within the whole repositry.
         // If we do have a domain, the local part must be unique for that
         // domain.
-        if ($domain == null) {
+        if ($domain === null) {
             $q = "SELECT COUNT(DISTINCT dat.obj_id) count " .
                 "FROM object_data dat " .
                 "JOIN object_reference ref ON ref.obj_id = dat.obj_id " .
@@ -247,12 +244,12 @@ class ilRoleMailboxAddress
             $local_part = '"' . $local_part . '"';
         }
 
-        $mailbox = ($domain == null) ?
+        $mailbox = ($domain === null) ?
             $local_part :
             $local_part . '@' . $domain;
 
         if ($this->localize) {
-            if (substr($role_title, 0, 3) == 'il_') {
+            if (strpos($role_title, 'il_') === 0) {
                 $phrase = $this->lng->txt(substr($role_title, 0, strrpos($role_title, '_')));
             } else {
                 $phrase = $role_title;
@@ -270,7 +267,7 @@ class ilRoleMailboxAddress
         }
 
         try {
-            $parser = $this->parserFactory->getParser((string) $mailbox);
+            $parser = $this->parserFactory->getParser($mailbox);
             $parser->parse();
 
             return $mailbox;
@@ -281,9 +278,9 @@ class ilRoleMailboxAddress
             ));
             if ($row = $this->db->fetchObject($res)) {
                 return '#' . $row->title;
-            } else {
-                return '';
             }
+
+            return '';
         }
     }
 }

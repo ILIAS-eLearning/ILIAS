@@ -1,59 +1,77 @@
 <?php
 
 /**
- * Used to stack messages to be shown to the user. Mostly used in ilUtil-Classes to present via ilUtil::sendMessage()
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\UI\Component\MessageBox\MessageBox;
+
+/**
+ * Used to stack messages to be shown to the user. Mostly used in ilUtil-Classes to present via ilUtil::sendMessage()
  */
 class ilSystemStyleMessageStack
 {
-
     /**
      * @var ilSystemStyleMessage[]
      */
-    protected $messages = array();
+    protected array $messages = [];
+    private ilGlobalTemplateInterface $main_tpl;
+    public function __construct(ilGlobalTemplateInterface $main_tpl)
+    {
+        $this->main_tpl = $main_tpl;
+    }
 
     /**
      * Add a message to be displayed before all others
-     *
-     * @param ilSystemStyleMessage $message
      */
-    public function prependMessage(ilSystemStyleMessage $message)
+    public function prependMessage(ilSystemStyleMessage $message) : void
     {
         array_unshift($this->messages, $message);
     }
 
     /**
      * Add a message to be displayed by the stack
-     *
-     * @param ilSystemStyleMessage $message
      */
-    public function addMessage(ilSystemStyleMessage $message)
+    public function addMessage(ilSystemStyleMessage $message) : void
     {
         $this->messages[] = $message;
     }
 
     /**
-     * Send messages via ilUtil to be displayed
-     *
-     * @param bool|false $keep
+     * Return Messages as UI Component
+     * @return MessageBox[]
      */
-    public function sendMessages($keep = false)
+    public function getUIComponentsMessages(\ILIAS\UI\Factory $f) : array
     {
+        $messages = [];
         foreach ($this->getJoinedMessages() as $type => $joined_message) {
             switch ($type) {
                 case ilSystemStyleMessage::TYPE_SUCCESS:
-                    ilUtil::sendSuccess($joined_message, $keep);
+                    $messages[] = $f->messageBox()->success($joined_message);
                     break;
                 case ilSystemStyleMessage::TYPE_INFO:
-                    ilUtil::sendInfo($joined_message, $keep);
+                    $messages[] = $f->messageBox()->info($joined_message);
                     break;
                 case ilSystemStyleMessage::TYPE_ERROR:
-                    ilUtil::sendFailure($joined_message, $keep);
+                    $messages[] = $f->messageBox()->failure($joined_message);
                     break;
             }
         }
+        return $messages;
     }
 
     /**
@@ -61,12 +79,12 @@ class ilSystemStyleMessageStack
      *
      * @return string[]
      */
-    public function getJoinedMessages()
+    public function getJoinedMessages() : array
     {
         $joined_messages = [];
         foreach ($this->getMessages() as $message) {
             if (!array_key_exists($message->getTypeId(), $joined_messages)) {
-                $joined_messages[$message->getTypeId()] = "";
+                $joined_messages[$message->getTypeId()] = '';
             }
             $joined_messages[$message->getTypeId()] .= $message->getMessageOutput();
         }
@@ -76,7 +94,7 @@ class ilSystemStyleMessageStack
     /**
      * @return ilSystemStyleMessage[]
      */
-    public function getMessages()
+    public function getMessages() : array
     {
         return $this->messages;
     }
@@ -84,18 +102,36 @@ class ilSystemStyleMessageStack
     /**
      * @param ilSystemStyleMessage[] $messages
      */
-    public function setMessages($messages)
+    public function setMessages(array $messages) : void
     {
         $this->messages = $messages;
     }
 
     /**
      * Return wheter there are any message at all stored in the stack
-     *
-     * @return bool
      */
-    public function hasMessages()
+    public function hasMessages() : bool
     {
         return count($this->getMessages()) > 0;
+    }
+
+    /**
+     * Send messages via ilUtil to be displayed, still needed for messagees, that need to survive a redirect
+     */
+    public function sendMessages(bool $keep = true) : void
+    {
+        foreach ($this->getJoinedMessages() as $type => $joined_message) {
+            switch ($type) {
+                case ilSystemStyleMessage::TYPE_SUCCESS:
+                    $this->main_tpl->setOnScreenMessage('success', $joined_message, $keep);
+                    break;
+                case ilSystemStyleMessage::TYPE_INFO:
+                    $this->main_tpl->setOnScreenMessage('info', $joined_message, $keep);
+                    break;
+                case ilSystemStyleMessage::TYPE_ERROR:
+                    $this->main_tpl->setOnScreenMessage('failure', $joined_message, $keep);
+                    break;
+            }
+        }
     }
 }

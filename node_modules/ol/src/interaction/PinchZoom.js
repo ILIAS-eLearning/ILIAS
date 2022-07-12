@@ -19,12 +19,14 @@ import {FALSE} from '../functions.js';
  */
 class PinchZoom extends PointerInteraction {
   /**
-   * @param {Options=} opt_options Options.
+   * @param {Options} [opt_options] Options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};
 
-    const pointerOptions = /** @type {import("./Pointer.js").Options} */ (options);
+    const pointerOptions = /** @type {import("./Pointer.js").Options} */ (
+      options
+    );
 
     if (!pointerOptions.stopDown) {
       pointerOptions.stopDown = FALSE;

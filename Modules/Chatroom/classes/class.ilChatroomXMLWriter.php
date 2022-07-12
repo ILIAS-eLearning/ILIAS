@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomXMLWriter
@@ -24,7 +39,7 @@ class ilChatroomXMLWriter extends ilXmlWriter
 
     public function start() : void
     {
-        $this->xmlStartTag('Chatroom', null);
+        $this->xmlStartTag('Chatroom');
 
         $this->xmlElement('ObjId', null, (string) $this->chat->getId());
         $this->xmlElement('RoomId', null, (string) $this->room->getRoomId());
@@ -50,9 +65,9 @@ class ilChatroomXMLWriter extends ilXmlWriter
     {
         $privateRooms = $this->room->getPrivateRooms();
         if (count($privateRooms) > 0) {
-            $this->xmlStartTag('SubRooms', null);
+            $this->xmlStartTag('SubRooms');
             foreach ($privateRooms as $privateRoom) {
-                $this->xmlStartTag('SubRoom', null);
+                $this->xmlStartTag('SubRoom');
                 $this->xmlElement('SubRoomId', null, (string) ((int) $privateRoom['proom_id']));
                 $this->xmlElement('Title', null, (string) $privateRoom['title']);
                 $this->xmlElement('Owner', null, (string) ((int) $privateRoom['owner']));
@@ -71,9 +86,9 @@ class ilChatroomXMLWriter extends ilXmlWriter
 
         $history = $this->room->getHistory(null, null, null, null, false);
         if (count($history) > 0) {
-            $this->xmlStartTag('Messages', null);
+            $this->xmlStartTag('Messages');
             foreach ($history as $entry) {
-                $this->xmlStartTag('Message', null);
+                $this->xmlStartTag('Message');
                 $this->xmlElement('SubRoomId', null, (string) ((int) $entry['sub_room']));
                 $this->xmlElement('Body', null, json_encode($entry['message'], JSON_THROW_ON_ERROR));
                 $this->xmlElement('CreatedTimestamp', null, (string) ((int) $entry['timestamp']));

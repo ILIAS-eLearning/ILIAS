@@ -43,8 +43,12 @@ class ilStyleConfigStoredObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-
-        $ini->setVariable("tools", "lessc", $this->config->getPathToLessc());
+    
+        $ini->setVariable(
+            "tools",
+            "lessc",
+            $this->config->getPathToLessc() ?? ''
+        );
         $ini->setVariable("tools", "enable_system_styles_management", $this->config->getManageSystemStyles() ? "1" : "0");
 
         if (!$ini->write()) {

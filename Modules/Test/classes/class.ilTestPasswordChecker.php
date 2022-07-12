@@ -41,7 +41,7 @@ class ilTestPasswordChecker
         $this->initSession();
     }
     
-    public function isPasswordProtectionPageRedirectRequired()
+    public function isPasswordProtectionPageRedirectRequired() : bool
     {
         if (!$this->isTestPasswordEnabled()) {
             return false;
@@ -58,17 +58,17 @@ class ilTestPasswordChecker
         return true;
     }
 
-    protected function isTestPasswordEnabled()
+    protected function isTestPasswordEnabled() : int
     {
         return strlen($this->testOBJ->getPassword());
     }
 
-    protected function isPrivilegedParticipant()
+    protected function isPrivilegedParticipant() : bool
     {
         return $this->rbacsystem->checkAccess('write', $this->testOBJ->getRefId());
     }
     
-    public function wrongUserEnteredPasswordExist()
+    public function wrongUserEnteredPasswordExist() : bool
     {
         if (!strlen($this->getUserEnteredPassword())) {
             return false;
@@ -77,29 +77,29 @@ class ilTestPasswordChecker
         return !$this->isUserEnteredPasswordCorrect();
     }
 
-    public function isUserEnteredPasswordCorrect()
+    public function isUserEnteredPasswordCorrect() : bool
     {
         return $this->getUserEnteredPassword() == $this->testOBJ->getPassword();
     }
 
     public function setUserEnteredPassword($enteredPassword)
     {
-        $_SESSION[$this->buildSessionKey()] = $enteredPassword;
+        ilSession::set($this->buildSessionKey(), $enteredPassword);
     }
     
     protected function getUserEnteredPassword()
     {
-        return $_SESSION[$this->buildSessionKey()];
+        return ilSession::get($this->buildSessionKey());
     }
 
     protected function initSession()
     {
-        if (!isset($_SESSION[$this->buildSessionKey()])) {
-            $_SESSION[$this->buildSessionKey()] = null;
+        if (ilSession::get($this->buildSessionKey()) !== null) {
+            ilSession::clear($this->buildSessionKey());
         }
     }
     
-    protected function buildSessionKey()
+    protected function buildSessionKey() : string
     {
         return 'tst_password_' . $this->testOBJ->getTestId();
     }
@@ -121,7 +121,7 @@ class ilTestPasswordChecker
         );
     }
     
-    protected function getWrongEnteredPasswordLogMsg()
+    protected function getWrongEnteredPasswordLogMsg() : string
     {
         return $this->lng->txtlng(
             'assessment',

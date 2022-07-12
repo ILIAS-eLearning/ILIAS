@@ -329,41 +329,41 @@ public function getSome() {
 
 **Where**
 
-| Method-Call                                                                                                                     | Query                                                                                       | 
-|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------| 
-| ```arMessage::where(array('type' => arMessage::TYPE_READ));```                                                                  | ```SELECT * FROM ar_message WHERE ar_message.type = 1```                                    | 
-| ```arMessage::where(array('type'=>arMessage::TYPE_NEW), '!=');```                                                               | ```SELECT * FROM ar_message WHERE ar_message.type != 1```                                   | 
-| ```arMessage::where(array( 'type' => arMessage::TYPE_NEW, 'title' => '%test%' ), '=');```                                       | ```SELECT * FROM ar_message WHERE ar_message.type = 1 AND ar_message.title = '%test%'```    | 
-| ```arMessage::where(array( 'type' => arMessage::TYPE_NEW, 'title' => '%test%' ), array( 'type' => '=', 'title' => 'LIKE' ));``` | ```SELECT * FROM ar_message WHERE ar_message.type = 1 AND ar_message.title LIKE '%test%'``` | 
-| ```arMessage::where(array( 'type' => arMessage::TYPE_NEW ))->where(array( 'title' => '%test%' ), 'LIKE')```                     | ```SELECT * FROM ar_message WHERE ar_message.type = 1 AND ar_message.title LIKE '%test%'``` | 
+| Method-Call                                                                                                                     | Query                                                                                       |
+|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| ```arMessage::where(array('type' => arMessage::TYPE_READ));```                                                                  | ```SELECT * FROM ar_message WHERE ar_message.type = 1```                                    |
+| ```arMessage::where(array('type'=>arMessage::TYPE_NEW), '!=');```                                                               | ```SELECT * FROM ar_message WHERE ar_message.type != 1```                                   |
+| ```arMessage::where(array( 'type' => arMessage::TYPE_NEW, 'title' => '%test%' ), '=');```                                       | ```SELECT * FROM ar_message WHERE ar_message.type = 1 AND ar_message.title = '%test%'```    |
+| ```arMessage::where(array( 'type' => arMessage::TYPE_NEW, 'title' => '%test%' ), array( 'type' => '=', 'title' => 'LIKE' ));``` | ```SELECT * FROM ar_message WHERE ar_message.type = 1 AND ar_message.title LIKE '%test%'``` |
+| ```arMessage::where(array( 'type' => arMessage::TYPE_NEW ))->where(array( 'title' => '%test%' ), 'LIKE')```                     | ```SELECT * FROM ar_message WHERE ar_message.type = 1 AND ar_message.title LIKE '%test%'``` |
 
 **Oder By**
 
-| Method-Call                                                 | Query                                                         | 
-|-------------------------------------------------------------|---------------------------------------------------------------| 
-| ```arMessage::orderBy('title');```                          | ```SELECT * FROM ar_message ORDER BY title ASC```             | 
-| ```arMessage::orderBy('title', 'DESC');```                  | ```SELECT * FROM ar_message ORDER BY title DESC```            | 
-| ```arMessage::orderBy('title', 'DESC')->orderBy('type');``` | ```SELECT * FROM ar_message ORDER BY title DESC, type ASC'``` | 
+| Method-Call                                                 | Query                                                         |
+|-------------------------------------------------------------|---------------------------------------------------------------|
+| ```arMessage::orderBy('title');```                          | ```SELECT * FROM ar_message ORDER BY title ASC```             |
+| ```arMessage::orderBy('title', 'DESC');```                  | ```SELECT * FROM ar_message ORDER BY title DESC```            |
+| ```arMessage::orderBy('title', 'DESC')->orderBy('type');``` | ```SELECT * FROM ar_message ORDER BY title DESC, type ASC'``` |
 
 **Limit**
 
-| Method-Call                     | Query                                       | 
-|---------------------------------|---------------------------------------------| 
-| ```arMessage::limit(0, 100);``` | ```SELECT * FROM ar_message LIMIT 0, 100``` | 
+| Method-Call                     | Query                                       |
+|---------------------------------|---------------------------------------------|
+| ```arMessage::limit(0, 100);``` | ```SELECT * FROM ar_message LIMIT 0, 100``` |
 
 **Join**
 
-| Method-Call                                                                     | Query                                                                                                                    | 
-|---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------| 
-| ```arMessage::innerjoin('usr_data', 'receiver_id', 'usr_id');```                | ```SELECT ar_message.*, usr_data.* FROM ar_message INNER JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id```    | 
-| ```arMessage::leftjoin('usr_data', 'receiver_id', 'usr_id', array('email'));``` | ```SELECT ar_message.*, usr_data.email FROM ar_message LEFT JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id``` | 
+| Method-Call                                                                     | Query                                                                                                                    |
+|---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| ```arMessage::innerjoin('usr_data', 'receiver_id', 'usr_id');```                | ```SELECT ar_message.*, usr_data.* FROM ar_message INNER JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id```    |
+| ```arMessage::leftjoin('usr_data', 'receiver_id', 'usr_id', array('email'));``` | ```SELECT ar_message.*, usr_data.email FROM ar_message LEFT JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id``` |
 
 **Combining statements**
 
-| Method-Call                                                                     | Query                                                                                                                    | 
-|---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------| 
-| ```arMessage::innerjoin('usr_data', 'receiver_id', 'usr_id');```                | ```SELECT ar_message.*, usr_data.* FROM ar_message INNER JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id```    | 
-| ```arMessage::leftjoin('usr_data', 'receiver_id', 'usr_id', array('email'));``` | ```SELECT ar_message.*, usr_data.email FROM ar_message LEFT JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id``` | 
+| Method-Call                                                                     | Query                                                                                                                    |
+|---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| ```arMessage::innerjoin('usr_data', 'receiver_id', 'usr_id');```                | ```SELECT ar_message.*, usr_data.* FROM ar_message INNER JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id```    |
+| ```arMessage::leftjoin('usr_data', 'receiver_id', 'usr_id', array('email'));``` | ```SELECT ar_message.*, usr_data.email FROM ar_message LEFT JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id``` |
 
 ### Get information
 

@@ -1,4 +1,18 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Controller (handles editor initialisation process)
@@ -12,6 +26,7 @@ export default class PageModel {
   STATE_DRAG_DROP = "drag_drop";        // drag drop
   STATE_COMPONENT = "component";        // component editing (in slate)
   STATE_MULTI_ACTION = "multi";         // multi action
+  STATE_SERVER_CMD = "server_cmd";       // waiting for server command being performed
 
   STATE_COMPONENT_EDIT = "edit";        // component editing
   STATE_COMPONENT_INSERT = "insert";    // component inserting
@@ -74,9 +89,11 @@ export default class PageModel {
     this.STATE_DRAG_DROP = "drag_drop";        // drag drop
     this.STATE_COMPONENT = "component";        // component editing (in slate)
     this.STATE_MULTI_ACTION = "multi";         // multi action
+    this.STATE_SERVER_CMD = "server_cmd";      // server command being performed
 
     this.STATE_COMPONENT_EDIT = "edit";        // component editing
     this.STATE_COMPONENT_INSERT = "insert";    // component inserting
+    this.STATE_COMPONENT_SERVER_CMD = "comp_server_cmd";      // component server command being performed
     this.STATE_COMPONENT_NONE = "";
 
     this.STATE_MULTI_COPY = "copy";        // multi copy
@@ -106,8 +123,19 @@ export default class PageModel {
 
     this.splitIds = [];
     this.dom = document;
-    this.states = [this.STATE_PAGE, this.STATE_DRAG_DROP, this.STATE_COMPONENT, this.STATE_MULTI_ACTION];
-    this.component_states = [this.STATE_COMPONENT_NONE, this.STATE_COMPONENT_EDIT, this.STATE_COMPONENT_INSERT];
+    this.states = [
+      this.STATE_PAGE,
+      this.STATE_DRAG_DROP,
+      this.STATE_COMPONENT,
+      this.STATE_MULTI_ACTION,
+      this.STATE_SERVER_CMD
+    ];
+    this.component_states = [
+      this.STATE_COMPONENT_NONE,
+      this.STATE_COMPONENT_EDIT,
+      this.STATE_COMPONENT_INSERT,
+      this.STATE_COMPONENT_SERVER_CMD
+    ];
     this.multi_states = [this.STATE_MULTI_NONE, this.STATE_MULTI_CUT, this.STATE_MULTI_COPY, this.STATE_MULTI_CHARACTERISTIC];
   }
 

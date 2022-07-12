@@ -1,70 +1,23 @@
-<?php
-require_once './Services/Component/classes/class.ilPlugin.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilRendererConfig.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilPDFRenderer.php';
+<?php declare(strict_types=1);
 
 /**
- * Abstract parent class for all pdf renderer plugin classes.
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Alex Killing      <alex.killing@gmx.de>
- * @author Maximilian Becker <mbecker@databay.de>
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @version $Id$
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- * @ingroup ServicesPDFGeneration
- */
+ *********************************************************************/
+
 abstract class ilPDFRendererPlugin extends ilPlugin implements ilRendererConfig, ilPDFRenderer
 {
-    /** --- ilPlugin -- */
-
-    /**
-     * Get Component Type
-     *
-     * @return string Component Type
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    /**
-     * Get Component Name.
-     *
-     * @return string Component Name
-     */
-    final public function getComponentName()
-    {
-        return "PDFGeneration";
-    }
-
-    /**
-     * Get Slot Name.
-     *
-     * @return string Slot Name
-     */
-    final public function getSlot()
-    {
-        return "Renderer";
-    }
-
-    /**
-     * Get Slot ID.
-     *
-     * @return string Slot Id
-     */
-    final public function getSlotId()
-    {
-        return "renderer";
-    }
-
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-
     /** --- ilPDFRendererPlugin -- */
     // Note: Most of the required methods come from interface ilRendererConfig
 }

@@ -1,129 +1,93 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Nested List
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNestedList
 {
-    protected $item_class = "il_Explorer";
-    protected $list_class = array();
-    protected $auto_numbering = false;
-    protected $nr = array();
+    protected string $item_class = "il_Explorer";
+    protected array $list_class = array();
+    protected bool $auto_numbering = false;
+    protected array $nr = array();
+    protected array $nodes = [];
+    protected array $childs = [];
 
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
-    public function __constructor()
+    public function __construct()
     {
         $this->list_class[0] = "il_Explorer";
         $this->childs[0] = array();
     }
 
-    /**
-     * Set li class
-     *
-     * @param	string	li class
-     */
-    public function setItemClass($a_val)
+    // Set li class
+    public function setItemClass(string $a_val) : void
     {
         $this->item_class = $a_val;
     }
 
-    /**
-     * Get li class
-     *
-     * @return	string	li class
-     */
-    public function getItemClass()
+    public function getItemClass() : string
     {
         return $this->item_class;
     }
 
-    /**
-     * Set list class
-     *
-     * @param	string	list class
-     */
-    public function setListClass($a_val, $a_depth = 0)
+    // Set list class
+    public function setListClass(string $a_val, int $a_depth = 0) : void
     {
-        //var_dump($a_val);
         $this->list_class[$a_depth] = $a_val;
     }
 
-    /**
-     * Get list class
-     *
-     * @return	string	list class
-     */
-    public function getListClass($a_depth = 0)
+    public function getListClass(int $a_depth = 0) : string
     {
-        return $this->list_class[$a_depth];
+        return $this->list_class[$a_depth] ?? "";
     }
 
-    /**
-     * Add list node
-     *
-     * @param
-     * @return
-     */
-    public function addListNode($a_content, $a_id, $a_parent = 0)
-    {
+    public function addListNode(
+        string $a_content,
+        string $a_id,
+        $a_parent = 0
+    ) : void {
         $this->nodes[$a_id] = $a_content;
         $this->childs[$a_parent][] = $a_id;
     }
 
-    /**
-     * Set auto numbering
-     *
-     * @param	bool	$a_val	auto numbering
-     */
-    public function setAutoNumbering($a_val)
+    public function setAutoNumbering(bool $a_val) : void
     {
         $this->auto_numbering = $a_val;
     }
 
-    /**
-     * Get auto numbering
-     *
-     * @return	bool	auto numbering
-     */
-    public function getAutoNumbering()
+    public function getAutoNumbering() : bool
     {
         return $this->auto_numbering;
     }
 
-    /**
-     * Get numbers
-     *
-     * @return	array	number array
-     */
-    public function getNumbers()
+    public function getNumbers() : array
     {
         return $this->nr;
     }
 
-
-    /**
-     * Get HTML
-     *
-     * @param
-     * @return
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $tpl = new ilTemplate("tpl.nested_list.html", true, true, "Services/UIComponent/NestedList");
 
         $nr = array();
         $depth = 1;
-        if (is_array($this->childs[0]) && count($this->childs[0]) > 0) {
+        if (isset($this->childs[0]) && count($this->childs[0]) > 0) {
             $this->listStart($tpl, $depth);
             foreach ($this->childs[0] as $child) {
                 $this->renderNode($child, $tpl, $depth, $nr);
@@ -134,14 +98,12 @@ class ilNestedList
         return $tpl->get();
     }
 
-    /**
-     * Render node
-     *
-     * @param
-     * @return
-     */
-    public function renderNode($a_id, $tpl, $depth, &$nr)
-    {
+    public function renderNode(
+        $a_id,
+        ilTemplate $tpl,
+        int $depth,
+        array &$nr
+    ) : void {
         if (!isset($nr[$depth])) {
             $nr[$depth] = 1;
         } else {
@@ -164,7 +126,7 @@ class ilNestedList
         $tpl->parseCurrentBlock();
         $tpl->touchBlock("tag");
 
-        if (is_array($this->childs[$a_id]) && count($this->childs[$a_id]) > 0) {
+        if (isset($this->childs[$a_id]) && count($this->childs[$a_id]) > 0) {
             $this->listStart($tpl, $depth + 1);
             foreach ($this->childs[$a_id] as $child) {
                 $this->renderNode($child, $tpl, $depth + 1, $nr);
@@ -176,15 +138,9 @@ class ilNestedList
         $this->listItemEnd($tpl);
     }
 
-    /**
-     * List item start
-     *
-     * @param
-     * @return
-     */
-    public function listItemStart($tpl)
+    public function listItemStart(ilTemplate $tpl) : void
     {
-        if ($this->getItemClass() != "") {
+        if ($this->getItemClass() !== "") {
             $tpl->setCurrentBlock("list_item_start");
             $tpl->setVariable("LI_CLASS", ' class="' . $this->getItemClass() . '" ');
             $tpl->parseCurrentBlock();
@@ -194,33 +150,21 @@ class ilNestedList
         $tpl->touchBlock("tag");
     }
 
-    /**
-     * List item end
-     *
-     * @param
-     * @return
-     */
-    public function listItemEnd($tpl)
+    public function listItemEnd(ilTemplate $tpl) : void
     {
         $tpl->touchBlock("list_item_end");
         $tpl->touchBlock("tag");
     }
 
-    /**
-     * List start
-     *
-     * @param
-     * @return
-     */
-    public function listStart($tpl, $depth)
+    public function listStart(ilTemplate $tpl, int $depth) : void
     {
         //echo "<br>listStart";
 
-        $class = ($this->getListClass($depth) != "")
+        $class = ($this->getListClass($depth) !== "")
             ? $this->getListClass($depth)
             : $this->getListClass();
         //echo "-$class-";
-        if ($class != "") {
+        if ($class !== "") {
             $tpl->setCurrentBlock("list_start");
             $tpl->setVariable("UL_CLASS", ' class="' . $class . '" ');
             $tpl->parseCurrentBlock();
@@ -230,13 +174,7 @@ class ilNestedList
         $tpl->touchBlock("tag");
     }
 
-    /**
-     * List end
-     *
-     * @param
-     * @return
-     */
-    public function listEnd($tpl)
+    public function listEnd(ilTemplate $tpl) : void
     {
         //echo "<br>listEnd";
         $tpl->touchBlock("list_end");

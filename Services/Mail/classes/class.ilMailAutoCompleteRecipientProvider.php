@@ -1,48 +1,35 @@
-<?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailAutoCompleteRecipientProvider
  */
 abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 {
-    /**
-     * The database access object
-     * @var         ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected ?ilDBStatement $res = null;
+    /** @var null|array{login?: string, firstname?: string, lastname?: string} */
+    protected ?array $data = null;
+    protected string $quoted_term ;
+    protected string $term = '';
+    protected int $user_id = 0;
 
-    /**
-     * @var     ilDBStatement
-     */
-    protected $res;
-
-    /**
-     * Holds the data of a tuple
-     * @var array
-     */
-    protected $data = array();
-
-    /**
-     * @var string search term
-     */
-    protected $quoted_term = '';
-
-    /**
-     * @var string
-     */
-    protected $term = '';
-
-    /**
-     * @var int
-     */
-    protected $user_id = 0;
-
-    /**
-     * @param string $quoted_term
-     * @param string $term
-     */
-    public function __construct($quoted_term, $term)
+    public function __construct(string $quoted_term, string $term)
     {
         global $DIC;
 
@@ -52,28 +39,17 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
         $this->user_id = $DIC->user()->getId();
     }
 
-    /**
-     * "Valid" implementation of iterator interface
-     * @return bool
-     */
-    public function valid()
+    public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
 
-        return is_array($this->data);
+        return is_array($this->data) && !empty($this->data);
     }
 
-    /**
-     * "Next" implementation of iterator interface
-     */
-    public function next()
+    public function next() : void
     {
     }
 
-    /**
-     * Destructor
-     * Free the result
-     */
     public function __destruct()
     {
         if ($this->res) {

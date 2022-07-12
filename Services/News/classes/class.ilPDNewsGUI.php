@@ -1,68 +1,57 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\News\StandardGUIRequest;
 
 /**
-* News on PD
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilPDNewsGUI:
-*
-*/
-
+ * News on PD
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilPDNewsGUI:
+ */
 class ilPDNewsGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilHelpGUI $help;
+    protected ilObjUser $user;
+    protected ilFavouritesManager $fav_manager;
+    protected StandardGUIRequest $std_request;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-
-    /**
-     * @var ilFavouritesManager
-     */
-    protected $fav_manager;
-
-    /**
-    * Constructor
-    *
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
 
         $this->help = $DIC["ilHelp"];
         $this->user = $DIC->user();
-        $tpl = $DIC["tpl"];
+        $tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $ilHelp = $DIC["ilHelp"];
 
         $ilHelp->setScreenIdComponent("news");
-        
+
+        $this->std_request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
+
         // initiate variables
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -74,10 +63,7 @@ class ilPDNewsGUI
         $this->fav_manager = new ilFavouritesManager();
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         $next_class = $this->ctrl->getNextClass();
 
@@ -93,63 +79,52 @@ class ilPDNewsGUI
         return true;
     }
 
-    /**
-    * display header and locator
-    */
-    public function displayHeader()
+    public function displayHeader() : void
     {
         $this->tpl->setTitle($this->lng->txt("news"));
-        
-        // display infopanel if something happened
-        ilUtil::infoPanel();
     }
 
-    /*
-    * display notes
-    */
-    public function view()
+    public function view() : void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
 
-        $ref_ids = array();
-        $obj_ids = array();
+        $ref_ids = [];
+        $obj_ids = [];
         $pd_items = $this->fav_manager->getFavouritesOfUser($ilUser->getId());
         foreach ($pd_items as $item) {
-            $ref_ids[] = $item["ref_id"];
-            $obj_ids[] = $item["obj_id"];
+            $ref_ids[] = (int) $item["ref_id"];
+            $obj_ids[] = (int) $item["obj_id"];
         }
         
-        $sel_ref_id = ($_GET["news_ref_id"] > 0)
-            ? $_GET["news_ref_id"]
+        $sel_ref_id = ($this->std_request->getNewsRefId() > 0)
+            ? $this->std_request->getNewsRefId()
             : $ilUser->getPref("news_sel_ref_id");
         
-        include_once("./Services/News/classes/class.ilNewsItem.php");
-        $per = ($_SESSION["news_pd_news_per"] != "")
-            ? $_SESSION["news_pd_news_per"]
+        $per = (ilSession::get("news_pd_news_per") != "")
+            ? ilSession::get("news_pd_news_per")
             : ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
         $news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $per);
         
         // related objects (contexts) of news
         $contexts[0] = $lng->txt("news_all_items");
         
-        $conts = array();
+        $conts = [];
         $sel_has_news = false;
         foreach ($ref_ids as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);
             $title = ilObject::_lookupTitle($obj_id);
             
             $conts[$ref_id] = $title;
-            if ($sel_ref_id == $ref_id) {
+            if ((int) $sel_ref_id === $ref_id) {
                 $sel_has_news = true;
             }
         }
         
-        $cnt = array();
+        $cnt = [];
         $nitem = new ilNewsItem();
-        $news_items = $nitem->_getNewsItemsOfUser(
+        $news_items = ilNewsItem::_getNewsItemsOfUser(
             $ilUser->getId(),
             false,
             true,
@@ -168,7 +143,7 @@ class ilPDNewsGUI
         
         
         if ($sel_ref_id > 0) {
-            $obj_id = ilObject::_lookupObjId($sel_ref_id);
+            $obj_id = ilObject::_lookupObjId((int) $sel_ref_id);
             $obj_type = ilObject::_lookupType($obj_id);
             $nitem->setContextObjId($obj_id);
             $nitem->setContextObjType($obj_type);
@@ -181,7 +156,6 @@ class ilPDNewsGUI
             );
         }
                 
-        include_once("./Services/News/classes/class.ilPDNewsTableGUI.php");
         $pd_news_table = new ilPDNewsTableGUI($this, "view", $contexts, $sel_ref_id);
         $pd_news_table->setData($news_items);
         $pd_news_table->setNoEntriesText($lng->txt("news_no_news_items"));
@@ -189,30 +163,27 @@ class ilPDNewsGUI
         $tpl->setContent($pd_news_table->getHTML());
     }
     
-    /**
-    * change related object
-    */
-    public function applyFilter()
+    public function applyFilter() : void
     {
         $ilUser = $this->user;
-        
-        $this->ctrl->setParameter($this, "news_ref_id", $_POST["news_ref_id"]);
-        $ilUser->writePref("news_sel_ref_id", $_POST["news_ref_id"]);
-        if ($_POST["news_per"] > 0) {
-            $_SESSION["news_pd_news_per"] = $_POST["news_per"];
+
+        $news_ref_id = $this->std_request->getNewsRefId();
+        $news_per = $this->std_request->getNewsPer();
+
+        $this->ctrl->setParameter($this, "news_ref_id", $news_ref_id);
+        $ilUser->writePref("news_sel_ref_id", (string) $news_ref_id);
+        if ($news_per > 0) {
+            ilSession::set("news_pd_news_per", $news_per);
         }
         $this->ctrl->redirect($this, "view");
     }
 
-    /**
-    * reset filter
-    */
-    public function resetFilter()
+    public function resetFilter() : void
     {
         $ilUser = $this->user;
         $this->ctrl->setParameter($this, "news_ref_id", 0);
-        $ilUser->writePref("news_sel_ref_id", 0);
-        $_SESSION["news_pd_news_per"] = "";
+        $ilUser->writePref("news_sel_ref_id", '0');
+        ilSession::clear("news_pd_news_per");
         $this->ctrl->redirect($this, "view");
     }
 }

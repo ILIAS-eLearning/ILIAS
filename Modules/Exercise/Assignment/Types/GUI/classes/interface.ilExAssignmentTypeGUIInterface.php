@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Interface for assignment types
  *
@@ -14,40 +28,32 @@ interface ilExAssignmentTypeGUIInterface
 {
     /**
      * Add custom form properties to edit form
-     * @param ilPropertyFormGUI $form
      */
     public function addEditFormCustomProperties(ilPropertyFormGUI $form);
 
     /**
      * Get values from form and put them into assignment
-     * @param ilExAssignment $ass
-     * @param ilPropertyFormGUI $form
      */
     public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form);
 
     /**
      * Get form values array from assignment
-     * @param ilExAssignment $ass
      * @return array
      */
     public function getFormValuesArray(ilExAssignment $ass);
 
     /**
      * Add overview content of submission to info screen object
-     * @param ilInfoScreenGUI $a_info
-     * @param ilExSubmission $a_submission
      */
     public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void;
 
     /**
      * Set submission
-     * @param ilExSubmission $a_submission
      */
     public function setSubmission(ilExSubmission $a_submission);
 
     /**
      * Set exercise
-     * @param ilObjExercise $a_exercise
      */
     public function setExercise(ilObjExercise $a_exercise);
 }

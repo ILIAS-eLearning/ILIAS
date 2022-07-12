@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailAddressTypeHelper
@@ -7,78 +22,48 @@
  */
 class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 {
-    /** @var string */
-    protected $installationHost = '';
+    protected string $installationHost = '';
 
-    /**
-     * ilMailAddressTypeHelperImpl constructor.
-     * @param string $installationHost
-     */
     public function __construct(string $installationHost)
     {
         $this->installationHost = $installationHost;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function doesGroupNameExists(string $name) : bool
     {
         return ilUtil::groupNameExists($name);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getGroupObjIdByTitle(string $title) : int
     {
-        return (int) ilObjGroup::_lookupIdByTitle($title);
+        return ilObjGroup::_lookupIdByTitle($title);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstanceByRefId(int $refId) : ilObject
     {
         return ilObjectFactory::getInstanceByRefId($refId);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAllRefIdsForObjId(int $objId) : array
     {
         return array_map('intval', ilObject::_getAllReferences($objId));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUserIdByLogin(string $login) : int
     {
-        return (int) ilObjUser::getUserIdByLogin($login);
+        return ilObjUser::getUserIdByLogin($login);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstallationHost() : string
     {
         return $this->installationHost;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getGlobalMailSystemId() : int
     {
         return ilMailGlobalServices::getMailObjectRefId();
     }
 
-    /**
-     * @param int $usrId
-     * @return bool
-     */
     public function receivesInternalMailsOnly(int $usrId) : bool
     {
         $options = new ilMailOptions($usrId);

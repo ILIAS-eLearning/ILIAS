@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
@@ -48,7 +63,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
         asort($options);
 
         $roleSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
-        $roleSelection->setValue((int) ($config['role_id'] ?? 0));
+        $roleSelection->setValue((string) ((int) ($config['role_id'] ?? 0)));
 
         $option->addSubItem($roleSelection);
 
@@ -73,8 +88,13 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
     {
         $roleId = $config['role_id'] ?? 0;
 
-        if (!is_numeric($roleId) || $roleId < 1 || is_float($roleId)) {
+        if (!is_numeric($roleId) || $roleId < 1 || $roleId > PHP_INT_MAX || is_float($roleId)) {
             return $uiFactory->legacy('');
+        }
+
+        $roleId = (int) $roleId;
+        if (!in_array($roleId, $this->rbacReview->getGlobalRoles(), true)) {
+            return $uiFactory->legacy($this->lng->txt('deleted'));
         }
 
         return $uiFactory->legacy($this->objectCache->lookupTitle($roleId));

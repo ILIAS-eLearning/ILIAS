@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
@@ -15,58 +30,17 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var bool
-     */
-    protected $questionTitleLinksEnabled = false;
+    protected bool $questionTitleLinksEnabled = false;
+    protected bool $questionRemoveRowButtonEnabled = false;
+    protected bool $questionManagingEnabled = false;
+    protected bool $positionInsertCommandsEnabled = false;
+    protected bool $questionPositioningEnabled = false;
+    protected bool $obligatoryQuestionsHandlingEnabled = false;
     
-    /**
-     * @var bool
-     */
-    protected $questionRemoveRowButtonEnabled = false;
-    
-    /**
-     * @var bool
-     */
-    protected $questionManagingEnabled = false;
-    
-    /**
-     * @var bool
-     */
-    protected $positionInsertCommandsEnabled = false;
-    
-    /**
-     * @var bool
-     */
-    protected $questionPositioningEnabled = false;
-    
-    /**
-     * @var bool
-     */
-    protected $obligatoryQuestionsHandlingEnabled = false;
-    
-    /**
-     * @var float
-     */
-    protected $totalPoints = 0;
-    
-    /**
-     * @var string
-     */
-    protected $totalWorkingTime = '';
-    
-    /**
-     * @var int
-     */
-    private $position = 0;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
+    protected float $totalPoints = 0;
+    protected string $totalWorkingTime = '';
+    private int $position = 0;
+
     public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
     {
         $this->setId('tst_qst_lst_' . $parentRefId);
@@ -88,10 +62,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
     
-    /**
-     * @return array
-     */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $cols = array(
             'qid' => array('txt' => $this->lng->txt('question_id'), 'default' => true),
@@ -104,10 +75,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         return $cols;
     }
     
-    /**
-     *
-     */
-    public function init()
+    public function init() : void
     {
         $this->initColumns();
         $this->initCommands();
@@ -116,11 +84,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->setSelectAllCheckbox('q_id');
         }
     }
-    
-    /**
-     *
-     */
-    protected function initColumns()
+
+    protected function initColumns() : void
     {
         if ($this->isCheckboxColumnRequired()) {
             $this->addColumn('', 'f', '1%', true);
@@ -164,7 +129,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
     }
     
-    protected function initCommands()
+    protected function initCommands() : void
     {
         if ($this->isQuestionManagingEnabled()) {
             $this->addMultiCommand('removeQuestions', $this->lng->txt('remove_question'));
@@ -186,61 +151,54 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         if ($this->isCheckboxColumnRequired()) {
-            $this->tpl->setVariable("CHECKBOX_QID", $data['question_id']);
+            $this->tpl->setVariable("CHECKBOX_QID", $a_set['question_id']);
         }
         
         if ($this->isQuestionPositioningEnabled()) {
             $this->position += 10;
-            $inputField = $this->buildPositionInput($data['question_id'], $this->position);
+            $inputField = $this->buildPositionInput($a_set['question_id'], $this->position);
             
             $this->tpl->setVariable("QUESTION_POSITION", $inputField);
-            $this->tpl->setVariable("POSITION_QID", $data['question_id']);
+            $this->tpl->setVariable("POSITION_QID", $a_set['question_id']);
         }
         
         if ($this->isColumnSelected('qid')) {
-            $this->tpl->setVariable("QUESTION_ID_PRESENTATION", $data['question_id']);
+            $this->tpl->setVariable("QUESTION_ID_PRESENTATION", $a_set['question_id']);
         }
         
         if ($this->isQuestionTitleLinksEnabled()) {
-            $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($data));
+            $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($a_set));
         } else {
-            $this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+            $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
         }
         
-        if (!$data['complete']) {
+        if (!$a_set['complete']) {
             $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
             $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
         }
         
         if ($this->isObligatoryQuestionsHandlingEnabled()) {
-            $this->tpl->setVariable("QUESTION_OBLIGATORY", $this->buildObligatoryColumnContent($data));
+            $this->tpl->setVariable("QUESTION_OBLIGATORY", $this->buildObligatoryColumnContent($a_set));
         }
         
         if ($this->isColumnSelected('description')) {
-            $this->tpl->setVariable("QUESTION_COMMENT", $data["description"] ? $data["description"] : '&nbsp;');
+            $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"] ? $a_set["description"] : '&nbsp;');
         }
         
-        $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
-        $this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
+        $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($a_set["type_tag"]));
+        $this->tpl->setVariable("QUESTION_POINTS", $a_set["points"]);
         
         if ($this->isColumnSelected('author')) {
-            $this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+            $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
         }
         
         if ($this->isColumnSelected('lifecycle')) {
             try {
-                $lifecycle = ilAssQuestionLifecycle::getInstance($data['lifecycle'])->getTranslation($this->lng);
+                $lifecycle = ilAssQuestionLifecycle::getInstance($a_set['lifecycle'])->getTranslation($this->lng);
                 $this->tpl->setVariable("QUESTION_LIFECYCLE", $lifecycle);
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->tpl->setVariable("QUESTION_LIFECYCLE", '');
@@ -248,24 +206,52 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if ($this->isColumnSelected('working_time')) {
-            $this->tpl->setVariable("QUESTION_WORKING_TIME", $data["working_time"]);
+            $this->tpl->setVariable("QUESTION_WORKING_TIME", $a_set["working_time"]);
         }
 
-        if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl') {
-            $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["orig_obj_fi"]));
+        if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) == 'qpl') {
+            $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($a_set["orig_obj_fi"]));
         } else {
             $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
         }
+        $actions = new ilAdvancedSelectionListGUI();
+        $actions->setId('qst' . $a_set["question_id"]);
+        $actions->setListTitle($this->lng->txt('actions'));
+
+        $actions->addItem(
+            $this->lng->txt('preview'),
+            '',
+            $this->getEditLink($a_set, get_class($this->getParentObject()), $this->getParentCmd())
+        );
         
+        if ($this->isQuestionManagingEnabled()) {
+            $editHref = $this->getEditLink($a_set, $a_set['type_tag'] . 'GUI', 'editQuestion');
+            $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
+
+            $editPageHref = $this->getEditLink($a_set, 'ilAssQuestionPageGUI', 'edit');
+            $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
+            
+            $moveHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'moveQuestions');
+            $actions->addItem($this->lng->txt('move'), '', $moveHref);
+            
+            $copyHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'copyQuestion');
+            $actions->addItem($this->lng->txt('copy'), '', $copyHref);
+            
+            $deleteHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'removeQuestions');
+            $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
+            
+            $feedbackHref = $this->getEditLink($a_set, 'ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
+            $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
+            
+            $hintsHref = $this->getEditLink($a_set, 'ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+            $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
+        }
+        $this->tpl->setVariable('ROW_ACTIONS', $actions->getHTML());
         if ($this->isQuestionRemoveRowButtonEnabled()) {
-            $this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($data));
+            $this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($a_set));
         }
     }
     
-    /**
-     * @param array $rowData
-     * @return string
-     */
     protected function buildQuestionRemoveButton(array $rowData) : string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'removeQid', $rowData['question_id']);
@@ -279,36 +265,47 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         return $button->render();
     }
     
-    /**
-     * @param array $rowData
-     * @return string
-     */
     protected function buildQuestionTitleLink(array $rowData) : string
     {
-        $this->ctrl->setParameter(
-            $this->getParentObject(),
-            'eqpl',
-            current(ilObject::_getAllReferences($rowData['obj_fi']))
-        );
-        
-        $this->ctrl->setParameter(
-            $this->getParentObject(),
-            'eqid',
-            $rowData['question_id']
-        );
-        
-        $questionHref = $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd());
-        
-        $this->ctrl->setParameter($this->getParentObject(), 'eqpl', '');
-        $this->ctrl->setParameter($this->getParentObject(), 'eqid', '');
+        $questionHref = $this->getEditLink($rowData, get_class($this->getParentObject()), $this->getParentCmd());
         
         return '<a href="' . $questionHref . '">' . $rowData["title"] . '</a>';
     }
     
-    /**
-     * @param array $data
-     * @return string
-     */
+    protected function getEditLink(array $rowData, string $target_class, string $cmd) : string
+    {
+        $this->ctrl->setParameterByClass(
+            $target_class,
+            'eqpl',
+            current(ilObject::_getAllReferences($rowData['obj_fi']))
+        );
+        
+        $this->ctrl->setParameterByClass(
+            $target_class,
+            'eqid',
+            $rowData['question_id']
+        );
+        
+        $this->ctrl->setParameterByClass(
+            $target_class,
+            'q_id',
+            $rowData['question_id']
+        );
+        $this->ctrl->setParameterByClass(
+            $target_class,
+            'calling_test',
+            $this->getId()
+        );
+        
+        $link = $this->ctrl->getLinkTargetByClass($target_class, $cmd);
+        
+        $this->ctrl->setParameterByClass($target_class, 'eqpl', '');
+        $this->ctrl->setParameterByClass($target_class, 'eqid', '');
+        $this->ctrl->setParameterByClass($target_class, 'q_id', '');
+        
+        return $link;
+    }
+
     protected function buildObligatoryColumnContent(array $rowData) : string
     {
         if (!$rowData['obligationPossible']) {
@@ -323,20 +320,12 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $checkedAttr = $rowData['obligatory'] ? 'checked="checked"' : '';
         return '<input type="checkbox" name="obligatory[' . $rowData['question_id'] . ']" value="1" ' . $checkedAttr . ' />';
     }
-    
-    /**
-     * @param $questionId
-     * @param $position
-     * @return string
-     */
+
     protected function buildPositionInput($questionId, $position) : string
     {
         return '<input type="text" name="order[q_' . $questionId . ']" value="' . $position . '" maxlength="3" size="3" />';
     }
-    
-    /**
-     * @return string
-     */
+
     protected function buildTableSaveCommandLabel() : string
     {
         if ($this->isObligatoryQuestionsHandlingEnabled() && $this->isQuestionPositioningEnabled()) {
@@ -353,10 +342,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         
         return $this->lng->txt('save');
     }
-    
-    /**
-     * @return string
-     */
+
     protected function buildPointsHeader() : string
     {
         if ($this->getTotalPoints()) {
@@ -365,10 +351,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         
         return $this->lng->txt('points');
     }
-    
-    /**
-     * @return string
-     */
+
     protected function buildWorkingTimeHeader() : string
     {
         if (strlen($this->getTotalWorkingTime())) {
@@ -377,10 +360,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         
         return $this->lng->txt('working_time');
     }
-    
-    /**
-     * @return bool
-     */
+
     protected function isTableSaveCommandRequired() : bool
     {
         if (!$this->isQuestionManagingEnabled()) {
@@ -389,139 +369,88 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         
         return $this->isQuestionPositioningEnabled() || $this->isObligatoryQuestionsHandlingEnabled();
     }
-    
-    /**
-     * @return bool
-     */
+
     protected function isCheckboxColumnRequired() : bool
     {
         return $this->isQuestionManagingEnabled() || $this->isPositionInsertCommandsEnabled();
     }
-    
-    /**
-     * @return bool
-     */
+
     public function isQuestionManagingEnabled() : bool
     {
         return $this->questionManagingEnabled;
     }
-    
-    /**
-     * @param bool $questionManagingEnabled
-     */
-    public function setQuestionManagingEnabled(bool $questionManagingEnabled)
+
+    public function setQuestionManagingEnabled(bool $questionManagingEnabled) : void
     {
         $this->questionManagingEnabled = $questionManagingEnabled;
     }
-    
-    /**
-     * @return bool
-     */
+
     public function isPositionInsertCommandsEnabled() : bool
     {
         return $this->positionInsertCommandsEnabled;
     }
     
-    /**
-     * @param bool $positionInsertCommandsEnabled
-     */
-    public function setPositionInsertCommandsEnabled(bool $positionInsertCommandsEnabled)
+    public function setPositionInsertCommandsEnabled(bool $positionInsertCommandsEnabled) : void
     {
         $this->positionInsertCommandsEnabled = $positionInsertCommandsEnabled;
     }
-    
-    /**
-     * @return bool
-     */
+
     public function isQuestionPositioningEnabled() : bool
     {
         return $this->questionPositioningEnabled;
     }
-    
-    /**
-     * @param bool $questionPositioningEnabled
-     */
-    public function setQuestionPositioningEnabled(bool $questionPositioningEnabled)
+
+    public function setQuestionPositioningEnabled(bool $questionPositioningEnabled) : void
     {
         $this->questionPositioningEnabled = $questionPositioningEnabled;
     }
-    
-    /**
-     * @return bool
-     */
+
     public function isObligatoryQuestionsHandlingEnabled() : bool
     {
         return $this->obligatoryQuestionsHandlingEnabled;
     }
-    
-    /**
-     * @param bool $obligatoryQuestionsHandlingEnabled
-     */
+
     public function setObligatoryQuestionsHandlingEnabled(bool $obligatoryQuestionsHandlingEnabled)
     {
         $this->obligatoryQuestionsHandlingEnabled = $obligatoryQuestionsHandlingEnabled;
     }
-    
-    /**
-     * @return float
-     */
+
     public function getTotalPoints() : float
     {
         return $this->totalPoints;
     }
-    
-    /**
-     * @param float $totalPoints
-     */
-    public function setTotalPoints(float $totalPoints)
+
+    public function setTotalPoints(float $totalPoints) : void
     {
         $this->totalPoints = $totalPoints;
     }
-    
-    /**
-     * @return string
-     */
+
     public function getTotalWorkingTime() : string
     {
         return $this->totalWorkingTime;
     }
     
-    /**
-     * @param string $totalWorkingTime
-     */
-    public function setTotalWorkingTime(string $totalWorkingTime)
+    public function setTotalWorkingTime(string $totalWorkingTime) : void
     {
         $this->totalWorkingTime = $totalWorkingTime;
     }
-    
-    /**
-     * @return bool
-     */
+
     public function isQuestionTitleLinksEnabled() : bool
     {
         return $this->questionTitleLinksEnabled;
     }
     
-    /**
-     * @param bool $questionTitleLinksEnabled
-     */
-    public function setQuestionTitleLinksEnabled(bool $questionTitleLinksEnabled)
+    public function setQuestionTitleLinksEnabled(bool $questionTitleLinksEnabled) : void
     {
         $this->questionTitleLinksEnabled = $questionTitleLinksEnabled;
     }
-    
-    /**
-     * @return bool
-     */
+
     public function isQuestionRemoveRowButtonEnabled() : bool
     {
         return $this->questionRemoveRowButtonEnabled;
     }
     
-    /**
-     * @param bool $questionRemoveRowButtonEnabled
-     */
-    public function setQuestionRemoveRowButtonEnabled(bool $questionRemoveRowButtonEnabled)
+    public function setQuestionRemoveRowButtonEnabled(bool $questionRemoveRowButtonEnabled) : void
     {
         $this->questionRemoveRowButtonEnabled = $questionRemoveRowButtonEnabled;
     }

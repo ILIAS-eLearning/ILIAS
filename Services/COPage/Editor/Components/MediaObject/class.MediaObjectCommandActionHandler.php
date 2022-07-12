@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\MediaObject;
 
@@ -12,30 +26,11 @@ use ILIAS\COPage\Editor\Server;
  */
 class MediaObjectCommandActionHandler implements Server\CommandActionHandler
 {
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilPageObjectGUI
-     */
-    protected $page_gui;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var Server\UIWrapper
-     */
-    protected $ui_wrapper;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilLanguage $lng;
+    protected \ilPageObjectGUI $page_gui;
+    protected \ilObjUser $user;
+    protected Server\UIWrapper $ui_wrapper;
 
     public function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -49,34 +44,21 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    /**
-     * @param $query
-     * @param $body
-     * @return Server\Response
-     */
-    public function handle($query, $body) : Server\Response
+    public function handle(array $query, array $body) : Server\Response
     {
         switch ($body["action"]) {
             case "insert":
                 return $this->insertCommand($body);
-                break;
 
             case "update":
                 return $this->updateCommand($body);
-                break;
 
             default:
                 throw new Exception("Unknown action " . $body["action"]);
-                break;
         }
     }
 
-    /**
-     * Insert command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function insertCommand($body) : Server\Response
+    protected function insertCommand(array $body) : Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -93,32 +75,36 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $pc_media = new \ilPCMediaObject($page);
         $pc_media->createMediaObject();
         $mob = $pc_media->getMediaObject();
-        \ilObjMediaObjectGUI::setObjectPerCreationForm($mob);
-        $pc_media->createAlias($page, $hier_id, $pc_id);
+
+        $mob_gui = new \ilObjMediaObjectGUI("");
+        $mob_gui->initForm("create");
+        if ($mob_gui->checkFormInput()) {
+            $mob_gui->setObjectPerCreationForm($mob);
+            $media_item = $mob->getMediaItem("Standard");
+            if (!is_null($media_item)) {
+                $pc_media->createAlias($page, $hier_id, $pc_id);
+            }
+        }
         $updated = $page->update();
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
-    /**
-     * Update command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function updateCommand($body) : Server\Response
+    protected function updateCommand(array $body) : Server\Response
     {
         $page = $this->page_gui->getPageObject();
-        $pc_media = $page->getContentObjectForPcId($body["pcid"]);
 
+        /** @var \ilPCMediaObject $pc_media */
+        $pc_media = $page->getContentObjectForPcId($body["pcid"]);
         $quick_edit = new \ilPCMediaObjectQuickEdit($pc_media);
 
-        $quick_edit->setTitle(\ilUtil::stripSlashes($body["standard_title"]));
-        $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"]));
-        $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"]));
+        $quick_edit->setTitle(\ilUtil::stripSlashes($body["standard_title"] ?? ""));
+        $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"] ?? ""));
+        $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"] ?? ""));
 
         $quick_edit->setUseFullscreen((bool) ($body["fullscreen"]));
-        $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"]));
-        $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"]));
+        $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"] ?? ""));
+        $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"] ?? ""));
 
         $pc_media->getMediaObject()->update();
         $updated = $page->update();

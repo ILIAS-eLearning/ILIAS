@@ -1,68 +1,67 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * User interface class for OpenLayers maps
- *
- * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilOpenLayersMapGUI extends ilMapGUI
 {
-    protected $tile_server;
-    protected $geolocation_server;
+    protected string $css_row;
+    protected string $tile_server;
+    protected ?string $geolocation_server;
 
     public function __construct()
     {
         parent::__construct();
+
+        $this->css_row = "";
+        $this->tile_server = "";
+        $this->geolocation_server = "";
     }
 
-    /**
-     * Get HTML
-     */
-    public function getTileServers()
+    public function getTileServers() : string
     {
         return  $this->tile_server;
     }
 
-    public function setTileServers($a_tile)
+    public function setTileServers(string $tile) : ilOpenLayersMapGUI
     {
-        $this->tile_server = $a_tile;
+        $this->tile_server = $tile;
         return $this;
     }
 
-    public function getGeolocationServer()
+    public function getGeolocationServer() : ?string
     {
         return $this->geolocation_server;
     }
 
-    public function setGeolocationServer($a_geolocation)
+    public function setGeolocationServer(?string $geolocation) : ilOpenLayersMapGUI
     {
-        $this->geolocation_server = $a_geolocation;
+        $this->geolocation_server = $geolocation;
         return $this;
     }
 
-
-
-    public function getHtml()
+    public function getHtml() : string
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $https = $DIC['https'];
-
-        $this->tpl = new ilTemplate(
+        $html_tpl = new ilTemplate(
             "tpl.openlayers_map.html",
             true,
             true,
             "Services/Maps"
         );
 
+        $js_tpl = new ilTemplate(
+            "tpl.openlayers_map.js",
+            true,
+            true,
+            "Services/Maps"
+        );
 
-        $lng->loadLanguageModule("maps");
-        $tpl->addCss("node_modules/ol/ol.css");
-        $tpl->addCss("Services/Maps/css/service_openlayers.css");
-        $tpl->addJavaScript("Services/Maps/js/dist/ServiceOpenLayers.js");
+        $this->lng->loadLanguageModule("maps");
+        $this->tpl->addCss("node_modules/ol/ol.css");
+        $this->tpl->addCss("Services/Maps/css/service_openlayers.css");
+        $this->tpl->addJavaScript("Services/Maps/js/dist/ServiceOpenLayers.js");
 
         // add user markers
         $cnt = 0;
@@ -71,17 +70,17 @@ class ilOpenLayersMapGUI extends ilMapGUI
                 $user = new ilObjUser($user_id);
                 if ($user->getLatitude() != 0 && $user->getLongitude() != 0 &&
                     $user->getPref("public_location") == "y") {
-                    $this->tpl->setCurrentBlock("user_marker");
-                    $this->tpl->setVariable(
+                    $js_tpl->setCurrentBlock("user_marker");
+                    $js_tpl->setVariable(
                         "UMAP_ID",
                         $this->getMapId()
                     );
-                    $this->tpl->setVariable("CNT", $cnt);
+                    $js_tpl->setVariable("CNT", $cnt);
 
-                    $this->tpl->setVariable("ULAT", htmlspecialchars($user->getLatitude()));
-                    $this->tpl->setVariable("ULONG", htmlspecialchars($user->getLongitude()));
+                    $js_tpl->setVariable("ULAT", htmlspecialchars($user->getLatitude()));
+                    $js_tpl->setVariable("ULONG", htmlspecialchars($user->getLongitude()));
                     $info = htmlspecialchars($user->getFirstName() . " " . $user->getLastName());
-                    $delim = "<br \/>";
+                    $delim = "<br />";
                     if ($user->getPref("public_institution") == "y") {
                         $info .= $delim . htmlspecialchars($user->getInstitution());
                         $delim = ", ";
@@ -89,7 +88,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
                     if ($user->getPref("public_department") == "y") {
                         $info .= $delim . htmlspecialchars($user->getDepartment());
                     }
-                    $delim = "<br \/>";
+                    $delim = "<br />";
                     if ($user->getPref("public_street") == "y") {
                         $info .= $delim . htmlspecialchars($user->getStreet());
                     }
@@ -100,44 +99,45 @@ class ilOpenLayersMapGUI extends ilMapGUI
                     if ($user->getPref("public_city") == "y") {
                         $info .= $delim . htmlspecialchars($user->getCity());
                     }
-                    $delim = "<br \/>";
+                    $delim = "<br />";
                     if ($user->getPref("public_country") == "y") {
                         $info .= $delim . htmlspecialchars($user->getCountry());
                     }
-                    $this->tpl->setVariable(
+                    $js_tpl->setVariable(
                         "USER_INFO",
                         $info
                     );
-                    $this->tpl->setVariable(
+                    $js_tpl->setVariable(
                         "IMG_USER",
                         $user->getPersonalPicturePath("xsmall")
                     );
-                    $this->tpl->parseCurrentBlock();
+                    $js_tpl->parseCurrentBlock();
                     $cnt++;
                 }
             }
         }
 
-        $this->tpl->setVariable("MAP_ID", $this->getMapId());
-        $this->tpl->setVariable("WIDTH", $this->getWidth());
-        $this->tpl->setVariable("HEIGHT", $this->getHeight());
-        $this->tpl->setVariable("LAT", $this->getLatitude());
-        $this->tpl->setVariable("LONG", $this->getLongitude());
-        $this->tpl->setVariable("ZOOM", (int) $this->getZoom());
+        $html_tpl->setVariable("MAP_ID", $this->getMapId());
+        $html_tpl->setVariable("WIDTH", $this->getWidth());
+        $html_tpl->setVariable("HEIGHT", $this->getHeight());
 
+        $js_tpl->setVariable("MAP_ID", $this->getMapId());
+        $js_tpl->setVariable("LAT", $this->getLatitude());
+        $js_tpl->setVariable("LONG", $this->getLongitude());
+        $js_tpl->setVariable("ZOOM", (int) $this->getZoom());
 
         $nav_control = $this->getEnableNavigationControl()
             ? "true"
             : "false";
-        $this->tpl->setVariable("NAV_CONTROL", $nav_control);
+        $js_tpl->setVariable("NAV_CONTROL", $nav_control);
         $central_marker = $this->getEnableCentralMarker()
             ? "true"
             : "false";
-        $this->tpl->setVariable("CENTRAL_MARKER", $central_marker);
+        $js_tpl->setVariable("CENTRAL_MARKER", $central_marker);
         $replace_marker = $this->getEnableUpdateListener()
             ? "true"
             : "false";
-        $this->tpl->setVariable("REPLACE_MARKER", $replace_marker);
+        $js_tpl->setVariable("REPLACE_MARKER", $replace_marker);
 
         $tile_servers = $this->getTileServers();
         $tile_servers = explode(" ", $tile_servers);
@@ -146,17 +146,19 @@ class ilOpenLayersMapGUI extends ilMapGUI
         });
         $tile_servers = '[' . implode(', ', $tile_servers) . ']';
 
-        $this->tpl->setVariable("TILES", $tile_servers);
-        $this->tpl->setVariable("GEOLOCATION", $this->getGeolocationServer());
-        $this->tpl->setVariable("INVALID_ADDRESS_STRING", $lng->txt("invalid_address"));
+        $js_tpl->setVariable("TILES", $tile_servers);
+        $js_tpl->setVariable("GEOLOCATION", $this->getGeolocationServer());
+        $js_tpl->setVariable("INVALID_ADDRESS_STRING", $this->lng->txt("invalid_address"));
 
-        return $this->tpl->get();
+        $this->tpl->addOnLoadCode($js_tpl->get());
+
+        return $html_tpl->get();
     }
 
     /**
      * Get User List HTML (to be displayed besides the map)
      */
-    public function getUserListHtml()
+    public function getUserListHtml() : string
     {
         $list_tpl = new ilTemplate(
             "tpl.openlayers_map_user_list.html",

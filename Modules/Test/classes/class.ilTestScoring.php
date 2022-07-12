@@ -54,7 +54,7 @@ class ilTestScoring
     /**
      * @return boolean
      */
-    public function getPreserveManualScores()
+    public function getPreserveManualScores() : bool
     {
         return $this->preserve_manual_scores;
     }
@@ -62,7 +62,7 @@ class ilTestScoring
     /**
      * @return int
      */
-    public function getQuestionId()
+    public function getQuestionId() : int
     {
         return $this->questionId;
     }
@@ -143,14 +143,14 @@ class ilTestScoring
     }
 
     /**
-     * @param $question_gui
+     * @param $question_gui $question_gui
      * @param $active_id
      * @param $pass
      * @param $questiondata
      */
     public function recalculateQuestionScore($question_gui, $active_id, $pass, $questiondata)
     {
-        /** @var assQuestion $question_gui */
+        /** @var assQuestionGUI $question_gui */
         if (is_object($question_gui)) {
             $reached = $question_gui->object->calculateReachedPoints($active_id, $pass);
             $actual_reached = $question_gui->object->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
@@ -178,7 +178,7 @@ class ilTestScoring
     /**
      * @return string HTML with the best solution output.
      */
-    public function calculateBestSolutionForTest()
+    public function calculateBestSolutionForTest() : string
     {
         $solution = '';
         foreach ($this->test->getAllQuestions() as $question) {
@@ -195,7 +195,7 @@ class ilTestScoring
         $this->recalculatedPasses = array();
     }
     
-    public function getRecalculatedPassesByActives()
+    public function getRecalculatedPassesByActives() : array
     {
         return $this->recalculatedPasses;
     }
@@ -236,7 +236,7 @@ class ilTestScoring
     /**
      * @return int
      */
-    public function getNumManualScorings()
+    public function getNumManualScorings() : int
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

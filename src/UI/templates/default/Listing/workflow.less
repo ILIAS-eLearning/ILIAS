@@ -1,18 +1,25 @@
+.il-workflow {
+	&.linear {
+		-webkit-box-shadow: @il-panel-shadow;
+		box-shadow: @il-panel-shadow;
+	}
+}
 .il-workflow-header {
 	// margin-bottom:  @il-slate-content-padding;
 	// height: @il-top-bar-height;
 	.il-workflow-title {
-		background-color: @il-content-bg;
-		color: @il-main-color;
+		background-color: @il-main-dark-bg;
+		color: @il-text-color;
 		font-size: 2.6rem;
 		font-weight: 300;
 		margin-bottom:  @il-slate-content-padding*3;
 		margin-top: 0;
+		padding: @il-padding-large-vertical @il-padding-large-horizontal;
 	}
 }
 .il-workflow-container {
 	list-style: none;
-	padding: 0;
+	padding: 0 @il-padding-small-horizontal;
 	.il-workflow-step {
 		&:before {
 			background-color: @il-workflow-icon-font-color;

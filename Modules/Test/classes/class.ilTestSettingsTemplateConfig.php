@@ -1,9 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Administration/classes/class.ilSettingsTemplateConfig.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
-require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -93,8 +106,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
             0,
             array(
                 ilObjTest::QUESTION_SET_TYPE_FIXED => $this->lng->txt("tst_question_set_type_fixed"),
-                ilObjTest::QUESTION_SET_TYPE_RANDOM => $this->lng->txt("tst_question_set_type_random"),
-                ilObjTest::QUESTION_SET_TYPE_DYNAMIC => $this->lng->txt("tst_question_set_type_dynamic"),
+                ilObjTest::QUESTION_SET_TYPE_RANDOM => $this->lng->txt("tst_question_set_type_random")
             )
         );
     }
@@ -378,18 +390,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
             array(
                 '0' => $this->lng->txt("tst_count_partial_solutions"),
                 '1' => $this->lng->txt("tst_count_correct_solutions")
-            )
-        );
-
-        $this->addSetting(
-            "mc_scoring",
-            ilSettingsTemplateConfig::SELECT,
-            $this->lng->txt("tst_score_mcmr_questions"),
-            true,
-            0,
-            array(
-                '0' => $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"),
-                '1' => $this->lng->txt("tst_score_mcmr_use_scoring_system")
             )
         );
 

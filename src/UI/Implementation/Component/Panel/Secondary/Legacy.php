@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
@@ -11,21 +25,10 @@ use ILIAS\UI\Component as C;
  */
 class Legacy extends Secondary implements C\Panel\Secondary\Legacy
 {
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var \ILIAS\UI\Component\Legacy\Legacy
-     */
-    protected $legacy;
+    protected C\Legacy\Legacy $legacy;
 
     public function __construct(string $title, C\Legacy\Legacy $legacy)
     {
-        $this->checkStringArg("title", $title);
-
         $this->title = $title;
         $this->legacy = $legacy;
     }

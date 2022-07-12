@@ -1,20 +1,28 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Data;
 use ILIAS\UI;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilPreviewSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
+    protected Refinery\Factory $refinery;
 
     public function __construct(
         Refinery\Factory $refinery
@@ -35,11 +43,9 @@ class ilPreviewSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilPreviewSetupConfig(
-                $data["path_to_ghostscript"] ?? null
-            );
-        });
+        return $this->refinery->custom()->transformation(fn ($data) : \ilPreviewSetupConfig => new \ilPreviewSetupConfig(
+            $data["path_to_ghostscript"] ?? null
+        ));
     }
 
     /**
@@ -47,6 +53,7 @@ class ilPreviewSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        /** @noinspection PhpParamsInspection */
         return new ilPreviewConfigStoredObjective($config);
     }
 
@@ -56,6 +63,7 @@ class ilPreviewSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         if ($config !== null) {
+            /** @noinspection PhpParamsInspection */
             return new ilPreviewConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();

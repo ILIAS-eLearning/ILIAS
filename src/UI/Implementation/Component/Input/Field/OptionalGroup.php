@@ -1,18 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Component as C;
-use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field;
+use LogicException;
 
 /**
  * This implements the optional group.
@@ -22,15 +33,12 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var	bool
-     */
-    protected $null_value_was_explicitly_set = false;
+    protected bool $null_value_was_explicitly_set = false;
 
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
         return null;
     }
@@ -46,16 +54,16 @@ class OptionalGroup extends Group implements Field\OptionalGroup
         return parent::isClientSideValueOk($value);
     }
 
-    public function withRequired($is_required)
+    public function withRequired($is_required) : Field\Input
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Input::withRequired($is_required);
     }
 
     /**
      * @inheritdoc
-     * @return OptionalGroup
      */
-    public function withValue($value)
+    public function withValue($value) : Field\Input
     {
         if ($value === null) {
             $clone = clone $this;
@@ -63,9 +71,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
             $clone->null_value_was_explicitly_set = true;
             return $clone;
         }
-        /**
-         * @var $clone OptionalGroup
-         */
+
         $clone = parent::withValue($value);
         $clone->null_value_was_explicitly_set = false;
         return $clone;
@@ -86,14 +92,14 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $post_input)
+    public function withInput(InputData $input) : Field\Input
     {
         if ($this->getName() === null) {
-            throw new \LogicException("Can only collect if input has a name.");
+            throw new LogicException("Can only collect if input has a name.");
         }
 
         if (!$this->isDisabled()) {
-            $value = $post_input->getOr($this->getName(), null);
+            $value = $input->getOr($this->getName(), null);
             if ($value === null) {
                 $clone = $this->withValue(null);
                 // Ugly hack to prevent shortcutting behaviour of applyOperationsTo
@@ -104,6 +110,6 @@ class OptionalGroup extends Group implements Field\OptionalGroup
                 return $clone;
             }
         }
-        return parent::withInput($post_input);
+        return parent::withInput($input);
     }
 }

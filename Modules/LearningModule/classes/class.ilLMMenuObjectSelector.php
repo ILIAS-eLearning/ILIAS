@@ -1,43 +1,45 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-* LM Menu Object Selector
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * LM Menu Object Selector
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
+ */
 class ilLMMenuObjectSelector extends ilExplorer
 {
+    public ilCtrl $ctrl;
+    public array $selectable_types;
+    public int $ref_id;
+    protected object $gui_obj;
+    protected int $menu_entry;
 
-    /**
-     * id of root folder
-     * @var int root folder id
-     * @access private
-     */
-    public $root_id;
-    public $output;
-    public $ctrl;
-    public $selectable_type;
-    public $ref_id;
-
-    /**
-    * Constructor
-    * @access	public
-    * @param	string	scriptname
-    * @param    int user_id
-    */
-    public function __construct($a_target, &$a_gui_obj)
-    {
+    public function __construct(
+        string $a_target,
+        object $a_gui_obj,
+        int $menu_entry
+    ) {
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
         $this->lng = $DIC->language();
         $tree = $DIC->repositoryTree();
         $ilCtrl = $DIC->ctrl();
+        $this->menu_entry = $menu_entry;
 
         $this->ctrl = $ilCtrl;
         
@@ -52,71 +54,52 @@ class ilLMMenuObjectSelector extends ilExplorer
         $this->addFilter("adm");
     }
 
-    public function setSelectableTypes($a_types)
+    public function setSelectableTypes(array $a_types) : void
     {
         $this->selectable_types = $a_types;
     }
 
-    public function setRefId($a_ref_id)
+    public function setRefId(int $a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
-    
 
-    public function buildLinkTarget($a_node_id, $a_type)
+    /**
+     * @param object|array $a_node_id
+     */
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         if (in_array($a_type, $this->selectable_types)) {
             $this->ctrl->setParameter($this->gui_obj, 'link_ref_id', $a_node_id);
-            if ($_GET["menu_entry"] > 0) {
+            if ($this->menu_entry > 0) {
                 return $this->ctrl->getLinkTarget($this->gui_obj, 'editMenuEntry');
             } else {
                 return $this->ctrl->getLinkTarget($this->gui_obj, 'addMenuEntry');
             }
         }
+        return "";
     }
-
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+    
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        return '';
+        return in_array($type, $this->selectable_types) && $ref_id !== $this->ref_id;
     }
-
-    public function isClickable($a_type, $a_ref_id = 0)
-    {//return true;
-        return in_array($a_type, $this->selectable_types) and $a_ref_id != $this->ref_id;
-    }
-
-    public function showChilds($a_ref_id)
+    
+    /**
+     * @param int $a_parent_id
+     */
+    public function showChilds($a_parent_id) : bool
     {
         $rbacsystem = $this->rbacsystem;
 
-        if ($a_ref_id == 0) {
+        if ($a_parent_id == 0) {
             return true;
         }
 
-        if ($rbacsystem->checkAccess("read", $a_ref_id)) {
+        if ($rbacsystem->checkAccess("read", $a_parent_id)) {
             return true;
         } else {
             return false;
         }
-    }
-
-
-    /**
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    * @return	string
-    */
-    public function formatHeader($a_tpl, $a_obj_id, $a_option)
-    {
-        $lng = $this->lng;
-
-        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
-
-        $tpl->setCurrentBlock("text");
-        $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
-        $tpl->parseCurrentBlock();
-        $this->output[] = $tpl->get();
     }
 }

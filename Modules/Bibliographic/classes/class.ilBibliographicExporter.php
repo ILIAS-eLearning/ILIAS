@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Exporter class for Bibliographic class
  *
@@ -12,13 +26,9 @@
  */
 class ilBibliographicExporter extends ilXmlExporter
 {
-
+    protected ?\ilBibliographicDataSet $ds = null;
     /**
-     * @var ilBibliographicDataSet
-     */
-    protected $ds;
-    /**
-     * @var ilDB
+     * @var mixed|null
      */
     protected $db;
 
@@ -33,10 +43,6 @@ class ilBibliographicExporter extends ilXmlExporter
     }
 
 
-    /**
-     * @param string $a_entity
-     * @return array
-     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
@@ -53,7 +59,7 @@ class ilBibliographicExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+        ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->exportLibraryFile($a_id);
 

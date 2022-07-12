@@ -1,64 +1,56 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\PersonalWorkspace\StandardGUIRequest;
 
 /**
  * Explorer for selecting a personal workspace item
  *
- * @author	Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 {
+    protected ilWorkspaceAccessHandler $access_handler;
+    protected bool $link_to_node_class = false;
+    protected string $custom_link_target = "";
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var bool
-     */
-    protected $link_to_node_class = false;
-
-    /**
-     * @var string
-     */
-    protected $custom_link_target = "";
-
-    /**
-     * @var null|object
+     * @var object|string|null
      */
     protected $select_gui = null;
+    protected string $select_cmd = "";
+    protected string $select_par = "";
+    protected array $selectable_types = array();
+    protected bool $activate_highlighting = false;
+    protected StandardGUIRequest $request;
 
     /**
-     * @var string
+     * ilWorkspaceExplorerGUI constructor.
+     * @param object|array $a_parent_obj
+     * @param string|object $a_select_gui
      */
-    protected $select_cmd = "";
-
-    /**
-     * @var string
-     */
-    protected $select_par = "";
-
-    /**
-     * @var array
-     */
-    protected $selectable_types = array();
-
-    /**
-     * @var bool
-     */
-    protected $activate_highlighting = false;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "sel_wsp_obj")
-    {
+    public function __construct(
+        int $a_user_id,
+        $a_parent_obj,
+        string $a_parent_cmd,
+        $a_select_gui,
+        string $a_select_cmd,
+        string $a_select_par = "sel_wsp_obj"
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -69,6 +61,11 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
             : $a_select_gui;
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
+
+        $this->request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
 
         $this->tree = new ilWorkspaceTree($a_user_id);
         $this->root_id = $this->tree->readRootId();
@@ -82,93 +79,50 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         $this->setTypeWhiteList(array("wsrt", "wfld"));
     }
     
-    /**
-     * Set link to node class
-     *
-     * @param bool $a_val link to gui class of node
-     */
-    public function setLinkToNodeClass($a_val)
+    public function setLinkToNodeClass(bool $a_val) : void
     {
         $this->link_to_node_class = $a_val;
     }
     
-    /**
-     * Get link to node class
-     *
-     * @return bool link to gui class of node
-     */
-    public function getLinkToNodeClass()
+    public function getLinkToNodeClass() : bool
     {
         return $this->link_to_node_class;
     }
     
-    /**
-     * Set activate highlighting
-     *
-     * @param bool $a_val activate highlighting
-     */
-    public function setActivateHighlighting($a_val)
+    public function setActivateHighlighting(bool $a_val) : void
     {
         $this->activate_highlighting = $a_val;
     }
     
-    /**
-     * Get activate highlighting
-     *
-     * @return bool activate highlighting
-     */
-    public function getActivateHighlighting()
+    public function getActivateHighlighting() : bool
     {
         return $this->activate_highlighting;
     }
 
-    /**
-     * Set selectable types
-     *
-     * @param array $a_val selectable types
-     */
-    public function setSelectableTypes($a_val)
+    public function setSelectableTypes(array $a_val) : void
     {
         $this->selectable_types = $a_val;
     }
     
-    /**
-     * Get selectable types
-     *
-     * @return array selectable types
-     */
-    public function getSelectableTypes()
+    public function getSelectableTypes() : array
     {
         return $this->selectable_types;
     }
 
-    /**
-     * Set custom link target
-     *
-     * @param string $a_val custom link target
-     */
-    public function setCustomLinkTarget($a_val)
+    public function setCustomLinkTarget(string $a_val) : void
     {
         $this->custom_link_target = $a_val;
     }
 
-    /**
-     * Get custom link target
-     *
-     * @return string custom link target
-     */
-    public function getCustomLinkTarget()
+    public function getCustomLinkTarget() : string
     {
         return $this->custom_link_target;
     }
 
     /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
+     * @inheritcoc
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         if ($this->select_postvar != "") {
             return "";
@@ -199,22 +153,15 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         }
         $target_path = $target_path + [$target_class];
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $a_node["child"]);
-        //$ret = $ilCtrl->getLinkTargetByClass(["ilPersonalWorkspaceGUI", $target_class], $this->select_cmd);
         $ret = $ilCtrl->getLinkTargetByClass($target_path, $this->select_cmd);
-        $ilCtrl->setParameterByClass($target_class, $this->select_par, $_GET[$this->select_par]);
-
-        //$ret = ILIAS_HTTP_PATH . "/" . $ret;
-
+        $ilCtrl->setParameterByClass($target_class, $this->select_par, $this->request->getSelectPar());
         return $ret;
     }
 
     /**
-     * Get node content
-     *
-     * @param array
-     * @return
+     * @inheritcoc
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
 
@@ -224,14 +171,11 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
         return $a_node["title"];
     }
-    
+
     /**
-     * Is clickable
-     *
-     * @param
-     * @return
+     * @inheritcoc
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -240,12 +184,9 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * Is selectable
-     *
-     * @param
-     * @return
+     * @inheritcoc
      */
-    public function isNodeSelectable($a_node)
+    protected function isNodeSelectable($a_node) : bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -254,9 +195,9 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * get image path (may be overwritten by derived classes)
+     * @inheritcoc
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $t = $a_node["type"];
         if (in_array($t, array("sktr"))) {
@@ -266,15 +207,13 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * Is node highlighted?
-     *
-     * @param mixed $a_node node object/array
-     * @return boolean node highlighted true/false
+     * @inheritcoc
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
+        $wsp_id = $this->request->getWspId();
         if ($this->getActivateHighlighting() &&
-            ($a_node["child"] == $_GET["wsp_id"] || $_GET["wsp_id"] == "" && $a_node["child"] == $this->getRootId())) {
+            ((int) $a_node["child"] == $wsp_id || $wsp_id == 0 && $a_node["child"] == $this->getRootId())) {
             return true;
         }
         return false;

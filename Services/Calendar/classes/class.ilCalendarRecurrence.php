@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,109 +21,75 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/class.ilDate.php');
-include_once './Services/Calendar/classes/class.ilCalendarRecurrenceExclusions.php';
-include_once './Services/Calendar/interfaces/interface.ilCalendarRecurrenceCalculation.php';
-
 /**
-* Model of calendar entry recurrcences
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
-
-define('IL_CAL_FREQ_DAILY', 'DAILY');
-define('IL_CAL_FREQ_WEEKLY', 'WEEKLY');
-define('IL_CAL_FREQ_MONTHLY', 'MONTHLY');
-define('IL_CAL_FREQ_YEARLY', 'YEARLY');
-
+ * Model of calendar entry recurrcences
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 {
-    const REC_RECURRENCE = 0;
-    const REC_EXCLUSION = 1;
-    
-    const FREQ_DAILY = 'DAILY';
-    const FREQ_WEEKLY = 'WEEKLY';
-    const FREQ_MONTHLY = 'MONTHLY';
-    const FREQ_YEARLY = 'YEARLY';
-    
-    
-    protected $db;
-    
-    private $recurrence_id;
-    private $cal_id;
-    private $recurrence_type;
-    
-    private $freq_type = '';
-    private $freq_until_type;
-    private $freq_until_date = null;
-    private $freq_until_count;
-    
-    private $interval = 0;
-    private $byday = '';
-    private $byweekno = '';
-    private $bymonth = '';
-    private $bymonthday = '';
-    private $byyearday = '';
-    private $bysetpos = '';
-    private $weekstart = '';
-    
-    private $exclusion_dates = array();
-    
-    private $timezone = 'Europe/Berlin';
+    protected const REC_RECURRENCE = 0;
+    protected const REC_EXCLUSION = 1;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int recurrence id
-     *
-     */
-    public function __construct($a_rec_id = 0)
+    public const FREQ_NONE = 'NONE';
+    public const FREQ_DAILY = 'DAILY';
+    public const FREQ_WEEKLY = 'WEEKLY';
+    public const FREQ_MONTHLY = 'MONTHLY';
+    public const FREQ_YEARLY = 'YEARLY';
+
+    protected ilDBInterface $db;
+
+    private int $recurrence_id = 0;
+    private int $cal_id = 0;
+    private int $recurrence_type = 0;
+
+    private string $freq_type = '';
+    private string $freq_until_type = '';
+    private ?ilDate $freq_until_date = null;
+    private int $freq_until_count = 0;
+
+    private int $interval = 1;
+    private string $byday = '';
+    private string $byweekno = '';
+    private string $bymonth = '';
+    private string $bymonthday = '';
+    private string $byyearday = '';
+    private string $bysetpos = '';
+    private string $weekstart = '';
+
+    private array $exclusion_dates = array();
+
+    private string $timezone = 'Europe/Berlin';
+
+    public function __construct(int $a_rec_id = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
         $this->recurrence_id = $a_rec_id;
         if ($a_rec_id) {
             $this->read();
         }
     }
-    
-    /**
-     * delete
-     *
-     * @access public
-     * @param int appointment id
-     * @return
-     * @static
-     */
-    public static function _delete($a_cal_id)
+
+    public static function _delete(int $a_cal_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM cal_recurrence_rules " .
             "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
+
         ilCalendarRecurrenceExclusions::delete($a_cal_id);
     }
-    
+
     /**
      * Get ical presentation for calendar recurrence
-     * @param int $a_user_id
-     * @return string
      */
-    public function toICal($a_user_id)
+    public function toICal(int $a_user_id) : string
     {
-        include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
         $entry = new ilCalendarEntry($this->getEntryId());
 
         if (!$this->getFrequenceType()) {
@@ -132,7 +98,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 
         $ical = 'RRULE:';
         $ical .= ('FREQ=' . $this->getFrequenceType());
-        
+
         if ($this->getInterval()) {
             $ical .= (';INTERVAL=' . $this->getInterval());
         }
@@ -167,8 +133,6 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 
         // Required in outlook
         if ($this->getBYDAY()) {
-            include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-            include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
             $us = ilCalendarUserSettings::_getInstanceByUserId($a_user_id);
             if ($us->getWeekStart() == ilCalendarSettings::WEEK_START_MONDAY) {
                 $ical .= (';WKST=MO');
@@ -179,15 +143,11 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 
         return $ical;
     }
-    
-    
+
     /**
      * reset all settings
-     *
-     * @access public
-     * @return
      */
-    public function reset()
+    public function reset() : void
     {
         $this->setBYDAY('');
         $this->setBYMONTHDAY('');
@@ -198,465 +158,251 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         $this->setFrequenceType('');
         $this->setInterval(1);
         $this->setFrequenceUntilCount(0);
-        
-        return true;
     }
-    
-    /**
-     * get recurrence id
-     *
-     * @access public
-     * @return
-     */
-    public function getRecurrenceId()
+
+    public function getRecurrenceId() : int
     {
         return $this->recurrence_id;
     }
-    
-    
-    /**
-     * set cal id
-     *
-     * @access public
-     * @param int calendar entry id
-     *
-     */
-    public function setEntryId($a_id)
+
+    public function setEntryId(int $a_id) : void
     {
         $this->cal_id = $a_id;
     }
-    
-    /**
-     * Get calendar entry id
-     * @return int
-     */
-    public function getEntryId()
+
+    public function getEntryId() : int
     {
         return $this->cal_id;
     }
-    
+
     /**
      * set type of recurrence
-     *
      * @access public
      * @param int REC_RECURRENCE or REC_EXLUSION defines whther the current object is a recurrence an exclusion pattern
-     *
      */
-    public function setRecurrence($a_type)
+    public function setRecurrence(int $a_type) : void
     {
         $this->recurrence_type = $a_type;
     }
-    
-    /**
-     * is recurrence
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function isRecurrence()
+
+    public function isRecurrence() : bool
     {
         return $this->recurrence_type == self::REC_RECURRENCE;
     }
-    
-    /**
-     * set frequence type
-     *
-     * @access public
-     * @param int FREQUENCE_TYPE e.g MONTHLY, WEEKLY ...
-     *
-     */
-    public function setFrequenceType($a_type)
+
+    public function setFrequenceType(string $a_type) : void
     {
         $this->freq_type = $a_type;
     }
-    
-    /**
-     * get freq type
-     *
-     * @access public
-     *
-     */
-    public function getFrequenceType()
+
+    public function getFrequenceType() : string
     {
         return $this->freq_type;
     }
-    
-    /**
-     * get until date
-     *
-     * @access public
-     *
-     */
-    public function getFrequenceUntilDate()
+
+    public function getFrequenceUntilDate() : ?ilDate
     {
         return is_object($this->freq_until_date) ? $this->freq_until_date : null;
     }
-    
-    /**
-     * set freq until date
-     *
-     * @access public
-     *
-     */
-    public function setFrequenceUntilDate(ilDateTime $a_date = null)
+
+    public function setFrequenceUntilDate(ilDateTime $a_date = null) : void
     {
         $this->freq_until_date = $a_date;
     }
-    
-    /**
-     * set frequence count
-     *
-     * @access public
-     * @param int count
-     *
-     */
-    public function setFrequenceUntilCount($a_count)
+
+    public function setFrequenceUntilCount(int $a_count) : void
     {
         $this->freq_until_count = $a_count;
     }
-    
-    /**
-     * get frequence until count
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function getFrequenceUntilCount()
+
+    public function getFrequenceUntilCount() : int
     {
         return $this->freq_until_count;
     }
-    
-    /**
-     * set interval
-     *
-     * @access public
-     * @param int interval
-     *
-     */
-    public function setInterval($a_interval)
+
+    public function setInterval(int $a_interval) : void
     {
         $this->interval = $a_interval;
     }
-    
-    /**
-     * get interval
-     *
-     * @access public
-     *
-     */
-    public function getInterval()
+
+    public function getInterval() : int
     {
-        return $this->interval ? $this->interval : 1;
+        return $this->interval;
     }
-    
-    /**
-     * set by day
-     *
-     * @access public
-     * @param string byday rule
-     *
-     */
-    public function setBYDAY($a_byday)
+
+    public function setBYDAY(string $a_byday) : void
     {
         $this->byday = $a_byday;
     }
-    
-    /**
-     * get BYDAY
-     *
-     * @access public
-     *
-     */
-    public function getBYDAY()
+
+    public function getBYDAY() : string
     {
         return $this->byday;
     }
-    
+
     /**
-     * get BYDAY list
-     *
-     * @access public
-     * @return
+     * @inheritDoc
      */
-    public function getBYDAYList()
+    public function getBYDAYList() : array
     {
         if (!trim($this->getBYDAY())) {
             return array();
         }
+        $bydays = [];
         foreach (explode(',', $this->getBYDAY()) as $byday) {
             $bydays[] = trim($byday);
         }
-        return $bydays ? $bydays : array();
+        return $bydays;
     }
-    
-    /**
-     * set by day
-     *
-     * @access public
-     * @param string byday rule
-     *
-     */
-    public function setBYWEEKNO($a_byweekno)
+
+    public function setBYWEEKNO(string $a_byweekno) : void
     {
         $this->byweekno = $a_byweekno;
     }
-    
-    /**
-     * get byweekno list
-     *
-     * @access public
-     *
-     */
-    public function getBYWEEKNOList()
+
+    public function getBYWEEKNOList() : array
     {
         if (!trim($this->getBYWEEKNO())) {
             return array();
         }
+        $weeks = [];
         foreach (explode(',', $this->getBYWEEKNO()) as $week_num) {
             $weeks[] = (int) $week_num;
         }
-        return $weeks ? $weeks : array();
+        return $weeks;
     }
-    
-    
-    /**
-     * get BYDAY
-     *
-     * @access public
-     *
-     */
-    public function getBYWEEKNO()
+
+    public function getBYWEEKNO() : string
     {
         return $this->byweekno;
     }
-    
-    /**
-     * set by day
-     *
-     * @access public
-     * @param string byday rule
-     *
-     */
-    public function setBYMONTH($a_by)
+
+    public function setBYMONTH(string $a_by) : void
     {
         $this->bymonth = $a_by;
     }
-    
-    /**
-     * get BYDAY
-     *
-     * @access public
-     *
-     */
-    public function getBYMONTH()
+
+    public function getBYMONTH() : string
     {
         return $this->bymonth;
     }
-    
-    /**
-     * get bymonth list
-     *
-     * @access public
-     *
-     */
-    public function getBYMONTHList()
+
+    public function getBYMONTHList() : array
     {
         if (!trim($this->getBYMONTH())) {
             return array();
         }
+        $months = [];
         foreach (explode(',', $this->getBYMONTH()) as $month_num) {
             $months[] = (int) $month_num;
         }
-        return $months ? $months : array();
+        return $months;
     }
-    
-    /**
-     * set by day
-     *
-     * @access public
-     * @param string byday rule
-     *
-     */
-    public function setBYMONTHDAY($a_by)
+
+    public function setBYMONTHDAY(string $a_by) : void
     {
         $this->bymonthday = $a_by;
     }
-    
-    /**
-     * get BYDAY
-     *
-     * @access public
-     *
-     */
-    public function getBYMONTHDAY()
+
+    public function getBYMONTHDAY() : string
     {
         return $this->bymonthday;
     }
-    
-    /**
-     * get BYMONTHDAY list
-     *
-     * @access public
-     */
-    public function getBYMONTHDAYList()
+
+    public function getBYMONTHDAYList() : array
     {
         if (!trim($this->getBYMONTHDAY())) {
             return array();
         }
+        $month = [];
         foreach (explode(',', $this->getBYMONTHDAY()) as $month_num) {
-            $months[] = (int) $month_num;
+            $month[] = (int) $month_num;
         }
-        return $months ? $months : array();
+        return $month;
     }
-    
-    
-    /**
-     * set by day
-     *
-     * @access public
-     * @param string byday rule
-     *
-     */
-    public function setBYYEARDAY($a_by)
+
+    public function setBYYEARDAY(string $a_by) : void
     {
         $this->byyearday = $a_by;
     }
-    
-    /**
-     * get BYDAY
-     *
-     * @access public
-     *
-     */
-    public function getBYYEARDAY()
+
+    public function getBYYEARDAY() : string
     {
         return $this->byyearday;
     }
-    
-    /**
-     * get BYYEARDAY list
-     *
-     * @access public
-     *
-     */
-    public function getBYYEARDAYList()
+
+    public function getBYYEARDAYList() : array
     {
         if (!trim($this->getBYYEARDAY())) {
             return array();
         }
+        $days = [];
         foreach (explode(',', $this->getBYYEARDAY()) as $year_day) {
             $days[] = (int) $year_day;
         }
-        return $days ? $days : array();
+        return $days;
     }
-    
-    /**
-     * set by day
-     *
-     * @access public
-     * @param string byday rule
-     *
-     */
-    public function setBYSETPOS($a_by)
+
+    public function setBYSETPOS(string $a_by) : void
     {
         $this->bysetpos = $a_by;
     }
-    
-    /**
-     * get BYDAY
-     *
-     * @access public
-     *
-     */
-    public function getBYSETPOS()
+
+    public function getBYSETPOS() : string
     {
         return $this->bysetpos;
     }
-    
-    /**
-     * get bysetpos list
-     *
-     * @access public
-     *
-     */
-    public function getBYSETPOSList()
+
+    public function getBYSETPOSList() : array
     {
         if (!trim($this->getBYSETPOS())) {
             return array();
         }
+        $positions = [];
         foreach (explode(',', $this->getBYSETPOS()) as $pos) {
             $positions[] = (int) $pos;
         }
-        return $positions ? $positions : array();
+        return $positions;
     }
-    
-    
-    /**
-     * set weekstart
-     *
-     * @access public
-     * @param string weekstart
-     *
-     */
-    public function setWeekstart($a_start)
+
+    public function setWeekstart(string $a_start) : void
     {
         $this->weekstart = $a_start;
     }
-    
-    /**
-     * get weekstart
-     *
-     * @access public
-     *
-     */
-    public function getWeekstart()
+
+    public function getWeekstart() : string
     {
         return $this->weekstart;
     }
-    
-    /**
-     * get timezone
-     *
-     * @access public
-     *
-     */
-    public function getTimeZone()
+
+    public function getTimeZone() : string
     {
         return $this->timezone;
     }
-    
-    /**
-     * set timezone
-     *
-     * @access public
-     * @param string timezone
-     *
-     */
-    public function setTimeZone($a_tz)
+
+    public function setTimeZone(string $a_tz) : void
     {
         $this->timezone = $a_tz;
     }
-    
+
     /**
-     * Get exclusion dates
-     * @return
+     * @return ilCalendarRecurrenceExclusion[]
      */
-    public function getExclusionDates()
+    public function getExclusionDates() : array
     {
-        return (array) $this->exclusion_dates;
+        return $this->exclusion_dates;
     }
-    
+
     /**
      * validate
-     *
-     * @access public
-     * @return bool
      */
-    public function validate()
+    public function validate() : bool
     {
-        $valid_frequences = array(IL_CAL_FREQ_DAILY,IL_CAL_FREQ_WEEKLY,IL_CAL_FREQ_MONTHLY,IL_CAL_FREQ_YEARLY);
+        $valid_frequences = array(self::FREQ_DAILY,
+                                  self::FREQ_WEEKLY,
+                                  self::FREQ_MONTHLY,
+                                  self::FREQ_YEARLY
+        );
         if (!in_array($this->getFrequenceType(), $valid_frequences)) {
             return false;
         }
@@ -668,60 +414,38 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         }
         return true;
     }
-    
-    
-    /**
-     * save
-     *
-     * @access public
-     *
-     */
-    public function save()
+
+    public function save() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $until_date = is_null($this->getFrequenceUntilDate()) ?
             null :
             $this->getFrequenceUntilDate()->get(IL_CAL_DATETIME, '', 'UTC');
-        $next_id = $ilDB->nextId('cal_recurrence_rules');
-        
+        $next_id = $this->db->nextId('cal_recurrence_rules');
+
         $query = "INSERT INTO cal_recurrence_rules (rule_id,cal_id,cal_recurrence,freq_type,freq_until_date,freq_until_count,intervall, " .
             "byday,byweekno,bymonth,bymonthday,byyearday,bysetpos,weekstart) " .
             "VALUES( " .
-            $ilDB->quote($next_id, 'integer') . ", " .
+            $this->db->quote($next_id, 'integer') . ", " .
             $this->db->quote($this->cal_id, 'integer') . ", " .
-            $ilDB->quote(1, 'integer') . ", " .
-            $ilDB->quote((string) $this->getFrequenceType(), 'text') . ", " .
+            $this->db->quote(1, 'integer') . ", " .
+            $this->db->quote($this->getFrequenceType(), 'text') . ", " .
             $this->db->quote($until_date, 'timestamp') . ", " .
-            $this->db->quote((int) $this->getFrequenceUntilCount(), 'integer') . ", " .
-            $this->db->quote((int) $this->getInterval(), 'integer') . ", " .
-            $this->db->quote((string) $this->getBYDAY(), 'text') . ", " .
-            $this->db->quote((string) $this->getBYWEEKNO(), 'text') . ", " .
-            $this->db->quote((string) $this->getBYMONTH(), 'text') . ", " .
-            $this->db->quote((string) $this->getBYMONTHDAY(), 'text') . ", " .
-            $this->db->quote((string) $this->getBYYEARDAY(), 'text') . ", " .
-            $this->db->quote((string) $this->getBYSETPOS(), 'text') . ", " .
-            $this->db->quote((string) $this->getWeekstart(), 'text') . " " .
+            $this->db->quote($this->getFrequenceUntilCount(), 'integer') . ", " .
+            $this->db->quote($this->getInterval(), 'integer') . ", " .
+            $this->db->quote($this->getBYDAY(), 'text') . ", " .
+            $this->db->quote($this->getBYWEEKNO(), 'text') . ", " .
+            $this->db->quote($this->getBYMONTH(), 'text') . ", " .
+            $this->db->quote($this->getBYMONTHDAY(), 'text') . ", " .
+            $this->db->quote($this->getBYYEARDAY(), 'text') . ", " .
+            $this->db->quote($this->getBYSETPOS(), 'text') . ", " .
+            $this->db->quote($this->getWeekstart(), 'text') . " " .
             ")";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
         $this->recurrence_id = $next_id;
-        return true;
     }
-    
-    /**
-     * save
-     *
-     * @access public
-     *
-     */
-    public function update()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function update() : void
+    {
         $until_date = is_null($this->getFrequenceUntilDate()) ?
             null :
             $this->getFrequenceUntilDate()->get(IL_CAL_DATETIME, '', 'UTC');
@@ -741,62 +465,40 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
             "bysetpos = " . $this->db->quote($this->getBYSETPOS(), 'text') . ", " .
             "weekstart = " . $this->db->quote($this->getWeekstart(), 'text') . " " .
             "WHERE rule_id = " . $this->db->quote($this->recurrence_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-        return true;
+        $res = $this->db->manipulate($query);
     }
-    
-    /**
-     * delete
-     *
-     * @access public
-     *
-     */
-    public function delete()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function delete() : void
+    {
         $query = "DELETE FROM cal_recurrence_rules " .
             "WHERE rule_id = " . $this->db->quote($this->recurrence_id, 'integer');
-        $res = $ilDB->manipulate($query);
-        return true;
+        $res = $this->db->manipulate($query);
     }
 
-    /**
-     * Read entry
-     *
-     * @access private
-     *
-     */
-    private function read()
+    private function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM cal_recurrence_rules " .
             "WHERE rule_id = " . $this->db->quote($this->recurrence_id, 'integer') . " ";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->cal_id = $row->cal_id;
-            $this->recurrence_type = $row->cal_recurrence;
-            $this->freq_type = $row->freq_type;
-            
+            $this->cal_id = (int) $row->cal_id;
+            $this->recurrence_type = (int) $row->cal_recurrence;
+            $this->freq_type = (string) $row->freq_type;
+
             if ($row->freq_until_date != null) {
-                $this->freq_until_date = new ilDateTime($row->freq_until_date, IL_CAL_DATETIME, 'UTC');
+                $this->freq_until_date = new ilDate($row->freq_until_date, IL_CAL_DATETIME);
             }
-            $this->freq_until_count = $row->freq_until_count;
-            $this->interval = $row->intervall;
-            $this->byday = $row->byday;
-            $this->byweekno = $row->byweekno;
-            $this->bymonth = $row->bymonth;
-            $this->bymonthday = $row->bymonthday;
-            $this->byyearday = $row->byyearday;
-            $this->bysetpos = $row->bysetpos;
-            $this->weekstart = $row->week_start;
+            $this->freq_until_count = (int) $row->freq_until_count;
+            $this->interval = (int) $row->intervall;
+            $this->byday = (string) $row->byday;
+            $this->byweekno = (string) $row->byweekno;
+            $this->bymonth = (string) $row->bymonth;
+            $this->bymonthday = (string) $row->bymonthday;
+            $this->byyearday = (string) $row->byyearday;
+            $this->bysetpos = (string) $row->bysetpos;
+            $this->weekstart = (string) $row->weekstart;
         }
-        
+
         $this->exclusion_dates = ilCalendarRecurrenceExclusions::getExclusionDates($this->cal_id);
     }
 }

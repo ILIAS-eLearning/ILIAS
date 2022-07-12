@@ -1,28 +1,35 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Input GUI for the configuration of select input elements. E.g course custum field,
  * udf field, ...
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- * @ingroup	ServicesForm
  */
 class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
+    protected array $open_answer_indexes = array();
     
-    protected $open_answer_indexes = array();
-    
-    
-    // constructor
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -30,61 +37,37 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         parent::__construct($a_title, $a_postvar);
     }
     
-    
-    /**
-     * Get open answer indexes
-     */
-    public function getOpenAnswerIndexes()
+    public function getOpenAnswerIndexes() : array
     {
         return $this->open_answer_indexes;
     }
     
-    /**
-     * Set open answer indexes
-     */
-    public function setOpenAnswerIndexes($a_indexes)
+    public function setOpenAnswerIndexes(array $a_indexes) : void
     {
         $this->open_answer_indexes = $a_indexes;
     }
     
-    /**
-     * Mark an index as open answer
-     */
-    public function addOpenAnswerIndex($a_idx)
+    // Mark an index as open answer
+    public function addOpenAnswerIndex(string $a_idx) : void
     {
         $this->open_answer_indexes[] = $a_idx;
     }
     
-    /**
-     * Check if an index is an open answer index
-     * @param type $a_idx
-     * @return type
-     */
-    public function isOpenAnswerIndex($a_idx)
+    public function isOpenAnswerIndex(string $a_idx) : bool
     {
-        return in_array($a_idx, (array) $this->open_answer_indexes);
+        return in_array($a_idx, $this->open_answer_indexes);
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
-        $foundvalues = $_POST[$this->getPostVar()];
-        
-        
-        
+        $foundvalues = $this->getInput();
         $this->setOpenAnswerIndexes(array());
         if (is_array($foundvalues)) {
-            foreach ($foundvalues as $idx => $value) {
-                $_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
+            foreach ($foundvalues as $value) {
                 if ($this->getRequired() && trim($value) == "") {
                     $this->setAlert($lng->txt("msg_input_is_required"));
-
                     return false;
                 } elseif (strlen($this->getValidationRegexp())) {
                     if (!preg_match($this->getValidationRegexp(), $value)) {
@@ -98,29 +81,28 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
             return false;
         }
         
-        foreach ((array) $_POST[$this->getPostVar() . '_open'] as $oindex => $ovalue) {
+        foreach ($this->strArray($this->getPostVar() . '_open') as $oindex => $ovalue) {
             $this->addOpenAnswerIndex($oindex);
         }
-        
-        
+
         return $this->checkSubItemsInput();
     }
+
+    public function getInput() : array
+    {
+        return $this->strArray($this->getPostVar());
+    }
     
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         parent::setValueByArray($a_values);
-        
-        foreach ((array) $_POST[$this->getPostVar() . '_open'] as $oindex => $ovalue) {
+
+        foreach ($this->strArray($this->getPostVar() . '_open') as $oindex => $ovalue) {
             $this->addOpenAnswerIndex($oindex);
         }
     }
     
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         
@@ -131,9 +113,9 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
                 continue;
             }
             
-            if (strlen((string) $value)) {
+            if (strlen($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput((string) $value));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->parseCurrentBlock();
             }
             if ($this->getAllowMove()) {
@@ -153,7 +135,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
             $tpl->setVariable('POST_VAR_OPEN_ID', $this->getPostVar() . '_open[' . $i . ']');
             $tpl->setVariable('TXT_OPEN', $lng->txt("form_open_answer"));
             
-            if ($this->isOpenAnswerIndex($i)) {
+            if ($this->isOpenAnswerIndex((string) $i)) {
                 $tpl->setVariable('PROP_OPEN_CHECKED', 'checked="checked"');
             }
             if ($this->getDisabled()) {

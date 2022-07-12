@@ -1,9 +1,7 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use \ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 
 /**
@@ -151,10 +149,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
                 ilIndividualAssessmentMembers::LP_IN_PROGRESS,
                 ilIndividualAssessmentMembers::LP_FAILED,
                 ilIndividualAssessmentMembers::LP_COMPLETED
-            ],
-            true,
-            false,
-            false
+            ]
         );
 
         $this->assertInstanceOf(Section::class, $input);

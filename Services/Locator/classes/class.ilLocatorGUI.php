@@ -1,55 +1,57 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* locator handling class
-*
-* This class supplies an implementation for the locator.
-* The locator will send its output to ist own frame, enabling more flexibility in
-* the design of the desktop.
-*
-* @author Arjan Ammerlaan <a.l.ammerlaan@web.de>
-* @version $Id$
-*
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * locator handling class
+ *
+ * This class supplies an implementation for the locator.
+ * The locator will send its output to ist own frame, enabling more flexibility in
+ * the design of the desktop.
+ * @author Arjan Ammerlaan <a.l.ammerlaan@web.de>
+ */
 class ilLocatorGUI
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    protected $lng;
-    protected $entries;
+    protected ?int $ref_id = null;
+    protected bool $textonly;
+    protected bool $offline = false;
+    protected ilTree $tree;
+    protected ilCtrl $ctrl;
+    protected ilObjectDefinition $obj_definition;
+    protected ilAccessHandler $access;
+    protected ilSetting $settings;
+    protected ilLanguage $lng;
+    protected array $entries = [];
+    protected bool $initialised = false;
     
-    /**
-    * Constructor
-    *
-    */
     public function __construct()
+    {
+        $this->entries = array();
+        $this->offline = false;
+        $this->setTextOnly(false);
+    }
+
+    protected function init() : void
     {
         global $DIC;
 
+        if ($this->initialised) {
+            return;
+        }
         $this->tree = $DIC->repositoryTree();
         $this->ctrl = $DIC->ctrl();
         $this->obj_definition = $DIC["objDefinition"];
@@ -58,55 +60,48 @@ class ilLocatorGUI
         $lng = $DIC->language();
 
         $this->lng = $lng;
-        $this->entries = array();
-        $this->setTextOnly(false);
-        $this->offline = false;
+        $this->ref_id = ($DIC->http()->wrapper()->query()->has("ref_id"))
+            ? $DIC->http()->wrapper()->query()->retrieve("ref_id", $DIC->refinery()->kindlyTo()->int())
+            : null;
+        if ($this->ref_id == 0) {
+            $this->ref_id = null;
+        }
     }
 
-    /**
-    * Set Only text, no HTML.
-    *
-    * @param	boolean	$a_textonly	Only text, no HTML
-    */
-    public function setTextOnly($a_textonly)
+    public function setTextOnly(bool $a_textonly) : void
     {
         $this->textonly = $a_textonly;
     }
     
-    public function setOffline($a_offline)
+    public function setOffline(bool $a_offline) : void
     {
         $this->offline = $a_offline;
     }
 
-    public function getOffline()
+    public function getOffline() : bool
     {
         return $this->offline;
     }
 
-    /**
-    * Get Only text, no HTML.
-    *
-    * @return	boolean	Only text, no HTML
-    */
-    public function getTextOnly()
+    public function getTextOnly() : bool
     {
         return $this->textonly;
     }
 
     /**
-    * add repository item
-    *
-    * @param	int		$a_ref_id	current ref id (optional);
-    *								if empty $_GET["ref_id"] is used
-    */
-    public function addRepositoryItems($a_ref_id = 0)
+     * @param int $a_ref_id
+     * @return void
+     * @throws ilCtrlException
+     */
+    public function addRepositoryItems(int $a_ref_id = 0) : void
     {
+        $this->init();
         $setting = $this->settings;
         $tree = $this->tree;
         $ilCtrl = $this->ctrl;
 
         if ($a_ref_id == 0) {
-            $a_ref_id = $_GET["ref_id"];
+            $a_ref_id = $this->ref_id;
         }
 
         $a_start = ROOT_FOLDER_ID;
@@ -134,7 +129,7 @@ class ilLocatorGUI
             }
 
             // add item for each node on path
-            foreach ((array) $path as $key => $row) {
+            foreach ($path as $key => $row) {
                 if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp", "prg", "lso"))) {
                     continue;
                 }
@@ -156,26 +151,25 @@ class ilLocatorGUI
                     ilFrameTargetInfo::_getFrame("MainContent"),
                     $row["child"]
                 );
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
             }
         }
     }
     
     /**
-    * add administration tree items
-    *
-    * @param	int		$a_ref_id	current ref id (optional);
-    *								if empty $_GET["ref_id"] is used
-    */
-    public function addAdministrationItems($a_ref_id = 0)
+     * add administration tree items
+     * @throws ilCtrlException
+     */
+    public function addAdministrationItems(int $a_ref_id = 0) : void
     {
+        $this->init();
         $tree = $this->tree;
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
         $lng = $this->lng;
 
         if ($a_ref_id == 0) {
-            $a_ref_id = $_GET["ref_id"];
+            $a_ref_id = $this->ref_id;
         }
 
         if ($a_ref_id > 0) {
@@ -196,7 +190,7 @@ class ilLocatorGUI
                 $ilCtrl->setParameterByClass($class, "ref_id", $row["child"]);
                 $this->addItem(
                     $row["title"],
-                    $ilCtrl->getLinkTargetbyClass($class, "view"),
+                    $ilCtrl->getLinkTargetByClass($class, "view"),
                     "",
                     $row["child"]
                 );
@@ -204,8 +198,12 @@ class ilLocatorGUI
         }
     }
     
-    public function addContextItems($a_ref_id, $a_omit_node = false, $a_stop = 0)
-    {
+    public function addContextItems(
+        int $a_ref_id,
+        bool $a_omit_node = false,
+        int $a_stop = 0
+    ) : void {
+        $this->init();
         $tree = $this->tree;
         
         if ($a_ref_id > 0) {
@@ -255,18 +253,18 @@ class ilLocatorGUI
         }
     }
     
-    /**
-    * add locator item
-    *
-    * @param	string	$a_title		item title
-    * @param	string	$a_link			item link
-    * @param	string	$a_frame		frame target
-    */
-    public function addItem($a_title, $a_link, $a_frame = "", $a_ref_id = 0, $type = null)
-    {
+    public function addItem(
+        string $a_title,
+        string $a_link,
+        string $a_frame = "",
+        int $a_ref_id = 0,
+        ?string $type = null
+    ) : void {
         // LTI
         global $DIC;
         $ltiview = $DIC['lti'];
+
+        $this->init();
         
         $ilAccess = $this->access;
 
@@ -281,30 +279,22 @@ class ilLocatorGUI
             "link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id, "type" => $type);
     }
     
-    /**
-    * Clear all Items
-    */
-    public function clearItems()
+    public function clearItems() : void
     {
         $this->entries = array();
     }
     
-    /**
-    * Get all locator entries.
-    */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->entries;
     }
     
-    /**
-    * Get locator HTML
-    */
-    public function getHTML()
+    public function getHTML() : string
     {
+        $this->init();
         $lng = $this->lng;
-        $ilSetting = $this->settings;
-        
+        $icon_path = "";
+
         if ($this->getTextOnly()) {
             $loc_tpl = new ilTemplate("tpl.locator_text_only.html", true, true, "Services/Locator");
         } else {
@@ -313,8 +303,7 @@ class ilLocatorGUI
         
         $items = $this->getItems();
         $first = true;
-
-        if (is_array($items)) {
+        if (count($items) > 0) {
             foreach ($items as $item) {
                 if (!$first) {
                     $loc_tpl->touchBlock("locator_separator_prefix");
@@ -357,8 +346,8 @@ class ilLocatorGUI
                 $first = false;
             }
         } else {
-            $loc_tpl->setVariable("NOITEM", "&nbsp;");
-            $loc_tpl->touchBlock("locator");
+//            $loc_tpl->setVariable("NOITEM", "&nbsp;");
+//            $loc_tpl->touchBlock("locator");
         }
         $loc_tpl->setVariable("TXT_BREADCRUMBS", $lng->txt("breadcrumb_navigation"));
         
@@ -368,27 +357,23 @@ class ilLocatorGUI
     /**
      * Get text version
      */
-    public function getTextVersion()
+    public function getTextVersion() : string
     {
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-        
+        $this->init();
         $items = $this->getItems();
         $first = true;
 
         $str = "";
-        if (is_array($items)) {
-            foreach ($items as $item) {
-                if (!$first) {
-                    $str .= " > ";
-                }
-                
-                $str .= $item["title"];
-                
-                $first = false;
+        foreach ($items as $item) {
+            if (!$first) {
+                $str .= " > ";
             }
+
+            $str .= $item["title"];
+
+            $first = false;
         }
-        
+
         return $str;
     }
-} // END class.LocatorGUI
+}

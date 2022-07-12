@@ -1,34 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User settings for workspace folders
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWorkspaceFolderUserSettings
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected ilTree $tree;
+    protected int $user_id;
+    protected ilWorkspaceFolderUserSettingsRepository $repo;
 
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var ilWorkspaceFolderUserSettingsRepository
-     */
-    protected $repo;
-
-    /**
-     * Constructor
-     */
-    public function __construct(int $user_id, ilWorkspaceFolderUserSettingsRepository $repo, ilWorkspaceTree $tree = null)
-    {
+    public function __construct(
+        int $user_id,
+        ilWorkspaceFolderUserSettingsRepository $repo,
+        ilWorkspaceTree $tree = null
+    ) {
         $this->repo = $repo;
         $this->user_id = $user_id;
         $this->tree = ($tree != null)
@@ -36,11 +39,6 @@ class ilWorkspaceFolderUserSettings
             : new ilWorkspaceTree($user_id);
     }
 
-    /**
-     * Get Sortation of workspace folder
-     * @param int $wfld_id folder object id
-     * @return int
-     */
     public function getSortation(int $wfld_id) : int
     {
         $sort = $this->repo->getSortation($wfld_id);
@@ -53,11 +51,6 @@ class ilWorkspaceFolderUserSettings
         return ilWorkspaceFolderSorting::SORT_ALPHABETICAL_ASC;
     }
 
-    /**
-     * Update sortation for workspace folder
-     * @param int $wfld_id folder object id
-     * @param int $sortation
-     */
     public function updateSortation(int $wfld_id, int $sortation)
     {
         $this->repo->updateSortation($wfld_id, $sortation);
@@ -66,10 +59,8 @@ class ilWorkspaceFolderUserSettings
     /**
      * Get effective sortation for a workspace folder (next upper
      * context that has sortation > 0)
-     * @param int $wfld_wsp_id
-     * @return int|mixed
      */
-    public function getEffectiveSortation(int $wfld_wsp_id)
+    public function getEffectiveSortation(int $wfld_wsp_id) : int
     {
         $tree = $this->tree;
 

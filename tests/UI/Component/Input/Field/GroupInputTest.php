@@ -1,35 +1,67 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use \ILIAS\Data;
+use ILIAS\Data;
+use ILIAS\Refinery\Factory as Refinery;
+use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\Data\Result\Ok;
 
 abstract class Input1 extends Field\Input
 {
-};
+}
+
 abstract class Input2 extends Field\Input
 {
-};
+}
 
 class GroupInputTest extends ILIAS_UI_TestBase
 {
     /**
-     * @var \ILIAS\Refinery\Factory
+     * @var Input1|mixed|MockObject
      */
-    private $refinery;
+    protected $child1;
+
+    /**
+     * @var Input2|mixed|MockObject
+     */
+    protected $child2;
+
+    protected Data\Factory $data_factory;
+
+    /**
+     * @var ilLanguage|mixed|MockObject
+     */
+    protected $language;
+    protected Refinery $refinery;
+    protected Field\Group $group;
 
     public function setUp() : void
     {
         $this->child1 = $this->createMock(Input1::class);
         $this->child2 = $this->createMock(Input2::class);
         $this->data_factory = new Data\Factory;
-        $this->language = $this->createMock(\ilLanguage::class);
-        $this->refinery = new \ILIAS\Refinery\Factory($this->data_factory, $this->language);
+        $this->language = $this->createMock(ilLanguage::class);
+        $this->refinery = new Refinery($this->data_factory, $this->language);
 
         $this->group = new Field\Group(
             $this->data_factory,
@@ -41,7 +73,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithDisabledDisablesChildren()
+    public function testWithDisabledDisablesChildren() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -63,7 +95,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->group, $new_group);
     }
 
-    public function testWithRequiredRequiresChildren()
+    public function testWithRequiredRequiresChildren() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -85,9 +117,9 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->group, $new_group);
     }
 
-    public function testGroupMayOnlyHaveInputChildren()
+    public function testGroupMayOnlyHaveInputChildren() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->group = new Field\Group(
             $this->data_factory,
@@ -99,7 +131,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGroupForwardsValuesOnWithValue()
+    public function testGroupForwardsValuesOnWithValue() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -131,7 +163,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->group, $new_group);
     }
 
-    public function testWithValuePreservesKeys()
+    public function testWithValuePreservesKeys() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -162,22 +194,21 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(["child1" => $this->child2, "child2" => $this->child1], $new_group->getInputs());
     }
 
-
-    public function testGroupOnlyDoesNoAcceptNonArrayValue()
+    public function testGroupOnlyDoesNoAcceptNonArrayValue() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
-        $new_group = $this->group->withValue(1);
+        $this->group->withValue(1);
     }
 
-    public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength()
+    public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
-        $new_group = $this->group->withValue([1]);
+        $this->group->withValue([1]);
     }
 
-    public function testGroupForwardsValuesOnGetValue()
+    public function testGroupForwardsValuesOnGetValue() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -197,7 +228,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(["one", "two"], $vals);
     }
 
-    public function testWithInputCallsChildrenAndAppliesOperations()
+    public function testWithInputCallsChildrenAndAppliesOperations() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -224,7 +255,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
 
         $called = false;
         $new_group = $this->group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) : string {
                 $called = true;
                 $this->assertEquals(["two", "one"], $v);
                 return "result";
@@ -238,7 +269,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->data_factory->ok("result"), $new_group->getContent());
     }
 
-    public function testWithInputDoesNotApplyOperationsOnError()
+    public function testWithInputDoesNotApplyOperationsOnError() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -271,8 +302,8 @@ class GroupInputTest extends ILIAS_UI_TestBase
             ->willReturn($i18n);
 
         $new_group = $this->group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) {
-                $this->assertFalse(true, "This should not happen.");
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () : void {
+                $this->fail("This should not happen.");
             }))
             ->withInput($input_data);
 
@@ -282,7 +313,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($new_group->getContent()->isError());
     }
 
-    public function testErrorIsI18NOnError()
+    public function testErrorIsI18NOnError() : void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -314,7 +345,8 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($new_group->getContent()->isError());
         $this->assertEquals($i18n, $new_group->getContent()->error());
     }
-    public function testWithoutChildren()
+
+    public function testWithoutChildren() : void
     {
         $group = new Field\Group(
             $this->data_factory,
@@ -325,22 +357,21 @@ class GroupInputTest extends ILIAS_UI_TestBase
             "BYLINE"
         );
         $content = $group->getContent();
-        $this->assertInstanceOf(\ILIAS\Data\Result\Ok::class, $content);
+        $this->assertInstanceOf(Ok::class, $content);
         $this->assertCount(0, $content->value());
     }
 
-    public function getFieldFactory()
+    public function getFieldFactory() : Field\Factory
     {
-        $factory = new Field\Factory(
+        return new Field\Factory(
             new IncrementalSignalGenerator(),
             new Data\Factory(),
             $this->getRefinery(),
             $this->getLanguage()
         );
-        return $factory;
     }
 
-    public function testGroupRendering()
+    public function testGroupRendering() : void
     {
         $f = $this->getFieldFactory();
         $inputs = [
@@ -352,15 +383,15 @@ class GroupInputTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">input1</label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">input1</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <input id="id_1" type="text" name="" class="form-control form-control-sm" />
                 <div class="help-block">in 1</div>
             </div>
         </div>
         <div class="form-group row">
-            <label for="id_2" class="control-label col-sm-3">input2</label>
-            <div class="col-sm-9">
+            <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">input2</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <input id="id_2" type="text" name="" class="form-control form-control-sm" />
                 <div class="help-block">in 2</div>
             </div>

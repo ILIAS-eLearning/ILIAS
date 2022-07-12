@@ -1,52 +1,37 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
 
 /**
- * Interface Wrapper
- *
- * A wrapper file drozpone wraps around any other component from the UI framework, e.g. a calendar entry.
+ * A wrapper file dropzone wraps around any other component from the UI framework, e.g. a calendar entry.
  * Any wrapper dropzone is highlighted as soon as some files are dragged over the browser window.
  * Dropping the files opens a modal where the user can start the upload process.
- *
  * @author  nmaerchy <nm@studer-raimann.ch>
- *
- * @package ILIAS\UI\Component\Dropzone\File
  */
 interface Wrapper extends File
 {
-    /**
-     * Get a wrapper dropzone like this, but showing a custom title in the appearing modal.
-     *
-     * @param Component[]|Component $content
-     *
-     * @return $this
-     */
-    public function withTitle($title);
-
-
-    /**
-     * Get the custom title if set.
-     *
-     * @return Component[]
-     */
-    public function getTitle();
-
-    /**
-     * Get a wrapper dropzone like this, wrapping around the given component(s).
-     *
-     * @param Component[]|Component $content
-     *
-     * @return $this
-     */
-    public function withContent($content);
-
-
     /**
      * Get the components being wrapped by this dropzone.
      *
      * @return Component[]
      */
-    public function getContent();
+    public function getContent() : array;
 }

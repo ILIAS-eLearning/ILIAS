@@ -1,32 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id:
- *
  */
 class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
 {
+    protected string $expression = '';
+    protected string $parsed_value = '';
 
-    /**
-     * @var string
-     */
-    protected $expression = '';
-    /**
-     * @var string
-     */
-    protected $parsed_value = '';
-
-
-    /**
-     * @param ilDclBaseRecordModel $record
-     * @param ilDclBaseFieldModel  $field
-     */
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         parent::__construct($record, $field);
@@ -34,107 +35,77 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->expression = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
     }
 
-
-    /**
-     * @param ilConfirmationGUI $confirmation
-     */
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
     {
-        return;
-    }
 
+    }
 
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    protected function loadValue()
+    protected function loadValue() : void
     {
-        return null;
-    }
 
+    }
 
     /**
      * Set value for record field
-     *
-     * @param mixed $value
-     * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
+     * @param int|float $value
+     * @param bool      $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, $omit_parsing = false)
+    public function setValue($value, bool $omit_parsing = false) : void
     {
         unset($value);
     }
 
+    /**
+     * Do nothing, value is runtime only and not stored in DB
+     */
+    public function doUpdate() : void
+    {
+
+    }
 
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    public function doUpdate()
+    protected function doRead() : void
     {
-        return null;
-    }
 
+    }
 
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    public function doRead()
+    public function delete() : void
     {
-        return null;
+
     }
 
-
-    /**
-     * Do nothing, value is runtime only and not stored in DB
-     */
-    public function delete()
-    {
-        return null;
-    }
-
-
-    /**
-     *
-     * @return mixed|string
-     */
-    public function getFormInput()
+    public function getFormInput() : string
     {
         return $this->parse();
     }
 
-
-    /**
-     * @return string
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         return $this->parse();
     }
 
-
-    /**
-     * @return string
-     */
-    public function getExportValue()
+    public function getExportValue() : string
     {
         return $this->parse();
     }
 
-
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->parse();
     }
-
 
     /**
      * Parse expression
-     *
-     * @return string
      */
-    protected function parse()
+    protected function parse() : string
     {
         if (!$this->parsed_value && $this->expression) {
             $parser = new ilDclExpressionParser($this->expression, $this->getRecord(), $this->getField());

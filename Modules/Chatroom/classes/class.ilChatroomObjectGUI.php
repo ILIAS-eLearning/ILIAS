@@ -1,23 +1,38 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * @author jposselt@databay.de
  */
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
-    protected \ILIAS\HTTP\Services $httpServices;
-    protected ilTree $repositoryTree;
+    protected GlobalHttpState $http;
 
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($data, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
 
-        $this->httpServices = $DIC->http();
-        $this->repositoryTree = $DIC->repositoryTree();
+        $this->http = $DIC->http();
 
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+        parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
 
@@ -51,11 +66,14 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         $this->prepareOutput();
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if (
-            isset($this->httpServices->request()->getQueryParams()['admin_mode']) &&
-            $this->httpServices->request()->getQueryParams()['admin_mode'] === 'repository'
+            $this->http->wrapper()->query()->has('admin_mode') &&
+            $this->http->wrapper()->query()->retrieve(
+                'admin_mode',
+                $this->refinery->kindlyTo()->string()
+            ) === 'repository'
         ) {
             $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'admin_mode', 'settings');
             $this->tabs_gui->setBackTarget(
@@ -65,7 +83,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
             $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'admin_mode', 'repository');
         }
 
-        if ($this->repositoryTree->getSavedNodeData($this->object->getRefId())) {
+        if ($this->tree->getSavedNodeData($this->object->getRefId())) {
             $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
         }
     }

@@ -1,40 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use \Psr\Http\Message;
-use \ILIAS\COPage\Editor\Server;
+use Psr\Http\Message;
+use ILIAS\COPage\Editor\Server;
 
 /**
  * Adapter for JSON frontend.
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageEditorServerAdapterGUI
 {
-    /**
-     * @var ilPageObjectGUI
-     */
-    protected $page_gui;
+    protected ilPageObjectGUI $page_gui;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilCtrl $ctrl;
+    protected Message\ServerRequestInterface $request;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilPageObjectGUI $page_gui,
         ilCtrl $ctrl,
@@ -47,10 +43,7 @@ class ilPageEditorServerAdapterGUI
         $this->page_gui = $page_gui;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
         $next_class = $ctrl->getNextClass($this);
@@ -67,7 +60,7 @@ class ilPageEditorServerAdapterGUI
     /**
      * Invoke rpc server
      */
-    protected function invokeServer()
+    protected function invokeServer() : void
     {
         $server = new Server\Server($this->page_gui, $this->ui, $this->request);
         $server->reply();

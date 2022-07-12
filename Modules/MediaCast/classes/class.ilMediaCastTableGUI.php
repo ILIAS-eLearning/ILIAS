@@ -1,27 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\MediaCast\StandardGUIRequest;
 
 /**
  * TableGUI class for table NewsForContext
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaCastTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    protected $downloadable = false;
-    protected $edit_order;
+    protected bool $presentation_mode;
+    protected StandardGUIRequest $request;
+    protected ilAccessHandler $access;
+    protected bool $downloadable = false;
+    protected bool $edit_order;
+    protected \ILIAS\DI\UIServices $ui;
     
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        $a_edit_order = false,
-        $a_presentation_mode = false
+        ilObjMediaCastGUI $a_parent_obj,
+        string $a_parent_cmd = "",
+        bool $a_edit_order = false,
+        bool $a_presentation_mode = false
     ) {
         global $DIC;
 
@@ -30,14 +44,18 @@ class ilMediaCastTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
-        $this->edit_order = (bool) $a_edit_order;
-        $this->presentation_mode = (bool) $a_presentation_mode;
+        $this->request = $DIC->mediaCast()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+        $this->ui = $DIC->ui();
+        $this->edit_order = $a_edit_order;
+        $this->presentation_mode = $a_presentation_mode;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         // Check whether download-buttons will be displayed
-        $mediacast = new ilObjMediaCast($a_parent_obj->id);
+        $mediacast = new ilObjMediaCast($a_parent_obj->getObject()->getRefId());
         $this->downloadable = $mediacast->getDownloadable();
 
         if (!$this->presentation_mode) {
@@ -56,22 +74,15 @@ class ilMediaCastTableGUI extends ilTable2GUI
         );
         
         $this->setShowRowsSelector(true);
-
-        // this messes up the db ordering, where the id is also taken into
-        // account, if the creation date is the same (this happens e.g. on import)
-//		$this->setDefaultOrderField("creation_date");
-//		$this->setDefaultOrderDirection("desc");
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
+        $size = 0;
+        $ui = $this->ui;
 
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -181,8 +192,8 @@ class ilMediaCastTableGUI extends ilTable2GUI
                     $mpl->setFile(ilWACSignedPath::signFile($a_file));
                     $mpl->setMimeType($med->getFormat());
                     $mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
-                    $mpl->setTitle($a_set["title"]);
-                    $mpl->setDescription($a_set["content"]);
+                    $mpl->setTitle((string) $a_set["title"]);
+                    $mpl->setDescription((string) $a_set["content"]);
                     
                     $med_alt = $mob->getMediaItem("VideoAlternative");
                     if (is_object($med_alt)) {
@@ -193,11 +204,19 @@ class ilMediaCastTableGUI extends ilTable2GUI
                 }
 
                 //$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
-                $this->tpl->setVariable("PLAYER", $mpl->getPreviewHtml());
+                if ($med->getFormat() == "audio/mpeg") {
+                    $audio = $ui->factory()->player()->audio(
+                        ilWACSignedPath::signFile($a_file),
+                        ""
+                    );
+                    $this->tpl->setVariable("PLAYER", $ui->renderer()->render($audio));
+                } else {
+                    $this->tpl->setVariable("PLAYER", $mpl->getPreviewHtml());
+                }
 
                 // edit link
                 $ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
-                if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
+                if ($ilAccess->checkAccess("write", "", $this->request->getRefId()) &&
                     !$this->presentation_mode) {
                     $this->tpl->setCurrentBlock("edit");
                     $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
@@ -205,7 +224,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                         "CMD_EDIT",
                         $ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "editCastItem")
                     );
-                    
+
                     if (!is_int(strpos($med->getFormat(), "image/"))) {
                         $this->tpl->setVariable("TXT_DET_PLAYTIME", $lng->txt("mcst_det_playtime"));
                         $this->tpl->setVariable(
@@ -214,7 +233,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                         );
                     }
                     $this->tpl->parseCurrentBlock();
-                    
+
                     $this->tpl->setCurrentBlock("edit_checkbox");
                     $this->tpl->setVariable("VAL_ID", $a_set["id"]);
                     $this->tpl->parseCurrentBlock();

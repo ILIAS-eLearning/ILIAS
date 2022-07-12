@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,31 +10,12 @@ class ilAdvancedMDFieldTranslation
 {
     public const TABLE_NAME = 'adv_md_field_int';
 
-    /**
-     * @var
-     */
-    private $field_id;
+    private int $field_id;
+    private string $title;
+    private string $description;
+    private string $lang_key;
 
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var string
-     */
-    private $lang_key;
-
-
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
+    private ilDBInterface $db;
 
     /**
      * ilAdvancedMDFieldTranslation constructor.
@@ -51,66 +32,45 @@ class ilAdvancedMDFieldTranslation
         $this->lang_key = $lang_key;
     }
 
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
 
-
-    /**
-     * @return int
-     */
     public function getFieldId() : int
     {
         return $this->field_id;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-     * @return string
-     */
     public function getLangKey() : string
     {
         return $this->lang_key;
     }
 
-    /**
-     * update or insert entry
-     */
-    public function update()
+    public function update() : void
     {
         $query = 'select *  from ' . self::TABLE_NAME . ' ' .
             'where field_id = ' . $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
             'and lang_code = ' . $this->db->quote($this->getLangKey(), ilDBConstants::T_TEXT) . ' ';
         $res = $this->db->query($query);
         if (!$res->numRows()) {
-            return $this->insert();
+            $this->insert();
+            return;
         }
 
         $query = 'update ' . self::TABLE_NAME . ' ' .
@@ -122,7 +82,7 @@ class ilAdvancedMDFieldTranslation
         $this->db->manipulate($query);
     }
 
-    public function delete()
+    public function delete() : void
     {
         $query = 'delete from ' . self::TABLE_NAME . ' ' .
             'where field_id = ' . $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' and ' .
@@ -130,7 +90,7 @@ class ilAdvancedMDFieldTranslation
         $this->db->manipulate($query);
     }
 
-    public function insert()
+    public function insert() : void
     {
         $query = 'insert into ' . self::TABLE_NAME . ' (field_id, title, lang_code, description) ' .
             'values (  ' .

@@ -14,6 +14,8 @@ var renderer = function($) {
     },
 
     dom_references = {},
+    dom_ref_to_element = {},
+    thrown_for = {},
     dom_element = {
         withHtmlId: function (html_id) {
             return Object.assign({}, this, {html_id: html_id});
@@ -23,10 +25,11 @@ var renderer = function($) {
             return $('#' + this.html_id);
         },
         engage: function() {
-            this.getElement().addClass(css.engaged);
-            this.getElement().removeClass(css.disengaged);
-            this.getElement().trigger('in_view'); //this is most important for async loading of slates,
-                                                  //it triggers the GlobalScreen-Service.
+            var element = this.getElement();
+
+            element.addClass(css.engaged);
+            element.removeClass(css.disengaged);
+
             if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
                 il.UI.maincontrols.metabar.disengageAll();
             }
@@ -58,10 +61,10 @@ var renderer = function($) {
         triggerer: Object.assign({}, dom_element, {
             remove: function() {},
             additional_engage: function(){
-                this.getElement().attr('aria-pressed', true);
+                this.getElement().attr('aria-expanded', true);
             },
             additional_disengage: function(){
-                this.getElement().attr('aria-pressed', false);
+                this.getElement().attr('aria-expanded', false);
             }
         }),
         slate: Object.assign({}, dom_element, {
@@ -69,13 +72,26 @@ var renderer = function($) {
             mb_hide: null,
             mb_show: null,
             additional_engage: function(){
-                this.getElement().attr('aria-expanded', true);
-                this.getElement().attr('aria-hidden', false);
+                var element = this.getElement(),
+                    entry_id = dom_ref_to_element[this.html_id],
+                    isInView = il.UI.maincontrols.mainbar.model.isInView(entry_id),
+                    thrown = thrown_for[entry_id];
+
+                element.attr('aria-hidden', false);
                 //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
-                this.getElement().attr('role', 'region');
+                element.attr('role', 'region');
+                if(isInView && !thrown) {
+                    element.trigger('in_view'); //this is most important for async loading of slates,
+                                                //it triggers the GlobalScreen-Service.
+                    thrown_for[entry_id] = true;
+                }
+                if(!isInView) {
+                    thrown_for[entry_id] = false;
+                }
             },
             additional_disengage: function(){
-                this.getElement().attr('aria-expanded', false);
+                var entry_id = dom_ref_to_element[this.html_id];
+                thrown_for[entry_id] = false;
                 this.getElement().attr('aria-hidden', true);
                 this.getElement().removeAttr('role', 'region');
             }
@@ -117,10 +133,10 @@ var renderer = function($) {
             },
             remove: null,
             additional_engage: function(){
-                this.getElement().attr('aria-pressed', true);
+                this.getElement().attr('aria-expanded', true);
             },
             additional_disengage: function(){
-                this.getElement().attr('aria-pressed', false);
+                this.getElement().attr('aria-expanded', false);
             }
         }),
         mainbar: {
@@ -158,6 +174,8 @@ var renderer = function($) {
         addEntry: function (entry_id, part, html_id) {
             dom_references[entry_id] = dom_references[entry_id] || {};
             dom_references[entry_id][part] = html_id;
+            dom_ref_to_element[html_id] = entry_id;
+            thrown_for[entry_id] = false;
         },
         renderEntry: function (entry, is_tool) {
             if(!dom_references[entry.id]){
@@ -204,7 +222,9 @@ var renderer = function($) {
 
             for(i = max_buttons; i < root_entries_length; i++) {
                 btn = parts.triggerer.withHtmlId(dom_references[root_entries[i].id].triggerer);
+                list = btn.getElement().parent();
                 btn.getElement().appendTo(more_slate.getElement().children('.il-maincontrols-slate-content'));
+                list.remove();
             }
         },
         render: function (model_state) {
@@ -214,10 +234,19 @@ var renderer = function($) {
                 more_button = parts.triggerer.withHtmlId(dom_references[more_entry.id].triggerer),
                 more_slate = parts.slate.withHtmlId(dom_references[more_entry.id].slate);
                 //reset
-                more_slate.getElement().find('.btn-bulky, .link-bulky').insertBefore(more_button.getElement());
+                btns = more_slate.getElement().find('.btn-bulky, .link-bulky');
+                for(var i = 0; i < btns.length; i = i + 1) {
+                    li = document.createElement('li');
+                    li.appendChild(btns[i]);
+                    li.setAttribute('role', 'none');
+                    $(li).insertBefore(more_button.getElement().parent());
+                }
 
             if(model_state.more_available) {
+                more_button.getElement().parent().show();
                 actions.moveToplevelTriggerersToMore(model_state);
+            } else {
+                more_button.getElement().parent().hide();
             }
 
             parts.page.slatesEngaged(model_state.any_entry_engaged || model_state.tools_engaged);
@@ -251,12 +280,23 @@ var renderer = function($) {
                     .children().first()
                     .children().first();
             if(someting_to_focus_on[0]){
+                if(!someting_to_focus_on.attr('tabindex')) { //cannot focus w/o index
+                    someting_to_focus_on.attr('tabindex', '-1');
+                }
                 someting_to_focus_on[0].focus();
             }
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];
             document.getElementById(triggerer.triggerer).focus();
+        },
+
+        dispatchResizeNotification: function() {
+            var event = new CustomEvent(
+                'resize',
+                {detail : {mainbar_induced : true}}
+            );
+            window.dispatchEvent(event);
         }
     },
     public_interface = {
@@ -264,7 +304,8 @@ var renderer = function($) {
         calcAmountOfButtons: more.calcAmountOfButtons,
         render: actions.render,
         focusSubentry: actions.focusSubentry,
-        focusTopentry: actions.focusTopentry
+        focusTopentry: actions.focusTopentry,
+        dispatchResizeNotification: actions.dispatchResizeNotification
     };
 
     return public_interface;

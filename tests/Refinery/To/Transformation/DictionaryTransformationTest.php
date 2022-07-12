@@ -1,9 +1,20 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
@@ -13,30 +24,28 @@ use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 use UnexpectedValueException;
 
-require_once('./libs/composer/vendor/autoload.php');
-
 class DictionaryTransformationTest extends TestCase
 {
     /**
      * @throws \ilException
      */
-    public function testDictionaryTransformationValid()
+    public function testDictionaryTransformationValid() : void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 
-        $result = $transformation->transform(array('hello' => 'world'));
+        $result = $transformation->transform(['hello' => 'world']);
 
-        $this->assertEquals(array('hello' => 'world'), $result);
+        $this->assertEquals(['hello' => 'world'], $result);
     }
 
-    public function testDictionaryTransformationInvalidBecauseKeyIsNotAString()
+    public function testDictionaryTransformationInvalidBecauseKeyIsNotAString() : void
     {
         $this->expectNotToPerformAssertions();
 
         $transformation = new DictionaryTransformation(new StringTransformation());
 
         try {
-            $result = $transformation->transform(array('world'));
+            $result = $transformation->transform(['world']);
         } catch (UnexpectedValueException $exception) {
             return;
         }
@@ -44,14 +53,14 @@ class DictionaryTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testDictionaryTransformationInvalidBecauseValueIsNotAString()
+    public function testDictionaryTransformationInvalidBecauseValueIsNotAString() : void
     {
         $this->expectNotToPerformAssertions();
 
         $transformation = new DictionaryTransformation(new StringTransformation());
 
         try {
-            $result = $transformation->transform(array('hello' => 1));
+            $result = $transformation->transform(['hello' => 1]);
         } catch (UnexpectedValueException $exception) {
             return;
         }
@@ -59,7 +68,7 @@ class DictionaryTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException()
+    public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException() : void
     {
         $this->expectNotToPerformAssertions();
 
@@ -74,34 +83,34 @@ class DictionaryTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testDictionaryApplyValid()
+    public function testDictionaryApplyValid() : void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 
-        $result = $transformation->applyTo(new Ok(array('hello' => 'world')));
+        $result = $transformation->applyTo(new Ok(['hello' => 'world']));
 
-        $this->assertEquals(array('hello' => 'world'), $result->value());
+        $this->assertEquals(['hello' => 'world'], $result->value());
     }
 
-    public function testDictionaryApplyInvalidBecauseKeyIsNotAString()
+    public function testDictionaryApplyInvalidBecauseKeyIsNotAString() : void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 
-        $result = $transformation->applyTo(new Ok(array('world')));
+        $result = $transformation->applyTo(new Ok(['world']));
 
         $this->assertTrue($result->isError());
     }
 
-    public function testDictionaryApplyInvalidBecauseValueIsNotAString()
+    public function testDictionaryApplyInvalidBecauseValueIsNotAString() : void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 
-        $result = $transformation->applyTo(new Ok(array('hello' => 1)));
+        $result = $transformation->applyTo(new Ok(['hello' => 1]));
 
         $this->assertTrue($result->isError());
     }
 
-    public function testDictonaryNonArrayToTransformThrowsException()
+    public function testDictonaryNonArrayToTransformThrowsException() : void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 

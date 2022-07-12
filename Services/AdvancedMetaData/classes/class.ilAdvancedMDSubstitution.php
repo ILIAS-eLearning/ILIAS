@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,76 +22,53 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAdvancedMetaData
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilAdvancedMDSubstitution
 {
-    private static $instances = null;
-    private static $mappings = null;
+    private static ?array $instances = null;
+    private static ?array $mappings = null;
 
-    protected $db;
-    
-    protected $type;
-    protected $substitutions;
-    protected $bold = array();
-    protected $newline = array();
-    
-    protected $enabled_desc = true;
-    protected $enabled_field_names = true;
-    protected $active = false;
-    protected $date_fields = array();
-    protected $datetime_fields = array();
-    protected $active_fields = array();
-    
-    
-    /*
-     * Singleton class
-     * Use _getInstance
-     * @access private
-     * @param
-     */
-    private function __construct($a_type)
+    protected ilDBInterface $db;
+
+    protected string $type;
+    protected array $substitutions;
+    protected array $bold = array();
+    protected array $newline = array();
+
+    protected bool $enabled_desc = true;
+    protected bool $enabled_field_names = true;
+    protected bool $active = false;
+    protected array $date_fields = array();
+    protected array $datetime_fields = array();
+    protected array $active_fields = array();
+
+    private function __construct(string $a_type)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
         $this->type = $a_type;
-        
+
         $this->initECSMappings();
         $this->read();
     }
-    
+
     /**
-     * Singleton: use this method to get an instance
-     *
-     * @param string ilias object type (3 or 4 characters)
-     * @access public
-     * @static
-     *
      */
-    public static function _getInstanceByObjectType($a_type)
+    public static function _getInstanceByObjectType(string $a_type) : ilAdvancedMDSubstitution
     {
         if (isset(self::$instances[$a_type])) {
             return self::$instances[$a_type];
         }
         return self::$instances[$a_type] = new ilAdvancedMDSubstitution($a_type);
     }
-    
+
     /**
      * Sort definitions
-     *
-     * @access public
-     * @param array int field_id
-     *
      */
-    public function sortDefinitions($a_definitions)
+    public function sortDefinitions(array $a_definitions) : array
     {
         $sorted = array();
         foreach ($this->substitutions as $field_id) {
@@ -102,97 +79,56 @@ class ilAdvancedMDSubstitution
         }
         return array_merge($sorted, $a_definitions);
     }
-    
-    /**
-     * Is substitution active
-     *
-     * @access public
-     *
-     */
-    public function isActive()
+
+    public function isActive() : bool
     {
         return $this->active;
     }
-    
-    /**
-     * Is description enabled
-     *
-     * @access public
-     *
-     */
-    public function isDescriptionEnabled()
+
+    public function isDescriptionEnabled() : bool
     {
-        return (bool) $this->enabled_desc;
+        return $this->enabled_desc;
     }
-    
-    /**
-     * Enable description presentation
-     *
-     * @access public
-     * @param bool status description enabled
-     *
-     */
-    public function enableDescription($a_status)
+
+    public function enableDescription(bool $a_status) : void
     {
         $this->enabled_desc = $a_status;
     }
-    
-    /**
-     * is field name enabled
-     *
-     * @access public
-     *
-     */
-    public function enabledFieldNames()
+
+    public function enabledFieldNames() : bool
     {
-        return (bool) $this->enabled_field_names;
+        return $this->enabled_field_names;
     }
-    
-    /**
-     * enable field names
-     *
-     * @access public
-     * @param bool enable/disable status
-     *
-     */
-    public function enableFieldNames($a_status)
+
+    public function enableFieldNames(bool $a_status) : void
     {
         $this->enabled_field_names = $a_status;
     }
-    
-    /**
-     * Substitute
-     *
-     * @access public
-     * @param int ref_id
-     * @param int obj_id
-     * @param string description
-     *
-     */
-    public function getParsedSubstitutions($a_ref_id, $a_obj_id)
+
+    public function getParsedSubstitutions(int $a_ref_id, int $a_obj_id) : array
     {
         if (!count($this->getSubstitutions())) {
             return array();
         }
-        
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+
         $values_records = ilAdvancedMDValues::preloadedRead($this->type, $a_obj_id);
-                
+
         $counter = 0;
+        $substituted = [];
         foreach ($this->getSubstitutions() as $field_id) {
             if (!isset($this->active_fields[$field_id])) {
                 continue;
             }
-            
+
             $value = $this->parseValue($field_id, $values_records);
-            
+
             if ($value === null) {
                 if ($this->hasNewline($field_id) and $counter) {
                     $substituted[$counter - 1]['newline'] = true;
                 }
                 continue;
             }
-                            
+
             $substituted[$counter]['name'] = $this->active_fields[$field_id];
             $substituted[$counter]['value'] = $value;
             $substituted[$counter]['bold'] = $this->isBold($field_id);
@@ -204,85 +140,35 @@ class ilAdvancedMDSubstitution
             $substituted[$counter]['show_field'] = $this->enabledFieldNames();
             $counter++;
         }
-        
-        return $substituted ? $substituted : array();
+        return $substituted;
     }
-    
-    /**
-     * special handling for date(time) values
-     * and ECS dates
-     *
-     * @param int $a_field_id field ID
-     * @param array $a_values_records values
-     * @access public
-     * @return string parsed value
-     *
-     */
-    private function parseValue($a_field_id, $a_values_records)
+
+    private function parseValue(int $a_field_id, array $a_values_records) : ?string
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        
-        if ($this->type == 'crs' or $this->type == 'rcrs') {
-            // Special handling for ECS fields
-            // @FIXME
-            /*
-            if($a_field_id == self::$mappings->getMappingByECSName('begin') and
-                $end = self::$mappings->getMappingByECSName('end'))
-            {
-                // Parse a duration
-                $start = in_array($a_field_id,$this->date_fields) ?
-                    new ilDate($a_values[$a_field_id],IL_CAL_UNIX) :
-                    new ilDateTime($a_values[$a_field_id],IL_CAL_UNIX);
-                $end = in_array($end,$this->date_fields) ?
-                    new ilDate($a_values[$end],IL_CAL_UNIX) :
-                    new ilDateTime($a_values[$end],IL_CAL_UNIX);
-
-                include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-                $weekday = ilCalendarUtil::_numericDayToString($start->get(IL_CAL_FKT_DATE,'w',$ilUser->getTimeZone()),false);
-
-                ilDatePresentation::setUseRelativeDates(false);
-                $value = ilDatePresentation::formatPeriod($start,$end);
-                ilDatePresentation::setUseRelativeDates(true);
-                return $weekday.', '.$value;
-            }
-            */
-        }
-        
         foreach ($a_values_records as $a_values) {
-            if ($a_values->getADTGroup()->hasElement($a_field_id)) {
-                $element = $a_values->getADTGroup()->getElement($a_field_id);
+            if ($a_values->getADTGroup()->hasElement((string) $a_field_id)) {
+                $element = $a_values->getADTGroup()->getElement((string) $a_field_id);
                 if (!$element->isNull()) {
                     return ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getList();
                 }
             }
         }
+        return null;
     }
-    
-    
-    /**
-     * set substitutions
-     *
-     * @access public
-     * @param array array of field definitions
-     *
-     */
-    public function resetSubstitutions()
+
+    public function resetSubstitutions() : void
     {
         $this->substitutions = array();
         $this->bold = array();
         $this->newline = array();
     }
-    
+
     /**
      * append field to substitutions
-     *
      * @access public
      * @param int field id
-     *
      */
-    public function appendSubstitution($a_field_id, $a_bold = false, $a_newline = false)
+    public function appendSubstitution(int $a_field_id, bool $a_bold = false, bool $a_newline = false) : void
     {
         $this->substitutions[] = $a_field_id;
         if ($a_bold) {
@@ -292,103 +178,69 @@ class ilAdvancedMDSubstitution
             $this->newline[] = $a_field_id;
         }
     }
-    
-    /**
-     * get substitution string
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function getSubstitutions()
+
+    public function getSubstitutions() : array
     {
-        return $this->substitutions ? $this->substitutions : array();
+        return !$this->substitutions ? array() : $this->substitutions;
     }
-    
-    /**
-     * is substituted
-     *
-     * @access public
-     * @param int field_id
-     *
-     */
-    public function isSubstituted($a_field_id)
+
+    public function isSubstituted(int $a_field_id) : bool
     {
         return in_array($a_field_id, $this->getSubstitutions());
     }
-    
-    /**
-     * is bold
-     *
-     * @access public
-     * @param int field_id
-     *
-     */
-    public function isBold($a_field_id)
+
+    public function isBold(int $a_field_id) : bool
     {
-        #var_dump("<pre>",$this->bold,$a_field_id,"</pre>");
-        
         return in_array($a_field_id, $this->bold);
     }
-    
-    /**
-     * has newline
-     *
-     * @access public
-     * @param int field_id
-     *
-     */
-    public function hasNewline($a_field_id)
+
+    public function hasNewline(int $a_field_id) : bool
     {
         return in_array($a_field_id, $this->newline);
     }
+
     /**
      * update
-     *
      * @access public
-     *
      */
-    public function update()
+    public function update() : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $counter = 0;
         $substitutions = array();
-    
+
         foreach ($this->substitutions as $field_id) {
             $substitutions[$counter]['field_id'] = $field_id;
             $substitutions[$counter]['bold'] = $this->isBold($field_id);
             $substitutions[$counter]['newline'] = $this->hasNewline($field_id);
             $counter++;
         }
-        
+
         $query = "DELETE FROM adv_md_substitutions WHERE obj_type = " . $ilDB->quote($this->type, 'text');
         $res = $ilDB->manipulate($query);
-            
-        
+
         $values = array(
-            'obj_type' => array('text',$this->type),
-            'substitution' => array('clob',serialize($substitutions)),
-            'hide_description' => array('integer',!$this->isDescriptionEnabled()),
-            'hide_field_names' => array('integer',!$this->enabledFieldNames())
-            );
+            'obj_type' => array('text', $this->type),
+            'substitution' => array('clob', serialize($substitutions)),
+            'hide_description' => array('integer', !$this->isDescriptionEnabled()),
+            'hide_field_names' => array('integer', !$this->enabledFieldNames())
+        );
         $ilDB->insert('adv_md_substitutions', $values);
     }
-    
+
     /**
      * Read db entries
-     *
      * @access private
-     *
      */
-    private function read()
+    private function read() : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-             
+
         // Check active status
         $query = "SELECT active,field_id,amfd.title FROM adv_md_record amr " .
             "JOIN adv_md_record_objs amro ON amr.record_id = amro.record_id " .
@@ -398,9 +250,9 @@ class ilAdvancedMDSubstitution
         $res = $this->db->query($query);
         $this->active = $res->numRows() ? true : false;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->active_fields[$row->field_id] = $row->title;
+            $this->active_fields[(int) $row->field_id] = (string) $row->title;
         }
-            
+
         $query = "SELECT * FROM adv_md_substitutions " .
             "WHERE obj_type = " . $this->db->quote($this->type, 'text') . " ";
         $res = $this->db->query($query);
@@ -408,7 +260,7 @@ class ilAdvancedMDSubstitution
         $this->bold = array();
         $this->newline = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $tmp_substitutions = unserialize($row->substitution);
+            $tmp_substitutions = unserialize((string) $row->substitution);
             if (is_array($tmp_substitutions)) {
                 foreach ($tmp_substitutions as $substitution) {
                     if ($substitution['field_id']) {
@@ -425,36 +277,9 @@ class ilAdvancedMDSubstitution
             $this->enabled_desc = !$row->hide_description;
             $this->enabled_field_names = !$row->hide_field_names;
         }
-
-        if ($this->type == 'crs' or $this->type == 'rcrs') {
-            // Handle ECS substitutions
-            /*
-             if($begin = self::$mappings->getMappingByECSName('begin') and
-                 $end = self::$mappings->getMappingByECSName('end'))
-             {
-                 // Show something like 'Monday, 30.12.2008 9:00 - 12:00'
-                 unset($this->active_fields[$end]);
-             }
-            */
-        }
     }
-    
-    /**
-     * init ECS mappings
-     *
-     * @access private
-     *
-     */
-    private function initECSMappings()
-    {
-        return true;
 
-        include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-        
-        if (isset(self::$mappings) and is_object(self::$mappings)) {
-            return true;
-        }
-        self::$mappings = ilECSDataMappingSettings::_getInstance();
-        return true;
+    private function initECSMappings() : void
+    {
     }
 }

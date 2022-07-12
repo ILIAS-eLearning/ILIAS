@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,111 +10,71 @@
  */
 class ilOerHarvesterSettings
 {
-    const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
-
-    const STORAGE_IDENTIFIER = 'meta_oer';
-
-    const COLLECTED_TYPES = [
+    public const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+    public const STORAGE_IDENTIFIER = 'meta_oer';
+    public const COLLECTED_TYPES = [
         'file'
     ];
 
-    /**
-     * @var \ilOerHarvesterSettings
-     */
-    private static $instance = null;
+    private static ?ilOerHarvesterSettings $instance = null;
 
-    /**
-     * @var \ilSetting|null
-     */
-    private $storage = null;
+    protected ilSetting $storage;
+    protected ilSetting $settings;
 
-    /**
-     * @var int
-     */
-    private $target = 0;
-
+    private int $target = 0;
 
     /**
      * @var string[]
      */
-    private $copyright_templates = [];
+    private array $copyright_templates = [];
 
-    /**
-     * @var ilCronOerHarvester
-     */
-    private $cronjob = null;
+    private ?ilCronOerHarvester $cronjob = null;
 
-
-
-    /**
-     * ilOerHarvesterSettings constructor.
-     * @throws \LogicException
-     */
     protected function __construct()
     {
-        $this->storage = new ilSetting(self::STORAGE_IDENTIFIER);
-        /*
-        $this->cronjob = ilCronManager::getJobInstanceById(self::CRON_JOB_IDENTIFIER);
-        if(!$this->cronjob instanceof ilCronJob) {
+        global $DIC;
 
-            throw new \LogicException(
-                'Cannot create cron job instance'
-            );
-        }
-        */
+        $this->storage = new ilSetting(self::STORAGE_IDENTIFIER);
+        $this->settings = $DIC->settings();
+
         $this->read();
     }
 
-
-
-    /**
-     * @return \ilOerHarvesterSettings
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
-        if (!self::$instance instanceof ilOerHarvesterSettings) {
+        if (!self::$instance instanceof self) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-    /**
-     * @param string $a_type
-     * @return bool
-     */
-    public function supportsHarvesting($a_type)
+    public function supportsHarvesting(string $a_type) : bool
     {
         return in_array($a_type, self::COLLECTED_TYPES);
     }
 
     /**
-     * Get obj types that support harvesing
+     * @return string[]
      */
-    public function getHarvestingTypes()
+    public function getHarvestingTypes() : array
     {
         return self::COLLECTED_TYPES;
     }
 
-    /**
-     * @param int $a_target
-     */
-    public function setTarget($a_target)
+    public function setTarget(int $a_target) : void
     {
         $this->target = $a_target;
     }
 
-    /**
-     * Get target
-     */
-    public function getTarget()
+    public function getTarget() : int
     {
         return $this->target;
     }
 
     /**
-     * @param array $a_template_ids
+     * @param string[] $a_template_ids
      */
-    public function setCopyrightTemplates(array $a_template_ids)
+    public function setCopyrightTemplates(array $a_template_ids) : void
     {
         $this->copyright_templates = $a_template_ids;
     }
@@ -122,53 +82,38 @@ class ilOerHarvesterSettings
     /**
      * @return string[]
      */
-    public function getCopyrightTemplates()
+    public function getCopyrightTemplates() : array
     {
         return $this->copyright_templates;
     }
 
-    /**
-     * @param $a_id
-     * @return bool
-     */
-    public function isActiveCopyrightTemplate($a_id)
+    public function isActiveCopyrightTemplate(int $a_id) : bool
     {
         return in_array($a_id, $this->getCopyrightTemplates());
     }
 
     /**
      * Get copyright entries in LOM format: "il_copyright_entry_INST_ID_ID"
-     * return string[]
+     * @return string[]
      */
-    public function getCopyRightTemplatesInLomFormat()
+    public function getCopyRightTemplatesInLomFormat() : array
     {
-        global $DIC;
-
-        $settings = $DIC->settings();
-
         $lom_entries = [];
         foreach ($this->getCopyrightTemplates() as $copyright_id) {
-            $lom_entries[] = 'il_copyright_entry__' . $settings->get('inst_id', 0) . '__' . $copyright_id;
+            $lom_entries[] = 'il_copyright_entry__' . $this->settings->get('inst_id', '0') . '__' . $copyright_id;
         }
         return $lom_entries;
     }
 
-
-    /**
-     * Save settings
-     */
-    public function save()
+    public function save() : void
     {
-        $this->storage->set('target', $this->getTarget());
+        $this->storage->set('target', (string) $this->getTarget());
         $this->storage->set('templates', serialize($this->copyright_templates));
     }
 
-    /**
-     * Read settings
-     */
-    public function read()
+    public function read() : void
     {
-        $this->setTarget($this->storage->get('target', 0));
-        $this->setCopyrightTemplates(unserialize($this->storage->get('templates', serialize([]))));
+        $this->setTarget((int) $this->storage->get('target', '0'));
+        $this->setCopyrightTemplates(unserialize($this->storage->get('templates', serialize([])), ['allowed_classes' => false]));
     }
 }

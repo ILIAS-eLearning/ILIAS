@@ -27,7 +27,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.BooleanClause;
@@ -46,6 +46,7 @@ import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.lucene.settings.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser.Operator;
@@ -60,7 +61,7 @@ import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
  */
 public class RPCSearchHandler {
 
-	Logger logger = Logger.getLogger(RPCSearchHandler.class);
+	Logger logger = LogManager.getLogger(RPCSearchHandler.class);
 	
 	/**
 	 * 

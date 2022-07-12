@@ -1,6 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Data\URI;
 
 /**
  * Legacy Uri input
@@ -9,17 +25,13 @@
  */
 class ilUriInputGUI extends ilTextInputGUI
 {
-    protected $value;
-    protected $maxlength = 500;
-    protected $size = 40;
+    protected int $maxlength = 500;
+    protected int $size = 40;
 
-    /**
-     * Constructor
-     * @param string $a_title   Title
-     * @param string $a_postvar Post Variable
-     */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -27,29 +39,21 @@ class ilUriInputGUI extends ilTextInputGUI
         $this->setType("uri");
     }
 
-    /**
-     * Check input, strip slashes etc. set alert, if input is not ok.
-     * @return    boolean        Input ok, true/false
-     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
 
-        $_POST[$this->getPostVar()] =
-            ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-
         // check required
-        if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
+        if ($this->getRequired() && trim($this->str($this->getPostVar())) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
 
-        // check feed url
-        $url = $_POST[$this->getPostVar()];
+        $url = $this->getInput();
 
         try {
-            new \ILIAS\Data\URI($url);
-        } catch (\Throwable $e) {
+            new URI($url);
+        } catch (Throwable $e) {
             $this->setAlert($lng->txt("form_invalid_uri"));
             return false;
         }

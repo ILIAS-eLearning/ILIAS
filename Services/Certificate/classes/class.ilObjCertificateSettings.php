@@ -1,25 +1,20 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjCertificateSettings
@@ -48,10 +43,10 @@ class ilObjCertificateSettings extends ilObject
             $convert_filename = ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
             $imagepath = $this->getBackgroundImageDefaultFolder();
             if (!is_dir($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
             // upload the file
-            if (!ilUtil::moveUploadedFile(
+            if (!ilFileUtils::moveUploadedFile(
                 $image_tempfilename,
                 basename($this->getDefaultBackgroundImageTempfilePath()),
                 $this->getDefaultBackgroundImageTempfilePath()
@@ -59,19 +54,19 @@ class ilObjCertificateSettings extends ilObject
                 return false;
             }
             // convert the uploaded file to JPEG
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getDefaultBackgroundImageTempfilePath(),
                 $this->getDefaultBackgroundImagePath(),
                 "JPEG"
             );
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getDefaultBackgroundImageTempfilePath(),
                 $this->getDefaultBackgroundImageThumbPath(),
                 "JPEG",
-                100
+                '100'
             );
             // something went wrong converting the file. use the original file and hope, that PDF can work with it
-            if (!is_file($this->getDefaultBackgroundImagePath()) && !ilUtil::moveUploadedFile(
+            if (!is_file($this->getDefaultBackgroundImagePath()) && !ilFileUtils::moveUploadedFile(
                 $this->getDefaultBackgroundImageTempfilePath(),
                 $convert_filename,
                 $this->getDefaultBackgroundImagePath()
@@ -98,7 +93,10 @@ class ilObjCertificateSettings extends ilObject
         if (is_file($this->getDefaultBackgroundImageTempfilePath())) {
             $result &= unlink($this->getDefaultBackgroundImageTempfilePath());
         }
-        return $result;
+
+        /** @noinspection PhpCastIsUnnecessaryInspection */
+        /** @noinspection UnnecessaryCastingInspection */
+        return (bool) $result; // Don't remove the cast, otherwise $result will be 1 or 0
     }
 
     private function getBackgroundImageDefaultFolder() : string
@@ -134,8 +132,8 @@ class ilObjCertificateSettings extends ilObject
     public function getDefaultBackgroundImagePathWeb() : string
     {
         return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
             $this->getDefaultBackgroundImagePath()
         );
     }
@@ -143,8 +141,8 @@ class ilObjCertificateSettings extends ilObject
     public function getBackgroundImageThumbPathWeb() : string
     {
         return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
             $this->getDefaultBackgroundImageThumbPath()
         );
     }

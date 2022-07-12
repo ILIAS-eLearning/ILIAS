@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Repository object assignment information
  *
@@ -22,6 +36,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
     protected string $exc_title;
     protected int $exc_id;
 
+    /**
+     * @param int[] $a_ref_ids
+     */
     protected function __construct(
         int $a_assignment_id,
         string $a_assignment_title,
@@ -50,6 +67,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
         return $this->title;
     }
 
+    /**
+     * @return string[]
+     */
     public function getLinks() : array
     {
         $links = [];
@@ -74,6 +94,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
         return $this->exc_title;
     }
 
+    /**
+     * @return int[]
+     */
     public function getReadableRefIds() : array
     {
         return $this->ref_ids;

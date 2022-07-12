@@ -2,9 +2,7 @@
 
 /**
  * Class ilDclTableViewFieldSetting
- *
  * defines tableview/field specific settings: visible, in_filter, filter_value, filter_changeable
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
@@ -13,7 +11,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
 
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -22,117 +19,102 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_length           8
      * @db_sequence         true
      */
-    protected $id;
+    protected ?int $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
      * @db_length           8
      */
-    protected $tableview_id;
+    protected int $tableview_id;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        text
      * @db_length           128
-     *
      */
-    protected $field;
+    protected string $field = "";
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected $visible;
+    protected bool $visible = false;
     /**
-     * @var boolean
-     *
+     * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected $in_filter;
+    protected bool $in_filter = false;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected $filter_value;
+    protected $filter_value = "";
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected $filter_changeable;
+    protected bool $filter_changeable = false;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected $required_create;
+    protected bool $required_create = false;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected $locked_create;
+    protected bool $locked_create = false;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected $default_value;
+    protected ?string $default_value = null;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_is_notnull       true
      * @db_length           1
      */
-    protected $visible_create;
+    protected bool $visible_create = false;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_is_notnull       true
      * @db_length           1
      */
-    protected $visible_edit;
+    protected bool $visible_edit = false;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected $required_edit;
+    protected bool $required_edit = false;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected $locked_edit;
-
+    protected bool $locked_edit = false;
 
     /**
      * @return string
@@ -143,314 +125,179 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return "il_dcl_tview_set";
     }
 
-
-    /**
-     * @return int
-     */
-    public function getTableviewId()
+    public function getTableviewId() : int
     {
         return $this->tableview_id;
     }
 
-
-    /**
-     * @param int $tableview_id
-     */
-    public function setTableviewId($tableview_id)
+    public function setTableviewId(int $tableview_id) : void
     {
         $this->tableview_id = $tableview_id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getField()
+    public function getField() : string
     {
         return $this->field;
     }
 
-
     /**
-     * @param int $field
+     * @param $field
      */
-    public function setField($field)
+    public function setField(string $field) : void
     {
         $this->field = $field;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isVisibleInList()
+    public function isVisibleInList() : bool
     {
         return $this->visible;
     }
 
-
-    /**
-     * @param boolean $visible
-     */
-    public function setVisible($visible)
+    public function setVisible(bool $visible) : void
     {
         $this->visible = $visible;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isInFilter()
+    public function isInFilter() : bool
     {
         return $this->in_filter;
     }
 
-
-    /**
-     * @param boolean $in_filter
-     */
-    public function setInFilter($in_filter)
+    public function setInFilter(bool $in_filter) : void
     {
         $this->in_filter = $in_filter;
     }
 
-
-    /**
-     * @return string
-     */
     public function getFilterValue()
     {
         return $this->filter_value;
     }
 
-
-    /**
-     * @param string $filter_value
-     */
-    public function setFilterValue($filter_value)
+    public function setFilterValue($filter_value) : void
     {
         $this->filter_value = $filter_value;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isFilterChangeable()
+    public function isFilterChangeable() : bool
     {
         return $this->filter_changeable;
     }
 
-
-    /**
-     * @param boolean $filter_changeable
-     */
-    public function setFilterChangeable($filter_changeable)
+    public function setFilterChangeable(bool $filter_changeable) : void
     {
         $this->filter_changeable = $filter_changeable;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isRequiredCreate()
+    public function isRequiredCreate() : bool
     {
         return $this->required_create;
     }
 
-
-    /**
-     * @param bool $required_create
-     */
-    public function setRequiredCreate($required_create)
+    public function setRequiredCreate(bool $required_create) : void
     {
         $this->required_create = $required_create;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isLockedCreate()
+    public function isLockedCreate() : bool
     {
         return $this->locked_create;
     }
 
-
-    /**
-     * @param bool $locked_create
-     */
-    public function setLockedCreate($locked_create)
+    public function setLockedCreate(bool $locked_create) : void
     {
         $this->locked_create = $locked_create;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isRequiredEdit()
+    public function isRequiredEdit() : bool
     {
         return $this->required_edit;
     }
 
-
-    /**
-     * @param bool $required_edit
-     */
-    public function setRequiredEdit($required_edit)
+    public function setRequiredEdit(bool $required_edit) : void
     {
         $this->required_edit = $required_edit;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isLockedEdit()
+    public function isLockedEdit() : bool
     {
         return $this->locked_edit;
     }
 
-
-    /**
-     * @param bool $locked_edit
-     */
-    public function setLockedEdit($locked_edit)
+    public function setLockedEdit(bool $locked_edit) : void
     {
         $this->locked_edit = $locked_edit;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getDefaultValue()
+    public function getDefaultValue() : ?string
     {
         return $this->default_value;
     }
 
-
-    /**
-     * @param string $default_value
-     */
-    public function setDefaultValue($default_value)
+    public function setDefaultValue(?string $default_value) : void
     {
         $this->default_value = $default_value;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isVisibleCreate()
+    public function isVisibleCreate() : bool
     {
         return $this->visible_create;
     }
 
-
-    /**
-     * @param bool $visible_create
-     */
-    public function setVisibleCreate($visible_create)
+    public function setVisibleCreate(bool $visible_create) : void
     {
         $this->visible_create = $visible_create;
     }
 
-
-    /**
-     * @param bool $not_visible_create
-     */
     public function setNotVisibleCreate(bool $not_visible_create) : void
     {
         $this->visible_create = !$not_visible_create;
     }
 
-
-    /**
-     * @return bool
-     */
     public function isNotVisibleCreate() : bool
     {
         return !$this->visible_create;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isVisibleEdit()
+    public function isVisibleEdit() : bool
     {
         return $this->visible_edit;
     }
 
-
-    /**
-     * @param bool $visible_edit
-     */
-    public function setVisibleEdit($visible_edit)
+    public function setVisibleEdit(bool $visible_edit) : void
     {
         $this->visible_edit = $visible_edit;
     }
 
-    /**
-     * @param bool $not_visible
-     */
     public function setNotVisibleEdit(bool $not_visible) : void
     {
         $this->visible_edit = !$not_visible;
     }
 
-    /**
-     * @return bool
-     */
     public function isNotVisibleEdit() : bool
     {
         return !$this->visible_edit;
     }
 
-    /**
-     * @param bool $creation_mode
-     * @return bool
-     */
     public function isVisibleInForm(bool $creation_mode) : bool
     {
         return $creation_mode ? $this->isVisibleCreate() : $this->isVisibleEdit();
     }
 
-    /**
-     * @param bool $creation_mode
-     * @return bool
-     */
     public function isLocked(bool $creation_mode) : bool
     {
         return $creation_mode ? $this->isLockedCreate() : $this->isLockedEdit();
     }
 
-    /**
-     * @param bool $creation_mode
-     * @return bool
-     */
     public function isRequired(bool $creation_mode) : bool
     {
         return $creation_mode ? $this->isRequiredCreate() : $this->isRequiredEdit();
@@ -458,7 +305,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
 
     /**
      * @param $field_name
-     *
      * @return null|string
      */
     public function sleep($field_name)
@@ -470,14 +316,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
-
-    /**
-     * @param $field_name
-     * @param $field_value
-     *
-     * @return mixed|null
-     */
-    public function wakeUp($field_name, $field_value)
+    public function wakeUp($field_name, $field_value) : ?array
     {
         if ($field_name == 'filter_value') {
             $return = array();
@@ -496,8 +335,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
-
-    public function cloneStructure(ilDclTableViewFieldSetting $orig)
+    public function cloneStructure(ilDclTableViewFieldSetting $orig) : int
     {
         $this->setFilterChangeable($orig->isFilterChangeable());
         $this->setInFilter($orig->isInFilter());
@@ -511,7 +349,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->create();
         return $this->getId();
     }
-
 
     /**
      * @return ilDclBaseFieldModel|ilDclStandardField
@@ -532,23 +369,30 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         }
     }
 
+    /**
+     * @return ActiveRecord|self
+     */
+    public static function getTableViewFieldSetting(int $id, int $tableview_id) : ActiveRecord
+    {
+        return parent::where(array('field' => $id,
+                                   'tableview_id' => $tableview_id
+        ))->first();
+    }
 
     /**
      * @param $tableview_id
      * @param $field_id
-     *
-     * @return ActiveRecord
+     * @return ActiveRecord|self
      */
-    public static function getInstance($tableview_id, $field_id)
+    public static function getInstance(int $tableview_id, int $field_id) : ActiveRecord
     {
-        if ($setting = self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first()) {
-            return $setting;
-        } else {
+        if (!($setting = self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first())) {
             $setting = new self();
             $setting->setField($field_id);
             $setting->setTableviewId($tableview_id);
 
-            return $setting;
         }
+        return $setting;
     }
+
 }

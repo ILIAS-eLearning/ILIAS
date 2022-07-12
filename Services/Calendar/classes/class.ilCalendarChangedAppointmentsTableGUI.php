@@ -21,45 +21,28 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 {
-    private $cat_id = 0;
-    private $categories = null;
-    private $is_editable = false;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    private int $cat_id = 0;
+    private bool $is_editable = false;
+    private ilObjUser $user;
+
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        
-        $this->categories = ilCalendarCategories::_getInstance();
-        
-        $this->lng = $lng;
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('dateplaner');
-        $this->ctrl = $ilCtrl;
-        
+        $this->ctrl = $DIC->ctrl();
+
         $this->setId('calinbox');
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setFormName('appointments');
         $this->addColumn($this->lng->txt('date'), 'begin', "30%");
@@ -67,65 +50,56 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
         #$this->addColumn($this->lng->txt('cal_duration'),'duration',"15%");
         $this->addColumn($this->lng->txt('cal_recurrences'), 'frequence', "15%");
         $this->addColumn($this->lng->txt('last_update'), 'last_update', "15%");
-        
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.show_changed_appointment_row.html", "Services/Calendar");
-        
+
         $this->setShowRowsSelector(true);
         $this->enable('sort');
         $this->enable('header');
         $this->enable('numinfo');
-        
+
         $this->setDefaultOrderField('begin');
         $this->setDefaultOrderDirection('asc');
     }
-    
-    
-    /**
-     * fill row
-     *
-     * @access protected
-     * @param array set of data
-     * @return
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
-        
+
         if ($a_set["milestone"]) {
             $this->tpl->setCurrentBlock("img_ms");
             $this->tpl->setVariable("IMG_MS", ilUtil::getImagePath("icon_ms.svg"));
-            $this->tpl->setVariable("ALT_MS", $lng->txt("cal_milestone"));
+            $this->tpl->setVariable("ALT_MS", $this->lng->txt("cal_milestone"));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable('VAL_DESCRIPTION', $a_set['description']);
-        
+
         $this->tpl->setVariable('VAL_TITLE_LINK', $a_set['title']);
         $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $a_set['id']);
         $this->tpl->setVariable('VAL_LINK', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit'));
 
         switch ($a_set['frequence']) {
-            case IL_CAL_FREQ_DAILY:
+            case ilCalendarRecurrence::FREQ_DAILY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_daily'));
                 break;
-                
-            case IL_CAL_FREQ_WEEKLY:
+
+            case ilCalendarRecurrence::FREQ_WEEKLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_weekly'));
                 break;
-            
-            case IL_CAL_FREQ_MONTHLY:
+
+            case ilCalendarRecurrence::FREQ_MONTHLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_monthly'));
                 break;
-            
-            case IL_CAL_FREQ_YEARLY:
+
+            case ilCalendarRecurrence::FREQ_YEARLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_yearly'));
                 break;
-            
+
             default:
                 #$this->tpl->setVariable('VAL_FREQUENCE',$this->lng->txt('cal_no_recurrence'));
                 break;
@@ -142,55 +116,27 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
             );
         }
         $this->tpl->setVariable('VAL_BEGIN', $date);
-        /*
-        if($a_set['duration'])
-        {
-            if($a_set['milestone'])
-            {
-                $this->tpl->setVariable('VAL_DURATION','-');
-            }
-            else
-            {
-                $this->tpl->setVariable('VAL_DURATION',ilDatePresentation::secondsToString($a_set['duration']));
-            }
-        }
-        else
-        {
-            $this->tpl->setVariable('VAL_DURATION','');
-        }
-        */
-        $update = new ilDateTime($a_set['last_update'], IL_CAL_UNIX, $ilUser->getTimeZone());
+        $update = new ilDateTime($a_set['last_update'], IL_CAL_UNIX, $this->user->getTimeZone());
         $this->tpl->setVariable('VAL_LAST_UPDATE', ilDatePresentation::formatDate($update));
     }
 
-    /**
-     * set appointments
-     *
-     * @access public
-     * @return
-     */
-    public function setAppointments($a_apps)
+    public function setAppointments(array $a_apps) : void
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
-        $appointments = array();
-            
+        $appointments = [];
         foreach ($a_apps as $event) {
             $entry = $event['event'];
-            
+
             $rec = ilCalendarRecurrences::_getFirstRecurrence($entry->getEntryId());
-            
+
             $tmp_arr['id'] = $entry->getEntryId();
             $tmp_arr['milestone'] = $entry->isMilestone();
             $tmp_arr['title'] = $entry->getPresentationTitle();
             $tmp_arr['description'] = $entry->getDescription();
             $tmp_arr['fullday'] = $entry->isFullday();
-            #$tmp_arr['begin'] = $entry->getStart()->get(IL_CAL_UNIX);
-            #$tmp_arr['end'] = $entry->getEnd()->get(IL_CAL_UNIX);
-            
+
             $tmp_arr['begin'] = $event['dstart'];
             $tmp_arr['end'] = $event['dend'];
-            
+
             $tmp_arr['duration'] = $tmp_arr['end'] - $tmp_arr['begin'];
             if ($tmp_arr['fullday']) {
                 $tmp_arr['duration'] += (60 * 60 * 24);
@@ -198,16 +144,15 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
             if (!$tmp_arr['fullday'] and $tmp_arr['end'] == $tmp_arr['begin']) {
                 $tmp_arr['duration'] = '';
             }
-            
+
             $tmp_arr['last_update'] = $entry->getLastUpdate()->get(IL_CAL_UNIX);
             $tmp_arr['frequence'] = $rec->getFrequenceType();
-            
+
             $appointments[] = $tmp_arr;
         }
 
         //cuts appointments array after Limit
         $appointments = array_slice($appointments, 0, $this->getLimit());
-
-        $this->setData($appointments ? $appointments : array());
+        $this->setData($appointments);
     }
 }

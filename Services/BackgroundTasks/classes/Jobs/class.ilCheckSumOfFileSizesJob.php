@@ -1,9 +1,25 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Description of class class
@@ -13,15 +29,8 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilCheckSumOfFileSizesJob extends AbstractJob
 {
-
-    /**
-     * @var |null
-     */
-    private $logger = null;
-    /**
-     * @var ilSetting
-     */
-    protected $settings; // [ilSetting]
+    private ?ilLogger $logger;
+    protected \ilSetting $settings;
 
 
     /**
@@ -29,7 +38,8 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+        $this->logger = $DIC->logger()->cal();
         $this->settings = new ilSetting("fold");
     }
 
@@ -37,7 +47,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return
             [
@@ -49,7 +59,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getOutputType()
+    public function getOutputType() : Type
     {
         return new SingleType(ilCopyDefinition::class);
     }
@@ -58,7 +68,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless()
+    public function isStateless() : bool
     {
         return true;
     }
@@ -68,7 +78,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      * @inheritDoc
      * @todo use filesystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer)
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
     {
         $this->logger->debug('Start checking adherence to maxsize!');
         $this->logger->dump($input);
@@ -76,7 +86,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
         $object_ref_ids = $definition->getObjectRefIds();
 
         // get global limit (max sum of individual file-sizes) from file settings
-        $size_limit = (int) $this->settings->get("bgtask_download_limit", 0);
+        $size_limit = (int) $this->settings->get("bgtask_download_limit", '0');
         $size_limit_bytes = $size_limit * 1024 * 1024;
         $this->logger->debug('Global limit (max sum of all file-sizes) in file-settings: ' . $size_limit_bytes . ' bytes');
         // get sum of individual file-sizes
@@ -99,17 +109,12 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
 
     /**
      * Calculates the number and size of the files being downloaded recursively.
-     *
-     * @param array $a_ref_ids
-     * @param int & $a_file_count
-     * @param int & $a_file_size
+
      */
-    protected function calculateRecursive($a_ref_ids, &$a_file_size)
+    protected function calculateRecursive(array $a_ref_ids, int &$a_file_size) : void
     {
         global $DIC;
         $tree = $DIC['tree'];
-
-        include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
         // parse folders
         foreach ($a_ref_ids as $ref_id) {
@@ -132,7 +137,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
                     break;
 
                 case "file":
-                    $a_file_size += ilObjFileAccess::_lookupFileSize(ilObject::_lookupObjId($ref_id));
+                    $a_file_size += ilObjFileAccess::_lookupFileSize($ref_id);
                     break;
             }
         }
@@ -142,11 +147,9 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     /**
      * Check file access
      *
-     * @param int $ref_id
      *
-     * @return boolean
      */
-    protected function validateAccess($ref_id)
+    protected function validateAccess(int $ref_id) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -154,19 +157,14 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
         if (!$ilAccess->checkAccess("read", "", $ref_id)) {
             return false;
         }
-
-        if (ilObject::_isInTrash($ref_id)) {
-            return false;
-        }
-
-        return true;
+        return !ilObject::_isInTrash($ref_id);
     }
 
 
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }

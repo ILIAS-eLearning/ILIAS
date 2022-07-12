@@ -89,7 +89,7 @@ class ilCourseReferenceAppEventListener implements ilAppEventListener
             $this->logger->debug('Reference member update: adding user to course.');
             $target_course_ref_id = $path_info->getTargetId();
             $part = ilCourseParticipants::getInstance($target_course_ref_id);
-            $part->add($a_usr_id, IL_CRS_MEMBER);
+            $part->add($a_usr_id, ilParticipants::IL_CRS_MEMBER);
         }
     }
 
@@ -99,12 +99,11 @@ class ilCourseReferenceAppEventListener implements ilAppEventListener
 
     /**
      * Handle an event in a listener.
-     *
      * @param    string $a_component component, e.g. "Modules/Forum" or "Services/User"
-     * @param    string $a_event event e.g. "createUser", "updateUser", "deleteUser", ...
-     * @param    array $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
+     * @param    string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param    array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         ilLoggerFactory::getLogger('crs')->warning($a_component);
         switch ($a_component) {

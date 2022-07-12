@@ -1,63 +1,51 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
-* Class ilObjUserFolder
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends ilObject
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Class ilObjUserFolder
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 
 class ilObjUserFolder extends ilObject
 {
     public const ORG_OP_EDIT_USER_ACCOUNTS = 'edit_user_accounts';
-
     public const FILE_TYPE_EXCEL = 'userfolder_export_excel_x86';
     public const FILE_TYPE_CSV = 'userfolder_export_csv';
     public const FILE_TYPE_XML = 'userfolder_export_xml';
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id, $a_call_by_reference = true)
-    {
+
+    public function __construct(
+        int $a_id,
+        bool $a_call_by_reference = true
+    ) {
         $this->type = "usrf";
         parent::__construct($a_id, $a_call_by_reference);
     }
 
 
-    /**
-    * delete userfolder and all related data
-    * DISABLED
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
+    public function delete() : bool
     {
-        // DISABLED
         return false;
-
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
-        }
-        // put here userfolder specific stuff
-
-        // always call parent delete function at the end!!
-        return true;
     }
 
-
-    public function getExportFilename($a_mode = self::FILE_TYPE_EXCEL)
-    {
+    public function getExportFilename(
+        string $a_mode = self::FILE_TYPE_EXCEL
+    ) : string {
         $filename = "";
-        //$settings = $this->ilias->getAllSettings();
-        //$this->inst_id = $settings["inst_id"];
         $inst_id = IL_INST_ID;
 
         $date = time();
@@ -76,36 +64,24 @@ class ilObjUserFolder extends ilObject
         return $filename;
     }
 
-
-    /**
-    * Get the location of the export directory for the user accounts
-    *
-    * Get the location of the export directory for the user accounts
-    *
-    * @access	public
-    */
-    public function getExportDirectory()
+    public function getExportDirectory() : string
     {
-        $export_dir = ilUtil::getDataDir() . "/usrf_data/export";
+        $export_dir = ilFileUtils::getDataDir() . "/usrf_data/export";
 
         return $export_dir;
     }
 
     /**
-    * Get a list of the already exported files in the export directory
-    *
-    * Get a list of the already exported files in the export directory
-    *
-    * @return array A list of file names
-    * @access	public
-    */
-    public function getExportFiles()
+     * Get a list of the already exported files in the export directory
+     * @return array<string,string>[]
+     */
+    public function getExportFiles() : array
     {
         $dir = $this->getExportDirectory();
 
         // quit if export dir not available
-        if (!@is_dir($dir) or
-            !is_writeable($dir)) {
+        if (!is_dir($dir) or
+            !is_writable($dir)) {
             return array();
         }
 
@@ -122,7 +98,7 @@ class ilObjUserFolder extends ilObject
                 preg_match("/^[0-9]{10}_{2}[0-9]+_{2}([a-z0-9]{3})_usrf\.[a-z]{1,4}\$/", $entry, $matches)) {
                 $filearray["filename"] = $entry;
                 $filearray["filesize"] = filesize($this->getExportDirectory() . "/" . $entry);
-                array_push($file, $filearray);
+                $file[] = $filearray;
             }
         }
 
@@ -131,39 +107,30 @@ class ilObjUserFolder extends ilObject
 
         // sort files
         sort($file);
-        reset($file);
 
         return $file;
     }
 
-    protected function escapeXML($value)
+    protected function escapeXML(string $value) : string
     {
-        $value = str_replace("&", "&amp;", $value);
-        $value = str_replace("<", "&lt;", $value);
-        $value = str_replace(">", "&gt;", $value);
+        $value = str_replace(["&", "<", ">"], ["&amp;", "&lt;", "&gt;"], $value);
         return $value;
     }
 
-    protected function createXMLExport(&$settings, &$data, $filename)
-    {
-        include_once './Services/User/classes/class.ilUserDefinedData.php';
-        include_once './Services/User/classes/class.ilObjUser.php';
-
+    protected function createXMLExport(
+        array $settings,
+        array $data,
+        string $filename
+    ) : void {
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-        global $DIC;
-
         $ilDB = $DIC['ilDB'];
-        global $DIC;
-
         $log = $DIC['log'];
 
-        $file = fopen($filename, "w");
+        $file = fopen($filename, 'wb');
 
         if (is_array($data)) {
-            include_once './Services/User/classes/class.ilUserXMLWriter.php';
-
             $xmlWriter = new ilUserXMLWriter();
             $xmlWriter->setObjects($data);
             $xmlWriter->setSettings($settings);
@@ -179,10 +146,9 @@ class ilObjUserFolder extends ilObject
     /**
      * Get all exportable user defined fields
      */
-    protected function getUserDefinedExportFields()
+    protected function getUserDefinedExportFields() : array // Missing array type.
     {
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $udf_obj = &ilUserDefinedFields::_getInstance();
+        $udf_obj = ilUserDefinedFields::_getInstance();
 
         $udf_ex_fields = array();
         foreach ($udf_obj->getDefinitions() as $definition) {
@@ -195,23 +161,26 @@ class ilObjUserFolder extends ilObject
         return $udf_ex_fields;
     }
 
-    protected function createCSVExport(&$settings, &$data, $filename)
-    {
+    protected function createCSVExport(
+        array $settings,
+        array $data,
+        string $filename
+    ) : void {
 
         // header
         $headerrow = array();
         $udf_ex_fields = $this->getUserDefinedExportFields();
         foreach ($settings as $value) {	// standard fields
-            array_push($headerrow, $this->lng->txt($value));
+            $headerrow[] = $this->lng->txt($value);
         }
         foreach ($udf_ex_fields as $f) {	// custom fields
-            array_push($headerrow, $f["name"]);
+            $headerrow[] = $f["name"];
         }
 
         $separator = ";";
-        $file = fopen($filename, "w");
-        $formattedrow = &ilUtil::processCSVRow($headerrow, true, $separator);
-        fwrite($file, join($separator, $formattedrow) . "\n");
+        $file = fopen($filename, 'wb');
+        $formattedrow = &ilCSVUtil::processCSVRow($headerrow, true, $separator);
+        fwrite($file, implode($separator, $formattedrow) . "\n");
         foreach ($data as $row) {
             $csvrow = array();
             foreach ($settings as $header) {	// standard fields
@@ -219,29 +188,30 @@ class ilObjUserFolder extends ilObject
                 if (is_array($row[$header])) {
                     $row[$header] = implode(", ", $row[$header]);
                 }
-                
-                array_push($csvrow, $row[$header]);
+
+                $csvrow[] = $row[$header];
             }
 
             // custom fields
             reset($udf_ex_fields);
             if (count($udf_ex_fields) > 0) {
-                include_once("./Services/User/classes/class.ilUserDefinedData.php");
                 $udf = new ilUserDefinedData($row["usr_id"]);
                 foreach ($udf_ex_fields as $f) {	// custom fields
-                    array_push($csvrow, $udf->get("f_" . $f["id"]));
+                    $csvrow[] = $udf->get("f_" . $f["id"]);
                 }
             }
 
-            $formattedrow = &ilUtil::processCSVRow($csvrow, true, $separator);
-            fwrite($file, join($separator, $formattedrow) . "\n");
+            $formattedrow = &ilCSVUtil::processCSVRow($csvrow, true, $separator);
+            fwrite($file, implode($separator, $formattedrow) . "\n");
         }
         fclose($file);
     }
 
-    protected function createExcelExport(&$settings, &$data, $filename)
-    {
-        include_once "./Services/Excel/classes/class.ilExcel.php";
+    protected function createExcelExport(
+        array $settings,
+        array $data,
+        string $filename
+    ) : void {
         $worksheet = new ilExcel();
         $worksheet->addSheet($this->lng->txt("users"));
         
@@ -271,7 +241,7 @@ class ilObjUserFolder extends ilObject
 
             // standard fields
             foreach ($settings as $fieldname) {
-                $value = $rowdata[$fieldname];
+                $value = $rowdata[$fieldname] ?? "";
                 switch ($fieldname) {
                     case "language":
                         $worksheet->setCell($row, $col, $this->lng->txt("meta_l_" . $value));
@@ -297,7 +267,7 @@ class ilObjUserFolder extends ilObject
                     case "interests_general":
                     case "interests_help_offered":
                     case "interests_help_looking":
-                        if (is_array($value) && sizeof($value)) {
+                        if (is_array($value) && count($value)) {
                             $value = implode(", ", $value);
                         } else {
                             $value = null;
@@ -315,7 +285,6 @@ class ilObjUserFolder extends ilObject
             // custom fields
             reset($udf_ex_fields);
             if (count($udf_ex_fields) > 0) {
-                include_once("./Services/User/classes/class.ilUserDefinedData.php");
                 $udf = new ilUserDefinedData($rowdata["usr_id"]);
                 foreach ($udf_ex_fields as $f) {	// custom fields
                     $worksheet->setCell($row, $col, $udf->get("f_" . $f["id"]));
@@ -328,11 +297,9 @@ class ilObjUserFolder extends ilObject
     }
 
     /**
-     * getExport Settings
-     *
      * @return array of exportable fields
      */
-    public static function getExportSettings()
+    public static function getExportSettings() : array // Missing array type.
     {
         global $DIC;
 
@@ -340,13 +307,9 @@ class ilObjUserFolder extends ilObject
 
         $db_settings = array();
         
-        include_once("./Services/User/classes/class.ilUserProfile.php");
         $up = new ilUserProfile();
         $up->skipField("roles");
         $profile_fields = $up->getStandardFields();
-
-        /*$profile_fields =& ilObjUserFolder::getProfileFields();
-        $profile_fields[] = "preferences";*/
 
         $query = "SELECT * FROM settings WHERE " .
             $ilDB->like("keyword", "text", '%usr_settings_export_%');
@@ -354,7 +317,7 @@ class ilObjUserFolder extends ilObject
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             if ($row["value"] == "1") {
                 if (preg_match("/usr_settings_export_(.*)/", $row["keyword"], $setting)) {
-                    array_push($db_settings, $setting[1]);
+                    $db_settings[] = $setting[1];
                 }
             }
         }
@@ -365,58 +328,45 @@ class ilObjUserFolder extends ilObject
                     // we do not support password export with ILIAS >= 4.5.x
                     continue;
                 } else {
-                    array_push($export_settings, $key);
+                    $export_settings[] = $key;
                 }
             }
         }
-        array_push($export_settings, "usr_id");
-        array_push($export_settings, "login");
-        array_push($export_settings, "last_login");
-        array_push($export_settings, "last_update");
-        array_push($export_settings, "create_date");
-        array_push($export_settings, "time_limit_owner");
-        array_push($export_settings, "time_limit_unlimited");
-        array_push($export_settings, "time_limit_from");
-        array_push($export_settings, "time_limit_until");
-        array_push($export_settings, "time_limit_message");
-        array_push($export_settings, "active");
-        array_push($export_settings, "approve_date");
-        array_push($export_settings, "agree_date");
-        array_push($export_settings, "client_ip");
-        array_push($export_settings, "auth_mode");
-        array_push($export_settings, "ext_account");
-        array_push($export_settings, "feedhash");
+        $export_settings[] = "usr_id";
+        $export_settings[] = "login";
+        $export_settings[] = "last_login";
+        $export_settings[] = "last_update";
+        $export_settings[] = "create_date";
+        $export_settings[] = "time_limit_owner";
+        $export_settings[] = "time_limit_unlimited";
+        $export_settings[] = "time_limit_from";
+        $export_settings[] = "time_limit_until";
+        $export_settings[] = "time_limit_message";
+        $export_settings[] = "active";
+        $export_settings[] = "approve_date";
+        $export_settings[] = "agree_date";
+        $export_settings[] = "client_ip";
+        $export_settings[] = "auth_mode";
+        $export_settings[] = "ext_account";
+        $export_settings[] = "feedhash";
         return $export_settings;
     }
 
     /**
      * build xml export file
-     *
-     * @param string $a_mode
-     * @param bool $user_data_filter
-     * @param bool $use_temp_dir
-     * @return string
      */
-    public function buildExportFile($a_mode = self::FILE_TYPE_EXCEL, $user_data_filter = false, $use_temp_dir = false)
-    {
-        global $DIC;
-
-        $ilBench = $DIC['ilBench'];
-        global $DIC;
-
-        $log = $DIC['log'];
+    public function buildExportFile(
+        string $a_mode = self::FILE_TYPE_EXCEL,
+        ?array $user_data_filter = null,
+        bool $use_temp_dir = false
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        global $DIC;
-
-        $ilias = $DIC['ilias'];
-        global $DIC;
-
         $lng = $DIC['lng'];
 
         if ($use_temp_dir) {
-            $expDir = ilUtil::ilTempnam();
+            $expDir = ilFileUtils::ilTempnam();
             $fullname = $expDir;
         } else {
             $expDir = $this->getExportDirectory();
@@ -427,7 +377,7 @@ class ilObjUserFolder extends ilObject
 
         //get data
         //$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
-        $settings = &$this->getExportSettings();
+        $settings = self::getExportSettings();
         
         // user languages
         $query = "SELECT * FROM usr_pref WHERE keyword = " . $ilDB->quote('language', 'text');
@@ -464,10 +414,10 @@ class ilObjUserFolder extends ilObject
             
             if (is_array($user_data_filter)) {
                 if (in_array($row["usr_id"], $user_data_filter)) {
-                    array_push($data, $row);
+                    $data[] = $row;
                 }
             } else {
-                array_push($data, $row);
+                $data[] = $row;
             }
         }
         //$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
@@ -483,22 +433,18 @@ class ilObjUserFolder extends ilObject
                 $this->createXMLExport($settings, $data, $fullname);
                 break;
         }
-        //$expLog->write(date("[y-m-d H:i:s] ")."Finished export of user data");
-
         return $fullname;
     }
 
 
     /**
-    * creates data directory for export files
-    * (data_dir/usrf_data/export, depending on data
-    * directory that is set in ILIAS setup/ini)
-    */
-    protected function createExportDirectory()
+     * creates data directory for export files
+     */
+    protected function createExportDirectory() : void
     {
-        if (!@is_dir($this->getExportDirectory())) {
-            $usrf_data_dir = ilUtil::getDataDir() . "/usrf_data";
-            ilUtil::makeDir($usrf_data_dir);
+        if (!is_dir($this->getExportDirectory())) {
+            $usrf_data_dir = ilFileUtils::getDataDir() . "/usrf_data";
+            ilFileUtils::makeDir($usrf_data_dir);
             if (!is_writable($usrf_data_dir)) {
                 $this->ilias->raiseError("Userfolder data directory (" . $usrf_data_dir
                     . ") not writeable.", $this->ilias->error_obj->MESSAGE);
@@ -506,8 +452,8 @@ class ilObjUserFolder extends ilObject
 
             // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
             $export_dir = $usrf_data_dir . "/export";
-            ilUtil::makeDir($export_dir);
-            if (!@is_dir($export_dir)) {
+            ilFileUtils::makeDir($export_dir);
+            if (!is_dir($export_dir)) {
                 $this->ilias->raiseError("Creation of Userfolder Export Directory failed.", $this->ilias->error_obj->MESSAGE);
             }
         }
@@ -515,18 +461,17 @@ class ilObjUserFolder extends ilObject
 
     
     /**
-     * Get profile fields (DEPRECATED, use ilUserProfile() instead)
-     *
-     * @return array of fieldnames
+     * Get profile fields
+     * @deprecated use ilUserProfile() instead
      */
-    public static function &getProfileFields()
+    public static function getProfileFields() : array // Missing array type.
     {
-        include_once("./Services/User/classes/class.ilUserProfile.php");
         $up = new ilUserProfile();
         $up->skipField("username");
         $up->skipField("roles");
         $up->skipGroup("preferences");
         $fds = $up->getStandardFields();
+        $profile_fields = [];
         foreach ($fds as $k => $f) {
             $profile_fields[] = $k;
         }
@@ -534,8 +479,14 @@ class ilObjUserFolder extends ilObject
         return $profile_fields;
     }
 
-    public static function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
-    {
+    public static function _writeNewAccountMail(
+        string $a_lang,
+        string $a_subject,
+        string $a_sal_g,
+        string $a_sal_f,
+        string $a_sal_m,
+        string $a_body
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -569,23 +520,22 @@ class ilObjUserFolder extends ilObject
 
     /**
      * Update account mail attachment
-     * @param $a_lang
-     * @param $a_tmp_name
-     * @param $a_name
      * @throws ilException
      */
-    public static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
-    {
+    public static function _updateAccountMailAttachment(
+        string $a_lang,
+        string $a_tmp_name,
+        string $a_name
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         
-        include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
         $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
         $fs->create();
         $path = $fs->getAbsolutePath() . "/";
 
-        ilUtil::moveUploadedFile($a_tmp_name, $a_lang, $path . $a_lang);
+        ilFileUtils::moveUploadedFile($a_tmp_name, $a_lang, $path . $a_lang);
         
         $ilDB->update(
             'mail_template',
@@ -596,15 +546,14 @@ class ilObjUserFolder extends ilObject
 
     /**
      * Delete account mail attachment
-     * @param $a_lang
      */
-    public static function _deleteAccountMailAttachment($a_lang)
-    {
+    public static function _deleteAccountMailAttachment(
+        string $a_lang
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         
-        include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
         $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
         $path = $fs->getAbsolutePath() . "/";
 
@@ -643,16 +592,11 @@ class ilObjUserFolder extends ilObject
      * Update user folder assignment
      * Typically called after deleting a category with local user accounts.
      * These users will be assigned to the global user folder.
-     *
-     * @access public
-     * @static
-     *
-     * @param int old_id
-     * @param int new id
-     * @return bool
      */
-    public static function _updateUserFolderAssignment($a_old_id, $a_new_id)
-    {
+    public static function _updateUserFolderAssignment(
+        int $a_old_id,
+        int $a_new_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -660,7 +604,5 @@ class ilObjUserFolder extends ilObject
         $query = "UPDATE usr_data SET time_limit_owner = " . $ilDB->quote($a_new_id, "integer") . " " .
             "WHERE time_limit_owner = " . $ilDB->quote($a_old_id, "integer") . " ";
         $ilDB->manipulate($query);
-        
-        return true;
     }
-} // END class.ilObjUserFolder
+}

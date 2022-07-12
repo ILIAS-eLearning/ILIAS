@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
 namespace ILIAS\ResourceStorage\Revision\Repository;
 
 use ILIAS\Filesystem\Stream\FileStream;
@@ -13,15 +28,15 @@ use ILIAS\ResourceStorage\Lock\LockingRepository;
 use ILIAS\ResourceStorage\Revision\CloneRevision;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
+use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
 
 /**
  * Class RevisionARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @internal
  */
-interface RevisionRepository extends LockingRepository
+interface RevisionRepository extends LockingRepository, PreloadableRepository
 {
-
     public function blankFromUpload(
         InfoResolver $info_resolver,
         StorableResource $resource,
@@ -41,19 +56,9 @@ interface RevisionRepository extends LockingRepository
         FileRevision $revision_to_clone
     ) : CloneRevision;
 
-    /**
-     * @param Revision $revision
-     */
     public function store(Revision $revision) : void;
 
-    /**
-     * @param StorableResource $resource
-     * @return RevisionCollection
-     */
     public function get(StorableResource $resource) : RevisionCollection;
 
-    /**
-     * @param Revision $revision
-     */
     public function delete(Revision $revision) : void;
 }

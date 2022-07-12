@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilRoleMailboxSearch
@@ -9,17 +24,9 @@
  */
 class ilRoleMailboxSearch
 {
-    /** @var ilMailRfc822AddressParserFactory */
-    protected $parserFactory;
+    protected ilMailRfc822AddressParserFactory $parserFactory;
+    protected ilDBInterface $db;
 
-    /** @var ilDBInterface */
-    protected $db;
-
-    /**
-     * ilRoleMailboxSearch constructor.
-     * @param ilMailRfc822AddressParserFactory $parserFactory
-     * @param ilDBInterface|null $db
-     */
     public function __construct(
         ilMailRfc822AddressParserFactory $parserFactory,
         ilDBInterface $db = null
@@ -74,7 +81,6 @@ class ilRoleMailboxSearch
      * objects that are possible recipients for the role mailbox address.
      *
      * If Pear Mail is not installed, then the mailbox address
-     * @param string $a_address_list
      * @return int[] Array with role ids that were found
      */
     public function searchRoleIdsByAddressString(string $a_address_list) : array
@@ -82,10 +88,10 @@ class ilRoleMailboxSearch
         $parser = $this->parserFactory->getParser($a_address_list);
         $parsedList = $parser->parse();
 
-        $role_ids = array();
+        $role_ids = [];
         foreach ($parsedList as $address) {
             $local_part = $address->getMailbox();
-            if (strpos($local_part, '#') !== 0 && !($local_part[0] == '"' && $local_part[1] == "#")) {
+            if (strpos($local_part, '#') !== 0 && !($local_part[0] === '"' && $local_part[1] === "#")) {
                 // A local-part which doesn't start with a '#' doesn't denote a role.
                 // Therefore we can skip it.
                 continue;
@@ -94,12 +100,12 @@ class ilRoleMailboxSearch
             $local_part = substr($local_part, 1);
 
             /* If role contains spaces, eg. 'foo role', double quotes are added which have to be removed here.*/
-            if ($local_part[0] == '#' && $local_part[strlen($local_part) - 1] == '"') {
+            if ($local_part[0] === '#' && $local_part[strlen($local_part) - 1] === '"') {
                 $local_part = substr($local_part, 1);
-                $local_part = substr($local_part, 0, strlen($local_part) - 1);
+                $local_part = substr($local_part, 0, -1);
             }
 
-            if (substr($local_part, 0, 8) == 'il_role_') {
+            if (strpos($local_part, 'il_role_') === 0) {
                 $role_id = substr($local_part, 8);
                 $query = "SELECT t.tree " .
                     "FROM rbac_fa fa " .
@@ -109,22 +115,22 @@ class ilRoleMailboxSearch
                     "AND t.tree = 1";
                 $res = $this->db->query($query);
                 if ($this->db->numRows($res) > 0) {
-                    $role_ids[] = $role_id;
+                    $role_ids[] = (int) $role_id;
                 }
                 continue;
             }
 
             $domain = $address->getHost();
-            if (strpos($domain, '[') == 0 && strrpos($domain, ']')) {
-                $domain = substr($domain, 1, strlen($domain) - 2);
+            if (strpos($domain, '[') === 0 && strrpos($domain, ']')) {
+                $domain = substr($domain, 1, -1);
             }
-            if (strlen($local_part) == 0) {
+            if ($local_part === '') {
                 $local_part = $domain;
                 $address->setHost(ilMail::ILIAS_HOST);
                 $domain = ilMail::ILIAS_HOST;
             }
 
-            if (strtolower($address->getHost()) == ilMail::ILIAS_HOST) {
+            if (strtolower($address->getHost()) === ilMail::ILIAS_HOST) {
                 // Search for roles = local-part in the whole repository
                 $query = "SELECT dat.obj_id " .
                     "FROM object_data dat " .
@@ -146,20 +152,23 @@ class ilRoleMailboxSearch
                     "AND otree.tree = 1 " .
                     "AND rfa.assign = 'y' " .
                     "AND rdat.title LIKE " .
-                    $this->db->quote('%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%', 'text');
+                    $this->db->quote(
+                        '%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%',
+                        'text'
+                    );
             }
             $res = $this->db->query($query);
 
             $count = 0;
             while ($row = $this->db->fetchAssoc($res)) {
-                $role_ids[] = $row['obj_id'];
+                $role_ids[] = (int) $row['obj_id'];
 
                 $count++;
             }
 
             // Nothing found?
             // In this case, we search for roles = host.
-            if ($count == 0 && strtolower($address->getHost()) == ilMail::ILIAS_HOST) {
+            if ($count === 0 && strtolower($address->getHost()) === ilMail::ILIAS_HOST) {
                 $q = "SELECT dat.obj_id " .
                     "FROM object_data dat " .
                     "JOIN object_reference ref ON ref.obj_id = dat.obj_id " .
@@ -170,7 +179,7 @@ class ilRoleMailboxSearch
                 $res = $this->db->query($q);
 
                 while ($row = $this->db->fetchAssoc($res)) {
-                    $role_ids[] = $row['obj_id'];
+                    $role_ids[] = (int) $row['obj_id'];
                 }
             }
         }

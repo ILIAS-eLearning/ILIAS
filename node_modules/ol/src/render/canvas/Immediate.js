@@ -32,11 +32,11 @@ import {transformGeom2D} from '../../geom/SimpleGeometry.js';
 
 /**
  * @classdesc
- * A concrete subclass of {@link module:ol/render/VectorContext} that implements
+ * A concrete subclass of {@link module:ol/render/VectorContext VectorContext} that implements
  * direct rendering of features and geometries to an HTML5 Canvas context.
  * Instances of this class are created internally by the library and
  * provided to application code as vectorContext member of the
- * {@link module:ol/render/Event~RenderEvent} object associated with postcompose, precompose and
+ * {@link module:ol/render/Event~RenderEvent RenderEvent} object associated with postcompose, precompose and
  * render events emitted by layers and maps.
  */
 class CanvasImmediateRenderer extends VectorContext {
@@ -46,8 +46,8 @@ class CanvasImmediateRenderer extends VectorContext {
    * @param {import("../../extent.js").Extent} extent Extent.
    * @param {import("../../transform.js").Transform} transform Transform.
    * @param {number} viewRotation View rotation.
-   * @param {number=} opt_squaredTolerance Optional squared tolerance for simplification.
-   * @param {import("../../proj.js").TransformFunction=} opt_userTransform Transform from user to view projection.
+   * @param {number} [opt_squaredTolerance] Optional squared tolerance for simplification.
+   * @param {import("../../proj.js").TransformFunction} [opt_userTransform] Transform from user to view projection.
    */
   constructor(
     context,
@@ -280,7 +280,7 @@ class CanvasImmediateRenderer extends VectorContext {
       flatCoordinates,
       offset,
       end,
-      2,
+      stride,
       this.transform_,
       this.pixelCoordinates_
     );
@@ -541,7 +541,7 @@ class CanvasImmediateRenderer extends VectorContext {
 
   /**
    * Render a geometry into the canvas.  Call
-   * {@link module:ol/render/canvas/Immediate#setStyle} first to set the rendering style.
+   * {@link module:ol/render/canvas/Immediate~CanvasImmediateRenderer#setStyle renderer.setStyle()} first to set the rendering style.
    *
    * @param {import("../../geom/Geometry.js").default|import("../Feature.js").default} geometry The geometry to render.
    * @api
@@ -571,7 +571,9 @@ class CanvasImmediateRenderer extends VectorContext {
         break;
       case GeometryType.MULTI_LINE_STRING:
         this.drawMultiLineString(
-          /** @type {import("../../geom/MultiLineString.js").default} */ (geometry)
+          /** @type {import("../../geom/MultiLineString.js").default} */ (
+            geometry
+          )
         );
         break;
       case GeometryType.MULTI_POLYGON:
@@ -581,7 +583,9 @@ class CanvasImmediateRenderer extends VectorContext {
         break;
       case GeometryType.GEOMETRY_COLLECTION:
         this.drawGeometryCollection(
-          /** @type {import("../../geom/GeometryCollection.js").default} */ (geometry)
+          /** @type {import("../../geom/GeometryCollection.js").default} */ (
+            geometry
+          )
         );
         break;
       case GeometryType.CIRCLE:
@@ -597,7 +601,7 @@ class CanvasImmediateRenderer extends VectorContext {
    * Render a feature into the canvas.  Note that any `zIndex` on the provided
    * style will be ignored - features are rendered immediately in the order that
    * this method is called.  If you need `zIndex` support, you should be using an
-   * {@link module:ol/layer/Vector~VectorLayer} instead.
+   * {@link module:ol/layer/Vector~VectorLayer VectorLayer} instead.
    *
    * @param {import("../../Feature.js").default} feature Feature.
    * @param {import("../../style/Style.js").default} style Style.
@@ -633,10 +637,12 @@ class CanvasImmediateRenderer extends VectorContext {
    */
   drawPoint(geometry) {
     if (this.squaredTolerance_) {
-      geometry = /** @type {import("../../geom/Point.js").default} */ (geometry.simplifyTransformed(
-        this.squaredTolerance_,
-        this.userTransform_
-      ));
+      geometry = /** @type {import("../../geom/Point.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
     }
     const flatCoordinates = geometry.getFlatCoordinates();
     const stride = geometry.getStride();
@@ -656,10 +662,12 @@ class CanvasImmediateRenderer extends VectorContext {
    */
   drawMultiPoint(geometry) {
     if (this.squaredTolerance_) {
-      geometry = /** @type {import("../../geom/MultiPoint.js").default} */ (geometry.simplifyTransformed(
-        this.squaredTolerance_,
-        this.userTransform_
-      ));
+      geometry = /** @type {import("../../geom/MultiPoint.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
     }
     const flatCoordinates = geometry.getFlatCoordinates();
     const stride = geometry.getStride();
@@ -679,10 +687,12 @@ class CanvasImmediateRenderer extends VectorContext {
    */
   drawLineString(geometry) {
     if (this.squaredTolerance_) {
-      geometry = /** @type {import("../../geom/LineString.js").default} */ (geometry.simplifyTransformed(
-        this.squaredTolerance_,
-        this.userTransform_
-      ));
+      geometry = /** @type {import("../../geom/LineString.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
     }
     if (!intersects(this.extent_, geometry.getExtent())) {
       return;
@@ -715,10 +725,13 @@ class CanvasImmediateRenderer extends VectorContext {
    */
   drawMultiLineString(geometry) {
     if (this.squaredTolerance_) {
-      geometry = /** @type {import("../../geom/MultiLineString.js").default} */ (geometry.simplifyTransformed(
-        this.squaredTolerance_,
-        this.userTransform_
-      ));
+      geometry =
+        /** @type {import("../../geom/MultiLineString.js").default} */ (
+          geometry.simplifyTransformed(
+            this.squaredTolerance_,
+            this.userTransform_
+          )
+        );
     }
     const geometryExtent = geometry.getExtent();
     if (!intersects(this.extent_, geometryExtent)) {
@@ -757,10 +770,12 @@ class CanvasImmediateRenderer extends VectorContext {
    */
   drawPolygon(geometry) {
     if (this.squaredTolerance_) {
-      geometry = /** @type {import("../../geom/Polygon.js").default} */ (geometry.simplifyTransformed(
-        this.squaredTolerance_,
-        this.userTransform_
-      ));
+      geometry = /** @type {import("../../geom/Polygon.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
     }
     if (!intersects(this.extent_, geometry.getExtent())) {
       return;
@@ -800,10 +815,12 @@ class CanvasImmediateRenderer extends VectorContext {
    */
   drawMultiPolygon(geometry) {
     if (this.squaredTolerance_) {
-      geometry = /** @type {import("../../geom/MultiPolygon.js").default} */ (geometry.simplifyTransformed(
-        this.squaredTolerance_,
-        this.userTransform_
-      ));
+      geometry = /** @type {import("../../geom/MultiPolygon.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
     }
     if (!intersects(this.extent_, geometry.getExtent())) {
       return;
@@ -932,7 +949,9 @@ class CanvasImmediateRenderer extends VectorContext {
     if (!contextTextState) {
       context.font = textState.font;
       context.textAlign = /** @type {CanvasTextAlign} */ (textAlign);
-      context.textBaseline = /** @type {CanvasTextBaseline} */ (textState.textBaseline);
+      context.textBaseline = /** @type {CanvasTextBaseline} */ (
+        textState.textBaseline
+      );
       this.contextTextState_ = {
         font: textState.font,
         textAlign: textAlign,
@@ -948,8 +967,12 @@ class CanvasImmediateRenderer extends VectorContext {
         context.textAlign = /** @type {CanvasTextAlign} */ (textAlign);
       }
       if (contextTextState.textBaseline != textState.textBaseline) {
-        contextTextState.textBaseline = /** @type {CanvasTextBaseline} */ (textState.textBaseline);
-        context.textBaseline = /** @type {CanvasTextBaseline} */ (textState.textBaseline);
+        contextTextState.textBaseline = /** @type {CanvasTextBaseline} */ (
+          textState.textBaseline
+        );
+        context.textBaseline = /** @type {CanvasTextBaseline} */ (
+          textState.textBaseline
+        );
       }
     }
   }
@@ -982,24 +1005,30 @@ class CanvasImmediateRenderer extends VectorContext {
       const strokeStyleLineJoin = strokeStyle.getLineJoin();
       const strokeStyleWidth = strokeStyle.getWidth();
       const strokeStyleMiterLimit = strokeStyle.getMiterLimit();
+      const lineDash = strokeStyleLineDash
+        ? strokeStyleLineDash
+        : defaultLineDash;
       this.strokeState_ = {
         lineCap:
           strokeStyleLineCap !== undefined
             ? strokeStyleLineCap
             : defaultLineCap,
-        lineDash: strokeStyleLineDash ? strokeStyleLineDash : defaultLineDash,
-        lineDashOffset: strokeStyleLineDashOffset
-          ? strokeStyleLineDashOffset
-          : defaultLineDashOffset,
+        lineDash:
+          this.pixelRatio_ === 1
+            ? lineDash
+            : lineDash.map((n) => n * this.pixelRatio_),
+        lineDashOffset:
+          (strokeStyleLineDashOffset
+            ? strokeStyleLineDashOffset
+            : defaultLineDashOffset) * this.pixelRatio_,
         lineJoin:
           strokeStyleLineJoin !== undefined
             ? strokeStyleLineJoin
             : defaultLineJoin,
         lineWidth:
-          this.pixelRatio_ *
           (strokeStyleWidth !== undefined
             ? strokeStyleWidth
-            : defaultLineWidth),
+            : defaultLineWidth) * this.pixelRatio_,
         miterLimit:
           strokeStyleMiterLimit !== undefined
             ? strokeStyleMiterLimit
@@ -1018,34 +1047,24 @@ class CanvasImmediateRenderer extends VectorContext {
    * @param {import("../../style/Image.js").default} imageStyle Image style.
    */
   setImageStyle(imageStyle) {
-    if (!imageStyle) {
+    let imageSize;
+    if (!imageStyle || !(imageSize = imageStyle.getSize())) {
       this.image_ = null;
-    } else {
-      const imageSize = imageStyle.getSize();
-      if (!imageSize) {
-        this.image_ = null;
-      } else {
-        const imageAnchor = imageStyle.getAnchor();
-        // FIXME pixel ratio
-        const imageImage = imageStyle.getImage(1);
-        const imageOrigin = imageStyle.getOrigin();
-        const imageScale = imageStyle.getScaleArray();
-        this.imageAnchorX_ = imageAnchor[0];
-        this.imageAnchorY_ = imageAnchor[1];
-        this.imageHeight_ = imageSize[1];
-        this.image_ = imageImage;
-        this.imageOpacity_ = imageStyle.getOpacity();
-        this.imageOriginX_ = imageOrigin[0];
-        this.imageOriginY_ = imageOrigin[1];
-        this.imageRotateWithView_ = imageStyle.getRotateWithView();
-        this.imageRotation_ = imageStyle.getRotation();
-        this.imageScale_ = [
-          this.pixelRatio_ * imageScale[0],
-          this.pixelRatio_ * imageScale[1],
-        ];
-        this.imageWidth_ = imageSize[0];
-      }
+      return;
     }
+    const imageAnchor = imageStyle.getAnchor();
+    const imageOrigin = imageStyle.getOrigin();
+    this.image_ = imageStyle.getImage(this.pixelRatio_);
+    this.imageAnchorX_ = imageAnchor[0] * this.pixelRatio_;
+    this.imageAnchorY_ = imageAnchor[1] * this.pixelRatio_;
+    this.imageHeight_ = imageSize[1] * this.pixelRatio_;
+    this.imageOpacity_ = imageStyle.getOpacity();
+    this.imageOriginX_ = imageOrigin[0];
+    this.imageOriginY_ = imageOrigin[1];
+    this.imageRotateWithView_ = imageStyle.getRotateWithView();
+    this.imageRotation_ = imageStyle.getRotation();
+    this.imageScale_ = imageStyle.getScaleArray();
+    this.imageWidth_ = imageSize[0] * this.pixelRatio_;
   }
 
   /**
@@ -1076,7 +1095,8 @@ class CanvasImmediateRenderer extends VectorContext {
         const textStrokeStyleColor = textStrokeStyle.getColor();
         const textStrokeStyleLineCap = textStrokeStyle.getLineCap();
         const textStrokeStyleLineDash = textStrokeStyle.getLineDash();
-        const textStrokeStyleLineDashOffset = textStrokeStyle.getLineDashOffset();
+        const textStrokeStyleLineDashOffset =
+          textStrokeStyle.getLineDashOffset();
         const textStrokeStyleLineJoin = textStrokeStyle.getLineJoin();
         const textStrokeStyleWidth = textStrokeStyle.getWidth();
         const textStrokeStyleMiterLimit = textStrokeStyle.getMiterLimit();

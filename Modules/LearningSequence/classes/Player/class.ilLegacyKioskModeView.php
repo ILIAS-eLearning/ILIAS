@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
 use ILIAS\KioskMode\URLBuilder;
@@ -68,13 +82,11 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 
         $url = \ilLink::_getStaticLink(
             $ref_id,
-            $type,
-            true,
-            false
+            $type
         );
 
+        $obj_id = $this->object->getId();
         if (in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
-            $obj_id = $this->object->getId();
             $item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
             $item_list_gui->initItem($ref_id, $obj_id, $type);
             $view_link = $item_list_gui->getCommandLink('view');
@@ -83,7 +95,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             $url = $view_link;
         }
 
-        $builder->start($label, $url, 0);
+        $builder->start($label, $url, $obj_id);
 
         return $builder;
     }
@@ -122,12 +134,10 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             $this->getMetadata($this->object->getId(), $obj_type)
         );
 
-        $info = $factory->item()->standard($this->object->getTitle())
+        return $factory->item()->standard($this->object->getTitle())
             ->withLeadIcon($icon)
             ->withDescription($this->object->getDescription())
             ->withProperties($props);
-
-        return $info;
     }
 
     //TODO: enhance metadata
@@ -155,7 +165,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 
         $md_flat = [];
         foreach ($meta_data as $md_label => $values) {
-            if (count($values) > 0) {
+            if ($values !== []) {
                 $md_flat[$this->lng->txt($md_label)] = implode(', ', $values);
             }
         }

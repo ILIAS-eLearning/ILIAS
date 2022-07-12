@@ -31,28 +31,28 @@
 				SELECT
 				MAX(version) AS version
 				, file_name
-				, rid
+				, file_data.rid
 				, il_resource.storage_id
 				, IF(
 				STRCMP(il_resource.storage_id, 'fsv2') = 0,
 				CONCAT(
 				'fsv2/'
-				, SUBSTRING(REPLACE(rid, '-', ''), 1, 3)
+				, SUBSTRING(REPLACE(file_data.rid, '-', ''), 1, 3)
 				, '/'
-				, SUBSTRING(REPLACE(rid, '-', ''), 4, 3)
+				, SUBSTRING(REPLACE(file_data.rid, '-', ''), 4, 3)
 				, '/'
-				, SUBSTRING(REPLACE(rid, '-', ''), 7, 3)
+				, SUBSTRING(REPLACE(file_data.rid, '-', ''), 7, 3)
 				, '/'
-				, SUBSTRING(REPLACE(rid, '-', ''), 10)
+				, SUBSTRING(REPLACE(file_data.rid, '-', ''), 10)
 				),
-				REPLACE(rid, '-', '/')
+				REPLACE(file_data.rid, '-', '/')
 				) AS resource_path
 
 				FROM file_data
-				JOIN il_resource ON il_resource.identification = file_data.rid
+				JOIN il_resource ON il_resource.rid = file_data.rid
 				WHERE
 				file_id IN (?) AND
-				rid IS NOT NULL
+				file_data.rid IS NOT NULL
 				GROUP BY file_id,file_name
 			</Query>
 			<Param format="list" type="int" value="objId" />

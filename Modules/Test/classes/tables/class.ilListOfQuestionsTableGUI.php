@@ -15,23 +15,16 @@ require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
 
 class ilListOfQuestionsTableGUI extends ilTable2GUI
 {
-    protected $showPointsEnabled = false;
-    protected $showMarkerEnabled = false;
+    protected ?bool $showPointsEnabled = false;
+    protected ?bool $showMarkerEnabled = false;
 
-    protected $showObligationsEnabled = false;
-    protected $obligationsFilterEnabled = false;
+    protected ?bool $showObligationsEnabled = false;
+    protected ?bool $obligationsFilterEnabled = false;
     
-    protected $obligationsNotAnswered = false;
+    protected ?bool $obligationsNotAnswered = false;
     
-    protected $finishTestButtonEnabled = false;
+    protected ?bool $finishTestButtonEnabled = false;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -57,7 +50,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
     
-    public function init()
+    public function init() : void
     {
         // table title
         
@@ -97,7 +90,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         
         $this->addCommandButton(
             ilTestPlayerCommands::SHOW_QUESTION,
-            $this->lng->txt('back')
+            $this->lng->txt('tst_resume_test')
         );
 
         if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {
@@ -108,29 +101,30 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         if ($this->isShowPointsEnabled()) {
             $this->tpl->setCurrentBlock('points');
-            $this->tpl->setVariable("POINTS", $data['points'] . '&nbsp;' . $this->lng->txt("points_short"));
+            $this->tpl->setVariable("POINTS", $a_set['points'] . '&nbsp;' . $this->lng->txt("points_short"));
             $this->tpl->parseCurrentBlock();
         }
-        if (strlen($data['description'])) {
+        if (strlen($a_set['description'])) {
             $this->tpl->setCurrentBlock('description');
-            $this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($data['description']));
+            $this->tpl->setVariable("DESCRIPTION", ilLegacyFormElementsUtil::prepareFormOutput($a_set['description']));
             $this->tpl->parseCurrentBlock();
         }
         if ($this->isShowMarkerEnabled()) {
-            if ($data['marked']) {
+            if ($a_set['marked']) {
                 $this->tpl->setCurrentBlock('marked_img');
-                $this->tpl->setVariable("HREF_MARKED", ilUtil::img('./templates/default/images/marked.svg', $this->lng->txt("tst_question_marked"), '24px', '24px'));
+                $this->tpl->setVariable(
+                    "HREF_MARKED",
+                    ilUtil::img(
+                        ilUtil::getImagePath('marked.svg'),
+                        $this->lng->txt("tst_question_marked"),
+                        '24px',
+                        '24px'
+                    )
+                );
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->touchBlock('marker');
@@ -140,7 +134,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             // obligatory answer status
             if (false) {
                 $value = '&nbsp;';
-                if ($data['isAnswered']) {
+                if ($a_set['isAnswered']) {
                     $value = $this->lng->txt("yes");
                 }
                 $this->tpl->setCurrentBlock('answered_col');
@@ -149,7 +143,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             }
 
             // obligatory icon
-            if ($data["obligatory"]) {
+            if ($a_set["obligatory"]) {
                 require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
                 $OBLIGATORY = ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $this->lng->txt('question_obligatory'));
             } else {
@@ -159,95 +153,89 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
         
         $postponed = (
-            $data['postponed'] ? $this->lng->txt('postponed') : ''
+            $a_set['postponed'] ? $this->lng->txt('postponed') : ''
         );
         
-        if ($data['disabled']) {
+        if ($a_set['disabled']) {
             $this->tpl->setCurrentBlock('static_title');
-            $this->tpl->setVariable("STATIC_TITLE", ilUtil::prepareFormOutput($data['title']));
+            $this->tpl->setVariable("STATIC_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
             $this->tpl->parseCurrentBlock();
         } else {
-            $this->ctrl->setParameter($this->parent_obj, 'sequence', $data['sequence']);
+            $this->ctrl->setParameter($this->parent_obj, 'sequence', $a_set['sequence']);
             $this->ctrl->setParameter($this->parent_obj, 'pmode', '');
             $href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
             
             $this->tpl->setCurrentBlock('linked_title');
-            $this->tpl->setVariable("LINKED_TITLE", ilUtil::prepareFormOutput($data['title']));
+            $this->tpl->setVariable("LINKED_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
             $this->tpl->setVariable("HREF", $href);
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable("ORDER", $data['order']);
+        $this->tpl->setVariable("ORDER", $a_set['order']);
         $this->tpl->setVariable("POSTPONED", $postponed);
-        if ($data["worked_through"]) {
+        if ($a_set["worked_through"]) {
             $this->tpl->setVariable("WORKED_THROUGH", $this->lng->txt("yes"));
         } else {
             $this->tpl->setVariable("WORKED_THROUGH", '&nbsp;');
         }
     }
 
-    public function isShowPointsEnabled()
+    public function isShowPointsEnabled() : bool
     {
         return $this->showPointsEnabled;
     }
 
-    public function setShowPointsEnabled($showPointsEnabled)
+    public function setShowPointsEnabled($showPointsEnabled) : void
     {
         $this->showPointsEnabled = $showPointsEnabled;
     }
 
-    public function isShowMarkerEnabled()
+    public function isShowMarkerEnabled() : bool
     {
         return $this->showMarkerEnabled;
     }
 
-    public function setShowMarkerEnabled($showMarkerEnabled)
+    public function setShowMarkerEnabled($showMarkerEnabled) : void
     {
         $this->showMarkerEnabled = $showMarkerEnabled;
     }
 
-    public function isShowObligationsEnabled()
+    public function isShowObligationsEnabled() : bool
     {
         return $this->showObligationsEnabled;
     }
 
-    public function setShowObligationsEnabled($showObligationsEnabled)
+    public function setShowObligationsEnabled($showObligationsEnabled) : void
     {
         $this->showObligationsEnabled = $showObligationsEnabled;
     }
 
-    public function isObligationsFilterEnabled()
+    public function isObligationsFilterEnabled() : bool
     {
         return $this->obligationsFilterEnabled;
     }
 
-    public function setObligationsFilterEnabled($obligationsFilterEnabled)
+    public function setObligationsFilterEnabled($obligationsFilterEnabled) : void
     {
         $this->obligationsFilterEnabled = $obligationsFilterEnabled;
     }
 
-    public function areObligationsNotAnswered()
+    public function areObligationsNotAnswered() : bool
     {
         return $this->obligationsNotAnswered;
     }
 
-    public function setObligationsNotAnswered($obligationsNotAnswered)
+    public function setObligationsNotAnswered($obligationsNotAnswered) : void
     {
         $this->obligationsNotAnswered = $obligationsNotAnswered;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isFinishTestButtonEnabled()
+    public function isFinishTestButtonEnabled() : bool
     {
         return $this->finishTestButtonEnabled;
     }
 
-    /**
-     * @param boolean $finishTestButtonEnabled
-     */
-    public function setFinishTestButtonEnabled($finishTestButtonEnabled)
+    public function setFinishTestButtonEnabled(bool $finishTestButtonEnabled) : void
     {
         $this->finishTestButtonEnabled = $finishTestButtonEnabled;
     }

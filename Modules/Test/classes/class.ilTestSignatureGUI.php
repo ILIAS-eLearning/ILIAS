@@ -40,7 +40,7 @@ class ilTestSignatureGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_factory = $DIC["component.factory"];
         
         $this->lng = $lng;
         $this->ilCtrl = $ilCtrl;
@@ -49,9 +49,8 @@ class ilTestSignatureGUI
         $this->ilTestOutputGUI = $testOutputGUI;
         $this->test = $this->ilTestOutputGUI->object;
 
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig');
-        $pl = current($pl_names);
-        $this->plugin = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, 'Test', 'tsig', $pl);
+        $plugins = $component_factory->getActivePluginsInSlot("tsig");
+        $this->plugin = current($plugins);
         $this->plugin->setGUIObject($this);
     }
 
@@ -96,7 +95,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilObjTest
      */
-    public function getTest()
+    public function getTest() : ilObjTest
     {
         return $this->test;
     }
@@ -112,7 +111,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilObjTestGUI
      */
-    public function getTestGUI()
+    public function getTestGUI() : ilObjTestGUI
     {
         return $this->testGUI;
     }
@@ -128,7 +127,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilTestOutputGUI
      */
-    public function getTestOutputGUI()
+    public function getTestOutputGUI() : ilTestOutputGUI
     {
         return $this->ilTestOutputGUI;
     }

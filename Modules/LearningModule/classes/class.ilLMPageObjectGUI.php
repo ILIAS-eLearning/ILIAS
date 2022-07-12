@@ -1,41 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Component\Input\Container\Form;
 
 /**
-* Class ilLMPageObjectGUI
-*
-* User Interface for Learning Module Page Objects Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilLMPageObjectGUI: ilLMPageGUI, ilAssGenFeedbackPageGUI
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * User Interface for Learning Module Page Objects Editing
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilLMPageObjectGUI: ilLMPageGUI, ilAssGenFeedbackPageGUI
+ */
 class ilLMPageObjectGUI extends ilLMObjectGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilPropertyFormGUI $form;
+    protected ilTabsGUI $tabs;
+    protected ilSetting $settings;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    public $obj;
-
-    /**
-    * Constructor
-    *
-    * @param	object		$a_content_obj		content object (lm | dbk)
-    * @access	public
-    */
-    public function __construct(ilObjLearningModule $a_content_obj)
-    {
+    public function __construct(
+        ilObjLearningModule $a_content_obj
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -44,40 +42,31 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $this->settings = $DIC->settings();
         $this->lng = $DIC->language();
         parent::__construct($a_content_obj);
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain();
     }
-
 
     /**
      * Set content object dependent page object (co page)
      */
-    public function setLMPageObject($a_pg_obj)
+    public function setLMPageObject(ilLMPageObject $a_pg_obj) : void
     {
         $this->obj = $a_pg_obj;
         $this->obj->setLMId($this->content_object->getId());
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
         $ilSetting = $this->settings;
         
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         
-        //echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":".
-        //	":nextClass:".$next_class.":"; flush();
-
         switch ($next_class) {
             case "illmpagegui":
 
-                // Determine whether the view of a learning resource should
-                // be shown in the frameset of ilias, or in a separate window.
-                $showViewInFrameset = true;
                 $lm_set = new ilSetting("lm");
 
                 $this->ctrl->setReturn($this, "edit");
@@ -108,33 +97,25 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     );
                 }
 
-                // set page view link
-                if ($showViewInFrameset) {
-                    $view_frame = ilFrameTargetInfo::_getFrame("MainContent");
-                } else {
-                    $view_frame = "ilContObj" . $this->content_object->getID();
-                }
                 $page_gui->setViewPageLink(
                     ILIAS_HTTP_PATH . "/goto.php?target=pg_" . $this->obj->getId() .
-                    "_" . $_GET["ref_id"],
-                    $view_frame
+                    "_" . $this->requested_ref_id
                 );
 
-                $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                    $this->content_object->getStyleSheetId(),
-                    "lm"
-                ));
+                $page_gui->setStyleId($this->content_style_domain
+                    ->styleForRefId($this->content_object->getRefId())
+                    ->getEffectiveStyleId());
                 $page_gui->setTemplateTargetVar("ADM_CONTENT");
                 $page_gui->getPageObject()->buildDom();
                 $int_links = $page_gui->getPageObject()->getInternalLinks();
                 $link_xml = $this->getLinkXML($int_links);
-                $page_gui->setLinkXML($link_xml);
+                $page_gui->setLinkXml($link_xml);
 
                 $page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
-                $page_gui->setFileDownloadLink("ilias.php?cmd=downloadFile&ref_id=" . $_GET["ref_id"] . "&baseClass=ilLMPresentationGUI");
-                $page_gui->setFullscreenLink("ilias.php?cmd=fullscreen&ref_id=" . $_GET["ref_id"] . "&baseClass=ilLMPresentationGUI");
+                $page_gui->setFileDownloadLink("ilias.php?cmd=downloadFile&ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
+                $page_gui->setFullscreenLink("ilias.php?cmd=fullscreen&ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
                 $page_gui->setLinkParams("ref_id=" . $this->content_object->getRefId());
-                $page_gui->setSourcecodeDownloadScript("ilias.php?ref_id=" . $_GET["ref_id"] . "&baseClass=ilLMPresentationGUI");
+                $page_gui->setSourcecodeDownloadScript("ilias.php?ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
                 $page_gui->setPresentationTitle(
                     ilLMPageObject::_getPresentationTitle(
                         $this->obj->getId(),
@@ -142,7 +123,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                         $this->content_object->isActiveNumbering()
                     )
                 );
-                $page_gui->setLocator($contObjLocator);
+                //$page_gui->setLocator($contObjLocator);
                 $page_gui->setHeader($this->lng->txt("page") . ": " . $this->obj->getTitle());
                 $page_gui->setActivationListener($this, "activatePage");
                 
@@ -161,40 +142,37 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 break;
 
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
     }
 
 
-    /*
-    * display content of page (edit view)
-    */
-    public function edit()
+    /**
+     * display content of page (edit view)
+     */
+    public function edit() : void
     {
-        //echo "<br>umschuss";
         $this->ctrl->setCmdClass("ilLMPageGUI");
         $this->ctrl->setCmd("edit");
         $this->executeCommand();
-        //$this->setTabs();
     }
 
-    /*
-    * display content of page (edit view)
-    */
-    public function preview()
+    /**
+     * display content of page (edit view)
+     */
+    public function preview() : void
     {
         $this->ctrl->setCmdClass("ilLMPageGUI");
         $this->ctrl->setCmd("preview");
         $this->executeCommand();
-        //		$this->setTabs();
     }
 
 
     /**
-    * cancel
-    */
-    public function cancel()
+     * cancel
+     */
+    public function cancel() : void
     {
         if ($this->requested_obj_id != 0) {
             ilUtil::redirect($this->ctrl->getLinkTargetByClass(
@@ -209,13 +187,16 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     }
 
     /**
-    * get link targets
-    */
-    public function getLinkXML($a_int_links)
+     * get link targets
+     */
+    public function getLinkXML(array $a_int_links) : string
     {
         $link_info = "<IntLinkInfos>";
         foreach ($a_int_links as $int_link) {
             $target = $int_link["Target"];
+            $ltarget = "";
+            $href = "";
+            $lcontent = "";
             if (substr($target, 0, 4) == "il__") {
                 $target_arr = explode("_", $target);
                 $target_id = $target_arr[count($target_arr) - 1];
@@ -275,13 +256,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     case "GlossaryItem":
                         $ltarget = $nframe = "_blank";
                         $href = "ilias.php?cmdClass=illmpresentationgui&amp;baseClass=ilLMPresentationGUI&amp;" .
-                            "obj_type=$type&amp;cmd=glossary&amp;ref_id=" . $_GET["ref_id"] .
+                            "obj_type=$type&amp;cmd=glossary&amp;ref_id=" . $this->requested_ref_id .
                             "&amp;obj_id=" . $target_id . "&amp;frame=$nframe";
                         break;
 
                     case "MediaObject":
                         $ltarget = $nframe = "_blank";
-                        $href = "ilias.php?cmdClass=illmpresentationgui&amp;baseClass=ilLMPresentationGUI&amp;obj_type=$type&amp;cmd=media&amp;ref_id=" . $_GET["ref_id"] .
+                        $href = "ilias.php?cmdClass=illmpresentationgui&amp;baseClass=ilLMPresentationGUI&amp;obj_type=$type&amp;cmd=media&amp;ref_id=" . $this->requested_ref_id .
                             "&amp;mob_id=" . $target_id . "&amp;frame=$nframe";
                         break;
                         
@@ -302,7 +283,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                             false,
                             true
                         );
-                        $this->ctrl->setParameter($this, "file_id", "");
+                        $this->ctrl->setParameter($this, "file_id", null);
                         break;
 
                     case "User":
@@ -332,7 +313,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                                     true
                                 );
                             }
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", null);
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
                         }
                         break;
@@ -347,19 +328,18 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
             }
         }
         $link_info .= "</IntLinkInfos>";
-        //echo ":".htmlentities($link_info).":";
         return $link_info;
     }
 
     /**
-    * update history
-    */
-    public function updateHistory()
+     * update history
+     */
+    public function updateHistory() : void
     {
         ilHistory::_createEntry(
             $this->obj->getId(),
             "update",
-            "",
+            [],
             $this->content_object->getType() . ":pg",
             "",
             true
@@ -368,22 +348,21 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
     /**
      * redirect script
-     *
-     * @param	string		$a_target
      */
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
-        $rbacsystem = $DIC->rbac()->system();
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
         $ctrl = $DIC->ctrl();
+        $ref_id = 0;
+        $anchor = "";
 
         $first = strpos($a_target, "_");
         $second = strpos($a_target, "_", $first + 1);
-        $page_id = substr($a_target, 0, $first);
         if ($first > 0) {
             $page_id = substr($a_target, 0, $first);
             if ($second > 0) {
@@ -420,13 +399,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             if ($lm_id > 0) {
-                ilUtil::sendFailure(sprintf(
+                $main_tpl->setOnScreenMessage('failure', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle($lm_id)
                 ), true);
             } else {
                 $lng->loadLanguageModule("content");
-                ilUtil::sendFailure($lng->txt("page_does_not_exist"), true);
+                $main_tpl->setOnScreenMessage('failure', $lng->txt("page_does_not_exist"), true);
             }
             ilObjectGUI::_gotoRepositoryRoot();
         }
@@ -435,9 +414,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     }
 
     /**
-    * Edit layout of page
-    */
-    public function editLayout()
+     * Edit layout of page
+     */
+    public function editLayout() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -463,15 +442,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $tpl->setContent($this->form->getHTML());
     }
     
-    /**
-    * Init edit layout form.
-    *
-    * @param        int        $a_mode        Edit Mode
-    */
-    public function initEditLayoutForm()
+    public function initEditLayoutForm() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $im_tag = "";
     
         $this->form = new ilPropertyFormGUI();
     
@@ -505,11 +480,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
     
-    /**
-    * Save layout
-    *
-    */
-    public function saveLayout()
+    public function saveLayout() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -518,17 +489,14 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $this->initEditLayoutForm();
         if ($this->form->checkInput()) {
             ilLMObject::writeLayout($this->obj->getId(), $this->form->getInput("layout"));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editLayout");
         }
         $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
+        $tpl->setContent($this->form->getHTML());
     }
     
-    /**
-    * Add page tabs
-    */
-    public function addPageTabs()
+    public function addPageTabs() : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -543,14 +511,18 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     /**
      * download file of file lists
      */
-    public function downloadFile()
+    public function downloadFile() : void
     {
         $pg_obj = $this->obj->getPageObject();
         $pg_obj->buildDom();
         $int_links = $pg_obj->getInternalLinks();
         foreach ($int_links as $il) {
-            if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"])) {
-                $file = explode("_", $_GET["file_id"]);
+            if ($il["Target"] == str_replace(
+                "_file_",
+                "_dfile_",
+                $this->request->getFileId()
+            )) {
+                $file = explode("_", $this->request->getFileId());
                 $file_id = (int) $file[count($file) - 1];
                 $fileObj = new ilObjFile($file_id, false);
                 $fileObj->sendFile();
@@ -559,10 +531,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         }
     }
 
-    /**
-     * structure / page object creation form
-     */
-    public function create()
+    public function create() : void
     {
         $ui = $this->ui;
         $lng = $this->lng;
@@ -577,11 +546,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $this->tpl->setContent($ui->renderer()->render($form) . self::getLayoutCssFix());
     }
 
-    /**
-     * Init insert template form.
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
-     */
-    public function initNewPageForm()
+    public function initNewPageForm() : Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -607,7 +572,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     /**
      * Save page
      */
-    public function save()
+    public function save() : void
     {
         global $DIC;
 
@@ -631,7 +596,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
             } else {
                 $this->obj->create();
             }
-            ilUtil::sendSuccess($lng->txt("cont_page_created"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_created"), true);
         }
         $this->cancel();
     }
@@ -639,9 +604,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     /**
      * Get layout css fix
      * (workaround for broken radio options)
-     * @return string
      */
-    public static function getLayoutCssFix()
+    public static function getLayoutCssFix() : string
     {
         return "
 		<style>

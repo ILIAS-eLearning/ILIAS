@@ -1,28 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Cron for survey notifications
+ * (reminder to paricipate in the survey)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilSurveyCronNotification extends ilCronJob
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -84,34 +88,22 @@ class ilSurveyCronNotification extends ilCronJob
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $message = array();
                 
-        $tutor_res = ilObjSurvey::getSurveysWithTutorResults();
-
-        $log->debug(var_export($tutor_res, true));
-        
         $root = $tree->getNodeData(ROOT_FOLDER_ID);
-        foreach ($tree->getSubTree($root, false, "svy") as $svy_ref_id) {
+        foreach ($tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
             $svy = new ilObjSurvey($svy_ref_id);
             $num = $svy->checkReminder();
-            if ($num !== false) {
+            if (!is_null($num)) {
                 $message[] = $svy_ref_id . "(" . $num . ")";
                 $status = ilCronJobResult::STATUS_OK;
-            }
-            
-            // separate cron-job?
-            if (in_array($svy->getId(), $tutor_res)) {
-                if ($svy->sendTutorResults()) {
-                    $message[] = $svy_ref_id;
-                    $status = ilCronJobResult::STATUS_OK;
-                }
             }
         }
         
         $result = new ilCronJobResult();
         $result->setStatus($status);
         
-        if (sizeof($message)) {
+        if (count($message)) {
             $result->setMessage("Ref-Ids: " . implode(", ", $message));
-            $result->setCode("#" . sizeof($message));
+            $result->setCode("#" . count($message));
         }
         $log->debug("end");
         return $result;

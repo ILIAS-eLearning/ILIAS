@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Just a wrapper class to create Unit Test for other classes.
@@ -19,7 +34,7 @@ class ilCertificateUtilHelper
 
     public function prepareFormOutput(string $string) : string
     {
-        return ilUtil::prepareFormOutput($string);
+        return ilLegacyFormElementsUtil::prepareFormOutput($string);
     }
 
     public function convertImage(
@@ -29,45 +44,37 @@ class ilCertificateUtilHelper
         string $geometry = '',
         string $backgroundColor = ''
     ) : void {
-        ilUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
+        ilShellUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
     }
 
-    /**
-     * @param string $string
-     * @return mixed|null|string|string[]
-     */
-    public function stripSlashes(string $string)
+    public function stripSlashes(string $string) : string
     {
         return ilUtil::stripSlashes($string);
     }
 
-    /**
-     * @param string $exportPath
-     * @param string $zipPath
-     */
     public function zip(string $exportPath, string $zipPath) : void
     {
-        ilUtil::zip($exportPath, $zipPath);
+        ilFileUtils::zip($exportPath, $zipPath);
     }
 
     public function deliverFile(string $zipPath, string $zipFileName, string $mime) : void
     {
-        ilUtil::deliverFile($zipPath, $zipFileName, $mime);
+        ilFileDelivery::deliverFileLegacy($zipPath, $zipFileName, $mime);
     }
 
     public function getDir(string $copyDirectory) : array
     {
-        return ilUtil::getDir($copyDirectory);
+        return ilFileUtils::getDir($copyDirectory);
     }
 
     public function unzip(string $file, bool $overwrite) : void
     {
-        ilUtil::unzip($file, $overwrite);
+        ilFileUtils::unzip($file, $overwrite);
     }
 
     public function delDir(string $path) : void
     {
-        ilUtil::delDir($path);
+        ilFileUtils::delDir($path);
     }
 
     /**
@@ -86,7 +93,7 @@ class ilCertificateUtilHelper
         bool $raise_errors = true,
         string $mode = 'move_uploaded'
     ) : bool {
-        return ilUtil::moveUploadedFile(
+        return ilFileUtils::moveUploadedFile(
             $file,
             $name,
             $target,

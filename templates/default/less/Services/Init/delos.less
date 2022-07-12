@@ -7,6 +7,14 @@ div.ilStartupFrame {
 }
 
 .ilStartupSection {
+
+	.control-label {
+	 	width: 33.33%;
+		& + div {
+			width: 66.67%;
+		}
+	}
+
 	padding-top: 25px;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		padding-top: 15px;

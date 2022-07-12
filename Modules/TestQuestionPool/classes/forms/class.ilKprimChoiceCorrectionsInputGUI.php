@@ -12,7 +12,7 @@
  */
 class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
 {
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if (is_array($a_value) && is_array($a_value['correctness'])) {
             foreach ($this->values as $index => $value) {
@@ -25,14 +25,14 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
         }
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
         
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive(
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
@@ -55,7 +55,7 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
         return $this->checkSubItemsInput();
     }
     
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate("tpl.prop_kprimchoicecorrection_input.html", true, true, "Modules/TestQuestionPool");
         
@@ -76,7 +76,7 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
                 $tpl->setCurrentBlock('image');
                 $tpl->setVariable('SRC_IMAGE', $imagename);
                 $tpl->setVariable('IMAGE_NAME', $value->getImageFile());
-                $tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
+                $tpl->setVariable('ALT_IMAGE', ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext()));
                 $tpl->parseCurrentBlock();
             }
             

@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Identification\Serializer;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Identification\Serializer;
 
 use ILIAS\GlobalScreen\Identification\CoreIdentificationProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -8,17 +25,12 @@ use ILIAS\GlobalScreen\Provider\ProviderFactory;
 
 /**
  * Class CoreSerializer
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class CoreSerializer implements SerializerInterface
 {
-    const DIVIDER = '|';
+    public const DIVIDER = '|';
 
-
-    /**
-     * @inheritdoc
-     */
     public function serialize(IdentificationInterface $identification) : string
     {
         $divider = self::DIVIDER;
@@ -31,7 +43,6 @@ class CoreSerializer implements SerializerInterface
 
         return $str;
     }
-
 
     /**
      * @inheritdoc
@@ -48,7 +59,6 @@ class CoreSerializer implements SerializerInterface
 
         return $f->identifier($internal_identifier);
     }
-
 
     /**
      * @inheritDoc

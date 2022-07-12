@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\ScreenContext\Stack;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\ScreenContext\Stack;
 
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 use LogicException;
@@ -9,11 +26,7 @@ use LogicException;
  */
 final class CalledContexts extends ContextCollection
 {
-
-    /**
-     * @var array
-     */
-    private $call_locations = [];
+    private array $call_locations = [];
 
     /**
      * @return ScreenContext
@@ -26,7 +39,7 @@ final class CalledContexts extends ContextCollection
     /**
      * @param ScreenContext $context
      */
-    public function push(ScreenContext $context)
+    public function push(ScreenContext $context) : void
     {
         $this->claim($context);
     }
@@ -40,7 +53,7 @@ final class CalledContexts extends ContextCollection
     /**
      * @param ScreenContext $context
      */
-    public function claim(ScreenContext $context)
+    public function claim(ScreenContext $context) : void
     {
         $this->checkCallLocation($context);
 
@@ -57,11 +70,11 @@ final class CalledContexts extends ContextCollection
     /**
      * @param ScreenContext $context
      */
-    private function checkCallLocation(ScreenContext $context)
+    private function checkCallLocation(ScreenContext $context) : void
     {
         $called_classes = array_filter(
             debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            function ($item) {
+            function ($item) : bool {
                 if (!isset($item['class'])) {
                     return false;
                 }
@@ -71,8 +84,8 @@ final class CalledContexts extends ContextCollection
         );
         array_walk(
             $called_classes,
-            function (&$item) {
-                $item = $item['class'] . ":" . $item['line'];
+            function (&$item) : void {
+                $item = $item['class'] . ":" . ($item['line'] ?? '');
             }
         );
 

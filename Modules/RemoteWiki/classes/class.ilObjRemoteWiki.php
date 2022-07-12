@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php');
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * Remote wiki app class
@@ -21,17 +32,17 @@ class ilObjRemoteWiki extends ilRemoteObjectBase
     
     protected $availability_type;
 
-    public function initType()
+    public function initType() : void
     {
         $this->type = "rwik";
     }
     
-    protected function getTableName()
+    protected function getTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
     
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return "/campusconnect/wikis";
     }
@@ -84,22 +95,22 @@ class ilObjRemoteWiki extends ilRemoteObjectBase
         return false;
     }
     
-    protected function doCreateCustomFields(array &$a_fields)
+    protected function doCreateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", 0);
     }
 
-    protected function doUpdateCustomFields(array &$a_fields)
+    protected function doUpdateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
     }
 
-    protected function doReadCustomFields($a_row)
+    protected function doReadCustomFields($a_row) : void
     {
         $this->setAvailabilityType($a_row->availability_type);
     }
     
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content) : void
     {
         $this->setAvailabilityType($a_ecs_content->availability == 'online' ? self::ACTIVATION_ONLINE : self::ACTIVATION_OFFLINE);
     }

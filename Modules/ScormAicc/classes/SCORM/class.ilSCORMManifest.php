@@ -1,28 +1,17 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * SCORM Manifest
 *
@@ -33,58 +22,54 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
 */
 class ilSCORMManifest extends ilSCORMObject
 {
-    public $import_id;
-    public $version;
-    public $xml_base;
-
+    public string $import_id;
+    public ?string $version;
+    public ?string $xml_base;
 
     /**
-    * Constructor
-    *
-    * @param	int		$a_id		Object ID
-    * @access	public
+    * @param int $a_id Object ID
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         parent::__construct($a_id);
         $this->setType("sma");
     }
 
-    public function getImportId()
+    public function getImportId() : string
     {
         return $this->import_id;
     }
 
-    public function setImportId($a_import_id)
+    public function setImportId(string $a_import_id) : void
     {
         $this->import_id = $a_import_id;
         $this->setTitle($a_import_id);
     }
 
-    public function getVersion()
+    public function getVersion() : ?string
     {
         return $this->version;
     }
 
-    public function setVersion($a_version)
+    public function setVersion(?string $a_version) : void
     {
         $this->version = $a_version;
     }
 
-    public function getXmlBase()
+    public function getXmlBase() : ?string
     {
         return $this->xml_base;
     }
 
-    public function setXmlBase($a_xml_base)
+    public function setXmlBase(?string $a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    public function read()
+    public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -100,10 +85,10 @@ class ilSCORMManifest extends ilSCORMObject
         $this->setXmlBase($obj_rec["xml_base"]);
     }
 
-    public function create()
+    public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -116,10 +101,10 @@ class ilSCORMManifest extends ilSCORMObject
         );
     }
 
-    public function update()
+    public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::update();
 
@@ -135,10 +120,10 @@ class ilSCORMManifest extends ilSCORMObject
         );
     }
 
-    public function delete()
+    public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::delete();
 

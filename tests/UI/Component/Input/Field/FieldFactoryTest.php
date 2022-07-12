@@ -1,65 +1,83 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
-use \ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use \ILIAS\Data;
-use ILIAS\Refinery;
+use ILIAS\Data;
+use ILIAS\Refinery\Factory as Refinery;
 
 class FieldFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
-        "text" => array(
+    public array $kitchensink_info_settings = [
+        "text" => [
             "context" => false,
-        ),
-        "numeric" => array(
+        ],
+        "numeric" => [
             "context" => false,
-        ),
-        "group" => array(
+        ],
+        "group" => [
             "context" => false,
-        ),
-        "section" => array(
+        ],
+        "section" => [
             "context" => false,
-        ),
-        "optionalGroup" => array(
+        ],
+        "optionalGroup" => [
             "context" => false,
-        ),
-        "switchableGroup" => array(
+        ],
+        "switchableGroup" => [
             "context" => false,
-        ),
-        "checkbox" => array(
+        ],
+        "checkbox" => [
             "context" => false,
-        ),
-        "select" => array(
+        ],
+        "select" => [
             "context" => false,
-        ),
-        "textarea" => array(
+        ],
+        "textarea" => [
             "context" => false,
-        ),
-        "radio" => array(
+        ],
+        "radio" => [
             "context" => false,
-        ),
-        "multiSelect" => array(
+        ],
+        "multiSelect" => [
             "context" => false,
-        )
-    );
-    public $factory_title = 'ILIAS\\UI\\Component\\Input\\Field\\Factory';
+        ]
+    ];
+
+    public string $factory_title = 'ILIAS\\UI\\Component\\Input\\Field\\Factory';
 
 
-    final public function buildFactory()
+    final public function buildFactory() : I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
-        return new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
+        $language = $this->createMock(ilLanguage::class);
+        return new I\Input\Field\Factory(
             new SignalGenerator(),
             $df,
-            new \ILIAS\Refinery\Factory($df, $language),
+            new Refinery($df, $language),
             $language
         );
     }
 
-    public function testImplementsFactoryInterfaceForText()
+    public function testImplementsFactoryInterfaceForText() : void
     {
         $f = $this->buildFactory();
 
@@ -68,7 +86,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Text::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForNumeric()
+    public function testImplementsFactoryInterfaceForNumeric() : void
     {
         $f = $this->buildFactory();
 
@@ -77,7 +95,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Numeric::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForSection()
+    public function testImplementsFactoryInterfaceForSection() : void
     {
         $f = $this->buildFactory();
 
@@ -87,7 +105,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Section::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForGroup()
+    public function testImplementsFactoryInterfaceForGroup() : void
     {
         $f = $this->buildFactory();
 
@@ -96,7 +114,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Group::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForCheckbox()
+    public function testImplementsFactoryInterfaceForCheckbox() : void
     {
         $f = $this->buildFactory();
 
@@ -105,7 +123,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Checkbox::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForTag()
+    public function testImplementsFactoryInterfaceForTag() : void
     {
         $f = $this->buildFactory();
 
@@ -114,7 +132,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Tag::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForPassword()
+    public function testImplementsFactoryInterfaceForPassword() : void
     {
         $f = $this->buildFactory();
 
@@ -123,7 +141,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Password::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForSelect()
+    public function testImplementsFactoryInterfaceForSelect() : void
     {
         $f = $this->buildFactory();
 
@@ -132,7 +150,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Select::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForTextarea()
+    public function testImplementsFactoryInterfaceForTextarea() : void
     {
         $f = $this->buildFactory();
 
@@ -141,7 +159,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Textarea::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForRadio()
+    public function testImplementsFactoryInterfaceForRadio() : void
     {
         $f = $this->buildFactory();
 
@@ -150,7 +168,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Radio::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForMultiselect()
+    public function testImplementsFactoryInterfaceForMultiselect() : void
     {
         $f = $this->buildFactory();
 
@@ -159,7 +177,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\MultiSelect::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForDatetime()
+    public function testImplementsFactoryInterfaceForDatetime() : void
     {
         $f = $this->buildFactory();
 
@@ -167,7 +185,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Input::class, $input);
     }
 
-    public function testImplementsFactoryInterfaceForDuration()
+    public function testImplementsFactoryInterfaceForDuration() : void
     {
         $f = $this->buildFactory();
 
@@ -176,7 +194,7 @@ class FieldFactoryTest extends AbstractFactoryTest
         $this->assertInstanceOf(Field\Group::class, $input);
     }
 
-    public function test_implements_factory_no_by_line()
+    public function test_implements_factory_no_by_line() : void
     {
         $f = $this->buildFactory();
 

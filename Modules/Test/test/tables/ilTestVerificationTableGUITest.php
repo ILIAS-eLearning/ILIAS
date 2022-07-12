@@ -9,7 +9,6 @@
 class ilTestVerificationTableGUITest extends ilTestBaseTestCase
 {
     private ilTestVerificationTableGUI $tableGui;
-    private ilObjTestGUI $parentObj_mock;
 
     protected function setUp() : void
     {
@@ -17,7 +16,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
 
         $lng_mock = $this->createMock(ilLanguage::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
-        $ctrl_mock->expects($this->any())
+        $ctrl_mock
                   ->method("getFormAction")
                   ->willReturnCallback(function () {
                       return "testFormAction";
@@ -26,7 +25,9 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
-        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin());
+        $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
+        $this->setGlobalVariable("component.factory", $this->createMock(ilComponentFactory::class));
+        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
 
@@ -35,45 +36,40 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
             {
             }
 
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return new class() extends ilLogger {
                     public function __construct()
                     {
                     }
 
-                    public function write($m, $l = ilLogLevel::INFO)
+                    public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
                     {
                     }
 
-                    public function info($a_message)
+                    public function info(string $a_message) : void
                     {
-                        return "testInfo";
+                        //return "testInfo";
                     }
                 };
             }
 
-            public static function getLogger($a)
+            public static function getLogger(string $a_component_id) : ilLogger
             {
                 return new class() extends ilLogger {
                     public function __construct()
                     {
                     }
 
-                    public function write($m, $l = ilLogLevel::INFO)
+                    public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
                     {
                     }
                 };
             }
         });
 
-        $this->markTestSkipped(
-            "Failing in GitHub, ilTestVerificationTableGUI wants ilObjTestVerificationGUI as first parameter"
-        );
-
-        $this->parentObj_mock = $this->createMock(ilObjTestGUI::class);
-        $this->parentObj_mock->object = $this->createMock(ilObjTest::class);
-        $this->tableGui = new ilTestVerificationTableGUI($this->parentObj_mock, "");
+        $test_gui = $this->getMockBuilder(ilObjTestVerificationGUI::class)->disableOriginalConstructor()->getMock();
+        $this->tableGui = new ilTestVerificationTableGUI($test_gui);
     }
 
     public function test_instantiateObject_shouldReturnInstance() : void

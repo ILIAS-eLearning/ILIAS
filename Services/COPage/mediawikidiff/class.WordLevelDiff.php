@@ -33,7 +33,7 @@ class DifferenceEngine
     public $mOldRev;
     public $mNewRev;
     public $mRevisionsLoaded = false; // Have the revisions been loaded
-    public $mTextLoaded = 0; // How many text blobs have been loaded, 0, 1 or 2?
+    public $mTextLoaded = 0; // How many text blobs have been loaded, 0, 1 or 2 ?
     /**#@-*/
 
     /**
@@ -117,7 +117,7 @@ CONTROL;
             //wfProfileOut( $fname );
             return;
         }
-        
+
         wfRunHooks('DiffViewHeader', array( $this, $this->mOldRev, $this->mNewRev ));
 
         if ($this->mNewRev->isCurrent()) {
@@ -1024,7 +1024,7 @@ class _DiffEngine
                 }
                 $matches = $ymatches[$line];
                 reset($matches);
-                while (list($junk, $y) = each($matches)) {
+                foreach ($matches as $junk => $y) {
                     if (empty($this->in_seq[$y])) {
                         $k = $this->_lcs_pos($y);
                         USE_ASSERTS && assert($k > 0);
@@ -1032,7 +1032,7 @@ class _DiffEngine
                         break;
                     }
                 }
-                while (list( /* $junk */, $y) = each($matches)) {
+                foreach ($matches as $y) {
                     if ($y > $this->seq[$k - 1]) {
                         USE_ASSERTS && assert($y < $this->seq[$k]);
                         // Optimization: this is a common case:
@@ -1213,7 +1213,6 @@ class _DiffEngine
 
             // Find the end of this run of changes.
             while (++$i < $len && $changed[$i]) {
-                continue;
             }
 
             do {
@@ -1236,7 +1235,6 @@ class _DiffEngine
                     }
                     USE_ASSERTS && assert($j > 0);
                     while ($other_changed[--$j]) {
-                        continue;
                     }
                     USE_ASSERTS && assert($j >= 0 && !$other_changed[$j]);
                 }
@@ -1282,7 +1280,6 @@ class _DiffEngine
                 $changed[--$i] = 0;
                 USE_ASSERTS && assert($j > 0);
                 while ($other_changed[--$j]) {
-                    continue;
                 }
                 USE_ASSERTS && assert($j >= 0 && !$other_changed[$j]);
             }
@@ -1615,7 +1612,7 @@ class DiffFormatter
         return $end;
     }
 
-    public function _block($xbeg, $xlen, $ybeg, $ylen, &$edits)
+    public function _block($xbeg, $xlen, $ybeg, $ylen, $edits)
     {
         $fname = 'DiffFormatter::_block';
         //wfProfileIn( $fname );

@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Plugin node of the petri net based workflow engine.
@@ -11,8 +23,6 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
  * and activities.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilPluginNode extends ilBaseNode
@@ -20,18 +30,16 @@ class ilPluginNode extends ilBaseNode
     /**
      * This holds a list of emitters attached to the node.
      * In this node type, these are the 'else' emitters.
-     *
-     * @var \ilEmitter Array of ilEmitter
+     * @var ilEmitter Array of ilEmitter
      */
-    private $else_emitters;
+    private $else_emitters;// TODO PHP8-REVIEW Please provide a type hint or use PHPDoc comments. If it is an array use ilEmitter[] and use an excplicit array type.
 
     /**
      * This holds a list of activities attached to the node.
      * In this node type, these are the 'else' activities.
-     *
-     * @var \ilActivity Array of ilActivity
+     * @var ilActivity Array of ilActivity
      */
-    private $else_activities;
+    private $else_activities;// TODO PHP8-REVIEW Please provide a type hint or use PHPDoc comments. If it is an array use ilActivity[] and use an excplicit array type.
 
     /**
      * This holds the piece of code used to determine if the 'then' or the 'else'
@@ -39,7 +47,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @var string PHP code to be executed to determine the 'decision' of the node.
      */
-    private $evaluation_expression = "return null;";
+    private string $evaluation_expression = "return null;";
 
     /**
      * Default constructor.
@@ -49,17 +57,17 @@ class ilPluginNode extends ilBaseNode
     public function __construct(ilWorkflow $context)
     {
         $this->context = $context;
-        $this->detectors = array();
-        $this->emitters = array();
-        $this->else_emitters = array();
-        $this->activities = array();
-        $this->else_activities = array();
+        $this->detectors = [];
+        $this->emitters = [];
+        $this->else_emitters = [];
+        $this->activities = [];
+        $this->else_activities = [];
     }
 
     /**
      * Activates the node.
      */
-    public function activate()
+    public function activate() : void
     {
         $this->active = true;
         foreach ($this->detectors as $detector) {
@@ -72,7 +80,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Deactivates the node.
      */
-    public function deactivate()
+    public function deactivate() : void
     {
         $this->active = false;
         foreach ($this->detectors as $detector) {
@@ -83,16 +91,12 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Passes a trigger to attached detectors.
-     * @deprecated
-     *
-     * @param type $a_type
-     * @param type $a_params
      */
-    public function trigger($a_type, $a_params = null)
+    public function trigger($a_type, $a_params = null) : void// TODO PHP8-REVIEW Please provide a type hint or use PHPDoc comments
     {
-        if ($this->active == true && count($this->detectors) != 0) {
+        if ($this->active === true && count($this->detectors) !== 0) {
             foreach ($this->detectors as $detector) {
-                if (get_class($detector) == $a_type) {
+                if (get_class($detector) === $a_type) {
                     $detector->trigger($a_params);
                 }
             }
@@ -107,9 +111,9 @@ class ilPluginNode extends ilBaseNode
      * to one or another outcome. This method only returns false, if the return
      * value of the method is neither true nor false.
      *
-     * @return boolean True, if node is ready to transit.
+     * @return bool True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions()
+    public function checkTransitionPreconditions() : bool
     {
         // TODO Call Plugin here.
         $eval_function = function ($detectors) {
@@ -119,12 +123,8 @@ class ilPluginNode extends ilBaseNode
         if ($eval_function($this->detectors) === null) {
             return false;
         }
-        
-        if ($eval_function($this->detectors) === true) {
-            return true;
-        } else {
-            return true;
-        }
+
+        return true;
     }
 
     /**
@@ -133,9 +133,9 @@ class ilPluginNode extends ilBaseNode
      * Basically, this checks for preconditions and transits, returning true or
      * false if preconditions are not met, aka detectors are not fully satisfied.
      *
-     * @return boolean True, if transition succeeded.
+     * @return bool True, if transition succeeded.
      */
-    public function attemptTransition()
+    public function attemptTransition() : bool
     {
         // TODO Call Plugin here.
         $eval_function = function ($detectors) {
@@ -149,18 +149,19 @@ class ilPluginNode extends ilBaseNode
         if ($eval_function($this->detectors) === true) {
             $this->executeTransition();
             return true;
-        } else {
+        } elseif (method_exists($this, 'executeElseTransition')) {
             $this->executeElseTransition();
             return true;
         }
+        return false;
     }
 
     /**
      * Executes all 'then'-activities attached to the node.
      */
-    private function executeActivities()
+    private function executeActivities() : void
     {
-        if (count($this->activities) != 0) {
+        if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
                 $activity->execute();
             }
@@ -170,9 +171,9 @@ class ilPluginNode extends ilBaseNode
     /**
      * Executes all 'then'-emitters attached to the node.
      */
-    private function executeEmitters()
+    private function executeEmitters() : void
     {
-        if (count($this->emitters) != 0) {
+        if (count($this->emitters) !== 0) {
             foreach ($this->emitters as $emitter) {
                 $emitter->emit();
             }
@@ -191,13 +192,12 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Adds an emitter to one of the lists attached to the node.
-     *
      * @param ilEmitter $emitter
-     * @param boolean   $else_emitter True, if the emitter should be an 'else'-emitter.
+     * @param bool   $else_emitter True, if the emitter should be an 'else'-emitter.
      */
-    public function addEmitter(ilEmitter $emitter, $else_emitter = false)
+    public function addEmitter(ilEmitter $emitter, bool $else = false) : void
     {
-        if (!$else_emitter) {
+        if (!$else) {
             $this->emitters[] = $emitter;
         } else {
             $this->else_emitters[] = $emitter;
@@ -206,13 +206,12 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Adds an activity to one of the lists attached to the node.
-     *
      * @param ilActivity $activity
-     * @param boolean    $else_activity True, if the activity should be an 'else'-activity.
+     * @param bool    $else_activity True, if the activity should be an 'else'-activity.
      */
-    public function addActivity(ilActivity $activity, $else_activity = false)
+    public function addActivity(ilActivity $activity, bool $else = false) : void
     {
-        if (!$else_activity) {
+        if (!$else) {
             $this->activities[] = $activity;
         } else {
             $this->else_activities[] = $activity;
@@ -255,7 +254,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @var string PHP code to be executed to determine the 'decision' of the node.
      */
-    public function setEvaluationExpression($a_expression)
+    public function setEvaluationExpression($a_expression) : void// TODO PHP8-REVIEW Please provide a type hint or use PHPDoc comments. If it is an array use ilEmitter[] and use an excplicit array type.
     {
         // TODO Rework to use a Plugin here.
         $this->evaluation_expression = $a_expression;
@@ -266,9 +265,9 @@ class ilPluginNode extends ilBaseNode
      *
      * @param ilDetector $detector ilDetector which is now satisfied.
      *
-     * @return mixed|void
+     * @return
      */
-    public function notifyDetectorSatisfaction(ilDetector $detector)
+    public function notifyDetectorSatisfaction(ilDetector $detector) : void
     {
         if ($this->isActive()) {
             $this->attemptTransition();
@@ -277,12 +276,10 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Returns all currently set activites
-     *
-     * @param boolean $else True, if else activities should be returned.
-     *
+     * @param bool $else True, if else activities should be returned.
      * @return Array Array with objects of ilActivity
      */
-    public function getActivities($else = false)
+    public function getActivities(bool $else = false) : array
     {
         if ($else) {
             return $this->else_activities;
@@ -292,12 +289,10 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Returns all currently set emitters
-     *
-     * @param boolean $else True, if else emitters should be returned.
-     *
+     * @param bool $else True, if else emitters should be returned.
      * @return Array Array with objects of ilEmitter
      */
-    public function getEmitters($else = false)
+    public function getEmitters(bool $else = false) : array
     {
         if ($else) {
             return $this->else_emitters;

@@ -1,40 +1,35 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitRecursiveUserAssignmentTableGUI
- *
  * @author dkloepfer
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
 {
-    private static $permission_access_staff_recursive = [];
-    private static $permission_view_lp_recursive = [];
+    private static array $permission_access_staff_recursive = [];
+    private static array $permission_view_lp_recursive = [];
+    protected ilOrgUnitPosition $ilOrgUnitPosition;
 
-    /**
-     * @var ilOrgUnitPosition
-     */
-    protected $ilOrgUnitPosition;
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
-     */
-    protected $parent_obj;
-
-
-    /**
-     * ilOrgUnitUserAssignmentTableGUI constructor.
-     *
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_obj
-     * @param string                                       $parent_cmd
-     * @param \ilOrgUnitPosition                           $position
-     */
     public function __construct(BaseCommands $parent_obj, string $parent_cmd, ilOrgUnitPosition $position)
     {
         global $DIC;
@@ -61,8 +56,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->setData($this->loadData());
     }
 
-
-    protected function setTableHeaders()
+    protected function setTableHeaders() : void
     {
         $this->addColumn($this->lng->txt("login"), "login");
         $this->addColumn($this->lng->txt("firstname"), "first_name");
@@ -71,14 +65,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-
-
-
-
-    /**
-     * @return array
-     */
-    public function loadData()
+    public function loadData() : array
     {
         global $DIC;
         $access = $DIC['ilAccess'];
@@ -89,7 +76,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $parent = (int) $orgu_tree->getParent($this->orgu_ref_id);
         while ($parent !== $root) {
             if (ilObjOrgUnitAccess::_checkAccessStaffRec($parent)) {
-                self::$permission_access_staff_recursive = array_merge(
+                array_merge(
                     self::$permission_access_staff_recursive,
                     $orgu_tree->getAllChildren($parent)
                 );
@@ -101,8 +88,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                 // ok, so no permission from above, lets check local permissions
                 if (ilObjOrgUnitAccess::_checkAccessStaffRec($ref_id)) {
                     // update recursive permissions
-
-                    self::$permission_access_staff_recursive = array_merge(
+                    array_merge(
                         self::$permission_access_staff_recursive,
                         $orgu_tree->getAllChildren($ref_id)
                     );
@@ -119,7 +105,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                     $set["login"] = $user->getLogin();
                     $set["first_name"] = $user->getFirstname();
                     $set["last_name"] = $user->getLastname();
-                    $set["user_id"] = $user_id;
+                    $set["user_id"] = $usr_id;
                     $set["orgu_assignments"] = [];
                     $set['view_lp'] = false;
                     $data[$usr_id] = $set;
@@ -132,19 +118,13 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         return $data;
     }
 
-
-
-
-    /**
-     * @return bool
-     */
-    private function mayViewLPIn($ref_id, ilAccess $access, ilObjOrgUnitTree $orgu_tree)
+    private function mayViewLPIn(int $ref_id, ilAccess $access, ilObjOrgUnitTree $orgu_tree) : bool
     {
         if ($access->checkAccess("view_learning_progress", "", $ref_id)) { // admission by local
             return true;
         }
-        $current = (int) $ref_id;
-        $root = (int) ilObjOrgUnit::getRootOrgRefId();
+        $current = $ref_id;
+        $root = ilObjOrgUnit::getRootOrgRefId();
         $checked_children = [];
         while ($current !== $root) {
             if (!array_key_exists($current, self::$permission_view_lp_recursive)) {
@@ -166,36 +146,34 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         return false;
     }
 
-
-    /**
-     * @param array $set
-     */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
-        $this->tpl->setVariable("LOGIN", $set["login"]);
-        $this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
-        $this->tpl->setVariable("LAST_NAME", $set["last_name"]);
-        $orgus = $set['orgu_assignments'];
+        $this->tpl->setVariable("LOGIN", $a_set["login"]);
+        $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
+        $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
+        $orgus = $a_set['orgu_assignments'];
         sort($orgus);
         $this->tpl->setVariable("ORG_UNITS", implode(',', $orgus));
-        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $set["user_id"]);
-        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id', $this->ilOrgUnitPosition->getId());
+        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
+        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id',
+            $this->ilOrgUnitPosition->getId());
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($lng->txt("Actions"));
-        $selection->setId("selection_list_user_lp_" . $set["user_id"]);
-        if ($set['view_lp']
+        $selection->setId("selection_list_user_lp_" . $a_set["user_id"]);
+        if ($a_set['view_lp']
             && ilObjUserTracking::_enabledLearningProgress()
             && ilObjUserTracking::_enabledUserRelatedData()
         ) {
-            $selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array(
-                ilAdministrationGUI::class,
-                ilObjOrgUnitGUI::class,
-                ilLearningProgressGUI::class,
-            ), ""));
+            $selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress",
+                $this->ctrl->getLinkTargetByClass(array(
+                    ilAdministrationGUI::class,
+                    ilObjOrgUnitGUI::class,
+                    ilLearningProgressGUI::class,
+                ), ""));
         }
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
             $this->addActions($selection);
@@ -203,12 +181,8 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
     }
 
-
-    /**
-     * @param $selection ilAdvancedSelectionListGUI
-     */
-    protected function addActions(&$selection)
+    protected function addActions(ilAdvancedSelectionListGUI $selection) : void
     {
-        $selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_CONFIRM));
+        $selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_CONFIRM_RECURSIVE));
     }
 }

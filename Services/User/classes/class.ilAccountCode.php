@@ -1,27 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-* Class ilAccountCode
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilRegistrationSettingsGUI.php 23797 2010-05-07 15:54:03Z jluetzen $
-*
-* @ingroup ServicesUser
-*/
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilAccountCode
 {
-    const DB_TABLE = 'usr_account_codes';
-    const CODE_LENGTH = 10;
+    public const DB_TABLE = 'usr_account_codes';
+    public const CODE_LENGTH = 10;
 
-
-    public static function create($valid_until, $stamp)
-    {
+    public static function create(
+        string $valid_until,
+        int $stamp
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+        $code = "";
         $id = $ilDB->nextId(self::DB_TABLE);
         
         // create unique code
@@ -43,7 +53,7 @@ class ilAccountCode
         return $id;
     }
     
-    protected static function generateRandomCode()
+    protected static function generateRandomCode() : string
     {
         // missing : 01iloO
         $map = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -51,13 +61,20 @@ class ilAccountCode
         $code = "";
         $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
-            $code .= $map[mt_rand(0, $max)];
+            $code .= $map[random_int(0, $max)];
         }
         return $code;
     }
     
-    public static function getCodesData($order_field, $order_direction, $offset, $limit, $filter_code, $filter_valid_until, $filter_generated)
-    {
+    public static function getCodesData(
+        string $order_field,
+        string $order_direction,
+        int $offset,
+        int $limit,
+        string $filter_code,
+        string $filter_valid_until,
+        string $filter_generated
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -78,7 +95,7 @@ class ilAccountCode
         }
         
         // set query
-        $ilDB->setLimit((int) $limit, (int) $offset);
+        $ilDB->setLimit($limit, $offset);
         $set = $ilDB->query($sql);
         $result = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -86,8 +103,11 @@ class ilAccountCode
         }
         return array("cnt" => $cnt, "set" => $result);
     }
-    
-    public static function loadCodesByIds(array $ids)
+
+    /**
+     * @return array<string,string>[]
+     */
+    public static function loadCodesByIds(array $ids) : array
     {
         global $DIC;
 
@@ -100,20 +120,26 @@ class ilAccountCode
         }
         return $result;
     }
-    
-    public static function deleteCodes(array $ids)
+
+    /**
+     * @param string[] $ids
+     */
+    public static function deleteCodes(array $ids) : bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        if (sizeof($ids)) {
+        if (count($ids)) {
             return $ilDB->manipulate("DELETE FROM " . self::DB_TABLE . " WHERE " . $ilDB->in("code_id", $ids, false, "integer"));
         }
         return false;
     }
-    
-    public static function getGenerationDates()
+
+    /**
+     * @return string[]
+     */
+    public static function getGenerationDates() : array
     {
         global $DIC;
 
@@ -127,8 +153,11 @@ class ilAccountCode
         return $result;
     }
     
-    protected static function filterToSQL($filter_code, $filter_valid_until, $filter_generated)
-    {
+    protected static function filterToSQL(
+        string $filter_code,
+        string $filter_valid_until,
+        string $filter_generated
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -143,15 +172,18 @@ class ilAccountCode
         if ($filter_generated) {
             $where[] = "generated = " . $ilDB->quote($filter_generated, "text");
         }
-        if (sizeof($where)) {
+        if (count($where)) {
             return " WHERE " . implode(" AND ", $where);
         } else {
             return "";
         }
     }
     
-    public static function getCodesForExport($filter_code, $filter_valid_until, $filter_generated)
-    {
+    public static function getCodesForExport(
+        string $filter_code,
+        string $filter_valid_until,
+        string $filter_generated
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -168,43 +200,18 @@ class ilAccountCode
         return $result;
     }
     
-    public static function isUnusedCode($code)
+    public static function isUnusedCode(string $code) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        include_once './Services/Registration/classes/class.ilRegistrationCode.php';
         return ilRegistrationCode::isUnusedCode($code);
-        
-        
-        $set = $ilDB->query("SELECT used FROM " . self::DB_TABLE . " WHERE code = " . $ilDB->quote($code, "text"));
-        $set = $ilDB->fetchAssoc($set);
-        if ($set && !$set["used"]) {
-            return true;
-        }
-        return false;
     }
     
-    public static function useCode($code)
+    public static function useCode(string $code) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-        return (bool) ilRegistrationCode::useCode($code);
-
-        return (bool) $ilDB->update(self::DB_TABLE, array("used" => array("timestamp", time())), array("code" => array("text", $code)));
+        return ilRegistrationCode::useCode($code);
     }
 
-    public static function getCodeValidUntil($code)
+    public static function getCodeValidUntil(string $code) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        include_once './Services/Registration/classes/class.ilRegistrationCode.php';
         $code_data = ilRegistrationCode::getCodeData($code);
         
         if ($code_data["alimit"]) {
@@ -214,18 +221,12 @@ class ilAccountCode
             }
         }
         return "0";
-
-        $set = $ilDB->query("SELECT valid_until FROM " . self::DB_TABLE . " WHERE code = " . $ilDB->quote($code, "text"));
-        $row = $ilDB->fetchAssoc($set);
-        if (isset($row["valid_until"])) {
-            return $row["valid_until"];
-        }
     }
     
-    public static function applyRoleAssignments(ilObjUser $user, $code)
-    {
-        include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-
+    public static function applyRoleAssignments(
+        ilObjUser $user,
+        string $code
+    ) : bool {
         $recommended_content_manager = new ilRecommendedContentManager();
         
         $grole = ilRegistrationCode::getCodeRole($code);
@@ -235,7 +236,7 @@ class ilAccountCode
         $code_data = ilRegistrationCode::getCodeData($code);
         if ($code_data["role_local"]) {
             $code_local_roles = explode(";", $code_data["role_local"]);
-            foreach ((array) $code_local_roles as $role_id) {
+            foreach ($code_local_roles as $role_id) {
                 $GLOBALS['DIC']['rbacadmin']->assignUser($role_id, $user->getId());
                 
                 // patch to remove for 45 due to mantis 21953
@@ -255,9 +256,10 @@ class ilAccountCode
         return true;
     }
     
-    public static function applyAccessLimits(ilObjUser $user, $code)
-    {
-        include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+    public static function applyAccessLimits(
+        ilObjUser $user,
+        string $code
+    ) : void {
         $code_data = ilRegistrationCode::getCodeData($code);
         
         if ($code_data["alimit"]) {
@@ -271,9 +273,8 @@ class ilAccountCode
                         
                 case "relative":
 
-                    $rel = unserialize($code_data["alimitdt"]);
+                    $rel = unserialize($code_data["alimitdt"], ["allowed_classes" => false]);
                     
-                    include_once './Services/Calendar/classes/class.ilDateTime.php';
                     $end = new ilDateTime(time(), IL_CAL_UNIX);
 
                     if ($rel['y'] > 0) {

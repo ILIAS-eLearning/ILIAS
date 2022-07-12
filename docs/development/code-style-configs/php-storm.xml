@@ -1,8 +1,8 @@
-<code_scheme name="ILIAS Coding Style 4/2020" version="174">
+<code_scheme name="ILIAS Coding Style 3/2022" version="175">
   <PHPCodeStyleSettings>
     <option name="ALIGN_PHPDOC_PARAM_NAMES" value="true" />
     <option name="ALIGN_PHPDOC_COMMENTS" value="true" />
-    <option name="PHPDOC_KEEP_BLANK_LINES" value="false" />
+    <option name="PHPDOC_KEEP_BLANK_LINES" value="true" />
     <option name="IMPORT_SORTING" value="DONT_SORT" />
     <option name="LOWER_CASE_BOOLEAN_CONST" value="true" />
     <option name="LOWER_CASE_NULL_CONST" value="true" />

@@ -177,7 +177,7 @@
 					background-color: @il-main-dark-bg;
 
 					p {
-						font-size: .9em;
+						font-size: @il-font-size-small;
 					}
 				}
 
@@ -204,14 +204,14 @@
 				.chat-body {
 					.header {
 						strong {
-							font-size: .8em;
+							font-size: @il-font-size-xsmall;
 						}
 					}
 
 					p {
 						margin: 0;
-						color: #777;
-						font-size: .9em;
+						color: @il-text-light-color;
+						font-size: @il-font-size-small;
 					}
 				}
 			}
@@ -220,10 +220,10 @@
 		.panel {
 			pointer-events: auto;
 			margin: 0;
-			border: 1px solid #dcdcdc;
+			border: 1px solid @il-main-border-color;
 
 			.panel-heading {
-				font-size: 80%;
+				font-size: @il-font-size-xsmall;
 				display: block;
 				padding: 5px 5px 5px 15px;
 				pointer-events: auto;
@@ -240,7 +240,7 @@
 					vertical-align: sub;
 				}
 
-				.close {
+				.minimize, .close {
 					margin-top: -2px;
 					margin-left: 5px;
 				}

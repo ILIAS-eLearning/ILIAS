@@ -1,8 +1,23 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTextFieldRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -10,8 +25,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     const REFERENCE_SEPARATOR = " -> ";
 
-
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilSelectInputGUI
     {
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
@@ -39,7 +53,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     $options[$record->getId()] = $file_obj->getFileName();
                     break;
                 case ilDclDatatype::INPUTFORMAT_MOB:
-                    $media_obj = new ilObjMediaObject($record->getRecordFieldValue($fieldref), false);
+                    $media_obj = new ilObjMediaObject($record->getRecordFieldValue($fieldref));
                     $options[$record->getId()] = $media_obj->getTitle();
                     break;
                 case ilDclDatatype::INPUTFORMAT_DATETIME:
@@ -53,7 +67,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                         if (!is_array($value)) {
                             $value = array('title' => '', 'link' => $value);
                         }
-                        $value = $value['title'] ? $value['title'] : $value['link'];
+                        $value = $value['title'] ?: $value['link'];
                     }
                     $options[$record->getId()] = $value;
                     break;
@@ -79,7 +93,9 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $input->setOptions($options);
 
-        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($_GET['ref_id'], $reftable->getId())) {
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($ref_id, $reftable->getId())) {
             $input->addCustomAttribute('data-ref="1"');
             $input->addCustomAttribute('data-ref-table-id="' . $reftable->getId() . '"');
             $input->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');
@@ -88,10 +104,13 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-
+    /**
+     * @return string|array|null
+     */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
+            false, $this->getField()->getId());
         $ref_field_id = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
         $ref_field = ilDclCache::getFieldCache($ref_field_id);
         $ref_table = ilDclCache::getTableCache($ref_field->getTableId());
@@ -111,13 +130,16 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    /**
+     * @param int $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
         $pass = false;
-        if ($filter && $this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE) && is_array($value) && in_array($filter, $value)) {
+        if ($filter && $this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE) && is_array($value) && in_array($filter,
+                $value)) {
             $pass = true;
         }
         if (!$filter || $filter == $value) {
@@ -127,11 +149,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
@@ -146,16 +164,19 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                 }
             }
         }
-        $prop_table_selection = new ilSelectInputGUI($this->lng->txt('dcl_reference_title'), 'prop_' . ilDclBaseFieldModel::PROP_REFERENCE);
+        $prop_table_selection = new ilSelectInputGUI($this->lng->txt('dcl_reference_title'),
+            'prop_' . ilDclBaseFieldModel::PROP_REFERENCE);
         $prop_table_selection->setOptions($options);
 
         $opt->addSubItem($prop_table_selection);
 
-        $prop_ref_link = new ilDclCheckboxInputGUI($this->lng->txt('dcl_reference_link'), 'prop_' . ilDclBaseFieldModel::PROP_REFERENCE_LINK);
+        $prop_ref_link = new ilDclCheckboxInputGUI($this->lng->txt('dcl_reference_link'),
+            'prop_' . ilDclBaseFieldModel::PROP_REFERENCE_LINK);
         $prop_ref_link->setInfo($this->lng->txt('dcl_reference_link_info'));
         $opt->addSubItem($prop_ref_link);
 
-        $prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_multiple_selection'), 'prop_' . ilDclBaseFieldModel::PROP_N_REFERENCE);
+        $prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_multiple_selection'),
+            'prop_' . ilDclBaseFieldModel::PROP_N_REFERENCE);
         $opt->addSubItem($prop_multi_select);
 
         return $opt;

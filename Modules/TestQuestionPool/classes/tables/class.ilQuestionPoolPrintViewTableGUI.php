@@ -17,13 +17,6 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
     
     protected $totalPoints;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $outputmode = '')
     {
         $this->setId("qpl_print");
@@ -55,7 +48,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
     
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn($this->lng->txt("title"), 'title', '');
         
@@ -81,12 +74,12 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         }
     }
     
-    private function getPointsColumnHeader()
+    private function getPointsColumnHeader() : string
     {
         return $this->lng->txt("points") . ' (' . $this->getTotalPoints() . ')';
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -119,51 +112,53 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         ilDatePresentation::setUseRelativeDates(false);
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
+        $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($data['description']));
+                $this->tpl->setVariable(
+                    "DESCRIPTION",
+                    ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['description'])
+                );
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'author') == 0) {
                 $this->tpl->setCurrentBlock('author');
-                $this->tpl->setVariable("AUTHOR", ilUtil::prepareFormOutput($data['author']));
+                $this->tpl->setVariable("AUTHOR", ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['author']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'ttype') == 0) {
                 $this->tpl->setCurrentBlock('ttype');
-                $this->tpl->setVariable("TYPE", ilUtil::prepareFormOutput($data['ttype']));
+                $this->tpl->setVariable("TYPE", ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['ttype']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'points') == 0) {
                 $this->tpl->setCurrentBlock('points');
-                $this->tpl->setVariable("POINTS", ilUtil::prepareFormOutput($data['points']));
+                $this->tpl->setVariable("POINTS", ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['points']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'created') == 0) {
                 $this->tpl->setCurrentBlock('created');
-                $this->tpl->setVariable('CREATED', ilDatePresentation::formatDate(new ilDateTime($data['created'], IL_CAL_UNIX)));
+                $this->tpl->setVariable('CREATED', ilDatePresentation::formatDate(new ilDateTime($a_set['created'], IL_CAL_UNIX)));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'updated') == 0) {
                 $this->tpl->setCurrentBlock('updated');
-                $this->tpl->setVariable('UPDATED', ilDatePresentation::formatDate(new ilDateTime($data['updated'], IL_CAL_UNIX)));
+                $this->tpl->setVariable('UPDATED', ilDatePresentation::formatDate(new ilDateTime($a_set['updated'], IL_CAL_UNIX)));
                 $this->tpl->parseCurrentBlock();
             }
         }
         if ((strcmp($this->outputmode, "detailed") == 0) || (strcmp($this->outputmode, "detailed_printview") == 0)) {
             $this->tpl->setCurrentBlock("overview_row_detail");
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            $question_gui = assQuestion::instantiateQuestionGUI($data["question_id"]);
+            $question_gui = assQuestion::instantiateQuestionGUI($a_set["question_id"]);
             $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
             if (strcmp($this->outputmode, "detailed") == 0) {
                 $solutionoutput = $question_gui->getSolutionOutput($active_id = "", $pass = null, $graphicalOutput = false, $result_output = false, $show_question_only = false, $show_feedback = false, $show_correct_solution = true, $show_manual_scoring = false);
@@ -182,12 +177,12 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string $column
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($column)
+    public function numericOrdering(string $a_field) : bool
     {
-        if (in_array($column, array('points', 'created', 'updated'))) {
+        if (in_array($a_field, array('points', 'created', 'updated'))) {
             return true;
         }
 
@@ -199,7 +194,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         return $this->totalPoints;
     }
 
-    public function setTotalPoints($totalPoints)
+    public function setTotalPoints($totalPoints) : void
     {
         $this->totalPoints = $totalPoints;
     }

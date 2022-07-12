@@ -1,60 +1,56 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP;
+use ILIAS\Refinery;
 
 /**
  * This class represents a property form user interface
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPropertyFormGUI: ilFormPropertyDispatchGUI
  */
 class ilPropertyFormGUI extends ilFormGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected bool $required_text = false;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilTemplate $tpl;
+    protected ?ilObjUser $user = null;
+    protected ?ilSetting $settings = null;
+    private array $buttons = array();
+    private array $items = array();
+    protected string $mode = "std";
+    protected bool $check_input_called = false;
+    protected bool $disable_standard_message = false;
+    protected string $top_anchor = "il_form_top";
+    protected string $title = '';
+    protected string $titleicon = "";
+    protected string $description = "";
+    protected string $tbl_width = "";
+    protected bool $show_top_buttons = true;
+    protected bool $hide_labels = false;
+    protected bool $force_top_buttons = false;
+    protected HTTP\Services $http;
+    protected ?Refinery\Factory $refinery = null;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ?ilGlobalTemplateInterface $global_tpl = null;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    private $buttons = array();
-    private $items = array();
-    protected $mode = "std";
-    protected $check_input_called = false;
-    protected $disable_standard_message = false;
-    protected $top_anchor = "il_form_top";
-    protected $title = '';
-    protected $titleicon = false;
-    protected $description = "";
-    protected $tbl_width = false;
-    protected $show_top_buttons = true;
-    protected $hide_labels = false;
-
-    protected $force_top_buttons = false;
-
-    /**
-    * Constructor
-    *
-    * @param
-    */
     public function __construct()
     {
         global $DIC;
@@ -81,11 +77,21 @@ class ilPropertyFormGUI extends ilFormGUI
 
         // do it as early as possible
         $this->rebuildUploadedFiles();
+        if (isset($DIC["http"])) {
+            $this->http = $DIC->http();
+        }
+        if (isset($DIC["refinery"])) {
+            $this->refinery = $DIC->refinery();
+        }
+        if (isset($DIC["tpl"])) {      // some unit tests will fail otherwise
+            $this->global_tpl = $DIC['tpl'];
+        }
     }
 
     /**
-    * Execute command.
-    */
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
@@ -96,194 +102,120 @@ class ilPropertyFormGUI extends ilFormGUI
             case 'ilformpropertydispatchgui':
                 $ilCtrl->saveParameter($this, 'postvar');
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
-                $item = $this->getItemByPostVar($_REQUEST["postvar"]);
+                $item = $this->getItemByPostVar($this->getRequestedPostVar());
                 $form_prop_dispatch->setItem($item);
                 return $ilCtrl->forwardCommand($form_prop_dispatch);
-                break;
-
         }
         return false;
     }
 
-    /**
-     * Set table width
-     *
-     * @access public
-     * @param string table width
-     *
-     */
-    final public function setTableWidth($a_width)
+    protected function getRequestedPostVar() : ?string
+    {
+        $t = $this->refinery->kindlyTo()->string();
+        $w = $this->http->wrapper();
+        if ($w->post()->has("postvar")) {
+            return $w->post()->retrieve("postvar", $t);
+        }
+        if ($w->query()->has("postvar")) {
+            return $w->query()->retrieve("postvar", $t);
+        }
+        return null;
+    }
+
+    final public function setTableWidth(string $a_width) : void
     {
         $this->tbl_width = $a_width;
     }
     
-    /**
-     * get table width
-     *
-     * @access public
-     *
-     */
-    final public function getTableWidth()
+    final public function getTableWidth() : string
     {
         return $this->tbl_width;
     }
 
-    /**
-    * Set Mode ('std', 'subform').
-    *
-    * @param	string	$a_mode	Mode ('std', 'subform')
-    */
-    public function setMode($a_mode)
+    // Set Mode ('std', 'subform').
+    public function setMode(string $a_mode) : void
     {
         $this->mode = $a_mode;
     }
 
-    /**
-    * Get Mode ('std', 'subform').
-    *
-    * @return	string	Mode ('std', 'subform')
-    */
-    public function getMode()
+    public function getMode() : string
     {
         return $this->mode;
     }
 
-    /**
-    * Set Title.
-    *
-    * @param	string	$a_title	Title
-    */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-    * Get Title.
-    *
-    * @return	string	Title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * Set TitleIcon.
-    *
-    * @param	string	$a_titleicon	TitleIcon
-    */
-    public function setTitleIcon($a_titleicon)
+    public function setTitleIcon(string $a_titleicon) : void
     {
         $this->titleicon = $a_titleicon;
     }
 
-    /**
-    * Get TitleIcon.
-    *
-    * @return	string	TitleIcon
-    */
-    public function getTitleIcon()
+    public function getTitleIcon() : string
     {
         return $this->titleicon;
     }
 
-    /**
-    * Set description
-    *
-    * @param	string	description
-    */
-    public function setDescription($a_val)
+    public function setDescription(string $a_val) : void
     {
         $this->description = $a_val;
     }
     
-    /**
-    * Get description
-    *
-    * @return	string	description
-    */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
     
-    /**
-     * Set top anchor
-     *
-     * @param	string	top anchor
-     * @deprecated
-     */
-    public function setTopAnchor($a_val)
+    public function setTopAnchor(string $a_val) : void
     {
         $this->top_anchor = $a_val;
     }
     
-    /**
-    * Get top anchor
-    *
-    * @return	string	top anchor
-    */
-    public function getTopAnchor()
+    public function getTopAnchor() : string
     {
         return $this->top_anchor;
     }
 
-    /**
-     * Get show top buttons
-     */
-    public function setShowTopButtons($a_val)
+    public function setShowTopButtons(bool $a_val) : void
     {
         $this->show_top_buttons = $a_val;
     }
 
-    /**
-     * Set show top buttons
-     */
-    public function getShowTopButtons()
+    public function getShowTopButtons() : bool
     {
         return $this->show_top_buttons;
     }
     
-    /**
-     * Set force top buttons
-     *
-     * @param bool $a_val force top buttons
-     */
-    public function setForceTopButtons($a_val)
+    public function setForceTopButtons(bool $a_val) : void
     {
         $this->force_top_buttons = $a_val;
     }
-    
-    /**
-     * Get force top buttons
-     *
-     * @return bool force top buttons
-     */
-    public function getForceTopButtons()
+
+    public function getForceTopButtons() : bool
     {
         return $this->force_top_buttons;
     }
-    
-    
-    /**
-    * Add Item (Property, SectionHeader).
-    *
-    * @param	object	$a_property		Item object
-    */
-    public function addItem($a_item)
-    {
-        $a_item->setParentForm($this);
-        return $this->items[] = $a_item;
-    }
 
     /**
-    * Remove Item.
-    *
-    * @param	string	$a_postvar		Post Var
-    */
-    public function removeItemByPostVar($a_post_var, $a_remove_unused_headers = false)
+     * @param ilFormPropertyGUI|ilFormSectionHeaderGUI $a_item
+     */
+    public function addItem($a_item) : void
     {
+        $a_item->setParentForm($this);
+        $this->items[] = $a_item;
+    }
+
+    public function removeItemByPostVar(
+        string $a_post_var,
+        bool $a_remove_unused_headers = false
+    ) : void {
         foreach ($this->items as $key => $item) {
             if (method_exists($item, "getPostVar") && $item->getPostVar() == $a_post_var) {
                 unset($this->items[$key]);
@@ -311,14 +243,9 @@ class ilPropertyFormGUI extends ilFormGUI
         }
     }
 
-    /**
-     * Get Item by POST variable.
-     * @param string $a_postvar Post Var
-     * @return false|ilFormPropertyGUI
-     */
-    public function getItemByPostVar($a_post_var)
+    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
     {
-        foreach ($this->items as $key => $item) {
+        foreach ($this->items as $item) {
             if ($item->getType() != "section_header") {
                 //if ($item->getPostVar() == $a_post_var)
                 $ret = $item->getItemByPostVar($a_post_var);
@@ -328,25 +255,15 @@ class ilPropertyFormGUI extends ilFormGUI
             }
         }
         
-        return false;
+        return null;
     }
 
-    /**
-    * Set Items
-    *
-    * @param	array	$a_items	array of item objects
-    */
-    public function setItems($a_items)
+    public function setItems(array $a_items) : void
     {
         $this->items = $a_items;
     }
 
-    /**
-    * Get Items
-    *
-    * @return	array	array of item objects
-    */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }
@@ -354,10 +271,8 @@ class ilPropertyFormGUI extends ilFormGUI
     /**
      * returns a flat array of all input items including
      * the possibly existing subitems recursively
-     *
-     * @return array
      */
-    public function getInputItemsRecursive()
+    public function getInputItemsRecursive() : array
     {
         $inputItems = array();
         
@@ -376,53 +291,31 @@ class ilPropertyFormGUI extends ilFormGUI
         return $inputItems;
     }
 
-    /**
-    * Set disable standard message
-    *
-    * @param	boolean		disable standard message
-    */
-    public function setDisableStandardMessage($a_val)
+    public function setDisableStandardMessage(bool $a_val) : void
     {
         $this->disable_standard_message = $a_val;
     }
-    
-    /**
-    * Get disable standard message
-    *
-    * @return	boolean		disable standard message
-    */
-    public function getDisableStandardMessage()
+
+    public function getDisableStandardMessage() : bool
     {
         return $this->disable_standard_message;
     }
     
-    /**
-    * Get a value indicating whether the labels should be hidden or not.
-    *
-    * @return	boolean		true, to hide the labels; otherwise, false.
-    */
-    public function getHideLabels()
+    // Get a value indicating whether the labels should be hidden or not.
+    public function getHideLabels() : bool
     {
         return $this->hide_labels;
     }
     
-    /**
-    * Set a value indicating whether the labels should be hidden or not.
-    *
-    * @param	boolean	$a_value	Indicates whether the labels should be hidden.
-    */
-    public function setHideLabels($a_value = true)
+    public function setHideLabels(bool $a_value = true) : void
     {
         $this->hide_labels = $a_value;
     }
     
-    /**
-    * Set form values from an array
-    *
-    * @param	array	$a_values	Value array (key is post variable name, value is value)
-    */
-    public function setValuesByArray($a_values, $a_restrict_to_value_keys = false)
-    {
+    public function setValuesByArray(
+        array $a_values,
+        bool $a_restrict_to_value_keys = false
+    ) : void {
         foreach ($this->items as $item) {
             if (!($a_restrict_to_value_keys) ||
                 in_array($item->getPostVar(), array_keys($a_values))) {
@@ -431,24 +324,20 @@ class ilPropertyFormGUI extends ilFormGUI
         }
     }
 
-    /**
-    * Set form values from POST values
-    *
-    */
     public function setValuesByPost()
     {
+        global $DIC;
+
+        if (!isset($DIC["http"])) {
+            return null;
+        }
+
         foreach ($this->items as $item) {
-            $item->setValueByArray($_POST);
+            $item->setValueByArray($DIC->http()->request()->getParsedBody());
         }
     }
     
-    /**
-    * Check Post Input. This method also strips slashes and html from
-    * input and sets the alert texts for the items, if the input was not ok.
-    *
-    * @return	boolean		ok true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         
@@ -464,18 +353,18 @@ class ilPropertyFormGUI extends ilFormGUI
             }
         }
         
-        // check if POST is missint completely (if post_max_size exceeded)
-        if (count($this->items) > 0 && count($_POST) === 0) {
+        // check if POST is missing completely (if post_max_size exceeded)
+        $post = $this->http->request()->getParsedBody();
+        if (count($this->items) > 0 && count($post) === 0) {
             $ok = false;
         }
         
         $this->check_input_called = true;
         
-        
-        
         // try to keep uploads for another try
-        if (!$ok && isset($_POST["ilfilehash"]) && $_POST["ilfilehash"] && count($_FILES)) {
-            $hash = $_POST["ilfilehash"];
+        $filehash = $this->getFileHash();
+        if (!$ok && !is_null($filehash) && $filehash && count($_FILES)) {
+            $hash = $filehash;
 
             foreach ($_FILES as $field => $data) {
                 // only try to keep files that are ok
@@ -484,7 +373,7 @@ class ilPropertyFormGUI extends ilFormGUI
                 if (is_bool($item) || !$item->checkInput()) {
                     continue;
                 }
-                // we support up to 2 nesting levels (see test/assesment)
+                // we support up to 2 nesting levels (see test/assessment)
                 if (is_array($data["tmp_name"])) {
                     foreach ($data["tmp_name"] as $idx => $upload) {
                         if (is_array($upload)) {
@@ -492,13 +381,13 @@ class ilPropertyFormGUI extends ilFormGUI
                                 if ($file && is_uploaded_file($file)) {
                                     $file_name = $data["name"][$idx][$idx2];
                                     $file_type = $data["type"][$idx][$idx2];
-                                    $this->keepFileUpload($hash, $field, $file, $file_name, $file_type, $idx, $idx2);
+                                    $this->keepFileUpload($hash, $field, $file, $file_name, $file_type, (string) $idx, (string) $idx2);
                                 }
                             }
                         } elseif ($upload && is_uploaded_file($upload)) {
                             $file_name = $data["name"][$idx];
                             $file_type = $data["type"][$idx];
-                            $this->keepFileUpload($hash, $field, $upload, $file_name, $file_type, $idx);
+                            $this->keepFileUpload($hash, $field, $upload, $file_name, $file_type, (string) $idx);
                         }
                     }
                 } else {
@@ -519,71 +408,77 @@ class ilPropertyFormGUI extends ilFormGUI
 
                 return $ok;
 
-            // Otherwise we send it using ilUtil and it will be rendered in the Template
+            // Otherwise, we send it using ilUtil, and it will be rendered in the Template
             default:
 
                 if (!$ok && !$this->getDisableStandardMessage()) {
-                    ilUtil::sendFailure($txt);
+                    $this->global_tpl->setOnScreenMessage('failure', $txt);
                 }
 
                 return $ok;
         }
     }
-    
-    /**
-     *
-     * Returns the value of a HTTP-POST variable, identified by the passed id
-     *
-     * @param	string	The key used for value determination
-     * @param	boolean	A flag whether the form input has to be validated before calling this method
-     * @return	string	The value of a HTTP-POST variable, identified by the passed id
-     * @access	public
-     *
-     */
-    public function getInput($a_post_var, $ensureValidation = true)
+
+    protected function getFileHash() : ?string
     {
-        // this check ensures, that checkInput has been called (incl. stripSlashes())
-        if (!$this->check_input_called && $ensureValidation) {
-            die("Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.");
+        if (is_null($this->refinery)) {
+            return null;
         }
-        
-        return $_POST[$a_post_var] ?? '';
+        // try to keep uploads for another try
+        $t = $this->refinery->kindlyTo()->string();
+        $w = $this->http->wrapper();
+        $filehash = null;
+        if ($w->post()->has("ilfilehash")) {
+            $filehash = $w->post()->retrieve("ilfilehash", $t);
+        }
+        return $filehash;
     }
 
     /**
-    * Add Command button
-    *
-    * @param	string	Command
-    * @param	string	Text
-    */
-    public function addCommandButton($a_cmd, $a_text, $a_id = "")
-    {
+     * Returns the input of an item, if item provides getInput method
+     * and as fallback the value of the HTTP-POST variable, identified by the passed postvar
+     * @param string $a_post_var       The key used for value determination
+     * @param bool   $ensureValidation A flag whether the form input has to be validated before calling this method
+     * @return mixed The value of a HTTP-POST variable, identified by the passed id
+     */
+    public function getInput(
+        string $a_post_var,
+        bool $ensureValidation = true
+    ) {
+        // this check ensures, that checkInput has been called (incl. stripSlashes())
+        if (!$this->check_input_called && $ensureValidation) {
+            throw new LogicException('Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.');
+        }
+
+        $item = $this->getItemByPostVar($a_post_var);
+        if (is_object($item) && method_exists($item, "getInput")) {
+            return $item->getInput();
+        }
+
+        $post = $this->http->request()->getParsedBody();
+        return $post[$a_post_var] ?? '';
+    }
+
+    public function addCommandButton(
+        string $a_cmd,
+        string $a_text,
+        string $a_id = ""
+    ) : void {
         $this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text, "id" => $a_id);
     }
 
 
-    /**
-     * Return all Command buttons
-     *
-     * @return array
-     */
-    public function getCommandButtons()
+    public function getCommandButtons() : array
     {
         return $this->buttons;
     }
 
-    /**
-    * Remove all command buttons
-    */
-    public function clearCommandButtons()
+    public function clearCommandButtons() : void
     {
         $this->buttons = array();
     }
 
-    /**
-    * Get Content.
-    */
-    public function getContent()
+    public function getContent() : string
     {
         global $DIC;
         $lng = $this->lng;
@@ -612,7 +507,7 @@ class ilPropertyFormGUI extends ilFormGUI
         
         
         // title icon
-        if ($this->getTitleIcon() != "" && @is_file($this->getTitleIcon())) {
+        if ($this->getTitleIcon() != "" && is_file($this->getTitleIcon())) {
             $this->tpl->setCurrentBlock("title_icon");
             $this->tpl->setVariable("IMG_ICON", $this->getTitleIcon());
             $this->tpl->parseCurrentBlock();
@@ -642,7 +537,7 @@ class ilPropertyFormGUI extends ilFormGUI
                         $char_selector = ilCharSelectorGUI::_getCurrentGUI();
                         if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED) {
                             $char_selector->addToPage();
-                            $this->tpl->TouchBlock('char_selector');
+                            $this->tpl->touchBlock('char_selector');
                         }
                     }
                 }
@@ -688,9 +583,9 @@ class ilPropertyFormGUI extends ilFormGUI
         if ($this->getMode() != "subform") {
             // try to keep uploads even if checking input fails
             if ($this->getMultipart()) {
-                $hash = $_POST["ilfilehash"] ?? null;
+                $hash = $this->getFileHash() ?? null;
                 if (!$hash) {
-                    $hash = md5(uniqid(mt_rand(), true));
+                    $hash = md5(uniqid((string) mt_rand(), true));
                 }
                 $fhash = new ilHiddenInputGUI("ilfilehash");
                 $fhash->setValue($hash);
@@ -723,33 +618,37 @@ class ilPropertyFormGUI extends ilFormGUI
         return $this->tpl->get();
     }
     
-    protected function hideRequired($a_type)
+    protected function hideRequired(string $a_type) : bool
     {
         // #15818
-        return in_array($a_type, array("non_editable_value"));
+        return $a_type == "non_editable_value";
     }
 
-    public function insertItem($item, $a_sub_item = false)
-    {
+    /**
+     * @param ilFormPropertyGUI|ilFormSectionHeaderGUI $item
+     */
+    public function insertItem(
+        $item,
+        bool $a_sub_item = false
+    ) : void {
         global $DIC;
         $tpl = $DIC["tpl"];
-        ;
         $lng = $this->lng;
         
         
-        $cfg = array();
+        //$cfg = array();
         
         //if(method_exists($item, "getMulti") && $item->getMulti())
         if ($item instanceof ilMultiValuesItem && $item->getMulti()) {
             $tpl->addJavascript("./Services/Form/js/ServiceFormMulti.js");
-            
+
             $this->tpl->setCurrentBlock("multi_in");
             $this->tpl->setVariable("ID", $item->getFieldId());
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->touchBlock("multi_out");
 
-            
+
             // add hidden item to enable preset multi items
             // not used yet, should replace hidden field stuff
             $multi_values = $item->getMultiValues();
@@ -758,7 +657,7 @@ class ilPropertyFormGUI extends ilFormGUI
                 $multi_value->setValue(implode("~", $multi_values));
                 $this->addItem($multi_value);
             }
-            $cfg["multi_values"] = $multi_values;
+            //$cfg["multi_values"] = $multi_values;
         }
         
         $item->insert($this->tpl);
@@ -768,7 +667,7 @@ class ilPropertyFormGUI extends ilFormGUI
         }
 
         if ($item->getType() != "section_header") {
-            $cfg["id"] = $item->getFieldId();
+            //$cfg["id"] = $item->getFieldId();
             
             // info text
             if ($item->getInfo() != "") {
@@ -806,7 +705,6 @@ class ilPropertyFormGUI extends ilFormGUI
                     $this->tpl->setVariable("FOR_ID", ' for="' . $item->getFormLabelFor() . '" ');
                 }
                 $this->tpl->setVariable("LAB_ID", $item->getFieldId());
-                $this->tpl->parseCurrentBlock();
             } else {
                 // required
                 if (!$this->hideRequired($item->getType())) {
@@ -835,9 +733,9 @@ class ilPropertyFormGUI extends ilFormGUI
                 if ($this->getHideLabels()) {
                     $this->tpl->setVariable("HIDE_LABELS_STYLE", " ilFormOptionHidden");
                 }
-                $this->tpl->parseCurrentBlock();
             }
-            
+            $this->tpl->parseCurrentBlock();
+
             // alert
             if ($item->getType() != "non_editable_value" && $item->getAlert() != "") {
                 $this->tpl->setCurrentBlock("alert");
@@ -861,13 +759,15 @@ class ilPropertyFormGUI extends ilFormGUI
             if ($item->getType() != "non_editable_value" or 1) {
                 $sf = $item->getSubForm();
                 if ($item->hideSubForm() && is_object($sf)) {
-                    $this->tpl->setCurrentBlock("sub_form_hide");
-                    $this->tpl->setVariable("DSFID", $item->getFieldId());
-                    $this->tpl->parseCurrentBlock();
+                    if ($this->global_tpl) {
+                        $dsfid = $item->getFieldId();
+                        $this->global_tpl->addOnloadCode(
+                            "il.Form.hideSubForm('subform_$dsfid');"
+                        );
+                    }
                 }
             }
             
-
             $sf_content = "";
             if (is_object($sf)) {
                 $sf_content = $sf->getContent();
@@ -883,7 +783,7 @@ class ilPropertyFormGUI extends ilFormGUI
             $this->tpl->setCurrentBlock("prop");
             /* not used yet
             $this->tpl->setVariable("ID", $item->getFieldId());
-            $this->tpl->setVariable("CFG", ilJsonUtil::encode($cfg));*/
+            $this->tpl->setVariable("CFG", json_encode($cfg, JSON_THROW_ON_ERROR));*/
             $this->tpl->parseCurrentBlock();
         }
         
@@ -891,7 +791,7 @@ class ilPropertyFormGUI extends ilFormGUI
         $this->tpl->touchBlock("item");
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         $html = parent::getHTML();
         
@@ -922,17 +822,24 @@ class ilPropertyFormGUI extends ilFormGUI
      * @param string $a_tmp_name temp file name
      * @param string $a_name original file name
      * @param string $a_type file mime type
-     * @param mixed $a_index form field index (if array)
-     * @param mixed $a_sub_index form field subindex (if array)
-     * @return bool
+     * @param ?string $a_index form field index (if array)
+     * @param ?string $a_sub_index form field subindex (if array)
+     * @throws ilException
      */
-    protected function keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
-    {
+    protected function keepFileUpload(
+        string $a_hash,
+        string $a_field,
+        string $a_tmp_name,
+        string $a_name,
+        string $a_type,
+        ?string $a_index = null,
+        ?string $a_sub_index = null
+    ) : void {
         if (trim($a_tmp_name) == "") {
             return;
         }
 
-        $a_name = ilUtil::getAsciiFileName($a_name);
+        $a_name = ilFileUtils::getASCIIFilename($a_name);
         
         $tmp_file_name = implode("~~", array(session_id(),
             $a_hash,
@@ -943,12 +850,12 @@ class ilPropertyFormGUI extends ilFormGUI
             str_replace("~~", "_", $a_name)));
         
         // make sure temp directory exists
-        $temp_path = ilUtil::getDataDir() . "/temp";
+        $temp_path = ilFileUtils::getDataDir() . "/temp";
         if (!is_dir($temp_path)) {
-            ilUtil::createDirectory($temp_path);
+            ilFileUtils::createDirectory($temp_path);
         }
 
-        ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path . "/" . $tmp_file_name);
+        ilFileUtils::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path . "/" . $tmp_file_name);
 
         /** @var ilFileInputGUI $file_input */
         $file_input = $this->getItemByPostVar($a_field);
@@ -963,11 +870,14 @@ class ilPropertyFormGUI extends ilFormGUI
      * @param mixed $a_sub_index form field subindex (if array)
      * @return array (tmp_name, name, type, error, size, is_upload)
      */
-    public function getFileUpload($a_field, $a_index = null, $a_sub_index = null)
-    {
+    public function getFileUpload(
+        string $a_field,
+        ?string $a_index = null,
+        ?string $a_sub_index = null
+    ) : array {
         $res = array();
         if ($a_index) {
-            if ($_FILES[$a_field]["tmp_name"][$a_index][$a_sub_index]) {
+            if ($_FILES[$a_field]["tmp_name"][$a_index][$a_sub_index] ?? false) {
                 $res = array(
                     "tmp_name" => $_FILES[$a_field]["tmp_name"][$a_index][$a_sub_index],
                     "name" => $_FILES[$a_field]["name"][$a_index][$a_sub_index],
@@ -978,7 +888,7 @@ class ilPropertyFormGUI extends ilFormGUI
                 );
             }
         } elseif ($a_sub_index) {
-            if ($_FILES[$a_field]["tmp_name"][$a_index]) {
+            if ($_FILES[$a_field]["tmp_name"][$a_index] ?? false) {
                 $res = array(
                     "tmp_name" => $_FILES[$a_field]["tmp_name"][$a_index],
                     "name" => $_FILES[$a_field]["name"][$a_index],
@@ -989,7 +899,7 @@ class ilPropertyFormGUI extends ilFormGUI
                 );
             }
         } else {
-            if ($_FILES[$a_field]["tmp_name"]) {
+            if ($_FILES[$a_field]["tmp_name"] ?? false) {
                 $res = array(
                     "tmp_name" => $_FILES[$a_field]["tmp_name"],
                     "name" => $_FILES[$a_field]["name"],
@@ -1003,18 +913,13 @@ class ilPropertyFormGUI extends ilFormGUI
         return $res;
     }
     
-    /**
-     * Was any file uploaded?
-     *
-     * @param string $a_field form field
-     * @param mixed $a_index form field index (if array)
-     * @param mixed $a_sub_index form field subindex (if array)
-     * @return bool
-     */
-    public function hasFileUpload($a_field, $a_index = null, $a_sub_index = null)
-    {
+    public function hasFileUpload(
+        string $a_field,
+        ?string $a_index = null,
+        ?string $a_sub_index = null
+    ) : bool {
         $data = $this->getFileUpload($a_field, $a_index, $a_sub_index);
-        return (bool) $data["tmp_name"];
+        return (bool) ($data["tmp_name"] ?? false);
     }
     
     /**
@@ -1022,15 +927,21 @@ class ilPropertyFormGUI extends ilFormGUI
      *
      * @param string $a_target_directory target directory (without filename!)
      * @param string $a_field form field
-     * @param string $a_target_name target file name (if different from uploaded file)
-     * @param mixed $a_index form field index (if array)
-     * @param mixed $a_sub_index form field subindex (if array)
+     * @param ?string $a_target_name target file name (if different from uploaded file)
+     * @param ?string $a_index form field index (if array)
+     * @param ?string $a_sub_index form field subindex (if array)
      * @return string target file name incl. path
+     * @throws ilException
      */
-    public function moveFileUpload($a_target_directory, $a_field, $a_target_name = null, $a_index = null, $a_sub_index = null)
-    {
+    public function moveFileUpload(
+        string $a_target_directory,
+        string $a_field,
+        ?string $a_target_name = null,
+        ?string $a_index = null,
+        ?string $a_sub_index = null
+    ) : string {
         if (!is_dir($a_target_directory)) {
-            return;
+            return "";
         }
         
         $data = $this->getFileUpload($a_field, $a_index, $a_sub_index);
@@ -1043,30 +954,27 @@ class ilPropertyFormGUI extends ilFormGUI
             $target_file = str_replace("//", "/", $target_file);
             
             if ($data["is_upload"]) {
-                if (!ilUtil::moveUploadedFile($data["tmp_name"], $data["name"], $target_file)) {
-                    return;
+                if (!ilFileUtils::moveUploadedFile($data["tmp_name"], $data["name"], $target_file)) {
+                    return "";
                 }
             } else {
                 if (!rename($data["tmp_name"], $target_file)) {
-                    return;
+                    return "";
                 }
             }
             
             return $target_file;
         }
+        return "";
     }
     
-    /**
-     * try to rebuild files
-     */
-    protected function rebuildUploadedFiles()
+    protected function rebuildUploadedFiles() : void
     {
-        if (isset($_POST["ilfilehash"]) && $_POST["ilfilehash"]) {
-            $temp_path = ilUtil::getDataDir() . "/temp";
+        $file_hash = (string) $this->getFileHash();
+        if ($file_hash != "") {
+            $temp_path = ilFileUtils::getDataDir() . "/temp";
             if (is_dir($temp_path)) {
-                $reload = array();
-                
-                $temp_files = glob($temp_path . "/" . session_id() . "~~" . $_POST["ilfilehash"] . "~~*");
+                $temp_files = glob($temp_path . "/" . session_id() . "~~" . $file_hash . "~~*");
                 if (is_array($temp_files)) {
                     foreach ($temp_files as $full_file) {
                         $file = explode("~~", basename($full_file));

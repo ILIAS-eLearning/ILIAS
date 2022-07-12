@@ -24,7 +24,7 @@ class ilAssKprimChoiceAnswer
     
     private $correctness;
 
-    public function setPosition($position)
+    public function setPosition($position) : void
     {
         $this->position = $position;
     }
@@ -34,7 +34,7 @@ class ilAssKprimChoiceAnswer
         return $this->position;
     }
 
-    public function setAnswertext($answertext)
+    public function setAnswertext($answertext) : void
     {
         $this->answertext = $answertext;
     }
@@ -44,7 +44,7 @@ class ilAssKprimChoiceAnswer
         return $this->answertext;
     }
 
-    public function setImageFile($imageFile)
+    public function setImageFile($imageFile) : void
     {
         $this->imageFile = $imageFile;
     }
@@ -54,7 +54,7 @@ class ilAssKprimChoiceAnswer
         return $this->imageFile;
     }
 
-    public function setImageFsDir($imageFsDir)
+    public function setImageFsDir($imageFsDir) : void
     {
         $this->imageFsDir = $imageFsDir;
     }
@@ -64,7 +64,7 @@ class ilAssKprimChoiceAnswer
         return $this->imageFsDir;
     }
 
-    public function setImageWebDir($imageWebDir)
+    public function setImageWebDir($imageWebDir) : void
     {
         $this->imageWebDir = $imageWebDir;
     }
@@ -77,7 +77,7 @@ class ilAssKprimChoiceAnswer
     /**
      * @param mixed $thumbPrefix
      */
-    public function setThumbPrefix($thumbPrefix)
+    public function setThumbPrefix($thumbPrefix) : void
     {
         $this->thumbPrefix = $thumbPrefix;
     }
@@ -90,7 +90,7 @@ class ilAssKprimChoiceAnswer
         return $this->thumbPrefix;
     }
 
-    public function setCorrectness($correctness)
+    public function setCorrectness($correctness) : void
     {
         $this->correctness = $correctness;
     }
@@ -100,22 +100,22 @@ class ilAssKprimChoiceAnswer
         return $this->correctness;
     }
 
-    public function getImageFsPath()
+    public function getImageFsPath() : string
     {
         return $this->getImageFsDir() . $this->getImageFile();
     }
 
-    public function getThumbFsPath()
+    public function getThumbFsPath() : string
     {
         return $this->getImageFsDir() . $this->getThumbPrefix() . $this->getImageFile();
     }
 
-    public function getImageWebPath()
+    public function getImageWebPath() : string
     {
         return $this->getImageWebDir() . $this->getImageFile();
     }
 
-    public function getThumbWebPath()
+    public function getThumbWebPath() : string
     {
         return $this->getImageWebDir() . $this->getThumbPrefix() . $this->getImageFile();
     }

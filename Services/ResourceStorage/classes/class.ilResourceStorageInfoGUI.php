@@ -3,6 +3,19 @@
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\DI\Container;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilResourceStorageInfoGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -48,5 +61,4 @@ class ilResourceStorageInfoGUI
             $info->addProperty($this->language->txt("stakeholders"), count($this->resource->getStakeholders()));
         }
     }
-
 }

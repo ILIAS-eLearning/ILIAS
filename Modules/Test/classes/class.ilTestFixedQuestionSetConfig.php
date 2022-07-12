@@ -18,12 +18,11 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function isQuestionSetConfigured()
+    public function isQuestionSetConfigured() : bool
     {
-        if (count($this->testOBJ->questions)) {
+        if ($this->testOBJ->getQuestionCount() > 0) {
             return true;
         }
-
         return false;
     }
     
@@ -32,7 +31,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function doesQuestionSetRelatedDataExist()
+    public function doesQuestionSetRelatedDataExist() : bool
     {
         return $this->isQuestionSetConfigured();
     }
@@ -120,7 +119,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
     /**
      * @return ilTestReindexedSequencePositionMap
      */
-    public function reindexQuestionOrdering()
+    public function reindexQuestionOrdering() : ilTestReindexedSequencePositionMap
     {
         $query = "
 			SELECT question_fi, sequence FROM tst_test_question
@@ -172,7 +171,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         // TODO: Implement deleteFromDb() method.
     }
 
-    public function isResultTaxonomyFilterSupported()
+    public function isResultTaxonomyFilterSupported() : bool
     {
         return false;
     }

@@ -1,33 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Learning history provider: Badges
- *
  * @author killing@leifos.de
  */
 class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $current_user;
+    protected ilObjUser $current_user;
+    protected \ILIAS\DI\UIServices  $ui;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * Constructor
-     * @param int $user_id
-     * @param ilLearningHistoryFactory $factory
-     * @param ilLanguage $lng
-     * @param ilTemplate|null $template
-     */
     public function __construct(
-        $user_id,
+        int $user_id,
         ilLearningHistoryFactory $factory,
         ilLanguage $lng,
         ilTemplate $template = null,
@@ -49,10 +48,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $this->ui = $ui;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isActive()
+    public function isActive() : bool
     {
         if (ilBadgeHandler::getInstance()->isActive()) {
             return true;
@@ -60,10 +56,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getEntries($ts_start, $ts_end)
+    public function getEntries(int $ts_start, int $ts_end) : array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("badge");
@@ -72,7 +65,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $entries = [];
         foreach ($completions as $c) {
             $title = $this->getEmphasizedTitle($c["title"]);
-            if ($this->current_user->getId() == $this->getUserId()) {
+            if ($this->current_user->getId() === $this->getUserId()) {
                 $title = $this->ui->renderer()->render($this->ui->factory()->link()->standard(
                     $title,
                     $url = ilLink::_getLink($this->getUserId(), "usr", array(), "_bdg")
@@ -91,9 +84,6 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         return $entries;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getName() : string
     {
         $lng = $this->getLanguage();

@@ -1,38 +1,24 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-include_once("./Services/ContainerReference/classes/class.ilContainerReferenceAccess.php");
+<?php declare(strict_types=1);
 
 /**
-*
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
-* @ingroup ModulesCategoryReference
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+/**
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
 {
     /**
@@ -51,7 +37,7 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands($a_ref_id = null)
+    public static function _getCommands(int $a_ref_id = null) : array
     {
         global $DIC;
 
@@ -59,12 +45,11 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
 
         if ($ilAccess->checkAccess('write', '', $a_ref_id)) {
             // Only local (reference specific commands)
-            $commands = array(
-                array("permission" => "visible", "cmd" => "", "lang_var" => "show","default" => true),
-                array("permission" => "write", "cmd" => "editReference", "lang_var" => "edit")
-            );
+            $commands = [
+                ["permission" => "visible", "cmd" => "", "lang_var" => "show", "default" => true],
+                ["permission" => "write", "cmd" => "editReference", "lang_var" => "settings"]
+            ];
         } else {
-            include_once('./Modules/Category/classes/class.ilObjCategoryAccess.php');
             $commands = ilObjCategoryAccess::_getCommands();
         }
         return $commands;

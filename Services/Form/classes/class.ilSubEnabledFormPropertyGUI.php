@@ -1,43 +1,45 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a property that may include a sub form
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 {
-    protected $sub_items = array();
+    protected array $sub_items = array();
     
-    /**
-    * Add Subitem
-    *
-    * @param	object	$a_item		Item
-    */
-    public function addSubItem($a_item)
+    public function addSubItem(ilFormPropertyGUI $a_item) : void
     {
         $a_item->setParent($this);
         $this->sub_items[] = $a_item;
     }
 
-    /**
-    * Get Subitems
-    *
-    * @return	array	Array of items
-    */
-    public function getSubItems()
+    public function getSubItems() : array
     {
         return $this->sub_items;
     }
     
     /**
      * returns a flat array of possibly existing subitems recursively
-     *
-     * @return array
      */
-    public function getSubInputItemsRecursive()
+    public function getSubInputItemsRecursive() : array
     {
         $subInputItems = array();
         
@@ -57,11 +59,9 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
     }
 
     /**
-    * Check SubItems
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    final public function checkSubItemsInput()
+     * Check SubItems
+     */
+    final public function checkSubItemsInput() : bool
     {
         $ok = true;
         foreach ($this->getSubItems() as $item) {
@@ -73,11 +73,7 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
         return $ok;
     }
 
-    /**
-    * Get sub form html
-    *
-    */
-    final public function getSubForm()
+    final public function getSubForm() : ?ilPropertyFormGUI
     {
         // subitems
         $pf = null;
@@ -90,12 +86,7 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
         return $pf;
     }
 
-    /**
-    * Get item by post var
-    *
-    * @return	mixed	false or item object
-    */
-    public function getItemByPostVar($a_post_var)
+    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
     {
         if ($this->getPostVar() == $a_post_var) {
             return $this;
@@ -110,6 +101,6 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
             }
         }
         
-        return false;
+        return null;
     }
 }

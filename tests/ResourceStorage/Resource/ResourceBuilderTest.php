@@ -4,13 +4,25 @@ namespace ILIAS\ResourceStorage\Resource;
 
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ResourceBuilderTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
 {
-
     public function testNewUpload() : void
     {
         // EXPECTED VALUES
@@ -33,7 +45,9 @@ class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
         list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
             $expected_file_name,
             $expected_mime_type,
-            $expected_size, $expected_version_number, $expected_owner_id
+            $expected_size,
+            $expected_version_number,
+            $expected_owner_id
         );
 
         // RUN
@@ -50,7 +64,5 @@ class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
         $this->assertEquals($expected_file_name, $resource->getCurrentRevision()->getInformation()->getTitle());
         $this->assertEquals($expected_mime_type, $resource->getCurrentRevision()->getInformation()->getMimeType());
         $this->assertEquals($expected_size, $resource->getCurrentRevision()->getInformation()->getSize());
-
     }
 }
-

@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\Services;
 
@@ -16,16 +30,18 @@ class ilBuddySystemGUI
 
     protected static bool $isFrontendInitialized = false;
 
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilBuddyList $buddyList;
     protected ilBuddySystemRelationStateFactory $stateFactory;
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected Services $http;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->http = $DIC->http();
         $this->ctrl = $DIC['ilCtrl'];
@@ -57,12 +73,12 @@ class ilBuddySystemGUI
                 self::class
             ], '', '', true, false);
             $config->transition_state_cmd = 'transitionAsync';
-            $page->addOnLoadCode('il.BuddySystem.setConfig(' . json_encode($config) . ');');
+            $page->addOnLoadCode('il.BuddySystem.setConfig(' . json_encode($config, JSON_THROW_ON_ERROR) . ');');
 
             $btn_config = new stdClass();
             $btn_config->bnt_class = 'ilBuddySystemLinkWidget';
 
-            $page->addOnLoadCode('il.BuddySystemButton.setConfig(' . json_encode($btn_config) . ');');
+            $page->addOnLoadCode('il.BuddySystemButton.setConfig(' . json_encode($btn_config, JSON_THROW_ON_ERROR) . ');');
             $page->addOnLoadCode('il.BuddySystemButton.init();');
 
             self::$isFrontendInitialized = true;
@@ -140,11 +156,11 @@ class ilBuddySystemGUI
         callable $onBeforeExecute = null
     ) : void {
         if (!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET)) {
-            ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
             $this->ctrl->returnToParent($this);
         }
 
-        $usrId = (int) $this->http->request()->getParsedBody()['user_id'];
+        $usrId = (int) $this->http->request()->getQueryParams()['user_id'];
         try {
             $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($usrId);
 
@@ -153,14 +169,14 @@ class ilBuddySystemGUI
             }
 
             ilBuddyList::getInstanceByGlobalUser()->{$cmd}($relation);
-            ilUtil::sendSuccess($this->lng->txt($positiveFeedbackLanguageId), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt($positiveFeedbackLanguageId), true);
         } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
-            ilUtil::sendInfo(sprintf(
+            $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt($e->getMessage()),
-                (string) ilObjUser::_lookupLogin($usrId)
+                ilObjUser::_lookupLogin($usrId)
             ), true);
         } catch (ilException $e) {
-            ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
         }
 
         $this->redirectToReferer();
@@ -198,7 +214,7 @@ class ilBuddySystemGUI
             }
 
             $login = ilObjUser::_lookupLogin($usr_id);
-            if ($login === false || $login === '') {
+            if ($login === '') {
                 throw new ilBuddySystemException(sprintf(
                     'You cannot perform a state transition for a non existing user (id: %s)',
                     $usr_id
@@ -225,7 +241,7 @@ class ilBuddySystemGUI
             }
 
             $response->state = get_class($relation->getState());
-            $response->state_html = $this->stateFactory->getRendererByOwnerAndRelation(
+            $response->state_html = $this->stateFactory->getStateButtonRendererByOwnerAndRelation(
                 $this->buddyList->getOwnerId(),
                 $relation
             )->getHtml();
@@ -236,7 +252,7 @@ class ilBuddySystemGUI
         $this->http->saveResponse(
             $this->http->response()
                 ->withAddedHeader('Content-Type', 'application/json')
-                ->withBody(ILIAS\Filesystem\Stream\Streams::ofString(json_encode($response)))
+                ->withBody(ILIAS\Filesystem\Stream\Streams::ofString(json_encode($response, JSON_THROW_ON_ERROR)))
         );
         $this->http->sendResponse();
         $this->http->close();
@@ -259,7 +275,10 @@ class ilBuddySystemGUI
                     }
                 }
             }
-            $this->ctrl->redirectToURL($redirectUrl);
+
+            if ($redirectUrl !== '') {
+                $this->ctrl->redirectToURL($redirectUrl);
+            }
         }
 
         $this->ctrl->returnToParent($this);

@@ -1,62 +1,59 @@
-<?php
-
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
-* XML writer class
-*
-* Class to simplify manual writing of xml documents.
-* It only supports writing xml sequentially, because the xml document
-* is saved in a string with no additional structure information.
-* The author is responsible for well-formedness and validity
-* of the xml document.
-*
-* @author Andreas Kordosz (akordosz@databay.de)
-* @version $Id: class.ilExerciseXMLWriter.php,v 1.3 2005/11/04 12:50:24 smeyer Exp $
-*
-* @ingroup ModulesFile
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * XML writer class
+ * Class to simplify manual writing of xml documents.
+ * It only supports writing xml sequentially, because the xml document
+ * is saved in a string with no additional structure information.
+ * The author is responsible for well-formedness and validity
+ * of the xml document.
+ * @author  Andreas Kordosz (akordosz@databay.de)
+ * @ingroup ModulesFile
+ */
 class ilForumXMLWriter extends ilXmlWriter
 {
-    public $forum_id = null;
+    public ?int $forum_id = 0;
+    private ?string $target_dir_relative;
+    private ?string $target_dir_absolute;
 
-    /**
-    * constructor
-    * @param	string	xml version
-    * @param	string	output encoding
-    * @param	string	input encoding
-    * @access	public
-    */
     public function __construct()
     {
         parent::__construct();
     }
 
-
-    public function setForumId($id)
+    public function setForumId(int $id) : void
     {
         $this->forum_id = $id;
     }
 
-
-    /**
-     * Set file target directories
-     *
-     * @param	string	relative file target directory
-     * @param	string	absolute file target directory
-     */
-    public function setFileTargetDirectories($a_rel, $a_abs)
+    public function setFileTargetDirectories(string $a_rel, string $a_abs) : void
     {
         $this->target_dir_relative = $a_rel;
         $this->target_dir_absolute = $a_abs;
     }
 
-    public function start()
+    public function start() : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilUtil::makeDir($this->target_dir_absolute . "/objects");
+        ilFileUtils::makeDir($this->target_dir_absolute . "/objects");
 
         $query_frm = '
             SELECT *
@@ -68,10 +65,7 @@ class ilForumXMLWriter extends ilXmlWriter
             WHERE od.obj_id = ' . $ilDB->quote($this->forum_id, 'integer');
 
         $res = $ilDB->query($query_frm);
-
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            break;
-        }
+        $row = $ilDB->fetchObject($res);
 
         $this->xmlStartTag("Forum", null);
 
@@ -98,12 +92,11 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement("FileUpload", null, (int) $row->file_upload_allowed);
         $this->xmlElement("UpdateUserId", null, $row->update_user);
         $this->xmlElement("UserId", null, (int) $row->top_usr_id);
-        $this->xmlElement("AuthorId", null, (int) $row->thr_author_id);
 
         $query_thr = "SELECT frm_threads.* " .
-                    " FROM frm_threads " .
-                    " INNER JOIN frm_data ON top_pk = thr_top_fk " .
-                    'WHERE top_frm_fk = ' . $ilDB->quote($this->forum_id, 'integer');
+            " FROM frm_threads " .
+            " INNER JOIN frm_data ON top_pk = thr_top_fk " .
+            'WHERE top_frm_fk = ' . $ilDB->quote($this->forum_id, 'integer');
 
         $res = $ilDB->query($query_thr);
 
@@ -132,18 +125,7 @@ class ilForumXMLWriter extends ilXmlWriter
             $query .= " ORDER BY frm_posts_tree.lft ASC";
             $resPosts = $ilDB->query($query);
 
-            $lastDepth = null;
             while ($rowPost = $ilDB->fetchObject($resPosts)) {
-                /*
-                // Used for nested postings
-                if( $rowPost->depth < $lastDepth )
-                {
-                    for( $i = $rowPost->depth; $i <= $lastDepth; $i++ )
-                    {
-                        $this->xmlEndTag("Post");
-                    }
-                }*/
-
                 $this->xmlStartTag("Post");
                 $this->xmlElement("Id", null, (int) $rowPost->pos_pk);
                 $this->xmlElement("UserId", null, (int) $rowPost->pos_display_user_id);
@@ -165,11 +147,11 @@ class ilForumXMLWriter extends ilXmlWriter
                 } else {
                     $is_moderator_string = (string) $rowPost->is_author_moderator;
                 }
-                
+
                 $this->xmlElement("isAuthorModerator", null, $is_moderator_string);
 
                 $media_exists = false;
-                $mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $rowPost->pos_pk);
+                $mobs = ilObjMediaObject::_getMobsOfObject('frm:html', (int) $rowPost->pos_pk);
                 foreach ($mobs as $mob) {
                     $moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
                     if (ilObjMediaObject::_exists($mob)) {
@@ -177,12 +159,12 @@ class ilForumXMLWriter extends ilXmlWriter
                             $this->xmlStartTag("MessageMediaObjects");
                             $media_exists = true;
                         }
-                        
+
                         $mob_obj = new ilObjMediaObject($mob);
-                        $imgattrs = array(
+                        $imgattrs = [
                             "label" => $moblabel,
                             "uri" => $this->target_dir_relative . "/objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
-                        );
+                        ];
 
                         $this->xmlElement("MediaObject", $imgattrs, null);
                         $mob_obj->exportFiles($this->target_dir_absolute);
@@ -198,11 +180,10 @@ class ilForumXMLWriter extends ilXmlWriter
                 $this->xmlElement("ParentId", null, (int) $rowPost->parent_pos);
 
                 $tmp_file_obj = new ilFileDataForum(
-                    $this->forum_id,
-                    $rowPost->pos_pk
+                    (int) $this->forum_id,
+                    (int) $rowPost->pos_pk
                 );
 
-                $set = array();
                 if (count($tmp_file_obj->getFilesOfPost())) {
                     foreach ($tmp_file_obj->getFilesOfPost() as $file) {
                         $this->xmlStartTag("Attachment");
@@ -215,22 +196,8 @@ class ilForumXMLWriter extends ilXmlWriter
                     }
                 }
 
-                //Used for nested postings
-                //$lastDepth = $rowPost->depth;
-
                 $this->xmlEndTag("Post");
             }
-            /*
-            // Used for nested postings
-            if( $lastDepth )
-            {
-                for( $i = 1; $i <= $lastDepth ; $i++ )
-                {
-                    $this->xmlEndTag("Post");
-                }
-
-                $lastDepth = null;
-            }*/
             $this->xmlEndTag("Thread");
         }
         $this->xmlEndTag("Forum");
@@ -238,7 +205,7 @@ class ilForumXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML()
+    public function getXML() : string
     {
         // Replace ascii code 11 characters because of problems with xml sax parser
         return str_replace('&#11;', '', $this->xmlDumpMem(false));

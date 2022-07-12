@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjCmiXapiListGUI
  *
@@ -14,7 +24,7 @@
  */
 class ilObjCmiXapiListGUI extends ilObjectListGUI
 {
-    public function init()
+    public function init() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -35,7 +45,10 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
         $DIC->language()->loadLanguageModule('cmix');
     }
     
-    public function getProperties()
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getProperties() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -52,7 +65,7 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
         );
 
         $validator = new ilCertificateDownloadValidator();
-        if ($validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->obj_id)) {
+        if ($validator->isCertificateDownloadable((int) $DIC->user()->getId(), $this->obj_id)) {
             $DIC->ctrl()->setParameterByClass(ilCmiXapiSettingsGUI::class, 'ref_id', $this->ref_id);
             
             $certLink = $DIC->ui()->factory()->link()->standard(
@@ -71,17 +84,17 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
         
         return $props;
     }
-    
-    public function getCommandLink($a_cmd)
+
+    public function getCommandLink(string $cmd) : string
     {
         global $ilCtrl;
         
-        $a_cmd = explode('::', $a_cmd);
+        $cmd = explode('::', $cmd);
         
-        if (count($a_cmd) == 2) {
-            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjCmiXapiGUI', $a_cmd[0]), $a_cmd[1]);
+        if (count($cmd) == 2) {
+            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjCmiXapiGUI', $cmd[0]), $cmd[1]);
         } else {
-            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjCmiXapiGUI'), $a_cmd[0]);
+            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjCmiXapiGUI'), $cmd[0]);
         }
         
         return $cmd_link;

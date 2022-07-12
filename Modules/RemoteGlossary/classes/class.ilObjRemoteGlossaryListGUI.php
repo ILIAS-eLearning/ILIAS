@@ -1,27 +1,19 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 
 /**
 *
@@ -31,7 +23,7 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 *
 * @ingroup ModulesRemoteGlossary
 */
-class ilObjRemoteGlossaryListGUI extends ilObjectListGUI
+class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
 {
     /**
      * Constructor
@@ -43,13 +35,13 @@ class ilObjRemoteGlossaryListGUI extends ilObjectListGUI
     {
         parent::__construct();
     }
-    
+
     /**
      * init
      *
      * @access public
      */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -60,15 +52,13 @@ class ilObjRemoteGlossaryListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = 'rglo';
         $this->gui_class_name = 'ilobjremoteglossarygui';
-        
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
-        include_once('Modules/RemoteGlossary/classes/class.ilObjRemoteGlossaryAccess.php');
         $this->commands = ilObjRemoteGlossaryAccess::_getCommands();
     }
 
@@ -81,22 +71,18 @@ class ilObjRemoteGlossaryListGUI extends ilObjectListGUI
      * @param
      *
      */
-    public function getProperties()
+    public function getProperties() : array
     {
-        global $lng;
-
-        include_once('Modules/RemoteGlossary/classes/class.ilObjRemoteGlossary.php');
-
-        if ($org = ilObjRemoteGlossary::_lookupOrganization($this->obj_id)) {
-            $this->addCustomProperty($lng->txt('organization'), $org, false, true);
+        if ($org = $this->_lookupOrganization(ilObjRemoteGlossary::DB_TABLE_NAME, $this->obj_id)) {
+            $this->addCustomProperty($this->lng->txt('organization'), $org, false, true);
         }
         if (!ilObjRemoteGlossary::_lookupOnline($this->obj_id)) {
-            $this->addCustomProperty($lng->txt("status"), $lng->txt("offline"), true, true);
+            $this->addCustomProperty($this->lng->txt("status"), $this->lng->txt("offline"), true, true);
         }
-    
+
         return array();
     }
-    
+
     /**
      * get command frame
      *
@@ -104,22 +90,20 @@ class ilObjRemoteGlossaryListGUI extends ilObjectListGUI
      * @param
      * @return
      */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'show':
-                include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-                include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-                if (ilECSExport::_isRemote(
+                if (ilECSExportManager::_isRemote(
                     ilECSImport::lookupServerId($this->obj_id),
                     ilECSImport::_lookupEContentId($this->obj_id)
                 )) {
                     return '_blank';
                 }
-                
+
                 // no break
             default:
-                return parent::getCommandFrame($a_cmd);
+                return parent::getCommandFrame($cmd);
         }
     }
 } // END class.ilObjRemoteGlossaryListGUI

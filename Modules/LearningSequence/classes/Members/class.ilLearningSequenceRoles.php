@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Provides Role actions.
  */
@@ -77,7 +91,7 @@ class ilLearningSequenceRoles
 
             foreach ($role_ids as $role_id) {
                 if ($this->rbacreview->isAssignable($role_id, $this->ref_id) == true) {
-                    $role = $this->getRoleObject((int) $role_id);
+                    $role = $this->getRoleObject($role_id);
 
                     if ($translate) {
                         $role_name = ilObjRole::_getTranslation($role->getTitle());
@@ -137,7 +151,7 @@ class ilLearningSequenceRoles
     {
         $users = array();
         foreach ($this->rbacreview->assignedUsers($this->getDefaultAdminRole()) as $admin_id) {
-            array_push($users, (int) $admin_id);
+            $users[] = (int) $admin_id;
         }
 
         return $users;
@@ -156,7 +170,7 @@ class ilLearningSequenceRoles
 
         $default_roles = array();
         foreach ($roles as $role) {
-            $object = $this->getRoleObject((int) $role);
+            $object = $this->getRoleObject($role);
 
             $member = self::ROLE_LS_MEMBER . "_" . $lso_id;
             $admin = self::ROLE_LS_ADMIN . "_" . $lso_id;
@@ -173,10 +187,7 @@ class ilLearningSequenceRoles
         return $default_roles;
     }
 
-    /**
-     * @return bool|ilObject
-     */
-    protected function getRoleObject(int $obj_id)
+    protected function getRoleObject(int $obj_id) : ?\ilObject
     {
         return ilObjectFactory::getInstanceByObjId($obj_id);
     }
@@ -184,13 +195,13 @@ class ilLearningSequenceRoles
     /**
      * @param array<int|string> $user_ids
      * @param string[] $columns
-     * @return array<int|string, array<mixed>>
+     * @return array<int|string, array>
      */
     public function readMemberData(array $user_ids, array $selected_columns = null) : array
     {
         $portfolio_enabled = $this->isPortfolio($selected_columns);
         $tracking_enabled = $this->isTrackingEnabled();
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
 
         if ($tracking_enabled) {
             $olp = ilObjectLP::getInstance($this->obj_id);
@@ -245,7 +256,7 @@ class ilLearningSequenceRoles
             }
 
             if ($privacy->enabledLearningSequenceAccessTimes()) {
-                if (isset($progress[$usr_id]['ts']) and $progress[$usr_id]['ts']) {
+                if (isset($progress[$usr_id]['ts']) && $progress[$usr_id]['ts']) {
                     $data['access_time'] = ilDatePresentation::formatDate(
                         $date = new ilDateTime($progress[$usr_id]['ts'], IL_CAL_UNIX)
                     );

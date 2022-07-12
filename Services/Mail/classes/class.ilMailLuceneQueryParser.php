@@ -1,27 +1,33 @@
-<?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once 'Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailLuceneQueryParser extends ilLuceneQueryParser
 {
-    /**
-     * @var array
-     */
-    protected $fields = array();
-    
-    /**
-     *
-     */
-    public function parse()
+    protected array $fields = [];
+
+    public function parse() : void
     {
         if ($this->getFields()) {
-            $queried_fields = array();
+            $queried_fields = [];
             foreach ($this->getFields() as $field => $status) {
                 if ($status) {
                     $queried_fields[] = $field . ':' . $this->query_string;
@@ -38,18 +44,12 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
         }
     }
 
-    /**
-     * @param array $fields
-     */
-    public function setFields($fields)
+    public function setFields(array $fields) : void
     {
         $this->fields = $fields;
     }
 
-    /**
-     * @return array
-     */
-    public function getFields()
+    public function getFields() : array
     {
         return $this->fields;
     }

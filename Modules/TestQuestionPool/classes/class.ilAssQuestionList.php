@@ -165,22 +165,22 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $this->pluginAdmin = $pluginAdmin;
     }
 
-    public function getParentObjId()
+    public function getParentObjId() : ?int
     {
         return $this->parentObjId;
     }
 
-    public function setParentObjId($parentObjId)
+    public function setParentObjId($parentObjId) : void
     {
         $this->parentObjId = $parentObjId;
     }
 
-    public function getParentObjectType()
+    public function getParentObjectType() : string
     {
         return $this->parentObjType;
     }
 
-    public function setParentObjectType($parentObjType)
+    public function setParentObjectType($parentObjType) : void
     {
         $this->parentObjType = $parentObjType;
     }
@@ -188,7 +188,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     /**
      * @return array
      */
-    public function getParentObjIdsFilter()
+    public function getParentObjIdsFilter() : array
     {
         return $this->parentObjIdsFilter;
     }
@@ -196,12 +196,12 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     /**
      * @param array $parentObjIdsFilter
      */
-    public function setParentObjIdsFilter($parentObjIdsFilter)
+    public function setParentObjIdsFilter($parentObjIdsFilter) : void
     {
         $this->parentObjIdsFilter = $parentObjIdsFilter;
     }
 
-    public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter)
+    public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter) : void
     {
         $this->questionInstanceTypeFilter = $questionInstanceTypeFilter;
     }
@@ -211,7 +211,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->questionInstanceTypeFilter;
     }
 
-    public function setIncludeQuestionIdsFilter($questionIdsFilter)
+    public function setIncludeQuestionIdsFilter($questionIdsFilter) : void
     {
         $this->includeQuestionIdsFilter = $questionIdsFilter;
     }
@@ -226,59 +226,59 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->excludeQuestionIdsFilter;
     }
     
-    public function setExcludeQuestionIdsFilter($excludeQuestionIdsFilter)
+    public function setExcludeQuestionIdsFilter($excludeQuestionIdsFilter) : void
     {
         $this->excludeQuestionIdsFilter = $excludeQuestionIdsFilter;
     }
 
-    public function getQuestionCompletionStatusFilter()
+    public function getQuestionCompletionStatusFilter() : string
     {
         return $this->questionCompletionStatusFilter;
     }
     
-    public function setQuestionCompletionStatusFilter($questionCompletionStatusFilter)
+    public function setQuestionCompletionStatusFilter($questionCompletionStatusFilter) : void
     {
         $this->questionCompletionStatusFilter = $questionCompletionStatusFilter;
     }
 
-    public function addFieldFilter($fieldName, $fieldValue)
+    public function addFieldFilter($fieldName, $fieldValue) : void
     {
         $this->fieldFilters[$fieldName] = $fieldValue;
     }
     
-    public function addTaxonomyFilter($taxId, $taxNodes, $parentObjId, $parentObjType)
+    public function addTaxonomyFilter($taxId, $taxNodes, $parentObjId, $parentObjType) : void
     {
         $this->taxFilters[$taxId] = $taxNodes;
         $this->taxParentIds[$taxId] = $parentObjId;
         $this->taxParentTypes[$taxId] = $parentObjType;
     }
     
-    public function setAvailableTaxonomyIds($availableTaxonomyIds)
+    public function setAvailableTaxonomyIds($availableTaxonomyIds) : void
     {
         $this->availableTaxonomyIds = $availableTaxonomyIds;
     }
     
-    public function getAvailableTaxonomyIds()
+    public function getAvailableTaxonomyIds() : array
     {
         return $this->availableTaxonomyIds;
     }
 
-    public function setAnswerStatusActiveId($answerStatusActiveId)
+    public function setAnswerStatusActiveId($answerStatusActiveId) : void
     {
         $this->answerStatusActiveId = $answerStatusActiveId;
     }
 
-    public function getAnswerStatusActiveId()
+    public function getAnswerStatusActiveId() : ?int
     {
         return $this->answerStatusActiveId;
     }
 
-    public function setAnswerStatusFilter($answerStatusFilter)
+    public function setAnswerStatusFilter($answerStatusFilter) : void
     {
         $this->answerStatusFilter = $answerStatusFilter;
     }
 
-    public function getAnswerStatusFilter()
+    public function getAnswerStatusFilter() : ?string
     {
         return $this->answerStatusFilter;
     }
@@ -288,7 +288,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      *
      * @param bool $a_val join object_data
      */
-    public function setJoinObjectData($a_val)
+    public function setJoinObjectData($a_val) : void
     {
         $this->join_obj_data = $a_val;
     }
@@ -298,7 +298,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      *
      * @return bool join object_data
      */
-    public function getJoinObjectData()
+    public function getJoinObjectData() : bool
     {
         return $this->join_obj_data;
     }
@@ -306,7 +306,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     /**
      * @param array $forcedQuestionIds
      */
-    public function setForcedQuestionIds($forcedQuestionIds)
+    public function setForcedQuestionIds($forcedQuestionIds) : void
     {
         $this->forcedQuestionIds = $forcedQuestionIds;
     }
@@ -314,12 +314,12 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     /**
      * @return array
      */
-    public function getForcedQuestionIds()
+    public function getForcedQuestionIds() : array
     {
         return $this->forcedQuestionIds;
     }
     
-    private function getParentObjFilterExpression()
+    private function getParentObjFilterExpression() : ?string
     {
         if ($this->getParentObjId()) {
             return 'qpl_questions.obj_fi = ' . $this->db->quote($this->getParentObjId(), 'integer');
@@ -332,7 +332,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return null;
     }
     
-    private function getFieldFilterExpressions()
+    private function getFieldFilterExpressions() : array
     {
         $expressions = array();
         
@@ -369,7 +369,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $expressions;
     }
     
-    private function getTaxonomyFilterExpressions()
+    private function getTaxonomyFilterExpressions() : array
     {
         $expressions = array();
 
@@ -419,7 +419,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      * @param int $taxNode
      * @return array
      */
-    protected function getTaxItems($parentType, $parentObjId, $taxId, $taxNode)
+    protected function getTaxItems($parentType, $parentObjId, $taxId, $taxNode) : array
     {
         $taxTree = new ilTaxonomyTree($taxId);
 
@@ -436,7 +436,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $taxNodeAssignment->getAssignmentsOfNode($subNodes);
     }
 
-    private function getQuestionInstanceTypeFilterExpression()
+    private function getQuestionInstanceTypeFilterExpression() : ?string
     {
         switch ($this->getQuestionInstanceTypeFilter()) {
             case self::QUESTION_INSTANCE_TYPE_ORIGINALS:
@@ -451,7 +451,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return null;
     }
 
-    private function getQuestionIdsFilterExpressions()
+    private function getQuestionIdsFilterExpressions() : array
     {
         $expressions = array();
         
@@ -482,7 +482,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $expressions;
     }
     
-    private function getParentObjectIdFilterExpression()
+    private function getParentObjectIdFilterExpression() : ?string
     {
         if ($this->parentObjId) {
             return "qpl_questions.obj_fi = {$this->db->quote($this->parentObjId, 'integer')}";
@@ -491,7 +491,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return null;
     }
     
-    private function getAnswerStatusFilterExpressions()
+    private function getAnswerStatusFilterExpressions() : array
     {
         $expressions = array();
         
@@ -518,7 +518,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $expressions;
     }
     
-    private function getTableJoinExpression()
+    private function getTableJoinExpression() : string
     {
         $tableJoin = "
 			INNER JOIN	qpl_qst_type
@@ -543,7 +543,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $tableJoin;
     }
     
-    private function getConditionalFilterExpression()
+    private function getConditionalFilterExpression() : string
     {
         $CONDITIONS = array();
 
@@ -572,7 +572,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return strlen($CONDITIONS) ? 'AND ' . $CONDITIONS : '';
     }
     
-    private function getSelectFieldsExpression()
+    private function getSelectFieldsExpression() : string
     {
         $selectFields = array(
             'qpl_questions.*',
@@ -603,7 +603,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		";
     }
     
-    private function buildBasicQuery()
+    private function buildBasicQuery() : string
     {
         return "
 			{$this->getSelectFieldsExpression()}
@@ -616,7 +616,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		";
     }
     
-    private function buildQuery()
+    private function buildQuery() : string
     {
         $query = $this->buildBasicQuery() . "
 			{$this->getConditionalFilterExpression()}
@@ -632,7 +632,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $query;
     }
     
-    public function load()
+    public function load() : void
     {
         $this->checkFilters();
         
@@ -661,7 +661,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
     }
     
-    private function loadTaxonomyAssignmentData($parentObjId, $questionId)
+    private function loadTaxonomyAssignmentData($parentObjId, $questionId) : array
     {
         $taxAssignmentData = array();
 
@@ -691,7 +691,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $taxAssignmentData;
     }
     
-    private function isActiveQuestionType($questionData)
+    private function isActiveQuestionType($questionData) : bool
     {
         if (!isset($questionData['plugin'])) {
             return false;
@@ -701,7 +701,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             return true;
         }
         
-        return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['plugin_name']);
+        return $this->pluginAdmin->isActive(ilComponentInfo::TYPE_MODULES, 'TestQuestionPool', 'qst', $questionData['plugin_name']);
     }
 
     public function getDataArrayForQuestionId($questionId)
@@ -709,12 +709,12 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->questions[$questionId];
     }
 
-    public function getQuestionDataArray()
+    public function getQuestionDataArray() : array
     {
         return $this->questions;
     }
 
-    public function isInList($questionId)
+    public function isInList($questionId) : bool
     {
         return isset($this->questions[$questionId]);
     }
@@ -730,7 +730,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      */
     public function getTitle(string $a_comp_id, string $a_item_type, int $a_item_id) : string
     {
-        if ($a_comp_id != 'qpl' || $a_item_type != 'quest' || !(int) $a_item_id) {
+        if ($a_comp_id != 'qpl' || $a_item_type != 'quest' || !$a_item_id) {
             return '';
         }
         
@@ -741,7 +741,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->questions[$a_item_id]['title'];
     }
     
-    private function checkFilters()
+    private function checkFilters() : void
     {
         if (strlen($this->getAnswerStatusFilter()) && !$this->getAnswerStatusActiveId()) {
             require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';

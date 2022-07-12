@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceDocument
@@ -10,14 +25,14 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     private const TABLE_NAME = 'tos_documents';
 
     /**
-     * @var string
+     * @var int
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           4
      * @db_is_primary       true
      * @con_sequence        true
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @var int
@@ -25,7 +40,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $creation_ts = 0;
+    protected int $creation_ts = 0;
 
     /**
      * @var int
@@ -33,7 +48,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $modification_ts = 0;
+    protected int $modification_ts = 0;
 
     /**
      * @var int
@@ -41,7 +56,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $owner_usr_id = 0;
+    protected int $owner_usr_id = 0;
 
     /**
      * @var int
@@ -49,7 +64,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $last_modified_usr_id = 0;
+    protected int $last_modified_usr_id = 0;
 
     /**
      * @var int
@@ -57,7 +72,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $sorting = 0;
+    protected ?int $sorting = 0;
 
     /**
      * @var string
@@ -65,14 +80,14 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @db_fieldtype        text
      * @db_length           255
      */
-    protected $title = '';
+    protected ?string $title = null;
 
     /**
      * @var string
      * @db_has_field        true
      * @db_fieldtype        clob
      */
-    protected $text = '';
+    protected string $text = '';
 
     /** @var ilTermsOfServiceDocumentCriterionAssignment[] */
     protected array $criteria = [];
@@ -99,7 +114,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
 
     public function id() : int
     {
-        return (int) $this->id;
+        return $this->id;
     }
 
     public function read() : void
@@ -109,7 +124,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         $this->fetchAllCriterionAssignments();
     }
 
-    public function buildFromArray(array $array) : \ActiveRecord
+    public function buildFromArray(array $array) : ActiveRecord
     {
         $document = parent::buildFromArray($array);
 
@@ -147,7 +162,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
                 static function (ilTermsOfServiceDocumentCriterionAssignment $criterionToMatch) use (
                     $criterionAssignment
                 ) : bool {
-                    return $criterionToMatch->getId() == $criterionAssignment->getId();
+                    return $criterionToMatch->getId() === $criterionAssignment->getId();
                 }
             );
 
@@ -197,7 +212,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     }
 
     /**
-     * @param ilTermsOfServiceDocumentCriterionAssignment
+     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
      * @throws OutOfBoundsException
      */
     public function detachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) : void

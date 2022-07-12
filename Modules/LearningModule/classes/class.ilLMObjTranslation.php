@@ -1,35 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Translation information on lm object
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMObjTranslation
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected int $id;
+    protected ilDBInterface $db;
+    protected string $lang;
+    protected string $title;
+    protected string $short_title;
+    protected string $create_date;
+    protected string $last_update;
 
-    protected $lang;
-    protected $title;
-    protected $short_title;
-    protected $create_date;
-    protected $last_update;
-
-    /**
-     * Constructor
-     *
-     * @param int $a_id object id (page, chapter)
-     * @param string $a_lang language code
-     */
-    public function __construct($a_id = 0, $a_lang = "")
-    {
+    public function __construct(
+        int $a_id = 0,
+        string $a_lang = ""
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -40,110 +45,57 @@ class ilLMObjTranslation
         }
     }
     
-    /**
-     * Set Id
-     *
-     * @param int $a_val id
-     */
-    public function setId($a_val)
+    public function setId(int $a_val) : void
     {
         $this->id = $a_val;
     }
     
-    /**
-     * Get Id
-     *
-     * @return int id
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
     
-    /**
-     * Set lang
-     *
-     * @param string $a_val language
-     */
-    public function setLang($a_val)
+    public function setLang(string $a_val) : void
     {
         $this->lang = $a_val;
     }
     
-    /**
-     * Get lang
-     *
-     * @return string language
-     */
-    public function getLang()
+    public function getLang() : string
     {
         return $this->lang;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $a_val title
-     */
-    public function setTitle($a_val)
+    public function setTitle(string $a_val) : void
     {
         $this->title = $a_val;
     }
 
-    /**
-     * Get title
-     *
-     * @return string title
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * Set short title
-     *
-     * @param string $a_val short title
-     */
-    public function setShortTitle($a_val)
+    public function setShortTitle(string $a_val) : void
     {
         $this->short_title = $a_val;
     }
 
-    /**
-     * Get short title
-     *
-     * @return string short title
-     */
-    public function getShortTitle()
+    public function getShortTitle() : string
     {
         return $this->short_title;
     }
 
-    /**
-     * Get create date
-     *
-     * @return string create date
-     */
-    public function getCreateDate()
+    public function getCreateDate() : string
     {
         return $this->create_date;
     }
 
-    /**
-     * Get update date
-     *
-     * @return string update date
-     */
-    public function getLastUpdate()
+    public function getLastUpdate() : string
     {
         return $this->last_update;
     }
     
-    /**
-     * Read
-     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -153,16 +105,13 @@ class ilLMObjTranslation
             " AND lang = " . $ilDB->quote($this->getLang(), "text")
         );
         $rec = $ilDB->fetchAssoc($set);
-        $this->setTitle($rec["title"]);
-        $this->setShortTitle($rec["short_title"]);
-        $this->create_date = $rec["create_date"];
-        $this->last_update = $rec["last_update"];
+        $this->setTitle($rec["title"] ?? "");
+        $this->setShortTitle($rec["short_title"] ?? "");
+        $this->create_date = ($rec["create_date"] ?? 0);
+        $this->last_update = ($rec["last_update"] ?? 0);
     }
     
-    /**
-     * Save (inserts if not existing, otherwise updates)
-     */
-    public function save()
+    public function save() : void
     {
         $ilDB = $this->db;
         
@@ -190,13 +139,11 @@ class ilLMObjTranslation
 
     /**
      * Check for existence
-     *
-     * @param int $a_id object id (page, chapter)
-     * @param string $a_lang language code
-     * @return bool true/false
      */
-    public static function exists($a_id, $a_lang)
-    {
+    public static function exists(
+        int $a_id,
+        string $a_lang
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -214,12 +161,11 @@ class ilLMObjTranslation
 
     /**
      * Copy all translations of an object
-     *
-     * @param int $a_source_id source id
-     * @param int $a_target_id target
      */
-    public static function copy($a_source_id, $a_target_id)
-    {
+    public static function copy(
+        string $a_source_id,
+        string $a_target_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();

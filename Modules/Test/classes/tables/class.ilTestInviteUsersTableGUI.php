@@ -14,13 +14,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestInviteUsersTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -60,19 +53,12 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
         $this->enable('select_all');
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("USER_ID", $data['usr_id']);
-        $this->tpl->setVariable("LOGIN", $data['login']);
-        $this->tpl->setVariable("FIRSTNAME", $data['firstname']);
-        $this->tpl->setVariable("LASTNAME", $data['lastname']);
-        $this->tpl->setVariable("CLIENT_IP", $data['clientip']);
+        $this->tpl->setVariable("USER_ID", $a_set['usr_id']);
+        $this->tpl->setVariable("LOGIN", $a_set['login']);
+        $this->tpl->setVariable("FIRSTNAME", $a_set['firstname']);
+        $this->tpl->setVariable("LASTNAME", $a_set['lastname']);
+        $this->tpl->setVariable("CLIENT_IP", $a_set['clientip']);
     }
 }

@@ -15,7 +15,7 @@ class ilAssHintPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
     }
 }

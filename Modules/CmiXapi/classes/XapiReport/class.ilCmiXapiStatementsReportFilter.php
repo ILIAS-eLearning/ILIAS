@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiReportFilter
  *
@@ -14,191 +24,110 @@
  */
 class ilCmiXapiStatementsReportFilter
 {
-    /**
-     * @var string
-     */
-    protected $activityId;
+    protected string $activityId;
     
-    /**
-     * @var int
-     */
-    protected $limit;
+    protected int $limit;
+
+    protected int $offset;
+
+    protected string $orderField;
     
-    /**
-     * @var int
-     */
-    protected $offset;
+    protected string $orderDirection;
     
-    /**
-     * @var string
-     */
-    protected $orderField;
+    protected ?ilCmiXapiUser $actor = null;
     
-    /**
-     * @var string
-     */
-    protected $orderDirection;
+    protected ?string $verb = null;
     
-    /**
-     * @var ilCmiXapiUser
-     */
-    protected $actor;
+    protected ?ilCmiXapiDateTime $startDate = null;
     
-    /**
-     * @var string
-     */
-    protected $verb;
+    protected ?ilCmiXapiDateTime $endDate = null;
     
-    /**
-     * @var ilCmiXapiDateTime
-     */
-    protected $startDate;
-    
-    /**
-     * @var ilCmiXapiDateTime
-     */
-    protected $endDate;
-    
-    /**
-     * @return string
-     */
-    public function getActivityId()
+    public function getActivityId() : string
     {
         return $this->activityId;
     }
     
-    /**
-     * @param string $activityId
-     */
-    public function setActivityId($activityId)
+    public function setActivityId(string $activityId) : void
     {
         $this->activityId = $activityId;
     }
     
-    /**
-     * @return int
-     */
-    public function getLimit()
+    public function getLimit() : int
     {
         return $this->limit;
     }
     
-    /**
-     * @param int $limit
-     */
-    public function setLimit($limit)
+    public function setLimit(int $limit) : void
     {
         $this->limit = $limit;
     }
     
-    /**
-     * @return int
-     */
-    public function getOffset()
+    public function getOffset() : int
     {
         return $this->offset;
     }
     
-    /**
-     * @param int $offset
-     */
-    public function setOffset($offset)
+    public function setOffset(int $offset) : void
     {
         $this->offset = $offset;
     }
     
-    /**
-     * @return string
-     */
-    public function getOrderField()
+    public function getOrderField() : string
     {
         return $this->orderField;
     }
     
-    /**
-     * @param string $orderField
-     */
-    public function setOrderField($orderField)
+    public function setOrderField(string $orderField) : void
     {
         $this->orderField = $orderField;
     }
     
-    /**
-     * @return string
-     */
-    public function getOrderDirection()
+    public function getOrderDirection() : string
     {
         return $this->orderDirection;
     }
     
-    /**
-     * @param string $orderDirection
-     */
-    public function setOrderDirection($orderDirection)
+    public function setOrderDirection(string $orderDirection) : void
     {
         $this->orderDirection = $orderDirection;
     }
     
-    /**
-     * @return ilCmiXapiUser
-     */
-    public function getActor()
+    public function getActor() : ?\ilCmiXapiUser
     {
         return $this->actor;
     }
     
-    /**
-     * @param ilCmiXapiUser $actor
-     */
-    public function setActor($actor)
+    public function setActor(\ilCmiXapiUser $actor) : void
     {
         $this->actor = $actor;
     }
     
-    /**
-     * @return string
-     */
-    public function getVerb()
+    public function getVerb() : ?string
     {
         return $this->verb;
     }
     
-    /**
-     * @param string $verb
-     */
-    public function setVerb($verb)
+    public function setVerb(string $verb) : void
     {
         $this->verb = $verb;
     }
     
-    /**
-     * @return ilCmiXapiDateTime
-     */
-    public function getStartDate()
+    public function getStartDate() : ?\ilCmiXapiDateTime
     {
         return $this->startDate;
     }
     
-    /**
-     * @param ilCmiXapiDateTime $startDate
-     */
-    public function setStartDate($startDate)
+    public function setStartDate(\ilCmiXapiDateTime $startDate) : void
     {
         $this->startDate = $startDate;
     }
     
-    /**
-     * @return ilCmiXapiDateTime
-     */
-    public function getEndDate()
+    public function getEndDate() : ?\ilCmiXapiDateTime
     {
         return $this->endDate;
     }
     
-    /**
-     * @param ilCmiXapiDateTime $endDate
-     */
-    public function setEndDate($endDate)
+    public function setEndDate(\ilCmiXapiDateTime $endDate) : void
     {
         $this->endDate = $endDate;
     }

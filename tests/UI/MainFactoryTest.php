@@ -1,5 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 /**
@@ -7,26 +23,25 @@ require_once 'tests/UI/AbstractFactoryTest.php';
  */
 class MainFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
-        "card" => array("context" => false)
-        , "deck" => array("context" => false)
-        , "image" => array("context" => false, "rules" => false)
-        , "legacy" => array("context" => false)
-        , "viewControl" => array("rules" => false)
-        , "input" => array("rules" => false)
-        , "table" => array("rules" => false)
-        , "layout" => array("rules" => false)
-        , "menu" => array("rules" => false)
-        , "symbol" => array("rules" => false)
+    public array $kitchensink_info_settings = [
+        "card" => ["context" => false],
+        "deck" => ["context" => false],
+        "image" => ["context" => false, "rules" => false],
+        "legacy" => ["context" => false],
+        "viewControl" => ["rules" => false],
+        "input" => ["rules" => false],
+        "table" => ["rules" => false],
+        "layout" => ["rules" => false],
+        "menu" => ["rules" => false],
+        "symbol" => ["rules" => false]
+    ];
 
-    );
-
-    public $factory_title = 'ILIAS\\UI\\Factory';
+    public string $factory_title = 'ILIAS\\UI\\Factory';
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_proper_namespace()
+    public function test_proper_namespace() : void
     {
         // Nothing to test here.
     }
@@ -34,15 +49,12 @@ class MainFactoryTest extends AbstractFactoryTest
     /**
      * @doesNotPerformAssertions
      */
-    public function test_proper_name()
+    public function test_proper_name() : void
     {
         // Nothing to test here.
     }
 
-    /**
-     * @return string
-     */
-    protected function get_regex_factory_namespace()
+    protected function get_regex_factory_namespace() : string
     {
         return "\\\\ILIAS\\\\UI\\\\Component";
     }

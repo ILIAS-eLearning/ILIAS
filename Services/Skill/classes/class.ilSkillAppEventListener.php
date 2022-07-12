@@ -27,8 +27,12 @@ class ilSkillAppEventListener implements ilAppEventListener
     /**
      * @inheritDoc
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter) : bool
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
+        global $DIC;
+
+        $profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
+
         switch ($a_component) {
             case 'Services/Tracking':
                 switch ($a_event) {
@@ -52,6 +56,8 @@ class ilSkillAppEventListener implements ilAppEventListener
                                     }
                                 }
                             }
+                            //write profile completion entries if fulfilment status has changed
+                            $profile_completion_manager->writeCompletionEntryForAllProfiles($usr_id);
                         }
                         break;
                 }
@@ -67,7 +73,5 @@ class ilSkillAppEventListener implements ilAppEventListener
                 break;
 
         }
-        
-        return true;
     }
 }

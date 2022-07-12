@@ -1,89 +1,48 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGUI.php');
 /**
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjCategoryReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
-* @ingroup ModulesCategoryReference
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @ilCtrl_Calls ilObjCategoryReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
+ */
 class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 {
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
+    protected ilHelpGUI $help;
 
-    protected $target_type = 'cat';
-    protected $reference_type = 'catr';
-
-    /**
-     * Constructor
-     * @param
-     * @return
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
+
+        $this->target_type = 'cat';
+        $this->reference_type = 'catr';
 
         $this->access = $DIC->access();
         $this->help = $DIC["ilHelp"];
         parent::__construct($a_data, $a_id, true, false);
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public static function _goto(string $a_target) : void
     {
-        parent::executeCommand();
-    }
-    
-    /**
-     * Support for goto php
-     *
-     * @return void
-     * @static
-     */
-    public static function _goto($a_target)
-    {
-        global $DIC;
-
-        $ilAccess = $DIC->access();
-        $ilErr = $DIC["ilErr"];
-        $lng = $DIC->language();
-        
-        include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-        $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
-        
-        include_once('./Modules/Category/classes/class.ilObjCategoryGUI.php');
-        ilObjCategoryGUI::_goto($target_ref_id);
+        $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId((int) $a_target));
+        ilObjCategoryGUI::_goto((string) $target_ref_id);
     }
 }

@@ -4,13 +4,13 @@ Note: Some of the rules listed in this roadmap may be superseded by general ILIA
 
 ## Short Term
 
+### Deletion Process
+
+The deletion process needs to be checked. Some data is left behind, if exercises are finally removed from the system (assignment, member data).
+
 ### Web Directory Access for Portfolios and Blogs
 
 - Assignment Types will get a supportsWebDirAccess()
-
-### More robust request handling
-
-- GET/POST/SESSION request should move to the request service. Parameters should be stronger typed and checked for validity.
 
 ### Put Assignment Member State BL under Tests
 

@@ -11,6 +11,7 @@ use ilPlugin;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
+use LogicException;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -40,10 +41,7 @@ class IdentificationTest extends TestCase
      * @var Mockery\MockInterface|ilPlugin
      */
     private $plugin_mock;
-    /**
-     * @var IdentificationFactory
-     */
-    private $identification;
+    private IdentificationFactory $identification;
 
 
     /**
@@ -67,15 +65,15 @@ class IdentificationTest extends TestCase
     }
 
 
-    public function testMustThrowExceptionSinceSerializedIdentificationIsTooLong()
+    public function testMustThrowExceptionSinceSerializedIdentificationIsTooLong() : void
     {
         $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER) + 1);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->identification->core($this->provider_mock)->identifier($string);
     }
 
 
-    public function testMustNotThrowExceptionSinceSerializedIdentificationIsExactLength()
+    public function testMustNotThrowExceptionSinceSerializedIdentificationIsExactLength() : void
     {
         $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER));
         $this->identification->core($this->provider_mock)->identifier($string);

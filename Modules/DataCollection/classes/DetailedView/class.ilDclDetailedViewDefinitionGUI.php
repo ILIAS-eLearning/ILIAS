@@ -1,39 +1,37 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclDetailedViewDefinitionGUI
- *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
 class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 {
+    protected int $tableview_id;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var ilDclDetailedViewDefinition
-     */
-    public $obj;
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var int
-     */
-    protected $tableview_id;
-
-
-    /**
-     * @param     $tableview_id
-     * @param int $a_definition_id
-     */
-    public function __construct($tableview_id, $a_definition_id = 0)
+    public function __construct(int $tableview_id)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -43,14 +41,18 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
          */
         $this->ctrl = $ilCtrl;
         $this->tableview_id = $tableview_id;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         // we always need a page object - create on demand
         if (!ilPageObject::_exists('dclf', $tableview_id)) {
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
             $viewdef = new ilDclDetailedViewDefinition();
             $viewdef->setId($tableview_id);
-            $viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
+            $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
             $viewdef->setActive(false);
-            $viewdef->create();
+            $viewdef->create(false);
         }
 
         parent::__construct("dclf", $tableview_id);
@@ -68,11 +70,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->parseCurrentBlock();
     }
 
-
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -99,11 +100,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-
-    /**
-     * @return mixed|string|string[]|null
-     */
-    public function showPage()
+    public function showPage() : string
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
@@ -139,30 +136,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-
-    public function editActivation()
-    {
-        parent::editActivation();
-    }
-
-
-    public function edit()
-    {
-        return parent::edit();
-    }
-
-
-
-    public function setEditPreview($a_editpreview)
-    {
-        parent::setEditPreview($a_editpreview);
-    }
-
-
-    /**
-     *
-     */
-    protected function activate()
+    protected function activate() : void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -170,11 +144,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-
-    /**
-     *
-     */
-    protected function deactivate()
+    protected function deactivate() : void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -182,11 +152,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-
-    /**
-     * confirmDelete
-     */
-    public function confirmDelete()
+    public function confirmDelete() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -197,7 +163,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', (int) $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($lng->txt('delete'), 'deleteView');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -205,11 +171,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
-    /**
-     * cancelDelete
-     */
-    public function cancelDelete()
+    public function cancelDelete() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -217,11 +179,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-
-    /**
-     *
-     */
-    public function deleteView()
+    public function deleteView() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -232,37 +190,31 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
             $pageObject->delete();
         }
 
-        ilUtil::sendSuccess($lng->txt("dcl_empty_detailed_view_success"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("dcl_empty_detailed_view_success"), true);
 
         // Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
         $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
     }
 
-
     /**
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock()
+    public function releasePageLock() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
         $this->getPageObject()->releasePageLock();
-        ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_lock_released"), true);
         $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
     }
 
-
     /**
      * Finalizing output processing
-     *
-     * @param string $a_output
-     *
-     * @return string
      */
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         // You can use this to parse placeholders and the like before outputting
 

@@ -1,4 +1,18 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 
 /**
@@ -40,8 +54,8 @@ export default class ModelActionHandler {
         this.model.setState(this.model.STATE_DRAG_DROP);
         break;
 
-      case "dnd.stopped":
-        this.model.setState(this.model.STATE_PAGE);
+      case "dnd.drop":
+        this.model.setState(this.model.STATE_SERVER_CMD);
         break;
 
       case "switch.multi":
@@ -97,6 +111,7 @@ export default class ModelActionHandler {
         break;
 
       case "multi.paste":
+        this.model.setState(this.model.STATE_SERVER_CMD);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
         break;
 
@@ -129,7 +144,7 @@ export default class ModelActionHandler {
         break;
 
       case "component.update":
-        this.model.setState(this.model.STATE_PAGE);
+        this.model.setState(this.model.STATE_SERVER_CMD);
         break;
 
       case "component.cancel":
@@ -167,14 +182,23 @@ export default class ModelActionHandler {
 
       case "multi.delete":
         this.model.selectNone();
-        this.model.setState(this.model.STATE_PAGE);
+        this.model.setState(this.model.STATE_SERVER_CMD);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
         break;
 
       case "multi.activate":
         this.model.selectNone();
-        this.model.setState(this.model.STATE_PAGE);
+        this.model.setState(this.model.STATE_SERVER_CMD);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
+        break;
+
+      case "page.editing":
+        this.model.selectNone();
+        this.model.setState(this.model.STATE_PAGE);
+        break;
+
+      case "list.edit":
+        this.model.setState(this.model.STATE_SERVER_CMD);
         break;
     }
   }

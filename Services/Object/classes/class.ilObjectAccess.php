@@ -1,7 +1,21 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
 * Class ilObjectAccess
 *
@@ -11,48 +25,26 @@
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-*
 */
-class ilObjectAccess implements \ilWACCheckingClass
+class ilObjectAccess implements ilWACCheckingClass
 {
     /**
-    * Checks wether a user may invoke a command or not
+    * Checks whether a user may invoke a command or not
     * (this method is called by ilAccessHandler::checkAccess)
     *
     * Please do not check any preconditions handled by
     * ilConditionHandler here. Also don't do any RBAC checks.
-    *
-    * @param	string		$a_cmd			command (not permission!)
-    * @param	string		$a_permission	permission
-    * @param	int			$a_ref_id		reference id
-    * @param	int			$a_obj_id		object id
-    * @param	int			$a_user_id		user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
 
         // add no access info item and return false if access is not granted
-        // $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
+        // $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
         //
         // for all RBAC checks use checkAccessOfUser instead the normal checkAccess-method:
         // $rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id)
 
         return true;
-    }
-
-    /**
-    * check condition
-    *
-    * this method is called by ilConditionHandler
-    */
-    public function _checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id)
-    {
-        switch ($a_operator) {
-            default:
-                return true;
-        }
     }
     
     /**
@@ -66,29 +58,27 @@ class ilObjectAccess implements \ilWACCheckingClass
      *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
+     * @return array{permission?:string, cmd?:string, lang_var?:string, default?:bool}[]
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
-        $commands = array(
-            array()
-        );
-        
-        return $commands;
+        return [];
     }
     
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
-
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $arr = explode("_", $target);
 
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+        if (
+            $ilAccess->checkAccess("read", "", (int) $arr[1]) ||
+            $ilAccess->checkAccess("visible", "", (int) $arr[1])
+        ) {
             return true;
         }
         return false;
@@ -99,34 +89,29 @@ class ilObjectAccess implements \ilWACCheckingClass
      * not support centralized offline handling
      *
      * Used in ListGUI and Learning Progress
-     *
-     * @param int $a_obj_id
-     * @return bool
      */
-    public static function _isOffline($a_obj_id)
+    public static function _isOffline(int $obj_id) : bool
     {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
-        if ($objDefinition->supportsOfflineHandling(ilObject::_lookupType($a_obj_id))) {
-            return ilObject::lookupOfflineStatus($a_obj_id);
+        if ($objDefinition->supportsOfflineHandling(ilObject::_lookupType($obj_id))) {
+            return ilObject::lookupOfflineStatus($obj_id);
         }
-        return null;
+        return false;
     }
 
     /**
      * Preload data
-     *
-     * @param array $a_obj_ids array of object ids
      */
-    public static function _preloadData($a_obj_ids, $a_ref_ids)
+    public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         global $ilAccess;
 

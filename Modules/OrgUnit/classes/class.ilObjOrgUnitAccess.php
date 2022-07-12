@@ -1,21 +1,33 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilObjOrgUnitAccess
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilObjOrgUnitAccess extends ilObjectAccess
 {
 
     /**
      * get commands
-     *
      * this method returns an array of all possible commands/permission combinations
-     *
      * example:
      * $commands = array
      *    (
@@ -37,13 +49,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $commands;
     }
 
-
-    /**
-     * @param integer $ref_id
-     *
-     * @return bool
-     */
-    public static function _checkAccessStaff($ref_id) : bool
+    public static function _checkAccessStaff(int $ref_id) : bool
     {
         global $DIC;
 
@@ -52,11 +58,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('read', '', $ref_id);
     }
 
-    /**
-     * @param int $ref_id
-     *
-     * @return bool
-     */
     public static function _checkAccessSettings(int $ref_id) : bool
     {
         global $DIC;
@@ -64,11 +65,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    /**
-     * @param int $ref_id
-     *
-     * @return bool
-     */
     public static function _checkAccessExport(int $ref_id) : bool
     {
         global $DIC;
@@ -76,11 +72,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    /**
-     * @param int $ref_id
-     *
-     * @return bool
-     */
     public static function _checkAccessTypes(int $ref_id) : bool
     {
         global $DIC;
@@ -88,11 +79,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    /**
-     * @param int $ref_id
-     *
-     * @return bool
-     */
     public static function _checkAccessPositions(int $ref_id) : bool
     {
         global $DIC;
@@ -100,13 +86,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-
-    /**
-     * @param integer $ref_id
-     *
-     * @return bool
-     */
-    public static function _checkAccessStaffRec($ref_id) : bool
+    public static function _checkAccessStaffRec(int $ref_id) : bool
     {
         global $DIC;
 
@@ -115,13 +95,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('read', '', $ref_id);
     }
 
-
-    /**
-     * @param integer $ref_id
-     *
-     * @return bool
-     */
-    public static function _checkAccessAdministrateUsers($ref_id) : bool
+    public static function _checkAccessAdministrateUsers(int $ref_id) : bool
     {
         global $DIC;
 
@@ -129,14 +103,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('cat_administrate_users', '', $ref_id);
     }
 
-
-    /**
-     * @param integer $ref_id
-     * @param integer $usr_id
-     *
-     * @return bool
-     */
-    public static function _checkAccessToUserLearningProgress($ref_id, $usr_id) : bool
+    public static function _checkAccessToUserLearningProgress(int $ref_id, int $usr_id) : bool
     {
         global $DIC;
 
@@ -171,12 +138,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
     }
 
 
-    /**
-     * @param string $a_target check whether goto script will succeed
-     *
-     * @return bool
-     */
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $a_target) : bool
     {
         global $DIC;
 

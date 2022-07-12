@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\KioskMode\View;
 
 /**
@@ -37,9 +51,8 @@ class ilLSLearnerItemsQueries
 
     public function getCurrentItemRefId() : int
     {
-        $current = $this->states_db->getCurrentItemsFor($this->ls_ref_id, [$this->usr_id]);
-        $ref_id = max(0, $current[$this->usr_id]); //0 or greater
-        return $ref_id;
+        $current = $this->states_db->getCurrentItemsFor($this->ls_ref_id, [$this->usr_id]); //0 or greater
+        return max(0, $current[$this->usr_id]);
     }
 
     public function getCurrentItemPosition() : int

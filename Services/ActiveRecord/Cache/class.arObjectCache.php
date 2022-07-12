@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class arObjectCache
  * @version 2.0.7
@@ -7,7 +20,6 @@
  */
 class arObjectCache
 {
-
     protected static array $cache = array();
 
     /**
@@ -33,9 +45,6 @@ class arObjectCache
         return array_key_exists($id, self::$cache[$class]);
     }
 
-    /**
-     * @param ActiveRecord $object
-     */
     public static function store(ActiveRecord $object) : void
     {
         if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
@@ -78,9 +87,6 @@ class arObjectCache
         return self::$cache[$class][$id];
     }
 
-    /**
-     * @param ActiveRecord $object
-     */
     public static function purge(ActiveRecord $object) : void
     {
         if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {

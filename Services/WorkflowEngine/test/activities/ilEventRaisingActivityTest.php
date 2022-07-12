@@ -16,40 +16,29 @@ use PHPUnit\Framework\TestCase;
  */
 class ilEventRaisingActivityTest extends TestCase
 {
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
     /** vfsStream Test Directory, see setup. */
-    public $test_dir;
+    public vfs\vfsStreamDirectory $test_dir;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../');
 
-        try {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            //ilUnitUtil::performInitialisation();
-        } catch (Exception $exception) {
-            if (!defined('IL_PHPUNIT_TEST')) {
-                define('IL_PHPUNIT_TEST', false);
-            }
-        }
-
         // Empty workflow.
-        require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
         
         // Basic node
-        require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
         $this->node = new ilBasicNode($this->workflow);
         
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
                 
-        require_once './Services/WorkflowEngine/classes/activities/class.ilEventRaisingActivity.php';
-
         $this->test_dir = vfs\vfsStream::setup('example');
     }
 
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $ilSetting;
         if ($ilSetting != null) {
@@ -58,7 +47,7 @@ class ilEventRaisingActivityTest extends TestCase
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $activity = new ilEventRaisingActivity($this->node);
@@ -71,7 +60,7 @@ class ilEventRaisingActivityTest extends TestCase
         );
     }
 
-    public function testSetGetEventNameShouldReturnSetValue()
+    public function testSetGetEventNameShouldReturnSetValue() : void
     {
         // Arrange
         $activity = new ilEventRaisingActivity($this->node);
@@ -88,7 +77,7 @@ class ilEventRaisingActivityTest extends TestCase
         );
     }
 
-    public function testSetGetEventTypeShouldReturnSetValue()
+    public function testSetGetEventTypeShouldReturnSetValue() : void
     {
         // Arrange
         $activity = new ilEventRaisingActivity($this->node);
@@ -105,7 +94,7 @@ class ilEventRaisingActivityTest extends TestCase
         );
     }
 
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $activity = new ilEventRaisingActivity($this->node);
@@ -117,11 +106,11 @@ class ilEventRaisingActivityTest extends TestCase
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 
-    public function testSetGetFixedParamsSinglePair()
+    public function testSetGetFixedParamsSinglePair() : void
     {
         // Arrange
         $activity = new ilEventRaisingActivity($this->node);
@@ -138,7 +127,7 @@ class ilEventRaisingActivityTest extends TestCase
         $this->assertEquals($expected, $params);
     }
 
-    public function testSetGetFixedParamsMultiplePairs()
+    public function testSetGetFixedParamsMultiplePairs() : void
     {
         // Arrange
         $activity = new ilEventRaisingActivity($this->node);

@@ -1,30 +1,36 @@
-<?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailTemplateRepository
  */
 class ilMailTemplateRepository
 {
-    /** @var \ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
 
-    /**
-     * ilMailTemplateRepository constructor.
-     * @param ilDBInterface|null $db
-     */
-    public function __construct(\ilDBInterface $db = null)
+    public function __construct(ilDBInterface $db = null)
     {
         global $DIC;
-
-        if (null === $db) {
-            $db = $DIC->database();
-        }
-        $this->db = $db;
+        $this->db = $db ?? $DIC->database();
     }
 
     /**
-     * @return \ilMailTemplate[]
+     * @return ilMailTemplate[]
      */
     public function getAll() : array
     {
@@ -32,7 +38,7 @@ class ilMailTemplateRepository
 
         $res = $this->db->query('SELECT * FROM mail_man_tpl');
         while ($row = $this->db->fetchAssoc($res)) {
-            $template = new \ilMailTemplate($row);
+            $template = new ilMailTemplate($row);
             $templates[] = $template;
         }
 
@@ -41,10 +47,9 @@ class ilMailTemplateRepository
 
     /**
      * @param int $templateId
-     * @return \ilMailTemplate
-     * @throws \OutOfBoundsException
+     * @return ilMailTemplate
      */
-    public function findById(int $templateId) : \ilMailTemplate
+    public function findById(int $templateId) : ilMailTemplate
     {
         $res = $this->db->queryF(
             'SELECT * FROM mail_man_tpl WHERE tpl_id  = %s',
@@ -52,21 +57,21 @@ class ilMailTemplateRepository
             [$templateId]
         );
 
-        if (1 === (int) $this->db->numRows($res)) {
+        if (1 === $this->db->numRows($res)) {
             $row = $this->db->fetchAssoc($res);
-            return new \ilMailTemplate($row);
+            return new ilMailTemplate($row);
         }
 
-        throw new \OutOfBoundsException(sprintf("Could not find template by id: %s", $templateId));
+        throw new OutOfBoundsException(sprintf("Could not find template by id: %s", $templateId));
     }
 
     /**
      * @param string $contextId
-     * @return \ilMailTemplate[]
+     * @return ilMailTemplate[]
      */
     public function findByContextId(string $contextId) : array
     {
-        return array_filter($this->getAll(), static function (\ilMailTemplate $template) use ($contextId) : bool {
+        return array_filter($this->getAll(), static function (ilMailTemplate $template) use ($contextId) : bool {
             return $contextId === $template->getContext();
         });
     }
@@ -74,21 +79,16 @@ class ilMailTemplateRepository
     /**
      * @param int[] $templateIds
      */
-    public function deleteByIds(array $templateIds)
+    public function deleteByIds(array $templateIds) : void
     {
         if (count($templateIds) > 0) {
             $this->db->manipulate(
-                '
-				DELETE FROM mail_man_tpl WHERE ' .
-                $this->db->in('tpl_id', $templateIds, false, 'integer')
+                'DELETE FROM mail_man_tpl WHERE ' . $this->db->in('tpl_id', $templateIds, false, 'integer')
             );
         }
     }
 
-    /**
-     * @param \ilMailTemplate $template
-     */
-    public function store(\ilMailTemplate $template)
+    public function store(ilMailTemplate $template) : void
     {
         if ($template->getTplId() > 0) {
             $this->db->update(

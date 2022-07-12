@@ -7,5 +7,5 @@ interface ilAssSelfAssessmentMigrator
      * @param string $content
      * @return string
      */
-    public function migrateToLmContent($content);
+    public function migrateToLmContent($content) : string;
 }

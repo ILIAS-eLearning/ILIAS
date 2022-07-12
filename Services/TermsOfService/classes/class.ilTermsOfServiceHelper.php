@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceHelper
@@ -44,7 +59,7 @@ class ilTermsOfServiceHelper
 
     public static function isEnabled() : bool
     {
-        return (new static())->tos->getStatus();
+        return (new self())->tos->getStatus();
     }
 
     public function isGloballyEnabled() : bool
@@ -127,9 +142,17 @@ class ilTermsOfServiceHelper
 
     public function isIncludedUser(ilObjUser $user) : bool
     {
+        $excluded_roles = [];
+        if (defined('ANONYMOUS_USER_ID')) {
+            $excluded_roles[] = ANONYMOUS_USER_ID;
+        }
+        if (defined('SYSTEM_USER_ID')) {
+            $excluded_roles[] = SYSTEM_USER_ID;
+        }
+
         return (
             'root' !== $user->getLogin() &&
-            !in_array($user->getId(), [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true) &&
+            !in_array($user->getId(), $excluded_roles, true) &&
             !$user->isAnonymous() &&
             $user->getId() > 0
         );
@@ -177,8 +200,7 @@ class ilTermsOfServiceHelper
 
         $historizedDocument = new ilTermsOfServiceHistorizedDocument(
             $entity,
-            new ilTermsOfServiceAcceptanceHistoryCriteriaBag($entity->getSerializedCriteria()),
-            $this->criterionTypeFactory
+            new ilTermsOfServiceAcceptanceHistoryCriteriaBag($entity->getSerializedCriteria())
         );
 
         if ($evaluator->evaluateDocument($historizedDocument)) {

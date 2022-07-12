@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -21,7 +35,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     protected int $mode;
     protected array $filter;
     protected array $comment_modals = array();
-    protected ?ilExAssignment $ass;
+    protected ?ilExAssignment $ass = null;
 
     protected array $cols_mandatory = array("name", "status");
     protected array $cols_default = array("login", "submission", "idl", "calc_deadline");
@@ -228,7 +242,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     ) : void {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        
+
         $has_no_team_yet = ($a_ass->hasTeam() &&
             !ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id));
         
@@ -249,7 +263,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             } else {
                 asort($a_row["team"]);
                 foreach ($a_row["team"] as $team_member_id => $team_member_name) { // #10749
-                    if (sizeof($a_row["team"]) > 1) {
+                    if (count($a_row["team"]) > 1) {
                         $ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", $team_member_id);
                         $url = $ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "confirmRemoveTeamMember");
                         $ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", "");
@@ -317,7 +331,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
             $lcomment = new ilTextAreaInputGUI($this->lng->txt("exc_comment_for_learner"), "lcomment_" . $a_ass->getId() . "_" . $a_user_id);
             $lcomment->setInfo($this->lng->txt("exc_comment_for_learner_info"));
-            $lcomment->setValue($a_row["comment"]);
+            $lcomment->setValue((string) $a_row["comment"]);
             $lcomment->setRows(10);
             $lcomment_form->addItem($lcomment);
 
@@ -334,6 +348,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         // selectable columns
             
         foreach ($this->getSelectedColumns() as $col) {
+            $include_seconds = false;
             switch ($col) {
                 case "image":
                     if (!$a_ass->hasTeam()) {
@@ -347,7 +362,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     
                 case "team_members":
                     if ($a_ass->hasTeam()) {
-                        if (!sizeof($a_row["team"])) {
+                        if (count($a_row["team"]) === 0) {
                             $this->tpl->setVariable("VAL_TEAM_MEMBER", $this->lng->txt("exc_no_team_yet"));
                         } else {
                             foreach ($a_row["team"] as $name) {
@@ -360,7 +375,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                         $this->tpl->setVariable("VAL_TEAM_MEMBER", "&nbsp;");
                     }
                     break;
-                    
+
+                case "calc_deadline":
                 case "idl":
 
                     $this->tpl->setVariable(
@@ -371,24 +387,21 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     );
                     break;
 
-                case "calc_deadline":
-                    $this->tpl->setVariable(
-                        "VAL_" . strtoupper($col),
-                        $a_row[$col]
-                            ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_UNIX))
-                            : "&nbsp;"
-                    );
-                    break;
-
                 case "mark":
                     if (!$has_no_team_yet) {
-                        $this->tpl->setVariable("VAL_" . strtoupper($col), ilUtil::prepareFormOutput(trim($a_row[$col])));
+                        $this->tpl->setVariable(
+                            "VAL_" . strtoupper($col),
+                            ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
+                        );
                     }
                     break;
 
                 case "notice":
                     // see #22076
-                    $this->tpl->setVariable("VAL_" . strtoupper($col), ilUtil::prepareFormOutput(trim($a_row[$col])));
+                    $this->tpl->setVariable(
+                        "VAL_" . strtoupper($col),
+                        ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
+                    );
                     break;
                     
                 case "comment":
@@ -406,6 +419,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 case "sent_time":
                 case "submission":
                     if ($col == "submission" && $a_row["submission_obj"]) {
+                        $include_seconds = true;
                         foreach ($a_row["submission_obj"]->getFiles() as $file) {
                             if ($file["late"]) {
                                 $this->tpl->setVariable("TXT_LATE", $this->lng->txt("exc_late_submission"));
@@ -416,7 +430,12 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
                         $a_row[$col]
-                            ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_DATETIME))
+                            ? ilDatePresentation::formatDate(
+                                new ilDateTime($a_row[$col], IL_CAL_DATETIME),
+                                false,
+                                false,
+                                $include_seconds
+                            )
                             : "&nbsp;"
                     );
                     break;
@@ -461,9 +480,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             }
         }
 
-        if ($this->ass_type != null && $this->ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmitted()) {
+        if ($this->ass_type != null && $this->ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmittedPrintVersion()) {
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionView");
             $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_tbl_action_open_submission"), $url)->withOpenInNewViewport(true);
+            if ($a_row['submission_obj']->hasSubmittedPrintVersion()) {
+                $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionPrintView");
+                $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_print_pdf"), $url)->withOpenInNewViewport(true);
+            }
         }
 
         if (!$has_no_team_yet &&
@@ -523,8 +546,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 $ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showGivenPeerReview")
             );
             
-            $counter = sizeof($peer_review->getPeerReviewsByPeerId($a_user_id, true));
-            $counter = $counter
+            $counter = count($peer_review->getPeerReviewsByPeerId($a_user_id, true));
+            $counter = $counter !== 0
                 ? " (" . $counter . ")"
                 : "";
 

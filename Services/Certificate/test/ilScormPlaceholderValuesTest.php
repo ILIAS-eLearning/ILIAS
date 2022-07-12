@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -39,10 +54,10 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $objectMock->method('getPointsInPercent')
-            ->willReturn(100);
+            ->willReturn(100.0);
 
         $objectMock->method('getMaxPoints')
-            ->willReturn(100);
+            ->willReturn(100.0);
 
         $objectMock->method('getTitle')
             ->willReturn('SomeTitle');
@@ -71,15 +86,15 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $lpCollection->method('getPossibleItems')
-            ->willReturn(array(100 => array('title' => 'Some Title')));
+            ->willReturn([100 => ['title' => 'Some Title']]);
 
         $lpCollection->method('getScoresForUserAndCP_Node_Id')
             ->willReturn(
-                array(
+                [
                     'raw' => 100,
                     'max' => 300,
                     'scaled' => 2
-                )
+                ]
             );
 
         $lpCollection->method('isAssignedEntry')
@@ -115,7 +130,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $result = $scormPlaceholderValues->getPlaceholderValues(10, 200);
 
         $this->assertEquals(
-            array(
+            [
                 'SCORM_TITLE' => 'Formatted String',
                 'SCORM_POINTS' => '100,0 %',
                 'SCORM_POINTS_MAX' => 100,
@@ -125,7 +140,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'SCO_PP_0' => '200,0 %',
                 'DATE_COMPLETED' => '',
                 'DATETIME_COMPLETED' => ''
-            ),
+            ],
             $result
         );
     }
@@ -138,10 +153,10 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $defaultPlaceholderValues->method('getPlaceholderValuesForPreview')
             ->willReturn(
-                array(
+                [
                     'SOME_PLACEHOLDER' => 'aaa',
                     'SOME_OTHER_PLACEHOLDER' => 'bbb'
-                )
+                ]
             );
 
         $language = $this->getMockBuilder(ilLanguage::class)
@@ -192,14 +207,14 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $lpCollection->method('getPossibleItems')
-            ->willReturn(array(
-                array(
+            ->willReturn([
+                [
                     'title' => 'Some Title'
-                ),
-                array(
+                ],
+                [
                     'title' => 'Some Other Title'
-                )
-            ));
+                ]
+            ]);
 
         $lpCollection->method('isAssignedEntry')
             ->willReturn(true);
@@ -230,7 +245,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $result = $scormPlaceholderValues->getPlaceholderValuesForPreview(100, 10);
 
         $this->assertEquals(
-            array(
+            [
                 'SCORM_TITLE' => 'Some Title',
                 'SCORM_POINTS' => '80,7 %',
                 'SCORM_POINTS_MAX' => '90',
@@ -244,7 +259,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'SCO_PP_1' => '33,3 %',
                 'SOME_PLACEHOLDER' => 'aaa',
                 'SOME_OTHER_PLACEHOLDER' => 'bbb'
-            ),
+            ],
             $result
         );
     }

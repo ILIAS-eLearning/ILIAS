@@ -1,105 +1,96 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a non editable value in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilMultiValuesItem
 {
-    protected $value;
-    protected $section_icon;
-    protected $disable_escaping;
-    
     /**
-    * Constructor
-    *
-    * @param
-    */
-    public function __construct($a_title = "", $a_id = "", $a_disable_escaping = false)
-    {
+     * @var string|array
+     */
+    protected $value = null;
+    protected string $section_icon = "";
+    protected bool $disable_escaping = false;
+    
+    public function __construct(
+        string $a_title = "",
+        string $a_id = "",
+        bool $a_disable_escaping = false
+    ) {
         parent::__construct($a_title, $a_id);
         $this->setTitle($a_title);
         $this->setType("non_editable_value");
-        $this->disable_escaping = (bool) $a_disable_escaping;
+        $this->disable_escaping = $a_disable_escaping;
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
-        if (isset($_POST[$this->getPostVar()]) && !is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        }
         return $this->checkSubItemsInput();
     }
 
     /**
-    * Set Type.
-    *
-    * @param	string	$a_type	Type
-    */
-    public function setType($a_type)
+     * @return array|string
+     */
+    public function getInput()
+    {
+        if ($this->isRequestParamArray($this->getPostVar())) {
+            return $this->strArray($this->getPostVar());
+        }
+        return $this->str($this->getPostVar());
+    }
+
+    protected function setType(string $a_type) : void
     {
         $this->type = $a_type;
     }
 
-    /**
-    * Get Type.
-    *
-    * @return	string	Type
-    */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
     
-    /**
-    * Set Title.
-    *
-    * @param	string	$a_title	Title
-    */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-    * Get Title.
-    *
-    * @return	string	Title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * Set Information Text.
-    *
-    * @param	string	$a_info	Information Text
-    */
-    public function setInfo($a_info)
+    public function setInfo(string $a_info) : void
     {
         $this->info = $a_info;
     }
 
-    /**
-    * Get Information Text.
-    *
-    * @return	string	Information Text
-    */
-    public function getInfo()
+    public function getInfo() : string
     {
         return $this->info;
     }
 
     /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+     * @param string|array $a_value
+     */
+    public function setValue($a_value) : void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -109,20 +100,17 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     }
 
     /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
+     * @return string|array
+     */
     public function getValue()
     {
         return $this->value;
     }
 
-    /**
-    * render
-    */
-    public function render()
+    public function render() : string
     {
+        $postvar = "";
+
         $tpl = new ilTemplate("tpl.non_editable_value.html", true, true, "Services/Form");
         if ($this->getPostVar() != "") {
             $postvar = $this->getPostVar();
@@ -133,12 +121,12 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             $tpl->setCurrentBlock("hidden");
             $tpl->setVariable('NON_EDITABLE_ID', $postvar);
             $tpl->setVariable('MULTI_HIDDEN_ID', $this->getFieldId());
-            $tpl->setVariable("HVALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("HVALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         $value = $this->getValue();
         if (!$this->disable_escaping) {
-            $value = ilUtil::prepareFormOutput($value);
+            $value = ilLegacyFormElementsUtil::prepareFormOutput((string) $value);
         }
         $tpl->setVariable("VALUE", $value);
         if ($this->getFieldId() != "") {
@@ -154,23 +142,14 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return $tpl->get();
     }
     
-    /**
-    * Insert property html
-    *
-    */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
-    
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+
+    public function setValueByArray(array $a_values) : void
     {
         if ($this->getPostVar() && isset($a_values[$this->getPostVar()])) {
             $this->setValue($a_values[$this->getPostVar()]);
@@ -179,11 +158,8 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             $item->setValueByArray($a_values);
         }
     }
-    
-    /**
-    * Get HTML for table filter
-    */
-    public function getTableFilterHTML()
+
+    public function getTableFilterHTML() : string
     {
         $html = $this->render();
         return $html;

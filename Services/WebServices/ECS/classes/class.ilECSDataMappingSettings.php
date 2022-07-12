@@ -1,105 +1,67 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types = 1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSDataMappingSettings
 {
-    private static $instances = null;
+    private static ?array $instances = null;
 
-    private $settings = null;
-    private $mappings = array();
+    private ilECSSetting $settings;
+    private array $mappings;
     
+    private ilDbInterface $db;
     /**
      * Singleton Constructor
-     *
-     * @access private
-     *
      */
-    private function __construct($a_server_id)
+    private function __construct(int $a_server_id)
     {
+        global $DIC;
+        $this->db = $DIC->database();
+
         $this->settings = ilECSSetting::getInstanceByServerId($a_server_id);
         $this->read();
-    }
-    
-    /**
-     * Get Singleton instance
-     *
-     * @access public
-     * @static
-     * @deprecated
-     */
-    public static function _getInstance()
-    {
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Using deprecate call');
-        $GLOBALS['DIC']['ilLog']->logStack();
-
-        return self::getInstanceByServerId(1);
     }
 
     /**
      * Get singleton instance
-     * @param int $a_server_id
-     * @return ilECSDataMappingSettings
      */
-    public static function getInstanceByServerId($a_server_id)
+    public static function getInstanceByServerId(int $a_server_id) : ilECSDataMappingSettings
     {
-        if (isset(self::$instances[$a_server_id])) {
-            return self::$instances[$a_server_id];
-        }
-        return self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id);
+        return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id));
     }
 
     /**
      * Delete server
-     * @global ilDB $ilDB
-     * @param int $a_server_id
      */
-    public static function delete($a_server_id)
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
+        $server_id = $this->settings->getServerId();
+        unset(self::$instances[$server_id]);
 
         $query = 'DELETE from ecs_data_mapping ' .
-            'WHERE sid = ' . $ilDB->quote($a_server_id, 'integer');
-        $ilDB->manipulate($query);
+            'WHERE sid = ' . $this->db->quote($server_id, 'integer');
+        $this->db->manipulate($query);
     }
 
     /**
      * Get actice ecs setting
-     * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : ilECSSetting
     {
         return $this->settings;
     }
@@ -108,14 +70,9 @@ class ilECSDataMappingSettings
     /**
      * get mappings
      *
-     * @access public
-     *
      */
-    public function getMappings($a_mapping_type = 0)
+    public function getMappings($a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS) : array
     {
-        if (!$a_mapping_type) {
-            $a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS;
-        }
         return $this->mappings[$a_mapping_type];
     }
     
@@ -123,21 +80,14 @@ class ilECSDataMappingSettings
     /**
      * get mapping by key
      *
-     * @access public
      * @param int mapping type import, export, crs, rcrs
      * @param string ECS data field name. E.g. 'lecturer'
      * @return int AdvancedMetaData field id or 0 (no mapping)
      *
      */
-    public function getMappingByECSName($a_mapping_type, $a_key)
+    public function getMappingByECSName(int $a_mapping_type, string $a_key) : int
     {
-        if (!$a_mapping_type) {
-            $a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS;
-        }
-
-        return array_key_exists($a_key, (array) $this->mappings[$a_mapping_type]) ?
-            $this->mappings[$a_mapping_type][$a_key] :
-            0;
+        return $this->mappings[$a_mapping_type][$a_key] ?? 0;
     }
 
     
@@ -145,20 +95,14 @@ class ilECSDataMappingSettings
     /**
      * Read settings
      *
-     * @access private
-     *
      */
-    private function read()
+    private function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $this->mappings = array();
 
         $query = 'SELECT * FROM ecs_data_mapping ' .
-            'WHERE sid = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer') . ' ';
-        $res = $ilDB->query($query);
+            'WHERE sid = ' . $this->db->quote($this->getServer()->getServerId(), 'integer') . ' ';
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->mappings[$row->mapping_type][$row->ecs_field] = $row->advmd_id;
         }

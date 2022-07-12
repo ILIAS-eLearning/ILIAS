@@ -1,47 +1,47 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilDataEmitter is part of the petri net based workflow engine.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 {
     /**
      * This holds a reference to the detector, which is to be triggered.
-     *
-     * @var ilDetector
      */
-    private $target_detector;
+    private ?ilDetector $target_detector = null;
 
     /**
      * This holds a reference to the parent ilNode.
-     *
-     * @var ilNode
      */
-    private $context;
+    private ?ilNode $context = null;
 
-    /** @var bool $emitted Holds information if the emitter emitted at least once. */
-    private $emitted;
+    /**
+     * Holds information if the emitter emitted at least once.
+     */
+    private bool $emitted;
 
-    /** @var string $name */
-    protected $name;
+    protected $name;// TODO PHP8-REVIEW Type or corresponding PHPDoc missing
 
-    /** @var string $var_name */
-    protected $var_name;
+    protected string $var_name = '';
 
     /**
      * Default constructor.
@@ -59,17 +59,15 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @param ilDetector $target_detector
      */
-    public function setTargetDetector(ilDetector $target_detector)
+    public function setTargetDetector(ilDetector $target_detector) : void
     {
         $this->target_detector = $target_detector;
     }
 
     /**
      * Gets the currently set target detector of this emitter.
-     *
-     * @return ilDetector Reference to the target detector.
      */
-    public function getTargetDetector()
+    public function getTargetDetector() : ?ilDetector
     {
         return $this->target_detector;
     }
@@ -79,7 +77,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilNode Reference to the parent node.
      */
-    public function getContext()
+    public function getContext() : ?ilNode
     {
         return $this->context;
     }
@@ -87,7 +85,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * Executes this emitter after activating the target node.
      */
-    public function emit()
+    public function emit() : void
     {
         $instance_vars = $this->context->getContext()->getInstanceVars();
 
@@ -107,47 +105,32 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
         }
 
         if ($this->target_detector instanceof ilDetector) {
-            $this->target_detector->trigger(array());
+            $this->target_detector->trigger([]);
         }
         $this->emitted = true;
     }
 
-    /**
-     * @return bool
-     */
-    public function getActivated()
+    public function getActivated() : bool
     {
         return $this->emitted;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name) : void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getVarName()
+    public function getVarName() : string
     {
         return $this->var_name;
     }
 
-    /**
-     * @param string $var_name
-     */
-    public function setVarName($var_name)
+    public function setVarName(string $var_name) : void
     {
         $this->var_name = $var_name;
     }

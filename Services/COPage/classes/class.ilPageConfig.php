@@ -1,77 +1,73 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Config class for page editing
  *
- * @author Alex Killing <alex.killing.gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilPageConfig
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    // section protection
+    public const SEC_PROTECT_NONE = 0;          // page does not support section protection
+    public const SEC_PROTECT_EDITABLE = 1;      // current use can edit protected sections
+    public const SEC_PROTECT_PROTECTED = 2;     // current use cannot edit protected sections
 
-    protected $int_link_filter = array("File", "PortfolioPage", "PortfolioTemplatePage");
-    protected $prevent_rte_usage = false;
-    protected $use_attached_content = false;
-    protected $pc_defs = array();
-    protected $pc_enabled = array();
-    protected $enabledinternallinks = false;
-    protected $enable_keywords = false;
-    protected $enable_anchors = false;
-    protected $enablewikilinks = false;
-    protected $page_toc = false;
-    protected $activation = false;
-    protected $scheduled_activation = false;
-    protected $preventhtmlunmasking = false;
-    protected $enabledselfassessment = false;
-    protected $enabledselfassessment_scorm = false;
-    protected $int_link_def_type = "";
-    protected $int_link_def_id = 0;
-    protected $multi_lang_support = false;
-    protected $single_page_mode = false;	// currently only used by multi-lang support
+    protected bool $int_link_def_id_is_ref = false;
+    protected ilLanguage $lng;
+    protected array $int_link_filter = array("File", "PortfolioPage", "PortfolioTemplatePage");
+    protected bool $prevent_rte_usage = false;
+    protected bool $use_attached_content = false;
+    protected array $pc_defs = array();
+    protected array $pc_enabled = array();
+    protected bool $enabledinternallinks = false;
+    protected bool $enable_keywords = false;
+    protected bool $enable_anchors = false;
+    protected bool $enablewikilinks = false;
+    protected bool $page_toc = false;
+    protected bool $activation = false;
+    protected bool $scheduled_activation = false;
+    protected bool $preventhtmlunmasking = false;
+    protected bool $enabledselfassessment = false;
+    protected bool $enabledselfassessment_scorm = false;
+    protected string $int_link_def_type = "";
+    protected int $int_link_def_id = 0;
+    protected bool $multi_lang_support = false;
+    protected bool $single_page_mode = false;	// currently only used by multi-lang support
     // single page means: only one page per parent_id
-    protected $disable_default_qfeedback = false;
-    protected $question_html = array();
-    protected $use_stored_tries = false;
-    protected $enable_user_links = false;
-
-    protected $edit_lock_support = true;
-
-    /**
-     * @var bool
-     */
-    protected $use_page_container = true;
-
-    /**
-     * @var bool
-     */
-    protected $enable_permission_checks = false;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $adve_set;
-
+    protected bool $disable_default_qfeedback = false;
+    protected array $question_html = array();
+    protected bool $use_stored_tries = false;
+    protected bool $enable_user_links = false;
+    protected bool $edit_lock_support = true;
+    protected bool $use_page_container = true;
+    protected bool $enable_permission_checks = false;
+    protected \ilSetting $adve_set;
     /**
      * Key as returned by ilCOPageObjDef->getDefinitions()
      * @var string
      */
-    protected $page_obj_key = "";
-
+    protected string $page_obj_key = "";
     protected bool $link_filter_white_list = false;
     protected string $localization_lang = "";
-    
-    /**
-     * Constructor
-     *
-     * @param
-     */
+    protected int $section_protection = self::SEC_PROTECT_NONE;
+    protected string $section_protection_info = "";
+
     final public function __construct()
     {
         global $DIC;
@@ -84,54 +80,29 @@ abstract class ilPageConfig
         }
 
         $this->adve_set = new ilSetting("adve");
-
         $def = new ilCOPageObjDef();
         foreach ($def->getDefinitions() as $key => $def) {
             if (strtolower(get_class($this)) == strtolower($def["class_name"] . "Config")) {
                 $this->page_obj_key = $key;
             }
         }
-
-
         $this->init();
     }
     
-    /**
-     * Init
-     *
-     * @param
-     * @return
-     */
-    public function init()
+    public function init() : void
     {
     }
     
-    
-    /**
-     * Set enable pc type
-     *
-     * @param boolean $a_val enable pc type true/false
-     */
-    public function setEnablePCType($a_pc_type, $a_val)
+    public function setEnablePCType(string $a_pc_type, bool $a_val) : void
     {
         $this->pc_enabled[$a_pc_type] = $a_val;
     }
     
-    /**
-     * Get enable pc type
-     *
-     * @return boolean enable pc type true/false
-     */
-    public function getEnablePCType($a_pc_type)
+    public function getEnablePCType(string $a_pc_type) : bool
     {
         return $this->pc_enabled[$a_pc_type];
     }
 
-    /**
-     * Get enable pc type
-     *
-     * @return boolean enable pc type true/false
-     */
     public function getEnabledTopPCTypes() : array
     {
         $types = [];
@@ -143,72 +114,37 @@ abstract class ilPageConfig
         return $types;
     }
 
-    /**
-     * Set enable keywords handling
-     *
-     * @param	boolean	keywords handling
-     */
-    public function setEnableKeywords($a_val)
+    public function setEnableKeywords(bool $a_val) : void
     {
         $this->enable_keywords = $a_val;
     }
     
-    /**
-     * Get enable keywords handling
-     *
-     * @return	boolean	keywords handling
-     */
-    public function getEnableKeywords()
+    public function getEnableKeywords() : bool
     {
         return $this->enable_keywords;
     }
 
-    /**
-     * Set enable anchors
-     *
-     * @param	boolean	anchors
-     */
-    public function setEnableAnchors($a_val)
+    public function setEnableAnchors(bool $a_val) : void
     {
         $this->enable_anchors = $a_val;
     }
-    
-    /**
-     * Get enable anchors
-     *
-     * @return	boolean	anchors
-     */
-    public function getEnableAnchors()
+
+    public function getEnableAnchors() : bool
     {
         return $this->enable_anchors;
     }
 
-    /**
-     * Set Enable internal links.
-     *
-     * @param	boolean	$a_enabledinternallinks	Enable internal links
-     */
-    public function setEnableInternalLinks($a_enabledinternallinks)
+    public function setEnableInternalLinks(bool $a_enabledinternallinks) : void
     {
         $this->enabledinternallinks = $a_enabledinternallinks;
     }
 
-    /**
-     * Get Enable internal links.
-     *
-     * @return	boolean	Enable internal links
-     */
-    public function getEnableInternalLinks()
+    public function getEnableInternalLinks() : bool
     {
         return $this->enabledinternallinks;
     }
 
-    /**
-     * Get enable user links
-     *
-     * @return boolean enable user links
-     */
-    public function getEnableUserLinks()
+    public function getEnableUserLinks() : bool
     {
         if (!$this->getEnableInternalLinks()) {
             return false;
@@ -223,50 +159,29 @@ abstract class ilPageConfig
         return false;
     }
     
-    /**
-     * Set Enable Wiki Links.
-     *
-     * @param	boolean	$a_enablewikilinks	Enable Wiki Links
-     */
-    public function setEnableWikiLinks($a_enablewikilinks)
+    public function setEnableWikiLinks(bool $a_enablewikilinks) : void
     {
         $this->enablewikilinks = $a_enablewikilinks;
     }
 
-    /**
-     * Get Enable Wiki Links.
-     *
-     * @return	boolean	Enable Wiki Links
-     */
-    public function getEnableWikiLinks()
+    public function getEnableWikiLinks() : bool
     {
         return $this->enablewikilinks;
     }
 
     /**
      * Add internal links filter
-     *
      * @param	string	internal links filter
      */
-    public function addIntLinkFilter($a_val)
+    public function addIntLinkFilter(string $a_val) : void
     {
         $lng = $this->lng;
         
         $this->setLocalizationLanguage($lng->getLangKey());
-        if (is_array($a_val)) {
-            $this->int_link_filter =
-                array_merge($a_val, $this->int_link_filter);
-        } else {
-            $this->int_link_filter[] = $a_val;
-        }
+        $this->int_link_filter[] = $a_val;
     }
     
-    /**
-     * Remove int link filter
-     *
-     * @param string $a_val internal link filter
-     */
-    public function removeIntLinkFilter($a_val)
+    public function removeIntLinkFilter(string $a_val) : void
     {
         foreach ($this->int_link_filter as $k => $v) {
             if ($v == $a_val) {
@@ -275,23 +190,15 @@ abstract class ilPageConfig
         }
     }
     
-    
-    /**
-     * Get internal links filter
-     *
-     * @return	string	internal links filter
-     */
-    public function getIntLinkFilters()
+    public function getIntLinkFilters() : array
     {
         return $this->int_link_filter;
     }
 
     /**
      * Set internal links filter type list to white list
-     *
-     * @param bool $a_white_list
      */
-    public function setIntLinkFilterWhiteList(bool $a_white_list)
+    public function setIntLinkFilterWhiteList(bool $a_white_list) : void
     {
         $this->link_filter_white_list = $a_white_list;
         if ($a_white_list) {
@@ -299,386 +206,256 @@ abstract class ilPageConfig
         }
     }
 
-    /**
-     * Get internal links filter type list to white list
-     *
-     * @return	boolean white list
-     */
     public function getIntLinkFilterWhiteList() : bool
     {
         return $this->link_filter_white_list;
     }
 
-    /**
-     * Set prevent rte usage
-     *
-     * @param	boolean	prevent rte usage
-     */
-    public function setPreventRteUsage($a_val)
+    public function setPreventRteUsage(bool $a_val) : void
     {
         $this->prevent_rte_usage = $a_val;
     }
 
-    /**
-     * Get prevent rte usage
-     *
-     * @return	boolean	prevent rte usage
-     */
-    public function getPreventRteUsage()
+    public function getPreventRteUsage() : bool
     {
         return $this->prevent_rte_usage;
     }
     
     /**
-     * Set localizazion language
-     *
      * @param string $a_val lang key
      */
-    public function setLocalizationLanguage(string $a_val)
+    public function setLocalizationLanguage(string $a_val) : void
     {
         $this->localization_lang = $a_val;
     }
     
-    /**
-     * Get localizazion language
-     *
-     * @return string lang key
-     */
     public function getLocalizationLanguage() : string
     {
         return $this->localization_lang;
     }
     
-    /**
-     * Set use attached content
-     *
-     * @param string $a_val use initial attached content
-     */
-    public function setUseAttachedContent($a_val)
+    public function setUseAttachedContent(bool $a_val) : void
     {
         $this->use_attached_content = $a_val;
     }
     
-    /**
-     * Get use attached content
-     *
-     * @return string use initial attached content
-     */
-    public function getUseAttachedContent()
+    public function getUseAttachedContent() : bool
     {
         return $this->use_attached_content;
     }
     
-    /**
-     * Set internal link default type
-     *
-     * @param string $a_val type
-     */
-    public function setIntLinkHelpDefaultType($a_val)
+    public function setIntLinkHelpDefaultType(string $a_val) : void
     {
         $this->int_link_def_type = $a_val;
     }
     
-    /**
-     * Get internal link default type
-     *
-     * @return string type
-     */
-    public function getIntLinkHelpDefaultType()
+    public function getIntLinkHelpDefaultType() : string
     {
         return $this->int_link_def_type;
     }
     
     /**
      * Set internal link default id
-     *
-     * @param int $a_val default object if
+     * @param int $a_val default object id
      */
-    public function setIntLinkHelpDefaultId($a_val, $a_is_ref = true)
-    {
+    public function setIntLinkHelpDefaultId(
+        int $a_val,
+        bool $a_is_ref = true
+    ) : void {
         $this->int_link_def_id = $a_val;
         $this->int_link_def_id_is_ref = $a_is_ref;
     }
     
-    /**
-     * Get internal link default id
-     *
-     * @return int default object if
-     */
-    public function getIntLinkHelpDefaultId()
+    public function getIntLinkHelpDefaultId() : int
     {
         return $this->int_link_def_id;
     }
 
-    /**
-     * Get internal link default id
-     *
-     * @return int default object if
-     */
-    public function getIntLinkHelpDefaultIdIsRef()
+    public function getIntLinkHelpDefaultIdIsRef() : bool
     {
         return $this->int_link_def_id_is_ref;
     }
 
     /**
-     * Set enabled actication
-     *
-     * @param bool $a_val page activation enabled?
+     * Set enabled page activation
      */
-    public function setEnableActivation($a_val)
+    public function setEnableActivation(bool $a_val) : void
     {
         $this->activation = $a_val;
     }
     
-    /**
-     * Get enabled actication
-     *
-     * @return bool page activation enabled?
-     */
-    public function getEnableActivation()
+    public function getEnableActivation() : bool
     {
         return $this->activation;
     }
     
-    /**
-     * Set enable scheduled page activation
-     *
-     * @param bool $a_val scheduled activated enabled?
-     */
-    public function setEnableScheduledActivation($a_val)
+    public function setEnableScheduledActivation(bool $a_val) : void
     {
         $this->scheduled_activation = $a_val;
     }
     
-    /**
-     * Get enable scheduled page activation
-     *
-     * @return bool scheduled activated enabled?
-     */
-    public function getEnableScheduledActivation()
+    public function getEnableScheduledActivation() : bool
     {
         return $this->scheduled_activation;
     }
     
-    /**
-     * Set enable page toc
-     *
-     * @param bool $a_val enable page toc?
-     */
-    public function setEnablePageToc($a_val)
+    public function setEnablePageToc(bool $a_val) : void
     {
         $this->page_toc = $a_val;
     }
     
-    /**
-     * Get enable page toc
-     *
-     * @return bool enable page toc?
-     */
-    public function getEnablePageToc()
+    public function getEnablePageToc() : bool
     {
         return $this->page_toc;
     }
     
-    /**
-     * Set Prevent HTML Unmasking (true/false).
-     *
-     * @param	boolean	$a_preventhtmlunmasking	Prevent HTML Unmasking (true/false)
-     */
-    public function setPreventHTMLUnmasking($a_preventhtmlunmasking)
-    {
+    public function setPreventHTMLUnmasking(
+        bool $a_preventhtmlunmasking
+    ) : void {
         $this->preventhtmlunmasking = $a_preventhtmlunmasking;
     }
 
-    /**
-    * Get Prevent HTML Unmasking (true/false).
-    *
-    * @return	boolean	Prevent HTML Unmasking (true/false)
-    */
-    public function getPreventHTMLUnmasking()
+    public function getPreventHTMLUnmasking() : bool
     {
-        $safe = true;
-        if ($this->adve_set->get("act_html_" . $this->page_obj_key)) {
-            $safe = false;
-        }
-        return $safe;
-        //return $this->preventhtmlunmasking;
+        return true;
     }
 
-    /**
-     * Set Enable Self Assessment Questions.
-     *
-     * @param	boolean	$a_enabledselfassessment	Enable Self Assessment Questions
-     */
-    public function setEnableSelfAssessment($a_enabledselfassessment, $a_scorm = true)
-    {
-        $this->setEnablePCType("Question", (bool) $a_enabledselfassessment);
+    public function setEnableSelfAssessment(
+        bool $a_enabledselfassessment,
+        bool $a_scorm = true
+    ) : void {
+        $this->setEnablePCType("Question", $a_enabledselfassessment);
         $this->enabledselfassessment = $a_enabledselfassessment;
         $this->enabledselfassessment_scorm = $a_scorm;
     }
 
-
-    /**
-     * Get Enable Self Assessment Questions.
-     *
-     * @return	boolean	Enable Self Assessment Questions
-     */
-    public function getEnableSelfAssessment()
+    public function getEnableSelfAssessment() : bool
     {
         return $this->enabledselfassessment;
     }
 
     /**
      * Is self assessment used in SCORM mode?
-     *
-     * @return	boolean	Enable Self Assessment Questions
      */
-    public function getEnableSelfAssessmentScorm()
+    public function getEnableSelfAssessmentScorm() : bool
     {
         return $this->enabledselfassessment_scorm;
     }
     
     /**
      * Set disable default question feedback
-     *
-     * @param bool $a_val disable feedback
      */
-    public function setDisableDefaultQuestionFeedback($a_val)
+    public function setDisableDefaultQuestionFeedback(bool $a_val) : void
     {
         $this->disable_default_qfeedback = $a_val;
     }
     
-    /**
-     * Get disable default question feedback
-     *
-     * @return bool disable feedback
-     */
-    public function getDisableDefaultQuestionFeedback()
+    public function getDisableDefaultQuestionFeedback() : bool
     {
         return $this->disable_default_qfeedback;
     }
     
-    /**
-     * Set multi language support
-     *
-     * @param bool $a_val general multi language support?
-     */
-    public function setMultiLangSupport($a_val)
+    public function setMultiLangSupport(bool $a_val) : void
     {
         $this->multi_lang_support = $a_val;
     }
     
-    /**
-     * Get multi language support
-     *
-     * @return bool general multi language support?
-     */
-    public function getMultiLangSupport()
+    public function getMultiLangSupport() : bool
     {
         return $this->multi_lang_support;
     }
     
     /**
      * Set single page mode
-     *
      * @param bool $a_val single page mode (only one page per parent_id)
      */
-    public function setSinglePageMode($a_val)
+    public function setSinglePageMode(bool $a_val) : void
     {
         $this->single_page_mode = $a_val;
     }
     
-    /**
-     * Get single page mode
-     *
-     * @return bool single page mode (only one page per parent_id)
-     */
-    public function getSinglePageMode()
+    public function getSinglePageMode() : bool
     {
         return $this->single_page_mode;
     }
 
-    public function setQuestionHTML($question_html)
+    public function setQuestionHTML(array $question_html) : void
     {
         $this->question_html = $question_html;
     }
 
-    public function getQuestionHTML()
+    public function getQuestionHTML() : array
     {
         return $this->question_html;
     }
     
     /**
      * Set use stored answers/tries
-     *
      * @param bool $a_val use stored number of tries and given (correct) answers
      */
-    public function setUseStoredQuestionTries($a_val)
+    public function setUseStoredQuestionTries(bool $a_val) : void
     {
         $this->use_stored_tries = $a_val;
     }
     
-    /**
-     * Get use stored answers/tries
-     *
-     * @return bool use stored number of tries and given (correct) answers
-     */
-    public function getUseStoredQuestionTries()
+    public function getUseStoredQuestionTries() : bool
     {
         return $this->use_stored_tries;
     }
 
-    /**
-     * Set enable permission checks
-     *
-     * @param bool $a_val enable permission checks
-     */
-    public function setEnablePermissionChecks($a_val)
+    public function setEnablePermissionChecks(bool $a_val) : void
     {
         $this->enable_permission_checks = $a_val;
     }
 
-    /**
-     * Get enable permission checks
-     *
-     * @return bool enable permission checks
-     */
-    public function getEnablePermissionChecks()
+    public function getEnablePermissionChecks() : bool
     {
         return $this->enable_permission_checks;
     }
 
     /**
-     * @param $a_val  bool set edit lock support for blogs
+     * @param $a_val  bool set edit lock support for pages
      */
-    public function setEditLockSupport($a_val)
+    public function setEditLockSupport(bool $a_val) : void
     {
         $this->edit_lock_support = $a_val;
     }
 
-    /**
-     * @return bool get edit lock support for blogs
-     */
-    public function getEditLockSupport()
+    public function getEditLockSupport() : bool
     {
         return $this->edit_lock_support;
     }
 
     /**
      * Set if page container css class should be used
-     * @param bool $a_val use page container
      */
-    public function setUsePageContainer($a_val)
+    public function setUsePageContainer(bool $a_val) : void
     {
         $this->use_page_container = $a_val;
     }
 
-    /**
-     * Get if page container css class should be used
-     * @return bool use page container class
-     */
-    public function getUsePageContainer()
+    public function getUsePageContainer() : bool
     {
         return $this->use_page_container;
+    }
+
+    public function setSectionProtection(int $a_val) : void
+    {
+        $this->section_protection = $a_val;
+    }
+
+    public function getSectionProtection() : int
+    {
+        return $this->section_protection;
+    }
+
+    public function setSectionProtectionInfo(string $a_val) : void
+    {
+        $this->section_protection_info = $a_val;
+    }
+
+    public function getSectionProtectionInfo() : string
+    {
+        return $this->section_protection_info;
     }
 }

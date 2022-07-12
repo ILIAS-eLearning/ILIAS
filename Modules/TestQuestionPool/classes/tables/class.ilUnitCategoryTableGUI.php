@@ -10,11 +10,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilUnitConfigurationGUI
-     */
-    protected $parent_obj;
-    
+
     /**
      * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
@@ -51,15 +47,12 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.unit_category_row.html', 'Modules/TestQuestionPool');
     }
 
-    /**
-     *
-     */
-    abstract protected function populateTitle();
+    abstract protected function populateTitle() : void;
 
     /**
      * @param array $row
      */
-    public function fillRow($row)
+    public function fillRow(array $row) : void
     {
         /**
          * @var $ilCtrl ilCtrl
@@ -67,7 +60,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         
-        $row['chb'] = ilUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
+        $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
 
         $action = new ilAdvancedSelectionListGUI();
         $action->setId('asl_content_' . $row['category_id']);

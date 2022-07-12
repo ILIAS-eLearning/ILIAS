@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\KioskMode\TOCBuilder;
 
 /**
@@ -37,7 +51,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         $this->setNodeOnclickEnabled(true);
     }
 
-    public function withStructure(string $json_structure)
+    public function withStructure(string $json_structure) : self
     {
         $clone = clone $this;
         $clone->structure = $clone->addIds(json_decode($json_structure, true));
@@ -79,7 +93,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $parent_node = $this->nodes[$a_parent_node_id];
         return (array) $parent_node['childs'];
@@ -88,7 +102,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         return $a_node['label'];
     }
@@ -96,7 +110,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $state = $a_node['state'] ?? TOCBuilder::LP_NOT_STARTED;
         return static::NODE_ICONS[$state];
@@ -113,7 +127,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         return $this->url_builder->getHref($a_node['command'], $a_node['parameter']);
     }
@@ -121,7 +135,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         return !is_null($a_node['parameter']);
     }
@@ -129,7 +143,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         return $a_node['current'];
     }

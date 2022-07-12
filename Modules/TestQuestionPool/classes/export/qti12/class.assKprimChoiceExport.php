@@ -16,7 +16,7 @@ class assKprimChoiceExport extends assQuestionExport
      */
     public $object;
     
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -307,7 +307,7 @@ class assKprimChoiceExport extends assQuestionExport
         return 0;
     }
     
-    private function getMaxPoints()
+    private function getMaxPoints() : float
     {
         return $this->object->getPoints();
     }

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -33,11 +48,21 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
 
         $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->placeholder['RESULT_PASSED'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_passed'));
-        $this->placeholder['RESULT_MARK'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_mark_short'));
-        $this->placeholder['EXERCISE_TITLE'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_exercisetitle'));
-        $this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
-        $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
+        $this->placeholder['RESULT_PASSED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_var_result_passed')
+        );
+        $this->placeholder['RESULT_MARK'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_var_result_mark_short')
+        );
+        $this->placeholder['EXERCISE_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_exercisetitle')
+        );
+        $this->placeholder['DATE_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_datetime_completed')
+        );
+        $this->placeholder['DATETIME_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_datetime_completed')
+        );
     }
 
     /**

@@ -1,25 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 *
@@ -31,17 +27,12 @@
 */
 class ilLanguageFactory
 {
-    private static $languages = array();
+    private static array $languages = array();
     
     /**
-     * Get langauge object
-     *
-     * @access public
-     * @static
-     * @param string $a_lang_key
-     * @return ilLanguage
+     * Get language object
      */
-    public static function _getLanguage($a_lang_key = '')
+    public static function _getLanguage(string $a_lang_key = '') : ilLanguage
     {
         global $DIC;
         $lng = $DIC->language();
@@ -50,22 +41,18 @@ class ilLanguageFactory
             if (is_object($lng)) {
                 $a_lang_key = $lng->getDefaultLanguage();
             } else {
-                $a_lang_key = 'en';
+                $a_lang_key = "en";
             }
         }
-        if (isset(self::$languages[$a_lang_key])) {
-            return self::$languages[$a_lang_key];
-        }
-        return self::$languages[$a_lang_key] = new ilLanguage($a_lang_key);
+
+        return self::$languages[$a_lang_key] ?? (self::$languages[$a_lang_key] = new ilLanguage($a_lang_key));
     }
     
     /**
      * Get language object of user
-     * @param int $a_usr_id
-     * @return ilLanguage
      * @static
      */
-    public static function _getLanguageOfUser($a_usr_id)
+    public static function _getLanguageOfUser(int $a_usr_id) : ilLanguage
     {
         return self::_getLanguage(ilObjUser::_lookupLanguage($a_usr_id));
     }

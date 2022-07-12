@@ -28,7 +28,7 @@ class assFormulaQuestionUnit
     /**
      * @param array $data
      */
-    public function initFormArray(array $data)
+    public function initFormArray(array $data) : void
     {
         $this->id = $data['unit_id'];
         $this->unit = $data['unit'];
@@ -42,7 +42,7 @@ class assFormulaQuestionUnit
     /**
      * @param string $baseunit_title
      */
-    public function setBaseunitTitle($baseunit_title)
+    public function setBaseunitTitle($baseunit_title) : void
     {
         $this->baseunit_title = $baseunit_title;
     }
@@ -50,52 +50,52 @@ class assFormulaQuestionUnit
     /**
      * @return string
      */
-    public function getBaseunitTitle()
+    public function getBaseunitTitle() : string
     {
         return $this->baseunit_title;
     }
     
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }
 
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    public function setUnit($unit)
+    public function setUnit($unit) : void
     {
         $this->unit = $unit;
     }
 
-    public function getUnit()
+    public function getUnit() : string
     {
         return $this->unit;
     }
 
-    public function setSequence($sequence)
+    public function setSequence($sequence) : void
     {
         $this->sequence = $sequence;
     }
 
-    public function getSequence()
+    public function getSequence() : int
     {
         return $this->sequence;
     }
 
-    public function setFactor($factor)
+    public function setFactor($factor) : void
     {
         $this->factor = $factor;
     }
 
-    public function getFactor()
+    public function getFactor() : float
     {
         return $this->factor;
     }
 
-    public function setBaseUnit($baseunit)
+    public function setBaseUnit($baseunit) : void
     {
         if (is_numeric($baseunit) && $baseunit > 0) {
             $this->baseunit = $baseunit;
@@ -113,17 +113,17 @@ class assFormulaQuestionUnit
         }
     }
     
-    public function setCategory($category)
+    public function setCategory($category) : void
     {
         $this->category = $category;
     }
     
-    public function getCategory()
+    public function getCategory() : int
     {
         return $this->category;
     }
 
-    public function getDisplayString()
+    public function getDisplayString() : string
     {
         /**
          * @var $lng ilLanguage

@@ -1,152 +1,164 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Confirmation screen class.
  *
- * @author	Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilConfirmationGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    /** @var array{var: string, value: string}[] */
+    private array $hidden_item = [];
+    /** @var array{var: string, id: string, text: string, img: string, alt: string}[] */
+    private array $item = [];
+    /** @var array{txt: string, cmd: string}[] */
+    private array $buttons = [];
+    private bool $use_images = false;
+    private string $form_name = '';
+    protected string $form_action = '';
+    protected string $headertext = '';
+    protected string $cancel_txt = '';
+    protected string $cancel_cmd = '';
+    protected string $cancel_id = '';
+    protected string $confirm_txt = '';
+    protected string $confirm_cmd = '';
+    protected string $confirm_id = '';
+    private \ilGlobalTemplateInterface $main_tpl;
 
-    private $hidden_item = array();
-    private $item = array();
-    private $use_images = false;
-    private $buttons = array();
-    private $form_name;
-    
-    /**
-    * Constructor
-    *
-    */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
     }
 
-    final public function setFormAction($a_form_action)
+    final public function setFormAction(string $a_form_action) : void
     {
         $this->form_action = $a_form_action;
     }
     
-    final public function getFormAction()
+    final public function getFormAction() : string
     {
         return $this->form_action;
     }
 
-    /**
-    * Set Set header text.
-    *
-    * @param	string	$a_headertext	Set header text
-    */
-    public function setHeaderText($a_headertext)
+    public function setHeaderText(string $a_headertext) : void
     {
         $this->headertext = $a_headertext;
     }
 
-    /**
-    * Get Set header text.
-    *
-    * @return	string	Set header text
-    */
-    public function getHeaderText()
+    public function getHeaderText() : string
     {
         return $this->headertext;
     }
 
-    /**
-    * Set cancel button command and text
-    *
-    * @param	string		cancel text
-    * @param	string		cancel command
-    */
-    final public function addButton($a_txt, $a_cmd)
+    public function setFormName(string $a_name) : void
     {
-        $this->buttons[] = array(
-            "txt" => $a_txt, "cmd" => $a_cmd);
+        $this->form_name = $a_name;
     }
 
-    /**
-    * Set cancel button command and text
-    *
-    * @param	string		cancel text
-    * @param	string		cancel command
-    */
-    final public function setCancel($a_txt, $a_cmd, $a_id = "")
+    final public function addButton(string $a_txt, string $a_cmd) : void
     {
+        $this->buttons[] = [
+            'txt' => $a_txt,
+            'cmd' => $a_cmd
+        ];
+    }
+
+    final public function setCancel(
+        string $a_txt,
+        string $a_cmd,
+        string $a_id = ''
+    ) : void {
         $this->cancel_txt = $a_txt;
         $this->cancel_cmd = $a_cmd;
         $this->cancel_id = $a_id;
     }
 
-    /**
-    * Set confirmation button command and text
-    *
-    * @param	string		confirmation button text
-    * @param	string		confirmation button command
-    */
-    final public function setConfirm($a_txt, $a_cmd, $a_id = "")
-    {
+    final public function setConfirm(
+        string $a_txt,
+        string $a_cmd,
+        string $a_id = ''
+    ) : void {
         $this->confirm_txt = $a_txt;
         $this->confirm_cmd = $a_cmd;
         $this->confirm_id = $a_id;
     }
 
-    /**
-    * Add row item.
-    *
-    * @param	string	name of post variable used for id (e.g. "id[]")
-    * @param	mixed	id value
-    * @param	string	item text
-    * @param	string	item image path
-    */
     public function addItem(
-        $a_post_var,
-        $a_id,
-        $a_text,
-        $a_img = "",
-        $a_alt = ""
-    ) {
-        $this->item[] = array("var" => $a_post_var, "id" => $a_id,
-            "text" => $a_text, "img" => $a_img, "alt" => $a_alt);
-        if ($a_img != "") {
+        string $a_post_var,
+        string $a_id,
+        string $a_text,
+        string $a_img = '',
+        string $a_alt = ''
+    ) : void {
+        $this->item[] = [
+            'var' => $a_post_var,
+            'id' => $a_id,
+            'text' => $a_text,
+            'img' => $a_img,
+            'alt' => $a_alt
+        ];
+
+        if ($a_img !== '') {
             $this->use_images = true;
         }
     }
     
-    /**
-     * Add hidden item.
-     *
-     * @param	string	name of post variable used for id (e.g. "id[]")
-     * @param	mixed	value
-     */
-    public function addHiddenItem($a_post_var, $a_value)
-    {
-        $this->hidden_item[] = array("var" => $a_post_var, "value" => $a_value);
+    public function addHiddenItem(
+        string $a_post_var,
+        string $a_value
+    ) : void {
+        $this->hidden_item[] = [
+            'var' => $a_post_var,
+            'value' => $a_value
+        ];
     }
 
-    /**
-    * Get confirmation screen HTML.
-    *
-    * @return	string		HTML code.
-    */
-    final public function getHTML()
+    final public function getHTML() : string
     {
-        ilUtil::sendQuestion($this->getHeaderText());
+        if ($this->headertext === '') {
+            throw new RuntimeException('Please provide a header text before rendering the confirmation dialogue');
+        }
+
+        if ($this->form_action === '') {
+            throw new RuntimeException('Please provide a form action before rendering the confirmation dialogue');
+        }
+
+        if ($this->confirm_txt === '' || $this->confirm_cmd === '') {
+            throw new RuntimeException('Please provide a confirmation button label and command before rendering the confirmation dialogue');
+        }
+
+        if ($this->cancel_txt === '' || $this->cancel_cmd === '') {
+            throw new RuntimeException('Please provide a cancel button label and command before rendering the confirmation dialogue');
+        }
+        
+        $this->main_tpl->setOnScreenMessage('question', $this->getHeaderText());
         
         // delete/handle items
         if (count($this->item) > 0) {
             $ctab = new ilConfirmationTableGUI($this->use_images);
             $ctab->setData($this->item);
 
-            // other buttons
             foreach ($this->buttons as $b) {
                 $ctab->addCommandButton($b["cmd"], $b["txt"]);
             }
@@ -157,46 +169,40 @@ class ilConfirmationGUI
                 $ctab->addHiddenInput($hidden_item["var"], $hidden_item["value"]);
             }
             
-            if ($this->form_name) {
+            if ($this->form_name !== '') {
                 $ctab->setFormName($this->form_name);
             }
             
             return $ctab->getHTML();
-        } else { // simple version, just ask for confirmation
-            $tb = new ilToolbarGUI();
-            $tb->setPreventDoubleSubmission(true);
-            $tb->setFormAction($this->getFormAction());
-            if ($this->hidden_item) {
-                foreach ($this->hidden_item as $hidden_item) {
-                    $hiddenInput = new ilHiddenInputGUI($hidden_item['var']);
-                    $hiddenInput->setValue($hidden_item['value']);
-                    $tb->addInputItem($hiddenInput);
-                }
-            }
-            $confirm = ilSubmitButton::getInstance();
-            $confirm->setCommand($this->confirm_cmd);
-            $confirm->setCaption($this->confirm_txt, false);
-            $confirm->setId($this->confirm_id);
-
-            $cancel = ilSubmitButton::getInstance();
-            $cancel->setCommand($this->cancel_cmd);
-            $cancel->setCaption($this->cancel_txt, false);
-            $cancel->setId($this->cancel_id);
-
-            $tb->addStickyItem($confirm);
-            $tb->addStickyItem($cancel);
-
-            return $tb->getHTML();
         }
-    }
-    
-    /**
-     * Set form name
-     *
-     * @param string $a_name
-     */
-    public function setFormName($a_name)
-    {
-        $this->form_name = $a_name;
+
+        // simple version, just ask for confirmation
+        $tb = new ilToolbarGUI();
+        $tb->setPreventDoubleSubmission(true);
+        $tb->setFormAction($this->getFormAction());
+        if ($this->hidden_item) {
+            foreach ($this->hidden_item as $hidden_item) {
+                $hiddenInput = new ilHiddenInputGUI($hidden_item['var']);
+                $hiddenInput->setValue($hidden_item['value']);
+                $tb->addInputItem($hiddenInput);
+            }
+        }
+        $confirm = ilSubmitButton::getInstance();
+        $confirm->setCommand($this->confirm_cmd);
+        $confirm->setCaption($this->confirm_txt, false);
+        $confirm->setId($this->confirm_id);
+
+        $cancel = ilSubmitButton::getInstance();
+        $cancel->setCommand($this->cancel_cmd);
+        $cancel->setCaption($this->cancel_txt, false);
+
+        if ($this->cancel_id !== '') {
+            $cancel->setId($this->cancel_id);
+        }
+
+        $tb->addStickyItem($confirm);
+        $tb->addStickyItem($cancel);
+
+        return $tb->getHTML();
     }
 }

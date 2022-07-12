@@ -1,11 +1,22 @@
-<?php
-
-use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
-use ILIAS\File\Sanitation\DownloadSanitationReportUserInteraction;
-use ILIAS\File\Sanitation\SanitationReportJob;
+<?php declare(strict_types=1);
 
 /**
- * Class ilObjWebDAVGUI
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * @author       Lukas Zehnder <lz@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy   ilObjWebDAVGUI: ilAdministrationGUI
@@ -14,104 +25,24 @@ use ILIAS\File\Sanitation\SanitationReportJob;
  */
 class ilObjWebDAVGUI extends ilObjectGUI
 {
-    const CMD_EDIT_SETTINGS = 'editSettings';
-    const CMD_SAVE_SETTINGS = 'saveSettings';
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-    /**
-     * @var ilErrorHandling
-     */
-    public $error_handling;
-    /**
-     * @var \ILIAS\Filesystem\Filesystems
-     */
-    protected $filesystem;
-    /**
-     * @var \ILIAS\HTTP\Services
-     */
-    protected $http;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    /**
-     * ilSetting
-     */
-    protected $settings;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $ui_factory;
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $ui_renderer;
-    /**
-     * @var \ILIAS\FileUpload\FileUpload
-     */
-    protected $upload;
-
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    protected const SETTING_COMMANDS = [
+        'edit' => 'editSettings',
+        'save' => 'saveSettings'];
+    
+    protected ilWebDAVDIC $webdav_dic;
+    public ilErrorHandling $error_handling;
+    
+    public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
+        $this->webdav_dic = new ilWebDAVDIC();
+        $this->webdav_dic->init($DIC);
 
         $this->type = "wbdv";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->db = $DIC->database();
-        $this->error_handling = $DIC["ilErr"];
-        $this->filesystem = $DIC->filesystem();
-        $this->http = $DIC->http();
-        $this->lng = $DIC->language();
-        $this->logger = $DIC->logger()->root();
-        $this->rbacsystem = $DIC['rbacsystem'];
-        $this->settings = $DIC['ilSetting'];
-        $this->tabs = $DIC['ilTabs'];
-        $this->tpl = $DIC['tpl'];
-        $this->tree = $DIC['tree'];
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-        $this->upload = $DIC->upload();
     }
-
-
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -121,55 +52,34 @@ class ilObjWebDAVGUI extends ilObjectGUI
         if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
             $this->error_handling->raiseError(
                 $this->lng->txt('no_permission'),
-                $this->error_handling->error_obj->MESSAGE
+                $this->error_handling->MESSAGE
             );
         }
 
         switch ($next_class) {
             case strtolower(ilWebDAVMountInstructionsUploadGUI::class):
-                $document_gui = new ilWebDAVMountInstructionsUploadGUI(
-                    $this->object,
-                    $this->tpl,
-                    $this->user,
-                    $this->ctrl,
-                    $this->lng,
-                    $this->rbacsystem,
-                    $this->error_handling,
-                    $this->logger,
-                    $this->toolbar,
-                    $this->http,
-                    $this->ui_factory,
-                    $this->ui_renderer,
-                    $this->filesystem,
-                    $this->upload,
-                    new ilWebDAVMountInstructionsRepositoryImpl($this->db)
-                );
+                $document_gui = $this->webdav_dic->mountinstructions_upload();
+                $document_gui->setRefId($this->object->getRefId());
                 $this->tabs_gui->activateTab('webdav_upload_instructions');
                 $this->ctrl->forwardCommand($document_gui);
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
-                    $cmd = self::CMD_EDIT_SETTINGS;
+                if (!$cmd || $cmd === 'view' || !in_array($cmd, self::SETTING_COMMANDS)) {
+                    $cmd = self::SETTING_COMMANDS['edit'];
                 }
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
-
-
-    /**
-     * Get tabs
-     */
-    public function getAdminTabs()
+    
+    public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 'webdav_general_settings',
                 $this->lng->txt("webdav_general_settings"),
-                $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS)
+                $this->ctrl->getLinkTarget($this, self::SETTING_COMMANDS['edit'])
             );
             $this->tabs_gui->addTab(
                 'webdav_upload_instructions',
@@ -178,51 +88,41 @@ class ilObjWebDAVGUI extends ilObjectGUI
             );
         }
     }
-
-
-    /**
-     * called by prepare output
-     */
-    public function setTitleAndDescription()
+    
+    public function setTitleAndDescription() : void
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());
     }
 
 
-    protected function initSettingsForm()
+    protected function initSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("settings"));
-
-        // Enable webdav
+        
         $cb_prop = new ilCheckboxInputGUI($this->lng->txt("enable_webdav"), "enable_webdav");
         $cb_prop->setValue('1');
         $cb_prop->setChecked($this->object->isWebdavEnabled());
         $form->addItem($cb_prop);
-
-        // Enable versioning
+        
         $cb_prop = new ilCheckboxInputGUI($this->lng->txt("webdav_enable_versioning"), "enable_versioning_webdav");
         $cb_prop->setValue('1');
         $cb_prop->setInfo($this->lng->txt("webdav_versioning_info"));
         $cb_prop->setChecked($this->object->isWebdavVersioningEnabled());
         $form->addItem($cb_prop);
-
-        // command buttons
-        $form->addCommandButton(self::CMD_SAVE_SETTINGS, $this->lng->txt('save'));
+        
+        $form->addCommandButton(self::SETTING_COMMANDS['save'], $this->lng->txt('save'));
 
         return $form;
     }
-
-    /**
-     * Edit settings.
-     */
-    public function editSettings()
+    
+    public function editSettings() : void
     {
         $this->tabs_gui->activateTab('webdav_general_settings');
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error_handling->raiseError(
                 $this->lng->txt("no_permission"),
                 $this->error_handling->WARNING
@@ -233,25 +133,21 @@ class ilObjWebDAVGUI extends ilObjectGUI
 
         $this->tpl->setContent($form->getHTML());
     }
-
-
-    /**
-     * Save settings
-     */
-    public function saveSettings()
+    
+    public function saveSettings() : void
     {
-        if (!$this->rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
-            $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
+        if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
+            $this->ctrl->redirect($this, self::SETTING_COMMANDS['edit']);
         }
 
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
-            $this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
-            $this->object->setWebdavVersioningEnabled($_POST['enable_versioning_webdav'] == '1');
+            $this->object->setWebdavEnabled(($form->getInput('enable_webdav') === '1'));
+            $this->object->setWebdavVersioningEnabled(($form->getInput('enable_versioning_webdav') === '1'));
             $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+            $this->ctrl->redirect($this, self::SETTING_COMMANDS['edit']);
         } else {
             $form->setValuesByPost();
             $this->tpl->setContent($form->getHTML());

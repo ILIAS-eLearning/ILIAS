@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBcryptPhpPasswordEncoder
@@ -8,9 +23,6 @@
  */
 class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 {
-    /**
-     * @var string
-     */
     protected string $costs = '08';
 
     /**
@@ -61,11 +73,6 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         return 'bcryptphp';
     }
 
-    public function isSupportedByRuntime() : bool
-    {
-        return parent::isSupportedByRuntime();
-    }
-
     public function getCosts() : string
     {
         return $this->costs;
@@ -73,12 +80,12 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 
     public function setCosts(string $costs) : void
     {
-        if (!empty($costs)) {
-            $costs = (int) $costs;
-            if ($costs < 4 || $costs > 31) {
+        if ($costs !== '') {
+            $numeric_costs = (int) $costs;
+            if ($numeric_costs < 4 || $numeric_costs > 31) {
                 throw new ilPasswordException('The costs parameter of bcrypt must be in range 04-31');
             }
-            $this->costs = sprintf('%1$02d', $costs);
+            $this->costs = sprintf('%1$02d', $numeric_costs);
         }
     }
 

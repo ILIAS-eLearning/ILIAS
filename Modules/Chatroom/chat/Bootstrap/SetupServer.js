@@ -23,7 +23,17 @@ module.exports = function SetupServer(result, callback) {
 		server = protocol.createServer(Container.getApi());
 	}
 
-	var io = SocketIO(server, {path: path});
+	var io = SocketIO(
+		server,
+		{
+			path: path,
+			cors: {
+				origin: "*",
+				methods: ["GET", "POST", "OPTIONS"],
+				credentials: true
+			}
+		}
+	);
 
 	Container.setServer(server);
 

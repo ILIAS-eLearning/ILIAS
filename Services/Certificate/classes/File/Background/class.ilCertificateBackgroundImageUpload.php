@@ -1,11 +1,24 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -98,7 +111,7 @@ class ilCertificateBackgroundImageUpload
         $imagepath = $this->rootDirectory . $this->certificatePath;
 
         if (!$this->fileSystem->hasDir($imagepath)) {
-            ilUtil::makeDirParents($imagepath);
+            ilFileUtils::makeDirParents($imagepath);
         }
 
         $backgroundImageTempFilePath = $this->createBackgroundImageTempfilePath();
@@ -119,13 +132,13 @@ class ilCertificateBackgroundImageUpload
             $backgroundImageTempFilePath,
             $backgroundImageThumbnailPath,
             'JPEG',
-            (string) 100
+            "100"
         );
 
         $convert_filename = self::BACKGROUND_IMAGE_NAME;
 
         // something went wrong converting the file. use the original file and hope, that PDF can work with it
-        if (!$this->fileSystem->has($backgroundImagePath) && !ilUtil::moveUploadedFile(
+        if (!$this->fileSystem->has($backgroundImagePath) && !ilFileUtils::moveUploadedFile(
             $backgroundImageTempFilePath,
             $convert_filename,
             $this->rootDirectory . $backgroundImagePath

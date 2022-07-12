@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "@andxor/jquery-ui-touch-punch-fix": "^1.0.2",
-    "@yaireo/tagify": "^4.3.1",
+    "@yaireo/tagify": "^4.9.4",
     "bootstrap": "3.4.1",
+    "chart.js": "^3.6.0",
     "dropzone": "^5.5.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "fine-uploader": "^5.16.2",
@@ -19,19 +20,18 @@
     "jquery-migrate": "^3.0.0",
     "jquery-mousewheel": "^3.1.13",
     "jquery-outside-events": "^1.0.0",
-    "jquery-ui-dist": "^1.12.1",
+    "jquery-ui-dist": "^1.13.1",
     "jstree": "^3.3.9",
     "linkifyjs": "^2.1.9",
     "maphilight": "^1.4.2",
     "mediaelement": "4.2.16",
     "moment": "^2.24.0",
     "nestable2": "^1.6.0",
-    "ol": "^6.5.0",
+    "ol": "^6.9.0",
     "owl.carousel": "git+https://github.com/OwlCarousel2/OwlCarousel2.git",
-    "pouchdb": "^7.2.1",
     "qtip2": "^3.0.3",
     "rollup-plugin-sourcemaps": "^0.6.2",
-    "tinymce": "git+https://github.com/Minervis-GmbH/tinymce-dist.git",
+    "tinymce": "github:ILIAS-eLearning/tinymce-dist#master",
     "webui-popover": "^1.2.18"
   },
   "devDependencies": {
@@ -39,13 +39,14 @@
     "@rollup/plugin-node-resolve": "^8.1.0",
     "chai": "^4.2.0",
     "esm": "^3.2.25",
+    "jsdom": "19.0.0",
     "less": "^4.1.1",
     "mocha": "^8.0.1",
     "rollup": "^2.18.0",
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
-    "test": "mocha --require esm"
+    "test": "mocha --recursive --config tests/mocha.config.js --require esm"
   },
   "repository": {
     "type": "git",
@@ -232,6 +233,13 @@
       "purpose": "UI Input Tag",
       "last-update-for-ilias": "8.0.0",
       "note": "Replacement for bootstrap-tagsinput, typeahead.js; needs prop-types^15.7.2"
+    },
+    "chart.js": {
+      "introduction-date": "2021-11-26",
+      "approved-by": "Jour Fixe",
+      "developer": "tfamula",
+      "purpose": "UI Bar Charts",
+      "last-update-for-ilias": "8.0.0"
     }
   }
 }

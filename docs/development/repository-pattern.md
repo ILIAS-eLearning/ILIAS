@@ -442,9 +442,12 @@ the different methods for different CRUD-Operations
 
 	// Execute statement
 	$result = $this->db->query($query);
+	
+	//Fetch data
+	$row = $this->db->fetchAssoc($result);
 
 	// Return if object was found
-	return $result['count'] > 0;
+	return ($row['count'] ?? 0) === 1;
 ```
 
 * Check if any object with given attributes exist. Returns Boolean: ifAny____ExistsBy____($attribute)
@@ -459,8 +462,11 @@ the different methods for different CRUD-Operations
 	// Execute statement
 	$result = $this->db->query($query);
 
+	//Fetch data
+	$row = $this->db->fetchAssoc($result);
+
 	// Return if any object was found
-	return $result['count'] > 0;
+	return ($result['count'] ?? 0) > 0;
 ```
 
 **Update operations**

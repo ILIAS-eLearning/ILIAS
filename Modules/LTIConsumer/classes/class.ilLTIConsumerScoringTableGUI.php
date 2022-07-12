@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 //use \ILIAS\UI\Component\Modal\RoundTrip;
 /**
  * Class ilLTIConsumerScoringTableGUI
@@ -19,21 +30,19 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
     /**
      * @var bool
      */
-    protected $isMultiActorReport;
+    protected bool $isMultiActorReport;
 
     /**
-     * @var ilLTIConsumerScoringGUI
+     * @var bool
      */
-    private $_parent;
+    protected bool $hasOutcomeAccess;
+
+    private \ilLTIConsumerScoringGUI $_parent;
 
     /**
      * ilLTIConsumerScoringTableGUI constructor.
-     * @param ilLTIConsumerScoringGUI $a_parent_obj
-     * @param $a_parent_cmd
-     * @param $isMultiActorReport
-     * @param $tableId
      */
-    public function __construct(ilLTIConsumerScoringGUI $a_parent_obj, $a_parent_cmd, $isMultiActorReport, $tableId, $hasOutcomeAccess)
+    public function __construct(ilLTIConsumerScoringGUI $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport, string $tableId, bool $hasOutcomeAccess)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -48,7 +57,12 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.lti_consumer_scoring_table_row.html', 'Modules/LTIConsumer');
 
         if ($tableId === 'highscore') {
-            $this->setTitle(sprintf($DIC->language()->txt('toplist_top_n_results'), (int) $this->_parent->getObject()->getHighscoreTopNum()));
+            $this->setTitle(
+                sprintf(
+                    $DIC->language()->txt('toplist_top_n_results'),
+                    $this->_parent->getObject()->getHighscoreTopNum()
+                )
+            );
         } else {
             $this->setTitle($DIC->language()->txt('toplist_your_result'));
         }
@@ -65,7 +79,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         $this->hasOutcomeAccess = $hasOutcomeAccess;
     }
 
-    protected function initColumns()
+    protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -85,43 +99,43 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         }
 
         $this->setEnableNumInfo(false);
-        $this->setLimit((int) $this->_parent->getObject()->getHighscoreTopNum());
+        $this->setLimit($this->_parent->getObject()->getHighscoreTopNum());
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $this->tpl->setVariable('SCORE_RANK', $data['rank']);
+        $this->tpl->setVariable('SCORE_RANK', $a_set['rank']);
 
         $this->tpl->setCurrentBlock('personal');
-        $this->tpl->setVariable('SCORE_USER', $this->getUsername($data));
+        $this->tpl->setVariable('SCORE_USER', $this->getUsername($a_set));
         $this->tpl->parseCurrentBlock();
 
         if ($this->_parent->getObject()->getHighscoreAchievedTS()) {
             $this->tpl->setCurrentBlock('achieved');
-            $this->tpl->setVariable('SCORE_ACHIEVED', $data['date']);
+            $this->tpl->setVariable('SCORE_ACHIEVED', $a_set['date']);
             $this->tpl->parseCurrentBlock();
         }
 
 
         if ($this->_parent->getObject()->getHighscorePercentage()) {
             $this->tpl->setCurrentBlock('percentage');
-            $this->tpl->setVariable('SCORE_PERCENTAGE', (float) $data['score'] * 100);
+            $this->tpl->setVariable('SCORE_PERCENTAGE', (float) $a_set['score'] * 100);
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->_parent->getObject()->getHighscoreWTime()) {
             $this->tpl->setCurrentBlock('wtime');
-            $this->tpl->setVariable('SCORE_DURATION', $data['duration']);
+            $this->tpl->setVariable('SCORE_DURATION', $a_set['duration']);
             $this->tpl->parseCurrentBlock();
         }
 
-        $highlight = $data['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
+        $highlight = $a_set['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
     }
     
-    protected function getUsername($data)
+    protected function getUsername(array $data) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

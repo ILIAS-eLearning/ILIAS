@@ -1,75 +1,41 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTTextFormBridge extends ilADTFormBridge
 {
-    protected $multi; // [bool]
-    protected $multi_rows; // [int]
-    protected $multi_cols; // [int]
-
-    /**
-     * @var ilLanguage|null
-     */
-    private $language = null;
+    protected bool $multi = false;
+    protected ?int $multi_rows;
+    protected ?int $multi_cols;
 
     public function __construct(ilADT $a_adt)
     {
-        global $DIC;
-
         parent::__construct($a_adt);
-        $this->language = $DIC->language();
-        $this->language->loadLanguageModule('meta');
+        $this->lng->loadLanguageModule('meta');
     }
 
-
-    //
-    // properties
-    //
-    
-    /**
-     * Set multi-line
-     *
-     * @param string $a_value
-     * @param int $a_cols
-     * @param int $a_rows
-     */
-    public function setMulti($a_value, $a_cols = null, $a_rows = null)
+    public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null) : void
     {
-        $this->multi = (bool) $a_value;
-        $this->multi_rows = ($a_rows === null) ? null : (int) $a_rows;
-        $this->multi_cols = ($a_cols === null) ? null : (int) $a_cols;
+        $this->multi = $a_value;
+        $this->multi_rows = ($a_rows === null) ? null : $a_rows;
+        $this->multi_cols = ($a_cols === null) ? null : $a_cols;
     }
 
-    /**
-     * Is multi-line?
-     *
-     * @return bool
-     */
-    public function isMulti()
+    public function isMulti() : bool
     {
         return $this->multi;
     }
-    
-    
-    //
-    // form
-    //
-    
-    protected function isValidADT(ilADT $a_adt)
+
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTText);
     }
 
-    /**
-     * @param string $title
-     * @param string $element_id
-     * @param string $value
-     * @param bool   $is_translation
-     * @param string $language
-     */
-    protected function addElementToForm(string $title, string $element_id, string $value, bool $is_translation = false,  string $language = '')
-    {
+    protected function addElementToForm(
+        string $title,
+        string $element_id,
+        string $value,
+        bool $is_translation = false,
+        string $language = ''
+    ) : void {
         $def = $this->getADT()->getCopyOfDefinition();
 
         if (!$this->isMulti()) {
@@ -102,27 +68,27 @@ class ilADTTextFormBridge extends ilADTFormBridge
         $this->addBasicFieldProperties($text, $def);
 
         if ($is_translation) {
-            $text->setInfo($this->language->txt('md_adv_int_translation_info') . ' ' . $this->language->txt('meta_l_' . $language));
+            $text->setInfo($this->lng->txt('md_adv_int_translation_info') . ' ' . $this->lng->txt('meta_l_' . $language));
             $text->setRequired(false);
         }
         $text->setValue($value);
         $this->addToParentElement($text);
     }
 
-    public function addToForm()
+    public function addToForm() : void
     {
         $this->addElementToForm(
             (string) $this->getADT()->getText(),
             (string) $this->getElementId(),
-            (string) $this->getTitle()
+            $this->getTitle()
         );
     }
 
-    public function importFromPost()
+    public function importFromPost() : void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setText($this->getForm()->getInput($this->getElementId()));
-        $field = $this->getForm()->getItemByPostvar($this->getElementId());
+        $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setValue($this->getADT()->getText());
     }
 }

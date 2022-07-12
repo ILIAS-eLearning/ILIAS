@@ -1,63 +1,50 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitTypeFormGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
 {
+    protected ilObjectGUI $parent_gui;
+    protected ilOrgUnitType $type;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilOrgUnitType
-     */
-    protected $type;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var
-     */
-    protected $parent_gui;
-
-
-    /**
-     * @param               $parent_gui
-     * @param ilOrgUnitType $type
-     */
-    public function __construct($parent_gui, ilOrgUnitType $type)
+    public function __construct(ilObjectGUI $parent_gui, ilOrgUnitType $type)
     {
         global $DIC;
         parent::__construct();
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
         $this->parent_gui = $parent_gui;
         $this->type = $type;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
+        $this->tpl =  $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
     }
 
-
     /**
      * Save object (create or update)
-     *
-     * @return bool
      */
-    public function saveObject()
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             return false;
@@ -67,17 +54,16 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
 
             return true;
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage('failure', $e->getMessage());
 
             return false;
         }
     }
 
-
     /**
      * Add all fields to the form
      */
-    protected function initForm()
+    private function initForm(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('orgu_type_custom_icon'));
@@ -91,13 +77,11 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('updateCustomIcons', $this->lng->txt('save'));
     }
 
-
     /**
      * Check validity of form and pass values from form to object
-     *
      * @return bool
      */
-    protected function fillObject()
+    private function fillObject(): bool
     {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
@@ -118,7 +102,7 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
                 }
             }
         } catch (ilException $e) {
-            ilUtil::sendFailure($this->lng->txt('orgu_type_msg_error_custom_icon'));
+            $this->global_tpl->setOnScreenMessage('failure', $this->lng->txt('orgu_type_msg_error_custom_icon'));
 
             return false;
         }

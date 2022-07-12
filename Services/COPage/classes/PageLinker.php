@@ -1,35 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage;
 
 /**
  * Page linker
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 interface PageLinker
 {
-    /**
-     * @param bool $offline
-     * @return mixed
-     */
-    public function setOffline($offline = true);
+    public function setOffline(bool $offline = true) : void;
 
-    /**
-     * @return array
-     */
     public function getLayoutLinkTargets() : array;
 
-    /**
-     * @param $int_links
-     * @return string
-     */
-    public function getLinkXML($int_links) : string;
+    public function getLinkXML(array $int_links) : string;
 
-    /**
-     * @return string
-     */
     public function getFullscreenLink() : string;
 }

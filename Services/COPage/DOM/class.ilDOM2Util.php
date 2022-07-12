@@ -1,24 +1,34 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * DOM 2 util
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup Services/Utilites
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDOM2Util
 {
-    /**
-     * Change name of a node
-     *
-     * @param object $node
-     * @param string new name
-     * @return
-     */
-    public static function changeName($node, $name, $keep_attributes = true)
-    {
+    // change node name
+    public static function changeName(
+        DOMNode $node,
+        string $name,
+        bool $keep_attributes = true
+    ) : DOMNode {
         $newnode = $node->ownerDocument->createElement($name);
 
         foreach ($node->childNodes as $child) {
@@ -35,20 +45,13 @@ class ilDOM2Util
         return $newnode;
     }
     
-    /**
-     * Add parent
-     *
-     * @param object $node
-     * @return
-     */
-    public static function addParent($node, $name)
-    {
+    // Add parent
+    public static function addParent(
+        DOMNode $node,
+        string $name
+    ) : DOMNode {
         $newnode = $node->ownerDocument->createElement($name);
-        //echo htmlentities($node->ownerDocument->saveXML($node->ownerDocument->documentElement));
-        //echo "<br>".htmlentities($node->ownerDocument->saveXML($node)); exit;
         $par = $node->parentNode;
-        //var_dump($node);
-        //var_dump($par);
         if ($next_sib = $node->nextSibling) {
             $newnode = $par->insertBefore($newnode, $next_sib);
         } else {
@@ -57,23 +60,11 @@ class ilDOM2Util
         
         $node = $par->removeChild($node);
         $newnode->appendChild($node);
-        
-        //		foreach ($node->childNodes as $child)
-        //		{
-        //			$child2 = $child->cloneNode(true);
-        //			$newnode->appendChild($child2);
-        //		}
-
         return $newnode;
     }
     
-    /**
-     * Replace a node by its child
-     *
-     * @param object $node
-     * @return
-     */
-    public static function replaceByChilds($node)
+    // Replace a node by its child
+    public static function replaceByChilds(DOMNode $node) : void
     {
         foreach ($node->childNodes as $child) {
             $child2 = $child->cloneNode(true);

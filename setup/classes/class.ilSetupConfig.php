@@ -7,26 +7,21 @@ use ILIAS\Data\Password;
 
 class ilSetupConfig implements Setup\Config
 {
-    protected string $client_id;
+    protected \ILIAS\Data\ClientId $client_id;
     protected \DateTimeZone $server_timezone;
     protected bool $register_nic;
 
     public function __construct(
-        string $client_id,
+        \ILIAS\Data\ClientId $client_id,
         \DateTimeZone $server_timezone,
         bool $register_nic
     ) {
-        if (!preg_match("/^[A-Za-z0-9]+$/", $client_id)) {
-            throw new \InvalidArgumentException(
-                "client_id must not be empty and may only contain alphanumeric characters"
-            );
-        }
         $this->client_id = $client_id;
         $this->server_timezone = $server_timezone;
         $this->register_nic = $register_nic;
     }
 
-    public function getClientId() : string
+    public function getClientId() : \ILIAS\Data\ClientId
     {
         return $this->client_id;
     }

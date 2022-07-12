@@ -1,39 +1,23 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilLPStatusCourseReference
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilLPStatusCourseReference extends \ilLPStatus
+class ilLPStatusCourseReference extends ilLPStatus
 {
     /**
      * @var \ilLPStatusCourseReference[]
      */
     private static $instances = [];
 
-    /**
-     * @var \ilLogger|null
-     */
-    private $logger = null;
+    private int $target_obj_id = 0;
+    private array $status_info = [];
 
-    /**
-     * @var int
-     */
-    private $target_obj_id = 0;
-
-    private $status_info = [];
-
-
-    /**
-     * ilLPStatusCourseReference constructor.
-     * @param int $a_obj_id
-     */
-    public function __construct($a_obj_id)
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
-
-        $this->logger = $DIC->logger()->trac();
 
         parent::__construct($a_obj_id);
         $this->readTargetObjId($a_obj_id);
@@ -43,7 +27,7 @@ class ilLPStatusCourseReference extends \ilLPStatus
     /**
      * @inheritdoc
      */
-    public static function _getCountNotAttempted($a_obj_id)
+    public static function _getCountNotAttempted(int $a_obj_id) : int
     {
         $self = self::getInstanceByObjId($a_obj_id);
         return count($self->getNotAttempted());
@@ -52,7 +36,7 @@ class ilLPStatusCourseReference extends \ilLPStatus
     /**
      * @inheritdoc
      */
-    public static function _getNotAttempted($a_obj_id)
+    public static function _getNotAttempted(int $a_obj_id) : array
     {
         $self = self::getInstanceByObjId($a_obj_id);
         return $self->getNotAttempted();
@@ -69,7 +53,7 @@ class ilLPStatusCourseReference extends \ilLPStatus
     /**
      * @inheritdoc
      */
-    public static function _getCountInProgress($a_obj_id)
+    public static function _getCountInProgress(int $a_obj_id) : int
     {
         $self = self::getInstanceByObjId($a_obj_id);
         return count($self->getInProgress());
@@ -78,7 +62,7 @@ class ilLPStatusCourseReference extends \ilLPStatus
     /**
      * @inheritdoc
      */
-    public static function _getInProgress($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
         $self = self::getInstanceByObjId($a_obj_id);
         return $self->getInProgress();
@@ -95,7 +79,7 @@ class ilLPStatusCourseReference extends \ilLPStatus
     /**
      * @inheritdoc
      */
-    public static function _getCountCompleted($a_obj_id)
+    public static function _getCountCompleted(int $a_obj_id) : int
     {
         $self = self::getInstanceByObjId($a_obj_id);
         return count($self->getCompleted());
@@ -104,7 +88,7 @@ class ilLPStatusCourseReference extends \ilLPStatus
     /**
      * @inheritdoc
      */
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
         $self = self::getInstanceByObjId($a_obj_id);
         return $self->getCompleted();
@@ -118,11 +102,10 @@ class ilLPStatusCourseReference extends \ilLPStatus
         return $this->status_info[\ilLPStatus::LP_STATUS_COMPLETED_NUM];
     }
 
-
     /**
      * @inheritdoc
      */
-    public static function _getStatusInfo($a_obj_id)
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         $self = self::getInstanceByObjId($a_obj_id);
         return $self->getStatusInfo();
@@ -136,13 +119,16 @@ class ilLPStatusCourseReference extends \ilLPStatus
     /**
      * @inheritdoc
      */
-    public function readStatusInfo($a_obj_id)
+    public function readStatusInfo(int $a_obj_id) : void
     {
         global $DIC;
 
         $database = $DIC->database();
         $query = 'select status,usr_id from ut_lp_marks ' .
-            'where obj_id = ' . $database->quote($this->target_obj_id, \ilDBConstants::T_INTEGER);
+            'where obj_id = ' . $database->quote(
+                $this->target_obj_id,
+                \ilDBConstants::T_INTEGER
+            );
         $res = $database->query($query);
 
         $info = [
@@ -159,37 +145,40 @@ class ilLPStatusCourseReference extends \ilLPStatus
         $this->status_info = $info;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function determineStatus($a_obj_id, $a_usr_id, $a_obj = null)
-    {
-        $status = \ilLPStatus::_lookupStatus($this->target_obj_id, $a_usr_id, false);
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
+        $status = \ilLPStatus::_lookupStatus(
+            $this->target_obj_id,
+            $a_usr_id,
+            false
+        );
         if ($status) {
             return $status;
         }
         return \ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
-
-    /**
-     * @param $a_reference_obj_id
-     * @return \ilLPStatusCourseReference
-     */
-    private static function getInstanceByObjId($a_reference_obj_id)
-    {
+    private static function getInstanceByObjId(
+        int $a_reference_obj_id
+    ) : ilLPStatusCourseReference {
         if (!isset(self::$instances[$a_reference_obj_id])) {
-            self::$instances[$a_reference_obj_id] = new self($a_reference_obj_id);
+            self::$instances[$a_reference_obj_id] = new self(
+                $a_reference_obj_id
+            );
         }
         return self::$instances[$a_reference_obj_id];
     }
 
-    /**
-     * @param $a_obj_id
-     */
-    private function readTargetObjId($a_obj_id)
+    private function readTargetObjId(int $a_obj_id) : void
     {
-        $this->target_obj_id = ilObject::_lookupObjId(ilObjCourseReference::_lookupTargetRefId($a_obj_id));
+        $this->target_obj_id = ilObject::_lookupObjId(
+            ilObjCourseReference::_lookupTargetRefId($a_obj_id)
+        );
     }
 }

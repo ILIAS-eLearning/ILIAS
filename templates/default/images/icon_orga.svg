@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;}
+	.st1{clip-path:url(#SVGID_00000039119031645112222890000010737771729401737646_);fill:#52668C;}
+</style>
+<rect class="st0" width="320" height="320"/>
+<g>
+	<defs>
+		<rect id="SVGID_1_" width="320" height="320"/>
+	</defs>
+	<clipPath id="SVGID_00000075865635133830534980000010564279767211194800_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<path style="clip-path:url(#SVGID_00000075865635133830534980000010564279767211194800_);fill:#52668C;" d="M130,235v20
+		c0,5.5,4.5,10,10,10h40c5.5,0,10-4.5,10-10v-20c0-5.5-4.5-10-10-10h-40C134.5,225,130,229.5,130,235 M90,225H50
+		c-5.5,0-10,4.5-10,10v20c0,5.5,4.5,10,10,10h40c5.5,0,10-4.5,10-10v-20C100,229.5,95.5,225,90,225 M205,120h-90V70h90V120z
+		 M220,125V65c0-5.5-4.5-10-10-10H110c-5.5,0-10,4.5-10,10v60c0,5.5,4.5,10,10,10h100C215.5,135,220,130.5,220,125 M242.5,210h15
+		v-32.5h-90V150h-15v27.5h-90V210h15v-17.5h75V210h15v-17.5h75V210z M280,255v-20c0-5.5-4.5-10-10-10h-40c-5.5,0-10,4.5-10,10v20
+		c0,5.5,4.5,10,10,10h40C275.5,265,280,260.5,280,255"/>
+</g>
+</svg>

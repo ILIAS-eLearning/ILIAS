@@ -1,122 +1,90 @@
-<?php
-
-include_once './Services/Calendar/classes/class.ilDateTime.php';
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Defines a system check group including different tasks of a component
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCGroup
 {
-    private $id = 0;
-    private $component_id = '';
-    private $component_type = '';
-    private $last_update = null;
-    private $status = 0;
-    
-    
-    /**
-     * Constructor
-     * @param type $a_id
-     */
-    public function __construct($a_id = 0)
+    private int $id = 0;
+    private string $component_id = '';
+    private string $component_type = '';
+    private ?ilDateTime $last_update = null;
+    private int $status = 0;
+    protected ilDBInterface $db;
+
+    public function __construct(int $a_id = 0)
     {
+        global $DIC;
+        $this->db = $DIC->database();
         $this->id = $a_id;
         $this->read();
     }
-    
-    /**
-     * lookup component by id
-     * @global type $ilDB
-     * @param type $a_id
-     * @return string
-     */
-    public static function lookupComponent($a_id)
+
+    public static function lookupComponent(int $a_id) : string
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+
         $query = 'SELECT component FROM sysc_groups ' .
-                'WHERE id = ' . $ilDB->quote($a_id, 'integer');
+            'WHERE id = ' . $ilDB->quote($a_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (string) $row->component;
         }
         return '';
     }
-    
-    public function getId()
+
+    public function getId() : int
     {
         return $this->id;
     }
-    
-    
-    public function setComponentId($a_comp)
+
+    public function setComponentId(string $a_comp) : void
     {
         $this->component_id = $a_comp;
     }
-    
-    /**
-     * Get component
-     * @return string
-     */
-    public function getComponentId()
+
+    public function getComponentId() : string
     {
         return $this->component_id;
     }
-    
-    
-    public function setLastUpdate(ilDateTime $a_update)
+
+    public function setLastUpdate(ilDateTime $a_update) : void
     {
         $this->last_update = $a_update;
     }
-    
-    /**
-     * Get last update date
-     * @return ilDateTime
-     */
-    public function getLastUpdate()
+
+    public function getLastUpdate() : ilDateTime
     {
         if (!$this->last_update) {
             return $this->last_update = new ilDateTime();
         }
         return $this->last_update;
     }
-    
-    public function setStatus($a_status)
+
+    public function setStatus(int $a_status) : void
     {
         $this->status = $a_status;
     }
-    
-    /**
-     * Get status
-     * @return int
-     */
-    public function getStatus()
+
+    public function getStatus() : int
     {
         return $this->status;
     }
-    
-    /**
-     * Read group
-     */
-    public function read()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function read() : bool
+    {
         if (!$this->getId()) {
             return false;
         }
-        
+
         $query = 'SELECT * FROM sysc_groups ' .
-                'WHERE id = ' . $ilDB->quote($this->getId(), 'integer');
-        $res = $ilDB->query($query);
+            'WHERE id = ' . $this->db->quote($this->getId(), ilDBConstants::T_INTEGER);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setComponentId($row->component);
             $this->setLastUpdate(new ilDateTime($row->last_update, IL_CAL_DATETIME, ilTimeZone::UTC));
@@ -124,25 +92,18 @@ class ilSCGroup
         }
         return true;
     }
-    
-    /**
-     * Create new group
-     */
-    public function create()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $this->id = $ilDB->nextId('sysc_groups');
-        
+    public function create() : int
+    {
+        $this->id = $this->db->nextId('sysc_groups');
+
         $query = 'INSERT INTO sysc_groups (id,component,status) ' .
-                'VALUES ( ' .
-                $ilDB->quote($this->getId(), 'integer') . ', ' .
-                $ilDB->quote($this->getComponentId(), 'text') . ', ' .
-                $ilDB->quote($this->getStatus(), 'integer') . ' ' .
-                ')';
-        $ilDB->manipulate($query);
+            'VALUES ( ' .
+            $this->db->quote($this->getId(), ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote($this->getComponentId(), ilDBConstants::T_TEXT) . ', ' .
+            $this->db->quote($this->getStatus(), ilDBConstants::T_INTEGER) . ' ' .
+            ')';
+        $this->db->manipulate($query);
         return $this->getId();
     }
 }

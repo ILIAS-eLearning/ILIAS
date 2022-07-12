@@ -1,20 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a text property in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    protected $top;
-    protected $left;
-    protected $right;
-    protected $bottom;
-    protected $size;
-    protected $useUnits;
+    protected string $top = "";
+    protected string $left = "";
+    protected string $right = "";
+    protected string $bottom = "";
+    protected int $size = 0;
+    protected bool $useUnits = false;
     
     /**
     * Constructor
@@ -32,7 +46,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         $this->useUnits = true;
     }
 
-    public function setValue($valueArray)
+    public function setValue(array $valueArray) : void
     {
         $this->top = $valueArray['top'];
         $this->left = $valueArray['left'];
@@ -40,166 +54,101 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         $this->bottom = $valueArray['bottom'];
     }
 
-    /**
-    * Set use units.
-    *
-    * @param	boolean	$a_value	Use units
-    */
-    public function setUseUnits($a_value)
+    public function setUseUnits(bool $a_value) : void
     {
         $this->useUnits = $a_value;
     }
 
-    /**
-    * Get use units
-    *
-    * @return	boolean use units
-    */
-    public function useUnits()
+    public function useUnits() : bool
     {
         return $this->useUnits;
     }
 
-    /**
-    * Set Top.
-    *
-    * @param	string	$a_value	Top
-    */
-    public function setTop($a_value)
+    public function setTop(string $a_value) : void
     {
         $this->top = $a_value;
     }
 
-    /**
-    * Get Top.
-    *
-    * @return	string	Top
-    */
-    public function getTop()
+    public function getTop() : string
     {
         return $this->top;
     }
 
-    /**
-    * Set Bottom.
-    *
-    * @param	string	$a_value	Bottom
-    */
-    public function setBottom($a_value)
+    public function setBottom(string $a_value) : void
     {
         $this->bottom = $a_value;
     }
 
-    /**
-    * Get Bottom.
-    *
-    * @return	string	Bottom
-    */
-    public function getBottom()
+    public function getBottom() : string
     {
         return $this->bottom;
     }
 
-    /**
-    * Set Left.
-    *
-    * @param	string	$a_value	Left
-    */
-    public function setLeft($a_value)
+    public function setLeft(string $a_value) : void
     {
         $this->left = $a_value;
     }
 
-    /**
-    * Get Left.
-    *
-    * @return	string	Left
-    */
-    public function getLeft()
+    public function getLeft() : string
     {
         return $this->left;
     }
 
-    /**
-    * Set Right.
-    *
-    * @param	string	$a_value	Right
-    */
-    public function setRight($a_value)
+    public function setRight(string $a_value) : void
     {
         $this->right = $a_value;
     }
 
-    /**
-    * Get Right.
-    *
-    * @return	string	Right
-    */
-    public function getRight()
+    public function getRight() : string
     {
         return $this->right;
     }
 
-    /**
-    * Set Size.
-    *
-    * @param	int	$a_size	Size
-    */
-    public function setSize($a_size)
+    public function setSize(int $a_size) : void
     {
         $this->size = $a_size;
     }
 
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         $postVar = $this->getPostVar();
-
-        $values = array(
-            'top' => $a_values[$postVar . '_top'],
-            'bottom' => $a_values[$postVar . '_bottom'],
-            'right' => $a_values[$postVar . '_right'],
-            'left' => $a_values[$postVar . '_left'],
-        );
+        
+        $positions = ['top', 'left', 'right', 'bottom'];
+        $values = [
+            'top' => '',
+            'bottom' => '',
+            'right' => '',
+            'left' => '',
+        ];
+        
+        foreach ($positions as $position) {
+            if (isset($a_values[$postVar . '_' . $position])) {
+                $values[$position] = $a_values[$postVar . '_' . $position];
+            } elseif (isset($a_values[$postVar][$position])) {
+                $values[$position] = $a_values[$postVar][$position];
+            }
+        }
 
         $this->setValue($values);
     }
 
-    /**
-    * Get Size.
-    *
-    * @return	int	Size
-    */
-    public function getSize()
+    public function getSize() : int
     {
         return $this->size;
     }
     
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
-        
-        $_POST[$this->getPostVar() . '_top'] = ilUtil::stripSlashes($_POST[$this->getPostVar()]['top']);
-        $_POST[$this->getPostVar() . '_right'] = ilUtil::stripSlashes($_POST[$this->getPostVar()]['right']);
-        $_POST[$this->getPostVar() . '_bottom'] = ilUtil::stripSlashes($_POST[$this->getPostVar()]['bottom']);
-        $_POST[$this->getPostVar() . '_left'] = ilUtil::stripSlashes($_POST[$this->getPostVar()]['left']);
 
+        $val = $this->getInput();
         if (
             $this->getRequired() &&
             (
-                (trim($_POST[$this->getPostVar() . '_top'] == ""))
-                || (trim($_POST[$this->getPostVar() . '_bottom']) == "")
-                || (trim($_POST[$this->getPostVar() . '_left']) == "")
-                || (trim($_POST[$this->getPostVar() . '_right']) == "")
+                ($val[$this->getPostVar() . '_top'] == "")
+                || ($val[$this->getPostVar() . '_bottom'] == "")
+                || ($val[$this->getPostVar() . '_left'] == "")
+                || ($val[$this->getPostVar() . '_right'] == "")
             )
         ) {
             $this->setAlert($lng->txt("msg_input_is_required"));
@@ -207,10 +156,10 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         }
 
         if ($this->useUnits()) {
-            if ((!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar() . '_top'])) ||
-                (!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar() . '_right'])) ||
-                (!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar() . '_bottom'])) ||
-                (!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar() . '_left']))) {
+            if ((!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $val[$this->getPostVar() . '_top'])) ||
+                (!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $val[$this->getPostVar() . '_right'])) ||
+                (!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $val[$this->getPostVar() . '_bottom'])) ||
+                (!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $val[$this->getPostVar() . '_left']))) {
                 $this->setAlert($lng->txt("msg_unit_is_required"));
                 return false;
             }
@@ -218,33 +167,38 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function getInput() : array
+    {
+        $val = $this->strArray($this->getPostVar());
+        $ret[$this->getPostVar() . '_top'] = trim($val['top']);
+        $ret[$this->getPostVar() . '_right'] = trim($val['right']);
+        $ret[$this->getPostVar() . '_bottom'] = trim($val['bottom']);
+        $ret[$this->getPostVar() . '_left'] = trim($val['left']);
+        return $ret;
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         
         if (strlen($this->getTop())) {
             $a_tpl->setCurrentBlock("cssrect_value_top");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getTop()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getTop()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getBottom())) {
             $a_tpl->setCurrentBlock("cssrect_value_bottom");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getBottom()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getBottom()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getLeft())) {
             $a_tpl->setCurrentBlock("cssrect_value_left");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getLeft()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getLeft()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getRight())) {
             $a_tpl->setCurrentBlock("cssrect_value_right");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getRight()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getRight()));
             $a_tpl->parseCurrentBlock();
         }
         $a_tpl->setCurrentBlock("cssrect");

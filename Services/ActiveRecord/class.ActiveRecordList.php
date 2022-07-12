@@ -1,8 +1,20 @@
-<?php /** @noinspection NullPointerExceptionInspection */
+<?php /******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /** @noinspection NullPointerExceptionInspection */
 /** @noinspection NullPointerExceptionInspection */
 /** @noinspection NullPointerExceptionInspection */
-
+/** @noinspection NullPointerExceptionInspection */
 /**
  * Class ActiveRecordList
  * @author  Oskar Truffer <ot@studer-raimann.ch>
@@ -12,7 +24,6 @@
  */
 class ActiveRecordList
 {
-
     protected \arWhereCollection $arWhereCollection;
     protected \arJoinCollection $arJoinCollection;
     protected \arOrderCollection $arOrderCollection;
@@ -21,20 +32,14 @@ class ActiveRecordList
     protected \arSelectCollection $arSelectCollection;
     protected \arHavingCollection $arHavingCollection;
     protected bool $loaded = false;
-    /**
-     * @var string
-     */
-    protected $class = '';
+    protected string $class = '';
     /**
      * @var ActiveRecord[]
      */
     protected array $result = array();
     protected array $result_array = array();
     protected bool $debug = false;
-    /**
-     * @var null
-     */
-    protected $date_format;
+    protected ?string $date_format = null;
     protected array $addidtional_parameters = array();
     protected static ?string $last_query = null;
     protected ?\arConnector $connector = null;
@@ -84,7 +89,7 @@ class ActiveRecordList
      * @return $this|void
      * @throws Exception
      */
-    public function where($where, $operator = null)
+    public function where($where, $operator = null) : self
     {
         $this->loaded = false;
         if (is_string($where)) {
@@ -121,7 +126,7 @@ class ActiveRecordList
      * @param        $order_by
      * @throws arException
      */
-    public function orderBy($order_by, string $order_direction = 'ASC') : self
+    public function orderBy(string $order_by, string $order_direction = 'ASC') : self
     {
         $arOrder = new arOrder();
         $arOrder->setFieldname($order_by);
@@ -136,7 +141,7 @@ class ActiveRecordList
      * @param $end
      * @throws arException
      */
-    public function limit($start, $end) : self
+    public function limit(int $start, int $end) : self
     {
         $arLimit = new arLimit();
         $arLimit->setStart($start);
@@ -159,8 +164,14 @@ class ActiveRecordList
         string $operator = '=',
         bool $both_external = false
     ) : self {
-        return $this->innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator,
-            $both_external);
+        return $this->innerjoin(
+            $ar->getConnectorContainerName(),
+            $on_this,
+            $on_external,
+            $fields,
+            $operator,
+            $both_external
+        );
     }
 
     /**
@@ -171,9 +182,9 @@ class ActiveRecordList
      */
     protected function join(
         string $type,
-        $tablename,
+        string $tablename,
         $on_this,
-        $on_external,
+        string $on_external,
         array $fields = array('*'),
         string $operator = '=',
         bool $both_external = false
@@ -246,7 +257,7 @@ class ActiveRecordList
     /**
      * @param       $as
      */
-    public function concat(array $fields, $as) : self
+    public function concat(array $fields, string $as) : self
     {
         $con = new arConcat();
         $con->setAs($as);
@@ -399,7 +410,6 @@ class ActiveRecordList
     /**
      * @param string       $key    shall a specific value be used as a key? if null then the 1. array key is just increasing from 0.
      * @param string|array $values which values should be taken? if null all are given. If only a string is given then the result is an 1D array!
-     * @return array
      */
     public function getArray(string $key = null, $values = null) : array
     {
@@ -409,17 +419,15 @@ class ActiveRecordList
     }
 
     /**
-     * @param $key
-     * @param $values
-     * @return mixed[]|array<int|string, mixed[]>
+     * @param int|string|array|null $values
      * @throws Exception
      */
-    protected function buildArray($key, $values) : array
+    protected function buildArray(?string $key, $values) : array
     {
         if ($key === null && $values === null) {
             return $this->result_array;
         }
-        $array = array();
+        $array = [];
         foreach ($this->result_array as $row) {
             if ($key) {
                 if (!array_key_exists($key, $row)) {
@@ -433,22 +441,22 @@ class ActiveRecordList
 
         return $array;
     }
-
+    
     /**
-     * @param $row
-     * @param $values
-     * @return array
+     * @param string|array|null $values
+     * @return string|int|null|array
      */
-    protected function buildRow($row, $values)
+    protected function buildRow(?array $row, $values)
     {
         if ($values === null) {
             return $row;
         }
-
-        $array = array();
+    
         if (!is_array($values)) {
             return $row[$values];
         }
+        
+        $array = [];
         foreach ($row as $key => $value) {
             if (in_array($key, $values)) {
                 $array[$key] = $value;
@@ -521,21 +529,15 @@ class ActiveRecordList
     {
         return $this->debug;
     }
-
-    /**
-     * @param null $date_format
-     */
-    public function setDateFormat($date_format) : void
+    
+    public function setDateFormat(string $date_format) : void
     {
         $this->date_format = $date_format;
     }
 
-    /**
-     * @return null
-     */
-    public function getDateFormat()
+    public function getDateFormat() : string
     {
-        return $this->date_format;
+        return $this->date_format ?? '';
     }
 
     public static function setLastQuery(string $last_query) : void

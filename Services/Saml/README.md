@@ -8,6 +8,7 @@ in this document are to be interpreted as described in
 **Table of Contents**
 
 * [Server Configuration](#web-server-configuration)
+* [ILIAS Configuration](#ilias-configuration)
 
 ## Web Server Configuration
 
@@ -62,3 +63,8 @@ location ~ \.php$ {
 
 [...]
 ```
+
+## ILIAS Configuration
+
+Please change your ILIAS configuration according to the `Superglobal` behaviour described in
+the [`HTTP README`](../../src/HTTP/README.md#dropinreplacements)

@@ -1,6 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * Class ilObjPollGUI
@@ -12,26 +30,13 @@
  */
 class ilObjPollGUI extends ilObject2GUI
 {
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
+    protected ilHelpGUI $help;
+    protected ilTabsGUI $tabs;
+    protected ilNavigationHistory $nav_history;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
-
-    protected $ui_factory;
-
-    protected $ui_renderer;
-
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
 
@@ -53,18 +58,18 @@ class ilObjPollGUI extends ilObject2GUI
         $this->lng->loadLanguageModule("poll");
     }
 
-    public function getType()
+    public function getType() : string
     {
         return "poll";
     }
     
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirect($this, "render");
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+    protected function initEditCustomForm(ilPropertyFormGUI $a_form) : void
     {
         // activation
         $this->lng->loadLanguageModule('rep');
@@ -75,7 +80,7 @@ class ilObjPollGUI extends ilObject2GUI
         
         // additional info only with multiple references
         $act_obj_info = $act_ref_info = "";
-        if (sizeof(ilObject::_getAllReferences($this->object->getId())) > 1) {
+        if (count(ilObject::_getAllReferences($this->object->getId())) > 1) {
             $act_obj_info = ' ' . $this->lng->txt('rep_activation_online_object_info');
             $act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
         }
@@ -103,19 +108,19 @@ class ilObjPollGUI extends ilObject2GUI
         $results->setRequired(true);
         $results->addOption(new ilRadioOption(
             $this->lng->txt("poll_view_results_always"),
-            ilObjPoll::VIEW_RESULTS_ALWAYS
+            (string) ilObjPoll::VIEW_RESULTS_ALWAYS
         ));
         $results->addOption(new ilRadioOption(
             $this->lng->txt("poll_view_results_never"),
-            ilObjPoll::VIEW_RESULTS_NEVER
+            (string) ilObjPoll::VIEW_RESULTS_NEVER
         ));
         $results->addOption(new ilRadioOption(
             $this->lng->txt("poll_view_results_after_vote"),
-            ilObjPoll::VIEW_RESULTS_AFTER_VOTE
+            (string) ilObjPoll::VIEW_RESULTS_AFTER_VOTE
         ));
         $results->addOption(new ilRadioOption(
             $this->lng->txt("poll_view_results_after_period"),
-            ilObjPoll::VIEW_RESULTS_AFTER_PERIOD
+            (string) ilObjPoll::VIEW_RESULTS_AFTER_PERIOD
         ));
         $a_form->addItem($results);
         
@@ -123,19 +128,19 @@ class ilObjPollGUI extends ilObject2GUI
         $show_result_as->setRequired(true);
         $result_bar = new ilRadioOption(
             $this->lng->txt("poll_barchart"),
-            ilObjPoll::SHOW_RESULTS_AS_BARCHART
+            (string) ilObjPoll::SHOW_RESULTS_AS_BARCHART
         );
         $show_result_as->addOption($result_bar);
         $show_result_as->addOption(new ilRadioOption(
             $this->lng->txt("poll_piechart"),
-            ilObjPoll::SHOW_RESULTS_AS_PIECHART
+            (string) ilObjPoll::SHOW_RESULTS_AS_PIECHART
         ));
         $a_form->addItem($show_result_as);
 
         $sort = new ilRadioGroupInputGUI($this->lng->txt("poll_result_sorting"), "sort");
         $sort->setRequired(true);
-        $sort->addOption(new ilRadioOption($this->lng->txt("poll_result_sorting_answers"), 0));
-        $sort->addOption(new ilRadioOption($this->lng->txt("poll_result_sorting_votes"), 1));
+        $sort->addOption(new ilRadioOption($this->lng->txt("poll_result_sorting_answers"), "0"));
+        $sort->addOption(new ilRadioOption($this->lng->txt("poll_result_sorting_votes"), "1"));
         $a_form->addItem($sort);
 
         $section = new ilFormSectionHeaderGUI();
@@ -147,7 +152,7 @@ class ilObjPollGUI extends ilObject2GUI
         $a_form->addItem($comment);
     }
 
-    protected function getEditFormCustomValues(array &$a_values)
+    protected function getEditFormCustomValues(array &$a_values) : void
     {
         $a_values["online"] = !$this->object->getOfflineStatus();
         $a_values["results"] = $this->object->getViewResults();
@@ -168,27 +173,27 @@ class ilObjPollGUI extends ilObject2GUI
         $a_values["show_results_as"] = $this->object->getShowResultsAs();
     }
     
-    protected function validateCustom(ilPropertyFormGUI $a_form)
+    protected function validateCustom(ilPropertyFormGUI $form) : bool
     {
         #20594
-        if (!$a_form->getInput("voting_period") &&
-            $a_form->getInput("results") == ilObjPoll::VIEW_RESULTS_AFTER_PERIOD) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
-            $a_form->getItemByPostVar("results")->setAlert($this->lng->txt("poll_view_results_after_period_impossible"));
+        if (!$form->getInput("voting_period") &&
+            (int) $form->getInput("results") === ilObjPoll::VIEW_RESULTS_AFTER_PERIOD) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
+            $form->getItemByPostVar("results")->setAlert($this->lng->txt("poll_view_results_after_period_impossible"));
             return false;
         }
-        return parent::validateCustom($a_form);
+        return parent::validateCustom($form);
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form)
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
-        $this->object->setViewResults($a_form->getInput("results"));
-        $this->object->setOfflineStatus(($a_form->getInput("online") == 1) ? 0 : 1);
-        $this->object->setSortResultByVotes($a_form->getInput("sort"));
-        $this->object->setShowComments($a_form->getInput("comment"));
-        $this->object->setShowResultsAs($a_form->getInput("show_results_as"));
+        $this->object->setViewResults((int) $form->getInput("results"));
+        $this->object->setOfflineStatus(!((string) $form->getInput("online") === "1"));
+        $this->object->setSortResultByVotes((bool) $form->getInput("sort"));
+        $this->object->setShowComments((bool) $form->getInput("comment"));
+        $this->object->setShowResultsAs((int) $form->getInput("show_results_as"));
 
-        $period = $a_form->getItemByPostVar("access_period");
+        $period = $form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
             $this->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
             $this->object->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));
@@ -197,19 +202,19 @@ class ilObjPollGUI extends ilObject2GUI
             $this->object->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
         }
                                                     
-        $period = $a_form->getItemByPostVar("voting_period");
+        $period = $form->getItemByPostVar("voting_period");
         if ($period->getStart() && $period->getEnd()) {
-            $this->object->setVotingPeriod(1);
+            $this->object->setVotingPeriod(true);
             $this->object->setVotingPeriodBegin($period->getStart()->get(IL_CAL_UNIX));
             $this->object->setVotingPeriodEnd($period->getEnd()->get(IL_CAL_UNIX));
         } else {
-            $this->object->setVotingPeriodBegin(null);
-            $this->object->setVotingPeriodEnd(null);
-            $this->object->setVotingPeriod(0);
+            $this->object->setVotingPeriodBegin(0);
+            $this->object->setVotingPeriodEnd(0);
+            $this->object->setVotingPeriod(false);
         }
     }
 
-    public function setTabs()
+    protected function setTabs() : void
     {
         $this->help->setScreenIdComponent("poll");
 
@@ -245,7 +250,7 @@ class ilObjPollGUI extends ilObject2GUI
         parent::setTabs();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -287,20 +292,14 @@ class ilObjPollGUI extends ilObject2GUI
                 break;
 
             default:
-                return parent::executeCommand();
+                parent::executeCommand();
         }
-        
-        return true;
     }
     
-    
-    // --- ObjectGUI End
-    
-    
-    public function render($a_form = null)
+    public function render(?ilPropertyFormGUI $a_form = null) : void
     {
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -320,7 +319,7 @@ class ilObjPollGUI extends ilObject2GUI
                 $message = $this->ui_renderer->render($mbox);
             }
             
-            $a_form = $this->initQuestionForm($this->object->countVotes());
+            $a_form = $this->initQuestionForm((bool) $this->object->countVotes());
         }
             
         $this->tpl->setPermanentLink('poll', $this->node_id);
@@ -328,7 +327,7 @@ class ilObjPollGUI extends ilObject2GUI
         $this->tpl->setContent($message . $a_form->getHTML());
     }
     
-    protected function initQuestionForm($a_read_only = false)
+    protected function initQuestionForm(bool $a_read_only = false) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveQuestion"));
@@ -355,13 +354,13 @@ class ilObjPollGUI extends ilObject2GUI
         
         $anonymous = new ilRadioGroupInputGUI($this->lng->txt("poll_mode"), "mode");
         $anonymous->setRequired(true);
-        $option = new ilRadioOption($this->lng->txt("poll_mode_anonymous"), 0);
+        $option = new ilRadioOption($this->lng->txt("poll_mode_anonymous"), "0");
         $option->setInfo($this->lng->txt("poll_mode_anonymous_info"));
         $anonymous->addOption($option);
-        $option = new ilRadioOption($this->lng->txt("poll_mode_personal"), 1);
+        $option = new ilRadioOption($this->lng->txt("poll_mode_personal"), "1");
         $option->setInfo($this->lng->txt("poll_mode_personal_info"));
         $anonymous->addOption($option);
-        $anonymous->setValue($this->object->getNonAnonymous());
+        $anonymous->setValue($this->object->getNonAnonymous() ? "1" : "0");
         $anonymous->setDisabled($a_read_only);
         $form->addItem($anonymous);
         
@@ -369,7 +368,7 @@ class ilObjPollGUI extends ilObject2GUI
         $nanswers->setRequired(true);
         $nanswers->setMinValue(1);
         $nanswers->setSize(3);
-        $nanswers->setValue($this->object->getMaxNumberOfAnswers());
+        $nanswers->setValue((string) $this->object->getMaxNumberOfAnswers());
         $nanswers->setDisabled($a_read_only);
         $form->addItem($nanswers);
         
@@ -396,16 +395,17 @@ class ilObjPollGUI extends ilObject2GUI
         return $form;
     }
     
-    public function saveQuestion()
+    public function saveQuestion() : void
     {
         $form = $this->initQuestionForm();
         if ($form->checkInput()) {
-            $this->object->setQuestion($form->getInput("question"));
-            $this->object->setNonAnonymous($form->getInput("mode"));
+            $this->object->setQuestion((string) $form->getInput("question"));
+            $this->object->setNonAnonymous((bool) $form->getInput("mode"));
                         
             $image = $form->getItemByPostVar("image");
-            if ($_FILES["image"]["tmp_name"]) {
-                $this->object->uploadImage($_FILES["image"]);
+            $res = $form->getFileUpload("image");
+            if (!empty($res)) {
+                $this->object->uploadImage($res);
             } elseif ($image->getDeletionFlag()) {
                 $this->object->deleteImage();
             }
@@ -413,10 +413,10 @@ class ilObjPollGUI extends ilObject2GUI
             $nr_of_anwers = $this->object->saveAnswers((array) $form->getInput("answers"));
             
             // #15073
-            $this->object->setMaxNumberOfAnswers(min($form->getInput("nanswers"), $nr_of_anwers));
+            $this->object->setMaxNumberOfAnswers(min((int) $form->getInput("nanswers"), $nr_of_anwers));
             
             if ($this->object->update()) {
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "render");
             }
         }
@@ -425,7 +425,7 @@ class ilObjPollGUI extends ilObject2GUI
         $this->render($form);
     }
     
-    protected function setParticipantsSubTabs($a_active)
+    protected function setParticipantsSubTabs(string $a_active) : void
     {
         if (!$this->object->getNonAnonymous()) {
             return;
@@ -445,10 +445,10 @@ class ilObjPollGUI extends ilObject2GUI
         $this->tabs->activateSubTab($a_active);
     }
     
-    public function showParticipants()
+    public function showParticipants() : void
     {
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -459,11 +459,11 @@ class ilObjPollGUI extends ilObject2GUI
         $this->tpl->setContent($tbl->getHTML());
     }
     
-    public function showParticipantVotes()
+    public function showParticipantVotes() : void
     {
         if (!$this->checkPermissionBool("write") ||
             !$this->object->getNonAnonymous()) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -474,10 +474,10 @@ class ilObjPollGUI extends ilObject2GUI
         $this->tpl->setContent($tbl->getHTML());
     }
     
-    public function confirmDeleteAllVotes()
+    public function confirmDeleteAllVotes() : void
     {
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -493,10 +493,10 @@ class ilObjPollGUI extends ilObject2GUI
         $this->tpl->setContent($cgui->getHTML());
     }
     
-    public function deleteAllVotes()
+    public function deleteAllVotes() : void
     {
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -505,23 +505,21 @@ class ilObjPollGUI extends ilObject2GUI
         $this->ctrl->redirect($this, "showParticipants");
     }
                 
-    public function vote()
+    public function vote() : void
     {
         global $DIC;
         $aw = (array) ($DIC->http()->request()->getParsedBody()['aw'] ?? array());
 
         $valid = true;
         if ($this->object->getMaxNumberOfAnswers() > 1) {
-            if (sizeof($aw) > $this->object->getMaxNumberOfAnswers()) {
+            if (count($aw) > $this->object->getMaxNumberOfAnswers()) {
                 $valid = false;
             }
-            if (!sizeof($aw)) {
+            if (!count($aw)) {
                 $valid = false;
             }
-        } else {
-            if ((int) !$aw) {
-                $valid = false;
-            }
+        } elseif ((int) !$aw) {
+            $valid = false;
         }
 
         $session_last_poll_vote = ilSession::get('last_poll_vote');
@@ -539,23 +537,23 @@ class ilObjPollGUI extends ilObject2GUI
         ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));
     }
     
-    public function subscribe()
+    public function subscribe() : void
     {
         ilNotification::setNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->object->getId(), true);
         
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));
     }
     
-    public function unsubscribe()
+    public function unsubscribe() : void
     {
         ilNotification::setNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->object->getId(), false);
         
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));
     }
     
-    protected function sendNotifications()
+    protected function sendNotifications() : void
     {
         // recipients
         $users = ilNotification::getNotificationsForObject(
@@ -564,7 +562,7 @@ class ilObjPollGUI extends ilObject2GUI
             null,
             true
         );
-        if (!sizeof($users)) {
+        if (!count($users)) {
             return;
         }
 
@@ -581,45 +579,33 @@ class ilObjPollGUI extends ilObject2GUI
         $ntf->setGotoLangId('poll_vote_notification_link');
         $ntf->setReasonLangId('poll_vote_notification_reason');
                 
-        $notified = $ntf->sendMail($users, null, "read");
+        $notified = $ntf->sendMailAndReturnRecipients($users, null, "read");
 
         ilNotification::updateNotificationTime(ilNotification::TYPE_POLL, $this->object->getId(), $notified);
     }
-    
-    public function getHTML() : string
-    {
-        return parent::getHTML();
-    }
-    
-    public function addLocatorItems()
+
+    protected function addLocatorItems() : void
     {
         if (is_object($this->object)) {
             $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
         }
     }
-    
-    /**
-     * Deep link
-     *
-     * @param string $a_target
-     */
-    public static function _goto($a_target)
+
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
         $ilAccess = $DIC->access();
+        $ilCtrl = $DIC->ctrl();
         
         $id = explode("_", $a_target);
         $ref_id = (int) ($id[0] ?? 0);
                     
         // #13728 - used in notification mostly
         if ($ilAccess->checkAccess("write", "", $ref_id)) {
-            $_GET["baseClass"] = "ilRepositoryGUI";
-            $_GET["ref_id"] = $ref_id;
-            $_GET["cmd"] = "showParticipants";
-            include("ilias.php");
-            exit;
+            $ilCtrl->setParameterByClass(self::class, "ref_id", $ref_id);
+            $ilCtrl->redirectByClass([ilRepositoryGUI::class, self::class,], "showParticipants");
         } else {
             // is sideblock: so show parent instead
             $container_id = $tree->getParentId($ref_id);

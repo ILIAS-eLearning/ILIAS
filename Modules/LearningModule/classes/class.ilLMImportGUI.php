@@ -1,39 +1,45 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
 
 /**
  * Import related features for learning modules
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMImportGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    protected $lm;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_lm)
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjLearningModule $lm;
+    protected EditingGUIRequest $request;
+    public function __construct(ilObjLearningModule $a_lm)
     {
         global $DIC;
+
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -41,10 +47,7 @@ class ilLMImportGUI
         $this->lm = $a_lm;
     }
     
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -55,29 +58,22 @@ class ilLMImportGUI
         }
     }
     
-    /**
-     * Translation import
-     *
-     * @param
-     * @return
-     */
-    public function showTranslationImportForm()
+    public function showTranslationImportForm() : void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
 
-        ilUtil::sendInfo($lng->txt("cont_trans_import_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_trans_import_info"));
         $form = $this->initTranslationImportForm();
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Init translation input form.
-     */
-    public function initTranslationImportForm()
+    public function initTranslationImportForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+
+        $options = [];
 
         $lng->loadLanguageModule("meta");
 
@@ -107,10 +103,7 @@ class ilLMImportGUI
         return $form;
     }
 
-    /**
-     * Import translation
-     */
-    public function importTranslation()
+    public function importTranslation() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -118,10 +111,10 @@ class ilLMImportGUI
         $imp = new ilImport();
         $conf = $imp->getConfig("Modules/LearningModule");
 
-        $target_lang = ilUtil::stripSlashes($_POST["import_lang"]);
+        $target_lang = $this->request->getImportLang();
         $ot = ilObjectTranslation::getInstance($this->lm->getId());
         if ($target_lang == $ot->getMasterLanguage() || $target_lang == "") {
-            ilUtil::sendFailure($lng->txt("cont_transl_master_language_not_allowed"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");
         }
 
@@ -134,7 +127,7 @@ class ilLMImportGUI
             "Modules/LearningModule"
         );
         //echo "h"; exit;
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showTranslationImportForm");
     }
 }

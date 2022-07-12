@@ -15,47 +15,15 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 {
-    /**
-     * global $ilCtrl object
-     *
-     * @var ilCtrl
-     */
-    public $ctrl = null;
+    public ilObjTest $testOBJ ;
     
-    /**
-     * global $lng object
-     *
-     * @var ilLanguage
-     */
-    public $lng = null;
+    public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;
     
-    /**
-     * object instance for current test
-     *
-     * @var ilObjTest
-     */
-    public $testOBJ = null;
-    
-    /**
-     * global $lng object
-     *
-     * @var ilTestRandomQuestionSetConfigGUI
-     */
-    public $questionSetConfigGUI = null;
-    
-    /**
-     * global $lng object
-     *
-     * @var ilTestRandomQuestionSetConfig
-     */
-    public $questionSetConfig = null;
+    public ilTestRandomQuestionSetConfig $questionSetConfig;
 
-    private $saveCommand = null;
+    private ?string $saveCommand = null;
 
-    /**
-     * @var null|string
-     */
-    private $saveAndNewCommand = null;
+    private ?string $saveAndNewCommand = null;
     
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
     {
@@ -68,33 +36,27 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         $this->questionSetConfig = $questionSetConfig;
     }
 
-    public function setSaveCommand($saveCommand)
+    public function setSaveCommand(string $saveCommand) : void
     {
         $this->saveCommand = $saveCommand;
     }
 
-    public function getSaveCommand()
+    public function getSaveCommand() : ?string
     {
         return $this->saveCommand;
     }
 
-    /**
-     * @param null|string $saveAndNewCommand
-     */
-    public function setSaveAndNewCommand($saveAndNewCommand)
+    public function setSaveAndNewCommand(string $saveAndNewCommand) : void
     {
         $this->saveAndNewCommand = $saveAndNewCommand;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getSaveAndNewCommand()
+    public function getSaveAndNewCommand() : ?string
     {
         return $this->saveAndNewCommand;
     }
     
-    public function build(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds)
+    public function build(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds) : void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->questionSetConfigGUI));
         
@@ -138,25 +100,25 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         if (count($availableTaxonomyIds)) {
             // fau: taxFilter/typeFilter  - edit multiple taxonomy and node selections
             require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-            
+
             // this is needed by ilTaxSelectInputGUI in some cases
             require_once 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
             ilOverlayGUI::initJavaScript();
-            
+
             $filter = $sourcePool->getOriginalTaxonomyFilter();
             foreach ($availableTaxonomyIds as $taxId) {
                 $taxonomy = new ilObjTaxonomy($taxId);
                 $taxLabel = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
-                
+
                 $taxCheckbox = new ilCheckboxInputGUI($taxLabel, "filter_tax_id_$taxId");
-                
-                
-                
+
+
+
                 $this->ctrl->setParameterByClass('iltaxselectinputgui', 'src_pool_def_id', $sourcePool->getId());
                 $this->ctrl->setParameterByClass('iltaxselectinputgui', 'quest_pool_id', $sourcePool->getPoolId());
                 $taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_nodes_$taxId", true);
                 $taxSelect->setRequired(true);
-                
+
                 if (isset($filter[$taxId])) {
                     $taxCheckbox->setChecked(true);
                     $taxSelect->setValue($filter[$taxId]);
@@ -164,41 +126,41 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
                 $taxCheckbox->addSubItem($taxSelect);
                 $this->addItem($taxCheckbox);
             }
-            
+
             #$taxRadio = new ilRadioGroupInputGUI(
             #		$this->lng->txt('tst_inp_source_pool_filter_tax'), 'filter_tax'
             #);
-            
+
             #$taxRadio->setRequired(true);
-            
+
             #$taxRadio->addOption(new ilRadioOption(
             #		$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0
             #));
-            
+
             #$taxRadio->setValue(0);
-            
+
             #require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-            
+
             #foreach($availableTaxonomyIds as $taxId)
             #{
             #	$taxonomy = new ilObjTaxonomy($taxId);
             #	$label = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
-            
+
             #	$taxRadioOption = new ilRadioOption($label, $taxId);
-            
+
             #	$taxRadio->addOption($taxRadioOption);
-            
+
             #	$taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_$taxId", false);
             #	$taxSelect->setRequired(true);
             #	$taxRadioOption->addSubItem($taxSelect);
-            
+
             #	if( $taxId == $sourcePool->getOriginalFilterTaxId() )
             #	{
             #		$taxRadio->setValue( $sourcePool->getOriginalFilterTaxId() );
             #		$taxSelect->setValue( $sourcePool->getOriginalFilterTaxNodeId() );
             #	}
             #}
-            
+
             #$this->addItem($taxRadio);
             // fau.
         } else {

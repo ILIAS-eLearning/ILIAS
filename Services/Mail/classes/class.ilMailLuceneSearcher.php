@@ -1,67 +1,57 @@
-<?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailLuceneSearcher
 {
-    /**
-     * @var ilLuceneQueryParser
-     */
-    protected $query_parser;
+    protected ilLuceneQueryParser $query_parser;
+    protected ilMailSearchResult $result;
+    protected ilSetting $settings;
 
-    /**
-     * @var ilMailSearchResult
-     */
-    protected $result;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
-
-    /**
-     *
-     */
     public function __construct(ilLuceneQueryParser $query_parser, ilMailSearchResult $result)
     {
         global $DIC;
-
         $this->settings = $DIC->settings();
-
         $this->query_parser = $query_parser;
         $this->result = $result;
     }
 
-    /**
-     * @param int $user_id
-     * @param int $mail_folder_id
-     * @throws Exception
-     */
-    public function search($user_id, $mail_folder_id)
+    public function search(int $user_id, int $mail_folder_id) : void
     {
         if (!$this->query_parser->getQuery()) {
             throw new ilException('mail_search_query_missing');
         }
 
         try {
-            include_once 'Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
             $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
-                CLIENT_ID . '_' . $this->settings->get('inst_id', 0),
-                (int) $user_id,
-                (string) $this->query_parser->getQuery(),
-                (int) $mail_folder_id
+                CLIENT_ID . '_' . $this->settings->get('inst_id', '0'),
+                $user_id,
+                $this->query_parser->getQuery(),
+                $mail_folder_id
             );
         } catch (Exception $e) {
-            require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
             ilLoggerFactory::getLogger('mail')->critical($e->getMessage());
             throw $e;
         }
 
-        include_once 'Services/Mail/classes/class.ilMailSearchLuceneResultParser.php';
         $parser = new ilMailSearchLuceneResultParser($this->result, $xml);
         $parser->parse();
     }

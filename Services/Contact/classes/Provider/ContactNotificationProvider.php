@@ -1,25 +1,41 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Contact\Provider;
 
+use ilContactGUI;
+use ilDashboardGUI;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ilBuddyList;
+use ilObjUser;
 
 /**
  * Class ContactNotificationProvider
  * @author Ingmar Szmais <iszmais@databay.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ContactNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class ContactNotificationProvider extends AbstractNotificationProvider
 {
-    const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
+    public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
 
-    /**
-     * @param string $id
-     * @return IdentificationInterface
-     */
+    
     private function getIdentifier(string $id) : IdentificationInterface
     {
         return $this->if->identifier($id);
@@ -31,7 +47,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
     public function getNotifications() : array
     {
         if (
-            0 === (int) $this->dic->user()->getId() ||
+            0 === $this->dic->user()->getId() ||
             $this->dic->user()->isAnonymous() ||
             !\ilBuddySystem::getInstance()->isEnabled()
         ) {
@@ -40,22 +56,30 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
         $latestRequestTimestamp = null;
-        $openRequests = \ilBuddyList::getInstanceByGlobalUser()
-            ->getRequestRelationsForOwner()->filter(
-                function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp) : bool {
-                    $timeStamp = $relation->getTimestamp();
-                    
-                    if ($timeStamp > $latestRequestTimestamp) {
-                        $latestRequestTimestamp = $timeStamp;
-                    }
-                    
-                    if (!is_numeric($leftIntervalTimestamp)) {
-                        return true;
-                    }
 
-                    return $timeStamp > $leftIntervalTimestamp;
+        $relations = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner();
+
+        $openRequests = $relations->filter(
+            function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp, $relations) : bool {
+                $timeStamp = $relation->getTimestamp();
+
+                if ($timeStamp > $latestRequestTimestamp) {
+                    $latestRequestTimestamp = $timeStamp;
                 }
-            );
+
+                $usrId = $relations->getKey($relation);
+
+                if (!ilObjUser::_lookupActive($usrId)) {
+                    return false;
+                }
+
+                if (!is_numeric($leftIntervalTimestamp)) {
+                    return true;
+                }
+
+                return $timeStamp > $leftIntervalTimestamp;
+            }
+        );
 
         $contactRequestsCount = count($openRequests->getKeys());
         if ($contactRequestsCount === 0) {
@@ -67,13 +91,13 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
         $icon = $this->dic->ui()->factory()
                           ->symbol()
                           ->icon()
-                          ->standard(Standard::CADM, 'contacts')->withIsOutlined(true);
+                          ->standard(Standard::CADM, 'contacts');
 
         $title = $this->dic->ui()->factory()
             ->link()
             ->standard(
                 $this->dic->language()->txt('nc_contact_requests_headline'),
-                'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts'
+                $this->dic->ctrl()->getLinkTargetByClass([ilDashboardGUI::class, ilContactGUI::class], 'showContactRequests')
             );
         $description = sprintf(
             $this->dic->language()->txt(
@@ -98,8 +122,8 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
                 $factory->standard($this->getIdentifier('contact_bucket'))
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
-                        function () {
-                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
+                        function () : void {
+                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
                         }
                     )->withNewAmount(1)
             );

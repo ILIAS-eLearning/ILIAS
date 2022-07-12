@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,38 +30,23 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilUserSearch extends ilAbstractSearch
 {
-    private $active_check = false;
-    private $inactive_check = false;
+    private bool $active_check = false;
+    private bool $inactive_check = false;
     
-    /**
-     * search only active accounts
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function enableActiveCheck($a_enabled)
+    public function enableActiveCheck(bool $a_enabled) : void
     {
         $this->active_check = $a_enabled;
     }
     
-    /**
-     * search only inactive accounts
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function enableInactiveCheck($a_enabled)
+    public function enableInactiveCheck(bool $a_enabled) : void
     {
         $this->inactive_check = $a_enabled;
     }
 
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
@@ -79,7 +64,7 @@ class ilUserSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->usr_id, 'usr', $this->__prepareFound($row));
+            $this->search_result->addEntry((int) $row->usr_id, 'usr', $this->__prepareFound($row));
         }
         return $this->search_result;
     }

@@ -1,6 +1,21 @@
-<?php
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component as C;
@@ -8,6 +23,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Signal;
 
 class Sortation implements C\ViewControl\Sortation
 {
@@ -16,44 +32,20 @@ class Sortation implements C\ViewControl\Sortation
     use Triggerer;
 
     /**
-     * @var \ILIAS\UI\Component\Signal
-     */
-    protected $select_signal;
-
-    /**
-     * @var string
-     */
-    protected $label = '';
-
-    /**
-     * @var string
-     */
-    protected $target_url;
-
-    /**
-     * @var string
-     */
-    protected $paramter_name = "sortation";
-
-    /**
-     * @var string
-     */
-    protected $active;
-
-    /**
      * @var array<string,string>
      */
-    protected $options = array();
+    protected array $options = array();
 
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
+    protected Signal $select_signal;
+    protected string $label = '';
+    protected ?string $target_url = null;
+    protected string $parameter_name = "sortation";
+    protected ?string $active = null;
+    protected SignalGeneratorInterface $signal_generator;
 
     public function __construct(array $options, SignalGeneratorInterface $signal_generator)
     {
         $this->options = $options;
-
         $this->signal_generator = $signal_generator;
         $this->initSignals();
     }
@@ -61,7 +53,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withResetSignals()
+    public function withResetSignals() : C\ViewControl\Sortation
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -71,7 +63,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * Set the signals for this component
      */
-    protected function initSignals()
+    protected function initSignals() : void
     {
         $this->select_signal = $this->signal_generator->create();
     }
@@ -79,9 +71,8 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withLabel($label)
+    public function withLabel(string $label) : C\ViewControl\Sortation
     {
-        $this->checkStringArg("label", $label);
         $clone = clone $this;
         $clone->label = $label;
         return $clone;
@@ -90,7 +81,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function getLabel()
+    public function getLabel() : string
     {
         return $this->label;
     }
@@ -98,20 +89,20 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withTargetURL($url, $paramter_name)
+    public function withTargetURL($url, $parameter_name) : C\ViewControl\Sortation
     {
         $this->checkStringArg("url", $url);
-        $this->checkStringArg("paramter_name", $paramter_name);
+        $this->checkStringArg("parameter_name", $parameter_name);
         $clone = clone $this;
         $clone->target_url = $url;
-        $clone->paramter_name = $paramter_name;
+        $clone->parameter_name = $parameter_name;
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getTargetURL()
+    public function getTargetURL() : ?string
     {
         return $this->target_url;
     }
@@ -119,24 +110,23 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function getParameterName()
+    public function getParameterName() : string
     {
-        return $this->paramter_name;
+        return $this->parameter_name;
     }
 
     /**
      * @inheritdoc
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function withOnSort(C\Signal $signal)
+    public function withOnSort(Signal $signal) : C\ViewControl\Sortation
     {
         return $this->withTriggeredSignal($signal, 'sort');
     }
@@ -144,7 +134,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function getSelectSignal()
+    public function getSelectSignal() : Signal
     {
         return $this->select_signal;
     }

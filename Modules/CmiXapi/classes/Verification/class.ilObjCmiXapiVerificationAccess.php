@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjCmiXapiVerficationAccess
  *
@@ -14,14 +24,22 @@
  */
 class ilObjCmiXapiVerificationAccess extends ilObjectAccess
 {
-    public static function _getCommands()
+    /**
+     * @return array<int, array<string, string|bool>>
+     */
+    public static function _getCommands() : array
     {
-        $commands = array();
-        $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
+        $commands = [];
+        $commands[] = [
+            "permission" => "read",
+            "cmd" => "view",
+            "lang_var" => "show",
+            "default" => true
+        ];
         return $commands;
     }
-    
-    public static function _checkGoto($a_target)
+
+    public static function _checkGoto(string $a_target) : bool
     {
         global $ilAccess;
         
@@ -30,13 +48,8 @@ class ilObjCmiXapiVerificationAccess extends ilObjectAccess
         // #11021
         // personal workspace context: do not force normal login
         if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
-            include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
-            return ilSharedResourceGUI::hasAccess($t_arr[1]);
+            return ilSharedResourceGUI::hasAccess((int) $t_arr[1]);
         }
-        
-        if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
-            return true;
-        }
-        return false;
+        return (bool) $ilAccess->checkAccess("read", "", $t_arr[1]);
     }
 }

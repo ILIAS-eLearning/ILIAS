@@ -1,96 +1,55 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Toolbar. The toolbar currently only supports a list of buttons as links.
- *
  * A default toolbar object is available in the $ilToolbar global object.
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilToolbarGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-
-    /**
-     * @var int
-     */
-    protected static $instances = 0;
-
-    /**
-     * @var string
-     */
-    protected $id = '';
-
-    /**
-     * @var string
-     */
-    protected $form_action = '';
-
-    /**
-     * @var bool
-     */
-    protected $hidden;
-
-    /**
-     * @var array
-     */
-    public $items = array();
-
-    /**
-     * @var array
-     */
-    protected $lead_img = array(
+    protected ilLanguage $lng;
+    protected static int $instances = 0;
+    protected string $id = '';
+    protected string $form_action = '';
+    protected bool $hidden = false;
+    public array $items = array();
+    protected array $lead_img = array(
         'img' => '',
         'alt' => '',
     );
-
-    /**
-     * @var bool
-     */
-    protected $open_form_tag = true;
-
-    /**
-     * @var bool
-     */
-    protected $close_form_tag = true;
-
-    /**
-     * @var string
-     */
-    protected $form_target = "";
-
-    /**
-     * @var string
-     */
-    protected $form_name = "";
-
-    /**
-     * @var bool
-     */
-    protected $prevent_double_submission = false;
-
-    /**
-     * @var array
-     */
-    protected $sticky_items = array();
-
-    /**
-     * @var bool
-     */
-    protected $has_separator = false;
+    protected bool $open_form_tag = true;
+    protected bool $close_form_tag = true;
+    protected string $form_target = "";
+    protected string $form_name = "";
+    protected bool $prevent_double_submission = false;
+    protected array $sticky_items = array();
+    protected bool $has_separator = false;
+    protected \ILIAS\DI\UIServices $ui;
+    protected bool $multipart = false;
 
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->lng = $DIC->language();
 
+        $this->lng = $DIC->language();
         $this->ui = $DIC->ui();
 
         self::$instances++;
@@ -98,143 +57,91 @@ class ilToolbarGUI
 
     /**
      * Set form action (if form action is set, toolbar is wrapped into form tags)
-     *
-     * @param string $a_val form action
-     * @param bool $a_multipart
-     * @param string $a_target
      */
-    public function setFormAction($a_val, $a_multipart = false, $a_target = "")
-    {
+    public function setFormAction(
+        string $a_val,
+        bool $a_multipart = false,
+        string $a_target = ""
+    ) : void {
         $this->form_action = $a_val;
         $this->multipart = $a_multipart;
         $this->form_target = $a_target;
     }
 
-    /**
-     * Get form action
-     *
-     * @return	string	form action
-     */
-    public function getFormAction()
+    public function getFormAction() : string
     {
         return $this->form_action;
     }
 
-
-    /**
-     * Set leading image
-     *
-     * @param string $a_img
-     * @param string $a_alt
-     */
-    public function setLeadingImage($a_img, $a_alt)
-    {
+    public function setLeadingImage(
+        string $a_img,
+        string $a_alt
+    ) : void {
         $this->lead_img = array("img" => $a_img, "alt" => $a_alt);
     }
 
-    /**
-     * Set hidden
-     *
-     * @param boolean $a_val hidden
-     */
-    public function setHidden($a_val)
+    public function setHidden(bool $a_val) : void
     {
         $this->hidden = $a_val;
     }
 
-    /**
-     * Get hidden
-     *
-     * @return boolean hidden
-     */
-    public function getHidden()
+    public function getHidden() : bool
     {
         return $this->hidden;
     }
 
-    /**
-     * Set id
-     *
-     * @param string $a_val id
-     */
-    public function setId($a_val)
+    public function setId(string $a_val) : void
     {
         $this->id = $a_val;
     }
 
-    /**
-     * Get id
-     *
-     * @return string id
-     */
-    public function getId()
+    public function getId() : string
     {
-        return $this->id ? $this->id : self::$instances;
+        return $this->id ?: self::$instances;
     }
 
-    /**
-     * Set prevent double submission
-     *
-     * @param bool $a_val prevent double submission
-     */
-    public function setPreventDoubleSubmission($a_val)
+    public function setPreventDoubleSubmission(bool $a_val) : void
     {
         $this->prevent_double_submission = $a_val;
     }
 
-    /**
-     * Get prevent double submission
-     *
-     * @return bool prevent double submission
-     */
-    public function getPreventDoubleSubmission()
+    public function getPreventDoubleSubmission() : bool
     {
         return $this->prevent_double_submission;
     }
 
     /**
-     * Add button to toolbar
-     *
      * @deprecated use addButtonInstance() instead!
-     *
-     * @param	string		text
-     * @param	string		link href / submit command
-     * @param	string		frame target
-     * @param	string		access key
      */
     public function addButton(
-        $a_txt,
-        $a_cmd,
-        $a_target = "",
-        $a_acc_key = "",
-        $a_additional_attrs = '',
-        $a_id = "",
-        $a_class = 'submit'
-    ) {
+        string $a_txt,
+        string $a_cmd,
+        string $a_target = "",
+        ?int $a_acc_key = null,
+        string $a_additional_attrs = '',
+        string $a_id = "",
+        string $a_class = 'submit'
+    ) : void {
         $this->items[] = array("type" => "button", "txt" => $a_txt, "cmd" => $a_cmd,
             "target" => $a_target, "acc_key" => $a_acc_key, 'add_attrs' => $a_additional_attrs,
             "id" => $a_id, "class" => $a_class);
     }
 
     /**
-     * Add form button to toolbar
-     *
      * @deprecated use addButtonInstance() instead!
-     *
-     * @param	string		text
-     * @param	string		link href / submit command
-     * @param	string		access key
-     * @param	bool		primary action
-     * @param	string		css class
      */
-    public function addFormButton($a_txt, $a_cmd, $a_acc_key = "", $a_primary = false, $a_class = false)
-    {
+    public function addFormButton(
+        string $a_txt,
+        string $a_cmd,
+        ?int $a_acc_key = null,
+        bool $a_primary = false,
+        ?string $a_class = null
+    ) : void {
         if ($a_primary) {
             $button = ilSubmitButton::getInstance();
             $button->setPrimary(true);
             $button->setCaption($a_txt, false);
             $button->setCommand($a_cmd);
-            $button->setAccessKey($a_acc_key);
             $this->addStickyItem($button);
         } else {
             $this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
@@ -242,15 +149,10 @@ class ilToolbarGUI
         }
     }
 
-
-    /**
-     * Add input item
-     *
-     * @param ilToolbarItem $a_item
-     * @param bool $a_output_label
-     */
-    public function addInputItem(ilToolbarItem $a_item, $a_output_label = false)
-    {
+    public function addInputItem(
+        ilToolbarItem $a_item,
+        bool $a_output_label = false
+    ) : void {
         $this->items[] = array("type" => "input", "input" => $a_item, "label" => $a_output_label);
     }
 
@@ -258,22 +160,20 @@ class ilToolbarGUI
     /**
      * Add a sticky item. Sticky items are always visible, also if the toolbar is collapsed (responsive view).
      * Sticky items are displayed first in the toolbar.
-     *
      * @param ilToolbarItem|\ILIAS\UI\Component\Component $a_item
-     * @param bool $a_output_label
      */
-    public function addStickyItem($a_item, $a_output_label = false)
-    {
+    public function addStickyItem(
+        $a_item,
+        bool $a_output_label = false
+    ) : void {
         $this->sticky_items[] = array("item" => $a_item, "label" => $a_output_label);
     }
 
-
     /**
      * Add button instance
-
      * @param ilButtonBase $a_button
      */
-    public function addButtonInstance(ilButtonBase $a_button)
+    public function addButtonInstance(ilButtonBase $a_button) : void
     {
         if ($a_button->isPrimary()) {
             $this->addStickyItem($a_button);
@@ -282,124 +182,74 @@ class ilToolbarGUI
         }
     }
 
-    /**
-     * Add Dropdown
-     */
-    public function addDropDown($a_txt, $a_dd_html)
-    {
+    public function addDropDown(
+        string $a_txt,
+        string $a_dd_html
+    ) : void {
         $this->items[] = array("type" => "dropdown", "txt" => $a_txt, "dd_html" => $a_dd_html);
     }
 
-    /**
-     * @param ilAdvancedSelectionListGUI $adv
-     */
-    public function addAdvancedSelectionList(ilAdvancedSelectionListGUI $adv)
+    public function addAdvancedSelectionList(ilAdvancedSelectionListGUI $adv) : void
     {
         $this->items[] = array("type" => "adv_sel_list", "list" => $adv);
     }
 
-
-    /**
-     * Add separator
-     */
-    public function addSeparator()
+    public function addSeparator() : void
     {
         $this->items[] = array("type" => "separator");
         $this->has_separator = true;
     }
 
-    /**
-     * Add text
-     */
-    public function addText($a_text)
+    public function addText(string $a_text) : void
     {
         $this->items[] = array("type" => "text", "text" => $a_text);
     }
 
-    /**
-     * Add spacer
-     */
-    public function addSpacer($a_width = null)
+    public function addSpacer(string $a_width = null) : void
     {
         $this->items[] = array("type" => "spacer", "width" => $a_width);
     }
 
-    /**
-     * Add component
-     */
-    public function addComponent(\ILIAS\UI\Component\Component $a_comp)
+    public function addComponent(\ILIAS\UI\Component\Component $a_comp) : void
     {
         $this->items[] = array("type" => "component", "component" => $a_comp);
     }
 
-    /**
-     * Add link
-     *
-     * @param  string $a_caption
-     * @param string $a_url
-     * @param boolean $a_disabled
-     */
-    public function addLink($a_caption, $a_url, $a_disabled = false)
-    {
+    public function addLink(
+        string $a_caption,
+        string $a_url,
+        bool $a_disabled = false
+    ) : void {
         $this->items[] = array("type" => "link", "txt" => $a_caption, "cmd" => $a_url, "disabled" => $a_disabled);
     }
 
-    /**
-     * Set open form tag
-     *
-     * @param boolean $a_val open form tag
-     */
-    public function setOpenFormTag($a_val)
-    {
+    public function setOpenFormTag(
+        bool $a_val
+    ) : void {
         $this->open_form_tag = $a_val;
     }
 
-    /**
-     * Get open form tag
-     *
-     * @return	boolean	open form tag
-     */
-    public function getOpenFormTag()
+    public function getOpenFormTag() : bool
     {
         return $this->open_form_tag;
     }
 
-    /**
-     * Set close form tag
-     *
-     * @param boolean $a_val close form tag
-     */
-    public function setCloseFormTag($a_val)
+    public function setCloseFormTag(bool $a_val) : void
     {
         $this->close_form_tag = $a_val;
     }
 
-    /**
-     * Get close form tag
-     *
-     * @return	boolean	close form tag
-     */
-    public function getCloseFormTag()
+    public function getCloseFormTag() : bool
     {
         return $this->close_form_tag;
     }
 
-    /**
-     * Set form name
-     *
-     * @param string $a_val form name
-     */
-    public function setFormName($a_val)
+    public function setFormName(string $a_val) : void
     {
         $this->form_name = $a_val;
     }
 
-    /**
-     * Get form name
-     *
-     * @return	string form name
-     */
-    public function getFormName()
+    public function getFormName() : string
     {
         return $this->form_name;
     }
@@ -407,15 +257,13 @@ class ilToolbarGUI
 
     /**
      * Get all groups (items separated by a separator)
-     *
-     * @return array
      */
-    public function getGroupedItems()
+    public function getGroupedItems() : array
     {
         $groups = array();
         $group = array();
         foreach ($this->items as $item) {
-            if ($item['type'] == 'separator') {
+            if ($item['type'] === 'separator') {
                 $groups[] = $group;
                 $group = array();
             } else {
@@ -429,10 +277,7 @@ class ilToolbarGUI
         return $groups;
     }
 
-    /**
-     * Get toolbar html
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $lng = $this->lng;
 
@@ -467,7 +312,7 @@ class ilToolbarGUI
             }
 
             // Hide toggle button if only sticky items are in the toolbar
-            if (count($this->items) == 0) {
+            if (count($this->items) === 0) {
                 $tpl->setVariable('HIDE_TOGGLE_CLASS', ' hidden');
             }
 
@@ -493,12 +338,6 @@ class ilToolbarGUI
                             }
                             if ($item["id"] != "") {
                                 $tpl_items->setVariable("BID", 'id="' . $item["id"] . '"');
-                            }
-                            if ($item["acc_key"] != "") {
-                                $tpl_items->setVariable(
-                                    "BTN_ACC_KEY",
-                                    ilAccessKeyGUI::getAttribute($item["acc_key"])
-                                );
                             }
                             if (($item['add_attrs'])) {
                                 $tpl_items->setVariable('BTN_ADD_ARG', $item['add_attrs']);
@@ -582,17 +421,14 @@ class ilToolbarGUI
                                 $tpl_items->setCurrentBlock("link");
                                 $tpl_items->setVariable("LINK_TXT", $item["txt"]);
                                 $tpl_items->setVariable("LINK_URL", $item["cmd"]);
-                                $tpl_items->parseCurrentBlock();
-                                $tpl_items->touchBlock("item");
-                                break;
                             } else {
                                 $tpl_items->setCurrentBlock("link_disabled");
                                 $tpl_items->setVariable("LINK_DISABLED_TXT", $item["txt"]);
                                 //$tpl_items->setVariable("LINK_URL", $item["cmd"]);
-                                $tpl_items->parseCurrentBlock();
-                                $tpl_items->touchBlock("item");
-                                break;
                             }
+                            $tpl_items->parseCurrentBlock();
+                            $tpl_items->touchBlock("item");
+                            break;
                     }
                 }
                 $li = (count($group) > 1) ? "<li class='ilToolbarGroup'>" : "<li>";
@@ -609,7 +445,7 @@ class ilToolbarGUI
             }
 
             // form?
-            if ($this->getFormAction() != "") {
+            if ($this->getFormAction() !== "") {
                 // #18947
                 $GLOBALS["tpl"]->addJavaScript("Services/Form/js/Form.js");
 
@@ -622,10 +458,10 @@ class ilToolbarGUI
                     if ($this->multipart) {
                         $tpl->setVariable("ENC_TYPE", 'enctype="multipart/form-data"');
                     }
-                    if ($this->form_target != "") {
+                    if ($this->form_target !== "") {
                         $tpl->setVariable("TARGET", ' target="' . $this->form_target . '" ');
                     }
-                    if ($this->form_name != "") {
+                    if ($this->form_name !== "") {
                         $tpl->setVariable("FORMNAME", 'name="' . $this->getFormName() . '"');
                     }
 
@@ -637,7 +473,7 @@ class ilToolbarGUI
             }
 
             // id
-            if ($this->getId() != "") {
+            if ($this->getId() !== "") {
                 $tpl->setVariable("ID", ' id="' . $this->getId() . '" ');
             }
 
@@ -651,34 +487,25 @@ class ilToolbarGUI
         return "";
     }
 
-
-    /**
-     * @return array
-     */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }
 
-
-    /**
-     * @param array $items
-     */
-    public function setItems($items)
+    public function setItems(array $items) : void
     {
         $this->items = $items;
     }
-
 
     /**
      * If the toolbar consists of only one button, make it sticky
      * Note: Atm this is only possible for buttons. If we are dealing with objects implementing the ilToolbarItem
      * interface one day, other elements can be added as sticky.
      */
-    protected function applyAutoStickyToSingleElement()
+    protected function applyAutoStickyToSingleElement() : void
     {
-        if (count($this->items) == 1 && count($this->sticky_items) == 0) {
-            $supported_types = array('button', 'fbutton', 'button_obj');
+        if (count($this->items) === 1 && count($this->sticky_items) === 0) {
+            $supported_types = ['button', 'fbutton', 'button_obj'];
             $item = $this->items[0];
             if (!in_array($item['type'], $supported_types)) {
                 return;
@@ -693,7 +520,6 @@ class ilToolbarGUI
                     $button->setPrimary($item['primary']);
                     $button->setCaption($item['txt'], false);
                     $button->setCommand($item['cmd']);
-                    $button->setAccessKey($item['acc_key']);
                     break;
                 case 'button':
                     $button = ilLinkButton::getInstance();
@@ -701,11 +527,10 @@ class ilToolbarGUI
                     $button->setUrl($item['cmd']);
                     $button->setTarget($item['target']);
                     $button->setId($item['id']);
-                    $button->setAccessKey($item['acc_key']);
                     break;
             }
             $this->addStickyItem($button);
-            $this->items = array();
+            $this->items = [];
         }
     }
 }

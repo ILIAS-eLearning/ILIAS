@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailMimeSenderSystem
@@ -7,69 +22,43 @@
  */
 class ilMailMimeSenderSystem implements ilMailMimeSender
 {
-    /** @var ilSetting */
-    protected $settings;
+    protected ilSetting $settings;
 
-    /**
-     * ilMailMimeSenderSystem constructor.
-     * @param ilSetting $settings
-     */
     public function __construct(ilSetting $settings)
     {
         $this->settings = $settings;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasReplyToAddress() : bool
     {
-        return strlen($this->settings->get('mail_system_sys_reply_to_addr')) > 0;
+        return $this->settings->get('mail_system_sys_reply_to_addr', '') !== '';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getReplyToAddress() : string
     {
         return $this->settings->get('mail_system_sys_reply_to_addr', '');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getReplyToName() : string
     {
         return '';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasEnvelopFromAddress() : bool
     {
-        return strlen($this->settings->get('mail_system_sys_env_from_addr')) > 0;
+        return $this->settings->get('mail_system_sys_env_from_addr', '') !== '';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getEnvelopFromAddress() : string
     {
         return $this->settings->get('mail_system_sys_env_from_addr', '');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFromAddress() : string
     {
         return $this->settings->get('mail_system_sys_from_addr', '');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFromName() : string
     {
         return $this->settings->get('mail_system_sys_from_name', '');

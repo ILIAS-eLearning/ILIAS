@@ -1,17 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
 
 /**
  * Class ilEventRaisingActivity
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
@@ -19,64 +12,17 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
     /** @var ilWorkflowEngineElement $context Holds a reference to the parent object */
     private $context;
 
-    /** @var string $event_type Type of the event to be raised. */
-    protected $event_type;
+    /** Type of the event to be raised. */
+    protected string $event_type = '';
 
-    /** @var string $event_name Name of the event to be raised. */
-    protected $event_name;
+    /** Name of the event to be raised. */
+    protected string $event_name = '';
 
-    /** @var  array $fixed_params Fixed params that are always to be sent with the event. Will be overriden by context. */
-    protected $fixed_params;
+    /** @var array $fixed_params Fixed params that are always to be sent with the event. Will be overriden by context. */
+    protected array $fixed_params = [];
 
-    /** @var string $name */
-    protected $name;
+    protected ?string $name;
 
-    /**
-     * @param string $key
-     * @param mixed  $value
-     */
-    public function addFixedParam($key, $value)
-    {
-        $this->fixed_params[] = array('key' => $key, 'value' => $value);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEventName()
-    {
-        return $this->event_name;
-    }
-
-    /**
-     * @param string $event_name
-     */
-    public function setEventName($event_name)
-    {
-        $this->event_name = $event_name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEventType()
-    {
-        return $this->event_type;
-    }
-
-    /**
-     * @param string $event_type
-     */
-    public function setEventType($event_type)
-    {
-        $this->event_type = $event_type;
-    }
-
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $a_context
-     */
     public function __construct(ilNode $a_context)
     {
         $this->context = $a_context;
@@ -85,13 +31,40 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
     }
 
     /**
-     * Executes this action according to its settings.
-     *
-     * @todo Use exceptions / internal logging.
-     *
-     * @return void
+     * @param string $key
+     * @param mixed $value
      */
-    public function execute()
+    public function addFixedParam(string $key, $value) : void
+    {
+        $this->fixed_params[] = ['key' => $key, 'value' => $value];
+    }
+
+    public function getEventName() : string
+    {
+        return $this->event_name;
+    }
+
+    public function setEventName(string $event_name) : void
+    {
+        $this->event_name = $event_name;
+    }
+
+    public function getEventType() : string
+    {
+        return $this->event_type;
+    }
+
+    public function setEventType(string $event_type) : void
+    {
+        $this->event_type = $event_type;
+    }
+
+    /**
+     * Executes this action according to its settings.
+     * @return void
+     * @todo Use exceptions / internal logging.
+     */
+    public function execute() : void
     {
         global $DIC;
         /** @var ilAppEventHandler $ilAppEventHandler */
@@ -107,14 +80,14 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getParamsArray()
+    public function getParamsArray() : array
     {
         // TODO: Get logic for getting values from incoming data associations.
 
-        $params = array();
-        $params[] = array('key' => 'context', 'value' => $this);
+        $params = [];
+        $params[] = ['key' => 'context', 'value' => $this];
 
-        return array_merge((array) $this->fixed_params, $params);
+        return array_merge($this->fixed_params, $params);
     }
 
     /**
@@ -127,18 +100,12 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name) : void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

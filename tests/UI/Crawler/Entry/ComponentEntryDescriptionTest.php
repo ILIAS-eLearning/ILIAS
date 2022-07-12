@@ -1,6 +1,21 @@
-<?php
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once("libs/composer/vendor/autoload.php");
 include_once("tests/UI/Crawler/Fixture/Fixture.php");
 
@@ -10,61 +25,53 @@ use PHPUnit\Framework\TestCase;
 
 class ComponentEntryDescriptionTest extends TestCase
 {
-
-    /**
-     * @var array
-     */
-    protected $empty_description_array = array(
+    protected array $empty_description_array = [
         "purpose" => "",
         "composition" => "",
         "effect" => "",
-        "rivals" => array()
-    );
+        "rivals" => []
+    ];
 
-    protected $invalid_categories1_array = array(
+    protected array $invalid_categories1_array = [
         "purpose",
         "wrong"
-    );
-    protected $invalid_categories2_array = array(
+    ];
+
+    protected array $invalid_categories2_array = [
         "purpose" => "",
         "wrong" => ""
-    );
-    protected $invalid_category_item_array = array(
-        "purpose" => "Correct",
-        "composition" => array("Wrong")
-    );
-    protected $invalid_category_value_array = array(
-        "purpose" => "Correct",
-        "rivals" => array(array("wrong"))
-    );
+    ];
 
-    protected $correct_description1_array = array(
+    protected array $invalid_category_item_array = [
+        "purpose" => "Correct",
+        "composition" => ["Wrong"]
+    ];
+
+    protected array $invalid_category_value_array = [
+        "purpose" => "Correct",
+        "rivals" => [["wrong"]]
+    ];
+
+    protected array $correct_description1_array = [
         "purpose" => "Purpose Description",
         "composition" => "Composition Description",
         "effect" => "Effect Description",
-        "rivals" => array("Element 1" => "Rival 1", "Element 2" => "Rival 2")
-    );
+        "rivals" => ["Element 1" => "Rival 1", "Element 2" => "Rival 2"]
+    ];
 
-    protected $correct_description2_array = array(
+    protected array $correct_description2_array = [
         "purpose" => "Purpose Description"
-    );
+    ];
 
-    protected $correct_description2_array_return = array(
+    protected array $correct_description2_array_return = [
         "purpose" => "Purpose Description",
         "composition" => "",
         "effect" => "",
-        "rivals" => array()
-    );
+        "rivals" => []
+    ];
 
-    /**
-     * @var Crawler\EntriesYamlParser
-     */
-    protected $parser;
-
-    /**
-     * @var ProperEntryFixture
-     */
-    protected $proper_entry;
+    protected Crawler\EntriesYamlParser $parser;
+    protected ProperEntryFixture $proper_entry;
 
     protected function setUp() : void
     {
@@ -72,11 +79,10 @@ class ComponentEntryDescriptionTest extends TestCase
         $this->proper_entry = new ProperEntryFixture();
     }
 
-
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testEmptyDescription()
+    public function testEmptyDescription() : void
     {
         $description = new Entry\ComponentEntryDescription();
         $this->assertEquals($this->empty_description_array, $description->getDescription());
@@ -87,68 +93,66 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidDescription()
+    public function testInvalidDescription() : void
     {
-        try {
-            new Entry\ComponentEntryDescription(null);
-            new Entry\ComponentEntryDescription("desc1");
-            $this->assertFalse("This should not happen");
-        } catch (Crawler\Exception\CrawlerException $e) {
-            $this->assertEquals($e->getCode(), Crawler\Exception\CrawlerException::ARRAY_EXPECTED);
-        }
+        $this->expectException(TypeError::class);
+        new Entry\ComponentEntryDescription(null);
+
+        $this->expectException(TypeError::class);
+        new Entry\ComponentEntryDescription('desc1');
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategories1()
+    public function testInvalidCategories1() : void
     {
         try {
             new Entry\ComponentEntryDescription($this->invalid_categories1_array);
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
-            $this->assertEquals($e->getCode(), Crawler\Exception\CrawlerException::INVALID_INDEX);
+            $this->assertEquals(Crawler\Exception\CrawlerException::INVALID_INDEX, $e->getCode());
         }
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategories2()
+    public function testInvalidCategories2() : void
     {
         try {
             new Entry\ComponentEntryDescription($this->invalid_categories2_array);
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
-            $this->assertEquals($e->getCode(), Crawler\Exception\CrawlerException::INVALID_INDEX);
+            $this->assertEquals(Crawler\Exception\CrawlerException::INVALID_INDEX, $e->getCode());
         }
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategoryItem()
+    public function testInvalidCategoryItem() : void
     {
         try {
             new Entry\ComponentEntryDescription($this->invalid_category_item_array);
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
-            $this->assertEquals($e->getCode(), Crawler\Exception\CrawlerException::STRING_EXPECTED);
+            $this->assertEquals(Crawler\Exception\CrawlerException::STRING_EXPECTED, $e->getCode());
         }
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategoryValue()
+    public function testInvalidCategoryValue() : void
     {
         try {
             new Entry\ComponentEntryDescription($this->invalid_category_value_array);
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
-            $this->assertEquals($e->getCode(), Crawler\Exception\CrawlerException::STRING_EXPECTED);
+            $this->assertEquals(Crawler\Exception\CrawlerException::STRING_EXPECTED, $e->getCode());
         }
     }
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testCorrectDescription1()
+    public function testCorrectDescription1() : void
     {
         $description = new Entry\ComponentEntryDescription($this->correct_description1_array);
         $this->assertEquals($this->correct_description1_array, $description->getDescription());
@@ -157,13 +161,13 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testCorrectDescription2()
+    public function testCorrectDescription2() : void
     {
         $description = new Entry\ComponentEntryDescription($this->correct_description2_array);
         $this->assertEquals($this->correct_description2_array_return, $description->getDescription());
     }
 
-    public function testParseProperEntryToArray()
+    public function testParseProperEntryToArray() : void
     {
         $entry = $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php")[0];
 

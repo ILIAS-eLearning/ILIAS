@@ -1,43 +1,46 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCMap
- *
  * Map content object (see ILIAS DTD)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCMap extends ilPageContent
 {
-    public $map_node;
+    public php4DOMElement $map_node;
 
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         $this->setType("map");
     }
 
-    /**
-    * Set node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->map_node = $a_node->first_child();		// this is the Map node
     }
 
-    /**
-    * Create map node in xml.
-    *
-    * @param	object	$a_pg_obj		Page Object
-    * @param	string	$a_hier_id		Hierarchical ID
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
 
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
@@ -48,15 +51,10 @@ class ilPCMap extends ilPageContent
         $this->map_node->set_attribute("Zoom", "3");
     }
 
-    /**
-    * Set latitude of map
-    *
-    * @param	string	$a_lat		latitude
-    */
-    public function setLatitude($a_lat)
+    public function setLatitude(?float $a_lat = null) : void
     {
-        if (!empty($a_lat)) {
-            $this->map_node->set_attribute("Latitude", $a_lat);
+        if (!is_null($a_lat)) {
+            $this->map_node->set_attribute("Latitude", (string) $a_lat);
         } else {
             if ($this->map_node->has_attribute("Latitude")) {
                 $this->map_node->remove_attribute("Latitude");
@@ -64,26 +62,17 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    /**
-    * Get latitude of map.
-    *
-    * @return	string		latitude
-    */
-    public function getLatitude()
+    public function getLatitude() : ?float
     {
         if (is_object($this->map_node)) {
-            return $this->map_node->get_attribute("Latitude");
+            return (float) $this->map_node->get_attribute("Latitude");
         }
+        return null;
     }
 
-    /**
-    * Set longitude of map
-    *
-    * @param	string	$a_long		longitude
-    */
-    public function setLongitude($a_long)
+    public function setLongitude(?float $a_long = null) : void
     {
-        if (!empty($a_long)) {
+        if (!is_null($a_long)) {
             $this->map_node->set_attribute("Longitude", $a_long);
         } else {
             if ($this->map_node->has_attribute("Longitude")) {
@@ -92,55 +81,38 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    /**
-    * Get longitude of map.
-    *
-    * @return	string		longitude
-    */
-    public function getLongitude()
+    public function getLongitude() : ?float
     {
         if (is_object($this->map_node)) {
-            return $this->map_node->get_attribute("Longitude");
+            return (float) $this->map_node->get_attribute("Longitude");
         }
+        return null;
     }
 
-    /**
-    * Set zoom of map
-    *
-    * @param	string	$a_zoom		zoom
-    */
-    public function setZoom($a_zoom)
+    public function setZoom(?int $a_zoom) : void
     {
-        if (!empty($a_zoom)) {
-            $this->map_node->set_attribute("Zoom", $a_zoom);
-        } else {
+        //if (!empty($a_zoom)) {
+        $this->map_node->set_attribute("Zoom", (int) $a_zoom);
+        /*} else {
             if ($this->map_node->has_attribute("Zoom")) {
                 $this->map_node->remove_attribute("Zoom");
             }
-        }
+        }*/
     }
 
-    /**
-    * Get zoom of map.
-    *
-    * @return	string		zoom
-    */
-    public function getZoom()
+    public function getZoom() : ?int
     {
         if (is_object($this->map_node)) {
-            return $this->map_node->get_attribute("Zoom");
+            return (int) $this->map_node->get_attribute("Zoom");
         }
+        return null;
     }
     
-    /**
-    * Set Layout
-    *
-    * @param	integer	$a_width			Width
-    * @param	integer	$a_height			Height
-    * @param	integer	$a_horizonal_align	Horizontal Alignment
-    */
-    public function setLayout($a_width, $a_height, $a_horizontal_align)
-    {
+    public function setLayout(
+        ?int $a_width,
+        ?int $a_height,
+        string $a_horizontal_align
+    ) : void {
         if (is_object($this->map_node)) {
             ilDOMUtil::setFirstOptionalElement(
                 $this->dom,
@@ -148,52 +120,45 @@ class ilPCMap extends ilPageContent
                 "Layout",
                 array("MapCaption"),
                 "",
-                array("Width" => $a_width,
-                    "Height" => $a_height, "HorizontalAlign" => $a_horizontal_align)
+                array("Width" => (string) $a_width,
+                    "Height" => (string) $a_height, "HorizontalAlign" => $a_horizontal_align)
             );
         }
     }
 
-    /**
-    * Get Width.
-    *
-    * @return	integer	Width
-    */
-    public function getWidth()
+    public function getWidth() : ?int
     {
         if (is_object($this->map_node)) {
             $childs = $this->map_node->child_nodes();
             foreach ($childs as $child) {
                 if ($child->node_name() == "Layout") {
-                    return $child->get_attribute("Width");
+                    $w = $child->get_attribute("Width")
+                        ? (int) $child->get_attribute("Width")
+                        : null;
+                    return $w;
                 }
             }
         }
+        return null;
     }
 
-    /**
-    * Get Height.
-    *
-    * @return	integer	Height
-    */
-    public function getHeight()
+    public function getHeight() : ?int
     {
         if (is_object($this->map_node)) {
             $childs = $this->map_node->child_nodes();
             foreach ($childs as $child) {
                 if ($child->node_name() == "Layout") {
-                    return $child->get_attribute("Height");
+                    $h = $child->get_attribute("Height")
+                        ? (int) $child->get_attribute("Height")
+                        : null;
+                    return $h;
                 }
             }
         }
+        return null;
     }
 
-    /**
-    * Get Horizontal Alignment.
-    *
-    * @return	string	Horizontal Alignment
-    */
-    public function getHorizontalAlign()
+    public function getHorizontalAlign() : string
     {
         if (is_object($this->map_node)) {
             $childs = $this->map_node->child_nodes();
@@ -203,14 +168,10 @@ class ilPCMap extends ilPageContent
                 }
             }
         }
+        return "";
     }
 
-    /**
-    * Set Caption.
-    *
-    * @param	string	$a_caption	Caption
-    */
-    public function setCaption($a_caption)
+    public function setCaption(string $a_caption) : void
     {
         if (is_object($this->map_node)) {
             ilDOMUtil::setFirstOptionalElement(
@@ -224,12 +185,7 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    /**
-    * Get Caption.
-    *
-    * @return	string	Caption
-    */
-    public function getCaption()
+    public function getCaption() : string
     {
         if (is_object($this->map_node)) {
             $childs = $this->map_node->child_nodes();
@@ -239,10 +195,12 @@ class ilPCMap extends ilPageContent
                 }
             }
         }
+        return "";
     }
 
-    public static function handleCaptionInput($a_text)
-    {
+    public static function handleCaptionInput(
+        string $a_text
+    ) : string {
         $a_text = str_replace(chr(13) . chr(10), "<br />", $a_text);
         $a_text = str_replace(chr(13), "<br />", $a_text);
         $a_text = str_replace(chr(10), "<br />", $a_text);
@@ -250,27 +208,28 @@ class ilPCMap extends ilPageContent
         return $a_text;
     }
     
-    public static function handleCaptionFormOutput($a_text)
-    {
+    public static function handleCaptionFormOutput(
+        string $a_text
+    ) : string {
         $a_text = str_replace("<br />", "\n", $a_text);
         $a_text = str_replace("<br/>", "\n", $a_text);
         
         return $a_text;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
-    {
+    public function modifyPageContentPostXsl(
+        string $a_output,
+        string $a_mode,
+        bool $a_abstract_only = false
+    ) : string {
         $end = 0;
-        $start = strpos($a_html, "[[[[[Map;");
+        $start = strpos($a_output, "[[[[[Map;");
         if (is_int($start)) {
-            $end = strpos($a_html, "]]]]]", $start);
+            $end = strpos($a_output, "]]]]]", $start);
         }
         $i = 1;
         while ($end > 0) {
-            $param = substr($a_html, $start + 9, $end - $start - 9);
+            $param = substr($a_output, $start + 9, $end - $start - 9);
             
             $param = explode(";", $param);
             if (is_numeric($param[0]) && is_numeric($param[1]) && is_numeric($param[2])) {
@@ -284,19 +243,19 @@ class ilPCMap extends ilPageContent
                         ->setEnableTypeControl(true)
                         ->setEnableNavigationControl(true)
                         ->setEnableCentralMarker(true);
-                $h2 = substr($a_html, 0, $start) .
+                $h2 = substr($a_output, 0, $start) .
                     $map_gui->getHtml() .
-                    substr($a_html, $end + 5);
-                $a_html = $h2;
+                    substr($a_output, $end + 5);
+                $a_output = $h2;
                 $i++;
             }
-            $start = strpos($a_html, "[[[[[Map;", $start + 5);
+            $start = strpos($a_output, "[[[[[Map;", $start + 5);
             $end = 0;
             if (is_int($start)) {
-                $end = strpos($a_html, "]]]]]", $start);
+                $end = strpos($a_output, "]]]]]", $start);
             }
         }
                 
-        return $a_html;
+        return $a_output;
     }
 }

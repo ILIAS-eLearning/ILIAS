@@ -1,8 +1,24 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Transformation;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once dirname(__DIR__) . '../../../libs/composer/vendor/autoload.php';
 
 /**
  * Abstract basic class which is to be extended by the concrete assessment question type classes
@@ -136,11 +152,6 @@ abstract class assQuestion
     public bool $selfassessmenteditingmode = false;
 
     public int $defaultnroftries = 0;
-    
-    /**
-     * @var array[ilQuestionChangeListener]
-     */
-    protected array $questionChangeListeners = array();
 
     protected \ilAssQuestionProcessLocker $processLocker;
 
@@ -153,7 +164,7 @@ abstract class assQuestion
     
     protected $lastChange;
 
-    protected \ilRandomArrayElementProvider $shuffler;
+    protected Transformation $shuffler;
 
     private bool $obligationsToBeConsidered = false;
 
@@ -166,7 +177,9 @@ abstract class assQuestion
         'image/png' => array('png'),
         'image/gif' => array('gif')
     );
-    
+
+    protected ilObjUser $current_user;
+
     /**
      * assQuestion constructor
      */
@@ -184,7 +197,7 @@ abstract class assQuestion
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
 
-        $this->ilias = $ilias;
+        $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->db = $ilDB;
@@ -192,15 +205,10 @@ abstract class assQuestion
 
         $this->title = $title;
         $this->comment = $comment;
-        $this->author = $author;
+        $this->setAuthor($author);
+        $this->setOwner($owner);
+    
         $this->setQuestion($question);
-        if (!$this->author) {
-            $this->author = $this->ilias->account->fullname;
-        }
-        $this->owner = $owner;
-        if ($this->owner <= 0) {
-            $this->owner = $this->ilias->account->id;
-        }
 
         $this->id = -1;
         $this->test_id = -1;
@@ -211,8 +219,8 @@ abstract class assQuestion
         $this->setExternalId('');
 
         $this->questionActionCmd = 'handleQuestionAction';
-
-        $this->shuffler = new ilDeterministicArrayElementProvider();
+        $this->export_image_path = '';
+        $this->shuffler = $DIC->refinery()->random()->dontShuffle();
         $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
     }
     
@@ -360,12 +368,12 @@ abstract class assQuestion
         return array_unique($extensions);
     }
 
-    public function getShuffler() : ilRandomArrayElementProvider
+    public function getShuffler() : Transformation
     {
         return $this->shuffler;
     }
 
-    public function setShuffler(ilRandomArrayElementProvider $shuffler) : void
+    public function setShuffler(Transformation $shuffler) : void
     {
         $this->shuffler = $shuffler;
     }
@@ -390,9 +398,8 @@ abstract class assQuestion
     * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
     * @param array $import_mapping An array containing references to included ILIAS objects
     */
-    public function fromXML($item, int $questionpool_id, int $tst_id, $tst_object, int $question_counter, array $import_mapping) : void
+    public function fromXML($item, int $questionpool_id, ?int $tst_id, $tst_object, int $question_counter, array $import_mapping) : void
     {
-        include_once "./Modules/TestQuestionPool/classes/import/qti12/class." . $this->getQuestionType() . "Import.php";
         $classname = $this->getQuestionType() . "Import";
         $import = new $classname($this);
         $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
@@ -410,7 +417,6 @@ abstract class assQuestion
         bool $test_output = false,
         bool $force_image_references = false
     ) : string {
-        include_once "./Modules/TestQuestionPool/classes/export/qti12/class." . $this->getQuestionType() . "Export.php";
         $classname = $this->getQuestionType() . "Export";
         $export = new $classname($this);
         return $export->toXML($a_include_header, $a_include_binary, $a_shuffle, $test_output, $force_image_references);
@@ -452,7 +458,7 @@ abstract class assQuestion
         $this->id = $id;
     }
 
-    public function setTestId(int $id = -1)
+    public function setTestId(int $id = -1) : void
     {
         $this->test_id = $id;
     }
@@ -467,14 +473,14 @@ abstract class assQuestion
         $this->outputType = $outputType;
     }
 
-    public function setShuffle(bool $shuffle = true) : void
+    public function setShuffle(?bool $shuffle = true) : void
     {
-        $this->shuffle = $shuffle;
+        $this->shuffle = $shuffle ?? false;
     }
 
     public function setEstimatedWorkingTime(int $hour = 0, int $min = 0, int $sec = 0) : void
     {
-        $this->est_working_time = array("h" => (int) $hour, "m" => (int) $min, "s" => (int) $sec);
+        $this->est_working_time = array("h" => $hour, "m" => $min, "s" => $sec);
     }
 
     /**
@@ -492,7 +498,7 @@ abstract class assQuestion
     public function setAuthor(string $author = "") : void
     {
         if (!$author) {
-            $author = $this->ilias->account->fullname;
+            $author = $this->current_user->getFullname();
         }
         $this->author = $author;
     }
@@ -509,8 +515,7 @@ abstract class assQuestion
     
     public function getTitleFilenameCompliant() : string
     {
-        require_once 'Services/Utilities/classes/class.ilUtil.php';
-        return ilUtil::getASCIIFilename($this->getTitle());
+        return ilFileUtils::getASCIIFilename($this->getTitle());
     }
 
     public function getId() : int
@@ -691,12 +696,10 @@ abstract class assQuestion
                     break;
                 case "file":
                     $possible_texts = array_values(array_filter(array(
-                        ilUtil::prepareFormOutput($solution['value']['filename']),
-                        ilUtil::prepareFormOutput($solution['value']['name']),
+                        ilLegacyFormElementsUtil::prepareFormOutput($solution['value']['filename']),
+                        ilLegacyFormElementsUtil::prepareFormOutput($solution['value']['name']),
                         $this->lng->txt('tst_show_solution_suggested')
                     )));
-
-                    require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
                     ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
                     $output[] = '<a href="' . ilWACSignedPath::signFile($this->getSuggestedSolutionPathWeb() . $solution["value"]["name"]) . '">' . $possible_texts[0] . '</a>';
                     break;
@@ -790,9 +793,6 @@ abstract class assQuestion
     {
         // determine reached points for submitted solution
         $reached_points = $this->calculateReachedPoints($active_id, $pass, $authorizedSolution);
-
-        // deduct points for requested hints from reached points
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
         $hintTracking = new ilAssQuestionHintTracking($this->getId(), $active_id, $pass);
         $requestsStatisticData = $hintTracking->getRequestStatisticDataByQuestionAndTestpass();
         $reached_points = $reached_points - $requestsStatisticData->getRequestsPoints();
@@ -814,9 +814,6 @@ abstract class assQuestion
         
         // determine reached points for submitted solution
         $reached_points = $this->calculateReachedPoints($active_id, $pass);
-
-        // deduct points for requested hints from reached points
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
         $questionHintTracking = new ilAssQuestionHintTracking($this->getId(), $active_id, $pass);
         $requestsStatisticData = $questionHintTracking->getRequestStatisticDataByQuestionAndTestpass();
         $reached_points = $reached_points - $requestsStatisticData->getRequestsPoints();
@@ -880,9 +877,6 @@ abstract class assQuestion
                 $ilDB->insert('tst_test_result', $fieldData);
             }
         });
-        // fau.
-
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             assQuestion::logAction(
@@ -901,9 +895,6 @@ abstract class assQuestion
 
         // update test pass results
         self::_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
-
-        // Update objective status
-        include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
         ilCourseObjectiveResult::_updateObjectiveResult($ilUser->getId(), $active_id, $this->getId());
     }
 
@@ -911,7 +902,7 @@ abstract class assQuestion
      * persists the working state for current testactive and testpass
      * @return bool if saving happened
      */
-    final public function persistWorkingState(int $active_id, int $pass, bool $obligationsEnabled = false, bool $authorized = true) : bool
+    final public function persistWorkingState(int $active_id, $pass, bool $obligationsEnabled = false, bool $authorized = true) : bool
     {
         if (!$this->validateSolutionSubmit() && !$this->savePartial()) {
             return false;
@@ -920,6 +911,10 @@ abstract class assQuestion
         $saveStatus = false;
 
         $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, $obligationsEnabled, &$saveStatus) {
+            if ($pass === null) {
+                $pass = ilObjTest::_getPass($active_id);
+            }
+
             $saveStatus = $this->saveWorkingData($active_id, $pass, $authorized);
 
             if ($authorized) {
@@ -964,13 +959,10 @@ abstract class assQuestion
     }
     
     /** @TODO Move this to a proper place. */
-    public static function _updateTestResultCache(int $active_id, ilAssQuestionProcessLocker $processLocker = null)
+    public static function _updateTestResultCache(int $active_id, ilAssQuestionProcessLocker $processLocker = null) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
-        include_once "./Modules/Test/classes/class.assMarkSchema.php";
         
         $pass = ilObjTest::_getResultPass($active_id);
 
@@ -994,8 +986,6 @@ abstract class assQuestion
         
         $obligationsAnswered = (int) $row['obligations_answered'];
         
-        include_once "./Modules/Test/classes/class.assMarkSchema.php";
-        
         $percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
         
         $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
@@ -1010,7 +1000,10 @@ abstract class assQuestion
             while ($row = $ilDB->fetchAssoc($res)) {
                 $passedOnceBefore = (int) $row['passed_once'];
             }
-            
+            if ($row == null) {
+                $row['hint_count'] = 0;
+                $row['hint_points'] = 0.0;
+            }
             $passedOnce = (int) ($isPassed || $passedOnceBefore);
                 
             $ilDB->manipulateF(
@@ -1053,8 +1046,6 @@ abstract class assQuestion
     ) : array {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
 
         $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
         $time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
@@ -1174,9 +1165,6 @@ abstract class assQuestion
     public static function logAction(string $logtext, int $active_id, int $question_id) : void
     {
         $original_id = self::_getOriginalId($question_id);
-
-        require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
-        require_once 'Modules/Test/classes/class.ilObjTest.php';
         
         ilObjAssessmentFolder::_addLog(
             $GLOBALS['DIC']['ilUser']->getId(),
@@ -1198,12 +1186,12 @@ abstract class assQuestion
     {
         $mediatempdir = CLIENT_WEB_DIR . "/assessment/temp";
         if (!@is_dir($mediatempdir)) {
-            ilUtil::createDirectory($mediatempdir);
+            ilFileUtils::createDirectory($mediatempdir);
         }
         $temp_name = tempnam($mediatempdir, $name . "_____");
         $temp_name = str_replace("\\", "/", $temp_name);
         @unlink($temp_name);
-        if (!ilUtil::moveUploadedFile($file, $name, $temp_name)) {
+        if (!ilFileUtils::moveUploadedFile($file, $name, $temp_name)) {
             return false;
         }
         return $temp_name;
@@ -1219,7 +1207,7 @@ abstract class assQuestion
     * The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
     *
     */
-    public function getImagePath($question_id = null, $object_id = null)
+    public function getImagePath($question_id = null, $object_id = null) : string
     {
         if ($question_id === null) {
             $question_id = $this->id;
@@ -1232,7 +1220,7 @@ abstract class assQuestion
         return $this->buildImagePath($question_id, $object_id);
     }
     
-    public function buildImagePath($questionId, $parentObjectId)
+    public function buildImagePath($questionId, $parentObjectId) : string
     {
         return CLIENT_WEB_DIR . "/assessment/{$parentObjectId}/{$questionId}/images/";
     }
@@ -1256,16 +1244,22 @@ abstract class assQuestion
     */
     public function getJavaPathWeb() : string
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $webdir
+        );
     }
 
     public function getSuggestedSolutionPathWeb() : string
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/solution/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/solution/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $webdir
+        );
     }
 
     /**
@@ -1276,9 +1270,12 @@ abstract class assQuestion
     public function getImagePathWeb() : string
     {
         if (!$this->export_image_path) {
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
-            $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
-            return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
+            return str_replace(
+                ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+                ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+                $webdir
+            );
         }
         return $this->export_image_path;
     }
@@ -1293,7 +1290,7 @@ abstract class assQuestion
     }
     // hey.
     
-    public function getUserSolutionPreferingIntermediate(int $active_id, $pass = null)
+    public function getUserSolutionPreferingIntermediate(int $active_id, $pass = null) : array
     {
         $solution = $this->getSolutionValues($active_id, $pass, false);
         
@@ -1430,7 +1427,7 @@ abstract class assQuestion
     }
 
     /**
-     * @return string Or Array? @see Deletion methods here
+     * @return string|array Or Array? @see Deletion methods here
      */
     public function getAdditionalTableName()
     {
@@ -1438,7 +1435,7 @@ abstract class assQuestion
     }
 
     /**
-     * @return string Or Array? @see Deletion methods here
+     * @return string|array Or Array? @see Deletion methods here
      */
     public function getAnswerTableName()
     {
@@ -1485,7 +1482,6 @@ abstract class assQuestion
 
     protected function deletePageOfQuestion(int $question_id) : void
     {
-        include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
         $page = new ilAssQuestionPage($question_id);
         $page->delete();
     }
@@ -1563,8 +1559,7 @@ abstract class assQuestion
         try {
             $directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
             if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory)) {
-                include_once "./Services/Utilities/classes/class.ilUtil.php";
-                ilUtil::delDir($directory);
+                ilFileUtils::delDir($directory);
             }
         } catch (Exception $e) {
             $this->ilLog->root()->error("EXCEPTION: Could not delete question file directory $directory of question $question_id: $e");
@@ -1572,7 +1567,6 @@ abstract class assQuestion
         }
 
         try {
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
             $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
             // remaining usages are not in text anymore -> delete them
             // and media objects (note: delete method of ilObjMediaObject
@@ -1589,14 +1583,8 @@ abstract class assQuestion
             $this->ilLog->root()->error("EXCEPTION: Error deleting the media objects of question $question_id: $e");
             return;
         }
-        
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
         ilAssQuestionHintTracking::deleteRequestsByQuestionIds(array($question_id));
-        
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
         ilAssQuestionHintList::deleteHintsByQuestionIds(array($question_id));
-
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($obj_id);
         $assignmentList->setQuestionIdFilter($question_id);
@@ -1619,21 +1607,15 @@ abstract class assQuestion
         $this->deleteTaxonomyAssignments();
         
         try {
-            // update question count of question pool
-            include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
             ilObjQuestionPool::_updateQuestionCount($this->getObjId());
         } catch (Exception $e) {
             $this->ilLog->root()->error("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
             return;
         }
-        
-        $this->notifyQuestionDeleted($this);
     }
     
     private function deleteTaxonomyAssignments() : void
     {
-        require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-        require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
         $taxIds = ilObjTaxonomy::getUsageOfObject($this->getObjId());
         
         foreach ($taxIds as $taxId) {
@@ -1757,7 +1739,6 @@ abstract class assQuestion
     
     public function copyXHTMLMediaObjectsOfQuestion(int $a_q_id) : void
     {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $a_q_id);
         foreach ($mobs as $mob) {
             ilObjMediaObject::_saveUsage($mob, "qpl:html", $this->getId());
@@ -1766,7 +1747,6 @@ abstract class assQuestion
     
     public function syncXHTMLMediaObjectsOfQuestion() : void
     {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         foreach ($mobs as $mob) {
             ilObjMediaObject::_saveUsage($mob, "qpl:html", $this->original_id);
@@ -1776,21 +1756,18 @@ abstract class assQuestion
     public function createPageObject() : void
     {
         $qpl_id = $this->getObjId();
-
-        include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
         $this->page = new ilAssQuestionPage(0);
         $this->page->setId($this->getId());
         $this->page->setParentId($qpl_id);
         $this->page->setXMLContent("<PageObject><PageContent>" .
             "<Question QRef=\"il__qst_" . $this->getId() . "\"/>" .
             "</PageContent></PageObject>");
-        $this->page->create();
+        $this->page->create(false);
     }
 
     public function copyPageOfQuestion(int $a_q_id) : void
     {
         if ($a_q_id > 0) {
-            include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
             $page = new ilAssQuestionPage($a_q_id);
 
             $xml = str_replace("il__qst_" . $a_q_id, "il__qst_" . $this->id, $page->getXMLContent());
@@ -1801,7 +1778,6 @@ abstract class assQuestion
 
     public function getPageOfQuestion() : string
     {
-        include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
         $page = new ilAssQuestionPage($this->id);
         return $page->getXMLContent();
     }
@@ -1854,7 +1830,7 @@ abstract class assQuestion
         $this->original_id = $original_id;
     }
     
-    public function getOriginalId() : int
+    public function getOriginalId() : ?int
     {
         return $this->original_id;
     }
@@ -1884,7 +1860,7 @@ abstract class assQuestion
             $needleReplacementMap = array();
             
             foreach ($sources as $src) {
-                $file = ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . DIRECTORY_SEPARATOR . $src;
+                $file = ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . DIRECTORY_SEPARATOR . $src;
                 
                 if (file_exists($file)) {
                     continue;
@@ -1931,9 +1907,8 @@ abstract class assQuestion
         );
         $this->suggested_solutions = array();
         if ($this->db->numRows($result) > 0) {
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             while ($row = $this->db->fetchAssoc($result)) {
-                $value = (is_array(unserialize($row["value"], false))) ? unserialize($row["value"], false) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
+                $value = (is_array(unserialize($row["value"], ['allowed_classes' => false]))) ? unserialize($row["value"], ['allowed_classes' => false]) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
                 $this->suggested_solutions[$row["subquestion_index"]] = array(
                     "type" => $row["type"],
                     "value" => $value,
@@ -1958,7 +1933,7 @@ abstract class assQuestion
         $complete = "0";
         $estw_time = $this->getEstimatedWorkingTime();
         $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
+        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($DIC->testQuestionPool()->internal()->request()->getRefId())) ? $DIC->testQuestionPool()->internal()->request()->getRefId() : $_POST["sel_qpl"])) : $this->getObjId();
         if ($obj_id > 0) {
             if ($a_create_page) {
                 $tstamp = 0;
@@ -1995,8 +1970,6 @@ abstract class assQuestion
             }
         }
         
-        $this->notifyQuestionCreated();
-        
         return $this->getId();
     }
 
@@ -2004,9 +1977,6 @@ abstract class assQuestion
     {
         $estw_time = $this->getEstimatedWorkingTime();
         $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-
-        // cleanup RTE images which are not inserted into the question text
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         if ($this->getId() == -1) {
             $next_id = $this->db->nextId('qpl_questions');
             $this->db->insert("qpl_questions", array(
@@ -2064,18 +2034,13 @@ abstract class assQuestion
 
         $this->db->update('qpl_questions', array(
             'tstamp' => array('integer', time()),
-            'owner' => array('integer', ($this->getOwner() <= 0 ? $this->ilias->account->id : $this->getOwner())),
+            'owner' => array('integer', $this->getOwner()),
             'complete' => array('integer', $complete),
             'lifecycle' => array('text', $this->getLifecycle()->getIdentifier()),
         ), array(
             'question_id' => array('integer', $this->getId())
         ));
-
-        // update question count of question pool
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         ilObjQuestionPool::_updateQuestionCount($this->obj_id);
-        
-        $this->notifyQuestionEdited();
     }
     
     /**
@@ -2152,11 +2117,9 @@ abstract class assQuestion
             array('integer'),
             array($this->getId())
         );
-        // delete the links in the int_link table
-        include_once "./Services/Link/classes/class.ilInternalLink.php";
         ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
         $this->suggested_solutions = array();
-        ilUtil::delDir($this->getSuggestedSolutionPath());
+        ilFileUtils::delDir($this->getSuggestedSolutionPath());
     }
     
     /**
@@ -2226,13 +2189,13 @@ abstract class assQuestion
                     $filepath
                 );
                 if (!file_exists($filepath)) {
-                    ilUtil::makeDirParents($filepath);
+                    ilFileUtils::makeDirParents($filepath);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
                     if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->write("File could not be duplicated!!!!", $this->ilLog->ERROR);
-                        $this->ilLog->write("object: " . print_r($this, true), $this->ilLog->ERROR);
+                        $this->ilLog->root()->error("File could not be duplicated!!!!");
+                        $this->ilLog->root()->error("object: " . print_r($this, true));
                     }
                 }
             }
@@ -2243,17 +2206,17 @@ abstract class assQuestion
     {
         $filepath = $this->getSuggestedSolutionPath();
         $filepath_original = str_replace("/$this->id/solution", "/$original_id/solution", $filepath);
-        ilUtil::delDir($filepath_original);
+        ilFileUtils::delDir($filepath_original);
         foreach ($this->suggested_solutions as $index => $solution) {
             if (strcmp($solution["type"], "file") == 0) {
                 if (!file_exists($filepath_original)) {
-                    ilUtil::makeDirParents($filepath_original);
+                    ilFileUtils::makeDirParents($filepath_original);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
                     if (!@copy($filepath . $filename, $filepath_original . $filename)) {
-                        $this->ilLog->write("File could not be duplicated!!!!", $this->ilLog->ERROR);
-                        $this->ilLog->write("object: " . print_r($this, true), $this->ilLog->ERROR);
+                        $this->ilLog->root()->error("File could not be duplicated!!!!");
+                        $this->ilLog->root()->error("object: " . print_r($this, true));
                     }
                 }
             }
@@ -2267,13 +2230,13 @@ abstract class assQuestion
                 $filepath = $this->getSuggestedSolutionPath();
                 $filepath_original = str_replace("/$this->obj_id/$this->id/solution", "/$source_questionpool_id/$source_question_id/solution", $filepath);
                 if (!file_exists($filepath)) {
-                    ilUtil::makeDirParents($filepath);
+                    ilFileUtils::makeDirParents($filepath);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
                     if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->write("File could not be copied!!!!", $this->ilLog->ERROR);
-                        $this->ilLog->write("object: " . print_r($this, true), $this->ilLog->ERROR);
+                        $this->ilLog->root()->error("File could not be copied!!!!");
+                        $this->ilLog->root()->error("object: " . print_r($this, true));
                     }
                 }
             }
@@ -2283,14 +2246,12 @@ abstract class assQuestion
     public function updateSuggestedSolutions(int $original_id = -1) : void
     {
         $id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
-        include_once "./Services/Link/classes/class.ilInternalLink.php";
         $this->db->manipulateF(
             "DELETE FROM qpl_sol_sug WHERE question_fi = %s",
             array('integer'),
             array($id)
         );
         ilInternalLink::_deleteAllLinksOfSource("qst", $id);
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         foreach ($this->suggested_solutions as $index => $solution) {
             $next_id = $this->db->nextId('qpl_sol_sug');
             /** @var ilDBInterface $ilDB */
@@ -2338,7 +2299,6 @@ abstract class assQuestion
         );
         
         $next_id = $this->db->nextId('qpl_sol_sug');
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         /** @var ilDBInterface $ilDB */
         $affectedRows = $this->db->insert(
             'qpl_sol_sug',
@@ -2404,7 +2364,6 @@ abstract class assQuestion
         if ($this->db->numRows($result) > 0) {
             while ($row = $this->db->fetchAssoc($result)) {
                 $internal_link = $row["internal_link"];
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                 $resolved_link = $this->_resolveInternalLink($internal_link);
                 if (strcmp($internal_link, $resolved_link) != 0) {
                     // internal link was resolved successfully
@@ -2418,10 +2377,6 @@ abstract class assQuestion
             }
         }
         if ($resolvedlinks) {
-            // there are resolved links -> reenter theses links to the database
-
-            // delete all internal links from the database
-            include_once "./Services/Link/classes/class.ilInternalLink.php";
             ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
 
             $result = $this->db->queryF(
@@ -2441,6 +2396,7 @@ abstract class assQuestion
     
     public static function _getInternalLinkHref(string $target = "") : string
     {
+        global $DIC;
         $linktypes = array(
             "lm" => "LearningModule",
             "pg" => "PageObject",
@@ -2452,10 +2408,11 @@ abstract class assQuestion
         if (preg_match("/il__(\w+)_(\d+)/", $target, $matches)) {
             $type = $matches[1];
             $target_id = $matches[2];
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
             switch ($linktypes[$matches[1]]) {
                 case "MediaObject":
-                    $href = "./ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $_GET["ref_id"] . "&mob_id=" . $target_id;
+                    $href = "./ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type]
+                        . "&cmd=media&ref_id=" . $DIC->testQuestionPool()->internal()->request()->getRefId()
+                        . "&mob_id=" . $target_id;
                     break;
                 case "StructureObject":
                 case "GlossaryItem":
@@ -2678,7 +2635,6 @@ abstract class assQuestion
         if ($ilDB->numRows($result) == 1) {
             $row = $ilDB->fetchAssoc($result);
             $qpl_object_id = (int) $row["obj_fi"];
-            include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
             return ilObjQuestionPool::_isWriteable($qpl_object_id, $user_id);
         }
 
@@ -2711,7 +2667,7 @@ abstract class assQuestion
      */
     abstract public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false);
 
-    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints)
+    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints) : ?int
     {
         global $DIC;
     
@@ -2735,7 +2691,7 @@ abstract class assQuestion
         return $points > 0 ? $points : 0;
     }
     
-    public function isPreviewSolutionCorrect(ilAssQuestionPreviewSession $previewSession)
+    public function isPreviewSolutionCorrect(ilAssQuestionPreviewSession $previewSession) : bool
     {
         $reachedPoints = $this->calculateReachedPointsFromPreviewSession($previewSession);
 
@@ -2753,9 +2709,8 @@ abstract class assQuestion
      * @param integer $active_id
      * @param integer $pass
      */
-    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null)
+    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null) : int
     {
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
         $count_system = ilObjTest::_getCountSystem($active_id);
         if ($count_system == 1) {
             if (abs($this->getMaximumPoints() - $points) > 0.0000000001) {
@@ -2817,8 +2772,11 @@ abstract class assQuestion
      */
     public function prepareTextareaOutput(string $txt_output, bool $prepare_for_latex_output = false, bool $omitNl2BrWhenTextArea = false)
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output, $omitNl2BrWhenTextArea);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
+            $txt_output,
+            $prepare_for_latex_output,
+            $omitNl2BrWhenTextArea
+        );
     }
 
     /**
@@ -2828,6 +2786,7 @@ abstract class assQuestion
     public function QTIMaterialToString(ilQTIMaterial $a_material) : string
     {
         $result = "";
+        $mobs = array();
         for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
             $material = $a_material->getMaterial($i);
             if (strcmp($material["type"], "mattext") == 0) {
@@ -2837,23 +2796,21 @@ abstract class assQuestion
                 $matimage = $material["material"];
                 if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
                     // import an mediaobject which was inserted using tiny mce
-                    if (!is_array($_SESSION["import_mob_xhtml"])) {
-                        $_SESSION["import_mob_xhtml"] = array();
-                    }
-                    $_SESSION["import_mob_xhtml"][] = array("mob" => $matimage->getLabel(),
+                    //if (!is_array(ilSession::get("import_mob_xhtml"))) {
+                    //    ilSession::set("import_mob_xhtml", array());
+                    //}
+                    $mobs[] = array("mob" => $matimage->getLabel(),
                                                             "uri" => $matimage->getUri()
                     );
                 }
             }
         }
+        ilSession::set('import_mob_xhtml', $mobs);
         return $result;
     }
     
     public function addQTIMaterial(ilXmlWriter $a_xml_writer, string $a_material, bool $close_material_tag = true, bool $add_mobs = true) : void
     {
-        include_once "./Services/RTE/classes/class.ilRTE.php";
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-
         $a_xml_writer->xmlStartTag("material");
         $attrs = array(
             "texttype" => "text/plain"
@@ -2912,7 +2869,15 @@ abstract class assQuestion
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+        $refinery = $DIC['refinery'];
+
+        $float_trafo = $refinery->kindlyTo()->float();
+        try {
+            $points = $float_trafo->transform($points);
+        } catch (ILIAS\Refinery\ConstraintViolationException $e) {
+            return false;
+        }
+
         if ($points <= $maxpoints) {
             if (is_null($pass)) {
                 $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
@@ -2948,17 +2913,11 @@ abstract class assQuestion
 
             if (self::isForcePassResultUpdateEnabled() || $old_points != $points || $rowsnum == 0) {
                 assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
-                // finally update objective result
-                include_once "./Modules/Test/classes/class.ilObjTest.php";
-                include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
                 ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $question_id, $points);
-    
-                include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
                 if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                     global $DIC;
                     $lng = $DIC['lng'];
                     $ilUser = $DIC['ilUser'];
-                    include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
                     $username = ilObjTestAccess::_getParticipantData($active_id);
                     assQuestion::logAction(sprintf(
                         $lng->txtlng(
@@ -2985,7 +2944,7 @@ abstract class assQuestion
         return $this->question;
     }
 
-    public function setQuestion($question = "") : void
+    public function setQuestion(string $question = "") : void
     {
         $this->question = $question;
     }
@@ -3011,7 +2970,7 @@ abstract class assQuestion
         return 0;
     }
 
-    public function syncHints()
+    public function syncHints() : void
     {
         // delete hints of the original
         $this->db->manipulateF(
@@ -3057,8 +3016,6 @@ abstract class assQuestion
         foreach ($this->suggested_solutions as $solution_array) {
             $collected .= $solution_array["value"];
         }
-
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
         $questionHintList = ilAssQuestionHintList::getListByQuestionId($this->getId());
         foreach ($questionHintList as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
@@ -3071,7 +3028,6 @@ abstract class assQuestion
     public function cleanupMediaObjectUsage() : void
     {
         $combinedtext = $this->getRTETextWithMediaObjects();
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html", $this->getId());
     }
     
@@ -3107,7 +3063,6 @@ abstract class assQuestion
                 $instances[$row['obj_fi']] = ilObject::_lookupTitle($row['obj_fi']);
             }
         }
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
         foreach ($instances as $key => $value) {
             $instances[$key] = array("obj_id" => $key, "title" => $value, "author" => ilObjTest::_lookupAuthor($key), "refs" => ilObject::_getAllReferences($key));
         }
@@ -3116,7 +3071,6 @@ abstract class assQuestion
 
     public static function _needsManualScoring(int $question_id) : bool
     {
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $scoring = ilObjAssessmentFolder::_getManualScoringTypes();
         $questiontype = assQuestion::_getQuestionType($question_id);
         if (in_array($questiontype, $scoring)) {
@@ -3151,8 +3105,6 @@ abstract class assQuestion
     {
         if (self::isCoreQuestionType($question_type)) {
             self::includeCoreClass($question_type, $gui);
-        } else {
-            self::includePluginClass($question_type, $gui);
         }
     }
 
@@ -3166,43 +3118,14 @@ abstract class assQuestion
         return file_exists("Modules/TestQuestionPool/classes/class.{$questionType}GUI.php");
     }
 
-    public static function includeCoreClass($questionType, $withGuiClass)
+    public static function includeCoreClass($questionType, $withGuiClass) : void
     {
         if ($withGuiClass) {
-            require_once "Modules/TestQuestionPool/classes/class.{$questionType}GUI.php";
-        // object class is included by gui classes constructor
+            // object class is included by gui classes constructor
         } else {
-            require_once "Modules/TestQuestionPool/classes/class.{$questionType}.php";
         }
 
         $feedbackClassName = self::getFeedbackClassNameByQuestionType($questionType);
-        require_once "Modules/TestQuestionPool/classes/feedback/class.{$feedbackClassName}.php";
-    }
-
-    public static function includePluginClass($questionType, $withGuiClass)
-    {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $classes = array(
-            $questionType,
-            self::getFeedbackClassNameByQuestionType($questionType)
-        );
-
-        if ($withGuiClass) {
-            $classes[] = $questionType . 'GUI';
-        }
-
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($pl_names as $pl_name) {
-            $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
-            if (strcmp($pl->getQuestionType(), $questionType) == 0) {
-                foreach ($classes as $class) {
-                    $pl->includeClass("class.{$class}.php");
-                }
-                break;
-            }
-        }
     }
 
     public static function _getQuestionTypeName($type_tag) : string
@@ -3212,12 +3135,9 @@ abstract class assQuestion
             $lng = $DIC['lng'];
             return $lng->txt($type_tag);
         }
+        $component_factory = $DIC['component.factory'];
 
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($pl_names as $pl_name) {
-            /** @var $pl ilQuestionsPlugin */
-            $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+        foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
             if ($pl->getQuestionType() === $type_tag) {
                 return $pl->getQuestionTypeTranslation();
             }
@@ -3257,11 +3177,9 @@ abstract class assQuestion
             $question_gui->object->feedbackOBJ = new $feedbackObjectClassname($question_gui->object, $ilCtrl, $ilDB, $lng);
 
             $assSettings = new ilSetting('assessment');
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
             $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
             $processLockerFactory->setQuestionId($question_gui->object->getId());
             $processLockerFactory->setUserId($ilUser->getId());
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             $processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
             $question_gui->object->setProcessLocker($processLockerFactory->getLocker());
         } else {
@@ -3350,7 +3268,6 @@ abstract class assQuestion
 
     protected function getSelfAssessmentFormatter() : \ilAssSelfAssessmentQuestionFormatter
     {
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
         return new \ilAssSelfAssessmentQuestionFormatter();
     }
 
@@ -3433,12 +3350,9 @@ abstract class assQuestion
 
     protected function duplicateQuestionHints(int $originalQuestionId, int $duplicateQuestionId) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
         $hintIds = ilAssQuestionHintList::duplicateListForQuestion($originalQuestionId, $duplicateQuestionId);
         
         if ($this->isAdditionalContentEditingModePageObject()) {
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssHintPage.php';
-            
             foreach ($hintIds as $originalHintId => $duplicateHintId) {
                 $originalPageObject = new ilAssHintPage($originalHintId);
                 $originalXML = $originalPageObject->getXMLContent();
@@ -3454,7 +3368,6 @@ abstract class assQuestion
 
     protected function duplicateSkillAssignments(int $srcParentId, int $srcQuestionId, int $trgParentId, int $trgQuestionId) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($srcParentId);
         $assignmentList->setQuestionIdFilter($srcQuestionId);
@@ -3474,9 +3387,8 @@ abstract class assQuestion
         }
     }
 
-    public function syncSkillAssignments(int $srcParentId, int $srcQuestionId, int $trgParentId, int $trgQuestionId)
+    public function syncSkillAssignments(int $srcParentId, int $srcQuestionId, int $trgParentId, int $trgQuestionId) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($trgParentId);
         $assignmentList->setQuestionIdFilter($trgQuestionId);
@@ -3566,7 +3478,6 @@ abstract class assQuestion
     public function setAdditionalContentEditingMode(string $additionalContentEditingMode) : void
     {
         if (!in_array($additionalContentEditingMode, $this->getValidAdditionalContentEditingModes())) {
-            require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
             throw new ilTestQuestionPoolException('invalid additional content editing mode given: ' . $additionalContentEditingMode);
         }
         
@@ -3594,47 +3505,12 @@ abstract class assQuestion
             self::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
         );
     }
-    
-    public function addQuestionChangeListener(ilQuestionChangeListener $listener) : void
-    {
-        $this->questionChangeListeners[] = $listener;
-    }
-    
-    /**
-     * @return array[ilQuestionChangeListener]
-     */
-    public function getQuestionChangeListeners() : array
-    {
-        return $this->questionChangeListeners;
-    }
-    
-    private function notifyQuestionCreated() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionCreated($this);
-        }
-    }
-    
-    private function notifyQuestionEdited() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionEdited($this);
-        }
-    }
-    
-    private function notifyQuestionDeleted() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionDeleted($this);
-        }
-    }
 
     /**
      * @return ilHtmlPurifierInterface|ilAssHtmlUserSolutionPurifier
      */
     public function getHtmlUserSolutionPurifier() : ilHtmlPurifierInterface
     {
-        require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
         return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
     }
 
@@ -3643,7 +3519,6 @@ abstract class assQuestion
      */
     public function getHtmlQuestionContentPurifier() : ilHtmlPurifierInterface
     {
-        require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
         return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
     }
     
@@ -3887,7 +3762,6 @@ abstract class assQuestion
                     break;
                 
                 default:
-                    require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
                     throw new ilTestQuestionPoolException('invalid value field given: ' . $valueField);
             }
         }
@@ -3953,7 +3827,7 @@ abstract class assQuestion
     /**
      * @return int|null
      */
-    public function getStep()
+    public function getStep() : ?int
     {
         return $this->step;
     }
@@ -3970,9 +3844,9 @@ abstract class assQuestion
         $sec = 0;
         $time_array = explode(':', $time);
         if (count($time_array) == 3) {
-            $sec += $time_array[0] * 3600;
-            $sec += $time_array[1] * 60;
-            $sec += $time_array[2];
+            $sec += (int) $time_array[0] * 3600;
+            $sec += (int) $time_array[1] * 60;
+            $sec += (int) $time_array[2];
         }
         return $sec;
     }
@@ -4233,12 +4107,12 @@ abstract class assQuestion
         return $this->obligationsToBeConsidered;
     }
 
-    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered)
+    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered) : void
     {
         $this->obligationsToBeConsidered = $obligationsToBeConsidered;
     }
 
-    public function updateTimestamp()
+    public function updateTimestamp() : void
     {
         $this->db->manipulateF(
             "UPDATE qpl_questions SET tstamp = %s  WHERE question_id = %s",
@@ -4272,7 +4146,6 @@ abstract class assQuestion
      */
     protected function buildTestPresentationConfig() : ilTestQuestionConfig
     {
-        include_once('Modules/TestQuestionPool/classes/class.ilTestQuestionConfig.php');
         return new ilTestQuestionConfig();
     }
     // hey.
@@ -4281,5 +4154,18 @@ abstract class assQuestion
     public function savePartial() : bool
     {
         return false;
+    }
+
+
+    /* doubles isInUse? */
+    public function isInActiveTest() : bool
+    {
+        $query = 'SELECT user_fi FROM tst_active ' . PHP_EOL
+            . 'JOIN tst_test_question ON tst_test_question.test_fi = tst_active.test_fi ' . PHP_EOL
+            . 'JOIN qpl_questions ON qpl_questions.question_id = tst_test_question.question_fi ' . PHP_EOL
+            . 'WHERE qpl_questions.obj_fi = ' . $this->db->quote($this->getObjId(), 'integer');
+
+        $res = $this->db->query($query);
+        return $res->numRows() > 0;
     }
 }

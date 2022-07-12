@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\AdminInteraction;
@@ -61,9 +75,7 @@ class IOWrapper implements AdminInteraction
             return $this->style->ask(
                 $message,
                 null,
-                function (string $input) use ($type_text_to_confirm) : bool {
-                    return $type_text_to_confirm === $input;
-                }
+                fn (string $input) : bool => $type_text_to_confirm === $input
             );
         } else {
             $this->inform("Automatically confirmed:\n\n$message");
@@ -122,7 +134,7 @@ class IOWrapper implements AdminInteraction
         $this->style->text($text);
     }
 
-    public function startObjective(string $label, bool $is_notable)
+    public function startObjective(string $label, bool $is_notable) : void
     {
         $this->last_objective_was_notable = $is_notable;
         $this->last_objective_label = $label;
@@ -132,7 +144,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    public function finishedLastObjective()
+    public function finishedLastObjective() : void
     {
         if ($this->output_in_objective) {
             $this->startObjective($this->last_objective_label, $this->last_objective_was_notable);
@@ -143,7 +155,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    public function failedLastObjective()
+    public function failedLastObjective() : void
     {
         // Always show label of failed objectives.
         if ($this->output_in_objective || !$this->last_objective_was_notable) {
@@ -163,10 +175,15 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    protected function showLastObjectiveLabel()
+    protected function showLastObjectiveLabel() : bool
     {
         return $this->last_objective_was_notable
             || $this->out->isVeryVerbose()
             || $this->out->isDebug();
+    }
+
+    public function isVerbose() : bool
+    {
+        return $this->out->isVerbose();
     }
 }

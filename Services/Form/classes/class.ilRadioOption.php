@@ -1,118 +1,98 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents an option in a radio group
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilRadioOption
 {
-    protected $title;
-    protected $value;
-    protected $info;
-    protected $sub_items = array();
-    protected $disabled;
+    protected string $title = "";
+    protected string $value = "";
+    protected string $info = "";
+    protected array $sub_items = array();
+    protected bool $disabled = false;
     
-    public function __construct($a_title = "", $a_value = "", $a_info = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_value = "",
+        string $a_info = ""
+    ) {
         $this->setTitle($a_title);
         $this->setValue($a_value);
         $this->setInfo($a_info);
     }
     
-    /**
-    * Set Title.
-    *
-    * @param	string	$a_title	Title
-    */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-    * Get Title.
-    *
-    * @return	string	Title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * Set Info.
-    *
-    * @param	string	$a_info	Info
-    */
-    public function setInfo($a_info)
+    public function setInfo(string $a_info) : void
     {
         $this->info = $a_info;
     }
 
-    /**
-    * Get Info.
-    *
-    * @return	string	Info
-    */
-    public function getInfo()
+    public function getInfo() : string
     {
         return $this->info;
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
     
-    public function setDisabled($a_disabled)
+    public function setDisabled(bool $a_disabled) : void
     {
         $this->disabled = $a_disabled;
     }
     
-    public function getDisabled()
+    public function getDisabled() : bool
     {
         return $this->disabled;
     }
 
     /**
-    * Add Subitem
-    *
-    * @param	object	$a_item		Item
-    */
-    public function addSubItem($a_item)
+     * @param ilFormPropertyGUI|ilFormSectionHeaderGUI $a_item
+     */
+    public function addSubItem($a_item) : void
     {
         $this->sub_items[] = $a_item;
     }
 
-    /**
-    * Get Subitems
-    *
-    * @return	array	Array of items
-    */
-    public function getSubItems()
+    public function getSubItems() : array
     {
         return $this->sub_items;
     }
 
-    public function getSubInputItemsRecursive()
+    public function getSubInputItemsRecursive() : array
     {
         $subInputItems = array();
 

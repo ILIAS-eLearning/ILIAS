@@ -722,28 +722,28 @@ if ($migrate) {
     $webdir = $ini_old->readVariable("server", "absolute_path") . "/data";
     $webdir_client = $webdir . "/" . $client_id;
 
-    ilUtil::makeDir($datadir_client);
-    ilUtil::makeDir($datadir_client . "/forum");
-    ilUtil::makeDir($datadir_client . "/files");
-    ilUtil::makeDir($datadir_client . "/lm_data");
-    ilUtil::makeDir($datadir_client . "/mail");
+    ilFileUtils::makeDir($datadir_client);
+    ilFileUtils::makeDir($datadir_client . "/forum");
+    ilFileUtils::makeDir($datadir_client . "/files");
+    ilFileUtils::makeDir($datadir_client . "/lm_data");
+    ilFileUtils::makeDir($datadir_client . "/mail");
 
-    ilUtil::makeDir($webdir_client);
-    ilUtil::makeDir($webdir_client . "/css");
-    ilUtil::makeDir($webdir_client . "/mobs");
-    ilUtil::makeDir($webdir_client . "/lm_data");
-    ilUtil::makeDir($webdir_client . "/usr_images");
+    ilFileUtils::makeDir($webdir_client);
+    ilFileUtils::makeDir($webdir_client . "/css");
+    ilFileUtils::makeDir($webdir_client . "/mobs");
+    ilFileUtils::makeDir($webdir_client . "/lm_data");
+    ilFileUtils::makeDir($webdir_client . "/usr_images");
 
     //copy data dir
-    ilUtil::rcopy($datadir . "/forum", $datadir_client . "/forum");
-    ilUtil::rcopy($datadir . "/files", $datadir_client . "/files");
-    ilUtil::rcopy($datadir . "/lm_data", $datadir_client . "/lm_data");
-    ilUtil::rcopy($datadir . "/mail", $datadir_client . "/mail");
+    ilFileUtils::rcopy($datadir . "/forum", $datadir_client . "/forum");
+    ilFileUtils::rcopy($datadir . "/files", $datadir_client . "/files");
+    ilFileUtils::rcopy($datadir . "/lm_data", $datadir_client . "/lm_data");
+    ilFileUtils::rcopy($datadir . "/mail", $datadir_client . "/mail");
     // copy web dir
-    ilUtil::rcopy($webdir . "/css", $webdir_client . "/css");
-    ilUtil::rcopy($webdir . "/mobs", $webdir_client . "/mobs");
-    ilUtil::rcopy($webdir . "/lm_data", $webdir_client . "/lm_data");
-    ilUtil::rcopy($webdir . "/usr_images", $webdir_client . "/usr_images");
+    ilFileUtils::rcopy($webdir . "/css", $webdir_client . "/css");
+    ilFileUtils::rcopy($webdir . "/mobs", $webdir_client . "/mobs");
+    ilFileUtils::rcopy($webdir . "/lm_data", $webdir_client . "/lm_data");
+    ilFileUtils::rcopy($webdir . "/usr_images", $webdir_client . "/usr_images");
 
     $client_master = ILIAS_ABSOLUTE_PATH . "/setup/client.master.ini.php";
     $ini_new = new ilIniFile($webdir_client . "/client.ini.php");
@@ -4038,7 +4038,7 @@ while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 
 <#244>
 <?php
-ilUtil::makeDir(CLIENT_WEB_DIR . "/assessment/");
+ilFileUtils::makeDir(CLIENT_WEB_DIR . "/assessment/");
 // convert material path names in web directory from CLIENT_WEB_DIR . "/assessment/ref_id/" to CLIENT_WEB_DIR . "/assessment/obj_id/";
 $d = opendir(CLIENT_WEB_DIR . "/assessment/") or die($php_errormsg);
 while (false !== ($f = readdir($d))) {

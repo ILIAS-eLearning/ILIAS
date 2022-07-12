@@ -1,42 +1,51 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ILIAS Setting Class
  *
- * @author Alex Killing <alex.killing@databay.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilSetting
+class ilSetting implements \ILIAS\Administration\Setting
 {
+    protected ilDBInterface $db;
+
     /**
-     * @var ilDB
+     * cache for the read settings
+     * ilSetting is instantiated more than once per request for some modules
+     * The cache avoids reading them from the DB with each instance
      */
-    protected $db;
+    private static array $settings_cache = array();
 
     /**
-    * cache for the read settings
-    * ilSetting is instantiated more than once per request for some modules
-    * The cache avoids reading them from the DB with each instance
-    */
-    private static $settings_cache = array();
-
-    /**
-    * the type of settings value field in database
-    * This is determined in the set method to get a correct DB insert
-    * Don't set the value type to force a detection at first access
-    */
-    private static $value_type = null;
-
-
-    public $setting = array();
-    public $module = "";
+     * the type of settings value field in database
+     * This is determined in the set method to get a correct DB insert
+     * Don't set the value type to force a detection at first access
+     */
+    private static ?string $value_type = null;
+    public array $setting = array();
+    public string $module = "";
+    protected bool $cache_disabled = false;
     
-    /**
-    * Initialize settings
-    */
-    public function __construct($a_module = "common", $a_disabled_cache = false)
-    {
+    public function __construct(
+        string $a_module = "common",
+        bool $a_disabled_cache = false
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -51,18 +60,12 @@ class ilSetting
         $this->read();
     }
     
-    /**
-     * Get currernt module
-     */
-    public function getModule()
+    public function getModule() : string
     {
         return $this->module;
     }
         
-    /**
-    * Read settings data
-    */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -89,35 +92,16 @@ class ilSetting
     }
     
     /**
-    * get setting
-    *
-    * @access	public
-    *
-    * @param	string	keyword
-    * @param	string	default_value This value is returned, when no setting has
-    *								  been found for the keyword.
-    * @return	string	value
-    */
-    public function get($a_keyword, $a_default_value = false)
-    {
-        if ($a_keyword == "ilias_version") {
-            return ILIAS_VERSION;
-        }
-        
-        if (isset($this->setting[$a_keyword])) {
-            return $this->setting[$a_keyword];
-        } else {
-            return $a_default_value;
-        }
+     * get setting
+     */
+    public function get(
+        string $a_keyword,
+        ?string $a_default_value = null
+    ) : ?string {
+        return $this->setting[$a_keyword] ?? $a_default_value;
     }
     
-    /**
-     * Delete all settings of a current module
-     *
-     * @access public
-     *
-     */
-    public function deleteAll()
+    public function deleteAll() : void
     {
         $ilDB = $this->db;
         
@@ -125,17 +109,9 @@ class ilSetting
         $ilDB->manipulate($query);
 
         $this->setting = array();
-
-        return true;
     }
     
-    /**
-     * Delete all settings corresponding to a like string
-     *
-     * @access public
-     *
-     */
-    public function deleteLike($a_like)
+    public function deleteLike(string $a_like) : void
     {
         $ilDB = $this->db;
 
@@ -146,49 +122,25 @@ class ilSetting
         while ($row = $ilDB->fetchAssoc($res)) {
             $this->delete($row["keyword"]);
         }
-        
-        return true;
     }
 
-    /**
-    * delete one value from settingstable
-    * @access	public
-    * @param	string	keyword
-    * @return	string	value
-    */
-    public function delete($a_keyword)
+    public function delete(string $a_keyword) : void
     {
         $ilDB = $this->db;
 
-        $st = $ilDB->manipulate("DELETE FROM settings WHERE keyword = " .
+        $ilDB->manipulate("DELETE FROM settings WHERE keyword = " .
             $ilDB->quote($a_keyword, "text") . " AND module = " .
             $ilDB->quote($this->module, "text"));
 
         unset($this->setting[$a_keyword]);
-
-        return true;
     }
     
-    
-
-    /**
-    * read all values from settingstable
-    * @access	public
-    * @return	array	keyword/value pairs
-    */
-    public function getAll()
+    public function getAll() : array
     {
         return $this->setting;
     }
 
-    /**
-    * write one value to db-table settings
-    * @access	public
-    * @param	string		keyword
-    * @param	string		value
-    * @return	boolean		true on success
-    */
-    public function set($a_key, $a_val)
+    public function set(string $a_key, string $a_val) : void
     {
         $ilDB = $this->db;
         
@@ -198,10 +150,9 @@ class ilSetting
             self::$value_type = self::_getValueType();
         }
 
-        if (self::$value_type == 'text' and strlen($a_val) >= 4000) {
+        if (self::$value_type === 'text' && strlen($a_val) >= 4000) {
             global $DIC;
-            $lng = $DIC["lng"];
-            ilUtil::sendFailure($lng->txt('setting_value_truncated'), true);
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('setting_value_truncated'), true);
             $a_val = substr($a_val, 0, 4000);
         }
 
@@ -211,22 +162,25 @@ class ilSetting
             "value" => array(self::$value_type, $a_val)));
 
         $this->setting[$a_key] = $a_val;
-
-        return true;
     }
-    
-    public function setScormDebug($a_key, $a_val)
+
+    /**
+     * @todo this must not be part of a general settings class
+     * @deprecated
+     */
+    public function setScormDebug(string $a_key, string $a_val) : void
     {
         $ilDB = $this->db;
-        if ($a_val != "1") {
+        if ($a_val !== "1") {
             $ilDB->query("UPDATE sahs_lm SET debug = 'n'");
         }
-        $setreturn = ilSetting::set($a_key, $a_val);
-        return $setreturn;
+        $this->set($a_key, $a_val);
     }
     
-    public static function _lookupValue($a_module, $a_keyword)
-    {
+    public static function _lookupValue(
+        string $a_module,
+        string $a_keyword
+    ) : ?string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -234,45 +188,44 @@ class ilSetting
         $query = "SELECT value FROM settings WHERE module = %s AND keyword = %s";
         $res = $ilDB->queryF($query, array('text', 'text'), array($a_module, $a_keyword));
         $data = $ilDB->fetchAssoc($res);
-        return $data['value'];
+        return $data['value'] ?? null;
     }
 
     /**
      * Get the type of the value column in the database
-     *
-     * @return string 'text' or 'clob'
      * @throws ilDatabaseException
      */
-    public static function _getValueType()
+    public static function _getValueType() : string
     {
         $analyzer = new ilDBAnalyzer();
         $info = $analyzer->getFieldInformation('settings');
 
-        if ($info['value']['type'] == 'clob') {
+        if ($info['value']['type'] === 'clob') {
             return 'clob';
         } else {
             return 'text';
         }
     }
 
-
     /**
-    * change the type of the value column in the database
-    *
-    * @param   	string  	'text' or 'clob'
-    * @return   bolean  	type changed or not
-    */
-    public static function _changeValueType($a_new_type = 'text')
-    {
+     * change the type of the value column in the database
+     * @param string $a_new_type 'text' or 'clob'
+     * @return bool
+     * @throws ilDatabaseException
+     */
+    public static function _changeValueType(
+        string $a_new_type = 'text'
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $old_type = self::_getValueType();
 
-        if ($a_new_type == $old_type) {
+        if ($a_new_type === $old_type) {
             return false;
-        } elseif ($a_new_type == 'clob') {
+        }
+        if ($a_new_type === 'clob') {
             $ilDB->addTableColumn(
                 'settings',
                 'value2',
@@ -286,7 +239,8 @@ class ilSetting
             $ilDB->renameTableColumn('settings', 'value2', 'value');
 
             return true;
-        } elseif ($a_new_type == 'text') {
+        }
+        if ($a_new_type === 'text') {
             $ilDB->addTableColumn(
                 'settings',
                 'value2',
@@ -301,20 +255,17 @@ class ilSetting
             $ilDB->renameTableColumn('settings', 'value2', 'value');
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
 
     /**
-    * get a list of setting records with values loger than a limit
-    *
-    * @param   	int  		character limit (default: 4000)
-    * @return   array       records with longer values
-    */
-    public static function _getLongerSettings($a_limit = '4000')
-    {
+     * get a list of setting records with values loger than a limit
+     */
+    public static function _getLongerSettings(
+        int $a_limit = 4000
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();

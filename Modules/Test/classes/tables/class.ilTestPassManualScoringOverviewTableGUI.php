@@ -13,12 +13,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 {
-    /**
-     * @global	ilCtrl		$ilCtrl
-     * @global	ilLanguage	$lng
-     * @param	ilObjectGUI	$parentObj
-     * @param	string		$parentCmd
-     */
     public function __construct($parentObj, $parentCmd)
     {
         parent::__construct($parentObj, $parentCmd);
@@ -41,7 +35,7 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
         $this->initOrdering();
     }
     
-    private function initColumns()
+    private function initColumns() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -55,7 +49,7 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
         $this->addColumn('', '', '1%');
     }
     
-    private function initOrdering()
+    private function initOrdering() : void
     {
         $this->disable('sort');
 
@@ -63,34 +57,27 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    /**
-     * @global	ilCtrl		$ilCtrl
-     * @global	ilLanguage	$lng
-     * @param	array		$row
-     */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
-        //vd($row);
-        
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        $ilCtrl->setParameter($this->parent_obj, 'active_id', $row['active_id']);
-        $ilCtrl->setParameter($this->parent_obj, 'pass', $row['pass']);
+        $ilCtrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
+        $ilCtrl->setParameter($this->parent_obj, 'pass', $a_set['pass']);
         
-        if ($row['is_scored_pass']) {
+        if ($a_set['is_scored_pass']) {
             $this->tpl->setCurrentBlock('selected_pass');
             $this->tpl->touchBlock('selected_pass');
             $this->tpl->parseCurrentBlock();
             $this->tpl->setVariable('CSS_ROW', 'tblrowmarked');
         }
     
-        $this->tpl->setVariable("PASS_NR", $row['pass'] + 1);
-        $this->tpl->setVariable("PASS_DATE", ilDatePresentation::formatDate(new ilDate($row['finishdate'], IL_CAL_UNIX)));
-        $this->tpl->setVariable("PASS_ANSWERED_QUESTIONS", $row['answered_questions'] . " " . strtolower($this->lng->txt("of")) . " " . $row['total_questions']);
-        $this->tpl->setVariable("PASS_REACHED_POINTS", $row['reached_points'] . " " . strtolower($this->lng->txt("of")) . " " . $row['max_points']);
-        $this->tpl->setVariable("PASS_REACHED_PERCENTAGE", sprintf("%.2f%%", $row['percentage']));
+        $this->tpl->setVariable("PASS_NR", $a_set['pass'] + 1);
+        $this->tpl->setVariable("PASS_DATE", ilDatePresentation::formatDate(new ilDate($a_set['finishdate'], IL_CAL_UNIX)));
+        $this->tpl->setVariable("PASS_ANSWERED_QUESTIONS", $a_set['answered_questions'] . " " . strtolower($this->lng->txt("of")) . " " . $a_set['total_questions']);
+        $this->tpl->setVariable("PASS_REACHED_POINTS", $a_set['reached_points'] . " " . strtolower($this->lng->txt("of")) . " " . $a_set['max_points']);
+        $this->tpl->setVariable("PASS_REACHED_PERCENTAGE", sprintf("%.2f%%", $a_set['percentage']));
         
         $this->tpl->setVariable("TXT_SHOW_PASS", $lng->txt('tst_edit_scoring'));
         $this->tpl->setVariable("HREF_SHOW_PASS", $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));

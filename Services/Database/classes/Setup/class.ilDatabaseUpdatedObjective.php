@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Setup;
 use ILIAS\DI;
 
@@ -57,17 +71,17 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             {
                 $this->io = $io;
             }
-            public function write(): void
+            public function write() : void
             {
             }
-            public function info(): void
+            public function info() : void
             {
             }
-            public function warning($msg): void
+            public function warning($msg) : void
             {
                 $this->io->inform($msg);
             }
-            public function error($msg): void
+            public function error($msg) : void
             {
                 throw new Setup\UnachievableException(
                     "Problem in DB-Update: $msg"
@@ -76,20 +90,20 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger(): object
+            public function getRootLogger() : object
             {
                 return new class() {
-                    public function write(): void
+                    public function write() : void
                     {
                     }
                 };
             }
         };
         $GLOBALS["ilCtrlStructureReader"] = new class() {
-            public function getStructure(): void
+            public function getStructure() : void
             {
             }
-            public function setIniFile(): void
+            public function setIniFile() : void
             {
             }
         };
@@ -106,13 +120,13 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             define("ILIAS_LOG_ENABLED", false);
         }
         if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
+            define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
         }
         if (!defined("ROLE_FOLDER_ID")) {
-            define("ROLE_FOLDER_ID", $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
+            define("ROLE_FOLDER_ID", (int) $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
         }
         if (!defined("SYSTEM_FOLDER_ID")) {
-            define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
+            define("SYSTEM_FOLDER_ID", (int) $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
         }
 
         $db_update = new ilDBUpdate($db);
@@ -120,6 +134,8 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         $db_update->applyUpdate();
         $db_update->applyHotfix();
         $db_update->applyCustomUpdates();
+
+        $GLOBALS["DIC"] = $DIC;
 
         return $environment;
     }

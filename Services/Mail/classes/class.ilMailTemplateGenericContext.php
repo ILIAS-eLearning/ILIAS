@@ -1,8 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Mail/classes/class.ilMailTemplateContext.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Guido Vollbach <gvollbach@databay.de>
@@ -10,41 +22,26 @@ require_once 'Services/Mail/classes/class.ilMailTemplateContext.php';
  */
 class ilMailTemplateGenericContext extends ilMailTemplateContext
 {
-    /**
-     * @inheritDoc
-     */
     public function getId() : string
     {
         return 'mail_template_generic';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTitle() : string
     {
         return $this->getLanguage()->txt('please_choose');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription() : string
     {
         return $this->getLanguage()->txt('please_choose');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSpecificPlaceholders() : array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,

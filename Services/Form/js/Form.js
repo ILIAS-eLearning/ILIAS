@@ -192,22 +192,24 @@ il.Form = {
 	// initialisation for number fields
 	initNumericCheck: function (id, decimals_allowed) {
 		var current;
-		
+	
 		$('#' + il.Form.escapeSelector(id)).keydown(function (event) {
-
 			// #10562
 			var kcode = event.which;
 			var is_shift = event.shiftKey;
 			var is_ctrl = event.ctrlKey;
-			
-			if (kcode == 190) {
+
+			if (kcode == 190 || kcode == 188) {
 				// decimals are not allowed
 				if (decimals_allowed == undefined || decimals_allowed == 0) {
 					event.preventDefault();
 				} else {
 					// decimal point is only allowed once
 					current = $('#' + id).val();
-					if (current.indexOf('.') > -1) {
+					if (
+						current.indexOf('.') > -1 ||
+						current.indexOf(',') > -1
+					) {
 						event.preventDefault();
 					}
 				}

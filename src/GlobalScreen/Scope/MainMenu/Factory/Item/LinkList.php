@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
@@ -10,29 +27,31 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use InvalidArgumentException;
+use ReflectionFunction;
+use ReflectionException;
+use Generator;
 
 /**
  * Class LinkList
  * @package ILIAS\GlobalScreen\MainMenu\Item
  */
-class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchronousLoading, hasSymbol, isInterchangeableItem
+class LinkList extends AbstractChildItem implements
+    hasTitle,
+    supportsAsynchronousLoading,
+    hasSymbol,
+    isInterchangeableItem,
+    isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
 
-    /**
-     * @var string
-     */
-    protected $title = '';
+    protected string $title = '';
     /**
      * @var Link[]
      */
-    protected $links;
-    /**
-     * @var bool
-     */
-    protected $supports_async_loading = false;
+    protected array $links = [];
+    protected bool $supports_async_loading = false;
 
     /**
      * @param string $title
@@ -40,7 +59,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -55,20 +74,19 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     }
 
     /**
-     * @param array|callable|\Generator $links
-     * @return LinkList
+     * @param array|callable|Generator $links
      */
-    public function withLinks($links) : LinkList
+    public function withLinks($links) : self
     {
         if (is_callable($links)) {
             try {
-                $r = new \ReflectionFunction($links);
+                $r = new ReflectionFunction($links);
                 if ($r->isGenerator()) {
                     $links = iterator_to_array($links());
                 } else {
                     $links = $links();
                 }
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
                 $links = false;
             }
 
@@ -81,7 +99,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
                 throw new InvalidArgumentException("withLinks only accepts arrays of Links or a callable providing them");
             }
         }
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->links = $links;
 
         return $clone;
@@ -100,7 +118,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
      */
     public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
     {
-        $clone                         = clone($this);
+        $clone = clone($this);
         $clone->supports_async_loading = $supported;
 
         return $clone;
@@ -114,4 +132,14 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
         return $this->supports_async_loading;
     }
 
+    public function isVisible() : bool
+    {
+        $visible_links = 0;
+        foreach ($this->getLinks() as $link) {
+            if ($link->isVisible()) {
+                $visible_links++;
+            }
+        }
+        return $visible_links > 0 && parent::isVisible();
+    }
 }

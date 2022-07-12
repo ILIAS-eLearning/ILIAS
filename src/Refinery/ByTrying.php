@@ -1,15 +1,25 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\ProblemBuilder;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use Exception;
 use ILIAS\Data;
-use ILIAS\Refinery\ConstraintViolationException;
 
 class ByTrying implements Transformation
 {
@@ -17,19 +27,17 @@ class ByTrying implements Transformation
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
+    /** @var Transformation[] */
+    private array $transformations;
+    private Data\Factory $data_factory;
+    /** @var callable */
+    private $error;
+
     /**
-     * @var Transformation[]
+     * @param Transformation[] $transformations
+     * @param Data\Factory $data_factory
      */
-    protected array $transformations;
-
-    protected Data\Factory $data_factory;
-
-    /**
-     * @var callable
-     */
-    protected $error;
-
-    public function __construct(array $transformations, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(array $transformations, Data\Factory $data_factory)
     {
         $this->transformations = $transformations;
         $this->data_factory = $data_factory;
@@ -42,15 +50,15 @@ class ByTrying implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    protected function getError()
+    protected function getError() : callable
     {
         return $this->error;
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function transform($from)
     {
@@ -61,6 +69,6 @@ class ByTrying implements Transformation
                 return $result->value();
             }
         }
-        throw new \Exception($this->getErrorMessage($from));
+        throw new Exception($this->getErrorMessage($from));
     }
 }

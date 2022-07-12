@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,118 +21,88 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Calendar/classes/class.ilTimeZone.php');
-
 /**
-* Stores all calendar relevant settings.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
+ * Stores all calendar relevant settings.
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarSettings
 {
-    const WEEK_START_MONDAY = 1;
-    const WEEK_START_SUNDAY = 0;
-    
-    const DEFAULT_DAY_START = 8;
-    const DEFAULT_DAY_END = 19;
+    public const WEEK_START_MONDAY = 1;
+    public const WEEK_START_SUNDAY = 0;
 
-    const DATE_FORMAT_DMY = 1;
-    const DATE_FORMAT_YMD = 2;
-    const DATE_FORMAT_MDY = 3;
+    public const DEFAULT_DAY_START = 8;
+    public const DEFAULT_DAY_END = 19;
+
+    public const DATE_FORMAT_UNDEFINED = 0;
+    public const DATE_FORMAT_DMY = 1;
+    public const DATE_FORMAT_YMD = 2;
+    public const DATE_FORMAT_MDY = 3;
 
     public const DEFAULT_CAL_DAY = 1;
     public const DEFAULT_CAL_WEEK = 2;
     public const DEFAULT_CAL_MONTH = 3;
     public const DEFAULT_CAL_LIST = 4;
-    
-    const TIME_FORMAT_24 = 1;
-    const TIME_FORMAT_12 = 2;
-    
-    const DEFAULT_CACHE_MINUTES = 0;
-    const DEFAULT_SYNC_CACHE_MINUTES = 10;
 
-    const DEFAULT_SHOW_WEEKS = true;
+    public const TIME_FORMAT_24 = 1;
+    public const TIME_FORMAT_12 = 2;
 
-    private static $instance = null;
+    public const DEFAULT_CACHE_MINUTES = 0;
+    public const DEFAULT_SYNC_CACHE_MINUTES = 10;
 
-    private $db = null;
-    private $storage = null;
-    private $timezone = null;
-    private $time_format = null;
-    private $week_start = 0;
-    private $day_start = null;
-    private $day_end = null;
-    private $enabled = false;
-    private $cal_settings_id = 0;
-    
-    private $consultation_hours = false;
-    private $default_cal = self::DEFAULT_CAL_LIST;
-    private $default_period = 2;
-    
-    private $cache_enabled = true;
-    private $cache_minutes = 1;
-    
-    private $sync_cache_enabled = true;
-    private $sync_cache_minutes = 10;
-    
-    private $notification = false;
-    private $notification_user = false;
-    
-    private $cg_registration = false;
-    
-    private $course_cal_enabled = true;
-    private $group_cal_enabled = true;
-    private $course_cal_visible = true;
-    private $group_cal_visible = true;
-    
-    private $webcal_sync = false;
-    private $webcal_sync_hours = 2;
-    private $show_weeks = false;
+    public const DEFAULT_SHOW_WEEKS = true;
 
-    private $batch_file_downloads = false;
+    private static ?ilCalendarSettings $instance = null;
 
-    /**
-     * singleton contructor
-     *
-     * @access private
-     *
-     */
+    protected ilDBInterface $db;
+    protected ilSetting $storage;
+
+    private string $timezone = ilTimeZone::UTC;
+    private int $time_format = self::TIME_FORMAT_12;
+    private int $week_start = self::WEEK_START_SUNDAY;
+    private int $day_start = self::DEFAULT_DAY_START;
+    private int $day_end = self::DEFAULT_DAY_END;
+    private bool $enabled = false;
+    private int $cal_settings_id = 0;
+    private bool $consultation_hours = false;
+    private int $date_format = 0;
+    private int $default_cal = self::DEFAULT_CAL_LIST;
+    private int $default_period = 2;
+    private bool $cache_enabled = true;
+    private int $cache_minutes = 1;
+    private bool $sync_cache_enabled = true;
+    private int $sync_cache_minutes = 10;
+    private bool $notification = false;
+    private bool $notification_user = false;
+    private bool $cg_registration = false;
+    private bool $course_cal_enabled = true;
+    private bool $group_cal_enabled = true;
+    private bool $course_cal_visible = true;
+    private bool $group_cal_visible = true;
+    private bool $webcal_sync = false;
+    private int $webcal_sync_hours = 2;
+    private bool $show_weeks = false;
+    private bool $batch_file_downloads = false;
+    private bool $enablegroupmilestones = false;
+
     private function __construct()
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $this->db = $ilDB;
-        
+        $this->db = $DIC->database();
         $this->initStorage();
         $this->read();
         $this->readCalendarSettingsId();
     }
-    
-    /**
-     * get singleton instance
-     *
-     * @access public
-     * @static
-     * @return ilCalendarSettings
-     */
-    public static function _getInstance()
+
+    public static function _getInstance() : ilCalendarSettings
     {
         if (self::$instance) {
             return self::$instance;
         }
         return self::$instance = new ilCalendarSettings();
     }
-    
-    /**
-     * @param int $obj_id
-     * @return bool
-     */
+
     public static function lookupCalendarContentPresentationEnabled(int $obj_id) : bool
     {
         if (!self::lookupCalendarActivated($obj_id)) {
@@ -141,17 +111,14 @@ class ilCalendarSettings
         $settings = self::_getInstance();
         $type = ilObject::_lookupType($obj_id);
         $default = $settings->isObjectCalendarVisible($type);
-        return ilContainer::_lookupContainerSetting(
+        return (bool) ilContainer::_lookupContainerSetting(
             $obj_id,
-            'cont_show_calendar', // @todo create ilContainer constant
-            $default
+            'cont_show_calendar',
+            (string) $default
         );
     }
 
-    /**
-     * @param int $a_obj_id
-     */
-    public static function lookupCalendarActivated($a_obj_id)
+    public static function lookupCalendarActivated(int $a_obj_id) : bool
     {
         if (!ilCalendarSettings::_getInstance()->isEnabled()) {
             return false;
@@ -163,390 +130,223 @@ class ilCalendarSettings
             case 'crs':
                 $gl_activated = ilCalendarSettings::_getInstance()->isCourseCalendarEnabled();
                 break;
-            
+
             case 'grp':
                 $gl_activated = ilCalendarSettings::_getInstance()->isGroupCalendarEnabled();
                 break;
-            
+
             default:
                 return false;
         }
         // look individual object setting
-        include_once './Services/Container/classes/class.ilContainer.php';
-        return ilContainer::_lookupContainerSetting(
+        return (bool) ilContainer::_lookupContainerSetting(
             $a_obj_id,
             'cont_activation_calendar',
-            $gl_activated
+            (string) $gl_activated
         );
     }
-    
-    /**
-     * Enable cache
-     * @param object $a_status
-     * @return
-     */
-    public function useCache($a_status)
+
+    public function useCache(bool $a_status) : void
     {
         $this->cache_enabled = $a_status;
     }
-    
-    /**
-     * Check if cache is used
-     * @return
-     */
-    public function isCacheUsed()
+
+    public function isCacheUsed() : bool
     {
         return $this->cache_enabled;
     }
-    
-    /**
-     * Set time of cache storage
-     * @param int $a_min
-     * @return
-     */
-    public function setCacheMinutes($a_min)
+
+    public function setCacheMinutes(int $a_min) : void
     {
         $this->cache_minutes = $a_min;
     }
-    
-    /**
-     * Get cache minutes
-     * @return
-     */
-    public function getCacheMinutes()
+
+    public function getCacheMinutes() : int
     {
-        return (int) $this->cache_minutes;
+        return $this->cache_minutes;
     }
 
-    /**
-     * set enabled
-     *
-     * @access public
-     *
-     */
-    public function setEnabled($a_enabled)
+    public function setEnabled(bool $a_enabled) : void
     {
         $this->enabled = $a_enabled;
     }
-    
-    /**
-     * is calendar enabled
-     *
-     * @access public
-     *
-     */
-    public function isEnabled()
+
+    public function isEnabled() : bool
     {
-        return (bool) $this->enabled;
+        return $this->enabled;
     }
-    
-    /**
-     * set week start
-     *
-     * @access public
-     *
-     */
-    public function setDefaultWeekStart($a_start)
+
+    public function setDefaultWeekStart(int $a_start) : void
     {
         $this->week_start = $a_start;
     }
-    
-    /**
-     * get default week start
-     *
-     * @access public
-     *
-     */
-    public function getDefaultWeekStart()
+
+    public function getDefaultWeekStart() : int
     {
         return $this->week_start;
     }
 
-
-    /**
-     * @return int
-     */
     public function getDefaultCal() : int
     {
         return $this->default_cal;
     }
 
-    /**
-     * @param int $default_cal
-     */
     public function setDefaultCal(int $default_cal) : void
     {
         $this->default_cal = $default_cal;
     }
 
-    /**
-     * @return int
-     */
     public function getDefaultPeriod() : int
     {
         return $this->default_period;
     }
 
-    /**
-     * @param int $default_period
-     */
     public function setDefaultPeriod(int $default_period) : void
     {
         $this->default_period = $default_period;
     }
-    
-    /**
-     * set default timezone
-     *
-     * @access public
-     */
-    public function setDefaultTimeZone($a_zone)
+
+    public function setDefaultTimeZone(string $a_zone) : void
     {
         $this->timezone = $a_zone;
     }
-    
-    /**
-     * get derfault time zone
-     *
-     * @access public
-     */
-    public function getDefaultTimeZone()
+
+    public function getDefaultTimeZone() : string
     {
         return $this->timezone;
     }
 
-    /**
-     * set default date format
-     *
-     * @access public
-     * @param int date format
-     * @return
-     */
-    public function setDefaultDateFormat($a_format)
+    public function setDefaultDateFormat(int $a_format) : void
     {
         $this->date_format = $a_format;
     }
 
-    /**
-     * get default date format
-     *
-     * @access public
-     * @return int date format
-     */
-    public function getDefaultDateFormat()
+    public function getDefaultDateFormat() : int
     {
         return $this->date_format;
     }
-    
-    /**
-     * set default time format
-     *
-     * @access public
-     * @param int time format
-     * @return
-     */
-    public function setDefaultTimeFormat($a_format)
+
+    public function setDefaultTimeFormat(int $a_format) : void
     {
         $this->time_format = $a_format;
     }
-    
-    /**
-     * get default time format
-     *
-     * @access public
-     * @return int time format
-     */
-    public function getDefaultTimeFormat()
+
+    public function getDefaultTimeFormat() : int
     {
         return $this->time_format;
     }
-    
-    /**
-     * Get default end of day
-     * @return
-     */
-    public function getDefaultDayStart()
+
+    public function getDefaultDayStart() : int
     {
         return $this->day_start;
     }
-    
-    /**
-     * Set default start of day
-     * @return
-     * @param object $a_start
-     */
-    public function setDefaultDayStart($a_start)
+
+    public function setDefaultDayStart(int $a_start) : void
     {
         $this->day_start = $a_start;
     }
-    
-    /**
-     * Get default end of day
-     * @return
-     */
-    public function getDefaultDayEnd()
+
+    public function getDefaultDayEnd() : int
     {
         return $this->day_end;
     }
-    
-    /**
-     * set default end of day
-     * @return
-     * @param object $a_end
-     */
-    public function setDefaultDayEnd($a_end)
+
+    public function setDefaultDayEnd(int $a_end) : void
     {
         $this->day_end = $a_end;
     }
-    
-    /**
-     * Check if consultation hours are enabled
-     * @return
-     */
-    public function areConsultationHoursEnabled()
+
+    public function areConsultationHoursEnabled() : bool
     {
         return $this->consultation_hours;
     }
-    
-    /**
-     * En/Disable consultation hours
-     * @return
-     */
-    public function enableConsultationHours($a_status)
+
+    public function enableConsultationHours(bool $a_status) : void
     {
         $this->consultation_hours = $a_status;
     }
-    
 
-    /**
-     * Get calendar settings id
-     * (Used for permission checks)
-     *
-     * @access public
-     * @return
-     */
-    public function getCalendarSettingsId()
+    public function getCalendarSettingsId() : int
     {
         return $this->cal_settings_id;
     }
 
-    /**
-    * Set Enable milestone planning feature for groups.
-    *
-    * @param	boolean	$a_enablegroupmilestones	Enable milestone planning feature for groups
-    */
-    public function setEnableGroupMilestones($a_enablegroupmilestones)
+    public function setEnableGroupMilestones(bool $a_enablegroupmilestones) : void
     {
         $this->enablegroupmilestones = $a_enablegroupmilestones;
     }
 
-    /**
-    * Get Enable milestone planning feature for groups.
-    *
-    * @return	boolean	Enable milestone planning feature for groups
-    */
-    public function getEnableGroupMilestones()
+    public function getEnableGroupMilestones() : bool
     {
         return $this->enablegroupmilestones;
     }
-    
-    /**
-     * Check if cache is active for calendar synchronisation
-     * @return
-     */
-    public function isSynchronisationCacheEnabled()
+
+    public function isSynchronisationCacheEnabled() : bool
     {
-        return (bool) $this->sync_cache_enabled;
+        return $this->sync_cache_enabled;
     }
-    
-    /**
-     * En/Disable synchronisation cache
-     * @return
-     */
-    public function enableSynchronisationCache($a_status)
+
+    public function enableSynchronisationCache(bool $a_status) : void
     {
         $this->sync_cache_enabled = $a_status;
     }
-    
-    /**
-     * Set synchronisation cache minutes
-     * @param object $a_min
-     * @return
-     */
-    public function setSynchronisationCacheMinutes($a_min)
+
+    public function setSynchronisationCacheMinutes(int $a_min) : void
     {
         $this->sync_cache_minutes = $a_min;
     }
-    
-    /**
-     * get synchronisation cache minutes
-     * @return
-     */
-    public function getSynchronisationCacheMinutes()
+
+    public function getSynchronisationCacheMinutes() : int
     {
         return $this->sync_cache_minutes;
     }
-    
-    /**
-     * Course group notification enabled
-     * @return
-     */
-    public function isNotificationEnabled()
+
+    public function isNotificationEnabled() : bool
     {
-        return (bool) $this->notification;
+        return $this->notification;
     }
-    
-    /**
-     * Enable course group notification
-     * @param bool $a_status
-     * @return
-     */
-    public function enableNotification($a_status)
+
+    public function enableNotification(bool $a_status) : void
     {
         $this->notification = $a_status;
     }
 
-    public function isUserNotificationEnabled()
+    public function isUserNotificationEnabled() : bool
     {
         return $this->notification_user;
     }
 
-    public function enableUserNotification($a_not)
+    public function enableUserNotification(bool $a_not) : void
     {
         $this->notification_user = $a_not;
     }
-    
-    /**
-     * Enable optional registration for courses and groups
-     * @param bool $a_status
-     * @return
-     */
-    public function enableCGRegistration($a_status)
+
+    public function enableCGRegistration(bool $a_status) : void
     {
         $this->cg_registration = $a_status;
     }
-    
-    public function isCGRegistrationEnabled()
+
+    public function isCGRegistrationEnabled() : bool
     {
         return $this->cg_registration;
     }
-    
-    public function enableCourseCalendar($a_stat)
+
+    public function enableCourseCalendar(bool $a_stat) : void
     {
         $this->course_cal_enabled = $a_stat;
     }
-    
-    public function isCourseCalendarEnabled()
+
+    public function isCourseCalendarEnabled() : bool
     {
         return $this->course_cal_enabled;
     }
-    
+
     public function isCourseCalendarVisible() : bool
     {
         return $this->course_cal_visible;
     }
 
-    public function setCourseCalendarVisible(bool $status)
+    public function setCourseCalendarVisible(bool $status) : void
     {
         $this->course_cal_visible = $status;
     }
@@ -561,177 +361,168 @@ class ilCalendarSettings
         }
         return false;
     }
-    
-    public function enableGroupCalendar($a_stat)
+
+    public function enableGroupCalendar(bool $a_stat) : void
     {
         $this->group_cal_enabled = $a_stat;
     }
-    
-    public function isGroupCalendarEnabled()
+
+    public function isGroupCalendarEnabled() : bool
     {
         return $this->group_cal_enabled;
     }
-    
+
     public function isGroupCalendarVisible() : bool
     {
         return $this->group_cal_visible;
     }
 
-    public function setGroupCalendarVisible(bool $status)
+    public function setGroupCalendarVisible(bool $status) : void
     {
         $this->group_cal_visible = $status;
     }
-    
-    public function enableWebCalSync($a_stat)
+
+    public function enableWebCalSync(bool $a_stat) : void
     {
         $this->webcal_sync = $a_stat;
     }
-    
-    public function isWebCalSyncEnabled()
+
+    public function isWebCalSyncEnabled() : bool
     {
         return $this->webcal_sync;
     }
-    
-    public function setWebCalSyncHours($a_hours)
+
+    public function setWebCalSyncHours(int $a_hours) : void
     {
         $this->webcal_sync_hours = $a_hours;
     }
-    
-    public function getWebCalSyncHours()
+
+    public function getWebCalSyncHours() : int
     {
         return $this->webcal_sync_hours;
     }
 
-    /**
-     * Set show weeks
-     *
-     * @param bool $a_val show weeks
-     */
-    public function setShowWeeks($a_val)
+    public function setShowWeeks(bool $a_val) : void
     {
         $this->show_weeks = $a_val;
     }
-    
-    /**
-     * Get show weeks
-     *
-     * @return bool show weeks
-     */
-    public function getShowWeeks()
+
+    public function getShowWeeks() : bool
     {
         return $this->show_weeks;
     }
 
-    public function enableBatchFileDownloads($a_stat)
+    public function enableBatchFileDownloads(bool $a_stat) : void
     {
         $this->batch_file_downloads = $a_stat;
     }
 
-    public function isBatchFileDownloadsEnabled()
+    public function isBatchFileDownloadsEnabled() : bool
     {
         return $this->batch_file_downloads;
     }
-    
-    /**
-     * save
-     *
-     * @access public
-     */
+
     public function save()
     {
-        $this->storage->set('enabled', (int) $this->isEnabled());
+        $this->storage->set('enabled', (string) (int) $this->isEnabled());
         $this->storage->set('default_timezone', $this->getDefaultTimeZone());
-        $this->storage->set('default_week_start', $this->getDefaultWeekStart());
-        $this->storage->set('default_date_format', $this->getDefaultDateFormat());
-        $this->storage->set('default_time_format', $this->getDefaultTimeFormat());
-        $this->storage->set('enable_grp_milestones', (int) $this->getEnableGroupMilestones());
-        $this->storage->set('default_day_start', (int) $this->getDefaultDayStart());
-        $this->storage->set('default_day_end', (int) $this->getDefaultDayEnd());
-        $this->storage->set('cache_minutes', (int) $this->getCacheMinutes());
-        $this->storage->set('sync_cache_enabled', (int) $this->isSynchronisationCacheEnabled());
-        $this->storage->set('sync_cache_minutes', (int) $this->getSynchronisationCacheMinutes());
-        $this->storage->set('cache_enabled', (int) $this->isCacheUsed());
-        $this->storage->set('notification', (int) $this->isNotificationEnabled());
-        $this->storage->set('consultation_hours', (int) $this->areConsultationHoursEnabled());
-        $this->storage->set('cg_registration', (int) $this->isCGRegistrationEnabled());
-        $this->storage->set('course_cal', (int) $this->isCourseCalendarEnabled());
-        $this->storage->set('course_cal_visible', (int) $this->isCourseCalendarVisible());
-        $this->storage->set('group_cal', (int) $this->isGroupCalendarEnabled());
-        $this->storage->set('group_cal_visible', (int) $this->isGroupCalendarVisible());
-        $this->storage->set('notification_user', (int) $this->isUserNotificationEnabled());
-        $this->storage->set('webcal_sync', (int) $this->isWebCalSyncEnabled());
-        $this->storage->set('webcal_sync_hours', (int) $this->getWebCalSyncHours());
-        $this->storage->set('show_weeks', (int) $this->getShowWeeks());
-        $this->storage->set('batch_files', (int) $this->isBatchFileDownloadsEnabled());
-        $this->storage->set('default_calendar_view', (int) $this->getDefaultCal());
-        $this->storage->set('default_period', (int) $this->getDefaultPeriod());
+        $this->storage->set('default_week_start', (string) $this->getDefaultWeekStart());
+        $this->storage->set('default_date_format', (string) $this->getDefaultDateFormat());
+        $this->storage->set('default_time_format', (string) $this->getDefaultTimeFormat());
+        $this->storage->set('enable_grp_milestones', (string) (int) $this->getEnableGroupMilestones());
+        $this->storage->set('default_day_start', (string) $this->getDefaultDayStart());
+        $this->storage->set('default_day_end', (string) $this->getDefaultDayEnd());
+        $this->storage->set('cache_minutes', (string) $this->getCacheMinutes());
+        $this->storage->set('sync_cache_enabled', (string) (int) $this->isSynchronisationCacheEnabled());
+        $this->storage->set('sync_cache_minutes', (string) $this->getSynchronisationCacheMinutes());
+        $this->storage->set('cache_enabled', (string) (int) $this->isCacheUsed());
+        $this->storage->set('notification', (string) (int) $this->isNotificationEnabled());
+        $this->storage->set('consultation_hours', (string) (int) $this->areConsultationHoursEnabled());
+        $this->storage->set('cg_registration', (string) (int) $this->isCGRegistrationEnabled());
+        $this->storage->set('course_cal', (string) (int) $this->isCourseCalendarEnabled());
+        $this->storage->set('course_cal_visible', (string) (int) $this->isCourseCalendarVisible());
+        $this->storage->set('group_cal', (string) (int) $this->isGroupCalendarEnabled());
+        $this->storage->set('group_cal_visible', (string) (int) $this->isGroupCalendarVisible());
+        $this->storage->set('notification_user', (string) (int) $this->isUserNotificationEnabled());
+        $this->storage->set('webcal_sync', (string) (int) $this->isWebCalSyncEnabled());
+        $this->storage->set('webcal_sync_hours', (string) $this->getWebCalSyncHours());
+        $this->storage->set('show_weeks', (string) (int) $this->getShowWeeks());
+        $this->storage->set('batch_files', (string) (int) $this->isBatchFileDownloadsEnabled());
+        $this->storage->set('default_calendar_view', (string) $this->getDefaultCal());
+        $this->storage->set('default_period', (string) $this->getDefaultPeriod());
     }
 
-    /**
-     * Read settings
-     *
-     * @access private
-     * @param
-     *
-     */
     private function read()
     {
-        $this->setEnabled($this->storage->get('enabled'));
+        $this->setEnabled((bool) $this->storage->get('enabled'));
         $this->setDefaultTimeZone($this->storage->get('default_timezone', ilTimeZone::_getDefaultTimeZone()));
-        $this->setDefaultWeekStart($this->storage->get('default_week_start', self::WEEK_START_MONDAY));
-        $this->setDefaultDateFormat($this->storage->get('default_date_format', self::DATE_FORMAT_DMY));
-        $this->setDefaultTimeFormat($this->storage->get('default_time_format', self::TIME_FORMAT_24));
-        $this->setEnableGroupMilestones($this->storage->get('enable_grp_milestones'));
-        $this->setDefaultDayStart($this->storage->get('default_day_start', self::DEFAULT_DAY_START));
-        $this->setDefaultDayEnd($this->storage->get('default_day_end', self::DEFAULT_DAY_END));
-        $this->useCache($this->storage->get('cache_enabled'), $this->cache_enabled);
-        $this->setCacheMinutes($this->storage->get('cache_minutes', self::DEFAULT_CACHE_MINUTES));
-        $this->enableSynchronisationCache($this->storage->get('sync_cache_enabled'), $this->isSynchronisationCacheEnabled());
-        $this->setSynchronisationCacheMinutes($this->storage->get('sync_cache_minutes', self::DEFAULT_SYNC_CACHE_MINUTES));
-        $this->enableNotification($this->storage->get('notification', $this->isNotificationEnabled()));
-        $this->enableConsultationHours($this->storage->get('consultation_hours', $this->areConsultationHoursEnabled()));
-        $this->enableCGRegistration($this->storage->get('cg_registration', $this->isCGRegistrationEnabled()));
-        $this->enableCourseCalendar($this->storage->get('course_cal', $this->isCourseCalendarEnabled()));
-        $this->setCourseCalendarVisible($this->storage->get('course_cal_visible', $this->isCourseCalendarVisible()));
-        $this->enableGroupCalendar($this->storage->get('group_cal', $this->isGroupCalendarEnabled()));
-        $this->setGroupCalendarVisible($this->storage->get('group_cal_visible', $this->isGroupCalendarVisible()));
-        $this->enableUserNotification($this->storage->get('notification_user', $this->isUserNotificationEnabled()));
-        $this->enableWebCalSync($this->storage->get('webcal_sync', $this->isWebCalSyncEnabled()));
-        $this->setWebCalSyncHours($this->storage->get('webcal_sync_hours', $this->getWebCalSyncHours()));
-        $this->setShowWeeks($this->storage->get('show_weeks', $this->getShowWeeks()));
-        $this->enableBatchFileDownloads($this->storage->get('batch_files', $this->isBatchFileDownloadsEnabled()));
-        $this->setDefaultCal($this->storage->get('default_calendar_view', $this->getDefaultCal()));
-        $this->setDefaultPeriod($this->storage->get('default_period', $this->getDefaultPeriod()));
+        $this->setDefaultWeekStart((int) $this->storage->get('default_week_start', (string) self::WEEK_START_MONDAY));
+        $this->setDefaultDateFormat((int) $this->storage->get('default_date_format', (string) self::DATE_FORMAT_DMY));
+        $this->setDefaultTimeFormat((int) $this->storage->get('default_time_format', (string) self::TIME_FORMAT_24));
+        $this->setEnableGroupMilestones((bool) $this->storage->get('enable_grp_milestones'));
+        $this->setDefaultDayStart((int) $this->storage->get('default_day_start', (string) self::DEFAULT_DAY_START));
+        $this->setDefaultDayEnd((int) $this->storage->get('default_day_end', (string) self::DEFAULT_DAY_END));
+        $this->useCache((bool) $this->storage->get('cache_enabled', (string) $this->cache_enabled));
+        $this->setCacheMinutes((int) $this->storage->get('cache_minutes', (string) self::DEFAULT_CACHE_MINUTES));
+        $this->enableSynchronisationCache((bool) $this->storage->get(
+            'sync_cache_enabled',
+            (string) $this->isSynchronisationCacheEnabled()
+        ));
+        $this->setSynchronisationCacheMinutes((int) $this->storage->get(
+            'sync_cache_minutes',
+            (string) self::DEFAULT_SYNC_CACHE_MINUTES
+        ));
+        $this->enableNotification((bool) $this->storage->get('notification', (string) $this->isNotificationEnabled()));
+        $this->enableConsultationHours((bool) $this->storage->get(
+            'consultation_hours',
+            (string) $this->areConsultationHoursEnabled()
+        ));
+        $this->enableCGRegistration((bool) $this->storage->get(
+            'cg_registration',
+            (string) $this->isCGRegistrationEnabled()
+        ));
+        $this->enableCourseCalendar((bool) $this->storage->get(
+            'course_cal',
+            (string) $this->isCourseCalendarEnabled()
+        ));
+        $this->setCourseCalendarVisible((bool) $this->storage->get(
+            'course_cal_visible',
+            (string) $this->isCourseCalendarVisible()
+        ));
+        $this->enableGroupCalendar((bool) $this->storage->get('group_cal', (string) $this->isGroupCalendarEnabled()));
+        $this->setGroupCalendarVisible((bool) $this->storage->get(
+            'group_cal_visible',
+            (string) $this->isGroupCalendarVisible()
+        ));
+        $this->enableUserNotification((bool) $this->storage->get(
+            'notification_user',
+            (string) $this->isUserNotificationEnabled()
+        ));
+        $this->enableWebCalSync((bool) $this->storage->get('webcal_sync', (string) $this->isWebCalSyncEnabled()));
+        $this->setWebCalSyncHours((int) $this->storage->get('webcal_sync_hours', (string) $this->getWebCalSyncHours()));
+        $this->setShowWeeks((bool) $this->storage->get('show_weeks', (string) $this->getShowWeeks()));
+        $this->enableBatchFileDownloads((bool) $this->storage->get(
+            'batch_files',
+            (string) $this->isBatchFileDownloadsEnabled()
+        ));
+        $this->setDefaultCal((int) $this->storage->get('default_calendar_view', (string) $this->getDefaultCal()));
+        $this->setDefaultPeriod((int) $this->storage->get('default_period', (string) $this->getDefaultPeriod()));
     }
-    
-    /**
-     * Read ref_id of calendar settings
-     *
-     * @access private
-     * @param
-     * @return
-     */
-    private function readCalendarSettingsId()
+
+    private function readCalendarSettingsId() : void
     {
         $query = "SELECT ref_id FROM object_reference obr " .
             "JOIN object_data obd ON obd.obj_id = obr.obj_id " .
             "WHERE type = 'cals'";
-            
+
         $set = $this->db->query($query);
         $row = $this->db->fetchAssoc($set);
-        
-        $this->cal_settings_id = $row["ref_id"];
-        return true;
+
+        $this->cal_settings_id = (int) $row["ref_id"];
     }
-    
-    /**
-     * Init storage class (ilSetting)
-     * @access private
-     *
-     */
+
     private function initStorage()
     {
-        include_once('./Services/Administration/classes/class.ilSetting.php');
         $this->storage = new ilSetting('calendar');
     }
 }

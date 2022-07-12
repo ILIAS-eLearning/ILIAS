@@ -2,25 +2,16 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPUnit\Framework\MockObject\MockObject;
-
 /**
  * Class ilTestPassDeletionConfirmationGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
 class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 {
-    /**
-     * @var ilTestEvaluationGUI|mixed|MockObject
-     */
     private $testEvaluationGUI_mock;
-    /**
-     * @var ilLanguage|mixed|MockObject
-     */
+
     private $lng_mock;
-    /**
-     * @var ilCtrl|mixed|MockObject
-     */
+
     private $ctrl_mock;
 
     protected function setUp() : void

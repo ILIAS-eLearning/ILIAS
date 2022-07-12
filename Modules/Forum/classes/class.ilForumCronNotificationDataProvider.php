@@ -1,173 +1,77 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumCronNotificationDataProvider
- *
  * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 {
-    /**
-     * @var null
-     */
-    public $notification_type = null;
+    private ?int $notification_type = null;
+    private int $ref_id;
+    private int $obj_id;
+    private int $forum_id;
+    private string $forum_title;
+    private int $thread_id;
+    private string $thread_title;
+    private int $post_id;
+    private string $post_title;
+    private string $post_message;
+    private ?string $post_date = null;
+    private ?string $post_update = null;
+    private bool $post_censored;
+    private ?string $post_censored_date = null;
+    private ?string $post_censored_comment;
+    private string $pos_usr_alias;
+    private int $pos_display_user_id;
+    private bool $is_anonymized = false;
+    private string $import_name;
+    private array $attachments = [];
+    private array $cron_recipients = [];
+    private int $post_update_user_id;
+    private int $pos_author_id;
+    private ?string $deleted_by = '';
+    private ?string $post_user_name = null;
+    private ?string $update_user_name = null;
+    private ilForumNotificationCache $notificationCache;
 
-    /**
-     * @var int $ref_id
-     */
-    protected $ref_id = 0;
-
-    /**
-     * @var int $obj_id
-     */
-    protected $obj_id = 0;
-
-    /**
-     * @var int
-     */
-    protected $forum_id = 0;
-
-    /**
-     * @var string $forum_title
-     */
-    protected $forum_title = '';
-
-    /**
-     * @var int
-     */
-    protected $thread_id = 0;
-
-    /**
-     * @var string $thread_title
-     */
-    protected $thread_title = '';
-
-    /**
-     * @var int
-     */
-    protected $post_id = 0;
-    /**
-     * @var string
-     */
-    protected $post_title = '';
-    /**
-     * @var string
-     */
-    protected $post_message = '';
-    /**
-     * @var null
-     */
-    protected $post_date = null;
-    /**
-     * @var null
-     */
-    protected $post_update = null;
-
-    /**
-     * @var bool
-     */
-    protected $post_censored = false;
-    /**
-     * @var null
-     */
-    protected $post_censored_date = null;
-    /**
-     * @var string
-     */
-    protected $post_censored_comment = '';
-
-    /**
-     * @var string
-     */
-    protected $pos_usr_alias = '';
-    /**
-     * @var int
-     */
-    protected $pos_display_user_id = 0;
-
-    /**
-     * @var bool
-     */
-    protected $is_anonymized = false;
-    
-    /**
-     * @var int|string
-     */
-    protected $import_name = '';
-    
-    /**
-     * @var array $attachments
-     */
-    protected $attachments = array();
-
-    /**
-     * @var array $cron_recipients user_ids
-     */
-    protected $cron_recipients = array();
-
-    /**
-     * @var int
-     */
-    public $post_update_user_id = 0;
-    
-    /**
-     * @var int
-     */
-    public $pos_author_id = 0;
-
-    /**
-     * @var string
-     */
-    public $deleted_by = '';
-
-    /**
-     * @var \ilForumAuthorInformation[]
-     */
-    protected static $authorInformationCache = array();
-
-
-    /** @var string|null $post_user_name */
-    private $post_user_name = null;
-
-    /** @var string|null */
-    private $update_user_name = null;
-
-    /** @var ilForumNotificationCache */
-    private $notificationCache;
-
-    /**
-     * @param $row
-     * @param ilForumNotificationCache|null $notificationCache
-     */
-    public function __construct($row, $notification_type, ilForumNotificationCache $notificationCache = null)
+    public function __construct(array $row, int $notification_type, ilForumNotificationCache $notificationCache = null)
     {
         $this->notification_type = $notification_type;
-        $this->obj_id = $row['obj_id'];
-        $this->ref_id = $row['ref_id'];
-
-        $this->thread_id = $row['thread_id'];
+        $this->obj_id = (int) $row['obj_id'];
+        $this->ref_id = (int) $row['ref_id'];
+        $this->thread_id = (int) $row['thread_id'];
         $this->thread_title = $row['thr_subject'];
-
-        $this->forum_id = $row['pos_top_fk'];
+        $this->forum_id = (int) $row['pos_top_fk'];
         $this->forum_title = $row['top_name'];
-
-        $this->post_id = $row['pos_pk'];
+        $this->post_id = (int) $row['pos_pk'];
         $this->post_title = $row['pos_subject'];
         $this->post_message = $row['pos_message'];
         $this->post_date = $row['pos_date'];
         $this->post_update = $row['pos_update'];
-        $this->post_update_user_id = $row['update_user'];
-
-        $this->post_censored = $row['pos_cens'];
+        $this->post_update_user_id = (int) $row['update_user'];
+        $this->post_censored = (bool) $row['pos_cens'];
         $this->post_censored_date = $row['pos_cens_date'];
         $this->post_censored_comment = $row['pos_cens_com'];
-
         $this->pos_usr_alias = $row['pos_usr_alias'];
-        $this->pos_display_user_id = $row['pos_display_user_id'];
-        $this->pos_author_id = $row['pos_author_id'];
-
-        $this->import_name = strlen($row['import_name']) ? $row['import_name'] : '';
+        $this->pos_display_user_id = (int) $row['pos_display_user_id'];
+        $this->pos_author_id = (int) $row['pos_author_id'];
+        $this->import_name = $row['import_name'];
 
         if ($notificationCache === null) {
             $notificationCache = new ilForumNotificationCache();
@@ -186,21 +90,14 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->read();
     }
 
-    /**
-     *
-     */
-    protected function read()
+    protected function read() : void
     {
         $this->readAttachments();
     }
 
-    /**
-     *
-     */
-    private function readAttachments()
+    private function readAttachments() : void
     {
         if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
-            // get attachments
             $fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
             $filesOfPost = $fileDataForum->getFilesOfPost();
 
@@ -210,263 +107,180 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         }
     }
 
-    /**
-     * @param int $user_id
-     */
-    public function addRecipient($user_id)
+    public function addRecipient(int $user_id) : void
     {
-        $this->cron_recipients[] = (int) $user_id;
+        $this->cron_recipients[] = $user_id;
     }
 
-    /**
-     * @return array
-     */
-    public function getCronRecipients()
+    public function getCronRecipients() : array
     {
         return $this->cron_recipients;
     }
 
-    /**
-     * @return int
-     */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * @return int frm_data.top_pk
-     */
-    public function getForumId()
+    public function getForumId() : int
     {
         return $this->forum_id;
     }
 
-    /**
-     * @return string frm_data.top_name
-     */
-    public function getForumTitle()
+    public function getForumTitle() : string
     {
         return $this->forum_title;
     }
 
-    /**
-     * @return int
-     */
-    public function getThreadId()
+    public function getThreadId() : int
     {
         return $this->thread_id;
     }
 
-    /**
-     * @return string frm_threads.thr_subject
-     */
-    public function getThreadTitle()
+    public function getThreadTitle() : string
     {
         return $this->thread_title;
     }
 
-    /**
-     * @return int
-     */
-    public function getPostId()
+    public function getPostId() : int
     {
         return $this->post_id;
     }
 
-    /**
-     * @return string frm_posts.pos_subject
-     */
-    public function getPostTitle()
+    public function getPostTitle() : string
     {
         return $this->post_title;
     }
 
-    /**
-     * @return string frm_posts.pos_message
-     */
-    public function getPostMessage()
+    public function getPostMessage() : string
     {
         return $this->post_message;
     }
 
-    /**
-     * @return string frm_posts.pos_date
-     */
-    public function getPostDate()
+    public function getPostDate() : string
     {
         return $this->post_date;
     }
 
-    /**
-     * @return string frm_posts.pos_update
-     */
-    public function getPostUpdate()
+    public function getPostUpdate() : string
     {
-        return $this->post_update;
+        return $this->post_update ?? '';
     }
 
-    /**
-     * @return string frm_posts.pos_cens
-     */
-    public function getPostCensored()
+    public function isPostCensored() : bool
     {
         return $this->post_censored;
     }
 
-    /**
-     * @return string frm_posts.pos_cens_date
-     */
-    public function getPostCensoredDate()
+    public function getPostCensoredDate() : string
     {
-        return $this->post_censored_date;
+        return $this->post_censored_date ?? '';
     }
 
-    /**
-     * @return string
-     */
-    public function getCensorshipComment()
+    public function getCensorshipComment() : string
     {
         return $this->post_censored_comment;
     }
 
-    /**
-     * @return array file names
-     */
-    public function getAttachments()
+    public function getAttachments() : array
     {
         return $this->attachments;
     }
 
-    /**
-     * @param null $notification_type
-     */
-    public function setNotificationType($notification_type)
+    public function setNotificationType(int $notification_type) : void
     {
         $this->notification_type = $notification_type;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosDisplayUserId()
+    public function getPosDisplayUserId() : int
     {
         return $this->pos_display_user_id;
     }
 
-
-    /**
-     * @return string frm_posts.pos_usr_alias
-     */
-    public function getPosUserAlias()
+    public function getPosUserAlias() : string
     {
         return $this->pos_usr_alias;
     }
 
-    /**
-     * @return int
-     */
-    public function getPostUpdateUserId()
+    public function getPostUpdateUserId() : int
     {
         return $this->post_update_user_id;
     }
 
-    /**
-     * @param int $post_update_user_id
-     */
-    public function setPostUpdateUserId($post_update_user_id)
+    public function setPostUpdateUserId(int $post_update_user_id) : void
     {
         $this->post_update_user_id = $post_update_user_id;
     }
 
-    public function setPosAuthorId($pos_author_id)
+    public function setPosAuthorId(int $pos_author_id) : void
     {
         $this->pos_author_id = $pos_author_id;
     }
-    public function getPosAuthorId()
+
+    public function getPosAuthorId() : int
     {
         return $this->pos_author_id;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAnonymized()
+    public function isAnonymized() : bool
     {
         return $this->is_anonymized;
     }
 
-    /**
-     * @return int
-     */
-    public function getDeletedBy()
+    public function getDeletedBy() : string
     {
         return $this->deleted_by;
     }
 
-    /**
-     * @return string
-     */
-    public function getImportName()
+    public function getImportName() : string
     {
         return $this->import_name;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPostUserName(\ilLanguage $user_lang)
+    public function getPostUserName(ilLanguage $user_lang) : string
     {
         if ($this->post_user_name === null) {
-            $this->post_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
+            $this->post_user_name = $this->getPublicUserInformation($this->getAuthorInformation(
                 $user_lang,
-                (int) $this->getPosAuthorId(),
-                (int) $this->getPosDisplayUserId(),
-                (string) $this->getPosUserAlias(),
-                (string) $this->getImportName()
+                $this->getPosAuthorId(),
+                $this->getPosDisplayUserId(),
+                $this->getPosUserAlias(),
+                $this->getImportName()
             ));
         }
 
-        return $this->post_user_name;
+        return (string) $this->post_user_name;
     }
-    
-    /**
-     * @inheritdoc
-     */
-    public function getPostUpdateUserName(\ilLanguage $user_lang)
+
+    public function getPostUpdateUserName(ilLanguage $user_lang) : string
     {
         if ($this->update_user_name === null) {
-            $this->update_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
+            $this->update_user_name = $this->getPublicUserInformation($this->getAuthorInformation(
                 $user_lang,
-                (int) $this->getPosAuthorId(),
-                (int) $this->getPostUpdateUserId(),
-                (string) $this->getPosUserAlias(),
-                (string) $this->getImportName()
+                $this->getPosAuthorId(),
+                $this->getPostUpdateUserId(),
+                $this->getPosUserAlias(),
+                $this->getImportName()
             ));
         }
 
         // Fix for #25432
-        if ($this->getPosUserAlias() && $this->getPosDisplayUserId() == 0
-            && $this->getPosAuthorId() == $this->getPostUpdateUserId()) {
-            return (string) $this->getPosUserAlias();
+        if (
+            $this->getPosUserAlias() && $this->getPosDisplayUserId() === 0 &&
+            $this->getPosAuthorId() === $this->getPostUpdateUserId()
+        ) {
+            return $this->getPosUserAlias();
         }
 
         return (string) $this->update_user_name;
     }
-    
-    /**
-     * @param ilForumAuthorInformation $authorinfo
-     * @return string
-     */
-    public function getPublicUserInformation(ilForumAuthorInformation $authorinfo)
+
+    public function getPublicUserInformation(ilForumAuthorInformation $authorinfo) : string
     {
         $publicName = $authorinfo->getAuthorShortName();
 
@@ -479,29 +293,21 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         return $publicName;
     }
 
-    /**
-     * @param ilLanguage $lng
-     * @param            $authorUsrId
-     * @param            $displayUserId
-     * @param            $usrAlias
-     * @param            $importName
-     * @return \ilForumAuthorInformation
-     */
     private function getAuthorInformation(
-        \ilLanguage $lng,
+        ilLanguage $lng,
         int $authorUsrId,
         int $displayUserId,
         string $usrAlias,
         string $importName
     ) {
-        $cacheKey = $this->notificationCache->createKeyByValues(array(
+        $cacheKey = $this->notificationCache->createKeyByValues([
             $this->notification_type,
             $lng->getLangKey(),
-            (int) $authorUsrId,
-            (int) $displayUserId,
-            (string) $usrAlias,
-            (string) $importName
-        ));
+            $authorUsrId,
+            $displayUserId,
+            $usrAlias,
+            $importName
+        ]);
 
         if (false === $this->notificationCache->exists($cacheKey)) {
             $authorInformation = new ilForumAuthorInformation(
@@ -509,7 +315,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
                 $displayUserId,
                 $usrAlias,
                 $importName,
-                array(),
+                [],
                 $lng
             );
 

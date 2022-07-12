@@ -1,120 +1,92 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\Modules\OrgUnit\ARHelper;
 
+use ILIAS\HTTP\RawHTTPServices;
+
 /**
  * Class DIC
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 trait DIC
 {
-
     /**
      * @return \ILIAS\DI\Container
      */
     public function dic()
     {
-        return $GLOBALS['DIC'];
+        global $DIC;
+        return $DIC;
     }
 
-
-    /**
-     * @return \ilCtrl
-     */
-    protected function ctrl()
+    protected function ctrl():  \ilCtrl
     {
         return $this->dic()->ctrl();
     }
 
-
-    /**
-     * @param $variable
-     *
-     * @return string
-     */
-    public function txt($variable)
+    public function txt(string $variable): string
     {
         return $this->lng()->txt($variable);
     }
 
 
-    /**
-     * @return \ilTemplate
-     */
-    protected function tpl()
+    protected function tpl(): \ilGlobalTemplateInterface
     {
         return $this->dic()->ui()->mainTemplate();
     }
 
-
-    /**
-     * @return \ilLanguage
-     */
-    protected function lng()
+    protected function lng(): \ilLanguage
     {
         return $this->dic()->language();
     }
 
-
-    /**
-     * @return \ilTabsGUI
-     */
-    protected function tabs()
+    protected function tabs(): \ilTabsGUI
     {
         return $this->dic()->tabs();
     }
 
-
-    /**
-     * @return \ILIAS\DI\UIServices
-     */
-    protected function ui()
+    protected function ui(): \ILIAS\DI\UIServices
     {
         return $this->dic()->ui();
     }
 
-
-    /**
-     * @return \ilObjUser
-     */
-    protected function user()
+    protected function user(): \ilObjUser
     {
         return $this->dic()->user();
     }
 
-
-    /**
-     * @return ILIAS\
-     */
-    protected function http()
+    protected function http(): \ILIAS\HTTP\Services
     {
         return $this->dic()->http();
     }
 
-
-    /**
-     * @return \ilAccessHandler
-     */
-    protected function access()
+    protected function access(): \ilAccessHandler
     {
         return $this->dic()->access();
     }
 
-
-    /**
-     * @return \ilToolbarGUI
-     */
-    protected function toolbar()
+    protected function toolbar(): \ilToolbarGUI
     {
         return $this->dic()->toolbar();
     }
 
-
-    /**
-     * @return \ilDB
-     */
-    protected function database()
+    protected function database(): \ilDBInterface
     {
         return $this->dic()->database();
     }
@@ -129,10 +101,8 @@ trait DIC
         }
     }
 
-
     /**
      * @param $a_perm
-     *
      * @return bool
      */
     public function checkPermissionBoolAndReturn($a_perm)

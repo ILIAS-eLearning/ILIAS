@@ -1,21 +1,37 @@
-<?php
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Component as IC;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as IC;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Implementation\Component\ViewControl\Factory;
 
 /**
  * Test on Pagination view control.
  */
 class PaginationTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
+        return new class extends NoUIFactory {
             public function symbol() : C\Symbol\Factory
             {
                 return new IC\Symbol\Factory(
@@ -24,39 +40,32 @@ class PaginationTest extends ILIAS_UI_TestBase
                     new IC\Symbol\Avatar\Factory()
                 );
             }
-            public function button()
+            public function button() : C\Button\Factory
             {
-                return new IC\Button\Factory(new SignalGenerator());
+                return new IC\Button\Factory();
             }
-            public function dropdown()
+            public function dropdown() : C\Dropdown\Factory
             {
                 return new IC\Dropdown\Factory();
             }
         };
-        return $factory;
     }
 
-    private function getFactory()
+    private function getFactory() : Factory
     {
         $sg = new SignalGenerator();
-        return new \ILIAS\UI\Implementation\Component\ViewControl\Factory($sg);
+        return new Factory($sg);
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $f = $this->getFactory();
         $pagination = $f->pagination();
-        $this->assertInstanceOf(
-            "ILIAS\\UI\\Component\\ViewControl\\Pagination",
-            $pagination
-        );
-        $this->assertInstanceOf(
-            "ILIAS\\UI\\Component\\Signal",
-            $pagination->getInternalSignal()
-        );
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Pagination", $pagination);
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $pagination->getInternalSignal());
     }
 
-    public function testAttributes()
+    public function testAttributes() : void
     {
         $total_entries = 111;
         $page_size = 100;
@@ -83,7 +92,7 @@ class PaginationTest extends ILIAS_UI_TestBase
         $this->assertEquals(2, $p->getNumberOfPages());
     }
 
-    public function testRenderUnlimited()
+    public function testRenderUnlimited() : void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(2)
@@ -114,7 +123,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testRenderWithCurrentPage()
+    public function testRenderWithCurrentPage() : void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(2)
@@ -146,7 +155,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testRenderLimited()
+    public function testRenderLimited() : void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(3)
@@ -181,7 +190,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testRenderLimitedWithCurrentPage()
+    public function testRenderLimitedWithCurrentPage() : void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(3)
@@ -221,7 +230,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testRenderLimitedWithCurrentPage2()
+    public function testRenderLimitedWithCurrentPage2() : void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(3)
@@ -258,7 +267,7 @@ EOT;
 
 
 
-    public function testRenderDropdown()
+    public function testRenderDropdown() : void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(3)
@@ -291,5 +300,19 @@ EOT;
 EOT;
         $html = $this->getDefaultRenderer()->render($p);
         $this->assertHTMLEquals($expected_html, $html);
+    }
+
+    public function testGetRangeOnNull() : void
+    {
+        $page_size = 0;
+        $current_page = 1;
+        $range = null;
+
+        $pagination = $this->getFactory()->pagination()
+            ->withCurrentPage($current_page)
+            ->withPageSize($page_size);
+
+        $this->assertNull($pagination->getRange());
+        $this->assertEquals($range, $pagination->getRange());
     }
 }

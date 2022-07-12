@@ -1,5 +1,23 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
  * Class ilObjChatroomGUI
@@ -10,41 +28,41 @@
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInterface
 {
-    public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
+    public function __construct($data = null, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
-        if (isset($_REQUEST['cmd']) && in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications'))) {
-            require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
-            $notifications = new ilNotificationGUI();
-            $notifications->{$_REQUEST['cmd'] . 'Object'}();
-            exit;
-        }
-
         $this->type = 'chtr';
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        parent::__construct($data, $id, $call_by_reference, false);
         $this->lng->loadLanguageModule('chatroom');
         $this->lng->loadLanguageModule('chatroom_adm');
     }
 
     /**
-     * Overwrites $_GET['ref_id'] with given $ref_id.
-     * @param string $params
+     * @ineritdoc
      */
-    public static function _goto($params)
+    public static function _goto($params) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $parts = array_filter(explode('_', $params));
         $ref_id = (int) $parts[0];
         $sub = (int) ($parts[1] ?? 0);
 
         if (ilChatroom::checkUserPermissions('read', $ref_id, false)) {
-            // TODO PHP 8: Remove this code fragment if possible (seems not to be used)
             if ($sub) {
-                $_REQUEST['sub'] = $_GET['sub'] = (int) $sub;
+                $DIC->ctrl()->setParameterByClass(self::class, 'sub', $sub);
             }
-            ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
+
+            $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $ref_id);
+            $DIC->ctrl()->redirectByClass(
+                [
+                    ilRepositoryGUI::class,
+                    self::class,
+                ],
+                'view'
+            );
         } elseif (ilChatroom::checkUserPermissions('visible', $ref_id, false)) {
             $DIC->ctrl()->setParameterByClass(ilInfoScreenGUI::class, 'ref_id', $ref_id);
             $DIC->ctrl()->redirectByClass(
@@ -56,14 +74,11 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
                 'info'
             );
         } elseif ($DIC->rbac()->system()->checkAccess('read', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(
-                sprintf(
-                    $DIC->language()->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
-                ),
-                true
-            );
-            ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID, '');
+            $main_tpl->setOnScreenMessage('info', sprintf(
+                $DIC->language()->txt('msg_no_perm_read_item'),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
+            ), true);
+            ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID);
         }
 
         $DIC['ilErr']->raiseError(
@@ -80,18 +95,18 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = parent::initCreationForms($a_new_type);
+        $forms = parent::initCreationForms($new_type);
 
         $forms[self::CFORM_NEW]->clearCommandButtons();
-        $forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($a_new_type . '_add'));
+        $forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($new_type . '_add'));
         $forms[self::CFORM_NEW]->addCommandButton('cancel', $this->lng->txt('cancel'));
 
         return $forms;
     }
 
-    protected function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         if (is_object($this->object)) {
             $this->locator->addItem(
@@ -108,7 +123,25 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         return $this->object->getRefId();
     }
 
-    public function executeCommand()
+    /**
+     * @inheritDoc
+     */
+    public function getUnsafeGetCommands() : array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafePostCommands() : array
+    {
+        return [
+            'view-toggleAutoMessageDisplayState',
+        ];
+    }
+
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -117,8 +150,8 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
             return;
         }
 
-        $refId = (int) ($this->httpServices->request()->getQueryParams()['ref_id'] ?? 0);
-        if (!$this->getCreationMode() && $this->access->checkAccess('read', '', $refId)) {
+        $refId = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        if (!$this->getCreationMode() && ilChatroom::checkPermissionsOfUser($this->user->getId(), 'read', $refId)) {
             $DIC['ilNavigationHistory']->addItem(
                 $refId,
                 './goto.php?target=' . $this->type . '_' . $refId,
@@ -131,7 +164,13 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         if (!$this->getCreationMode()) {
             $tabFactory = new ilChatroomTabGUIFactory($this);
 
-            $baseClass = (string) ($this->httpServices->request()->getQueryParams()['baseClass'] ?? '');
+            $baseClass = '';
+            if ($this->http->wrapper()->query()->has('baseClass')) {
+                $baseClass = $this->http->wrapper()->query()->retrieve(
+                    'baseClass',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
             if (strtolower($baseClass) === strtolower(ilAdministrationGUI::class)) {
                 $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
             } else {
@@ -182,15 +221,14 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
                 break;
 
             case strtolower(ilCommonActionDispatcherGUI::class):
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
                 try {
-                    $res = explode('-', $this->ctrl->getCmd('', [
-                        'view-toggleAutoMessageDisplayState'
-                    ]), 2);
+                    $res = explode('-', $this->ctrl->getCmd(''), 2);
                     $result = $this->dispatchCall($res[0], $res[1] ?? '');
                     if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();
@@ -198,16 +236,17 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
                     }
                 } catch (Exception $e) {
                     if ($this->ctrl->isAsynch()) {
-                        $responseStream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
+                        $responseStream = Streams::ofString(json_encode([
                             'success' => false,
                             'reason' => $e->getMessage()
                         ], JSON_THROW_ON_ERROR));
-                        $this->httpServices->saveResponse(
-                            $this->httpServices->response()
+                        $this->http->saveResponse(
+                            $this->http->response()
                                 ->withBody($responseStream)
-                                ->withHeader('Content-Type', 'application/json')
+                                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                         );
-                        $this->httpServices->close();
+                        $this->http->sendResponse();
+                        $this->http->close();
                     } else {
                         throw $e;
                     }
@@ -238,25 +277,32 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         $this->prepareOutput();
     }
 
-    /**
-     * Instantiates, prepares and returns object.
-     * $class_name = 'ilObj' . $objDefinition->getClassName( $new_type ).
-     * Fetches title from $_POST['title'], description from $_POST['desc']
-     * and RefID from $_GET['ref_id'].
-     * @return ilObject
-     */
     public function insertObject() : ilObjChatroom
     {
-        global $DIC;
-
         $new_type = $this->type;
-        $refId = (int) ($this->httpServices->request()->getQueryParams()['ref_id'] ?? 0);
-        $title = ilUtil::stripSlashes((string) ($this->httpServices->request()->getParsedBody()['title'] ?? ''));
-        $desc = ilUtil::stripSlashes((string) ($this->httpServices->request()->getParsedBody()['desc'] ?? ''));
+        $refId = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        $title = '';
+        if ($this->http->wrapper()->post()->has('title')) {
+            $title = ilUtil::stripSlashes(
+                $this->http->wrapper()->post()->retrieve(
+                    'title',
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+        $desc = '';
+        if ($this->http->wrapper()->post()->has('desc')) {
+            $desc = ilUtil::stripSlashes(
+                $this->http->wrapper()->post()->retrieve(
+                    'desc',
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
 
         // create permission is already checked in createObject.
         // This check here is done to prevent hacking attempts
-        if (!$DIC->rbac()->system()->checkAccess('create', $refId, $new_type)) {
+        if (!$this->rbac_system->checkAccess('create', $refId, $new_type)) {
             $this->ilias->raiseError(
                 $this->lng->txt('no_create_permission'),
                 $this->ilias->error_obj->MESSAGE
@@ -264,7 +310,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         }
 
         // create and insert object in objecttree
-        $class_name = 'ilObj' . $DIC['objDefinition']->getClassName($new_type);
+        $class_name = 'ilObj' . $this->obj_definition->getClassName($new_type);
 
         $newObj = new $class_name();
         $newObj->setType($new_type);
@@ -285,7 +331,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
             'private_rooms_enabled' => 0
         ]);
 
-        $rbac_log_roles = $DIC->rbac()->review()->getParentRoleIds($newObj->getRefId(), false);
+        $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId());
         $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 

@@ -6,7 +6,7 @@ namespace ILIAS\Init\StartupSequence;
 /**
  * Class StartUpSequenceStep
  * @package ILIAS\Init\StartupSequence
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 abstract class StartUpSequenceStep
 {

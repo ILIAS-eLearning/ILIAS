@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
 namespace ILIAS\ResourceStorage\Information;
 
 use DateTimeImmutable;
@@ -10,115 +25,65 @@ use DateTimeImmutable;
  */
 class FileInformation implements Information
 {
+    protected string $title = '';
+    protected string $suffix = '';
+    protected string $mime_type = '';
+    protected int $size = 0;
+    protected ?\DateTimeImmutable $creation_date = null;
 
-    /**
-     * @var string
-     */
-    protected $title = '';
-    /**
-     * @var string
-     */
-    protected $suffix = '';
-    /**
-     * @var string
-     */
-    protected $mime_type = '';
-    /**
-     * @var int
-     */
-    protected $size = 0;
-    /**
-     * @var DateTimeImmutable
-     */
-    protected $creation_date;
-
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return FileInformation
-     */
-    public function setTitle(string $title) : Information
+    public function setTitle(string $title) : self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSuffix() : string
     {
         return $this->suffix;
     }
 
-    /**
-     * @param string $suffix
-     * @return FileInformation
-     */
-    public function setSuffix(string $suffix) : Information
+    public function setSuffix(string $suffix) : self
     {
         $this->suffix = $suffix;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMimeType() : string
     {
         return $this->mime_type;
     }
 
-    /**
-     * @param string $mime_type
-     * @return FileInformation
-     */
-    public function setMimeType(string $mime_type) : FileInformation
+    public function setMimeType(string $mime_type) : self
     {
         $this->mime_type = $mime_type;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getSize() : int
     {
         return $this->size;
     }
 
-    /**
-     * @param int $size
-     * @return FileInformation
-     */
-    public function setSize(int $size) : FileInformation
+    public function setSize(int $size) : self
     {
         $this->size = $size;
 
         return $this;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
     public function getCreationDate() : DateTimeImmutable
     {
         return $this->creation_date ?? new DateTimeImmutable();
     }
 
-    /**
-     * @param DateTimeImmutable $creation_date
-     */
     public function setCreationDate(DateTimeImmutable $creation_date) : void
     {
         $this->creation_date = $creation_date;

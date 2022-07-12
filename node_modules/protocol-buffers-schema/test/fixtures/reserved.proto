@@ -8,3 +8,10 @@ message Reserved {
   string y = 10;
 }
 
+enum ReservedEnum {
+  x = 1;
+  reserved 2, 3;
+  reserved 5 to 9;
+  reserved "foo", "bar";
+  y = 10;
+}

@@ -13,7 +13,7 @@ module.exports = function exports(req, res) {
 	function userBannedMessageCallbackFactory(namespace, roomId) {
 		return function userBannedMessageCallback(socketId) {
 			namespace.getIO().to(socketId).emit('userjustbanned');
-			namespace.getIO().connected[socketId].leave(roomId);
+			namespace.getIO().sockets.get(socketId).leave(roomId);
 		};
 	}
 

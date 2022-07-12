@@ -1,19 +1,31 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 
 /**
  * Stores configuration for the service (currently only path to ffmpeg)
  * in the according ini-field.
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilMediaObjectConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilMediaObjectSetupConfig
-     */
-    protected $config;
+    protected \ilMediaObjectSetupConfig $config;
 
     public function __construct(
         \ilMediaObjectSetupConfig $config
@@ -46,8 +58,13 @@ class ilMediaObjectConfigStoredObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-
-        $ini->setVariable("tools", "ffmpeg", $this->config->getPathToFFMPEG());
+    
+        $ini->setVariable(
+            "tools",
+            "ffmpeg",
+            $this->config->getPathToFFMPEG()
+            ?? ''
+        );
 
         if (!$ini->write()) {
             throw new Setup\UnachievableException("Could not write ilias.ini.php");

@@ -1,28 +1,30 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject.php";
+<?php declare(strict_types=1);
 
 /**
-* Class ilObjMail
-* contains all functions to manage mail settings of ILIAS3
-*
-* @author	Stefan Meyer <meyer@leifos.com>
-* @version	$Id$
-*
-* @extends	ilObject
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Class ilObjMail
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjMail extends ilObject
 {
-    /**
-    * Constructor
-    * @access	public
-    * @param	int	reference_id or object_id
-    * @param	bool	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id, $a_call_by_reference = true)
+    public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
         $this->type = "mail";
         parent::__construct($a_id, $a_call_by_reference);
     }
-} // END class.ilObjMail
+}

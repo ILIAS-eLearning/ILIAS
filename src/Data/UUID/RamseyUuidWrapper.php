@@ -8,7 +8,7 @@ use Ramsey\Uuid\UuidInterface as RamseyUuidInterface;
  * Class Uuid
  * @package ILIAS\Data\UUID
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class RamseyUuidWrapper implements Uuid
 {

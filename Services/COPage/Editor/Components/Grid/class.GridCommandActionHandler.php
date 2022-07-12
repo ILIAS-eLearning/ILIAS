@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Grid;
 
@@ -12,30 +26,11 @@ use ILIAS\COPage\Editor\Server;
  */
 class GridCommandActionHandler implements Server\CommandActionHandler
 {
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilPageObjectGUI
-     */
-    protected $page_gui;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var Server\UIWrapper
-     */
-    protected $ui_wrapper;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilLanguage $lng;
+    protected \ilPageObjectGUI $page_gui;
+    protected \ilObjUser $user;
+    protected Server\UIWrapper $ui_wrapper;
 
     public function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -49,30 +44,18 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    /**
-     * @param $query
-     * @param $body
-     * @return Server\Response
-     */
-    public function handle($query, $body) : Server\Response
+    public function handle(array $query, array $body) : Server\Response
     {
         switch ($body["action"]) {
             case "insert":
                 return $this->insertCommand($body);
-                break;
 
             default:
                 throw new Exception("Unknown action " . $body["action"]);
-                break;
         }
     }
 
-    /**
-     * All command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function insertCommand($body) : Server\Response
+    protected function insertCommand(array $body) : Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -91,10 +74,10 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         $grid->applyTemplate(
             $post_layout_template,
             (int) $body["number_of_cells"],
-            $body["s"],
-            $body["m"],
-            $body["l"],
-            $body["xl"]
+            (int) $body["s"],
+            (int) $body["m"],
+            (int) $body["l"],
+            (int) $body["xl"]
         );
         $updated = $page->update();
 

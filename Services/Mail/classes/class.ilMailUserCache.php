@@ -1,36 +1,38 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailUserCache
 {
-    /**
-     * @var array
-     * @static
-     */
-    protected static $user_instances = array();
+    /** @var array<int, ilObjUser|null> */
+    protected static array $user_instances = [];
+    /** @var int[] */
+    protected static array $requested_usr_ids = [];
+    /** @var array<int, int> */
+    protected static array $requested_usr_ids_key_map = [];
 
     /**
-     * @var array
-     * @static
+     * @param int[] $usr_ids
      */
-    protected static $requested_usr_ids = array();
-
-    /**
-     * @var array
-     * @static
-     */
-    protected static $requested_usr_ids_key_map = array();
-
-    /**
-     * @static
-     * @param array $usr_ids
-     */
-    public static function preloadUserObjects(array $usr_ids)
+    public static function preloadUserObjects(array $usr_ids) : void
     {
         global $DIC;
 
@@ -41,7 +43,8 @@ class ilMailUserCache
         if ($usr_ids_to_request) {
             $in = $DIC->database()->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
             $query = "
-				SELECT ud.usr_id, login, firstname, lastname, title, gender, pprof.value public_profile,pup.value public_upload, pupgen.value public_gender
+				SELECT ud.usr_id, login, firstname, lastname, title, gender, 
+				       pprof.value public_profile,pup.value public_upload, pupgen.value public_gender
 				FROM usr_data ud
 				LEFT JOIN usr_pref pprof ON pprof.usr_id = ud.usr_id AND pprof.keyword = %s
 				LEFT JOIN usr_pref pupgen ON pupgen.usr_id = ud.usr_id AND pupgen.keyword = %s
@@ -51,8 +54,8 @@ class ilMailUserCache
 
             $res = $DIC->database()->queryF(
                 $query,
-                array('text', 'text', 'text'),
-                array('public_profile', 'public_gender', 'public_upload')
+                ['text', 'text', 'text'],
+                ['public_profile', 'public_gender', 'public_upload']
             );
 
             while ($row = $DIC->database()->fetchAssoc($res)) {
@@ -67,26 +70,21 @@ class ilMailUserCache
                 $user->setPref('public_upload', $row['public_upload']);
                 $user->setPref('public_gender', $row['public_gender']);
 
-                self::$user_instances[$row['usr_id']] = $user;
+                self::$user_instances[(int) $row['usr_id']] = $user;
             }
         }
     }
 
-    /**
-     * @static
-     * @param int $usr_id
-     * @return ilObjUser|null
-     */
-    public static function getUserObjectById($usr_id)
+    public static function getUserObjectById(int $usr_id) : ?ilObjUser
     {
-        if (!$usr_id) {
+        if ($usr_id < 1) {
             return null;
         }
-        
+
         if (!array_key_exists($usr_id, self::$requested_usr_ids_key_map)) {
-            self::preloadUserObjects(array($usr_id));
+            self::preloadUserObjects([$usr_id]);
         }
 
-        return isset(self::$user_instances[$usr_id]) ? self::$user_instances[$usr_id] : null;
+        return self::$user_instances[$usr_id] ?? null;
     }
 }

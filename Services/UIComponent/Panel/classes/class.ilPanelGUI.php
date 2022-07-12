@@ -1,179 +1,116 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Simple panel class
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup Services/UIComponent
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPanelGUI
 {
-    const PANEL_STYLE_PRIMARY = 0;
-    const PANEL_STYLE_SECONDARY = 1;
+    public const PANEL_STYLE_PRIMARY = 0;
+    public const PANEL_STYLE_SECONDARY = 1;
+    public const HEADING_STYLE_SUBHEADING = 0;
+    public const HEADING_STYLE_BLOCK = 1;
+    public const FOOTER_STYLE_BLOCK = 0;
 
-    const HEADING_STYLE_SUBHEADING = 0;
-    const HEADING_STYLE_BLOCK = 1;
-    
-    const FOOTER_STYLE_BLOCK = 0;
+    protected string $heading = "";
+    protected string $body = "";
+    protected string $footer = "";
+    protected int $panel_style = 0;
+    protected int $heading_style = 0;
+    protected int $footer_style = 0;
 
-    protected $heading = "";
-    protected $body = "";
-    protected $footer = "";
-    protected $panel_style = 0;
-    protected $heading_style = 0;
-    protected $footer_style = 0;
-
-    /**
-     * Constructor
-     */
     protected function __construct()
     {
     }
 
-    /**
-     * Get instance
-     *
-     * @return ilPanelGUI panel instance
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new ilPanelGUI();
     }
 
-    /**
-     * Set heading
-     *
-     * @param string $a_val heading
-     */
-    public function setHeading($a_val)
+    public function setHeading(string $a_val) : void
     {
         $this->heading = $a_val;
     }
 
-    /**
-     * Get heading
-     *
-     * @return string heading
-     */
-    public function getHeading()
+    public function getHeading() : string
     {
         return $this->heading;
     }
 
-    /**
-     * Set body
-     *
-     * @param string $a_val body
-     */
-    public function setBody($a_val)
+    public function setBody(string $a_val) : void
     {
         $this->body = $a_val;
     }
 
-    /**
-     * Get body
-     *
-     * @return string body
-     */
-    public function getBody()
+    public function getBody() : string
     {
         return $this->body;
     }
-    
-    /**
-     * Set footer
-     *
-     * @param string $a_val footer
-     */
-    public function setFooter($a_val)
+
+    public function setFooter(string $a_val) : void
     {
         $this->footer = $a_val;
     }
 
-    /**
-     * Get body
-     *
-     * @return string body
-     */
-    public function getFooter()
+    public function getFooter() : string
     {
         return $this->footer;
     }
 
-    /**
-     * Set panel style
-     *
-     * @param int $a_val panel_style
-     */
-    public function setPanelStyle($a_val)
+    public function setPanelStyle(int $a_val) : void
     {
         $this->panel_style = $a_val;
     }
 
-    /**
-     * Get panel style
-     *
-     * @return int panel_style
-     */
-    public function getPanelStyle()
+    public function getPanelStyle() : int
     {
         return $this->panel_style;
     }
 
-    /**
-     * Set heading style
-     *
-     * @param int $a_val heading style
-     */
-    public function setHeadingStyle($a_val)
+    public function setHeadingStyle(int $a_val) : void
     {
         $this->heading_style = $a_val;
     }
 
-    /**
-     * Get heading style
-     *
-     * @return int heading style
-     */
-    public function getHeadingStyle()
+    public function getHeadingStyle() : int
     {
         return $this->heading_style;
     }
-    
-    /**
-     * Set footer style
-     *
-     * @param int $a_val footer style
-     */
-    public function setFooterStyle($a_val)
+
+    public function setFooterStyle(int $a_val) : void
     {
         $this->footer_style = $a_val;
     }
 
-    /**
-     * Get footer style
-     *
-     * @return int footer style
-     */
-    public function getFooterStyle()
+    public function getFooterStyle() : int
     {
         return $this->footer_style;
     }
 
-    /**
-     * Get HTML
-     *
-     * @return string html
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $tpl = new ilTemplate("tpl.panel.html", true, true, "Services/UIComponent/Panel");
 
         $head_outer_div_style = "";
-        if ($this->getHeading() != "") {
+        if ($this->getHeading() !== "") {
             $tpl->setCurrentBlock("heading");
             $tpl->setVariable("HEADING", $this->getHeading());
 
@@ -195,7 +132,7 @@ class ilPanelGUI
 
         $tpl->setVariable("BODY", $this->getBody());
         
-        if ($this->getFooter() != "") {
+        if ($this->getFooter() !== "") {
             $tpl->setCurrentBlock("footer");
             $tpl->setVariable("FOOTER", $this->getFooter());
             

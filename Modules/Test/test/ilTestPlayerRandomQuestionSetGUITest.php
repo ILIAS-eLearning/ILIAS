@@ -25,8 +25,7 @@ class ilTestPlayerRandomQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilUser();
-
-        $_GET["ref_id"] = "0";
+        $this->addGlobal_refinery();
 
         $this->testObj = new ilTestPlayerRandomQuestionSetGUI($this->createMock(ilObjTest::class));
     }

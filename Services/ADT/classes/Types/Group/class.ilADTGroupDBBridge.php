@@ -1,33 +1,30 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTDBBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTGroupDBBridge extends ilADTDBBridge
 {
-    protected $elements = []; // [array]
-    
-    protected function isValidADT(ilADT $a_adt)
+    protected array $elements = [];
+
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
-    
-    
+
     // elements
-    
-    protected function prepareElements()
+
+    protected function prepareElements() : void
     {
-        if (sizeof($this->elements)) {
+        if (count($this->elements)) {
             return;
         }
-        
+
         $this->elements = array();
         $factory = ilADTFactory::getInstance();
-        
+
         // convert ADTs to DB bridges
-        
+
         foreach ($this->getADT()->getElements() as $name => $element) {
             $this->elements[$name] = $factory->getDBBridgeForInstance($element);
-            $this->elements[$name]->setElementId($name);
+            $this->elements[$name]->setElementId((string) $name);
             $this->elements[$name]->setTable($this->getTable());
             $this->elements[$name]->setPrimary($this->getPrimary());
         }
@@ -36,69 +33,66 @@ class ilADTGroupDBBridge extends ilADTDBBridge
     /**
      * @return ilADTDBBridge[]
      */
-    public function getElements()
+    public function getElements() : array
     {
         $this->prepareElements();
         return $this->elements;
     }
 
-    public function getElement($a_element_id)
+    public function getElement(string $a_element_id) : ?ilADTDBBridge
     {
         if (array_key_exists($a_element_id, $this->getElements())) {
             return $this->elements[$a_element_id];
         }
+        return null;
     }
-    
-    
+
     // properties
-    
-    public function setTable($a_table)
+    public function setTable(string $a_table) : void
     {
         parent::setTable($a_table);
-        
-        if (sizeof($this->elements)) {
+        if (count($this->elements)) {
             foreach (array_keys($this->getADT()->getElements()) as $name) {
                 $this->elements[$name]->setTable($this->getTable());
             }
         }
     }
-    
-    public function setPrimary(array $a_value)
+
+    public function setPrimary(array $a_value) : void
     {
         parent::setPrimary($a_value);
-        
-        if (sizeof($this->elements)) {
+
+        if (count($this->elements)) {
             foreach (array_keys($this->getADT()->getElements()) as $name) {
                 $this->elements[$name]->setPrimary($this->getPrimary());
             }
         }
     }
-    
-    
+
     // CRUD
-    
-    public function readRecord(array $a_row)
+
+    public function readRecord(array $a_row) : void
     {
         foreach ($this->getElements() as $element) {
             $element->readRecord($a_row);
         }
     }
-    
-    public function prepareInsert(array &$a_fields)
+
+    public function prepareInsert(array &$a_fields) : void
     {
         foreach ($this->getElements() as $element) {
             $element->prepareInsert($a_fields);
         }
     }
 
-    public function afterInsert()
+    public function afterInsert() : void
     {
         foreach ($this->getElements() as $element) {
             $element->afterInsert();
         }
     }
-    
-    public function afterUpdate()
+
+    public function afterUpdate() : void
     {
         foreach ($this->getElements() as $element) {
             $element->afterUpdate();
@@ -112,7 +106,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
      */
     public function afterUpdateElement(string $field_type, string $field_name, int $field_id)
     {
-        $element = $this->getElement($field_id);
+        $element = $this->getElement((string) $field_id);
         if (!$element) {
             return;
         }
@@ -120,16 +114,15 @@ class ilADTGroupDBBridge extends ilADTDBBridge
             array_merge(
                 $this->getPrimary(),
                 [
-                     $field_name => [$field_type,$field_id]
+                    $field_name => [$field_type, $field_id]
                 ]
             )
         );
-        $element->setElementId($field_id);
+        $element->setElementId((string) $field_id);
         $element->afterUpdate();
     }
 
-
-    public function afterDelete()
+    public function afterDelete() : void
     {
         foreach ($this->getElements() as $element) {
             $element->afterDelete();

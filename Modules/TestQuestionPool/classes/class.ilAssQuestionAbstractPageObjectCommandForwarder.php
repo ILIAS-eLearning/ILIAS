@@ -11,6 +11,7 @@
  */
 abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 {
+    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
     /**
      * object instance of current question
      *
@@ -60,6 +61,8 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
         $this->tabs = $tabs;
         $this->lng = $lng;
 
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tabs->clearTargets();
         
         $this->lng->loadLanguageModule('content');
@@ -76,13 +79,10 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
      *
      * @access protected
      */
-    abstract protected function ensurePageObjectExists($pageObjectType, $pageObjectId);
+    abstract protected function ensurePageObjectExists($pageObjectType, $pageObjectId) : void;
     
     /**
      * instantiates, initialises and returns a page object gui object
-     *
-     * @access protected
-     * @return page object gui object
      */
     abstract protected function getPageObjectGUI($pageObjectType, $pageObjectId);
 }

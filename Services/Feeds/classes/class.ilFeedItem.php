@@ -1,175 +1,115 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * A FeedItem represents an item in a News Feed.
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFeedItem
 {
-    private $about;
-    private $title;
-    private $link;
-    private $description;
+    private string $about = "";
+    private string $title = "";
+    private string $link = "";
+    private string $description = "";
+    private string $enclosureurl = "";
+    private string $enclosuretype = "";
+    private int $enclosurelength = 0;
+    private string $date = "";
 
-    /**
-    * Set About.
-    *
-    * @param	string	$a_About
-    */
-    public function setAbout($a_About)
+    public function setAbout(string $a_About) : void
     {
         $this->about = $a_About;
     }
 
-    /**
-    * Get About.
-    *
-    * @return	string
-    */
-    public function getAbout()
+    public function getAbout() : string
     {
         return $this->about;
     }
 
-    /**
-    * Set Title.
-    *
-    * @param	string	$a_Title
-    */
-    public function setTitle($a_Title)
+    public function setTitle(string $a_Title) : void
     {
         $this->title = $a_Title;
     }
 
-    /**
-    * Get Title.
-    *
-    * @return	string
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * Set Link.
-    *
-    * @param	string	$a_Link
-    */
-    public function setLink($a_Link)
+    public function setLink(string $a_Link) : void
     {
         $this->link = $a_Link;
     }
 
-    /**
-    * Get Link.
-    *
-    * @return	string
-    */
-    public function getLink()
+    public function getLink() : string
     {
         return $this->link;
     }
 
-    /**
-    * Set Description.
-    *
-    * @param	string	$a_Description
-    */
-    public function setDescription($a_Description)
+    public function setDescription(string $a_Description) : void
     {
         $this->description = $a_Description;
     }
 
-    /**
-    * Get Description.
-    *
-    * @return	string
-    */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-    * Set Enclosure URL.
-    *
-    * @param	string	$a_enclosureurl	Enclosure URL
-    */
-    public function setEnclosureUrl($a_enclosureurl)
+    public function setEnclosureUrl(string $a_enclosureurl) : void
     {
         $this->enclosureurl = $a_enclosureurl;
     }
 
-    /**
-    * Get Enclosure URL.
-    *
-    * @return	string	Enclosure URL
-    */
-    public function getEnclosureUrl()
+    public function getEnclosureUrl() : string
     {
         return $this->enclosureurl;
     }
 
-    /**
-    * Set Enclosure Type.
-    *
-    * @param	string	$a_enclosuretype	Enclosure Type
-    */
-    public function setEnclosureType($a_enclosuretype)
+    public function setEnclosureType(string $a_enclosuretype) : void
     {
         $this->enclosuretype = $a_enclosuretype;
     }
 
-    /**
-    * Get Enclosure Type.
-    *
-    * @return	string	Enclosure Type
-    */
-    public function getEnclosureType()
+    public function getEnclosureType() : string
     {
         return $this->enclosuretype;
     }
 
-    /**
-    * Set Enclosure Length.
-    *
-    * @param	int	$a_enclosurelength	Enclosure Length
-    */
-    public function setEnclosureLength($a_enclosurelength)
+    public function setEnclosureLength(int $a_enclosurelength) : void
     {
         $this->enclosurelength = $a_enclosurelength;
     }
 
-    /**
-    * Get Enclosure Length.
-    *
-    * @return	int	Enclosure Length
-    */
-    public function getEnclosureLength()
+    public function getEnclosureLength() : int
     {
         return $this->enclosurelength;
     }
 
     /**
-    * Set Date.
-    *
-    * @param	string	$a_date	Date (yyyy-mm-dd hh:mm:ss)
-    */
-    public function setDate($a_date)
+     * @param string $a_date Date (yyyy-mm-dd hh:mm:ss)
+     */
+    public function setDate(string $a_date) : void
     {
         $this->date = $a_date;
     }
 
-    /**
-    * Get Date.
-    *
-    * @return	string	Date
-    */
-    public function getDate()
+    public function getDate() : string
     {
         return $this->date;
     }

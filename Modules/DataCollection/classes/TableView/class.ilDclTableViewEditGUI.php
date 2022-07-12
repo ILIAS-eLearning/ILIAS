@@ -2,61 +2,26 @@
 
 /**
  * Class ilDclTableViewEditGUI
- *
  * @author       Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup      ModulesDataCollection
- *
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclDetailedViewDefinitionGUI
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclCreateViewDefinitionGUI
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclEditViewDefinitionGUI
  */
 class ilDclTableViewEditGUI
 {
+    protected ilDclTableViewGUI $parent_obj;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $tpl;
+    public ilDclTableView $tableview;
+    protected ilPropertyFormGUI $form;
+    protected ilDclTableViewEditFieldsTableGUI $table_gui;
+    protected ilTabsGUI $tabs_gui;
+    public ilDclTable $table;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var ilDclTableViewGUI
-     */
-    protected $parent_obj;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilDclTableView
-     */
-    public $tableview;
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-    /**
-     * @var ilDclTableViewEditFieldsTableGUI
-     */
-    protected $table_gui;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilDclTable
-     */
-    public $table;
-
-
-    /**
-     * ilDclTableViewEditGUI constructor.
-     *
-     * @param ilDclTableViewGUI $parent_obj
-     * @param ilDclTable        $table
-     */
     public function __construct(ilDclTableViewGUI $parent_obj, ilDclTable $table, ilDclTableView $tableview)
     {
         global $DIC;
@@ -72,6 +37,8 @@ class ilDclTableViewEditGUI
         $this->parent_obj = $parent_obj;
         $this->tableview = $tableview;
         $this->tabs_gui = $ilTabs;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
         $this->ctrl->saveParameter($this, 'tableview_id');
@@ -81,11 +48,7 @@ class ilDclTableViewEditGUI
         $this->tpl->setLocator();
     }
 
-
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('show');
         $next_class = $this->ctrl->getNextClass($this);
@@ -96,8 +59,10 @@ class ilDclTableViewEditGUI
 
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
-        $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTarget($this->parent_obj));
-        $this->tabs_gui->setBack2Target($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this->parent_obj->parent_obj));
+        $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'),
+            $this->ctrl->getLinkTarget($this->parent_obj));
+        $this->tabs_gui->setBack2Target($this->lng->txt('dcl_tables'),
+            $this->ctrl->getLinkTarget($this->parent_obj->getParentObj()));
 
         switch ($next_class) {
             case 'ildcldetailedviewdefinitiongui':
@@ -160,29 +125,29 @@ class ilDclTableViewEditGUI
                         $renderer = $DIC->ui()->renderer();
 
                         // Set Workflow flag to true
-                        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(INPUT_GET, "tableview_id")))->first();
+                        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(INPUT_GET,
+                            "tableview_id")
+                        ))->first();
                         if (!is_null($view)) {
                             //setup steps
                             $step = $f->step('', '');
                             $steps = [
                                 $f->step($this->lng->txt('dcl_view_settings'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepVs() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepVs() ? 3 : 4
                                 $f->step($this->lng->txt('dcl_create_entry_rules'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepC() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepC() ? 3 : 4
                                 $f->step($this->lng->txt('dcl_edit_entry_rules'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepE() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepE() ? 3 : 4
                                 $f->step($this->lng->txt('dcl_list_visibility_and_filter'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepO() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepO() ? 3 : 4
                                 $f->step($this->lng->txt('dcl_detailed_view'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepS() ? 3 : 1),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(1), //$view->getStepS() ? 3 : 1
                             ];
 
                             //setup linear workflow
                             $wf = $f->linear($this->lng->txt('dcl_view_configuration'), $steps);
                             $settings_tpl->setVariable("WORKFLOW", $renderer->render($wf));
                         }
-
-
 
                         $settings_tpl->setVariable("SETTINGS", $ilDclTableViewEditFormGUI->getHTML());
 
@@ -201,22 +166,22 @@ class ilDclTableViewEditGUI
         }
     }
 
-
-    protected function setTabs($active)
+    protected function setTabs(string $active) : void
     {
-        $this->tabs_gui->addTab('general_settings', $this->lng->txt('dcl_view_settings'), $this->ctrl->getLinkTarget($this, 'editGeneralSettings'));
-        $this->tabs_gui->addTab('create_view', $this->lng->txt('dcl_create_entry_rules'), $this->ctrl->getLinkTargetByClass('ilDclCreateViewDefinitionGUI', 'presentation'));
-        $this->tabs_gui->addTab('edit_view', $this->lng->txt('dcl_edit_entry_rules'), $this->ctrl->getLinkTargetByClass('ilDclEditViewDefinitionGUI', 'presentation'));
-        $this->tabs_gui->addTab('field_settings', $this->lng->txt('dcl_list_visibility_and_filter'), $this->ctrl->getLinkTarget($this, 'editFieldSettings'));
-        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('dcl_detailed_view'), $this->ctrl->getLinkTargetByClass('ilDclDetailedViewDefinitionGUI', 'edit'));
+        $this->tabs_gui->addTab('general_settings', $this->lng->txt('dcl_view_settings'),
+            $this->ctrl->getLinkTarget($this, 'editGeneralSettings'));
+        $this->tabs_gui->addTab('create_view', $this->lng->txt('dcl_create_entry_rules'),
+            $this->ctrl->getLinkTargetByClass('ilDclCreateViewDefinitionGUI', 'presentation'));
+        $this->tabs_gui->addTab('edit_view', $this->lng->txt('dcl_edit_entry_rules'),
+            $this->ctrl->getLinkTargetByClass('ilDclEditViewDefinitionGUI', 'presentation'));
+        $this->tabs_gui->addTab('field_settings', $this->lng->txt('dcl_list_visibility_and_filter'),
+            $this->ctrl->getLinkTarget($this, 'editFieldSettings'));
+        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('dcl_detailed_view'),
+            $this->ctrl->getLinkTargetByClass('ilDclDetailedViewDefinitionGUI', 'edit'));
         $this->tabs_gui->setTabActive($active);
     }
 
-
-    /**
-     *
-     */
-    public function update()
+    public function update() : void
     {
         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
         $ilDclTableViewEditFormGUI->setValuesByPost();
@@ -229,11 +194,7 @@ class ilDclTableViewEditGUI
         }
     }
 
-
-    /**
-     *
-     */
-    public function create()
+    public function create() : void
     {
         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview, $this->table);
         $ilDclTableViewEditFormGUI->setValuesByPost();
@@ -245,11 +206,7 @@ class ilDclTableViewEditGUI
         }
     }
 
-
-    /**
-     *
-     */
-    public function saveTable()
+    public function saveTable() : void
     {
         /**
          * @var ilDclTableViewFieldSetting $setting
@@ -258,15 +215,26 @@ class ilDclTableViewEditGUI
             //Checkboxes
             foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute) {
                 $key = $attribute . '_' . $setting->getField();
-                $setting->{'set' . $attribute}($_POST[$key] == 'on');
+                if ($this->http->wrapper()->post()->has($key)) {
+                    $checkbox_value = $this->http->wrapper()->post()->retrieve($key,
+                        $this->refinery->kindlyTo()->string());
+                    $setting->{'set' . $attribute}($checkbox_value === 'on');
+                } else {
+                    $setting->{'set' . $attribute}(false);
+                }
             }
 
             //Filter Value
             $key = 'filter_' . $setting->getField();
-            if ($_POST[$key] != null) {
-                $setting->setFilterValue($_POST[$key]);
-            } elseif ($_POST[$key . '_from'] != null && $_POST[$key . '_to'] != null) {
-                $setting->setFilterValue(array("from" => $_POST[$key . '_from'], "to" => $_POST[$key . '_to']));
+            if ($this->http->wrapper()->post()->has($key)) {
+                $setting->setFilterValue($this->http->wrapper()->post()->retrieve($key,
+                    $this->refinery->kindlyTo()->string()));
+            } elseif ($this->http->wrapper()->post()->has($key . '_from') && $this->http->wrapper()->post()->has($key . '_to')) {
+                $setting->setFilterValue(array("from" => $this->http->wrapper()->post()->retrieve($key . '_from',
+                    $this->refinery->kindlyTo()->string()),
+                                               "to" => $this->http->wrapper()->post()->retrieve($key . '_to',
+                                                   $this->refinery->kindlyTo()->string())
+                ));
             } else {
                 $setting->setFilterValue(null);
             }
@@ -281,36 +249,24 @@ class ilDclTableViewEditGUI
             $view->save();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this->parent_obj, 'tableview_id');
         $this->ctrl->redirect($this, 'editFieldSettings');
     }
 
-
-    /**
-     * @return ilDclTableViewEditFieldsTableGUI
-     */
-    protected function initTableGUI()
+    protected function initTableGUI() : void
     {
         $table = new ilDclTableViewEditFieldsTableGUI($this);
         $this->table_gui = $table;
     }
 
-
-    /**
-     * return to overview
-     */
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->ctrl->setParameter($this->parent_obj, 'table_id', $this->table->getId());
         $this->ctrl->redirect($this->parent_obj);
     }
 
-
-    /**
-     *
-     */
-    public function confirmDelete()
+    public function confirmDelete() : void
     {
         //at least one view must exist
         $this->parent_obj->checkViewsLeft(1);
@@ -327,55 +283,44 @@ class ilDclTableViewEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
-    protected function delete()
+    protected function delete() : void
     {
         $this->tableview->delete();
         $this->table->sortTableViews();
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_deleted'), true);
         $this->cancel();
     }
 
-
-    /**
-     *
-     */
-    public function permissionDenied()
+    public function permissionDenied() : void
     {
-        ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-        $this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class], ilDclRecordListGUI::CMD_LIST_RECORDS);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+        $this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class],
+            ilDclRecordListGUI::CMD_LIST_RECORDS);
     }
 
-
-    /**
-     * @param $cmd
-     *
-     * @return bool
-     */
-    protected function checkAccess($cmd)
+    protected function checkAccess(string $cmd) : bool
     {
         if (in_array($cmd, ['add', 'create'])) {
             return ilObjDataCollectionAccess::hasAccessToEditTable(
-                $this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+                $this->parent_obj->getParentObj()->getDataCollectionObject()->getRefId(),
                 $this->table->getId()
             );
         } else {
             return ilObjDataCollectionAccess::hasAccessTo(
-                $this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+                $this->parent_obj->getParentObj()->getDataCollectionObject()->getRefId(),
                 $this->table->getId(),
                 $this->tableview->getId()
             );
         }
     }
 
-
-    public function copy()
+    public function copy() : void
     {
         $new_tableview = new ilDclTableView();
         $new_tableview->setTableId($this->table->getId());
         $new_tableview->cloneStructure($this->tableview, array());
         $this->table->sortTableViews();
-        ilUtil::sendSuccess($this->lng->txt("dcl_tableview_copy"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_tableview_copy"), true);
         $this->cancel();
     }
 }

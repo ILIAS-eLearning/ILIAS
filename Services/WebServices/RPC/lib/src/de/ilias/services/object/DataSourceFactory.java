@@ -22,7 +22,8 @@
 
 package de.ilias.services.object;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -32,7 +33,7 @@ import org.apache.log4j.Logger;
  */
 public class DataSourceFactory {
 	
-	protected static Logger logger = Logger.getLogger(DataSourceFactory.class);
+	protected static Logger logger = LogManager.getLogger(DataSourceFactory.class);
 	
 	public static DataSource factory(int type) throws ObjectDefinitionException {
 		

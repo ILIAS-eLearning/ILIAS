@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Crawler;
 
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
@@ -13,43 +27,32 @@ interface YamlParser
 {
     /**
      * Returns an array of all YAML entries as string of the components in the factories in a given file.
-     * @param string $filePath
      * @return string[]
      */
-    public function parseYamlStringArrayFromFile($filePath);
+    public function parseYamlStringArrayFromFile(string $filePath) : array;
 
     /**
      * Returns an array of arrays of the parsed YAML entries in a given file.
-     * @param string $filePath
-     * @return []
      */
-    public function parseArrayFromFile($filePath);
+    public function parseArrayFromFile(string $filePath) : array;
 
     /**
-     * Returns a Entry\ComponentEntries of the parsed YAML entries in a given file.
-     * @param string $filePath
-     * @return Entry\ComponentEntries
+     * Returns an Entry\ComponentEntries of the parsed YAML entries in a given file.
      */
-    public function parseEntriesFromFile($filePath);
+    public function parseEntriesFromFile(string $filePath) : Entry\ComponentEntries;
 
     /**
      * Returns an array of all YAML entries as string of the components in the factories in a given string.
-     * @param string $content
-     * @return string
      */
-    public function parseYamlStringArrayFromString($content);
+    public function parseYamlStringArrayFromString(string $content) : array;
 
     /**
      * Returns an array of arrays of the parsed YAML entries in a given string.
-     * @param string $content
-     * @return []
      */
-    public function parseArrayFromString($content);
+    public function parseArrayFromString(string $content) : array;
 
     /**
      * Returns a list UI Component Entries of the parsed YAML entries in a given string.
-     * @param string $content
-     * @return Entry\ComponentEntries
      */
-    public function parseEntriesFromString($content);
+    public function parseEntriesFromString(string $content) : Entry\ComponentEntries;
 }

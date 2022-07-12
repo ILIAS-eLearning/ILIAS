@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -18,7 +33,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
         $columns = $this->getColumnDefinition();
         $this->optionalColumns = $this->getSelectableColumns();
-        $this->visibleOptionalColumns = (array) $this->getSelectedColumns();
+        $this->visibleOptionalColumns = $this->getSelectedColumns();
 
         foreach ($columns as $index => $column) {
             if ($this->isColumnVisible($index)) {
@@ -60,7 +75,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
     /**
      * This method can be used to process the array of all fetched data
-     * @param array $row
+     * @param array $data
      */
     protected function preProcessData(array &$data) : void
     {
@@ -111,7 +126,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         return false;
     }
 
-    final protected function fillRow($a_set) : void
+    final protected function fillRow(array $a_set) : void
     {
         $this->prepareRow($a_set);
 
@@ -153,7 +168,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         }
 
         $this->determineSelectedFilters();
-        $filter = (array) $this->filter;
+        $filter = $this->filter;
 
         foreach ($this->optional_filter as $key => $value) {
             if ($this->isFilterSelected($key)) {

@@ -21,7 +21,7 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         $this->selection_par = 'quest_pool_ref';
     }
     
-    public function getAvailableQuestionPools()
+    public function getAvailableQuestionPools() : array
     {
         return $this->availableQuestionPools;
     }
@@ -31,16 +31,16 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         $this->availableQuestionPools = $availableQuestionPools;
     }
     
-    public function isAvailableQuestionPool($qplRefId)
+    public function isAvailableQuestionPool($qplRefId) : bool
     {
         /* @var ilObjectDataCache $objCache */
         $objCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];
 
-        $qplObjId = $objCache->lookupObjId($qplRefId);
+        $qplObjId = $objCache->lookupObjId((int) $qplRefId);
         return in_array($qplObjId, $this->getAvailableQuestionPools());
     }
     
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if ($a_node['type'] != 'qpl') {
             return parent::isNodeClickable($a_node);
@@ -49,7 +49,7 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         return $this->isAvailableQuestionPool($a_node['child']);
     }
     
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         if ($a_node['type'] != 'qpl') {
             return parent::isNodeVisible($a_node);

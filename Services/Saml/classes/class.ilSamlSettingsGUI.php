@@ -1,5 +1,25 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\DI\RBACServices;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Data\Factory;
 
 /**
  * Class ilSamlSettingsGUI
@@ -15,7 +35,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalCommands = [
+    protected static array $globalCommands = [
         self::DEFAULT_CMD,
         'showAddIdpForm',
         'showSettings',
@@ -27,7 +47,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalEntityCommands = [
+    protected static array $globalEntityCommands = [
         'deactivateIdp',
         'activateIdp',
         'confirmDeleteIdp',
@@ -37,7 +57,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $ignoredUserFields = [
+    protected static array $ignoredUserFields = [
         'mail_incoming_mail',
         'preferences',
         'hide_own_online_status',
@@ -58,14 +78,16 @@ class ilSamlSettingsGUI
     ];
 
     protected int $ref_id;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $access;
-    protected \ILIAS\DI\RBACServices $rbac;
+    protected RBACServices $rbac;
     protected ilErrorHandling $error_handler;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
+    protected GlobalHttpState $httpState;
+    protected Refinery $refinery;
     protected ilHelpGUI $help;
     protected ?ilExternalAuthUserAttributeMapping $mapping = null;
     protected ?ilSamlIdp $idp = null;
@@ -84,6 +106,8 @@ class ilSamlSettingsGUI
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC['ilToolbar'];
         $this->help = $DIC['ilHelp'];
+        $this->httpState = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('auth');
         $this->ref_id = $ref_id;
@@ -111,12 +135,30 @@ class ilSamlSettingsGUI
         return $this->ref_id;
     }
 
+    private function getIdpIdOrZero() : int
+    {
+        $idpId = 0;
+        if ($this->httpState->wrapper()->query()->has('saml_idp_id')) {
+            $idpId = (int) $this->httpState->wrapper()->query()->retrieve(
+                'saml_idp_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        } elseif ($this->httpState->wrapper()->post()->has('saml_idp_id')) {
+            $idpId = (int) $this->httpState->wrapper()->post()->retrieve(
+                'saml_idp_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        return $idpId;
+    }
+
     protected function initIdp() : void
     {
         try {
-            $this->idp = ilSamlIdp::getInstanceByIdpId((int) ($_REQUEST['saml_idp_id'] ?? 0));
+            $this->idp = ilSamlIdp::getInstanceByIdpId($this->getIdpIdOrZero());
         } catch (Exception $e) {
-            ilUtil::sendFailure($this->lng->txt('auth_saml_unknow_idp'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('auth_saml_unknow_idp'), true);
             $this->ctrl->setParameter($this, 'saml_idp_id', null);
             $this->ctrl->redirect($this, self::DEFAULT_CMD);
         }
@@ -131,9 +173,9 @@ class ilSamlSettingsGUI
             $this->samlAuth = $factory->auth();
         } catch (Throwable $e) {
             if ('Database error: could not find driver' === $e->getMessage()) {
-                ilUtil::sendFailure($this->lng->txt('auth_saml_err_sqlite_driver'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('auth_saml_err_sqlite_driver'));
             } else {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             }
         }
 
@@ -142,16 +184,17 @@ class ilSamlSettingsGUI
         switch ($this->ctrl->getNextClass()) {
             default:
                 $cmd = $this->ctrl->getCmd();
-                if ($cmd === '' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
                     $cmd = self::DEFAULT_CMD;
                 }
 
-                if (isset($_REQUEST['saml_idp_id'])) {
+                $ipdId = $this->getIdpIdOrZero();
+                if ($ipdId > 0) {
                     $this->ctrl->saveParameter($this, 'saml_idp_id');
                 }
 
                 if (!in_array(strtolower($cmd), array_map('strtolower', self::$globalCommands), true)) {
-                    if (!isset($_REQUEST['saml_idp_id'])) {
+                    if (0 === $ipdId) {
                         $this->ctrl->redirect($this, self::DEFAULT_CMD);
                     }
 
@@ -182,7 +225,11 @@ class ilSamlSettingsGUI
             $this->toolbar->addStickyItem($addIdpButton);
         }
 
-        $table = new ilSamlIdpTableGUI($this, self::DEFAULT_CMD);
+        $table = new ilSamlIdpTableGUI(
+            $this,
+            self::DEFAULT_CMD,
+            $this->rbac->system()->checkAccess('write', $this->getRefId())
+        );
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -193,7 +240,7 @@ class ilSamlSettingsGUI
         $this->idp->setActive(false);
         $this->idp->persist();
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         $this->listIdps();
     }
 
@@ -204,7 +251,7 @@ class ilSamlSettingsGUI
         $this->idp->setActive(true);
         $this->idp->persist();
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         $this->listIdps();
     }
 
@@ -296,7 +343,7 @@ class ilSamlSettingsGUI
 
         $update_automatically = new ilCheckboxInputGUI('', $field_name . '_update');
         $update_automatically->setOptionTitle($this->lng->txt('auth_saml_update_field_info'));
-        $update_automatically->setValue(1);
+        $update_automatically->setValue('1');
         $form->addItem($update_automatically);
     }
 
@@ -331,7 +378,7 @@ class ilSamlSettingsGUI
 
             $this->mapping->save();
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $form->setValuesByPost();
@@ -364,7 +411,7 @@ class ilSamlSettingsGUI
 
         $show_login_form = new ilCheckboxInputGUI($this->lng->txt('auth_saml_login_form'), 'login_form');
         $show_login_form->setInfo($this->lng->txt('auth_saml_login_form_info'));
-        $show_login_form->setValue(1);
+        $show_login_form->setValue('1');
         $form->addItem($show_login_form);
 
         if (!$this->access->checkAccess('write', '', $this->getRefId())) {
@@ -378,18 +425,21 @@ class ilSamlSettingsGUI
         return $form;
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function prepareRoleSelection() : array
     {
-        $global_roles = ilUtil::_sortIds(
+        $global_roles = array_map('intval', ilUtil::_sortIds(
             $this->rbac->review()->getGlobalRoles(),
             'object_data',
             'title',
             'obj_id'
-        );
+        ));
 
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
-            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
+            $select[$role_id] = ilObject::_lookupTitle($role_id);
         }
 
         return $select;
@@ -402,7 +452,7 @@ class ilSamlSettingsGUI
         $form = $this->getSettingsForm();
         if ($form->checkInput()) {
             ilSamlSettings::getInstance()->setLoginFormStatus((bool) $form->getInput('login_form'));
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $form->setValuesByPost();
@@ -435,7 +485,7 @@ class ilSamlSettingsGUI
         $this->addMetadataElement($form);
 
         $local = new ilCheckboxInputGUI($this->lng->txt('auth_allow_local'), 'allow_local_auth');
-        $local->setValue(1);
+        $local->setValue('1');
         $local->setInfo($this->lng->txt('auth_allow_local_info'));
         $form->addItem($local);
 
@@ -446,7 +496,7 @@ class ilSamlSettingsGUI
 
         $sync = new ilCheckboxInputGUI($this->lng->txt('auth_saml_sync'), 'sync_status');
         $sync->setInfo($this->lng->txt('auth_saml_sync_info'));
-        $sync->setValue(1);
+        $sync->setValue('1');
 
         $username_claim = new ilTextInputGUI($this->lng->txt('auth_saml_username_claim'), 'login_claim');
         $username_claim->setInfo($this->lng->txt('auth_saml_username_claim_info'));
@@ -460,7 +510,7 @@ class ilSamlSettingsGUI
 
         $migr = new ilCheckboxInputGUI($this->lng->txt('auth_saml_migration'), 'account_migr_status');
         $migr->setInfo($this->lng->txt('auth_saml_migration_info'));
-        $migr->setValue(1);
+        $migr->setValue('1');
         $sync->addSubItem($migr);
         $form->addItem($sync);
 
@@ -502,7 +552,7 @@ class ilSamlSettingsGUI
         if ($form->checkInput()) {
             $this->idp->bindForm($form);
             $this->idp->persist();
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
 
             $this->storeMetadata($this->idp, $form->getInput('metadata'));
         }
@@ -536,7 +586,7 @@ class ilSamlSettingsGUI
 
             $this->storeMetadata($idp, $form->getInput('metadata'));
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdpId());
             $this->ctrl->redirect($this, 'showIdpSettings');
         }
@@ -564,7 +614,10 @@ class ilSamlSettingsGUI
         $metadata = new ilSamlIdpMetadataInputGUI(
             $this->lng->txt('auth_saml_add_idp_md_label'),
             'metadata',
-            new ilSamlIdpXmlMetadataParser()
+            new ilSamlIdpXmlMetadataParser(
+                new Factory(),
+                new ilSamlIdpXmlMetadataErrorFormatter()
+            )
         );
         $metadata->setInfo($this->lng->txt('auth_saml_add_idp_md_info'));
         $metadata->setRows(20);
@@ -600,7 +653,7 @@ class ilSamlSettingsGUI
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteIdp');
         $confirmation->setCancel($this->lng->txt('cancel'), self::DEFAULT_CMD);
         $confirmation->setHeaderText($this->lng->txt('auth_saml_sure_delete_idp'));
-        $confirmation->addItem('saml_idp_ids', $this->idp->getIdpId(), $this->idp->getEntityId());
+        $confirmation->addItem('saml_idp_ids', (string) $this->idp->getIdpId(), $this->idp->getEntityId());
 
         $this->tpl->setContent($confirmation->getHTML());
     }
@@ -614,7 +667,7 @@ class ilSamlSettingsGUI
 
         $this->idp->delete();
 
-        ilUtil::sendSuccess($this->lng->txt('auth_saml_deleted_idp'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('auth_saml_deleted_idp'), true);
 
         $this->ctrl->setParameter($this, 'saml_idp_id', null);
         $this->ctrl->redirect($this, self::DEFAULT_CMD);

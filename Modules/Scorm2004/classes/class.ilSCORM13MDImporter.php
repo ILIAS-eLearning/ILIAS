@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * SCORM 13 Metadata importer
  *
@@ -9,19 +20,13 @@
  */
 class ilSCORM13MDImporter extends ilMDXMLCopier
 {
-    protected $manifest_dom;
-    protected $metadata_found = false;
-    protected $path = array();
-    protected $title = ""; // overall title extracted from manifest
-    protected $description = ""; // overall description extracted from manifest
+    protected \DOMDocument $manifest_dom;
+    protected bool $metadata_found = false;
+    protected array $path = array();
+    protected string $title = ""; // overall title extracted from manifest
+    protected string $description = ""; // overall description extracted from manifest
 
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
-    public function __construct($a_manifest_dom, $a_obj_id)
+    public function __construct(\DOMDocument $a_manifest_dom, int $a_obj_id)
     {
         $this->manifest_dom = $a_manifest_dom;
         $path = new DOMXpath($a_manifest_dom);
@@ -35,67 +40,44 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
             }
         }
     }
-    
-    /**
-     * Set title
-     *
-     * @param string $a_val title
-     */
-    public function setTitle($a_val)
+
+    public function setTitle(string $a_val) : void
     {
         $this->title = $a_val;
     }
-    
-    /**
-     * Get title
-     *
-     * @return string title
-     */
-    public function getTitle()
+
+    public function getTitle() : string
     {
         return $this->title;
     }
-    
-    /**
-     * Set description
-     *
-     * @param string $a_val description
-     */
-    public function setDescription($a_val)
+
+    public function setDescription(string $a_val) : void
     {
         $this->description = $a_val;
     }
-    
-    /**
-     * Get description
-     *
-     * @return string description
-     */
-    public function getDescription()
+
+    public function getDescription() : string
     {
         return $this->description;
     }
-    
-    /**
-     * Import
-     *
-     * @param
-     * @return
-     */
-    public function import()
+
+    public function import() : void
     {
         if ($this->metadata_found) {
             $this->startParsing();
-            $this->getMDObject()->update();
+            if ($this->getMDObject() !== null) {
+                $this->getMDObject()->update();
+            }
         }
     }
 
     /**
      * handler for begin of element
+     * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
-        $this->path[count($this->path)] = $a_name;
+        $this->path[] = $a_name;
 
         if (!$this->getMDParsingStatus()) {
             return;
@@ -139,9 +121,9 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
             case 'description':
                 $par = $this->__getParent();
 
-                if (strtolower(get_class($par)) == 'ilmdrights' or
-                    strtolower(get_class($par)) == 'ilmdannotation' or
-                    strtolower(get_class($par)) == 'ilmdclassification') {
+                if (strtolower(get_class($par)) === 'ilmdrights' or
+                    strtolower(get_class($par)) === 'ilmdannotation' or
+                    strtolower(get_class($par)) === 'ilmdclassification') {
                     // todo
 //					$par->setDescriptionLanguage(new ilMDLanguageItem($a_attribs['Language']));
                 } elseif ($this->in("general")) {
@@ -401,8 +383,9 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 
     /**
      * handler for end of element
+     * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         //echo "<br>End TAG: ".$a_name;
         unset($this->path[count($this->path) - 1]);
@@ -446,16 +429,15 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 
             case 'description':
                 $par = $this->__getParent();
-                if (strtolower(get_class($par)) == 'ilmddescription') {
+                if (strtolower(get_class($par)) === 'ilmddescription') {
                     $this->__popParent();
-                    break;
-                } else {
-                    // todo
-                    //					$par->setDescription($this->__getCharacterData());
                     break;
                 }
 
-                // no break
+                // todo
+                // $par->setDescription($this->__getCharacterData());
+                break;
+
             case 'keyword':
                 if ($this->in("general")) {
                     $this->__popParent();
@@ -729,13 +711,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
         $this->md_chr_data = '';
     }
 
-    /**
-     *
-     *
-     * @param
-     * @return
-     */
-    public function in($a_name)
+    public function in(string $a_name) : bool
     {
         //		echo "<br>"; var_dump($this->path);
         if (in_array($a_name, $this->path)) {

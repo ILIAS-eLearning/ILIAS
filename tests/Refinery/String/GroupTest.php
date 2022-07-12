@@ -1,41 +1,60 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\String;
 
-use ILIAS\Data\Factory;
-use ILIAS\Refinery\String\Group;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\String\Group as StringGroup;
 use ILIAS\Refinery\String\HasMinLength;
 use ILIAS\Refinery\String\HasMaxLength;
 use ILIAS\Tests\Refinery\TestCase;
-
-require_once('./libs/composer/vendor/autoload.php');
+use ILIAS\Refinery\String\MakeClickable;
+use ilLanguage;
 
 class GroupTest extends TestCase
 {
-    /**
-     * @var Group
-     */
-    private $group;
+    private StringGroup $group;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $dataFactory = new Factory();
-        $language = $this->getMockBuilder('\ilLanguage')
+        $dataFactory = new DataFactory();
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->group = new Group($dataFactory, $language);
+        $this->group = new StringGroup($dataFactory, $language);
     }
 
-    public function testGreaterThanInstance()
+    public function testGreaterThanInstance() : void
     {
         $instance = $this->group->hasMaxLength(42);
         $this->assertInstanceOf(HasMaxLength::class, $instance);
     }
-    public function testLowerThanInstance()
+
+    public function testLowerThanInstance() : void
     {
         $instance = $this->group->hasMinLength(42);
         $this->assertInstanceOf(HasMinLength::class, $instance);
+    }
+
+    public function testMakeClickable() : void
+    {
+        $instance = $this->group->makeClickable();
+        $this->assertInstanceOf(MakeClickable::class, $instance);
     }
 }

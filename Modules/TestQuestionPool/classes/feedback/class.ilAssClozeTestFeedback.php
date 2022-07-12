@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+
 require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQuestionFeedback.php';
 
 /**
@@ -46,7 +48,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     {
         $answers = array();
         
-        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $item) {
+        foreach ($gap->getItems($this->randomGroup()->dontShuffle()) as $item) {
             $answers[] = '"' . $item->getAnswertext() . '"';
         }
         
@@ -191,7 +193,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 
     protected function completeFbPropsForTextGap(ilRadioOption $fbModeOpt, assClozeGap $gap, int $gapIndex) : void
     {
-        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answerIndex => $item) {
+        foreach ($gap->getItems($this->randomGroup()->dontShuffle()) as $answerIndex => $item) {
             $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
                 $this->buildTextGapGivenAnswerFeedbackLabel($gapIndex, $item),
                 true
@@ -235,7 +237,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     
     protected function completeFbPropsForSelectGap(ilRadioOption $fbModeOpt, assClozeGap $gap, int $gapIndex) : void
     {
-        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $optIndex => $item) {
+        foreach ($gap->getItems($this->randomGroup()->dontShuffle()) as $optIndex => $item) {
             $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
                 $this->buildSelectGapOptionFeedbackLabel($gapIndex, $item),
                 true
@@ -397,7 +399,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     
     protected function initFbPropsForTextGap(ilPropertyFormGUI $form, assClozeGap $gap, int $gapIndex) : void
     {
-        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answerIndex => $item) {
+        foreach ($gap->getItems($this->randomGroup()->dontShuffle()) as $answerIndex => $item) {
             $value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, $answerIndex);
             $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, $answerIndex);
             $form->getItemByPostVar($postVar)->setValue($value);
@@ -414,7 +416,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     
     protected function initFbPropsForSelectGap(ilPropertyFormGUI $form, assClozeGap $gap, int $gapIndex) : void
     {
-        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $optIndex => $item) {
+        foreach ($gap->getItems($this->randomGroup()->dontShuffle()) as $optIndex => $item) {
             $value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, $optIndex);
             $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, $optIndex);
             $form->getItemByPostVar($postVar)->setValue($value);
@@ -514,7 +516,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     
     protected function saveFbPropsForTextGap(ilPropertyFormGUI $form, assClozeGap $gap, int $gapIndex) : void
     {
-        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answerIndex => $item) {
+        foreach ($gap->getItems($this->randomGroup()->dontShuffle()) as $answerIndex => $item) {
             $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, $answerIndex);
             $value = $form->getItemByPostVar($postVar)->getValue();
             $this->saveSpecificAnswerFeedbackContent(
@@ -546,7 +548,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     
     protected function saveFbPropsForSelectGap(ilPropertyFormGUI $form, assClozeGap $gap, int $gapIndex) : void
     {
-        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $optIndex => $item) {
+        foreach ($gap->getItems($this->randomGroup()->dontShuffle()) as $optIndex => $item) {
             $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, $optIndex);
             $value = $form->getItemByPostVar($postVar)->getValue();
             $this->saveSpecificAnswerFeedbackContent(
@@ -792,7 +794,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                     return self::FB_TEXT_GAP_EMPTY_INDEX;
                 }
 
-                $items = $gap->getItems(new ilDeterministicArrayElementProvider());
+                $items = $gap->getItems($this->randomGroup()->dontShuffle());
 
                 foreach ($items as $answerIndex => $answer) {
                     /* @var assAnswerCloze $answer */
@@ -821,7 +823,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 
                 /* @var assAnswerCloze $item */
 
-                $item = current($gap->getItems(new ilDeterministicArrayElementProvider()));
+                $item = current($gap->getItems($this->randomGroup()->dontShuffle()));
 
                 if ($answerValue == $item->getAnswertext()) {
                     return self::FB_NUMERIC_GAP_VALUE_HIT_INDEX;
@@ -849,5 +851,12 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                     return self::FB_NUMERIC_GAP_TOO_HIGH_INDEX;
                 //}
         }
+    }
+
+    private function randomGroup() : RandomGroup
+    {
+        global $DIC;
+
+        return $DIC->refinery()->random();
     }
 }

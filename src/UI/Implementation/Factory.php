@@ -1,136 +1,55 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation;
 
-use \ILIAS\UI\Component as C;
-use ILIAS\UI\NotImplementedException;
+use ILIAS\UI\Component as C;
 
 // TODO: This might cache the created factories.
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class Factory implements \ILIAS\UI\Factory
 {
-    /**
-     * @var C\Counter\Factory
-     */
-    protected $counter_factory;
-
-    /**
-     * @var C\Button\Factory
-     */
-    protected $button_factory;
-
-    /**
-     * @var C\Listing\Factory
-     */
-    protected $listing_factory;
-
-    /**
-     * @var C\Image\Factory
-     */
-    protected $image_factory;
-
-    /**
-     * @var C\Panel\Factory
-     */
-    protected $panel_factory;
-
-    /**
-     * @var C\Modal\Factory
-     */
-    protected $modal_factory;
-
-    /**
-     * @var C\Dropzone\Factory
-     */
-    protected $dropzone_factory;
-
-    /**
-     * @var C\Popover\Factory
-     */
-    protected $popover_factory;
-
-    /**
-     * @var C\Divider\Factory
-     */
-    protected $divider_factory;
-
-    /**
-     * @var C\Link\Factory
-     */
-    protected $link_factory;
-
-    /**
-     * @var C\Dropdown\Factory
-     */
-    protected $dropdown_factory;
-
-    /**
-     * @var C\Item\Factory
-     */
-    protected $item_factory;
-
-    /**
-     * @var C\ViewControl\Factory
-     */
-    protected $viewcontrol_factory;
-
-    /**
-     * @var C\Chart\Factory
-     */
-    protected $chart_factory;
-
-    /**
-     * @var C\Input\Factory
-     */
-    protected $input_factory;
-
-    /**
-     * @var C\Table\Factory
-     */
-    protected $table_factory;
-
-    /**
-     * @var Component\MessageBox\Factory
-     */
-    protected $messagebox_factory;
-
-    /**
-     * @var C\Card\Factory
-     */
-    protected $card_factory;
-
-    /**
-     * @var C\Menu\Factory
-     */
-    protected $menu_factory;
-
-    /**
-     * @var Component\Layout\Factory
-     */
-    protected $layout_factory;
-
-    /**
-     * @var Component\MainControls\Factory
-     */
-    protected $maincontrols_factory;
-
-    /**
-     * @var C\Tree\Factory
-     */
-    protected $tree_factory;
-
-    /**
-     * @var C\Symbol\Factory
-     */
-    protected $symbol_factory;
-
-    /**
-     * @var C\Legacy\Factory
-     */
-    protected $legacy_factory;
+    protected C\Counter\Factory $counter_factory;
+    protected C\Button\Factory $button_factory;
+    protected C\Listing\Factory $listing_factory;
+    protected C\Image\Factory $image_factory;
+    protected C\Panel\Factory $panel_factory;
+    protected C\Modal\Factory $modal_factory;
+    protected C\Dropzone\Factory $dropzone_factory;
+    protected C\Popover\Factory $popover_factory;
+    protected C\Divider\Factory $divider_factory;
+    protected C\Link\Factory $link_factory;
+    protected C\Dropdown\Factory $dropdown_factory;
+    protected C\Item\Factory $item_factory;
+    protected C\ViewControl\Factory $viewcontrol_factory;
+    protected C\Chart\Factory $chart_factory;
+    protected C\Input\Factory $input_factory;
+    protected C\Table\Factory $table_factory;
+    protected C\MessageBox\Factory $messagebox_factory;
+    protected C\Card\Factory $card_factory;
+    protected C\Menu\Factory $menu_factory;
+    protected C\Layout\Factory $layout_factory;
+    protected C\MainControls\Factory $maincontrols_factory;
+    protected C\Tree\Factory $tree_factory;
+    protected C\Symbol\Factory $symbol_factory;
+    protected C\Toast\Factory $toast_factory;
+    protected C\Legacy\Factory $legacy_factory;
 
     public function __construct(
         C\Counter\Factory $counter_factory,
@@ -156,6 +75,7 @@ class Factory implements \ILIAS\UI\Factory
         C\Tree\Factory $tree_factory,
         C\Menu\Factory $menu_factory,
         C\Symbol\Factory $symbol_factory,
+        C\Toast\Factory $toast_factory,
         C\Legacy\Factory $legacy_factory
     ) {
         $this->counter_factory = $counter_factory;
@@ -181,13 +101,14 @@ class Factory implements \ILIAS\UI\Factory
         $this->tree_factory = $tree_factory;
         $this->menu_factory = $menu_factory;
         $this->symbol_factory = $symbol_factory;
+        $this->toast_factory = $toast_factory;
         $this->legacy_factory = $legacy_factory;
     }
 
     /**
      * @inheritdoc
      */
-    public function counter()
+    public function counter() : C\Counter\Factory
     {
         return $this->counter_factory;
     }
@@ -195,7 +116,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function button()
+    public function button() : C\Button\Factory
     {
         return $this->button_factory;
     }
@@ -203,7 +124,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function card()
+    public function card() : C\Card\Factory
     {
         return $this->card_factory;
     }
@@ -211,15 +132,15 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function deck(array $cards)
+    public function deck(array $cards) : C\Deck\Deck
     {
-        return new Component\Deck\Deck($cards, Component\Deck\Deck::SIZE_S);
+        return new Component\Deck\Deck($cards, C\Deck\Deck::SIZE_S);
     }
 
     /**
      * @inheritdoc
      */
-    public function listing()
+    public function listing() : C\Listing\Factory
     {
         return $this->listing_factory;
     }
@@ -227,15 +148,20 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function image()
+    public function image() : C\Image\Factory
     {
         return $this->image_factory;
+    }
+
+    public function player() : C\Player\Factory
+    {
+        return new Component\Player\Factory();
     }
 
     /**
      * @inheritdoc
      */
-    public function legacy($content)
+    public function legacy(string $content) : C\Legacy\Legacy
     {
         return $this->legacy_factory->legacy($content);
     }
@@ -243,7 +169,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function panel()
+    public function panel() : C\Panel\Factory
     {
         return $this->panel_factory;
     }
@@ -251,7 +177,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function modal()
+    public function modal() : C\Modal\Factory
     {
         return $this->modal_factory;
     }
@@ -259,7 +185,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function dropzone()
+    public function dropzone() : C\Dropzone\Factory
     {
         return $this->dropzone_factory;
     }
@@ -267,7 +193,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function popover()
+    public function popover() : C\Popover\Factory
     {
         return $this->popover_factory;
     }
@@ -275,7 +201,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function divider()
+    public function divider() : C\Divider\Factory
     {
         return $this->divider_factory;
     }
@@ -283,7 +209,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function link()
+    public function link() : C\Link\Factory
     {
         return $this->link_factory;
     }
@@ -291,7 +217,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function dropdown()
+    public function dropdown() : C\Dropdown\Factory
     {
         return $this->dropdown_factory;
     }
@@ -299,7 +225,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function item()
+    public function item() : C\Item\Factory
     {
         return $this->item_factory;
     }
@@ -308,7 +234,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function viewControl()
+    public function viewControl() : C\ViewControl\Factory
     {
         return $this->viewcontrol_factory;
     }
@@ -316,7 +242,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function breadcrumbs(array $crumbs)
+    public function breadcrumbs(array $crumbs) : C\Breadcrumbs\Breadcrumbs
     {
         return new Component\Breadcrumbs\Breadcrumbs($crumbs);
     }
@@ -324,7 +250,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function chart()
+    public function chart() : C\Chart\Factory
     {
         return $this->chart_factory;
     }
@@ -332,7 +258,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function input()
+    public function input() : C\Input\Factory
     {
         return $this->input_factory;
     }
@@ -340,7 +266,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function table()
+    public function table() : C\Table\Factory
     {
         return $this->table_factory;
     }
@@ -348,7 +274,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function messageBox()
+    public function messageBox() : C\MessageBox\Factory
     {
         return $this->messagebox_factory;
     }
@@ -372,7 +298,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
     * @inheritdoc
     */
-    public function tree()
+    public function tree() : C\Tree\Factory
     {
         return $this->tree_factory;
     }
@@ -391,5 +317,10 @@ class Factory implements \ILIAS\UI\Factory
     public function symbol() : C\Symbol\Factory
     {
         return $this->symbol_factory;
+    }
+
+    public function toast() : C\Toast\Factory
+    {
+        return $this->toast_factory;
     }
 }

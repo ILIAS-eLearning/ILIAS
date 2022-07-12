@@ -1,50 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Logging/classes/public/class.ilLogLevel.php';
-include_once './Services/Administration/classes/class.ilSetting.php';
-include_once './Services/Logging/interfaces/interface.ilLoggingSettings.php';
-    
 
 /**
 * @defgroup ServicesLogging Services/Logging
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
 * @ingroup ServicesLogging
 */
 class ilLoggingDBSettings implements ilLoggingSettings
 {
-    protected static $instance = null;
+    protected static ?ilLoggingDBSettings $instance = null;
     
-    private $enabled = false;
+    private bool $enabled = false;
+    private ilSetting $storage;
     
-    private $storage = null;
-    
-    private $level = null;
-    private $cache = false;
-    private $cache_level = null;
-    private $memory_usage = false;
-    private $browser = false;
-    private $browser_users = array();
-    
-    
-    
+    private int $level;
+    private bool $cache = false;
+    private int $cache_level;
+    private bool $memory_usage = false;
+    private bool $browser = false;
     /**
-     * Singleton contructor
-     *
-     * @access private
+     * @var string[]
      */
+    private array $browser_users = array();
+    
+    
+    
     private function __construct()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        
-        $this->enabled = ILIAS_LOG_ENABLED;
+        $this->enabled = (bool) ILIAS_LOG_ENABLED;
         $this->level = ilLogLevel::INFO;
         $this->cache_level = ilLogLevel::DEBUG;
         
@@ -52,12 +36,7 @@ class ilLoggingDBSettings implements ilLoggingSettings
         $this->read();
     }
 
-    /**
-     * Get instance
-     * @param int $a_server_id
-     * @return ilLoggingDBSettings
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         if (self::$instance) {
             return self::$instance;
@@ -67,13 +46,10 @@ class ilLoggingDBSettings implements ilLoggingSettings
     
     /**
      * Get level by component
-     * @param type $a_component_id
-     * @return type
      * @todo better performance
      */
-    public function getLevelByComponent($a_component_id)
+    public function getLevelByComponent(string $a_component_id) : int
     {
-        include_once './Services/Logging/classes/class.ilLogComponentLevels.php';
         $levels = ilLogComponentLevels::getInstance()->getLogComponents();
         foreach ($levels as $level) {
             if ($level->getComponentId() == $a_component_id) {
@@ -88,114 +64,77 @@ class ilLoggingDBSettings implements ilLoggingSettings
     /**
      * @return ilSetting
      */
-    protected function getStorage()
+    protected function getStorage() : ilSetting
     {
         return $this->storage;
     }
     
     /**
      * Check if logging is enabled
-     * @return type
+     * @return bool
      */
-    public function isEnabled()
+    public function isEnabled() : bool
     {
         return $this->enabled;
     }
     
-    public function getLogDir()
+    public function getLogDir() : string
     {
         return ILIAS_LOG_DIR;
     }
     
-    public function getLogFile()
+    public function getLogFile() : string
     {
         return ILIAS_LOG_FILE;
     }
     
-    /**
-     * Get log level
-     * @return type
-     */
-    public function getLevel()
+    public function getLevel() : int
     {
         return $this->level;
     }
     
-    /**
-     * Set log level
-     * @param type $a_level
-     */
-    public function setLevel($a_level)
+    public function setLevel(int $a_level) : void
     {
         $this->level = $a_level;
     }
     
-    /**
-     * Set cache level
-     * @param type $a_level
-     */
-    public function setCacheLevel($a_level)
+    public function setCacheLevel(int $a_level) : void
     {
         $this->cache_level = $a_level;
     }
     
-    /**
-     * Get cache level
-     * @return type
-     */
-    public function getCacheLevel()
+    public function getCacheLevel() : int
     {
         return $this->cache_level;
     }
     
-    /**
-     * Enable caching
-     * @param type $a_status
-     */
-    public function enableCaching($a_status)
+    public function enableCaching(bool $a_status) : void
     {
         $this->cache = $a_status;
     }
     
-    public function isCacheEnabled()
+    public function isCacheEnabled() : bool
     {
         return $this->cache;
     }
     
-    /**
-     * Enable logging of memory usage
-     * @param type $a_stat
-     */
-    public function enableMemoryUsage($a_stat)
+    public function enableMemoryUsage(bool $a_stat) : void
     {
         $this->memory_usage = $a_stat;
     }
     
-    /**
-     * Check if loggin of memory usage is enabled
-     * @return type
-     */
-    public function isMemoryUsageEnabled()
+    public function isMemoryUsageEnabled() : bool
     {
         return $this->memory_usage;
     }
     
-    /**
-     * Check if browser log is enabled
-     * @return type
-     */
-    public function isBrowserLogEnabled()
+    public function isBrowserLogEnabled() : bool
     {
         return $this->browser;
     }
     
     
-    /**
-     * Check if browser log is enabled for user
-     * @param type $a_login
-     * @return boolean
-     */
-    public function isBrowserLogEnabledForUser($a_login)
+    public function isBrowserLogEnabledForUser(string $a_login) : bool
     {
         if (!$this->isBrowserLogEnabled()) {
             return false;
@@ -206,21 +145,17 @@ class ilLoggingDBSettings implements ilLoggingSettings
         return false;
     }
     
-    /**
-     * Enable browser log
-     * @param type $a_stat
-     */
-    public function enableBrowserLog($a_stat)
+    public function enableBrowserLog(bool $a_stat) : void
     {
         $this->browser = $a_stat;
     }
     
-    public function getBrowserLogUsers()
+    public function getBrowserLogUsers() : array
     {
         return $this->browser_users;
     }
     
-    public function setBrowserUsers(array $users)
+    public function setBrowserUsers(array $users) : void
     {
         $this->browser_users = $users;
     }
@@ -229,13 +164,13 @@ class ilLoggingDBSettings implements ilLoggingSettings
     /**
      * Update setting
      */
-    public function update()
+    public function update() : void
     {
-        $this->getStorage()->set('level', $this->getLevel());
-        $this->getStorage()->set('cache', (int) $this->isCacheEnabled());
-        $this->getStorage()->set('cache_level', $this->getCacheLevel());
-        $this->getStorage()->set('memory_usage', $this->isMemoryUsageEnabled());
-        $this->getStorage()->set('browser', $this->isBrowserLogEnabled());
+        $this->getStorage()->set('level', (string) $this->getLevel());
+        $this->getStorage()->set('cache', (string) $this->isCacheEnabled());
+        $this->getStorage()->set('cache_level', (string) $this->getCacheLevel());
+        $this->getStorage()->set('memory_usage', (string) $this->isMemoryUsageEnabled());
+        $this->getStorage()->set('browser', (string) $this->isBrowserLogEnabled());
         $this->getStorage()->set('browser_users', serialize($this->getBrowserLogUsers()));
     }
 
@@ -245,13 +180,13 @@ class ilLoggingDBSettings implements ilLoggingSettings
      *
      * @access private
      */
-    private function read()
+    private function read() : void
     {
-        $this->setLevel($this->getStorage()->get('level', $this->level));
-        $this->enableCaching($this->getStorage()->get('cache', $this->cache));
-        $this->setCacheLevel($this->getStorage()->get('cache_level', $this->cache_level));
-        $this->enableMemoryUsage($this->getStorage()->get('memory_usage', $this->memory_usage));
-        $this->enableBrowserLog($this->getStorage()->get('browser', $this->browser));
-        $this->setBrowserUsers(unserialize($this->getStorage()->get('browser_users', serialize($this->browser_users))));
+        $this->setLevel((int) $this->getStorage()->get('level', (string) $this->level));
+        $this->enableCaching((bool) $this->getStorage()->get('cache', (string) $this->cache));
+        $this->setCacheLevel((int) $this->getStorage()->get('cache_level', (string) $this->cache_level));
+        $this->enableMemoryUsage((bool) $this->getStorage()->get('memory_usage', (string) $this->memory_usage));
+        $this->enableBrowserLog((bool) $this->getStorage()->get('browser', (string) $this->browser));
+        $this->setBrowserUsers((array) unserialize($this->getStorage()->get('browser_users', serialize($this->browser_users))));
     }
 }

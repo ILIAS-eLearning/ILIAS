@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Survey question table GUI class
@@ -9,17 +23,15 @@
  */
 class ilSurveyQuestionTableGUI extends ilTable2GUI
 {
-    protected $object;
-    protected $read_only;
+    protected ilObjSurvey $object;
+    protected bool $read_only;
     
-    /**
-     * Constructor
-     *
-     * @param object $a_parent_obj parent gui object
-     * @param string $a_parent_cmd parent default command
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_survey_obj, $a_read_only = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjSurvey $a_survey_obj,
+        bool $a_read_only = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -28,19 +40,22 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         $this->object = $a_survey_obj;
-        $this->read_only = (bool) $a_read_only;
+        $this->read_only = $a_read_only;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setId("il_svy_qst");
         $this->setLimit(9999);
 
-        // $this->setTitle($lng->txt("survey_questions"));
+        $edit_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->edit();
 
         if (!$this->read_only) {
             // command dropdown
-            if (!array_key_exists("move_questions", $_SESSION) ||
-                $_SESSION["move_questions_survey_id"] != $this->object->getId()) {
+            if (count($edit_manager->getMoveSurveyQuestions()) === 0 ||
+                $edit_manager->getMoveSurveyId() !== $this->object->getId()) {
                 $this->addMultiCommand("createQuestionblock", $lng->txt("define_questionblock"));
                 $this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
                 $this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));
@@ -81,14 +96,11 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->importData();
     }
 
-    /**
-     * Import data from DB
-     */
-    protected function importData()
+    protected function importData() : void
     {
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
+
+        $table_data = [];
         $survey_questions = $this->object->getSurveyQuestions();
         if (count($survey_questions) > 0) {
             $questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
@@ -109,7 +121,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
                     if (!$this->read_only) {
                         // order
-                        if (sizeof($survey_questions) > 1) {
+                        if (count($survey_questions) > 1) {
                             $position += 10;
                             $table_data[$id]["position"] = $position;
                         }
@@ -137,7 +149,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
                 // question type
                 foreach ($questiontypes as $trans => $typedata) {
-                    if (strcmp($typedata["type_tag"], $data["type_tag"]) == 0) {
+                    if (strcmp($typedata["type_tag"], $data["type_tag"]) === 0) {
                         $table_data[$id]["question_type"] = $trans;
                     }
                 }
@@ -163,7 +175,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                     }
 
                     // order
-                    if (sizeof($survey_questions) > 1) {
+                    if (count($survey_questions) > 1) {
                         if (!$data["questionblock_id"]) {
                             $position += 10;
                             $table_data[$id]["position"] = $position;
@@ -181,15 +193,12 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->setData($table_data);
     }
     
-    /**
-     * Fill table row
-     *
-     * @param array $a_set data array
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+
+        $obligatory = "";
 
         switch ($a_set["type"]) {
             case "block":
@@ -215,9 +224,9 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("DESCRIPTION", $a_set["description"]);
                 $this->tpl->setVariable("TYPE", $a_set["question_type"]);
                 $this->tpl->setVariable("AUTHOR", $a_set["author"]);
-                $this->tpl->setVariable("POOL", $a_set["pool"]);
+                $this->tpl->setVariable("POOL", $a_set["pool"] ?? "");
                 
-                if ($a_set["heading"]) {
+                if ($a_set["heading"] ?? false) {
                     $this->tpl->setCurrentBlock("heading");
                     $this->tpl->setVariable("TXT_HEADING", $a_set["heading"]);
                     $this->tpl->parseCurrentBlock();
@@ -238,7 +247,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                     }
 
                     // order
-                    if ($a_set["position"]) {
+                    if ($a_set["position"] ?? false) {
                         $this->tpl->setCurrentBlock("order");
                         if (!$a_set["block_id"]) {
                             $this->tpl->setVariable("ORDER_NAME", "order[q_" . $a_set["id"] . "]");
@@ -254,8 +263,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
                     // obligatory
                     $checked = $a_set["obligatory"] ? " checked=\"checked\"" : "";
-                    $obligatory = "<input type=\"checkbox\" name=\"obligatory_" .
-                        $a_set["id"] . "\" value=\"1\"" . $checked . " />";
+                    $obligatory = "<input type=\"checkbox\" name=\"obligatory[" .
+                        $a_set["id"] . "]\" value=\"1\"" . $checked . " />";
                 } elseif ($a_set["obligatory"]) {
                     $obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.png", "Modules/Survey") .
                         "\" alt=\"" . $lng->txt("question_obligatory") .
@@ -292,7 +301,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $list->addItem($lng->txt("edit"), "", $a_set["url"]);
             }
             
-            if ($a_set["heading"]) {
+            if ($a_set["heading"] ?? false) {
                 $list->addItem(
                     $lng->txt("survey_edit_heading"),
                     "",
@@ -304,7 +313,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                     "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "removeheading")
                 );
-            } elseif ($a_set["type"] == "question") {
+            } elseif ($a_set["type"] === "question") {
                 $list->addItem(
                     $lng->txt("add_heading"),
                     "",
@@ -323,16 +332,14 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $this->tpl->setCurrentBlock("title_edit");
                 $this->tpl->setVariable("TITLE", $a_set["title"]);
                 $this->tpl->setVariable("URL_TITLE", $a_set["url"]);
-                $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock("title_static");
                 $this->tpl->setVariable("TITLE", $a_set["title"]);
-                $this->tpl->parseCurrentBlock();
             }
         } else {
             $this->tpl->setCurrentBlock("title_static");
             $this->tpl->setVariable("TITLE", $a_set["title"]);
-            $this->tpl->parseCurrentBlock();
         }
+        $this->tpl->parseCurrentBlock();
     }
 }

@@ -1,61 +1,44 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**
  * Notes Settings.
- *
  * @author Alex Killing <killing@leifos.de>
- *
  * @ilCtrl_Calls ilObjNotesSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjNotesSettingsGUI: ilAdministrationGUI
  */
 class ilObjNotesSettingsGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
+    protected ilErrorHandling $error;
+    protected ilTabsGUI $tabs;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilSetting $setting;
+    protected ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-
-    /**
-     * @var \ilSetting
-     */
-    protected $setting;
-
-    /**
-     * @var \ilTemplate
-     */
-    protected $main_tpl;
-
-
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -79,7 +62,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
      * Execute command
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -102,7 +85,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "view") {
+                if ($cmd === "view") {
                     $cmd = "editSettings";
                 }
                 if (in_array($cmd, ["editSettings", "saveSettings"])) {
@@ -112,10 +95,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Get tabs
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -139,10 +119,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Edit settings
-     */
-    public function editSettings()
+    public function editSettings() : void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -154,11 +131,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui->renderer()->render($form));
     }
 
-    /**
-     * Init settings form.
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
-     */
-    public function initForm()
+    public function initForm() : Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -176,10 +149,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    /**
-     * Save settings
-     */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $request = $this->request;
         $form = $this->initForm();
@@ -187,12 +157,12 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $setting = $this->setting;
 
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if (is_array($data["sec"])) {
-                $setting->set("disable_notes", (int) ($data["sec"]["enable_notes"] ? 0 : 1));
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $setting->set("disable_notes", $data["sec"]["enable_notes"] ? 0 : 1);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ctrl->redirect($this, "editSettings");

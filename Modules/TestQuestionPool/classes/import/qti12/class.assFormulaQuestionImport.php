@@ -19,7 +19,7 @@ class assFormulaQuestionImport extends assQuestionImport
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQtiItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -27,13 +27,14 @@ class assFormulaQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
         // empty session variable for imported xhtml mobs
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
+
         $presentation = $item->getPresentation();
         $duration = $item->getDuration();
         $now = getdate();
@@ -88,17 +89,17 @@ class assFormulaQuestionImport extends assQuestionImport
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
         $feedbacksgeneric = $this->getFeedbackGeneric($item);
-        
-        if (is_array($_SESSION["import_mob_xhtml"])) {
+
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     include_once "./Modules/Test/classes/class.ilObjTest.php";
-                    $importfile = ilObjTest::_getImportDirectory() . "/" . $_SESSION["tst_import_subdir"] . "/" . $mob["uri"];
+                    $importfile = ilObjTest::_getImportDirectory() . "/" . ilSession::get("tst_import_subdir") . "/" . $mob["uri"];
                 } else {
                     include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-                    $importfile = ilObjQuestionPool::_getImportDirectory() . "/" . $_SESSION["qpl_import_subdir"] . "/" . $mob["uri"];
+                    $importfile = ilObjQuestionPool::_getImportDirectory() . "/" . ilSession::get("qpl_import_subdir") . "/" . $mob["uri"];
                 }
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailMimeSubjectBuilder
@@ -7,28 +22,15 @@
  */
 class ilMailMimeSubjectBuilder
 {
-    /** @var ilSetting */
-    private $settings;
-    /** @var string */
-    private $defaultPrefix;
+    private ilSetting $settings;
+    private string $defaultPrefix;
 
-    /**
-     * ilMailMimeSubjectBuilder constructor.
-     * @param ilSetting $settings
-     * @param string $defaultPrefix
-     */
     public function __construct(ilSetting $settings, string $defaultPrefix)
     {
         $this->settings = $settings;
         $this->defaultPrefix = $defaultPrefix;
     }
 
-    /**
-     * @param string $subject
-     * @param bool $addPrefix
-     * @param string $contextPrefix
-     * @return string
-     */
     public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = '') : string
     {
         $subject = trim($subject);
@@ -52,7 +54,7 @@ class ilMailMimeSubjectBuilder
                 }
             }
 
-            if (strlen($prefix) > 0) {
+            if ($prefix && $prefix !== '') {
                 $subject = $prefix . ' ' . $subject;
             }
         }

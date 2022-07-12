@@ -1,17 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Submit Button GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @deprecated use KS Buttons instead
  */
 class ilSubmitButton extends ilButtonBase
 {
-    protected $cmd; // [string]
+    protected string $cmd = "";
     
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self(self::TYPE_SUBMIT);
     }
@@ -23,20 +38,13 @@ class ilSubmitButton extends ilButtonBase
     
     /**
      * Set submit command
-     *
-     * @param string $a_value
      */
-    public function setCommand($a_value)
+    public function setCommand(string $a_value) : void
     {
         $this->cmd = trim($a_value);
     }
     
-    /**
-     * Get submit command
-     *
-     * @param string $a_value
-     */
-    public function getCommand()
+    public function getCommand() : string
     {
         return $this->cmd;
     }
@@ -46,7 +54,7 @@ class ilSubmitButton extends ilButtonBase
     // render
     //
         
-    public function render()
+    public function render() : string
     {
         $this->prepareRender();
         

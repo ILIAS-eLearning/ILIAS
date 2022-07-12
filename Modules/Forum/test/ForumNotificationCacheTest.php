@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +38,7 @@ class ForumNotificationCacheTest extends TestCase
         $cache->store('item', 'ilias');
 
         $this->assertTrue($cache->exists('item'));
-        $this->assertEquals('ilias', $cache->fetch('item'));
+        $this->assertSame('ilias', $cache->fetch('item'));
     }
 
     public function nonScalarValuesProvider() : array
@@ -37,7 +51,7 @@ class ForumNotificationCacheTest extends TestCase
     }
 
     /**
-     * @param $nonScalarValue
+     * @param mixed $nonScalarValue
      * @dataProvider nonScalarValuesProvider
      */
     public function testExceptionIsRaisedWhenKeyShouldBeBuiltWithNonScalarValues($nonScalarValue) : void
@@ -60,7 +74,7 @@ class ForumNotificationCacheTest extends TestCase
     }
 
     /**
-     * @param $scalarValue
+     * @param scalar $scalarValue
      * @dataProvider scalarValuesAndNullProvider
      */
     public function testCacheKeyCouldBeGeneratedByArray($scalarValue) : void
@@ -69,6 +83,6 @@ class ForumNotificationCacheTest extends TestCase
         $key = $cache->createKeyByValues([$scalarValue, $scalarValue]);
 
         $this->assertNotEmpty($key);
-        $this->assertEquals(32, strlen($key));
+        $this->assertSame(32, strlen($key));
     }
 }

@@ -1,25 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * QTI matapplet class
@@ -31,107 +27,102 @@
 */
 class ilQTIMatapplet
 {
-    public $embedded;
-    
-    public $label;
-    public $uri;
-    public $x0;
-    public $y0;
-    public $width;
-    public $height;
-    public $entityref;
-    public $content;
-    
-    public function __construct()
-    {
-    }
+    public ?string $embedded = null;
+    public ?string $label = null;
+    public ?string $uri = null;
+    public ?string $x0 = null;
+    public ?string $y0 = null;
+    public ?string $width = null;
+    public ?string $height = null;
+    public ?string $entityref = null;
+    public ?string $content = null;
 
-    public function setEmbedded($a_embedded)
+    public function setEmbedded(string $a_embedded) : void
     {
         $this->embedded = $a_embedded;
     }
-    
-    public function getEmbedded()
+
+    public function getEmbedded() : ?string
     {
         return $this->embedded;
     }
-    
-    public function setLabel($a_label)
+
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
-    
-    public function getLabel()
+
+    public function getLabel() : ?string
     {
         return $this->label;
     }
-    
-    public function setHeight($a_height)
+
+    public function setHeight(string $a_height) : void
     {
         $this->height = $a_height;
     }
-    
-    public function getHeight()
+
+    public function getHeight() : ?string
     {
         return $this->height;
     }
-    
-    public function setWidth($a_width)
+
+    public function setWidth(string $a_width) : void
     {
         $this->width = $a_width;
     }
-    
-    public function getWidth()
+
+    public function getWidth() : ?string
     {
         return $this->width;
     }
-    
-    public function setUri($a_uri)
+
+    public function setUri(string $a_uri) : void
     {
         $this->uri = $a_uri;
     }
-    
-    public function getUri()
+
+    public function getUri() : ?string
     {
         return $this->uri;
     }
     
-    public function setX0($a_x0)
+    public function setX0(string $a_x0) : void
     {
         $this->x0 = $a_x0;
     }
     
-    public function getX0()
+    public function getX0() : ?string
     {
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0(string $a_y0) : void
     {
         $this->y0 = $a_y0;
     }
     
-    public function getY0()
+    public function getY0() : ?string
     {
         return $this->y0;
     }
-    
-    public function setEntityref($a_entityref)
+
+    public function setEntityref(string $a_entityref) : void
     {
         $this->entityref = $a_entityref;
     }
-    
-    public function getEntityref()
+
+    public function getEntityref() : ?string
     {
         return $this->entityref;
     }
-    
-    public function setContent($a_content)
+
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
-    
-    public function getContent()
+
+    public function getContent() : ?string
     {
         return $this->content;
     }

@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
@@ -11,15 +25,8 @@ use OrgUnit\PublicApi\OrgUnitUserService;
  */
 class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $obj_data_cache;
+    protected ilLanguage $lng;
+    protected ilObjectDataCache $obj_data_cache;
 
     public function __construct(
         OrgUnitUserService $orgUnitUserService = null,
@@ -42,19 +49,13 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
         }
     }
 
-    const ID = 'svy_context_rmd';
+    public const ID = 'svy_context_rmd';
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         $lng = $this->lng;
@@ -64,9 +65,6 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
         return $lng->txt('svy_mail_context_reminder_title');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         $lng = $this->lng;
@@ -76,10 +74,6 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
         return $lng->txt('svy_mail_context_reminder_info');
     }
 
-    /**
-     * Return an array of placeholders
-     * @return array
-     */
     public function getSpecificPlaceholders() : array
     {
         /**
@@ -104,9 +98,6 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
         return $placeholders;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
@@ -118,12 +109,12 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
          */
         $ilObjDataCache = $this->obj_data_cache;
 
-        if ('svy_title' == $placeholder_id) {
-            return (string) $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
-        } else {
-            if ('svy_link' == $placeholder_id) {
-                return (string) ilLink::_getLink($context_parameters['ref_id'], 'svy');
-            }
+        if ('svy_title' === $placeholder_id) {
+            return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
+        }
+
+        if ('svy_link' === $placeholder_id) {
+            return ilLink::_getLink($context_parameters['ref_id'], 'svy');
         }
 
         return '';

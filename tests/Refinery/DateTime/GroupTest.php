@@ -1,42 +1,43 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\DateTime;
 
-use ILIAS\Data\Factory;
 use ILIAS\Refinery\DateTime\Group;
 use ILIAS\Refinery\DateTime\ChangeTimezone;
 use ILIAS\Tests\Refinery\TestCase;
 
-require_once('./libs/composer/vendor/autoload.php');
-require_once('./tests/Refinery/TestCase.php');
-
 class GroupTest extends TestCase
 {
-    /**
-     * @var Group
-     */
-    private $group;
+    private Group $group;
 
-    /**
-     * @var Factory
-     */
-    private $dataFactory;
-
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->dataFactory = new Factory();
-        $this->group = new Group($this->dataFactory);
+        $this->group = new Group();
     }
 
-    public function testChangeTimezone()
+    public function testChangeTimezone() : void
     {
         $instance = $this->group->changeTimezone('Europe/Berlin');
         $this->assertInstanceOf(ChangeTimezone::class, $instance);
     }
 
-    public function testChangeTimezoneWrongConstruction()
+    public function testChangeTimezoneWrongConstruction() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $instance = $this->group->changeTimezone('MiddleEarth/Minas_Morgul');

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author jposselt@databay.de
@@ -51,9 +66,7 @@ class ilChatroomObjectDefinition
      */
     public static function getDefaultDefinition(string $moduleName) : self
     {
-        $object = new self($moduleName, 'Modules/' . $moduleName . '/');
-
-        return $object;
+        return new self($moduleName, 'Modules/' . $moduleName . '/');
     }
 
     /**
@@ -65,14 +78,12 @@ class ilChatroomObjectDefinition
      */
     public static function getDefaultDefinitionWithCustomGUIPath(string $moduleName, string $guiScope = '') : self
     {
-        $object = new self(
+        return new self(
             $moduleName,
             'Modules/' . $moduleName . '/',
             'classes',
             $guiScope
         );
-
-        return $object;
     }
 
     /**
@@ -128,8 +139,6 @@ class ilChatroomObjectDefinition
     public function buildGUI(string $gui, ilChatroomObjectGUI $chatroomObjectGUI) : ilChatroomGUIHandler
     {
         $className = $this->getGUIClassName($gui);
-        $guiInstance = new $className($chatroomObjectGUI);
-
-        return $guiInstance;
+        return new $className($chatroomObjectGUI);
     }
 }

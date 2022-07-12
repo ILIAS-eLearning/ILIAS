@@ -40,6 +40,6 @@ class Factory
     public function germanLong() : DateFormat
     {
         return $this->builder->weekday()->comma()->space()
-            ->day()->dot()->month()->dot()->year()->get();
+                             ->day()->dot()->month()->dot()->year()->get();
     }
 }

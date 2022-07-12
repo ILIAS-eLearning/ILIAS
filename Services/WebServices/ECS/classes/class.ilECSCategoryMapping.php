@@ -1,101 +1,78 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
-*
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSCategoryMapping
 {
-    private static $cached_active_rules = null;
+    private static ?array $cached_active_rules = null;
 
     /**
      * get active rules
      *
-     * @return array
-     * @static
+     * @return ilECSCategoryMappingRule[]
      */
-    public static function getActiveRules()
+    public static function getActiveRules() : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+        $rules = [];
         $res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping');
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $rules[] = new ilECSCategoryMappingRule($row->mapping_id);
+            $rules[] = new ilECSCategoryMappingRule((int) $row->mapping_id);
         }
-        return $rules ? $rules : array();
+        return $rules;
     }
-    
+
     /**
      * get matching category
-     *
-     * @param object	$econtent	ilECSEcontent
-     * @return
-     * @static
      */
-    public static function getMatchingCategory($a_server_id, $a_matchable_content)
+    public static function getMatchingCategory(int $a_server_id, array $a_matchable_content) : ?int
     {
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
+        $logger = $DIC->logger()->wsrv();
         
         if (is_null(self::$cached_active_rules)) {
             self::$cached_active_rules = self::getActiveRules();
         }
         foreach (self::$cached_active_rules as $rule) {
             if ($rule->matches($a_matchable_content)) {
-                $ilLog->write(__METHOD__ . ': Found assignment for field type: ' . $rule->getFieldName());
+                $logger->info(__METHOD__ . ': Found assignment for field type: ' . $rule->getFieldName());
                 return $rule->getContainerId();
             }
-            $ilLog->write(__METHOD__ . ': Category assignment failed for field: ' . $rule->getFieldName());
+            $logger->error(__METHOD__ . ': Category assignment failed for field: ' . $rule->getFieldName());
         }
         // Return default container
-        $ilLog->write(__METHOD__ . ': Using default container');
+        $logger->info(__METHOD__ . ': Using default container');
 
         return ilECSSetting::getInstanceByServerId($a_server_id)->getImportId();
     }
     
     /**
      * Handle update of ecs content and create references.
-     *
-     * @return
-     * @static
      */
-    public static function handleUpdate($a_obj_id, $a_server_id, $a_matchable_content)
+    public static function handleUpdate(int $a_obj_id, int $a_server_id, array $a_matchable_content) : bool
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
+        $tree = $DIC->repositoryTree();
+        $logger = $DIC->logger()->wsrv();
      
         $cat = self::getMatchingCategory($a_server_id, $a_matchable_content);
                     
@@ -104,67 +81,61 @@ class ilECSCategoryMapping
         $all_cats = self::lookupHandledCategories();
                 
         $exists = false;
-        foreach ($references as $ref_id => $null) {
-            if ($tree->getParentId($ref_id) == $cat) {
+        foreach (array_keys($references) as $ref_id) {
+            if ($tree->getParentId($ref_id) === $cat) {
                 $exists = true;
             }
         }
-        $ilLog->write(__METHOD__ . ': Creating/Deleting references...');
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
+        $logger->info(__METHOD__ . ': Creating/Deleting references...');
         
         if (!$exists) {
-            $ilLog->write(__METHOD__ . ': Add new reference. STEP 1');
+            $logger->info(__METHOD__ . ': Add new reference. STEP 1');
             
             if ($obj_data = ilObjectFactory::getInstanceByRefId($a_ref_id, false)) {
-                $new_ref_id = $obj_data->createReference();
+                $obj_data->createReference();
                 $obj_data->putInTree($cat);
                 $obj_data->setPermissions($cat);
-                $ilLog->write(__METHOD__ . ': Add new reference.');
+                $logger->info(__METHOD__ . ': Add new reference.');
             }
         }
         // Now delete old references
-        foreach ($references as $ref_id => $null) {
+        foreach (array_keys($references) as $ref_id) {
             $parent = $tree->getParentId($ref_id);
-            if ($parent == $cat) {
+            if ($parent === $cat) {
                 continue;
             }
-            if (!in_array($parent, $all_cats)) {
+            if (!in_array($parent, $all_cats, true)) {
                 continue;
             }
             if ($to_delete = ilObjectFactory::getInstanceByRefId($ref_id)) {
                 $to_delete->delete();
-                $ilLog->write(__METHOD__ . ': Deleted deprecated reference.');
+                $logger->write(__METHOD__ . ': Deleted deprecated reference.');
             }
         }
         return true;
     }
-     
+
     /**
-     *
-     *
-     * @return
-     * @static
+     * @return int[] the container ids for the ecs container mapping
      */
-    public static function lookupHandledCategories()
+    public static function lookupHandledCategories() : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
+        $ref_ids = [];
         $res = $ilDB->query("SELECT container_id FROM ecs_container_mapping ");
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ref_ids[] = $row->container_id;
         }
-        return $ref_ids ? $ref_ids : array();
+        return $ref_ids;
     }
 
     /**
-     *
-     *
-     * @return
-     * @static
+     * @return array<string,string> tthe possible fields with translation
      */
-    public static function getPossibleFields()
+    public static function getPossibleFields() : array
     {
         global $DIC;
 
@@ -179,7 +150,6 @@ class ilECSCategoryMapping
         // will be handled by server soon?
         
         // only courses for now
-        include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
         $course_fields = ilECSUtils::_getOptionalECourseFields();
         foreach ($course_fields as $field) {
             $options[$field] = $lng->txt("obj_rcrs") . " - " . $lng->txt("ecs_field_" . $field);

@@ -12,27 +12,27 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
 {
     #region Helper
-    public $base_path = './Services/WorkflowEngine/test/parser/';
-    public $suite_path = '003_ParallelGateway/';
+    public string $base_path = './Services/WorkflowEngine/test/parser/';
+    public string $suite_path = '003_ParallelGateway/';
 
-    public function getTestInputFilename($test_name)
+    public function getTestInputFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name)
+    public function getTestOutputFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name)
+    public function getTestGoldsampleFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         parent::setUp();
@@ -40,7 +40,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithSimpleParallelGatewayShouldOutputAccordingly()
+    public function test_WorkflowWithSimpleParallelGatewayShouldOutputAccordingly() : void
     {
         $test_name = 'ParallelGateway_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -50,7 +50,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
@@ -91,7 +91,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithJoiningParallelGatewayShouldOutputAccordingly()
+    public function test_WorkflowWithJoiningParallelGatewayShouldOutputAccordingly() : void
     {
         $test_name = 'ParallelGateway_Joining';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -101,7 +101,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
@@ -131,7 +131,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithForkingParallelGatewayShouldOutputAccordingly()
+    public function test_WorkflowWithForkingParallelGatewayShouldOutputAccordingly() : void
     {
         $test_name = 'ParallelGateway_Forking';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -141,7 +141,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');

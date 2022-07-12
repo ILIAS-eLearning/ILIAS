@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCContentInclude
@@ -8,26 +22,18 @@
  * Content include object (see ILIAS DTD). Inserts content snippets from other
  * source (e.g. media pool)
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCContentInclude extends ilPageContent
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $incl_node;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilLanguage $lng;
+    public php4DOMElement $incl_node;
+    protected ilAccessHandler$access;
 
     /**
     * Init page content component.
     */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -36,23 +42,17 @@ class ilPCContentInclude extends ilPageContent
         $this->access = $DIC->access();
     }
 
-    /**
-    * Set node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->incl_node = $a_node->first_child();		// this is the snippet node
     }
 
-    /**
-    * Create content include node in xml.
-    *
-    * @param	object	$a_pg_obj		Page Object
-    * @param	string	$a_hier_id		Hierarchical ID
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->incl_node = $this->dom->create_element("ContentInclude");
@@ -62,23 +62,23 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Set content id
      */
-    public function setContentId($a_id)
+    public function setContentId(int $a_id) : void
     {
-        $this->setContentIncludeAttribute("ContentId", $a_id);
+        $this->setContentIncludeAttribute("ContentId", (string) $a_id);
     }
     
     /**
      * Get content id
      */
-    public function getContentId()
+    public function getContentId() : int
     {
-        return $this->getContentIncludeAttribute("ContentId");
+        return (int) $this->getContentIncludeAttribute("ContentId");
     }
 
     /**
      * Set content type
      */
-    public function setContentType($a_type)
+    public function setContentType(string $a_type) : void
     {
         $this->setContentIncludeAttribute("ContentType", $a_type);
     }
@@ -86,7 +86,7 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Get content type
      */
-    public function getContentType()
+    public function getContentType() : string
     {
         return $this->getContentIncludeAttribute("ContentType");
     }
@@ -94,7 +94,7 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Set installation id
      */
-    public function setInstId($a_id)
+    public function setInstId(string $a_id) : void
     {
         $this->setContentIncludeAttribute("InstId", $a_id);
     }
@@ -102,19 +102,18 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Get installation id
      */
-    public function getInstId()
+    public function getInstId() : string
     {
         return $this->getContentIncludeAttribute("InstId");
     }
     
     /**
-    * Set attribute of content include tag
-    *
-    * @param	string		attribute name
-    * @param	string		attribute value
-    */
-    protected function setContentIncludeAttribute($a_attr, $a_value)
-    {
+     * Set attribute of content include tag
+     */
+    protected function setContentIncludeAttribute(
+        string $a_attr,
+        string $a_value
+    ) : void {
         if (!empty($a_value)) {
             $this->incl_node->set_attribute($a_attr, $a_value);
         } else {
@@ -125,59 +124,57 @@ class ilPCContentInclude extends ilPageContent
     }
 
     /**
-    * Get content include tag attribute
-    *
-    * @return	string		attribute name
-    */
-    public function getContentIncludeAttribute($a_attr)
+     * Get content include tag attribute
+     */
+    public function getContentIncludeAttribute(string $a_attr) : string
     {
         if (is_object($this->incl_node)) {
             return  $this->incl_node->get_attribute($a_attr);
         }
+        return "";
     }
 
     /**
      * After page has been updated (or created)
-     *
-     * @param object $a_page page object
-     * @param DOMDocument $a_domdoc dom document
-     * @param string $a_xml xml
-     * @param bool $a_creation true on creation, otherwise false
      */
-    public static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
-    {
+    public static function afterPageUpdate(
+        ilPageObject $a_page,
+        DOMDocument $a_domdoc,
+        string $a_xml,
+        bool $a_creation
+    ) : void {
         // pc content include
         self::saveContentIncludeUsage($a_page, $a_domdoc);
     }
     
     /**
      * Before page is being deleted
-     *
-     * @param object $a_page page object
      */
-    public static function beforePageDelete($a_page)
+    public static function beforePageDelete(ilPageObject $a_page) : void
     {
         ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), false, $a_page->getLanguage());
     }
 
     /**
      * After page history entry has been created
-     *
-     * @param object $a_page page object
-     * @param DOMDocument $a_old_domdoc old dom document
-     * @param string $a_old_xml old xml
-     * @param integer $a_old_nr history number
      */
-    public static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
-    {
+    public static function afterPageHistoryEntry(
+        ilPageObject $a_page,
+        DOMDocument $a_old_domdoc,
+        string $a_old_xml,
+        int $a_old_nr
+    ) : void {
         self::saveContentIncludeUsage($a_page, $a_old_domdoc, $a_old_nr);
     }
 
     /**
      * save content include usages
      */
-    public static function saveContentIncludeUsage($a_page, $a_domdoc, $a_old_nr = 0)
-    {
+    public static function saveContentIncludeUsage(
+        ilPageObject $a_page,
+        DOMDocument $a_domdoc,
+        int $a_old_nr = 0
+    ) : void {
         $ci_ids = self::collectContentIncludes($a_page, $a_domdoc);
         ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
         foreach ($ci_ids as $ci_id) {
@@ -197,8 +194,10 @@ class ilPCContentInclude extends ilPageContent
     /**
      * get all content includes that are used within the page
      */
-    public static function collectContentIncludes($a_page, $a_domdoc)
-    {
+    public static function collectContentIncludes(
+        ilPageObject $a_page,
+        DOMDocument $a_domdoc
+    ) : array {
         $xpath = new DOMXPath($a_domdoc);
         $nodes = $xpath->query('//ContentInclude');
 
@@ -214,21 +213,21 @@ class ilPCContentInclude extends ilPageContent
         return $ci_ids;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
-    {
+    public function modifyPageContentPostXsl(
+        string $a_output,
+        string $a_mode,
+        bool $a_abstract_only = false
+    ) : string {
         $lng = $this->lng;
 
         $end = 0;
-        $start = strpos($a_html, "{{{{{ContentInclude;");
+        $start = strpos($a_output, "{{{{{ContentInclude;");
         if (is_int($start)) {
-            $end = strpos($a_html, "}}}}}", $start);
+            $end = strpos($a_output, "}}}}}", $start);
         }
         $i = 1;
         while ($end > 0) {
-            $param = substr($a_html, $start + 20, $end - $start - 20);
+            $param = substr($a_output, $start + 20, $end - $start - 20);
             $param = explode(";", $param);
 
             if ($param[0] == "mep" && is_numeric($param[1])) {
@@ -268,19 +267,41 @@ class ilPCContentInclude extends ilPageContent
                         }
                     }
                 }
-                $h2 = substr($a_html, 0, $start) .
+                $h2 = substr($a_output, 0, $start) .
                     $html .
-                    substr($a_html, $end + 5);
-                $a_html = $h2;
+                    substr($a_output, $end + 5);
+                $a_output = $h2;
                 $i++;
             }
 
-            $start = strpos($a_html, "{{{{{ContentInclude;", $start + 5);
+            $start = strpos($a_output, "{{{{{ContentInclude;", $start + 5);
             $end = 0;
             if (is_int($start)) {
-                $end = strpos($a_html, "}}}}}", $start);
+                $end = strpos($a_output, "}}}}}", $start);
             }
         }
-        return $a_html;
+        return $a_output;
+    }
+
+    public static function deleteHistoryLowerEqualThan(
+        string $parent_type,
+        int $page_id,
+        string $lang,
+        int $delete_lower_than_nr
+    ) : void {
+        global $DIC;
+
+        $usage_repo = $DIC->copage()
+                          ->internal()
+                          ->repo()
+                          ->usage();
+
+        $usage_repo->deleteHistoryUsagesLowerEqualThan(
+            "incl",
+            $parent_type . ":pg",
+            $page_id,
+            $delete_lower_than_nr,
+            $lang
+        );
     }
 }

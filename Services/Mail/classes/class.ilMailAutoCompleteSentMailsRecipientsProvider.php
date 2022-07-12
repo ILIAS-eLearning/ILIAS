@@ -1,85 +1,100 @@
-<?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-require_once 'Services/Mail/classes/class.ilMailAutoCompleteRecipientProvider.php';
-require_once 'Services/Utilities/classes/class.ilStr.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailAutoCompleteSentMailsRecipientsProvider
  */
 class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRecipientProvider
 {
-    /**
-     * @var array
-     */
-    protected $users_stack = array();
+    /** @var string[] */
+    protected array $users_stack = [];
     
     /**
-     * "Current" implementation of iterator interface
-     * @return  array
+     * @return array{login?: string, firstname?: string, lastname?: string}
      */
-    public function current()
+    public function current() : array
     {
         if (is_array($this->data)) {
-            return array(
+            return [
                 'login' => $this->data['login'],
                 'firstname' => '',
-                'lastname' => ''
-            );
-        } elseif (count($this->users_stack) > 0) {
-            return array(
+                'lastname' => '',
+            ];
+        }
+
+        if (count($this->users_stack) > 0) {
+            return [
                 'login' => array_shift($this->users_stack),
                 'firstname' => '',
-                'lastname' => ''
-            );
+                'lastname' => '',
+            ];
         }
+
+        return [
+            'login' => '',
+            'firstname' => '',
+            'lastname' => '',
+        ];
     }
 
-    /**
-     * "Key" implementation of iterator interface
-     * @return string
-     */
-    public function key()
+    public function key() : string
     {
-        if (is_array($this->data)) {
+        if (is_array($this->data) && !empty($this->data)) {
             return $this->data['login'];
-        } elseif (count($this->users_stack) > 0) {
+        }
+
+        if (count($this->users_stack) > 0) {
             return $this->users_stack[0];
         }
+
+        return '';
     }
 
-    /**
-     * @return bool
-     */
-    public function valid()
+    public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
         if (
             is_array($this->data) &&
             (
-                strpos($this->data['login'], ',') !== false ||
-                strpos($this->data['login'], ';') !== false
+                strpos($this->data['login'], ',') ||
+                strpos($this->data['login'], ';')
             )
         ) {
-            $parts = array_filter(array_map('trim', preg_split("/[ ]*[;,][ ]*/", trim($this->data['login']))));
+            $parts = array_filter(array_map(
+                'trim',
+                preg_split("/[ ]*[;,][ ]*/", trim($this->data['login']))
+            ));
+
             foreach ($parts as $part) {
                 if (ilStr::strPos(ilStr::strToLower($part), ilStr::strToLower($this->term)) !== false) {
                     $this->users_stack[] = $part;
                 }
             }
+
             if ($this->users_stack) {
-                $this->data = null;
+                $this->data = [];
             }
         }
+
         return is_array($this->data) || count($this->users_stack) > 0;
     }
-    
-    
 
-    /**
-     * "Rewind "implementation of iterator interface
-     */
-    public function rewind()
+    public function rewind() : void
     {
         if ($this->res) {
             $this->db->free($this->res);

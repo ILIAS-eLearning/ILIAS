@@ -31,7 +31,7 @@ class ilAssQuestionSkillAssignmentImportFails
     /**
      * @return ilAssQuestionSkillAssignmentRegistry
      */
-    protected function getSettings()
+    protected function getSettings() : ilAssQuestionSkillAssignmentRegistry
     {
         if ($this->settings === null) {
             require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportList.php';
@@ -45,7 +45,7 @@ class ilAssQuestionSkillAssignmentImportFails
     /**
      * @return int
      */
-    protected function getParentObjId()
+    protected function getParentObjId() : int
     {
         return $this->parentObjId;
     }
@@ -53,7 +53,7 @@ class ilAssQuestionSkillAssignmentImportFails
     /**
      * @return string
      */
-    protected function buildSettingsKey()
+    protected function buildSettingsKey() : string
     {
         return 'failed_imp_qsa_parentobj_' . $this->getParentObjId();
     }
@@ -61,7 +61,7 @@ class ilAssQuestionSkillAssignmentImportFails
     /**
      * @return ilAssQuestionSkillAssignmentImportList|null
      */
-    public function getFailedImports()
+    public function getFailedImports() : ?ilAssQuestionSkillAssignmentImportList
     {
         $value = $this->getSettings()->getStringifiedImports($this->buildSettingsKey(), null);
 
@@ -75,14 +75,14 @@ class ilAssQuestionSkillAssignmentImportFails
     /**
      * @param ilAssQuestionSkillAssignmentImportList $assignmentList
      */
-    public function registerFailedImports(ilAssQuestionSkillAssignmentImportList $assignmentList)
+    public function registerFailedImports(ilAssQuestionSkillAssignmentImportList $assignmentList) : void
     {
         $this->getSettings()->setStringifiedImports($this->buildSettingsKey(), serialize($assignmentList));
     }
     
     /**
      */
-    public function deleteRegisteredImportFails()
+    public function deleteRegisteredImportFails() : void
     {
         $this->getSettings()->deleteStringifiedImports($this->buildSettingsKey());
     }
@@ -90,7 +90,7 @@ class ilAssQuestionSkillAssignmentImportFails
     /**
      * @return bool
      */
-    public function failedImportsRegistered()
+    public function failedImportsRegistered() : bool
     {
         return $this->getFailedImports() !== null;
     }
@@ -99,7 +99,7 @@ class ilAssQuestionSkillAssignmentImportFails
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFailedImportsMessage(ilLanguage $lng)
+    public function getFailedImportsMessage(ilLanguage $lng) : string
     {
         $handledSkills = array();
         $msg = $lng->txt('tst_failed_imp_qst_skl_assign');

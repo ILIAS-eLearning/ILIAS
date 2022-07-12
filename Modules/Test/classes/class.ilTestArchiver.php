@@ -114,7 +114,7 @@ class ilTestArchiver
     /**
      * @return ilTestParticipantData
      */
-    public function getParticipantData()
+    public function getParticipantData() : ?ilTestParticipantData
     {
         return $this->participantData;
     }
@@ -320,7 +320,7 @@ class ilTestArchiver
      *
      * @return bool $hasTestArchive True, if the archive directory structure exists.
      */
-    protected function hasTestArchive()
+    protected function hasTestArchive() : bool
     {
         return is_dir($this->getTestArchive());
     }
@@ -330,7 +330,7 @@ class ilTestArchiver
      */
     protected function createArchiveForTest()
     {
-        ilUtil::makeDirParents($this->getTestArchive());
+        ilFileUtils::makeDirParents($this->getTestArchive());
         //mkdir( $this->getTestArchive(), 0777, true );
     }
 
@@ -339,7 +339,7 @@ class ilTestArchiver
      *
      * @return string $test_archive Path to this tests archive directory.
      */
-    protected function getTestArchive()
+    protected function getTestArchive() : string
     {
         $test_archive_directory = $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
             . self::DIR_SEP . 'archive' . self::DIR_SEP . 'tst_' . $this->test_obj_id;
@@ -412,7 +412,7 @@ class ilTestArchiver
      *
      * @return bool
      */
-    public function hasZipExportDirectory()
+    public function hasZipExportDirectory() : bool
     {
         return is_dir($this->getZipExportDirectory());
     }
@@ -427,7 +427,7 @@ class ilTestArchiver
      *
      * @return string
      */
-    public function getZipExportDirectory()
+    public function getZipExportDirectory() : string
     {
         return $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
             . self::DIR_SEP . self::EXPORT_DIRECTORY . self::DIR_SEP . 'tst_' . $this->test_obj_id;
@@ -446,7 +446,7 @@ class ilTestArchiver
         $zip_output_path = $this->getZipExportDirectory();
         $zip_output_filename = 'test_archive_obj_' . $this->test_obj_id . '_' . time() . '_.zip';
         
-        ilUtil::zip($this->getTestArchive(), $zip_output_path . self::DIR_SEP . $zip_output_filename, true);
+        ilFileUtils::zip($this->getTestArchive(), $zip_output_path . self::DIR_SEP . $zip_output_filename, true);
         return;
     }
 
@@ -466,7 +466,7 @@ class ilTestArchiver
      *
      * @return bool $hasPassDataDirectory True, if the pass data directory exists.
      */
-    protected function hasPassDataDirectory($active_fi, $pass)
+    protected function hasPassDataDirectory($active_fi, $pass) : bool
     {
         $pass_data_dir = $this->getPassDataDirectory($active_fi, $pass);
         return is_dir($this->getPassDataDirectory($active_fi, $pass));
@@ -486,7 +486,7 @@ class ilTestArchiver
         return;
     }
     
-    private function buildPassDataDirectory($active_fi, $pass)
+    private function buildPassDataDirectory($active_fi, $pass) : ?string
     {
         foreach ($this->archive_data_index as $data_index_entry) {
             if ($data_index_entry != null && $data_index_entry['identifier'] == $active_fi . '|' . $pass) {
@@ -506,7 +506,7 @@ class ilTestArchiver
      *
      * @return string $pass_data_directory Path to the pass data directory.
      */
-    protected function getPassDataDirectory($active_fi, $pass)
+    protected function getPassDataDirectory($active_fi, $pass) : ?string
     {
         $passDataDir = $this->buildPassDataDirectory($active_fi, $pass);
         
@@ -569,7 +569,7 @@ class ilTestArchiver
      *
      * @return bool			$hasPassmaterialsDirectory True, if the directory exists.
      */
-    protected function hasPassMaterialsDirectory($active_fi, $pass)
+    protected function hasPassMaterialsDirectory($active_fi, $pass) : bool
     {
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
         if (@is_dir($this->getPassMaterialsDirectory($active_fi, $pass))) {
@@ -623,7 +623,7 @@ class ilTestArchiver
      *
      * @return string $pass_materials_directory Path to the pass materials directory.
      */
-    protected function getPassMaterialsDirectory($active_fi, $pass)
+    protected function getPassMaterialsDirectory($active_fi, $pass) : string
     {
         $pass_data_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
         return $pass_data_directory . self::DIR_SEP . self::PASS_MATERIALS_PATH_COMPONENT;
@@ -652,7 +652,7 @@ class ilTestArchiver
      *
      * @return array[array] $archive_data_index Archive data index.
      */
-    protected function readArchiveDataIndex()
+    protected function readArchiveDataIndex() : array
     {
         /**
          * The Archive Data Index is a csv-file containing the following columns
@@ -721,7 +721,7 @@ class ilTestArchiver
      *
      * @return array
      */
-    protected function determinePassDataPath($date, $active_fi, $pass, $user_firstname, $user_lastname, $matriculation)
+    protected function determinePassDataPath($date, $active_fi, $pass, $user_firstname, $user_lastname, $matriculation) : array
     {
         $date = date_create_from_format(DATE_ISO8601, $date);
         $line = array(
@@ -761,7 +761,7 @@ class ilTestArchiver
      *
      * @return integer
      */
-    protected function countFilesInDirectory($directory, $pattern = null)
+    protected function countFilesInDirectory($directory, $pattern = null) : int
     {
         $filecount = 0;
 

@@ -1,84 +1,75 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Settings template config class
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAdministration
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSettingsTemplateConfig
 {
-    private $type;
-    private $tab = array();
-    private $setting = array();
+    public const TEXT = "text";
+    public const SELECT = "select";
+    public const BOOL = "bool";
+    public const CHECKBOX = "check";
 
-    const TEXT = "text";
-    const SELECT = "select";
-    const BOOL = "bool";
-    const CHECKBOX = "check";
+    private string $type;
+    private array $tabs = array();
+    private array $setting = array();
 
-    /**
-     * Constructor
-     *
-     * @param string object type
-     */
-    public function __construct($a_obj_type)
+    public function __construct(string $a_obj_type)
     {
         $this->setType($a_obj_type);
     }
 
-    /**
-     * Set type
-     *
-     * @param	string	$a_val	type
-     */
-    public function setType($a_val)
+    public function setType(string $a_val) : void
     {
         $this->type = $a_val;
     }
 
-    /**
-     * Get type
-     *
-     * @return	string	type
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-     * Add hidable tabs
-     *
-     * @param int tab id
-     * @param string tab text
-     */
-    public function addHidableTab($a_tab_id, $a_text)
-    {
+    public function addHidableTab(
+        string $a_tab_id,
+        string $a_text
+    ) : void {
         $this->tabs[$a_tab_id] = array(
             "id" => $a_tab_id,
             "text" => $a_text
         );
     }
 
-    /**
-     * Get hidable tabs
-     */
-    public function getHidableTabs()
+    public function getHidableTabs() : array
     {
         return $this->tabs;
     }
 
-    /**
-     * Add setting
-     *
-     * @param
-     * @return
-     */
-    public function addSetting($a_id, $a_type, $a_text, $a_hidable, $a_length = 0, $a_options = array())
-    {
+    public function addSetting(
+        string $a_id,
+        string $a_type,
+        string $a_text,
+        bool $a_hidable,
+        int $a_length = 0,
+        array $a_options = array()
+    ) : void {
         $this->setting[$a_id] = array(
             "id" => $a_id,
             "type" => $a_type,
@@ -89,11 +80,7 @@ class ilSettingsTemplateConfig
         );
     }
 
-    /**
-     * Get settings
-     * @return
-     */
-    public function getSettings()
+    public function getSettings() : array
     {
         return $this->setting;
     }

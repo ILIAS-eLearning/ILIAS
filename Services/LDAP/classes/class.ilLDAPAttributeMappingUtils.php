@@ -1,47 +1,37 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
 /**
-* A collection of static utility functions for LDAP attribute mapping
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesLDAP
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * A collection of static utility functions for LDAP attribute mapping
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilLDAPAttributeMappingUtils
 {
     /**
      * Get mapping rule by objectClass
-     *
-     * @access public
-     * @param string
-     *
+     * @param string $a_class
+     * @return array<string, string>
      */
-    public static function _getMappingRulesByClass($a_class)
+    public static function _getMappingRulesByClass(string $a_class) : array
     {
-        $mapping_rule = array();
-        
+        $mapping_rule = [];
+
         switch ($a_class) {
             case 'inetOrgPerson':
                 $mapping_rule['firstname'] = 'givenName';
@@ -51,8 +41,8 @@ class ilLDAPAttributeMappingUtils
                 $mapping_rule['phone_mobile'] = 'mobile';
                 $mapping_rule['email'] = 'mail';
                 $mapping_rule['photo'] = 'jpegPhoto';
-                // no break since it inherits from organizationalPerson and person
-                
+            // no break since it inherits from organizationalPerson and person
+
             case 'organizationalPerson':
                 $mapping_rule['fax'] = 'facsimileTelephoneNumber';
                 $mapping_rule['title'] = 'title';
@@ -60,13 +50,13 @@ class ilLDAPAttributeMappingUtils
                 $mapping_rule['zipcode'] = 'postalCode';
                 $mapping_rule['city'] = 'l';
                 $mapping_rule['country'] = 'st';
-                // no break since it inherits from person
-                
+            // no break since it inherits from person
+
             case 'person':
                 $mapping_rule['lastname'] = 'sn';
                 $mapping_rule['phone_office'] = 'telephoneNumber';
                 break;
-                
+
             case 'ad_2003':
                 $mapping_rule['firstname'] = 'givenName';
                 $mapping_rule['lastname'] = 'sn';
@@ -83,6 +73,7 @@ class ilLDAPAttributeMappingUtils
                 $mapping_rule['fax'] = 'facsimileTelephoneNumber';
                 break;
         }
-        return $mapping_rule ? $mapping_rule : array();
+
+        return $mapping_rule;
     }
 }

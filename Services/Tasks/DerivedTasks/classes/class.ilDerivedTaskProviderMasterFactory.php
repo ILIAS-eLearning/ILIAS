@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Survey\Tasks\DerivedTaskProviderFactory;
 
 /**
  * Derived task providers factory
@@ -9,15 +25,15 @@
  */
 class ilDerivedTaskProviderMasterFactory
 {
-    protected \ilTaskService $service;
+    protected ilTaskService $service;
 
     /**
      * @var ilDerivedTaskProviderFactory[]
      */
     protected array $default_provider_factories = array(
         ilExerciseDerivedTaskProviderFactory::class,
-        \ilForumDerivedTaskProviderFactory::class,
-        \ILIAS\Survey\Tasks\DerivedTaskProviderFactory::class,
+        ilForumDerivedTaskProviderFactory::class,
+        DerivedTaskProviderFactory::class,
         ilBlogDerivedTaskProviderFactory::class
     );
 
@@ -32,7 +48,7 @@ class ilDerivedTaskProviderMasterFactory
     public function __construct(ilTaskService $service, $provider_factories = null)
     {
         if (is_null($provider_factories)) {
-            $this->provider_factories = array_map(fn ($class) : \ilDerivedTaskProviderFactory => new $class($service), $this->default_provider_factories);
+            $this->provider_factories = array_map(fn ($class) : ilDerivedTaskProviderFactory => new $class($service), $this->default_provider_factories);
         } else {
             $this->provider_factories = $provider_factories;
         }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilMMCustomItemStorage
@@ -9,63 +9,49 @@ class ilMMCustomItemStorage extends CachedActiveRecord
 {
 
     /**
-     * @var string
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $identifier = '';
+    protected ?string $identifier = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     128
      */
-    protected $type = '';
+    protected string $type = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     4000
      */
-    protected $action = "";
+    protected string $action = "";
     /**
-     * @var bool
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $role_based_visibility = false;
+    protected bool $role_based_visibility = false;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     4000
      */
-    protected $global_role_ids = "";
+    protected string $global_role_ids = "";
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     4000
      */
-    protected $default_title = "";
+    protected string $default_title = "";
     /**
-     * @var bool
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $top_item = false;
+    protected bool $top_item = false;
     /**
      * @var string
      */
@@ -165,11 +151,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      */
     public function hasRoleBasedVisibility() : bool
     {
-        if($this->role_based_visibility !== NULL) {
-            return $this->role_based_visibility;
-        } else {
-            return false;
-        }
+        return $this->role_based_visibility;
     }
 
 

@@ -1,7 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 use Closure;
-use ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -11,9 +27,7 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 
 /**
  * Class DecoratedPagePartProvider
- *
  * @internal
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class DecoratedPagePartProvider implements PagePartProvider
@@ -21,24 +35,16 @@ class DecoratedPagePartProvider implements PagePartProvider
     const PURPOSE_TITLE = 'ptitle';
     const PURPOSE_SHORTTITLE = 'stitle';
     const PURPOSE_VIEWTITLE = 'vtitle';
+    const PURPOSE_LOGO = 'plogo';
+    const PURPOSE_RESPONSIVE_LOGO = 'prlogo';
+    const PURPOSE_FAVICON = 'pfavicon';
 
-    /**
-     * @var PagePartProvider
-     */
-    private $original;
-    /**
-     * @var Closure
-     */
-    private $deco;
-    /**
-     * @var string
-     */
-    private $purpose = '';
-
+    private PagePartProvider $original;
+    private Closure $deco;
+    private string $purpose;
 
     /**
      * DecoratedPagePartProvider constructor.
-     *
      * @param PagePartProvider $original
      * @param Closure          $deco
      * @param string           $purpose
@@ -49,7 +55,6 @@ class DecoratedPagePartProvider implements PagePartProvider
         $this->deco = $deco;
         $this->purpose = $purpose;
     }
-
 
     private function getDecoratedOrOriginal(string $purpose, $original)
     {
@@ -62,12 +67,10 @@ class DecoratedPagePartProvider implements PagePartProvider
         return $original;
     }
 
-
     private function isDecorated(string $purpose) : bool
     {
         return $purpose === $this->purpose;
     }
-
 
     /**
      * @inheritDoc
@@ -77,7 +80,6 @@ class DecoratedPagePartProvider implements PagePartProvider
         return $this->getDecoratedOrOriginal(Legacy::class, $this->original->getContent());
     }
 
-
     /**
      * @inheritDoc
      */
@@ -85,7 +87,6 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(MetaBar::class, $this->original->getMetaBar());
     }
-
 
     /**
      * @inheritDoc
@@ -95,7 +96,6 @@ class DecoratedPagePartProvider implements PagePartProvider
         return $this->getDecoratedOrOriginal(MainBar::class, $this->original->getMainBar());
     }
 
-
     /**
      * @inheritDoc
      */
@@ -104,13 +104,23 @@ class DecoratedPagePartProvider implements PagePartProvider
         return $this->getDecoratedOrOriginal(Breadcrumbs::class, $this->original->getBreadCrumbs());
     }
 
-
     /**
      * @inheritDoc
      */
     public function getLogo() : ?Image
     {
-        return $this->getDecoratedOrOriginal(Image::class, $this->original->getLogo());
+        return $this->getDecoratedOrOriginal(self::PURPOSE_LOGO, $this->original->getLogo());
+    }
+
+
+    public function getResponsiveLogo() : ?Image
+    {
+        return $this->getDecoratedOrOriginal(self::PURPOSE_RESPONSIVE_LOGO, $this->original->getResponsiveLogo());
+    }
+
+    public function getFaviconPath() : string
+    {
+        return $this->getDecoratedOrOriginal(self::PURPOSE_FAVICON, $this->original->getFaviconPath());
     }
 
     /**

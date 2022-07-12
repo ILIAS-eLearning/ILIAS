@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,22 +27,16 @@
 * Performs Mysql Like search in object_data title and description
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilExerciseSearch.php';
 
 class ilLikeExerciseSearch extends ilExerciseSearch
 {
-    public function __createWhereCondition()
+    public function __createWhereCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $concat = $ilDB->concat(
+        $concat = $this->db->concat(
             array(
                 array('title','text'),
                 array('instruction','text'))
@@ -54,7 +48,7 @@ class ilLikeExerciseSearch extends ilExerciseSearch
             if ($counter++) {
                 $and .= " OR ";
             }
-            $and .= $ilDB->like($concat, 'clob', '%' . $word . '%', false);
+            $and .= $this->db->like($concat, 'clob', '%' . $word . '%', false);
         }
         return $and . ") ";
     }

@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 {
     protected ilLearningSequenceMembershipGUI $parent_gui;
@@ -94,14 +108,14 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
 
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_ID', $set['usr_id']);
-        $this->tpl->setVariable('VAL_NAME', $set['lastname'] . ', ' . $set['firstname']);
-        $this->tpl->setVariable('VAL_LOGIN', $set['login']);
+        $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
+        $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
+        $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
 
         if (
-            !$this->access->checkAccessOfUser($set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
+            !$this->access->checkAccessOfUser((int) $a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
             is_array($info = $this->access->getInfo())
         ) {
             $this->tpl->setCurrentBlock('access_warning');
@@ -109,7 +123,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (!ilObjUser::_lookupActive($set['usr_id'])) {
+        if (!ilObjUser::_lookupActive((int) $a_set['usr_id'])) {
             $this->tpl->setCurrentBlock('access_warning');
             $this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
             $this->tpl->parseCurrentBlock();
@@ -119,8 +133,8 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             switch ($field) {
                 case 'prtf':
                     $tmp = array();
-                    if (is_array($set['prtf'])) {
-                        foreach ($set['prtf'] as $prtf_url => $prtf_txt) {
+                    if (is_array($a_set['prtf'])) {
+                        foreach ($a_set['prtf'] as $prtf_url => $prtf_txt) {
                             $tmp[] = '<a href="' . $prtf_url . '">' . $prtf_txt . '</a>';
                         }
                     }
@@ -130,17 +144,17 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                     break;
                 case 'roles':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) $set['roles_label']);
+                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
                     $this->tpl->parseCurrentBlock();
                     break;
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', isset($set[$field]) ? (string) $set[$field] : '');
+                    $this->tpl->setVariable('VAL_CUST', isset($a_set[$field]) ? (string) $a_set[$field] : '');
                     $this->tpl->parseCurrentBlock();
                     break;
             }
@@ -153,23 +167,23 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             ilObjUserTracking::_enabledLearningProgress()
 
         ) {
-            $this->tpl->setVariable('FIRST_ACCESS', $this->getFirstAccess((int) $set['usr_id']));
-            $this->tpl->setVariable('LAST_ACCESS', $this->getLastAccess((int) $set['usr_id']));
+            $this->tpl->setVariable('FIRST_ACCESS', $this->getFirstAccess((int) $a_set['usr_id']));
+            $this->tpl->setVariable('LAST_ACCESS', $this->getLastAccess((int) $a_set['usr_id']));
         }
 
-        $this->tpl->setVariable('COMPLETED_STEPS', $this->getCompletedSteps((int) $set['usr_id']));
-        $this->tpl->setVariable('LAST_VISITED_STEP', $this->getLastVisitedStep((int) $set['usr_id']));
+        $this->tpl->setVariable('COMPLETED_STEPS', $this->getCompletedSteps((int) $a_set['usr_id']));
+        $this->tpl->setVariable('LAST_VISITED_STEP', $this->getLastVisitedStep((int) $a_set['usr_id']));
 
-        if ($this->getParticipants()->isAdmin($set['usr_id'])) {
-            $this->tpl->setVariable('VAL_NOTIFICATION_ID', $set['usr_id']);
+        if ($this->getParticipants()->isAdmin((int) $a_set['usr_id'])) {
+            $this->tpl->setVariable('VAL_NOTIFICATION_ID', (int) $a_set['usr_id']);
             $this->tpl->setVariable(
                 'VAL_NOTIFICATION_CHECKED',
-                $set['notification'] ? 'checked="checked"' : ''
+                $a_set['notification'] ? 'checked="checked"' : ''
             );
         }
 
-        $this->showActionLinks($set);
-        $this->tpl->setVariable('VAL_LOGIN', $set['login']);
+        $this->showActionLinks($a_set);
+        $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
     }
 
     protected function getFirstAccess(int $user_id) : string
@@ -316,7 +330,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                 }
             }
 
-            if ($this->current_filter['org_units']) {
+            if (array_key_exists('org_units', $this->current_filter)) {
                 $org_unit = $this->current_filter['org_units'];
                 $title = ilObjectFactory::getInstanceByRefId($org_unit)->getTitle();
                 $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
@@ -326,25 +340,25 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             }
 
             $filtered_user_ids[] = $user_id;
-            $user_data[$user_id] = array_merge($ud, (array) $lso_user_data[$user_id]);
+            $user_data[$user_id] = array_merge($ud, $lso_user_data[$user_id]);
 
             $roles = array();
             foreach ($local_roles as $role_id => $role_name) {
-                if ($this->rbac_review->isAssigned($user_id, $role_id)) {
+                if ($this->rbac_review->isAssigned((int) $user_id, $role_id)) {
                     $roles[] = $role_name;
                 }
             }
 
             $user_data[$user_id]['name'] = $user_data[$user_id]['lastname'] . ', ' . $user_data[$user_id]['firstname'];
             $user_data[$user_id]['roles_label'] = implode('<br />', $roles);
-            $user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
+            $user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition((int) $user_id);
         }
 
         // Custom user data fields
-        if ($udf_ids) {
+        if ($udf_ids !== []) {
             $data = ilUserDefinedData::lookupData($ls_participants, $udf_ids);
             foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance($usr_id)) {
+                if (!$this->checkAcceptance((int) $usr_id)) {
                     continue;
                 }
 
@@ -354,7 +368,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             }
         }
 
-        $user_data = ilUtil::sortArray(
+        $user_data = ilArrayUtil::sortArray(
             $user_data,
             'name',
             $this->getOrderDirection()
@@ -363,7 +377,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->setData($user_data);
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $ef = $this->getExportFieldsInfo();
         $columns = $ef->getSelectableFieldsInfo(
@@ -377,7 +391,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             );
         }
 
-        $columns = array_merge(
+        return array_merge(
             [
                 'roles' => [
                     'txt' => $this->lng->txt('objs_role'),
@@ -392,8 +406,6 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             ],
             $columns
         );
-
-        return $columns;
     }
 
     protected function getExportFieldsInfo() : ilExportFieldsInfo

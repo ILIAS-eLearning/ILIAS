@@ -1,7 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+use ILIAS\Administration\AdminGUIRequest;
 
 /**
 * Class ilAdministratioGUI
@@ -18,7 +33,7 @@
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRoleTemplateGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRootFolderGUI, ilObjSessionGUI, ilObjPortfolioTemplateGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSystemFolderGUI, ilObjRoleFolderGUI, ilObjAuthSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjChatServerGUI, ilObjLanguageFolderGUI, ilObjMailGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageFolderGUI, ilObjMailGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjObjectFolderGUI, ilObjRecoveryFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSearchSettingsGUI, ilObjStyleSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
@@ -38,80 +53,39 @@
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI, ilMemberExportSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI, ilPropertyFormGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCmiXapiAdministrationGUI, ilObjCmiXapiGUI, ilObjLTIConsumerGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjLearningSequenceAdminGUI, ilObjContentPageAdministrationGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjLearningSequenceAdminGUI, ilObjContentPageAdministrationGUI, ilObjPDFGenerationGUI
 */
-class ilAdministrationGUI
+class ilAdministrationGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $objDefinition;
-
-    /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    public $lng;
-    public $tpl;
-    public $tree;
-    public $rbacsystem;
-    public $cur_ref_id;
-    public $cmd;
-    public $mode;
-    public $ctrl;
-
-    /**
-     * @var \ilLogger|null
-     */
-    private $logger = null;
-
-    /**
-     * @var string
-     */
-    protected $admin_mode = "";
-
-    /**
-     * @var bool
-     */
-    protected $creation_mode = false;
-
+    protected ilObjectDefinition $objDefinition;
+    protected ilHelpGUI $help;
+    protected ilDBInterface $db;
+    public ilLanguage $lng;
+    public ilGlobalTemplateInterface $tpl;
+    public ilTree $tree;
+    public ilRbacSystem $rbacsystem;
+    public int $cur_ref_id;
+    public string $cmd;
+    public ilCtrl $ctrl;
+    protected string $admin_mode = "";
+    protected bool $creation_mode = false;
     protected int $requested_obj_id = 0;
+    protected AdminGUIRequest $request;
+    protected ilObjectGUI $gui_obj;
 
-    /**
-    * Constructor
-    * @access	public
-    */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->main_menu = $DIC["ilMainMenu"];
         $this->help = $DIC["ilHelp"];
-        $this->error = $DIC["ilErr"];
         $this->db = $DIC->database();
         $lng = $DIC->language();
-        $tpl = $DIC["tpl"];
+        $tpl = $DIC->ui()->mainTemplate();
         $tree = $DIC->repositoryTree();
         $rbacsystem = $DIC->rbac()->system();
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
-        $ilMainMenu = $DIC["ilMainMenu"];
 
         $this->lng = $lng;
         $this->lng->loadLanguageModule('administration');
@@ -121,59 +95,55 @@ class ilAdministrationGUI
         $this->objDefinition = $objDefinition;
         $this->ctrl = $ilCtrl;
 
-        $this->logger = $DIC->logger()->adm();
-
         $context = $DIC->globalScreen()->tool()->context();
         $context->claim()->administration();
 
-        $ilMainMenu->setActive("administration");
+        $this->request = new AdminGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
         
         $this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
 
-        $this->admin_mode = $_GET["admin_mode"] ?? "";
-        if ($this->admin_mode != ilObjectGUI::ADMIN_MODE_REPOSITORY) {
+        $this->admin_mode = $this->request->getAdminMode();
+        if ($this->admin_mode !== ilObjectGUI::ADMIN_MODE_REPOSITORY) {
             $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
         }
-        
-        if (!ilUtil::isAPICall()) {
-            $this->ctrl->setReturn($this, "");
-        }
+    
+        $this->ctrl->setReturn($this, "");
 
         // determine current ref id and mode
-        if (!empty($_GET["ref_id"]) && $tree->isInTree($_GET["ref_id"])) {
-            $this->cur_ref_id = $_GET["ref_id"];
+        $ref_id = $this->request->getRefId();
+        if ($tree->isInTree($ref_id)) {
+            $this->cur_ref_id = $ref_id;
         } else {
-            //$this->cur_ref_id = $this->tree->getRootId();
-            $_POST = array();
-            if ($_GET["cmd"] != "getDropDown") {
-                $_GET["cmd"] = "";
-            }
+            throw new ilPermissionException("Invalid ref id.");
         }
 
-        $this->requested_obj_id = (int) ($_GET["obj_id"] ?? 0);
+        $this->requested_obj_id = $this->request->getObjId();
     }
 
     
     /**
-    * execute command
-    */
-    public function executeCommand()
+     * @throws ilCtrlException
+     * @throws ilPermissionException
+     */
+    public function executeCommand() : void
     {
         $rbacsystem = $this->rbacsystem;
         $objDefinition = $this->objDefinition;
         $ilHelp = $this->help;
-        $ilErr = $this->error;
         $ilDB = $this->db;
         
         // permission checks
         if (!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
                 !$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID)) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+            throw new ilPermissionException($this->lng->txt('permission_denied'));
         }
 
         // check creation mode
         // determined by "new_type" parameter
-        $new_type = empty($_REQUEST['new_type']) ? '' : $_REQUEST['new_type'];
+        $new_type = $this->request->getNewType();
         if ($new_type) {
             $this->creation_mode = true;
         }
@@ -187,15 +157,15 @@ class ilAdministrationGUI
 
         // set next_class directly for page translations
         // (no cmdNode is given in translation link)
-        if ($this->ctrl->getCmdClass() == "ilobjlanguageextgui") {
+        if ($this->ctrl->getCmdClass() === "ilobjlanguageextgui") {
             $next_class = "ilobjlanguageextgui";
         } else {
             $next_class = $this->ctrl->getNextClass($this);
         }
 
         if ((
-            $next_class == "iladministrationgui" || $next_class == ""
-        ) && ($this->ctrl->getCmd() == "return")) {
+            $next_class === "iladministrationgui" || $next_class == ""
+        ) && ($this->ctrl->getCmd() === "return")) {
             // get GUI of current object
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);
@@ -211,13 +181,13 @@ class ilAdministrationGUI
             default:
             
                 // forward all other classes to gui commands
-                if ($next_class != "" && $next_class != "iladministrationgui") {
+                if ($next_class != "" && $next_class !== "iladministrationgui") {
                     // check db update
                     $dbupdate = new ilDBUpdate($ilDB);
                     if (!$dbupdate->getDBVersionStatus()) {
-                        ilUtil::sendFailure($this->lng->txt("db_need_update"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("db_need_update"));
                     } elseif ($dbupdate->hotfixAvailable()) {
-                        ilUtil::sendFailure($this->lng->txt("db_need_hotfix"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("db_need_hotfix"));
                     }
                     
                     $class_path = $this->ctrl->lookupClassPath($next_class);
@@ -226,8 +196,8 @@ class ilAdministrationGUI
                     }
                     // get gui class instance
                     $class_name = $this->ctrl->getClassForClasspath($class_path);
-                    if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
-                        || $next_class == "ilobjroletemplategui")) {
+                    if (($next_class === "ilobjrolegui" || $next_class === "ilobjusergui"
+                        || $next_class === "ilobjroletemplategui")) {
                         if ($this->requested_obj_id > 0) {
                             $this->gui_obj = new $class_name(null, $this->requested_obj_id, false, false);
                             $this->gui_obj->setCreationMode(false);
@@ -278,36 +248,42 @@ class ilAdministrationGUI
 
     /**
      * Forward to class/command
+     * @throws ilCtrlException
+     * @throws ilPermissionException
      */
-    public function forward()
+    public function forward() : void
     {
-        $ilErr = $this->error;
-        
-        if ($this->admin_mode != "repository") {	// settings
-            if ($_GET["ref_id"] == USER_FOLDER_ID) {
+        if ($this->admin_mode !== "repository") {	// settings
+            if ($this->request->getRefId() == USER_FOLDER_ID) {
                 $this->ctrl->setParameter($this, "ref_id", USER_FOLDER_ID);
                 $this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-                if (((int) $_GET["jmpToUser"]) > 0 && ilObject::_lookupType((int) $_GET["jmpToUser"]) == "usr") {
+                if (ilObject::_lookupType($this->request->getJumpToUserId()) === "usr") {
                     $this->ctrl->setParameterByClass(
                         "ilobjuserfoldergui",
                         "jmpToUser",
-                        (int) $_GET["jmpToUser"]
+                        $this->request->getJumpToUserId()
                     );
                     $this->ctrl->redirectByClass("ilobjuserfoldergui", "jumpToUser");
                 } else {
                     $this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
                 }
             } else {
+
+                // this code should not be necessary anymore...
+                throw new ilPermissionException("Missing AdmiGUI parameter.");
+
+                /*
                 $this->ctrl->setParameter($this, "ref_id", SYSTEM_FOLDER_ID);
                 $this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
+
 
                 if ($_GET['fr']) {
                     // Security check: We do only allow relative urls
                     $url_parts = parse_url(base64_decode(rawurldecode($_GET['fr'])));
                     if ($url_parts['http'] || $url_parts['host']) {
-                        $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+                        throw new ilPermissionException($this->lng->txt('permission_denied'));
                     }
-                    
+
                     $fs_gui->setMainFrameSource(
                         base64_decode(rawurldecode($_GET['fr']))
                     );
@@ -317,7 +293,7 @@ class ilAdministrationGUI
                         $this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view")
                     );
                     $this->ctrl->redirectByClass("ilobjsystemfoldergui", "view");
-                }
+                }*/
             }
         } else {
             $this->ctrl->setParameter($this, "ref_id", ROOT_FOLDER_ID);
@@ -326,52 +302,34 @@ class ilAdministrationGUI
         }
     }
 
-    /**
-    * display tree view
-    */
-    public function showTree()
+    public function showTree() : void
     {
         global $DIC;
 
-        if ($this->admin_mode != "repository") {
+        if ($this->admin_mode !== "repository") {
             return;
         }
 
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilAdminGSToolProvider::SHOW_ADMIN_TREE, true);
 
-        $exp = new ilAdministrationExplorerGUI($this, "showTree");
+        $exp = new ilAdministrationExplorerGUI(self::class, "showTree");
         $exp->handleCommand();
     }
     
-    /**
-     * Special jump to plugin slot after ilCtrl has been reloaded
-     */
-    public function jumpToPluginSlot()
+    // Special jump to plugin slot after ilCtrl has been reloaded
+    public function jumpToPluginSlot() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $_GET["slot_id"]);
-        
-        if ($_GET["plugin_id"]) {
-            $ilCtrl->setParameter($this, "plugin_id", $_GET["plugin_id"]);
-            $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "showPlugin");
-        } else {
-            $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugins");
-        }
+        $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugins");
     }
 
-
-    /**
-     * Jump to node
-     */
-    public function jump()
+    // Jump to node
+    public function jump() : void
     {
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->objDefinition;
 
-        $ref_id = (int) $_GET["ref_id"];
+        $ref_id = $this->request->getRefId();
         $obj_id = ilObject::_lookupObjId($ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
         $class_name = $objDefinition->getClassName($obj_type);

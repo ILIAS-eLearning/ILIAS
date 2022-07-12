@@ -1,5 +1,9 @@
 # Rating Service Privacy
 
+This documentation does not warrant completeness or correctness. Please report any
+missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
+or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+
 ## Data being stored
 
 - Each **rating** stores the **user ID** (creator) of the rating, the referenced **object** and a timestamp of the last change in the database.
@@ -14,3 +18,7 @@
 ## Data Deletion
 
 - Individual ratings may be removed by the user from objects.
+
+## Data Export
+
+- Rating information cannot be exported.

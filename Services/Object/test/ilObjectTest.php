@@ -1,64 +1,108 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
-class ilObjectTest //extends TestCase
+class ilObjectTest extends TestCase
 {
-    protected $backupGlobals = false;
-
+    private ?\ILIAS\DI\Container $dic_backup = null;
+    /**
+     * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected ilDBInterface $db_mock;
+    
     protected function setUp() : void
     {
-        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        //ilUnitUtil::performInitialisation();
+        global $DIC;
+        $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
+        
+        $DIC = new Container();
+        $DIC['ilias'] = $this->createMock(ILIAS::class);
+        $DIC['objDefinition'] = $this->createMock(ilObjectDefinition::class);
+        $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
+        $DIC['ilLog'] = $this->createMock(ilLogger::class);
+        $DIC['ilErr'] = $this->createMock(ilErrorHandling::class);
+        $DIC['tree'] = $this->createMock(ilTree::class);
+        $DIC['ilAppEventHandler'] = $this->createMock(ilAppEventHandler::class);
+        $DIC['ilUser'] = $this->createMock(ilObjUser::class);
     }
-
-    /**
-     * @group IL_Init
-     */
-    public function testCreationDeletion()
+    
+    protected function tearDown() : void
+    {
+        global $DIC;
+        $DIC = $this->dic_backup;
+    }
+    
+    public function testCreationDeletion() : void
     {
         $obj = new ilObject();
         $obj->setType("xxx");
+        
+        $this->db_mock->expects($this->any())
+                      ->method('nextId')
+                      ->with(ilObject::TABLE_OBJECT_DATA)
+                      ->willReturnOnConsecutiveCalls(21, 22, 23);
+        
+        $str = '2022-04-28 08:00:00';
+        $this->db_mock->expects($this->any())
+                      ->method('fetchAssoc')
+                      ->willReturnOnConsecutiveCalls(
+                          ['last_update' => $str, 'create_date' => $str],
+                          ['last_update' => $str, 'create_date' => $str],
+                          ['last_update' => $str, 'create_date' => $str]
+                      );
+        
         $obj->create();
         $id = $obj->getId();
+        $this->assertEquals(21, $id);
         
-        $obj2 = new ilObject();
-        $obj2->setType("xxx");
-        $obj2->create();
-        $id2 = $obj2->getId();
-
-        $value = "";
-        if ($id2 == ($id + 1)) {
-            $value .= "create1-";
-        }
+        $obj->create();
+        $id = $obj->getId();
+        $this->assertEquals(22, $id);
         
-        if (ilObject::_exists($id)) {
-            $value .= "create2-";
-        }
-        
-        $obj->delete();
-        $obj2->delete();
-        
-        if (!ilObject::_exists($id)) {
-            $value .= "create3-";
-        }
-
-        
-        $this->assertEquals("create1-create2-create3-", $value);
+        $obj->create();
+        $id = $obj->getId();
+        $this->assertEquals(23, $id);
     }
-
-    /**
-     * @group IL_Init
-     */
-    public function testSetGetLookup()
+    
+    public function testSetGetLookup() : void
     {
         global $DIC;
         $ilUser = $DIC->user();
-
-
+        
+        $this->db_mock->expects($this->any())
+                      ->method('nextId')
+                      ->withConsecutive([ilObject::TABLE_OBJECT_DATA], ['object_reference'])
+                      ->willReturnOnConsecutiveCalls(21, 22);
+        
+        $str = '2022-04-28 08:00:00';
+        $this->db_mock->expects($this->any())
+                      ->method('fetchAssoc')
+                      ->willReturnOnConsecutiveCalls(
+                          ['last_update' => $str, 'create_date' => $str],
+                          ['last_update' => $str, 'create_date' => $str],
+                          ['last_update' => $str, 'create_date' => $str]
+                      );
+        
+        
         $obj = new ilObject();
-        $obj->setType("");				// otherwise type check will fail
+        $obj->setType("xxx");                // otherwise type check will fail
         $obj->setTitle("TestObject");
         $obj->setDescription("TestDescription");
         $obj->setImportId("imp_44");
@@ -66,186 +110,46 @@ class ilObjectTest //extends TestCase
         $obj->createReference();
         $id = $obj->getId();
         $ref_id = $obj->getRefId();
-        $obj = new ilObject($id, false);
-
-        $value = "";
-        if ($obj->getType() == "") {
-            $value .= "sg1-";
-        }
-        if ($obj->getTitle() == "TestObject") {
-            $value .= "sg2-";
-        }
-        if ($obj->getDescription() == "TestDescription") {
-            $value .= "sg3-";
-        }
-        if ($obj->getImportId() == "imp_44") {
-            $value .= "sg4-";
-        }
-        if ($obj->getOwner() == $ilUser->getId()) {
-            $value .= "sg5-";
-        }
-        
-        $obj = new ilObject($ref_id);
-        if ($obj->getTitle() == "TestObject") {
-            $value .= "sg6-";
-        }
-        
-        if ($obj->getCreateDate() == ($lu = $obj->getLastUpdateDate())) {
-            $value .= "sg7-";
-        }
-        $obj->setTitle("TestObject2");
-        sleep(2);			// we want a different date here...
-        $obj->update();
-        
-        $obj = new ilObject($ref_id);
-        if ($lu != ($lu2 = $obj->getLastUpdateDate())) {
-            $value .= "up1-";
-        }
-        if ($obj->getTitle() == "TestObject2") {
-            $value .= "up2-";
-        }
-
-        if ($id == ilObject::_lookupObjIdByImportId("imp_44")) {
-            $value .= "lu1-";
-        }
-        
-        if ($ilUser->getFullname() == ilObject::_lookupOwnerName(ilObject::_lookupOwner($id))) {
-            $value .= "lu2-";
-        }
-        
-        if (ilObject::_lookupTitle($id) == "TestObject2") {
-            $value .= "lu3-";
-        }
-        if (ilObject::_lookupDescription($id) == "TestDescription") {
-            $value .= "lu4-";
-        }
-        if (ilObject::_lookupLastUpdate($id) == $lu2) {
-            $value .= "lu5-";
-        }
-        if (ilObject::_lookupObjId($ref_id) == $id) {
-            $value .= "lu6-";
-        }
-        if (ilObject::_lookupType($id) == "") {
-            $value .= "lu7-";
-        }
-        if (ilObject::_lookupObjectId($ref_id) == $id) {
-            $value .= "lu8-";
-        }
-        $ar = ilObject::_getAllReferences($id);
-        if (is_array($ar) && count($ar) == 1 && $ar[$ref_id] == $ref_id) {
-            $value .= "lu9-";
-        }
-        
-        $ids = ilObject::_getIdsForTitle("TestObject2");
-        foreach ($ids as $i) {
-            if ($i == $id) {
-                $value .= "lu10-";
-            }
-        }
-
-        $obs = ilObject::_getObjectsByType("usr");
-        foreach ($obs as $ob) {
-            if ($ob["obj_id"] == $ilUser->getId()) {
-                $value .= "lu11-";
-            }
-        }
-        
-        $d1 = ilObject::_lookupDeletedDate($ref_id);
-        ilObject::_setDeletedDate((int) $ref_id, (int) $ilUser->getId());
-        $d2 = ilObject::_lookupDeletedDate($ref_id);
-        ilObject::_resetDeletedDate($ref_id);
-        $d3 = ilObject::_lookupDeletedDate($ref_id);
-        if ($d1 != $d2 && $d1 == $d3 && $d3 == null) {
-            $value .= "dd1-";
-        }
-
-        $obj->delete();
-        
-        $this->assertEquals("sg1-sg2-sg3-sg4-sg5-sg6-sg7-up1-up2-" .
-            "lu1-lu2-lu3-lu4-lu5-lu6-lu7-lu8-lu9-lu10-lu11-dd1-", $value);
-    }
-
-    /**
-     * @group IL_Init
-     */
-    public function testTreeTrash()
-    {
-        global $DIC;
-        $tree = $DIC->repositoryTree();
-        $user = $DIC->user();
-        
-        $obj = new ilObject();
-        $obj->setType("xxx");
-        $obj->setTitle("TestObject");
-        $obj->setDescription("TestDescription");
-        $obj->setImportId("imp_44");
-        $obj->create();
-        $obj->createReference();
-        $id = $obj->getId();
-        $ref_id = $obj->getRefId();
-        $obj = new ilObject($ref_id);
-        
-        $obj->putInTree(ROOT_FOLDER_ID);
-        $obj->setPermissions(ROOT_FOLDER_ID);
-
-        $value = "";
-        if ($tree->isInTree($ref_id)) {
-            $value .= "tree1-";
-        }
-        if (ilObject::_hasUntrashedReference($id)) {
-            $value .= "tree2-";
-        }
-        
-        // isSaved() uses internal cache!
-        $tree->useCache(false);
-        $tree->moveToTrash($ref_id, true, $user->getId());
-        if ($tree->isDeleted($ref_id)) {
-            $value .= "tree3-";
-        }
-        if ($tree->isSaved($ref_id)) {
-            $value .= "tree4-";
-        }
-        if (ilObject::_isInTrash($ref_id)) {
-            $value .= "tree5-";
-        }
-        if (!ilObject::_hasUntrashedReference($id)) {
-            $value .= "tree6-";
-        }
-        
-        $saved_tree = new ilTree(-(int) $ref_id);
-        $node_data = $saved_tree->getNodeData($ref_id);
-        $saved_tree->deleteTree($node_data);
-
-        if (!ilObject::_isInTrash($ref_id)) {
-            $value .= "tree7-";
-        }
-        
-        $obs = ilUtil::_getObjectsByOperations("cat", "read");
-        foreach ($obs as $ob) {
-            if (ilObject::_lookupType(ilObject::_lookupObjId($ob)) != "cat") {
-                $value .= "nocat-";
-            }
-        }
-
-        $obj->delete();
-        
-        $this->assertEquals("tree1-tree2-tree3-tree4-tree5-tree6-tree7-", $value);
-    }
+        $this->assertEquals(21, $id);
+        $this->assertEquals(22, $ref_id);
     
-    /**
-     * test object reference queries
-     * @group IL_Init
-     */
-    public function testObjectReference()
-    {
-        global $DIC;
-        $user = $DIC->user();
-
-        $ref_ids = ilObject::_getAllReferences(1);
-        $bool = ilObject::_setDeletedDate(1, $user->getId());
-        $bool = ilObject::_resetDeletedDate(1);
-        $date = ilObject::_lookupDeletedDate(1);
-
-        $this->assertEquals(null, $date);
+        
+        // Reading
+        $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
+        $ilDBStatement = $this->createMock(ilDBStatement::class);
+        $this->db_mock->expects($this->any())
+                      ->method('query')
+                      ->with("SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
+                          . "FROM " . ilObject::TABLE_OBJECT_DATA . PHP_EOL
+                          . "WHERE obj_id = " . $this->db_mock->quote(21, "integer") . PHP_EOL)
+                      ->willReturn($ilDBStatement);
+        
+        $this->db_mock->expects($this->once())
+            ->method('numRows')
+            ->with($ilDBStatement)
+            ->willReturn(1);
+        
+        $this->db_mock->expects($this->once())
+            ->method('fetchAssoc')
+            ->with($ilDBStatement)
+            ->willReturn([
+                'obj_id' => 21,
+                'type' => 'xxx',
+                'title' => 'TestObject',
+                'description' => 'TestDescription',
+                'owner' => 6,
+                'create_date' => '',
+                'last_update' => '',
+                'import_id' => 'imp_44',
+                'offline' => false,
+            ]);
+        
+        $obj = new ilObject($id, false);
+    
+        $this->assertEquals(21, $obj->getId());
+        $this->assertEquals('TestObject', $obj->getTitle());
+        $this->assertEquals('TestDescription', $obj->getDescription());
+        $this->assertEquals('imp_44', $obj->getImportId());
+        $this->assertEquals(6, $obj->getOwner());
     }
 }

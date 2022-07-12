@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -14,16 +29,12 @@ class RevisionCollection
     /**
      * @var FileRevision[]
      */
-    private $revisions = [];
-    /**
-     * @var ResourceIdentification
-     */
-    private $identification;
+    private array $revisions = [];
+    private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
     /**
      * RevisionCollection constructor.
      * @param FileRevision[]         $revisions
-     * @param ResourceIdentification $identification
      */
     public function __construct(ResourceIdentification $identification, array $revisions = [])
     {
@@ -38,8 +49,10 @@ class RevisionCollection
         }
         foreach ($this->revisions as $r) {
             if ($r->getVersionNumber() === $revision->getVersionNumber()) {
-                throw new RevisionExistsException(sprintf("Can't add already existing version number: %s",
-                    $revision->getVersionNumber()));
+                throw new RevisionExistsException(sprintf(
+                    "Can't add already existing version number: %s",
+                    $revision->getVersionNumber()
+                ));
             }
         }
         $this->revisions[$revision->getVersionNumber()] = $revision;

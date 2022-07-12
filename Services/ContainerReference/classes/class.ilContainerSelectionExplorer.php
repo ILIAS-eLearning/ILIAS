@@ -1,56 +1,33 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-include_once('./Services/UIComponent/Explorer/classes/class.ilExplorer.php');
+<?php declare(strict_types=1);
 
 /**
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @deprecated
+ */
 class ilContainerSelectionExplorer extends ilExplorer
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $target_type;
+    protected ilAccessHandler $access;
+    protected string $target_type;
     
-    /**
-     * Constructor
-     */
-    public function __construct($a_target)
-    {
+    public function __construct(
+        string $a_target
+    ) {
         global $DIC;
 
         $this->access = $DIC->access();
@@ -65,11 +42,9 @@ class ilContainerSelectionExplorer extends ilExplorer
 
         $this->setSessionExpandVariable("ref_repexpand");
          
-         
         $this->addFilter("root");
         $this->addFilter("cat");
         $this->addFilter("grp");
-        #$this->addFilter("fold");
         $this->addFilter("crs");
 
         $this->setFilterMode(IL_FM_POSITIVE);
@@ -79,72 +54,38 @@ class ilContainerSelectionExplorer extends ilExplorer
         $this->checkPermissions(true);
     }
     
-    /**
-     * set target type
-     * @param
-     * @return
-     */
-    public function setTargetType($a_type)
+    public function setTargetType(string $a_type) : void
     {
         $this->target_type = $a_type;
     }
     
-    /**
-     * get target type
-     * @param
-     * @return
-     */
-    public function getTargetType()
+    public function getTargetType() : string
     {
         return $this->target_type;
     }
     
-    /**
-     * check if item is clickable
-     * @param
-     * @return
-     */
-    public function isClickable($a_type, $a_id = 0)
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        $ilAccess = $this->access;
-        
-        if ($this->getTargetType() == $a_type) {
-            if ($ilAccess->checkAccess('visible', '', $a_id)) {
-                return true;
-            }
-        }
-        return false;
+        return ($this->getTargetType() === $type && $this->access->checkAccess('visible', '', $ref_id));
     }
 
-    /**
-     * Visible permission is sufficient
-     * @param type $a_ref_id
-     * @param type $a_type
-     * @return type
-     */
-    public function isVisible($a_ref_id, $a_type)
+    public function isVisible($a_ref_id, string $a_type) : bool
     {
         $ilAccess = $this->access;
         
         return $ilAccess->checkAccess('visible', '', $a_ref_id);
     }
     
-    /**
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    */
-    public function formatHeader($a_tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
+        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");// TODO PHP8-REVIEW Why is this overwritten? Are you sure this is correct?
 
         $tpl->setCurrentBlock("text");
         $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
         $tpl->parseCurrentBlock();
 
-        $this->output[] = $tpl->get();
+        $this->output[] = $tpl->get();// TODO PHP8-REVIEW `$this->output` is a string, so this operator (`[]`) is not supported
     }
 }

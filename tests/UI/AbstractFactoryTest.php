@@ -1,7 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once("libs/composer/vendor/autoload.php");
-
 
 use ILIAS\UI\Implementation\Crawler\Exception as CrawlerException;
 use ILIAS\UI\Implementation\Crawler as Crawler;
@@ -26,19 +41,14 @@ abstract class AbstractFactoryTest extends TestCase
      * false = may be there, don't check
      * Notice, some properties (MUST/MUST NOT) will always be checked.
      */
-    private $kitchensink_info_settings_default
-            = array('description'
-            => true
-            ,'background'
-                    => false
-            ,'context'
-                    => true
-            ,'featurewiki'
-                    => false
-            ,'javascript'
-                    => false
-            ,'rules'
-                    => true);
+    private array $kitchensink_info_settings_default = [
+        'description' => true,
+        'background' => false,
+        'context' => true,
+        'featurewiki' => false,
+        'javascript' => false,
+        'rules' => true
+    ];
 
     /* You can overwrite these settings per factory method when using this test
      * by writing $kitchensink_info_settings. See GlyphFactoryTest for an example.
@@ -47,35 +57,44 @@ abstract class AbstractFactoryTest extends TestCase
 
     // Definitions and Helpers:
 
-    private $description_categories =
-            array('purpose', 'composition', 'effect', 'rival');
+    private array $description_categories = ['purpose', 'composition', 'effect', 'rival'];
 
-    private $rules_categories =
-            array('usage', 'interaction', 'wording', 'style', 'ordering', 'responsiveness',
-                    'composition','accessibility');
+    private array $rules_categories = [
+        'usage',
+        'interaction',
+        'wording',
+        'style',
+        'ordering',
+        'responsiveness',
+        'composition',
+        'accessibility'
+    ];
 
-    final protected function returnsFactory($docstring_data)
+    private Crawler\EntriesYamlParser $yaml_parser;
+    private ReflectionClass $reflection;
+
+    final protected function returnsFactory(array $docstring_data) : bool
     {
         return $this->isFactoryName($docstring_data["namespace"]);
     }
 
-    final protected function returnsComponent($docstring_data)
+    final protected function returnsComponent(array $docstring_data) : bool
     {
         $reflection = new ReflectionClass($docstring_data["namespace"]);
         return in_array("ILIAS\\UI\\Component\\Component", $reflection->getInterfaceNames());
     }
 
-    final protected function isFactoryName($name)
+    final protected function isFactoryName(string $name) : bool
     {
         return preg_match("#^(\\\\)?ILIAS\\\\UI\\\\Component\\\\([a-zA-Z]+\\\\)*Factory$#", $name) === 1;
     }
 
-    final public function buildFactoryReflection()
+    final public function buildFactoryReflection() : ReflectionClass
     {
         return new ReflectionClass($this->factory_title);
     }
 
-    final public function methods_provider()
+    final public function methods_provider() : array
     {
         $reflection = $this->buildFactoryReflection();
         return array_map(function ($element) {
@@ -91,7 +110,7 @@ abstract class AbstractFactoryTest extends TestCase
         $this->reflection = $this->buildFactoryReflection();
     }
 
-    public function test_proper_namespace()
+    public function test_proper_namespace() : void
     {
         $message = "TODO: Put your factory into the proper namespace.";
         $this->assertMatchesRegularExpression(
@@ -101,14 +120,11 @@ abstract class AbstractFactoryTest extends TestCase
         );
     }
 
-    public function test_proper_name()
+    public function test_proper_name() : void
     {
         $name = $this->reflection->getName();
         $message = "TODO: Give your factory a proper name.";
-        $this->assertTrue(
-            $this->isFactoryName($name),
-            $message
-        );
+        $this->assertTrue($this->isFactoryName($name), $message);
     }
 
     /**
@@ -116,7 +132,7 @@ abstract class AbstractFactoryTest extends TestCase
      *
      * @dataProvider methods_provider
      */
-    final public function test_check_yaml_extraction($method_reflection, $name)
+    final public function test_check_yaml_extraction(ReflectionMethod $method_reflection, string $name) : array
     {
         try {
             //Todo (TA) this is not pretty. We should think about using only reflection in the parser as well.
@@ -138,7 +154,7 @@ abstract class AbstractFactoryTest extends TestCase
      *
      * @dataProvider methods_provider
      */
-    final public function test_return_type($method_reflection, $name)
+    final public function test_return_type(ReflectionMethod $method_reflection, string $name) : void
     {
         $message = "TODO ($name): fix return type, it must be a factory or a component.";
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
@@ -152,12 +168,14 @@ abstract class AbstractFactoryTest extends TestCase
     }
 
     /**
-     * Tests whether the method name matches the @return doctring?
+     * Tests whether the method name matches the return doctring?
      *
      * @dataProvider methods_provider
      */
-    final public function test_factory_method_name_compatible_docstring($method_reflection, $name)
-    {
+    final public function test_factory_method_name_compatible_docstring(
+        ReflectionMethod $method_reflection,
+        string $name
+    ) : void {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $this->test_return_type($method_reflection, $name);
 
@@ -188,7 +206,7 @@ abstract class AbstractFactoryTest extends TestCase
         }
     }
 
-    protected function get_regex_factory_namespace()
+    protected function get_regex_factory_namespace() : string
     {
         return str_replace("\\", "\\\\", $this->reflection->getNamespaceName());
     }
@@ -198,7 +216,7 @@ abstract class AbstractFactoryTest extends TestCase
      *
      * @dataProvider methods_provider
      */
-    final public function test_method_params($method_reflection, $name)
+    final public function test_method_params(ReflectionMethod $method_reflection, string $name) : void
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         if ($this->returnsFactory($docstring_data)) {
@@ -213,7 +231,7 @@ abstract class AbstractFactoryTest extends TestCase
     /**
      * @dataProvider methods_provider
      */
-    final public function test_kitchensink_info_description($method_reflection, $name)
+    final public function test_kitchensink_info_description(ReflectionMethod $method_reflection, string $name) : void
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $kitchensink_info_settings = $this->kitchensink_info_settings_merged_with_defaults($name);
@@ -237,7 +255,7 @@ abstract class AbstractFactoryTest extends TestCase
     /**
      * @dataProvider methods_provider
      */
-    final public function test_kitchensink_info_rivals($method_reflection, $name)
+    final public function test_kitchensink_info_rivals(ReflectionMethod $method_reflection, string $name) : void
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         if (isset($docstring_data["description"]) && isset($docstring_data["description"]["rivals"])) {
@@ -251,7 +269,7 @@ abstract class AbstractFactoryTest extends TestCase
     /**
      * @dataProvider methods_provider
      */
-    final public function test_kitchensink_info_background($method_reflection, $name)
+    final public function test_kitchensink_info_background(ReflectionMethod $method_reflection, string $name) : void
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $kitchensink_info_settings = $this->kitchensink_info_settings_merged_with_defaults($name);
@@ -265,7 +283,7 @@ abstract class AbstractFactoryTest extends TestCase
     /**
      * @dataProvider methods_provider
      */
-    final public function test_kitchensink_info_featurewiki($method_reflection, $name)
+    final public function test_kitchensink_info_featurewiki(ReflectionMethod $method_reflection, string $name) : void
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $kitchensink_info_settings = $this->kitchensink_info_settings_merged_with_defaults($name);
@@ -279,7 +297,7 @@ abstract class AbstractFactoryTest extends TestCase
     /**
      * @dataProvider methods_provider
      */
-    final public function test_kitchensink_info_javascript($method_reflection, $name)
+    final public function test_kitchensink_info_javascript(ReflectionMethod $method_reflection, string $name) : void
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $kitchensink_info_settings = $this->kitchensink_info_settings_merged_with_defaults($name);
@@ -293,7 +311,7 @@ abstract class AbstractFactoryTest extends TestCase
     /**
      * @dataProvider methods_provider
      */
-    final public function test_kitchensink_info_rules($method_reflection, $name)
+    final public function test_kitchensink_info_rules(ReflectionMethod $method_reflection, string $name) : void
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $kitchensink_info_settings = $this->kitchensink_info_settings_merged_with_defaults($name);
@@ -317,7 +335,7 @@ abstract class AbstractFactoryTest extends TestCase
     /**
      * @dataProvider methods_provider
      */
-    final public function test_kitchensink_info_context($method_reflection, $name)
+    final public function test_kitchensink_info_context(ReflectionMethod $method_reflection, string $name) : void
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $kitchensink_info_settings = $this->kitchensink_info_settings_merged_with_defaults($name);
@@ -334,7 +352,7 @@ abstract class AbstractFactoryTest extends TestCase
         }
     }
 
-    final public function kitchensink_info_settings_merged_with_defaults($name)
+    final public function kitchensink_info_settings_merged_with_defaults(string $name) : array
     {
         if (array_key_exists($name, $this->kitchensink_info_settings)) {
             return array_merge(

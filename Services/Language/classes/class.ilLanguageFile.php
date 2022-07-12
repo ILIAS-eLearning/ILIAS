@@ -1,25 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * Class ilLanguageFile
@@ -34,87 +30,26 @@
 */
 class ilLanguageFile
 {
-    /**
-     * Created global file objects
-     * @static		array
-     */
-    private static $global_file_objects = array();
-    
-    /**
-     * file name and path
-     * @var		string
-     */
-    private $lang_file;
-
-    /**
-     * language key
-     * @var		string
-     */
-    private $lang_key;
-
-    /**
-     * scope of the language file ('global', 'local' or 'unchanged')
-     * @var		string
-     */
-    private $scope;
-
-
-    /**
-     * header of the language file including the starting line
-     * @var		string
-     */
-    private $header;
-
-    /**
-     * starting line below the header
-     * @var		string
-     */
-    private $file_start = "<!-- language file start -->";
-
-
-    /**
-     * separator value between module,identivier & value
-     * @var		string
-     */
-    private $separator;
-
-    /**
-     * separator value between the content and the comment of the lang entry
-     * @var		string
-     */
-    private $comment_separator;
-
-    /**
-    * header parameters
-    * @var		array        name => value
-    */
-    private $params = array();
-    
-    /**
-    * text values
-    * @var		array        module.separator.identifier => value
-    */
-    private $values = array();
-
-    /**
-    * comments
-    * @var		array        module.separator.identifier => comment
-    */
-    private $comments = array();
-
-    /**
-    * error message of the last read/write operation
-    * @var		string        error message
-    */
-    private $error_message = "";
+    private static array $global_file_objects;
+    private string $lang_file;
+    private string $lang_key;
+    private string $scope;
+    private string $header;
+    private string $file_start = "<!-- language file start -->";
+    private string $separator;
+    private string $comment_separator;
+    private array $params;
+    private array $values;
+    private array $comments;
+    private string $error_message = "";
     
     /**
     * Constructor
-    * @param   string      language file path and name
-    * @param   string      (optional) language key
-    * @param   string      (optional) scope ('global', 'local' or 'unchanged')
+    * $a_file      language file path and name
+    * $a_key      (optional) language key
+    * $a_scope      (optional) scope ('global', 'local' or 'unchanged')
     */
-    public function __construct($a_file, $a_key = "", $a_scope = 'global')
+    public function __construct(string $a_file, string $a_key = "", string $a_scope = "global")
     {
         global $DIC;
         $lng = $DIC->language();
@@ -127,7 +62,7 @@ class ilLanguageFile
         $this->scope = $a_scope;
 
         // initialize the header of a blank file
-        $this->header = $file_start;
+        $this->header = $this->file_start;
         
         // Set the default parameters to be written in a new file.
         // This ensures the correct order of parameters
@@ -135,7 +70,7 @@ class ilLanguageFile
         $this->params["module"] = "language file";
         $this->params["modulegroup"] = "language";
         
-        if ($this->scope == "local") {
+        if ($this->scope === "local") {
             $this->params["based_on"] = "";
         } else {
             $this->params["author"] = "";
@@ -150,9 +85,9 @@ class ilLanguageFile
 
     /**
     * Read a language file
-    * @return   boolean     reading successful
+    * Return true, if reading successful. Otherwise return false
     */
-    public function read()
+    public function read() : bool
     {
         global $DIC;
         $lng = $DIC->language();
@@ -172,18 +107,17 @@ class ilLanguageFile
                 $this->header .= $line . "\n";
 
                 // check header end
-                if (trim($line) == $this->file_start) {
+                if (trim($line) === $this->file_start) {
                     $in_header = false;
-                    continue;
                 } else {
                     // get header params
                     $pos_par = strpos($line, "* @");
 
-                    if ($pos_par !== false) {
+                    if (strpos($line, "* @") !== false) {
                         $pos_par += 3;
                         $pos_space = strpos($line, " ", $pos_par);
                         $pos_tab = strpos($line, "\t", $pos_par);
-                        if ($pos_space !== false and $pos_tab !== false) {
+                        if ($pos_space !== false && $pos_tab !== false) {
                             $pos_white = min($pos_space, $pos_tab);
                         } elseif ($pos_space !== false) {
                             $pos_white = $pos_space;
@@ -205,7 +139,7 @@ class ilLanguageFile
                 $separated = explode($this->separator, trim($line));
                 
                 // not a valid line with module, identifier and value?
-                if (count($separated) != 3) {
+                if (count($separated) !== 3) {
                     $this->error_message =
                             $lng->txt("file_not_valid") . " "
                             . $lng->txt("err_in_line") . " " . $line_num . ". "
@@ -231,19 +165,19 @@ class ilLanguageFile
         if ($in_header) {
             $this->error_message = $lng->txt("file_not_valid") . " " . $lng->txt("err_wrong_header");
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
     
     /**
     * Write a language file
     *
-    * @param    string      (optional) fixed header for the new file
+    * $a_header      (optional) fixed header for the new file
     */
-    public function write($a_header = '')
+    public function write(string $a_header = "") : void
     {
-        $fp = fopen($this->lang_file, "w");
+        $fp = fopen($this->lang_file, 'wb');
         fwrite($fp, $this->build($a_header));
         fclose($fp);
     }
@@ -251,10 +185,9 @@ class ilLanguageFile
     /**
     * Build and get the file content
     *
-    * @param    string      (optional) fixed header for the new file
-    * @return   string      language file content
+    * $a_header     (optional) fixed header for the new file
     */
-    public function build($a_header = '')
+    public function build(string $a_header = '') : string
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -265,10 +198,10 @@ class ilLanguageFile
             $content = $a_header;
         } else {
             // set default params
-            $lng->loadLanguageModule('meta');
-            $lang_name = $lng->txtlng('meta', 'meta_l_' . $this->lang_key, 'en');
+            $lng->loadLanguageModule("meta");
+            $lang_name = $lng->txtlng("meta", "meta_l_" . $this->lang_key, "en");
             $this->params["module"] = "language file " . $lang_name;
-            $this->params["created"] = date('Y-m-d H:i:s');
+            $this->params["created"] = date("Y-m-d H:i:s");
             $this->params["created_by"] = $ilUser->getFullname() . " <" . $ilUser->getEmail() . ">";
 
             // build the header
@@ -277,20 +210,20 @@ class ilLanguageFile
                 $tabs = ceil((20 - 3 - strlen($name)) / 4);
                 $tabs = $tabs > 0 ? $tabs : 1;
 
-                $tpl->setCurrentBlock('param');
-                $tpl->setVariable('PAR_NAME', $name);
-                $tpl->setVariable('PAR_SPACE', str_repeat("\t", $tabs));
-                $tpl->setVariable('PAR_VALUE', $value);
+                $tpl->setCurrentBlock("param");
+                $tpl->setVariable("PAR_NAME", $name);
+                $tpl->setVariable("PAR_SPACE", str_repeat("\t", $tabs));
+                $tpl->setVariable("PAR_VALUE", $value);
                 $tpl->parseCurrentBlock();
             }
-            $txt_scope = $lng->txtlng('administration', 'language_scope_' . $this->scope, 'en');
-            $tpl->setVariable('SCOPE', $txt_scope);
+            $txt_scope = $lng->txtlng("administration", "language_scope_" . $this->scope, "en");
+            $tpl->setVariable("SCOPE", $txt_scope);
 
             $content = $tpl->get();
         }
 
         // fault tolerant check for adding newline
-        $add_newline = (substr($content, strlen($content) - 1, 1) != "\n");
+        $add_newline = (substr($content, strlen($content) - 1, 1) !== "\n");
 
         // build the content
         foreach ($this->values as $key => $value) {
@@ -313,9 +246,8 @@ class ilLanguageFile
     
     /**
     * Get the error message of the last read/write operation
-    * @return   string      error message
     */
-    public function getErrorMessage()
+    public function getErrorMessage() : string
     {
         return $this->error_message;
     }
@@ -323,9 +255,8 @@ class ilLanguageFile
 
     /**
     * Get the header of the original file
-    * @return   string
     */
-    public function getHeader()
+    public function getHeader() : string
     {
         return $this->header;
     }
@@ -333,98 +264,95 @@ class ilLanguageFile
     
     /**
     * Get array of all parameters
-    * @return   array      name => value
+    * Return array     [name => value]
     */
-    public function getAllParams()
+    public function getAllParams() : array
     {
         return $this->params;
     }
 
     /**
     * Get array of all values
-    * @return   array      module.separator.identifier => value
+    * Return array     [module.separator.identifier => value]
     */
-    public function getAllValues()
+    public function getAllValues() : array
     {
         return $this->values;
     }
 
     /**
     * Get array of all comments
-    * @return   array      module.separator.identifier => comment
+    * Return array     [module.separator.identifier => comment]
     */
-    public function getAllComments()
+    public function getAllComments() : array
     {
         return $this->comments;
     }
 
     /**
     * Get a single parameter
-    * @param    string  	parameter name
-    * @return   string  	parameter value
+    * $a_name    parameter name
     */
-    public function getParam($a_name)
+    public function getParam(string $a_name) : string
     {
         return $this->params[$a_name];
     }
 
     /**
     * Get a single value
-    * @param    string      module name
-    * @param    string      indentifier
-    * @return   string      value
+    * $a_module      module name
+    * $a_identifier      indentifier
     */
-    public function getValue($a_module, $a_identifier)
+    public function getValue(string $a_module, string $a_identifier) : string
     {
         return $this->values[$a_module . $this->separator . $a_identifier];
     }
 
     /**
     * Get a single comment
-    * @param    string      module name
-    * @param    string      indentifier
-    * @return   string      value
+    * $a_module      module name
+    * $a_identifier      indentifier
     */
-    public function getComment($a_module, $a_identifier)
+    public function getComment(string $a_module, string $a_identifier) : string
     {
         return $this->comments[$a_module . $this->separator . $a_identifier];
     }
 
     /**
     * Set a  parameter
-    * @param    string  	parameter name
-    * @param   	string  	parameter value
+    * $a_name    parameter name
+    * $a_value   parameter value
     */
-    public function setParam($a_name, $a_value)
+    public function setParam(string $a_name, string $a_value) : void
     {
         $this->params[$a_name] = $a_value;
     }
 
     /**
     * Set a single value
-    * @param    string      module name
-    * @param    string      indentifier
-    * @param    string      value
+    * $a_module      module name
+    * $a_identifier      indentifier
+    * $a_value      value
     */
-    public function setValue($a_module, $a_identifier, $a_value)
+    public function setValue(string $a_module, string $a_identifier, string $a_value) : void
     {
         $this->values[$a_module . $this->separator . $a_identifier] = $a_value;
     }
 
     /**
     * Set all values
-    * @param    array       module.separator.identifier => value
+    * $a_values       [module.separator.identifier => value]
     */
-    public function setAllValues($a_values)
+    public function setAllValues(array $a_values) : void
     {
         $this->values = $a_values;
     }
 
     /**
     * Set all comments
-    * @param    array       module.separator.identifier => comment
+    * $a_comments       [module.separator.identifier => comment]
     */
-    public function setAllComments($a_comments)
+    public function setAllComments(array $a_comments) : void
     {
         $this->comments = $a_comments;
     }
@@ -432,21 +360,21 @@ class ilLanguageFile
 
     /**
     * Set a single comment
-    * @param    string      module name
-    * @param    string      indentifier
-    * @param    string      comment
+    * $a_module      module name
+    * $a_identifier      indentifier
+    * $a_comment      comment
     */
-    public function setComment($a_module, $a_identifier, $a_value)
+    public function setComment(string $a_module, string $a_identifier, string $a_comment) : string
     {
         return $this->comments[$a_module . $this->separator . $a_identifier] = $a_comment;
     }
     
     /**
     * Read and get a global language file as a singleton object
-    * @param    string      language key
+    * $a_lang_key     language key
     * @return   object      language file object (with contents)
     */
-    public static function _getGlobalLanguageFile($a_lang_key)
+    public static function _getGlobalLanguageFile(string $a_lang_key)
     {
         global $DIC;
         $lng = $DIC->language();
@@ -455,7 +383,7 @@ class ilLanguageFile
             $file_object = new ilLanguageFile(
                 $lng->lang_path . "/ilias_" . $a_lang_key . ".lang",
                 $a_lang_key,
-                'global'
+                "global"
             );
             $file_object->read();
             

@@ -1,46 +1,46 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilWorkflowLauncherGUI
  *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilWorkflowLauncherGUI
 {
-    /** @var string $form_action */
-    protected $form_action;
+    protected string $form_action;
+    protected ilLanguage $lng;
 
-    /** @var \ilLanguage $lng */
-    protected $lng;
-
-    /**
-     * ilWorkflowLauncherGUI constructor.
-     *
-     * @param string $form_action
-     */
-    public function __construct($form_action)
+    public function __construct(string $form_action)
     {
         global $DIC;
-        /** @var ilLanguage $lng */
-        $this->lng = $DIC['lng'];
+
+        $this->lng = $DIC->language();
 
         $this->form_action = $form_action;
     }
 
     /**
      * @param array $input_vars
-     *
      * @return ilPropertyFormGUI
      */
-    public function getForm($input_vars)
+    public function getForm(array $input_vars) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('input_variables_required'));
@@ -59,7 +59,7 @@ class ilWorkflowLauncherGUI
                     break;
 
             }
-            $item->setRequired($input_var['requirement'] == 'required' ? true : false);
+            $item->setRequired($input_var['requirement'] === 'required');
             $item->setInfo($input_var['description']);
             $form->addItem($item);
         }
@@ -69,26 +69,25 @@ class ilWorkflowLauncherGUI
         return $form;
     }
 
-    public function getRepositoryObjectSelector($config)
+    public function getRepositoryObjectSelector(array $config) : ilSelectInputGUI
     {
-        /** @var ilTree $tree */
         global $DIC;
-        $tree = $DIC['tree'];
+        $tree = $DIC->repositoryTree();
 
         $item = new ilSelectInputGUI($config['caption'], $config['name']);
 
         $children = $tree->getFilteredSubTree($tree->getRootId());
 
-        $options = array();
+        $options = [];
         foreach ($children as $child) {
-            if (strtolower($config['allowedtype']) != $child['type']) {
+            if (strtolower($config['allowedtype']) !== $child['type']) {
                 continue;
             }
 
             $path = $tree->getPathFull($child['child']);
-            $option_elements = array();
+            $option_elements = [];
             foreach ($path as $node) {
-                if ($node['type'] == 'root') {
+                if ($node['type'] === 'root') {
                     continue;
                 }
                 $option_elements[] = $node['title'];

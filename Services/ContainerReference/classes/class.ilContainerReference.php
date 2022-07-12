@@ -1,77 +1,45 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once './Services/Object/classes/class.ilObject.php';
 /**
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesContainerReference
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilContainerReference extends ilObject
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    public const TITLE_TYPE_REUSE = 1;
+    public const TITLE_TYPE_CUSTOM = 2;
 
-    const TITLE_TYPE_REUSE = 1;
-    const TITLE_TYPE_CUSTOM = 2;
+    protected ilObjUser $user;
+    protected ?int $target_id = null;
+    protected ?int $target_ref_id = null;
+    protected int $title_type = self::TITLE_TYPE_REUSE;
     
-    protected $db = null;
-    protected $target_id = null;
-    protected $target_ref_id = null;
-    protected $title_type = self::TITLE_TYPE_REUSE;
-    
-    /**
-     * Constructor
-     * @param int $a_id reference id
-     * @param bool $a_call_by_reference
-     * @return void
-     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_call_by_reference = true
+    ) {
         global $DIC;
 
-        $this->db = $DIC->database();
         $this->user = $DIC->user();
-        $ilDB = $DIC->database();
-
         parent::__construct($a_id, $a_call_by_reference);
     }
     
-    /**
-     * lookup target id
-     *
-     * @access public
-     * @param int $a_ref_id Course reference obj_id
-     * @return
-     * @static
-     */
-    public static function _lookupTargetId($a_obj_id)
+    public static function _lookupTargetId(int $a_obj_id) : int
     {
         global $DIC;
 
@@ -81,18 +49,12 @@ class ilContainerReference extends ilObject
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->target_obj_id;
+            return (int) $row->target_obj_id;
         }
         return $a_obj_id;
     }
     
-    /**
-     * Lookup target ref_id
-     * @param int $a_obj_id obj_id
-     * @return
-     * @static
-     */
-    public static function _lookupTargetRefId($a_obj_id)
+    public static function _lookupTargetRefId(int $a_obj_id) : ?int
     {
         global $DIC;
 
@@ -103,17 +65,12 @@ class ilContainerReference extends ilObject
             "WHERE cr.obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->ref_id;
+            return (int) $row->ref_id;
         }
-        return false;
+        return null;
     }
      
-    /**
-     * Overwitten from base class
-     * @param int $a_obj_id
-     * @return
-     */
-    public static function _lookupTitle($a_obj_id) : string
+    public static function _lookupTitle(int $obj_id) : string
     {
         global $DIC;
 
@@ -121,23 +78,17 @@ class ilContainerReference extends ilObject
          
         $query = 'SELECT title,title_type FROM container_reference cr ' .
                  'JOIN object_data od ON cr.obj_id = od.obj_id ' .
-                 'WHERE cr.obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
+                 'WHERE cr.obj_id = ' . $ilDB->quote($obj_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->title_type == ilContainerReference::TITLE_TYPE_CUSTOM) {
-                return $row->title;
+            if ((int) $row->title_type === self::TITLE_TYPE_CUSTOM) {
+                return (string) $row->title;
             }
         }
-        return ilContainerReference::_lookupTargetTitle($a_obj_id);
+        return self::_lookupTargetTitle($obj_id);
     }
     
-    /**
-     * Lookup target title
-     *
-     * @return string title
-     * @static
-     */
-    public static function _lookupTargetTitle($a_obj_id)
+    public static function _lookupTargetTitle(int $a_obj_id) : string
     {
         global $DIC;
 
@@ -148,19 +99,12 @@ class ilContainerReference extends ilObject
             "WHERE cr.obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->title;
+            return (string) $row->title;
         }
         return '';
     }
     
-    /**
-     * lookup source id
-     *
-     * @param int $a_target_id obj_id of course or category
-     * @return int obj_id of references
-     * @static
-     */
-    public static function _lookupSourceId($a_target_id)
+    public static function _lookupSourceId(int $a_target_id) : ?int
     {
         global $DIC;
 
@@ -170,20 +114,17 @@ class ilContainerReference extends ilObject
             "WHERE target_obj_id = " . $ilDB->quote($a_target_id, 'integer') . " ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->obj_id;
+            return (int) $row->obj_id;
         }
-        return false;
+        return null;
     }
     
     /**
      * Get ids of all container references that target the object with the
      * given id.
-     *
-     * @param int $a_target_id obj_id of course or category
      * @return int[] obj_ids of references
-     * @static
      */
-    public static function _lookupSourceIds($a_target_id)
+    public static function _lookupSourceIds(int $a_target_id) : array
     {
         global $DIC;
 
@@ -192,86 +133,44 @@ class ilContainerReference extends ilObject
         $query = "SELECT * FROM container_reference " .
             "WHERE target_obj_id = " . $ilDB->quote($a_target_id, 'integer') . " ";
         $res = $ilDB->query($query);
-        $ret = array();
+        $ret = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ret[] = $row->obj_id;
+            $ret[] = (int) $row->obj_id;
         }
         return $ret;
     }
     
-    /**
-     * get target id
-     *
-     * @access public
-     * @return
-     */
-    public function getTargetId()
+    public function getTargetId() : ?int
     {
         return $this->target_id;
     }
     
-    
-    /**
-     * set target id
-     *
-     * @access public
-     * @param int $a_target_id target id
-     * @return
-     */
-    public function setTargetId($a_target_id)
+    public function setTargetId(int $a_target_id) : void
     {
         $this->target_id = $a_target_id;
     }
     
-    /**
-     * set target ref_id
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function setTargetRefId($a_id)
+    public function setTargetRefId(int $a_id) : void
     {
         $this->target_ref_id = $a_id;
     }
     
-    /**
-     * get Target ref_id
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function getTargetRefId()
+    public function getTargetRefId() : ?int
     {
         return $this->target_ref_id;
     }
     
-    /**
-     * get title type
-     * @return type
-     */
-    public function getTitleType()
+    public function getTitleType() : int
     {
         return $this->title_type;
     }
     
-    /**
-     * Set title type
-     * @param type $type
-     */
-    public function setTitleType($type)
+    public function setTitleType(int $type) : void
     {
         $this->title_type = $type;
     }
     
-    /**
-     * read
-     *
-     * @access public
-     * @return
-     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -282,35 +181,29 @@ class ilContainerReference extends ilObject
         $res = $ilDB->query($query);
         
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setTargetId($row->target_obj_id);
-            $this->setTitleType($row->title_type);
+            $this->setTargetId((int) $row->target_obj_id);
+            $this->setTitleType((int) $row->title_type);
         }
-        $ref_ids = ilObject::_getAllReferences($this->getTargetId());
-        $this->setTargetRefId(current($ref_ids));
+        if ($this->getTargetId()) {// might be null...
+            $ref_ids = ilObject::_getAllReferences($this->getTargetId());
+            $this->setTargetRefId(current($ref_ids));
         
-        if ($this->getTitleType() == ilContainerReference::TITLE_TYPE_REUSE) {
-            #$this->title = $this->lng->txt('reference_of').' '.ilObject::_lookupTitle($this->getTargetId());
-            $this->title = ilObject::_lookupTitle($this->getTargetId());
+            if ($this->getTitleType() === self::TITLE_TYPE_REUSE) {
+                $this->title = ilObject::_lookupTitle($this->getTargetId());
+            }
         }
     }
 
-    /**
-     * Get presentation title
-     * @return string presentation title
-     */
     public function getPresentationTitle() : string
     {
-        if ($this->getTitleType() == self::TITLE_TYPE_CUSTOM) {
+        if ($this->getTitleType() === self::TITLE_TYPE_CUSTOM) {
             return $this->getTitle();
-        } else {
-            return $this->lng->txt('reference_of') . ' ' . $this->getTitle();
         }
+
+        return $this->lng->txt('reference_of') . ' ' . $this->getTitle();
     }
     
-    /**
-     * @inheritdoc
-     */
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
         
@@ -330,14 +223,7 @@ class ilContainerReference extends ilObject
         return true;
     }
     
-    /**
-     * delete
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function delete()
+    public function delete() : bool
     {
         $ilDB = $this->db;
 
@@ -352,17 +238,9 @@ class ilContainerReference extends ilObject
         return true;
     }
     
-    /**
-     * Clone course reference
-     *
-     * @access public
-     * @param int target ref_id
-     * @param int copy id
-     *
-     */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $new_obj->setTargetId($this->getTargetId());
         $new_obj->setTitleType($this->getTitleType());
         $new_obj->update();

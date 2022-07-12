@@ -1,16 +1,44 @@
 (function () {
 	'use strict';
 
-	var drilldown = function(model, mapping) {
+	var drilldown = function(model, mapping, persistence, dd) {
+		var 
+		model = model,
+		mapping = mapping,
+		persistence = persistence,
+		dd = dd,
+		instances = {},
+
+		init = function(id, back_signal, persistence_id) {
+			instances[id] = new dd(model(), mapping(), persistence(persistence_id));
+			instances[id].init(id, back_signal);
+		},
+		
+		public_interface = {
+			init: init,
+			instances: instances
+	    };
+	    return public_interface;
+	};
+
+	var dd = function(model, mapping, persistence) {
 
 		var 
 		model = model,
 		mapping = mapping,
+		persistence = persistence,
+
 		init = function(id, back_signal) {
 			$(document).on(back_signal, upLevel);
 			var list = mapping.parse(id);
 			mapping.parseLevel(list, model.actions.addLevel, engageLevel);
-			engageLevel(0);
+
+			var level = persistence.read();
+			if(!level) {
+				level = 0;
+			}
+
+			engageLevel(level);
 		},
 		engageLevel = function(id) {
 			model.actions.engageLevel(id);
@@ -20,20 +48,17 @@
 			model.actions.upLevel();
 			apply();
 		},
-
 		apply = function() {
-			var current = model.actions.getCurrent(),
-				idx;
-			for(idx in model.data) {
-				mapping.unsetEngaged(model.data[idx].id);
-			}
+			var current = model.actions.getCurrent();
 			mapping.setEngaged(current.id);
+			persistence.store(current.id);
 			mapping.setHeaderTitle(current.label);
 			mapping.setHeaderBacknav(current.parent != null);
 		},
 
 		public_interface = {
-			init: init
+			init: init,
+			engage: engageLevel
 	    };
 	    return public_interface;
 	};
@@ -69,6 +94,9 @@
 	            data[level.id] = level;
 	            return level;
 	        },
+	        /**
+	         * @param  {String} id
+	         */
 	        engageLevel : function(id) {
 	            for(var idx in data) {
 	                data[idx].engaged = false;
@@ -133,7 +161,7 @@
 	            },
 	            getLabelForList = function(list) {
 	                var btn = list.parentElement.querySelector(classes.BUTTON); 
-	                return btn.innerText;   
+	                return btn.childNodes[0].nodeValue;     
 	            },
 	            getParentIdOfList = function(list) {
 	                var parent = list.parentElement.parentElement;
@@ -169,12 +197,16 @@
 	            }
 	            elements.levels[id].parentElement.querySelector(classes.BUTTON)
 	                .classList.add(classes.ACTIVE);
-	            //focus first entry            
-	            lower = elements.levels[id].children[0].children[0];
-	            lower.focus();
+	            
+	             try { //cannot access children in mocha/jsdom
+	                lower = elements.levels[id].children[0].children[0];
+	                lower.focus();
+	            }
+	            catch (e) {
+	            }
 	        },
 	        setHeaderTitle : function(title) {
-	            elements.header_title.innerText = title;
+	            elements.header_title.innerHTML = title;
 	        },
 	        setHeaderBacknav : function(status) {
 	            if(status) {
@@ -195,13 +227,48 @@
 	    return public_interface;
 	};
 
+	var ddpersistence = function(dd_id) {
+	    var cs = null,
+	        dd_id,
+	        key = 'level_id',
+
+	    storage = function() {
+	        if (cs && dd_id !== null) { return cs; }
+	        return new il.Utilities.CookieStorage(dd_id);
+	    },
+
+	    store = function(level_id) {
+	        cs = storage();
+	        if(cs) {
+	            cs.add(key, level_id);
+	            cs.store();
+	        }
+	    },
+
+	    read = function() {
+	        cs = storage();
+	        if (!cs) {
+	            return null;
+	        }
+	        return cs.items[key];
+	    },
+
+	    public_interface = {
+	        read: read,
+	        store: store
+	    };
+	    return public_interface;
+	};
+
 	il = il || {};
 	il.UI = il.UI || {};
 	il.UI.menu = il.UI.menu || {};
 
 	il.UI.menu.drilldown = drilldown(
-	 	ddmodel(),
-		ddmapping()
+	 	ddmodel,
+		ddmapping,
+		ddpersistence,
+		dd
 	);
 
 }());

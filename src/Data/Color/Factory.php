@@ -19,7 +19,7 @@ class Factory
      * A Color can be constructed with an array of rgb-integers or from
      * a hex-value both short and longhand notation.
      *
-     * @param  string|int[] $value
+     * @param string|int[] $value
      * @throws \InvalidArgumentException
      */
     public function build($value) : Color
@@ -35,15 +35,15 @@ class Factory
             return $this->fromHex($hex);
         }
 
-        throw new \InvalidArgumentException("Cannot construct color from " . $value, 1);
+        throw new \InvalidArgumentException("Cannot construct color from " . var_export($value, true), 1);
     }
 
     /**
-    * Validate hex value.
+     * Validate hex value.
     *
-    * @throws \InvalidArgumentException
-    */
-    private function checkHex(string $hex)
+     * @throws \InvalidArgumentException
+     */
+    private function checkHex(string $hex) : void
     {
         $hexpattern = '/^([a-f0-9]{6}|[a-f0-9]{3})$/i';
         if (!preg_match($hexpattern, $hex)) {
@@ -52,17 +52,17 @@ class Factory
     }
 
     /**
-    * Validate rgb-values.
+     * Validate rgb-values.
     *
-    * @throws \InvalidArgumentException
-    */
-    private function checkRGB(array $rgb)
+     * @throws \InvalidArgumentException
+     */
+    private function checkRGB(array $rgb) : void
     {
         if (count($rgb) !== 3) {
             throw new \InvalidArgumentException("Array with three values (RGB) needed.", 1);
         }
         foreach ($rgb as $value) {
-            if (!is_integer($value)) {
+            if (!is_int($value)) {
                 throw new \InvalidArgumentException("RGB-value must be an integer", 1);
             }
             if ($value > 255 || $value < 0) {
@@ -72,8 +72,8 @@ class Factory
     }
 
     /**
-    * Build a color from hex-value.
-    */
+     * Build a color from hex-value.
+     */
     private function fromHex(string $hex) : Color
     {
         $hex = $this->unshorten($this->trimHash($hex));
@@ -87,7 +87,7 @@ class Factory
      */
     private function trimHash(string $hex) : string
     {
-        if (substr($hex, 0, 1) === '#') {
+        if ($hex[0] === '#') {
             $hex = ltrim($hex, '#');
         }
         return $hex;

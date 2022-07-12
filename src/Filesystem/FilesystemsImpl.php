@@ -2,6 +2,19 @@
 
 namespace ILIAS\Filesystem;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FilesystemsImpl
  *
@@ -14,31 +27,12 @@ namespace ILIAS\Filesystem;
  */
 final class FilesystemsImpl implements Filesystems
 {
-
-    /**
-     * @var Filesystem
-     */
-    private $node_modules;
-    /**
-     * @var Filesystem
-     */
-    private $libs;
-    /**
-     * @var Filesystem $storage
-     */
-    private $storage;
-    /**
-     * @var Filesystem $storage
-     */
-    private $web;
-    /**
-     * @var Filesystem $storage
-     */
-    private $temp;
-    /**
-     * @var Filesystem $storage
-     */
-    private $customizing;
+    private Filesystem $node_modules;
+    private Filesystem $libs;
+    private Filesystem $storage;
+    private Filesystem $web;
+    private Filesystem $temp;
+    private Filesystem $customizing;
 
 
     /**

@@ -4,6 +4,19 @@ namespace ILIAS\HTTP\Response\Sender;
 
 use Psr\Http\Message\ResponseInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class DefaultResponseSenderStrategy
  *
@@ -20,7 +33,6 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
      *
      * @param ResponseInterface $response The response which should be send to the client.
      *
-     * @return void
      * @throws ResponseSendingException Thrown if the response was already sent to the client.
      */
     public function sendResponse(ResponseInterface $response) : void
@@ -34,7 +46,7 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
         http_response_code($response->getStatusCode());
 
         //render all headers
-        foreach ($response->getHeaders() as $key => $header) {
+        foreach (array_keys($response->getHeaders()) as $key) {
             header("$key: " . $response->getHeaderLine($key));
         }
 
@@ -45,11 +57,16 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
         $resource = $response->getBody()->detach();
 
         $sendStatus = false;
-
+    
         if (is_resource($resource)) {
             set_time_limit(0);
+            try {
+                ob_end_clean(); // see https://mantis.ilias.de/view.php?id=32046
+            } catch (\Throwable $t) {
+            }
+        
             $sendStatus = fpassthru($resource);
-
+        
             //free up resources
             fclose($resource);
         }

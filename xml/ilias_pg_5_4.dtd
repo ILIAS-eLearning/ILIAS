@@ -23,7 +23,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?, InitOpenedContent?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | LearningHistory | ConsultationHours | MyCourses | AMDPageList | Grid), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | LearningHistory | ConsultationHours | MyCourses | AMDPageList | AMDForm | Grid), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -322,6 +322,7 @@ col or row span. -->
 	ActiveTo CDATA #IMPLIED
 	Permission CDATA #IMPLIED
 	PermissionRefId CDATA #IMPLIED
+	Protected CDATA #IMPLIED
 	PCID CDATA #IMPLIED
 >
 
@@ -531,6 +532,11 @@ col or row span. -->
 <!ATTLIST AMDPageList
 	Id CDATA #REQUIRED
 	Mode CDATA #IMPLIED
+>
+
+<!ELEMENT AMDForm EMPTY>
+<!ATTLIST AMDForm
+	RecordIds CDATA #IMPLIED
 >
 
 <!ELEMENT InitOpenedContent (IntLink?)>

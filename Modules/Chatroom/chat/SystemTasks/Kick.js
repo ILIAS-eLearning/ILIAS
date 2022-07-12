@@ -17,7 +17,7 @@ module.exports = function (req, res) {
 		return function createKickUser(socketId) {
 			namespace.getIO().to(socketId).emit('userjustkicked', action);
 			namespace.getIO().to(socketId).emit('notice', noticeKicked);
-			namespace.getIO().connected[socketId].leave(room.getId());
+			namespace.getIO().sockets.get(socketId).leave(room.getId());
 
 			if (mainRoomUserlistAction !== null) {
 				namespace.getIO().to(socketId).emit('userlist', mainRoomUserlistAction);

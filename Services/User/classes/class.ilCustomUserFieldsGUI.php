@@ -1,37 +1,54 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/User/classes/class.ilUserDefinedFields.php';
-include_once './Services/User/classes/class.ilUDFPermissionHelper.php';
 
 /**
-* Class ilCustomUserFieldsGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjUserFolderGUI.php 30361 2011-08-25 11:05:41Z jluetzen $
-*
-* @ilCtrl_Calls ilCustomUserFieldsGUI:
-*
-* @ingroup ServicesUser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Class ilCustomUserFieldsGUI
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ilCtrl_Calls ilCustomUserFieldsGUI:
+ */
 class ilCustomUserFieldsGUI
 {
-    protected $confirm_change; // [bool]
-    protected $field_id; // [int]
-    protected $field_definition; // [array]
-    protected $permissions; // [ilUDFPermissionHelper]
+    protected \ILIAS\User\StandardGUIRequest $request;
+    protected int $ref_id = 0;
+    protected bool $confirm_change = false;
+    protected int $field_id = 0;
+    /**
+     * @var array[]
+     */
+    protected array $field_definition = [];
+    protected ilClaimingPermissionHelper $permissions;
+    private \ilGlobalTemplateInterface $main_tpl;
     
-    public function __construct()
-    {
+    public function __construct(
+        int $ref_id,
+        int $requested_field_id
+    ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
+        $this->ref_id = $ref_id;
         
         $lng->loadLanguageModule("user");
         $lng->loadLanguageModule("administration");
         
-        $this->field_id = $_REQUEST["field_id"];
+        $this->field_id = $requested_field_id;
         $ilCtrl->saveParameter($this, "field_id", $this->field_id);
         
         if ($this->field_id) {
@@ -39,15 +56,22 @@ class ilCustomUserFieldsGUI
             $this->field_definition = $user_field_definitions->getDefinition($this->field_id);
         }
         
-        $this->permissions = ilUDFPermissionHelper::getInstance();
+        $this->permissions = ilUDFPermissionHelper::getInstance(
+            $DIC->user()->getId(),
+            $ref_id
+        );
+        $this->request = new \ILIAS\User\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
     
-    protected function getPermissions()
+    protected function getPermissions() : ilClaimingPermissionHelper
     {
         return $this->permissions;
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -64,13 +88,9 @@ class ilCustomUserFieldsGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * List all custom user fields
-     */
-    public function listUserDefinedFields()
+    public function listUserDefinedFields() : void
     {
         global $DIC;
 
@@ -81,7 +101,7 @@ class ilCustomUserFieldsGUI
                 
         if ($this->getPermissions()->hasPermission(
             ilUDFPermissionHelper::CONTEXT_UDF,
-            (int) $_GET["ref_id"],
+            $this->ref_id,
             ilUDFPermissionHelper::ACTION_UDF_CREATE_FIELD
         )) {
             $ilToolbar->addButton(
@@ -90,7 +110,6 @@ class ilCustomUserFieldsGUI
             );
         }
         
-        include_once("./Services/User/classes/class.ilCustomUserFieldSettingsTableGUI.php");
         $tab = new ilCustomUserFieldSettingsTableGUI($this, "listUserDefinedFields", $this->getPermissions());
         if ($this->confirm_change) {
             $tab->setConfirmChange();
@@ -98,12 +117,7 @@ class ilCustomUserFieldsGUI
         $tpl->setContent($tab->getHTML());
     }
     
-    /**
-     * Add field
-     *
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function addField($a_form = null)
+    public function addField(ilPropertyFormGUI $a_form = null) : void
     {
         global $DIC;
 
@@ -118,10 +132,9 @@ class ilCustomUserFieldsGUI
     
     /**
      * Get all access options, order is kept in forms
-     *
-     * @return array
+     * @return array<string,string>
      */
-    public function getAccessOptions()
+    public function getAccessOptions() : array
     {
         global $DIC;
 
@@ -141,8 +154,11 @@ class ilCustomUserFieldsGUI
         $opts["certificate"] = $lng->txt("certificate");
         return $opts;
     }
-    
-    public static function getAccessPermissions()
+
+    /**
+     * @return array<string,string>
+     */
+    public static function getAccessPermissions() : array
     {
         return array("visible" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL,
             "changeable" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL,
@@ -158,22 +174,15 @@ class ilCustomUserFieldsGUI
         );
     }
     
-    
-    /**
-     * init field definition
-     * @return array
-     */
-    protected function initFieldDefinition()
+    protected function initFieldDefinition() : array // Missing array type.
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
                 
-        include_once("Services/Membership/classes/class.ilMemberAgreement.php");
         if (ilMemberAgreement::_hasAgreements()) {
             $lng->loadLanguageModule("ps");
-            ilUtil::sendInfo($lng->txt("ps_warning_modify"));
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("ps_warning_modify"));
         }
         
         $perms = array();
@@ -214,14 +223,18 @@ class ilCustomUserFieldsGUI
         return $perms;
     }
     
-    protected function initForm($a_mode = 'create')
+    protected function initForm(string $a_mode = 'create') : ilPropertyFormGUI
     {
         global $ilCtrl, $lng;
-        
-        include_once("Services/Membership/classes/class.ilMemberAgreement.php");
+
+        $perms = [];
+        $se_mu = null;
+        $perm_map = [];
+        $udf_type = null;
+
         if (ilMemberAgreement::_hasAgreements()) {
             $lng->loadLanguageModule("ps");
-            ilUtil::sendInfo($lng->txt("ps_warning_modify"));
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("ps_warning_modify"));
         }
 
         if ($this->field_definition) {
@@ -229,7 +242,6 @@ class ilCustomUserFieldsGUI
             $perm_map = self::getAccessPermissions();
         }
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         
@@ -244,7 +256,6 @@ class ilCustomUserFieldsGUI
         // type
         $radg = new ilRadioGroupInputGUI($lng->txt("field_type"), "field_type");
         $radg->setRequired(true);
-        include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
         foreach (ilCustomUserFieldsHelper::getInstance()->getUDFTypes() as $udf_type => $udf_name) {
             $op = new ilRadioOption($udf_name, $udf_type);
             $radg->addOption($op);
@@ -305,7 +316,6 @@ class ilCustomUserFieldsGUI
             $radg->setValue(UDF_TYPE_TEXT);
             $form->setTitle($lng->txt('add_new_user_defined_field'));
             $form->addCommandButton("create", $lng->txt("save"));
-            $form->addCommandButton("listUserDefinedFields", $lng->txt("cancel"));
         } else {
             $name->setValue($this->field_definition["field_name"]);
             $radg->setValue($this->field_definition["field_type"]);
@@ -338,25 +348,21 @@ class ilCustomUserFieldsGUI
                     break;
             }
             $form->addCommandButton("update", $lng->txt("save"));
-            $form->addCommandButton("listUserDefinedFields", $lng->txt("cancel"));
         }
+        $form->addCommandButton("listUserDefinedFields", $lng->txt("cancel"));
         return $form;
     }
     
-    /**
-     * Validate field form
-     *
-     * @param ilPropertyFormGUI $form
-     * @param ilUserDefinedFields $user_field_definitions
-     * @param array $access
-     * @param array $a_field_permissions
-     * @return bool
-     */
-    protected function validateForm($form, $user_field_definitions, array &$access, array $a_field_permissions = null)
-    {
+    protected function validateForm(
+        ilPropertyFormGUI $form,
+        ilUserDefinedFields $user_field_definitions,
+        array &$access,
+        array $a_field_permissions = null
+    ) : bool {
         global $DIC;
 
         $lng = $DIC['lng'];
+        $perm_map = [];
         
         if ($form->checkInput()) {
             $valid = true;
@@ -402,7 +408,7 @@ class ilCustomUserFieldsGUI
             }
             
             if (!$valid) {
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
             return $valid;
         }
@@ -410,7 +416,7 @@ class ilCustomUserFieldsGUI
         return false;
     }
         
-    public function create()
+    public function create() : void
     {
         global $DIC;
 
@@ -418,7 +424,9 @@ class ilCustomUserFieldsGUI
         $ilCtrl = $DIC['ilCtrl'];
         
         $user_field_definitions = ilUserDefinedFields::_getInstance();
-        $user_field_definitions->setFieldType($_POST["field_type"]);
+        $user_field_definitions->setFieldType(
+            $this->request->getFieldType()
+        );
         
         $access = array();
         $form = $this->initForm('create');
@@ -438,18 +446,16 @@ class ilCustomUserFieldsGUI
             $new_id = $user_field_definitions->add();
             
             if ($user_field_definitions->isPluginType()) {
-                include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
                 $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($user_field_definitions->getFieldType());
                 if ($plugin instanceof ilUDFDefinitionPlugin) {
                     $plugin->updateDefinitionFromForm($form, $new_id);
                 }
             }
             if ($access['course_export']) {
-                include_once('Services/Membership/classes/class.ilMemberAgreement.php');
                 ilMemberAgreement::_reset();
             }
 
-            ilUtil::sendSuccess($lng->txt('udf_added_field'), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt('udf_added_field'), true);
             $ilCtrl->redirect($this);
         }
         
@@ -457,12 +463,7 @@ class ilCustomUserFieldsGUI
         $this->addField($form);
     }
         
-    /**
-     * Edit field
-     *
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function edit($a_form = null)
+    public function edit(ilPropertyFormGUI $a_form = null) : void
     {
         global $DIC;
 
@@ -475,12 +476,13 @@ class ilCustomUserFieldsGUI
         $tpl->setContent($a_form->getHTML());
     }
     
-    public function update()
+    public function update() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
+        $perms = [];
         
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         $user_field_definitions->setFieldType($this->field_definition["field_type"]);
@@ -567,7 +569,6 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->update($this->field_id);
             
             if ($user_field_definitions->isPluginType()) {
-                include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
                 $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($user_field_definitions->getFieldType());
                 if ($plugin instanceof ilUDFDefinitionPlugin) {
                     $plugin->updateDefinitionFromForm($form, $this->field_id);
@@ -575,11 +576,10 @@ class ilCustomUserFieldsGUI
             }
 
             if ($access['course_export']) {
-                include_once('Services/Membership/classes/class.ilMemberAgreement.php');
                 ilMemberAgreement::_reset();
             }
 
-            ilUtil::sendSuccess($lng->txt('settings_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
             $ilCtrl->redirect($this);
         }
         
@@ -587,17 +587,19 @@ class ilCustomUserFieldsGUI
         $this->edit($form);
     }
         
-    public function askDeleteField()
+    public function askDeleteField() : bool
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
-        
-        if (!$_POST["fields"]) {
-            ilUtil::sendFailure($lng->txt("select_one"));
-            return $this->listUserDefinedFields();
+
+        $fields = $this->request->getFields();
+        if (count($fields) == 0) {
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("select_one"));
+            $this->listUserDefinedFields();
+            return false;
         }
     
         $confirmation_gui = new ilConfirmationGUI();
@@ -607,7 +609,7 @@ class ilCustomUserFieldsGUI
         $confirmation_gui->setConfirm($lng->txt("delete"), "deleteField");
         
         $user_field_definitions = ilUserDefinedFields::_getInstance();
-        foreach ($_POST["fields"] as $id) {
+        foreach ($fields as $id) {
             $definition = $user_field_definitions->getDefinition($id);
             $confirmation_gui->addItem("fields[]", $id, $definition["field_name"]);
         }
@@ -617,7 +619,7 @@ class ilCustomUserFieldsGUI
         return true;
     }
         
-    public function deleteField()
+    public function deleteField() : void
     {
         global $DIC;
 
@@ -625,10 +627,11 @@ class ilCustomUserFieldsGUI
         $ilCtrl = $DIC['ilCtrl'];
         
         $user_field_definitions = ilUserDefinedFields::_getInstance();
+        $fields = $this->request->getFields();
         
         // all fields have to be deletable
         $fail = array();
-        foreach ($_POST["fields"] as $id) {
+        foreach ($fields as $id) {
             if (!$this->getPermissions()->hasPermission(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
                 $id,
@@ -639,22 +642,22 @@ class ilCustomUserFieldsGUI
             }
         }
         if ($fail) {
-            ilUtil::sendFailure($lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
             $ilCtrl->redirect($this, "listUserDefinedFields");
         }
         
-        foreach ($_POST["fields"] as $id) {
+        foreach ($fields as $id) {
             $user_field_definitions->delete($id);
         }
 
-        ilUtil::sendSuccess($lng->txt('udf_field_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('udf_field_deleted'), true);
         $ilCtrl->redirect($this);
     }
 
     /**
      * Update custom fields properties (from table gui)
      */
-    public function updateFields($action = "")
+    public function updateFields(string $action = "") : void
     {
         global $DIC;
 
@@ -663,6 +666,8 @@ class ilCustomUserFieldsGUI
         
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         $a_fields = $user_field_definitions->getDefinitions();
+
+        $checked = $this->request->getChecked();
         
         $perm_map = self::getAccessPermissions();
         
@@ -699,19 +704,19 @@ class ilCustomUserFieldsGUI
             // disabled field
             foreach ($perm_map as $prop => $perm) {
                 if (!$perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS][$perm]) {
-                    $_POST['chb'][$prop . '_' . $field_id] = $definition[$prop];
+                    $checked[$prop . '_' . $field_id] = $definition[$prop];
                 }
             }
         }
         
         foreach ($a_fields as $field_id => $definition) {
-            if (isset($_POST['chb']['required_' . $field_id]) && (int) $_POST['chb']['required_' . $field_id] &&
-                (!isset($_POST['chb']['visib_reg_' . $field_id]) || !(int) $_POST['chb']['visib_reg_' . $field_id])) {
+            if (isset($checked['required_' . $field_id]) && (int) $checked['required_' . $field_id] &&
+                (!isset($checked['visib_reg_' . $field_id]) || !(int) $checked['visib_reg_' . $field_id])) {
                 $this->confirm_change = true;
     
-                ilUtil::sendFailure($lng->txt('invalid_visible_required_options_selected'));
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt('invalid_visible_required_options_selected'));
                 $this->listUserDefinedFields();
-                return false;
+                return;
             }
         }
         
@@ -719,22 +724,22 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->setFieldName($definition['field_name']);
             $user_field_definitions->setFieldType($definition['field_type']);
             $user_field_definitions->setFieldValues($definition['field_values']);
-            $user_field_definitions->enableVisible((int) $_POST['chb']['visible_' . $field_id]);
-            $user_field_definitions->enableChangeable((int) $_POST['chb']['changeable_' . $field_id]);
-            $user_field_definitions->enableRequired((int) $_POST['chb']['required_' . $field_id]);
-            $user_field_definitions->enableSearchable((int) $_POST['chb']['searchable_' . $field_id]);
-            $user_field_definitions->enableExport((int) $_POST['chb']['export_' . $field_id]);
-            $user_field_definitions->enableCourseExport((int) $_POST['chb']['course_export_' . $field_id]);
-            $user_field_definitions->enableVisibleLocalUserAdministration((int) $_POST['chb']['visib_lua_' . $field_id]);
-            $user_field_definitions->enableChangeableLocalUserAdministration((int) $_POST['chb']['changeable_lua_' . $field_id]);
-            $user_field_definitions->enableGroupExport((int) $_POST['chb']['group_export_' . $field_id]);
-            $user_field_definitions->enableVisibleRegistration((int) $_POST['chb']['visib_reg_' . $field_id]);
-            $user_field_definitions->enableCertificate((int) $_POST['chb']['certificate_' . $field_id]);
+            $user_field_definitions->enableVisible((bool) ($checked['visible_' . $field_id] ?? false));
+            $user_field_definitions->enableChangeable((bool) ($checked['changeable_' . $field_id] ?? false));
+            $user_field_definitions->enableRequired((bool) ($checked['required_' . $field_id] ?? false));
+            $user_field_definitions->enableSearchable((bool) ($checked['searchable_' . $field_id] ?? false));
+            $user_field_definitions->enableExport((bool) ($checked['export_' . $field_id] ?? false));
+            $user_field_definitions->enableCourseExport((bool) ($checked['course_export_' . $field_id] ?? false));
+            $user_field_definitions->enableVisibleLocalUserAdministration((bool) ($checked['visib_lua_' . $field_id] ?? false));
+            $user_field_definitions->enableChangeableLocalUserAdministration((bool) ($checked['changeable_lua_' . $field_id] ?? false));
+            $user_field_definitions->enableGroupExport((bool) ($checked['group_export_' . $field_id] ?? false));
+            $user_field_definitions->enableVisibleRegistration((bool) ($checked['visib_reg_' . $field_id] ?? false));
+            $user_field_definitions->enableCertificate((bool) ($checked['certificate_' . $field_id] ?? false));
 
             $user_field_definitions->update($field_id);
         }
 
-        ilUtil::sendSuccess($lng->txt('settings_saved'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
         $ilCtrl->redirect($this);
     }
 }

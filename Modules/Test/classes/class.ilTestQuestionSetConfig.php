@@ -75,32 +75,32 @@ abstract class ilTestQuestionSetConfig
      */
     abstract public function deleteFromDb();
 
-    public function areDepenciesInVulnerableState()
+    public function areDepenciesInVulnerableState() : bool
     {
         return false;
     }
     
-    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng)
+    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng) : string
     {
         return '';
     }
     
-    public function areDepenciesBroken()
+    public function areDepenciesBroken() : bool
     {
         return false;
     }
     
-    public function getDepenciesBrokenMessage(ilLanguage $lng)
+    public function getDepenciesBrokenMessage(ilLanguage $lng) : string
     {
         return '';
     }
     
-    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd)
+    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd) : bool
     {
         return true;
     }
     
-    public function getHiddenTabsOnBrokenDepencies()
+    public function getHiddenTabsOnBrokenDepencies() : array
     {
         return array();
     }
@@ -133,32 +133,21 @@ abstract class ilTestQuestionSetConfig
      * @param integer $poolId
      * @return string
      */
-    public function getQuestionPoolPathString($poolId)
+    public function getQuestionPoolPathString($poolId) : string
     {
-        $nodePath = $this->tree->getNodePath(
-            current(ilObject::_getAllReferences($poolId))
-        );
+        $ref_id = current(ilObject::_getAllReferences($poolId));
 
-        $questionPoolPathString = '';
-        
-        $i = 0;
-        $j = count($nodePath) - 2;
-        
-        foreach ($nodePath as $node) {
-            if ($i > 0) {
-                $questionPoolPathString .= ' > ';
-            }
-            
-            $questionPoolPathString .= $node['title'];
-            
-            if ($i == $j) {
-                break;
-            }
-            
-            $i++;
-        }
-        
-        return $questionPoolPathString;
+        $path = new ilPathGUI();
+        $path->enableTextOnly(true);
+        return $path->getPath(ROOT_FOLDER_ID, (int) $ref_id);
+    }
+    
+    public function getFirstQuestionPoolRefIdByObjId(int $pool_obj_id) : int
+    {
+        $refs_ids = ilObject::_getAllReferences($pool_obj_id);
+        $refs_id = current($refs_ids);
+
+        return (int) $refs_id;
     }
 
     abstract public function isResultTaxonomyFilterSupported();

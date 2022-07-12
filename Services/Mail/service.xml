@@ -20,6 +20,7 @@
 	<events>
 		<event type="raise" id="externalEmailDelegated" />
 		<event type="raise" id="sentInternalMail" />
+		<event type="listen" id="Services/User" />
 	</events>
 	<logging />
 </service>

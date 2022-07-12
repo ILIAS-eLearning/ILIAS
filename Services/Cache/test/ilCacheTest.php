@@ -1,70 +1,34 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
 use PHPUnit\Framework\TestCase;
 
 /**
-* Unit tests for data cache
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesTree
-*/
-class ilCacheTest //extends TestCase
+ * Test cache
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
+class ilCacheTest extends TestCase
 {
-    protected $backupGlobals = false;
-
+    // PHP8-Review: Redundant method override
     protected function setUp() : void
     {
-        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        //ilUnitUtil::performInitialisation();
+        parent::setUp();
+    }
+
+    protected function tearDown() : void
+    {
     }
 
     /**
-     * Cache tests
-     * @group IL_Init
+     * Test set expires
      */
-    public function testCache()
+    public function testSetExpires()
     {
-        include_once './Services/Cache/classes/class.ilExampleCache.php';
-        
-        $cache = new ilExampleCache();
-        $get = $cache->getEntry("test_id");
-        $stat = $cache->getLastAccessStatus();
-        $value = $stat . "-" . $get . "-";
-        
-        $get = $cache->storeEntry("test_id", "test_value");
-        $get = $cache->getEntry("test_id");
-        $stat = $cache->getLastAccessStatus();
-        $value .= $stat . "-" . $get . "-";
-        
-        sleep(6);
+        $ex_cache = new ilExampleCache();
 
-        $get = $cache->getEntry("test_id");
-        $stat = $cache->getLastAccessStatus();
-        $value .= $stat . "-" . $get . "-";
-        
-        $this->assertEquals("miss--hit-test_value-miss--", $value);
+        $this->assertEquals(
+            5,
+            $ex_cache->getExpiresAfter()
+        );
     }
 }

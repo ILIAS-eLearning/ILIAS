@@ -52,6 +52,6 @@ class ilNICKeyStoredObjective extends ilSetupObjective
 
     protected function generateNICKey()
     {
-        return md5(uniqid($this->getClientId(), true));
+        return md5(uniqid((string) $this->getClientId(), true));
     }
 }

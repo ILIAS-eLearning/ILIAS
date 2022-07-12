@@ -14,13 +14,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestInviteRolesTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -58,17 +51,10 @@ class ilTestInviteRolesTableGUI extends ilTable2GUI
         $this->enable('select_all');
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("ROLE_ID", $data['obj_id']);
-        $this->tpl->setVariable("TITLE", $data['title']);
-        $this->tpl->setVariable("DESCRIPTION", $data['description']);
+        $this->tpl->setVariable("ROLE_ID", $a_set['obj_id']);
+        $this->tpl->setVariable("TITLE", $a_set['title']);
+        $this->tpl->setVariable("DESCRIPTION", $a_set['description']);
     }
 }

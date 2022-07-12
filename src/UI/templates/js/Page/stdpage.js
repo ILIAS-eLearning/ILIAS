@@ -3,11 +3,16 @@ il.UI = il.UI || {};
 (function($, ui) {
 	ui.page = (function($) {
 		var _cls_page_content = '.il-layout-page-content',
+		    _page_overlay = '.il-page-overlay',
 			_id_right_col = '#il_right_col';
 
 		var breakpoint_max_width = 768, //this corresponds to @grid-float-breakpoint-max, see mainbar.less/metabar.less
 			resized_poppers_margin = 25, //dropdown, date-picker
 			mq_orientation = window.matchMedia("(orientation: portrait)");
+
+		var getOverlay = function () {
+			return document.querySelector(_page_overlay);
+		}
 
 		var isSmallScreen = function() {
 			var media_query = "only screen"
@@ -61,6 +66,7 @@ il.UI = il.UI || {};
 		};
 
 		return {
+			getOverlay: getOverlay,
 			isSmallScreen: isSmallScreen,
 			getOrientation: getOrientation,
 			isPortrait: isPortrait,
@@ -70,10 +76,12 @@ il.UI = il.UI || {};
 
 	})($);
 })($, il.UI);
-il.Util.addOnLoad(function() {
+il.Util.addOnLoad(function () {
 	window.setTimeout(
-		function(){
-			$("main").attr("tabindex", -1).focus();
+		function () {
+			if (il.UI.page.isSmallScreen() === false) {
+				$("main").attr("tabindex", -1).focus();
+			}
 		}, 10
 	);
 });

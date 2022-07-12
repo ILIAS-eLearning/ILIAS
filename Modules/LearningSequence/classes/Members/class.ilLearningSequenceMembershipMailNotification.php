@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 {
     // Notifications affect members & co.
@@ -50,7 +64,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 
     public function send() : bool
     {
-        if (!$this->isNotificationTypeEnabled((int) $this->getType())) {
+        if (!$this->isNotificationTypeEnabled($this->getType())) {
             $this->logger->info('Membership mail disabled globally.');
             return false;
         }
@@ -363,7 +377,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
         return true;
     }
 
-    protected function initLanguage($usr_id)
+    protected function initLanguage(int $usr_id) : void
     {
         parent::initLanguage($usr_id);
         $this->getLanguage()->loadLanguageModule('lso');
@@ -398,7 +412,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
     {
         return (
             $this->force_sending_mail ||
-            $this->settings->get('mail_lso_member_notification', true) ||
+            $this->settings->get('mail_lso_member_notification', "true") ||
             in_array($type, $this->permanent_enabled_notifications)
         );
     }

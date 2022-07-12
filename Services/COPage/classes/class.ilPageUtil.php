@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Utility class for pages, that is e.g. used in the repository to avoid
  * including the whole large page object class
  */
@@ -12,8 +28,11 @@ class ilPageUtil
     * @param	string		$a_parent_type	parent type
     * @param	int			$a_id			page id
     */
-    public static function _existsAndNotEmpty($a_parent_type, $a_id, $a_lang = "-")
-    {
+    public static function _existsAndNotEmpty(
+        string $a_parent_type,
+        int $a_id,
+        string $a_lang = "-"
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();

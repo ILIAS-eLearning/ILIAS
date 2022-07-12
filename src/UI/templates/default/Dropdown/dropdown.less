@@ -3,27 +3,28 @@
 }
 
 .dropdown hr {
-	margin: @padding-large-vertical 0;
+	margin: @il-margin-large-vertical 0;
 }
 
 .dropdown h4 {
-	margin: @padding-base-vertical 0;
+	margin: @il-margin-base-vertical 0;
 }
 
 ul.dropdown-menu {
-	background-color: @dropdown-bg;
+	background-color: @il-main-bg;
 	font-weight: normal;
 	border: 0 none;
-	.box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
+	.box-shadow(@il-dropdown-shodow);
 	// Links within the dropdown menu
 	> li {
-		padding: 0;
+		padding-top: @il-padding-xs-vertical;
+		padding-bottom: @il-padding-xs-vertical;
 
 		> .btn {
 			display: block;
 			width: 100%;
 			clear: both;
-			padding:3px 10px;
+			padding: @il-padding-small-vertical @il-padding-xlarge-horizontal;
 			font-weight: normal;
 			font-size: @il-font-size-dropdown;
 			line-height: @line-height-base;

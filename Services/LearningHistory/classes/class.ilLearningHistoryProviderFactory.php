@@ -1,24 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Learning history providers factory
- *
- * @author killing@leifos.de
- * @ingroup ServicesLearningHistory
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLearningHistoryProviderFactory
 {
-    /**
-     * @var ilLearningHistoryService
-     */
-    protected $service;
+    protected ilLearningHistoryService $service;
 
-    /**
-     * @var array
-     */
-    protected static $providers = array(
+    protected static array $providers = array(
         ilTrackingLearningHistoryProvider::class,
         ilBadgeLearningHistoryProvider::class,
         ilCourseLearningHistoryProvider::class,
@@ -27,26 +33,24 @@ class ilLearningHistoryProviderFactory
         ilSkillLearningHistoryProvider::class
     );
 
-    /**
-     * Constructor
-     */
-    public function __construct($service)
+    public function __construct(ilLearningHistoryService $service)
     {
         $this->service = $service;
     }
 
     /**
      * Get all learning history providers
-     *
      * @param bool $active_only get only active providers
-     * @param int $user_id get instances for user with user id
+     * @param ?int $user_id get instances for user with user id
      * @return ilLearningHistoryProviderInterface[]
      */
-    public function getAllProviders($active_only = false, $user_id = null)
-    {
+    public function getAllProviders(
+        bool $active_only = false,
+        int $user_id = 0
+    ) : array {
         $providers = array();
 
-        if ($user_id == 0) {
+        if ($user_id === 0) {
             $user_id = $this->service->user()->getId();
         }
 

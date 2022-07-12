@@ -48,7 +48,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->question_index = $matches[0][0];
     }
@@ -58,7 +58,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      *
      * @return int
      */
-    public function getQuestionIndex()
+    public function getQuestionIndex() : int
     {
         return $this->question_index;
     }
@@ -67,7 +67,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      * Get the value of this Expression
      * @return string
      */
-    public function getValue()
+    public function getValue() : string
     {
         return "Q" . $this->question_index;
     }
@@ -76,7 +76,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return "Frage " . $this->question_index . " ";
     }
@@ -85,7 +85,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    protected function getPattern()
+    protected function getPattern() : string
     {
         return '/-?[0-9]+/';
     }

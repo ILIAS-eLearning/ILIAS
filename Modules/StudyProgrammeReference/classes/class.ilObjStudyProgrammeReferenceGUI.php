@@ -1,73 +1,71 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
 * @ilCtrl_Calls ilObjStudyProgrammeReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
 */
 class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
 {
-    /**
-     * ilObjGroupReferenceGUI constructor.
-     * @param $a_data
-     * @param int $a_id
-     * @param bool $a_call_by_reference
-     * @param bool $a_prepare_output
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = false)
-    {
+    public function __construct(
+        $data,
+        int $id,
+        bool $call_by_reference = true,
+        bool $prepare_output = false
+    ) {
         $this->target_type = 'prg';
         $this->reference_type = 'prgr';
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+        parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
-    /**
-     *  Support for goto php
-     *
-     * @param int $a_target
-     */
-    public static function _goto($a_target)
+    public static function _goto(int $target) : void
     {
-        $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
-        ilObjStudyProgrammeGUI::_goto($target_ref_id);
+        $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($target));
+        ilObjStudyProgrammeGUI::_goto($target_ref_id . "_");
     }
 
-    /**
-     * save object
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function saveObject()
+    public function saveObject() : void
     {
         $ilAccess = $this->access;
         
         if (!(int) $_REQUEST['target_id']) {
             $this->createObject();
-            return false;
         }
         if (!$ilAccess->checkAccess('visible', '', (int) $_REQUEST['target_id'])) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt('permission_denied'));
             $this->createObject();
-            return false;
         }
         if ($this->tryingToCreateCircularReference((int) $_REQUEST['target_id'], (int) $_REQUEST['ref_id'])) {
-            ilUtil::sendFailure($this->lng->txt('prgr_may_not_create_circular_reference'));
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt('prgr_may_not_create_circular_reference'));
             $this->createObject();
-            return false;
         }
         parent::saveObject();
     }
 
-
-    public function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
+    public function putObjectInTree(ilObject $obj, $parent_node_id = null) : void
     {
-        // when this is called, the target allready should be defined...
+        // when this is called, the target already should be defined...
         $target_obj_id = ilObject::_lookupObjId((int) $this->form->getInput('target_id'));
-        $a_obj->setTargetId($target_obj_id);
-        $a_obj->update();
-        parent::putObjectInTree($a_obj, $a_parent_node_id);
+        $obj->setTargetId($target_obj_id);
+        $obj->update();
+        parent::putObjectInTree($obj, $parent_node_id);
     }
 
-    protected function tryingToCreateCircularReference($obj_to_be_referenced, $reference_position)
+    protected function tryingToCreateCircularReference(int $obj_to_be_referenced, int $reference_position) : bool
     {
         if ($reference_position === $obj_to_be_referenced) {
             return true;
@@ -79,16 +77,17 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
                 return true;
             }
             if (ilObject::_lookupType($p_parent, true) === 'prg') {
-                array_push($queque, $p_parent);
+                $queque[] = $p_parent;
             }
             foreach (ilContainerReference::_lookupSourceIds(ilObject::_lookupObjId($parent)) as $parent_ref_obj_id) {
-                $parent_ref_ref_id = (int) array_shift(ilObject::_getAllReferences($parent_ref_obj_id));
+                $ref_ids = ilObject::_getAllReferences($parent_ref_obj_id);
+                $parent_ref_ref_id = (int) array_shift($ref_ids);
                 $parent_ref_loc = (int) $this->tree->getParentId($parent_ref_ref_id);
                 if ($parent_ref_loc === $obj_to_be_referenced) {
                     return true;
                 }
                 if (ilObject::_lookupType($parent_ref_loc, true) === 'prg') {
-                    array_push($queque, $parent_ref_loc);
+                    $queque[] = $parent_ref_loc;
                 }
             }
         }

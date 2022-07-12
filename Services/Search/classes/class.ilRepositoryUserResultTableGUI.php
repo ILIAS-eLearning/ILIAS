@@ -1,51 +1,45 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /**
 * TableGUI class user search results
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ingroup ServicesSearch
 */
 class ilRepositoryUserResultTableGUI extends ilTable2GUI
 {
-    const TYPE_STANDARD = 1;
-    const TYPE_GLOBAL_SEARCH = 2;
+    public const TYPE_STANDARD = 1;
+    public const TYPE_GLOBAL_SEARCH = 2;
     
-    protected $lucene_result = null;
+    private ?ilLuceneSearchResult $lucene_result = null;
     
+    protected static array $all_selectable_cols = [];
+    protected bool $admin_mode;
+    protected int $type;
+    protected bool $user_limitations = true;
+
+    protected ilObjUser $user;
+    protected ilRbacReview $review;
     
-    protected static $all_selectable_cols = null;
-    protected $admin_mode;
-    protected $type;
-    protected $user_limitations = true;
-    
-    /**
-    * Constructor
-    */
+
     public function __construct($a_parent_obj, $a_parent_cmd, $a_admin_mode = false, $a_type = self::TYPE_STANDARD)
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
+        $this->user = $DIC->user();
+        $this->review = $DIC->rbac()->review();
 
         $this->admin_mode = (bool) $a_admin_mode;
         $this->type = $a_type;
 
-        $this->setId("rep_search_" . $ilUser->getId());
+        $this->setId("rep_search_" . $this->user->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         
-        $this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
         $this->setTitle($this->lng->txt('search_results'));
         $this->setEnableTitle(true);
         $this->setShowRowsSelector(true);
@@ -81,81 +75,49 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
     
     /**
      * enable numeric ordering for relevance
-     * @param type $a_field
+     * @param string $a_field
      * @return boolean
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == 'relevance') {
             return true;
         }
         return parent::numericOrdering($a_field);
     }
-    
-    /**
-     * Get search context type
-     * @return string
-     */
-    public function getType()
+
+    public function getType() : int
     {
         return $this->type;
     }
-    
-    /**
-     * Set lucene result
-     * For parsing relevances
-     * @param ilLuceneSearchResult $res
-     */
-    public function setLuceneResult(ilLuceneSearchResult $res)
+
+    public function setLuceneResult(ilLuceneSearchResult $res) : void
     {
         $this->lucene_result = $res;
     }
-    
-    /**
-     * Get lucene result
-     * @return ilLuceneSearchResult
-     */
-    public function getLuceneResult()
+
+    public function getLuceneResult() : ilLuceneSearchResult
     {
         return $this->lucene_result;
     }
 
-    /**
-     * allow user limitations like inactive and access limitations
-     *
-     * @param bool $a_limitations
-     */
-    public function setUserLimitations($a_limitations)
+    public function setUserLimitations(bool $a_limitations) : void
     {
-        $this->user_limitations = (bool) $a_limitations;
+        $this->user_limitations = $a_limitations;
     }
 
-    /**
-     * allow user limitations like inactive and access limitations
-     * @return bool
-     */
-    public function getUserLimitations()
+    public function getUserLimitations() : bool
     {
         return $this->user_limitations;
     }
 
     /**
-     * Get all selectable columns
-     *
      * @return array
-     *
-     * @global ilRbacReview $rbacreview
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
-
         if (!self::$all_selectable_cols) {
-            include_once './Services/Search/classes/class.ilUserSearchOptions.php';
-            $columns = ilUserSearchOptions::getSelectableColumnInfo($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID));
+            $columns = ilUserSearchOptions::getSelectableColumnInfo($this->review->isAssigned($this->user->getId(), SYSTEM_ROLE_ID));
             
             if ($this->admin_mode) {
                 // #11293
@@ -167,12 +129,8 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         }
         return self::$all_selectable_cols;
     }
-    
-    /**
-     * Init multi commands
-     * @return
-     */
-    public function initMultiCommands($a_commands)
+
+    public function initMultiCommands(array $a_commands) : bool
     {
         if (!count($a_commands)) {
             $this->addMultiCommand('addUser', $this->lng->txt('btn_add'));
@@ -181,25 +139,13 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         $this->addMultiItemSelectionButton('member_type', $a_commands, 'addUser', $this->lng->txt('btn_add'));
         return true;
     }
-    
-    /**
-    * Fill table row
-    */
-    protected function fillRow($a_set)
+
+    protected function fillRow(array $a_set) : void
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-
         $this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
         
         $link = '';
         if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
-            include_once './Services/User/classes/class.ilUserUtil.php';
             $link = ilUserUtil::getProfileLink($a_set['usr_id']);
             if ($link) {
                 $this->tpl->setVariable('IMG_LINKED_TO_PROFILE', $link);
@@ -256,18 +202,20 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                 
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
-                    $this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
                 
 
                 case 'login':
                     if ($this->admin_mode) {
-                        $ilCtrl->setParameterByClass("ilobjusergui", "ref_id", "7");
-                        $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
-                        $ilCtrl->setParameterByClass("ilobjusergui", "search", "1");
-                        $link = $ilCtrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
+                        $this->ctrl->setParameterByClass("ilobjusergui", "ref_id", "7");
+                        $this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
+                        $this->ctrl->setParameterByClass("ilobjusergui", "search", "1");
+                        $link = $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
                         $a_set[$field] = "<a href=\"" . $link . "\">" . $a_set[$field] . "</a>";
                     } elseif ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
                         $a_set[$field] = "<a href=\"" . $link . "\">" . $a_set[$field] . "</a>";
@@ -277,7 +225,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                     // no break
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set[$field] ? $a_set[$field] : ''));
+                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set[$field] ?: ''));
                     $this->tpl->parseCurrentBlock();
                     break;
             }
@@ -285,7 +233,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         
         if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
             $this->tpl->setVariable('SEARCH_RELEVANCE', $this->getRelevanceHTML($a_set['relevance']));
-            if (ilBuddySystem::getInstance()->isEnabled() && $a_set['usr_id'] != $ilUser->getId()) {
+            if (ilBuddySystem::getInstance()->isEnabled() && $a_set['usr_id'] != $this->user->getId()) {
                 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
                 $this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId((int) $a_set['usr_id'])->getHtml());
             } else {
@@ -293,13 +241,8 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
             }
         }
     }
-    
-    /**
-     * Parse user data
-     * @return
-     * @param array $a_user_ids
-     */
-    public function parseUserIds($a_user_ids)
+
+    public function parseUserIds(array $a_user_ids) : bool
     {
         if (!$a_user_ids) {
             $this->setData(array());
@@ -325,13 +268,11 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
             }
             $usr_data_fields[] = $field;
         }
-        include_once './Services/User/classes/class.ilUserQuery.php';
 
         $u_query = new ilUserQuery();
         $u_query->setOrderField('login');
         $u_query->setOrderDirection('ASC');
         $u_query->setLimit(999999);
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
 
         if (!ilSearchSettings::getInstance()->isInactiveUserVisible() && $this->getUserLimitations()) {
             $u_query->setActionFilter("active");
@@ -372,7 +313,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         
         // Custom user data fields
         if ($udf_ids) {
-            include_once './Services/User/classes/class.ilUserDefinedData.php';
             $data = ilUserDefinedData::lookupData($a_user_ids, $udf_ids);
 
             $users = array();
@@ -399,17 +339,14 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         
         
         $this->setData($users);
+        return true;
     }
 
 
-    /**
-     * Get relevance html
-     */
-    public function getRelevanceHTML($a_rel)
+    public function getRelevanceHTML(float $a_rel) : string
     {
         $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'Services/Search');
-        
-        include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+
         $pbar = ilProgressBar::getInstance();
         $pbar->setCurrent($a_rel);
         

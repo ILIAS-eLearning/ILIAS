@@ -1,59 +1,57 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-* Class ilStructreObject
-*
-* Handles StructureObjects of ILIAS Learning Modules (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * Handles StructureObjects of ILIAS Learning Modules (see ILIAS DTD)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilStructureObject extends ilLMObject
 {
-    public $is_alias;
-    public $origin_id;
-    public $tree;
+    public string $origin_id;
+    public ilLMTree $tree;
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_content_obj, $a_id = 0)
-    {
+    public function __construct(
+        ilObjLearningModule $a_content_obj,
+        int $a_id = 0
+    ) {
         $this->setType("st");
         parent::__construct($a_content_obj, $a_id);
+        $this->tree = new ilLMTree($this->getLMId());
     }
 
-    public function create($a_upload = false)
-    {
-        parent::create($a_upload);
-    }
-
-    /**
-    * Delete Chapter
-    */
-    public function delete($a_delete_meta_data = true)
+    public function delete(bool $a_delete_meta_data = true) : void
     {
         // only relevant for online help authoring
         ilHelpMapping::removeScreenIdsOfChapter($this->getId());
 
-        $this->tree = new ilTree($this->getLmId());
-        $this->tree->setTableNames('lm_tree', 'lm_data');
-        $this->tree->setTreeTablePK("lm_id");
         $node_data = $this->tree->getNodeData($this->getId());
         $this->delete_rec($this->tree, $a_delete_meta_data);
         $this->tree->deleteTree($node_data);
     }
 
     /**
-    * Delete sub tree
-    */
-    private function delete_rec(&$a_tree, $a_delete_meta_data = true)
-    {
+     * Delete sub tree
+     */
+    private function delete_rec(
+        ilLMTree $a_tree,
+        bool $a_delete_meta_data = true
+    ) : void {
         $childs = $a_tree->getChilds($this->getId());
         foreach ($childs as $child) {
             $obj = ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"], false);
@@ -71,10 +69,11 @@ class ilStructureObject extends ilLMObject
     }
 
     /**
-    * copy chapter
-    */
-    public function copy($a_target_lm)
-    {
+     * copy chapter
+     */
+    public function copy(
+        ilObjLearningModule $a_target_lm
+    ) : ilStructureObject {
         $chap = new ilStructureObject($a_target_lm);
         $chap->setTitle($this->getTitle());
         if ($this->getLMId() != $a_target_lm->getId()) {
@@ -97,14 +96,11 @@ class ilStructureObject extends ilLMObject
         return $chap;
     }
 
-    /**
-    * export object to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXML(&$a_xml_writer, $a_inst, &$expLog)
-    {
+    public function exportXML(
+        ilXmlWriter $a_xml_writer,
+        int $a_inst,
+        ilLog $expLog
+    ) : void {
         $expLog->write(date("[y-m-d H:i:s] ") . "Structure Object " . $this->getId());
         $attrs = array();
         $a_xml_writer->xmlStartTag("StructureObject", $attrs);
@@ -118,50 +114,40 @@ class ilStructureObject extends ilLMObject
         // PageObjects
         $this->exportXMLStructureObjects($a_xml_writer, $a_inst, $expLog);
 
-        // Layout
-        // not implemented
-
         $a_xml_writer->xmlEndTag("StructureObject");
     }
 
-
-    /**
-    * export structure objects meta data to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLMetaData(&$a_xml_writer)
-    {
+    public function exportXMLMetaData(
+        ilXmlWriter $a_xml_writer
+    ) : void {
         $md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
         $a_xml_writer->appendXML($md2xml->getXML());
     }
 
-    public function modifyExportIdentifier($a_tag, $a_param, $a_value)
-    {
+    public function modifyExportIdentifier(
+        string $a_tag,
+        string $a_param,
+        string $a_value
+    ) : string {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
             $a_value = "il_" . IL_INST_ID . "_st_" . $this->getId();
         }
 
         return $a_value;
     }
-
-    /**
-    * get presentation title
-    *
-    */
+    
     public static function _getPresentationTitle(
-        $a_st_id,
-        $a_mode = self::CHAPTER_TITLE,
-        $a_include_numbers = false,
-        $a_time_scheduled_activation = false,
-        $a_force_content = false,
-        $a_lm_id = 0,
-        $a_lang = "-",
-        $a_include_short = false
-    ) {
+        int $a_st_id,
+        string $a_mode = self::CHAPTER_TITLE,
+        bool $a_include_numbers = false,
+        bool $a_time_scheduled_activation = false,
+        bool $a_force_content = false,
+        int $a_lm_id = 0,
+        string $a_lang = "-",
+        bool $a_include_short = false
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -239,20 +225,10 @@ class ilStructureObject extends ilLMObject
         return $nr . $title;
     }
 
-
-
-    /**
-    * export page objects of structure object (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLPageObjects(&$a_xml_writer, $a_inst = 0)
-    {
-        $this->tree = new ilTree($this->getLmId());
-        $this->tree->setTableNames('lm_tree', 'lm_data');
-        $this->tree->setTreeTablePK("lm_id");
-
+    public function exportXMLPageObjects(
+        ilXmlWriter $a_xml_writer,
+        int $a_inst = 0
+    ) : void {
         $childs = $this->tree->getChilds($this->getId());
         foreach ($childs as $child) {
             if ($child["type"] != "pg") {
@@ -264,19 +240,11 @@ class ilStructureObject extends ilLMObject
         }
     }
 
-
-    /**
-    * export (sub)structure objects of structure object (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLStructureObjects(&$a_xml_writer, $a_inst, &$expLog)
-    {
-        $this->tree = new ilTree($this->getLmId());
-        $this->tree->setTableNames('lm_tree', 'lm_data');
-        $this->tree->setTreeTablePK("lm_id");
-
+    public function exportXMLStructureObjects(
+        ilXmlWriter $a_xml_writer,
+        int $a_inst,
+        ilLog $expLog
+    ) : void {
         $childs = $this->tree->getChilds($this->getId());
         foreach ($childs as $child) {
             if ($child["type"] != "st") {
@@ -293,14 +261,9 @@ class ilStructureObject extends ilLMObject
         }
     }
 
-    /**
-    * export object to fo
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportFO(&$a_xml_writer)
-    {
+    public function exportFO(
+        ilXmlWriter $a_xml_writer
+    ) : void {
 
         // fo:block (complete)
         $attrs = array();
@@ -312,18 +275,9 @@ class ilStructureObject extends ilLMObject
         $this->exportFOPageObjects($a_xml_writer);
     }
 
-    /**
-    * export page objects of structure object (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportFOPageObjects(&$a_xml_writer)
-    {
-        $this->tree = new ilTree($this->getLmId());
-        $this->tree->setTableNames('lm_tree', 'lm_data');
-        $this->tree->setTreeTablePK("lm_id");
-
+    public function exportFOPageObjects(
+        ilXmlWriter $a_xml_writer
+    ) : void {
         $childs = $this->tree->getChilds($this->getId());
         foreach ($childs as $child) {
             if ($child["type"] != "pg") {
@@ -336,21 +290,14 @@ class ilStructureObject extends ilLMObject
         }
     }
 
-    /**
-     * export (sub)structure objects of structure object (see ilias_co.dtd)
-     *
-     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-     *										xml data
-     */
-    public static function getChapterList($a_lm_id)
-    {
-        $tree = new ilTree($a_lm_id);
-        $tree->setTableNames('lm_tree', 'lm_data');
-        $tree->setTreeTablePK("lm_id");
+    public static function getChapterList(
+        int $a_lm_id
+    ) : array {
+        $tree = new ilLMTree($a_lm_id);
 
         $chapters = array();
         $ndata = $tree->getNodeData($tree->readRootId());
-        $childs = $tree->getSubtree($ndata);
+        $childs = $tree->getSubTree($ndata);
         foreach ($childs as $child) {
             if ($child["type"] == "st") {
                 $chapters[] = $child;

@@ -1,17 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Container\StandardGUIRequest;
 use ILIAS\Container\Content\BlockSessionRepository;
@@ -23,7 +26,7 @@ use ILIAS\Container\Content\BlockSessionRepository;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContainerBlockPropertiesStorageGUI: ilContainerBlockPropertiesStorageGUI
  */
-class ilContainerBlockPropertiesStorageGUI
+class ilContainerBlockPropertiesStorageGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
@@ -49,7 +52,7 @@ class ilContainerBlockPropertiesStorageGUI
         $ilCtrl = $this->ctrl;
 
         $cmd = $ilCtrl->getCmd();
-        if (in_array($cmd, array("store"))) {
+        if (in_array($cmd, ["store"], true)) {
             $this->$cmd();
         }
     }

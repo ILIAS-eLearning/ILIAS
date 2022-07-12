@@ -1,9 +1,25 @@
-<?php
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\ViewControl;
 
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerer;
 use ILIAS\Data\Range;
@@ -11,7 +27,7 @@ use ILIAS\Data\Range;
 /**
  * This describes a Pagination Control
  */
-interface Pagination extends C\Component, JavaScriptBindable, Triggerer
+interface Pagination extends Component, JavaScriptBindable, Triggerer
 {
     public const DEFAULT_DROPDOWN_LABEL = 'pagination_label_x_of_y';
 
@@ -19,16 +35,13 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
      * Get a Pagination with this target-url.
      * Shy-Buttons in this control will link to this url
      * and add $parameter_name with the selected value.
-     *
      */
     public function withTargetURL(string $url, string $parameter_name) : Pagination;
 
     /**
      * Get the url this instance should trigger.
-     *
-     * @return string|null
      */
-    public function getTargetURL();
+    public function getTargetURL() : ?string;
 
     /**
      * Get the parameter this instance uses.
@@ -64,7 +77,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
     /**
      * Register a signal with the control.
      */
-    public function withOnSelect(C\Signal $signal) : Pagination;
+    public function withOnSelect(Signal $signal) : Pagination;
 
     /**
      * Calculate the total number of pages.
@@ -79,10 +92,8 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
     /**
      * Get the maximum amount of page-entries (not records per page!)
      * to be shown.
-     *
-     * @return int|null
      */
-    public function getMaxPaginationButtons();
+    public function getMaxPaginationButtons() : ?int;
 
     /**
      * Layout; when number of page-entries reaches $amount,
@@ -93,10 +104,8 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
     /**
      * Below this value, the options are directly rendered as shy-buttons,
      * on and above this value a dropdown is being used.
-     *
-     * @return int|null
      */
-    public function getDropdownAt();
+    public function getDropdownAt() : ?int;
 
     /**
      * Layout; set the label for dropdown.
@@ -121,5 +130,5 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
     /**
      * Get the current number of entries on this page.
      */
-    public function getRange() : Range;
+    public function getRange() : ?Range;
 }

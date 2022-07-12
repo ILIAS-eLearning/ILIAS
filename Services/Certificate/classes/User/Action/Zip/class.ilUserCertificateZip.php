@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -47,7 +62,7 @@ class ilUserCertificateZip
         $certificateId = $this->objectId;
 
         $directory = $this->webDirectory . $this->certificatePath . time() . '__' . $this->installionId . '__' . $type . '__' . $certificateId . '__certificate/';
-        ilUtil::makeDirParents($directory);
+        ilFileUtils::makeDirParents($directory);
 
         return $directory;
     }
@@ -65,22 +80,16 @@ class ilUserCertificateZip
         fclose($fh);
     }
 
-    /**
-     * Create a ZIP file from a directory with certificates
-     * @param string  $dir     Directory containing the certificates
-     * @param boolean $deliver TRUE to deliver the ZIP file, FALSE to return the filename only
-     * @return string The created ZIP archive path
-     */
     public function zipCertificatesInArchiveDirectory(string $dir, bool $deliver = true) : string
     {
         $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
         $zipFilePath = $this->webDirectory . $this->certificatePath . $zipFile;
 
-        ilUtil::zip($dir, $zipFilePath);
-        ilUtil::delDir($dir);
+        ilFileUtils::zip($dir, $zipFilePath);
+        ilFileUtils::delDir($dir);
 
         if ($deliver) {
-            ilUtil::deliverFile($zipFilePath, $zipFile, 'application/zip', false, true);
+            ilFileDelivery::deliverFileLegacy($zipFilePath, $zipFile, 'application/zip', false, true);
         }
 
         return $zipFilePath;

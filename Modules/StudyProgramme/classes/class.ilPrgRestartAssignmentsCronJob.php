@@ -1,33 +1,36 @@
-<?php
-
-/* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
- Re-assign users (according to restart-date).
- This will result in a new/additional assignment
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use Pimple\Container;
+
+/**
+ * Re-assign users (according to restart-date).
+ * This will result in a new/additional assignment
  */
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
-    const ID = 'prg_restart_assignments_temporal_progress';
-    const ACTING_USR_ID = -1;
+    private const ID = 'prg_restart_assignments_temporal_progress';
+    private const ACTING_USR_ID = -1;
 
-    /**
-     * @var ilStudyProgrammeAssignmentDBRepository
-     */
-    protected $user_assignments_db;
-
-    /**
-     * @var ilLog
-     */
-    protected $log;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilStudyProgrammeAssignmentDBRepository $user_assignments_db;
+    protected ilLogger $log;
+    protected ilLanguage $lng;
+    protected Container $dic;
 
     public function __construct()
     {
@@ -82,7 +85,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $programmes_to_reassign = $this->getSettingsRepository()
             ->getProgrammeIdsWithReassignmentForExpiringValidity();
 
-        if (count($programmes_to_reassign) == 0) {
+        if (count($programmes_to_reassign) === 0) {
             return $result;
         }
 
@@ -99,7 +102,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $progresses = $this->getProgressRepository()
             ->getAboutToExpire($programmes_and_due, false);
 
-        if (count($progresses) == 0) {
+        if (count($progresses) === 0) {
             return $result;
         }
     
@@ -108,7 +111,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         foreach ($progresses as $progress) {
             $ass = $assignment_repo->get($progress->getAssignmentId());
             if ($ass->getRestartedAssignmentId() < 0) {
-                if ($ass->getRootId() != $progress->getNodeId()) {
+                if ($ass->getRootId() !== $progress->getNodeId()) {
                     $this->log(
                         sprintf(
                             'PRG, RestartAssignments: progress %s is not root of assignment %s. skipping.',
@@ -142,7 +145,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         return $result;
     }
 
-    protected function getNow() : \DateTimeImmutable
+    protected function getNow() : DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
@@ -162,7 +165,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         return $this->dic['ilStudyProgrammeUserAssignmentDB'];
     }
 
-    protected function getEvents()
+    protected function getEvents() : ilStudyProgrammeEvents
     {
         return $this->dic['ilStudyProgrammeEvents'];
     }

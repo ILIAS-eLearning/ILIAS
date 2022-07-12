@@ -1,13 +1,23 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\In\Transformation;
 
-use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\In\Parallel;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
@@ -17,44 +27,41 @@ use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 use UnexpectedValueException;
 
-require_once('./libs/composer/vendor/autoload.php');
-
-
 class ParallelTest extends TestCase
 {
-    public function testParallelTransformation()
+    public function testParallelTransformation() : void
     {
         $parallel = new Parallel(
-            array(
+            [
                 new StringTransformation(),
                 new StringTransformation()
-            )
+            ]
         );
 
         $result = $parallel->transform('hello');
 
-        $this->assertEquals(array('hello', 'hello'), $result);
+        $this->assertEquals(['hello', 'hello'], $result);
     }
 
 
-    public function testParallelTransformationForApplyTo()
+    public function testParallelTransformationForApplyTo() : void
     {
         $parallel = new Parallel(
-            array(
+            [
                 new StringTransformation(),
                 new StringTransformation()
-            )
+            ]
         );
 
         $result = $parallel->applyTo(new Ok('hello'));
 
-        $this->assertEquals(array('hello', 'hello'), $result->value());
+        $this->assertEquals(['hello', 'hello'], $result->value());
     }
 
-    public function testParallelTransformationFailsBecauseOfInvalidType()
+    public function testParallelTransformationFailsBecauseOfInvalidType() : void
     {
         $this->expectNotToPerformAssertions();
-        $parallel = new Parallel(array(new StringTransformation()));
+        $parallel = new Parallel([new StringTransformation()]);
 
         try {
             $result = $parallel->transform(42.0);
@@ -65,14 +72,14 @@ class ParallelTest extends TestCase
         $this->fail();
     }
 
-    public function testParallelApply()
+    public function testParallelApply() : void
     {
         $parallel = new Parallel(
-            array(
+            [
                 new StringTransformation(),
                 new IntegerTransformation(),
                 new FloatTransformation()
-            )
+            ]
         );
 
         $result = $parallel->applyTo(new Ok(42));
@@ -80,16 +87,16 @@ class ParallelTest extends TestCase
         $this->assertTrue($result->isError());
     }
 
-    public function testInvalidTransformationThrowsException()
+    public function testInvalidTransformationThrowsException() : void
     {
         $this->expectNotToPerformAssertions();
 
         try {
             $parallel = new Parallel(
-                array(
+                [
                     new StringTransformation(),
                     'this is invalid'
-                )
+                ]
             );
         } catch (ConstraintViolationException $exception) {
             return;

@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 {
     public function testIsActive() : void
@@ -24,7 +40,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -33,7 +49,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $certificateSettings->method('get')
-            ->willReturn(true);
+            ->willReturn('1');
 
         $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
             ->disableOriginalConstructor()
@@ -94,7 +110,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 
         $userCertificateRepository->method('fetchActiveCertificatesInIntervalForPresentation')
             ->willReturn(
-                array(
+                [
                     new ilUserCertificatePresentation(
                         200,
                         'crs',
@@ -141,10 +157,10 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                         'Test Title',
                         'Test Description'
                     )
-                )
+                ]
             );
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -166,7 +182,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $certificateSettings->method('get')
-            ->willReturn(true);
+            ->willReturn('1');
 
         $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
             ->disableOriginalConstructor()
@@ -182,8 +198,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 
         $link->method('standard')
             ->withConsecutive(
-                array('Course Title', '<a href> </a>'),
-                array('Test Title', '<a href> </a>')
+                ['Course Title', '<a href> </a>'],
+                ['Test Title', '<a href> </a>']
             )
             ->willReturn($std_link);
 
@@ -219,7 +235,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             $utilHelper
         );
 
-        $expectedEntries = array(
+        $expectedEntries = [
             new ilLearningHistoryEntry(
                 'Certificate for link achieved.',
                 'Certificate for link achieved.',
@@ -233,7 +249,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                 '/some/acutal/image/path/background.png',
                 987654321,
                 500
-            ),);
+            ),
+        ];
 
         $actualEntries = $provider->getEntries(123456789, 987654321);
         $this->assertEquals($expectedEntries, $actualEntries);
@@ -266,7 +283,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -275,7 +292,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $certificateSettings->method('get')
-            ->willReturn(true);
+            ->willReturn('1');
 
         $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
             ->disableOriginalConstructor()
@@ -298,6 +315,6 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             $uiRenderer
         );
 
-        $this->assertEquals('Certificates', $provider->getName());
+        $this->assertSame('Certificates', $provider->getName());
     }
 }

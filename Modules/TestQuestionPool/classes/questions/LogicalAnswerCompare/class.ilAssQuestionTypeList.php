@@ -33,7 +33,7 @@ class ilAssQuestionTypeList implements Iterator
         $this->db = $DIC['ilDB'];
     }
     
-    public function load()
+    public function load() : void
     {
         $res = $this->db->query("SELECT * FROM qpl_qst_type");
         
@@ -50,7 +50,7 @@ class ilAssQuestionTypeList implements Iterator
     }
     
     
-    public function existByTag($questionTypeTag)
+    public function existByTag($questionTypeTag) : bool
     {
         return $this->getByTag($questionTypeTag) instanceof ilAssQuestionType;
     }
@@ -59,7 +59,7 @@ class ilAssQuestionTypeList implements Iterator
      * @param $questionTypeTag
      * @return ilAssQuestionType|null
      */
-    public function getByTag($questionTypeTag)
+    public function getByTag($questionTypeTag) : ?ilAssQuestionType
     {
         foreach ($this as $qstType) {
             if ($qstType->getTag() != $questionTypeTag) {
@@ -73,27 +73,27 @@ class ilAssQuestionTypeList implements Iterator
     }
     
     /** @return ilAssQuestionType */
-    public function current()
+    public function current() : ilAssQuestionType
     {
         return current($this->types);
     }
     /** @return ilAssQuestionType */
-    public function next()
+    public function next() : ilAssQuestionType
     {
         return next($this->types);
     }
     /** @return string */
-    public function key()
+    public function key() : string
     {
         return key($this->types);
     }
     /** @return bool */
-    public function valid()
+    public function valid() : bool
     {
         return key($this->types) !== null;
     }
     /** @return ilAssQuestionType */
-    public function rewind()
+    public function rewind() : ilAssQuestionType
     {
         return reset($this->types);
     }
@@ -102,7 +102,7 @@ class ilAssQuestionTypeList implements Iterator
      * @param string $questionTypeTag
      * @return bool
      */
-    public static function isImportable($questionTypeTag)
+    public static function isImportable($questionTypeTag) : bool
     {
         if (!self::getInstance()->existByTag($questionTypeTag)) {
             return false;
@@ -114,7 +114,7 @@ class ilAssQuestionTypeList implements Iterator
     /**
      * @return ilAssQuestionTypeList
      */
-    public static function getInstance()
+    public static function getInstance() : ?ilAssQuestionTypeList
     {
         if (self::$instance === null) {
             self::$instance = new self();

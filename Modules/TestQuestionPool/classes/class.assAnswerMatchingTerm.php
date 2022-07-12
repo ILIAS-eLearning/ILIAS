@@ -5,12 +5,13 @@
 * Class for matching question terms
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
 * @ingroup ModulesTestQuestionPool
 */
 class assAnswerMatchingTerm
 {
-    protected $arrData;
+    public string $text;
+    public string $picture;
+    public int $identifier;
 
     /**
     * assAnswerMatchingTerm constructor
@@ -25,49 +26,8 @@ class assAnswerMatchingTerm
             mt_srand((double) microtime() * 1000000);
             $identifier = mt_rand(1, 100000);
         }
-        $this->arrData = array(
-            'text' => $text,
-            'picture' => $picture,
-            'identifier' => $identifier
-        );
-    }
-
-    /**
-    * Object getter
-    */
-    public function __get($value)
-    {
-        switch ($value) {
-            case "text":
-            case "picture":
-                if (strlen($this->arrData[$value])) {
-                    return $this->arrData[$value];
-                } else {
-                    return null;
-                }
-                break;
-            case "identifier":
-                return $this->arrData[$value];
-                break;
-            default:
-                return null;
-                break;
-        }
-    }
-
-    /**
-    * Object setter
-    */
-    public function __set($key, $value)
-    {
-        switch ($key) {
-            case "text":
-            case "picture":
-            case "identifier":
-                $this->arrData[$key] = $value;
-                break;
-            default:
-                break;
-        }
+        $this->text = (string) $text;
+        $this->picture = (string) $picture;
+        $this->identifier = $identifier;
     }
 }

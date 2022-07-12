@@ -1,29 +1,36 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Constraint;
+use ilLanguage;
 
-/**
- * Class IsNull
- *
- * @package ILIAS\Refinery\Validation\Constraints
- *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- */
-class IsNull extends CustomConstraint
+class IsNull extends Constraint
 {
-    public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            function ($value) {
+            static function ($value) : bool {
                 return is_null($value);
             },
-            function ($txt, $value) {
+            static function ($txt, $value) : string {
                 return $txt("not_a_null", gettype($value));
             },
             $data_factory,

@@ -17,23 +17,27 @@
 */
 class ilQuestionEditGUI
 {
-    
+    private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
     * Constructor
     */
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $lng = $DIC['lng'];
-        
-        if ($_GET["qpool_ref_id"]) {
-            $this->setPoolRefId($_GET["qpool_ref_id"]);
-        } elseif ($_GET["qpool_obj_id"]) {
-            $this->setPoolObjId($_GET["qpool_obj_id"]);
+
+        if ($this->request->raw("qpool_ref_id")) {
+            $this->setPoolRefId($this->request->raw("qpool_ref_id"));
+        } elseif ($this->request->raw("qpool_obj_id")) {
+            $this->setPoolObjId($this->request->raw("qpool_obj_id"));
         }
-        $this->setQuestionId($_GET["q_id"]);
-        $this->setQuestionType($_GET["q_type"]);
+        $this->setQuestionId($this->request->getQuestionId());
+        $this->setQuestionType($this->request->raw("q_type"));
         $lng->loadLanguageModule("assessment");
         
         $ilCtrl->saveParameter($this, array("qpool_ref_id", "qpool_obj_id", "q_id", "q_type"));
@@ -47,7 +51,7 @@ class ilQuestionEditGUI
     *
     * @param	boolean	$a_selfassessmenteditingmode	Self-Assessment Editing Mode
     */
-    public function setSelfAssessmentEditingMode($a_selfassessmenteditingmode)
+    public function setSelfAssessmentEditingMode($a_selfassessmenteditingmode) : void
     {
         $this->selfassessmenteditingmode = $a_selfassessmenteditingmode;
     }
@@ -57,7 +61,7 @@ class ilQuestionEditGUI
     *
     * @return	boolean	Self-Assessment Editing Mode
     */
-    public function getSelfAssessmentEditingMode()
+    public function getSelfAssessmentEditingMode() : bool
     {
         return $this->selfassessmenteditingmode;
     }
@@ -67,7 +71,7 @@ class ilQuestionEditGUI
     *
     * @param	int	$a_defaultnroftries		Default Nr. of Tries
     */
-    public function setDefaultNrOfTries($a_defaultnroftries)
+    public function setDefaultNrOfTries($a_defaultnroftries) : void
     {
         $this->defaultnroftries = $a_defaultnroftries;
     }
@@ -77,7 +81,7 @@ class ilQuestionEditGUI
     *
     * @return	int	Default Nr of Tries
     */
-    public function getDefaultNrOfTries()
+    public function getDefaultNrOfTries() : int
     {
         return $this->defaultnroftries;
     }
@@ -87,7 +91,7 @@ class ilQuestionEditGUI
      *
      * @param	object	Page Config
      */
-    public function setPageConfig($a_val)
+    public function setPageConfig($a_val) : void
     {
         $this->page_config = $a_val;
     }
@@ -97,7 +101,7 @@ class ilQuestionEditGUI
      *
      * @return	object	Page Config
      */
-    public function getPageConfig()
+    public function getPageConfig() : object
     {
         return $this->page_config;
     }
@@ -107,7 +111,7 @@ class ilQuestionEditGUI
     * Add a listener that is notified with the new question ID, when
     * a new question is saved
     */
-    public function addNewIdListener(&$a_object, $a_method, $a_parameters = "")
+    public function addNewIdListener(&$a_object, $a_method, $a_parameters = "") : void
     {
         $cnt = $this->new_id_listener_cnt;
         $this->new_id_listeners[$cnt]["object"] = &$a_object;
@@ -128,7 +132,7 @@ class ilQuestionEditGUI
         $cmd = $ilCtrl->getCmd();
         $next_class = $ilCtrl->getNextClass();
         
-        //echo "-".$cmd."-".$next_class."-".$_GET["q_id"]."-";
+        //echo "-".$cmd."-".$next_class."-".$this->request->getQuestionId()."-";
         
         switch ($next_class) {
             default:
@@ -147,7 +151,7 @@ class ilQuestionEditGUI
                 if (is_object($this->page_config)) {
                     $q_gui->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
                 }
-                $q_gui->object->setObjId((int) $this->getPoolObjId());
+                $q_gui->object->setObjId($this->getPoolObjId());
                 
                 for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
                     $object = $this->new_id_listeners[$i]["object"];
@@ -168,8 +172,8 @@ class ilQuestionEditGUI
                 if ($count > 0) {
                     global $DIC;
                     $rbacsystem = $DIC['rbacsystem'];
-                    if ($rbacsystem->checkAccess("write", $this->pool_ref_id)) {
-                        ilUtil::sendInfo(sprintf($lng->txt("qpl_question_is_in_use"), $count));
+                    if ($rbacsystem->checkAccess("write", $this->getPoolRefId())) {
+                        $this->main_tpl->setOnScreenMessage('info', sprintf($lng->txt("qpl_question_is_in_use"), $count));
                     }
                 }
                 $ilCtrl->setCmdClass(get_class($q_gui));
@@ -185,10 +189,10 @@ class ilQuestionEditGUI
     *
     * @param	int	$a_questionid	Question Id
     */
-    public function setQuestionId($a_questionid)
+    public function setQuestionId($a_questionid) : void
     {
         $this->questionid = $a_questionid;
-        $_GET["q_id"] = $this->questionid;
+        $_GET["q_id"] = $this->questionid; // TODO / TATS: How to address this?
     }
 
     /**
@@ -196,7 +200,7 @@ class ilQuestionEditGUI
     *
     * @return	int	Question Id
     */
-    public function getQuestionId()
+    public function getQuestionId() : int
     {
         return $this->questionid;
     }
@@ -206,7 +210,7 @@ class ilQuestionEditGUI
     *
     * @param	int	$a_poolrefid	Pool Ref ID
     */
-    public function setPoolRefId($a_poolrefid)
+    public function setPoolRefId($a_poolrefid) : void
     {
         //echo "<br>Setting Pool Ref ID:".$a_poolrefid;
         $this->poolrefid = $a_poolrefid;
@@ -219,7 +223,7 @@ class ilQuestionEditGUI
     *
     * @return	int	Pool Ref ID
     */
-    public function getPoolRefId()
+    public function getPoolRefId() : int
     {
         return $this->poolrefid;
     }
@@ -229,7 +233,7 @@ class ilQuestionEditGUI
     *
     * @param	int	$a_poolobjid	Pool Obj Id
     */
-    public function setPoolObjId($a_poolobjid)
+    public function setPoolObjId($a_poolobjid) : void
     {
         //echo "<br>Setting Pool Obj ID:".$a_poolobjid;
         $this->poolobjid = $a_poolobjid;
@@ -241,7 +245,7 @@ class ilQuestionEditGUI
     *
     * @return	int	Pool Obj Id
     */
-    public function getPoolObjId()
+    public function getPoolObjId() : int
     {
         return $this->poolobjid;
     }
@@ -251,7 +255,7 @@ class ilQuestionEditGUI
     *
     * @param	string	$a_questiontype	Question Type
     */
-    public function setQuestionType($a_questiontype)
+    public function setQuestionType($a_questiontype) : void
     {
         $this->questiontype = $a_questiontype;
         $_GET["q_type"] = $this->questiontype;
@@ -262,7 +266,7 @@ class ilQuestionEditGUI
     *
     * @return	string	Question Type
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return $this->questiontype;
     }

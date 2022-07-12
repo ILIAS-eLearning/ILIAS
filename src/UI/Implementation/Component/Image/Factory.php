@@ -1,30 +1,44 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Image;
 
-use ILIAS\UI\Component\Image\Image as I;
+use ILIAS\UI\Component\Image as I;
 
 /**
  * Class Factory
  * @package ILIAS\UI\Implementation\Component\Image
  */
-class Factory implements \ILIAS\UI\Component\Image\Factory
+class Factory implements I\Factory
 {
     /**
      * @inheritdoc
      */
-    public function standard($src, $alt)
+    public function standard(string $src, string $alt) : I\Image
     {
-        return new Image(I::STANDARD, $src, $alt);
+        return new Image(I\Image::STANDARD, $src, $alt);
     }
 
     /**
      * @inheritdoc
      */
-    public function responsive($src, $alt)
+    public function responsive(string $src, string $alt) : I\Image
     {
-        return new Image(I::RESPONSIVE, $src, $alt);
+        return new Image(I\Image::RESPONSIVE, $src, $alt);
     }
 }

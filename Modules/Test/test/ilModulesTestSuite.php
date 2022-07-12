@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
@@ -8,10 +23,10 @@ require_once __DIR__ . "/ilTestBaseTestCase.php";
 
 class ilModulesTestSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilModulesTestSuite
     {
         if (!defined("ILIAS_HTTP_PATH")) {
-            define("ILIAS_HTTP_PATH", "some_path");
+            define("ILIAS_HTTP_PATH", "http://localhost");
         }
 
         if (!defined("DEBUG")) {
@@ -41,13 +56,9 @@ class ilModulesTestSuite extends TestSuite
             define('ANONYMOUS_USER_ID', 13);
         }
 
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
+
 
         $suite = new ilModulesTestSuite();
 
@@ -73,16 +84,30 @@ class ilModulesTestSuite extends TestSuite
             require_once $file->getPathname();
 
             $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
-            if (class_exists($className)) {
-                $reflection = new ReflectionClass($className);
-                if (
-                    !$reflection->isAbstract() &&
-                    !$reflection->isInterface() &&
-                    $reflection->isSubclassOf(TestCase::class)) {
-                    $suite->addTestSuite($className);
+            if (!self::addClass($suite, $className)) {
+                $results = [];
+                if (preg_match('/^namespace ([[:alnum:]_\\\\]+);$/m', file_get_contents($file->getPathname()), $results)) {
+                    self::addClass($suite, $results[1] . '\\' . $className);
                 }
             }
         }
+
         return $suite;
+    }
+
+    private static function addClass(self $suite, string $className) : bool
+    {
+        if (!class_exists($className)) {
+            return false;
+        }
+        $reflection = new ReflectionClass($className);
+        if (
+            !$reflection->isAbstract() &&
+            !$reflection->isInterface() &&
+            $reflection->isSubclassOf(TestCase::class)) {
+            $suite->addTestSuite($className);
+        }
+
+        return true;
     }
 }

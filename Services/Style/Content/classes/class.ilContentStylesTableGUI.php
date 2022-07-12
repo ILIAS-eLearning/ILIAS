@@ -1,34 +1,37 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Content styles table
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContentStylesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected int $default_style = 0;
+    protected int $fixed_style = 0;
+    protected ilSetting $settings;
+    protected ilRbacSystem $rbacsystem;
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilContentStyleSettingsGUI $a_parent_obj, $a_parent_cmd, $a_data, $a_style_settings)
-    {
+    public function __construct(
+        ilContentStyleSettingsGUI $a_parent_obj,
+        string $a_parent_cmd,
+        array $a_data
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -39,11 +42,10 @@ class ilContentStylesTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilSetting = $DIC->settings();
 
-        $this->fixed_style = $ilSetting->get("fixed_content_style_id");
-        $this->default_style = $ilSetting->get("default_content_style_id");
+        $this->fixed_style = (int) $ilSetting->get("fixed_content_style_id");
+        $this->default_style = (int) $ilSetting->get("default_content_style_id");
 
         $this->setId("sty_cs");
-        $this->sty_settings = $a_style_settings;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($a_data);
@@ -68,11 +70,10 @@ class ilContentStylesTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $rbacsystem = $this->rbacsystem;
 
         if ($a_set["id"] > 0) {
             $this->tpl->setCurrentBlock("cb");
@@ -149,12 +150,11 @@ class ilContentStylesTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($this->parent_obj, "id", "");
 
         $this->tpl->setVariable("NR_LM", $a_set["lm_nr"]);
-
-        if ($a_set["category"] > 0) {
+        if (($a_set["category"] ?? 0) > 0) {
             $this->tpl->setVariable(
                 "SCOPE",
                 ilObject::_lookupTitle(
-                    ilObject::_lookupObjId($a_set["category"])
+                    ilObject::_lookupObjId((int) $a_set["category"])
                 )
             );
         }

@@ -1,53 +1,66 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Component\Tree\TreeRecursion;
 
 /**
  * Class ilOrgUnitExplorerGUI
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 {
     protected const ORGU = "orgu";
-    /**
-     * @var array
-     */
-    protected $stay_with_command = array('', 'render', 'view', 'infoScreen', 'showStaff', 'performPaste', 'cut');
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
+    protected array $stay_with_command = array('', 'render', 'view', 'infoScreen', 'showStaff', 'performPaste', 'cut');
+    protected ?ilTree $tree = null;
+    protected ilAccessHandler $access;
+    private ilSetting $settings;
 
     /**
      * @param $a_expl_id
      * @param $a_parent_obj
      * @param $a_parent_cmd
      * @param $a_tree
+     * @param $access
      */
-    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree)
+    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree, \ilAccessHandler $access = null)
     {
+        global $DIC;
         parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
         $this->setAjax(true);
         $this->setTypeWhiteList(array(self::ORGU));
         $this->tree->initLangCode();
+        $this->access = $DIC->access();
+        $this->settings = $DIC->settings();
     }
 
-
     /**
-     * @param mixed $node
-     *
-     * @return string
+     * Get content of a node
+     * @param object|array $a_node node array or object
+     * @return string content of the node
      */
-    public function getNodeContent($node) : ?string
+    public function getNodeContent($a_node) : string
     {
-        global $DIC;
+        $node = $this->getNodeArrayRepresentation($a_node);
+
         if ($node['title'] === '__OrgUnitAdministration') {
-            $node['title'] = $DIC->language()->txt('objs_orgu');
+            $node['title'] = $this->lng->txt('objs_orgu');
         }
         if ((int) $node['child'] === (int) $_GET['ref_id']) {
             return "<span class='ilExp2NodeContent ilHighlighted'>" . $node['title'] . '</span>';
@@ -56,105 +69,91 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         return $node['title'];
     }
 
-
-    /**
-     * @return array
-     */
     public function getRootNode() : array
     {
         return $this->getTree()->getNodeData(ilObjOrgUnit::getRootOrgRefId());
     }
 
-
     /**
      * Get node icon
+     * @param array|object $a_node
      * Return custom icon of OrgUnit type if existing
-     *
-     * @param array $a_node
-     *
      * @return string
      */
     public function getNodeIcon($a_node) : string
     {
-        global $DIC;
-        $ilias = $DIC['ilias'];
-        if ($ilias->getSetting('custom_icons')) {
+        $node = $this->getNodeArrayRepresentation($a_node);
+
+        $obj_id = 0;
+        if ($this->settings->get('custom_icons')) {
             $icons_cache = ilObjOrgUnit::getIconsCache();
-            $obj_id = ilObject::_lookupObjId($a_node["child"]);
+            $obj_id = ilObject::_lookupObjId($node["child"]);
             if (isset($icons_cache[$obj_id])) {
                 return $icons_cache[$obj_id];
             }
         }
 
-        return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
+        return ilObject::_getIcon($obj_id, "tiny", $node["type"]);
     }
 
-
     /**
-     * @param array $node
-     *
-     * @return string
+     * @param array|object $a_node
+     * @throws ilCtrlException
      */
-    public function getNodeHref($node) : string
+    public function getNodeHref($a_node) : string
     {
-        global $DIC;
+        $node = $this->getNodeArrayRepresentation($a_node);
+
+        $node = $this->getNodeArrayRepresentation($a_node);
 
         if ($this->select_postvar) {
             return '#';
         }
 
-        if ($DIC->ctrl()->getCmd() === 'performPaste') {
-            $DIC->ctrl()->setParameterByClass(ilObjOrgUnitGUI::class, 'target_node', $node['child']);
+        if ($this->ctrl->getCmd() === 'performPaste') {
+            $this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, 'target_node', $node['child']);
         }
-        $array = $DIC->ctrl()->getParameterArrayByClass(ilObjOrgUnitGUI::class);
+        $array = $this->ctrl->getParameterArrayByClass(ilObjOrgUnitGUI::class);
         $temp = $array['ref_id'];
 
-        $DIC->ctrl()->setParameterByClass(ilObjOrgUnitGUI::class, 'ref_id', $node['child']);
-        $DIC->ctrl()->setParameterByClass(ilObjPluginDispatchGUI::class, 'ref_id', $node['child']);
+        $this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, 'ref_id', $node['child']);
+        $this->ctrl->setParameterByClass(ilObjPluginDispatchGUI::class, 'ref_id', $node['child']);
 
         $link_target = ($node['type'] === self::ORGU) ? $this->getLinkTarget() : $this->getPluginLinkTarget();
-        $DIC->ctrl()->setParameterByClass(ilObjOrgUnitGUI::class, 'ref_id', $temp);
-
+        $this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, 'ref_id', $temp);
         return $link_target;
     }
 
-
-    /**
-     * @return string
-     */
     protected function getLinkTarget() : string
     {
-        global $DIC;
-        if ($DIC->ctrl()->getCmdClass() === strtolower(ilObjOrgUnitGUI::class) && in_array($DIC->ctrl()->getCmd(), $this->stay_with_command, true)) {
-            return $DIC->ctrl()->getLinkTargetByClass(array(ilAdministrationGUI::class, $DIC->ctrl()->getCmdClass()), $DIC->ctrl()->getCmd());
+        if ($this->ctrl->getCmdClass() === strtolower(ilObjOrgUnitGUI::class) && in_array($this->ctrl->getCmd(),
+                $this->stay_with_command, true)) {
+            return $this->ctrl->getLinkTargetByClass(array(ilAdministrationGUI::class, $this->ctrl->getCmdClass()),
+                $this->ctrl->getCmd());
         }
 
-        return $DIC->ctrl()->getLinkTargetByClass(array(ilAdministrationGUI::class, ilObjOrgUnitGUI::class), 'view');
+        return $this->ctrl->getLinkTargetByClass(array(ilAdministrationGUI::class, ilObjOrgUnitGUI::class), 'view');
     }
 
-
     /**
-     * @return string
+     * @throws ilCtrlException
      */
     protected function getPluginLinkTarget() : string
     {
-        global $DIC;
-
-        return $DIC->ctrl()->getLinkTargetByClass(ilObjPluginDispatchGUI::class, 'forward');
+        return $this->ctrl->getLinkTargetByClass(ilObjPluginDispatchGUI::class, 'forward');
     }
 
-
     /**
-     * @param array $a_node
-     *
+     * @param object|array $a_node
      * @return bool
      */
     public function isNodeClickable($a_node) : bool
     {
-        global $DIC;
-        $ilAccess = $DIC->access();
+        $node = $this->getNodeArrayRepresentation($a_node);
 
-        if ($ilAccess->checkAccess('read', '', $a_node['ref_id'])) {
+        $node = $this->getNodeArrayRepresentation($a_node);
+
+        if ($this->access->checkAccess('read', '', $node['ref_id'])) {
             return true;
         }
 
@@ -163,14 +162,43 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 
 
     /**
-     * @param array $a_node
-     *
+     * @param $a_node
      * @return bool
      */
     public function isNodeSelectable($a_node) : bool
     {
         $current_node = filter_input(INPUT_GET, 'item_ref_id') ?? ilObjOrgUnit::getRootOrgRefId();
+        $node = $this->getNodeArrayRepresentation($a_node);
 
-        return !($a_node['child'] === $current_node || $this->tree->isGrandChild($current_node, $a_node['child']));
+        return !($node['child'] === $current_node || $this->tree->isGrandChild($current_node, $node['child']));
+    }
+
+    /**
+     * @param $a_node
+     * @return array
+     */
+    private function getNodeArrayRepresentation($a_node) : array
+    {
+        if (is_object($a_node)) {
+            return (array) $a_node;
+        }
+
+        return $a_node;
+    }
+
+    public function getChildsOfNode($a_parent_node_id) : array
+    {
+        $children = parent::getChildsOfNode($a_parent_node_id);
+        return $this->filterChildrenByPermission($children);
+    }
+
+    protected function filterChildrenByPermission(array $children) : array
+    {
+        return array_filter(
+            $children,
+            function ($child) {
+                return $this->access->checkAccess("visible", "", $child["ref_id"]);
+            }
+        );
     }
 }

@@ -1,38 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class for learning history page content
- *
- * Handles user commands on skills data
- *
- * @author killin@leifos.com
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_isCalledBy ilPCLearningHistoryGUI: ilPageEditorGUI
  */
 class ilPCLearningHistoryGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilLearningHistoryService $service;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilLearningHistoryService
-     */
-    protected $service;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilPageObject $a_pg_obj, ilPCLearningHistory $a_content_obj = null, $a_hier_id = "", $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPCLearningHistory $a_content_obj = null,
+        string $a_hier_id = "",
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -45,32 +45,22 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $this->ui = $DIC->ui();
     }
 
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
-
-        // get current command
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
     /**
      * Insert learning history form
-     *
-     * @param ilPropertyFormGUI $a_form
      */
-    public function insert(ilPropertyFormGUI $a_form = null)
+    public function insert(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
 
@@ -82,12 +72,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    /**
-     * Edit skills form
-     *
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function edit(ilPropertyFormGUI $a_form = null)
+    public function edit(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
 
@@ -101,11 +86,8 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
 
     /**
      * Init learning history edit form
-     *
-     * @param bool $a_insert
-     * @return ilPropertyFormGUI
      */
-    protected function initForm($a_insert = false)
+    protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -157,8 +139,6 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $si->setOptions($options);
         $op2->addSubItem($si);
 
-
-
         if ($a_insert) {
             $form->addCommandButton("create_lhist", $this->lng->txt("insert"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
@@ -170,11 +150,10 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         return $form;
     }
 
-
     /**
      * Create new learning history component
      */
-    public function create()
+    public function create() : void
     {
         $valid = false;
         
@@ -195,38 +174,32 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         }
 
         $form->setValuesByPost();
-        return $this->insert($form);
+        $this->insert($form);
     }
 
     /**
      * Update learning history component
      */
-    public function update()
+    public function update() : void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
             $this->setAttributesFromInput($form);
             $this->updated = $this->pg_obj->update();
             if ($this->updated === true) {
-                ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
             }
         }
 
         $this->pg_obj->addHierIDs();
         $form->setValuesByPost();
-        return $this->edit($form);
+        $this->edit($form);
     }
 
-    /**
-     *
-     *
-     * @param
-     * @return
-     */
-    protected function setAttributesFromInput($form)
+    protected function setAttributesFromInput(ilPropertyFormGUI $form) : void
     {
-        /** @var ilDurationInputGUI $item */
+        /** @var ilDateDurationInputGUI $item */
         $item = $form->getItemByPostVar("period");
         $from = (is_null($item->getStart()))
             ? ""
@@ -243,13 +216,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $this->content_obj->setClasses($classes);
     }
 
-    /**
-     * Get placeholder presentation
-     *
-     * @param
-     * @return
-     */
-    public static function getPlaceholderPresentation()
+    public static function getPlaceholderPresentation() : string
     {
         global $DIC;
 

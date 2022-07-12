@@ -30,9 +30,9 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
     public static function lookupExportDirectory(string $a_obj_type, int $a_obj_id, string $a_export_type = 'xml', string $a_entity = "") : string
     {
         if ($a_export_type == 'xml') {
-            return ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
+            return ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
         }
-        return ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_" . $a_export_type;
+        return ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_" . $a_export_type;
     }
 
 
@@ -51,10 +51,11 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
         
         include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
         $qpl_exp = new ilQuestionpoolExport($qpl, 'xml');
-        $zip = $qpl_exp->buildExportFile();
+        $qpl_exp->buildExportFile();
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $DIC['ilLog']->write(__METHOD__ . ': Created zip file ' . $zip);
+        $DIC['ilLog']->write(__METHOD__ . ': Created zip file');
+        return ''; // sagt mjansen
     }
 
     /**
@@ -89,7 +90,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      * @param array $testObjIds
      * @return array $taxIds
      */
-    private function getDependingTaxonomyIds($poolObjIds)
+    private function getDependingTaxonomyIds($poolObjIds) : array
     {
         include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 

@@ -1,56 +1,42 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Learning history entry
- *
- * @author killing@leifos.de
- * @ingroup ServicesLearningHistory
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLearningHistoryEntry
 {
-    /**
-     * @var string
-     */
-    protected $achieve_text;
+    protected string $achieve_text;
+    protected string $achieve_in_text;
+    protected string $icon_path;
+    protected int $ts;
+    protected int $obj_id;
+    protected int $ref_id;
 
-    /**
-     * @var string
-     */
-    protected $achieve_in_text;
-
-    /**
-     * @var string
-     */
-    protected $icon_path;
-
-    /**
-     * @var int
-     */
-    protected $ts;
-
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * Constructor
-     * @param string $achieve_text
-     * @param string $achieve_in_text
-     * @param string $icon_path
-     * @param int $ts
-     * @param int $obj_id
-     * @param int $ref_id
-     */
-    public function __construct($achieve_text, $achieve_in_text, $icon_path, $ts, $obj_id, $ref_id = 0)
-    {
+    public function __construct(
+        string $achieve_text,
+        string $achieve_in_text,
+        string $icon_path,
+        int $ts,
+        int $obj_id,
+        int $ref_id = 0
+    ) {
         $this->achieve_text = $achieve_text;
         $this->achieve_in_text = $achieve_in_text;
         $this->icon_path = $icon_path;
@@ -59,62 +45,35 @@ class ilLearningHistoryEntry
         $this->ref_id = $ref_id;
     }
 
-    /**
-     * Get timestamp
-     *
-     * @return int
-     */
-    public function getTimestamp()
+    public function getTimestamp() : int
     {
         return $this->ts;
     }
 
-    /**
-     * Get obj id
-     *
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * Get ref id
-     *
-     * @return int
-     */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
 
-    /**
-     * Get achieve text
-     *
-     * @return string
-     */
-    public function getAchieveText()
+    public function getAchieveText() : string
     {
         return $this->achieve_text;
     }
 
     /**
-     * Get achieve in text
-     *
-     * @return string
+     * Get "achieve in ..." text
      */
-    public function getAchieveInText()
+    public function getAchieveInText() : string
     {
         return $this->achieve_in_text;
     }
 
-    /**
-     * Get Icon path
-     *
-     * @return string
-     */
-    public function getIconPath()
+    public function getIconPath() : string
     {
         return $this->icon_path;
     }

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
 namespace ILIAS\ResourceStorage\Revision;
 
 use DateTimeImmutable;
@@ -13,15 +28,10 @@ use ILIAS\ResourceStorage\Information\Information;
  */
 class NullRevision implements Revision
 {
-
-    /**
-     * @var ResourceIdentification
-     */
-    private $identification;
+    private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
     /**
      * NullRevision constructor.
-     * @param ResourceIdentification $identification
      */
     public function __construct(ResourceIdentification $identification)
     {
@@ -60,7 +70,7 @@ class NullRevision implements Revision
         return new FileInformation();
     }
 
-    public function setInformation(Information $information)
+    public function setInformation(Information $information) : void
     {
     }
 
@@ -85,11 +95,11 @@ class NullRevision implements Revision
     public function setTitle(string $title) : Revision
     {
         // do nothing
+        return $this;
     }
 
     public function getTitle() : string
     {
         return '';
     }
-
 }

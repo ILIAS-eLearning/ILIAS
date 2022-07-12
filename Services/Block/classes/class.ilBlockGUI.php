@@ -1,126 +1,90 @@
-<?php
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 
 /**
  * This class represents a block method of a block.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilBlockGUI
 {
-    const PRES_MAIN_LEG = 0;		// main legacy panel
-    const PRES_SEC_LEG = 1;			// secondary legacy panel
-    const PRES_SEC_LIST = 2;		// secondary list panel
-    const PRES_MAIN_LIST = 3;		// main standard list panel
+    public const PRES_MAIN_LEG = 0;		// main legacy panel
+    public const PRES_SEC_LEG = 1;			// secondary legacy panel
+    public const PRES_SEC_LIST = 2;		// secondary list panel
+    public const PRES_MAIN_LIST = 3;		// main standard list panel
+    public const PRES_MAIN_TILE = 4;		// main standard list panel
+    private int $offset;
+    private int $limit;
+    private bool $enableedit;
+    private string $subtitle;
+    private int $refid;
+    private string $rowtemplatename;
+    private string $rowtemplatedir;
+    protected object $gui_object;
+    protected \ILIAS\Block\StandardGUIRequest $request;
+    protected \ILIAS\Block\BlockManager $block_manager;
+    private \ILIAS\HTTP\GlobalHttpState $http;
 
-    /**
-     * @var bool
-     */
-    protected $repositorymode = false;
+    protected bool $repositorymode = false;
+    protected \ILIAS\DI\UIServices $ui;
+    protected array $data = array();
+    protected bool $enablenuminfo = true;
+    protected array $footer_links = array();
+    protected string $block_id = "0";
+    protected bool $allow_moving = true;
+    protected array $move = array("left" => false, "right" => false, "up" => false, "down" => false);
+    protected array $block_commands = array();
+    protected int $max_count = 0;
+    protected bool $close_command = false;
+    protected bool $image = false;
+    protected array $property = [];
+    protected string $nav_value = "";
+    protected string $css_row = "";
+    protected string $title = "";
+    protected bool $admincommands = false;
+    protected array $dropdown;
+    protected ?ilTemplate $tpl;
+    protected ?ilGlobalTemplateInterface $main_tpl;
+    protected ilObjUser $user;
+    protected ilCtrl $ctrl;
+    protected ilAccessHandler $access;
+    protected ilLanguage $lng;
+    protected ilObjectDefinition $obj_def;
+    protected int $presentation;
+    protected ?int $requested_ref_id;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @return string
-     */
-    abstract public function getBlockType() : string;
-
-    /**
-     * Returns whether block has a corresponding repository object
-     *
-     * @return bool
-     */
-    abstract protected function isRepositoryObject() : bool;
-
-    protected $data = array();
-    protected $enablenuminfo = true;
-    protected $footer_links = array();
-    protected $block_id = 0;
-    protected $allow_moving = true;
-    protected $move = array("left" => false, "right" => false, "up" => false, "down" => false);
-    protected $block_commands = array();
-    protected $max_count = false;
-    protected $close_command = false;
-    protected $image = false;
-
-    /**
-     * @var array
-     */
-    protected $property = [];
-
-    protected $nav_value = "";
-    protected $css_row = "";
-
-    /**
-     * @var string
-     */
-    protected $title = "";
-
-
-    /**
-     * @var bool
-     */
-    protected $admincommands = false;
-
-    protected $dropdown;
-
-    /**
-     * @var ilTemplate|null block template
-     */
-    protected $tpl;
-
-    /**
-     * @var ilTemplate|null main template
-     */
-    protected $main_tpl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var
-     */
-    protected $obj_def;
-
-    /**
-     * @var int
-     */
-    protected $presentation;
-
-    /**
-     * @var ?int
-     */
-    protected $requested_ref_id;
-
-    /**
-     * Constructor
-     *
-     * @param
-     */
     public function __construct()
     {
         global $DIC;
+
+
+        $this->http = $DIC->http();
+        $block_service = new ILIAS\Block\Service($DIC);
+        $this->block_manager = $block_service->internal()
+            ->domain()
+            ->block();
+        $this->request = $block_service->internal()
+            ->gui()
+            ->standardRequest();
+
 
         // default presentation
         $this->presentation = self::PRES_SEC_LEG;
@@ -136,280 +100,159 @@ abstract class ilBlockGUI
         ilYuiUtil::initConnection();
         $this->main_tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
 
-        $this->setLimit($this->user->getPref("hits_per_page"));
+        $this->setLimit((int) $this->user->getPref("hits_per_page"));
 
-        $this->requested_ref_id = (int) ($_GET["ref_id"] ?? null);
+        $this->requested_ref_id = $this->request->getRefId();
     }
 
+    abstract public function getBlockType() : string;
 
     /**
-     * Set Data.
-     *
-     * @param    array $a_data Data
+     * Returns whether block has a corresponding repository object
      */
-    public function setData($a_data)
+    abstract protected function isRepositoryObject() : bool;
+
+    public function setData(array $a_data) : void
     {
         $this->data = $a_data;
     }
 
-    /**
-     * Get Data.
-     *
-     * @return    array    Data
-     */
-    public function getData()
+    public function getData() : array
     {
         return $this->data;
     }
 
-    /**
-     * Set presentation
-     *
-     * @param int $type
-     */
-    public function setPresentation(int $type)
+    public function setPresentation(int $type) : void
     {
         $this->presentation = $type;
     }
 
-    /**
-     * Get presentation type
-     *
-     * @return int
-     */
     public function getPresentation() : int
     {
         return $this->presentation;
     }
 
-    /**
-     * Set Block Id
-     *
-     * @param    int $a_block_id Block ID
-     */
-    public function setBlockId($a_block_id = 0)
+    public function setBlockId(string $a_block_id = "0") : void
     {
         $this->block_id = $a_block_id;
     }
 
-    /**
-     * Get Block Id
-     *
-     * @return    int            Block Id
-     */
-    public function getBlockId()
+    public function getBlockId() : string
     {
         return $this->block_id;
     }
-
 
     /**
      * Set GuiObject.
      * Only used for repository blocks, that are represented as
      * real repository objects (have a ref id and permissions)
-     *
-     * @param    object $a_gui_object GUI object
      */
-    public function setGuiObject(&$a_gui_object)
+    public function setGuiObject(object $a_gui_object) : void
     {
         $this->gui_object = $a_gui_object;
     }
 
-    /**
-     * Get GuiObject.
-     *
-     * @return    object    GUI object
-     */
-    public function getGuiObject()
+    public function getGuiObject() : object
     {
         return $this->gui_object;
     }
 
-
-    /**
-     * Set Title.
-     *
-     * @param    string $a_title Title
-     */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * Get Title.
-     *
-     * @return    string    Title
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
-        return (string) $this->title;
+        return $this->title;
     }
 
-    /**
-     * Set Offset.
-     *
-     * @param    int $a_offset Offset
-     */
-    public function setOffset($a_offset)
+    public function setOffset(int $a_offset) : void
     {
         $this->offset = $a_offset;
     }
-
-    /**
-     * Get Offset.
-     *
-     * @return    int    Offset
-     */
-    public function getOffset()
+    
+    public function getOffset() : int
     {
         return $this->offset;
     }
 
-    public function correctOffset()
+    public function correctOffset() : void
     {
         if (!($this->offset < $this->max_count)) {
             $this->setOffset(0);
         }
     }
 
-    /**
-     * Set Limit.
-     *
-     * @param    int $a_limit Limit
-     */
-    public function setLimit($a_limit)
+    public function setLimit(int $a_limit) : void
     {
         $this->limit = $a_limit;
     }
 
-    /**
-     * Get Limit.
-     *
-     * @return    int    Limit
-     */
-    public function getLimit()
+    public function getLimit() : int
     {
         return $this->limit;
     }
 
-    /**
-     * Set EnableEdit.
-     *
-     * @param    boolean $a_enableedit EnableEdit
-     */
-    public function setEnableEdit($a_enableedit)
+    public function setEnableEdit(bool $a_enableedit) : void
     {
         $this->enableedit = $a_enableedit;
     }
 
-    /**
-     * Get EnableEdit.
-     *
-     * @return    boolean    EnableEdit
-     */
-    public function getEnableEdit()
+    public function getEnableEdit() : bool
     {
         return $this->enableedit;
     }
 
-    /**
-     * Set RepositoryMode.
-     *
-     * @param    boolean $a_repositorymode RepositoryMode
-     */
-    public function setRepositoryMode($a_repositorymode)
+    public function setRepositoryMode(bool $a_repositorymode) : void
     {
         $this->repositorymode = $a_repositorymode;
     }
 
-    /**
-     * Get RepositoryMode.
-     *
-     * @return    boolean    RepositoryMode
-     */
-    public function getRepositoryMode()
+    public function getRepositoryMode() : bool
     {
         return $this->repositorymode;
     }
 
-
-    /**
-     * Set Subtitle.
-     *
-     * @param    string $a_subtitle Subtitle
-     */
-    public function setSubtitle($a_subtitle)
+    public function setSubtitle(string $a_subtitle) : void
     {
         $this->subtitle = $a_subtitle;
     }
 
-    /**
-     * Get Subtitle.
-     *
-     * @return    string    Subtitle
-     */
-    public function getSubtitle()
+    public function getSubtitle() : string
     {
         return $this->subtitle;
     }
 
     /**
      * Set Ref Id (only used if isRepositoryObject() is true).
-     *
-     * @param    int $a_refid Ref Id
      */
-    public function setRefId($a_refid)
+    public function setRefId(int $a_refid) : void
     {
         $this->refid = $a_refid;
     }
 
-    /**
-     * Get Ref Id (only used if isRepositoryObject() is true).
-     *
-     * @return    int        Ref Id
-     */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->refid;
     }
 
-    /**
-     * Set Administration Commmands.
-     *
-     * @param    boolean $a_admincommands Administration Commmands
-     */
-    public function setAdminCommands(bool $a_admincommands)
+    public function setAdminCommands(bool $a_admincommands) : void
     {
         $this->admincommands = $a_admincommands;
     }
 
-    /**
-     * Get Administration Commmands.
-     *
-     * @return    boolean    Administration Commmands
-     */
     public function getAdminCommands() : bool
     {
         return $this->admincommands;
     }
 
-    /**
-     * Set Enable Item Number Info.
-     *
-     * @param    boolean $a_enablenuminfo Enable Item Number Info
-     */
-    public function setEnableNumInfo($a_enablenuminfo)
+    public function setEnableNumInfo(bool $a_enablenuminfo) : void
     {
         $this->enablenuminfo = $a_enablenuminfo;
     }
 
-    /**
-     * Get Enable Item Number Info.
-     *
-     * @return    boolean    Enable Item Number Info
-     */
-    public function getEnableNumInfo()
+    public function getEnableNumInfo() : bool
     {
         return $this->enablenuminfo;
     }
@@ -417,77 +260,58 @@ abstract class ilBlockGUI
     /**
      * This function is supposed to be used for block type specific
      * properties, that should be inherited through ilColumnGUI->setBlockProperties
-     *
-     * @param    string $a_properties properties array (key => value)
      */
-    public function setProperties($a_properties)
+    public function setProperties(array $a_properties) : void
     {
         $this->property = $a_properties;
     }
 
-    public function getProperty($a_property)
+    public function getProperty(string $a_property) : ?string
     {
         return $this->property[$a_property] ?? null;
     }
 
-    public function setProperty($a_property, $a_value)
+    public function setProperty(string $a_property, string $a_value) : void
     {
         $this->property[$a_property] = $a_value;
     }
 
     /**
      * Set Row Template Name.
-     *
-     * @param    string $a_rowtemplatename Row Template Name
      */
-    public function setRowTemplate($a_rowtemplatename, $a_rowtemplatedir = "")
-    {
+    public function setRowTemplate(
+        string $a_rowtemplatename,
+        string $a_rowtemplatedir = ""
+    ) : void {
         $this->rowtemplatename = $a_rowtemplatename;
         $this->rowtemplatedir = $a_rowtemplatedir;
     }
 
-    final public function getNavParameter()
+    final public function getNavParameter() : string
     {
         return $this->getBlockType() . "_" . $this->getBlockId() . "_blnav";
     }
 
-    final public function getConfigParameter()
+    final public function getConfigParameter() : string
     {
         return $this->getBlockType() . "_" . $this->getBlockId() . "_blconf";
     }
 
-    final public function getMoveParameter()
+    final public function getMoveParameter() : string
     {
         return $this->getBlockType() . "_" . $this->getBlockId() . "_blmove";
     }
 
-    /**
-     * Get Row Template Name.
-     *
-     * @return    string    Row Template Name
-     */
-    public function getRowTemplateName()
+    public function getRowTemplateName() : string
     {
         return $this->rowtemplatename;
     }
 
-    /**
-     * Get Row Template Directory.
-     *
-     * @return    string    Row Template Directory
-     */
-    public function getRowTemplateDir()
+    public function getRowTemplateDir() : string
     {
         return $this->rowtemplatedir;
     }
 
-    /**
-     * Add Block Command.
-     *
-     * @param string $a_href
-     * @param string $a_text
-     * @param string $a_onclick
-     */
     public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = "") : void
     {
         $this->block_commands[] = [
@@ -497,38 +321,21 @@ abstract class ilBlockGUI
         ];
     }
 
-    /**
-     * Get Block commands.
-     *
-     * @return array
-     */
     public function getBlockCommands() : array
     {
         return $this->block_commands;
     }
 
-
-
-    /**
-     * Get Screen Mode for current command.
-     */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
     }
 
-    /**
-     * Init commands
-     */
-    protected function initCommands()
+    protected function initCommands() : void
     {
     }
 
-
-    /**
-     * Get HTML.
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $this->initCommands();
 
@@ -616,17 +423,8 @@ abstract class ilBlockGUI
         $this->fillFooter();
 
 
-        // for screen readers we first output the title and the commands
-        // (e.g. close icon afterwards), otherwise we first output the
-        // header commands, since we want to have the close icon top right
-        // and not floated after the title
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization")) {
-            $this->fillHeaderTitleBlock();
-            $this->fillHeaderCommands();
-        } else {
-            $this->fillHeaderCommands();
-            $this->fillHeaderTitleBlock();
-        }
+        $this->fillHeaderCommands();
+        $this->fillHeaderTitleBlock();
 
         if ($this->getPresentation() === self::PRES_MAIN_LEG) {
             $this->tpl->touchBlock("hclassb");
@@ -643,12 +441,10 @@ abstract class ilBlockGUI
             return '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
                 $this->tpl->get() . '</div>';
         }
+        return "";
     }
 
-    /**
-     * Fill header commands block
-     */
-    public function fillHeaderCommands()
+    public function fillHeaderCommands() : void
     {
         // adv selection gui
         $dropdown = new ilAdvancedSelectionListGUI();
@@ -683,11 +479,7 @@ abstract class ilBlockGUI
         $this->tpl->parseCurrentBlock();
     }
 
-
-    /**
-     * Fill header title block (title and
-     */
-    public function fillHeaderTitleBlock()
+    public function fillHeaderTitleBlock() : void
     {
         $lng = $this->lng;
 
@@ -712,11 +504,10 @@ abstract class ilBlockGUI
         $this->tpl->parseCurrentBlock();
     }
 
-
     /**
      * Call this from overwritten fillDataSection(), if standard row based data is not used.
      */
-    public function setDataSection($a_content)
+    public function setDataSection(string $a_content) : void
     {
         $this->tpl->setCurrentBlock("data_section");
         $this->tpl->setVariable("DATA", $a_content);
@@ -728,20 +519,24 @@ abstract class ilBlockGUI
      * Standard implementation for row based data.
      * Overwrite this and call setContent for other data.
      */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
-        $this->nav_value = (isset($_POST[$this->getNavParameter()]) && $_POST[$this->getNavParameter()] != "")
-            ? $_POST[$this->getNavParameter()]
-            : (isset($_GET[$this->getNavParameter()]) ? $_GET[$this->getNavParameter()] : $this->nav_value);
-        $this->nav_value = ($this->nav_value == "" && isset($_SESSION[$this->getNavParameter()]))
-            ? $_SESSION[$this->getNavParameter()]
-            : $this->nav_value;
+        $req_nav_par = $this->request->getNavPar($this->getNavParameter());
+        if ($req_nav_par != "") {
+            $this->nav_value = $req_nav_par;
+        }
+        $this->nav_value = ($this->nav_value != "")
+            ? $this->nav_value
+            : $this->block_manager->getNavPar($this->getNavParameter());
 
-        $_SESSION[$this->getNavParameter()] = $this->nav_value;
+        $this->block_manager->setNavPar(
+            $this->getNavParameter(),
+            $this->nav_value
+        );
 
         $nav = explode(":", $this->nav_value);
         if (isset($nav[2])) {
-            $this->setOffset($nav[2]);
+            $this->setOffset((int) $nav[2]);
         } else {
             $this->setOffset(0);
         }
@@ -770,18 +565,18 @@ abstract class ilBlockGUI
         }
     }
 
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable("VAL_" . strtoupper($key), $value);
         }
     }
 
-    public function fillFooter()
+    public function fillFooter() : void
     {
     }
 
-    final protected function fillRowColor($a_placeholder = "CSS_ROW")
+    final protected function fillRowColor(string $a_placeholder = "CSS_ROW") : void
     {
         $this->css_row = ($this->css_row != "ilBlockRow1")
             ? "ilBlockRow1"
@@ -789,10 +584,7 @@ abstract class ilBlockGUI
         $this->tpl->setVariable($a_placeholder, $this->css_row);
     }
 
-    /**
-     * Fill previous/next row
-     */
-    public function fillPreviousNext()
+    public function fillPreviousNext() : void
     {
         $lng = $this->lng;
 
@@ -813,122 +605,15 @@ abstract class ilBlockGUI
         $this->tpl->setVariable("NUMINFO", $numinfo);
     }
 
-    /**
-     * Get previous/next linkbar.
-     *
-     * @author Sascha Hofmann <shofmann@databay.de>
-     *
-     * @return    array    linkbar or false on error
-     */
-    public function setPreviousNextLinks()
+    public function setPreviousNextLinks() : void
     {
-        // @todo: fix this
-        return false;
-
-
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        // if more entries then entries per page -> show link bar
-        if ($this->max_count > $this->getLimit() && ($this->getLimit() != 0)) {
-            // previous link
-            if ($this->getOffset() >= 1) {
-                $prevoffset = $this->getOffset() - $this->getLimit();
-
-                $ilCtrl->setParameterByClass(
-                    "ilcolumngui",
-                    $this->getNavParameter(),
-                    "::" . $prevoffset
-                );
-
-                // ajax link
-                $ilCtrl->setParameterByClass(
-                    "ilcolumngui",
-                    "block_id",
-                    "block_" . $this->getBlockType() . "_" . $this->block_id
-                );
-                $block_id = "block_" . $this->getBlockType() . "_" . $this->block_id;
-                $onclick = $ilCtrl->getLinkTargetByClass(
-                    "ilcolumngui",
-                    "updateBlock",
-                    "",
-                    true
-                );
-                $ilCtrl->setParameterByClass(
-                    "ilcolumngui",
-                    "block_id",
-                    ""
-                );
-
-                // normal link
-                $href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");
-                $text = $lng->txt("previous");
-
-                //				$this->addFooterLink($text, $href, $onclick, $block_id, true);
-            }
-
-            // calculate number of pages
-            $pages = intval($this->max_count / $this->getLimit());
-
-            // add a page if a rest remains
-            if (($this->max_count % $this->getLimit())) {
-                $pages++;
-            }
-
-            // show next link (if not last page)
-            if (!(($this->getOffset() / $this->getLimit()) == ($pages - 1)) && ($pages != 1)) {
-                $newoffset = $this->getOffset() + $this->getLimit();
-
-                $ilCtrl->setParameterByClass(
-                    "ilcolumngui",
-                    $this->getNavParameter(),
-                    "::" . $newoffset
-                );
-
-                // ajax link
-                $ilCtrl->setParameterByClass(
-                    "ilcolumngui",
-                    "block_id",
-                    "block_" . $this->getBlockType() . "_" . $this->block_id
-                );
-                //$this->tpl->setCurrentBlock("pnonclick");
-                $block_id = "block_" . $this->getBlockType() . "_" . $this->block_id;
-                $onclick = $ilCtrl->getLinkTargetByClass(
-                    "ilcolumngui",
-                    "updateBlock",
-                    "",
-                    true
-                );
-                //echo "-".$onclick."-";
-                //$this->tpl->parseCurrentBlock();
-                $ilCtrl->setParameterByClass(
-                    "ilcolumngui",
-                    "block_id",
-                    ""
-                );
-
-                // normal link
-                $href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");
-                $text = $lng->txt("next");
-
-                //				$this->addFooterLink($text, $href, $onclick, $block_id, true);
-            }
-            $ilCtrl->setParameterByClass(
-                "ilcolumngui",
-                $this->getNavParameter(),
-                ""
-            );
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
      * Can be overwritten in subclasses. Only the visible part of the complete data was passed so a preload of the visible data is possible.
      * @param array $data
      */
-    protected function preloadData(array $data)
+    protected function preloadData(array $data) : void
     {
     }
 
@@ -936,7 +621,7 @@ abstract class ilBlockGUI
      * Use this for final get before sending asynchronous output (ajax)
      * per echo to output.
      */
-    public function getAsynch()
+    public function getAsynch() : string
     {
         header("Content-type: text/html; charset=UTF-8");
         return $this->tpl->get();
@@ -947,7 +632,7 @@ abstract class ilBlockGUI
     //
 
     // temporary flag
-    protected $new_rendering = false;
+    protected bool $new_rendering = false;
 
 
     /**
@@ -991,22 +676,25 @@ abstract class ilBlockGUI
     /**
      * Handle navigation
      */
-    protected function handleNavigation()
+    protected function handleNavigation() : void
     {
-        $reg_page = $_REQUEST[$this->getNavParameter() . "page"] ?? '';
+        $reg_page = $this->request->getNavPage($this->getNavParameter());
         if ($reg_page !== "") {
             $this->nav_value = "::" . ($reg_page * $this->getLimit());
         }
 
-        if ($this->nav_value == "" && isset($_SESSION[$this->getNavParameter()])) {
-            $this->nav_value = $_SESSION[$this->getNavParameter()];
+        if ($this->nav_value == "") {
+            $this->nav_value = $this->block_manager->getNavPar($this->getNavParameter());
         }
 
-        $_SESSION[$this->getNavParameter()] = $this->nav_value;
+        $this->block_manager->setNavPar(
+            $this->getNavParameter(),
+            $this->nav_value
+        );
 
         $nav = explode(":", $this->nav_value);
         if (isset($nav[2])) {
-            $this->setOffset($nav[2]);
+            $this->setOffset((int) $nav[2]);
         } else {
             $this->setOffset(0);
         }
@@ -1014,10 +702,9 @@ abstract class ilBlockGUI
 
     /**
      * Load data for current page
-     *
      * @return array
      */
-    protected function loadData()
+    protected function loadData() : array
     {
         $data = $this->getData();
         $this->max_count = count($data);
@@ -1057,7 +744,7 @@ abstract class ilBlockGUI
     /**
      * Fill previous/next row
      */
-    public function getPaginationViewControl()
+    public function getPaginationViewControl() : ?\ILIAS\UI\Component\ViewControl\Pagination
     {
         global $DIC;
         $factory = $DIC->ui()->factory();
@@ -1102,13 +789,13 @@ abstract class ilBlockGUI
             ->withTotalEntries($this->max_count)
             ->withPageSize($this->getLimit())
             ->withMaxPaginationButtons(5)
-            ->withCurrentPage((int) $this->getOffset() / $this->getLimit());
+            ->withCurrentPage($this->getOffset() / $this->getLimit());
     }
 
     /**
      * Add repo commands
      */
-    protected function addRepoCommands()
+    protected function addRepoCommands() : void
     {
         $access = $this->access;
         $lng = $this->lng;
@@ -1160,15 +847,13 @@ abstract class ilBlockGUI
         }
     }
 
-    /**
-     * Get HTML.
-     */
-    public function getHTMLNew()
+    public function getHTMLNew() : string
     {
         global $DIC;
         $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
         $access = $this->access;
+        $panel = null;
 
         $ctrl = $this->ctrl;
 
@@ -1203,6 +888,7 @@ abstract class ilBlockGUI
                 );
                 break;
 
+            case self::PRES_MAIN_TILE:
             case self::PRES_MAIN_LIST:
                 $this->handleNavigation();
                 $panel = $factory->panel()->listing()->standard(
@@ -1211,13 +897,6 @@ abstract class ilBlockGUI
                 );
                 break;
 
-            case self::PRES_MAIN_TILE:
-                $this->handleNavigation();
-                $panel = $factory->panel()->listing()->standard(
-                    $this->getTitle(),
-                    $this->getListItemGroups()
-                );
-                break;
         }
 
         // actions
@@ -1256,7 +935,11 @@ abstract class ilBlockGUI
 
 
         if (count($actions) > 0) {
-            $actions = $factory->dropdown()->standard($actions);
+            $actions = $factory->dropdown()->standard($actions)
+                ->withAriaLabel(sprintf(
+                    $this->lng->txt('actions_for'),
+                    htmlspecialchars($this->getTitle())
+                ));
             $panel = $panel->withActions($actions);
         }
 
@@ -1273,8 +956,7 @@ abstract class ilBlockGUI
 
 
         if ($ctrl->isAsynch()) {
-            echo $html;
-            exit;
+            $this->send($html);
         } else {
             // return incl. wrapping div with id
             $html = '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
@@ -1285,10 +967,18 @@ abstract class ilBlockGUI
     }
 
     /**
-     * No item entry
-     *
-     * @return string
+     * Send
+     * @throws ResponseSendingException
      */
+    protected function send(string $output) : void
+    {
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
+    }
+
     public function getNoItemFoundContent() : string
     {
         return $this->lng->txt("no_items");

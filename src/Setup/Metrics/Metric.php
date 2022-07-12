@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Setup\Metrics;
 
 use ILIAS\UI\Factory;
@@ -81,7 +95,7 @@ final class Metric
         $this->description = $description;
     }
 
-    protected function checkStability($stability, $type)
+    protected function checkStability(string $stability, string $type) : void
     {
         if (
             $stability !== self::STABILITY_CONFIG
@@ -95,7 +109,7 @@ final class Metric
         }
     }
 
-    protected function checkType($type)
+    protected function checkType($type) : void
     {
         if (
             $type !== self::TYPE_BOOL
@@ -111,7 +125,7 @@ final class Metric
         }
     }
 
-    protected function checkValue($type, $value)
+    protected function checkValue($type, $value) : void
     {
         if (
             ($type === self::TYPE_BOOL && !is_bool($value))
@@ -189,7 +203,7 @@ final class Metric
                 return implode(
                     "\n",
                     array_map(
-                        function (string $k, Metric $v) use ($indentation) {
+                        function (string $k, Metric $v) use ($indentation) : string {
                             if ($v->getType() === self::TYPE_COLLECTION) {
                                 $split = "\n";
                             } else {
@@ -243,7 +257,7 @@ final class Metric
         }
     }
 
-    protected function getIndentation(int $indentation = 0)
+    protected function getIndentation(int $indentation = 0) : string
     {
         $res = "";
         while ($indentation--) {
@@ -285,7 +299,7 @@ final class Metric
             }
         }
 
-        if (count($extracted)) {
+        if ($extracted !== []) {
             $extracted = new Metric(
                 $stability,
                 self::TYPE_COLLECTION,
@@ -296,7 +310,7 @@ final class Metric
             $extracted = null;
         }
 
-        if (count($rest)) {
+        if ($rest !== []) {
             $rest = new Metric(
                 $this->getStability(),
                 self::TYPE_COLLECTION,

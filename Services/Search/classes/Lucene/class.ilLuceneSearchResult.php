@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -26,46 +26,38 @@
 *
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup
 */
 class ilLuceneSearchResult implements Iterator
 {
-    private $listener;
-    private $position = 0;
-    
-    private $limit = 0;
-    private $total_hits = 0;
-    private $max_score = 0;
-
-    private $objects = [];
-    private $relevance;
-    
-
     /**
-     * Constructor
-     * @param string search result
-     * @return
+     * @var Closure[]
      */
-    public function __construct()
-    {
-    }
+    private array $listener = [];
+    private int $position = 0;
     
+    private int $limit = 0;
+    private int $total_hits = 0;
+    private int $max_score = 0;
+
+    private array $objects = [];
+    private array $relevance = [];
+    
+
+
     /**
      * set search callback
-     * @param
-     * @return
+     * @param Closure[]
      */
-    public function setCallback($a_callback)
+    public function setCallback(array $a_callback) : void
     {
         $this->listener = $a_callback;
     }
     
     /**
      * Iterator rewind
-     * @return
      */
     public function rewind()
     {
@@ -115,7 +107,6 @@ class ilLuceneSearchResult implements Iterator
     
     /**
      * Iterator next
-     * @return
      */
     public function next()
     {
@@ -124,35 +115,18 @@ class ilLuceneSearchResult implements Iterator
     
     
     
-    /**
-     * get candidates
-     * @param
-     * @return
-     */
-    public function getCandidates()
+    public function getCandidates() : array
     {
         return $this->objects;
     }
     
-    /**
-     * Add object entry
-     * @param int key
-     * @param int value
-     *
-     * @return
-     */
-    public function addObject($a_value, $a_relevance = 0)
+    public function addObject(int $a_value, float $a_relevance = 0) : void
     {
         $this->objects[] = $a_value;
         $this->relevance[$a_value] = $a_relevance;
     }
     
-    /**
-     * get relevance
-     * @param int obj_id
-     * @return int	relevance in percent
-     */
-    public function getRelevance($a_obj_id)
+    public function getRelevance(int $a_obj_id) : float
     {
         if (!$this->getMaxScore()) {
             return 0;
@@ -161,62 +135,33 @@ class ilLuceneSearchResult implements Iterator
     }
     
     
-    /**
-     *
-     * @param
-     * @return
-     */
-    public function setLimit($a_limit)
+    public function setLimit(int $a_limit) : void
     {
         $this->limit = $a_limit;
     }
     
-    /**
-     *
-     * @param
-     * @return
-     */
-    public function getLimit()
+    public function getLimit() : int
     {
         return $this->limit;
     }
     
     
-    /**
-     *
-     * @param
-     * @return
-     */
-    public function setMaxScore($a_score)
+    public function setMaxScore(int $a_score) : void
     {
         $this->max_score = $a_score;
     }
     
-    /**
-     *
-     * @param
-     * @return
-     */
-    public function getMaxScore()
+    public function getMaxScore() : int
     {
         return $this->max_score;
     }
     
-    /**
-     * set total hits
-     * @return
-     */
-    public function setTotalHits($a_hits)
+    public function setTotalHits(int $a_hits) : void
     {
         $this->total_hits = $a_hits;
     }
     
-    /**
-     * get total hits
-     * @param
-     * @return
-     */
-    public function getTotalHits()
+    public function getTotalHits() : int
     {
         return $this->total_hits;
     }

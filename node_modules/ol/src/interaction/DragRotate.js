@@ -15,7 +15,7 @@ import {disable} from '../rotationconstraint.js';
  * @property {import("../events/condition.js").Condition} [condition] A function that takes an
  * {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a boolean
  * to indicate whether that event should be handled.
- * Default is {@link module:ol/events/condition~altShiftKeysOnly}.
+ * Default is {@link module:ol/events/condition.altShiftKeysOnly}.
  * @property {number} [duration=250] Animation duration in milliseconds.
  */
 
@@ -30,7 +30,7 @@ import {disable} from '../rotationconstraint.js';
  */
 class DragRotate extends PointerInteraction {
   /**
-   * @param {Options=} opt_options Options.
+   * @param {Options} [opt_options] Options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};

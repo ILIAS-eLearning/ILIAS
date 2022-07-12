@@ -1,212 +1,127 @@
-<?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/** @defgroup ServicesForm Services/Form
- */
+<?php declare(strict_types=1);
 
 /**
-* This class represents a form user interface
-*
-* @author 	Alex Killing <alex.killing@gmx.de>
-* @version 	$Id$
-* @ingroup	ServicesForm
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * This class represents a form user interface
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilFormGUI
 {
-    protected $formaction;
-    protected $multipart = false;
-    protected $keepopen = false;
-    protected $opentag = true;
-    protected $id = '';
-    protected $name = '';
-    protected $target = '';
-    protected $prevent_double_submission = false;
+    protected string $formaction = "";
+    protected bool $multipart = false;
+    protected bool $keepopen = false;
+    protected bool $opentag = true;
+    protected string $id = '';
+    protected string $name = '';
+    protected string $target = '';
+    protected bool $prevent_double_submission = false;
 
-    /**
-    * Set FormAction.
-    *
-    * @param	string	$a_formaction	FormAction
-    */
-    public function setFormAction($a_formaction)
+    public function setFormAction(string $a_formaction) : void
     {
         $this->formaction = $a_formaction;
     }
 
-    /**
-    * Get FormAction.
-    *
-    * @return	string	FormAction
-    */
-    public function getFormAction()
+    public function getFormAction() : string
     {
         return $this->formaction;
     }
 
-    /**
-    * Set Target.
-    *
-    * @param	string	$a_target	Target
-    */
-    public function setTarget($a_target)
+    public function setTarget(string $a_target) : void
     {
         $this->target = $a_target;
     }
 
-    /**
-    * Get Target.
-    *
-    * @return	string	Target
-    */
-    public function getTarget()
+    public function getTarget() : string
     {
         return $this->target;
     }
 
-    /**
-    * Set Enctype Multipart/Formdata true/false.
-    *
-    * @param	boolean	$a_multipart	Enctype Multipart/Formdata true/false
-    */
-    public function setMultipart($a_multipart)
+    public function setMultipart(bool $a_multipart) : void
     {
         $this->multipart = $a_multipart;
     }
 
-    /**
-    * Get Enctype Multipart/Formdata true/false.
-    *
-    * @return	boolean	Enctype Multipart/Formdata true/false
-    */
-    public function getMultipart()
+    public function getMultipart() : bool
     {
         return $this->multipart;
     }
 
-    /**
-    * Set Id. If you use multiple forms on a screen you should set this value.
-    *
-    * @param	string	$a_id	Id
-    */
-    public function setId($a_id)
+    public function setId(string $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    /**
-    * Get Id.
-    *
-    * @return	string	Id
-    */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
     
-    /**
-    * Set Name. Useful for Javascript
-    *
-    * @param	string	$a_name	Name
-    */
-    public function setName($a_name)
+    public function setName(string $a_name) : void
     {
         $this->name = $a_name;
     }
 
-    /**
-    * Get Name.
-    *
-    * @return	string	Name
-    */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-    * Set Keep Form Tag Open.
-    *
-    * @param	boolean	$a_keepopen	Keep Form Tag Open
-    */
-    public function setKeepOpen($a_keepopen)
+    public function setKeepOpen(bool $a_keepopen) : void
     {
         $this->keepopen = $a_keepopen;
     }
 
-    /**
-    * Get Keep Form Tag Open.
-    *
-    * @return	boolean	Keep Form Tag Open
-    */
-    public function getKeepOpen()
+    public function getKeepOpen() : bool
     {
         return $this->keepopen;
     }
 
-    /**
-    * Enable/Disable Open Form Tag.
-    *
-    * @param	boolean	$a_keepopen	enable/disable form open tag
-    */
-    public function setOpenTag($a_open)
+    public function setOpenTag(bool $a_open) : void
     {
         $this->opentag = $a_open;
     }
 
-    /**
-    * Get Open Form Tag Enabled.
-    *
-    * @return	boolean	open form tag enabled
-    */
-    public function getOpenTag()
+    public function getOpenTag() : bool
     {
         return $this->opentag;
     }
     
-    /**
-    * Set close tag
-    *
-    * @param	boolean		close tag true/false
-    */
-    public function setCloseTag($a_val)
+    public function setCloseTag(bool $a_val) : void
     {
         $this->setKeepOpen(!$a_val);
     }
     
-    /**
-    * Get close tag
-    *
-    * @return	boolean		close tag true/false
-    */
-    public function getCloseTag()
+    public function getCloseTag() : bool
     {
         return !$this->getKeepOpen();
     }
     
-    /**
-     * Set prevent double submission
-     *
-     * @param bool $a_val prevent double submission
-     */
-    public function setPreventDoubleSubmission($a_val)
+    public function setPreventDoubleSubmission(bool $a_val) : void
     {
         $this->prevent_double_submission = $a_val;
     }
     
-    /**
-     * Get prevent double submission
-     *
-     * @return bool prevent double submission
-     */
-    public function getPreventDoubleSubmission()
+    public function getPreventDoubleSubmission() : bool
     {
         return $this->prevent_double_submission;
     }
     
-    /**
-    * Get HTML.
-    */
-    public function getHTML()
+    public function getHTML() : string
     {
         $tpl = new ilTemplate("tpl.form.html", true, true, "Services/Form");
         
@@ -266,10 +181,7 @@ class ilFormGUI
         return $tpl->get();
     }
 
-    /**
-    * Get Content.
-    */
-    public function getContent()
+    public function getContent() : string
     {
         return "";
     }

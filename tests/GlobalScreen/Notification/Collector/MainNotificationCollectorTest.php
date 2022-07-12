@@ -9,7 +9,7 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class MainNotificationCollectorTest extends BaseNotificationSetUp
 {
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -17,7 +17,7 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
     }
 
 
-    public function testHasNotifications()
+    public function testHasNotifications() : void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -30,7 +30,7 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
     }
 
 
-    public function testGetNotifications()
+    public function testGetNotifications() : void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -48,7 +48,7 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
     }
 
 
-    public function testGetAmountOfNewNotifications()
+    public function testGetAmountOfNewNotifications() : void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -66,11 +66,11 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
 
         $povider = $this->getDummyNotificationsProviderWithNotifications([$group_notification, $group_notification]);
         $collector = new MainNotificationCollector([$povider]);
-        $this->assertEquals(12, $collector->getAmountOfNewNotifications());
+        $this->assertEquals(4, $collector->getAmountOfNewNotifications());
     }
 
 
-    public function testGetAmountOfOldNotifications()
+    public function testGetAmountOfOldNotifications() : void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -88,11 +88,11 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
 
         $povider = $this->getDummyNotificationsProviderWithNotifications([$group_notification, $group_notification]);
         $collector = new MainNotificationCollector([$povider]);
-        $this->assertEquals(12, $collector->getAmountOfOldNotifications());
+        $this->assertEquals(4, $collector->getAmountOfOldNotifications());
     }
 
 
-    public function testGetNotificationsIdentifiersAsArray()
+    public function testGetNotificationsIdentifiersAsArray() : void
     {
         $provider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$provider]);

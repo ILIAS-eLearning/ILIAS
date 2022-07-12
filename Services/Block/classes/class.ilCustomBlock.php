@@ -1,36 +1,39 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types = 1);
 
 /**
-* This is the super class of all custom blocks.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * This is the super class of all custom blocks.
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilCustomBlock
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected int $id = 0;
+    protected int $context_obj_id = 0;
+    protected string $context_obj_type = "";
+    protected int $context_sub_obj_id = 0;
+    protected string $context_sub_obj_type = "";
+    protected string $type = "";
+    protected string $title = "";
 
-
-    protected $id;
-    protected $context_obj_id;
-    protected $context_obj_type;
-    protected $context_sub_obj_id;
-    protected $context_sub_obj_type;
-    protected $type;
-    protected $title;
-
-    /**
-    * Constructor.
-    *
-    * @param	int	$a_id
-    */
-    public function __construct($a_id = 0)
-    {
+    public function __construct(
+        int $a_id = 0
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -40,151 +43,80 @@ class ilCustomBlock
         }
     }
 
-    /**
-    * Set Id.
-    *
-    * @param	int	$a_id
-    */
-    public function setId($a_id)
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    /**
-    * Get Id.
-    *
-    * @return	int
-    */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-    * Set ContextObjId.
-    *
-    * @param	int	$a_context_obj_id
-    */
-    public function setContextObjId($a_context_obj_id)
+    public function setContextObjId(int $a_context_obj_id) : void
     {
         $this->context_obj_id = $a_context_obj_id;
     }
 
-    /**
-    * Get ContextObjId.
-    *
-    * @return	int
-    */
-    public function getContextObjId()
+    public function getContextObjId() : int
     {
-        return (int) $this->context_obj_id;
+        return $this->context_obj_id;
     }
 
-    /**
-    * Set ContextObjType.
-    *
-    * @param	int	$a_context_obj_type
-    */
-    public function setContextObjType($a_context_obj_type)
+    public function setContextObjType(string $a_context_obj_type) : void
     {
         $this->context_obj_type = $a_context_obj_type;
     }
 
-    /**
-    * Get ContextObjType.
-    *
-    * @return	int
-    */
-    public function getContextObjType()
+    public function getContextObjType() : string
     {
         return $this->context_obj_type;
     }
 
-    /**
-    * Set ContextSubObjId.
-    *
-    * @param	int	$a_context_sub_obj_id
-    */
-    public function setContextSubObjId($a_context_sub_obj_id)
+    public function setContextSubObjId(int $a_context_sub_obj_id) : void
     {
         $this->context_sub_obj_id = $a_context_sub_obj_id;
     }
 
-    /**
-    * Get ContextSubObjId.
-    *
-    * @return	int
-    */
-    public function getContextSubObjId()
+    public function getContextSubObjId() : int
     {
-        return (int) $this->context_sub_obj_id;
+        return $this->context_sub_obj_id;
     }
 
-    /**
-    * Set ContextSubObjType.
-    *
-    * @param	int	$a_context_sub_obj_type
-    */
-    public function setContextSubObjType($a_context_sub_obj_type)
+    public function setContextSubObjType(string $a_context_sub_obj_type) : void
     {
         $this->context_sub_obj_type = $a_context_sub_obj_type;
     }
 
-    /**
-    * Get ContextSubObjType.
-    *
-    * @return	int
-    */
-    public function getContextSubObjType()
+    public function getContextSubObjType() : string
     {
         return $this->context_sub_obj_type;
     }
 
     /**
-    * Set Type.
-    *
-    * @param	string	$a_type	Type of block.
-    */
-    public function setType($a_type)
+     * @param	string	$a_type	Type of block.
+     */
+    public function setType(string $a_type) : void
     {
         $this->type = $a_type;
     }
 
-    /**
-    * Get Type.
-    *
-    * @return	string	Type of block.
-    */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-    * Set Title.
-    *
-    * @param	string	$a_title	Title of block
-    */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-    * Get Title.
-    *
-    * @return	string	Title of block
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * Create new item.
-    *
-    */
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
         
@@ -208,11 +140,7 @@ class ilCustomBlock
         $ilDB->manipulate($query);
     }
 
-    /**
-    * Read item from database.
-    *
-    */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -221,19 +149,15 @@ class ilCustomBlock
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
-        $this->setContextObjId($rec["context_obj_id"]);
+        $this->setContextObjId((int) $rec["context_obj_id"]);
         $this->setContextObjType($rec["context_obj_type"]);
-        $this->setContextSubObjId($rec["context_sub_obj_id"]);
-        $this->setContextSubObjType($rec["context_sub_obj_type"]);
+        $this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
+        $this->setContextSubObjType((string) $rec["context_sub_obj_type"]);
         $this->setType($rec["type"]);
-        $this->setTitle($rec["title"]);
+        $this->setTitle((string) $rec["title"]);
     }
 
-    /**
-    * Update item in database.
-    *
-    */
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
         
@@ -249,11 +173,7 @@ class ilCustomBlock
         $ilDB->manipulate($query);
     }
 
-    /**
-    * Delete item from database.
-    *
-    */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -264,37 +184,11 @@ class ilCustomBlock
     }
 
     /**
-    * Query getBlocksForContext
-    *
-    */
-    public function querygetBlocksForContext()
-    {
-        $ilDB = $this->db;
-        
-        $query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title " .
-            "FROM il_custom_block " .
-            "WHERE " .
-                "context_obj_id = " . $ilDB->quote($this->getContextObjId(), "integer") .
-                " AND context_obj_type = " . $ilDB->quote($this->getContextObjType(), "text") .
-                " AND context_sub_obj_id = " . $ilDB->quote($this->getContextSubObjId(), "integer") .
-                " AND " . $ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true);
-        //" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text")."";
-
-        $set = $ilDB->query($query);
-        $result = array();
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $result[] = $rec;
-        }
-        
-        return $result;
-    }
-
-    /**
-    * Query BlocksForContext
-    *
-    */
-    public function queryBlocksForContext($a_include_sub_obj = true)
-    {
+     * Query BlocksForContext
+     */
+    public function queryBlocksForContext(
+        bool $a_include_sub_obj = true
+    ) : array {
         $ilDB = $this->db;
         
         $query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title " .
@@ -317,35 +211,7 @@ class ilCustomBlock
         return $result;
     }
 
-    /**
-    * Query TitleForId
-    *
-    */
-    public function queryTitleForId()
-    {
-        $ilDB = $this->db;
-        die("ilCustomBlock::queryTitleForId is deprecated");
-        /*
-                $query = "SELECT id ".
-                    "FROM il_custom_block ".
-                    "WHERE "."";
-
-                $set = $ilDB->query($query);
-                $result = array();
-                while($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-                {
-                    $result[] = $rec;
-                }
-
-                return $result;
-        */
-    }
-
-    /**
-    * Query CntBlockForContext
-    *
-    */
-    public function queryCntBlockForContext()
+    public function queryCntBlockForContext() : array
     {
         $ilDB = $this->db;
         
@@ -356,7 +222,7 @@ class ilCustomBlock
                 " AND context_obj_type = " . $ilDB->quote($this->getContextObjType(), "text") .
                 " AND context_sub_obj_id = " . $ilDB->quote($this->getContextSubObjId(), "integer") .
                 " AND " . $ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true) .
-                " AND type = " . $ilDB->quote($this->getType(), "text") . "";
+                " AND type = " . $ilDB->quote($this->getType(), "text");
                 
         $set = $ilDB->query($query);
         $result = array();
@@ -367,8 +233,10 @@ class ilCustomBlock
         return $result;
     }
         
-    public static function multiBlockQuery($a_context_obj_type, array $a_context_obj_ids)
-    {
+    public static function multiBlockQuery(
+        string $a_context_obj_type,
+        array $a_context_obj_ids
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();

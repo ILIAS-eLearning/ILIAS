@@ -2187,7 +2187,8 @@ class soap_transport_http extends nusoap_base {
 		}
 		$this->use_curl = $use_curl;
 		preg_match('/\$Revisio' . 'n: ([^ ]+)/', $this->revision, $rev);
-		$this->setHeader('User-Agent', $this->title.'/'.$this->version.' ('.$rev[1].')');
+		// begin-patch php8
+		$this->setHeader('User-Agent', $this->title.'/'.$this->version.' ('.($rev[1] ?? '1.1').')');
 	}
 
 	/**
@@ -3319,7 +3320,9 @@ class soap_transport_http extends nusoap_base {
 	 */
 	function parseCookie($cookie_str) {
 		$cookie_str = str_replace('; ', ';', $cookie_str) . ';';
-		$data = split(';', $cookie_str);
+		// begin-patch php8
+		//$data = split(';', $cookie_str);
+		$data = explode(';', $cookie_str);
 		$value_str = $data[0];
 
 		$cookie_param = 'domain=';

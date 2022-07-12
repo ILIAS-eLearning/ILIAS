@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Chart\ProgressMeter;
 
 use ILIAS\UI\Component\Component;
@@ -12,12 +26,11 @@ use ILIAS\UI\Component\Component;
  */
 interface ProgressMeter extends Component
 {
-
     /**
      * Get maximum value
      *
      * This value is used as 100%.
-     * This value will always returned "raw" because it is used to calculate the
+     * This value will always return "raw" because it is used to calculate the
      * percentage values of main, required and comparison.
      *
      * @return int|float

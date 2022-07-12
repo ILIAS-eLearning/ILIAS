@@ -1,8 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * TableGUI class for acknowledgement of completed courses for new members
@@ -13,29 +25,22 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI extends ilTable2GUI
 {
-    
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_user_id, $a_completed_courses)
+    protected string $user_id;
+
+    public function __construct($parent_obj, string $user_id, $completed_courses)
     {
-        $this->folder = $a_folder;
+        parent::__construct($parent_obj);
+        $this->user_id = $user_id;
 
-        parent::__construct($a_parent_obj, "");
-        $this->user_id = $a_user_id;
-
-        $this->addColumn("", "", "1", 1);
+        $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"));
 
         $this->setRowTemplate("tpl.acknowledge_completed_courses_row.html", "Modules/StudyProgramme");
 
-        $this->setData($a_completed_courses);
+        $this->setData($completed_courses);
     }
-    
-    /**
-    * Fill table row
-    */
-    protected function fillRow($a_set)
+
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("USR_ID", $this->user_id);
         $this->tpl->setVariable("PRG_REF_ID", $a_set["prg_ref_id"]);

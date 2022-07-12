@@ -9,7 +9,7 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class NotificationFactoryTest extends BaseNotificationSetUp
 {
-    public function testAvailableMethods()
+    public function testAvailableMethods() : void
     {
         $r = new ReflectionClass($this->factory);
 
@@ -19,12 +19,12 @@ class NotificationFactoryTest extends BaseNotificationSetUp
         }
         sort($methods);
         $this->assertEquals(
-            $methods,
             [
                 0 => 'administrative',
                 1 => 'standard',
                 2 => 'standardGroup',
-            ]
+            ],
+            $methods
         );
     }
 

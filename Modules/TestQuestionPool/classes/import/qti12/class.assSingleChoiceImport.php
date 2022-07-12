@@ -1,5 +1,18 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
 
@@ -19,7 +32,7 @@ class assSingleChoiceImport extends assQuestionImport
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQtiItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -27,13 +40,14 @@ class assSingleChoiceImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
         // empty session variable for imported xhtml mobs
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
+
         $presentation = $item->getPresentation();
         $duration = $item->getDuration();
         $shuffle = 0;
@@ -203,7 +217,12 @@ class assSingleChoiceImport extends assQuestionImport
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
                 $this->object->isSingleline = true;
             }
-            $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["imagefile"]["label"]);
+            if(isset($answer["imagefile"]["label"])) {
+                $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"],
+                    $answer["imagefile"]["label"]);
+            } else {
+                $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"]);
+            }
         }
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
@@ -216,7 +235,7 @@ class assSingleChoiceImport extends assQuestionImport
                 $imagepath = $this->object->getImagePath();
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 $imagepath .= $answer["imagefile"]["label"];
                 $fh = fopen($imagepath, "wb");
@@ -244,10 +263,10 @@ class assSingleChoiceImport extends assQuestionImport
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
         $answers = &$this->object->getAnswers();
-        if (is_array($_SESSION["import_mob_xhtml"])) {
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
                 } else {

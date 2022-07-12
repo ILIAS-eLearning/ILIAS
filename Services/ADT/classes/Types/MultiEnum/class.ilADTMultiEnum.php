@@ -1,35 +1,36 @@
-<?php
+<?php declare(strict_types=1);
 
 abstract class ilADTMultiEnum extends ilADT
 {
-    protected $values; // [array]
-        
-    public function getType()
+    protected ?array $values;
+
+    public function getType() : string
     {
         return "MultiEnum";
     }
-    
-    
+
     // definition
-    
-    protected function isValidDefinition(ilADTDefinition $a_def)
+
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
-        return ($a_def instanceof ilADTMultiEnumDefinition);
+        return $a_def instanceof ilADTMultiEnumDefinition;
     }
-    
-    public function reset()
+
+    public function reset() : void
     {
         parent::reset();
-        
         $this->values = null;
     }
-    
-    
+
     // properties
-    
+
+    /**
+     * @param string|int $a_value
+     * @return string|int
+     */
     abstract protected function handleSelectionValue($a_value);
 
-    public function addSelection(int $value_index)
+    public function addSelection(int $value_index) : void
     {
         if (!$this->isValidOption($value_index)) {
             return;
@@ -37,8 +38,7 @@ abstract class ilADTMultiEnum extends ilADT
         $this->values[] = $value_index;
     }
 
-
-    public function setSelections(array $a_values = null)
+    public function setSelections(array $a_values = null) : void
     {
         if ($a_values === null) {
             return;
@@ -52,71 +52,72 @@ abstract class ilADTMultiEnum extends ilADT
         }
         $this->values = count($checked_values) ? $checked_values : null;
     }
-    
-    public function getSelections()
+
+    public function getSelections() : ?array
     {
         return $this->values;
     }
-                
-    public function isValidOption($a_value)
+
+    /**
+     * @param string|int $a_value
+     * @return bool
+     */
+    public function isValidOption($a_value) : bool
     {
         $a_value = $this->handleSelectionValue($a_value);
         return array_key_exists($a_value, $this->getDefinition()->getOptions());
     }
-    
-    
+
     // comparison
-    
-    public function equals(ilADT $a_adt)
+
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getCheckSum() === $a_adt->getCheckSum());
         }
-    }
-                
-    public function isLarger(ilADT $a_adt)
-    {
-        // return null?
+        return null;
     }
 
-    public function isSmaller(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
-    
-    
+
+    public function isSmaller(ilADT $a_adt) : ?bool
+    {
+        return null;
+    }
+
     // null
-    
-    public function isNull()
+
+    public function isNull() : bool
     {
-        return ($this->getSelections() === null);
+        return $this->getSelections() === null;
     }
-        
-    
-    // check
-    
-    public function getCheckSum()
+
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
             $current = $this->getSelections();
             sort($current);
             return md5(implode(",", $current));
         }
+        return null;
     }
-    
-    
+
     // stdClass
-    
-    public function exportStdClass()
+
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
             $obj->value = $this->getSelections();
             return $obj;
         }
+        return null;
     }
-    
-    public function importStdClass($a_std)
+
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setSelections($a_std->value);

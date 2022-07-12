@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Mail Box class
@@ -11,42 +26,36 @@
  */
 class ilMailbox
 {
-    /** @var ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected ilTree $mtree;
+    protected int $usrId;
+    /** @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string} */
+    protected array $actions = [
+        'moveMails' => '',
+        'markMailsRead' => '',
+        'markMailsUnread' => '',
+        'deleteMails' => '',
+    ];
+    /** @var array{b_inbox: string, c_trash: string, d_drafts: string, e_sent: string, z_local : string} */
+    protected array $defaultFolders = [
+        'b_inbox' => 'inbox',
+        'c_trash' => 'trash',
+        'd_drafts' => 'drafts',
+        'e_sent' => 'sent',
+        'z_local' => 'local',
+    ];
+    protected string $table_mail_obj_data;
+    protected string $table_tree;
 
-    /** @var ilDBInterface */
-    protected $db;
-
-    /** @var ilTree */
-    protected $mtree;
-
-    /** @var int */
-    protected $usrId;
-
-    /** @var array */
-    protected $actions = [];
-
-    /** @var array */
-    protected $defaultFolders = [];
-
-    /** @var string */
-    protected $table_mail_obj_data;
-
-    /** @var string */
-    protected $table_tree;
-
-    /**
-     * ilMailbox constructor.
-     * @param int $a_user_id
-     */
-    public function __construct($a_user_id = 0)
+    public function __construct(int $a_user_id = 0)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
 
-        $this->usrId = (int) $a_user_id;
+        $this->usrId = $a_user_id;
         $this->table_mail_obj_data = 'mail_obj_data';
         $this->table_tree = 'mail_tree';
 
@@ -65,23 +74,11 @@ class ilMailbox
                 'moveMails' => $this->lng->txt('mail_move_to'),
                 'markMailsRead' => $this->lng->txt('mail_mark_read'),
                 'markMailsUnread' => $this->lng->txt('mail_mark_unread'),
-                'deleteMails' => $this->lng->txt('delete')
+                'deleteMails' => $this->lng->txt('delete'),
             ];
         }
-
-        // array contains basic folders and there lng translation for every new user
-        $this->defaultFolders = [
-            'b_inbox' => 'inbox',
-            'c_trash' => 'trash',
-            'd_drafts' => 'drafts',
-            'e_sent' => 'sent',
-            'z_local' => 'local'
-        ];
     }
 
-    /**
-     * @return int
-     */
     public function getInboxFolder() : int
     {
         $res = $this->db->queryF(
@@ -95,9 +92,6 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    /**
-     * @return int
-     */
     public function getDraftsFolder() : int
     {
         $res = $this->db->queryF(
@@ -111,9 +105,6 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    /**
-     * @return int
-     */
     public function getTrashFolder() : int
     {
         $res = $this->db->queryF(
@@ -127,9 +118,6 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    /**
-     * @return int
-     */
     public function getSentFolder() : int
     {
         $res = $this->db->queryF(
@@ -143,19 +131,16 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    /**
-     * @return int
-     */
     private function getRootFolderId() : int
     {
-        return (int) $this->mtree->getRootId();
+        return $this->mtree->getRootId();
     }
 
     /**
      * @param int $folderId
-     * @return array
+     * @return array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string}
      */
-    public function getActions($folderId) : array
+    public function getActions(int $folderId) : array
     {
         if ($folderId) {
             $folder_data = $this->getFolderData($folderId);
@@ -172,9 +157,10 @@ class ilMailbox
      */
     public function createDefaultFolder() : void
     {
-        $rootFolderId = (int) $this->db->nextId($this->table_mail_obj_data);
+        $rootFolderId = $this->db->nextId($this->table_mail_obj_data);
         $this->db->manipulateF(
-            'INSERT INTO ' . $this->table_mail_obj_data . ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
+            'INSERT INTO ' . $this->table_mail_obj_data .
+            ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
             ['integer', 'integer', 'text', 'text'],
             [$rootFolderId, $this->usrId, 'a_root', 'root']
         );
@@ -183,7 +169,8 @@ class ilMailbox
         foreach ($this->defaultFolders as $key => $folder) {
             $last_id = $this->db->nextId($this->table_mail_obj_data);
             $this->db->manipulateF(
-                'INSERT INTO ' . $this->table_mail_obj_data . ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
+                'INSERT INTO ' . $this->table_mail_obj_data .
+                ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
                 ['integer', 'integer', 'text', 'text'],
                 [$last_id, $this->usrId, $key, $folder]
             );
@@ -191,20 +178,16 @@ class ilMailbox
         }
     }
 
-    /**
-     * @param int $parentFolderId
-     * @param string $name
-     * @return int
-     */
     public function addFolder(int $parentFolderId, string $name) : int
     {
         if ($this->folderNameExists($name)) {
             return 0;
         }
 
-        $nextId = (int) $this->db->nextId($this->table_mail_obj_data);
+        $nextId = $this->db->nextId($this->table_mail_obj_data);
         $this->db->manipulateF(
-            'INSERT INTO ' . $this->table_mail_obj_data . ' (obj_id, user_id, title, m_type) VALUES(%s,%s,%s,%s)',
+            'INSERT INTO ' . $this->table_mail_obj_data .
+            ' (obj_id, user_id, title, m_type) VALUES(%s,%s,%s,%s)',
             ['integer', 'integer', 'text', 'text'],
             [$nextId, $this->usrId, $name, 'user_folder']
         );
@@ -213,11 +196,6 @@ class ilMailbox
         return $nextId;
     }
 
-    /**
-     * @param int $folderId
-     * @param string $name
-     * @return bool
-     */
     public function renameFolder(int $folderId, string $name) : bool
     {
         if ($this->folderNameExists($name)) {
@@ -233,10 +211,6 @@ class ilMailbox
         return true;
     }
 
-    /**
-     * @param $name
-     * @return bool
-     */
     protected function folderNameExists(string $name) : bool
     {
         $res = $this->db->queryF(
@@ -250,11 +224,9 @@ class ilMailbox
     }
 
     /**
-     * @param int $folderId
-     * @return bool
      * @throws ilInvalidTreeStructureException
      */
-    public function deleteFolder($folderId) : bool
+    public function deleteFolder(int $folderId) : bool
     {
         $query = $this->db->queryF(
             'SELECT obj_id, title FROM ' . $this->table_mail_obj_data . ' WHERE obj_id = %s AND user_id = %s',
@@ -279,7 +251,7 @@ class ilMailbox
 
             $mailIds = [];
             foreach ($mails as $mail) {
-                $mailIds[] = $mail['mail_id'];
+                $mailIds[] = (int) $mail['mail_id'];
             }
 
             $mailer->deleteMails($mailIds);
@@ -295,10 +267,10 @@ class ilMailbox
     }
 
     /**
-     * @param $folderId
-     * @return array
+     * @param int $folderId
+     * @return array{obj_id: int, title: string, type: string}
      */
-    public function getFolderData($folderId) : array
+    public function getFolderData(int $folderId) : array
     {
         $res = $this->db->queryF(
             'SELECT * FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND obj_id = %s',
@@ -313,11 +285,7 @@ class ilMailbox
             'type' => (string) $row['m_type'],
         ];
     }
-
-    /**
-     * @param int $folderId
-     * @return int
-     */
+    
     public function getParentFolderId(int $folderId) : int
     {
         $res = $this->db->queryF(
@@ -330,9 +298,6 @@ class ilMailbox
         return is_array($row) ? (int) $row['parent'] : 0;
     }
 
-    /**
-     * @return array
-     */
     public function getSubFolders() : array
     {
         $userFolders = [];
@@ -346,7 +311,7 @@ class ilMailbox
             $row = $this->db->fetchAssoc($res);
 
             $userFolders[] = [
-                'title' => (string) $key,
+                'title' => $key,
                 'type' => (string) $row['m_type'],
                 'obj_id' => (int) $row['obj_id'],
             ];
@@ -357,7 +322,7 @@ class ilMailbox
             'WHERE ' . $this->table_mail_obj_data . '.obj_id = ' . $this->table_tree . '.child',
             'AND ' . $this->table_tree . '.depth  > %s',
             'AND ' . $this->table_tree . '.tree  = %s',
-            'ORDER BY ' . $this->table_tree . '.lft, ' . $this->table_mail_obj_data . '.title'
+            'ORDER BY ' . $this->table_tree . '.lft, ' . $this->table_mail_obj_data . '.title',
         ]);
         $res = $this->db->queryF(
             $query,
@@ -375,25 +340,16 @@ class ilMailbox
         return $userFolders;
     }
 
-    /**
-     * @param int $usrId
-     */
     public function setUsrId(int $usrId) : void
     {
         $this->usrId = $usrId;
     }
 
-    /**
-     * @return int
-     */
     public function getUsrId() : int
     {
-        return (int) $this->usrId;
+        return $this->usrId;
     }
 
-    /**
-     *
-     */
     public function delete() : void
     {
         $this->db->manipulateF(
@@ -420,7 +376,8 @@ class ilMailbox
             [$this->usrId]
         );
 
-        // Delete the user's files from filesystem: This has to be done before deleting the database entries in table 'mail'
+        // Delete the user's files from filesystem:
+        // This has to be done before deleting the database entries in table 'mail'
         $fdm = new ilFileDataMail($this->usrId);
         $fdm->onUserDelete();
 
@@ -435,7 +392,6 @@ class ilMailbox
     /**
      * Update existing mails. Set sender id to 0 and import name to login name.
      * This is only necessary for deleted users.
-     * @param string $nameToShow
      */
     public function updateMailsOfDeletedUser(string $nameToShow) : void
     {
@@ -446,10 +402,6 @@ class ilMailbox
         );
     }
 
-    /**
-     * @param int $folderId
-     * @return bool
-     */
     public function isOwnedFolder(int $folderId) : bool
     {
         $folderData = $this->getFolderData($folderId);

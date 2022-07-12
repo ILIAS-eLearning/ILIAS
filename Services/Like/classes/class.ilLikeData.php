@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Data class for like feature. DB related operations.
@@ -11,40 +25,27 @@
  * Since the subobject_type column is pk it must be not null and does not allow "" due to the abstract DB handling.
  * We internally save "" as "-" here.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLikeData
 {
-    const TYPE_LIKE = 0;
-    const TYPE_DISLIKE = 1;
-    const TYPE_LOVE = 2;
-    const TYPE_LAUGH = 3;
-    const TYPE_ASTOUNDED = 4;
-    const TYPE_SAD = 5;
-    const TYPE_ANGRY = 6;
+    public const TYPE_LIKE = 0;
+    public const TYPE_DISLIKE = 1;
+    public const TYPE_LOVE = 2;
+    public const TYPE_LAUGH = 3;
+    public const TYPE_ASTOUNDED = 4;
+    public const TYPE_SAD = 5;
+    public const TYPE_ANGRY = 6;
 
-    /**
-     *
-     * @var array
-     */
-    protected $data = array();
+    protected array $data = array();
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     * @param ilDB $db
-     */
-    public function __construct(array $a_obj_ids = array(), ilDB $db = null, $lng = null)
-    {
+    public function __construct(
+        array $a_obj_ids = array(),
+        ilDBInterface $db = null,
+        ilLanguage $lng = null
+    ) {
         global $DIC;
 
         $this->db = ($db == null)
@@ -60,11 +61,8 @@ class ilLikeData
     
     /**
      * Get types
-     *
-     * @param
-     * @return array
      */
-    public function getExpressionTypes()
+    public function getExpressionTypes() : array
     {
         return array(
             self::TYPE_LIKE => $this->lng->txt("like_like"),
@@ -90,14 +88,14 @@ class ilLikeData
      * @param int $a_news_id news is (optional news id, if like action is dedicated to a news for the object/subobject)
      */
     public function addExpression(
-        $a_user_id,
-        $a_like_type,
-        $a_obj_id,
-        $a_obj_type,
-        $a_sub_obj_id = 0,
-        $a_sub_obj_type = "",
-        $a_news_id = 0
-    ) {
+        int $a_user_id,
+        int $a_like_type,
+        int $a_obj_id,
+        string $a_obj_type,
+        int $a_sub_obj_id = 0,
+        string $a_sub_obj_type = "",
+        int $a_news_id = 0
+    ) : void {
         $ilDB = $this->db;
 
         if ($a_user_id == ANONYMOUS_USER_ID) {
@@ -113,13 +111,13 @@ class ilLikeData
         $ilDB->replace(
             "like_data",
             array(
-                "user_id" => array("integer", (int) $a_user_id),
-                "obj_id" => array("integer", (int) $a_obj_id),
+                "user_id" => array("integer", $a_user_id),
+                "obj_id" => array("integer", $a_obj_id),
                 "obj_type" => array("text", $a_obj_type),
-                "sub_obj_id" => array("integer", (int) $a_sub_obj_id),
+                "sub_obj_id" => array("integer", $a_sub_obj_id),
                 "sub_obj_type" => array("text", $a_sub_obj_type),
-                "news_id" => array("integer", (int) $a_news_id),
-                "like_type" => array("integer", (int) $a_like_type)
+                "news_id" => array("integer", $a_news_id),
+                "like_type" => array("integer", $a_like_type)
                 ),
             array(
                 "exp_ts" => array("timestamp", ilUtil::now())
@@ -139,14 +137,14 @@ class ilLikeData
      * @param int $a_news_id news is (optional news id, if like action is dedicated to a news for the object/subobject)
      */
     public function removeExpression(
-        $a_user_id,
-        $a_like_type,
-        $a_obj_id,
-        $a_obj_type,
-        $a_sub_obj_id = 0,
-        $a_sub_obj_type = "",
-        $a_news_id = 0
-    ) {
+        int $a_user_id,
+        int $a_like_type,
+        int $a_obj_id,
+        string $a_obj_type,
+        int $a_sub_obj_id = 0,
+        string $a_sub_obj_type = "",
+        int $a_news_id = 0
+    ) : void {
         $ilDB = $this->db;
 
         if ($a_user_id == ANONYMOUS_USER_ID) {
@@ -175,11 +173,11 @@ class ilLikeData
 
     /**
      * Load data (for objects)
-     *
-     * @param int[] load data for objects
+     * @param int[] $a_obj_ids load data for objects
      */
-    protected function loadDataForObjects($a_obj_ids = array())
-    {
+    protected function loadDataForObjects(
+        array $a_obj_ids = array()
+    ) : void {
         $ilDB = $this->db;
 
         foreach ($a_obj_ids as $id) {
@@ -206,11 +204,16 @@ class ilLikeData
      * @param int $sub_obj_id
      * @param string $sub_obj_type
      * @param int $news_id
-     * @return int[] $news_id
+     * @return int[] counts per expression type
      * @throws ilLikeDataException
      */
-    public function getExpressionCounts($obj_id, $obj_type, $sub_obj_id, $sub_obj_type, $news_id)
-    {
+    public function getExpressionCounts(
+        int $obj_id,
+        string $obj_type,
+        int $sub_obj_id,
+        string $sub_obj_type,
+        int $news_id
+    ) : array {
         if (!is_array($this->data[$obj_id])) {
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }
@@ -222,7 +225,7 @@ class ilLikeData
         $cnt = array();
         foreach ($this->getExpressionTypes() as $k => $txt) {
             $cnt[$k] = 0;
-            if (is_array($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k])) {
+            if (isset($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k])) {
                 $cnt[$k] = count($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k]);
             }
         }
@@ -242,14 +245,14 @@ class ilLikeData
      * @return bool
      */
     public function isExpressionSet(
-        $a_user_id,
-        $a_like_type,
-        $a_obj_id,
-        $a_obj_type,
-        $a_sub_obj_id = 0,
-        $a_sub_obj_type = "",
-        $a_news_id = 0
-    ) {
+        int $a_user_id,
+        int $a_like_type,
+        int $a_obj_id,
+        string $a_obj_type,
+        int $a_sub_obj_id = 0,
+        string $a_sub_obj_type = "",
+        int $a_news_id = 0
+    ) : bool {
         if (isset($this->data[$a_obj_id][$a_sub_obj_id][$a_sub_obj_type][$a_news_id][$a_like_type][$a_user_id])) {
             return true;
         }
@@ -258,17 +261,15 @@ class ilLikeData
 
     /**
      * Get expression entries for obj/subobj/news
-     *
-     * @param int $obj_id
-     * @param string $obj_type
-     * @param int $sub_obj_id
-     * @param string $sub_obj_type
-     * @param int $news_id
-     * @return int[] $news_id
      * @throws ilLikeDataException
      */
-    public function getExpressionEntries($obj_id, $obj_type, $sub_obj_id, $sub_obj_type, $news_id)
-    {
+    public function getExpressionEntries(
+        int $obj_id,
+        string $obj_type,
+        int $sub_obj_id,
+        string $sub_obj_type,
+        int $news_id
+    ) : array {
         if (!is_array($this->data[$obj_id])) {
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }
@@ -290,7 +291,7 @@ class ilLikeData
             }
         }
 
-        $exp = ilUtil::sortArray($exp, "timestamp", "desc");
+        $exp = ilArrayUtil::sortArray($exp, "timestamp", "desc");
         return $exp;
     }
 
@@ -298,12 +299,14 @@ class ilLikeData
      * Get expression entries for obj/subobj/news
      *
      * @param int $obj_id
-     * @param int $since_ts timestamp (show only data since...)
+     * @param ?int $since_ts timestamp (show only data since...)
      * @return array
      * @throws ilLikeDataException
      */
-    public function getExpressionEntriesForObject($obj_id, $since_ts = null)
-    {
+    public function getExpressionEntriesForObject(
+        int $obj_id,
+        ?int $since_ts = null
+    ) : array {
         if (!is_array($this->data[$obj_id])) {
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }
@@ -329,7 +332,7 @@ class ilLikeData
             }
         }
 
-        $exp = ilUtil::sortArray($exp, "timestamp", "desc");
+        $exp = ilArrayUtil::sortArray($exp, "timestamp", "desc");
         return $exp;
     }
 }

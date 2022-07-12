@@ -1,8 +1,23 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBooleanFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,18 +26,19 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
-     * @param string $filter_value
-     *
-     * @return null|ilDclRecordQueryObject
+     * @param array|string $filter_value
      */
-    public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
-    {
+    public function getRecordQueryFilterObject(
+        $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
+    ) : ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $from = (isset($filter_value['from'])) ? (int) $filter_value['from'] : null;
-        $to = (isset($filter_value['to'])) ? (int) $filter_value['to'] : null;
+        if (is_array($filter_value)) {
+            $from = (isset($filter_value['from'])) ? (int) $filter_value['from'] : null;
+            $to = (isset($filter_value['to'])) ? (int) $filter_value['to'] : null;
+        }
 
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
@@ -42,14 +58,15 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
-    public function hasNumericSorting()
+    public function hasNumericSorting() : bool
     {
         return true;
     }
 
-
-    public function checkValidity($value, $record_id = null)
+    /**
+     * @param float $value
+     */
+    public function checkValidity($value, ?int $record_id = null) : bool
     {
         $valid = parent::checkValidity($value, $record_id);
 

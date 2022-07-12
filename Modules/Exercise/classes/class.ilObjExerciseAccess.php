@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -10,6 +24,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     
     /**
      * Get possible conditions operators
+     * @return string[]
      */
     public static function getConditionOperators() : array
     {
@@ -22,20 +37,12 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     
     /**
      * check condition
-     * @param int $a_trigger_obj_id
-     * @param string $a_operator
-     * @param string $a_value
-     * @param int $a_usr_id
-     * @return bool
      */
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
-                if (ilExerciseMembers::_lookupStatus($a_trigger_obj_id, $a_usr_id) == "passed") {
-                    return true;
-                }
-                return false;
+                return ilExerciseMembers::_lookupStatus($a_trigger_obj_id, $a_usr_id) == "passed";
 
             case ilConditionHandler::OPERATOR_FAILED:
                 return ilExerciseMembers::_lookupStatus($a_trigger_obj_id, $a_usr_id) == 'failed';
@@ -111,12 +118,12 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
         // :TODO: mind personal deadline?
         
         if ($dl) {
-            $dl = ilUtil::period2String(new ilDateTime($dl, IL_CAL_UNIX));
+            $dl = ilLegacyFormElementsUtil::period2String(new ilDateTime($dl, IL_CAL_UNIX));
         }
         
         return array(
             "mtime" => $dl,
-            "cnt" => sizeof($cnt)
+            "cnt" => count($cnt)
         );
     }
     
@@ -134,19 +141,10 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
         if ($t_arr[0] != "exc" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
-            return true;
-        }
-        return false;
+        return $ilAccess->checkAccess("read", "", $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", $t_arr[1]);
     }
 
-    /**
-     * @param ilWACPath $ilWACPath
-     *
-     * @return bool
-     */
     public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         return true;

@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage;
 
@@ -11,43 +25,30 @@ namespace ILIAS\COPage;
  */
 class ResourcesCollector
 {
-    /**
-     * @var array
-     */
-    protected $js_files = [];
-
-    /**
-     * @var array
-     */
-    protected $css_files = [];
-
-    /**
-     * @var array
-     */
-    protected $onload_code = [];
+    protected string $output_mode = "";
+    protected array $js_files = [];
+    protected array $css_files = [];
+    protected array $onload_code = [];
 
     /**
      * Constructor, currently has a dependency to
      * ilPageObject due to historic reasons, this should
      * be removed in the future
-     * @param string             $output_mode
-     * @param \ilPageObject|null $pg
      */
-    public function __construct(string $output_mode, \ilPageObject $pg = null)
-    {
+    public function __construct(
+        string $output_mode,
+        \ilPageObject $pg = null
+    ) {
         // workaround (note that pcquestion currently checks for page config, if self assessment is enabled
         if (is_null($pg)) {
             $pg = new \ilLMPage();
+            $pg->setXMLContent("<PageObject></PageObject>");
         }
         $this->output_mode = $output_mode;
         $this->init($pg);
     }
 
-    /**
-     * init
-     * @param \ilPageObject $pg
-     */
-    protected function init(\ilPageObject $pg)
+    protected function init(\ilPageObject $pg) : void
     {
         // basic files must be copied of offline version as well
         // (for all other modes they are included automatically)
@@ -90,29 +91,17 @@ class ResourcesCollector
         }
     }
 
-    /**
-     * Get javascript files
-     * @return array
-     */
-    public function getJavascriptFiles()
+    public function getJavascriptFiles() : array
     {
         return $this->js_files;
     }
 
-    /**
-     * Get css files
-     * @return array
-     */
-    public function getCssFiles()
+    public function getCssFiles() : array
     {
         return $this->css_files;
     }
 
-    /**
-     * Get onload code
-     * @return array
-     */
-    public function getOnloadCode()
+    public function getOnloadCode() : array
     {
         return $this->onload_code;
     }

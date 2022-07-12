@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -31,6 +45,7 @@ class ilExerciseManagementGUI
     public const GRADE_NOT_GRADED = "notgraded";
     public const GRADE_PASSED = "passed";
     public const GRADE_FAILED = "failed";
+    protected \ILIAS\HTTP\Services $http;
 
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
@@ -39,7 +54,7 @@ class ilExerciseManagementGUI
     protected ilGlobalPageTemplate $tpl;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
-    protected array $filter;
+    protected array $filter = [];
     protected ilToolbarGUI $toolbar;
     protected ?ilObjExercise $exercise;
     protected ?ilExAssignment $assignment = null;
@@ -48,12 +63,12 @@ class ilExerciseManagementGUI
     protected ilObjUser $user;
     protected InternalService $service;
     protected ?ilDBInterface $db = null;
-    protected int $ass_id;
-    protected int $requested_member_id;
-    protected int $requested_part_id;
-    protected int $requested_ass_id;
+    protected int $ass_id = 0;
+    protected int $requested_member_id = 0;
+    protected int $requested_part_id = 0;
+    protected int $requested_ass_id = 0;
     protected string $requested_idl_id;
-    protected bool $done;
+    protected bool $done = false;
     protected array $requested_learning_comments;
     protected string $requested_comment;
     protected string $requested_user_login;
@@ -101,7 +116,7 @@ class ilExerciseManagementGUI
         $this->service = $service;
 
         $this->exercise = $request->getExercise();
-        if ($a_ass) {
+        if ($a_ass !== null) {
             $this->assignment = $a_ass;
             $this->ass_id = $this->assignment->getId();
         }
@@ -126,6 +141,7 @@ class ilExerciseManagementGUI
         $this->requested_filter_feedback = $request->getFilterFeedback();
 
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
+        $this->http = $DIC->http();
     }
 
     /**
@@ -149,7 +165,7 @@ class ilExerciseManagementGUI
                     $ilCtrl->getLinkTarget($this, $this->getViewBack())
                 );
                 
-                ilUtil::sendInfo($lng->txt("exc_fb_tutor_info"));
+                $this->tpl->setOnScreenMessage('info', $lng->txt("exc_fb_tutor_info"));
 
                 $fstorage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
                 $fstorage->create();
@@ -171,7 +187,7 @@ class ilExerciseManagementGUI
                     $this->assignment->getTitle() . " - " .
                     $fs_title);
                 $pcommand = $fs_gui->getLastPerformedCommand();
-                if (is_array($pcommand) && $pcommand["cmd"] == "create_file") {
+                if (is_array($pcommand) && ($pcommand["cmd"] ?? "") == "create_file") {
                     foreach ($noti_rec_ids as $user_id) {
                         $member_status = $this->assignment->getMemberStatus($user_id);
                         $member_status->setFeedback(true);
@@ -283,7 +299,7 @@ class ilExerciseManagementGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
-        $ass_id = $this->assignment ? $this->assignment->getId() : 0;
+        $ass_id = $this->assignment !== null ? $this->assignment->getId() : 0;
         $part_id = $this->requested_part_id;
                 
         $ilCtrl->setParameter($this, "vw", "");
@@ -323,7 +339,7 @@ class ilExerciseManagementGUI
         $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", $this->requested_member_id);
         $url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned");
         $js_url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned", "", "", false);
-        ilUtil::sendInfo($lng->txt("exc_wait_for_files") . "<a href='$url'> " . $lng->txt('exc_download_files') . "</a><script>window.location.href ='" . $js_url . "';</script>");
+        $this->tpl->setOnScreenMessage('info', $lng->txt("exc_wait_for_files") . "<a href='$url'> " . $lng->txt('exc_download_files') . "</a><script>window.location.href ='" . $js_url . "';</script>");
         $this->membersObject();
     }
 
@@ -343,7 +359,7 @@ class ilExerciseManagementGUI
         // assignment selection
         $ass = ilExAssignment::getInstancesByExercise($this->exercise->getId());
         
-        if (!$this->assignment) {
+        if ($this->assignment === null && count($ass) > 0) {
             $this->assignment = current($ass);
         }
         
@@ -392,7 +408,7 @@ class ilExerciseManagementGUI
         }
         
         // #16168 - no assignments
-        if (count($ass) > 0) {
+        if ($ass !== []) {
             if ($has_rbac_access) {
                 $ilToolbar->addSeparator();
             }
@@ -425,7 +441,7 @@ class ilExerciseManagementGUI
 
             $submission_repository = $this->service->repo()->submission();
 
-            if ($submission_repository->hasSubmissions($this->assignment->getId())) {
+            if ($submission_repository->hasSubmissions($this->assignment->getId()) !== 0) {
                 $ass_type = $this->assignment->getType();
                 //todo change addFormButton for addButtonInstance
                 if ($ass_type == ilExAssignment::TYPE_TEXT) {
@@ -441,7 +457,7 @@ class ilExerciseManagementGUI
                 $this->initIndividualDeadlineModal()
             );
         } else {
-            ilUtil::sendInfo($lng->txt("exc_no_assignments_available"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("exc_no_assignments_available"));
         }
         
         $ilCtrl->setParameter($this, "ass_id", "");
@@ -460,10 +476,10 @@ class ilExerciseManagementGUI
         );
 
         if ($download_task->run()) {
-            ilUtil::sendSuccess($this->lng->txt('exc_down_files_started_bg'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('exc_down_files_started_bg'), true);
         }
 
-        if ($this->assignment) {
+        if ($this->assignment !== null) {
             $this->ctrl->redirect($this, "members");
         } else {
             $this->ctrl->redirect($this, "showParticipant");
@@ -510,7 +526,7 @@ class ilExerciseManagementGUI
             $marks_obj->setMark(ilUtil::stripSlashes($v));
             $marks_obj->update();
         }
-        ilUtil::sendSuccess($lng->txt("exc_msg_saved_grades"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("exc_msg_saved_grades"), true);
         $ilCtrl->redirect($this, "showGradesOverview");
     }
     
@@ -548,7 +564,7 @@ class ilExerciseManagementGUI
         foreach (ilExSubmission::getAssignmentFilesByUsers($this->exercise->getId(), $this->assignment->getId(), $members) as $file) {
             if (trim($file["atext"]) && ilObjUser::_exists($file["user_id"])) {
                 $feedback_data = $this->collectFeedbackDataFromPeer($file);
-                $submission_data = $this->assignment->getExerciseMemberAssignmentData($file["user_id"], $this->filter["status"]);
+                $submission_data = $this->assignment->getExerciseMemberAssignmentData((int) $file["user_id"], $this->filter["status"] ?? "");
 
                 if (is_array($submission_data)) {
                     $data = array_merge($feedback_data, $submission_data);
@@ -603,7 +619,7 @@ class ilExerciseManagementGUI
 
             $feedback_data = $this->collectFeedbackDataFromPeer($file);
 
-            $submission_data = $this->assignment->getExerciseMemberAssignmentData($file["user_id"], $this->filter["status"]);
+            $submission_data = $this->assignment->getExerciseMemberAssignmentData((int) $file["user_id"], $this->filter["status"] ?? "");
 
             if (is_array($submission_data)) {
                 $data = array_merge($feedback_data, $submission_data);
@@ -688,7 +704,8 @@ class ilExerciseManagementGUI
 
         $feedback_tpl = new ilTemplate("tpl.exc_report_feedback.html", true, true, "Modules/Exercise");
         //if no feedback filter the feedback is displayed. Can be list submissions or compare submissions.
-        if (array_key_exists("peer", $a_data) && ($this->filter["feedback"] == self::FEEDBACK_FULL_SUBMISSION) || $this->filter["feedback"] == "") {
+        $filter_feedback = $this->filter["feedback"] ?? "";
+        if (array_key_exists("peer", $a_data) && (($filter_feedback == self::FEEDBACK_FULL_SUBMISSION) || $filter_feedback == "")) {
             $feedback_tpl->setCurrentBlock("feedback");
             foreach ($a_data["peer"] as $peer_id) {
                 if (ilObject::_lookupType($peer_id) == "usr") {
@@ -838,7 +855,7 @@ class ilExerciseManagementGUI
             }
             $member_status->update();
         }
-        ilUtil::sendSuccess($this->lng->txt("exc_status_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_status_saved"), true);
         $this->ctrl->redirect($this, "listTextAssignment");
     }
 
@@ -850,7 +867,7 @@ class ilExerciseManagementGUI
     public function addUserFromAutoCompleteObject() : void
     {
         if ($this->requested_user_login == "") {
-            ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'));
             $this->membersObject();
             return;
         }
@@ -861,7 +878,7 @@ class ilExerciseManagementGUI
             $user_id = ilObjUser::_lookupId($user);
 
             if (!$user_id) {
-                ilUtil::sendFailure($this->lng->txt('user_not_known'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_known'));
                 $this->membersObject();
                 return;
             }
@@ -876,12 +893,12 @@ class ilExerciseManagementGUI
     public function addMembersObject($a_user_ids = array()) : void
     {
         if (!count($a_user_ids)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
         } else {
             if (!$this->exercise->members_obj->assignMembers($a_user_ids)) {
-                ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_members_already_assigned"), true);
             } else {
-                ilUtil::sendSuccess($this->lng->txt("exc_members_assigned"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_members_assigned"), true);
             }
         }
         $this->ctrl->redirect($this, "members");
@@ -923,7 +940,7 @@ class ilExerciseManagementGUI
         
         
         if (count($members) == 0) {
-            ilUtil::sendInfo($lng->txt("exc_no_participants"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("exc_no_participants"));
             return;
         }
         
@@ -937,9 +954,9 @@ class ilExerciseManagementGUI
             }
         }
         
-        $mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
+        $mems = ilArrayUtil::sortArray($mems, "lastname", "asc", false, true);
         
-        if ($this->requested_part_id == 0 && count($mems) > 0 && key($mems) > 0) {
+        if ($this->requested_part_id == 0 && $mems !== [] && key($mems) > 0) {
             $ilCtrl->setParameter($this, "part_id", key($mems));
             $ilCtrl->redirect($this, "showParticipant");
         }
@@ -964,7 +981,7 @@ class ilExerciseManagementGUI
             $ilToolbar->addStickyItem($button);
         }
 
-        if (count($mems) > 0) {
+        if ($mems !== []) {
             $this->ctrl->setParameter($this, "vw", self::VIEW_PARTICIPANT);
             $this->ctrl->setParameter($this, "part_id", $current_participant);
 
@@ -980,7 +997,7 @@ class ilExerciseManagementGUI
             $tpl->setContent($part_tab->getHTML() .
                 $this->initIndividualDeadlineModal());
         } else {
-            ilUtil::sendInfo($this->lng->txt("exc_no_assignments_available"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exc_no_assignments_available"));
         }
     }
 
@@ -1064,7 +1081,7 @@ class ilExerciseManagementGUI
             $members = array_keys($members);
         }
         
-        if ($members) {
+        if ($members !== []) {
             $logins = array();
             foreach ($members as $user_id) {
                 $member_status = $this->assignment->getMemberStatus($user_id);
@@ -1147,9 +1164,9 @@ class ilExerciseManagementGUI
     {
         $members = [];
         // multi-user
-        if ($this->assignment) {
+        if ($this->assignment !== null) {
             if (count($this->selected_participants) == 0) {
-                ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
                 $this->ctrl->redirect($this, "members");
             }
                     
@@ -1173,7 +1190,7 @@ class ilExerciseManagementGUI
         // multi-ass
         else {
             if (count($this->selected_ass_ids) == 0) {
-                ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
                 $this->ctrl->redirect($this, "showParticipant");
             }
             
@@ -1209,8 +1226,8 @@ class ilExerciseManagementGUI
     {
         $members = $this->getMultiActionUserIds();
         
-        ilUtil::sendSuccess($this->lng->txt("exc_sent"), true);
-        if ($this->assignment) {
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_sent"), true);
+        if ($this->assignment !== null) {
             $this->exercise->sendAssignment($this->assignment, array_keys($members));
             $this->ctrl->redirect($this, "members");
         } else {
@@ -1266,7 +1283,7 @@ class ilExerciseManagementGUI
             $this->exercise->members_obj->deassignMember((int) $usr_id);
             $this->removeUserSubmissionFilesFromWebDir((int) $usr_id);
         }
-        ilUtil::sendSuccess($lng->txt("exc_msg_participants_removed"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("exc_msg_participants_removed"), true);
         $ilCtrl->redirect($this, "members");
     }
 
@@ -1356,7 +1373,7 @@ class ilExerciseManagementGUI
     {
         //$members = $this->getMultiActionUserIds();
         
-        if ($this->assignment) {
+        if ($this->assignment !== null) {
             $this->saveStatusAllObject($this->selected_participants);
         } else {
             $this->saveStatusParticipantObject($this->selected_ass_ids);
@@ -1406,12 +1423,12 @@ class ilExerciseManagementGUI
         }
 
         $save_for_str = "";
-        if (count($saved_for) > 0) {
+        if ($saved_for !== []) {
             $save_for_str = "(" . implode(" - ", $saved_for) . ")";
         }
 
         if ($a_redirect) {
-            ilUtil::sendSuccess($this->lng->txt("exc_status_saved") . " " . $save_for_str, true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_status_saved") . " " . $save_for_str, true);
             $ilCtrl->redirect($this, $this->getViewBack());
         }
     }
@@ -1443,13 +1460,13 @@ class ilExerciseManagementGUI
                         $member_status->setFeedback(true);
                         $member_status->update();
                         
-                        if (trim($comment)) {
+                        if (trim($comment) !== '' && trim($comment) !== '0') {
                             $reci_ids[] = $user_id;
                         }
                     }
                 }
                 
-                if (sizeof($reci_ids)) {
+                if ($reci_ids !== []) {
                     // send notification
                     $this->exercise->sendFeedbackFileNotification(
                         null,
@@ -1504,15 +1521,13 @@ class ilExerciseManagementGUI
             }
         }
 
-        if (sizeof($new_members)) {
+        if ($new_members !== []) {
             // see ilExSubmissionTeamGUI::addTeamMemberActionObject()
 
             $first_user = array_shift($new_members);
             $team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user, true);
-            if (sizeof($new_members)) {
-                foreach ($new_members as $user_id) {
-                    $team->addTeamMember($user_id);
-                }
+            foreach ($new_members as $user_id) {
+                $team->addTeamMember($user_id);
             }
 
             // re-evaluate complete team, as some members might have had submitted
@@ -1525,7 +1540,7 @@ class ilExerciseManagementGUI
             );
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "members");
     }
 
@@ -1559,7 +1574,7 @@ class ilExerciseManagementGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "members");
     }
     
@@ -1577,7 +1592,7 @@ class ilExerciseManagementGUI
             $ilCtrl->getLinkTarget($this, $this->getViewBack())
         );
         
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initGroupForm();
         }
         $tpl->setContent($a_form->getHTML());
@@ -1593,7 +1608,7 @@ class ilExerciseManagementGUI
             
         $all_members = array();
         foreach (ilExAssignmentTeam::getGroupMembersMap($this->exercise->getRefId()) as $grp_id => $group) {
-            if (sizeof($group["members"])) {
+            if (count($group["members"]) !== 0) {
                 $grp_team = new ilCheckboxGroupInputGUI($lng->txt("obj_grp") . " \"" . $group["title"] . "\"", "grpt[" . $grp_id . "]");
                 $grp_value = $options = array();
                 foreach ($group["members"] as $user_id) {
@@ -1616,7 +1631,7 @@ class ilExerciseManagementGUI
             $form->addItem($grp_team);
         }
         
-        if (sizeof($all_members)) {
+        if ($all_members !== []) {
             $form->addCommandButton("createTeamsFromGroups", $lng->txt("save"));
         }
         $form->addCommandButton("members", $lng->txt("cancel"));
@@ -1653,7 +1668,7 @@ class ilExerciseManagementGUI
                         }
                     }
                     
-                    if (sizeof($invalid_team_members)) {
+                    if ($invalid_team_members !== []) {
                         $valid = false;
                         
                         $alert = array();
@@ -1668,7 +1683,7 @@ class ilExerciseManagementGUI
                 }
             }
             if ($valid) {
-                if (sizeof($teams)) {
+                if ($teams !== []) {
                     $existing_users = array_keys(ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId()));
                     
                     // create teams from group selections
@@ -1692,29 +1707,27 @@ class ilExerciseManagementGUI
                         // getTeamId() does NOT send notification
                         // $team->sendNotification($this->exercise->getRefId(), $first, "add");
                         
-                        if (sizeof($members)) {
-                            foreach ($members as $user_id) {
-                                $team->addTeamMember($user_id);
-                            }
+                        foreach ($members as $user_id) {
+                            $team->addTeamMember($user_id);
                         }
                     }
                     
                     $mess = array();
-                    if ($sum["added"]) {
+                    if ($sum["added"] !== 0) {
                         $mess[] = sprintf($lng->txt("exc_adopt_group_teams_added"), $sum["added"]);
                     }
-                    if ($sum["blocked"]) {
+                    if ($sum["blocked"] !== 0) {
                         $mess[] = sprintf($lng->txt("exc_adopt_group_teams_blocked"), $sum["blocked"]);
                     }
-                    if ($sum["added"]) {
-                        ilUtil::sendSuccess(implode(" ", $mess), true);
+                    if ($sum["added"] !== 0) {
+                        $this->tpl->setOnScreenMessage('success', implode(" ", $mess), true);
                     } else {
-                        ilUtil::sendFailure(implode(" ", $mess), true);
+                        $this->tpl->setOnScreenMessage('failure', implode(" ", $mess), true);
                     }
                 }
                 $this->ctrl->redirect($this, "members");
             } else {
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
         
@@ -1758,7 +1771,7 @@ class ilExerciseManagementGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
         
-        ilUtil::sendInfo($lng->txt("exc_multi_feedb_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("exc_multi_feedb_info"));
         
         $this->addSubTabs("assignment");
         
@@ -1769,7 +1782,7 @@ class ilExerciseManagementGUI
         $button->setOmitPreventDoubleSubmission(true);
         $ilToolbar->addButtonInstance($button);
         
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initMultiFeedbackForm($this->assignment->getId());
         }
         
@@ -1793,10 +1806,10 @@ class ilExerciseManagementGUI
         $form = $this->initMultiFeedbackForm($this->assignment->getId());
         if ($form->checkInput()) {
             try {
-                $this->assignment->uploadMultiFeedbackFile(ilUtil::stripSlashesArray($_FILES["mfzip"]));
+                $this->assignment->uploadMultiFeedbackFile(ilArrayUtil::stripSlashesArray($_FILES["mfzip"]));
                 $this->ctrl->redirect($this, "showMultiFeedbackConfirmationTable");
             } catch (ilException $e) {
-                ilUtil::sendFailure($e->getMessage(), true);
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                 $this->ctrl->redirect($this, "showMultiFeedback");
             }
         }
@@ -1834,7 +1847,7 @@ class ilExerciseManagementGUI
     {
         $this->assignment->saveMultiFeedbackFiles($this->requested_files, $this->exercise);
         
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "members");
     }
     
@@ -1908,8 +1921,8 @@ class ilExerciseManagementGUI
         
         // from request "dn", see ilExcIdl.js
         if ($this->done) {
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-            $this->ctrl->redirect($this, $this->assignment
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
+            $this->ctrl->redirect($this, $this->assignment !== null
                 ? "members"
                 : "showParticipant");
         }
@@ -1926,7 +1939,8 @@ class ilExerciseManagementGUI
         // form "submit"
         else {
             $tmp = array();
-            foreach (array_keys($_POST) as $id) {
+            $post = $this->http->request()->getParsedBody();
+            foreach (array_keys($post) as $id) {
                 if (substr($id, 0, 3) == "dl_") {
                     $tmp[] = substr($id, 3);
                 }
@@ -2044,9 +2058,9 @@ class ilExerciseManagementGUI
     protected function setIndividualDeadlineObject() : void
     {
         // this will only get called if no selection
-        ilUtil::sendFailure($this->lng->txt("select_one"));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
 
-        if ($this->assignment) {
+        if ($this->assignment !== null) {
             $this->membersObject();
         } else {
             $this->showParticipantObject();
@@ -2073,7 +2087,7 @@ class ilExerciseManagementGUI
             self::GRADE_FAILED => $this->lng->txt("exc_failed")
         );
         $si_status->setOptions($options);
-        $si_status->setValue($this->filter["status"]);
+        $si_status->setValue($this->filter["status"] ?? "");
 
         $si_feedback = new ilSelectInputGUI($this->lng->txt("feedback"), "filter_feedback");
         $options = array(
@@ -2081,7 +2095,7 @@ class ilExerciseManagementGUI
             self::FEEDBACK_ONLY_SUBMISSION => $this->lng->txt("submissions_only")
         );
         $si_feedback->setOptions($options);
-        $si_feedback->setValue($this->filter["feedback"]);
+        $si_feedback->setValue($this->filter["feedback"] ?? "");
 
         $this->toolbar->addInputItem($si_status, true);
 
@@ -2100,7 +2114,7 @@ class ilExerciseManagementGUI
                 "submission_only" => $this->lng->txt("submissions_only")
             );
             $si_feedback->setOptions($options);
-            $si_feedback->setValue($this->filter["feedback"]);
+            $si_feedback->setValue($this->filter["feedback"] ?? "");
 
             $this->toolbar->addInputItem($si_feedback, true);
         }
@@ -2115,7 +2129,15 @@ class ilExerciseManagementGUI
     /**
      * Open HTML view for portfolio submissions
      */
-    public function openSubmissionViewObject() : void
+    public function openSubmissionPrintViewObject() : void
+    {
+        $this->openSubmissionViewObject(true);
+    }
+
+    /**
+     * Open HTML view for portfolio submissions
+     */
+    public function openSubmissionViewObject(bool $print_version = false) : void
     {
         global $DIC;
 
@@ -2127,11 +2149,19 @@ class ilExerciseManagementGUI
 
         $submission_time = $submission->getLastSubmission();
 
-        $zip_original_full_path = $this->getSubmissionZipFilePath($submission);
+        // e.g. /<datadir>/<clientid>/ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
+        $zip_original_full_path = $this->getSubmissionZipFilePath($submission, $print_version);
 
+        // e.g. ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
         $zip_internal_path = $this->getWebFilePathFromExternalFilePath($zip_original_full_path);
 
         list($obj_date, $obj_id) = explode("_", basename($zip_original_full_path));
+
+        $obj_id = (int) $obj_id;
+        $obj_id = $this->assignment->getAssignmentType()->getExportObjIdForResourceId($obj_id);
+        if ($print_version) {
+            $obj_id .= "print";
+        }
 
         $obj_dir = $this->assignment->getAssignmentType()->getStringIdentifier() . "_" . $obj_id;
 
@@ -2148,7 +2178,6 @@ class ilExerciseManagementGUI
         ilWACSignedPath::signFolderOfStartFile($index_html_file);
 
         $web_filesystem = $DIC->filesystem()->web();
-
         if ($last_opening > $submission_time && $web_filesystem->has($index_html_file)) {
             ilUtil::redirect($index_html_file);
         }
@@ -2157,8 +2186,7 @@ class ilExerciseManagementGUI
             $file_copied = $this->copyFileToWebDir($zip_internal_path);
 
             if ($file_copied) {
-                ilUtil::unzip($file_copied, true);
-
+                ilFileUtils::unzip($file_copied, true);
                 $web_filesystem->delete($zip_internal_path);
 
                 $submission_repository = $this->service->repo()->submission();
@@ -2170,11 +2198,11 @@ class ilExerciseManagementGUI
             $error_msg = $this->lng->txt("exc_copy_zip_error");
         }
 
-        if (!$error_msg) {
+        if ($error_msg === '' || $error_msg === '0') {
             $error_msg = $this->lng->txt("exc_find_zip_error");
         }
 
-        ilUtil::sendFailure($error_msg);
+        $this->tpl->setOnScreenMessage('failure', $error_msg);
     }
 
     /**
@@ -2183,11 +2211,17 @@ class ilExerciseManagementGUI
      * @return string|null
      */
     protected function getSubmissionZipFilePath(
-        ilExSubmission $submission
+        ilExSubmission $submission,
+        bool $print_versions = false
     ) : ?string {
-        $submitted = $submission->getFiles();
+        $submitted = $submission->getFiles(
+            null,
+            false,
+            null,
+            $print_versions
+        );
 
-        if (count($submitted) > 0) {
+        if ($submitted !== []) {
             $submitted = array_pop($submitted);
 
             return $submitted['filename'];
@@ -2241,8 +2275,8 @@ class ilExerciseManagementGUI
     protected function getWebFilePathFromExternalFilePath(
         string $external_file_path
     ) : string {
-        list($external_path, $internal_file_path) = explode(CLIENT_ID . "/", $external_file_path);
-
+        list($external_path, $internal_file_path) = explode(CLIENT_ID . "/ilExercise", $external_file_path);
+        $internal_file_path = "ilExercise" . $internal_file_path;
         return $internal_file_path;
     }
 

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilContainerRenderer
@@ -20,7 +23,7 @@
  */
 class ilContainerRenderer
 {
-    const UNIQUE_SEPARATOR = "-";
+    protected const UNIQUE_SEPARATOR = "-";
 
     protected ilLanguage $lng;
     protected ilSetting $settings;
@@ -69,9 +72,9 @@ class ilContainerRenderer
         $this->settings = $DIC->settings();
         $this->ui = $DIC->ui();
         $this->obj_definition = $DIC["objDefinition"];
-        $this->enable_manage_select_all = (bool) $a_enable_manage_select_all;
-        $this->enable_multi_download = (bool) $a_enable_multi_download;
-        $this->active_block_ordering = (bool) $a_active_block_ordering;
+        $this->enable_manage_select_all = $a_enable_manage_select_all;
+        $this->enable_multi_download = $a_enable_multi_download;
+        $this->active_block_ordering = $a_active_block_ordering;
         $this->block_custom_pos = $a_block_custom_positions;
         $this->view_mode = $a_view_mode;
         /** @var $obj ilContainerGUI */
@@ -94,12 +97,12 @@ class ilContainerRenderer
         string $a_prefix = null,
         string $a_postfix = null
     ) : bool {
-        if ($a_type != "itgr" &&
+        if ($a_type !== "itgr" &&
             !$this->hasTypeBlock($a_type)) {
-            $this->type_blocks[$a_type] = array(
+            $this->type_blocks[$a_type] = [
                 "prefix" => $a_prefix
                 ,"postfix" => $a_postfix
-            );
+            ];
             return true;
         }
         return false;
@@ -121,11 +124,11 @@ class ilContainerRenderer
         array $a_data = []
     ) : bool {
         if (!$this->hasCustomBlock($a_id)) {
-            $this->custom_blocks[$a_id] = array(
+            $this->custom_blocks[$a_id] = [
                 "caption" => $a_caption
                 ,"actions" => $a_actions
                 ,"data" => $a_data
-            );
+            ];
             return true;
         }
         return false;
@@ -178,10 +181,9 @@ class ilContainerRenderer
         if (!$this->hasItem($a_id)) {
             return;
         }
-        
-        unset($this->item_ids[$a_id]);
-        unset($this->hidden_items[$a_id]);
-        
+
+        unset($this->item_ids[$a_id], $this->hidden_items[$a_id]);
+
         foreach (array_keys($this->items) as $item_id) {
             $parts = explode(self::UNIQUE_SEPARATOR, $item_id);
             if (array_pop($parts) == $a_id) {
@@ -194,7 +196,7 @@ class ilContainerRenderer
                 $parts = explode(self::UNIQUE_SEPARATOR, $item_id);
                 if (array_pop($parts) == $a_id) {
                     unset($this->block_items[$block_id][$idx]);
-                    if (!sizeof($this->block_items[$block_id])) {
+                    if (!count($this->block_items[$block_id])) {
                         unset($this->block_items[$block_id]);
                     }
                     break;
@@ -228,10 +230,10 @@ class ilContainerRenderer
         $a_item_html,
         bool $a_force = false
     ) : bool {
-        if ($this->isValidBlock($a_block_id) &&
-            $a_item_type != "itgr" &&
+        if ($a_item_type !== "itgr" &&
+            $this->isValidBlock($a_block_id) &&
             (!$this->hasItem($a_item_id) || $a_force)) {
-            if (is_string($a_item_html) && trim($a_item_html) == "") {
+            if (is_string($a_item_html) && trim($a_item_html) === "") {
                 return false;
             }
             if (!$a_item_html) {
@@ -242,10 +244,10 @@ class ilContainerRenderer
             // #16563 - item_id (== ref_id) is NOT unique, adding parent block id
             $uniq_id = $a_block_id . self::UNIQUE_SEPARATOR . $a_item_id;
         
-            $this->items[$uniq_id] = array(
+            $this->items[$uniq_id] = [
                 "type" => $a_item_type
                 ,"html" => $a_item_html
-            );
+            ];
             
             // #18326
             $this->item_ids[$a_item_id] = true;
@@ -270,10 +272,10 @@ class ilContainerRenderer
         string $a_url,
         bool $a_active = false
     ) : void {
-        $this->details[$a_level] = array(
+        $this->details[$a_level] = [
             "url" => $a_url
-            ,"active" => (bool) $a_active
-        );
+            ,"active" => $a_active
+        ];
     }
     
     public function resetDetails() : void
@@ -305,17 +307,19 @@ class ilContainerRenderer
         $block_tpl = $this->initBlockTemplate();
         
         foreach ($this->processBlockPositions() as $block_id) {
-            if (array_key_exists($block_id, $this->custom_blocks)) {
-                if ($this->renderHelperCustomBlock($block_tpl, $block_id)) {
-                    $this->addSeparatorRow($block_tpl);
-                    $valid = true;
-                }
+            if (array_key_exists($block_id, $this->custom_blocks) && $this->renderHelperCustomBlock(
+                $block_tpl,
+                $block_id
+            )) {
+                $this->addSeparatorRow($block_tpl);
+                $valid = true;
             }
-            if (array_key_exists($block_id, $this->type_blocks)) {
-                if ($this->renderHelperTypeBlock($block_tpl, $block_id)) {
-                    $this->addSeparatorRow($block_tpl);
-                    $valid = true;
-                }
+            if (array_key_exists($block_id, $this->type_blocks) && $this->renderHelperTypeBlock(
+                $block_tpl,
+                $block_id
+            )) {
+                $this->addSeparatorRow($block_tpl);
+                $valid = true;
             }
         }
         
@@ -358,7 +362,7 @@ class ilContainerRenderer
     protected function processBlockPositions() : array
     {
         // manual order
-        if (is_array($this->block_custom_pos) && sizeof($this->block_custom_pos)) {
+        if (is_array($this->block_custom_pos) && count($this->block_custom_pos)) {
             $tmp = $this->block_pos;
             $this->block_pos = [];
             foreach ($this->block_custom_pos as $idx => $block_id) {
@@ -368,7 +372,7 @@ class ilContainerRenderer
             }
             
             // at least some manual are valid
-            if (sizeof($this->block_pos)) {
+            if (count($this->block_pos)) {
                 // append missing blocks from default order
                 $last = max($this->block_pos);
                 foreach (array_keys($tmp) as $block_id) {
@@ -384,7 +388,7 @@ class ilContainerRenderer
         }
         
         // add missing blocks to order
-        $last = sizeof($this->block_pos)
+        $last = count($this->block_pos)
             ? max($this->block_pos)
             : 0;
         foreach (array_keys($this->custom_blocks) as $block_id) {
@@ -399,7 +403,6 @@ class ilContainerRenderer
         }
             
         asort($this->block_pos);
-        
         return array_keys($this->block_pos);
     }
     
@@ -452,6 +455,23 @@ class ilContainerRenderer
                 }
             }
 
+            // determine view mode and tile size
+            $tile_size = ilContainer::TILE_SMALL;
+            $view_mode = $this->getViewMode();
+            if ($view_mode === ilContainerContentGUI::VIEW_MODE_TILE) {
+                $tile_size = ilContainer::_lookupContainerSetting($this->container_gui->getObject()->getId(), "tile_size");
+            }
+            if (is_numeric($a_block_id)) {
+                $item_group = new ilObjItemGroup($a_block_id);
+                if ($item_group->getListPresentation() !== "") {
+                    $view_mode = ($item_group->getListPresentation() === "tile")
+                        ? ilContainerContentGUI::VIEW_MODE_TILE
+                        : ilContainerContentGUI::VIEW_MODE_LIST;
+                    $tile_size = $item_group->getTileSize();
+                }
+            }
+
+
             // #14610 - manage empty item groups
             if ((isset($this->block_items[$a_block_id]) && is_array($this->block_items[$a_block_id])) ||
                 is_numeric($a_block_id)) {
@@ -459,7 +479,7 @@ class ilContainerRenderer
 
                 $order_id = (!$a_is_single && $this->active_block_ordering)
                     ? $a_block_id
-                    : 0;
+                    : "";
                 $this->addHeaderRow(
                     $a_block_tpl,
                     $a_block["type"] ?? '',
@@ -470,15 +490,15 @@ class ilContainerRenderer
                     $a_block["data"] ?? []
                 );
 
-                if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
+                if ($view_mode === ilContainerContentGUI::VIEW_MODE_LIST) {
                     if (isset($a_block["prefix"]) && $a_block["prefix"]) {
                         $this->addStandardRow($a_block_tpl, $a_block["prefix"]);
                     }
                 }
 
-                if (is_array($this->block_items[$a_block_id])) {
+                if (isset($this->block_items[$a_block_id])) {
                     foreach ($this->block_items[$a_block_id] as $item_id) {
-                        if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
+                        if ($view_mode === ilContainerContentGUI::VIEW_MODE_LIST) {
                             $this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], (int) $item_id);
                         } else {
                             $cards[] = $this->items[$item_id]["html"];
@@ -486,19 +506,38 @@ class ilContainerRenderer
                     }
                 }
 
-                if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
+                if ($view_mode === ilContainerContentGUI::VIEW_MODE_LIST) {
                     if (isset($a_block["postfix"]) && $a_block["postfix"]) {
                         $this->addStandardRow($a_block_tpl, $a_block["postfix"]);
                     }
                 }
 
-                if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_TILE) {
+                if ($view_mode === ilContainerContentGUI::VIEW_MODE_TILE) {
                     $f = $this->ui->factory();
                     $renderer = $this->ui->renderer();
 
                     //Create a deck with large cards
-                    $deck = $f->deck($cards)->withNormalCardsSize();
-                    //$deck = $f->deck($cards)->withSmallCardsSize();
+                    switch ($tile_size) {
+                        case ilContainer::TILE_SMALL:
+                            $deck = $f->deck($cards)->withSmallCardsSize();
+                            break;
+
+                        case ilContainer::TILE_LARGE:
+                            $deck = $f->deck($cards)->withLargeCardsSize();
+                            break;
+
+                        case ilContainer::TILE_EXTRA_LARGE:
+                            $deck = $f->deck($cards)->withExtraLargeCardsSize();
+                            break;
+
+                        case ilContainer::TILE_FULL:
+                            $deck = $f->deck($cards)->withFullSizedCardsSize();
+                            break;
+
+                        default:
+                            $deck = $f->deck($cards)->withNormalCardsSize();
+                            break;
+                    }
 
 
                     $html = $renderer->render($deck);
@@ -544,14 +583,18 @@ class ilContainerRenderer
         return new ilTemplate("tpl.container_list_block.html", true, true, "Services/Container");
     }
     
-    // Render block header
+    /**
+     * Render block header
+     * @param string     $a_order_id item group id or type, e.g. "crs"
+     * @throws ilTemplateException
+     */
     protected function addHeaderRow(
         ilTemplate $a_tpl,
         string $a_type = "",
         string $a_text = "",
         array $a_types_in_block = null,
         string $a_commands_html = "",
-        int $a_order_id = 0,
+        string $a_order_id = "",
         array $a_data = []
     ) : void {
         $lng = $this->lng;
@@ -564,17 +607,17 @@ class ilContainerRenderer
             $this->renderSelectAllBlock($a_tpl);
         } elseif ($this->enable_multi_download) {
             if ($a_type) {
-                $a_types_in_block = array($a_type);
+                $a_types_in_block = [$a_type];
             }
             foreach ($a_types_in_block as $type) {
-                if (in_array($type, $this->getDownloadableTypes())) {
+                if (in_array($type, $this->getDownloadableTypes(), true)) {
                     $this->renderSelectAllBlock($a_tpl);
                     break;
                 }
             }
         }
                 
-        if ($a_text == "" && $a_type != "") {
+        if ($a_text === "" && $a_type !== "") {
             if (!$objDefinition->isPlugin($a_type)) {
                 $title = $lng->txt("objs_" . $a_type);
             } else {
@@ -592,14 +635,13 @@ class ilContainerRenderer
                 $a_tpl->setVariable("DATA_VALUE", $v);
                 $a_tpl->parseCurrentBlock();
 
-                if ($k == "behaviour" && $v == ilItemGroupBehaviour::EXPANDABLE_CLOSED) {
+                if ($k === "behaviour" && $v == ilItemGroupBehaviour::EXPANDABLE_CLOSED) {
                     $a_tpl->touchBlock("container_items_hide");
                 }
             }
         }
 
-        if ($ilSetting->get("icon_position_in_lists") != "item_rows" &&
-            $a_type != "") {
+        if ($a_type !== "" && $ilSetting->get("icon_position_in_lists") !== "item_rows") {
             $icon = ilUtil::getImagePath("icon_" . $a_type . ".svg");
 
             $a_tpl->setCurrentBlock("container_header_row_image");
@@ -609,7 +651,7 @@ class ilContainerRenderer
             $a_tpl->setCurrentBlock("container_header_row");
         }
     
-        if ($a_order_id) {
+        if ($a_order_id !== "") {
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NAME", "position[blocks][" . $a_order_id . "]");
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt) * 10);
         }
@@ -665,14 +707,14 @@ class ilContainerRenderer
      */
     protected function getDownloadableTypes() : array
     {
-        return array("fold", "file");
+        return ["fold", "file"];
     }
     
     public function renderDetails(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         
-        if (sizeof($this->details)) {
+        if (count($this->details)) {
             $a_tpl->setCurrentBlock('container_details_row');
             $a_tpl->setVariable('TXT_DETAILS', $lng->txt('details'));
             $a_tpl->parseCurrentBlock();

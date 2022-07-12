@@ -1,10 +1,29 @@
-<?php namespace ILIAS\GlobalScreen\ScreenContext;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\ScreenContext;
 
 use ILIAS\Data\ReferenceId;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
  * Class ContextRepository
- *
  * The Collection of all available Contexts in the System. You can use them in
  * your @see ScreenContextAwareProvider to announce you are interested in.
  *
@@ -12,17 +31,22 @@ use ILIAS\Data\ReferenceId;
  */
 class ContextRepository
 {
+    private array $contexts = [];
+    private const C_MAIN = 'main';
+    private const C_DESKTOP = 'desktop';
+    private const C_REPO = 'repo';
+    private const C_ADMINISTRATION = 'administration';
+    private const C_LTI = 'lti';
 
-    /**
-     * @var array
-     */
-    private  $contexts = [];
-    const C_MAIN = 'main';
-    const C_DESKTOP = 'desktop';
-    const C_REPO = 'repo';
-    const C_ADMINISTRATION = 'administration';
-    const C_LTI = 'lti';
+    protected WrapperFactory $wrapper;
+    protected Factory $refinery;
 
+    public function __construct()
+    {
+        global $DIC;
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
+    }
 
     /**
      * @return ScreenContext
@@ -32,7 +56,6 @@ class ContextRepository
         return $this->get(BasicScreenContext::class, self::C_MAIN);
     }
 
-
     /**
      * @return ScreenContext
      */
@@ -40,7 +63,6 @@ class ContextRepository
     {
         return $this->get(BasicScreenContext::class, 'internal');
     }
-
 
     /**
      * @return ScreenContext
@@ -50,7 +72,6 @@ class ContextRepository
         return $this->get(BasicScreenContext::class, 'external');
     }
 
-
     /**
      * @return ScreenContext
      */
@@ -59,18 +80,19 @@ class ContextRepository
         return $this->get(BasicScreenContext::class, self::C_DESKTOP);
     }
 
-
     /**
      * @return ScreenContext
      */
     public function repository() : ScreenContext
     {
         $context = $this->get(BasicScreenContext::class, self::C_REPO);
-        $context = $context->withReferenceId(new ReferenceId((int) ($_GET['ref_id'] ?? 0)));
+        $ref_id = $this->wrapper->query()->has('ref_id')
+            ? $this->wrapper->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int())
+            : 0;
+        $context = $context->withReferenceId(new ReferenceId($ref_id));
 
         return $context;
     }
-
 
     /**
      * @return ScreenContext
@@ -80,7 +102,6 @@ class ContextRepository
         return $this->get(BasicScreenContext::class, self::C_ADMINISTRATION);
     }
 
-
     /**
      * @return ScreenContext
      */
@@ -89,14 +110,7 @@ class ContextRepository
         return $this->get(BasicScreenContext::class, self::C_LTI);
     }
 
-
-    /**
-     * @param string $class_name
-     * @param string $identifier
-     *
-     * @return ScreenContext
-     */
-    private function get(string $class_name, string $identifier)
+    private function get(string $class_name, string $identifier) : ScreenContext
     {
         if (!isset($this->contexts[$identifier])) {
             $this->contexts[$identifier] = new $class_name($identifier);

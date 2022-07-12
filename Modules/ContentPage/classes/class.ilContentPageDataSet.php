@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilContentPageDataSet
@@ -9,9 +24,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /** @var int[] */
     protected array $newMobIds = [];
 
-    /**
-     * @inheritdoc
-     */
     public function getSupportedVersions() : array
     {
         return [
@@ -19,17 +31,11 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return 'http://www.ilias.de/xml/Modules/ContentPage/' . $a_entity;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         switch ($a_entity) {
@@ -38,8 +44,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     'id' => 'integer',
                     'title' => 'text',
                     'description' => 'text',
-                    'info-tab' => 'integer',
-                    'style-id' => 'integer',
+                    'info-tab' => 'integer'
                 ];
 
             default:
@@ -47,9 +52,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $this->data = [];
@@ -71,9 +73,9 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         switch ($entity) {
             case self::OBJ_TYPE:
                 foreach ($ids as $objId) {
-                    if (ilObject::_lookupType($objId) === self::OBJ_TYPE) {
+                    if (ilObject::_lookupType((int) $objId) === self::OBJ_TYPE) {
                         /** @var ilObjContentPage $obj */
-                        $obj = ilObjectFactory::getInstanceByObjId($objId);
+                        $obj = ilObjectFactory::getInstanceByObjId((int) $objId);
 
                         $this->data[] = [
                             'id' => $obj->getId(),
@@ -83,8 +85,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                                 $obj->getId(),
                                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                                 '1'
-                            )),
-                            'style-id' => $obj->getStyleSheetId(),
+                            ))
                         ];
                     }
                 }
@@ -95,13 +96,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         }
     }
 
-    /**
-     * @param string $a_entity
-     * @param array $a_types
-     * @param array $a_rec
-     * @param ilImportMapping $a_mapping
-     * @param string $a_schema_version
-     */
     public function importRecord(
         string $a_entity,
         array $a_types,
@@ -111,15 +105,14 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     ) : void {
         switch ($a_entity) {
             case self::OBJ_TYPE:
-                if ($newObjId = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
-                    $newObject = ilObjectFactory::getInstanceByObjId($newObjId, false);
+                if ($newObjId = $a_mapping->getMapping('Services/Container', 'objs', (string) $a_rec['id'])) {
+                    $newObject = ilObjectFactory::getInstanceByObjId((int) $newObjId, false);
                 } else {
                     $newObject = new ilObjContentPage();
                 }
 
                 $newObject->setTitle(ilUtil::stripSlashes($a_rec['title']));
                 $newObject->setDescription(ilUtil::stripSlashes($a_rec['description']));
-                $newObject->setStyleSheetId((int) ilUtil::stripSlashes($a_rec['style-id']));
 
                 if (!$newObject->getId()) {
                     $newObject->create();
@@ -131,8 +124,12 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     (string) ((bool) $a_rec['info-tab'])
                 );
 
-                $a_mapping->addMapping('Modules/ContentPage', self::OBJ_TYPE, $a_rec['id'], $newObject->getId());
-                $a_mapping->addMapping('Modules/ContentPage', 'style', $newObject->getId(), $newObject->getStyleSheetId());
+                $a_mapping->addMapping(
+                    'Modules/ContentPage',
+                    self::OBJ_TYPE,
+                    (string) $a_rec['id'],
+                    (string) $newObject->getId()
+                );
                 $a_mapping->addMapping(
                     'Services/COPage',
                     'pg',
@@ -141,17 +138,5 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                 );
                 break;
         }
-    }
-
-    /**
-     * This method is an implicit interface method. The types of the arguments may vary.
-     */
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
     }
 }

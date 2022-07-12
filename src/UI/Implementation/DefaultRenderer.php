@@ -1,28 +1,40 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
+use LogicException;
 
 /**
  * Renderer that dispatches rendering of UI components to a Renderer found
- * in the same namespace as the component to be renderered.
+ * in the same namespace as the component to be rendered.
  */
 class DefaultRenderer implements Renderer
 {
-    /**
-     * @var	Render\Loader
-     */
-    private $component_renderer_loader;
+    private Render\Loader $component_renderer_loader;
 
     /**
      * @var Component[]
      */
-    private $contexts = [];
+    private array $contexts = [];
 
     public function __construct(Render\Loader $component_renderer_loader)
     {
@@ -32,17 +44,18 @@ class DefaultRenderer implements Renderer
     /**
      * @inheritdoc
      */
-    public function render($component)
+    public function render($component, ?Renderer $root = null)
     {
+        $root = $root ?? $this;
+
         $out = '';
         if (is_array($component)) {
             foreach ($component as $_component) {
-                $renderer = $this->getRendererFor($_component);
-                $out .= $renderer->render($_component, $this);
+                $out .= $root->render($_component);
             }
         } else {
             $renderer = $this->getRendererFor($component);
-            $out = $renderer->render($component, $this);
+            $out = $renderer->render($component, $root);
         }
 
         return $out;
@@ -51,24 +64,18 @@ class DefaultRenderer implements Renderer
     /**
      * @inheritdoc
      */
-    public function renderAsync($component)
+    public function renderAsync($component, ?Renderer $root = null)
     {
-        $out = '';
+        $root = $root ?? $this;
 
+        $out = '';
         if (is_array($component)) {
             foreach ($component as $_component) {
-                $out .= $this->render($_component) .
-                $this->component_renderer_loader
-                        ->getRendererFactoryFor($_component)
-                        ->getJSBinding()
-                        ->getOnLoadCodeAsync();
+                $out .= $root->renderAsync($_component);
             }
         } else {
-            $out = $this->render($component) .
-            $this->component_renderer_loader
-                    ->getRendererFactoryFor($component)
-                    ->getJSBinding()
-                    ->getOnLoadCodeAsync();
+            $out = $this->render($component, $root) .
+            $this->getJSCodeForAsyncRenderingFor($component);
         }
         return $out;
     }
@@ -79,19 +86,31 @@ class DefaultRenderer implements Renderer
      * Either initializes a new renderer or uses a cached one initialized
      * before.
      *
-     * @param	Component	$component
-     * @throws	\LogicException		if no renderer could be found for component.
-     * @return	ComponentRenderer
+     * @throws LogicException if no renderer could be found for component.
      */
-    protected function getRendererFor(Component $component)
+    protected function getRendererFor(Component $component) : ComponentRenderer
     {
         return $this->component_renderer_loader->getRendererFor($component, $this->getContexts());
     }
 
     /**
+     * Get JS-Code for asynchronous rendering of component.
+     *
+     * @param Component $component
+     * @return string
+     */
+    protected function getJSCodeForAsyncRenderingFor(Component $component)
+    {
+        return $this->component_renderer_loader
+            ->getRendererFactoryFor($component)
+            ->getJSBinding()
+            ->getOnLoadCodeAsync();
+    }
+
+    /**
      * @inheritdoc
      */
-    public function withAdditionalContext(Component $context)
+    public function withAdditionalContext(Component $context) : Renderer
     {
         $clone = clone $this;
         $clone->contexts[] = $context;
@@ -104,7 +123,7 @@ class DefaultRenderer implements Renderer
      *
      * @return  Component[]
      */
-    protected function getContexts()
+    protected function getContexts() : array
     {
         return $this->contexts;
     }

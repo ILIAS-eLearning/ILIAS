@@ -1,12 +1,27 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilTableLock
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilTableLock implements ilTableLockInterface
 {
-
     protected string $table_name = '';
     protected bool $lock_sequence = false;
     protected string $alias = '';
@@ -16,9 +31,8 @@ class ilTableLock implements ilTableLockInterface
 
     /**
      * ilTableLock constructor.
-     * @param string $table_name
      */
-    public function __construct($table_name, ilDBInterface $ilDBInterface)
+    public function __construct(string $table_name, ilDBInterface $ilDBInterface)
     {
         $this->table_name = $table_name;
         $this->ilDBInstance = $ilDBInterface;

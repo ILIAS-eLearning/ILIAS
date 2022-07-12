@@ -1,75 +1,47 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once('Services/Table/classes/class.ilTable2GUI.php');
-include_once('Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSCommunityTableGUI extends ilTable2GUI
 {
-    protected $lng;
-    protected $ctrl;
+    private ilAccessHandler $access;
     
 
-    protected $server = null;
-    protected $cid = 0;
-    
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct(ilECSSetting $set, $a_parent_obj, $a_parent_cmd, $cid)
+    private ilECSSetting $server;
+
+    public function __construct(ilECSSetting $set, ?object $a_parent_obj, string $a_parent_cmd, int $cid)
     {
-        global $DIC;
+        parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
+        global $DIC;
         
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->access = $DIC->access();
 
         // TODO: set id
         $this->setId($set->getServerId() . '_' . $cid . '_' . 'community_table');
 
-        parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn($this->lng->txt('ecs_participants'), 'participants', "35%");
         $this->addColumn($this->lng->txt('ecs_participants_infos'), 'infos', "35%");
         $this->addColumn($this->lng->txt('ecs_tbl_export'), 'export', '5%');
         $this->addColumn($this->lng->txt('ecs_tbl_import'), 'import', '5%');
         $this->addColumn($this->lng->txt('ecs_tbl_import_type'), 'type', '10%');
 
-        if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
+        if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
             $this->addColumn('', 'actions', '10%');
         }
 
@@ -78,15 +50,13 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('participants');
         $this->setDefaultOrderDirection("desc");
 
-        $this->cid = $cid;
         $this->server = $set;
     }
 
     /**
      * Get current server
-     * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : ilECSSetting
     {
         return $this->server;
     }
@@ -94,22 +64,14 @@ class ilECSCommunityTableGUI extends ilTable2GUI
     /**
      * Fill row
      *
-     * @access public
      * @param array row data
-     *
      */
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-
         $this->tpl->setVariable('S_ID', $this->getServer()->getServerId());
         $this->tpl->setVariable('M_ID', $a_set['mid']);
         $this->tpl->setVariable('VAL_ID', $this->getServer()->getServerId() . '_' . $a_set['mid']);
         $this->tpl->setVariable('VAL_ORG', (string) $a_set['org']);
-        $this->tpl->setVariable('VAL_CHECKED', $a_set['checked'] ? 'checked="checked"' : '');
         $this->tpl->setVariable('VAL_TITLE', $a_set['participants']);
         $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         $this->tpl->setVariable('VAL_EMAIL', $a_set['email']);
@@ -121,7 +83,6 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TXT_ID', $this->lng->txt('ecs_unique_id'));
         $this->tpl->setVariable('TXT_ORG', $this->lng->txt('organization'));
 
-        include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
         $part = new ilECSParticipantSetting($this->getServer()->getServerId(), $a_set['mid']);
         
         
@@ -147,7 +108,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_OBJ_IINFO', $this->lng->txt('disabled'));
         }
         // :TODO: what types are to be supported?
-        $sel = ilUtil::formSelect(
+        $sel = ilLegacyFormElementsUtil::formSelect(
             $part->getImportType(),
             'import_type[' . $this->getServer()->getServerId() . '][' . $a_set['mid'] . ']',
             array(
@@ -160,19 +121,18 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable('IMPORT_SEL', $sel);
 
-        include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $list = new ilAdvancedSelectionListGUI();
         $list->setItemLinkClass('small');
         $list->setSelectionHeaderClass('small');
-        $list->setId('actl_' . $a_set['server_id'] . '_' . $a_set['mid']);
+        $list->setId('actl_' . $this->getServer()->getServerId() . '_' . $a_set['mid']);
         $list->setListTitle($this->lng->txt('actions'));
         
-        $ilCtrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
-        $ilCtrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
+        $this->ctrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
+        $this->ctrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
         $list->addItem(
             $this->lng->txt('edit'),
             '',
-            $ilCtrl->getLinkTargetByClass('ilecsparticipantsettingsgui', 'settings')
+            $this->ctrl->getLinkTargetByClass('ilecsparticipantsettingsgui', 'settings')
         );
 
         switch ($part->getImportType()) {
@@ -182,34 +142,34 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 
             case ilECSParticipantSetting::IMPORT_CRS:
                 // Possible action => Edit course allocation
-                $ilCtrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
-                $ilCtrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
+                $this->ctrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
+                $this->ctrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
                 $list->addItem(
                     $this->lng->txt('ecs_crs_alloc_set'),
                     '',
-                    $ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'cStart')
+                    $this->ctrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'cStart')
                 );
                 break;
 
             case ilECSParticipantSetting::IMPORT_CMS:
 
-                $ilCtrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
-                $ilCtrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
+                $this->ctrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
+                $this->ctrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
                 // Possible action => Edit course allocation, edit node mapping
                 $list->addItem(
                     $this->lng->txt('ecs_dir_alloc_set'),
                     '',
-                    $ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'dStart')
+                    $this->ctrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'dStart')
                 );
                 $list->addItem(
                     $this->lng->txt('ecs_crs_alloc_set'),
                     '',
-                    $ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'cStart')
+                    $this->ctrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'cStart')
                 );
                 break;
         }
 
-        if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
+        if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
             $this->tpl->setCurrentBlock("actions");
             $this->tpl->setVariable('ACTIONS', $list->getHTML());
             $this->tpl->parseCurrentBlock();
@@ -217,15 +177,11 @@ class ilECSCommunityTableGUI extends ilTable2GUI
     }
     
     /**
-     * Parse
-     *
-     * @access public
-     * @param array array of LDAPRoleAssignmentRule
-     *
+     * @param ilECSCommunity[] $a_participants list of participants
      */
-    public function parse($a_participants)
+    public function parse(array $participants) : void
     {
-        foreach ($a_participants as $participant) {
+        foreach ($participants as $participant) {
             $tmp_arr['mid'] = $participant->getMID();
             $tmp_arr['participants'] = $participant->getParticipantName();
             $tmp_arr['description'] = $participant->getDescription();
@@ -239,6 +195,6 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             $def[] = $tmp_arr;
         }
         
-        $this->setData($def ? $def : array());
+        $this->setData($def ?? []);
     }
 }

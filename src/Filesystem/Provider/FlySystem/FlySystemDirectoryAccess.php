@@ -14,6 +14,19 @@ use ILIAS\Filesystem\Visibility;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\RootViolationException;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FlySystemDirectoryAccess
  *
@@ -23,17 +36,10 @@ use League\Flysystem\RootViolationException;
  */
 class FlySystemDirectoryAccess implements DirectoryAccess
 {
-
-    /**
-     * @var FilesystemInterface $flySystemFS
-     */
-    private $flySystemFS;
-    /**
-     * @var FlySystemFileAccess $fileAccess
-     */
-    private $fileAccess;
-    private static $metaTypeKey = 'type';
-    private static $metaPathKey = 'path';
+    private FilesystemInterface $flySystemFS;
+    private FlySystemFileAccess $fileAccess;
+    private static string $metaTypeKey = 'type';
+    private static string $metaPathKey = 'path';
 
 
     /**
@@ -107,7 +113,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess
 
             $metadataCollection[] = $this->arrayToMetadata($content);
         }
-        
+
         return $metadataCollection;
     }
 
@@ -121,7 +127,6 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      * @param string $path       The directory path which should be created.
      * @param string $visibility The visibility of the directory. Defaults to visibility public.
      *
-     * @return void
      *
      * @throws IOException                   If the directory could not be created.
      * @throws \InvalidArgumentException     If the visibility is not 'public' or 'private'.
@@ -129,7 +134,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      * @since   5.3
      * @version 1.0
      */
-    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS)
+    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS) : void
     {
         $this->validateVisibility($visibility);
 
@@ -155,12 +160,11 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      * @throws IOException                  Thrown if the directory could not be copied.
      * @throws DirectoryNotFoundException   Thrown if the source directory could not be found.
      *
-     * @return void
      *
      * @since   5.3
      * @version 1.0
      */
-    public function copyDir(string $source, string $destination)
+    public function copyDir(string $source, string $destination) : void
     {
         $this->ensureDirectoryExistence($source);
         $this->ensureEmptyDirectory($destination);
@@ -191,7 +195,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      *
      * @throws IOException Thrown if the metadata of the path can not be fetched.
      */
-    private function ensureEmptyDirectory(string $path)
+    private function ensureEmptyDirectory(string $path) : void
     {
 
         //check if destination dir is empty
@@ -214,7 +218,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      *
      * @throws DirectoryNotFoundException Thrown if the directory was not found.
      */
-    private function ensureDirectoryExistence(string $path)
+    private function ensureDirectoryExistence(string $path) : void
     {
         if (!$this->hasDir($path)) {
             throw new DirectoryNotFoundException("Directory \"$path\" not found.");
@@ -227,14 +231,13 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      *
      * @param string $path The path which should be deleted.
      *
-     * @return void
      *
      * @throws IOException If the path could not be deleted.
      *
      * @since   5.3
      * @version 1.0
      */
-    public function deleteDir(string $path)
+    public function deleteDir(string $path) : void
     {
         try {
             if ($this->flySystemFS->deleteDir($path) === false) {
@@ -254,11 +257,9 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      *     'path' => '/path/to/your/dir-or-file'
      *  ]
      *
-     * @param array $metadataArray
      *
-     * @return Metadata
      */
-    private function arrayToMetadata(array $metadataArray)
+    private function arrayToMetadata(array $metadataArray) : \ILIAS\Filesystem\DTO\Metadata
     {
         return new Metadata(
             $metadataArray[self::$metaPathKey],
@@ -272,9 +273,8 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      * This method does nothing if the visibility is valid.
      *
      * @param string $visibility The visibility which should be validated.
-     * @return void
      */
-    private function validateVisibility($visibility)
+    private function validateVisibility(string $visibility) : void
     {
         if (strcmp($visibility, Visibility::PRIVATE_ACCESS) !== 0 && strcmp($visibility, Visibility::PUBLIC_ACCESS) !== 0) {
             throw new \InvalidArgumentException("Invalid visibility expected public or private but got \"$visibility\".");

@@ -16,21 +16,13 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceIm
 */
 class ilCourseReferenceImporter extends ilContainerReferenceImporter
 {
-        
-    /**
-     * Get reference type
-     */
-    protected function getType()
+    protected function getType() : string
     {
         return 'crsr';
     }
     
-    /**
-     * Init xml parser
-     */
-    protected function initParser($a_xml)
+    protected function initParser(string $a_xml) : ilContainerReferenceXmlParser
     {
-        include_once './Modules/CourseReference/classes/class.ilCourseReferenceXmlParser.php';
         return new ilCourseReferenceXmlParser($a_xml);
     }
 }

@@ -35,7 +35,7 @@ class ilAssLacDuplicateElement extends ilAssLacException implements ilAssLacForm
     /**
      * @return string
      */
-    public function getElement()
+    public function getElement() : string
     {
         return $this->element;
     }
@@ -44,7 +44,7 @@ class ilAssLacDuplicateElement extends ilAssLacException implements ilAssLacForm
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng) : string
     {
         return sprintf(
             $lng->txt("ass_lac_duplicate_element"),

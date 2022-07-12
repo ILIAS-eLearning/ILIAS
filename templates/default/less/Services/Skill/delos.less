@@ -10,14 +10,14 @@ div.ilSkill {
 div.ilSkill > h3 {
 	margin: 10px 0;
 	padding: 0;
-	font-size: 1.2em;
+	font-size: @il-font-size-large;
 	float: left;
 }
 
 div.ilSkill > h4 {
 	margin: 10px 0;
 	padding: 0;
-	font-size: 1em;
+	font-size: @il-font-size-base;
 	color: @il-text-light-color;
 	float: left;
 	clear: left;
@@ -46,7 +46,7 @@ table.ilSkill {
 }
 
 td.ilSkill, th.ilSkill {
-	font-size: .8em;
+	font-size: @il-font-size-xsmall;
 	padding: 4px;
 	min-width: 50px;
 }
@@ -144,5 +144,18 @@ th.ilSkillEntryHead {
 }
 
 .ilSkillCategoryDescription {
-  margin: 0px 5px;
+	margin: 0px 5px;
+	padding-bottom: 15px;
+}
+
+.ilSkillEntriesHeader {
+	padding: 10px 5px 5px;
+	> .ilSkillEntriesHeaderByline {
+		font-size: .8em;
+		color: #808080;
+	}
+}
+
+.ilSkillEntriesAllButton, .ilSkillEntriesOnlyLatestButton {
+	padding: 5px 5px 5px;
 }

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
 namespace ILIAS\ResourceStorage\Manager;
 
 use ILIAS\FileUpload\DTO\UploadResult;
@@ -11,6 +26,8 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
 use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
+use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
 /**
  * Class StorageManager
@@ -18,19 +35,18 @@ use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
  */
 class Manager
 {
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
+    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
+    protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
 
     /**
      * Manager constructor.
-     * @param ResourceBuilder $b
      */
     public function __construct(
-        ResourceBuilder $b
+        ResourceBuilder $b,
+        RepositoryPreloader $l
     ) {
         $this->resource_builder = $b;
+        $this->preloader = $l;
     }
 
     public function upload(
@@ -63,7 +79,6 @@ class Manager
         ResourceStakeholder $stakeholder,
         string $revision_title = null
     ) : ResourceIdentification {
-
         $info_resolver = new StreamInfoResolver(
             $stream,
             1,
@@ -97,6 +112,7 @@ class Manager
 
     public function getResource(ResourceIdentification $i) : StorableResource
     {
+        $this->preloader->preload([$i->serialize()]);
         return $this->resource_builder->get($i);
     }
 
@@ -268,5 +284,4 @@ class Manager
 
         return true;
     }
-
 }

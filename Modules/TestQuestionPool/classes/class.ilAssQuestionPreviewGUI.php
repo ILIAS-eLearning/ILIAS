@@ -1,6 +1,25 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\Refinery\Random\Seed\RandomSeed;
+use ILIAS\Refinery\Random\Seed\GivenSeed;
+use ILIAS\Refinery\Transformation;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -24,7 +43,7 @@ class ilAssQuestionPreviewGUI
     const CMD_GATEWAY_CONFIRM_HINT_REQUEST = 'gatewayConfirmHintRequest';
     const CMD_GATEWAY_SHOW_HINT_LIST = 'gatewayShowHintList';
 
-    const TAB_ID_QUESTION_PREVIEW = 'preview';
+    const TAB_ID_QUESTION = 'question';
     
     const FEEDBACK_FOCUS_ANCHOR = 'focus';
     
@@ -82,8 +101,10 @@ class ilAssQuestionPreviewGUI
      * @var ilAssQuestionPreviewHintTracking
      */
     protected $hintTracking;
+
+    private RandomGroup $randomGroup;
     
-    public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
+    public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user, RandomGroup $randomGroup)
     {
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
@@ -91,9 +112,10 @@ class ilAssQuestionPreviewGUI
         $this->lng = $lng;
         $this->db = $db;
         $this->user = $user;
+        $this->randomGroup = $randomGroup;
     }
 
-    public function initQuestion($questionId, $parentObjId)
+    public function initQuestion($questionId, $parentObjId) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
         
@@ -102,7 +124,66 @@ class ilAssQuestionPreviewGUI
 
         $this->questionOBJ->setObjId($parentObjId);
 
-        $this->questionGUI->setQuestionTabs();
+        if ($this->ctrl->getCmd() == 'editQuestion') {
+            $this->questionGUI->setQuestionTabs();
+        } else {
+            if ($_GET["q_id"]) {
+                $this->tabs->clearTargets();
+                $this->tabs->addTarget(
+                    ilAssQuestionPreviewGUI::TAB_ID_QUESTION,
+                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW),
+                    array(),
+                    array('ilAssQuestionPreviewGUI')
+                );
+                if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
+                    $ref_id = $_GET["calling_test"];
+                    if (strlen($ref_id) !== 0 && !is_numeric($ref_id)) {
+                        $ref_id_array = explode('_', $ref_id);
+                        $ref_id = array_pop($ref_id_array);
+                    }
+
+                    if (strlen($ref_id) === 0) {
+                        $ref_id = $_GET["test_ref_id"];
+                    }
+                    if (!$_GET['test_express_mode'] &&
+                        (
+                            !array_key_exists('___test_express_mode', $GLOBALS) ||
+                            !$GLOBALS['___test_express_mode']
+                        )
+                    ) {
+                        $this->tabs->setBackTarget(
+                            $this->lng->txt("backtocallingtest"),
+                            "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
+                        );
+                    //BACK FROM Question Page to Test
+                    } else {
+                        $link = ilTestExpressPage::getReturnToPageLink();
+                        //$this->tabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
+                        $this->tabs->setBackTarget(
+                            $this->lng->txt("backtocallingtest"),
+                            "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
+                        );
+                    }
+                } elseif (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
+                    $ref_id = (int) $_GET['calling_consumer'];
+                    $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
+                    if ($consumer instanceof ilQuestionEditingFormConsumer) {
+                        $this->tabs->setBackTarget(
+                            $consumer->getQuestionEditingFormBackTargetLabel(),
+                            $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context'])
+                        );
+                    } else {
+                        require_once 'Services/Link/classes/class.ilLink.php';
+                        $this->tabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
+                    }
+                    //} elseif (true) {
+                    // We're in the underworld and want to go back to the question page
+                } else {
+                    $this->tabs->setBackTarget($this->lng->txt("backtocallingpool"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
+                    //BACK FROM Question Page to Pool
+                }
+            }
+        }
         $this->questionGUI->outAdditionalOutput();
         
         $this->questionGUI->populateJavascriptFilesRequiredForWorkForm($this->tpl);
@@ -114,7 +195,7 @@ class ilAssQuestionPreviewGUI
         $this->questionGUI->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_DEMOPLAY);
     }
 
-    public function initPreviewSettings($parentRefId)
+    public function initPreviewSettings($parentRefId) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewSettings.php';
         $this->previewSettings = new ilAssQuestionPreviewSettings($parentRefId);
@@ -122,7 +203,7 @@ class ilAssQuestionPreviewGUI
         $this->previewSettings->init();
     }
 
-    public function initPreviewSession($userId, $questionId)
+    public function initPreviewSession($userId, $questionId) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewSession.php';
         $this->previewSession = new ilAssQuestionPreviewSession($userId, $questionId);
@@ -130,13 +211,13 @@ class ilAssQuestionPreviewGUI
         $this->previewSession->init();
     }
     
-    public function initHintTracking()
+    public function initHintTracking() : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewHintTracking.php';
         $this->hintTracking = new ilAssQuestionPreviewHintTracking($this->db, $this->previewSession);
     }
     
-    public function initStyleSheets()
+    public function initStyleSheets() : void
     {
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         
@@ -149,13 +230,13 @@ class ilAssQuestionPreviewGUI
         $this->tpl->parseCurrentBlock();
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
         $ilHelp->setScreenIdComponent('qpl');
 
-        $this->tabs->setTabActive(self::TAB_ID_QUESTION_PREVIEW);
+        $this->tabs->setTabActive(self::TAB_ID_QUESTION);
         
         $this->lng->loadLanguageModule('content');
         
@@ -199,12 +280,12 @@ class ilAssQuestionPreviewGUI
     /**
      * @return string
      */
-    protected function buildPreviewFormAction()
+    protected function buildPreviewFormAction() : string
     {
         return $this->ctrl->getFormAction($this, self::CMD_SHOW) . '#' . self::FEEDBACK_FOCUS_ANCHOR;
     }
     
-    protected function isCommentingRequired()
+    protected function isCommentingRequired() : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -212,10 +293,13 @@ class ilAssQuestionPreviewGUI
             return false;
         }
         
-        return (bool) $DIC->rbac()->system()->checkAccess('write', (int) $_GET['ref_id']);
+        return $DIC->rbac()->system()->checkAccess(
+            'write',
+            $DIC->testQuestionPool()->internal()->request()->getRefId()
+        );
     }
     
-    private function showCmd($notesPanelHTML = '')
+    private function showCmd($notesPanelHTML = '') : void
     {
         $tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'Modules/TestQuestionPool');
 
@@ -228,14 +312,13 @@ class ilAssQuestionPreviewGUI
         $this->handleInstantResponseRendering($tpl);
         
         if ($this->isCommentingRequired()) {
-            $this->questionGUI->addHeaderAction();
             $this->populateNotesPanel($tpl, $notesPanelHTML);
         }
         
         $this->tpl->setContent($tpl->get());
     }
     
-    protected function handleInstantResponseRendering(ilTemplate $tpl)
+    protected function handleInstantResponseRendering(ilTemplate $tpl) : void
     {
         $renderHeader = false;
         $renderAnchor = false;
@@ -274,19 +357,19 @@ class ilAssQuestionPreviewGUI
         }
     }
     
-    private function resetCmd()
+    private function resetCmd() : void
     {
         $this->previewSession->setRandomizerSeed(null);
         $this->previewSession->setParticipantsSolution(null);
         $this->previewSession->resetRequestedHints();
         $this->previewSession->setInstantResponseActive(false);
 
-        ilUtil::sendInfo($this->lng->txt('qst_preview_reset_msg'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('qst_preview_reset_msg'), true);
         
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
     
-    private function instantResponseCmd()
+    private function instantResponseCmd() : void
     {
         if ($this->saveQuestionSolution()) {
             $this->previewSession->setInstantResponseActive(true);
@@ -297,26 +380,35 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
     
-    private function handleQuestionActionCmd()
+    private function handleQuestionActionCmd() : void
     {
         $this->questionOBJ->persistPreviewState($this->previewSession);
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
     
-    private function populatePreviewToolbar(ilTemplate $tpl)
+    private function populatePreviewToolbar(ilTemplate $tpl) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewToolbarGUI.php';
         $toolbarGUI = new ilAssQuestionPreviewToolbarGUI($this->lng);
 
         $toolbarGUI->setFormAction($this->ctrl->getFormAction($this, self::CMD_SHOW));
         $toolbarGUI->setResetPreviewCmd(self::CMD_RESET);
+        $toolbarGUI->setEditPageCmd(
+            $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
+        );
 
+        $toolbarGUI->setEditQuestionCmd(
+            $this->ctrl->getLinkTargetByClass(
+                array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
+                'editQuestion'
+            )
+        );
         $toolbarGUI->build();
         
         $tpl->setVariable('PREVIEW_TOOLBAR', $this->ctrl->getHTML($toolbarGUI));
     }
 
-    private function populateQuestionOutput(ilTemplate $tpl)
+    private function populateQuestionOutput(ilTemplate $tpl) : void
     {
         // FOR WHAT EXACTLY IS THIS USEFUL?
         $this->ctrl->setReturnByClass('ilAssQuestionPageGUI', 'view');
@@ -356,7 +448,7 @@ class ilAssQuestionPreviewGUI
         $tpl->setVariable('QUESTION_OUTPUT', $pageGUI->preview());
     }
     
-    protected function populateReachedPointsOutput(ilTemplate $tpl)
+    protected function populateReachedPointsOutput(ilTemplate $tpl) : void
     {
         $reachedPoints = $this->questionOBJ->calculateReachedPointsFromPreviewSession($this->previewSession);
         $maxPoints = $this->questionOBJ->getMaximumPoints();
@@ -372,7 +464,7 @@ class ilAssQuestionPreviewGUI
         $tpl->parseCurrentBlock();
     }
 
-    private function populateSolutionOutput(ilTemplate $tpl)
+    private function populateSolutionOutput(ilTemplate $tpl) : void
     {
         // FOR WHAT EXACTLY IS THIS USEFUL?
         $this->ctrl->setReturnByClass('ilAssQuestionPageGUI', 'view');
@@ -409,7 +501,7 @@ class ilAssQuestionPreviewGUI
         $tpl->parseCurrentBlock();
     }
 
-    private function getQuestionNavigationHtml()
+    private function getQuestionNavigationHtml() : string
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php';
         $navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
@@ -427,7 +519,7 @@ class ilAssQuestionPreviewGUI
         return $this->ctrl->getHTML($navGUI);
     }
     
-    private function populateGenericQuestionFeedback(ilTemplate $tpl)
+    private function populateGenericQuestionFeedback(ilTemplate $tpl) : void
     {
         if ($this->questionOBJ->isPreviewSolutionCorrect($this->previewSession)) {
             $feedback = $this->questionGUI->getGenericFeedbackOutputForCorrectSolution();
@@ -445,7 +537,7 @@ class ilAssQuestionPreviewGUI
         }
     }
 
-    private function populateSpecificQuestionFeedback(ilTemplate $tpl)
+    private function populateSpecificQuestionFeedback(ilTemplate $tpl) : void
     {
         $fb = $this->questionGUI->getSpecificFeedbackOutput(
             (array) $this->previewSession->getParticipantsSolution()
@@ -456,7 +548,7 @@ class ilAssQuestionPreviewGUI
         $tpl->parseCurrentBlock();
     }
     
-    protected function populateInstantResponseHeader(ilTemplate $tpl, $withFocusAnchor)
+    protected function populateInstantResponseHeader(ilTemplate $tpl, $withFocusAnchor) : void
     {
         if ($withFocusAnchor) {
             $tpl->setCurrentBlock('inst_resp_id');
@@ -505,12 +597,12 @@ class ilAssQuestionPreviewGUI
         return $this->previewSession->isInstantResponseActive();
     }
     
-    public function saveQuestionSolution()
+    public function saveQuestionSolution() : bool
     {
         return $this->questionOBJ->persistPreviewState($this->previewSession);
     }
 
-    public function gatewayConfirmHintRequestCmd()
+    public function gatewayConfirmHintRequestCmd() : void
     {
         if (!$this->saveQuestionSolution()) {
             $this->previewSession->setInstantResponseActive(false);
@@ -526,7 +618,7 @@ class ilAssQuestionPreviewGUI
         );
     }
 
-    public function gatewayShowHintListCmd()
+    public function gatewayShowHintListCmd() : void
     {
         if (!$this->saveQuestionSolution()) {
             $this->previewSession->setInstantResponseActive(false);
@@ -543,23 +635,18 @@ class ilAssQuestionPreviewGUI
     }
 
     /**
-     * @return ilArrayElementShuffler
+     * @return Transformation
      */
-    private function getQuestionAnswerShuffler()
+    private function getQuestionAnswerShuffler() : Transformation
     {
-        require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-        $shuffler = new ilArrayElementShuffler();
-        
         if (!$this->previewSession->randomizerSeedExists()) {
-            $this->previewSession->setRandomizerSeed($shuffler->buildRandomSeed());
+            $this->previewSession->setRandomizerSeed((new RandomSeed())->createSeed());
         }
-        
-        $shuffler->setSeed($this->previewSession->getRandomizerSeed());
-        
-        return $shuffler;
+
+        return $this->randomGroup->shuffleArray(new GivenSeed($this->previewSession->getRandomizerSeed()));
     }
     
-    protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML)
+    protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML) : void
     {
         if (!strlen($notesPanelHTML)) {
             $notesPanelHTML = $this->questionGUI->getNotesHTML();

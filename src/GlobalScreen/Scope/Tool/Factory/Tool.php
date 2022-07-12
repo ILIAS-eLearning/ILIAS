@@ -1,4 +1,19 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
@@ -11,6 +26,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Glyph;
 use ILIAS\UI\Component\Symbol\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
+use LogicException;
 
 /**
  * Class Tool
@@ -18,31 +34,12 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTerminating
 {
-
-    /**
-     * @var Closure
-     */
-    protected $terminated_callback;
-    /**
-     * @var Symbol
-     */
-    protected $symbol;
-    /**
-     * @var Component
-     */
-    protected $content;
-    /**
-     * @var Closure
-     */
-    protected $content_wrapper;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var Closure
-     */
-    protected $close_callback;
+    protected string $title;
+    protected ?Closure $terminated_callback = null;
+    protected ?Symbol $symbol = null;
+    protected ?Component $content = null;
+    protected ?Closure $content_wrapper = null;
+    protected ?Closure $close_callback = null;
 
     /**
      * @param string $title
@@ -108,7 +105,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
         // bugfix mantis 25526: make aria labels mandatory
         if (($symbol instanceof Glyph\Glyph && $symbol->getAriaLabel() === "") ||
             ($symbol instanceof Icon\Icon && $symbol->getLabel() === "")) {
-            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+            throw new LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
         $clone = clone($this);

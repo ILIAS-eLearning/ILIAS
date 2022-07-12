@@ -1,32 +1,23 @@
-<?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
+<?php declare(strict_types=1);
 
 /**
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
- *
+ * @author            Jesús López Reyes <lopez@leifos.com>
  * @ilCtrl_IsCalledBy ilAppointmentPresentationConsultationHoursGUI: ilCalendarAppointmentPresentationGUI
- *
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
-        include_once('./Services/Link/classes/class.ilLink.php');
-
         $a_app = $this->appointment;
 
         $cat_id = $this->getCatId($a_app['event']->getEntryId());
-        $cat_info = $this->getCatInfo($cat_id);
+        $cat_info = $this->getCatInfo();
         $context_id = $a_app['event']->getContextId();
 
         $this->addCommonSection($a_app, $cat_info['obj_id']);
 
         //objects
-        include_once 'Services/Booking/classes/class.ilBookingEntry.php';
         $booking = new ilBookingEntry($context_id);
 
         if ($manager = ilConsultationHourAppointments::getManager(true, true, $booking->getObjId())) {
@@ -59,7 +50,10 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
         }
 
         // owner
-        $this->addInfoProperty($this->lng->txt('cal_ch_booking_owner'), ilObjUser::_lookupFullname($booking->getObjId()));
+        $this->addInfoProperty(
+            $this->lng->txt('cal_ch_booking_owner'),
+            ilObjUser::_lookupFullname($booking->getObjId())
+        );
 
         if ($deadline = $booking->getDeadlineHours()) {
             $limit = $a_app['dstart'] - ($deadline * 60 * 60);
@@ -80,8 +74,8 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
         }
 
         // max nr of bookings
-        $this->addInfoProperty($this->lng->txt('cal_ch_num_bookings'), $booking->getNumberOfBookings());
-        $this->addListItemProperty($this->lng->txt('cal_ch_num_bookings'), $booking->getNumberOfBookings());
+        $this->addInfoProperty($this->lng->txt('cal_ch_num_bookings'), (string) $booking->getNumberOfBookings());
+        $this->addListItemProperty($this->lng->txt('cal_ch_num_bookings'), (string) $booking->getNumberOfBookings());
 
         // for the following code
         // see ilCalendarAppointmentPanelGUI in ILIAS 5.2 (getHTML())
@@ -90,8 +84,11 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 
         if ($user_entry && !$is_owner) {
             // find source calendar entry in owner calendar
-            include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-            $apps = ilConsultationHourAppointments::getAppointmentIds($booking->getObjId(), $a_app['event']->getContextId(), $a_app['event']->getStart());
+            $apps = ilConsultationHourAppointments::getAppointmentIds(
+                $booking->getObjId(),
+                $a_app['event']->getContextId(),
+                $a_app['event']->getStart()
+            );
             $ref_event = $apps[0];
         } else {
             $ref_event = $a_app['event']->getEntryId();
@@ -99,9 +96,9 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 
         $cb = $booking->getCurrentNumberOfBookings($ref_event);
         if (!$is_owner) {
-            $this->addInfoProperty($this->lng->txt('cal_ch_current_bookings'), $cb);
+            $this->addInfoProperty($this->lng->txt('cal_ch_current_bookings'), (string) $cb);
         }
-        $this->addListItemProperty($this->lng->txt('cal_ch_current_bookings'), $cb);
+        $this->addListItemProperty($this->lng->txt('cal_ch_current_bookings'), (string) $cb);
 
         if (!$is_owner) {
             if ($booking->hasBooked($ref_event)) {
@@ -127,7 +124,6 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
             if (ilCalendarCategories::_getInstance()->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION) {
                 $link_users = false;
             }
-            include_once './Services/Link/classes/class.ilLink.php';
             $users = array();
             foreach ($booking->getCurrentBookings($a_app['event']->getEntryId()) as $user_id) {
                 if ($link_users) {

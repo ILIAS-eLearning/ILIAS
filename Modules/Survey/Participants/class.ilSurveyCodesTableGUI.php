@@ -1,22 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-*/
+ * @author Helmut Schottmüller <ilias@aurealis.de>
+ */
 class ilSurveyCodesTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -60,34 +68,27 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('chb_code');
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
                 
-        $this->tpl->setVariable('CB_CODE', $data['id']);
+        $this->tpl->setVariable('CB_CODE', $a_set['id']);
     
         // :TODO: see permalink gui
-        if (strlen($data['href'])) {
+        if (($a_set['href'] ?? '') !== '') {
             $this->tpl->setCurrentBlock('url');
             $this->tpl->setVariable("URL", $lng->txt("survey_code_url_name"));
-            $this->tpl->setVariable("HREF", $data['href']);
+            $this->tpl->setVariable("HREF", $a_set['href']);
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable("USED", ($data['used']) ? $lng->txt("used") : $lng->txt("not_used"));
-        $this->tpl->setVariable("SENT", ($data['sent']) ?  '&#10003;' : '');
-        $this->tpl->setVariable("USED_CLASS", ($data['used']) ? ' smallgreen' : ' smallred');
-        $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($data['date'], IL_CAL_UNIX)));
-        $this->tpl->setVariable("CODE", $data['code']);
-        $this->tpl->setVariable("EMAIL", $data['email']);
-        $this->tpl->setVariable("LAST_NAME", $data['last_name']);
-        $this->tpl->setVariable("FIRST_NAME", $data['first_name']);
+        $this->tpl->setVariable("USED", ($a_set['used']) ? $lng->txt("used") : $lng->txt("not_used"));
+        $this->tpl->setVariable("SENT", ($a_set['sent']) ?  '&#10003;' : '');
+        $this->tpl->setVariable("USED_CLASS", ($a_set['used']) ? ' smallgreen' : ' smallred');
+        $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_UNIX)));
+        $this->tpl->setVariable("CODE", $a_set['code']);
+        $this->tpl->setVariable("EMAIL", $a_set['email']);
+        $this->tpl->setVariable("LAST_NAME", $a_set['last_name']);
+        $this->tpl->setVariable("FIRST_NAME", $a_set['first_name']);
     }
 }

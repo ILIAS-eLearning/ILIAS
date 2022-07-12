@@ -1,16 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data as D;
-use \ILIAS\Data\Color;
+use ILIAS\Data\Color;
 
 class Tag extends Button implements C\Button\Tag
 {
-    private static $relevance_levels = array(
+    private static array $relevance_levels = array(
          self::REL_VERYLOW,
          self::REL_LOW,
          self::REL_MID,
@@ -18,32 +32,20 @@ class Tag extends Button implements C\Button\Tag
          self::REL_VERYHIGH
     );
 
-    /**
-     * @var int
-     */
-    protected $relevance = self::REL_VERYHIGH;
-
-    /**
-     * @var Color
-     */
-    protected $bgcol;
-
-    /**
-     * @var Color
-     */
-    protected $forecol;
+    protected string $relevance = self::REL_VERYHIGH;
+    protected ?Color $bgcol = null;
+    protected ?Color $forecol = null;
 
     /**
      * @var string[]
      */
-    protected $additional_classes;
+    protected array $additional_classes = [];
 
     /**
      * @inheritdoc
      */
-    public function withRelevance($relevance)
+    public function withRelevance(string $relevance) : Tag
     {
-        $this->checkStringArg('relevance', $relevance);
         $this->checkArgIsElement('relevance', $relevance, self::$relevance_levels, 'relevance');
         $clone = clone $this;
         $clone->relevance = $relevance;
@@ -53,15 +55,12 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function getRelevance()
+    public function getRelevance() : string
     {
         return $this->relevance;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getRelevanceClass()
+    public function getRelevanceClass() : string
     {
         return self::$relevance_levels[$this->relevance - 1];
     }
@@ -69,9 +68,8 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function withBackgroundColor(\ILIAS\Data\Color $col)
+    public function withBackgroundColor(Color $col) : C\Button\Tag
     {
-        $this->checkArgInstanceOf('Color', $col, Color::class);
         $clone = clone $this;
         $clone->bgcol = $col;
         return $clone;
@@ -80,7 +78,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function getBackgroundColor()
+    public function getBackgroundColor() : ?Color
     {
         return $this->bgcol;
     }
@@ -88,9 +86,8 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function withForegroundColor(Color $col)
+    public function withForegroundColor(Color $col) : C\Button\Tag
     {
-        $this->checkArgInstanceOf('Color', $col, Color::class);
         $clone = clone $this;
         $clone->forecol = $col;
         return $clone;
@@ -99,7 +96,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function getForegroundColor()
+    public function getForegroundColor() : ?Color
     {
         if (is_null($this->forecol) && is_null($this->bgcol) === false) {
             $col_val = $this->bgcol->isDark() ? '#fff' : '#000';
@@ -112,7 +109,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function withClasses($classes)
+    public function withClasses(array $classes) : C\Button\Tag
     {
         $classes = $this->toArray($classes);
         foreach ($classes as $class) {
@@ -126,7 +123,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function getClasses()
+    public function getClasses() : array
     {
         if (!$this->additional_classes) {
             return array();

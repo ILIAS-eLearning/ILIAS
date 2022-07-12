@@ -1,119 +1,67 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-include_once('./Services/Calendar/classes/iCal/class.ilICalUtils.php');
-include_once('./Services/Calendar/classes/class.ilDateTime.php');
-include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-include_once('./Services/Calendar/classes/class.ilTimeZone.php');
-include_once('./Services/Calendar/classes/class.ilTimeZoneException.php');
-
-include_once('./Services/Calendar/classes/iCal/class.ilICalComponent.php');
-include_once('./Services/Calendar/classes/iCal/class.ilICalProperty.php');
-include_once('./Services/Calendar/classes/iCal/class.ilICalParameter.php');
-include_once('./Services/Calendar/classes/iCal/class.ilICalValue.php');
-
-include_once './Services/Calendar/exceptions/class.ilICalParserException.php';
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
-* @ingroup Services/Calendar
-*/
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup Services/Calendar
+ */
 class ilICalParser
 {
-    const INPUT_STRING = 1;
-    const INPUT_FILE = 2;
-    
-    /**
-     * @var ilLogger
-     */
-    protected $log = null;
-    
-    protected $category = null;
+    public const INPUT_STRING = 1;
+    public const INPUT_FILE = 2;
 
-    protected $ical = '';
-    protected $file = '';
-    protected $default_timezone = null;
+    protected ilLogger $log;
 
-    protected $container = array();
+    protected ?ilCalendarCategory $category = null;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param string ical string
-     *
-     * @throws ilICalParserException
-     *
-     */
-    public function __construct($a_ical, $a_type)
+    protected string $ical = '';
+    protected string $file = '';
+    protected ?ilTimeZone $default_timezone = null;
+    protected array $container = array();
+
+    public function __construct(string $a_ical, int $a_type)
     {
+        global $DIC;
         if ($a_type == self::INPUT_STRING) {
             $this->ical = $a_ical;
         } elseif ($a_type == self::INPUT_FILE) {
             $this->file = $a_ical;
             $this->ical = file_get_contents($a_ical);
-            
+
             if (!strlen($this->ical)) {
-                throw new ilICalParserException($GLOBALS['DIC']['cal_err_no_input']);
+                throw new ilICalParserException('Cannot parse empty ical file: ' . $a_ical);
             }
-            #$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Ical content: '. $this->ical);
         }
-        $this->log = $GLOBALS['DIC']->logger()->cal();
+        $this->log = $DIC->logger()->cal();
+        $this->default_timezone = ilTimeZone::_getInstance();
     }
-    
-    /**
-     * set category id
-     *
-     * @access public
-     * @param int category id
-     * @return
-     */
-    public function setCategoryId($a_id)
+
+    public function setCategoryId(int $a_id) : void
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
         $this->category = new ilCalendarCategory($a_id);
     }
-    
-    /**
-     * Parse input
-     *
-     * @access public
-     *
-     */
-    public function parse()
+
+    public function parse() : void
     {
-        $this->default_timezone = ilTimeZone::_getInstance();
-        
         $lines = $this->tokenize($this->ical, ilICalUtils::ICAL_EOL);
-        
         if (count($lines) == 1) {
             $lines = $this->tokenize($this->ical, ilICalUtils::ICAL_EOL_FB);
         }
-        
         for ($i = 0; $i < count($lines); $i++) {
             $line = $lines[$i];
 
@@ -132,77 +80,56 @@ class ilICalParser
             $this->parseLine($line);
         }
     }
-    
-    /**
-     * get container
-     *
-     * @access protected
-     */
-    protected function getContainer()
+
+    protected function getContainer() : ?ilICalItem
     {
-        return $this->container[count($this->container) - 1];
+        if (count($this->container)) {
+            return $this->container[count($this->container) - 1];
+        }
+        return null;
     }
-    
+
     /**
-     * set container
-     *
-     * @access protected
      * @param ilICalItem
      */
-    protected function setContainer($a_container)
+    protected function setContainer(ilICalItem $a_container) : void
     {
         $this->container = array($a_container);
     }
-    
-    /**
-     * pop la
-     *
-     * @access protected
-     */
-    protected function dropContainer()
+
+    protected function dropContainer() : ?ilICalItem
     {
-        return array_pop($this->container);
+        if (is_array($this->container)) {
+            return array_pop($this->container);
+        }
+        return null;
     }
-    
-    /**
-     * push container
-     *
-     * @access protected
-     * @param ilICalItem
-     */
-    protected function pushContainer($a_container)
+
+    protected function pushContainer(ilICalItem $a_container) : void
     {
         $this->container[] = $a_container;
     }
-    
-    
-    /**
-     * parse a line
-     *
-     * @access protected
-     */
-    protected function parseLine($line)
+
+    protected function parseLine(string $line) : void
     {
         switch (trim($line)) {
             case 'BEGIN:VCALENDAR':
                 $this->log->debug('BEGIN VCALENDAR');
                 $this->setContainer(new ilICalComponent('VCALENDAR'));
                 break;
-                
+
             case 'END:VCALENDAR':
                 $this->log->debug('END VCALENDAR');
                 break;
-            
+
             case 'BEGIN:VEVENT':
                 $this->log->debug('BEGIN VEVENT');
                 $this->pushContainer(new ilICalComponent('VEVENT'));
                 break;
-            
+
             case 'END:VEVENT':
                 $this->log->debug('END VEVENT');
-                
                 $this->writeEvent();
-                
                 $this->dropContainer();
                 break;
 
@@ -211,16 +138,15 @@ class ilICalParser
                 $container = new ilICalComponent('VTIMEZONE');
                 $this->pushContainer($container);
                 break;
-                
+
             case 'END:VTIMEZONE':
                 $this->log->debug('END VTIMEZONE');
-                
                 if ($tzid = $this->getContainer()->getItemsByName('TZID')) {
                     $this->default_timezone = $this->getTZ($tzid[0]->getValue());
                 }
                 $this->dropContainer();
                 break;
-            
+
             default:
                 if (strpos(trim($line), 'BEGIN') === 0) {
                     $this->log->info('Do not handling line:' . $line);
@@ -236,16 +162,10 @@ class ilICalParser
                 break;
         }
     }
-    
-    /**
-     * store items
-     *
-     * @access protected
-     */
-    protected function storeItems($a_param_part, $a_value_part)
+
+    protected function storeItems(string $a_param_part, string $a_value_part) : void
     {
         // Check for a semicolon in param part and split it.
-        
         $items = array();
         if ($splitted_param = explode(';', $a_param_part)) {
             $counter = 0;
@@ -253,26 +173,23 @@ class ilICalParser
                 if (!$counter) {
                     $items[$counter]['param'] = $param;
                     $items[$counter]['value'] = $a_value_part;
-                } else {
-                    // Split by '='
-                    if ($splitted_param_values = explode('=', $param)) {
-                        $items[$counter]['param'] = $splitted_param_values[0];
-                        $items[$counter]['value'] = $splitted_param_values[1];
-                    }
+                } elseif ($splitted_param_values = explode('=', $param)) {
+                    $items[$counter]['param'] = $splitted_param_values[0];
+                    $items[$counter]['value'] = $splitted_param_values[1];
                 }
                 ++$counter;
             }
         }
-        
         // Split value part
         $substituted_values = str_replace('\;', '', $a_value_part);
-        
+
         $values = array();
         if ($splitted_values = explode(';', $substituted_values)) {
             $counter = 0;
             foreach ($splitted_values as $value) {
                 // Split by '='
-                if ($splitted_value_values = explode('=', $value)) {
+                $splitted_value_values = explode('=', $value);
+                if (is_array($splitted_value_values) && count($splitted_value_values) >= 2) {
                     $values[$counter]['param'] = $splitted_value_values[0];
                     $values[$counter]['value'] = $splitted_value_values[1];
                 }
@@ -283,23 +200,22 @@ class ilICalParser
         // Return if there are no values
         if (!count($items)) {
             $this->log->write(__METHOD__ . ': Cannot parse parameter: ' . $a_param_part . ', value: ' . $a_value_part);
-            return false;
+            return;
         }
-        
-        
+
         $counter = 0;
         foreach ($items as $item) {
             if (!$counter) {
                 // First is ical-Parameter
                 $parameter = new ilICalProperty($item['param'], $item['value']);
-                
+
                 if (!$this->getContainer() instanceof ilICalItem) {
                     continue;
                 }
-                
+
                 $this->getContainer()->addItem($parameter);
                 $this->pushContainer($parameter);
-                
+
                 if (count($values) > 1) {
                     foreach ($values as $value) {
                         $value = new ilICalValue($value['param'], $value['value']);
@@ -314,101 +230,65 @@ class ilICalParser
         }
         $this->dropContainer();
     }
-    
-    
-    /**
-     * parse parameters
-     *
-     * @access protected
-     * @param string a line
-     */
-    protected function splitLine($a_line)
+
+    protected function splitLine(string $a_line) : array
     {
         $matches = array();
-        
+
         if (preg_match('/([^:]+):(.*)/', $a_line, $matches)) {
-            return array($matches[1],$matches[2]);
+            return array($matches[1], $matches[2]);
         } else {
-            $this->log->write(__METHOD__ . ': Found invalid parameter: ' . $a_line);
+            $this->log->notice(' Found invalid parameter: ' . $a_line);
         }
-        
-        return array('','');
+        return array('', '');
     }
-    
-    /**
-     * tokenize string
-     *
-     * @access protected
-     */
-    protected function tokenize($a_string, $a_tokenizer)
+
+    protected function tokenize(string $a_string, string $a_tokenizer) : array
     {
         return explode($a_tokenizer, $a_string);
     }
-    
-    /**
-     * get timezone
-     *
-     * @access protected
-     */
-    protected function getTZ($a_timezone)
+
+    protected function getTZ(string $a_timezone) : ilTimeZone
     {
         $parts = explode('/', $a_timezone);
         $tz = array_pop($parts);
         $continent = array_pop($parts);
-        
         if (isset($continent) and $continent) {
             $timezone = $continent . '/' . $tz;
         } else {
             $timezone = $a_timezone;
         }
-        
         try {
             if ($this->default_timezone->getIdentifier() == $timezone) {
                 return $this->default_timezone;
             } else {
-                $this->log->write(__METHOD__ . ': Found new timezone: ' . $timezone);
+                $this->log->info(': Found new timezone: ' . $timezone);
                 return ilTimeZone::_getInstance(trim($timezone));
             }
         } catch (ilTimeZoneException $e) {
-            $this->log->write(__METHOD__ . ': Found invalid timezone: ' . $timezone);
+            $this->log->notice(': Found invalid timezone: ' . $timezone);
             return $this->default_timezone;
         }
     }
-    
-    /**
-     * Switch timezone
-     *
-     * @access protected
-     */
-    protected function switchTZ(ilTimeZone $timezone)
+
+    protected function switchTZ(ilTimeZone $timezone) : void
     {
         try {
             $timezone->switchTZ();
         } catch (ilTimeZoneException $e) {
-            $this->log->write(__METHOD__ . ': Found invalid timezone: ' . $timezone);
-            return false;
+            $this->log->notice(': Found invalid timezone: ' . $timezone->getIdentifier());
         }
     }
-    
-    /**
-     * restore time
-     *
-     * @access protected
-     */
-    protected function restoreTZ()
+
+    protected function restoreTZ() : void
     {
         $this->default_timezone->restoreTZ();
     }
-    
-    /**
-     * write a new event
-     *
-     * @access protected
-     */
-    protected function writeEvent()
+
+    protected function writeEvent() : void
     {
         $entry = new ilCalendarEntry();
-        
+
         // Search for summary
         foreach ($this->getContainer()->getItemsByName('SUMMARY', false) as $item) {
             if (is_a($item, 'ilICalProperty')) {
@@ -423,7 +303,7 @@ class ilICalParser
                 break;
             }
         }
-        
+
         // Search location
         foreach ($this->getContainer()->getItemsByName('LOCATION', false) as $item) {
             if (is_a($item, 'ilICalProperty')) {
@@ -431,7 +311,7 @@ class ilICalParser
                 break;
             }
         }
-        
+
         foreach ($this->getContainer()->getItemsByName('DTSTART') as $start) {
             $fullday = false;
             foreach ($start->getItemsByName('VALUE') as $type) {
@@ -458,7 +338,7 @@ class ilICalParser
             $entry->setStart($start);
             $entry->setFullday($fullday);
         }
-        
+
         foreach ($this->getContainer()->getItemsByName('DTEND') as $end) {
             $fullday = false;
             foreach ($end->getItemsByName('VALUE') as $type) {
@@ -486,10 +366,10 @@ class ilICalParser
             $entry->setEnd($end);
             $entry->setFullday($fullday);
         }
-        
+
         if (!$entry->getStart() instanceof ilDateTime) {
             $this->log->warning('Cannot find start date. Event ignored.');
-            return false;
+            return;
         }
 
         // check if end date is given otherwise replace with start
@@ -499,28 +379,21 @@ class ilICalParser
         ) {
             $entry->setEnd($entry->getStart());
         }
-        
-        
+
         // save calendar event
         if ($this->category->getLocationType() == ilCalendarCategory::LTYPE_REMOTE) {
             $entry->setAutoGenerated(true);
         }
         $entry->save();
-        
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+
         $ass = new ilCalendarCategoryAssignments($entry->getEntryId());
         $ass->addAssignment($this->category->getCategoryID());
-        
-        
+
         // Recurrences
         foreach ($this->getContainer()->getItemsByName('RRULE') as $recurrence) {
-            #var_dump("<pre>",$recurrence,"</pre>");
-            
-            
-            include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
             $rec = new ilCalendarRecurrence();
             $rec->setEntryId($entry->getEntryId());
-            
+
             foreach ($recurrence->getItemsByName('FREQ') as $freq) {
                 switch ($freq->getValue()) {
                     case 'DAILY':
@@ -529,15 +402,15 @@ class ilICalParser
                     case 'YEARLY':
                         $rec->setFrequenceType((string) $freq->getValue());
                         break;
-                        
+
                     default:
-                        $this->log->write(__METHOD__ . ': Cannot handle recurring event of type: ' . $freq->getValue());
+                        $this->log->notice(': Cannot handle recurring event of type: ' . $freq->getValue());
                         break 3;
                 }
             }
-            
+
             foreach ($recurrence->getItemsByName('COUNT') as $value) {
-                $rec->setFrequenceUntilCount((string) $value->getValue());
+                $rec->setFrequenceUntilCount((int) $value->getValue());
                 break;
             }
             foreach ($recurrence->getItemsByName('UNTIL') as $until) {
@@ -545,7 +418,7 @@ class ilICalParser
                 break;
             }
             foreach ($recurrence->getItemsByName('INTERVAL') as $value) {
-                $rec->setInterval((string) $value->getValue());
+                $rec->setInterval((int) $value->getValue());
                 break;
             }
             foreach ($recurrence->getItemsByName('BYDAY') as $value) {
@@ -579,13 +452,8 @@ class ilICalParser
             $rec->save();
         }
     }
-    
-    /**
-     * purge string
-     *
-     * @access protected
-     */
-    protected function purgeString($a_string)
+
+    protected function purgeString(string $a_string) : string
     {
         $a_string = str_replace("\;", ";", $a_string);
         $a_string = str_replace("\,", ",", $a_string);

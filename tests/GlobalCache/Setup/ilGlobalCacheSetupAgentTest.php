@@ -152,7 +152,6 @@ class ilGlobalCacheSetupAgentTest extends TestCase
                 "components" => ["dummy"]
             ]
         );
-
     }
 
     public function testGetArrayToConfigTransformationWithMemcachedNode() : void
@@ -177,7 +176,8 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
         $this->assertIsArray($settings->getMemcachedNodes());
 
-        $node = array_shift($settings->getMemcachedNodes());
+        $settings = $settings->getMemcachedNodes();
+        $node = array_shift($settings);
 
         $this->assertEquals("1", $node->getStatus());
         $this->assertEquals("test.de", $node->getHost());

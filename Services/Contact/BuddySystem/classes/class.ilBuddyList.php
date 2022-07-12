@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBuddyList
@@ -46,7 +61,7 @@ class ilBuddyList
     {
         global $DIC;
 
-        return self::getInstanceByUserId((int) $DIC->user()->getId());
+        return self::getInstanceByUserId($DIC->user()->getId());
     }
 
     protected function __construct(int $ownerId)
@@ -165,7 +180,7 @@ class ilBuddyList
      */
     public function getIgnoredRelationsForOwner() : ilBuddySystemRelationCollection
     {
-        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation) {
+        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
             return $relation->getBuddyUsrId() === $this->getOwnerId();
         });
     }
@@ -237,22 +252,18 @@ class ilBuddyList
      */
     public function link(ilBuddySystemRelation $relation) : self
     {
-        try {
-            if ($relation->isLinked()) {
-                throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_linked');
-            }
-
-            if ($this->getOwnerId() === $relation->getUsrId()) {
-                throw new ilBuddySystemException('You can only accept a request when you are not the initiator');
-            }
-
-            $relation->link();
-
-            $this->getRepository()->save($relation);
-            $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
-        } catch (ilBuddySystemRelationStateException $e) {
-            throw $e;
+        if ($relation->isLinked()) {
+            throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_linked');
         }
+
+        if ($this->getOwnerId() === $relation->getUsrId()) {
+            throw new ilBuddySystemException('You can only accept a request when you are not the initiator');
+        }
+
+        $relation->link();
+
+        $this->getRepository()->save($relation);
+        $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
 
         return $this;
     }
@@ -294,7 +305,7 @@ class ilBuddyList
         }
 
         $login = ilObjUser::_lookupLogin($this->getRelationTargetUserId($relation));
-        if ($login === false || $login === '') {
+        if ($login === '') {
             throw new ilBuddySystemException(sprintf(
                 'You cannot add a non existing user (id: %s)',
                 $this->getRelationTargetUserId($relation)

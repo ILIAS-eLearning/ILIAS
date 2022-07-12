@@ -1,76 +1,71 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTInteger extends ilADT
 {
-    protected $value; // [int]
+    protected ?int $value;
 
-    
     // definition
-    
-    protected function isValidDefinition(ilADTDefinition $a_def)
+
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
-        return ($a_def instanceof ilADTIntegerDefinition);
+        return $a_def instanceof ilADTIntegerDefinition;
     }
-    
-    public function reset()
+
+    public function reset() : void
     {
         parent::reset();
-        
+
         $this->value = null;
     }
-    
-    
+
     // properties
-            
+
     public function setNumber($a_value = null)
     {
         $this->value = $this->getDefinition()->handleNumber($a_value);
     }
-    
-    public function getNumber()
+
+    public function getNumber() : ?int
     {
         return $this->value;
     }
 
-    
     // comparison
 
-    public function equals(ilADT $a_adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getNumber() == $a_adt->getNumber());
         }
+        return null;
     }
-                
-    public function isLarger(ilADT $a_adt)
+
+    public function isLarger(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getNumber() > $a_adt->getNumber());
         }
+        return null;
     }
-    
-    public function isSmaller(ilADT $a_adt)
+
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getNumber() < $a_adt->getNumber());
         }
+        return null;
     }
 
-    
     // null
-    
-    public function isNull()
+
+    public function isNull() : bool
     {
-        return ($this->getNumber() === null);
+        return $this->getNumber() === null;
     }
-    
-    
-    // validation
-    
-    public function isValid()
+
+    public function isValid() : bool
     {
         $valid = parent::isValid();
-        
         $num = $this->getNumber();
         if ($num !== null) {
             $min = $this->getDefinition()->getMin();
@@ -85,33 +80,30 @@ class ilADTInteger extends ilADT
                 $valid = false;
             }
         }
-        
         return $valid;
     }
-    
-    
-    // check
-    
-    public function getCheckSum()
+
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
             return (string) $this->getNumber();
         }
+        return null;
     }
-    
-    
+
     // stdClass
-    
-    public function exportStdClass()
+
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
             $obj->value = $this->getNumber();
             return $obj;
         }
+        return null;
     }
-    
-    public function importStdClass($a_std)
+
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setNumber($a_std->value);

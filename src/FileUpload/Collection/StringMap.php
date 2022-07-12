@@ -2,6 +2,19 @@
 
 namespace ILIAS\FileUpload\Collection;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StringMap
  *
@@ -23,12 +36,10 @@ interface StringMap extends ImmutableStringMap
      * @param string $key   The key which should be put into the map.
      * @param string $value The value which should be associated with the given key.
      *
-     * @return void
      *
      * @throws \InvalidArgumentException         Thrown if the key or value is not of the type
      *                                          string.
-     *
      * @since 5.3
      */
-    public function put($key, $value);
+    public function put(string $key, string $value) : void;
 }

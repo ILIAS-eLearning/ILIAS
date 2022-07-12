@@ -1,11 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Server;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class Response
@@ -15,13 +28,10 @@ class Response
      */
     protected $data = [];
 
-    /**
-     * @var \ILIAS\HTTP\Services
-     */
-    protected $http;
+    protected \ILIAS\HTTP\Services $http;
 
     /**
-     * Constructor
+     * @param array|\stdClass $data
      */
     public function __construct($data)
     {
@@ -31,12 +41,7 @@ class Response
         $this->data = $data;
     }
 
-    /**
-     *
-     * @param
-     * @return
-     */
-    public function send()
+    public function send() : void
     {
         $http = $this->http;
 

@@ -1,26 +1,42 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 class GlyphFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
-        "collapse" => array("context" => false)
-        , "expand" => array("context" => false)
-        , "user" => array("context" => false)
-        , "mail" => array("context" => false)
-        , "notification" => array("context" => false)
-        , "tag" => array("context" => false)
-        , "note" => array("context" => false)
-        , "comment" => array("context" => false)
-        , "sortAscending" => array("context" => false)
-        , "sortDescending" => array("context" => false)
-        , "briefcase" => array("context" => false)
-        , "reset" => array("context" => false)
-        , "apply" => array("context" => false)
-        , "close" => array("context" => false)
-        , "settings" => array("context" => false)
-        );
+    public array $kitchensink_info_settings = [
+        "collapse" => ["context" => false],
+        "expand" => ["context" => false],
+        "user" => ["context" => false],
+        "mail" => ["context" => false],
+        "notification" => ["context" => false],
+        "tag" => ["context" => false],
+        "note" => ["context" => false],
+        "comment" => ["context" => false],
+        "sortAscending" => ["context" => false],
+        "sortDescending" => ["context" => false],
+        "briefcase" => ["context" => false],
+        "reset" => ["context" => false],
+        "apply" => ["context" => false],
+        "close" => ["context" => false],
+        "settings" => ["context" => false],
+    ];
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory';
+    public string $factory_title = 'ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory';
 }

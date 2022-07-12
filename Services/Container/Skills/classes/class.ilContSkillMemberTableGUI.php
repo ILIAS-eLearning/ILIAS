@@ -26,24 +26,10 @@ use ILIAS\DI\UIServices;
  */
 class ilContSkillMemberTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    protected $tpl;
     protected ilContainerSkills $container_skills;
     protected UIServices $ui;
 
-    public function __construct($a_parent_obj, string $a_parent_cmd, ilContainerSkills $a_cont_skills)
+    public function __construct(ilContSkillAdminGUI $a_parent_obj, string $a_parent_cmd, ilContainerSkills $a_cont_skills)
     {
         global $DIC;
 
@@ -74,7 +60,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_member_skill_row.html", "Services/Container/Skills");
 
-        if (ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", 0)) {
+        if (ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", '0')) {
             $this->addMultiCommand("publishAssignments", $this->lng->txt("cont_publish_assignment"));
         }
         $this->addMultiCommand("deassignCompetencesConfirm", $this->lng->txt("cont_deassign_competence"));
@@ -87,17 +73,17 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $members = [];
         foreach ($p->getMembers() as $m) {
             $name = ilObjUser::_lookupName($m);
-            $members[] = array(
+            $members[] = [
                 "id" => $m,
                 "name" => $name["lastname"] . ", " . $name["firstname"],
                 "login" => $name["login"],
                 "skills" => []
-            );
+            ];
         }
         return $members;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;
@@ -130,7 +116,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 
         $items = [];
         $b = $ui->factory()->button();
-        if (!$mskills->getPublished() || (!ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", 0))) {
+        if (!$mskills->getPublished() || (!ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", '0'))) {
             $items[] = $b->shy($lng->txt("cont_assign_competence"), $ctrl->getLinkTarget($this->parent_obj, "assignCompetences"));
         }
         if (!$mskills->getPublished()) {

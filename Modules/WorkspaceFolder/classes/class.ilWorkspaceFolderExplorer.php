@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Explorer View for Workspace Folders
@@ -9,40 +23,16 @@
  */
 class ilWorkspaceFolderExplorer extends ilExplorer
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected bool $show_details;
+    protected bool $enablesmallmode;
+    protected ilCtrl $ctrl;
+    public int $user_id;
+    public array $allowed_types;
 
-    /**
-     * user_id
-     * @var int uid
-     * @access private
-     */
-    public $user_id;
-
-    /**
-     * id of root folder
-     * @var int root folder id
-     * @access private
-     */
-    public $root_id;
-
-    /**
-     * allowed object types
-     * @var array object types
-     * @access private
-     */
-    public $allowed_types;
-
-    /**
-    * Constructor
-    * @access	public
-    * @param	string	scriptname
-    * @param    int user_id
-    */
-    public function __construct($a_target, $a_user_id)
-    {
+    public function __construct(
+        string $a_target,
+        int $a_user_id
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -56,41 +46,22 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         $this->enablesmallmode = false;
     }
 
-    /**
-    * Set Enable Small Mode.
-    *
-    * @param	boolean	$a_enablesmallmode	Enable Small Mode
-    */
-    public function setEnableSmallMode($a_enablesmallmode)
+    public function setEnableSmallMode(bool $a_enablesmallmode) : void
     {
         $this->enablesmallmode = $a_enablesmallmode;
     }
 
-    /**
-    * Get Enable Small Mode.
-    *
-    * @return	boolean	Enable Small Mode
-    */
-    public function getEnableSmallMode()
+    public function getEnableSmallMode() : bool
     {
         return $this->enablesmallmode;
     }
 
 
-    /**
-    * Overwritten method from class.Explorer.php to avoid checkAccess selects
-    * recursive method
-    * @access	public
-    * @param	integer		parent_node_id where to start from (default=0, 'root')
-    * @param	integer		depth level where to start (default=1)
-    * @return	string
-    */
-    public function setOutput($a_parent, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false)
+    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
-        $lng = $this->lng;
         static $counter = 0;
-
-        if ($objects = $this->tree->getChilds($a_parent, "type DESC,title")) {
+        $parent_index = 0;
+        if ($objects = $this->tree->getChilds($a_parent_id, "type DESC,title")) {
             $tab = ++$a_depth - 2;
 
             foreach ($objects as $key => $object) {
@@ -103,7 +74,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
                     //$data = $this->tree->getParentNodeData($object["child"]);
                     $parent_index = $this->getIndex($object);
                 }
-                
+
                 $this->format_options["$counter"]["parent"] = $object["parent"];
                 $this->format_options["$counter"]["child"] = $object["child"];
                 $this->format_options["$counter"]["title"] = $object["title"];
@@ -119,7 +90,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
                 }
                 // only if parent is expanded and visible, object is visible
                 if ($object["child"] != $this->root_id and (!in_array($object["parent"], $this->expanded)
-                                                          or !$this->format_options["$parent_index"]["visible"])) {
+                                                          or !$this->format_options[$parent_index]["visible"])) {
                     $this->format_options["$counter"]["visible"] = false;
                 }
 
@@ -142,14 +113,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         } //if
     } //function
 
-    /**
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    * @return	string
-    */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -175,37 +139,38 @@ class ilWorkspaceFolderExplorer extends ilExplorer
     }
 
     /**
-    * set the expand option
-    * this value is stored in a SESSION variable to save it different view (lo view, frm view,...)
-    * @access	private
-    * @param	string		pipe-separated integer
-    */
-    public function setExpand($a_node_id)
+     * Get expanded
+     * @param
+     * @return
+     */
+    protected function getExpanded() : array
+    {
+        $expanded = ilSession::get($this->expand_variable);
+        if (!is_array($expanded)) {
+            $expanded = [];
+        }
+        return $expanded;
+    }
+
+    public function setExpand($a_node_id) : void
     {
         if ($a_node_id == "") {
             $a_node_id = $this->root_id;
         }
 
-        // IF ISN'T SET CREATE SESSION VARIABLE
-        if (!is_array($_SESSION[$this->expand_variable])) {
-            $_SESSION[$this->expand_variable] = array();
+        $expanded = $this->getExpanded();
+        if ($a_node_id > 0 && !in_array($a_node_id, $this->getExpanded())) {
+            $expanded[] = $a_node_id;
         }
-        // IF $_GET["expand"] is positive => expand this node
-        if ($a_node_id > 0 && !in_array($a_node_id, $_SESSION[$this->expand_variable])) {
-            array_push($_SESSION[$this->expand_variable], $a_node_id);
-        }
-        // IF $_GET["expand"] is negative => compress this node
         if ($a_node_id < 0) {
-            $key = array_keys($_SESSION[$this->expand_variable], -(int) $a_node_id);
-            unset($_SESSION[$this->expand_variable][$key[0]]);
+            $key = array_keys($this->getExpanded(), -(int) $a_node_id);
+            unset($expanded[$key[0]]);
         }
-        $this->expanded = $_SESSION[$this->expand_variable];
+        ilSession::set($this->expand_variable, $expanded);
+        $this->expanded = $this->getExpanded();
     }
-    /**
-    * overwritten method from base class
-    * get link target
-    */
-    public function buildLinkTarget($a_node_id, $a_type)
+
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $ilCtrl = $this->ctrl;
         
@@ -219,42 +184,26 @@ class ilWorkspaceFolderExplorer extends ilExplorer
                 return $ilCtrl->getLinkTargetByClass("ilobjworkspacefoldergui", "");
             
             default:
-                return;
+                return "";
         }
     }
-    /**
-    * overwritten method from base class
-    * buid link target
-    */
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
     {
         return '';
     }
 
-    /**
-    * set the alowed object types
-    * @access	private
-    * @param	array		arraye of object types
-    */
-    public function setAllowedTypes($a_types)
+    public function setAllowedTypes(array $a_types) : void
     {
         $this->allowed_types = $a_types;
     }
-    /**
-    * set details mode
-    * @access	public
-    * @param	string		y or n
-    */
-    public function setShowDetails($s_details)
+
+    public function setShowDetails(bool $s_details) : void
     {
         $this->show_details = $s_details;
     }
 
-    /**
-    * overwritten method from base class
-    * buid decription
-    */
-    public function buildDescription($a_desc, $a_id, $a_type)
+    public function buildDescription(string $a_desc, $a_id, string $a_type) : string
     {
         if ($this->show_details == 'y' && !empty($a_desc)) {
             return $a_desc;
@@ -263,7 +212,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         }
     }
     
-    public function getImageAlt($a_def, $a_type = "", $a_obj_id = "")
+    public function getImageAlt(string $a_default_text, string $a_type = "", $a_obj_id = "") : string
     {
         $lng = $this->lng;
         
@@ -280,7 +229,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         return $this->tree->getParentId($a_node_id);
     }
     
-    public function getOutput()
+    public function getOutput() : string
     {
         $tpl = $this->tpl;
         

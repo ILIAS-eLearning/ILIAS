@@ -1,13 +1,27 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilObjSCORMVerificationAccess
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 */
 class ilObjSCORMVerificationAccess extends ilObjectAccess
 {
+    /**
+     * @return array<int, array<string, string|bool>>
+     */
     public static function _getCommands() : array
     {
         $commands = [];
@@ -15,12 +29,12 @@ class ilObjSCORMVerificationAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
         
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
         
         // #11021
         // personal workspace context: do not force normal login

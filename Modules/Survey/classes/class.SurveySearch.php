@@ -1,93 +1,58 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class for search actions in ILIAS survey tool
- *
  * The SurveySearch class defines and encapsulates basic methods and attributes
  * to search the ILIAS survey tool for questions.
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
 class SurveySearch
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    public const CONCAT_AND = 0;
+    public const CONCAT_OR = 1;
 
-    const CONCAT_AND = 0;
-    const CONCAT_OR = 1;
-    
-    /**
-    * Search terms
-    *
-    * An array containing all search terms
-    *
-    * @var array
-    */
-    public $search_terms;
+    protected ilRbacSystem $rbacsystem;
 
-    /**
-    * Concatenation
-    *
-    * The concatenation type of the search terms
-    *
-    * @var integer
-    */
-    public $concatenation;
+    // An array containing all search terms
+    public array $search_terms;
 
-    /**
-    * Search field
-    *
-    * A database field to restrict the search results
-    *
-    * @var string
-    */
-    public $search_field;
+    // self::CONCAT_AND | self::CONCAT_OR
+    public int $concatenation;
 
-    /**
-    * Search type
-    *
-    * A question type to restrict the search results
-    *
-    * @var string
-    */
-    public $search_type;
+    // database field to restrict the search results
+    public string $search_field;
 
-    /**
-    * Search results
-    *
-    * An array containing the results of a search
-    *
-    * @var array
-    */
-    public $search_results;
+    // A question type to restrict the search results
+    public string $search_type;
 
-    /**
-    * The reference to the ILIAS database class
-    *
-    * The reference to the ILIAS database class
-    *
-    * @var object
-    */
-    public $ilDB;
+    // array containing the results of a search
+    public array $search_results;
+
+    public ilDBInterface $ilDB;
 
 
-    /**
-    * SurveySearch constructor
-    *
-    * The constructor takes possible arguments an creates an instance of the SurveySearch object.
-    *
-    * @param string $title A title string to describe the question
-    * @param string $description A description string to describe the question
-    * @param string $author A string containing the name of the questions author
-    * @param integer $owner A numerical ID to identify the owner/creator
-    * @access public
-    */
-    public function __construct($search_text = "", $concatenation = self::CONCAT_AND, $search_field = "all", $search_type = "all")
-    {
+    public function __construct(
+        string $search_text = "",
+        int $concatenation = self::CONCAT_AND,
+        string $search_field = "all",
+        string $search_type = "all"
+    ) {
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -101,47 +66,40 @@ class SurveySearch
         $this->search_type = $search_type;
         $this->search_results = array();
     }
-    
-    /**
-    * Executes a search
-    *
-    * Executes a search
-    *
-    * @access public
-    */
-    public function search()
+
+    // perform search and store results in $this->search_results
+    public function search() : void
     {
         $ilDB = $this->ilDB;
         
         $where = "";
         $fields = array();
-        if (strcmp($this->search_type, "all") != 0) {
+        if (strcmp($this->search_type, "all") !== 0) {
             $where = "svy_qtype.type_tag = " . $ilDB->quote($this->search_type, 'text');
         }
         foreach ($this->search_terms as $term) {
+            $fields[(string) $term] = array();
             switch ($this->search_field) {
                 case "all":
-                    $fields["$term"] = array();
-                    array_push($fields["$term"], $ilDB->like("svy_question.title", 'text', "%" . $term . "%"));
-                    array_push($fields["$term"], $ilDB->like("svy_question.description", 'text', "%" . $term . "%"));
-                    array_push($fields["$term"], $ilDB->like("svy_question.author", 'text', "%" . $term . "%"));
-                    array_push($fields["$term"], $ilDB->like("svy_question.questiontext", 'text', "%" . $term . "%"));
+                    $fields[(string) $term][] = $ilDB->like("svy_question.title", 'text', "%" . $term . "%");
+                    $fields[(string) $term][] = $ilDB->like("svy_question.description", 'text', "%" . $term . "%");
+                    $fields[(string) $term][] = $ilDB->like("svy_question.author", 'text', "%" . $term . "%");
+                    $fields[(string) $term][] = $ilDB->like("svy_question.questiontext", 'text', "%" . $term . "%");
                     break;
                 default:
-                    $fields["$term"] = array();
-                    array_push($fields["$term"], $ilDB->like("svy_question." . $this->search_field, 'text', "%" . $term . "%"));
+                    $fields[(string) $term][] = $ilDB->like("svy_question." . $this->search_field, 'text', "%" . $term . "%");
                     break;
             }
         }
         $cumulated_fields = array();
         foreach ($fields as $params) {
-            array_push($cumulated_fields, "(" . join(" OR ", $params) . ")");
+            $cumulated_fields[] = "(" . implode(" OR ", $params) . ")";
         }
         $str_where = "";
-        if ($this->concatenation == self::CONCAT_AND) {
-            $str_where = "(" . join(" AND ", $cumulated_fields) . ")";
+        if ($this->concatenation === self::CONCAT_AND) {
+            $str_where = "(" . implode(" AND ", $cumulated_fields) . ")";
         } else {
-            $str_where = "(" . join(" OR ", $cumulated_fields) . ")";
+            $str_where = "(" . implode(" OR ", $cumulated_fields) . ")";
         }
         if ($str_where) {
             $str_where = " AND $str_where";
@@ -157,11 +115,11 @@ class SurveySearch
         $rbacsystem = $this->rbacsystem;
         if ($result->numRows() > 0) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                if (($row["complete"] == 1) and ($rbacsystem->checkAccess('write', $row["ref_id"]))) {
-                    array_push($result_array, $row);
+                if (((int) $row["complete"]) === 1 && $rbacsystem->checkAccess('write', $row["ref_id"])) {
+                    $result_array[] = $row;
                 }
             }
         }
-        $this->search_results = &$result_array;
+        $this->search_results = $result_array;
     }
 }

@@ -112,14 +112,14 @@ and implementation of the UI framework.
 TL/DR: The [complete guideline](#guidelines-for-an-itcss-oriented-scss-structure-for-ilias)
 including some examples can be found beneath this text. We propose to structure
 our style code according to ITCSS using eight layers:
-    1. settings 
-    2. dependencies 
-    3. tools 
-    4. normalize 
-    5. layout 
-    6. elements 
-    7. components 
-    8. hacks and tweaks 
+1. settings
+2. dependencies
+3. tools
+4. normalize
+5. layout
+6. elements
+7. components
+8. hacks and tweaks
 
 
 ## Why do we need such a complex style code structure for SASS?
@@ -203,9 +203,9 @@ spacings. Local variables that belong to lower layers are defined based on value
 from these global variables.
 
 Examples:
-    * Choose fonts for different purposes.
-    * Choose a color palette.
-    * Choose general sizing and spacing for the skin.
+* Choose fonts for different purposes.
+* Choose a color palette.
+* Choose general sizing and spacing for the skin.
 
 
 ## Dependencies
@@ -217,8 +217,8 @@ easy. Instead of adding complete packages to our css as a framework, we use
 dependencies as libraries in the lower layers.
 
 Examples:
-    * Bootstrap...
-    * ...
+* Bootstrap...
+* ...
 
 
 ## Tools

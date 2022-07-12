@@ -37,7 +37,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @param int $answerStatusActiveId
      */
-    public function setAnswerStatusActiveId($answerStatusActiveId)
+    public function setAnswerStatusActiveId($answerStatusActiveId) : void
     {
         $this->answerStatusActiveId = $answerStatusActiveId;
     }
@@ -45,15 +45,12 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @return int
      */
-    public function getAnswerStatusActiveId()
+    public function getAnswerStatusActiveId() : ?int
     {
         return $this->answerStatusActiveId;
     }
 
-    /**
-     * @param null $answerStatusSelection
-     */
-    public function setAnswerStatusSelection($answerStatusSelection)
+    public function setAnswerStatusSelection($answerStatusSelection) : void
     {
         $this->answerStatusSelection = $answerStatusSelection;
     }
@@ -61,7 +58,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @return null
      */
-    public function getAnswerStatusSelection()
+    public function getAnswerStatusSelection() : ?string
     {
         return $this->answerStatusSelection;
     }
@@ -69,7 +66,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @return bool
      */
-    public function hasAnswerStatusSelection()
+    public function hasAnswerStatusSelection() : bool
     {
         switch ($this->getAnswerStatusSelection()) {
             case self::ANSWER_STATUS_FILTER_VALUE_ALL_NON_CORRECT:
@@ -82,7 +79,7 @@ class ilTestDynamicQuestionSetFilterSelection
         return false;
     }
 
-    public function isAnswerStatusSelectionWrongAnswered()
+    public function isAnswerStatusSelectionWrongAnswered() : bool
     {
         return $this->getAnswerStatusSelection() == self::ANSWER_STATUS_FILTER_VALUE_WRONG_ANSWERED;
     }
@@ -90,7 +87,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @param array $taxonomySelection
      */
-    public function setTaxonomySelection($taxonomySelection)
+    public function setTaxonomySelection($taxonomySelection) : void
     {
         $this->taxonomySelection = $taxonomySelection;
     }
@@ -98,7 +95,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @return array
      */
-    public function getTaxonomySelection()
+    public function getTaxonomySelection() : array
     {
         return $this->taxonomySelection;
     }
@@ -107,7 +104,7 @@ class ilTestDynamicQuestionSetFilterSelection
      * @param $taxonomyId
      * @return bool
      */
-    public function hasSelectedTaxonomy($taxonomyId)
+    public function hasSelectedTaxonomy($taxonomyId) : bool
     {
         return isset($this->taxonomySelection[$taxonomyId]);
     }
@@ -116,7 +113,7 @@ class ilTestDynamicQuestionSetFilterSelection
      * @param integer $taxonomyId
      * @return array
      */
-    public function getSelectedTaxonomy($taxonomyId)
+    public function getSelectedTaxonomy($taxonomyId) : array
     {
         return $this->taxonomySelection[$taxonomyId];
     }
@@ -124,7 +121,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @param array $forcedQuestionIds
      */
-    public function setForcedQuestionIds($forcedQuestionIds)
+    public function setForcedQuestionIds($forcedQuestionIds) : void
     {
         $this->forcedQuestionIds = $forcedQuestionIds;
     }
@@ -132,7 +129,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @return array
      */
-    public function getForcedQuestionIds()
+    public function getForcedQuestionIds() : array
     {
         return $this->forcedQuestionIds;
     }

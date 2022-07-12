@@ -1,9 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjBibliographicAccess
  *
@@ -25,10 +37,11 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *        array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
      *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *    );
+     * @return array<int, array<string, string>>|array<int, array<string, string|bool>>
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             array(
                 "permission" => "read",
                 "cmd" => "render",
@@ -38,88 +51,72 @@ class ilObjBibliographicAccess extends ilObjectAccess
             array("permission" => "write", "cmd" => "view", "lang_var" => "edit_content"),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
         );
-
-        return $commands;
     }
 
 
-    /**
-     * @param $a_target
-     *
-     * @return bool
-     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
         if ($t_arr[0] != 'bibl' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        if ($ilAccess->checkAccess('read', '', $t_arr[1])) {
-            return true;
-        }
-
-        return false;
+        return (bool) $ilAccess->checkAccess('read', '', $t_arr[1]);
     }
 
 
     /**
-     * checks wether a user may invoke a command or not
+     * checks whether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
-     *
-     * @param string     $a_cmd        command (not permission!)
-     * @param string     $a_permission permission
-     * @param int        $a_ref_id     reference id
-     * @param int        $a_obj_id     object id
-     * @param int|string $a_user_id    user id (if not provided, current user is taken)
-     *
-     * @return    boolean        true, if everything is ok
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
 
-        if (isset($_GET[ilObjBibliographicGUI::P_ENTRY_ID])) {
-            if (!self::checkEntryIdMatch($a_obj_id, $_GET[ilObjBibliographicGUI::P_ENTRY_ID])) {
+        if ($DIC->http()->wrapper()->query()->has(ilObjBibliographicGUI::P_ENTRY_ID)) {
+            $entry_id = $DIC->http()->wrapper()->query()->retrieve(
+                ilObjBibliographicGUI::P_ENTRY_ID,
+                $DIC->refinery()->kindlyTo()->int()
+            );
+            if (!self::checkEntryIdMatch($obj_id, $entry_id)) {
                 return false;
             }
         }
 
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
-                if (!self::_lookupOnline($a_obj_id)
-                    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
+                if (!self::_lookupOnline($obj_id)
+                    && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)
                 ) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
                     return false;
                 }
                 break;
             // for permission query feature
             case "infoScreen":
-                if (!self::_lookupOnline($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                if (!self::_lookupOnline($obj_id)) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
-                    $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
         }
-        switch ($a_permission) {
+        switch ($permission) {
             case "read":
             case "visible":
-                if (!self::_lookupOnline($a_obj_id)
-                    && (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+                if (!self::_lookupOnline($obj_id)
+                    && (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))
                 ) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
                     return false;
                 }
@@ -130,39 +127,31 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    /**
-     * @param $ref_id
-     * @param $obj_id
-     *
-     * @return bool
-     */
-    private static function checkEntryIdMatch($obj_id, $entry_id)
+    private static function checkEntryIdMatch(int $obj_id, int $entry_id) : bool
     {
         /**
-         * @var $ilBiblEntry ilBiblEntry
+         * @var ilBiblEntry $ilBiblEntry
          */
         $ilBiblEntry = ilBiblEntry::find($entry_id);
         if (is_null($ilBiblEntry)) {
             return false;
         }
 
-        return ($ilBiblEntry->getDataId() == $obj_id);
+        return ($ilBiblEntry->getDataId() === $obj_id);
     }
 
 
     /**
      * Check wether bibliographic is online or not
-     *
-     * @param int $a_id bibl id
      */
-    public static function _lookupOnline($a_id)
+    public static function _lookupOnline(int $a_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $q = "SELECT is_online FROM il_bibl_data WHERE id = " . $ilDB->quote($a_id, "integer");
         $bibl_set = $ilDB->query($q);
         $bibl_rec = $ilDB->fetchAssoc($bibl_set);
-
-        return $bibl_rec["is_online"];
+    
+        return (bool) $bibl_rec["is_online"] ?? false;
     }
 }

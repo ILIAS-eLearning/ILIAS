@@ -11,13 +11,6 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  */
 class ilQuestionPoolExportTableGUI extends ilExportTableGUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
@@ -31,7 +24,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
      * @param string $type
      * @param string $filename
      */
-    protected function formatActionsList($type, $filename)
+    protected function formatActionsList($type, $filename) : string
     {
         /**
          * @var $ilCtrl ilCtrl
@@ -50,7 +43,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
     /**
      * @inheritdoc
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if (in_array($a_field, array('size', 'date'))) {
             return true;
@@ -62,7 +55,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
     /***
      *
      */
-    protected function initMultiCommands()
+    protected function initMultiCommands() : void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
     }

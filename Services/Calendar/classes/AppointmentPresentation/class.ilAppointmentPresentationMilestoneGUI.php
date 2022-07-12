@@ -1,18 +1,15 @@
-<?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
+<?php declare(strict_types=1);
 
 /**
  * ilAppointmentPresentationMilestoneGUI class presents milestones information.
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
+ * @author            Jesús López Reyes <lopez@leifos.com>
+ * @version           $Id$
  * @ilCtrl_IsCalledBy ilAppointmentPresentationMilestoneGUI: ilCalendarAppointmentPresentationGUI
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
         global $DIC;
 
@@ -24,22 +21,7 @@ class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI
         $users_resp = $appointment['event']->readResponsibleUsers();
         $cat_info = $this->getCatInfo();
 
-        //$this->addCommonSection($appointment, 0, $cat_info);
         $this->addCommonSection($appointment, $cat_info['obj_id']);
-
-        // event title
-        /*
-        $this->addInfoSection($appointment["event"]->getPresentationTitle());
-
-        // event description
-        $this->addEventDescription($appointment);
-
-        // calendar info
-        if ($cat_info != null)
-        {
-            $this->addCalendarInfo($cat_info);
-        }*/
-
         $this->addInfoSection($this->lng->txt("cal_app_info"));
 
         $users_list = array();

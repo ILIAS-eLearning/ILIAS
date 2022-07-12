@@ -1,36 +1,40 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilPositionPermissionsNotActive
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
 class ilPositionPermissionsNotActive extends ilOrguException
 {
-
-    /** @var string */
-    protected $object_type = "";
-
+    protected string $object_type = "";
 
     /**
      * ilPositionPermissionsNotActive constructor.
-     *
-     * @param string $message
-     * @param string $type
-     * @param int    $code
      */
-    public function __construct($message, $type, $code = 0)
+    public function __construct(string $message, string $type, int $code = 0)
     {
         parent::__construct($message, $code);
 
         $this->object_type = $type;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getObjectType()
+    public function getObjectType(): string
     {
         return $this->object_type;
     }

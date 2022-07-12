@@ -1,62 +1,53 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMMailNotification extends ilMailNotification
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    public const TYPE_USER_BLOCKED = 10;
+    protected int $question_id = 0;
 
+    protected ilObjUser $user;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_is_personal_workspace = false)
-    {
+    public function __construct(
+        bool $a_is_personal_workspace = false
+    ) {
         global $DIC;
         parent::__construct($a_is_personal_workspace);
-
         $this->user = $DIC->user();
     }
 
-    const TYPE_USER_BLOCKED = 10;
-
-    /**
-     * Set question id
-     *
-     * @param int $a_val question id
-     */
-    public function setQuestionId($a_val)
+    public function setQuestionId(int $a_val) : void
     {
         $this->question_id = $a_val;
     }
 
-    /**
-     * Get question id
-     *
-     * @return int question id
-     */
-    public function getQuestionId()
+    public function getQuestionId() : int
     {
         return $this->question_id;
     }
 
-    /**
-     * Send notifications
-     * @return
-     */
-    public function send()
+    public function send() : bool
     {
         $ilUser = $this->user;
-        
+    
         switch ($this->getType()) {
             case self::TYPE_USER_BLOCKED:
                 
@@ -105,12 +96,7 @@ class ilLMMailNotification extends ilMailNotification
         return true;
     }
     
-    /**
-     * Init language
-     *
-     * @param int $a_usr_id user id
-     */
-    protected function initLanguage($a_usr_id)
+    protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('content');

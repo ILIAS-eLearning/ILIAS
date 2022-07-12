@@ -64,8 +64,6 @@ class assNumericRange
      * @param double    $upperlimit     The upper limit of the range
      * @param double    $points         The number of points given for the correct range
      * @param integer   $order          A nonnegative value representing a possible display or sort order
-     *
-     * @return assNumericRange
      */
     public function __construct($lowerlimit = 0.0, $upperlimit = 0.0, $points = 0.0, $order = 0)
     {
@@ -84,7 +82,7 @@ class assNumericRange
      *
      * @see $lowerlimit
     */
-    public function getLowerLimit()
+    public function getLowerLimit() : float
     {
         return $this->lowerlimit;
     }
@@ -98,7 +96,7 @@ class assNumericRange
      *
      * @see $upperlimit
      */
-    public function getUpperLimit()
+    public function getUpperLimit() : float
     {
         return $this->upperlimit;
     }
@@ -112,7 +110,7 @@ class assNumericRange
      *
      * @see $points
      */
-    public function getPoints()
+    public function getPoints() : float
     {
         return $this->points;
     }
@@ -126,7 +124,7 @@ class assNumericRange
      *
      * @see $order
      */
-    public function getOrder()
+    public function getOrder() : int
     {
         return $this->order;
     }
@@ -140,7 +138,7 @@ class assNumericRange
      *
      * @see $lowerlimit
     */
-    public function setLowerLimit($limit)
+    public function setLowerLimit($limit) : void
     {
         $this->lowerlimit = $limit;
     }
@@ -154,7 +152,7 @@ class assNumericRange
      *
      * @see $upperlimit
      */
-    public function setUpperLimit($limit)
+    public function setUpperLimit($limit) : void
     {
         $this->upperlimit = $limit;
     }
@@ -168,7 +166,7 @@ class assNumericRange
      *
      * @see $points
      */
-    public function setPoints($points)
+    public function setPoints($points) : void
     {
         $this->points = $points;
     }
@@ -182,7 +180,7 @@ class assNumericRange
      *
      * @see $order
      */
-    public function setOrder($order)
+    public function setOrder($order) : void
     {
         $this->order = $order;
     }
@@ -199,7 +197,7 @@ class assNumericRange
      * @see $upperlimit
      * @see $lowerlimit
      */
-    public function contains($value)
+    public function contains($value) : bool
     {
         require_once './Services/Math/classes/class.EvalMath.php';
         $eval = new EvalMath();

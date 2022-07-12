@@ -4,18 +4,31 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilStorageContainersExistingObjective
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObjective
 {
-    /**
-     * @var string
-     */
-    protected $base_dir;
+    protected string $base_dir;
 
-    protected $storage_handler_ids = [
+    /**
+     * @var string[]
+     */
+    protected array $storage_handler_ids = [
         'fsv2'
     ];
 
@@ -30,12 +43,15 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
-
-        $storage_directory_full_path = $ini->readVariable('clients',
-                'datadir') . '/' . $client_id . '/' . $this->base_dir;
-        return $storage_directory_full_path;
+        return $ini->readVariable(
+            'clients',
+            'datadir'
+        ) . '/' . $client_id . '/' . $this->base_dir;
     }
 
+    /**
+     * @return \ilFileSystemDirectoriesCreatedObjective[]|\ilIniFilesLoadedObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         // case if it is a fresh ILIAS installation
@@ -84,5 +100,4 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
         }
         return false;
     }
-
 }

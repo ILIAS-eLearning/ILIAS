@@ -1,21 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Important pages wiki block
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
-    public static $block_type = "wikiimppages";
-    public static $st_data;
-    protected $export = false;
+    public static string $block_type = "wikiimppages";
+    protected bool $export = false;
     
-    /**
-    * Constructor
-    */
     public function __construct()
     {
         global $DIC;
@@ -23,7 +33,6 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
         parent::__construct();
@@ -35,33 +44,19 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $this->allow_moving = false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBlockType() : string
     {
         return self::$block_type;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isRepositoryObject() : bool
     {
         return false;
     }
-    
-    /**
-    * Get Screen Mode for current command.
-    */
-    public static function getScreenMode()
-    {
-        return IL_SCREEN_SIDE;
-    }
 
     /**
-    * execute command
-    */
+     * @return mixed
+     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
@@ -75,17 +70,14 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         }
     }
 
-    /**
-    * Get bloch HTML code.
-    */
-    public function getHTML($a_export = false)
+    public function getHTML(bool $a_export = false) : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $this->export = $a_export;
 
-        if (!$this->export && ilWikiPerm::check("edit_wiki_navigation", $_GET["ref_id"])) {
+        if (!$this->export && ilWikiPerm::check("edit_wiki_navigation", $this->requested_ref_id)) {
             $this->addBlockCommand(
                 $ilCtrl->getLinkTargetByClass("ilobjwikigui", "editImportantPages"),
                 $lng->txt("edit")
@@ -95,10 +87,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         return parent::getHTML();
     }
 
-    /**
-     * Fill data section
-     */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -107,16 +96,13 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
 
-    /**
-     * @inheritdoc
-     */
     protected function getLegacyContent() : string
     {
         $ilCtrl = $this->ctrl;
-        $cpar[0] = $cpar[1] = 0;
+        $cpar[1] = 0;
         
         $list = new ilNestedList();
         $list->setItemClass("ilWikiBlockItem");
@@ -124,7 +110,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $list->setListClass("ilWikiBlockListNoIndent", 1);
         
         $cnt = 1;
-        $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($_GET["ref_id"]));
+        $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($this->requested_ref_id));
         if (!$this->export) {
             $list->addListNode("<p class='small'><a href='" .
                 $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
@@ -136,18 +122,18 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         }
         $cpar[0] = 1;
         
-        $ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($_GET["ref_id"]));
+        $ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($this->requested_ref_id));
         foreach ($ipages as $p) {
             $cnt++;
             $title = ilWikiPage::lookupTitle($p["page_id"]);
             if (!$this->export) {
                 $list->addListNode("<p class='small'><a href='" .
-                    ilObjWikiGUI::getGotoLink($_GET["ref_id"], $title)
-                    . "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, (string) $title)
+                    . "'>" . $title . "</a></p>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
             } else {
                 $list->addListNode("<p class='small'><a href='" .
                     "wpg_" . $p["page_id"] . ".html" .
-                    "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+                    "'>" . $title . "</a></p>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
             }
             $cpar[$p["indent"]] = $cnt;
         }

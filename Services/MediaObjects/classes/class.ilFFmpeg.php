@@ -1,21 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * FFmpeg wrapper
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFFmpeg
 {
+    public static ?array $last_return = array();
+
     /**
      * Formats handled by ILIAS. Note: In general the mime types
      * do not reflect the complexity of media container/codec variants.
      * For source formats no specification is needed here. For target formats
      * we use fixed parameters that should result in best web media practice.
+     * @var array[]
      */
-    public static $formats = array(
+    public static array $formats = array(
         "video/3pgg" => array(
             "source" => true,
             "target" => false
@@ -37,16 +53,12 @@ class ilFFmpeg
             "suffix" => "webm"
             )
         );
-    
-    public static $last_return = array();
+
     
     /**
      * Checks, whether FFmpeg support is enabled (path is set in the setup)
-     *
-     * @param
-     * @return
      */
-    public static function enabled()
+    public static function enabled() : bool
     {
         if (defined("PATH_TO_FFMPEG") && PATH_TO_FFMPEG != "") {
             return true;
@@ -55,15 +67,9 @@ class ilFFmpeg
     }
     
     /**
-     * Get target mime types
-     *
-     * (Please note, that we do not list all possible encoders here,
-     * only the ones that are desired for the use in ILIAS)
-     *
-     * @param
-     * @return
+     * Get desired target mime types
      */
-    public static function getTargetMimeTypes()
+    public static function getTargetMimeTypes() : array
     {
         $ttypes = array();
         foreach (self::$formats as $k => $f) {
@@ -73,14 +79,11 @@ class ilFFmpeg
         }
         return $ttypes;
     }
-    
+
     /**
-     * Get source mime types
-     *
-     * @param
-     * @return
+     * @return string[]
      */
-    public static function getSourceMimeTypes()
+    public static function getSourceMimeTypes() : array
     {
         $ttypes = array();
         foreach (self::$formats as $k => $f) {
@@ -93,99 +96,37 @@ class ilFFmpeg
     
     /**
      * Check if mime type supports image extraction
-     *
-     * @param string $a_mime mime type
      */
-    public static function supportsImageExtraction($a_mime)
-    {
-        if (in_array($a_mime, self::getSourceMimeTypes())) {
+    public static function supportsImageExtraction(
+        string $a_mime
+    ) : bool {
+        if (in_array($a_mime, self::getSourceMimeTypes(), true)) {
             return true;
         }
         return false;
     }
     
-    /**
-     * Get possible target formats
-     *
-     * @param
-     * @return
-     */
-    public static function getPossibleTargetMimeTypes($a_source_mime_type)
-    {
-        $pt = array();
-        if (in_array($a_source_mime_type, self::getSourceMimeTypes())) {
-            foreach (self::getTargetMimeTypes() as $tm) {
-                if ($tm != $a_source_mime_type) {
-                    $pt[$tm] = $tm;
-                }
-            }
-        }
-        return $pt;
-    }
-    
-    
+
     /**
      * Get ffmpeg command
      */
-    private static function getCmd()
+    private static function getCmd() : string
     {
         return PATH_TO_FFMPEG;
     }
 
     /**
      * Execute ffmpeg
-     *
-     * @param
-     * @return
      */
-    public static function exec($args)
+    public static function exec(string $args) : array
     {
-        return ilUtil::execQuoted(self::getCmd(), $args);
-    }
-    
-    /**
-     * Get all supported codecs
-     *
-     * @return
-     */
-    public static function getSupportedCodecsInfo()
-    {
-        $codecs = self::exec("-codecs");
-        
-        return $codecs;
-    }
-
-    /**
-     * Get all supported formats
-     *
-     * @return
-     */
-    public static function getSupportedFormatsInfo()
-    {
-        $formats = self::exec("-formats");
-        
-        return $formats;
-    }
-    
-    /**
-     * Get file info
-     *
-     * @param
-     * @return
-     */
-    public function getFileInfo()
-    {
-        //$info = `ffmpeg -i $path$file 2>&1 /dev/null`;
-        //@fields = split(/\n/, $info);
+        return ilShellUtil::execQuoted(self::getCmd(), $args);
     }
 
     /**
      * Get last return values
-     *
-     * @param
-     * @return
      */
-    public static function getLastReturnValues()
+    public static function getLastReturnValues() : ?array
     {
         return self::$last_return;
     }
@@ -196,17 +137,16 @@ class ilFFmpeg
      * @param string $a_file source file (full path included)
      * @param string $a_target_dir target directory (no trailing "/")
      * @param string $a_target_filename target file name (no path!)
-     *
+     * @param int    $a_sec
      * @return string new file (full path)
+     * @throws ilFFmpegException
      */
     public static function extractImage(
-        $a_file,
-        $a_target_filename,
-        $a_target_dir = "",
-        $a_sec = 1
-    ) {
-        //echo "-$a_file-$a_target_filename-$a_target_dir-$a_sec-<br>";
-
+        string $a_file,
+        string $a_target_filename,
+        string $a_target_dir = "",
+        int $a_sec = 1
+    ) : string {
         $spi = pathinfo($a_file);
         
         // use source directory if no target directory is passed
@@ -216,9 +156,10 @@ class ilFFmpeg
         
         $target_file = $target_dir . "/" . $a_target_filename;
         
-        $sec = (int) $a_sec;
-        $cmd = "-y -i " . ilUtil::escapeShellArg($a_file) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilUtil::escapeShellArg($target_file);
-        //echo "-$cmd-"; exit;
+        $sec = $a_sec;
+        $cmd = "-y -i " . ilShellUtil::escapeShellArg(
+            $a_file
+        ) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilShellUtil::escapeShellArg($target_file);
         $ret = self::exec($cmd . " 2>&1");
         self::$last_return = $ret;
         

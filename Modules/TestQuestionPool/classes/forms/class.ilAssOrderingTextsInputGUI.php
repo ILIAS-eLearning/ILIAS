@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilMultipleTextsInputGUI.php';
-
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -30,7 +28,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      *
      * @param $stylingDisabled
      */
-    public function setStylingDisabled($stylingDisabled)
+    public function setStylingDisabled($stylingDisabled) : void
     {
     }
     
@@ -39,7 +37,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      *
      * @return bool
      */
-    public function getStylingDisabled()
+    public function getStylingDisabled() : bool
     {
         return false;
     }
@@ -47,7 +45,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
     /**
      * @param ilAssOrderingElementList $elementList
      */
-    public function setElementList(ilAssOrderingElementList $elementList)
+    public function setElementList(ilAssOrderingElementList $elementList) : void
     {
         $this->setIdentifiedMultiValues($elementList->getRandomIdentifierIndexedElements());
     }
@@ -56,7 +54,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      * @param integer $questionId
      * @return ilAssOrderingElementList
      */
-    public function getElementList($questionId)
+    public function getElementList($questionId) : ilAssOrderingElementList
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
@@ -66,7 +64,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      * @param $value
      * @return bool
      */
-    protected function valueHasContentText($value)
+    protected function valueHasContentText($value) : bool
     {
         if ($value === null || is_array($value)) {
             return false;

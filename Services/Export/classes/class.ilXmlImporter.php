@@ -1,21 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Xml importer class
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilXmlImporter
@@ -84,12 +86,12 @@ abstract class ilXmlImporter
     {
         return $this->import_directory;
     }
-    
+
     public function setSkipEntities(array $a_val) : void
     {
         $this->skip_entities = $a_val;
     }
-    
+
     public function getSkipEntities() : array
     {
         return $this->skip_entities;
@@ -114,7 +116,7 @@ abstract class ilXmlImporter
     public function finalProcessing(ilImportMapping $a_mapping) : void
     {
     }
-    
+
     // Called after all container objects have been imported.
     public function afterContainerImportProcessing(ilImportMapping $mapping) : void
     {

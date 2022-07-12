@@ -1,26 +1,33 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
-* Form property dispatcher. Forwards control flow to property form input GUI
-* classes.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ilCtrl_Calls ilFormPropertyDispatchGUI:
-* @ingroup
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Form property dispatcher. Forwards control flow to property form input GUI
+ * classes.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilFormPropertyDispatchGUI:
+ */
 class ilFormPropertyDispatchGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilFormPropertyGUI $item;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -28,29 +35,20 @@ class ilFormPropertyDispatchGUI
         $this->ctrl = $DIC->ctrl();
     }
 
-    /**
-    * Set item
-    *
-    * @param	object		item
-    */
-    public function setItem($a_val)
+    public function setItem(ilFormPropertyGUI $a_val) : void
     {
         $this->item = $a_val;
     }
     
-    /**
-    * Get item
-    *
-    * @return	object		item
-    */
-    public function getItem()
+    public function getItem() : ilFormPropertyGUI
     {
         return $this->item;
     }
     
     /**
-    * Execute command.
-    */
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;

@@ -57,7 +57,7 @@ class ilAssLacCompositeEvaluator
      *
      * @return bool
      */
-    private function evaluateSubTree(ilAssLacAbstractComposite $composite)
+    private function evaluateSubTree(ilAssLacAbstractComposite $composite) : bool
     {
         $result = false;
         if ($composite->nodes[0] instanceof ilAssLacExpressionInterface &&
@@ -88,10 +88,11 @@ class ilAssLacCompositeEvaluator
                 } elseif (
                     $rightNode instanceof ilAssLacPercentageResultExpression &&
                     $composite->nodes[0] instanceof ilAssLacResultOfAnswerOfQuestionExpression) {
+
                     /**
                      * @var $answers assAnswerCloze[]
                      */
-                    $answers = $gap->getItems();
+                    $answers = $gap->getItems($question->getShuffler());
                     $max_points = 0;
                     foreach ($answers as $answer) {
                         if ($max_points < $answer->getPoints()) {
@@ -155,6 +156,11 @@ class ilAssLacCompositeEvaluator
                 }
 
                 $max_points = $answer->getPoints();
+                // @PHP8-CR
+                // I have the feeling that $question could be meant, but lacking deeper insight, I like to postpone this
+                // to a later date and eventually task this to T&A TechSquad for analysis.
+                // Candidate:
+                //$points = $question->getReachedPoints($question->getVariables(), $question->getResults(), $result["value"], $key, $question->getUnitrepository()->getUnits());
                 $points = $answer->getReachedPoints($question->getVariables(), $question->getResults(), $result["value"], $key, $question->getUnitrepository()->getUnits());
 
                 $percentage = 0;
@@ -188,7 +194,7 @@ class ilAssLacCompositeEvaluator
      * @param ilAssLacAbstractComposite $composite
      * @return bool
      */
-    private function isInstanceOfAnswerIndexProvidingExpression(ilAssLacAbstractComposite $composite)
+    private function isInstanceOfAnswerIndexProvidingExpression(ilAssLacAbstractComposite $composite) : bool
     {
         if ($composite->nodes[0] instanceof ilAssLacResultOfAnswerOfQuestionExpression) {
             return true;

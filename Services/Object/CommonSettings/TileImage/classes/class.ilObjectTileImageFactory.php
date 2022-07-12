@@ -1,42 +1,40 @@
-<?php
-
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * tile image factory
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author killing@leifos.de
- * @ingroup ServicesObject
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilObjectTileImageFactory implements ilObjectTileImageFactoryInterface
 {
-    /**
-     * @var ilObjectService
-     */
-    protected $service;
+    protected ilObjectService $service;
 
-    /**
-     * Constructor
-     * @param ilObjectService $service
-     */
     public function __construct(ilObjectService $service)
     {
         $this->service = $service;
     }
 
     /**
-     * @inheritdoc
+     * @return string[]
      */
     public function getSupportedFileExtensions() : array
     {
-        return ["png", "jpg", "jpeg"];
+        return ['png', 'jpg', 'jpeg'];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getByObjId(int $obj_id) : ilObjectTileImage
     {
-        return new \ilObjectTileImage($this->service, $obj_id);
+        return new ilObjectTileImage($this->service, $obj_id);
     }
 }

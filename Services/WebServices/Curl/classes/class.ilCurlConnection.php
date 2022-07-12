@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
   +-----------------------------------------------------------------------------+
@@ -28,32 +28,19 @@
  * @defgroup ServicesWebServicesCurl Services/WebServices/Curl
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
- *
  * @ingroup ServicesWebServicesCurl
  */
-include_once('Services/WebServices/Curl/classes/class.ilCurlConnectionException.php');
-
 class ilCurlConnection
 {
-    protected $url = '';
+    protected string $url = '';
+
+    /** @var CurlHandle|resource|null $ch */
     protected $ch = null;
+    private string $header_plain = '';
+    private array $header_arr = array();
+    private string $response_body = '';
 
-    private $header_plain = '';
-    private $header_arr = array();
-    
-    private $response_body = '';
-
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param string url for connection
-     * @throws ilCurlConnectionException
-     *
-     */
-    public function __construct($a_url = '')
+    public function __construct(string $a_url = '')
     {
         $this->url = $a_url;
 
@@ -62,14 +49,7 @@ class ilCurlConnection
         }
     }
 
-    /**
-     * Check if curl extension is loaded
-     *
-     * @access public
-     * @static
-     *
-     */
-    final public static function _isCurlExtensionLoaded()
+    final public static function _isCurlExtensionLoaded() : bool
     {
         if (!function_exists('curl_init')) {
             return false;
@@ -77,40 +57,22 @@ class ilCurlConnection
         return true;
     }
 
-    /**
-     * Get response header as string
-     * @return string
-     */
-    public function getResponseHeader()
+    public function getResponseHeader() : string
     {
         return $this->header_plain;
     }
 
-    /**
-     * Get response header as array
-     * @return array
-     */
-    public function getResponseHeaderArray()
+    public function getResponseHeaderArray() : array
     {
-        return (array) $this->header_arr;
+        return $this->header_arr;
     }
 
-    /**
-     * Init curl connection
-     *
-     * @param bool $set_proxy
-     *
-     * @access public
-     * @throws ilCurlConnectionException on error
-     *
-     */
-    final public function init(bool $set_proxy = true)
+    final public function init(bool $set_proxy = true) : bool
     {
         // teminate existing handles
         $this->close();
-        if (strlen($this->url)) {
+        if ($this->url !== '') {
             $this->ch = curl_init($this->url);
-        #$GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $this->url);
         } else {
             $this->ch = curl_init();
         }
@@ -132,28 +94,23 @@ class ilCurlConnection
                 } else {
                     throw new ilCurlConnectionException("Proxy host is not set on activated proxy");
                 }
-
                 if (!empty($proxy->getPort())) {
                     $this->setOpt(CURLOPT_PROXYPORT, $proxy->getPort());
                 }
             }
         }
-
         return true;
     }
 
     /**
      * Wrapper for curl_setopt
-     *
-     * @access public
-     * @param int CURL_OPTION
-     * @param mixed bool string or resource
-     * @throws ilCurlConnectionException on error
-     *
+     * @param int $a_option
+     * @param mixed $a_value
+     * @return bool
      */
-    final public function setOpt($a_option, $a_value)
+    final public function setOpt(int $a_option, $a_value) : bool
     {
-        if (!@curl_setopt($this->ch, $a_option, $a_value)) {
+        if (!curl_setopt($this->ch, $a_option, $a_value)) {
             throw new ilCurlConnectionException('Invalid option given for: ' . $a_option, curl_errno($this->ch));
         }
         return true;
@@ -161,50 +118,38 @@ class ilCurlConnection
 
     /**
      * Wrapper for curl_exec
-     *
-     * @access public
-     * @param
-     *
+     * @return bool|string
      */
     final public function exec()
     {
         // Add header function
-        curl_setopt($this->ch, CURLOPT_HEADERFUNCTION, array($this,'parseHeader'));
-        if ((@$res = curl_exec($this->ch)) === false) {
-            if (strlen($err = curl_error($this->ch))) {
+        curl_setopt($this->ch, CURLOPT_HEADERFUNCTION, array($this, 'parseHeader'));
+        if (($res = curl_exec($this->ch)) === false) {
+            if (($err = curl_error($this->ch)) !== '') {
                 throw new ilCurlConnectionException($err, curl_errno($this->ch));
-            } else {
-                throw new ilCurlConnectionException('Error calling curl_exec().');
             }
+
+            throw new ilCurlConnectionException('Error calling curl_exec().');
         }
         return $res;
     }
-    
-    /**
-     * parse response body
-     * @param type $a_response
-     */
-    public function parseResponse($a_response)
+
+    public function parseResponse(string $a_response) : void
     {
         $header_size = $this->getInfo(CURLINFO_HEADER_SIZE);
-        
+
         $this->header_plain = substr($a_response, 0, $header_size);
         $this->response_body = substr($a_response, $header_size);
     }
-    
-    /**
-     * Get responce body.
-     * @return type
-     */
-    public function getResponseBody()
+
+    public function getResponseBody() : string
     {
         return $this->response_body;
     }
-    
+
     /**
-     * Get informations about a specific transfer
+     * Get information about a specific transfer
      *
-     * @access public
      * @param int option e.g CURLINFO_EFFECTIVE_URL
      * @return mixed
      *
@@ -225,37 +170,24 @@ class ilCurlConnection
      * @param string $header
      * @return int strlen of header
      */
-    private function parseHeader($handle, $header)
+    private function parseHeader($handle, string $header) : int
     {
-        $this->header_plain = $header;
-
-        $lines = explode('\r\n', $this->getResponseHeader());
-        foreach ($lines as $line) {
-            list($name, $value) = explode(':', $line, 2);
-            $this->header_arr[$name] = $value;
+        $len = strlen($header);
+        $header = explode(':', $header, 2);
+        if (count($header) === 2) { // ignore invalid headers
+            $this->header_arr[strtolower(trim($header[0]))] = trim($header[1]);
         }
-        return strlen($this->getResponseHeader());
+        return $len;
     }
 
-    /**
-     * Close connection
-     *
-     * @access public
-     *
-     */
-    final public function close()
+    final public function close() : void
     {
-        if ($this->ch != null) {
+        if ($this->ch !== null) {
             curl_close($this->ch);
             $this->ch = null;
         }
     }
-    
-    /**
-     * Destructor
-     * @access public
-     * @param
-     */
+
     public function __destruct()
     {
         $this->close();

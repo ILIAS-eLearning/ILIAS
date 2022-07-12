@@ -91,17 +91,15 @@ class Color
     }
 
     /**
-    * Based on https://de.wikipedia.org/wiki/Luminanz
-    * this function decides if the color can be considered "dark".
-    * With a dark background, i.e., a lighter (white) color should be used
-    * for the foreground.
-    */
+     * Based on https://de.wikipedia.org/wiki/Luminanz
+     * this function decides if the color can be considered "dark".
+     * With a dark background, i.e., a lighter (white) color should be used
+     * for the foreground.
+     */
     public function isDark() : bool
     {
         $sum = 0.299 * $this->r + 0.587 * $this->g + 0.114 * $this->b;
-        if ($sum < 128) {
-            return true;
-        }
-        return false;
+
+        return $sum < 128;
     }
 }

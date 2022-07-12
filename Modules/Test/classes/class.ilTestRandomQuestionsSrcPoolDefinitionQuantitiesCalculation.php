@@ -47,7 +47,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function getSourcePoolDefinition()
+    public function getSourcePoolDefinition() : ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->sourcePoolDefinition;
     }
@@ -63,7 +63,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinitionList
      */
-    public function getIntersectionQuantitySharingDefinitionList()
+    public function getIntersectionQuantitySharingDefinitionList() : ilTestRandomQuestionSetSourcePoolDefinitionList
     {
         return $this->intersectionQuantitySharingDefinitionList;
     }
@@ -79,7 +79,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return int
      */
-    public function getOverallQuestionAmount()
+    public function getOverallQuestionAmount() : int
     {
         return $this->overallQuestionAmount;
     }
@@ -95,7 +95,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return int
      */
-    public function getExclusiveQuestionAmount()
+    public function getExclusiveQuestionAmount() : int
     {
         return $this->exclusiveQuestionAmount;
     }
@@ -111,7 +111,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return int
      */
-    public function getAvailableSharedQuestionAmount()
+    public function getAvailableSharedQuestionAmount() : int
     {
         return $this->availableSharedQuestionAmount;
     }
@@ -127,7 +127,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return int
      */
-    protected function getReservedSharedQuestionAmount()
+    protected function getReservedSharedQuestionAmount() : int
     {
         return $this->getOverallQuestionAmount() - (
             $this->getExclusiveQuestionAmount() + $this->getAvailableSharedQuestionAmount()
@@ -137,7 +137,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return integer
      */
-    protected function getRemainingRequiredQuestionAmount()
+    protected function getRemainingRequiredQuestionAmount() : int
     {
         $requiredQuestionAmount = $this->getSourcePoolDefinition()->getQuestionAmount();
         $exclusiveQuestionAmount = $this->getExclusiveQuestionAmount();
@@ -148,7 +148,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return bool
      */
-    protected function isRequiredQuestionAmountSatisfiedByOverallQuestionQuantity()
+    protected function isRequiredQuestionAmountSatisfiedByOverallQuestionQuantity() : bool
     {
         $requiredQuestionAmount = $this->getSourcePoolDefinition()->getQuestionAmount();
         $overallQuestionAmount = $this->getOverallQuestionAmount();
@@ -159,7 +159,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return bool
      */
-    protected function isRequiredQuestionAmountSatisfiedByExclusiveQuestionQuantity()
+    protected function isRequiredQuestionAmountSatisfiedByExclusiveQuestionQuantity() : bool
     {
         $requiredQuestionAmount = $this->getSourcePoolDefinition()->getQuestionAmount();
         $exclusiveQuestionAmount = $this->getExclusiveQuestionAmount();
@@ -170,7 +170,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return bool
      */
-    protected function isRemainingRequiredQuestionAmountSatisfiedBySharedQuestionQuantity()
+    protected function isRemainingRequiredQuestionAmountSatisfiedBySharedQuestionQuantity() : bool
     {
         $remainingRequiredQuestionAmount = $this->getRemainingRequiredQuestionAmount();
         $availableSharedQuestionAmount = $this->getAvailableSharedQuestionAmount();
@@ -181,7 +181,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return bool
      */
-    protected function sourcePoolDefinitionIntersectionsExist()
+    protected function sourcePoolDefinitionIntersectionsExist() : bool
     {
         if ($this->getIntersectionQuantitySharingDefinitionList()->getDefinitionCount() > 0) {
             return true;
@@ -193,7 +193,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     /**
      * @return bool
      */
-    public function isRequiredAmountGuaranteedAvailable()
+    public function isRequiredAmountGuaranteedAvailable() : bool
     {
         if ($this->isRequiredQuestionAmountSatisfiedByExclusiveQuestionQuantity()) {
             return true;
@@ -206,7 +206,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
         return false;
     }
     
-    public function getDistributionReport(ilLanguage $lng)
+    public function getDistributionReport(ilLanguage $lng) : string
     {
         $report = $this->getRuleSatisfactionResultMessage($lng);
         
@@ -217,7 +217,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
         return $report;
     }
     
-    protected function getRuleSatisfactionResultMessage(ilLanguage $lng)
+    protected function getRuleSatisfactionResultMessage(ilLanguage $lng) : string
     {
         if ($this->isRequiredQuestionAmountSatisfiedByOverallQuestionQuantity()) {
             return sprintf(
@@ -236,7 +236,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
         );
     }
     
-    protected function getConcurrentRuleConflictMessage(ilLanguage $lng)
+    protected function getConcurrentRuleConflictMessage(ilLanguage $lng) : string
     {
         $definitionsString = '<br />' . $this->buildIntersectionQuestionSharingDefinitionsString($lng);
         
@@ -259,7 +259,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
      * @param ilLanguage $lng
      * @return string
      */
-    protected function buildIntersectionQuestionSharingDefinitionsString(ilLanguage $lng)
+    protected function buildIntersectionQuestionSharingDefinitionsString(ilLanguage $lng) : string
     {
         $definitionsString = array();
         

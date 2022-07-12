@@ -14,10 +14,11 @@
  */
 class ilDataDetectorTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
+    protected function setUp() : void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
@@ -32,7 +33,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/detectors/class.ilDataDetector.php';
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -42,7 +43,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $detector = new ilDataDetector($this->node);
@@ -55,7 +56,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetDetectorState()
+    public function testSetDetectorState() : void
     {
         // Arrange
         $workflow = new ilEmptyWorkflow();
@@ -86,7 +87,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($valid_state, 'Invalid state after setting of detector state.');
     }
     
-    public function testTrigger()
+    public function testTrigger() : void
     {
         // Arrange
         $workflow = new ilEmptyWorkflow();
@@ -96,6 +97,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
 
         
         // Act
+        /** @noinspection PhpExpressionResultUnusedInspection */
         $detector->trigger(null);
         
         // Assert
@@ -116,7 +118,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($valid_state, 'Invalid state after setting of detector state.');
     }
     
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $detector = new ilDataDetector($this->node);
@@ -128,7 +130,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 }

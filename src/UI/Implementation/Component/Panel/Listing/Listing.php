@@ -1,11 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Panel\Listing;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Item\Group;
 
 /**
  * Class Listing
@@ -15,25 +30,19 @@ abstract class Listing implements C\Panel\Listing\Listing
 {
     use ComponentHelper;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
+    protected ?C\Dropdown\Standard $actions = null;
 
     /**
-     * @var \ILIAS\UI\Component\Dropdown\Standard
+     * @var Group[]
      */
-    protected $actions = null;
+    protected array $item_groups = array();
 
     /**
-     * @var \ILIAS\UI\Component\Item\Group[]
+     * @param \ILIAS\UI\Component\Item\Group[] $item_groups
      */
-    protected $item_groups = array();
-
-    public function __construct($title, $item_groups)
+    public function __construct(string $title, array $item_groups)
     {
-        $this->checkStringArg("title", $title);
-
         $this->title = $title;
         $this->item_groups = $item_groups;
     }
@@ -41,7 +50,7 @@ abstract class Listing implements C\Panel\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -49,7 +58,7 @@ abstract class Listing implements C\Panel\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function getItemGroups()
+    public function getItemGroups() : array
     {
         return $this->item_groups;
     }
@@ -57,7 +66,7 @@ abstract class Listing implements C\Panel\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions)
+    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Listing\Listing
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -67,7 +76,7 @@ abstract class Listing implements C\Panel\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function getActions()
+    public function getActions() : ?C\Dropdown\Standard
     {
         return $this->actions;
     }

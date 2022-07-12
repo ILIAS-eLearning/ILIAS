@@ -1,7 +1,24 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Card;
 
-use ILIAS\UI\Component;
+use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Image\Image;
 
 /**
@@ -9,14 +26,14 @@ use ILIAS\UI\Component\Image\Image;
  *
  * @author Jesús López <lopez@leifos.com>
  */
-class Factory implements Component\Card\Factory
+class Factory implements C\Card\Factory
 {
-    public function standard($title, $image = null)
+    public function standard($title, Image $image = null) : C\Card\Standard
     {
         return new Standard($title, $image);
     }
 
-    public function repositoryObject($title, $image)
+    public function repositoryObject($title, Image $image) : C\Card\RepositoryObject
     {
         return new RepositoryObject($title, $image);
     }

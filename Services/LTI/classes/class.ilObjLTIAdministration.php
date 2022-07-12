@@ -1,8 +1,17 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once './Services/Object/classes/class.ilObject.php';
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjLTIAdministration
  * @author Jesús López <lopez@leifos.com>
@@ -11,7 +20,7 @@ require_once './Services/Object/classes/class.ilObject.php';
  */
 class ilObjLTIAdministration extends ilObject
 {
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "ltis";
         parent::__construct($a_id, $a_call_by_reference);
@@ -20,7 +29,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * @return string[] Array of lti provider supportting object types
      */
-    public function getLTIObjectTypes()
+    public function getLTIObjectTypes() : array
     {
         $obj_def = new ilObjectDefinition();
         return $obj_def->getLTIProviderTypes();
@@ -29,11 +38,9 @@ class ilObjLTIAdministration extends ilObject
     /**
      * @return array available roles for LTI
      */
-    public function getLTIRoles()
+    public function getLTIRoles() : array
     {
         global $rbacreview;
-
-        require_once("Services/AccessControl/classes/class.ilObjRole.php");
 
         $global_roles = $rbacreview->getGlobalRoles();
 
@@ -49,30 +56,27 @@ class ilObjLTIAdministration extends ilObject
     }
 
     /**
-     * @param integer $a_consumer_id
+     * @param int   $a_consumer_id
      * @param array $a_obj_types
      */
-    public function saveConsumerObjectTypes($a_consumer_id, $a_obj_types)
+    public function saveConsumerObjectTypes(int $a_consumer_id, array $a_obj_types) : void
     {
-        global $ilDB;
-
-        $ilDB->manipulate("DELETE FROM lti_ext_consumer_otype WHERE consumer_id = " . $ilDB->quote($a_consumer_id, "integer"));
+        $this->db->manipulate("DELETE FROM lti_ext_consumer_otype WHERE consumer_id = " . $this->db->quote($a_consumer_id, "integer"));
 
         if ($a_obj_types) {
             $query = "INSERT INTO lti_ext_consumer_otype (consumer_id, object_type) VALUES (%s, %s)";
             $types = array("integer", "text");
             foreach ($a_obj_types as $ot) {
                 $values = array($a_consumer_id, $ot);
-                $ilDB->manipulateF($query, $types, $values);
+                $this->db->manipulateF($query, $types, $values);
             }
         }
     }
 
     /**
-     * @param integer $a_consumer_id
      * @return array consumer active objects
      */
-    public function getActiveObjectTypes($a_consumer_id)
+    public static function getActiveObjectTypes(int $a_consumer_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -81,7 +85,7 @@ class ilObjLTIAdministration extends ilObject
 
         $obj_ids = array();
         while ($record = $ilDB->fetchAssoc($result)) {
-            array_push($obj_ids, $record['object_type']);
+            $obj_ids[] = $record['object_type'];
         }
         return $obj_ids;
     }
@@ -89,7 +93,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * Check if any consumer is enabled for an object type
      */
-    public static function isEnabledForType($a_type)
+    public static function isEnabledForType(string $a_type) : bool
     {
         /**
          * @var ilDBInterface
@@ -109,9 +113,9 @@ class ilObjLTIAdministration extends ilObject
     /**
      * Get enabled consumers for type
      * @param string object type
-     * @return ilLTIToolConsumer[]
+     * @return ilLTIPlatform[]
      */
-    public static function getEnabledConsumersForType($a_type)
+    public static function getEnabledConsumersForType(string $a_type) : array
     {
         /**
          * @var ilDBInterface
@@ -126,7 +130,7 @@ class ilObjLTIAdministration extends ilObject
         $connector = new ilLTIDataConnector();
         $consumers = array();
         while ($row = $res->fetchObject()) {
-            $consumers[] = ilLTIToolConsumer::fromExternalConsumerId($row->id, $connector);
+            $consumers[] = ilLTIPlatform::fromExternalConsumerId((int) $row->id, $connector);
         }
         return $consumers;
     }
@@ -134,8 +138,9 @@ class ilObjLTIAdministration extends ilObject
     /**
      * Lookup ref_id
      */
-    public static function lookupLTISettingsRefId()
+    public static function lookupLTISettingsRefId() : ?int
     {
+        $lti_ref_id = null;
         $res = $GLOBALS['DIC']->database()->queryF(
             '
 			SELECT object_reference.ref_id FROM object_reference, tree, object_data
@@ -147,15 +152,16 @@ class ilObjLTIAdministration extends ilObject
             array(SYSTEM_FOLDER_ID, 'ltis')
         );
         while ($row = $GLOBALS['DIC']->database()->fetchAssoc($res)) {
-            $lti_ref_id = $row['ref_id'];
+            $lti_ref_id = (int) $row['ref_id'];
         }
         return $lti_ref_id;
     }
     
     /**
      * Read released objects
+     * @return array<int, array<string, mixed>>
      */
-    public static function readReleaseObjects()
+    public static function readReleaseObjects() : array
     {
         $db = $GLOBALS['DIC']->database();
         
@@ -163,7 +169,7 @@ class ilObjLTIAdministration extends ilObject
             'on id = ext_consumer_id where enabled = ' . $db->quote(1, 'integer');
         $res = $db->query($query);
         
-        ilLoggerFactory::getLogger('lti')->debug($query);
+        ilLoggerFactory::getLogger('ltis')->debug($query);
         
         $rows = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

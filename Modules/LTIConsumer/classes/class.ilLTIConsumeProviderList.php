@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumeProviderList
  *
@@ -16,7 +26,7 @@ class ilLTIConsumeProviderList implements Iterator
     /**
      * @var ilLTIConsumeProvider[]
      */
-    protected $providers = array();
+    protected array $providers = array();
     
     const SCOPE_GLOBAL = 'global';
     const SCOPE_USER = 'user';
@@ -25,67 +35,67 @@ class ilLTIConsumeProviderList implements Iterator
     /**
      * @var array
      */
-    protected $usagesUntrashed = array();
+    protected array $usagesUntrashed = array();
     
     /**
      * @var array
      */
-    protected $usagesTrashed = array();
+    protected array $usagesTrashed = array();
     
     /**
      * @var array
      */
-    protected $idsFilter = array();
+    protected array $idsFilter = array();
     
     /**
      * @var string
      */
-    protected $scopeFilter = self::SCOPE_BOTH;
+    protected string $scopeFilter = self::SCOPE_BOTH;
     
     /**
      * @var string
      */
-    protected $availabilityFilter = '';
+    protected string $availabilityFilter = '';
     
     /**
      * @var int
      */
-    protected $creatorFilter = 0;
+    protected int $creatorFilter = 0;
     
     /**
      * @var string
      */
-    protected $titleFilter = '';
+    protected string $titleFilter = '';
     
     /**
      * @var string
      */
-    protected $categoryFilter = '';
+    protected string $categoryFilter = '';
     
     /**
      * @var string
      */
-    protected $keywordFilter = '';
+    protected string $keywordFilter = '';
     
     /**
      * @var bool|null
      */
-    protected $hasOutcomeFilter = null;
+    protected ?bool $hasOutcomeFilter = null;
     
     /**
      * @var bool|null
      */
-    protected $isExternalFilter = null;
+    protected ?bool $isExternalFilter = null;
     
     /**
      * @var bool|null
      */
-    protected $isProviderKeyCustomizableFilter = null;
+    protected ?bool $isProviderKeyCustomizableFilter = null;
     
     /**
      * @return ilLTIConsumeProvider[]
      */
-    public function getProviders()
+    public function getProviders() : array
     {
         return $this->providers;
     }
@@ -93,7 +103,7 @@ class ilLTIConsumeProviderList implements Iterator
     /**
      * @param ilLTIConsumeProvider[] $providers
      */
-    public function setProviders(array $providers)
+    public function setProviders(array $providers) : void
     {
         $this->providers = $providers;
     }
@@ -109,166 +119,108 @@ class ilLTIConsumeProviderList implements Iterator
     /**
      * @param int[] $idsFilter
      */
-    public function setIdsFilter(array $idsFilter)
+    public function setIdsFilter(array $idsFilter) : void
     {
         $this->idsFilter = $idsFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getAvailabilityFilter() : string
     {
         return $this->availabilityFilter;
     }
     
-    /**
-     * @param string $availabilityFilter
-     */
-    public function setAvailabilityFilter(string $availabilityFilter)
+    public function setAvailabilityFilter(string $availabilityFilter) : void
     {
         $this->availabilityFilter = $availabilityFilter;
     }
     
-    /**
-     * @return string
-     */
-    public function getScopeFilter()
+    public function getScopeFilter() : string
     {
         return $this->scopeFilter;
     }
     
-    /**
-     * @param string $scopeFilter
-     */
-    public function setScopeFilter($scopeFilter)
+    public function setScopeFilter(string $scopeFilter) : void
     {
         $this->scopeFilter = $scopeFilter;
     }
     
-    /**
-     * @return int
-     */
-    public function getCreatorFilter()
+    public function getCreatorFilter() : int
     {
         return $this->creatorFilter;
     }
     
-    /**
-     * @param int $creatorFilter
-     */
-    public function setCreatorFilter($creatorFilter)
+    public function setCreatorFilter(int $creatorFilter) : void
     {
         $this->creatorFilter = $creatorFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getTitleFilter() : string
     {
         return $this->titleFilter;
     }
     
-    /**
-     * @param string $titleFilter
-     */
-    public function setTitleFilter(string $titleFilter)
+    public function setTitleFilter(string $titleFilter) : void
     {
         $this->titleFilter = $titleFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getCategoryFilter() : string
     {
         return $this->categoryFilter;
     }
     
-    /**
-     * @param string $categoryFilter
-     */
-    public function setCategoryFilter(string $categoryFilter)
+    public function setCategoryFilter(string $categoryFilter) : void
     {
         $this->categoryFilter = $categoryFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getKeywordFilter() : string
     {
         return $this->keywordFilter;
     }
     
-    /**
-     * @param string $keywordFilter
-     */
-    public function setKeywordFilter(string $keywordFilter)
+    public function setKeywordFilter(string $keywordFilter) : void
     {
         $this->keywordFilter = $keywordFilter;
     }
     
-    /**
-     * @return bool|null
-     */
-    public function getHasOutcomeFilter()
+    public function getHasOutcomeFilter() : ?bool
     {
         return $this->hasOutcomeFilter;
     }
     
-    /**
-     * @param bool|null $hasOutcomeFilter
-     */
-    public function setHasOutcomeFilter($hasOutcomeFilter)
+    public function setHasOutcomeFilter(?bool $hasOutcomeFilter) : void
     {
         $this->hasOutcomeFilter = $hasOutcomeFilter;
     }
     
-    /**
-     * @return bool|null
-     */
-    public function getIsExternalFilter()
+    public function getIsExternalFilter() : ?bool
     {
         return $this->isExternalFilter;
     }
     
-    /**
-     * @param bool|null $isExternalFilter
-     */
-    public function setIsExternalFilter($isExternalFilter)
+    public function setIsExternalFilter(?bool $isExternalFilter) : void
     {
         $this->isExternalFilter = $isExternalFilter;
     }
     
-    /**
-     * @return bool|null
-     */
-    public function getIsProviderKeyCustomizableFilter()
+    public function getIsProviderKeyCustomizableFilter() : ?bool
     {
         return $this->isProviderKeyCustomizableFilter;
     }
     
-    /**
-     * @param bool|null $isProviderKeyCustomizableFilter
-     */
-    public function setIsProviderKeyCustomizableFilter($isProviderKeyCustomizableFilter)
+    public function setIsProviderKeyCustomizableFilter(?bool $isProviderKeyCustomizableFilter) : void
     {
         $this->isProviderKeyCustomizableFilter = $isProviderKeyCustomizableFilter;
     }
 
-    /**
-     * @param ilLTIConsumeProvider $provider
-     */
-    public function add(ilLTIConsumeProvider $provider)
+    public function add(ilLTIConsumeProvider $provider) : void
     {
         $this->providers[] = $provider;
     }
-    
+
     /**
-     * @param int $providerId
-     * @return ilLTIConsumeProvider
+     * @throws ilException
      */
     public function getById(int $providerId) : ilLTIConsumeProvider
     {
@@ -280,10 +232,10 @@ class ilLTIConsumeProviderList implements Iterator
             return $provider;
         }
         
-        throw new ilLtiConsumerException('provider does not exist in list! (id=' . $providerId . ')');
+        throw new ilException('provider does not exist in list! (id=' . $providerId . ')');
     }
     
-    protected function getWhereExpression()
+    protected function getWhereExpression() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -301,7 +253,7 @@ class ilLTIConsumeProviderList implements Iterator
                     $conditions[] = "availability = " . $DIC->database()->quote(
                         $this->getAvailabilityFilter(),
                         'integer'
-                        );
+                    );
             }
         }
         
@@ -345,25 +297,23 @@ class ilLTIConsumeProviderList implements Iterator
         }
 
         
-        if (!count($conditions)) {
+        if (count($conditions) === 0) {
             return '1 = 1';
         }
         
         return implode("\n\t\t\tAND ", $conditions);
     }
     
-    protected function buildQuery()
+    protected function buildQuery() : string
     {
-        $query = "
+        return "
 			SELECT *
 			FROM lti_ext_provider
 			WHERE {$this->getWhereExpression()}
 		";
-        
-        return $query;
     }
 
-    public function load()
+    public function load() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -376,7 +326,7 @@ class ilLTIConsumeProviderList implements Iterator
         }
     }
     
-    public function loadUsages()
+    public function loadUsages() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -407,37 +357,22 @@ class ilLTIConsumeProviderList implements Iterator
         }
     }
     
-    /**
-     * @param int $providerId
-     * @return bool
-     */
     public function hasUsages(int $providerId) : bool
     {
         return $this->hasUntrashedUsages($providerId) || $this->hasTrashedUsages($providerId);
     }
     
-    /**
-     * @param int $providerId
-     * @return bool
-     */
     public function hasUntrashedUsages(int $providerId) : bool
     {
         return isset($this->usagesUntrashed[$providerId]) && $this->usagesUntrashed[$providerId];
     }
     
-    /**
-     * @param int $providerId
-     * @return bool
-     */
     public function hasTrashedUsages(int $providerId) : bool
     {
         return isset($this->usagesTrashed[$providerId]) && $this->usagesTrashed[$providerId];
     }
     
-    /**
-     * @return array
-     */
-    public function getTableData()
+    public function getTableData() : array
     {
         $this->loadUsages();
         
@@ -478,11 +413,14 @@ class ilLTIConsumeProviderList implements Iterator
         return $tableData;
     }
 
-    public function getTableDataUsedBy()
+    /**
+     * @return mixed[]
+     */
+    public function getTableDataUsedBy() : array
     {
         $tableData = [];
         $i = 0;
-        foreach ($this->getTableData() as $key => $tableRow) {
+        foreach ($this->getTableData() as $tableRow) {
             if (!(bool) $tableRow['usages_trashed'] && !(bool) $tableRow['usages_untrashed']) {
                 continue;
             }
@@ -498,7 +436,10 @@ class ilLTIConsumeProviderList implements Iterator
         return $tableData;
     }
 
-    private function loadUsedBy($providerId)
+    /**
+     * @return array<int|string, array<string, mixed>>
+     */
+    private function loadUsedBy(int $providerId) : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -521,22 +462,38 @@ class ilLTIConsumeProviderList implements Iterator
         return $retArr;
     }
 
+    /**
+     * @return false|ilLTIConsumeProvider|mixed
+     */
     public function current()
     {
         return current($this->providers);
     }
+
+    /**
+     * @return false|ilLTIConsumeProvider|void
+     */
     public function next()
     {
         return next($this->providers);
     }
+
+    /**
+     * @return bool|float|int|mixed|string|null
+     */
     public function key()
     {
         return key($this->providers);
     }
-    public function valid()
+
+    public function valid() : bool
     {
         return key($this->providers) !== null;
     }
+
+    /**
+     * @return false|ilLTIConsumeProvider|void
+     */
     public function rewind()
     {
         return reset($this->providers);

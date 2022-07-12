@@ -1,27 +1,37 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents an advanced selection list property in a property form.
  * It can hold graphical selection items, uses javascript and falls back
  * to a normal selection list, when javascript is disabled.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {
-    protected $options = array();
-    protected $value;
+    protected array $options = array();
+    protected string $value = "";
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -29,91 +39,58 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
         $this->setType("advselect");
     }
 
-    /**
-    * Add an Options.
-    *
-    * @param	array	$a_options	Options. Array ("value" => "option_html")
-    */
-    public function addOption($a_value, $a_text, $a_html = "")
-    {
+    public function addOption(
+        string $a_value,
+        string $a_text,
+        string $a_html = ""
+    ) : void {
         $this->options[$a_value] = array("value" => $a_value,
             "txt" => $a_text, "html" => $a_html);
     }
 
-    /**
-    * Get Options.
-    *
-    * @return	array	Options. Array ("value" => "option_html")
-    */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options;
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
-    
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+
+    public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
-        $_POST[$this->getPostVar()] =
-            ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
+        if ($this->getRequired() && trim($this->str($this->getPostVar())) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
-
             return false;
         }
         return true;
     }
 
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function getInput() : string
+    {
+        return $this->str($this->getPostVar());
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setFormSelectMode(
             $this->getPostVar(),
             "",
             false,
-            "",
-            "",
-            "",
             "",
             "",
             "",

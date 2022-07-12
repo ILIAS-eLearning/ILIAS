@@ -1,5 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
@@ -19,8 +36,6 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getUploadURL() : string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_UPLOAD);
     }
 
@@ -30,8 +45,6 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getExistingFileInfoURL() : string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_INFO);
     }
 
@@ -41,9 +54,12 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getFileRemovalURL() : string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
-        return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_REMOVE);
+        return $this->ctrl->getLinkTargetByClass(
+            [ilUIPluginRouterGUI::class, self::class],
+            self::CMD_REMOVE,
+            null,
+            false
+        );
     }
 
 
@@ -78,9 +94,15 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    protected function getInfoResult(string $identifier) : FileInfoResult
+    public function getInfoResult(string $identifier) : ?FileInfoResult
     {
-        return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, "My funny Testfile $identifier.txt", 64);
+        return new BasicFileInfoResult(
+            $this->getFileIdentifierParameterName(),
+            $identifier,
+            "My funny Testfile $identifier.txt",
+            64,
+            ""
+        );
     }
 
 
@@ -88,7 +110,13 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     {
         $infos = [];
         foreach ($file_ids as $file_id) {
-            $infos[] = new BasicFileInfoResult($this->getFileIdentifierParameterName(), $file_id, "Name $file_id.txt", rand(1000, 2000), "text/plain");
+            $infos[] = new BasicFileInfoResult(
+                $this->getFileIdentifierParameterName(),
+                $file_id,
+                "Name $file_id.txt",
+                rand(1000, 2000),
+                "text/plain"
+            );
         }
 
         return $infos;

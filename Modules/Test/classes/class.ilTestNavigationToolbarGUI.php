@@ -18,11 +18,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     protected $ctrl;
 
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilTestPlayerAbstractGUI
      */
     protected $playerGUI;
@@ -89,7 +84,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isSuspendTestButtonEnabled()
+    public function isSuspendTestButtonEnabled() : bool
     {
         return $this->suspendTestButtonEnabled;
     }
@@ -105,7 +100,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionListButtonEnabled()
+    public function isQuestionListButtonEnabled() : bool
     {
         return $this->questionListButtonEnabled;
     }
@@ -121,7 +116,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionTreeButtonEnabled()
+    public function isQuestionTreeButtonEnabled() : bool
     {
         return $this->questionTreeButtonEnabled;
     }
@@ -137,7 +132,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionTreeVisible()
+    public function isQuestionTreeVisible() : bool
     {
         return $this->questionTreeVisible;
     }
@@ -153,7 +148,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionSelectionButtonEnabled()
+    public function isQuestionSelectionButtonEnabled() : bool
     {
         return $this->questionSelectionButtonEnabled;
     }
@@ -169,7 +164,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isFinishTestButtonEnabled()
+    public function isFinishTestButtonEnabled() : bool
     {
         return $this->finishTestButtonEnabled;
     }
@@ -185,7 +180,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return string
      */
-    public function getFinishTestCommand()
+    public function getFinishTestCommand() : string
     {
         return $this->finishTestCommand;
     }
@@ -201,7 +196,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isFinishTestButtonPrimary()
+    public function isFinishTestButtonPrimary() : bool
     {
         return $this->finishTestButtonPrimary;
     }
@@ -217,7 +212,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isDisabledStateEnabled()
+    public function isDisabledStateEnabled() : bool
     {
         return $this->disabledStateEnabled;
     }

@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilObjCmiXapiVerficationListGUI
@@ -14,7 +25,7 @@
  */
 class ilObjCmiXapiVerificationListGUI extends ilObjectListGUI
 {
-    public function init()
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -29,13 +40,19 @@ class ilObjCmiXapiVerificationListGUI extends ilObjectListGUI
         $this->commands = ilObjCmiXapiVerificationAccess::_getCommands();
     }
     
-    public function getProperties()
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getProperties() : array
     {
         global $lng;
         
-        return array(
-            array("alert" => false, "property" => $lng->txt("type"),
-                "value" => $lng->txt("wsp_list_cmxv"))
-        );
+        return [
+            [
+                "alert" => false,
+                "property" => $lng->txt("type"),
+                "value" => $lng->txt("wsp_list_cmxv")
+            ]
+        ];
     }
 }

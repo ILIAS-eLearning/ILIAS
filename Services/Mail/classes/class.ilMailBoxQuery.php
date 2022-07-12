@@ -1,34 +1,44 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Mail query class.
  *
  * @author Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  *
  */
 class ilMailBoxQuery
 {
-    public static $folderId = -1;
-    public static $userId = -1;
-    public static $limit = 0;
-    public static $offset = 0;
-    public static $orderDirection = '';
-    public static $orderColumn = '';
-    public static $filter = array();
-    public static $filtered_ids = array();
+    public static int $folderId = -1;
+    public static int $userId = -1;
+    public static int $limit = 0;
+    public static int $offset = 0;
+    public static string $orderDirection = '';
+    public static string $orderColumn = '';
+    public static array $filter = [];
+    public static array $filtered_ids = [];
 
     /**
-     * _getMailBoxListData
-     *
-     * @access	public
-     * @static
-     * @return	array	Array of mails
-     *
+     * @return array{set: array[], cnt: int, cnt_unread: int}
+     * @throws Exception
      */
-    public static function _getMailBoxListData()
+    public static function _getMailBoxListData() : array
     {
         global $DIC;
 
@@ -39,13 +49,17 @@ class ilMailBoxQuery
             'mail_filter_recipients' => 'CONCAT(CONCAT(rcp_to, rcp_cc), rcp_bcc)',
             'mail_filter_subject' => 'm_subject',
             'mail_filter_body' => 'm_message',
-            'mail_filter_attach' => ''
+            'mail_filter_attach' => '',
         ];
 
         $filter_parts = [];
-        if (isset(self::$filter['mail_filter']) && strlen(self::$filter['mail_filter'])) {
+        if (
+            isset(self::$filter['mail_filter']) &&
+            is_string(self::$filter['mail_filter']) &&
+            self::$filter['mail_filter'] !== ''
+        ) {
             foreach ($filter as $key => $column) {
-                if (strlen($column) && isset(self::$filter[$key]) && (int) self::$filter[$key]) {
+                if ($column !== '' && isset(self::$filter[$key]) && (int) self::$filter[$key]) {
                     $filter_parts[] = $DIC->database()->like(
                         $column,
                         'text',
@@ -65,8 +79,15 @@ class ilMailBoxQuery
             $filter_qry .= ' AND m_status = ' . $DIC->database()->quote('unread', 'text') . ' ';
         }
 
-        if (isset(self::$filter['mail_filter_only_with_attachments']) && self::$filter['mail_filter_only_with_attachments']) {
+        if (
+            isset(self::$filter['mail_filter_only_with_attachments']) &&
+            self::$filter['mail_filter_only_with_attachments']
+        ) {
             $filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize(null), 'text') . ' ';
+        }
+
+        if (isset(self::$filter['mail_filter_only_user_mails']) && self::$filter['mail_filter_only_user_mails']) {
+            $filter_qry .= ' AND sender_id != ' . $DIC->database()->quote(ANONYMOUS_USER_ID, ilDBConstants::T_INTEGER) . ' ';
         }
 
         if (isset(self::$filter['period']) && is_array(self::$filter['period'])) {
@@ -74,14 +95,18 @@ class ilMailBoxQuery
 
             if (null !== self::$filter['period']['start']) {
                 $dateFilterParts[] = 'send_time >= ' . $DIC->database()->quote(
-                    (new \DateTimeImmutable('@' . self::$filter['period']['start']))->format('Y-m-d 00:00:00'),
+                    (new DateTimeImmutable(
+                        '@' . self::$filter['period']['start']
+                    ))->format('Y-m-d 00:00:00'),
                     'timestamp'
                 );
             }
 
             if (null !== self::$filter['period']['end']) {
                 $dateFilterParts[] = 'send_time <= ' . $DIC->database()->quote(
-                    (new \DateTimeImmutable('@' . self::$filter['period']['end']))->format('Y-m-d 23:59:59'),
+                    (new DateTimeImmutable(
+                        '@' . self::$filter['period']['end']
+                    ))->format('Y-m-d 23:59:59'),
                     'timestamp'
                 );
             }
@@ -91,29 +116,40 @@ class ilMailBoxQuery
             }
         }
 
-        // count query
         $queryCount = 'SELECT COUNT(mail_id) cnt FROM mail '
                     . 'LEFT JOIN usr_data ON usr_id = sender_id '
                     . 'WHERE user_id = %s '
-                    . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
+                    . 'AND ((sender_id > 0 AND sender_id IS NOT NULL '
+                    . 'AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
                     . 'AND folder_id = %s '
                     . $filter_qry;
 
         if (self::$filtered_ids) {
-            $queryCount .= ' AND ' . $DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer') . ' ';
+            $queryCount .= ' AND ' . $DIC->database()->in(
+                'mail_id',
+                self::$filtered_ids,
+                false,
+                'integer'
+            ) . ' ';
         }
 
         $queryCount .= ' UNION ALL '
                     . 'SELECT COUNT(mail_id) cnt FROM mail '
                     . 'LEFT JOIN usr_data ON usr_id = sender_id '
                     . 'WHERE user_id = %s '
-                    . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
+                    . 'AND ((sender_id > 0 AND sender_id IS NOT NULL '
+                    . 'AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
                     . 'AND folder_id = %s '
                     . $filter_qry . ' '
                     . 'AND m_status = %s';
 
         if (self::$filtered_ids) {
-            $queryCount .= ' AND ' . $DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer') . ' ';
+            $queryCount .= ' AND ' . $DIC->database()->in(
+                'mail_id',
+                self::$filtered_ids,
+                false,
+                'integer'
+            ) . ' ';
         }
 
         $res = $DIC->database()->queryF(
@@ -125,9 +161,9 @@ class ilMailBoxQuery
         $counter = 0;
         while ($cnt_row = $DIC->database()->fetchAssoc($res)) {
             if ($counter === 0) {
-                $mails['cnt'] = $cnt_row['cnt'];
+                $mails['cnt'] = (int) $cnt_row['cnt'];
             } elseif ($counter === 1) {
-                $mails['cnt_unread'] = $cnt_row['cnt'];
+                $mails['cnt_unread'] = (int) $cnt_row['cnt'];
             } else {
                 break;
             }
@@ -147,20 +183,25 @@ class ilMailBoxQuery
 			';
         }
 
-        // item query
         $query = 'SELECT mail.*' . $sortColumn . ' ' . $firstnameSelection . ' FROM mail '
                . 'LEFT JOIN usr_data ON usr_id = sender_id '
-               . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
+               . 'AND ((sender_id > 0 AND sender_id IS NOT NULL '
+               . 'AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
                . 'WHERE user_id = %s '
                . $filter_qry . ' '
                . 'AND folder_id = %s';
 
         if (self::$filtered_ids) {
-            $query .= ' AND ' . $DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer') . ' ';
+            $query .= ' AND ' . $DIC->database()->in(
+                'mail_id',
+                self::$filtered_ids,
+                false,
+                'integer'
+            ) . ' ';
         }
 
         $orderDirection = 'ASC';
-        if (in_array(strtolower(self::$orderDirection), array('desc', 'asc'))) {
+        if (in_array(strtolower(self::$orderDirection), ['desc', 'asc'], true)) {
             $orderDirection = self::$orderDirection;
         }
 
@@ -170,9 +211,9 @@ class ilMailBoxQuery
                     . ' lastname ' . $orderDirection . ', '
                     . ' login ' . $orderDirection . ', '
                     . ' import_name ' . $orderDirection;
-        } elseif (strlen(self::$orderColumn) > 0) {
+        } elseif (self::$orderColumn !== '') {
             if (
-                !in_array(strtolower(self::$orderColumn), ['m_subject', 'send_time', 'rcp_to']) &&
+                !in_array(strtolower(self::$orderColumn), ['m_subject', 'send_time', 'rcp_to'], true) &&
                 !$DIC->database()->tableColumnExists('mail', strtolower(self::$orderColumn))) {
                 // @todo: Performance problem...
                 self::$orderColumn = 'send_time';
@@ -190,7 +231,31 @@ class ilMailBoxQuery
             [self::$userId, self::$folderId]
         );
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            $row['attachments'] = unserialize(stripslashes($row['attachments']));
+            if (isset($row['attachments'])) {
+                $row['attachments'] = (array) unserialize(
+                    stripslashes($row['attachments']),
+                    ['allowed_classes' => false]
+                );
+            } else {
+                $row['attachments'] = [];
+            }
+
+            if (isset($row['mail_id'])) {
+                $row['mail_id'] = (int) $row['mail_id'];
+            }
+
+            if (isset($row['user_id'])) {
+                $row['user_id'] = (int) $row['user_id'];
+            }
+
+            if (isset($row['folder_id'])) {
+                $row['folder_id'] = (int) $row['folder_id'];
+            }
+
+            if (isset($row['sender_id'])) {
+                $row['sender_id'] = (int) $row['sender_id'];
+            }
+
             $mails['set'][] = $row;
         }
 

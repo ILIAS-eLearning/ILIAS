@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPlaceHolder
@@ -9,26 +23,13 @@
  */
 class ilPCPlaceHolder extends ilPageContent
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    public php4DOMElement $q_node;			// node of Paragraph element
+    public string $content_class;
+    public string $height;
     
-    //class of placeholder
-    
-    public $q_node;			// node of Paragraph element
-    public $content_class;
-    public $height;
-    
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -37,105 +38,70 @@ class ilPCPlaceHolder extends ilPageContent
         $this->setType("plach");
     }
     
-    
-    /**
-    * Set node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->q_node = $a_node->first_child();		//... and this the PlaceHolder
     }
-    
-    /**
-    * Create PlaceHolder Element
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->q_node = $this->dom->create_element("PlaceHolder");
         $this->q_node = $this->node->append_child($this->q_node);
     }
 
-    /**
-    * Set Content Class.
-    *
-    * @param	string	$a_class	Content Class
-    */
-    public function setContentClass($a_class)
+    public function setContentClass(string $a_class) : void
     {
         if (is_object($this->q_node)) {
             $this->q_node->set_attribute("ContentClass", $a_class);
         }
     }
 
-    /**
-    * Get Content Class.
-    *
-    * @return	string	Content Class
-    */
-    public function getContentClass()
+    public function getContentClass() : string
     {
         if (is_object($this->q_node)) {
-            return $this->q_node->get_attribute("ContentClass", $a_class);
+            return $this->q_node->get_attribute("ContentClass");
         }
-        return false;
+        return "";
     }
     
-    /**
-    * Set Height
-    *
-    * @param	string	$a_height	Height
-    */
-    public function setHeight($a_height)
+    public function setHeight(string $a_height) : void
     {
         if (is_object($this->q_node)) {
             $this->q_node->set_attribute("Height", $a_height);
         }
     }
     
-    
-    /**
-    * Get Height
-    *
-    * @return	string	Content Class
-    */
-    public function getHeight()
+    public function getHeight() : string
     {
         if (is_object($this->q_node)) {
-            return $this->q_node->get_attribute("Height", $a_class);
+            return $this->q_node->get_attribute("Height");
         }
-        return false;
+        return "";
     }
     
-    /**
-    * Get characteristic of PlaceHolder.
-    *
-    * @return	string		characteristic
-    */
-    public function getClass()
+    public function getClass() : string
     {
         return "";
     }
     
-    /**
-     * Get lang vars needed for editing
-     * @return array array of lang var keys
-     */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("question_placeh","media_placeh","text_placeh",
             "ed_insert_plach","question_placehl","media_placehl","text_placehl",
             "verification_placeh", "verification_placehl");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
-    {
+    public function modifyPageContentPostXsl(
+        string $a_output,
+        string $a_mode,
+        bool $a_abstract_only = false
+    ) : string {
         $lng = $this->lng;
 
         //
@@ -143,13 +109,13 @@ class ilPCPlaceHolder extends ilPageContent
         //
 
         $end = 0;
-        $start = strpos($a_html, "{{{{{PlaceHolder#");
+        $start = strpos($a_output, "{{{{{PlaceHolder#");
         if (is_int($start)) {
-            $end = strpos($a_html, "}}}}}", $start);
+            $end = strpos($a_output, "}}}}}", $start);
         }
         $i = 1;
         while ($end > 0) {
-            $param = substr($a_html, $start + 17, $end - $start - 17);
+            $param = substr($a_output, $start + 17, $end - $start - 17);
             $param = explode("#", $param);
 
             $html = $param[2];
@@ -171,29 +137,33 @@ class ilPCPlaceHolder extends ilPageContent
                     break;
             }
 
-            $h2 = substr($a_html, 0, $start) .
+            $h2 = substr($a_output, 0, $start) .
                 $html .
-                substr($a_html, $end + 5);
-            $a_html = $h2;
+                substr($a_output, $end + 5);
+            $a_output = $h2;
             $i++;
 
-            $start = strpos($a_html, "{{{{{PlaceHolder#", $start + 5);
+            $start = strpos($a_output, "{{{{{PlaceHolder#", $start + 5);
             $end = 0;
             if (is_int($start)) {
-                $end = strpos($a_html, "}}}}}", $start);
+                $end = strpos($a_output, "}}}}}", $start);
             }
         }
-        return $a_html;
+        return $a_output;
     }
 
     /**
      * @inheritDoc
      */
-    public function getModel()
+    public function getModel() : ?stdClass
     {
         $model = new \stdClass();
         $model->contentClass = $this->getContentClass();
-        ;
         return $model;
+    }
+
+    public function getCssFiles(string $a_mode) : array
+    {
+        return [ilObjStyleSheet::getPlaceHolderStylePath()];
     }
 }

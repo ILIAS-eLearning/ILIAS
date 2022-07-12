@@ -1,68 +1,55 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * Class ilMimeMail
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory as Refinery;
+
 class ilMimeMail
 {
     public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
-
-    /** @var ilMailMimeTransport|null */
-    protected static $defaultTransport = null;
-
-    /** @var string */
-    protected $subject = '';
-
-    /** @var string */
-    protected $body = '';
-
-    /** @var string */
-    protected $finalBody = '';
-
-    /** @var string */
-    protected $finalBodyAlt = '';
-
+    protected static ?ilMailMimeTransport $defaultTransport = null;
+    protected ilMailMimeSender $sender;
+    protected ilMailMimeSubjectBuilder $subjectBuilder;
+    protected ilSetting $settings;
+    protected string $subject = '';
+    protected string $body = '';
+    protected string $finalBody = '';
+    protected string $finalBodyAlt = '';
     /** @var string[] */
-    protected $sendto = [];
-
+    protected array $sendto = [];
     /** @var string[] */
-    protected $acc = [];
-
+    protected array $acc = [];
     /** @var string[] */
-    protected $abcc = [];
-
+    protected array $abcc = [];
     /** @var array<string, array{path: string, cid: string, name: string}> */
-    protected $images = [];
-
-    /** @var string[]  */
-    protected $aattach = [];
-
+    protected array $images = [];
     /** @var string[] */
-    protected $actype = [];
-
+    protected array $aattach = [];
     /** @var string[] */
-    protected $adispo = [];
+    protected array $actype = [];
+    /** @var string[] */
+    protected array $adispo = [];
+    /** @var string[] */
+    protected array $adisplay = [];
+    private Refinery $refinery;
 
-    /** @var string[]|null[] */
-    protected $adisplay = [];
-
-    /** @var ilMailMimeSender */
-    protected $sender;
-
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var ilMailMimeSubjectBuilder */
-    protected $subjectBuilder;
-
-    /**
-     * ilMimeMail constructor.
-     */
     public function __construct()
     {
         global $DIC;
-
         $this->settings = $DIC->settings();
 
         if (!(self::getDefaultTransport() instanceof ilMailMimeTransport)) {
@@ -71,21 +58,11 @@ class ilMimeMail
         }
 
         $this->subjectBuilder = new ilMailMimeSubjectBuilder($this->settings, self::MAIL_SUBJECT_PREFIX);
+        $this->refinery = $DIC->refinery();
     }
 
-    /**
-     * @param ilMailMimeTransport|null $transport
-     * @throws InvalidArgumentException
-     */
     public static function setDefaultTransport(?ilMailMimeTransport $transport) : void
     {
-        if ($transport !== null && !($transport instanceof ilMailMimeTransport)) {
-            throw new InvalidArgumentException(sprintf(
-                "The passed argument must be null or of type 'ilMailMimeTransport', %s given!",
-                gettype($transport)
-            ));
-        }
-
         self::$defaultTransport = $transport;
     }
 
@@ -110,8 +87,7 @@ class ilMimeMail
     }
 
     /**
-     * Set the mail recipient
-     * @param string|string[] To email address, accept both a single address or an array of addresses
+     * @param string|string[] $to To email address, accept both a single address or an array of addresses
      */
     public function To($to) : void
     {
@@ -123,8 +99,7 @@ class ilMimeMail
     }
 
     /**
-     * Set the cc mail recipient
-     * @param string|string[] CC email address, accept both a single address or an array of addresses
+     * @param string|string[] $cc CC email address, accept both a single address or an array of addresses
      */
     public function Cc($cc) : void
     {
@@ -136,8 +111,7 @@ class ilMimeMail
     }
 
     /**
-     * Set the bcc mail recipient
-     * @param string|string[] BCC email address, accept both a single address or an array of addresses
+     * @param string|string[] $bcc BCC email address, accept both a single address or an array of addresses
      */
     public function Bcc($bcc) : void
     {
@@ -193,10 +167,10 @@ class ilMimeMail
     }
 
     /**
-     * Attach a file to the mail
      * @param string $filename Path of the file to attach
      * @param string $file_type MIME-type of the file. default to 'application/x-unknown-content-type'
-     * @param string $disposition Instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
+     * @param string $disposition Instruct the Mailclient to display the file if possible ("inline")
+     *                            or always as a link ("attachment") possible values are "inline", "attachment"
      * @param string|null $display_name Filename to use in email (if different from source file)
      */
     public function Attach(
@@ -240,16 +214,14 @@ class ilMimeMail
     }
 
     /**
-     * @return array{path: string, cid: string, name: string}[] An array of images. Each element must container to associative keys, 'path', 'cid' and 'name'
+     * @return array{path: string, cid: string, name: string}[] An array of images. Each element must container
+     * to associative keys, 'path', 'cid' and 'name'
      */
     public function getImages() : array
     {
         return array_values($this->images);
     }
 
-    /**
-     * Build the relevant email data
-     */
     protected function build() : void
     {
         global $DIC;
@@ -258,14 +230,21 @@ class ilMimeMail
         $this->finalBody = '';
         $this->images = [];
 
-        if ($DIC->settings()->get('mail_send_html', 0)) {
+        if ($DIC->settings()->get('mail_send_html', '0')) {
             $skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
 
             $this->buildBodyMultiParts($skin);
             $this->buildHtmlInlineImages($skin);
         } else {
-            $this->finalBody = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body);
+            $this->finalBody = $this->removeHTMLTags($this->body);
         }
+    }
+
+    private function removeHTMLTags(string $maybeHTML) : string
+    {
+        $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybeHTML);
+        
+        return strip_tags($maybeHTML);
     }
 
     protected function buildBodyMultiParts(string $skin) : void
@@ -275,9 +254,11 @@ class ilMimeMail
         }
 
         if (strip_tags($this->body, '<b><u><i><a>') === $this->body) {
-            // Let's assume(!) that there is no HTML (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this), so convert "\n" to "<br>"
+            // Let's assume(!) that there is no HTML
+            // (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this),
+            // so convert "\n" to "<br>"
             $this->finalBodyAlt = strip_tags($this->body);
-            $this->body = \ilUtil::makeClickable(nl2br($this->body));
+            $this->body = $this->refinery->string()->makeClickable()->transform(nl2br($this->body));
         } else {
             // if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
             $this->finalBodyAlt = strip_tags(str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body));
@@ -319,8 +300,11 @@ class ilMimeMail
             $this->images = [];
         }
 
-        foreach (new RegexIterator(new DirectoryIterator($directory), '/\.(jpg|jpeg|gif|svg|png)$/i') as $file) {
-            /** @var $file SplFileInfo */
+        foreach (new RegexIterator(
+            new DirectoryIterator($directory),
+            '/\.(jpg|jpeg|gif|svg|png)$/i'
+        ) as $file) {
+            /** @var SplFileInfo $file */
             $cid = 'img/' . $file->getFilename();
 
             $this->images[$cid] = [
@@ -331,10 +315,6 @@ class ilMimeMail
         }
     }
 
-    /**
-     * @param $transport ilMailMimeTransport|null
-     * @return bool A boolean flag whether the transport might be successful
-     */
     public function Send(ilMailMimeTransport $transport = null) : bool
     {
         if (!($transport instanceof ilMailMimeTransport)) {

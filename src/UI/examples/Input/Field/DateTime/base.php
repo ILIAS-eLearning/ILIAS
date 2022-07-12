@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Input\Field\DateTime;
 
 /**
@@ -56,7 +56,7 @@ function base()
         ->withLabel('Tokyo time, both preset and output')
         ->withByline('Tokyo time+date is preset. Output is also Tokyo time.');
 
-    $disabled =  $date
+    $disabled = $date
         ->withValue($date_now->format($format))
         ->withDisabled(true)
         ->withLabel('disabled')

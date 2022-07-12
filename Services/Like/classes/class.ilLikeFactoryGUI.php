@@ -1,33 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- *
- *
- * @author Alex Killing <killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLikeFactoryGUI
 {
-    /**
-     *
-     *
-     * @param
-     */
     public function __construct()
     {
     }
 
     /**
      * Get widget
-     *
-     * @param array $a_obj_ids
-     * @return ilLikeGUI
      */
-    public function widget(array $a_obj_ids)
+    public function widget(array $a_obj_ids) : ilLikeGUI
     {
         $data = new ilLikeData($a_obj_ids);
-        $like_gui = new ilLikeGUI($data);
-        return $like_gui;
+        return new ilLikeGUI($data);
     }
 }

@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjLTIConsumerLaunch
  *
@@ -11,36 +21,32 @@
  *
  * @package     Modules/LTIConsumer
  */
-
 class ilLTIConsumerResult
 {
     /**
      * @var integer
      */
-    public $id;
+    public int $id;
 
     /**
      * @var integer
      */
-    public $obj_id;
+    public int $obj_id;
 
     /**
      * @var integer
      */
-    public $usr_id;
+    public int $usr_id;
 
     /**
-     * @var float
+     * @var float|null
      */
-    public $result;
-
+    public ?float $result = null;
 
     /**
      * Get a result by id
-     * @param integer id
-     * @return LTIConsumerResult of null if not exists
      */
-    public static function getById($a_id)
+    public static function getById(int $a_id) : ?ilLTIConsumerResult
     {
         global $DIC;
 
@@ -59,14 +65,9 @@ class ilLTIConsumerResult
 
     /**
      * Get a result by object and user key
-     *
-     * @param integer   object id
-     * @param integer   user id
-     * @param boolean   save a new result object result if not exists
-     *
      * @return ilLTIConsumerResult
      */
-    public static function getByKeys($a_obj_id, $a_usr_id, $a_create = false)
+    public static function getByKeys(int $a_obj_id, int $a_usr_id, ?bool $a_create = false) : ?ilLTIConsumerResult
     {
         global $DIC;
 
@@ -95,22 +96,22 @@ class ilLTIConsumerResult
      * Fill the properties with data from an array
      * @param array assoc data
      */
-    protected function fillData($data)
+    protected function fillData(array $data) : void
     {
-        $this->id = $data['id'];
-        $this->obj_id = $data['obj_id'];
-        $this->usr_id = $data['usr_id'];
+        $this->id = (int) $data['id'];
+        $this->obj_id = (int) $data['obj_id'];
+        $this->usr_id = (int) $data['usr_id'];
         $this->result = $data['result'];
     }
 
     /**
      * Save a result object
      */
-    public function save()
+    public function save() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        if (!isset($this->usr_id) or !isset($this->obj_id)) {
+        if (!isset($this->usr_id) || !isset($this->obj_id)) {
             return false;
         }
         if (!isset($this->id)) {
@@ -130,34 +131,22 @@ class ilLTIConsumerResult
         return true;
     }
     
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
     
-    /**
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
     
-    /**
-     * @return int
-     */
-    public function getUsrId()
+    public function getUsrId() : int
     {
         return $this->usr_id;
     }
     
-    /**
-     * @return float
-     */
-    public function getResult()
+    public function getResult() : float
     {
         return $this->result;
     }
@@ -166,7 +155,7 @@ class ilLTIConsumerResult
      * @param $objId
      * @return ilLTIConsumerResult[]
      */
-    public static function getResultsForObject($objId)
+    public static function getResultsForObject(int $objId) : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

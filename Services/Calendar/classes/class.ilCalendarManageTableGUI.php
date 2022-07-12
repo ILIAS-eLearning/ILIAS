@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,105 +21,64 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-
 /**
-* show list of alle calendars to manage
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
-
+ * show list of alle calendars to manage
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarManageTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCalendarActions
-     */
-    protected $actions;
+    protected ilCalendarActions $actions;
+    protected ilObjUser $user;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj)
+    public function __construct(object $a_parent_obj)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-
         $this->setId("calmng");
-
-        include_once("./Services/Calendar/classes/class.ilCalendarActions.php");
-        $this->actions = ilCalendarActions::getInstance();
-
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('dateplaner');
-        $this->ctrl = $ilCtrl;
-        
         parent::__construct($a_parent_obj, 'manage');
+
+        $this->user = $DIC->user();
+
+        $this->actions = ilCalendarActions::getInstance();
+        $this->lng->loadLanguageModule('dateplaner');
         $this->setFormName('categories');
         $this->addColumn('', '', '1px', true);
         $this->addColumn($this->lng->txt('type'), 'type_sortable', '1%');
         $this->addColumn($this->lng->txt('title'), 'title', '79%');
         $this->addColumn('', '', '20%');
-        
+
         $this->setRowTemplate("tpl.manage_row.html", "Services/Calendar");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "manage"));
-        
+
         $this->enable('select_all');
         $this->enable('sort');
         $this->enable('header');
         $this->enable('num_info');
-        
+
         $this->setSelectAllCheckbox('selected_cat_ids');
         $this->setShowRowsSelector(true);
-        // $this->setDisplayAsBlock(true);
-
-
-        /*
-        $title = $this->lng->txt('cal_table_categories');
-        $title .= $this->appendCalendarSelection();
-        $table_gui->setTitle($title);
-        */
-
         $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
-        // $this->addCommandButton('add',$this->lng->txt('add'));
-
         $this->setDefaultOrderDirection('asc');
         $this->setDefaultOrderField('type_sortable');
     }
-    
+
     /**
      * reset table to defaults
      */
-    public function resetToDefaults()
+    public function resetToDefaults() : void
     {
         $this->resetOffset();
         $this->setOrderField('type_sortable');
         $this->setOrderDirection('asc');
     }
-    
-    /**
-     * fill row
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow(array $a_set) : void
     {
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $current_selection_list = new ilAdvancedSelectionListGUI();
         $current_selection_list->setListTitle($this->lng->txt("actions"));
         $current_selection_list->setId("act_" . $a_set['id']);
-        
+
         $this->ctrl->setParameter($this->getParentObject(), 'category_id', $a_set['id']);
 
         // edit
@@ -169,19 +128,20 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_calg.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_system'));
                 break;
-                
+
             case ilCalendarCategory::TYPE_USR:
                 $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_usr.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_personal'));
                 break;
-            
+
             case ilCalendarCategory::TYPE_OBJ:
                 $type = ilObject::_lookupType($a_set['obj_id']);
                 $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_' . $type . '.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $type));
                 break;
-                
+
             case ilCalendarCategory::TYPE_BOOK:
+                $type = ilObject::_lookupType($a_set['obj_id']);
                 $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_book.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $type));
                 break;
@@ -192,7 +152,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 break;
 
         }
-        
+
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         $this->ctrl->setParameterByClass(ilCalendarPresentationGUI::class, 'backvm', 1);
         $this->ctrl->setParameterByClass(
@@ -207,36 +167,14 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 ''
             )
         );
-        $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $_GET["category_id"]);
-
         $this->tpl->setVariable('BGCOLOR', $a_set['color']);
         $this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
-        
-        /*		if(strlen($a_set['path']))
-                {
-                    $this->tpl->setCurrentBlock('calendar_path');
-                    $this->tpl->setVariable('ADD_PATH_INFO',$a_set['path']);
-                    $this->tpl->parseCurrentBlock();
-                }*/
     }
-    
-    /**
-     * parse
-     *
-     * @access public
-     * @return
-     */
-    public function parse()
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        $tree = $DIC['tree'];
-        
-        include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-        $cats = ilCalendarCategories::_getInstance($ilUser->getId());
-        //$cats->initialize(ilCalendarCategories::MODE_MANAGE);
-    
+    public function parse() : void
+    {
+        $cats = ilCalendarCategories::_getInstance($this->user->getId());
+
         $tmp_title_counter = array();
         $categories = array();
         foreach ($cats->getCategoriesInfo() as $category) {
@@ -257,17 +195,16 @@ class ilCalendarManageTableGUI extends ilTable2GUI
             $tmp_arr['remote'] = $category['remote'];
 
             $categories[] = $tmp_arr;
-            
+
             // count title for appending the parent container if there is more than one entry.
             $tmp_title_counter[$category['type'] . '_' . $category['title']]++;
         }
-        
+
         $path_categories = array();
         foreach ($categories as $cat) {
             if ($cat['type'] == ilCalendarCategory::TYPE_OBJ) {
                 if ($tmp_title_counter[$cat['type'] . '_' . $cat['title']] > 1) {
                     foreach (ilObject::_getAllReferences($cat['obj_id']) as $ref_id) {
-                        include_once './Services/Tree/classes/class.ilPathGUI.php';
                         $path = new ilPathGUI();
                         $path->setUseImages(false);
                         $path->enableTextOnly(false);

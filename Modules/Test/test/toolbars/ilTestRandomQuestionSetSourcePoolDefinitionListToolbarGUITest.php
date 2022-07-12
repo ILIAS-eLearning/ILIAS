@@ -11,6 +11,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
 
     protected function setUp() : void
     {
+        parent::setUp();
+
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
 

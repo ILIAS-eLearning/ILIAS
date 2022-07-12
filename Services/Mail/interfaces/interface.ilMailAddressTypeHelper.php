@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailAddressTypeHelper
@@ -7,49 +22,22 @@
  */
 interface ilMailAddressTypeHelper
 {
-    /**
-     * @param string $name
-     * @return bool
-     */
     public function doesGroupNameExists(string $name) : bool;
 
-    /**
-     * @param string $title
-     * @return int
-     */
     public function getGroupObjIdByTitle(string $title) : int;
 
-    /**
-     * @param int $refId
-     * @return ilObject
-     */
     public function getInstanceByRefId(int $refId) : ilObject;
 
     /**
-     * @param int $objId
      * @return int[]
      */
     public function getAllRefIdsForObjId(int $objId) : array;
 
-    /**
-     * @param string $login
-     * @return int
-     */
     public function getUserIdByLogin(string $login) : int;
 
-    /**
-     * @return string
-     */
     public function getInstallationHost() : string;
 
-    /**
-     * @return int
-     */
     public function getGlobalMailSystemId() : int;
 
-    /**
-     * @param int $usrId
-     * @return bool
-     */
     public function receivesInternalMailsOnly(int $usrId) : bool;
 }

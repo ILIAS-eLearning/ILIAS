@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Richard Klees, Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery\KindlyTo;
 
@@ -16,6 +29,7 @@ use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\NullTransformation;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Data\Factory;
 
 /**
  * Transformations in this group transform data to primitive types to establish
@@ -30,9 +44,9 @@ use ILIAS\Refinery\Transformation;
  */
 class Group
 {
-    private \ILIAS\Data\Factory $dataFactory;
+    private Factory $dataFactory;
 
-    public function __construct(\ILIAS\Data\Factory $dataFactory)
+    public function __construct(Factory $dataFactory)
     {
         $this->dataFactory = $dataFactory;
     }
@@ -201,7 +215,7 @@ class Group
      * This supports all data represented as PHP array.
      * This will accept array with more fields than expected, but drop the extra fields.
      *
-     * @param array<string,Transformation> $transformations
+     * @param array<string, Transformation> $transformations
      */
     public function recordOf(array $transformations) : Transformation
     {

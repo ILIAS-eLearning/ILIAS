@@ -126,6 +126,21 @@ var model = function() {
                 }
             }
             return null;
+        },
+        isInView : function (entry_id) {
+            if(!state.entries[entry_id]) { //tools
+                return true;
+            }
+            var hops = entry_id.split(':'),
+                entries = state.entries;
+            while (hops.length > 1) {
+                entry_id = hops.join(':');
+                if(!state.entries[entry_id].engaged) {
+                    return false;
+                }
+                hops.pop();
+            }
+            return true;
         }
     },
     actions = {
@@ -239,7 +254,8 @@ var model = function() {
         actions: actions,
         getState: () => factories.cloned(state),
         setState: factories.state,
-        getTopLevelEntries: helpers.getTopLevelEntries
+        getTopLevelEntries: helpers.getTopLevelEntries,
+        isInView: helpers.isInView
     },
     init = function() {
         state = factories.cloned(classes.bar);

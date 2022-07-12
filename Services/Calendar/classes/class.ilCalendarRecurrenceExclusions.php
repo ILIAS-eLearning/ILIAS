@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,52 +21,41 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Calendar/classes/class.ilCalendarRecurrenceExclusion.php';
-
 /**
-* calendar exclusions
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
+ * calendar exclusions
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarRecurrenceExclusions
 {
-    
+
     /**
      * Read exclusion dates
-     * @param object $a_cal_id
-     * @return
+     * @return ilCalendarRecurrenceExclusion[]
      */
-    public static function getExclusionDates($a_cal_id)
+    public static function getExclusionDates($a_cal_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT excl_id FROM cal_rec_exclusion " .
             "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer');
         $res = $ilDB->query($query);
         $exclusions = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $exclusions[] = new ilCalendarRecurrenceExclusion($row->excl_id);
+            $exclusions[] = new ilCalendarRecurrenceExclusion((int) $row->excl_id);
         }
         return $exclusions;
     }
-    
+
     /**
      * Delete exclusion dates of calendar entry
-     * @param integer $a_cal_id
-     * @return
      */
-    public static function delete($a_cal_id)
+    public static function delete(int $a_cal_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM cal_rec_exclusion " .
             "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer');
         $ilDB->manipulate($query);

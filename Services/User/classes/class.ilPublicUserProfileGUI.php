@@ -1,41 +1,41 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class for public user profile presentation.
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPublicUserProfileGUI: ilObjPortfolioGUI
- *
- * @ingroup ServicesUser
  */
-class ilPublicUserProfileGUI
+class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 {
-    protected $userid; // [int]
-    protected $portfolioid; // [int]
-    protected $backurl; // [string]
-    protected $additional; // [string] used in forum
-    protected $embedded; // [bool] used in portfolio
-    protected $custom_prefs; // [array] used in portfolio
+    private bool $offline = false;
+    protected ilUserDefinedFields $user_defined_fields;
+    protected \ILIAS\User\ProfileGUIRequest $profile_request;
+    protected int $userid = 0;
+    protected int $portfolioid = 0;
+    protected string $backurl = "";
+    protected array $additional = []; // Missing array type.
+    protected bool $embedded = false;
+    protected array $custom_prefs = []; // Missing array type.
+    protected ilObjUser $current_user;
+    protected \ilSetting $setting;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $current_user;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $setting;
-
-    /**
-    * Constructor
-    *
-    * @param	int		User ID.
-    */
-    public function __construct($a_user_id = 0)
+    public function __construct(int $a_user_id = 0)
     {
         global $DIC;
 
@@ -46,66 +46,53 @@ class ilPublicUserProfileGUI
 
         $this->setting = $DIC["ilSetting"];
 
+        $this->profile_request = new \ILIAS\User\ProfileGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
+
         if ($a_user_id) {
             $this->setUserId($a_user_id);
         } else {
-            $this->setUserId((int) $_GET["user_id"]);
+            $this->setUserId($this->profile_request->getUserId());
         }
         
         $ilCtrl->saveParameter($this, array("user_id","back_url", "user"));
-        if ($_GET["back_url"] != "") {
-            $this->setBackUrl($_GET["back_url"]);
+        $back_url = $this->profile_request->getBackUrl();
+        if ($back_url != "") {
+            $this->setBackUrl($back_url);
         }
         
         $lng->loadLanguageModule("user");
     }
     
-    /**
-    * Set User ID.
-    *
-    * @param	int	$a_userid	User ID
-    */
-    public function setUserId($a_userid)
+    public function setUserId(int $a_userid) : void
     {
         $this->userid = $a_userid;
     }
 
-    /**
-    * Get User ID.
-    *
-    * @return	int	User ID
-    */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->userid;
     }
 
     /**
-    * Set Additonal Information.
-    *
-    * @param	array	$a_additional	Additonal Information
-    */
-    public function setAdditional($a_additional)
+     * Set Additonal Information.
+     */
+    public function setAdditional(array $a_additional) : void // Missing array type.
     {
         $this->additional = $a_additional;
     }
 
-    /**
-    * Get Additonal Information.
-    *
-    * @return	array	Additonal Information
-    */
-    public function getAdditional()
+    public function getAdditional() : array // Missing array type.
     {
         return $this->additional;
     }
 
     /**
-    * Set Back Link URL.
-    *
-    * @param	string	$a_backurl	Back Link URL
-    */
-    public function setBackUrl($a_backurl)
+     * Set Back Link URL.
+     */
+    public function setBackUrl(string $a_backurl) : void
     {
         global $DIC;
 
@@ -113,44 +100,41 @@ class ilPublicUserProfileGUI
         
         // we only allow relative links
         $parts = parse_url($a_backurl);
-        if ($parts["host"]) {
+        $host = $parts['host'] ?? '';
+        if ($host !== '') {
             $a_backurl = "#";
         }
-        
         $this->backurl = $a_backurl;
         $ilCtrl->setParameter($this, "back_url", rawurlencode($a_backurl));
     }
 
-    /**
-    * Get Back Link URL.
-    *
-    * @return	string	Back Link URL
-    */
-    public function getBackUrl()
+    public function getBackUrl() : string
     {
         return $this->backurl;
     }
         
-    protected function handleBackUrl($a_is_portfolio = false)
+    protected function handleBackUrl(bool $a_is_portfolio = false) : void
     {
         global $DIC;
 
-        $ilMainMenu = $DIC['ilMainMenu'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
 
+        $back_url = $this->profile_request->getBackUrl();
         $back = ($this->getBackUrl() != "")
             ? $this->getBackUrl()
-            : $_GET["back_url"];
+            : $back_url;
         
         if (!$back) {
-            // #15984
-            $back = 'ilias.php?baseClass=ilDashboardGUI';
+            if ($DIC->user()->getId() != ANONYMOUS_USER_ID) {
+                // #15984
+                $back = 'ilias.php?baseClass=ilDashboardGUI';
+            } else {
+                $back = 'ilias.php?baseClass=ilRepositoryGUI';
+            }
         }
 
-        if ((bool) $a_is_portfolio) {
-            $ilMainMenu->setTopBarBack($back);
-        } else {
+        if (!$a_is_portfolio) {
             // #17838
             $ilTabs->clearTargets();
             $ilTabs->setBackTarget(
@@ -162,50 +146,39 @@ class ilPublicUserProfileGUI
     
     /**
      * Set custom preferences for public profile fields
-     *
-     * @param array $a_prefs
      */
-    public function setCustomPrefs(array $a_prefs)
+    public function setCustomPrefs(array $a_prefs) : void // Missing array type.
     {
         $this->custom_prefs = $a_prefs;
     }
 
     /**
      * Get user preference for public profile
-     *
-     * Will use original or custom preferences
-     *
-     * @param ilObjUser $a_user
-     * @param string $a_id
-     * @return string
      */
-    protected function getPublicPref(ilObjUser $a_user, $a_id)
+    protected function getPublicPref(ilObjUser $a_user, string $a_id) : string
     {
         if (!$this->custom_prefs) {
-            return $a_user->getPref($a_id);
+            return (string) $a_user->getPref($a_id);
         } else {
-            return $this->custom_prefs[$a_id];
+            return (string) $this->custom_prefs[$a_id];
         }
     }
     
-    public function setEmbedded($a_value, $a_offline = false)
+    public function setEmbedded(bool $a_value, bool $a_offline = false) : void
     {
-        $this->embedded = (bool) $a_value;
-        $this->offline = (bool) $a_offline;
+        $this->embedded = $a_value;
+        $this->offline = $a_offline;
     }
     
-    /**
-    * Execute Command
-    */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
-
+        $ret = "";
         if (!self::validateUser($this->getUserId())) {
-            return;
+            return "";
         }
 
         $next_class = $ilCtrl->getNextClass($this);
@@ -218,8 +191,6 @@ class ilPublicUserProfileGUI
                 $portfolio_id = $this->getProfilePortfolio();
                 if ($portfolio_id) {
                     $this->handleBackUrl(true);
-                    
-                    include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
                     $gui = new ilObjPortfolioGUI($portfolio_id); // #11876
                     $gui->setAdditional($this->getAdditional());
                     $gui->setPermaLink($this->getUserId(), "usr");
@@ -228,12 +199,10 @@ class ilPublicUserProfileGUI
                 }
                 // no break
             case 'ilbuddysystemgui':
-                if (isset($_REQUEST['osd_id'])) {
-                    require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
-                    ilNotificationOSDHandler::removeNotification($_REQUEST['osd_id']);
+                $osd_id = $this->profile_request->getOsdId();
+                if ($osd_id > 0) {
+                    ilNotificationOSDHandler::removeNotification($osd_id);
                 }
-
-                require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
                 $gui = new ilBuddySystemGUI();
                 $ilCtrl->setReturn($this, 'view');
                 $ilCtrl->forwardCommand($gui);
@@ -245,24 +214,21 @@ class ilPublicUserProfileGUI
         }
             
         // only for direct links
-        if (strtolower($_GET["baseClass"]) == "ilpublicuserprofilegui") {
+        if (strtolower($this->profile_request->getBaseClass()) == "ilpublicuserprofilegui") {
             $tpl->printToStdout();
         }
-        return $ret;
+        return (string) $ret;
     }
     
     /**
      * View. This one is called e.g. through the goto script
      */
-    public function view()
+    public function view() : string
     {
         return $this->getHTML();
     }
 
-    /**
-     * @return bool
-     */
-    protected function isProfilePublic()
+    protected function isProfilePublic() : bool
     {
         $setting = $this->setting;
         $user = new ilObjUser($this->getUserId());
@@ -274,10 +240,7 @@ class ilPublicUserProfileGUI
         return in_array($current, ["g", "y"]);
     }
 
-    /**
-     * Show user page
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -320,15 +283,15 @@ class ilPublicUserProfileGUI
             $this->renderTitle();
             return $this->getEmbeddable(true);
         }
+        return "";
     }
 
 
     /**
      * get public profile html code
-     *
      * Used in Personal Profile (as preview) and Portfolio (as page block)
      */
-    public function getEmbeddable($a_add_goto = false)
+    public function getEmbeddable(bool $a_add_goto = false) : string
     {
         global $DIC;
 
@@ -338,7 +301,8 @@ class ilPublicUserProfileGUI
         $lng = $DIC['lng'];
         $ilSetting = $DIC['ilSetting'];
         $ilUser = $DIC['ilUser'];
-        
+        $h = $v = "";
+
         // get user object
         if (!ilObject::_exists($this->getUserId())) {
             return "";
@@ -364,7 +328,6 @@ class ilPublicUserProfileGUI
             
             $tpl->setCurrentBlock("mail");
             $tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
-            require_once 'Services/Mail/classes/class.ilMailFormCall.php';
             $tpl->setVariable(
                 'HREF_MAIL',
                 ilMailFormCall::getLinkTarget(
@@ -389,7 +352,7 @@ class ilPublicUserProfileGUI
         if ($this->getPublicPref($user, "public_title") == "y") {
             $first_name .= $user->getUTitle() . " ";
         }
-        $first_name .= $user->getFirstName();
+        $first_name .= $user->getFirstname();
 
         if ($this->getPublicPref($user, "public_gender") == "y" && in_array($user->getGender(), ['m', 'f'])) {
             $sal = $lng->txt("salutation_" . $user->getGender()) . " ";
@@ -398,7 +361,7 @@ class ilPublicUserProfileGUI
 
         $tpl->setVariable("TXT_NAME", $lng->txt("name"));
         $tpl->setVariable("FIRSTNAME", $first_name);
-        $tpl->setVariable("LASTNAME", $user->getLastName());
+        $tpl->setVariable("LASTNAME", $user->getLastname());
 
         if ($user->getBirthday() &&
             $this->getPublicPref($user, "public_birthday") == "y") {
@@ -418,21 +381,21 @@ class ilPublicUserProfileGUI
             $tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
         }
         
-        $webspace_dir = ilUtil::getWebspaceDir("user");
-        $check_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir("user");
+        $check_dir = ilFileUtils::getWebspaceDir();
         $random = new \ilRandom();
         $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image") . "?dummy=" . $random->int(1, 999999);
         $check_file = $check_dir . "/usr_images/" . $user->getPref("profile_image");
 
-        if (!@is_file($check_file)) {
+        if (!is_file($check_file)) {
             $imagefile = $check_file =
                 ilObjUser::_getPersonalPicturePath($user->getId(), "small", false, true);
-        }
-        
-        if ($this->offline) {
-            $imagefile = basename($imagefile);
         } else {
-            $imagefile = ilWACSignedPath::signFile($imagefile . "?t=1");
+            if ($this->offline) {
+                $imagefile = basename($imagefile);
+            } else {
+                $imagefile = ilWACSignedPath::signFile($imagefile . "?t=1");
+            }
         }
 
         if ($this->getPublicPref($user, "public_upload") == "y" && $imagefile != "" &&
@@ -471,7 +434,7 @@ class ilPublicUserProfileGUI
                             
                             case "zipcode":
                             case "city":
-                                $address[1] .= " " . $address_value;
+                                $address[1] = ($address[1] ?? '') . $address_value;
                                 break;
                             
                             case "sel_country":
@@ -486,7 +449,7 @@ class ilPublicUserProfileGUI
                     }
                 }
             }
-            if (sizeof($address)) {
+            if (count($address)) {
                 $tpl->setCurrentBlock("address_line");
                 foreach ($address as $line) {
                     if (trim($line)) {
@@ -566,8 +529,6 @@ class ilPublicUserProfileGUI
         }
 
         // portfolios
-        include_once("./Services/Link/classes/class.ilLink.php");
-        include_once("./Modules/Portfolio/classes/class.ilObjPortfolio.php");
         $back = ($this->getBackUrl() != "")
             ? $this->getBackUrl()
             : ilLink::_getStaticLink($this->getUserId(), "usr", true);
@@ -594,7 +555,6 @@ class ilPublicUserProfileGUI
         }
 
         // map
-        include_once("./Services/Maps/classes/class.ilMapUtil.php");
         if (ilMapUtil::isActivated() &&
             $this->getPublicPref($user, "public_location") == "y" &&
             $user->getLatitude() != "") {
@@ -610,12 +570,11 @@ class ilPublicUserProfileGUI
                     ->setEnableNavigationControl(true)
                     ->addUserMarker($user->getId());
 
-            $tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
+            $tpl->setVariable("MAP_CONTENT", $map_gui->getHtml());
         }
         
         // additional defined user data fields
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
         $user_defined_data = $user->getUserDefinedData();
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             // public setting
@@ -645,13 +604,11 @@ class ilPublicUserProfileGUI
             !$ilUser->isAnonymous() &&
             !ilObjUser::_isAnonymous($this->getUserId())
         ) {
-            require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
-            $button = ilBuddySystemLinkButton::getInstanceByUserId((int) $user->getId());
+            $button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
             $tpl->setVariable('BUDDY_HTML', $button->getHtml());
         }
         
         // badges
-        include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
         $user_badges = ilBadgeAssignment::getInstancesByUserId($user->getId());
         if ($user_badges) {
             $has_public_badge = false;
@@ -659,7 +616,6 @@ class ilPublicUserProfileGUI
             
             $cut = 20;
             
-            include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
             foreach ($user_badges as $ass) {
                 // only active
                 if ($ass->getPosition()) {
@@ -671,13 +627,12 @@ class ilPublicUserProfileGUI
                     if ($cnt <= $cut) {
                         $tpl->setCurrentBlock("badge_bl");
                         $tpl->setVariable("BADGE", $renderer->getHTML());
-                        $tpl->parseCurrentBlock();
                     } else {
                         $tpl->setCurrentBlock("badge_hidden_item_bl");
                         $tpl->setVariable("BADGE_HIDDEN", $renderer->getHTML());
-                        $tpl->parseCurrentBlock();
                     }
-                    
+                    $tpl->parseCurrentBlock();
+
                     $has_public_badge = true;
                 }
             }
@@ -706,10 +661,6 @@ class ilPublicUserProfileGUI
                 "",
                 "_top"
             );
-
-            /*include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-            $goto = new ilPermanentLinkGUI("usr", $user->getId());
-            $goto = $goto->getHTML();*/
         }
         return $tpl->get() . $goto;
     }
@@ -717,39 +668,38 @@ class ilPublicUserProfileGUI
     /**
     * Deliver vcard information.
     */
-    public function deliverVCard()
+    public function deliverVCard() : void
     {
+        $type = "";
         // get user object
         if (!ilObject::_exists($this->getUserId())) {
-            return "";
+            return;
         }
         $user = new ilObjUser($this->getUserId());
         
-        require_once "./Services/User/classes/class.ilvCard.php";
         $vcard = new ilvCard();
         
         // ilsharedresourceGUI: embedded in shared portfolio
         if ($user->getPref("public_profile") != "y" &&
             $user->getPref("public_profile") != "g" &&
-            $_GET["baseClass"] != "ilsharedresourceGUI" &&
+            strtolower($this->profile_request->getBaseClass()) != "ilsharedresourcegui" &&
             $this->current_user->getId() != $this->getUserId()
         ) {
             return;
         }
         
-        $vcard->setName($user->getLastName(), $user->getFirstName(), "", $user->getUTitle());
+        $vcard->setName($user->getLastname(), $user->getFirstname(), "", $user->getUTitle());
         $vcard->setNickname($user->getLogin());
         
-        $webspace_dir = ilUtil::getWebspaceDir("output");
+        $webspace_dir = ilFileUtils::getWebspaceDir("output");
         $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image");
-        if ($user->getPref("public_upload") == "y" && @is_file($imagefile)) {
-            $fh = fopen($imagefile, "r");
+        if ($user->getPref("public_upload") == "y" && is_file($imagefile)) {
+            $fh = fopen($imagefile, 'rb');
             if ($fh) {
                 $image = fread($fh, filesize($imagefile));
                 fclose($fh);
-                require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
                 $mimetype = ilObjMediaObject::getMimeType($imagefile);
-                if (preg_match("/^image/", $mimetype)) {
+                if (0 === strpos($mimetype, "image")) {
                     $type = $mimetype;
                 }
                 $vcard->setPhoto($image, $type);
@@ -814,10 +764,18 @@ class ilPublicUserProfileGUI
         }
         
         if (count($org)) {
-            $vcard->setOrganization(join(";", $org));
+            $vcard->setOrganization(implode(";", $org));
         }
         if (count($adr)) {
-            $vcard->setAddress($adr[0], $adr[1], $adr[2], $adr[3], $adr[4], $adr[5], $adr[6]);
+            $vcard->setAddress(
+                $adr[0] ?? "",
+                $adr[1] ?? "",
+                $adr[2] ?? "",
+                $adr[3] ?? "",
+                $adr[4] ?? "",
+                $adr[5] ?? "",
+                $adr[6] ?? ""
+            );
         }
         
         ilUtil::deliverData($vcard->buildVCard(), $vcard->getFilename(), $vcard->getMimetype());
@@ -825,10 +783,8 @@ class ilPublicUserProfileGUI
     
     /**
      * Check if given user id is valid
-     * @param int $usrId The user id of the subject user
-     * @return bool
      */
-    protected static function validateUser($usrId)
+    protected static function validateUser(int $usrId) : bool
     {
         global $DIC;
 
@@ -861,15 +817,13 @@ class ilPublicUserProfileGUI
         return true;
     }
     
-    public function renderTitle()
+    public function renderTitle() : void
     {
         global $DIC;
 
         $tpl = $DIC['tpl'];
         
         $tpl->resetHeaderBlock();
-        
-        include_once("./Services/User/classes/class.ilUserUtil.php");
         $tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
         $tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xsmall"));
         
@@ -878,27 +832,27 @@ class ilPublicUserProfileGUI
     
     /**
      * Check if current profile portfolio is accessible
-     *
-     * @return int
      */
-    protected function getProfilePortfolio()
+    protected function getProfilePortfolio() : ?int
     {
-        include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
         $portfolio_id = ilObjPortfolio::getDefaultPortfolio($this->getUserId());
         if ($portfolio_id) {
-            include_once('./Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php');
             $access_handler = new ilPortfolioAccessHandler();
             if ($access_handler->checkAccess("read", "", $portfolio_id)) {
                 return $portfolio_id;
             }
         }
+        return null;
     }
     
-    public static function getAutocompleteResult($a_field_id, $a_term)
-    {
+    public static function getAutocompleteResult(
+        string $a_field_id,
+        string $a_term
+    ) : array {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
+        $result = [];
         
         $multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
         if (in_array($a_field_id, $multi_fields) && $a_term) {
@@ -907,10 +861,10 @@ class ilPublicUserProfileGUI
             if ($ilUser && $ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID) {
                 $user_id = $ilUser->getId();
             }
-                        
+
             $result = array();
             $cnt = 0;
-            
+
             // term is searched in ALL interest fields, no distinction
             foreach (ilObjUser::findInterests($a_term, $ilUser->getId()) as $item) {
                 $result[$cnt] = new stdClass();
@@ -918,66 +872,53 @@ class ilPublicUserProfileGUI
                 $result[$cnt]->label = $item;
                 $cnt++;
             }
-            
+
             // :TODO: search in skill data
+            /*
             foreach (ilSkillTreeNode::findSkills($a_term) as $skill) {
                 $result[$cnt] = new stdClass();
                 $result[$cnt]->value = $skill;
                 $result[$cnt]->label = $skill;
                 $cnt++;
-            }
+            }*/
         }
         
         return $result;
     }
     
-    protected function doProfileAutoComplete()
+    protected function doProfileAutoComplete() : void
     {
-        $field_id = (string) $_REQUEST["f"];
-        $term = (string) $_REQUEST["term"];
+        $field_id = $this->profile_request->getFieldId();
+        $term = $this->profile_request->getTerm();
                 
         $result = self::getAutocompleteResult($field_id, $term);
 
-        include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-        echo ilJsonUtil::encode($result);
-
+        echo json_encode($result, JSON_THROW_ON_ERROR);
         exit();
     }
 
-    /**
-     * @return string|void
-     */
-    protected function approveContactRequest()
+    protected function approveContactRequest() : void
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-
-        if (isset($_REQUEST['osd_id'])) {
-            $ilCtrl->setParameterByClass('ilBuddySystemGUI', 'osd_id', $_REQUEST['osd_id']);
+        $ilCtrl = $DIC->ctrl();
+        $osd_id = $this->profile_request->getOsdId();
+        if ($osd_id) {
+            $ilCtrl->setParameterByClass('ilBuddySystemGUI', 'osd_id', $osd_id);
         }
-
         $ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $this->getUserId());
         $ilCtrl->redirectByClass(array('ilPublicUserProfileGUI', 'ilBuddySystemGUI'), 'link');
     }
 
-    /**
-     * @return string|void
-     */
-    protected function ignoreContactRequest()
+    protected function ignoreContactRequest() : void
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
-        if (isset($_REQUEST['osd_id'])) {
-            $ilCtrl->setParameterByClass('ilBuddySystemGUI', 'osd_id', $_REQUEST['osd_id']);
+        $osd_id = $this->profile_request->getOsdId();
+        if ($osd_id > 0) {
+            $ilCtrl->setParameterByClass('ilBuddySystemGUI', 'osd_id', $osd_id);
         }
 
         $ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $this->getUserId());

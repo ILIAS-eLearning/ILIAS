@@ -30,13 +30,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.settings.ServerSettings;
 import oracle.jdbc.OraclePreparedStatement;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A thread local singleton for db connections
@@ -46,7 +47,7 @@ import oracle.jdbc.OraclePreparedStatement;
  */
 public class DBFactory {
 
-	private static Logger logger = Logger.getLogger(DBFactory.class);
+	private static Logger logger = LogManager.getLogger(DBFactory.class);
 	
 	private static String MARIA_DB_CONNECTOR = "jdbc:mariadb://";
 	

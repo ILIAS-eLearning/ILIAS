@@ -1,36 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Help mapping
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHelpTooltipTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
 
-    
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_comp)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        string $a_comp
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
         $lng = $DIC->language();
 
         $this->setId("lm_help_tooltips");
@@ -54,15 +59,10 @@ class ilHelpTooltipTableGUI extends ilTable2GUI
         $this->addMultiCommand("deleteTooltips", $lng->txt("delete"));
     }
 
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
-        $lng = $this->lng;
-
         $this->tpl->setVariable("ID", $a_set["id"]);
-        $this->tpl->setVariable("TEXT", ilUtil::prepareFormOutput($a_set["text"]));
-        $this->tpl->setVariable("TT_ID", ilUtil::prepareFormOutput($a_set["tt_id"]));
+        $this->tpl->setVariable("TEXT", ilLegacyFormElementsUtil::prepareFormOutput($a_set["text"]));
+        $this->tpl->setVariable("TT_ID", ilLegacyFormElementsUtil::prepareFormOutput($a_set["tt_id"]));
     }
 }

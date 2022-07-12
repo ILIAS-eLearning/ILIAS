@@ -1,20 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for survey skill changes
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveySkillChangesTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_survey, $a_appraisee)
-    {
+    protected ilSurveySkill $survey_skill;
+    protected ilObjSurvey $survey;
+    protected array $appraisee;
+    protected ilSurveySkillThresholds $thresholds;
+
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjSurvey $a_survey,
+        array $a_appraisee
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -41,18 +59,9 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
         
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.survey_skill_change.html", "Modules/Survey");
-
-        //$this->addMultiCommand("", $lng->txt(""));
-        //$this->addCommandButton("", $lng->txt(""));
     }
     
-    /**
-     * Get Skills
-     *
-     * @param
-     * @return
-     */
-    public function getSkillLevelsForAppraisee()
+    public function getSkillLevelsForAppraisee() : void
     {
         $sskill = new ilSurveySkill($this->survey);
 
@@ -65,10 +74,7 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
         $this->setData($new_levels);
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         //var_dump($a_set);

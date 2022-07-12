@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Favourites UI
@@ -23,7 +26,7 @@ class ilFavouritesListGUI
     protected ilPDSelectedItemsBlockViewGUI $block_view;
     protected \ILIAS\DI\UIServices $ui;
     protected ilCtrl $ctrl;
-
+    protected ilLanguage $lng;
 
     public function __construct(?ilObjUser $user = null)
     {
@@ -52,10 +55,10 @@ class ilFavouritesListGUI
             foreach ($group->getItems() as $item) {
                 $items[] = $f->item()->standard(
                     $f->link()->standard($item["title"], ilLink::_getLink($item["ref_id"]))
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($item["obj_id"]), $item["title"]));
+                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $item["obj_id"]), $item["title"]));
             }
             if (count($items) > 0) {
-                $item_groups[] = $f->item()->group((string) $group->getLabel(), $items);
+                $item_groups[] = $f->item()->group($group->getLabel(), $items);
             }
         }
         if (count($item_groups) > 0) {
@@ -72,9 +75,9 @@ class ilFavouritesListGUI
             )
             ]));
             return $this->ui->renderer()->render([$panel]);
-        } else {
-            $pdblock = new ilPDSelectedItemsBlockGUI();
-            return $pdblock->getNoItemFoundContent();
         }
+
+        $pdblock = new ilPDSelectedItemsBlockGUI();
+        return $pdblock->getNoItemFoundContent();
     }
 }

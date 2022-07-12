@@ -1,12 +1,41 @@
 <?php declare(strict_types=1);
 
-require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
-require_once(__DIR__ . "/../prg_mocks.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class ilStudyProgrammeCronAboutToExpireTest extends \PHPUnit\Framework\TestCase
+class ilStudyProgrammeCronAboutToExpireTest extends TestCase
 {
-    public function setUp() : void
+    /**
+     * @var ilPrgUserNotRestartedCronJob|mixed|MockObject
+     */
+    protected $job;
+    /**
+     * @var ilStudyProgrammeSettingsDBRepository|mixed|MockObject
+     */
+    protected $settings_repo;
+    /**
+     * @var ilStudyProgrammeProgressDBRepository|mixed|MockObject
+     */
+    protected $progress_repo;
+    protected ProgrammeEventsMock $events;
+
+    protected function setUp() : void
     {
         $this->job = $this
             ->getMockBuilder(ilPrgUserNotRestartedCronJob::class)
@@ -48,7 +77,7 @@ class ilStudyProgrammeCronAboutToExpireTest extends \PHPUnit\Framework\TestCase
         $this->job->run();
     }
 
-    public function testRiskyToFailNoRepos()
+    public function testRiskyToFailNoRepos() : void
     {
         $this->settings_repo
             ->expects($this->once())
@@ -77,7 +106,7 @@ class ilStudyProgrammeCronAboutToExpireTest extends \PHPUnit\Framework\TestCase
         $this->job->run();
     }
 
-    public function testRiskyToFail()
+    public function testRiskyToFail() : void
     {
         $this->settings_repo
             ->expects($this->once())

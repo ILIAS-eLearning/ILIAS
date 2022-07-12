@@ -1,61 +1,51 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Cache/classes/class.ilCache.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * News cache
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ServicesNews
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNewsCache extends ilCache
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    public static $disabled = false;
+    protected ilSetting $settings;
+    public static bool $disabled = false;
     
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
         global $DIC;
 
         $this->settings = $DIC->settings();
-        $ilSetting = $DIC->settings();
-        
         $news_set = new ilSetting("news");
-        $news_set->get("acc_cache_mins");
-        
+
         parent::__construct("ServicesNews", "News", true);
         $this->setExpiresAfter($news_set->get("acc_cache_mins") * 60);
-        if ((int) $news_set->get("acc_cache_mins") == 0) {
+        if ((int) $news_set->get("acc_cache_mins") === 0) {
             self::$disabled = true;
         }
     }
     
-    /**
-     * Check if cache is disabled
-     * @return
-     */
-    public function isDisabled()
+    public function isDisabled() : bool
     {
-        return self::$disabled or parent::isDisabled();
+        return self::$disabled || parent::isDisabled();
     }
     
-    
-    /**
-     * Read an entry
-     */
-    public function readEntry($a_id)
+    protected function readEntry(string $a_id) : bool
     {
         if (!$this->isDisabled()) {
             return parent::readEntry($a_id);
@@ -63,19 +53,17 @@ class ilNewsCache extends ilCache
         return false;
     }
     
-    
     /**
      * Id is user_id:ref_id, we store ref_if additionally
      */
     public function storeEntry(
-        $a_id,
-        $a_value,
-        $a_int_key1 = null,
-        $a_int_key2 = null,
-        $a_text_key1 = null,
-        $a_text_key2 = null
-    ) {
-        $ilSetting = $this->settings;
+        string $a_id,
+        string $a_value,
+        ?int $a_int_key1 = null,
+        ?int $a_int_key2 = null,
+        ?string $a_text_key1 = null,
+        ?string $a_text_key2 = null
+    ) : void {
         if (!$this->isDisabled()) {
             parent::storeEntry($a_id, $a_value);
         }

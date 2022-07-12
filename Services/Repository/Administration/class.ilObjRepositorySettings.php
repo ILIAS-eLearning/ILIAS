@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjRepositorySettings
@@ -20,8 +23,8 @@
  */
 class ilObjRepositorySettings extends ilObject
 {
-    const NEW_ITEM_GROUP_TYPE_GROUP = 1;
-    const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
+    public const NEW_ITEM_GROUP_TYPE_GROUP = 1;
+    public const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
     
     public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
@@ -29,7 +32,7 @@ class ilObjRepositorySettings extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         // DISABLED
         return false;
@@ -107,10 +110,10 @@ class ilObjRepositorySettings extends ilObject
         if ($sub_items) {
             foreach ($sub_items as $obj_type) {
                 $old_pos = $ilSetting->get("obj_add_new_pos_" . $obj_type);
-                if (strlen($old_pos) == 8) {
+                if (strlen($old_pos) === 8) {
                     $new_pos = "9999" . substr($old_pos, 4);
                     $ilSetting->set("obj_add_new_pos_" . $obj_type, $new_pos);
-                    $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, 0);
+                    $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, '0');
                 }
             }
         }
@@ -131,12 +134,12 @@ class ilObjRepositorySettings extends ilObject
         $def_lng = $lng->getDefaultLanguage();
         $usr_lng = $ilUser->getLanguage();
         
-        $res = array();
+        $res = [];
         
         $set = $ilDB->query("SELECT * FROM il_new_item_grp ORDER BY pos");
         while ($row = $ilDB->fetchAssoc($set)) {
-            if ($row["type"] == self::NEW_ITEM_GROUP_TYPE_GROUP) {
-                $row["titles"] = unserialize($row["titles"]);
+            if ((int) $row["type"] === self::NEW_ITEM_GROUP_TYPE_GROUP) {
+                $row["titles"] = unserialize($row["titles"], ["allowed_classes" => false]);
 
                 $title = $row["titles"][$usr_lng];
                 if (!$title) {
@@ -177,16 +180,19 @@ class ilObjRepositorySettings extends ilObject
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
+        $component_repository = $DIC["component.repository"];
         $objDefinition = $DIC["objDefinition"];
         
-        $res = array();
+        $res = [];
         
         // parse modules
-        foreach (ilModule::getAvailableCoreModules() as $mod) {
+        foreach ($component_repository->getComponents() as $mod) {
+            if ($mod->getType() !== ilComponentInfo::TYPE_MODULES) {
+                continue;
+            }
             $has_repo = false;
-            $rep_types = $objDefinition->getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $mod["subdir"]);
-            if (sizeof($rep_types) > 0) {
+            $rep_types = $objDefinition->getRepositoryObjectTypesForComponent(ilComponentInfo::TYPE_MODULES, $mod->getName());
+            if (count($rep_types) > 0) {
                 foreach ($rep_types as $ridx => $rt) {
                     // we only want to display repository modules
                     if ($rt["repository"]) {
@@ -204,12 +210,9 @@ class ilObjRepositorySettings extends ilObject
         }
         
         // parse plugins
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-        foreach ($pl_names as $pl_name) {
-            $pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
-            if ($pl_id) {
-                $res[] = $pl_id;
-            }
+        $pl_names = $component_repository->getPluginSlotById("robj")->getActivePlugins();
+        foreach ($pl_names as $plugin) {
+            $res[] = $plugin->getId();
         }
         
         return $res;
@@ -221,10 +224,10 @@ class ilObjRepositorySettings extends ilObject
 
         $ilSetting = $DIC->settings();
         
-        $res = array();
+        $res = [];
         
         foreach (self::getAllObjTypes() as $type) {
-            $pos_grp = $ilSetting->get("obj_add_new_pos_grp_" . $type, 0);
+            $pos_grp = $ilSetting->get("obj_add_new_pos_grp_" . $type, '0');
             $res[$pos_grp][] = $type;
         }
         
@@ -237,18 +240,18 @@ class ilObjRepositorySettings extends ilObject
 
         $lng = $DIC->language();
         
-        $res = array();
+        $res = [];
                                 
-        $groups = array(
-            "organisation" => array("fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "itgr", "book", "prg", "prgr"),
-            "communication" => array("frm", "chtr"),
+        $groups = [
+            "organisation" => ["fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "itgr", "book", "prg", "prgr"],
+            "communication" => ["frm", "chtr"],
             "breaker1" => null,
-            "content" => array("file", "webr", "feed", "copa", "wiki", "blog", "lm", "htlm", "sahs", 'cmix', 'lti', "lso", "glo", "dcl", "bibl", "mcst", "mep"),
+            "content" => ["file", "webr", "feed", "copa", "wiki", "blog", "lm", "htlm", "sahs", 'cmix', 'lti', "lso", "glo", "dcl", "bibl", "mcst", "mep"],
             "breaker2" => null,
-            "assessment" => array("exc", "tst", "qpl", "iass"),
-            "feedback" => array("poll", "svy", "spl"),
-            "templates" => array("prtt")
-        );
+            "assessment" => ["exc", "tst", "qpl", "iass"],
+            "feedback" => ["poll", "svy", "spl"],
+            "templates" => ["prtt"]
+        ];
         
         $pos = 0;
         foreach ($groups as $group => $items) {
@@ -258,25 +261,29 @@ class ilObjRepositorySettings extends ilObject
             if (is_array($items)) {
                 $title = $lng->txt("rep_add_new_def_grp_" . $group);
                 
-                $res["groups"][$grp_id] = array("id" => $grp_id,
-                    "titles" => array($lng->getUserLanguage() => $title),
+                $res["groups"][$grp_id] = [
+                    "id" => $grp_id,
+                    "titles" => [$lng->getUserLanguage() => $title],
                     "pos" => $pos,
                     "type" => self::NEW_ITEM_GROUP_TYPE_GROUP,
-                    "title" => $title);
+                    "title" => $title
+                ];
 
                 foreach ($items as $idx => $item) {
                     $res["items"][$item] = $grp_id;
-                    $res["sort"][$item] = str_pad($pos, 4, "0", STR_PAD_LEFT) .
+                    $res["sort"][$item] = str_pad((string) $pos, 4, "0", STR_PAD_LEFT) .
                         str_pad($idx + 1, 4, "0", STR_PAD_LEFT);
                 }
             } else {
                 $title = "COL_SEP";
                 
-                $res["groups"][$grp_id] = array("id" => $grp_id,
-                    "titles" => array($lng->getUserLanguage() => $title),
+                $res["groups"][$grp_id] = [
+                    "id" => $grp_id,
+                    "titles" => [$lng->getUserLanguage() => $title],
                     "pos" => $pos,
                     "type" => self::NEW_ITEM_GROUP_TYPE_SEPARATOR,
-                    "title" => $title);
+                    "title" => $title
+                ];
             }
         }
         

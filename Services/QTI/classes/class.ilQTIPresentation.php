@@ -1,25 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * QTI presentation class
@@ -31,93 +27,95 @@
 */
 class ilQTIPresentation
 {
-    public $label;
-    public $xmllang;
-    public $x0;
-    public $y0;
-    public $width;
-    public $height;
-    
-    public $material;
-    public $response;
-    public $order;
-    
-    public function __construct()
-    {
-        $this->response = array();
-        $this->material = array();
-        $this->order = array();
-    }
-    
-    public function setLabel($a_label)
+    public ?string $label = null;
+    public ?string $xmllang = null;
+    public ?string $x0 = null;
+    public ?string $y0 = null;
+    public ?string $width = null;
+    public ?string $height = null;
+
+    /** @var ilQTIMaterial[] */
+    public array $material = [];
+
+    /**
+     * @var ilQTIResponse[]
+     */
+    public array $response = [];
+
+    /**
+     * @var array{type: string, index: int}[]
+     */
+    public array $order = [];
+
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
-    
-    public function getLabel()
+
+    public function getLabel() : ?string
     {
         return $this->label;
     }
-    
-    public function setXmllang($a_xmllang)
+
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
-    public function getXmllang()
+
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
     
-    public function setX0($a_x0)
+    public function setX0(string $a_x0) : void
     {
         $this->x0 = $a_x0;
     }
     
-    public function getX0()
+    public function getX0() : ?string
     {
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0(string $a_y0) : void
     {
         $this->y0 = $a_y0;
     }
     
-    public function getY0()
+    public function getY0() : ?string
     {
         return $this->y0;
     }
-    
-    public function setWidth($a_width)
+
+    public function setWidth(string $a_width) : void
     {
         $this->width = $a_width;
     }
-    
-    public function getWidth()
+
+    public function getWidth() : ?string
     {
         return $this->width;
     }
-    
-    public function setHeight($a_height)
+
+    public function setHeight(string $a_height) : void
     {
         $this->height = $a_height;
     }
-    
-    public function getHeight()
+
+    public function getHeight() : ?string
     {
         return $this->height;
     }
     
-    public function addMaterial($a_material)
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
         $count = array_push($this->material, $a_material);
-        array_push($this->order, array("type" => "material", "index" => $count - 1));
+        $this->order[] = array("type" => "material", "index" => $count - 1);
     }
-    
-    public function addResponse($a_response)
+
+    public function addResponse(ilQTIResponse $a_response) : void
     {
         $count = array_push($this->response, $a_response);
-        array_push($this->order, array("type" => "response", "index" => $count - 1));
+        $this->order[] = array("type" => "response", "index" => $count - 1);
     }
 }

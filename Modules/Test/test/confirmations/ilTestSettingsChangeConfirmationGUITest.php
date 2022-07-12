@@ -19,19 +19,35 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
      * @var ilLanguage|MockObject
      */
     private $lng_mock;
+    /**
+     * @var \ILIAS\DI\Container|mixed
+     */
+    private $backup_dic;
 
     protected function setUp() : void
     {
         parent::setUp();
+        global $DIC;
+        
+        $this->backup_dic = $DIC;
+        $DIC = new ILIAS\DI\Container([
+            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
+                          ->getMock()
+        ]);
         $this->lng_mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $this->testObj_mock = $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock();
-
+    
         $this->setGlobalVariable('lng', $this->lng_mock);
-
+    
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
-            $this->lng_mock,
             $this->testObj_mock
         );
+    }
+    
+    protected function tearDown() : void
+    {
+        global $DIC;
+        $DIC = $this->backup_dic;
     }
 
     public function testSetAndGetOldQuestionSetType() : void

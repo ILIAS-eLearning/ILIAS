@@ -1,29 +1,43 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Component\Signal;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\Signal;
+use ILIAS\UI\Implementation\Component\Image\Factory;
 
 /**
  * Test on button implementation.
  */
 class ImageTest extends ILIAS_UI_TestBase
 {
-
     /**
-     * @return \ILIAS\UI\Implementation\Component\Image\Factory
+     * @return Factory
      */
-    public function getImageFactory()
+    public function getImageFactory() : Factory
     {
-        return new \ILIAS\UI\Implementation\Component\Image\Factory();
+        return new Factory();
     }
 
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getImageFactory();
 
@@ -32,7 +46,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Image\\Image", $f->responsive("source", "alt"));
     }
 
-    public function test_get_type()
+    public function test_get_type() : void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -40,7 +54,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($i::STANDARD, $i->getType());
     }
 
-    public function test_get_source()
+    public function test_get_source() : void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -48,7 +62,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("source", $i->getSource());
     }
 
-    public function test_get_alt()
+    public function test_get_alt() : void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -56,8 +70,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("alt", $i->getAlt());
     }
 
-
-    public function test_set_source()
+    public function test_set_source() : void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -65,7 +78,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("newSource", $i->getSource());
     }
 
-    public function test_set_alt()
+    public function test_set_alt() : void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -73,7 +86,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("newAlt", $i->getAlt());
     }
 
-    public function test_set_string_action()
+    public function test_set_string_action() : void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -81,7 +94,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("newAction", $i->getAction());
     }
 
-    public function test_set_signal_action()
+    public function test_set_signal_action() : void
     {
         $f = $this->getImageFactory();
         $signal = $this->createMock(C\Signal::class);
@@ -90,21 +103,21 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals([$signal], $i->getAction());
     }
 
-    public function test_invalid_source()
+    public function test_invalid_source() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(TypeError::class);
         $f = $this->getImageFactory();
         $f->standard(1, "alt");
     }
 
-    public function test_invalid_alt()
+    public function test_invalid_alt() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(TypeError::class);
         $f = $this->getImageFactory();
         $f->standard("source", 1);
     }
 
-    public function test_render_standard()
+    public function test_render_standard() : void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -117,7 +130,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_responsive()
+    public function test_render_responsive() : void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -130,7 +143,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_alt_escaping()
+    public function test_render_alt_escaping() : void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -143,7 +156,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_string_action()
+    public function test_render_with_string_action() : void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -156,7 +169,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_signal_action()
+    public function test_render_with_signal_action() : void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -171,7 +184,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_with_empty_action_and_no_additional_on_load_code()
+    public function test_with_empty_action_and_no_additional_on_load_code() : void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -185,7 +198,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_with_additional_on_load_code()
+    public function test_with_additional_on_load_code() : void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();

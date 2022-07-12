@@ -12,6 +12,19 @@ use ILIAS\Filesystem\Visibility;
 use League\Flysystem\FileExistsException;
 use League\Flysystem\FilesystemInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FlySystemFileAccess
  *
@@ -23,11 +36,7 @@ use League\Flysystem\FilesystemInterface;
  */
 class FlySystemFileAccess implements FileAccess
 {
-
-    /**
-     * @var FilesystemInterface $flySystemFS
-     */
-    private $flySystemFS;
+    private FilesystemInterface $flySystemFS;
 
 
     /**
@@ -57,7 +66,13 @@ class FlySystemFileAccess implements FileAccess
     public function read(string $path) : string
     {
         try {
-            $result = $this->flySystemFS->read($path);
+            $path = Util::normalizeRelativePath($path);
+            $adapter = $this->flySystemFS->getAdapter();
+            if (!$adapter->has($path)) {
+                throw new \League\Flysystem\FileNotFoundException($path);
+            }
+            $object = $adapter->read($path);
+            $result = $object['contents'];
 
             if ($result === false) {
                 throw new IOException("Could not access the file \"$path\".");
@@ -212,11 +227,10 @@ class FlySystemFileAccess implements FileAccess
      * If the visibility is valid no further actions are taken.
      *
      * @param string $visibility The visibility which should be validated.
-     * @return void
      *
      * @throws \InvalidArgumentException Thrown if the given visibility was considered as invalid.
      */
-    private function validateVisibility(string $visibility)
+    private function validateVisibility(string $visibility) : void
     {
         if (strcmp($visibility, Visibility::PUBLIC_ACCESS) !== 0 && strcmp($visibility, Visibility::PRIVATE_ACCESS) !== 0) {
             throw new \InvalidArgumentException("The access must be 'public' or 'private' but '$visibility' was given.");
@@ -263,7 +277,6 @@ class FlySystemFileAccess implements FileAccess
      * @param string $path    The path to the file which should be created.
      * @param string $content The content which should be written to the new file.
      *
-     * @return void
      *
      * @throws FileAlreadyExistsException   If the file already exists.
      * @throws IOException                  If the file could not be created or written.
@@ -271,7 +284,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function write(string $path, string $content)
+    public function write(string $path, string $content) : void
     {
         try {
             if ($this->flySystemFS->write($path, $content) === false) {
@@ -287,10 +300,9 @@ class FlySystemFileAccess implements FileAccess
      * Updates the content of a file.
      * Replaces the file content with a new one.
      *
-     * @param string $path       The path to the file which should be updated.
-     * @param string $newContent The new file content.
+     * @param string $path        The path to the file which should be updated.
+     * @param string $new_content The new file content.
      *
-     * @return void
      *
      * @throws FileNotFoundException    If the file is not found.
      * @throws IOException              If the file could not be updated.
@@ -298,10 +310,10 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function update(string $path, string $newContent)
+    public function update(string $path, string $new_content) : void
     {
         try {
-            if ($this->flySystemFS->update($path, $newContent) === false) {
+            if ($this->flySystemFS->update($path, $new_content) === false) {
                 throw new IOException("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
             }
         } catch (\League\Flysystem\FileNotFoundException $ex) {
@@ -316,14 +328,13 @@ class FlySystemFileAccess implements FileAccess
      * @param string $path    The path to the file which should be created or updated.
      * @param string $content The content which should be written to the file.
      *
-     * @return void
      *
      * @throws IOException  If the file could not be created or updated.
      *
      * @since   5.3
      * @version 1.0
      */
-    public function put(string $path, string $content)
+    public function put(string $path, string $content) : void
     {
         if ($this->flySystemFS->put($path, $content) === false) {
             throw new IOException("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
@@ -336,7 +347,6 @@ class FlySystemFileAccess implements FileAccess
      *
      * @param string $path The path to the file which should be deleted.
      *
-     * @return void
      *
      * @throws FileNotFoundException    If the file was not found.
      * @throws IOException              If the file was found but the delete operation finished with errors.
@@ -344,7 +354,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function delete(string $path)
+    public function delete(string $path) : void
     {
         try {
             if ($this->flySystemFS->delete($path) === false) {
@@ -381,10 +391,9 @@ class FlySystemFileAccess implements FileAccess
     /**
      * Moves a file from the source to the destination.
      *
-     * @param string $path    The current path of the file which should be moved.
-     * @param string $newPath The new path of the file.
+     * @param string $path     The current path of the file which should be moved.
+     * @param string $new_path The new path of the file.
      *
-     * @return void
      *
      * @throws FileNotFoundException        If the source file is not found.
      * @throws FileAlreadyExistsException   If the destination file is already existing.
@@ -393,14 +402,14 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function rename(string $path, string $newPath)
+    public function rename(string $path, string $new_path) : void
     {
         try {
-            if ($this->flySystemFS->rename($path, $newPath) === false) {
-                throw new IOException("Could not move file from \"$path\" to \"$newPath\".");
+            if ($this->flySystemFS->rename($path, $new_path) === false) {
+                throw new IOException("Could not move file from \"$path\" to \"$new_path\".");
             }
         } catch (FileExistsException $ex) {
-            throw new FileAlreadyExistsException("File \"$newPath\" already exists.");
+            throw new FileAlreadyExistsException("File \"$new_path\" already exists.");
         } catch (\League\Flysystem\FileNotFoundException $ex) {
             throw new FileNotFoundException("File \"$path\" not found.");
         }
@@ -410,10 +419,9 @@ class FlySystemFileAccess implements FileAccess
     /**
      * Copy the source file to a destination.
      *
-     * @param string $path     The source path to the file which should be copied.
-     * @param string $copyPath The destination path of the file copy.
+     * @param string $path      The source path to the file which should be copied.
+     * @param string $copy_path The destination path of the file copy.
      *
-     * @return void
      *
      * @throws FileNotFoundException        If the source file does not exist.
      * @throws FileAlreadyExistsException   If the destination file already exists.
@@ -422,14 +430,14 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function copy(string $path, string $copyPath)
+    public function copy(string $path, string $copy_path) : void
     {
         try {
-            if ($this->flySystemFS->copy($path, $copyPath) === false) {
-                throw new IOException("Could not copy file \"$path\" to destination \"$copyPath\" because a general IO error occurred. Please check that your destination is writable.");
+            if ($this->flySystemFS->copy($path, $copy_path) === false) {
+                throw new IOException("Could not copy file \"$path\" to destination \"$copy_path\" because a general IO error occurred. Please check that your destination is writable.");
             }
         } catch (FileExistsException $ex) {
-            throw new FileAlreadyExistsException("File destination \"$copyPath\" already exists copy failed.");
+            throw new FileAlreadyExistsException("File destination \"$copy_path\" already exists copy failed.");
         } catch (\League\Flysystem\FileNotFoundException $ex) {
             throw new FileNotFoundException("File source \"$path\" was not found copy failed.");
         }

@@ -1,36 +1,46 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Style\Content;
 
 /**
  * Table templates table
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTableTemplatesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected string $temp_type;
+    protected ilObjStyleSheet $style_obj;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected Content\Access\StyleAccessManager $access_manager;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-    * Constructor
-    */
-    public function __construct($a_temp_type, $a_parent_obj, $a_parent_cmd, $a_style_obj)
-    {
+    public function __construct(
+        string $a_temp_type,
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjStyleSheet $a_style_obj,
+        Content\Access\StyleAccessManager $access_manager
+    ) {
         global $DIC;
 
+        $this->access_manager = $access_manager;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
@@ -56,38 +66,32 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
         $this->getItems();
 
         // action commands
-        if ($this->parent_obj->checkWrite()) {
+        if ($this->access_manager->checkWrite()) {
             $this->addMultiCommand("deleteTemplateConfirmation", $lng->txt("delete"));
         }
 
         $this->setEnableTitle(true);
     }
 
-    /**
-    * Get items of current folder
-    */
-    public function getItems()
+    public function getItems() : void
     {
         $this->setData($this->style_obj->getTemplates($this->temp_type));
     }
     
-    /**
-    * Fill table row
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $this->tpl->setVariable(
             "T_PREVIEW",
-            $this->style_obj->lookupTemplatePreview($a_set["id"])
+            $this->style_obj->lookupTemplatePreview((int) $a_set["id"])
         );
         $this->tpl->setVariable("TID", $a_set["id"]);
         $this->tpl->setVariable("TEMPLATE_NAME", $a_set["name"]);
         $ilCtrl->setParameter($this->parent_obj, "t_id", $a_set["id"]);
         
-        if ($this->parent_obj->checkWrite()) {
+        if ($this->access_manager->checkWrite()) {
             $this->tpl->setVariable(
                 "LINK_EDIT_TEMPLATE",
                 $ilCtrl->getLinkTarget($this->parent_obj, "editTemplate")

@@ -1,15 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Input\Container\Form;
+
+use ILIAS\UI\Component\Input\Field\FormInput;
 
 /**
  * This is how a factory for forms looks like.
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -22,7 +37,6 @@ interface Factory
      *      The users manipulates input-values and saves the form to apply the
      *      settings to the object or service or create new entities in the
      *      system.
-     *
      * rules:
      *   usage:
      *     1: Standard Forms MUST NOT be used on the same page as tables.
@@ -43,13 +57,10 @@ interface Factory
      *        In some rare exceptions the Buttons MAY be named differently: if “Save” is
      *        clearly a misleading since the action is more than storing
      *        the data into the database. “Send Mail” would be an example of this.
-     *
      * ---
-     *
      * @param    string $post_url
      * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
-     *
      * @return    \ILIAS\UI\Component\Input\Container\Form\Standard
      */
-    public function standard($post_url, array $inputs);
+    public function standard(string $post_url, array $inputs) : Standard;
 }

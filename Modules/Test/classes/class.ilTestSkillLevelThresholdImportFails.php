@@ -31,7 +31,7 @@ class ilTestSkillLevelThresholdImportFails
     /**
      * @return ilSetting
      */
-    protected function getSettings()
+    protected function getSettings() : ilSetting
     {
         if ($this->settings === null) {
             require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionAssignedSkillList.php';
@@ -45,7 +45,7 @@ class ilTestSkillLevelThresholdImportFails
     /**
      * @return int
      */
-    protected function getParentObjId()
+    protected function getParentObjId() : int
     {
         return $this->parentObjId;
     }
@@ -53,7 +53,7 @@ class ilTestSkillLevelThresholdImportFails
     /**
      * @return string
      */
-    protected function buildSettingsKey()
+    protected function buildSettingsKey() : string
     {
         return 'failed_imp_slt_parentobj_' . $this->getParentObjId();
     }
@@ -61,7 +61,7 @@ class ilTestSkillLevelThresholdImportFails
     /**
      * @return ilAssQuestionAssignedSkillList|null
      */
-    public function getFailedImports()
+    public function getFailedImports() : ?ilAssQuestionAssignedSkillList
     {
         $value = $this->getSettings()->get($this->buildSettingsKey(), null);
         
@@ -90,7 +90,7 @@ class ilTestSkillLevelThresholdImportFails
     /**
      * @return bool
      */
-    public function failedImportsRegistered()
+    public function failedImportsRegistered() : bool
     {
         return $this->getFailedImports() !== null;
     }
@@ -99,7 +99,7 @@ class ilTestSkillLevelThresholdImportFails
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFailedImportsMessage(ilLanguage $lng)
+    public function getFailedImportsMessage(ilLanguage $lng) : string
     {
         $msg = $lng->txt('tst_failed_imp_skl_thresholds');
         

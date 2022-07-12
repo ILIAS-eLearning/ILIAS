@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiPlaceholderValues
  *
@@ -13,40 +24,22 @@
  */
 class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    /**
-     * @var ilDefaultPlaceholderValues
-     */
-    private $defaultPlaceholderValuesObject;
+    private \ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
 
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
+    private ?\ilCertificateObjectHelper $objectHelper;
 
-    /**
-     * @var ilCertificateUserObjectHelper
-     */
-    private $userObjectHelper;
+//    private \ilCertificateUserObjectHelper $userObjectHelper;
 
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
+    private ?\ilCertificateUtilHelper $utilHelper;
 
-    /**
-     * @var ilCertificateLPStatusHelper|null
-     */
-    private $lpStatusHelper;
+//    private ?\ilCertificateLPStatusHelper $lpStatusHelper;
 
     /**
      * @var ilCertificateDateHelper|ilDatePresentation|null
      */
-    private $dateHelper;
+//    private $dateHelper;
 
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
+    private ?\ilLanguage $language;
 
     /**
      * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
@@ -86,12 +79,12 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $userObjectHelper) {
             $userObjectHelper = new ilCertificateUserObjectHelper();
         }
-        $this->userObjectHelper = $userObjectHelper;
+//        $this->userObjectHelper = $userObjectHelper;
 
         if (null === $lpStatusHelper) {
             $lpStatusHelper = new ilCertificateLPStatusHelper();
         }
-        $this->lpStatusHelper = $lpStatusHelper;
+//        $this->lpStatusHelper = $lpStatusHelper;
 
         if (null === $utilHelper) {
             $utilHelper = new ilCertificateUtilHelper();
@@ -101,9 +94,12 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $dateHelper) {
             $dateHelper = new ilCertificateDateHelper();
         }
-        $this->dateHelper = $dateHelper;
+//        $this->dateHelper = $dateHelper;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
@@ -117,6 +113,9 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getPlaceholderValues(int $userId, int $objId) : array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
@@ -143,8 +142,6 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
             $cmixResult = ilCmiXapiResult::getEmptyInstance();
         }
 
-        $reachedScore = sprintf('%0.2f %%', $cmixResult->getScore() * 100);
-
-        return $reachedScore;
+        return sprintf('%0.2f %%', $cmixResult->getScore() * 100);
     }
 }

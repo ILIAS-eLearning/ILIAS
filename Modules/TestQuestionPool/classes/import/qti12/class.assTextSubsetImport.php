@@ -19,7 +19,7 @@ class assTextSubsetImport extends assQuestionImport
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQTIItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -27,13 +27,14 @@ class assTextSubsetImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
         // empty session variable for imported xhtml mobs
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
+        ;
         $presentation = $item->getPresentation();
         $duration = $item->getDuration();
         $shuffle = 0;
@@ -45,7 +46,7 @@ class assTextSubsetImport extends assQuestionImport
             switch ($entry["type"]) {
                 case "response":
                     $response = $presentation->response[$entry["index"]];
-                    if ($response->getResponseType() == RT_RESPONSE_STR) {
+                    if ($response->getResponseType() == ilQTIResponse::RT_RESPONSE_STR) {
                         array_push($idents, $response->getIdent());
                     }
                     break;
@@ -74,7 +75,7 @@ class assTextSubsetImport extends assQuestionImport
                     }
                 }
                 foreach ($respcondition->setvar as $setvar) {
-                    if ((strcmp($setvar->getVarname(), "matches") == 0) && ($setvar->getAction() == ACTION_ADD)) {
+                    if ((strcmp($setvar->getVarname(), "matches") == 0) && ($setvar->getAction() == ilQTISetvar::ACTION_ADD)) {
                         foreach ($responses[$respident] as $idx => $solutionarray) {
                             if (strlen($solutionarray["points"] == 0)) {
                                 $responses[$respident][$idx]["points"] = $setvar->getContent();
@@ -82,8 +83,8 @@ class assTextSubsetImport extends assQuestionImport
                         }
                     }
                 }
-                foreach ($resprocessing->respcondition as $respcondition) {
-                    foreach ($respcondition->displayfeedback as $feedbackpointer) {
+                foreach ($resprocessing->respcondition as $e_respcondition) {
+                    foreach ($e_respcondition->displayfeedback as $feedbackpointer) {
                         if (strlen($feedbackpointer->getLinkrefid())) {
                             foreach ($item->itemfeedback as $ifb) {
                                 if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
@@ -165,10 +166,10 @@ class assTextSubsetImport extends assQuestionImport
         }
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
-        if (is_array($_SESSION["import_mob_xhtml"])) {
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
                 } else {

@@ -1,20 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeMulti.php";
-
+/**
+ * Class ilADTEnumSearchBridgeMulti
+ */
 class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 {
-    const ENUM_SEARCH_COLUMN = 'value_index';
+    public const ENUM_SEARCH_COLUMN = 'value_index';
+    public const SEARCH_MODE_ALL = 1;
+    public const SEARCH_MODE_ANY = 2;
 
-    protected $multi_source; // [bool]
-    protected $search_mode; // [int]
-    
-    const SEARCH_MODE_ALL = 1;
-    const SEARCH_MODE_ANY = 2;
-    
-    public function setSearchMode($a_mode)
+    protected bool $multi_source;
+    protected int $search_mode = self::SEARCH_MODE_ALL;
+
+    public function setSearchMode(int $a_mode) : void
     {
-        $this->search_mode = (int) $a_mode;
+        $this->search_mode = $a_mode;
     }
 
     public function getSearchColumn() : string
@@ -22,14 +22,13 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
         return self::ENUM_SEARCH_COLUMN;
     }
 
-    
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
     {
         return ($a_adt_def instanceof ilADTEnumDefinition ||
             $a_adt_def instanceof ilADTMultiEnumDefinition);
     }
-    
-    protected function convertADTDefinitionToMulti(ilADTDefinition $a_adt_def)
+
+    protected function convertADTDefinitionToMulti(ilADTDefinition $a_adt_def) : ilADTDefinition
     {
         if ($a_adt_def->getType() == "Enum") {
             $this->multi_source = false;
@@ -42,29 +41,24 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
             return $a_adt_def;
         }
     }
-    
-    public function loadFilter()
+
+    public function loadFilter() : void
     {
         $value = $this->readFilter();
         if ($value !== null) {
             $this->getADT()->setSelections($value);
         }
     }
-    
-    
-    // form
-    
-    public function addToForm()
-    {
-        global $DIC;
 
-        $lng = $DIC['lng'];
-        
+    // form
+
+    public function addToForm() : void
+    {
         $def = $this->getADT()->getCopyOfDefinition();
-        
+
         $options = $def->getOptions();
         asort($options); // ?
-        
+
         $cbox = new ilCheckboxGroupInputGUI($this->getTitle(), $this->getElementId());
         $cbox->setValue($this->getADT()->getSelections());
 
@@ -72,14 +66,14 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
             $option = new ilCheckboxOption($caption, $value);
             $cbox->addOption($option);
         }
-        
+
         $this->addToParentElement($cbox);
     }
-    
-    public function importFromPost(array $a_post = null)
+
+    public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
-                
+
         if ($post && $this->shouldBeImportedFromPost($post)) {
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId());
@@ -88,41 +82,38 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
                 $this->table_filter_fields[$this->getElementId()]->setValue($post);
                 $this->writeFilter($post);
             }
-            
+
             if (is_array($post)) {
                 $this->getADT()->setSelections($post);
             }
         } else {
             $this->getADT()->setSelections();
         }
+        return true;
     }
-    
-    
+
     // db
-    
-    public function getSQLCondition($a_element_id)
+
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
         if (!$this->isNull() && $this->isValid()) {
-            return $ilDB->in(
+            return $this->db->in(
                 $this->getSearchColumn(),
                 $this->getADT()->getSelections(),
-                '',
+                false,
                 ilDBConstants::T_INTEGER
             );
         }
+        return '';
     }
-    
-    public function isInCondition(ilADT $a_adt)
+
+    public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTMultiEnum);
-        
+
         $current = $this->getADT()->getSelections();
         if (is_array($current) &&
-            sizeof($current)) {
+            count($current)) {
             // #16827 / #17087
             if ($this->search_mode == self::SEARCH_MODE_ANY) {
                 foreach ((array) $a_adt->getSelections() as $value) {
@@ -132,23 +123,23 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
                 }
             } else {
                 // #18028
-                return !(bool) sizeof(array_diff($current, (array) $a_adt->getSelections()));
+                return !(bool) count(array_diff($current, (array) $a_adt->getSelections()));
             }
         }
         return false;
     }
-    
-    
+
     //  import/export
-        
-    public function getSerializedValue()
+
+    public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize($this->getADT()->getSelections());
         }
+        return '';
     }
-    
-    public function setSerializedValue($a_value)
+
+    public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

@@ -1,14 +1,14 @@
 {
-    "maintenance_model": "Classic",
-    "first_maintainer": "smeyer(191)",
-    "second_maintainer": "",
-    "implicit_maintainers": [],
-    "coordinator": [
-        ""
-    ],
-    "tester": "abaulig1(44386)",
-    "testcase_writer": "abaulig1(44386)",
-    "path": "Services/ADT",
-    "belong_to_component": "Metadata",
-    "used_in_components": []
+  "maintenance_model": "Classic",
+  "first_maintainer": "smeyer(191)",
+  "second_maintainer": "",
+  "implicit_maintainers": [],
+  "coordinator": [
+    ""
+  ],
+  "tester": "abaulig1(44386)",
+  "testcase_writer": "abaulig1(44386)",
+  "path": "Services/ADT",
+  "belong_to_component": "Metadata",
+  "used_in_components": []
 }

@@ -1,83 +1,78 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+<?php declare(strict_types=1);
 
 /**
-* folder xml importer
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ModulesContainerReference
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * folder xml importer
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 abstract class ilContainerReferenceImporter extends ilXmlImporter
 {
-    protected $ref = null;
+    protected ?ilContainerReference $ref = null;
     
-
     public function init() : void
     {
     }
     
-    /**
-     * Init reference
-     * @return ilContainerReference
-     */
-    protected function initReference($a_ref_id = 0)
+    protected function initReference(int $a_ref_id = 0) : void
     {
-        $this->ref = ilObjectFactory::getInstanceByRefId($a_ref_id, true);
+        /** @var ilContainerReference $ref */
+        $ref = ilObjectFactory::getInstanceByRefId($a_ref_id, true);
+        $this->ref = $ref;
     }
     
     /**
      * Get reference type
      */
-    abstract protected function getType();
+    abstract protected function getType() : string;
+
+    abstract protected function initParser(string $a_xml) : ilContainerReferenceXmlParser;
     
-    /**
-     * Init xml parser
-     */
-    abstract protected function initParser($a_xml);
-    
-    /**
-     * get reference
-     * @return ilContainerReference
-     */
-    protected function getReference()
+    protected function getReference() : ilContainerReference
     {
         return $this->ref;
     }
     
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
         $log = $DIC->logger()->root();
 
-        include_once './Modules/Category/classes/class.ilObjCategory.php';
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-            $refs = ilObject::_getAllReferences($new_id);
+            $refs = ilObject::_getAllReferences((int) $new_id);
             $this->initReference(end($refs));
         }
         // Mapping for containers without subitems
-        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', 0)) {
-            $this->initReference($new_id);
+        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', '0')) {
+            $this->initReference((int) $new_id);
         } elseif (!$this->getReference() instanceof ilContainerReference) {
             $this->initReference();
-            $this->getReference()->create(true);
+            $this->getReference()->create();
         }
 
         try {
-            /**
-             * @var $parser ilContainerReferenceXmlParser
-             */
+            /** @var ilContainerReferenceXmlParser $parser */
             $parser = $this->initParser($a_xml);
             $parser->setImportMapping($a_mapping);
             $parser->setReference($this->getReference());
@@ -88,11 +83,9 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
                 $objDefinition->getComponentForType($this->getType()),
                 $this->getType(),
                 $a_id,
-                $this->getReference()->getId()
+                (string) $this->getReference()->getId()
             );
-        } catch (ilSaxParserException $e) {
-            $log->error(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
-        } catch (Exception $e) {
+        } catch (ilSaxParserException | Exception $e) {
             $log->error(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }
     }

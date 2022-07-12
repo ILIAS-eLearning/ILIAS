@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -8,26 +23,16 @@ class ilUserCertificateTableProvider
 {
     private ilDBInterface $database;
     private ilLogger $logger;
-    private ilCtrl $ctrl;
-    private ilCertificateObjectHelper $objectHelper;
     private string $defaultTitle;
 
     public function __construct(
         ilDBInterface $database,
         ilLogger $logger,
-        ilCtrl $ctrl,
-        string $defaultTitle,
-        ilCertificateObjectHelper $objectHelper = null
+        string $defaultTitle
     ) {
         $this->database = $database;
         $this->logger = $logger;
-        $this->ctrl = $ctrl;
         $this->defaultTitle = $defaultTitle;
-
-        if (null === $objectHelper) {
-            $objectHelper = new ilCertificateObjectHelper();
-        }
-        $this->objectHelper = $objectHelper;
     }
 
     /**
@@ -35,7 +40,6 @@ class ilUserCertificateTableProvider
      * @param array<string, mixed> $params
      * @param array<string, mixed> $filter
      * @return array{cnt: int, items: array<int, array>}
-     * @throws JsonException
      */
     public function fetchDataSet(int $userId, array $params, array $filter) : array
     {
@@ -93,18 +97,17 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
         $data = [
             'items' => [],
-            'cnt' => 0,
         ];
 
         while ($row = $this->database->fetchAssoc($query)) {
             $title = $row['title'];
 
             $data['items'][] = [
-                'id' => $row['id'],
+                'id' => (int) $row['id'],
                 'title' => $title,
-                'obj_id' => $row['obj_id'],
+                'obj_id' => (int) $row['obj_id'],
                 'obj_type' => $row['obj_type'],
-                'date' => $row['acquired_timestamp'],
+                'date' => (int) $row['acquired_timestamp'],
                 'thumbnail_image_path' => $row['thumbnail_image_path'],
                 'description' => $row['description'],
                 'firstname' => $row['firstname'],
@@ -120,7 +123,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
             $row_cnt = $this->database->fetchAssoc($this->database->query($cnt_sql));
 
-            $data['cnt'] = $row_cnt['cnt'];
+            $data['cnt'] = (int) $row_cnt['cnt'];
 
             $this->logger->debug(sprintf(
                 'All active certificates for user: "%s" total: "%s"',

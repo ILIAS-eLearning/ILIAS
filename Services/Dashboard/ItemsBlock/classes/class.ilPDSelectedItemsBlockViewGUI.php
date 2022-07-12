@@ -1,50 +1,28 @@
 <?php
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
-/**
- * Class ilPDSelectedItemsBlockViewGUI
- */
 abstract class ilPDSelectedItemsBlockViewGUI
 {
-    /**
-     * @var ilPDSelectedItemsBlockViewSettings
-     */
-    protected $viewSettings;
+    protected ilPDSelectedItemsBlockViewSettings $viewSettings;
+    protected ilPDSelectedItemsBlockProvider $provider;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
+    protected ilObjectDataCache $object_cache;
+    protected ilRbacSystem $accessHandler;
+    protected bool $isInManageMode = false;
 
-    /**
-     * @var ilPDSelectedItemsBlockProvider
-     */
-    protected $provider;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var $tree ilTree
-     */
-    protected $tree;
-    
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $object_cache;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $accessHandler;
-
-    /** @var bool */
-    protected $isInManageMode = false;
-
-    /**
-     * ilPDSelectedItemsBlockViewGUI constructor.
-     * @param ilPDSelectedItemsBlockViewSettings $viewSettings
-     * @param ilPDSelectedItemsBlockProvider                       $provider
-     */
     private function __construct(ilPDSelectedItemsBlockViewSettings $viewSettings, ilPDSelectedItemsBlockProvider $provider)
     {
         global $DIC;
@@ -58,24 +36,12 @@ abstract class ilPDSelectedItemsBlockViewGUI
         $this->provider = $provider;
     }
 
-    /**
-     * @return string
-     */
     abstract public function getScreenId() : string;
 
-    /**
-     * @return string
-     */
     abstract public function getTitle() : string;
 
-    /**
-     * @return bool
-     */
     abstract public function supportsSelectAll() : bool;
 
-    /**
-     * @return string
-     */
     abstract public function getIntroductionHtml() : string;
 
     /**
@@ -83,26 +49,16 @@ abstract class ilPDSelectedItemsBlockViewGUI
      */
     abstract public function getGroups() : array;
 
-    /**
-     * @param int $refId
-     * @return bool
-     */
-    public function mayRemoveItem($refId) : bool
+    public function mayRemoveItem(int $refId) : bool
     {
         return true;
     }
 
-    /**
-     * @param bool $isInManageMode
-     */
-    public function setIsInManageMode(bool $isInManageMode)
+    public function setIsInManageMode(bool $isInManageMode) : void
     {
         $this->isInManageMode = $isInManageMode;
     }
 
-    /**
-     * @return bool
-     */
     public function isInManageMode() : bool
     {
         return $this->isInManageMode;
@@ -119,10 +75,6 @@ abstract class ilPDSelectedItemsBlockViewGUI
         return $items_groups;
     }
 
-    /**
-     * @param ilPDSelectedItemsBlockViewSettings $viewSettings
-     * @return self
-     */
     public static function bySettings(ilPDSelectedItemsBlockViewSettings $viewSettings) : ilPDSelectedItemsBlockViewGUI
     {
         if ($viewSettings->isMembershipsViewActive()) {
@@ -138,18 +90,11 @@ abstract class ilPDSelectedItemsBlockViewGUI
         );
     }
 
-    /**
-     * @param int $refId
-     * @return bool
-     */
     protected function isRootNode(int $refId) : bool
     {
         return $this->tree->getRootId() == $refId;
     }
 
-    /**
-     * @return string
-     */
     protected function getRepositoryTitle() : string
     {
         $nd = $this->tree->getNodeData($this->tree->getRootId());
@@ -172,7 +117,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
         $obj_ids = [];
         foreach ($item_groups as $item_group) {
             foreach ($item_group->getItems() as $item) {
-                $obj_ids[] = $item['obj_id'];
+                $obj_ids[] = (int) $item['obj_id'];
                 $listPreloader->addItem($item['obj_id'], $item['type'], $item['ref_id']);
             }
         }
@@ -326,7 +271,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
                 if ($this->isRootNode($item['parent_ref'])) {
                     $group->setLabel($this->getRepositoryTitle());
                 } else {
-                    $group->setLabel($this->object_cache->lookupTitle($this->object_cache->lookupObjId($item['parent_ref'])));
+                    $group->setLabel($this->object_cache->lookupTitle($this->object_cache->lookupObjId((int) $item['parent_ref'])));
                 }
                 $grouped_items['grp_' . $item['parent_ref']] = $group;
             }
@@ -335,5 +280,22 @@ abstract class ilPDSelectedItemsBlockViewGUI
         }
 
         return $grouped_items;
+    }
+
+    /**
+     * @return ilPDSelectedItemsBlockGroup[]
+     */
+    protected function sortItemsByAlphabetInOneGroup() : array
+    {
+        $items = array_values($this->provider->getItems());
+
+        usort($items, static function (array $first, array $second) : int {
+            return strnatcmp(strtolower($first['title']), strtolower($second['title']));
+        });
+
+        $group = new ilPDSelectedItemsBlockGroup();
+        array_map([$group, 'pushItem'], $items);
+
+        return [$group];
     }
 }

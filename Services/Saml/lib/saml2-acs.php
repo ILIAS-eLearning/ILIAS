@@ -1,12 +1,27 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 $cookie_path = dirname(str_replace($_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF']));
 
 $_GET['client_id'] = substr(rtrim($_SERVER['PATH_INFO'], '/'), strrpos($_SERVER['PATH_INFO'], '/') + 1);
 $_SERVER['PATH_INFO'] = substr($_SERVER['PATH_INFO'], 0, strrpos(rtrim($_SERVER['PATH_INFO'], '/'), '/'));
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 
 $ilias_main_directory = './';
 
@@ -26,7 +41,7 @@ if (!is_file(getcwd() . '/ilias.ini.php')) {
 $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
 
 if (isset($_GET["client_id"])) {
-    if ($cookie_path == "\\") {
+    if ($cookie_path === "\\") {
         $cookie_path = '/';
     }
 

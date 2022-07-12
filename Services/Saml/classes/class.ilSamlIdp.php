@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSamlIdp
@@ -66,7 +81,7 @@ class ilSamlIdp
     public function persist() : void
     {
         if (!$this->getIdpId()) {
-            $this->setIdpId((int) $this->db->nextId('saml_idp_settings'));
+            $this->setIdpId($this->db->nextId('saml_idp_settings'));
         }
 
         $this->db->replace(
@@ -88,8 +103,8 @@ class ilSamlIdp
     }
 
     /**
-     * Deletes an idp with all relvant mapping rules.
-     * Furthermore the auth_mode of the relevant user accounts will be switched to 'default'
+     * Deletes an idp with all relevant mapping rules.
+     * Furthermore, the auth_mode of the relevant user accounts will be switched to 'default'
      */
     public function delete() : void
     {
@@ -99,7 +114,7 @@ class ilSamlIdp
         $this->db->manipulateF(
             'UPDATE usr_data SET auth_mode = %s WHERE auth_mode = %s',
             array('text', 'text'),
-            array('default', AUTH_SAML . '_' . $this->getIdpId())
+            array('default', ilAuthUtils::AUTH_SAML . '_' . $this->getIdpId())
         );
 
         $this->db->manipulate('DELETE FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote(
@@ -151,22 +166,21 @@ class ilSamlIdp
         $this->setLocalLocalAuthenticationStatus((bool) $form->getInput('allow_local_auth'));
         $this->setAccountMigrationStatus((bool) $form->getInput('account_migr_status'));
 
-        /** @var $metadata ilSamlIdpMetadataInputGUI */
+        /** @var ilSamlIdpMetadataInputGUI $metadata */
         $metadata = $form->getItemByPostVar('metadata');
-        $this->setEntityId($metadata->getIdpMetadataParser()->getEntityId());
+        $this->setEntityId($metadata->getValue());
     }
 
     public static function isAuthModeSaml(string $a_auth_mode) : bool
     {
-        if (!$a_auth_mode) {
-            $GLOBALS['DIC']->logger()->auth()->write(__METHOD__ . ': No auth mode given..............');
+        if ('' === $a_auth_mode) {
             return false;
         }
 
         $auth_arr = explode('_', $a_auth_mode);
         return (
             count($auth_arr) === 2 &&
-            (int) $auth_arr[0] === AUTH_SAML &&
+            (int) $auth_arr[0] === ilAuthUtils::AUTH_SAML &&
             is_string($auth_arr[1]) && $auth_arr[1] !== ''
         );
     }
@@ -242,10 +256,10 @@ class ilSamlIdp
     {
         $auth_arr = explode('_', $a_auth_mode);
         if (count((array) $auth_arr) > 1) {
-            return AUTH_SAML . '_' . $auth_arr[1];
+            return ilAuthUtils::AUTH_SAML . '_' . $auth_arr[1];
         }
 
-        return (string) AUTH_SAML;
+        return (string) ilAuthUtils::AUTH_SAML;
     }
 
     public function getEntityId() : string

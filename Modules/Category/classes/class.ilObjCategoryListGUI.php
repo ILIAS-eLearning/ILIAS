@@ -1,30 +1,54 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Category\StandardGUIRequest;
 
 /**
  * Class ilObjCategoryListGUI
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjCategoryListGUI extends ilObjectListGUI
 {
+    protected StandardGUIRequest $cat_request;
 
     /**
      * Constructor
      */
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
+    public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct($a_context);
         $this->ctrl = $DIC->ctrl();
+
+        $this->cat_request = $DIC
+            ->category()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -46,17 +70,12 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         $this->commands = ilObjCategoryAccess::_getCommands();
     }
 
-    /**
-    *
-    * @param bool
-    * @return bool
-    */
-    public function getInfoScreenStatus()
+    public function getInfoScreenStatus() : bool
     {
         if (ilContainer::_lookupContainerSetting(
             $this->obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-            true
+            '1'
         )) {
             return $this->info_screen_enabled;
         }
@@ -64,34 +83,14 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         return false;
     }
 
-    /**
-    * Get command target frame.
-    *
-    * Overwrite this method if link frame is not current frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd)
-    {
-        // begin-patch fm
-        return parent::getCommandFrame($a_cmd);
-        // end-patch fm
-    }
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
-        
+
+        $cmd_link = "";
+
         // BEGIN WebDAV
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'mount_webfolder':
                 if (ilDAVActivationChecker::_isActive()) {
                     global $DIC;
@@ -102,8 +101,12 @@ class ilObjCategoryListGUI extends ilObjectListGUI
             default:
                 // separate method for this line
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
+                $ilCtrl->setParameterByClass(
+                    "ilrepositorygui",
+                    "ref_id",
+                    $this->cat_request->getRefId()
+                );
                 break;
         }
         // END WebDAV
@@ -111,11 +114,8 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function checkInfoPageOnAsynchronousRendering() : bool
     {
         return true;
     }
-} // END class.ilObjCategoryGUI
+}

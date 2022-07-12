@@ -1,167 +1,133 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=0);
 /**
-* TableGUI class for timings administration
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesCourse
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * TableGUI class for timings administration
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ModulesCourse
+ */
 class ilTimingUser
 {
-    private $ref_id = 0;
-    private $usr_id = 0;
-    private $start = null;
-    private $end = null;
-    
-    private $is_scheduled = false;
-    
-    /**
-     * Constructor
-     * @param type $a_ref_id
-     * @param type $a_usr_id
-     */
-    public function __construct($a_ref_id, $a_usr_id)
+    private int $ref_id = 0;
+    private int $usr_id = 0;
+    private ilDateTime $start;
+    private ilDateTime $end;
+
+    private bool $is_scheduled = false;
+
+    protected ilDBInterface $db;
+
+    public function __construct(int $a_ref_id, int $a_usr_id)
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
+
         $this->ref_id = $a_ref_id;
         $this->usr_id = $a_usr_id;
-        
+
         $this->start = new ilDateTime(0, IL_CAL_UNIX);
         $this->end = new ilDateTime(0, IL_CAL_UNIX);
-        
         $this->read();
     }
-    
-    /**
-     * get user id
-     * @return type
-     */
-    public function getUserId()
+
+    public function getUserId() : int
     {
         return $this->usr_id;
     }
-    
-    /**
-     * Get ref_id
-     * @return type
-     */
-    public function getRefId()
+
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
-    
-    /**
-     * Check if an entry exists for user
-     */
-    public function isScheduled()
+
+    public function isScheduled() : bool
     {
         return $this->is_scheduled;
     }
-    
+
     /**
      * Use to set start date
-     * @return ilDateTime
      */
-    public function getStart()
+    public function getStart() : ilDateTime
     {
         return $this->start;
     }
-    
+
     /**
      * Use to set date
-     * @return ilDateTime
      */
-    public function getEnd()
+    public function getEnd() : ilDateTime
     {
         return $this->end;
     }
-    
-    /**
-     * Create new entry
-     */
-    public function create()
-    {
-        global $DIC;
 
-        $ilDB = $DIC->database();
-        
+    public function create() : void
+    {
         if ($this->isScheduled()) {
-            return $this->update();
+            $this->update();
+            return;
         }
-        
+
         $query = 'INSERT INTO crs_timings_user (ref_id, usr_id, sstart, ssend ) VALUES ( ' .
-                $ilDB->quote($this->getRefId(), 'integer') . ', ' .
-                $ilDB->quote($this->getUserId(), 'integer') . ', ' .
-                $ilDB->quote($this->getStart()->get(IL_CAL_UNIX, 'integer')) . ', ' .
-                $ilDB->quote($this->getEnd()->get(IL_CAL_UNIX, 'integer')) . ' ' .
-                ')';
-        $ilDB->manipulate($query);
-        
+            $this->db->quote($this->getRefId(), 'integer') . ', ' .
+            $this->db->quote($this->getUserId(), 'integer') . ', ' .
+            $this->db->quote($this->getStart()->get(IL_CAL_UNIX), 'integer') . ', ' .
+            $this->db->quote($this->getEnd()->get(IL_CAL_UNIX), 'integer') . ' ' .
+            ')';
+        $this->db->manipulate($query);
         $this->is_scheduled = true;
     }
-    
-    /**
-     * Update
-     * @global type $ilDB
-     */
-    public function update()
+
+    public function update() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
         if (!$this->isScheduled()) {
-            return $this->create();
+            $this->create();
+            return;
         }
-        
+
         $query = 'UPDATE crs_timings_user ' .
-                'SET sstart = ' . $ilDB->quote($this->getStart()->get(IL_CAL_UNIX, 'integer')) . ', ' .
-                'ssend = ' . $ilDB->quote($this->getEnd()->get(IL_CAL_UNIX, 'integer')) . ' ' .
-                'WHERE ref_id = ' . $ilDB->quote($this->getRefId(), 'integer') . ' ' .
-                'AND usr_id = ' . $ilDB->quote($this->getUserId(), 'integer');
-        $ilDB->manipulate($query);
+            'SET sstart = ' . $this->db->quote($this->getStart()->get(IL_CAL_UNIX), 'integer') . ', ' .
+            'ssend = ' . $this->db->quote($this->getEnd()->get(IL_CAL_UNIX), 'integer') . ' ' .
+            'WHERE ref_id = ' . $this->db->quote($this->getRefId(), 'integer') . ' ' .
+            'AND usr_id = ' . $this->db->quote($this->getUserId(), 'integer');
+        $this->db->manipulate($query);
     }
 
-    /**
-     * Delete entry
-     * @global type $ilDB
-     */
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
         $query = 'DELETE FROM crs_timings_user ' . ' ' .
-                'WHERE ref_id = ' . $ilDB->quote($this->getRefId(), 'integer') . ' ' .
-                'AND usr_id = ' . $ilDB->quote($this->getUserId(), 'integer');
-        $ilDB->manipulate($query);
-        
+            'WHERE ref_id = ' . $this->db->quote($this->getRefId(), 'integer') . ' ' .
+            'AND usr_id = ' . $this->db->quote($this->getUserId(), 'integer');
+        $this->db->manipulate($query);
         $this->is_scheduled = false;
     }
 
-        
-    
-    /**
-     * Read from db
-     */
-    public function read()
+    public function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
         $query = 'SELECT * FROM crs_timings_user ' .
-                'WHERE ref_id = ' . $ilDB->quote($this->getRefId(), 'integer') . ' ' .
-                'AND usr_id = ' . $ilDB->quote($this->getUserId(), 'integer');
-        $res = $ilDB->query($query);
+            'WHERE ref_id = ' . $this->db->quote($this->getRefId(), 'integer') . ' ' .
+            'AND usr_id = ' . $this->db->quote($this->getUserId(), 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->is_scheduled = true;
-            $this->start = new ilDateTime($row->sstart, IL_CAL_UNIX);
-            $this->end = new ilDateTime($row->ssend, IL_CAL_UNIX);
+            $this->start = new ilDateTime((int) $row->sstart, IL_CAL_UNIX);
+            $this->end = new ilDateTime((int) $row->ssend, IL_CAL_UNIX);
         }
-        return $this->isScheduled();
     }
 }

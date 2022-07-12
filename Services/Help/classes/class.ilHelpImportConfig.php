@@ -1,32 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Import configuration for help modules
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHelpImportConfig extends ilImportConfig
 {
-    protected $module_id = 0;
+    protected int $module_id = 0;
 
-    /**
-     * Set module id
-     *
-     * @param int $a_val module id
-     */
-    public function setModuleId($a_val)
+    public function setModuleId(int $a_val) : void
     {
         $this->module_id = $a_val;
     }
 
-    /**
-     * Get module id
-     *
-     * @return int module id
-     */
-    public function getModuleId()
+    public function getModuleId() : int
     {
         return $this->module_id;
     }

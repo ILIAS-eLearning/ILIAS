@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Statically used helper class for generating links to the mail form user interface
@@ -9,30 +24,11 @@
  */
 class ilMailFormCall
 {
-    /**
-     *
-     */
-    const SESSION_KEY = 'mail_transport';
-
-    /**
-     * HTTP-GET parameter for the referer url
-     */
-    const REFERER_KEY = 'r';
-
-    /**
-     * Session parameter for the hash
-     */
-    const SIGNATURE_KEY = 'sig';
-
-    /**
-     * Session parameter for the context
-     */
-    const CONTEXT_PREFIX = 'ctx';
-
-    /**
-     * Session parameter for the context
-     */
-    const CONTEXT_KEY = 'ctx_template';
+    public const SESSION_KEY = 'mail_transport';
+    public const REFERER_KEY = 'r';
+    public const SIGNATURE_KEY = 'sig';
+    public const CONTEXT_PREFIX = 'ctx';
+    public const CONTEXT_KEY = 'ctx_template';
 
     /**
      * @param object|string $gui
@@ -47,7 +43,7 @@ class ilMailFormCall
         string $cmd,
         array $gui_params = [],
         array $mail_params = [],
-        $context_params = []
+        array $context_params = []
     ) : string {
         return self::getTargetUrl('&', $gui, $cmd, $gui_params, $mail_params, $context_params);
     }
@@ -93,14 +89,14 @@ class ilMailFormCall
         $referer = '';
 
         foreach ($mail_params as $key => $value) {
-            $mparams .= $argument_separator . $key . '=' . urlencode($value);
+            $mparams .= $argument_separator . $key . '=' . urlencode((string) $value);
         }
 
         foreach ($context_params as $key => $value) {
-            if ($key == self::CONTEXT_KEY) {
-                $mparams .= $argument_separator . $key . '=' . urlencode($value);
+            if ($key === self::CONTEXT_KEY) {
+                $mparams .= $argument_separator . $key . '=' . urlencode((string) $value);
             } else {
-                $mparams .= $argument_separator . self::CONTEXT_PREFIX . '_' . $key . '=' . urlencode($value);
+                $mparams .= $argument_separator . self::CONTEXT_PREFIX . '_' . $key . '=' . urlencode((string) $value);
             }
         }
 
@@ -109,7 +105,7 @@ class ilMailFormCall
             foreach ($gui_params as $key => $value) {
                 $ilCtrlTmp->setParameter($gui, $key, $value);
             }
-            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '', false, false);
+            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '');
         } elseif (is_string($gui)) {
             $referer = $gui;
         }
@@ -120,7 +116,7 @@ class ilMailFormCall
     }
 
     /**
-     * @param array<string, string> $queryParameters
+     * @param array<string, mixed> $queryParameters
      */
     public static function storeReferer(array $queryParameters) : void
     {
@@ -128,13 +124,17 @@ class ilMailFormCall
 
         if (isset($queryParameters[self::REFERER_KEY])) {
             $session[self::REFERER_KEY] = base64_decode(rawurldecode($queryParameters[self::REFERER_KEY]));
-            $session[self::SIGNATURE_KEY] = base64_decode(rawurldecode($queryParameters[self::SIGNATURE_KEY] ?? ''));
+            $session[self::SIGNATURE_KEY] = base64_decode(
+                rawurldecode(
+                    $queryParameters[self::SIGNATURE_KEY] ?? ''
+                )
+            );
 
             $contextParameters = [];
             foreach ($queryParameters as $key => $value) {
                 $prefix = substr($key, 0, strlen(self::CONTEXT_PREFIX));
-                if ($prefix == self::CONTEXT_PREFIX) {
-                    if ($key == self::CONTEXT_KEY) {
+                if ($prefix === self::CONTEXT_PREFIX) {
+                    if ($key === self::CONTEXT_KEY) {
                         $contextParameters[$key] = $value;
                     } else {
                         $contextParameters[substr($key, strlen(self::CONTEXT_PREFIX . '_'))] = $value;
@@ -157,9 +157,6 @@ class ilMailFormCall
         ilSession::set(self::SESSION_KEY, $session);
     }
 
-    /**
-     * @return string signature
-     */
     public static function getSignature() : string
     {
         $sig = '';
@@ -174,10 +171,7 @@ class ilMailFormCall
 
         return $sig;
     }
-
-    /**
-     * @return string
-     */
+    
     public static function getRefererRedirectUrl() : string
     {
         $url = '';
@@ -192,6 +186,11 @@ class ilMailFormCall
                 } else {
                     $url .= '?returned_from_mail=1';
                 }
+
+                $ilias_url_parts = parse_url(ilUtil::_getHttpPath());
+                if (isset($parts['host']) && $ilias_url_parts['host'] !== $parts['host']) {
+                    $url = 'ilias.php?baseClass=ilMailGUI';
+                }
             }
 
             unset($session[self::REFERER_KEY]);
@@ -201,9 +200,6 @@ class ilMailFormCall
         return $url;
     }
 
-    /**
-     * @return bool
-     */
     public static function isRefererStored() : bool
     {
         $session = ilSession::get(self::SESSION_KEY);
@@ -215,9 +211,6 @@ class ilMailFormCall
         );
     }
 
-    /**
-     * @return string|null
-     */
     public static function getContextId() : ?string
     {
         $session = ilSession::get(self::SESSION_KEY);
@@ -227,10 +220,7 @@ class ilMailFormCall
             $session[self::CONTEXT_PREFIX][self::CONTEXT_KEY] : null
         );
     }
-
-    /**
-     * @param string|null $id
-     */
+    
     public static function setContextId(?string $id) : void
     {
         $session = ilSession::get(self::SESSION_KEY);
@@ -238,9 +228,6 @@ class ilMailFormCall
         ilSession::set(self::SESSION_KEY, $session);
     }
 
-    /**
-     * @return array context parameters
-     */
     public static function getContextParameters() : array
     {
         $session = ilSession::get(self::SESSION_KEY);
@@ -251,10 +238,6 @@ class ilMailFormCall
         return [];
     }
 
-    /**
-     * @param array $parameters
-     * @return array
-     */
     public static function setContextParameters(array $parameters) : void
     {
         $session = ilSession::get(self::SESSION_KEY);

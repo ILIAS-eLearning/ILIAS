@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
@@ -12,20 +26,18 @@ use ILIAS\DI\Container;
  */
 class ilMailTaskProcessorTest extends ilMailBaseTest
 {
-    /** @var ilLanguage */
-    private $languageMock;
-
-    /** @var Container */
-    private $dicMock;
-
-    /** @var ilLogger */
-    private $loggerMock;
+    private ilLanguage $languageMock;
+    private Container $dicMock;
+    private ilLogger $loggerMock;
+    protected const SOME_USER_ID = 113;
 
     /**
      * @throws ReflectionException
      */
     protected function setUp() : void
     {
+        parent::setUp();
+
         $this->languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -51,7 +63,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $taskManager
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('run');
 
         $taskFactory = $this->getMockBuilder(ILIAS\BackgroundTasks\Task\TaskFactory::class)
@@ -63,7 +75,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $backgroundTask->expects($this->any())->method('unfoldTask')
+        $backgroundTask->method('unfoldTask')
             ->willReturn([]);
 
         $taskFactory
@@ -79,7 +91,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObject = new ilMailValueObject(
@@ -93,7 +105,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects = [
-            $mailValueObject
+            $mailValueObject,
         ];
 
         $userId = 100;
@@ -120,7 +132,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $taskManager
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('run');
 
         $taskFactory = $this->getMockBuilder(TaskFactory::class)
@@ -133,7 +145,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $backgroundTask
-            ->expects($this->any())
             ->method('unfoldTask')
             ->willReturn([]);
 
@@ -149,7 +160,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];
@@ -211,7 +222,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $backgroundTask
-            ->expects($this->any())
             ->method('unfoldTask')
             ->willReturn([]);
 
@@ -227,7 +237,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];
@@ -302,7 +312,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $backgroundTask
-            ->expects($this->any())
             ->method('unfoldTask')
             ->willReturn([]);
 
@@ -318,7 +327,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];

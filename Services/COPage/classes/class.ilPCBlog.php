@@ -1,25 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCBlog
- *
  * Blog content object (see ILIAS DTD)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilPCBlog extends ilPageContent
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected php4DOMElement $blog_node;
+    protected ilObjUser $user;
 
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -27,23 +35,17 @@ class ilPCBlog extends ilPageContent
         $this->setType("blog");
     }
 
-    /**
-    * Set node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->blog_node = $a_node->first_child();		// this is the blog node
     }
 
-    /**
-    * Create blog node in xml.
-    *
-    * @param	object	$a_pg_obj		Page Object
-    * @param	string	$a_hier_id		Hierarchical ID
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->blog_node = $this->dom->create_element("Blog");
@@ -52,12 +54,11 @@ class ilPCBlog extends ilPageContent
 
     /**
      * Set blog settings
-     *
-     * @param int $a_blog_id
-     * @param array $a_posting_ids
      */
-    public function setData($a_blog_id, array $a_posting_ids = null)
-    {
+    public function setData(
+        int $a_blog_id,
+        array $a_posting_ids = null
+    ) : void {
         $ilUser = $this->user;
         
         $this->blog_node->set_attribute("Id", $a_blog_id);
@@ -71,7 +72,7 @@ class ilPCBlog extends ilPageContent
             }
         }
 
-        if (sizeof($a_posting_ids)) {
+        if (count($a_posting_ids)) {
             foreach ($a_posting_ids as $posting_id) {
                 $post_node = $this->dom->create_element("BlogPosting");
                 $post_node = $this->blog_node->append_child($post_node);
@@ -80,31 +81,25 @@ class ilPCBlog extends ilPageContent
         }
     }
 
-    /**
-     * Get blog mode
-     *
-     * @return string
-     */
-    public function getBlogId()
+    public function getBlogId() : int
     {
         if (is_object($this->blog_node)) {
-            return $this->blog_node->get_attribute("Id");
+            return (int) $this->blog_node->get_attribute("Id");
         }
+        return 0;
     }
 
     /**
-    * Get blog postings
-    *
-    * @return array
-    */
-    public function getPostings()
+     * Get blog postings
+     */
+    public function getPostings() : array
     {
         $res = array();
         if (is_object($this->blog_node)) {
             $children = $this->blog_node->child_nodes();
             if ($children) {
                 foreach ($children as $child) {
-                    $res[] = $child->get_attribute("Id");
+                    $res[] = (int) $child->get_attribute("Id");
                 }
             }
         }

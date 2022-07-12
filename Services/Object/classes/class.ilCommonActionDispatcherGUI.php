@@ -1,73 +1,82 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilCommonActionDispatcherGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
- * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI
+ * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI, ilObjRootFolderGUI
  */
 class ilCommonActionDispatcherGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    protected $obj_type; // [string]
-    protected $node_id; // [int]
-    protected $node_type; // [string]
-    protected $obj_id; // [int]
-    protected $sub_type; // [string]
-    protected $sub_id; // [int]
-
-    /**
-     * @var int
-     */
-    protected $news_id = 0;
-
-    protected $enable_comments_settings; // [bool]
-    protected $rating_callback; // [array]
-    
     const TYPE_REPOSITORY = 1;
     const TYPE_WORKSPACE = 2;
-    
+
+    protected ilCtrl $ctrl;
+    protected ilSetting $settings;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
+
+    protected int $node_type = 0;
     /**
-     * Constructor
-     *
-     * @param int $a_node_type
-     * @param object $a_access_handler
-     * @param string $a_obj_type
-     * @param int $a_node_id
-     * @param int $a_obj_id
+     * @var ilDummyAccessHandler|ilPortfolioAccessHandler|ilWorkspaceAccessHandler|mixed
      */
-    public function __construct($a_node_type, $a_access_handler, $a_obj_type, $a_node_id, $a_obj_id, $a_news_id = 0)
-    {
+    protected $access_handler;
+    protected string $obj_type = "";
+    protected int $node_id = 0;
+    protected int $obj_id = 0;
+    protected int $news_id = 0;
+
+    protected ?string $sub_type = null;
+    protected ?int $sub_id = null;
+    protected bool $enable_comments_settings = false;
+    protected array $rating_callback = [];
+    private ilObjectRequestRetriever $retriever;
+    
+    public function __construct(
+        int $node_type,
+        $access_handler,
+        string $obj_type,
+        int $node_id,
+        int $obj_id,
+        int $news_id = 0
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->settings = $DIC->settings();
-        $this->node_type = (int) $a_node_type;
-        $this->access_handler = $a_access_handler;
-        $this->obj_type = (string) $a_obj_type;
-        $this->node_id = (int) $a_node_id;
-        $this->obj_id = (int) $a_obj_id;
-        $this->news_id = (int) $a_news_id;
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
+
+        $this->node_type = $node_type;
+        $this->access_handler = $access_handler;
+        $this->obj_type = $obj_type;
+        $this->node_id = $node_id;
+        $this->obj_id = $obj_id;
+        $this->news_id = $news_id;
     }
     
     /**
      * Build ajax hash for current (object/node) properties
-     *
-     * @return string
      */
-    public function getAjaxHash()
+    public function getAjaxHash() : string
     {
         return self::buildAjaxHash(
             $this->node_type,
@@ -82,32 +91,24 @@ class ilCommonActionDispatcherGUI
     
     /**
      * Build ajax hash
-     *
-     * @param int $a_node_type
-     * @param int $a_node_id
-     * @param string $a_obj_type
-     * @param int $a_obj_id
-     * @param string $a_sub_type
-     * @param int $a_sub_id
-     * @return string
      */
     public static function buildAjaxHash(
-        $a_node_type,
-        $a_node_id,
-        $a_obj_type,
-        $a_obj_id,
-        $a_sub_type = null,
-        $a_sub_id = null,
-        $a_news_id = 0
-    ) {
-        return $a_node_type . ";" . $a_node_id . ";" . $a_obj_type . ";" .
-            $a_obj_id . ";" . $a_sub_type . ";" . $a_sub_id . ";" . $a_news_id;
+        int $node_type,
+        ?int $node_id,
+        string $obj_type,
+        int $obj_id,
+        string $sub_type = null,
+        int $sub_id = null,
+        int $news_id = 0
+    ) : string {
+        return
+            $node_type . ";" . $node_id . ";" . $obj_type . ";" . $obj_id . ";" .
+            $sub_type . ";" . $sub_id . ";" . $news_id
+        ;
     }
     
     /**
      * (Re-)Build instance from ajax call
-     *
-     * @return ilCommonActionDispatcherGUI|null
      */
     public static function getInstanceFromAjaxCall() : ?ilCommonActionDispatcherGUI
     {
@@ -115,16 +116,19 @@ class ilCommonActionDispatcherGUI
 
         $ilAccess = $DIC->access();
         $ilUser = $DIC->user();
-        if (isset($_GET["cadh"])) {
-            $parts = explode(";", (string) $_GET["cadh"]);
+        $request_wrapper = $DIC->http()->wrapper()->query();
+        $refinery = $DIC->refinery();
+
+        if ($request_wrapper->has("cadh")) {
+            $parts = explode(";", $request_wrapper->retrieve("cadh", $refinery->kindlyTo()->string()));
             
-            $node_type = $parts[0];
-            $node_id = $parts[1];
-            $obj_type = $parts[2];
-            $obj_id = $parts[3];
-            $sub_type = $parts[4];
-            $sub_id = $parts[5];
-            $news_id = $parts[6];
+            $node_type = (int) $parts[0];
+            $node_id = (int) $parts[1];
+            $obj_type = (string) $parts[2];
+            $obj_id = (int) $parts[3];
+            $sub_type = (string) $parts[4];
+            $sub_id = (int) $parts[5];
+            $news_id = (int) $parts[6];
             
             switch ($node_type) {
                 case self::TYPE_REPOSITORY:
@@ -157,22 +161,20 @@ class ilCommonActionDispatcherGUI
         return null;
     }
         
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $ilCtrl = $this->ctrl;
-        $ilSetting = $this->settings;
-
         // check access for object
-        if ($this->node_id &&
+        if (
+            $this->node_id &&
             !$this->access_handler->checkAccess("visible", "", $this->node_id) &&
-            !$this->access_handler->checkAccess("read", "", $this->node_id)) {
+            !$this->access_handler->checkAccess("read", "", $this->node_id)
+        ) {
             exit();
         }
         
-        $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd();
-        
-        $ilCtrl->saveParameter($this, "cadh");
+        $next_class = $this->ctrl->getNextClass($this);
+
+        $this->ctrl->saveParameter($this, "cadh");
         
         switch ($next_class) {
             case "ilnotegui":
@@ -182,56 +184,61 @@ class ilCommonActionDispatcherGUI
                     $obj_type = $this->sub_type;
                 }
                 
-                $note_gui = new ilNoteGUI($this->obj_id, $this->sub_id, $obj_type, false, $this->news_id);
-                $note_gui->enablePrivateNotes(true);
+                $note_gui = new ilNoteGUI($this->obj_id, (int) $this->sub_id, $obj_type, false, $this->news_id);
+                $note_gui->enablePrivateNotes();
                 
                 $has_write = $this->access_handler->checkAccess("write", "", $this->node_id);
-                if ($has_write && $ilSetting->get("comments_del_tutor", 1)) {
-                    $note_gui->enablePublicNotesDeletion(true);
+                if ($has_write && $this->settings->get("comments_del_tutor", "1")) {
+                    $note_gui->enablePublicNotesDeletion();
                 }
                 
                 // comments cannot be turned off globally
                 if ($this->enable_comments_settings) {
                     // should only be shown if active or permission to toggle
-                    if ($has_write ||
-                        $this->access_handler->checkAccess("edit_permissions", "", $this->node_id)) {
+                    if (
+                        $has_write ||
+                        $this->access_handler->checkAccess("edit_permissions", "", $this->node_id)
+                    ) {
                         $note_gui->enableCommentsSettings();
                     }
                 }
                 /* this is different to the info screen but we need this
                    for sub-object action menus, e.g. wiki page */
                 elseif ($this->sub_id) {
-                    $note_gui->enablePublicNotes(true);
+                    $note_gui->enablePublicNotes();
                 }
 
-                $ilCtrl->forwardCommand($note_gui);
+                $this->ctrl->forwardCommand($note_gui);
                 break;
 
             case "iltagginggui":
                 $tags_gui = new ilTaggingGUI();
                 $tags_gui->setObject($this->obj_id, $this->obj_type);
-                $ilCtrl->forwardCommand($tags_gui);
+                $this->ctrl->forwardCommand($tags_gui);
                 break;
             
             case "ilobjectactivationgui":
-                $ilCtrl->setParameter($this, "parent_id", (int) $_REQUEST['parent_id']);
-                $act_gui = new ilObjectActivationGUI((int) $_REQUEST['parent_id'], $this->node_id);
-                $ilCtrl->forwardCommand($act_gui);
+                $parent_id = $this->retriever->getMaybeInt('parent_id') ?? 0;
+                $this->ctrl->setParameter($this, "parent_id", $parent_id);
+                $act_gui = new ilObjectActivationGUI($parent_id, $this->node_id);
+                $this->ctrl->forwardCommand($act_gui);
                 break;
             
             case "ilratinggui":
                 $rating_gui = new ilRatingGUI();
-                if (!($_GET["rnsb"] ?? null)) {
+                if (
+                    $this->request_wrapper->has("rnsb")
+                ) {
                     $rating_gui->setObject($this->obj_id, $this->obj_type, $this->sub_id, $this->sub_type);
                 } else {
                     // coming from headaction ignore sub-objects
                     $rating_gui->setObject($this->obj_id, $this->obj_type);
                 }
-                $ilCtrl->forwardCommand($rating_gui);
+                $this->ctrl->forwardCommand($rating_gui);
                 if ($this->rating_callback) {
                     // as rating in categories is form-based we need to redirect
                     // somewhere after saving
-                    $ilCtrl->redirect($this->rating_callback[0], $this->rating_callback[1]);
+                    $this->ctrl->redirect($this->rating_callback[0], $this->rating_callback[1]);
                 }
                 break;
             
@@ -244,70 +251,62 @@ class ilCommonActionDispatcherGUI
     
     /**
      * Set sub object attributes
-     *
-     * @param string $a_sub_obj_type
-     * @param int $a_sub_obj_id
      */
-    public function setSubObject($a_sub_obj_type, $a_sub_obj_id)
+    public function setSubObject(?string $sub_obj_type, ?int $sub_obj_id) : void
     {
-        $this->sub_type = (string) $a_sub_obj_type;
-        $this->sub_id = (int) $a_sub_obj_id;
+        $this->sub_type = $sub_obj_type;
+        $this->sub_id = $sub_obj_id;
     }
     
     /**
      * Toggle comments settings
-     *
-     * @param bool $a_value
      */
-    public function enableCommentsSettings($a_value)
+    public function enableCommentsSettings(bool $value) : void
     {
-        $this->enable_comments_settings = (bool) $a_value;
+        $this->enable_comments_settings = $value;
     }
     
     /**
      * Add callback for rating gui
-     *
-     * @param object $a_gui
-     * @param string $a_cmd
      */
-    public function setRatingCallback($a_gui, $a_cmd)
+    public function setRatingCallback(object $gui, string $cmd) : void
     {
-        $this->rating_callback = array($a_gui, $a_cmd);
+        $this->rating_callback = array($gui, $cmd);
     }
     
     /**
      * Set header action menu
-     * @return ilObjectListGUI|null
      */
     public function initHeaderAction() : ?ilObjectListGUI
     {
         // check access for object
-        if ($this->node_id &&
+        if (
+            $this->node_id &&
             !$this->access_handler->checkAccess("visible", "", $this->node_id) &&
-            !$this->access_handler->checkAccess("read", "", $this->node_id)) {
+            !$this->access_handler->checkAccess("read", "", $this->node_id)
+        ) {
             return null;
         }
         
-        $this->header_action = ilObjectListGUIFactory::_getListGUIByType(
+        $header_action = ilObjectListGUIFactory::_getListGUIByType(
             $this->obj_type,
-            ($this->node_type == self::TYPE_REPOSITORY)
-                ? ilObjectListGUI::CONTEXT_REPOSITORY
-                : ilObjectListGUI::CONTEXT_WORKSPACE
+            ($this->node_type == self::TYPE_REPOSITORY) ?
+                ilObjectListGUI::CONTEXT_REPOSITORY : ilObjectListGUI::CONTEXT_WORKSPACE
         );
         
         // remove all currently unwanted actions
-        $this->header_action->enableCopy(false);
-        $this->header_action->enableCut(false);
-        $this->header_action->enableDelete(false);
-        $this->header_action->enableLink(false);
-        $this->header_action->enableInfoScreen(false);
-        $this->header_action->enableTimings(false);
-        $this->header_action->enableSubscribe($this->node_type == self::TYPE_REPOSITORY);
+        $header_action->enableCopy(false);
+        $header_action->enableCut(false);
+        $header_action->enableDelete(false);
+        $header_action->enableLink(false);
+        $header_action->enableInfoScreen(false);
+        $header_action->enableTimings(false);
+        $header_action->enableSubscribe($this->node_type == self::TYPE_REPOSITORY);
         
-        $this->header_action->initItem($this->node_id, $this->obj_id, $this->obj_type);
-        $this->header_action->setHeaderSubObject($this->sub_type, $this->sub_id);
-        $this->header_action->setAjaxHash($this->getAjaxHash());
+        $header_action->initItem($this->node_id, $this->obj_id, $this->obj_type);
+        $header_action->setHeaderSubObject($this->sub_type, $this->sub_id);
+        $header_action->setAjaxHash($this->getAjaxHash());
         
-        return $this->header_action;
+        return $header_action;
     }
 }

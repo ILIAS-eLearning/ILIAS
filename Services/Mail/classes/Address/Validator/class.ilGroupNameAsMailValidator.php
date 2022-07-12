@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilGroupNameAsMailValidator
@@ -8,16 +23,11 @@
  */
 class ilGroupNameAsMailValidator
 {
-    /** @var string */
-    protected $host;
-
+    protected string $host;
     /** @var callable */
     protected $groupNameCheckCallable;
 
-    /**
-     * @param string $host
-     * @param callable|null $groupNameCheckCallable
-     */
+    
     public function __construct(string $host, callable $groupNameCheckCallable = null)
     {
         $this->host = $host;
@@ -33,28 +43,17 @@ class ilGroupNameAsMailValidator
 
     /**
      * Validates if the given address contains a valid group name to send an email
-     * @param ilMailAddress $address
-     * @return bool
      */
     public function validate(ilMailAddress $address) : bool
     {
         $groupName = substr($address->getMailbox(), 1);
 
         $func = $this->groupNameCheckCallable;
-        if ($func($groupName) && $this->isHostValid($address->getHost())) {
-            return true;
-        }
-
-        return false;
+        return $func($groupName) && $this->isHostValid($address->getHost());
     }
 
-    /**
-     * Checks if the given host is valid in the email context
-     * @param string $host
-     * @return bool
-     */
     private function isHostValid(string $host) : bool
     {
-        return ($host == $this->host || 0 === strlen($host));
+        return ($host === $this->host || $host === '');
     }
 }

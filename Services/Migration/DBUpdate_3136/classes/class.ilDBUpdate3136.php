@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Update class for step 3136
@@ -13,48 +28,67 @@ class ilDBUpdate3136
     /**
      * Create style class GlossaryLink, link, IntLink
      *
-     * @param
-     * @return
+     * @deprecated use Services/Style/classes/Setup/class.ilStyleClassCopiedObjective.php instead
      */
-    public static function copyStyleClass($a_orig_class, $a_class, $a_type, $a_tag, $a_hide = 0)
-    {
+    public static function copyStyleClass(
+        string $orig_class,
+        string $class,
+        string $type,
+        string $tag,
+        int $hide = 0
+    ) : void {
         global $ilDB;
-    
-        $set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
-        while ($rec = $ilDB->fetchAssoc($set)) {	// all styles
-            $set2 = $ilDB->query("SELECT * FROM style_char WHERE " .
-                "style_id = " . $ilDB->quote($rec["obj_id"], "integer") . " AND " .
-                "characteristic = " . $ilDB->quote($a_class, "text") . " AND " .
-                "type = " . $ilDB->quote($a_type, "text"));
-            if (!$ilDB->fetchAssoc($set2)) {
-                $q = "INSERT INTO style_char (style_id, type, characteristic, hide)" .
-                    " VALUES (" .
-                    $ilDB->quote($rec["obj_id"], "integer") . "," .
-                    $ilDB->quote($a_type, "text") . "," .
-                    $ilDB->quote($a_class, "text") . "," .
-                    $ilDB->quote($a_hide, "integer") . ")";
-                $ilDB->manipulate($q);
-                
-                $set3 = $ilDB->query(
-                    "SELECT * FROM style_parameter WHERE " .
-                    "style_id = " . $ilDB->quote($rec["obj_id"], "integer") . " AND " .
-                    "type = " . $ilDB->quote($a_type, "text") . " AND " .
-                    "class = " . $ilDB->quote($a_orig_class, "text") . " AND " .
-                    "tag = " . $ilDB->quote($a_tag, "text")
-                    );
-                while ($rec3 = $ilDB->fetchAssoc($set3)) {	// copy parameters
-                    $spid = $ilDB->nextId("style_parameter");
-                    $q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)" .
-                        " VALUES (" .
-                        $ilDB->quote($spid, "integer") . "," .
-                        $ilDB->quote($rec["obj_id"], "integer") . "," .
-                        $ilDB->quote($rec3["type"], "text") . "," .
-                        $ilDB->quote($a_class, "text") . "," .
-                        $ilDB->quote($a_tag, "text") . "," .
-                        $ilDB->quote($rec3["parameter"], "text") . "," .
-                        $ilDB->quote($rec3["value"], "text") .
-                        ")";
-                    $ilDB->manipulate($q);
+        $db = $ilDB;
+
+        $sql =
+            "SELECT obj_id" . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE type = 'sty'" . PHP_EOL
+        ;
+        $set = $db->query($sql);
+
+        while ($row = $db->fetchAssoc($set)) {
+            $sql =
+                "SELECT style_id, type, characteristic, hide" . PHP_EOL
+                . "FROM style_char" . PHP_EOL
+                . "WHERE style_id = " . $db->quote($row["obj_id"], "integer") . PHP_EOL
+                . "AND characteristic = " . $db->quote($class, "text") . PHP_EOL
+                . "AND type = " . $db->quote($type, "text") . PHP_EOL
+            ;
+            $res = $db->query($sql);
+
+            if (!$db->fetchAssoc($res)) {
+                $values = [
+                    "style_id" => ["integer", $row["obj_id"]],
+                    "type" => ["text", $type],
+                    "characteristic" => ["text", $class],
+                    "hide" => ["integer", $hide]
+                ];
+                $db->insert("style_char", $values);
+
+                $sql =
+                    "SELECT id, style_id, tag, class, parameter, value, type, mq_id, custom" . PHP_EOL
+                    . "FROM style_parameter" . PHP_EOL
+                    . "WHERE style_id = " . $db->quote($row["obj_id"], "integer") . PHP_EOL
+                    . "AND type = " . $db->quote($type, "text") . PHP_EOL
+                    . "AND class = " . $db->quote($orig_class, "text") . PHP_EOL
+                    . "AND tag = " . $db->quote($tag, "text") . PHP_EOL
+                ;
+
+                $res = $db->query($sql);
+
+                while ($row_2 = $db->fetchAssoc($res)) {
+                    $spid = $db->nextId("style_parameter");
+                    $values = [
+                        "id" => ["integer", $spid],
+                        "style_id" => ["integer", $row["obj_id"]],
+                        "tag" => ["text", $tag],
+                        "class" => ["text", $class],
+                        "parameter" => ["text", $row_2["parameter"]],
+                        "value" => ["text", $row_2["value"]],
+                        "type" => ["text", $row_2["type"]]
+                    ];
+                    $db->insert("style_parameter", $values);
                 }
             }
         }
@@ -63,46 +97,55 @@ class ilDBUpdate3136
     /**
      * Add style class
      *
-     * @param
-     * @return
+     * @deprecated use Services/Style/classes/Setup/class.ilStyleClassAddedObjective.php instead
      */
-    public static function addStyleClass($a_class, $a_type, $a_tag, $a_parameters = "", $a_hide = 0)
-    {
+    public static function addStyleClass(
+        string $class,
+        string $type,
+        string $tag,
+        array $parameters = [],
+        int $hide = 0
+    ) : void {
         global $ilDB;
-        
-        if ($a_parameters == "") {
-            $a_parameters = array();
-        }
+        $db = $ilDB;
 
-        $set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
-        while ($rec = $ilDB->fetchAssoc($set)) {	// all styles
-            $set2 = $ilDB->query("SELECT * FROM style_char WHERE " .
-                "style_id = " . $ilDB->quote($rec["obj_id"], "integer") . " AND " .
-                "characteristic = " . $ilDB->quote($a_class, "text") . " AND " .
-                "type = " . $ilDB->quote($a_type, "text"));
-            if (!$ilDB->fetchAssoc($set2)) {
-                $q = "INSERT INTO style_char (style_id, type, characteristic, hide)" .
-                    " VALUES (" .
-                    $ilDB->quote($rec["obj_id"], "integer") . "," .
-                    $ilDB->quote($a_type, "text") . "," .
-                    $ilDB->quote($a_class, "text") . "," .
-                    $ilDB->quote($a_hide, "integer") . ")";
-    
-                $ilDB->manipulate($q);
-                foreach ($a_parameters as $k => $v) {
-                    $spid = $ilDB->nextId("style_parameter");
-                    $q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)" .
-                        " VALUES (" .
-                        $ilDB->quote($spid, "integer") . "," .
-                        $ilDB->quote($rec["obj_id"], "integer") . "," .
-                        $ilDB->quote($a_type, "text") . "," .
-                        $ilDB->quote($a_class, "text") . "," .
-                        $ilDB->quote($a_tag, "text") . "," .
-                        $ilDB->quote($k, "text") . "," .
-                        $ilDB->quote($v, "text") .
-                        ")";
-    
-                    $ilDB->manipulate($q);
+        $sql =
+            "SELECT obj_id" . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE type = 'sty'" . PHP_EOL
+        ;
+        $result = $db->query($sql);
+
+        while ($row = $db->fetchAssoc($result)) {
+            $sql =
+                "SELECT style_id, type, characteristic, hide" . PHP_EOL
+                . "FROM style_char" . PHP_EOL
+                . "WHERE style_id = " . $db->quote($row["obj_id"], "integer") . PHP_EOL
+                . "AND characteristic = " . $db->quote($class, "text") . PHP_EOL
+                . "AND type = " . $db->quote($type, "text") . PHP_EOL;
+            $res = $db->query($sql);
+
+            if (!$db->fetchAssoc($res)) {
+                $values = [
+                    "style_id" => ["integer", $row["obj_id"]],
+                    "type" => ["text", $type],
+                    "characteristic" => ["text", $class],
+                    "hide" => ["integer", $hide]
+                ];
+                $db->insert("style_char", $values);
+
+                foreach ($parameters as $k => $v) {
+                    $spid = $db->nextId("style_parameter");
+                    $values = [
+                        "id" => ["integer", $spid],
+                        "style_id" => ["integer", $row["obj_id"]],
+                        "tag" => ["text", $tag],
+                        "class" => ["text", $class],
+                        "parameter" => ["text", $k],
+                        "value" => ["text", $v],
+                        "type" => ["text", $type]
+                    ];
+                    $db->insert("style_parameter", $values);
                 }
             }
         }

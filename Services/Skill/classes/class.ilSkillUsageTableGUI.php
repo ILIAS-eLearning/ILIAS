@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree;
+
 /**
  * TableGUI class for skill usages
  *
@@ -24,15 +26,14 @@
  */
 class ilSkillUsageTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
-    protected int $skill_id;
-    protected int $tref_id;
+    protected ilSkillTreeRepository $tree_repo;
+    protected Tree\SkillTreeFactory $tree_factory;
+    protected Tree\SkillTreeManager $tree_manager;
+    protected int $skill_id = 0;
+    protected int $tref_id = 0;
 
-    public function __construct($a_parent_obj, string $a_parent_cmd, string $a_cskill_id, array $a_usage)
+    public function __construct($a_parent_obj, string $a_parent_cmd, string $a_cskill_id, array $a_usage, $a_mode = "")
     {
         global $DIC;
 
@@ -40,13 +41,14 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
+
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
+        $this->tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
 
         $id_parts = explode(":", $a_cskill_id);
-        $this->skill_id = $id_parts[0];
-        $this->tref_id = $id_parts[1];
+        $this->skill_id = (int) $id_parts[0];
+        $this->tref_id = (int) $id_parts[1];
 
         $data = [];
         foreach ($a_usage as $k => $v) {
@@ -55,9 +57,16 @@ class ilSkillUsageTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($data);
-        $this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
 
-        $tree = new ilSkillTree();
+        $tree = $this->tree_repo->getTreeForNodeId($this->skill_id);
+        if ($a_mode == "tree") {
+            $tree_obj = $this->tree_manager->getTree($tree->getTreeId());
+            $title = $tree_obj->getTitle() . " > " . ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id);
+            $this->setTitle($title);
+        } else {
+            $this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
+        }
+
         $path = $tree->getSkillTreePathAsString($this->skill_id, $this->tref_id);
         $this->setDescription($path);
 
@@ -72,7 +81,7 @@ class ilSkillUsageTableGUI extends ilTable2GUI
 //		$this->addCommandButton("", $lng->txt(""));
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $this->tpl->setVariable("TYPE_INFO", ilSkillUsage::getTypeInfoString($a_set["type"]));

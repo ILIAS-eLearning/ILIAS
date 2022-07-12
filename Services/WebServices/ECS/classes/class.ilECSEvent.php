@@ -1,53 +1,37 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
-
 class ilECSEvent
 {
-    const CREATED = 'created';
-    const UPDATED = 'updated';
-    const DESTROYED = 'destroyed';
-    const NEW_EXPORT = 'new_export';
+    public const CREATED = 'created';
+    public const UPDATED = 'updated';
+    public const DESTROYED = 'destroyed';
+    public const NEW_EXPORT = 'new_export';
 
-    protected $json_obj = null;
-    public $status = '';
-    public $ressource = '';
-    public $ressource_id = 0;
-    public $ressource_type = '';
+    protected object $json_obj;
+    public string $status = '';
+    public string $ressource = '';
+    public int $ressource_id = 0;
+    public ?string $ressource_type = '';
     
     /**
-     * Constructor
-     *
-     * @access public
      * @param object json object
-     *
      */
     public function __construct($json_obj)
     {
@@ -57,22 +41,16 @@ class ilECSEvent
     
     /**
      * get title
-     *
-     * @access public
-     *
      */
-    public function getStatus()
+    public function getStatus() : string
     {
         return $this->status;
     }
     
     /**
      * getDescription
-     *
-     * @access public
-     *
      */
-    public function getRessource()
+    public function getRessource() : string
     {
         return $this->ressource;
     }
@@ -80,7 +58,7 @@ class ilECSEvent
     /**
      * Get ressource id
      */
-    public function getRessourceId()
+    public function getRessourceId() : int
     {
         return $this->ressource_id;
     }
@@ -88,9 +66,8 @@ class ilECSEvent
 
     /**
      * Get ressource type
-     * @return string
      */
-    public function getRessourceType()
+    public function getRessourceType() : ?string
     {
         return $this->ressource_type;
     }
@@ -98,11 +75,8 @@ class ilECSEvent
     
     /**
      * Read community entries and participants
-     *
-     * @access private
-     *
      */
-    private function read()
+    private function read() : void
     {
         $this->status = $this->json_obj->status;
         $this->ressource = $this->json_obj->ressource;

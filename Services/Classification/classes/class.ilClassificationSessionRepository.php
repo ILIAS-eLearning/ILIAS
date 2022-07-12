@@ -1,69 +1,70 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Repos for classification session data
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilClassificationSessionRepository
 {
-    const BASE_SESSION_KEY = 'clsfct';
+    public const BASE_SESSION_KEY = 'clsfct';
+    protected string $key;
 
-    /**
-     * @var int
-     */
-    protected $base_ref_id;
+    protected int $base_ref_id;
 
-    /**
-     * ilClassificationSessionRepository constructor.
-     * @param int $base_ref_id
-     */
     public function __construct(int $base_ref_id)
     {
         $this->base_ref_id = $base_ref_id;
+        $this->key = self::BASE_SESSION_KEY . "_" . $base_ref_id;
     }
 
-    /**
-     * Unset all
-     */
-    public function unsetAll()
+    public function unsetAll() : void
     {
-        unset($_SESSION[self::BASE_SESSION_KEY][$this->base_ref_id]);
+        ilSession::clear($this->key);
     }
 
-    /**
-     * @param string $provider
-     */
-    public function unsetValueForProvider(string $provider)
+    public function unsetValueForProvider(string $provider) : void
     {
-        unset($_SESSION[self::BASE_SESSION_KEY][$this->base_ref_id][$provider]);
+        if (ilSession::has($this->key)) {
+            $vals = ilSession::get($this->key);
+            unset($vals[$provider]);
+            ilSession::set($this->key, $vals);
+        }
     }
 
-    /**
-     * @return bool
-     */
-    public function isEmpty()
+    public function isEmpty() : bool
     {
-        return !isset($_SESSION[self::BASE_SESSION_KEY][$this->base_ref_id]);
+        return !ilSession::has($this->key);
     }
 
-    /**
-     * @param string $provider
-     * @return mixed
-     */
-    public function getValueForProvider(string $provider)
+    public function getValueForProvider(string $provider) : array
     {
-        return $_SESSION[self::BASE_SESSION_KEY][$this->base_ref_id][$provider];
+        if (ilSession::has($this->key)) {
+            $vals = ilSession::get($this->key);
+            return $vals[$provider] ?? [];
+        }
+        return [];
     }
 
-    /**
-     * @param $provider
-     * @param $value
-     */
-    public function setValueForProvider($provider, $value)
+    public function setValueForProvider(string $provider, array $value) : void
     {
-        $_SESSION[self::BASE_SESSION_KEY][$this->base_ref_id][$provider] = $value;
+        $vals = [];
+        if (ilSession::has($this->key)) {
+            $vals = ilSession::get($this->key);
+        }
+        $vals[$provider] = $value;
+        ilSession::set($this->key, $vals);
     }
 }

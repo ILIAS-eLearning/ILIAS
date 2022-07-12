@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomInstaller
@@ -192,7 +207,7 @@ class ilChatroomInstaller
         self::convertChatObjects();
 
         $notificationSettings = new ilSetting('notifications');
-        $notificationSettings->set('enable_osd', true);
+        $notificationSettings->set('enable_osd', '1');
     }
 
     /**
@@ -462,7 +477,7 @@ class ilChatroomInstaller
             );
 
             $settings = new ilSetting('chatroom');
-            $settings->set('public_room_ref', $ref_id);
+            $settings->set('public_room_ref', (string) $ref_id);
         }
     }
 
@@ -494,7 +509,8 @@ class ilChatroomInstaller
     public static function ensureCorrectPublicChatroomTreeLocation(int $ref_id) : void
     {
         global $DIC;
-        /** @var $tree ilTree */
+
+        /** @var ilTree $tree */
         $tree = $DIC->repositoryTree();
         /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();

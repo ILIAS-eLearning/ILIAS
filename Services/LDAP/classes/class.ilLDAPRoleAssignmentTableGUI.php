@@ -1,50 +1,28 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-include_once('Services/Table/classes/class.ilTable2GUI.php');
+<?php declare(strict_types=1);
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesLDAP
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
 {
-    protected $lng;
-    protected $ctrl;
-    
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '')
+    public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
         global $DIC;
 
@@ -55,7 +33,7 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('ldap_rule_type'), 'type', "20%");
         $this->addColumn($this->lng->txt('ldap_ilias_role'), 'role', "30%");
         $this->addColumn($this->lng->txt('ldap_rule_condition'), 'condition', "20%");
@@ -66,15 +44,9 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('type');
         $this->setDefaultOrderDirection("desc");
     }
-    
-    /**
-     * Fill row
-     *
-     * @access public
-     * @param array row data
-     *
-     */
-    public function fillRow($a_set)
+
+    /** @noinspection DuplicatedCode */
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TYPE', $a_set['type']);
@@ -105,12 +77,12 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
     /**
      * Parse
      *
-     * @access public
      * @param array array of LDAPRoleAssignmentRule
      *
      */
-    public function parse($rule_objs)
+    public function parse($rule_objs) : void
     {
+        $records_arr = [];
         foreach ($rule_objs as $rule) {
             $tmp_arr['id'] = $rule->getRuleId();
             
@@ -136,6 +108,6 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
             $records_arr[] = $tmp_arr;
         }
         
-        $this->setData($records_arr ? $records_arr : array());
+        $this->setData($records_arr);
     }
 }

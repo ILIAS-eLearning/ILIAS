@@ -1,9 +1,25 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -16,7 +32,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
     protected ilObjTermsOfService $tos;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilRbacSystem $rbacsystem;
     protected ilErrorHandling $error;
@@ -30,13 +46,14 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     protected Filesystems $fileSystems;
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
     protected ilHtmlPurifierInterface $documentPurifier;
+    protected Refinery $refinery;
 
     public function __construct(
         ilObjTermsOfService $tos,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         ilGlobalTemplateInterface $tpl,
         ilObjUser $user,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,
         ilErrorHandling $error,
@@ -48,7 +65,8 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         Filesystems $fileSystems,
         FileUpload $fileUpload,
         ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
-        ilHtmlPurifierInterface $documentPurifier
+        ilHtmlPurifierInterface $documentPurifier,
+        Refinery $refinery
     ) {
         $this->tos = $tos;
         $this->criterionTypeFactory = $criterionTypeFactory;
@@ -67,6 +85,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->fileUpload = $fileUpload;
         $this->tableDataProviderFactory = $tableDataProviderFactory;
         $this->documentPurifier = $documentPurifier;
+        $this->refinery = $refinery;
     }
 
     public function executeCommand() : void
@@ -77,7 +96,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        if ($cmd === '' || !method_exists($this, $cmd)) {
+        if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
             $cmd = 'showDocuments';
         }
         $this->$cmd();
@@ -107,7 +126,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tos->resetAll();
 
         $this->log->info('Terms of service reset by ' . $this->user->getId() . ' [' . $this->user->getLogin() . ']');
-        ilUtil::sendSuccess($this->lng->txt('tos_reset_successful'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_reset_successful'));
 
         $this->showDocuments();
     }
@@ -141,7 +160,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
     protected function getResetMessageBoxHtml() : string
     {
-        if ($this->tos->getLastResetDate() && ((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
+        if (((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
             $status = ilDatePresentation::useRelativeDates();
             ilDatePresentation::setUseRelativeDates(false);
             $resetText = sprintf(
@@ -209,13 +228,13 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         $form = $this->getDocumentForm(new ilTermsOfServiceDocument());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -253,13 +272,13 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         $form = $this->getDocumentForm($document);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -270,15 +289,24 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
      */
     protected function getDocumentsByServerRequest() : array
     {
-        $documents = [];
+        $documentIds = [];
 
-        $documentIds = $this->httpState->request()->getParsedBody()['tos_id'] ?? [];
-        if (!is_array($documentIds) || 0 === count($documentIds)) {
-            $documentIds = $this->httpState->request()->getQueryParams()['tos_id'] ? [$this->httpState->request()->getQueryParams()['tos_id']] : [];
+        if ($this->httpState->wrapper()->post()->has('tos_id')) {
+            $documentIds = $this->httpState->wrapper()->post()->retrieve(
+                'tos_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
         }
 
-        if (0 === count($documentIds)) {
-            return $documents;
+        if ($documentIds === [] && $this->httpState->wrapper()->query()->has('tos_id')) {
+            $documentIds = [$this->httpState->wrapper()->query()->retrieve(
+                'tos_id',
+                $this->refinery->kindlyTo()->int()
+            )];
+        }
+
+        if ($documentIds === []) {
+            return $documentIds;
         }
 
         $documents = ilTermsOfServiceDocument::where(
@@ -339,7 +367,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
             foreach ($documents as $document) {
                 /** @var ilTermsOfServiceDocument $document */
-                $confirmation->addItem('tos_id[]', $document->getId(), implode(' | ', [
+                $confirmation->addItem('tos_id[]', (string) $document->getId(), implode(' | ', [
                     $document->getTitle()
                 ]));
             }
@@ -360,12 +388,12 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         if (0 === ilTermsOfServiceDocument::getCollection()->count()) {
             $this->tos->saveStatus(false);
-            ilUtil::sendInfo($this->lng->txt('tos_disabled_no_docs_left'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_disabled_no_docs_left'), true);
         }
 
-        ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_p'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_deleted_documents_p'), true);
         if (1 === count($documents)) {
-            ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_s'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_deleted_documents_s'), true);
         }
     }
 
@@ -411,7 +439,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('tos_saved_sorting'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_saved_sorting'), true);
         $this->ctrl->redirect($this);
     }
 
@@ -456,10 +484,10 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         $form = $this->getCriterionForm($document, new ilTermsOfServiceDocumentCriterionAssignment());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_attached'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_doc_crit_attached'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -529,10 +557,10 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         $form = $this->getCriterionForm($document, $criterionAssignment);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_changed'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_doc_crit_changed'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -564,7 +592,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $document->detachCriterion($criterionAssignment);
         $document->update();
 
-        ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_detached'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_doc_crit_detached'), true);
         $this->ctrl->redirect($this, 'showDocuments');
     }
 }

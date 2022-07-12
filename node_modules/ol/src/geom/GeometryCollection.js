@@ -20,7 +20,7 @@ import {listen, unlistenByKey} from '../events.js';
  */
 class GeometryCollection extends Geometry {
   /**
-   * @param {Array<Geometry>=} opt_geometries Geometries.
+   * @param {Array<Geometry>} [opt_geometries] Geometries.
    */
   constructor(opt_geometries) {
     super();
@@ -151,9 +151,9 @@ class GeometryCollection extends Geometry {
     for (let i = 0, ii = geometries.length; i < ii; ++i) {
       if (geometries[i].getType() === this.getType()) {
         geometriesArray = geometriesArray.concat(
-          /** @type {GeometryCollection} */ (geometries[
-            i
-          ]).getGeometriesArrayRecursive()
+          /** @type {GeometryCollection} */ (
+            geometries[i]
+          ).getGeometriesArrayRecursive()
         );
       } else {
         geometriesArray.push(geometries[i]);
@@ -185,9 +185,8 @@ class GeometryCollection extends Geometry {
     let simplified = false;
     for (let i = 0, ii = geometries.length; i < ii; ++i) {
       const geometry = geometries[i];
-      const simplifiedGeometry = geometry.getSimplifiedGeometry(
-        squaredTolerance
-      );
+      const simplifiedGeometry =
+        geometry.getSimplifiedGeometry(squaredTolerance);
       simplifiedGeometries.push(simplifiedGeometry);
       if (simplifiedGeometry !== geometry) {
         simplified = true;
@@ -255,8 +254,8 @@ class GeometryCollection extends Geometry {
    * coordinates in place.
    * @abstract
    * @param {number} sx The scaling factor in the x-direction.
-   * @param {number=} opt_sy The scaling factor in the y-direction (defaults to sx).
-   * @param {import("../coordinate.js").Coordinate=} opt_anchor The scale origin (defaults to the center
+   * @param {number} [opt_sy] The scaling factor in the y-direction (defaults to sx).
+   * @param {import("../coordinate.js").Coordinate} [opt_anchor] The scale origin (defaults to the center
    *     of the geometry extent).
    * @api
    */

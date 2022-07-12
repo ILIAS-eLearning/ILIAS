@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Server;
 
@@ -10,34 +24,18 @@ namespace ILIAS\COPage\Editor\Server;
  */
 class UIWrapper
 {
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilLanguage $lng;
 
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
-    public function __construct(\ILIAS\DI\UIServices $ui, \ilLanguage $lng)
-    {
+    public function __construct(
+        \ILIAS\DI\UIServices $ui,
+        \ilLanguage $lng
+    ) {
         $this->ui = $ui;
         $this->lng = $lng;
         $this->lng->loadLanguageModule("copg");
     }
 
-    /**
-     * Get multi button
-     * @param string     $content
-     * @param string     $type
-     * @param string     $action
-     * @param array|null $data
-     * @return string
-     */
     public function getButton(
         string $content,
         string $type,
@@ -65,7 +63,7 @@ class UIWrapper
         return $b;
     }
 
-    public function getRenderedInfoBox($text)
+    public function getRenderedInfoBox(string $text) : string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -73,7 +71,7 @@ class UIWrapper
         return $ui->renderer()->renderAsync($m);
     }
 
-    public function getRenderedFailureBox()
+    public function getRenderedFailureBox() : string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -83,14 +81,6 @@ class UIWrapper
         return $ui->renderer()->renderAsync($m);
     }
 
-    /**
-     * Get rendered button
-     * @param string     $content
-     * @param string     $type
-     * @param string     $action
-     * @param array|null $data
-     * @return string
-     */
     public function getRenderedButton(
         string $content,
         string $type,
@@ -103,11 +93,20 @@ class UIWrapper
         return $ui->renderer()->renderAsync($b);
     }
 
-    /**
-     * Get multi actions
-     * @return string
-     */
-    public function getRenderedButtonGroups($groups)
+    public function getRenderedModalFailureBox() : string
+    {
+        $ui = $this->ui;
+        $f = $ui->factory();
+        $m = $f->messageBox()->failure($this->lng->txt("copg_error_occured_modal"))
+               ->withButtons([$f->button()->standard($this->lng->txt("copg_reload_page"), "#")->withOnLoadCode(function ($id) {
+                   return
+                       "$(\"#$id\").click(function() { location.reload(); return false;});";
+               })]);
+
+        return $ui->renderer()->renderAsync($m) . "<p>" . $this->lng->txt("copg_details") . ":</p>";
+    }
+
+    public function getRenderedButtonGroups(array $groups) : string
     {
         $ui = $this->ui;
         $r = $ui->renderer();
@@ -128,11 +127,7 @@ class UIWrapper
         return $tpl->get();
     }
 
-    /**
-     * Get rendered form footer
-     * @return string
-     */
-    public function getRenderedFormFooter($buttons)
+    public function getRenderedFormFooter(array $buttons) : string
     {
         $ui = $this->ui;
         $r = $ui->renderer();
@@ -149,13 +144,10 @@ class UIWrapper
         return $tpl->get();
     }
 
-    /**
-     * @param \ilPropertyFormGUI $form
-     * @param                    $buttons
-     * @return string
-     */
-    public function getRenderedForm(\ilPropertyFormGUI $form, $buttons)
-    {
+    public function getRenderedForm(
+        \ilPropertyFormGUI $form,
+        array $buttons
+    ) : string {
         $form->clearCommandButtons();
         $cnt = 0;
         foreach ($buttons as $button) {
@@ -177,13 +169,17 @@ class UIWrapper
 
     /**
      * Send whole page as response
-     * @return Response
+     * @param bool|array|string $updated
+     * @throws \ilDateTimeException
      */
-    public function sendPage($page_gui, $updated) : Response
-    {
+    public function sendPage(
+        \ilPageObjectGUI $page_gui,
+        $updated
+    ) : Response {
         $error = null;
-        $rendered_content = null;
+        $page_data = "";
         $last_change = null;
+        $pc_model = null;
 
         if ($updated !== true) {
             if (is_array($updated)) {
@@ -195,6 +191,7 @@ class UIWrapper
             }
         } else {
             $page_gui->setOutputMode(\ilPageObjectGUI::EDIT);
+            $page_gui->setDefaultLinkXml(); // fixes #31225
             $page_data = $page_gui->showPage();
             $pc_model = $page_gui->getPageObject()->getPCModel();
             $last_change = $page_gui->getPageObject()->getLastChange();
@@ -212,8 +209,9 @@ class UIWrapper
         return new Response($data);
     }
 
-    public function getRenderedViewControl($actions) : string
-    {
+    public function getRenderedViewControl(
+        array $actions
+    ) : string {
         $ui = $this->ui;
         $cnt = 0;
         $view_modes = [];
@@ -237,14 +235,6 @@ class UIWrapper
     }
 
 
-    /**
-     * Get multi button
-     * @param string     $content
-     * @param string     $type
-     * @param string     $action
-     * @param array|null $data
-     * @return string
-     */
     public function getLink(
         string $content,
         string $component,
@@ -272,27 +262,19 @@ class UIWrapper
         return $l;
     }
 
-    /**
-     * Get rendered button
-     * @param string     $content
-     * @param string     $type
-     * @param string     $action
-     * @param array|null $data
-     * @return string
-     */
-    public function getRenderedLink(string $content, string $component, string $type, string $action, array $data = null) : string
-    {
+    public function getRenderedLink(
+        string $content,
+        string $component,
+        string $type,
+        string $action,
+        array $data = null
+    ) : string {
         $ui = $this->ui;
         $l = $this->getLink($content, $component, $type, $action, $data);
         return $ui->renderer()->renderAsync($l);
     }
 
-    /**
-     * Get rendered icon
-     * @param
-     * @return
-     */
-    public function getRenderedIcon($type)
+    public function getRenderedIcon(string $type) : string
     {
         $ui = $this->ui;
         $f = $ui->factory();

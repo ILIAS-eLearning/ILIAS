@@ -50,7 +50,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return string
      */
-    public function getModalId()
+    public function getModalId() : string
     {
         return $this->modalId;
     }
@@ -66,7 +66,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return string
      */
-    public function getHeaderText()
+    public function getHeaderText() : string
     {
         return $this->headerText;
     }
@@ -82,7 +82,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return string
      */
-    public function getConfirmationText()
+    public function getConfirmationText() : string
     {
         return $this->confirmationText;
     }
@@ -98,7 +98,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return string
      */
-    public function getConfirmationCheckboxName()
+    public function getConfirmationCheckboxName() : string
     {
         return $this->confirmationCheckboxName;
     }
@@ -114,7 +114,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return string
      */
-    public function getConfirmationCheckboxLabel()
+    public function getConfirmationCheckboxLabel() : string
     {
         return $this->confirmationCheckboxLabel;
     }
@@ -130,7 +130,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return ilLinkButton[]
      */
-    public function getButtons()
+    public function getButtons() : array
     {
         return $this->buttons;
     }
@@ -146,7 +146,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return ilHiddenInputGUI[]
      */
-    public function getParameters()
+    public function getParameters() : array
     {
         return $this->parameters;
     }
@@ -162,7 +162,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return bool
      */
-    public function isConfirmationCheckboxRequired()
+    public function isConfirmationCheckboxRequired() : bool
     {
         return strlen($this->getConfirmationCheckboxName()) && strlen($this->getConfirmationCheckboxLabel());
     }
@@ -170,7 +170,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return string
      */
-    public function buildBody()
+    public function buildBody() : string
     {
         $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
         
@@ -201,7 +201,7 @@ class ilTestPlayerConfirmationModal
     /**
      * @return string
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         $modal = ilModalGUI::getInstance();
         $modal->setId($this->getModalId());
@@ -214,7 +214,7 @@ class ilTestPlayerConfirmationModal
      * @param string $buttonId
      * @return ilLinkButton
      */
-    public function buildModalButtonInstance($buttonId)
+    public function buildModalButtonInstance($buttonId) : ilLinkButton
     {
         $button = ilLinkButton::getInstance();
         

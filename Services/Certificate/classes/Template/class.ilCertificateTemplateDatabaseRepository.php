@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -155,7 +170,7 @@ ORDER BY id DESC
 
         return new ilCertificateTemplate(
             $objId,
-            $this->objectDataCache->lookUpType($objId),
+            $this->objectDataCache->lookupType($objId),
             '',
             '',
             '',
@@ -203,7 +218,7 @@ AND currently_active = 1
 
         $resultTemplate = new ilCertificateTemplate(
             $objId,
-            $this->objectDataCache->lookUpType($objId),
+            $this->objectDataCache->lookupType($objId),
             '',
             '',
             '',
@@ -257,7 +272,7 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
 
         $certificates = $this->fetchCertificateTemplatesByObjId($objId);
 
-        /** @var ilCertificateTemplate $previousCertificate */
+        /** @var ilCertificateTemplate|null $previousCertificate */
         $previousCertificate = null;
         foreach ($certificates as $certificate) {
             if (null === $previousCertificate) {

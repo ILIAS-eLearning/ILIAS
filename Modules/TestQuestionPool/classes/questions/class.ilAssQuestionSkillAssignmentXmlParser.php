@@ -1,10 +1,17 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Xml/classes/class.ilSaxParser.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportList.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -17,36 +24,36 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
      * @var bool
      */
     protected $parsingActive;
-    
+
     /**
      * @var string
      */
     protected $characterDataBuffer;
-    
+
     /**
      * @var integer
      */
     protected $curQuestionId;
-    
+
     /**
      * @var ilAssQuestionSkillAssignmentImport
      */
     protected $curAssignment;
-    
+
     /**
      * @var ilAssQuestionSolutionComparisonExpressionImport
      */
     protected $curExpression;
-    
+
     /**
      * @var ilAssQuestionSkillAssignmentImportList
      */
     protected $assignmentList;
-    
+
     /**
      * @param $xmlFile
      */
-    public function __construct($xmlFile)
+    public function __construct(?string $xmlFile)
     {
         $this->parsingActive = false;
         $this->characterDataBuffer = null;
@@ -56,125 +63,92 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
         $this->assignmentList = new ilAssQuestionSkillAssignmentImportList();
         return parent::__construct($xmlFile);
     }
-    
-    /**
-     * @return boolean
-     */
-    public function isParsingActive()
+
+    public function isParsingActive() : bool
     {
         return $this->parsingActive;
     }
-    
-    /**
-     * @param boolean $parsingActive
-     */
-    public function setParsingActive($parsingActive)
+
+    public function setParsingActive(bool $parsingActive) : void
     {
         $this->parsingActive = $parsingActive;
     }
-    
-    /**
-     * @return string
-     */
-    protected function getCharacterDataBuffer()
+
+    protected function getCharacterDataBuffer() : string
     {
         return $this->characterDataBuffer;
     }
-    
+
     /**
      * @param string $characterDataBuffer
      */
-    protected function resetCharacterDataBuffer()
+    protected function resetCharacterDataBuffer() : void
     {
         $this->characterDataBuffer = '';
     }
-    
-    /**
-     * @param string $characterData
-     */
-    protected function appendToCharacterDataBuffer($characterData)
+
+    protected function appendToCharacterDataBuffer(string $characterData) : void
     {
         $this->characterDataBuffer .= $characterData;
     }
-    
-    /**
-     * @return int
-     */
-    public function getCurQuestionId()
+
+    public function getCurQuestionId() : int
     {
         return $this->curQuestionId;
     }
-    
-    /**
-     * @param int $curQuestionId
-     */
-    public function setCurQuestionId($curQuestionId)
+
+    public function setCurQuestionId(?int $curQuestionId) : void
     {
-        $this->curQuestionId = $curQuestionId;
+        $this->curQuestionId = (int)$curQuestionId;
     }
-    
-    /**
-     * @return ilAssQuestionSkillAssignmentImport
-     */
-    public function getCurAssignment()
+
+    public function getCurAssignment() : \ilAssQuestionSkillAssignmentImport
     {
         return $this->curAssignment;
     }
-    
-    /**
-     * @param ilAssQuestionSkillAssignmentImport $curAssignment
-     */
-    public function setCurAssignment($curAssignment)
+
+    public function setCurAssignment(\ilAssQuestionSkillAssignmentImport $curAssignment) : void
     {
         $this->curAssignment = $curAssignment;
     }
-    
-    /**
-     * @return ilAssQuestionSkillAssignmentImportList
-     */
-    public function getAssignmentList()
+
+    public function getAssignmentList() : \ilAssQuestionSkillAssignmentImportList
     {
         return $this->assignmentList;
     }
-    
-    /**
-     * @return ilAssQuestionSolutionComparisonExpressionImport
-     */
-    public function getCurExpression()
+
+    public function getCurExpression() : \ilAssQuestionSolutionComparisonExpressionImport
     {
         return $this->curExpression;
     }
-    
-    /**
-     * @param ilAssQuestionSolutionComparisonExpressionImport $curExpression
-     */
-    public function setCurExpression($curExpression)
+
+    public function setCurExpression(\ilAssQuestionSolutionComparisonExpressionImport $curExpression) : void
     {
         $this->curExpression = $curExpression;
     }
-    
-    public function setHandlers($xmlParser)
+
+    public function setHandlers($a_xml_parser) : void
     {
-        xml_set_object($xmlParser, $this);
-        xml_set_element_handler($xmlParser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($xmlParser, 'handlerCharacterData');
+        xml_set_object($a_xml_parser, $this);
+        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
+        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
-    
-    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes)
+
+    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes) : void
     {
         if ($tagName != 'QuestionSkillAssignments' && !$this->isParsingActive()) {
             return;
         }
-        
+
         switch ($tagName) {
             case 'QuestionSkillAssignments':
                 $this->setParsingActive(true);
                 break;
-            
+
             case 'TriggerQuestion':
                 $this->setCurQuestionId((int) $tagAttributes['Id']);
                 break;
-            
+
             case 'TriggeredSkill':
                 $assignment = new ilAssQuestionSkillAssignmentImport();
                 $assignment->setImportQuestionId($this->getCurQuestionId());
@@ -193,11 +167,11 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
                 $this->getCurAssignment()->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT);
                 $this->getCurAssignment()->setSkillPoints((int) $tagAttributes['Points']);
                 break;
-            
+
             case 'EvalByQuestionSolution':
                 $this->getCurAssignment()->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION);
                 break;
-            
+
             case 'SolutionComparisonExpression':
                 $expression = new ilAssQuestionSolutionComparisonExpressionImport();
                 $expression->setPoints((int) $tagAttributes['Points']);
@@ -207,32 +181,32 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
                 break;
         }
     }
-    
-    public function handlerEndTag($xmlParser, $tagName)
+
+    public function handlerEndTag($xmlParser, $tagName) : void
     {
         if (!$this->isParsingActive()) {
             return;
         }
-        
+
         switch ($tagName) {
             case 'QuestionSkillAssignments':
                 $this->setParsingActive(false);
                 break;
-            
+
             case 'TriggerQuestion':
                 $this->setCurQuestionId(null);
                 break;
-            
+
             case 'TriggeredSkill':
                 $this->getAssignmentList()->addAssignment($this->getCurAssignment());
                 $this->setCurAssignment(null);
                 break;
-            
+
             case 'OriginalSkillTitle':
                 $this->getCurAssignment()->setImportSkillTitle($this->getCharacterDataBuffer());
                 $this->resetCharacterDataBuffer();
                 break;
-            
+
             case 'OriginalSkillPath':
                 $this->getCurAssignment()->setImportSkillPath($this->getCharacterDataBuffer());
                 $this->resetCharacterDataBuffer();
@@ -250,17 +224,17 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
                 break;
         }
     }
-    
-    public function handlerCharacterData($xmlParser, $charData)
+
+    public function handlerCharacterData($xmlParser, $charData) : void
     {
         if (!$this->isParsingActive()) {
             return;
         }
-        
+
         if ($charData != "\n") {
             // Replace multiple tabs with one space
             $charData = preg_replace("/\t+/", " ", $charData);
-            
+
             $this->appendToCharacterDataBuffer($charData);
         }
     }

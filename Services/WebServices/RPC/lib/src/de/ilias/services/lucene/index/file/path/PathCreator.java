@@ -25,9 +25,10 @@ package de.ilias.services.lucene.index.file.path;
 import java.io.File;
 import java.sql.ResultSet;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.ilias.services.lucene.index.CommandQueueElement;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -37,7 +38,7 @@ import de.ilias.services.lucene.index.CommandQueueElement;
  */
 public interface PathCreator {
 
-	public static Logger logger = Logger.getLogger(PathCreator.class);
+	public static Logger logger = LogManager.getLogger(PathCreator.class);
 	
 	
 	/**

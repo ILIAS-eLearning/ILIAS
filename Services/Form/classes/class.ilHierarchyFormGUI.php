@@ -1,6 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP;
+use ILIAS\Refinery;
 
 /**
  * This class represents a hierarchical form. These forms are used for
@@ -10,35 +27,36 @@
  */
 class ilHierarchyFormGUI extends ilFormGUI
 {
+    protected string $exp_target_script = "";
+    protected string $icon = "";
+    protected string $exp_id = "";
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected string $expand_variable = "";
     protected ?array $white_list = null;
-    protected ?array $highlighted_nodes = null;
+    protected array $highlighted_nodes = [];
     protected string $focus_id = "";
     protected string $exp_frame = "";
-    protected $triggered_update_command;
+    protected string $triggered_update_command = "";
     protected array $drag_target = [];
     protected array $drag_content = [];
     protected object $parent_obj;
-    protected string $parent_cmd;
+    protected string $parent_cmd = "";
     protected ilTree $tree;
-    protected string $currenttopnodeid;
-    protected string $title;
-    protected string $checkboxname;
-    protected string $dragicon;
-    protected int $maxdepth;
-    protected array $help_items;
-    protected array $diss_menues;
-    protected array $multi_commands;
-    protected array $commands;
-    protected array $expanded;
+    protected int $currenttopnodeid = 0;
+    protected string $title = "";
+    protected string $checkboxname = "";
+    protected string $dragicon = "";
+    protected int $maxdepth = 0;
+    protected array $help_items = [];
+    protected array $diss_menues = [];
+    protected array $multi_commands = [];
+    protected array $commands = [];
+    protected array $expanded = [];
+    protected HTTP\Services $http;
+    protected Refinery\Factory $refinery;
 
-    /**
-    * Constructor
-    *
-    * @param
-    */
+
     public function __construct()
     {
         global $DIC;
@@ -59,242 +77,149 @@ class ilHierarchyFormGUI extends ilFormGUI
         
         ilYuiUtil::initDragDrop();
         $tpl->addJavascript("./Services/Form/js/ServiceFormHierarchyForm.js");
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
-    /**
-    * Set parent gui object/cmd
-    *
-    * This is needed, if the expand feature is used.
-    */
-    public function setParentCommand($a_parent_obj, $a_parent_cmd)
-    {
+    public function setParentCommand(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) : void {
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
     }
     
-    /**
-    * Get Parent object
-    *
-    * @return	object		parent gui object
-    */
-    public function getParentObject()
+    public function getParentObject() : object
     {
         return $this->parent_obj;
     }
     
-    /**
-    * Get parent command
-    *
-    * @return	string		parent command
-    */
-    public function getParentCommand()
+    public function getParentCommand() : string
     {
         return $this->parent_cmd;
     }
 
     /**
-    * Set Id. Currently not possible, due to js handling (ID must always be "hform")
-    *
-    * @param	string	$a_id	Id
-    */
-    public function setId($a_id)
+     * @throws ilException
+     */
+    public function setId(string $a_id) : void
     {
-        die("ilHierarchyFormGUI does currently not support multiple forms (multiple IDs). ID is always hform.");
+        throw new ilException("ilHierarchyFormGUI does currently not support multiple forms (multiple IDs). ID is always hform.");
     }
 
-    /**
-    * Get Id.
-    *
-    * @return	string	Id
-    */
-    public function getId()
+    public function getId() : string
     {
         return "hform";
     }
 
-    /**
-     * Set Tree Object.
-     * @param ilTree $a_tree
-     */
-    public function setTree(ilTree $a_tree)
+    public function setTree(ilTree $a_tree) : void
     {
         $this->tree = $a_tree;
     }
 
-    /**
-     * Get Tree Object.
-     * @return ilTree
-     */
     public function getTree() : ilTree
     {
         return $this->tree;
     }
 
-    /**
-    * Set Current Top Node ID.
-    *
-    * @param	string	$a_currenttopnodeid	Current Top Node ID
-    */
-    public function setCurrentTopNodeId($a_currenttopnodeid)
+    public function setCurrentTopNodeId(int $a_currenttopnodeid) : void
     {
         $this->currenttopnodeid = $a_currenttopnodeid;
     }
 
-    /**
-    * Get Current Top Node ID.
-    *
-    * @return	string	Current Top Node ID
-    */
-    public function getCurrentTopNodeId()
+    public function getCurrentTopNodeId() : int
     {
         return $this->currenttopnodeid;
     }
 
-    /**
-    * Set Title.
-    *
-    * @param	string	$a_title	Title
-    */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-    * Get Title.
-    *
-    * @return	string	Title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * Set Icon.
-    *
-    * @param	string	$a_icon	Icon
-    */
-    public function setIcon($a_icon)
+    public function setIcon(string $a_icon) : void
     {
         $this->icon = $a_icon;
     }
 
-    /**
-    * Get Icon.
-    *
-    * @return	string	Icon
-    */
-    public function getIcon()
+    public function getIcon() : string
     {
         return $this->icon;
     }
 
-    /**
-    * Set Checkbox Name.
-    *
-    * @param	string	$a_checkboxname	Checkbox Name
-    */
-    public function setCheckboxName($a_checkboxname)
+    public function setCheckboxName(string $a_checkboxname) : void
     {
         $this->checkboxname = $a_checkboxname;
     }
 
-    /**
-    * Get Checkbox Name.
-    *
-    * @return	string	Checkbox Name
-    */
-    public function getCheckboxName()
+    public function getCheckboxName() : string
     {
         return $this->checkboxname;
     }
 
-    /**
-     * Set Drag Icon Path.
-     * @param string $a_dragicon
-     */
     public function setDragIcon(string $a_dragicon) : void
     {
         $this->dragicon = $a_dragicon;
     }
 
-    /**
-     * Get Drag Icon Path.
-     * @return	string	Drag Icon Path
-     */
     public function getDragIcon() : string
     {
         return $this->dragicon;
     }
 
-    /**
-    * Set Maximum Depth.
-    *
-    * @param	int	$a_maxdepth	Maximum Depth
-    */
-    public function setMaxDepth($a_maxdepth)
+    public function setMaxDepth(int $a_maxdepth) : void
     {
         $this->maxdepth = $a_maxdepth;
     }
 
-    /**
-    * Get Maximum Depth.
-    *
-    * @return	int	Maximum Depth
-    */
-    public function getMaxDepth()
+    public function getMaxDepth() : int
     {
         return $this->maxdepth;
     }
 
-    /**
-    * Set Explorer Updater
-    *
-    * @param	object	$a_tree	Tree Object
-    */
-    public function setExplorerUpdater($a_exp_frame, $a_exp_id, $a_exp_target_script)
-    {
+    public function setExplorerUpdater(
+        string $a_exp_frame,
+        string $a_exp_id,
+        string $a_exp_target_script
+    ) : void {
         $this->exp_frame = $a_exp_frame;
         $this->exp_id = $a_exp_id;
         $this->exp_target_script = $a_exp_target_script;
     }
     
-    /**
-    * Set Explorer Updater
-    *
-    * @param	object	$a_tree	Tree Object
-    */
-    public function setTriggeredUpdateCommand($a_triggered_update_command)
-    {
+    public function setTriggeredUpdateCommand(
+        string $a_triggered_update_command
+    ) : void {
         $this->triggered_update_command = $a_triggered_update_command;
     }
 
-    /**
-    * Get all help items
-    */
-    public function addHelpItem($a_text, $a_image = "")
-    {
+    public function addHelpItem(
+        string $a_text,
+        string $a_image = ""
+    ) : void {
         $this->help_items[] = array("text" => $a_text,
             "image" => $a_image);
     }
 
-    /**
-    * Get all help items
-    */
-    public function getHelpItems()
+    public function getHelpItems() : array
     {
         return $this->help_items;
     }
     
-    /**
-    * Makes a nodes (following droparea) a drag target
-    *
-    * @param	string	$a_id		node ID
-    * @param	string	$a_group	drag and drop group
-    */
-    public function makeDragTarget($a_id, $a_group, $a_first_child_drop_area = false, $a_as_subitem = false, $a_diss_text = "")
-    {
+    // Makes a nodes (following droparea) a drag target
+    public function makeDragTarget(
+        string $a_id,
+        string $a_group,
+        bool $a_first_child_drop_area = false,
+        bool $a_as_subitem = false,
+        string $a_diss_text = ""
+    ) : void {
         if ($a_first_child_drop_area == true) {		// first child drop areas only insert as subitems
             $a_as_subitem = true;
         }
@@ -309,183 +234,150 @@ class ilHierarchyFormGUI extends ilFormGUI
         }
     }
     
-    /**
-    * Makes a node a drag content
-    *
-    * @param	string	$a_id		node ID
-    * @param	string	$a_group	drag and drop group
-    */
-    public function makeDragContent($a_id, $a_group)
-    {
+    // Makes a node a drag content
+    public function makeDragContent(
+        string $a_id,
+        string $a_group
+    ) : void {
         if ($a_id != "") {
             $this->drag_content[] = array("id" => $a_id, "group" => $a_group);
         }
     }
 
-    /**
-    * Add a multi command (for selection of items)
-    *
-    * @param	string	$a_txt	command text
-    * @param	string	$a_cmd	command
-    */
-    public function addMultiCommand($a_txt, $a_cmd)
-    {
+    // Add a multi command (for selection of items)
+    public function addMultiCommand(
+        string $a_txt,
+        string $a_cmd
+    ) : void {
         $this->multi_commands[] = array("text" => $a_txt, "cmd" => $a_cmd);
     }
 
-    /**
-    * Add a command
-    *
-    * @param	string	$a_txt	command text
-    * @param	string	$a_cmd	command
-    */
-    public function addCommand($a_txt, $a_cmd)
-    {
+    public function addCommand(
+        string $a_txt,
+        string $a_cmd
+    ) : void {
         $this->commands[] = array("text" => $a_txt, "cmd" => $a_cmd);
     }
     
-    /**
-    * Set highlighted nodes
-    *
-    * @param	array		highlighted nodes
-    */
-    public function setHighlightedNodes($a_val)
-    {
+    public function setHighlightedNodes(
+        array $a_val
+    ) : void {
         $this->highlighted_nodes = $a_val;
     }
     
-    /**
-    * Get highlighted nodes.
-    *
-    * @return	array		highlighted nodes
-    */
-    public function getHighlightedNodes()
+    public function getHighlightedNodes() : array
     {
         return $this->highlighted_nodes;
     }
-    
-    /**
-    * Set focus if
-    *
-    * @param	int		node id
-    */
-    public function setFocusId($a_val)
+
+    public function setFocusId(string $a_val) : void
     {
         $this->focus_id = $a_val;
     }
     
-    /**
-    * Get focus id
-    *
-    * @return	int		node id
-    */
-    public function getFocusId()
+    public function getFocusId() : string
     {
         return $this->focus_id;
     }
-    
-    /**
-    * Set expand variable
-    *
-    * @param
-    */
-    public function setExpandVariable($a_val)
+
+    public function setExpandVariable(string $a_val) : void
     {
         $this->expand_variable = $a_val;
     }
-    
-    /**
-    * Get expand variable
-    *
-    * @return
-    */
-    public function getExpandVariable()
+
+    public function getExpandVariable() : string
     {
         return $this->expand_variable;
     }
     
-    /**
-     * Set expanded Array
-     * @param array $a_val
-     */
     public function setExpanded(array $a_val) : void
     {
         $this->expanded = $a_val;
     }
     
-    /**
-     * Get expanded array
-     * @return array
-     */
     public function getExpanded() : array
     {
         return $this->expanded;
     }
-    
-    /**
-    * Update expand information in session
-    *
-    * @param	string		node id
-    */
-    public function updateExpanded()
+
+    protected function str($key) : string
+    {
+        return self::_str($key);
+    }
+
+    protected static function _str($key) : string
+    {
+        global $DIC;
+
+        $w = $DIC->http()->wrapper();
+        $t = $DIC->refinery()->kindlyTo()->string();
+
+        if (!$w->post()->has($key) && !$w->query()->has($key)) {
+            return "";
+        }
+
+        $val = (string) ($w->post()->retrieve($key, $t) ?? "");
+
+        if ($val == "") {
+            $val = (string) ($w->query()->retrieve($key, $t) ?? "");
+        }
+        return ilUtil::stripSlashes($val);
+    }
+
+
+    public function updateExpanded() : void
     {
         $ev = $this->getExpandVariable();
-
+        $node_id = 0;
         if ($ev == "") {
             return;
         }
         
         // init empty session
-        if (!is_array($_SESSION[$ev])) {
-            $_SESSION[$ev] = array($this->getTree()->getRootId());
+        if (!is_array(ilSession::get($ev))) {
+            ilSession::set($ev, array($this->getTree()->getRootId()));
         }
 
-        if ($_POST["il_hform_expand"] != "") {
-            $node_id = $_POST["il_hform_expand"];
+        if ($this->str("il_hform_expand") != "") {
+            $node_id = $this->str("il_hform_expand");
         }
-        if ($_GET[$ev] != "") {
-            $node_id = $_GET[$ev];
+        if ($this->str($ev) != "") {
+            $node_id = $this->str($ev);
         }
         
         // if positive => expand this node
-        if ($node_id > 0 && !in_array($node_id, $_SESSION[$ev])) {
-            array_push($_SESSION[$ev], $node_id);
+        if ($node_id > 0 && !in_array($node_id, ilSession::get($ev))) {
+            $nodes = ilSession::get($ev);
+            $nodes[] = $node_id;
+            ilSession::set($ev, $nodes);
         }
         // if negative => compress this node
         if ($node_id < 0) {
-            $key = array_keys($_SESSION[$ev], -(int) $node_id);
-            unset($_SESSION[$ev][$key[0]]);
+            $key = array_keys(ilSession::get($ev), -(int) $node_id);
+            $nodes = ilSession::get($ev);
+            unset($nodes[$ev][$key[0]]);
+            ilSession::set($ev, $nodes);
         }
-        $this->setExpanded($_SESSION[$ev]);
+        $this->setExpanded(ilSession::get($ev));
     }
 
-    /**
-     * Set type whitelist
-     *
-     * @param array $a_val white list of types
-     */
-    public function setTypeWhiteList($a_val)
+    public function setTypeWhiteList(array $a_val) : void
     {
         $this->white_list = $a_val;
     }
     
-    /**
-     * Get type whitelist
-     *
-     * @return array white list of types
-     */
-    public function getTypeWhiteList()
+    public function getTypeWhiteList() : array
     {
         return $this->white_list;
     }
 
     /**
-    * Get all childs of current node. Standard implementation uses
-    * tree object.
-    */
-    public function getChilds($a_node_id = false)
+     * Get all childs of current node. Standard implementation uses
+     * tree object.
+     */
+    public function getChilds(?int $a_node_id = null) : array
     {
-        if ($a_node_id == false) {
+        if ($a_node_id == null) {
             $a_node_id = $this->getCurrentTopNodeId();
         }
         
@@ -504,13 +396,12 @@ class ilHierarchyFormGUI extends ilFormGUI
         return $childs;
     }
     
-    /**
-    * Get Form Content
-    */
-    public function getContent()
+    public function getContent() : string
     {
         $lng = $this->lng;
-        
+        $single = false;
+        $multi = false;
+
         if ($this->getExpandVariable() != "") {
             $this->updateExpanded();
         }
@@ -518,11 +409,11 @@ class ilHierarchyFormGUI extends ilFormGUI
         $ttpl = new ilTemplate("tpl.hierarchy_form.html", true, true, "Services/Form");
         $ttpl->setVariable("TXT_SAVING", $lng->txt("saving"));
         $top_node_data = $this->getTree()->getNodeData($this->getCurrentTopNodeId());
-        $top_node = array("node_id" => $top_node_data["child"],
-                "title" => $top_node_data["title"],
-                "type" => $top_node_data["type"]);
+        $top_node = array("node_id" => $top_node_data["child"] ?? 0,
+                "title" => $top_node_data["title"] ?? "",
+                "type" => $top_node_data["type"] ?? "");
 
-        $childs = null;
+        $childs = [];
         $nodes_html = $this->getLevelHTML($top_node, 0, $childs);
 
 
@@ -669,12 +560,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         return $ttpl->get();
     }
 
-    /**
-     * Get Legend
-     *
-     * @return string legend html
-     */
-    public function getLegend()
+    public function getLegend() : string
     {
         $lng = $this->lng;
 
@@ -715,22 +601,19 @@ class ilHierarchyFormGUI extends ilFormGUI
         return $ttpl->get();
     }
 
-
-    /**
-    * Get Form HTML
-    */
-    public function getLevelHTML($a_par_node, $a_depth, &$a_childs)
-    {
+    public function getLevelHTML(
+        array $a_par_node,
+        int $a_depth,
+        array &$a_childs
+    ) : string {
         $lng = $this->lng;
         
         if ($this->getMaxDepth() > -1 && $this->getMaxDepth() < $a_depth) {
             return "";
         }
 
-        $childs = $this->getChilds($a_par_node["node_id"]);
+        $childs = $this->getChilds((int) $a_par_node["node_id"]);
         $a_childs = $childs;
-        $html = "";
-        $last_child = null;
         $ttpl = new ilTemplate("tpl.hierarchy_form_nodes.html", true, true, "Services/Form");
 
         // prepended drop area
@@ -797,9 +680,9 @@ class ilHierarchyFormGUI extends ilFormGUI
         
         // insert childs
         if (count($childs) > 0) {
-            for ($i = 0; $i < count($childs); $i++) {
+            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                 $next_sibling = ($i < (count($childs) - 1))
-                    ? $next_sibling = $childs[$i + 1]
+                    ? $childs[$i + 1]
                     : null;
 
                 $this->renderChild($ttpl, $childs[$i], $a_depth, $next_sibling);
@@ -813,10 +696,14 @@ class ilHierarchyFormGUI extends ilFormGUI
     }
     
     /**
-    * Render a single child (including grandchilds)
-    */
-    public function renderChild($a_tpl, $a_child, $a_depth, $next_sibling = null)
-    {
+     * Render a single child (including grandchilds)
+     */
+    public function renderChild(
+        ilTemplate $a_tpl,
+        array $a_child,
+        int $a_depth,
+        ?array $next_sibling = null
+    ) {
         $ilCtrl = $this->ctrl;
         
         // image
@@ -858,10 +745,10 @@ class ilHierarchyFormGUI extends ilFormGUI
         if (is_array($hl) && in_array($a_child["node_id"], $hl)) {
             $a_tpl->setVariable("CLASS", ' class="ilHFormHighlighted" ');
         }
-        $a_tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->getChildTitle($a_child)));
+        $a_tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->getChildTitle($a_child)));
         $a_tpl->setVariable("TNODE_ID", $a_child["node_id"]);
         $a_tpl->parseCurrentBlock();
-        $grandchilds = null;
+        $grandchilds = [];
         $grandchilds_html = $this->getLevelHTML($a_child, $a_depth + 1, $grandchilds);
         
         // focus
@@ -978,84 +865,58 @@ class ilHierarchyFormGUI extends ilFormGUI
         $a_tpl->parseCurrentBlock();
     }
     
-    /**
-    * Get icon path for an item.
-    *
-    * @param	array		item array
-    * @return	string		icon path
-    */
-    public function getChildIcon($a_item)
+    public function getChildIcon(array $a_item) : string
     {
         return ilUtil::getImagePath("icon_" . $a_item["type"] . ".svg");
     }
     
-    /**
-    * Get icon alt text for an item.
-    *
-    * @param	array		item array
-    * @return	string		icon alt text
-    */
-    public function getChildIconAlt($a_item)
+    public function getChildIconAlt(array $a_item) : string
     {
         $lng = $this->lng;
         
         return $lng->txt($a_item["type"]);
     }
 
-    /**
-     * Get item commands
-     * @param array $a_item
-     * @return array
-     */
     public function getChildCommands(array $a_item) : array
     {
         return [];
     }
 
-    /**
-     * Get child title
-     *
-     * @param array $a_child node array
-     * @return string node title
-     */
     public function getChildTitle(array $a_child) : string
     {
         return $a_child["title"];
     }
     
-    /**
-     * Get child info
-     *
-     * @param array $a_child node array
-     * @return string node title
-     */
-    public function getChildInfo($a_child)
+    public function getChildInfo(array $a_child) : string
     {
         return "";
     }
     
     /**
-    * Get menu items for drop area of node.
-    *
-    * This function will be most likely overwritten by sub class
-    *
-    * @param	array	$a_child		node array ("title", "node_id", "type")
-    * @param	boolean	$a_first_child	if false, the menu of the drop area
-    *									right after the node (same level) is set
-    *									if true, the menu of the drop area before
-    *									the first child (if nodes are allowed)
-    *									of the node is set
-    */
-    public function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
-    {
+     * Get menu items for drop area of node.
+     * This function will be most likely overwritten by sub class
+     * @param	array $a_node            node array ("title", "node_id", "type")
+     * @param bool     $a_first_child     if false, the menu of the drop area
+     *									right after the node (same level) is set
+     *									if true, the menu of the drop area before
+     *									the first child (if nodes are allowed)
+     *									of the node is set
+     */
+    public function getMenuItems(
+        array $a_node,
+        int $a_depth,
+        bool $a_first_child = false,
+        ?array $a_next_sibling = null,
+        ?array $a_childs = null
+    ) : array {
         return array();
     }
     
     /**
-    * Checks, whether current nodes allows childs at all.
-    * Should be overwritten.
-    */
-    public function nodeAllowsChilds($a_node)
+     * Checks, whether current nodes allows childs at all.
+     * Should be overwritten.
+     */
+    public function nodeAllowsChilds(array $a_node) : bool
     {
         return true;
     }
@@ -1063,64 +924,57 @@ class ilHierarchyFormGUI extends ilFormGUI
     /**
     * Makes nodes drag and drop content and targets.
     * Must be overwritten to support drag and drop.
-    *
-    * @param	object	$a_node		node array
+    * @param	array $a_node node array
     */
-    public function manageDragAndDrop($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
-    {
+    public function manageDragAndDrop(
+        array $a_node,
+        int $a_depth,
+        bool $a_first_child = false,
+        ?array $a_next_sibling = null,
+        ?array $a_childs = null
+    ) : void {
         //$this->makeDragTarget($a_node["id"], $a_group);
         //$this->makeDragTarget($a_node["id"], $a_group);
     }
 
     /**
-    * Get multi number of _POST input
-    */
-    public static function getPostMulti()
+     * Get multi number of _POST input
+     */
+    public static function getPostMulti() : int
     {
-        return (int) ($_POST["il_hform_multi"] > 1
-            ? $_POST["il_hform_multi"]
-            : 1);
+        return max(1, (int) self::_str("il_hform_multi"));
     }
     
     /**
-    * Get node ID of _POST input
-    */
-    public static function getPostNodeId()
-    {
-        return $_POST["il_hform_node"];
-    }
-
-    /**
-    * Should node be inserted as first child of target node (true) or as successor (false)
-    */
-    public static function getPostFirstChild()
-    {
-        return (((int) $_POST["il_hform_fc"]) == 1);
-    }
-
-    /**
-     * Get HTML
-     *
-     * @param
-     * @return
+     * Get node ID of _POST input
      */
-    public function getHTML()
+    public static function getPostNodeId() : string
+    {
+        return self::_str("il_hform_node");
+    }
+
+    /**
+     * Should node be inserted as first child of target node (true) or as successor (false)
+     */
+    public static function getPostFirstChild() : bool
+    {
+        return ((int) self::_str("il_hform_fc") == 1);
+    }
+
+    public function getHTML() : string
     {
         return parent::getHTML() . $this->getLegend();
     }
 
-    /**
-     * Get all post fields
-     */
-    public static function getPostFields()
+    public static function getPostFields() : array
     {
         return array(
-            "il_hform_node" => $_POST["il_hform_node"],
-            "il_hform_fc" => $_POST["il_hform_fc"],
-            "il_hform_as_subitem" => $_POST["il_hform_as_subitem"],
-            "il_hform_multi" => $_POST["il_hform_multi"],
-            "il_hform_source_id" => $_POST["il_hform_source_id"],
-            "il_hform_target_id" => $_POST["il_hform_target_id"]
+            "il_hform_node" => self::_str("il_hform_node"),
+            "il_hform_fc" => self::_str("il_hform_fc"),
+            "il_hform_as_subitem" => self::_str("il_hform_as_subitem"),
+            "il_hform_multi" => self::_str("il_hform_multi"),
+            "il_hform_source_id" => self::_str("il_hform_source_id"),
+            "il_hform_target_id" => self::_str("il_hform_target_id")
         );
     }
 }

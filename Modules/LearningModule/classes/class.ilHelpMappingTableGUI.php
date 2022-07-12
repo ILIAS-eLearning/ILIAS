@@ -1,39 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Help mapping
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHelpMappingTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    public $online_help_mode = false;
+    protected bool $validation;
+    protected ilAccessHandler $access;
+    public bool $online_help_mode = false;
     
-    
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_validation = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        bool $a_validation = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
         $lng = $DIC->language();
 
         $this->setId("lm_help_map");
@@ -56,13 +60,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
         $this->addCommandButton("saveHelpMapping", $lng->txt("save"));
     }
     
-    /**
-     * Get chapters
-     *
-     * @param
-     * @return
-     */
-    public function getChapters()
+    public function getChapters() : void
     {
         $hc = ilSession::get("help_chap");
         $lm_tree = $this->parent_obj->object->getTree();
@@ -80,10 +78,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
     }
     
 
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 
@@ -94,7 +89,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable(
             "SCREEN_IDS",
-            ilUtil::prepareFormOutput(implode("\n", $screen_ids))
+            ilLegacyFormElementsUtil::prepareFormOutput(implode("\n", $screen_ids))
         );
     }
 }

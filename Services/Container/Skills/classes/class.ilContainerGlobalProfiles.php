@@ -26,8 +26,8 @@ class ilContainerGlobalProfiles
 {
     protected ilDBInterface $db;
     protected array $profiles = [];
-    protected int $obj_id;
-    protected int $mem_rol_id;
+    protected int $obj_id = 0;
+    protected int $mem_rol_id = 0;
 
     public function __construct(int $a_obj_id)
     {
@@ -71,9 +71,9 @@ class ilContainerGlobalProfiles
 
     public function addProfile(int $a_profile_id) : void
     {
-        $this->profiles[$a_profile_id] = array(
+        $this->profiles[$a_profile_id] = [
             "profile_id" => $a_profile_id
-        );
+        ];
     }
 
     public function removeProfile(int $a_profile_id) : void

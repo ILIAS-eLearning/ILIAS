@@ -1,16 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 class ButtonFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array( "standard" => array("context" => false)
-        , "close" => array("context" => false)
-        , "shy" => array("context" => false)
-        , "tag" => array("context" => false)
-        , "bulky" => array("context" => false)
-        , "toggle" => array("context" => false)
-        );
+    public array $kitchensink_info_settings = [
+        "standard" => ["context" => false],
+        "close" => ["context" => false],
+        "minimize" => ["context" => false],
+        "shy" => ["context" => false],
+        "tag" => ["context" => false],
+        "bulky" => ["context" => false],
+        "toggle" => ["context" => false]
+    ];
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Button\\Factory';
+    public string $factory_title = 'ILIAS\\UI\\Component\\Button\\Factory';
 }

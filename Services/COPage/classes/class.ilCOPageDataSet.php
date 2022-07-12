@@ -1,67 +1,55 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * COPage Data set class
- *
  * This class implements the following entities:
  * - pgtp: page layout template
- *
  * Please note that the usual page xml export DOES NOT use the dataset.
  * The page export uses pre-existing methods to create the xml.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilCOPageDataSet extends ilDataSet
 {
-    protected $master_lang_only = false;
+    protected ilPageLayout $current_obj;
+    protected bool $master_lang_only = false;
 
-    /**
-     * Set master language only
-     *
-     * @param bool $a_val export only master language
-     */
-    public function setMasterLanguageOnly($a_val)
+    public function setMasterLanguageOnly(bool $a_val) : void
     {
         $this->master_lang_only = $a_val;
     }
 
-    /**
-     * Get master language only
-     *
-     * @return bool export only master language
-     */
-    public function getMasterLanguageOnly()
+    public function getMasterLanguageOnly() : bool
     {
         return $this->master_lang_only;
     }
 
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
     public function getSupportedVersions() : array
     {
         return array("4.2.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Services/COPage/" . $a_entity;
+        return "https://www.ilias.de/xml/Services/COPage/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         // pgtp: page layout template
@@ -76,13 +64,9 @@ class ilCOPageDataSet extends ilDataSet
                         "StyleId" => "integer");
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $db = $this->db;
@@ -117,16 +101,6 @@ class ilCOPageDataSet extends ilDataSet
         return [];
     }
     
-    ////
-    //// Needs abstraction (interface?) and version handling
-    ////
-    
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
     public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
     {
         switch ($a_entity) {

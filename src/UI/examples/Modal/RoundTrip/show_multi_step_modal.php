@@ -1,27 +1,36 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Modal\RoundTrip;
+
+use ILIAS\UI\Implementation\Component\ReplaceSignal;
 
 function show_multi_step_modal()
 {
     global $DIC;
     $f = $DIC->ui()->factory();
     $r = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     $url = $_SERVER['REQUEST_URI'];
 
-    $page = isset($_GET["page"]) ? $_GET["page"] : "";
+    $page = "";
+    if ($request_wrapper->has('page')) {
+        $page = $request_wrapper->retrieve('page', $refinery->kindlyTo()->string());
+    }
     if ($page == "") {
         $modal = $f->modal()->roundtrip("Modal Title", $f->legacy("b"));
         $asyncUrl = $url . '&page=login&replaceSignal=' . $modal->getReplaceSignal()->getId();
         $modal = $modal->withAsyncRenderUrl($asyncUrl);
         $button = $f->button()->standard("Sign In", '#')
             ->withOnClick($modal->getShowSignal());
-        $content = $r->render([$modal, $button]);
-        return $content;
+        return $r->render([$modal, $button]);
     } else {
-        $signalId = isset($_GET["replaceSignal"]) ? $_GET["replaceSignal"] : "";
-        $replaceSignal = new \ILIAS\UI\Implementation\Component\ReplaceSignal($signalId);
+        $signalId = "";
+        if ($request_wrapper->has('replaceSignal')) {
+            $signalId = $request_wrapper->retrieve('replaceSignal', $refinery->kindlyTo()->string());
+        }
+        $replaceSignal = new ReplaceSignal($signalId);
         $button1 = $f->button()->standard('Login', '#')
             ->withOnClick($replaceSignal->withAsyncRenderUrl($url . '&page=login&replaceSignal=' . $replaceSignal->getId()));
         $button2 = $f->button()->standard('Registration', '#')

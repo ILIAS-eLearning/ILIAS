@@ -10,34 +10,16 @@
  */
 class ilAssQuestionUserSolutionAdopter
 {
-    /**
-     * @var ressource
-     */
     protected static $preparedDeleteSolutionRecordsStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedSelectSolutionRecordsStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedInsertSolutionRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedDeleteResultRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedSelectResultRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedInsertResultRecordStatement = null;
 
     /**
@@ -92,7 +74,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUserId() : ?int
     {
         return $this->userId;
     }
@@ -100,7 +82,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @param int $userId
      */
-    public function setUserId($userId)
+    public function setUserId($userId) : void
     {
         $this->userId = $userId;
     }
@@ -108,7 +90,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @return int
      */
-    public function getActiveId()
+    public function getActiveId() : ?int
     {
         return $this->activeId;
     }
@@ -116,7 +98,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @param int $activeId
      */
-    public function setActiveId($activeId)
+    public function setActiveId($activeId) : void
     {
         $this->activeId = $activeId;
     }
@@ -124,7 +106,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @return int
      */
-    public function getTargetPass()
+    public function getTargetPass() : ?int
     {
         return $this->targetPass;
     }
@@ -132,7 +114,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @param int $targetPass
      */
-    public function setTargetPass($targetPass)
+    public function setTargetPass($targetPass) : void
     {
         $this->targetPass = $targetPass;
     }
@@ -140,7 +122,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @return array
      */
-    public function getQuestionIds()
+    public function getQuestionIds() : array
     {
         return $this->questionIds;
     }
@@ -148,12 +130,12 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @param array $questionIds
      */
-    public function setQuestionIds($questionIds)
+    public function setQuestionIds($questionIds) : void
     {
         $this->questionIds = $questionIds;
     }
     
-    public function perform()
+    public function perform() : void
     {
         $this->processLockerFactory->setUserId($this->getUserId());
         
@@ -167,7 +149,7 @@ class ilAssQuestionUserSolutionAdopter
         }
     }
 
-    protected function adoptQuestionAnswer($questionId)
+    protected function adoptQuestionAnswer($questionId) : void
     {
         $this->resetTargetSolution($questionId);
         $this->resetTargetResult($questionId);
@@ -179,7 +161,7 @@ class ilAssQuestionUserSolutionAdopter
         }
     }
 
-    protected function resetTargetSolution($questionId)
+    protected function resetTargetSolution($questionId) : void
     {
         $this->db->execute(
             $this->getPreparedDeleteSolutionRecordsStatement(),
@@ -187,7 +169,7 @@ class ilAssQuestionUserSolutionAdopter
         );
     }
 
-    protected function resetTargetResult($questionId)
+    protected function resetTargetResult($questionId) : void
     {
         $this->db->execute(
             $this->getPreparedDeleteResultRecordStatement(),
@@ -222,7 +204,7 @@ class ilAssQuestionUserSolutionAdopter
         return $sourcePass;
     }
     
-    protected function adoptSourceResult($questionId, $sourcePass)
+    protected function adoptSourceResult($questionId, $sourcePass) : void
     {
         $res = $this->db->execute(
             $this->getPreparedSelectResultRecordStatement(),
@@ -239,7 +221,7 @@ class ilAssQuestionUserSolutionAdopter
         ));
     }
 
-    protected function getPreparedDeleteSolutionRecordsStatement()
+    protected function getPreparedDeleteSolutionRecordsStatement() : ilDBStatement
     {
         if (self::$preparedDeleteSolutionRecordsStatement === null) {
             self::$preparedDeleteSolutionRecordsStatement = $this->db->prepareManip(
@@ -251,7 +233,7 @@ class ilAssQuestionUserSolutionAdopter
         return self::$preparedDeleteSolutionRecordsStatement;
     }
 
-    protected function getPreparedSelectSolutionRecordsStatement()
+    protected function getPreparedSelectSolutionRecordsStatement() : ilDBStatement
     {
         if (self::$preparedSelectSolutionRecordsStatement === null) {
             $query = "
@@ -268,7 +250,7 @@ class ilAssQuestionUserSolutionAdopter
         return self::$preparedSelectSolutionRecordsStatement;
     }
 
-    protected function getPreparedInsertSolutionRecordStatement()
+    protected function getPreparedInsertSolutionRecordStatement() : ilDBStatement
     {
         if (self::$preparedInsertSolutionRecordStatement === null) {
             $query = "
@@ -288,7 +270,7 @@ class ilAssQuestionUserSolutionAdopter
         return self::$preparedInsertSolutionRecordStatement;
     }
 
-    protected function getPreparedDeleteResultRecordStatement()
+    protected function getPreparedDeleteResultRecordStatement() : ilDBStatement
     {
         if (self::$preparedDeleteResultRecordStatement === null) {
             self::$preparedDeleteResultRecordStatement = $this->db->prepareManip(
@@ -300,7 +282,7 @@ class ilAssQuestionUserSolutionAdopter
         return self::$preparedDeleteResultRecordStatement;
     }
 
-    protected function getPreparedSelectResultRecordStatement()
+    protected function getPreparedSelectResultRecordStatement() : ilDBStatement
     {
         if (self::$preparedSelectResultRecordStatement === null) {
             $query = "
@@ -317,7 +299,7 @@ class ilAssQuestionUserSolutionAdopter
         return self::$preparedSelectResultRecordStatement;
     }
 
-    protected function getPreparedInsertResultRecordStatement()
+    protected function getPreparedInsertResultRecordStatement() : ilDBStatement
     {
         if (self::$preparedInsertResultRecordStatement === null) {
             $query = "

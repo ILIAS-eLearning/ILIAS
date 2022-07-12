@@ -1,28 +1,34 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
-* TableGUI class for role assignment in user administration
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesUser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * TableGUI class for role assignment in user administration
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilRoleAssignmentTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilPathGUI
-     */
-    protected $path_gui;
+    protected ilPathGUI $path_gui;
+    protected array $filter; // Missing array type.
     
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
@@ -59,18 +65,12 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->getPathGUI()->enableHideLeaf(false);
     }
 
-    /**
-     * @return ilPathGUI
-     */
-    public function getPathGUI()
+    public function getPathGUI() : ilPathGUI
     {
         return $this->path_gui;
     }
     
-    /**
-    * Init filter
-    */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -84,7 +84,6 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $option[4] = $lng->txt('internal_local_roles_only');
         $option[5] = $lng->txt('non_internal_local_roles_only');
 
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($lng->txt("roles"), "role_filter");
         $si->setOptions($option);
         $this->addFilterItem($si);
@@ -92,10 +91,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->filter["role_filter"] = $si->getValue();
     }
     
-    /**
-    * Fill table row
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         global $DIC;
 
@@ -116,17 +112,18 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('PATH', $a_set['path']);
     }
 
-    public function parse(int $usr_id)
+    public function parse(int $usr_id) : void
     {
         global $DIC;
 
         $rbacreview = $DIC->rbac()->review();
         $tree = $DIC->repositoryTree();
         $ilUser = $DIC->user();
+        $assignable = false;        // @todo: check this
 
 
         // now get roles depending on filter settings
-        $role_list = $rbacreview->getRolesByFilter($this->filter["role_filter"], $usr_id);
+        $role_list = $rbacreview->getRolesByFilter((int) $this->filter["role_filter"], $usr_id);
         $assigned_roles = $rbacreview->assignedRoles($usr_id);
 
         $counter = 0;
@@ -170,7 +167,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
                 }
             }
 
-            if (substr($role["title"], 0, 3) == "il_") {
+            if (strpos($role["title"], "il_") === 0) {
                 if (!$assignable) {
                     $rolf_arr = $rbacreview->getFoldersAssignedToRole($role["obj_id"], true);
                     $rolf2 = $rolf_arr[0];
@@ -199,14 +196,16 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 
             // Add link to objector local Rores
             if ($role["role_type"] == "local") {
-                $result_set[$counter][] = $context = "<a href='" . ilLink::_getLink($ref_id, ilObject::_lookupType($ref_id)) . "' target='_top'>" . $path . "</a>";
+                $result_set[$counter][] = $context = "<a href='" . ilLink::_getLink(
+                    $ref_id,
+                    ilObject::_lookupType(ilObject::_lookupObjId($ref_id))
+                ) . "' target='_top'>" . $path . "</a>";
             } else {
                 $result_set[$counter][] = $path;
                 $context = $path;
             }
 
             $records[] = [
-                "path" => $path,
                 "description" => $role["description"],
                 "context" => $context,
                 "checkbox" => $checkbox,
@@ -219,10 +218,6 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->setData($records);
     }
 
-    /**
-     * @param int $ref_id
-     * @return string
-     */
     protected function getTitleForReference(int $ref_id) : string
     {
         $type = ilObject::_lookupType($ref_id, true);
@@ -240,6 +235,6 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         ilDatePresentation::setUseRelativeDates(false);
         $title = $list->getTitle();
         ilDatePresentation::resetToDefaults();
-        return (string) $title;
+        return $title;
     }
 }

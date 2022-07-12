@@ -1,6 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Imprint\StandardGUIRequest;
 
 /**
  * Class ilImprintGUI
@@ -10,21 +23,11 @@
  * @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilImprintGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
-class ilImprintGUI extends ilPageObjectGUI
+class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
+    protected StandardGUIRequest $imprint_request;
+    protected ilLocatorGUI $locator;
 
-    /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,97 +36,85 @@ class ilImprintGUI extends ilPageObjectGUI
         $this->ctrl = $DIC->ctrl();
         $this->locator = $DIC["ilLocator"];
         $this->lng = $DIC->language();
-        $this->main_menu = $DIC["ilMainMenu"];
-        $tpl = $DIC["tpl"];
+
+        $this->imprint_request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
         
         if (!ilImprint::_exists("impr", 1)) {
-            $page = new ilImprint("impr");
+            $page = new ilImprint();
             $page->setId(1);
-            $page->create();
+            $page->create(false);
         }
 
         // there is only 1 imprint page
         parent::__construct("impr", 1);
         
         // content style (using system defaults)
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
+        $this->tpl->setCurrentBlock("SyntaxStyle");
+        $this->tpl->setVariable(
             "LOCATION_SYNTAX_STYLESHEET",
             ilObjStyleSheet::getSyntaxStylePath()
         );
-        $tpl->parseCurrentBlock();
-        
-        $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable(
+        $this->tpl->parseCurrentBlock();
+    
+        $this->tpl->setCurrentBlock("ContentStyle");
+        $this->tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath(0)
         );
-        $tpl->parseCurrentBlock();
+        $this->tpl->parseCurrentBlock();
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : string
     {
-        $ilCtrl = $this->ctrl;
-        $ilLocator = $this->locator;
-        $lng = $this->lng;
-        
-        if ($_REQUEST["baseClass"] == "ilImprintGUI") {
+        if (strtolower($this->imprint_request->getBaseClass()) ===
+            strtolower(ilImprintGUI::class)) {
             $this->renderFullscreen();
         }
         
-        $next_class = $ilCtrl->getNextClass($this);
-            
-        $title = $lng->txt("adm_imprint");
+        $next_class = $this->ctrl->getNextClass($this);
+        
+        $title = $this->lng->txt("adm_imprint");
         
         switch ($next_class) {
-            case "ilpageobjectgui":
-                die("Deprecated. ilImprintGUI gui forwarding to ilpageobject");
-                return;
-                
             default:
                 $this->setPresentationTitle($title);
-
-                $ilLocator->addItem(
+    
+                $this->locator->addItem(
                     $title,
-                    $ilCtrl->getLinkTarget($this, "preview")
+                    $this->ctrl->getLinkTarget($this, "preview")
                 );
-            
                 return parent::executeCommand();
         }
     }
     
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         $lng = $this->lng;
         
         if ($this->getOutputMode() == ilPageObjectGUI::PREVIEW) {
             if (!$this->getPageObject()->getActive()) {
-                ilUtil::sendInfo($lng->txt("adm_imprint_inactive"));
+                $this->tpl->setOnScreenMessage('info', $lng->txt("adm_imprint_inactive"));
             }
         }
         
         return $a_output;
     }
 
-    protected function renderFullscreen()
+    protected function renderFullscreen() : void
     {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-
         if (!ilImprint::isActive()) {
-            ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI");
+            $this->ctrl->redirectToURL("ilias.php?baseClass=ilDashboardGUI");
         }
-        $tpl->setTitle($lng->txt("imprint"));
-        $tpl->loadStandardTemplate();
+        $this->tpl->setTitle($this->lng->txt("imprint"));
+        $this->tpl->loadStandardTemplate();
 
         $this->setRawPageContent(true);
-        $html = $this->showPage();
-        $tpl->setContent($html);
-
-        $tpl->printToStdout("DEFAULT", true, false);
+        $this->tpl->setContent($this->showPage());
+    
+        $this->tpl->printToStdout("DEFAULT", true, false);
         exit();
     }
 }

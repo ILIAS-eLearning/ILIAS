@@ -1,64 +1,24 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types=1);
-
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 
 class ilIndividualAssessmentUserGrading
 {
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $record;
-
-    /**
-     * @var string
-     */
-    protected $internal_note;
-
-    /**
-     * @var ?string
-     */
-    protected $file;
-
-    /**
-     * @var bool
-     */
-    protected $is_file_visible;
-
-    /**
-     * @var int
-     */
-    protected $learning_progress;
-
-    /**
-     * @var string
-     */
-    protected $place;
-
-    /**
-     * @var DateTimeImmutable|null
-     */
-    protected $event_time;
-
-    /**
-     * @var bool
-     */
-    protected $notify;
-
-    /**
-     * @var bool
-     */
-    protected $finalized;
+    protected string $name;
+    protected string $record;
+    protected string $internal_note;
+    protected ?string $file;
+    protected bool $is_file_visible;
+    protected int $learning_progress;
+    protected string $place;
+    protected ?DateTimeImmutable $event_time;
+    protected bool $notify;
+    protected bool $finalized;
 
     public function __construct(
         string $name,
@@ -151,7 +111,7 @@ class ilIndividualAssessmentUserGrading
     public function toFormInput(
         Field\Factory $input,
         DataFactory $data_factory,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         Refinery $refinery,
         AbstractCtrlAwareUploadHandler $file_handler,
         array $grading_options,
@@ -190,7 +150,7 @@ class ilIndividualAssessmentUserGrading
 
         $learning_progress = $input
             ->select($lng->txt('grading'), $grading_options)
-            ->withValue($this->getLearningProgress() ? $this->getLearningProgress() : ilIndividualAssessmentMembers::LP_IN_PROGRESS)
+            ->withValue($this->getLearningProgress() ?: ilIndividualAssessmentMembers::LP_IN_PROGRESS)
             ->withDisabled(!$may_be_edited)
             ->withRequired(true)
         ;

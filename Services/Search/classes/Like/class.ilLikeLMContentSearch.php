@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,21 +27,15 @@
 * class for searching media pool folders and titles of mob's
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilLMContentSearch.php';
 
 class ilLikeLMContentSearch extends ilLMContentSearch
 {
-    public function __createWhereCondition()
+    public function __createWhereCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $concat = " content ";
 
         $and = "  WHERE ( ";
@@ -52,7 +46,7 @@ class ilLikeLMContentSearch extends ilLMContentSearch
             }
             #$and .= $concat;
             #$and .= ("LIKE ('%".$word."%')");
-            $and .= $ilDB->like($concat, 'clob', '%' . $word . '%');
+            $and .= $this->db->like($concat, 'clob', '%' . $word . '%');
         }
         return $and . ") ";
     }

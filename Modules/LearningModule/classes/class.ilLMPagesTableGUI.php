@@ -1,35 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for all pages of a learning module
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMPagesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilSetting $lm_set;
+    protected ilObjLearningModule $lm;
+    protected ilAccessHandler $access;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjLearningModule $a_lm
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
         $lng = $DIC->language();
         
         $this->lm = $a_lm;
@@ -69,18 +77,12 @@ class ilLMPagesTableGUI extends ilTable2GUI
         $this->addMultiCommand("delete", $lng->txt("delete"));
         $this->addMultiCommand("selectHeader", $lng->txt("selectHeader"));
         $this->addMultiCommand("selectFooter", $lng->txt("selectFooter"));
-
-        //		$this->addCommandButton("", $lng->txt(""));
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        //var_dump($a_set);
 
         // icon...
         
@@ -115,7 +117,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ICON", ilUtil::img(ilUtil::getImagePath($img), $alt));
 
         // title/link
-        $ilCtrl->setParameter($this, "backcmd", "");
+        $ilCtrl->setParameter($this, "backcmd", null);
         $ilCtrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $a_set["obj_id"]);
         $this->tpl->setVariable(
             "HREF_TITLE",

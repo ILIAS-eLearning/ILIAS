@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Abstract parent class for all page component plugin importer classes.
@@ -17,68 +31,52 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
      *
      * @var array $pc_properties  id => [ name => value, ... ]
      */
-    protected static $pc_properties = array();
+    protected static array $pc_properties = array();
 
     /**
      * Plugin versions of exportable plugged page contents
      *
      * @var array $pc_version	id => version
      */
-    protected static $pc_version = array();
+    protected static array $pc_version = array();
 
 
     /**
      * Set the properties of a plugged page content
      * This method is used by ilCOPageExporter to provide the properties
-     *
-     * @param string $a_id
-     * @param array $a_properties
      */
-    public static function setPCProperties($a_id, $a_properties)
-    {
+    public static function setPCProperties(
+        string $a_id,
+        array $a_properties
+    ) : void {
         self::$pc_properties[$a_id] = $a_properties;
     }
 
     /**
      * Get the properties of a plugged page content
-     *
-     * @param string $a_id
-     * @return mixed|null
      */
-    public static function getPCProperties($a_id)
+    public static function getPCProperties(string $a_id) : ?array
     {
-        if (isset(self::$pc_properties[$a_id])) {
-            return self::$pc_properties[$a_id];
-        } else {
-            return null;
-        }
+        return self::$pc_properties[$a_id] ?? null;
     }
 
     /**
      * Set the version of a plugged page content
      * This method is used by ilCOPageExporter to provide the version
-     *
-     * @param string $a_id
-     * @param string $a_version
      */
-    public static function setPCVersion($a_id, $a_version)
-    {
+    public static function setPCVersion(
+        string $a_id,
+        string $a_version
+    ) : void {
         self::$pc_version[$a_id] = $a_version;
     }
 
     /**
      * Get the version of a plugged page content
-     *
-     * @param string $a_id
-     * @return string|null
      */
-    public static function getPCVersion($a_id)
+    public static function getPCVersion(string $a_id) : ?string
     {
-        if (isset(self::$pc_version[$a_id])) {
-            return self::$pc_version[$a_id];
-        } else {
-            return null;
-        }
+        return self::$pc_version[$a_id] ?? null;
     }
 
 
@@ -87,11 +85,8 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
      * The id structure should be irrelevant to child classes
      * The mapped ID shold be used both for getPCProperties() and setPCProperties()
      * when being called in their importXmlRepresentation()
-     *
-     * @param 	string				$a_id
-     * @param	ilImportMapping		$a_mapping
      */
-    public static function getPCMapping($a_id, $a_mapping)
+    public static function getPCMapping(string $a_id, ilImportMapping $a_mapping) : string
     {
         $parts = explode(':', $a_id);
         $old_page_id = $parts[0] . ':' . $parts[1];

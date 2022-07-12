@@ -1,37 +1,37 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Importer class for news
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ServicesNews
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNewsImporter extends ilXmlImporter
 {
+    protected ilNewsDataSet $ds;
 
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
-        include_once("./Services/News/classes/class.ilNewsDataSet.php");
         $this->ds = new ilNewsDataSet();
         $this->ds->setDSPrefix("ds");
     }
 
-
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
-        include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),

@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Crawler\Exception;
 
 /**
@@ -45,28 +59,12 @@ class CrawlerException extends \Exception
 
     public const CRAWL_MAX_NESTING_REACHED = 5000;
 
-    /**
-     * @var string
-     */
-    protected $message = "";
-
-    /**
-     * @var int
-     */
-    protected $code = -1;
-
-    /**
-     * @var string
-     */
-    protected $add_info = "";
+    protected string $add_info = "";
 
     /**
      * ilKitchenSinkException constructor.
-     *
-     * @param int $exception_code
-     * @param string $exception_info
      */
-    public function __construct($exception_code = -1, $exception_info = "")
+    public function __construct(int $exception_code = -1, string $exception_info = "")
     {
         $this->add_info = $exception_info;
         $this->code = $exception_code;
@@ -74,7 +72,7 @@ class CrawlerException extends \Exception
         parent::__construct($this->message, $exception_code);
     }
 
-    protected function assignMessageToCode()
+    protected function assignMessageToCode() : void
     {
         switch ($this->code) {
             case self::ARRAY_EXPECTED:
@@ -161,9 +159,12 @@ class CrawlerException extends \Exception
         }
     }
 
-    public function __toString()
+    public function __toString() : string
     {
-        return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
-        . "{$this->getTraceAsString()}";
+        return
+            get_class($this) .
+            " '$this->message' in $this->file($this->line)\n" .
+            "{$this->getTraceAsString()}"
+        ;
     }
 }

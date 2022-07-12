@@ -1,35 +1,42 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for glossary tables
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMGlossaryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilObjLearningModule $lm;
+    protected ilAccessHandler $access;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_lm, $a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        ilObjLearningModule $a_lm,
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
         $lng = $DIC->language();
         
         $this->lm = $a_lm;
@@ -48,15 +55,9 @@ class ilLMGlossaryTableGUI extends ilTable2GUI
         
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.lm_glossary_row.html", "Modules/LearningModule");
-
-        //		$this->addMultiCommand("", $lng->txt(""));
-//		$this->addCommandButton("", $lng->txt(""));
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

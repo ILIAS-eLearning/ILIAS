@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilObjMainMenuGUI
@@ -14,7 +14,7 @@ class ilObjMainMenu extends ilObject
      * @param int  $id
      * @param bool $call_by_reference
      */
-    public function __construct($id = 0, bool $call_by_reference = true)
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         $this->type = "mme";
         parent::__construct($id, $call_by_reference);

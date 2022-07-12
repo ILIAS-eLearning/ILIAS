@@ -5,6 +5,19 @@ namespace ILIAS\HTTP\Cookies;
 use Dflydev\FigCookies\SetCookies;
 use Psr\Http\Message\ResponseInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class CookieJarWrapper
  *
@@ -17,17 +30,11 @@ use Psr\Http\Message\ResponseInterface;
  */
 class CookieJarWrapper implements CookieJar
 {
-
-    /**
-     * @var SetCookies $cookies
-     */
-    private $cookies;
+    private SetCookies $cookies;
 
 
     /**
      * CookieJarWrapper constructor.
-     *
-     * @param SetCookies $cookies
      */
     public function __construct(SetCookies $cookies)
     {
@@ -72,7 +79,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function with(Cookie $setCookie) : \ILIAS\HTTP\Cookies\CookieJar
+    public function with(Cookie $setCookie) : CookieJar
     {
         /**
          * @var CookieWrapper $wrapper
@@ -90,7 +97,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function without(string $name) : \ILIAS\HTTP\Cookies\CookieJar
+    public function without(string $name) : CookieJar
     {
         $clone = clone $this;
         $clone->cookies = $this->cookies->without($name);
@@ -102,10 +109,8 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function renderIntoResponseHeader(ResponseInterface $response) : \Psr\Http\Message\ResponseInterface
+    public function renderIntoResponseHeader(ResponseInterface $response) : ResponseInterface
     {
-        $response = $this->cookies->renderIntoSetCookieHeader($response);
-
-        return $response;
+        return $this->cookies->renderIntoSetCookieHeader($response);
     }
 }

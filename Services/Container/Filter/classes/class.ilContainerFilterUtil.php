@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
 
@@ -46,7 +49,7 @@ class ilContainerFilterUtil
     ) : string {
         $lng = $this->lng;
 
-        if ($record_id == 0) {
+        if ($record_id === 0) {
             return $lng->txt("cont_std_filter_title_" . $field_id);
         }
 
@@ -62,7 +65,7 @@ class ilContainerFilterUtil
     {
         $lng = $this->lng;
 
-        if ($record_id == 0) {
+        if ($record_id === 0) {
             return $lng->txt("cont_std_record_title");
         }
 
@@ -110,27 +113,16 @@ class ilContainerFilterUtil
 
         foreach ($set->getFields() as $field) {
             // standard fields
-            if ($field->getRecordSetId() == 0) {
+            if ($field->getRecordSetId() === 0) {
                 $title = $service->util()->getContainerFieldTitle(0, $field->getFieldId());
                 $key = "std_" . $field->getFieldId();
                 switch ($field->getFieldId()) {
-                    case ilContainerFilterField::STD_FIELD_TITLE:
-                        $fields[$key] = $ui->input()->field()->text($title);
-                        $fields_act[] = false;
-                        break;
                     case ilContainerFilterField::STD_FIELD_DESCRIPTION:
-                        $fields[$key] = $ui->input()->field()->text($title);
-                        $fields_act[] = false;
-                        break;
                     case ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION:
-                        $fields[$key] = $ui->input()->field()->text($title);
-                        $fields_act[] = false;
-                        break;
                     case ilContainerFilterField::STD_FIELD_KEYWORD:
-                        $fields[$key] = $ui->input()->field()->text($title);
-                        $fields_act[] = false;
-                        break;
                     case ilContainerFilterField::STD_FIELD_AUTHOR:
+                    case ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT:
+                    case ilContainerFilterField::STD_FIELD_TITLE:
                         $fields[$key] = $ui->input()->field()->text($title);
                         $fields_act[] = false;
                         break;
@@ -145,10 +137,6 @@ class ilContainerFilterUtil
                             }
                         }
                         $fields[$key] = $ui->input()->field()->select($title, $options);
-                        $fields_act[] = false;
-                        break;
-                    case ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT:
-                        $fields[$key] = $ui->input()->field()->text($title);
                         $fields_act[] = false;
                         break;
                     case ilContainerFilterField::STD_FIELD_OBJECT_TYPE:

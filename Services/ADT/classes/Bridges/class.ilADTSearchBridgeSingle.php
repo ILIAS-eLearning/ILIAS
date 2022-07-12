@@ -1,57 +1,58 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridge.php";
-
+/**
+ * Class ilADTSearchBridgeSingle
+ */
 abstract class ilADTSearchBridgeSingle extends ilADTSearchBridge
 {
-    protected $adt; // [ilADT]
-    
-    protected function setDefinition(ilADTDefinition $a_adt_def)
+    protected ilADT $adt;
+
+    protected function setDefinition(ilADTDefinition $a_adt_def) : void
     {
         if ($this->isValidADTDefinition($a_adt_def)) {
             $this->adt = ilADTFactory::getInstance()->getInstanceByDefinition($a_adt_def);
             return;
         }
-                
-        throw new Exception('ilADTSearchBridge type mismatch.');
+
+        throw new InvalidArgumentException('ilADTSearchBridge type mismatch.');
     }
-    
+
     /**
      * Get ADT
-     *
-     * @return ilADT
+     * @return ilADT|null
      */
-    public function getADT()
+    public function getADT() : ?ilADT
     {
         return $this->adt;
     }
-    
-    public function isNull()
+
+    public function isNull() : bool
     {
-        return $this->getADT()->isNull();
+        return !$this->getADT() instanceof ilADT || $this->getADT()->isNull();
     }
-    
-    public function isValid()
+
+    public function isValid() : bool
     {
-        return $this->getADT()->isValid();
+        return $this->getADT() instanceof ilADT && $this->getADT()->isValid();
     }
-    
-    public function validate()
+
+    public function validate() : bool
     {
+        if (!$this->getADT() instanceof ilADT) {
+            return false;
+        }
         if (!$this->isValid()) {
             $tmp = array();
-            
             $mess = $this->getADT()->getValidationErrors();
             foreach ($mess as $error_code) {
                 $tmp[] = $this->getADT()->translateErrorCode($error_code);
             }
-            
-            $field = $this->getForm()->getItemByPostvar($this->getElementId());
+
+            $field = $this->getForm()->getItemByPostVar($this->getElementId());
             $field->setAlert(implode("<br />", $tmp));
-            
+
             return false;
         }
-        
         return true;
     }
 }

@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Config;
@@ -30,6 +44,10 @@ trait HasConfigReader
         }
 
         $config_file = $input->getArgument("config");
+        if ($this->isConfigInRoot($config_file)) {
+            throw new \LogicException("Thou shall not put your config file in the webroot!!");
+        }
+
         $config_overwrites_raw = $input->getOption("config");
         $config_overwrites = [];
         foreach ($config_overwrites_raw as $o) {
@@ -58,5 +76,14 @@ trait HasConfigReader
         }
 
         return $environment;
+    }
+
+    protected function isConfigInRoot(string $config_file) : bool
+    {
+        $webroot = realpath(__DIR__ . "/../../../");
+        $config_file = realpath($config_file);
+
+        $common_prefix = substr($config_file, 0, strlen($webroot));
+        return $webroot === $common_prefix;
     }
 }

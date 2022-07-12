@@ -1,65 +1,49 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Abstract chart data series base class
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ServicesChart
  */
 abstract class ilChartData
 {
-    protected $type; // [string]
-    protected $label; // [string]
-    protected $data; // [array]
-    protected $fill; // [float]
-    protected $fill_color; // [color/gradient]
-    protected $hidden; // [bool]
+    protected string $type = "";
+    protected string $label = "";
+    protected array $data = [];
+    protected float $fill = 0;
+    protected string $fill_color = "";
+    protected bool $hidden = false;
 
-    /**
-     * Get series type
-     *
-     * @return string
-     */
-    abstract protected function getTypeString();
-    
-    /**
-     * Set hidden
-     *
-     * @param bool $a_value
-     */
-    public function setHidden($a_value)
+    abstract protected function getTypeString() : string;
+
+    public function setHidden(bool $a_value) : void
     {
-        $this->hidden = (bool) $a_value;
+        $this->hidden = $a_value;
     }
 
-    /**
-     * Is hidden?
-     *
-     * @return bool
-     */
-    public function isHidden()
+    public function isHidden() : bool
     {
         return $this->hidden;
     }
 
-    /**
-     * Set label
-     *
-     * @param string $a_value
-     */
-    public function setLabel($a_value)
+    public function setLabel(string $a_value) : void
     {
-        $this->label = (string) $a_value;
+        $this->label = $a_value;
     }
 
-    /**
-     * Get label
-     *
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel() : string
     {
         return $this->label;
     }
@@ -70,8 +54,10 @@ abstract class ilChartData
      * @param float $a_x
      * @param float $a_y
      */
-    public function addPoint($a_x, $a_y = null)
-    {
+    public function addPoint(
+        float $a_x,
+        ?float $a_y = null
+    ) : void {
         if ($a_y !== null) {
             $this->data[] = array($a_x, $a_y);
         } else {
@@ -84,62 +70,51 @@ abstract class ilChartData
      *
      * @return array
      */
-    public function getData()
+    public function getData() : array
     {
         return $this->data;
     }
 
-    /**
-     * Set fill
-     *
-     * @param float $a_value
-     * @param string $a_color
-     */
-    public function setFill($a_value, $a_color = null)
-    {
+    public function setFill(
+        float $a_value,
+        string $a_color = ""
+    ) : void {
         $this->fill = $a_value;
         if (ilChart::isValidColor($a_color)) {
             $this->fill_color = $a_color;
         }
     }
 
-    /**
-     * Get fill
-     *
-     * @return array (fill, color)
-     */
-    public function getFill()
+    public function getFill() : array
     {
         return array("fill" => $this->fill, "color" => $this->fill_color);
     }
     
     /**
      * Convert data options to flot config
-     *
-     * @param array $a_options
-     * @param ilChart $a_chart
      */
-    protected function parseDataOptions(array &$a_options)
+    protected function parseDataOptions(array &$a_options) : void
     {
     }
     
     /**
      * Convert data to flot config
-     *
-     * @param array $a_data
-     * @return object
      */
-    public function parseData(array &$a_data)
+    public function parseData(array &$a_data) : void
     {
         $series = new stdClass();
         $series->label = str_replace("\"", "\\\"", $this->getLabel());
         
         $series->data = array();
         foreach ($this->getData() as $point) {
-            $series->data[] = array($point[0], $point[1]);
+            if (is_array($point)) {
+                $series->data[] = array($point[0], $point[1]);
+            } else {
+                $series->data[] = $point;
+            }
         }
             
-        $options = array("show" => ($this->isHidden() ? false : true));
+        $options = array("show" => !$this->isHidden());
                 
         $fill = $this->getFill();
         if ($fill["fill"]) {
@@ -158,11 +133,8 @@ abstract class ilChartData
     
     /**
      * Convert (global) properties to flot config
-     *
-     * @param object $a_options
-     * @param ilChart $a_chart
      */
-    public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart)
+    public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart) : void
     {
     }
 }

@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class arJoin
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -14,10 +27,7 @@ class arJoin extends arStatement
     const AS_TEXT = ' AS ';
     protected string $type = self::TYPE_NORMAL;
     protected string $table_name = '';
-    /**
-     * @var array
-     */
-    protected $fields = array('*');
+    protected array $fields = array('*');
     protected string $operator = '=';
     protected string $on_first_field = '';
     protected string $on_second_field = '';

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Recommended content manager
@@ -105,9 +108,9 @@ class ilRecommendedContentManager
         // filter out favourites
         $favourites = $this->fav_manager->getFavouritesOfUser($user_id);
         $favourites_ref_ids = array_column($favourites, "ref_id");
-
-        return array_filter($recommendations, function ($i) use ($favourites_ref_ids) {
-            return !in_array($i, $favourites_ref_ids);
+        
+        return array_filter($recommendations, static function (int $i) use ($favourites_ref_ids) : bool {
+            return !in_array($i, $favourites_ref_ids, true);
         });
     }
 

@@ -1,4 +1,18 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 import HTMLTransform from "./html-transform.js";
 import TinyDomTransform from "./tiny-dom-transform.js";
@@ -194,6 +208,7 @@ export default class TinyWrapper {
         language: "en",
         height: "100%",
         plugins: "save,paste,lists",
+        smart_paste: false,
         save_onsavecallback: "saveParagraph",
         mode: "exact",
         elements: this.id,
@@ -439,11 +454,12 @@ export default class TinyWrapper {
       // backspace (8)
       if ([8].includes(ev.keyCode)) {
         wrapper.mergePrevious = (
-          currentRng.commonAncestorContainer.previousSibling === null &&
+          wrapper.isFirstNode(currentRng.commonAncestorContainer) &&
           currentRng.collapsed &&
           currentRng.startOffset === 0 &&
           currentRng.endOffset === 0
         );
+
         if (wrapper.mergePrevious) {
           const dom = tiny.dom;
           if (dom.select('ol,ul')) {    // do not allow to outdent first list element
@@ -1022,4 +1038,13 @@ export default class TinyWrapper {
     ed.selection.collapse(false);
   }
 
+  disable() {
+    const ed = this.tiny;
+    ed.getBody().setAttribute('contenteditable', false);
+  }
+
+  enable() {
+    const ed = this.tiny;
+    ed.getBody().setAttribute('contenteditable', true);
+  }
 }

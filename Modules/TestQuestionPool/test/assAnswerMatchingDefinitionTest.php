@@ -14,16 +14,11 @@ class assAnswerMatchingDefinitionTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';

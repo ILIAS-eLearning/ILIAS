@@ -1,63 +1,57 @@
 <?php
-include_once("Services/Style/System/classes/Exceptions/class.ilSystemStyleColorException.php");
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /***
  * ilSystemStyleIconColor is used capsulate the data used to represent one color found in icons in the ILIAS GUI (form).
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$
- *
  */
 class ilSystemStyleIconColor
 {
-    const GREY = 0;
-    const RED = 1;
-    const GREEN = 2;
-    const BLUE = 3;
+    public const GREY = 0;
+    public const RED = 1;
+    public const GREEN = 2;
+    public const BLUE = 3;
 
     /**
      * Unique ID to identify the color by (currently same as color)
-     *
-     * @var string
      */
-    protected $id = "";
+    protected string $id = '';
 
     /**
      * Value of the color
-     *
-     * @var string
      */
-    protected $color = "";
+    protected string $color = '';
 
     /**
      * Name of the color in text
-     *
-     * @var string
      */
-    protected $name = "";
+    protected string $name = '';
 
     /**
      * Description of the color
-     *
-     * @var string
      */
-    protected $description = "";
-
-    /**
-     * Calculated brightness
-     *
-     * @var null
-     */
-    protected $brightness = null;
+    protected string $description = '';
 
     /**
      * ilSystemStyleIconColor constructor.
-     * @param $id
-     * @param $name
-     * @param $color
-     * @param $description
      */
-    public function __construct($id, $name, $color, $description = "")
+    public function __construct(string $id, string $name, string $color, string $description = '')
     {
         $this->setId($id);
         $this->setColor($color);
@@ -65,73 +59,51 @@ class ilSystemStyleIconColor
         $this->setDescription($description);
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     */
-    public function setId($id)
+    public function setId(string $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
-    public function getColor()
+    public function getColor() : string
     {
         return $this->color;
     }
 
     /**
-     * @param $color
      * @throws ilSystemStyleColorException
      */
-    public function setColor($color)
+    public function setColor(string $color) : void
     {
         $color = strtoupper($color);
 
-        if (!ctype_xdigit($color) || strlen($color) != 6) {
+        if (!ctype_xdigit($color) || (strlen($color) != 6 && strlen($color) != 3)) {
             throw new ilSystemStyleColorException(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $color);
         }
 
         $this->color = $color;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
@@ -139,9 +111,8 @@ class ilSystemStyleIconColor
     /**
      * Used to order the colors according to their dominant aspect. Due to the vast numbers of colors to be displayed
      * to the user, they must be ordered in some fashion, dominant aspect and brightness are possible values.
-     * @return int
      */
-    public function getDominatAspect()
+    public function getDominatAspect() : int
     {
         $r = $this->getRedAspect();
         $g = $this->getGreenAspect();
@@ -160,30 +131,24 @@ class ilSystemStyleIconColor
 
     /**
      * Get red aspect from a color in hex format
-     *
-     * @return number
      */
-    public function getRedAspect()
+    public function getRedAspect() : int
     {
         return hexdec(substr($this->getColor(), 0, 2));
     }
 
     /**
      * Get green aspect from a color in hex format
-     *
-     * @return number
      */
-    public function getGreenAspect()
+    public function getGreenAspect() : int
     {
         return hexdec(substr($this->getColor(), 2, 2));
     }
 
     /**
      * Get blue aspect from a color in hex format
-     *
-     * @return number
      */
-    public function getBlueAspect()
+    public function getBlueAspect() : int
     {
         return hexdec(substr($this->getColor(), 4, 2));
     }
@@ -192,33 +157,24 @@ class ilSystemStyleIconColor
      * Used to sort the colors according to their brightness. Due to the vast numbers of colors to be displayed
      * to the user, they must be ordered in some fashion, dominant aspect and brightness are possible values.
      * See: https://en.wikipedia.org/wiki/YIQ
-     *
-     * @return float|null
      */
-    public function getPerceivedBrightness()
+    public function getPerceivedBrightness() : float
     {
-        if ($this->brightness === null) {
-            $r = $this->getRedAspect();
-            $g = $this->getGreenAspect();
-            $b = $this->getBlueAspect();
+        $r = $this->getRedAspect();
+        $g = $this->getGreenAspect();
+        $b = $this->getBlueAspect();
 
-            $this->brightness = sqrt(
-                $r * $r * .299 +
-                $g * $g * .587 +
-                $b * $b * .114
-            );
-        }
-        return $this->brightness;
+        return sqrt(
+            $r * $r * .299 +
+            $g * $g * .587 +
+            $b * $b * .114
+        );
     }
 
     /**
      * Used to sort colors according to their brightness
-     *
-     * @param ilSystemStyleIconColor $color1
-     * @param ilSystemStyleIconColor $color2
-     * @return int
      */
-    public static function compareColors(ilSystemStyleIconColor $color1, ilSystemStyleIconColor $color2)
+    public static function compareColors(ilSystemStyleIconColor $color1, ilSystemStyleIconColor $color2) : int
     {
         $value1 = $color1->getPerceivedBrightness();
         $value2 = $color2->getPerceivedBrightness();

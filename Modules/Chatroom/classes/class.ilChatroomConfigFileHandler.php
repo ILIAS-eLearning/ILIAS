@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomConfigFileHandler
@@ -41,8 +56,6 @@ class ilChatroomConfigFileHandler
         if (in_array($type, [
             ilDBConstants::TYPE_MYSQL,
             ilDBConstants::TYPE_INNODB,
-            ilDBConstants::TYPE_PDO_MYSQL_INNODB,
-            ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
             ''
         ], true)) {
             $type = 'mysql';
@@ -64,7 +77,7 @@ class ilChatroomConfigFileHandler
      * Writes $content to file named by $filename
      * @param string $content
      * @param string $filename
-     * @throws Exception
+     * @throws RuntimeException
      */
     protected function writeDataToFile(string $content, string $filename) : void
     {
@@ -72,7 +85,7 @@ class ilChatroomConfigFileHandler
         $handle = fopen($path . $filename, 'wb');
 
         if (!fwrite($handle, $content)) {
-            throw new Exception('Cannot write to file');
+            throw new RuntimeException('Cannot write to file');
         }
 
         fclose($handle);
@@ -81,16 +94,14 @@ class ilChatroomConfigFileHandler
     /**
      * Creates a data directory for configuration files, if the directory does not already exists.
      * @return string
-     * @throws Exception Throws Exception if data dir creation failed
+     * @throws RuntimeException Throws Exception if data dir creation failed
      */
     protected function createDataDirIfNotExists() : string
     {
-        $path = ilUtil::getDataDir() . self::CHATROOM_DATA_DIR;
+        $path = ilFileUtils::getDataDir() . self::CHATROOM_DATA_DIR;
 
-        if (!is_dir($path)) {
-            if (!ilUtil::makeDir($path)) {
-                throw new Exception('Directory cannot be created');
-            }
+        if (!is_dir($path) && !ilFileUtils::makeDir($path)) {
+            throw new RuntimeException('Directory cannot be created');
         }
 
         return $path;

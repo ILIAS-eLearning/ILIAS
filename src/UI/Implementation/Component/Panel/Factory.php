@@ -1,22 +1,32 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component\Panel as P;
-use ILIAS\UI\NotImplementedException;
 
 /**
  * Class Factory
  * @package ILIAS\UI\Implementation\Component\Panel
  */
-class Factory implements \ILIAS\UI\Component\Panel\Factory
+class Factory implements P\Factory
 {
-    /**
-     * @var Listing\Factory
-     */
-    protected $listing_factory;
+    protected P\Listing\Factory $listing_factory;
 
     public function __construct(P\Listing\Factory $listing_factory)
     {
@@ -26,7 +36,7 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory
     /**
      * @inheritdoc
      */
-    public function standard($title, $content)
+    public function standard(string $title, $content) : P\Standard
     {
         return new Standard($title, $content);
     }
@@ -34,7 +44,7 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory
     /**
      * @inheritdoc
      */
-    public function sub($title, $content)
+    public function sub(string $title, $content) : P\Sub
     {
         return new Sub($title, $content);
     }
@@ -42,7 +52,7 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory
     /**
      * @inheritdoc
      */
-    public function report($title, $sub_panels)
+    public function report(string $title, $sub_panels) : P\Report
     {
         return new Report($title, $sub_panels);
     }
@@ -50,7 +60,7 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory
     /**
      * @inheritdoc
      */
-    public function secondary()
+    public function secondary() : P\Secondary\Factory
     {
         return new Secondary\Factory();
     }
@@ -58,7 +68,7 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory
     /**
      * @inheritdoc
      */
-    public function listing()
+    public function listing() : P\Listing\Factory
     {
         return $this->listing_factory;
     }

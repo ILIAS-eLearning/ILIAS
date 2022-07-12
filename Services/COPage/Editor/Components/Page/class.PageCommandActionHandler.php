@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Page;
 
@@ -13,29 +27,15 @@ use ILIAS\COPage\Editor\Server;
 class PageCommandActionHandler implements Server\CommandActionHandler
 {
     /**
-     * @var \ILIAS\DI\UIServices
+     * @var array|bool|string
      */
-    protected $ui;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilPageObjectGUI
-     */
-    protected $page_gui;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var Server\UIWrapper
-     */
-    protected $ui_wrapper;
+    protected $updated;
+    protected \ilPCParagraph $content_obj;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilLanguage $lng;
+    protected \ilPageObjectGUI $page_gui;
+    protected \ilObjUser $user;
+    protected Server\UIWrapper $ui_wrapper;
 
     public function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -50,53 +50,42 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     }
 
     /**
-     * @param $query
-     * @param $body
-     * @return Server\Response
+     * @throws Exception
      */
-    public function handle($query, $body) : Server\Response
+    public function handle(array $query, array $body) : Server\Response
     {
         switch ($body["action"]) {
             case "cut":
                 return $this->cutCommand($body);
-                break;
 
             case "paste":
                 return $this->pasteCommand($body);
-                break;
 
             case "copy":
                 return $this->copyCommand($body);
-                break;
 
             case "drag.drop":
                 return $this->dragDropCommand($body);
-                break;
 
             case "format":
                 return $this->format($body);
-                break;
 
             case "delete":
                 return $this->delete($body);
-                break;
 
             case "activate":
                 return $this->activate($body);
+
+            case "list.edit":
+                return $this->listEdit($body);
                 break;
 
             default:
                 throw new Exception("Unknown action " . $body["action"]);
-                break;
         }
     }
 
-    /**
-     * All command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function cutCommand($body) : Server\Response
+    protected function cutCommand(array $body) : Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $page = $this->page_gui->getPageObject();
@@ -113,12 +102,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    /**
-     * All command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function pasteCommand($body) : Server\Response
+    protected function pasteCommand(array $body) : Server\Response
     {
         $target_pcid = $body["data"]["target_pcid"];
         $page = $this->page_gui->getPageObject();
@@ -130,12 +114,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    /**
-     * Copy/paste command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function copyCommand($body) : Server\Response
+    protected function copyCommand(array $body) : Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $page = $this->page_gui->getPageObject();
@@ -152,12 +131,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage(true);
     }
 
-    /**
-     * Format command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function format($body) : Server\Response
+    protected function format(array $body) : Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $par = $body["data"]["paragraph_format"];
@@ -176,12 +150,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    /**
-     * Delete command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function delete($body) : Server\Response
+    protected function delete(array $body) : Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $page = $this->page_gui->getPageObject();
@@ -202,25 +171,12 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    /**
-     * Drag and dropt command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function dragDropCommand($body) : Server\Response
+    protected function dragDropCommand(array $body) : Server\Response
     {
         $target = $body["data"]["target"];
         $source = $body["data"]["source"];
 
         $page = $this->page_gui->getPageObject();
-
-        /*
-        $hids = array_map(
-            function ($pcid) {
-                return $this->getIdForPCId($pcid);
-            },
-            $pcids
-        );*/
 
         $source = explode(":", $source);
         $target = explode(":", $target);
@@ -232,7 +188,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
 
     /**
      * Send whole page as response
-     * @return Server\Response
+     * @param bool|array $updated
      */
     protected function sendPage($updated) : Server\Response
     {
@@ -241,10 +197,8 @@ class PageCommandActionHandler implements Server\CommandActionHandler
 
     /**
      * Get id for pcid
-     * @param
-     * @return
      */
-    protected function getIdForPCId($pcid)
+    protected function getIdForPCId(string $pcid) : string
     {
         $page = $this->page_gui->getPageObject();
         $id = "pg:";
@@ -256,11 +210,9 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     }
 
     /**
-     * Get id for pcid
-     * @param
-     * @return
+     * Get hier id for pcid
      */
-    protected function getHierIdForPCId($pcid)
+    protected function getHierIdForPCId(string $pcid) : string
     {
         $page = $this->page_gui->getPageObject();
         $id = "pg";
@@ -271,13 +223,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $id;
     }
 
-
-    /**
-     * All command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function updateCommand($body) : Server\Response
+    protected function updateCommand(array $body) : Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -303,12 +249,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return new Server\Response($data);
     }
 
-    /**
-     * Activate command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function activate($body) : Server\Response
+    protected function activate(array $body) : Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $page = $this->page_gui->getPageObject();
@@ -326,6 +267,42 @@ class PageCommandActionHandler implements Server\CommandActionHandler
             $this->page_gui->getPageConfig()->getEnableSelfAssessment()
         );
 
+
+        return $this->sendPage($updated);
+    }
+
+    /**
+     * Activate command
+     * @param $body
+     * @return Server\Response
+     */
+    protected function listEdit($body) : Server\Response
+    {
+        $pcid = $body["data"]["pcid"];
+        $list_cmd = $body["data"]["list_cmd"];
+        $page = $this->page_gui->getPageObject();
+
+        $pc = $page->getContentObjectForPcId($pcid);
+
+        $updated = true;
+        switch ($list_cmd) {
+            case "newItemAfter":
+                $pc->newItemAfter();
+                break;
+            case "newItemBefore":
+                $pc->newItemBefore();
+                break;
+            case "deleteItem":
+                $pc->deleteItem();
+                break;
+            case "moveItemUp":
+                $pc->moveItemUp();
+                break;
+            case "moveItemDown":
+                $pc->moveItemDown();
+                break;
+        }
+        $updated = $page->update();
 
         return $this->sendPage($updated);
     }

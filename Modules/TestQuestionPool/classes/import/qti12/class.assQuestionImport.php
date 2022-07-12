@@ -34,7 +34,7 @@ class assQuestionImport
         $this->object = $a_object;
     }
     
-    public function getFeedbackGeneric($item)
+    public function getFeedbackGeneric($item) : array
     {
         $feedbacksgeneric = array();
         foreach ($item->resprocessing as $resprocessing) {
@@ -93,7 +93,7 @@ class assQuestionImport
      * @param string $prefix
      * @return int
      */
-    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_')
+    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_') : int
     {
         return (int) str_replace($prefix, '', $feedbackIdent);
     }
@@ -103,7 +103,7 @@ class assQuestionImport
      * @param string $prefix
      * @return array
      */
-    protected function getFeedbackAnswerSpecific(ilQTIItem $item, $prefix = 'response_')
+    protected function getFeedbackAnswerSpecific(ilQTIItem $item, $prefix = 'response_') : array
     {
         $feedbacks = array();
         
@@ -154,7 +154,7 @@ class assQuestionImport
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQtiItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -162,14 +162,14 @@ class assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
     }
 
     /**
      * @param ilQTIItem $item
      */
-    protected function addGeneralMetadata(ilQTIItem $item)
+    protected function addGeneralMetadata(ilQTIItem $item) : void
     {
         if ($item->getMetadataEntry('externalID')) {
             $this->object->setExternalId($item->getMetadataEntry('externalID'));
@@ -184,7 +184,7 @@ class assQuestionImport
      * @param ilQTIItem $item
      * @return ilAssQuestionLifecycle
      */
-    protected function fetchLifecycle(ilQTIItem $item)
+    protected function fetchLifecycle(ilQTIItem $item) : ilAssQuestionLifecycle
     {
         try {
             $lifecycle = ilAssQuestionLifecycle::getInstance(
@@ -210,40 +210,43 @@ class assQuestionImport
     /**
      * returns the full path to extracted qpl import archiv (qpl import dir + qpl archiv subdir)
      */
-    protected function getQplImportArchivDirectory()
+    protected function getQplImportArchivDirectory() : string
     {
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-        return ilObjQuestionPool::_getImportDirectory() . '/' . $_SESSION["qpl_import_subdir"];
+        return ilObjQuestionPool::_getImportDirectory() . '/' . ilSession::get("qpl_import_subdir");
     }
     
     /**
      * returns the full path to extracted tst import archiv (tst import dir + tst archiv subdir)
      */
-    protected function getTstImportArchivDirectory()
+    protected function getTstImportArchivDirectory() : string
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
-        return ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"];
+        return ilObjTest::_getImportDirectory() . '/' . ilSession::get("tst_import_subdir");
     }
     
-    protected function processNonAbstractedImageReferences($text, $sourceNic)
+    protected function processNonAbstractedImageReferences($text, $sourceNic) : string
     {
         $reg = '/<img.*src=".*\\/mm_(\\d+)\\/(.*?)".*>/m';
         $matches = null;
         
         if (preg_match_all($reg, $text, $matches)) {
+            $mobs = array();
             for ($i = 0, $max = count($matches[1]); $i < $max; $i++) {
                 $mobSrcId = $matches[1][$i];
                 $mobSrcName = $matches[2][$i];
                 $mobSrcLabel = 'il_' . $sourceNic . '_mob_' . $mobSrcId;
 
-                if (!is_array($_SESSION["import_mob_xhtml"])) {
-                    $_SESSION["import_mob_xhtml"] = array();
-                }
+                //if (!is_array(ilSession::get("import_mob_xhtml"))) {
+                //    ilSession::set("import_mob_xhtml", array());
+                //}
 
-                $_SESSION["import_mob_xhtml"][] = array(
+                //$_SESSION["import_mob_xhtml"][] = array(
+                $mobs[] = array(
                     "mob" => $mobSrcLabel, "uri" => 'objects/' . $mobSrcLabel . '/' . $mobSrcName
                 );
             }
+            ilSession::set('import_mob_xhtml', $mobs);
         }
 
         include_once "./Services/RTE/classes/class.ilRTE.php";
@@ -256,10 +259,9 @@ class assQuestionImport
      *
      * @final
      * @access protected
-     * @param type $qtiItem
      * @return string $additionalContentEditingMode
      */
-    final protected function fetchAdditionalContentEditingModeInformation($qtiItem)
+    final protected function fetchAdditionalContentEditingModeInformation($qtiItem) : string
     {
         $additionalContentEditingMode = $qtiItem->getMetadataEntry('additional_cont_edit_mode');
         

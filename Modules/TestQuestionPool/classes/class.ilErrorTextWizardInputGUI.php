@@ -29,12 +29,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->values = array();
         if (is_array($a_value)) {
@@ -52,7 +47,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	Key size
     */
-    public function setKeySize($a_size)
+    public function setKeySize($a_size) : void
     {
         $this->key_size = $a_size;
     }
@@ -62,7 +57,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	Key size
     */
-    public function getKeySize()
+    public function getKeySize() : int
     {
         return $this->key_size;
     }
@@ -72,7 +67,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	value size
     */
-    public function setValueSize($a_size)
+    public function setValueSize($a_size) : void
     {
         $this->value_size = $a_size;
     }
@@ -82,7 +77,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	value size
     */
-    public function getValueSize()
+    public function getValueSize() : int
     {
         return $this->value_size;
     }
@@ -92,7 +87,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	Key maxlength
     */
-    public function setKeyMaxlength($a_maxlength)
+    public function setKeyMaxlength($a_maxlength) : void
     {
         $this->key_maxlength = $a_maxlength;
     }
@@ -102,7 +97,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	Key maxlength
     */
-    public function getKeyMaxlength()
+    public function getKeyMaxlength() : int
     {
         return $this->key_maxlength;
     }
@@ -112,7 +107,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	value maxlength
     */
-    public function setValueMaxlength($a_maxlength)
+    public function setValueMaxlength($a_maxlength) : void
     {
         $this->value_maxlength = $a_maxlength;
     }
@@ -122,7 +117,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	value maxlength
     */
-    public function getValueMaxlength()
+    public function getValueMaxlength() : int
     {
         return $this->value_maxlength;
     }
@@ -132,7 +127,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @param	string	$a_name	value name
     */
-    public function setValueName($a_name)
+    public function setValueName($a_name) : void
     {
         $this->value_name = $a_name;
     }
@@ -142,7 +137,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	string	value name
     */
-    public function getValueName()
+    public function getValueName() : string
     {
         return $this->value_name;
     }
@@ -152,7 +147,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @param	string	$a_name	value name
     */
-    public function setKeyName($a_name)
+    public function setKeyName($a_name) : void
     {
         $this->key_name = $a_name;
     }
@@ -162,7 +157,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	string	value name
     */
-    public function getKeyName()
+    public function getKeyName() : string
     {
         return $this->key_name;
     }
@@ -172,7 +167,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values)
+    public function setValues($a_values) : void
     {
         $this->values = $a_values;
     }
@@ -182,25 +177,25 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $foundvalues = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+        } else {
+            $foundvalues = $_POST[$this->getPostVar()];
         }
-        $foundvalues = $_POST[$this->getPostVar()];
         $max_points = 0;
         
         if (is_array($foundvalues)) {
@@ -250,10 +245,9 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 
     /**
     * Insert property html
-    *
-    * @return	int	Size
+    * @return	void	Size
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -264,17 +258,20 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
             if (is_object($value)) {
                 if (strlen($value->text_wrong)) {
                     $tpl->setCurrentBlock("prop_key_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text_wrong));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->text_wrong));
                     $tpl->parseCurrentBlock();
                 }
                 if (strlen($value->text_correct)) {
                     $tpl->setCurrentBlock("prop_value_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text_correct));
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->text_correct)
+                    );
                     $tpl->parseCurrentBlock();
                 }
                 if (strlen($value->points)) {
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->points));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->points));
                     $tpl->parseCurrentBlock();
                 }
             }

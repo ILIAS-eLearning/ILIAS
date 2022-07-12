@@ -1,32 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Paragraph;
 
+use ILIAS\COPage\Editor\Server\UIWrapper;
+use ILIAS\UI\Component\Dropdown\Dropdown;
+
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ParagraphStyleSelector
 {
-    public static $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
+    public static string $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
+    protected int $style_id = 0;
 
-    /**
-     * @var
-     */
-    protected $ui_wrapper;
+    protected UIWrapper $ui_wrapper;
+    protected \ILIAS\DI\UIServices $ui;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * Constructor
-     */
-    public function __construct($ui_wrapper, $style_id)
-    {
+    public function __construct(
+        UIWrapper $ui_wrapper,
+        int $style_id
+    ) {
         global $DIC;
 
         $this->ui = $DIC->ui();
@@ -37,8 +46,12 @@ class ParagraphStyleSelector
     /**
      * Get style selector
      */
-    public function getStyleSelector($a_selected, $type = "par-action", $action = "par.class", $attr = "class")
-    {
+    public function getStyleSelector(
+        string $a_selected,
+        string $type = "par-action",
+        string $action = "par.class",
+        string $attr = "class"
+    ) : Dropdown {
         $a_chars = \ilPCParagraphGUI::_getCharacteristics($this->style_id);
         $ui_wrapper = $this->ui_wrapper;
         $ui = $this->ui;

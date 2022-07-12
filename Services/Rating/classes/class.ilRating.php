@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilRating
@@ -46,11 +60,11 @@ class ilRating
         if ($a_user_id == ANONYMOUS_USER_ID) {
             return;
         }
-        
+    
         if ($a_category_id) {
             $ilDB->manipulate("DELETE FROM il_rating WHERE " .
                 "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
-                "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+                "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
                 "obj_type = " . $ilDB->quote($a_obj_type, "text") . " AND " .
                 "sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") . " AND " .
                 $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true) . " AND " .
@@ -59,22 +73,22 @@ class ilRating
         
         $ilDB->manipulate("DELETE FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
-            "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") . " AND " .
             "sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") . " AND " .
             $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true) . " AND " .
-            "category_id = " . $ilDB->quote((int) $a_category_id, "integer"));
-        
-        if ((int) $a_rating) {
+            "category_id = " . $ilDB->quote($a_category_id, "integer"));
+
+        if ($a_rating) {
             $ilDB->manipulate("INSERT INTO il_rating (user_id, obj_id, obj_type," .
                 "sub_obj_id, sub_obj_type, category_id, rating, tstamp) VALUES (" .
                 $ilDB->quote($a_user_id, "integer") . "," .
-                $ilDB->quote((int) $a_obj_id, "integer") . "," .
+                $ilDB->quote($a_obj_id, "integer") . "," .
                 $ilDB->quote($a_obj_type, "text") . "," .
                 $ilDB->quote((int) $a_sub_obj_id, "integer") . "," .
                 $ilDB->quote($a_sub_obj_type, "text") . "," .
                 $ilDB->quote($a_category_id, "integer") . "," .
-                $ilDB->quote((int) $a_rating, "integer") . "," .
+                $ilDB->quote($a_rating, "integer") . "," .
                 $ilDB->quote(time(), "integer") . ")");
         }
     }
@@ -101,9 +115,9 @@ class ilRating
         
         $ilDB->manipulate("DELETE FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
-            "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") . " AND " .
-            "sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") . " AND " .
+            "sub_obj_id = " . $ilDB->quote($a_sub_obj_id, "integer") . " AND " .
             $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true));
     }
     
@@ -136,12 +150,12 @@ class ilRating
         
         $q = "SELECT AVG(rating) av FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
-            "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") . " AND " .
-            "sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") . " AND " .
+            "sub_obj_id = " . $ilDB->quote($a_sub_obj_id, "integer") . " AND " .
             $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
         if ($a_category_id !== null) {
-            $q .= " AND category_id = " . $ilDB->quote((int) $a_category_id, "integer");
+            $q .= " AND category_id = " . $ilDB->quote($a_category_id, "integer");
         }
         $set = $ilDB->query($q);
         $rec = $ilDB->fetchAssoc($set);
@@ -173,17 +187,17 @@ class ilRating
         }
         
         $q = "SELECT AVG(rating) av FROM il_rating" .
-            " WHERE obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") .
+            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND obj_type = " . $ilDB->quote($a_obj_type, "text");
         if ($a_sub_obj_id) {
-            $q .= " AND sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") .
+            $q .= " AND sub_obj_id = " . $ilDB->quote($a_sub_obj_id, "integer") .
                 " AND " . $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
         } else {
             $q .= " AND sub_obj_type = " . $ilDB->quote("-", "text"); // #13913
         }
         
         if ($a_category_id !== null) {
-            $q .= " AND category_id = " . $ilDB->quote((int) $a_category_id, "integer");
+            $q .= " AND category_id = " . $ilDB->quote($a_category_id, "integer");
         }
         $q .= " GROUP BY user_id";
         $set = $ilDB->query($q);
@@ -220,7 +234,7 @@ class ilRating
         $res = array();
         $q = "SELECT sub_obj_id, sub_obj_type, rating, category_id, user_id, tstamp " .
             "FROM il_rating WHERE " .
-            "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") .
             " ORDER BY tstamp";
         if ($a_category_ids) {
@@ -245,8 +259,8 @@ class ilRating
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
-        $tmp = $res = $tmp_user = $res_user = array();
+    
+        $tmp = $res = $res_user = array();
         
         // collapse by categories
         $q = "SELECT obj_id, obj_type, user_id, AVG(rating) av" .

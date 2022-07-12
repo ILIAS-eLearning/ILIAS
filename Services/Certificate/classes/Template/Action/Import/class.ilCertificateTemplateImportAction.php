@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
@@ -83,7 +97,7 @@ class ilCertificateTemplateImportAction
      * @throws FileNotFoundException
      * @throws IOException
      * @throws ilDatabaseException
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function import(
         string $zipFile,
@@ -138,7 +152,7 @@ class ilCertificateTemplateImportAction
         $xsl = $certificate->getCertificateContent();
 
         foreach ($directoryInformation as $file) {
-            if (strcmp($file['type'], 'file') == 0) {
+            if (strcmp($file['type'], 'file') === 0) {
                 $filePath = $importPath . $subDirectoryName . $file['entry'];
                 if (strpos($file['entry'], '.xml') !== false) {
                     $xsl = $this->filesystem->read($filePath);
@@ -177,7 +191,7 @@ class ilCertificateTemplateImportAction
                         $originalImagePath,
                         $thumbnailImagePath,
                         'JPEG',
-                        (string) 100
+                        "100"
                     );
                 } elseif (strpos($file['entry'], '.svg') !== false) {
                     $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';

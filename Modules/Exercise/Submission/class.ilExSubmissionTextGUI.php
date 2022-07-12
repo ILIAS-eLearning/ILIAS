@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Object-based submissions (ends up as static file)
  *
@@ -94,10 +108,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
             if ($text->isCharLimited()) {
                 $char_msg = "";
-                if ($this->assignment->getMinCharLimit()) {
+                if ($this->assignment->getMinCharLimit() !== 0) {
                     $char_msg .= $lng->txt("exc_min_char_limit") . ": " . $this->assignment->getMinCharLimit();
                 }
-                if ($this->assignment->getMaxCharLimit()) {
+                if ($this->assignment->getMaxCharLimit() !== 0) {
                     $char_msg .= " " . $lng->txt("exc_max_char_limit") . ": " . $this->assignment->getMaxCharLimit();
                 }
                 $text->setInfo($char_msg);
@@ -147,7 +161,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $ilCtrl = $this->ctrl;
 
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
             $ilCtrl->redirect($this, "returnToParent");
         }
 
@@ -159,13 +173,13 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $ilHelp->setScreenIdComponent("exc");
         $ilHelp->setScreenId("text_submission");
 
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initAssignmentTextForm();
 
             $files = $this->submission->getFiles();
-            if ($files) {
+            if ($files !== []) {
                 $files = array_shift($files);
-                if (trim($files["atext"])) {
+                if (trim($files["atext"]) !== '' && trim($files["atext"]) !== '0') {
                     $text = $a_form->getItemByPostVar("atxt");
                     // mob id to mob src
                     $text->setValue(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1));
@@ -191,7 +205,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $ilCtrl = $this->ctrl;
         
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
             $ilCtrl->redirect($this, "returnToParent");
         }
         
@@ -227,7 +241,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
                 $this->handleRemovedUpload();
             }
             
-            ilUtil::sendSuccess($this->lng->txt("exc_text_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_text_saved"), true);
             if ($a_return) {
                 $ilCtrl->redirect($this, "returnToParent");
             } else {
@@ -248,12 +262,12 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $a_form = $this->initAssignmentTextForm(true);
         
         $files = $this->submission->getFiles();
-        if ($files) {
+        if ($files !== []) {
             $files = array_shift($files);
-            if (trim($files["atext"])) {
+            if (trim($files["atext"]) !== '' && trim($files["atext"]) !== '0') {
                 if ($files["late"] &&
                     !$this->submission->hasPeerReviewAccess()) {
-                    ilUtil::sendFailure($this->lng->txt("exc_late_submission"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_late_submission"));
                 }
                 
                 $text = $a_form->getItemByPostVar("atxt");

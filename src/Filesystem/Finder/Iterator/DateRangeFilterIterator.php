@@ -10,6 +10,20 @@ use ILIAS\Filesystem\DTO\Metadata;
 use InvalidArgumentException;
 use Iterator as PhpIterator;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 /**
  * Class DateRangeFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
@@ -17,10 +31,9 @@ use Iterator as PhpIterator;
  */
 class DateRangeFilterIterator extends FilterIterator
 {
-    /** @var FileSystem */
-    private $filesystem;
+    private FileSystem $filesystem;
     /** @var DateComparator[] */
-    private $comparators = [];
+    private array $comparators = [];
 
     /**
      * @param Filesystem $filesystem
@@ -30,7 +43,7 @@ class DateRangeFilterIterator extends FilterIterator
      */
     public function __construct(Filesystem $filesystem, PhpIterator $iterator, array $comparators)
     {
-        array_walk($comparators, function ($comparator) {
+        array_walk($comparators, static function ($comparator) : void {
             if (!($comparator instanceof DateComparator)) {
                 if (is_object($comparator)) {
                     throw new InvalidArgumentException(sprintf(
@@ -52,7 +65,7 @@ class DateRangeFilterIterator extends FilterIterator
     /**
      * @inheritdoc
      */
-    public function accept()
+    public function accept() : bool
     {
         /** @var Metadata $metadata */
         $metadata = $this->current();

@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Exercise\GUIRequest;
 
 /**
@@ -237,7 +251,7 @@ class ilExSubmissionGUI
         $file = $this->request->getFile();
 
         if (!isset($file)) {
-            ilUtil::sendFailure($this->lng->txt("exc_select_one_file"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_select_one_file"), true);
             $this->ctrl->redirect($this, "view");
         }
         
@@ -260,7 +274,7 @@ class ilExSubmissionGUI
         if (!$this->assignment->notStartedYet()) {
             // deliver file
             $p = $storage->getFeedbackFilePath($this->submission->getFeedbackId(), $file);
-            ilUtil::deliverFile($p, $file);
+            ilFileDelivery::deliverFileLegacy($p, $file);
         }
     
         return true;
@@ -283,7 +297,7 @@ class ilExSubmissionGUI
             ? $this->assignment->getGlobalFeedbackFilePath()
             : $this->assignment->getGlobalFeedbackFileStoragePath() . $this->assignment->getFeedbackFile();
 
-        ilUtil::deliverFile($file, $this->assignment->getFeedbackFile());
+        ilFileDelivery::deliverFileLegacy($file, $this->assignment->getFeedbackFile());
     }
     
     public function downloadFileObject() : bool
@@ -291,7 +305,7 @@ class ilExSubmissionGUI
         $file = $this->request->getFile();
 
         if (!isset($file)) {
-            ilUtil::sendFailure($this->lng->txt("exc_select_one_file"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_select_one_file"), true);
             $this->ctrl->redirect($this, "view");
         }
         
@@ -304,7 +318,7 @@ class ilExSubmissionGUI
             foreach ($files as $lfile) {
                 if ($lfile["name"] == $file) {
                     // deliver file
-                    ilUtil::deliverFile($lfile["fullpath"], $file);
+                    ilFileDelivery::deliverFileLegacy($lfile["fullpath"], $file);
                     exit();
                 }
             }

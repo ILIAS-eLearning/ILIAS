@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\MediaObjects\MediaType;
 
@@ -9,18 +23,13 @@ namespace ILIAS\MediaObjects\MediaType;
  */
 class MediaType
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
     }
 
     /**
-     * This has been introduced for applets long time ago an been available for
+     * This has been introduced for applets long time ago and been available for
      * all mime times for several years.
-     * @param $mime
-     * @return bool
      */
     public function usesParameterProperty(string $mime) : bool
     {
@@ -34,8 +43,10 @@ class MediaType
      *
      * This should be the same behaviour as mp3/flv in page.xsl
      */
-    public function usesAutoStartParameterOnly(string $location, string $mime) : bool
-    {
+    public function usesAutoStartParameterOnly(
+        string $location,
+        string $mime
+    ) : bool {
         $lpath = pathinfo($location);
         if ($lpath["extension"] == "mp3" && $mime == "audio/mpeg") {
             return true;
@@ -49,15 +60,11 @@ class MediaType
         return false;
     }
 
-    /**
-     */
     public function isImage(string $mime) : bool
     {
         return is_int(strpos($mime, "image"));
     }
 
-    /**
-     */
     public function usesAltTextProperty(string $mime) : bool
     {
         return $this->isImage($mime);

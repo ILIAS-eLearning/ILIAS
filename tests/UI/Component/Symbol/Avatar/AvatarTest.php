@@ -1,5 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -100,7 +116,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testCrc32()
+    public function testCrc32() : void
     {
         // test mechanism (crc32)
         $f = $this->getAvatarFactory();
@@ -120,17 +136,17 @@ class AvatarTest extends ILIAS_UI_TestBase
     public function testAlternativeText() : void
     {
         $f = $this->getAvatarFactory();
-        $this->assertEquals("", $f->picture('', 'ro')->getAlternativeText());
-        $this->assertEquals("", $f->letter('', 'ro')->getAlternativeText());
+        $this->assertEquals("", $f->picture('', 'ro')->getLabel());
+        $this->assertEquals("", $f->letter('', 'ro')->getLabel());
         $this->assertEquals("alternative", $f->picture('', 'ro')
-                                             ->withAlternativeText("alternative")
-                                             ->getAlternativeText());
+                                             ->withLabel("alternative")
+                                             ->getLabel());
         $this->assertEquals("alternative", $f->letter('', 'ro')
-                                             ->withAlternativeText("alternative")
-                                             ->getAlternativeText());
+                                             ->withLabel("alternative")
+                                             ->getLabel());
     }
 
-    public function testRenderingLetter()
+    public function testRenderingLetter() : void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
@@ -144,7 +160,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderingPicture()
+    public function testRenderingPicture() : void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
@@ -159,13 +175,13 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderingPictureWithSomeAlternativeText()
+    public function testRenderingPictureWithSomeAlternativeText() : void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
 
         $str = '/path/to/picture.jpg';
-        $letter = $f->picture($str, 'ro')->withAlternativeText("alternative");
+        $letter = $f->picture($str, 'ro')->withLabel("alternative");
         $html = $this->brutallyTrimHTML($r->render($letter));
         $expected = $this->brutallyTrimHTML('
 <span class="il-avatar il-avatar-picture il-avatar-size-large">	
@@ -181,7 +197,14 @@ class AvatarTest extends ILIAS_UI_TestBase
     public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 2) : Generator
     {
         $sh = static function ($length = 10) {
-            return substr(str_shuffle(str_repeat($x = 'abcdefghijklmnopqrstuvwxyz', (int) ceil($length / strlen($x)))), 1, $length);
+            return substr(
+                str_shuffle(str_repeat(
+                    $x = 'abcdefghijklmnopqrstuvwxyz',
+                    (int) ceil($length / strlen($x))
+                )),
+                1,
+                $length
+            );
         };
 
         $strings = [];

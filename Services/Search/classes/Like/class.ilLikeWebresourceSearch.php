@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,38 +21,20 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Search/classes/class.ilWebresourceSearch.php';
 /**
 * Class webresource search
 *
 * Performs Mysql Like search in object_data title and description
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 *
 */
-include_once 'Services/Search/classes/class.ilTestSearch.php';
 
 class ilLikeWebresourceSearch extends ilWebresourceSearch
 {
-
-    /**
-    * Constructor
-    * @access public
-    */
-    public function __construct($qp_obj)
+    public function __createWhereCondition() : string
     {
-        parent::__construct($qp_obj);
-    }
-
-
-    public function __createWhereCondition()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $concat = ' title ';
 
         $and = "  WHERE  ";
@@ -61,7 +43,7 @@ class ilLikeWebresourceSearch extends ilWebresourceSearch
             if ($counter++) {
                 $and .= " OR ";
             }
-            $and .= $ilDB->like($concat, 'text', '%' . $word . '%');
+            $and .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         return $and;
     }

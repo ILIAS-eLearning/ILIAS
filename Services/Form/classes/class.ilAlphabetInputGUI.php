@@ -1,193 +1,149 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a text property in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 {
-    protected $letters;
-    protected $parent_object;
-    protected $parent_cmd;
-    protected $highlight;
-    protected $highlight_letter;
-
-    /**
-     * @var bool
-     */
-    protected $fix_db_umlauts = false;
-
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    private string $value = "";
+    protected array $letters = [];
+    protected object $parent_object;
+    protected string $parent_cmd = "";
+    protected bool $highlight = false;
+    protected string $highlight_letter = "";
+    protected bool $fix_db_umlauts = false;
+    protected ?bool $db_supports_distinct_umlauts = null;
+    protected ilDBInterface $db;
+    
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->db = $DIC->database();
         parent::__construct($a_title, $a_postvar);
     }
-
+    
     /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+     * Only temp fix for #8603, should go to db classes
+     * @deprecated
+     */
+    private function dbSupportsDisctinctUmlauts() : ?bool
+    {
+        if (!isset($this->db_supports_distinct_umlauts)) {
+            $set = $this->db->query(
+                "SELECT (" . $this->db->quote("A", "text") . " = " . $this->db->quote("Ä", "text") . ") t FROM DUAL "
+            );
+            $rec = $this->db->fetchAssoc($set);
+            $this->db_supports_distinct_umlauts = !(bool) $rec["t"];
+        }
+        
+        return $this->db_supports_distinct_umlauts;
+    }
+    
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
 
-    
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
 
-    /**
-     * Set letters available
-     *
-     * @param	array	letters
-     */
-    public function setLetters($a_val)
+    public function setLetters(array $a_val) : void
     {
         $this->letters = $a_val;
     }
-    
-    /**
-     * Get letters available
-     *
-     * @return	array	letters
-     */
-    public function getLetters()
+
+    public function getLetters() : array
     {
         return $this->letters;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
-        $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
+        if ($this->getRequired() && trim($this->str($this->getPostVar())) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
-
             return false;
         }
         
         return true;
     }
-    
-    /**
-     * Set fix db umlauts
-     *
-     * @param bool $a_val fix db umlauts
-     */
-    public function setFixDBUmlauts($a_val)
+
+    public function getInput() : string
+    {
+        return $this->str($this->getPostVar());
+    }
+
+    public function setFixDBUmlauts(bool $a_val) : void
     {
         $this->fix_db_umlauts = $a_val;
     }
-    
-    /**
-     * Get fix db umlauts
-     *
-     * @return bool fix db umlauts
-     */
-    public function getFixDBUmlauts()
+
+    public function getFixDBUmlauts() : bool
     {
         return $this->fix_db_umlauts;
     }
-    
-    /**
-     * Fix db umlauts
-     *
-     * @param
-     * @return
-     */
-    public function fixDBUmlauts($l)
+
+    public function fixDBUmlauts(string $l) : string
     {
-        if ($this->fix_db_umlauts && !ilUtil::dbSupportsDisctinctUmlauts()) {
+        if ($this->fix_db_umlauts && !$this->dbSupportsDisctinctUmlauts()) {
             $l = str_replace(array("Ä", "Ö", "Ü", "ä", "ö", "ü"), array("A", "O", "U", "a", "o", "u"), $l);
         }
         return $l;
     }
     
     
-    /**
-    * Render item
-    */
-    protected function render($a_mode = "")
+    protected function render(string $a_mode = "") : string
     {
-        die("only implemented for toolbar usage");
+        return "";
     }
     
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    //	function insert($a_tpl)
-    //	{
-    //		$a_tpl->setCurrentBlock("prop_generic");
-    //		$a_tpl->setVariable("PROP_GENERIC", "zz");
-    //		$a_tpl->parseCurrentBlock();
-    //	}
-    
-    /**
-     * Set parent cmd
-     *
-     * @param	object	parent object
-     * @param	string	parent command
-     */
-    public function setParentCommand($a_obj, $a_cmd)
-    {
+    public function setParentCommand(
+        object $a_obj,
+        string $a_cmd
+    ) : void {
         $this->parent_object = $a_obj;
         $this->parent_cmd = $a_cmd;
     }
     
-    /**
-     * Set highlighted
-     *
-     * @param
-     * @return
-     */
-    public function setHighlighted($a_high_letter)
-    {
-        $this->highlight = true;
+    public function setHighlighted(
+        string $a_high_letter
+    ) : void {
+        $this->highlight = ($a_high_letter != "");
         $this->highlight_letter = $a_high_letter;
     }
     
-    /**
-    * Get HTML for toolbar
-    */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -195,7 +151,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
         $lng->loadLanguageModule("form");
 
         $tpl = new ilTemplate("tpl.prop_alphabet.html", true, true, "Services/Form");
-        foreach ((array) $this->getLetters() as $l) {
+        foreach ($this->getLetters() as $l) {
             $l = $this->fixDBUmlauts($l);
             $tpl->setCurrentBlock("letter");
             $tpl->setVariable("TXT_LET", $l);

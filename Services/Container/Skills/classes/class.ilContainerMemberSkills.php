@@ -17,6 +17,9 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+use ILIAS\Skill\Service\SkillProfileService;
+
 /**
  * Skills of a container
  *
@@ -25,9 +28,11 @@
 class ilContainerMemberSkills
 {
     protected ilDBInterface $db;
+    protected SkillTreeService $tree_service;
+    protected SkillProfileService $profile_service;
     protected array $skills = [];
-    protected int $obj_id;
-    protected int $user_id;
+    protected int $obj_id = 0;
+    protected int $user_id = 0;
     protected array $skill_levels = [];
     protected bool $published = false;
 
@@ -36,6 +41,8 @@ class ilContainerMemberSkills
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->tree_service = $DIC->skills()->tree();
+        $this->profile_service = $DIC->skills()->profile();
 
         $this->setObjId($a_obj_id);
         $this->setUserId($a_user_id);
@@ -93,12 +100,12 @@ class ilContainerMemberSkills
      */
     public function getOrderedSkillLevels() : array
     {
-        $skill_levels = array_map(function ($a, $k) {
+        $skill_levels = array_map(static function ($a, $k) : array {
             $s = explode(":", $k);
-            return array("level_id" => $a, "skill_id" => $s[0], "tref_id" => $s[1]);
+            return ["level_id" => $a, "skill_id" => $s[0], "tref_id" => $s[1]];
         }, $this->getSkillLevels(), array_keys($this->getSkillLevels()));
 
-        $vtree = new ilVirtualSkillTree();
+        $vtree = $this->tree_service->getGlobalVirtualSkillTree();
         return $vtree->getOrderedNodeset($skill_levels, "skill_id", "tref_id");
     }
 
@@ -174,6 +181,9 @@ class ilContainerMemberSkills
                 ilPersonalSkill::addPersonalSkill($this->getUserId(), $sk[0]);
             }
         }
+
+        //write profile completion entries if fulfilment status has changed
+        $this->profile_service->writeCompletionEntryForAllProfiles($this->getUserId());
 
         $db->manipulate("UPDATE cont_member_skills SET " .
             " published = " . $db->quote(1, "integer") .

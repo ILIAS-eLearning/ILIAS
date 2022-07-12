@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,280 +21,143 @@
         +-----------------------------------------------------------------------------+
 */
 
-define('IL_CALENDAR_ACTION_CREATE', 1);
-define('IL_CALENDAR_ACTION_UPDATE', 2);
-define('IL_CALENDAR_ACTION_DELETE', 3);
-
-include_once('./Services/Calendar/classes/class.ilDate.php');
-include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-
 /**
-* Apointment templates are used for automatic generated apointments.
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
-
+ * Apointment templates are used for automatic generated apointments.
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarAppointmentTemplate
 {
-    protected $context_id;
-    protected $context_info;
-    protected $title;
-    protected $subtitle;
-    protected $description;
-    protected $information;
-    protected $location;
-    protected $start;
-    protected $end;
-    protected $fullday = false;
-    protected $translation_type = IL_CAL_TRANSLATION_SYSTEM;
+    protected int $context_id = 0;
+    protected string $context_info = '';
+    protected string $title = '';
+    protected string $subtitle = '';
+    protected string $description = '';
+    protected string $information = '';
+    protected string $location = '';
+    protected ?ilDateTime $start = null;
+    protected ?ilDateTime $end = null;
+    protected bool $fullday = false;
+    protected int $translation_type = ilCalendarEntry::TRANSLATION_SYSTEM;
 
-    protected $type;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int unique id
-     */
-    public function __construct($a_id)
+    public function __construct(int $a_id)
     {
         $this->context_id = $a_id;
     }
 
-    /**
-     * Set context info
-     * @param string
-     */
-    public function setContextInfo($a_info)
+    public function setContextInfo(string $a_info) : void
     {
         $this->context_info = $a_info;
     }
 
-    /**
-     * Get context info
-     * @return string
-     */
-    public function getContextInfo()
+    public function getContextInfo() : string
     {
         return $this->context_info;
     }
-    
-    /**
-     * set title
-     *
-     * @access public
-     * @param string appointment title
-     */
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
-    
-    /**
-     * get title
-     *
-     * @access public
-     * @return string title
-     */
-    public function getTitle()
+
+    public function getTitle() : string
     {
         return $this->title;
     }
-    
+
     /**
      * set subtitle
      * Used for automatic generated appointments.
      * Will be translated automatically and be appended to the title.
-     *
-     * @access public
-     * @param string subtitle
-     * @return void
      */
-    public function setSubtitle($a_subtitle)
+    public function setSubtitle(string $a_subtitle) : void
     {
         $this->subtitle = $a_subtitle;
     }
-    
+
     /**
      * get subtitle
-     *
-     * @access public
-     * @return string subtitle
      */
-    public function getSubtitle()
+    public function getSubtitle() : string
     {
         return $this->subtitle;
     }
-    
-    /**
-     * get description
-     *
-     * @access public
-     * @param string description
-     */
-    public function setDescription($a_description)
+
+    public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
-    
-    /**
-     * get description
-     *
-     * @access public
-     * @return strin description
-     */
-    public function getDescription()
+
+    public function getDescription() : string
     {
         return $this->description;
     }
-    
-    /**
-     * set information
-     *
-     * @access public
-     * @param string information
-     */
-    public function setInformation($a_information)
+
+    public function setInformation(string $a_information) : void
     {
         $this->information = $a_information;
     }
-    
-    /**
-     * get information
-     *
-     * @access public
-     * @return string information
-     */
-    public function getInformation()
+
+    public function getInformation() : string
     {
         return $this->information;
     }
-    
-    /**
-     * set location
-     *
-     * @access public
-     * @param strin $a_location location
-     * @return
-     */
-    public function setLocation($a_location)
+
+    public function setLocation(string $a_location) : void
     {
         $this->location = $a_location;
     }
-    
-    /**
-     * get location
-     *
-     * @access public
-     * @return string location
-     */
-    public function getLocation()
+
+    public function getLocation() : string
     {
         return $this->location;
     }
-    
-    /**
-     * set start
-     *
-     * @access public
-     * @param ilDateTime start
-     * @return
-     */
-    public function setStart(ilDateTime $start)
+
+    public function setStart(ilDateTime $start) : void
     {
         $this->start = $start;
     }
-    
-    /**
-     * get start
-     *
-     * @access public
-     * @return ilDateTime start
-     */
-    public function getStart()
+
+    public function getStart() : ?ilDateTime
     {
         return $this->start;
     }
-    
-    /**
-     * set end
-     *
-     * @access public
-     * @param ilDateTime end
-     */
-    public function setEnd(ilDateTime $end)
+
+    public function setEnd(ilDateTime $end) : void
     {
         $this->end = $end;
     }
-    
+
     /**
-     * get end
-     *
-     * @access public
-     * @return ilDateTime end
+     * @todo check if this is required
      */
-    public function getEnd()
+    public function getEnd() : ?ilDateTime
     {
-        return $this->end ? $this->end : $this->getStart();
+        return $this->end ?: $this->getStart();
     }
-    
-    /**
-     * set fullday
-     *
-     * @access public
-     * @param bool fullday appointment
-     * @return
-     */
-    public function setFullday($a_fullday)
+
+    public function setFullday(bool $a_fullday) : void
     {
         $this->fullday = $a_fullday;
     }
-    
-    /**
-     * is fullday
-     *
-     * @access public
-     * @return bool true if fullday event
-     */
-    public function isFullday()
+
+    public function isFullday() : bool
     {
         return $this->fullday;
     }
-    
-    /**
-     * set translation type
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function setTranslationType($a_type)
+
+    public function setTranslationType(int $a_type) : void
     {
         $this->translation_type = $a_type;
     }
-    
-    /**
-     * get translation type
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function getTranslationType()
+
+    public function getTranslationType() : int
     {
         return $this->translation_type;
     }
-    
-    /**
-     * get context id
-     *
-     * @access public
-     * @return
-     */
-    public function getContextId()
+
+    public function getContextId() : int
     {
         return $this->context_id;
     }

@@ -32,7 +32,7 @@ class ilAssLacCompositeBuilder
      *
      * @return array
      */
-    public function create($nodes)
+    public function create($nodes) : array
     {
         if ($nodes['type'] == 'group') {
             foreach ($nodes['nodes'] as $key => $child) {

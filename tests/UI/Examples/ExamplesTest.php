@@ -1,24 +1,36 @@
-<?php
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../Base.php");
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
-use \ILIAS\DI\Container;
+use ILIAS\DI\Container;
+use ILIAS\UI\NotImplementedException;
+use ILIAS\FileUpload\FileUpload;
 
 /**
  * Class ExamplesTest Checks if all examples are implemented and properly returning strings
  */
 class ExamplesTest extends ILIAS_UI_TestBase
 {
-    /**
-     * @var string
-     */
-    protected $path_to_base_factory = "src/UI/Factory.php";
-
-    /**
-     * @var Container
-     */
-    protected $dic;
+    protected string $path_to_base_factory = "src/UI/Factory.php";
+    protected Container $dic;
 
     public function setUp() : void
     {
@@ -40,37 +52,39 @@ class ExamplesTest extends ILIAS_UI_TestBase
         $this->dic["tpl"] = $this->getTemplateFactory()->getTemplate("tpl.main.html", false, false);
         $this->dic["lng"] = $this->getLanguage();
         $this->dic["refinery"] = $this->getRefinery();
-        (new \InitUIFramework())->init($this->dic);
+        (new InitUIFramework())->init($this->dic);
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
 
-        $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->setMethods([
-            "getFormActionByClass","setParameterByClass","saveParameterByClass","initBaseClass","getLinkTargetByClass"
+        $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
+            "getFormActionByClass","setParameterByClass","saveParameterByClass","getLinkTargetByClass"
         ])->getMock();
         $this->dic["ilCtrl"]->method("getFormActionByClass")->willReturn("Testing");
         $this->dic["ilCtrl"]->method("getLinkTargetByClass")->willReturn("2");
 
-        $this->dic["upload"] = $this->getMockBuilder(\ILIAS\FileUpload\FileUpload::class)->getMock();
+        $this->dic["upload"] = $this->getMockBuilder(FileUpload::class)->getMock();
 
-        $this->dic["tree"] = $this->getMockBuilder(\ilTree::class)
+        $this->dic["tree"] = $this->getMockBuilder(ilTree::class)
                                   ->disableOriginalConstructor()
-                                  ->setMethods(["getNodeData"])->getMock();
-        $this->dic["tree"]->method("getNodeData")->willReturn(["ref_id" => "1",
-                                                                     "title" => "mock root node",
-                                                                     "type" => "crs"
+                                  ->onlyMethods(["getNodeData"])->getMock();
+
+        $this->dic["tree"]->method("getNodeData")->willReturn([
+            "ref_id" => "1",
+            "title" => "mock root node",
+            "type" => "crs"
         ]);
 
-        //ilPluginAdmin is still mocked with mockery due to static call of getActivePluginsForSlot
-        $this->dic["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
-        $this->dic["ilPluginAdmin"]->shouldReceive("getActivePluginsForSlot")->andReturn([]);
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
+        $this->dic["component.factory"] = $component_factory;
 
-        (new \InitHttpServices())->init($this->dic);
+        (new InitHttpServices())->init($this->dic);
     }
 
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testAllNonAbstractComponentsShowcaseExamples()
+    public function testAllNonAbstractComponentsShowcaseExamples() : void
     {
         global $DIC;
         $DIC = $this->dic;
@@ -81,7 +95,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
                     0,
                     count($entry->getExamples()),
                     "Non abstract Component " . $entry->getNamespace()
-                    . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace()
+                    . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace() . " at " . $entry->getExamplesPath()
                 );
             }
         }
@@ -90,7 +104,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider provideExampleFullFunctionNamesAndPath
      */
-    public function testAllExamplesRenderAString(string $example_function_name, string $example_path)
+    public function testAllExamplesRenderAString(string $example_function_name, string $example_path) : void
     {
         global $DIC;
         $DIC = $this->dic;
@@ -98,28 +112,28 @@ class ExamplesTest extends ILIAS_UI_TestBase
         include_once $example_path;
         try {
             $this->assertIsString($example_function_name(), " Example $example_function_name does not render a string");
-        } catch (\ILIAS\UI\NotImplementedException $e) {
+        } catch (NotImplementedException $e) {
             $this->assertTrue(true);
         }
     }
 
     /**
-     * @return Crawler\Entry\ComponentEntries
      * @throws Crawler\Exception\CrawlerException
      */
-    protected function getEntriesFromCrawler()
+    protected function getEntriesFromCrawler() : Crawler\Entry\ComponentEntries
     {
         $crawler = new Crawler\FactoriesCrawler();
         return $crawler->crawlFactory($this->path_to_base_factory);
     }
 
-    public function provideExampleFullFunctionNamesAndPath()
+    public function provideExampleFullFunctionNamesAndPath() : array
     {
         $function_names = [];
         foreach ($this->getEntriesFromCrawler() as $entry) {
             foreach ($entry->getExamples() as $name => $example_path) {
-                $function_names[$entry->getExamplesNamespace() . "\\" . $name] = [$entry->getExamplesNamespace() . "\\" . $name,
-                                                                                  $example_path
+                $function_names[$entry->getExamplesNamespace() . "\\" . $name] = [
+                    $entry->getExamplesNamespace() . "\\" . $name,
+                    $example_path
                 ];
             }
         }

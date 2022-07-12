@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPUnit\Framework\MockObject\MockObject;
-
 /**
  * Class ilTestTabsManagerTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -11,9 +9,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTestTabsManagerTest extends ilTestBaseTestCase
 {
     private ilTestTabsManager $testObj;
-    /**
-     * @var ilTabsGUI|mixed|MockObject
-     */
+
     private $tabs_mock;
 
     protected function setUp() : void

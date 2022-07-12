@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,109 +21,76 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Calendar/classes/class.ilDate.php');
-include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
-include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
-include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
-include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
-include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
-
-
-
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI, ilCalendarAgendaListGUI
-*
-* @ingroup ServicesCalendar
-*/
+ * @author       Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI, ilCalendarAgendaListGUI
+ * @ingroup      ServicesCalendar
+ */
 class ilCalendarInboxGUI extends ilCalendarViewGUI
 {
-    protected $user_settings = null;
-        
-    protected $lng;
-    protected $ctrl;
-    protected $tabs_gui;
-    protected $tpl;
-    protected $user;
-    protected $toolbar;
-    protected $timezone = 'UTC';
+    protected ?ilCalendarUserSettings $user_settings;
+    protected string $timezone = 'UTC';
+    protected ilCalendarAppointmentColors $app_colors;
 
     /**
      * Constructor
-     *
      * @access public
      * @param
-     * @todo make parent constructor (initialize) and init also seed and other common stuff
      */
     public function __construct(ilDate $seed_date)
     {
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function initialize(int $a_calendar_presentation_type) : void
+    {
+        parent::initialize($a_calendar_presentation_type);
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
-        $this->timezone = $this->user->getTimeZone();
+        if ($this->user->getTimeZone()) {
+            $this->timezone = $this->user->getTimeZone();
+        }
     }
-    
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-
-        $next_class = $ilCtrl->getNextClass();
+        $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
-                $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
-                
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
+                $this->tabs_gui->setSubTabActive((string) ilSession::get('cal_last_tab'));
+
+                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
                 break;
 
             case 'ilcalendaragendalistgui':
-                include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
                 $cal_list = new ilCalendarAgendaListGUI($this->seed);
                 $html = $this->ctrl->forwardCommand($cal_list);
                 // this fixes 0027035 since many methods ilCalendarAppointmentGUI set their own content.
                 if (strlen($html)) {
-                    $tpl->setContent($html);
+                    $this->main_tpl->setContent($html);
                 }
                 break;
 
             default:
                 $cmd = $this->ctrl->getCmd("inbox");
                 $this->$cmd();
-                $tpl->setContent($this->tpl->get());
+                $this->main_tpl->setContent($this->tpl->get());
                 break;
         }
-        
-        return true;
     }
-    
-    /**
-     * show inbox
-     */
-    protected function inbox()
+
+    protected function inbox() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->tpl = new ilTemplate('tpl.inbox.html', true, true, 'Services/Calendar');
 
         // agenda list
         $cal_list = new ilCalendarAgendaListGUI($this->seed);
-        $html = $ilCtrl->getHTML($cal_list);
+        $html = $this->ctrl->getHTML($cal_list);
         $this->tpl->setVariable('CHANGED_TABLE', $html);
     }
 }

@@ -1,12 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\MainControls;
-use ILIAS\UI\Component\Button\Bulky;
+use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Link;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Component\MainControls\Slate\Prompt;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -21,29 +36,17 @@ class MetaBar implements MainControls\MetaBar
     use ComponentHelper;
     use JavaScriptBindable;
 
-    /**
-     * @var SignalGeneratorInterface
-     */
-    private $signal_generator;
+    private SignalGeneratorInterface $signal_generator;
+    private Signal $entry_click_signal;
+    private Signal $disengage_all_signal;
 
     /**
-     * @var Signal
+     * @var array<string, Button\Bulky|Link\Bulky|Slate>
      */
-    private $entry_click_signal;
+    protected array $entries;
 
-    /**
-     * @var Signal
-     */
-    private $disengage_all_signal;
-
-    /**
-     * @var array<string, Bulky|Prompt>
-     */
-    protected $entries;
-
-    public function __construct(
-        SignalGeneratorInterface $signal_generator
-    ) {
+    public function __construct(SignalGeneratorInterface $signal_generator)
+    {
         $this->signal_generator = $signal_generator;
         $this->initSignals();
     }
@@ -61,9 +64,9 @@ class MetaBar implements MainControls\MetaBar
      */
     public function withAdditionalEntry(string $id, $entry) : MainControls\MetaBar
     {
-        $classes = [Bulky::class, Slate::class];
+        $classes = [Button\Bulky::class, Link\Bulky::class, Slate::class];
         $check = [$entry];
-        $this->checkArgListElements("Bulky or Slate", $check, $classes);
+        $this->checkArgListElements("Bulky Button, Bulky Link or Slate", $check, $classes);
 
         $clone = clone $this;
         $clone->entries[$id] = $entry;
@@ -89,7 +92,7 @@ class MetaBar implements MainControls\MetaBar
     /**
      * Set the signals for this component
      */
-    protected function initSignals()
+    protected function initSignals() : void
     {
         $this->entry_click_signal = $this->signal_generator->create();
         $this->disengage_all_signal = $this->signal_generator->create();

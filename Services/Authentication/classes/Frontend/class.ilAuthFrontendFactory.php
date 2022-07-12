@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Factory for auth frontend classes.
@@ -10,25 +24,24 @@
  */
 class ilAuthFrontendFactory
 {
-    const CONTEXT_UNDEFINED = 0;
+    private const CONTEXT_UNDEFINED = 0;
     
     // authentication with id and password. Used for standard form based authentication
     // soap auth (login) but not for (CLI (cron)?) and HTTP basic authentication
-    const CONTEXT_STANDARD_FORM = 2;
+    public const CONTEXT_STANDARD_FORM = 2;
     
     // CLI context for cron
-    const CONTEXT_CLI = 3;
+    public const CONTEXT_CLI = 3;
     
     // Rest soap context
-    const CONTEXT_WS = 4;
+    public const CONTEXT_WS = 4;
     
     // http auth
-    const CONTEXT_HTTP = 5;
+    public const CONTEXT_HTTP = 5;
     
     
-    private $context = self::CONTEXT_UNDEFINED;
-    private $credentials = null;
-    private $logger = null;
+    private int $context = self::CONTEXT_UNDEFINED;
+    private ilLogger $logger;
     
     
     /**
@@ -36,45 +49,31 @@ class ilAuthFrontendFactory
      */
     public function __construct()
     {
-        $this->logger = ilLoggerFactory::getLogger('auth');
-    }
-    
-    /**
-     *
-     * @return \ilLogger
-     */
-    public function getLogger()
-    {
-        return $this->logger;
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
     }
     
     /**
      * Set context for following authentication requests
-     * @param int $a_context
      */
-    public function setContext($a_context)
+    public function setContext(int $a_context) : void
     {
         $this->context = $a_context;
     }
     
     /**
      * Get context
-     * @return int
      */
-    public function getContext()
+    public function getContext() : int
     {
         return $this->context;
     }
-    
-    /**
-     * @return \ilAuthFrontendInterface
-     */
-    public function getFrontend(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
+
+    public function getFrontend(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers) : ?ilAuthFrontendInterface
     {
         switch ($this->getContext()) {
             case self::CONTEXT_CLI:
-                $this->getLogger()->debug('Init auth frontend with standard auth context');
-                include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCLI.php';
+                $this->logger->debug('Init auth frontend with standard auth context');
                 $frontend = new ilAuthFrontendCLI(
                     $session,
                     $status,
@@ -84,8 +83,7 @@ class ilAuthFrontendFactory
                 return $frontend;
                 
             case self::CONTEXT_WS:
-                $this->getLogger()->debug('Init auth frontend with webservice auth context');
-                include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendWS.php';
+                $this->logger->debug('Init auth frontend with webservice auth context');
                 $frontend = new ilAuthFrontendWS(
                     $session,
                     $status,
@@ -95,8 +93,7 @@ class ilAuthFrontendFactory
                 return $frontend;
                 
             case self::CONTEXT_STANDARD_FORM:
-                $this->getLogger()->debug('Init auth frontend with standard auth context');
-                include_once './Services/Authentication/classes/Frontend/class.ilAuthStandardFormFrontend.php';
+                $this->logger->debug('Init auth frontend with standard auth context');
                 $frontend = new ilAuthStandardFormFrontend(
                     $session,
                     $status,
@@ -106,8 +103,7 @@ class ilAuthFrontendFactory
                 return $frontend;
                 
             case self::CONTEXT_HTTP:
-                $this->getLogger()->debug('Init auth frontend with http basic auth context');
-                include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendHTTP.php';
+                $this->logger->debug('Init auth frontend with http basic auth context');
                 $frontend = new ilAuthFrontendHTTP(
                     $session,
                     $status,
@@ -117,8 +113,9 @@ class ilAuthFrontendFactory
                 return $frontend;
             
             case self::CONTEXT_UNDEFINED:
-                $this->getLogger()->error('Trying to init auth with empty context');
+                $this->logger->error('Trying to init auth with empty context');
                 break;
         }
+        return null;
     }
 }

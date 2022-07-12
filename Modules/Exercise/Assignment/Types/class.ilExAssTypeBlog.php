@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Blog type
  *
@@ -9,6 +23,8 @@
  */
 class ilExAssTypeBlog implements ilExAssignmentTypeInterface
 {
+    protected const STR_IDENTIFIER = "blog";
+
     protected ilSetting $setting;
     protected ilLanguage $lng;
 
@@ -70,12 +86,23 @@ class ilExAssTypeBlog implements ilExAssignmentTypeInterface
 
     public function supportsWebDirAccess() : bool
     {
-        return false;
+        return true;
     }
 
     public function getStringIdentifier() : string
     {
-        // TODO: Implement getSubmissionStringIdentifier() method.
-        return "";
+        return self::STR_IDENTIFIER;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getExportObjIdForResourceId(int $resource_id) : int
+    {
+        // in case of blogs the $resource id is the workspace id
+        $tree = new ilWorkspaceTree(0);
+        $owner = $tree->lookupOwner($resource_id);
+        $tree = new ilWorkspaceTree($owner);
+        return $tree->lookupObjectId($resource_id);
     }
 }

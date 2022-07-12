@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 
@@ -15,11 +29,9 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
 
     protected ilDatabaseUpdateSteps $steps;
     protected string $steps_class;
-    protected ?array $step_numbers = null;
 
-    public function __construct(
-        ilDatabaseUpdateSteps $steps
-    ) {
+    public function __construct(ilDatabaseUpdateSteps $steps)
+    {
         $this->steps = $steps;
         $this->steps_class = get_class($this->steps);
     }
@@ -32,7 +44,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
     {
         return hash(
             "sha256",
-            $this->steps_class
+            self::class . $this->steps_class
         );
     }
 
@@ -55,8 +67,9 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
     public function getPreconditions(Environment $environment) : array
     {
         return [
-            new \ilDBStepExecutionDBExistsObjective(),
-            new \ilDatabaseUpdatedObjective()
+            new ilDBStepExecutionDBExistsObjective(),
+            new ilDatabaseUpdatedObjective(),
+            new ilDBStepReaderExistsObjective()
         ];
     }
 
@@ -65,7 +78,8 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
      */
     public function achieve(Environment $environment) : Environment
     {
-        $execution_log = $environment->getResource(\ilDatabaseUpdateStepExecutionLog::class);
+        $execution_log = $environment->getResource(ilDatabaseUpdateStepExecutionLog::class);
+        $step_reader = $environment->getResource(ilDBStepReader::class);
 
         $last_started_step = $execution_log->getLastStartedStep($this->steps_class);
         $last_finished_step = $execution_log->getLastFinishedStep($this->steps_class);
@@ -76,15 +90,15 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
             );
         }
 
-        if ($last_finished_step === $this->getLatestStepNumber()) {
+        if ($last_finished_step === $step_reader->getLatestStepNumber($this->steps_class, self::STEP_METHOD_PREFIX)) {
             return $environment;
         }
 
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
         $this->steps->prepare($db);
 
-        $this->readSteps();
-        foreach ($this->step_numbers as $step) {
+        $steps = $step_reader->readStepNumbers($this->steps_class, self::STEP_METHOD_PREFIX);
+        foreach ($steps as $step) {
             if ($step <= $last_finished_step) {
                 continue;
             }
@@ -102,55 +116,21 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
      */
     public function isApplicable(Environment $environment) : bool
     {
-        $execution_log = $environment->getResource(\ilDatabaseUpdateStepExecutionLog::class);
-        return $execution_log->getLastFinishedStep($this->steps_class) !== $this->getLatestStepNumber();
+        $execution_log = $environment->getResource(ilDatabaseUpdateStepExecutionLog::class);
+        $step_reader = $environment->getResource(ilDBStepReader::class);
+
+        return $execution_log->getLastFinishedStep($this->steps_class) !== $step_reader->getLatestStepNumber(
+            $this->steps_class,
+            self::STEP_METHOD_PREFIX
+        );
     }
 
     protected function throwStepNotFinishedException(int $started, int $finished) : void
     {
-        throw new \RuntimeException(
+        throw new RuntimeException(
             "For update steps in $this->steps_class: step $started was started " .
             "last, but step $finished was finished last. Aborting because of that " .
             "mismatch."
         );
-    }
-
-    /**
-     * Get the number of latest database step in this class.
-     */
-    final public function getLatestStepNumber() : int
-    {
-        $this->readSteps();
-        return $this->step_numbers[count($this->step_numbers) - 1];
-    }
-
-    /**
-     * Get a list of all steps in this class.
-     *
-     * @return int[]
-     */
-    protected function readSteps() : void
-    {
-        if (!is_null($this->step_numbers)) {
-            return;
-        }
-
-        $this->step_numbers = [];
-
-        foreach (get_class_methods($this->steps_class) as $method) {
-            if (stripos($method, self::STEP_METHOD_PREFIX) !== 0) {
-                continue;
-            }
-
-            $number = substr($method, strlen(self::STEP_METHOD_PREFIX));
-
-            if (!preg_match("/^[1-9]\d*$/", $number)) {
-                throw new \LogicException("Method $method seems to be a step but has an odd looking number");
-            }
-
-            $this->step_numbers[] = (int) $number;
-        }
-
-        sort($this->step_numbers);
     }
 }

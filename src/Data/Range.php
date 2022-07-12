@@ -12,7 +12,6 @@ class Range
     protected int $start;
     protected int $length;
 
-
     public function __construct(int $start, int $length)
     {
         $this->checkStart($start);
@@ -21,14 +20,14 @@ class Range
         $this->length = $length;
     }
 
-    protected function checkStart(int $start)
+    protected function checkStart(int $start) : void
     {
         if ($start < 0) {
             throw new \InvalidArgumentException("Start must be a positive number (or 0)", 1);
         }
     }
 
-    protected function checkLength(int $length)
+    protected function checkLength(int $length) : void
     {
         if ($length < 1) {
             throw new \InvalidArgumentException("Length must be larger than 0", 1);

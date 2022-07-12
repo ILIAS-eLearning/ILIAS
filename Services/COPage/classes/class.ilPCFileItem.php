@@ -1,29 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCFileItem
  *
  * File Item content object (see ILIAS DTD)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCFileItem extends ilPageContent
 {
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         $this->setType("flit");
     }
 
-    /**
-    * insert new list item after current one
-    */
-    public function newItemAfter($a_id, $a_location, $a_format)
-    {
+    public function newItemAfter(
+        int $a_id,
+        string $a_location,
+        string $a_format
+    ) : void {
         $li = $this->getNode();
         $new_item = $this->dom->create_element("FileItem");
         if ($next_li = $li->next_sibling()) {
@@ -53,10 +63,13 @@ class ilPCFileItem extends ilPageContent
 
 
     /**
-    * insert new list item before current one
-    */
-    public function newItemBefore($a_id, $a_location, $a_format)
-    {
+     * insert new list item before current one
+     */
+    public function newItemBefore(
+        int $a_id,
+        string $a_location,
+        string $a_format
+    ) : void {
         $li = $this->getNode();
         $new_item = $this->dom->create_element("FileItem");
         $new_item = $li->insert_before($new_item, $li);
@@ -80,18 +93,18 @@ class ilPCFileItem extends ilPageContent
     }
 
     /**
-    * Delete file item
-    */
-    public function deleteItem()
+     * Delete file item
+     */
+    public function deleteItem() : void
     {
         $li = $this->getNode();
         $li->unlink($li);
     }
     
     /**
-    * move list item down
-    */
-    public function moveItemDown()
+     * move list item down
+     */
+    public function moveItemDown() : void
     {
         $li = $this->getNode();
         $next = $li->next_sibling();
@@ -101,9 +114,9 @@ class ilPCFileItem extends ilPageContent
     }
 
     /**
-    * move list item up
-    */
-    public function moveItemUp()
+     * move list item up
+     */
+    public function moveItemUp() : void
     {
         $li = $this->getNode();
         $prev = $li->previous_sibling();

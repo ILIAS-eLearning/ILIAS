@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Storage for ilLSPostConditions
  */
@@ -22,7 +36,7 @@ class ilLSPostConditionDB
      */
     public function select(array $ref_ids) : array
     {
-        if (count($ref_ids) === 0) {
+        if ($ref_ids === []) {
             return [];
         }
 
@@ -56,7 +70,7 @@ class ilLSPostConditionDB
 
     public function delete(array $ref_ids, ilDBInterface $db = null) : void
     {
-        if (count($ref_ids) === 0) {
+        if ($ref_ids === []) {
             return;
         }
 
@@ -88,21 +102,19 @@ class ilLSPostConditionDB
      */
     public function upsert(array $ls_post_conditions) : void
     {
-        if (count($ls_post_conditions) === 0) {
+        if ($ls_post_conditions === []) {
             return;
         }
 
         $ref_ids = array_map(
-            function (ilLSPostCondition $condition) {
-                return $condition->getRefId();
-            },
+            fn (ilLSPostCondition $condition) => $condition->getRefId(),
             $ls_post_conditions
         );
 
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($ref_ids, $ls_post_conditions) {
+            function (ilDBInterface $db) use ($ref_ids, $ls_post_conditions) : void {
                 $this->delete($ref_ids, $db);
                 $this->insert($ls_post_conditions, $db);
             }

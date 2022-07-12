@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php');
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * Remote group app class
@@ -25,17 +36,17 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
     protected $end;
     protected $start;
     
-    public function initType()
+    public function initType() : void
     {
         $this->type = "rgrp";
     }
     
-    protected function getTableName()
+    protected function getTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
     
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return "/campusconnect/groups";
     }
@@ -131,32 +142,32 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
         return false;
     }
     
-    protected function doCreateCustomFields(array &$a_fields)
+    protected function doCreateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", 0);
         $a_fields["availability_start"] = array("integer", 0);
         $a_fields["availability_end"] = array("integer", 0);
     }
 
-    protected function doUpdateCustomFields(array &$a_fields)
+    protected function doUpdateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
         $a_fields["availability_start"] = array("integer", (int) $this->getStartingTime());
         $a_fields["availability_end"] = array("integer", (int) $this->getEndingTime());
     }
 
-    protected function doReadCustomFields($a_row)
+    protected function doReadCustomFields($a_row) : void
     {
         $this->setAvailabilityType($a_row->availability_type);
         $this->setStartingTime($a_row->availability_start);
         $this->setEndingTime($a_row->availability_end);
     }
     
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content) : void
     {
         // add custom values
         // $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);
-        
+
         // :TODO: ACTIVATION_LIMITED is currently not supported in ECS yet
     }
 }

@@ -1,9 +1,25 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Menu;
 
-use \ILIAS\UI\Component;
-use \ILIAS\UI\Component\Divider;
+use ILIAS\UI\Component;
+use ILIAS\UI\Component\Divider;
 
 /**
  * Tree factory
@@ -29,7 +45,7 @@ interface Factory
      *   effect: >
      *     Buttons within the Drilldown Menu will either affect the Menu itself or
      *     trigger other navigational events.
-     *     Speaking of the the first ("Submenus"), the user will navigate down the
+     *     Speaking of the first ("Submenus"), the user will navigate down the
      *     tree-structure of the Menu's entries. The currently selected level will be outlined,
      *     and a backlink will be presented to navigate back up the hierarchy.
      *     Entries directly below the current level will be presented as a flat list.
@@ -44,12 +60,11 @@ interface Factory
      *          Drilldown Menus MUST contain more than one entry (Submenu or Button).
      *
      * ---
-     * @param 	Component\Clickable | string		$label
-     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal| Divider\Horizontal> $items
-     * @return 	\ILIAS\UI\Component\Menu\Drilldown
+     * @param 	string $label
+     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
+     * @return \ILIAS\UI\Component\Menu\Drilldown
      */
     public function drilldown(string $label, array $items) : Drilldown;
-
 
     /**
      * ---
@@ -81,7 +96,6 @@ interface Factory
      *          or purpose of contained entries.
      *
      * ---
-     * @param 	string $label
      * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
      * @return 	\ILIAS\UI\Component\Menu\Sub
      */

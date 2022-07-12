@@ -1,14 +1,30 @@
-<?php
-/***
- * @author			  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version			  $Id$
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Crawler;
 
 use Symfony\Component\Yaml;
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
 
+/***
+ * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @version $Id$
+ */
 class EntriesYamlParser implements YamlParser
 {
     public const PARSER_STATE_OUTSIDE = 1;
@@ -16,22 +32,13 @@ class EntriesYamlParser implements YamlParser
     public const PARSER_STATE_SEEKING_RETURN = 3;
     public const PARSER_STATE_SEEKING_FUNCTION_NAME = 4;
 
-    /**
-     * @var array
-     */
-    protected $items = array();
-
-    /**
-     * @var Exception\Factory
-     */
-    protected $ef = null;
+    protected array $items = array();
+    protected ?Exception\Factory $ef = null;
 
     /**
      * Used to add for Information in Exceptions
-     *
-     * @var string
      */
-    protected $file_path = "none";
+    protected string $file_path = "none";
 
     /**
      * FactoryCrawler constructor.
@@ -42,11 +49,9 @@ class EntriesYamlParser implements YamlParser
     }
 
     /**
-     * @param	string $filePath
-     * @return	array|string
      * @throws	Exception\CrawlerException
      */
-    public function parseYamlStringArrayFromFile($filePath)
+    public function parseYamlStringArrayFromFile(string $filePath) : array
     {
         $this->file_path = $filePath;
         $content = $this->getFileContentAsString($filePath);
@@ -54,11 +59,9 @@ class EntriesYamlParser implements YamlParser
     }
 
     /**
-     * @param	string $filePath
-     * @return	array
      * @throws	Exception\CrawlerException
      */
-    public function parseArrayFromFile($filePath)
+    public function parseArrayFromFile(string $filePath) : array
     {
         $this->file_path = $filePath;
         $content = $this->getFileContentAsString($filePath);
@@ -66,11 +69,9 @@ class EntriesYamlParser implements YamlParser
     }
 
     /**
-     * @param	string $filePath
-     * @return	Entry\ComponentEntries
      * @throws	Exception\CrawlerException
      */
-    public function parseEntriesFromFile($filePath)
+    public function parseEntriesFromFile(string $filePath) : Entry\ComponentEntries
     {
         $this->file_path = $filePath;
         $content = $this->getFileContentAsString($filePath);
@@ -78,43 +79,33 @@ class EntriesYamlParser implements YamlParser
     }
 
     /**
-     * @param	string $content
-     * @return	array
      * @throws	Exception\CrawlerException
      */
-    public function parseYamlStringArrayFromString($content)
+    public function parseYamlStringArrayFromString(string $content) : array
     {
         return $this->getYamlEntriesFromString($content);
     }
 
     /**
-     * @param	string $content
-     * @return	array
      * @throws	Exception\CrawlerException
      */
-    public function parseArrayFromString($content)
+    public function parseArrayFromString(string $content) : array
     {
         return $this->getPHPArrayFromYamlArray(
             $this->getYamlEntriesFromString($content)
         );
     }
 
-    /**
-     * @param	string $content
-     * @return	Entry\ComponentEntries
-     */
-    public function parseEntriesFromString($content)
+    public function parseEntriesFromString(string $content) : Entry\ComponentEntries
     {
         $entries_array = $this->parseArrayFromString($content);
         return $this->getEntriesFromArray($entries_array);
     }
 
     /**
-     * @param	string $filePath
-     * @return	string
      * @throws	Exception\CrawlerException
      */
-    protected function getFileContentAsString($filePath)
+    protected function getFileContentAsString(string $filePath) : string
     {
         if (!file_exists($filePath)) {
             throw $this->ef->exception(Exception\CrawlerException::INVALID_FILE_PATH, $filePath);
@@ -127,11 +118,9 @@ class EntriesYamlParser implements YamlParser
     }
 
     /**
-     * @param	string $content
-     * @return	array
      * @throws	Exception\CrawlerException
      */
-    protected function getYamlEntriesFromString($content)
+    protected function getYamlEntriesFromString(string $content) : array
     {
         $parser_state = self::PARSER_STATE_OUTSIDE;
         $current_entry = "";
@@ -225,21 +214,15 @@ class EntriesYamlParser implements YamlParser
         return $yaml_entries;
     }
 
-    /**
-     * @param	string $line
-     * @return	string
-     */
-    protected function purifyYamlLine($line)
+    protected function purifyYamlLine(string $line) : string
     {
         return str_replace("* ", "", ltrim($line)) . PHP_EOL;
     }
 
     /**
-     * @param	array $yaml_entries
-     * @return	array
      * @throws	Exception\CrawlerException
      */
-    protected function getPHPArrayFromYamlArray($yaml_entries)
+    protected function getPHPArrayFromYamlArray(array $yaml_entries) : array
     {
         $entries = array();
         $parser = new Yaml\Parser();
@@ -254,17 +237,17 @@ class EntriesYamlParser implements YamlParser
 
 
         array_walk_recursive($entries, function (&$item) {
-            $item = rtrim($item, PHP_EOL);
+            if (!is_null($item)) {
+                $item = rtrim($item, PHP_EOL);
+            } else {
+                $item = '';
+            }
         });
 
         return $entries;
     }
 
-    /**
-     * @param	array $entries_array
-     * @return	Entry\ComponentEntries
-     */
-    protected function getEntriesFromArray(array $entries_array)
+    protected function getEntriesFromArray(array $entries_array) : Entry\ComponentEntries
     {
         $entries = new Entry\ComponentEntries();
 
@@ -276,11 +259,9 @@ class EntriesYamlParser implements YamlParser
     }
 
     /**
-     * @param	array $entry_data
-     * @return	Entry\ComponentEntry
      * @throws	Exception\CrawlerException
      */
-    protected function getEntryFromData(array $entry_data)
+    protected function getEntryFromData(array $entry_data) : Entry\ComponentEntry
     {
         $entry_data['title'] = self::fromCamelCaseToWords($entry_data['function_name']);
 
@@ -313,30 +294,22 @@ class EntriesYamlParser implements YamlParser
     }
 
     /**
-     * @param	string $string
-     * @param	string $seperator
-     * @return	mixed
+     * @return string|string[]
      */
-    public static function toUpperCamelCase($string, $seperator)
+    public static function toUpperCamelCase(string $string, string $seperator)
     {
         return str_replace($seperator, '', ucwords($string));
     }
 
     /**
-     * @param	string $string
-     * @param	string $seperator
-     * @return	mixed
+     * @return string|string[]
      */
-    public static function toLowerCamelCase($string, $seperator)
+    public static function toLowerCamelCase(string $string, string $seperator)
     {
         return str_replace($seperator, '', lcfirst(ucwords($string)));
     }
 
-    /**
-     * @param $camelCaseString
-     * @return string
-     */
-    public static function fromCamelCaseToWords($camelCaseString)
+    public static function fromCamelCaseToWords(string $camelCaseString) : string
     {
         return implode(' ', preg_split('/(?<=[a-z])(?=[A-Z])/x', ucwords($camelCaseString)));
     }

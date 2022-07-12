@@ -44,7 +44,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->numeric_value = $matches[0][0];
     }
@@ -52,7 +52,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
     /**
      * @return float
      */
-    public function getNumericValue()
+    public function getNumericValue() : float
     {
         return $this->numeric_value;
     }
@@ -61,7 +61,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      * Get the value of this Expression
      * @return string
      */
-    public function getValue()
+    public function getValue() : string
     {
         return "%" . $this->numeric_value . "%";
     }
@@ -70,7 +70,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->numeric_value . "% beantwortet ";
     }
@@ -82,7 +82,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null)
+    public function checkResult($result, $comperator, $index = null) : bool
     {
         $percentage = $result->getReachedPercentage();
         switch ($comperator) {

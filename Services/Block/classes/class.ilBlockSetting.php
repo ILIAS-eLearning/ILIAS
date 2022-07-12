@@ -1,23 +1,43 @@
-<?php
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Block Setting class.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilBlockSetting
 {
-    public static $setting = array();
-    public static $pd_preloaded = false;
+    /**
+     * @var array<string,?string>
+     */
+    public static array $setting = array();
+    public static bool $pd_preloaded = false;
 
     /**
      * Lookup setting from database.
-     *
      */
-    public static function _lookup($a_type, $a_setting, $a_user = 0, $a_block_id = 0)
-    {
+    public static function _lookup(
+        string $a_type,
+        string $a_setting,
+        int $a_user = 0,
+        int $a_block_id = 0
+    ) : ?string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -25,7 +45,7 @@ class ilBlockSetting
         
         $key = $a_type . ":" . $a_setting . ":" . $a_user . ":" . $a_block_id;
         if (isset(self::$setting[$key])) {
-            return self::$setting[$key];
+            return (string) self::$setting[$key];
         }
         
         $set = $ilDB->query(sprintf(
@@ -39,55 +59,19 @@ class ilBlockSetting
         if ($rec = $ilDB->fetchAssoc($set)) {
             self::$setting[$key] = $rec["value"];
             return $rec["value"];
-        } elseif ($ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, false)) {
-            self::$setting[$key] = $ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, false);
-            return $ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, false);
+        } elseif ($ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, null)) {
+            self::$setting[$key] = $ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, null);
+            return $ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, null);
         } else {
             self::$setting[$key] = false;
-            return false;
+            return null;
         }
     }
-    
-    /**
-     * Sets a default setting for a block.
-     *
-     * @global ilSetting $ilSetting
-     *
-     * @param string $a_type
-     * @param string $a_setting
-     * @param mixed  $a_value
-     */
-    public static function _setDefaultSetting($a_type, $a_setting, $a_value)
-    {
-        global $DIC;
 
-        $ilSetting = $DIC->settings();
-        $ilSetting->set('block_default_setting_' . $a_type . '_' . $a_setting, $a_value);
-    }
-
-    /**
-     * Unsets a default setting for a block.
-     *
-     * @global ilSetting $ilSetting
-     *
-     * @param string $a_type
-     * @param string $a_setting
-     */
-    public static function _unsetDefaultSetting($a_type, $a_setting)
-    {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-        $ilSetting->delete('block_default_setting_' . $a_type . '_' . $a_setting);
-    }
-    
     /**
      * Preload pd info
-     *
-     * @param
-     * @return
      */
-    public static function preloadPDBlockSettings()
+    public static function preloadPDBlockSettings() : void
     {
         global $DIC;
 
@@ -127,11 +111,15 @@ class ilBlockSetting
     }
 
     /**
-    * Write setting to database.
-    *
-    */
-    public static function _write($a_type, $a_setting, $a_value, $a_user = 0, $a_block_id = 0)
-    {
+     * Write setting to database.
+     */
+    public static function _write(
+        string $a_type,
+        string $a_setting,
+        string $a_value,
+        int $a_user = 0,
+        int $a_block_id = 0
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -140,7 +128,7 @@ class ilBlockSetting
             "DELETE FROM il_block_setting WHERE type = %s AND user_id = %s AND block_id = %s AND setting = %s",
             $ilDB->quote($a_type, "text"),
             $ilDB->quote($a_user, "integer"),
-            $ilDB->quote((int) $a_block_id, "integer"),
+            $ilDB->quote($a_block_id, "integer"),
             $ilDB->quote($a_setting, "text")
         ));
         $ilDB->manipulate(sprintf(
@@ -148,82 +136,69 @@ class ilBlockSetting
             $ilDB->quote($a_type, "text"),
             $ilDB->quote($a_user, "integer"),
             $ilDB->quote($a_setting, "text"),
-            $ilDB->quote((int) $a_block_id, "integer"),
+            $ilDB->quote($a_block_id, "integer"),
             $ilDB->quote($a_value, "text")
         ));
     }
 
     /**
-    * Lookup detail level.
-    *
-    */
-    public static function _lookupDetailLevel($a_type, $a_user = 0, $a_block_id = 0)
-    {
-        $detail = ilBlockSetting::_lookup($a_type, "detail", $a_user, $a_block_id);
+     * Lookup detail level.
+     */
+    public static function _lookupDetailLevel(
+        string $a_type,
+        int $a_user = 0,
+        int $a_block_id = 0
+    ) : int {
+        $detail = self::_lookup($a_type, "detail", $a_user, $a_block_id);
 
-        if ($detail === false) {		// return a level of 2 (standard value)
-            // if record does not exist
+        if (is_null($detail)) {		// return a level of 2 (standard value) if record does not exist
             return 2;
-        } else {
-            return $detail;
         }
+
+        return (int) $detail;
     }
 
-    /**
-    * Write detail level to database.
-    *
-    */
-    public static function _writeDetailLevel($a_type, $a_value, $a_user = 0, $a_block_id = 0)
-    {
+    public static function _writeDetailLevel(
+        string $a_type,
+        string $a_value,
+        int $a_user = 0,
+        int $a_block_id = 0
+    ) : void {
         ilBlockSetting::_write($a_type, "detail", $a_value, $a_user, $a_block_id);
     }
 
-    /**
-    * Lookup number.
-    *
-    */
-    public static function _lookupNr($a_type, $a_user = 0, $a_block_id = 0)
-    {
-        $nr = ilBlockSetting::_lookup($a_type, "nr", $a_user, $a_block_id);
-
-        return $nr;
-    }
-
-    /**
-    * Write number to database.
-    *
-    */
-    public static function _writeNumber($a_type, $a_value, $a_user = 0, $a_block_id = 0)
-    {
+    public static function _writeNumber(
+        string $a_type,
+        string $a_value,
+        int $a_user = 0,
+        int $a_block_id = 0
+    ) : void {
         ilBlockSetting::_write($a_type, "nr", $a_value, $a_user, $a_block_id);
     }
 
     /**
-    * Lookup side.
-    *
-    */
-    public static function _lookupSide($a_type, $a_user = 0, $a_block_id = 0)
-    {
-        $side = ilBlockSetting::_lookup($a_type, "side", $a_user, $a_block_id);
-
-        return $side;
+     * Lookup side.
+     */
+    public static function _lookupSide(
+        string $a_type,
+        int $a_user = 0,
+        int $a_block_id = 0
+    ) : ?string {
+        return ilBlockSetting::_lookup($a_type, "side", $a_user, $a_block_id);
     }
 
-    /**
-    * Write side to database.
-    *
-    */
-    public static function _writeSide($a_type, $a_value, $a_user = 0, $a_block_id = 0)
-    {
+    public static function _writeSide(
+        string $a_type,
+        string $a_value,
+        int $a_user = 0,
+        int $a_block_id = 0
+    ) : void {
         ilBlockSetting::_write($a_type, "side", $a_value, $a_user, $a_block_id);
     }
 
-    /**
-    * Delete block settings of user
-    *
-    */
-    public static function _deleteSettingsOfUser($a_user)
-    {
+    public static function _deleteSettingsOfUser(
+        int $a_user
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -234,12 +209,10 @@ class ilBlockSetting
         }
     }
 
-    /**
-    * Delete block settings of block
-    *
-    */
-    public static function _deleteSettingsOfBlock($a_block_id, $a_block_type)
-    {
+    public static function _deleteSettingsOfBlock(
+        int $a_block_id,
+        string $a_block_type
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -251,15 +224,11 @@ class ilBlockSetting
         }
     }
 
-    /**
-     * Clone block settings
-     *
-     * @param string $block_type
-     * @param int $block_id
-     * @param int $new_block_id
-     */
-    public static function cloneSettingsOfBlock(string $block_type, int $block_id, int $new_block_id)
-    {
+    public static function cloneSettingsOfBlock(
+        string $block_type,
+        int $block_id,
+        int $new_block_id
+    ) : void {
         global $DIC;
 
         $db = $DIC->database();

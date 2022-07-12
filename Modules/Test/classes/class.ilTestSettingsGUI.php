@@ -51,7 +51,7 @@ abstract class ilTestSettingsGUI
         return $templateSettings[$settingName]['value'];
     }
 
-    protected function isHiddenFormItem($formFieldId)
+    protected function isHiddenFormItem($formFieldId) : bool
     {
         if (!$this->settingsTemplate) {
             return false;
@@ -70,7 +70,7 @@ abstract class ilTestSettingsGUI
         return true;
     }
 
-    protected function isSectionHeaderRequired($fields)
+    protected function isSectionHeaderRequired($fields) : bool
     {
         foreach ($fields as $field) {
             if (!$this->isHiddenFormItem($field)) {
@@ -81,7 +81,7 @@ abstract class ilTestSettingsGUI
         return false;
     }
 
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
+    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId) : bool
     {
         return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
     }

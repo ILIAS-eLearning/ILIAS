@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\DI\UIServices;
 
 /**
  * Task service
@@ -9,7 +25,7 @@
  */
 class ilTaskService
 {
-    protected \ilTaskServiceDependencies $_deps;
+    protected ilTaskServiceDependencies $_deps;
 
     /**
      * This constructor contains all evil dependencies, that should e.g. be replaced for testing.
@@ -21,8 +37,8 @@ class ilTaskService
     public function __construct(
         ilObjUser $user,
         ilLanguage $lng,
-        \ILIAS\DI\UIServices $ui,
-        \ilAccessHandler $access,
+        UIServices $ui,
+        ilAccessHandler $access,
         array $derived_task_provider_factories = null
     ) {
         $derived_task_provider_master_factory = new ilDerivedTaskProviderMasterFactory($this, $derived_task_provider_factories);
@@ -46,7 +62,7 @@ class ilTaskService
      *
      * @return ilDerivedTaskService
      */
-    public function derived() : \ilDerivedTaskService
+    public function derived() : ilDerivedTaskService
     {
         return new ilDerivedTaskService($this);
     }

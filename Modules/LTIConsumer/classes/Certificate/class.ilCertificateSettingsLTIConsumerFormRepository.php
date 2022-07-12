@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCertificateSettingsLTIConsumerFormRepository
  *
@@ -12,20 +23,11 @@
  */
 class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFormRepository
 {
-    /**
-     * @var ilCertificateSettingsFormRepository
-     */
-    private $settingsFormRepository;
+    private \ilCertificateSettingsFormRepository $settingsFormRepository;
 
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @var ilObjLTIConsumer
-     */
-    private $object;
+//    private \ilLanguage $language;
+//
+//    private \ilObjLTIConsumer $object;
 
     public function __construct(
         ilObjLTIConsumer $object,
@@ -38,8 +40,8 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
-        $this->object = $object;
-        $this->language = $language;
+//        $this->object = $object;
+//        $this->language = $language;
 
         if (null === $settingsFormRepository) {
             $settingsFormRepository = new ilCertificateSettingsFormRepository(
@@ -58,9 +60,7 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
 
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
-        $form = $this->settingsFormRepository->createForm($certificateGUI);
-
-        return $form;
+        return $this->settingsFormRepository->createForm($certificateGUI);
     }
 
 
@@ -70,8 +70,6 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
 
     public function fetchFormFieldData(string $content) : array
     {
-        $formFields = $this->settingsFormRepository->fetchFormFieldData($content);
-
-        return $formFields;
+        return $this->settingsFormRepository->fetchFormFieldData($content);
     }
 }

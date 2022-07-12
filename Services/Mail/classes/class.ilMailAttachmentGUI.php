@@ -1,5 +1,23 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author  Jens Conze
@@ -8,33 +26,16 @@
  */
 class ilMailAttachmentGUI
 {
-    /** @var ilGlobalPageTemplate */
-    private $tpl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
+    private ilObjUser $user;
+    private ilToolbarGUI $toolbar;
+    private ilFormatMail $umail;
+    private ilFileDataMail $mfile;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
 
-    /** @var ilCtrl */
-    private $ctrl;
-
-    /** @var ilLanguage */
-    private $lng;
-
-    /** @var ilObjUser */
-    private $user;
-
-    /** @var ilToolbarGUI */
-    private $toolbar;
-
-    /** @var ilFormatMail */
-    private $umail;
-
-    /** @var ilFileDataMail */
-    private $mfile;
-
-    /** @var \Psr\Http\Message\ServerRequestInterface */
-    private $request;
-
-    /**
-     * ilMailAttachmentGUI constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -44,7 +45,8 @@ class ilMailAttachmentGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->toolbar = $DIC->toolbar();
-        $this->request = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->ctrl->saveParameter($this, 'mobj_id');
 
@@ -70,22 +72,37 @@ class ilMailAttachmentGUI
     {
         $files = [];
 
-        // Important: Do not check for uploaded files here, otherwise it is no more possible to remove files (please ignore bug reports like 10137)
+        // Important: Do not check for uploaded files here,
+        // otherwise it is no more possible to remove files (please ignore bug reports like 10137)
 
         $sizeOfSelectedFiles = 0;
-        $filesOfRequest = (array) ($this->request->getParsedBody()['filename'] ?? []);
+        $filesOfRequest = [];
+        if ($this->http->wrapper()->post()->has('filename')) {
+            $filesOfRequest = $this->http->wrapper()->post()->retrieve(
+                'filename',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
+
         foreach ($filesOfRequest as $file) {
-            if (is_file($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)))) {
+            if (is_file($this->mfile->getMailPath() . '/'
+                . basename($this->user->getId() . '_' . urldecode($file)))
+            ) {
                 $files[] = urldecode($file);
-                $sizeOfSelectedFiles += filesize($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)));
+                $sizeOfSelectedFiles += filesize(
+                    $this->mfile->getMailPath() . '/' .
+                    basename($this->user->getId() . '_' . urldecode($file))
+                );
             }
         }
 
         if (
+            $files !== [] &&
             null !== $this->mfile->getAttachmentsTotalSizeLimit() &&
-            $files && $sizeOfSelectedFiles > $this->mfile->getAttachmentsTotalSizeLimit()
+            $sizeOfSelectedFiles > $this->mfile->getAttachmentsTotalSizeLimit()
         ) {
-            ilUtil::sendFailure($this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilUtil::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
+            ilUtil::formatSize((int) $this->mfile->getAttachmentsTotalSizeLimit()));
             $this->showAttachments();
             return;
         }
@@ -97,15 +114,21 @@ class ilMailAttachmentGUI
 
     public function cancelSaveAttachments() : void
     {
-        $this->ctrl->setParameter($this, 'type', 'attach');
+        $this->ctrl->setParameter($this, 'type', ilMailFormGUI::MAIL_FORM_TYPE_ATTACH);
         $this->ctrl->returnToParent($this);
     }
 
     public function deleteAttachments() : void
     {
-        $files = (array) ($this->request->getParsedBody()['filename'] ?? []);
-        if (0 === count($files)) {
-            ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
+        $files = [];
+        if ($this->http->wrapper()->post()->has('filename')) {
+            $files = $this->http->wrapper()->post()->retrieve(
+                'filename',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
+        if ($files === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_select_one_file'));
             $this->showAttachments();
             return;
         }
@@ -132,9 +155,16 @@ class ilMailAttachmentGUI
 
     public function confirmDeleteAttachments() : void
     {
-        $files = (array) ($this->request->getParsedBody()['filename'] ?? []);
-        if (0 === count($files)) {
-            ilUtil::sendInfo($this->lng->txt('mail_select_one_mail'));
+        $files = [];
+        if ($this->http->wrapper()->post()->has('filename')) {
+            $files = $this->http->wrapper()->post()->retrieve(
+                'filename',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
+
+        if ($files === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_mail'));
             $this->showAttachments();
             return;
         }
@@ -145,29 +175,26 @@ class ilMailAttachmentGUI
         }
 
         $error = $this->mfile->unlinkFiles($decodedFiles);
-        if (strlen($error) > 0) {
-            ilUtil::sendFailure($this->lng->txt('mail_error_delete_file') . ' ' . $error);
+        if ($error !== '') {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_error_delete_file') . ' ' . $error);
         } else {
             $mailData = $this->umail->getSavedData();
             if (is_array($mailData['attachments'])) {
-                $tmp = array();
-                for ($i = 0; $i < count($mailData['attachments']); $i++) {
-                    if (!in_array($mailData['attachments'][$i], $decodedFiles)) {
-                        $tmp[] = $mailData['attachments'][$i];
+                $tmp = [];
+                foreach ($mailData['attachments'] as $attachment) {
+                    if (!in_array($attachment, $decodedFiles, true)) {
+                        $tmp[] = $attachment;
                     }
                 }
                 $this->umail->saveAttachments($tmp);
             }
 
-            ilUtil::sendSuccess($this->lng->txt('mail_files_deleted'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_files_deleted'));
         }
 
         $this->showAttachments();
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
     protected function getToolbarForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -182,18 +209,21 @@ class ilMailAttachmentGUI
 
     public function uploadFile() : void
     {
-        if (strlen(trim($_FILES['userfile']['name']))) {
+        if (isset($_FILES['userfile']['name']) && trim($_FILES['userfile']['name']) !== '') {
             $form = $this->getToolbarForm();
             if ($form->checkInput()) {
                 $this->mfile->storeUploadedFile($_FILES['userfile']);
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
-            } elseif ($form->getItemByPostVar('userfile')->getAlert() !== $this->lng->txt("form_msg_file_size_exceeds")) {
-                ilUtil::sendFailure($form->getItemByPostVar('userfile')->getAlert());
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
+            } elseif ($form->getItemByPostVar('userfile')->getAlert() !==
+                $this->lng->txt("form_msg_file_size_exceeds")
+            ) {
+                $this->tpl->setOnScreenMessage('failure', $form->getItemByPostVar('userfile')->getAlert());
             } else {
-                ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . ilUtil::formatSize($this->mfile->getUploadLimit()));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_maxsize_attachment_error') . ' ' .
+                ilUtil::formatSize($this->mfile->getUploadLimit()));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_select_one_file'));
         }
 
         $this->showAttachments();
@@ -214,20 +244,20 @@ class ilMailAttachmentGUI
 
         $mailData = $this->umail->getSavedData();
         $files = $this->mfile->getUserFilesData();
-        $data = array();
+        $data = [];
         $counter = 0;
         foreach ($files as $file) {
             $checked = false;
-            if (is_array($mailData['attachments']) && in_array($file['name'], $mailData['attachments'])) {
+            if (is_array($mailData['attachments']) && in_array($file['name'], $mailData['attachments'], true)) {
                 $checked = true;
             }
 
-            $data[$counter] = array(
+            $data[$counter] = [
                 'checked' => $checked,
                 'filename' => $file['name'],
                 'filesize' => (int) $file['size'],
-                'filecreatedate' => (int) $file['ctime']
-            );
+                'filecreatedate' => (int) $file['ctime'],
+            ];
 
             ++$counter;
         }

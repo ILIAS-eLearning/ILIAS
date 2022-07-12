@@ -21,6 +21,7 @@ class MyFancyToolProvider extends AbstractDynamicToolProvider implements ScreenC
 All available contexts can be seen here: `src/GlobalScreen/ScreenContext/ContextRepository.php`
 
 ## Claiming
+
 `ScreenContext` are used at certain places in ILIAS, this can only be done once per context. All previously available `ScreenContext` are already claimed in ILIAS, e.g:
 
 ```php
@@ -44,6 +45,7 @@ class ilRepositoryGUI
 ``` 
 
 ## Enter data into the ScreenContext
+
 Since a `ScreenContextAwareProvider` cannot only decide on the basis of the currently set contexts in order to display a tool, for example, or not, `ScreenContext` can be provided with any additional data:
 
 ```php
@@ -59,7 +61,7 @@ class ilMediaPoolPresentationGUI
 
 ```
 
-All currently claimed contexts with all additional data will then be provided by the provider when the content is retrieved and the provider can granularly decide whether something should be done on the GlobalScreen or not. 
+All currently claimed contexts with all additional data will then be provided by the provider when the content is retrieved and the provider can granularly decide whether something should be done on the GlobalScreen or not.
 
 This value can then be used, for example, when creating a tool:
 

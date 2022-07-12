@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Setup;
 use ILIAS\Data\Password;
 
@@ -9,17 +23,11 @@ class ilBackgroundTasksSetupConfig implements Setup\Config
 {
     const TYPE_SYNCHRONOUS = "sync";
     const TYPE_ASYNCHRONOUS = "async";
-
-    /**
-     * @var mixed
-     */
-    protected $type;
-
-    /**
-     * @var int
-     */
-    protected $max_concurrent_tasks;
-
+    
+    protected string $type;
+    
+    protected int $max_concurrent_tasks;
+    
     public function __construct(
         string $type,
         int $max_concurrent_tasks
@@ -41,12 +49,12 @@ class ilBackgroundTasksSetupConfig implements Setup\Config
         $this->type = $type;
         $this->max_concurrent_tasks = $max_concurrent_tasks;
     }
-
+    
     public function getType() : string
     {
         return $this->type;
     }
-
+    
     public function getMaxCurrentTasks() : int
     {
         return $this->max_concurrent_tasks;

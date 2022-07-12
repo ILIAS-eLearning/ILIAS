@@ -1,28 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Table Data content object - a table cell (see ILIAS DTD)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCTableData extends ilPageContent
 {
-    public $dom;
+    protected php4DOMElement $table_pc_node;
 
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         $this->setType("td");
     }
 
-    /**
-    * insert new row after cell
-    */
-    public function newRowAfter()
+    public function newRowAfter() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -46,10 +53,7 @@ class ilPCTableData extends ilPageContent
     }
 
 
-    /**
-    * insert new row after cell
-    */
-    public function newRowBefore()
+    public function newRowBefore() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -67,12 +71,11 @@ class ilPCTableData extends ilPageContent
 
 
     /**
-    * delete content of cells of a row (not the cells itself)
-    *
-    * @access private
-    */
-    public function deleteRowContent(&$a_row_node)
-    {
+     * delete content of cells of a row (not the cells itself)
+     */
+    public function deleteRowContent(
+        php4DOMElement $a_row_node
+    ) : void {
         // remove td content of row
         $tds = $a_row_node->child_nodes();
         for ($i = 0; $i < count($tds); $i++) {
@@ -87,23 +90,18 @@ class ilPCTableData extends ilPageContent
     }
 
     /**
-    * delete content of a cell (not the cell itself)
-    *
-    * @access private
-    */
-    public function deleteTDContent(&$a_td_node)
-    {
+     * delete content of a cell (not the cell itself)
+     */
+    public function deleteTDContent(
+        php4DOMElement $a_td_node
+    ) : void {
         $td_childs = $a_td_node->child_nodes();
         for ($j = 0; $j < count($td_childs); $j++) {
             $a_td_node->remove_child($td_childs[$j]);
         }
     }
 
-
-    /**
-    * delete row of cell
-    */
-    public function deleteRow()
+    public function deleteRow() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -112,11 +110,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-
-    /**
-    * insert new column after cell
-    */
-    public function newColAfter()
+    public function newColAfter() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -154,10 +148,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-    /**
-    * insert new column before cell
-    */
-    public function newColBefore()
+    public function newColBefore() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -190,10 +181,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-    /**
-    * delete column of cell
-    */
-    public function deleteCol()
+    public function deleteCol() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -219,10 +207,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-    /**
-    * move row down
-    */
-    public function moveRowDown()
+    public function moveRowDown() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -234,10 +219,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-    /**
-    * move row up
-    */
-    public function moveRowUp()
+    public function moveRowUp() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -249,10 +231,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-    /**
-    * move column right
-    */
-    public function moveColRight()
+    public function moveColRight() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -282,10 +261,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-    /**
-    * move column left
-    */
-    public function moveColLeft()
+    public function moveColLeft() : void
     {
         $this->initTablePCNode();
         $td = $this->getNode();
@@ -314,10 +290,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-    /**
-    * Table PC Node
-    */
-    public function initTablePCNode()
+    public function initTablePCNode() : void
     {
         $td = $this->getNode();
         $tr = $td->parent_node();
@@ -325,10 +298,7 @@ class ilPCTableData extends ilPageContent
         $this->table_pc_node = $table->parent_node();
     }
     
-    /**
-    * Fix hide attribute and spans
-    */
-    public function fixHideAndSpans()
+    public function fixHideAndSpans() : void
     {
         $table_obj = new ilPCTable($this->getPage());
         $table_obj->setNode($this->table_pc_node);

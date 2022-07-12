@@ -3,8 +3,8 @@
 }(window, il, function init($) {
 
 	var templates = {
-		modal:       '<div class="modal fade">' +
-					 '<div class="modal-dialog">' +
+		modal:       '<div class="modal fade" tabindex="-1" role="dialog">' +
+					 '<div class="modal-dialog" role="document">' +
 					 '<div class="modal-content">' +
 					 '<div class="modal-body"></div>' +
 					 '</div>' +
@@ -46,7 +46,7 @@
 		if ($.fn.modal === undefined) {
 			throw new Error(
 				"$.fn.modal is not defined; please double check you have included " +
-				"the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ " +
+				"the Bootstrap JavaScript library. See https://getbootstrap.com/javascript/ " +
 				"for more details."
 			);
 		}

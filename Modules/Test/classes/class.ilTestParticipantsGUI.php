@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestParticipantsGUI
@@ -46,6 +60,7 @@ class ilTestParticipantsGUI
      * @var ilTestAccess
      */
     protected $testAccess;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilTestParticipantsGUI constructor.
@@ -53,6 +68,8 @@ class ilTestParticipantsGUI
      */
     public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->testObj = $testObj;
         $this->questionSetConfig = $questionSetConfig;
     }
@@ -60,7 +77,7 @@ class ilTestParticipantsGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -76,7 +93,7 @@ class ilTestParticipantsGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -169,11 +186,7 @@ class ilTestParticipantsGUI
         }
     }
     
-    /**
-     * @param array $a_user_ids
-     * @return bool
-     */
-    public function addParticipants($a_user_ids = array())
+    public function addParticipants($a_user_ids = array()) : ?bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -186,7 +199,7 @@ class ilTestParticipantsGUI
         if (is_array($a_user_ids)) {
             $i = 0;
             foreach ($a_user_ids as $user_id) {
-                $client_ip = $_POST["client_ip"][$i];
+                $client_ip = $_POST["client_ip"][$i] ?? '';
                 $this->getTestObj()->inviteUser($user_id, $client_ip);
                 $countusers++;
                 $i++;
@@ -197,19 +210,20 @@ class ilTestParticipantsGUI
             $message = $DIC->language()->txt("tst_invited_selected_users");
         }
         if (strlen($message)) {
-            ilUtil::sendInfo($message, true);
+            $this->main_tpl->setOnScreenMessage('info', $message, true);
         } else {
-            ilUtil::sendInfo($DIC->language()->txt("tst_invited_nobody"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("tst_invited_nobody"), true);
             return false;
         }
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW);
+        return null;
     }
     
     /**
      * @return ilTestParticipantsTableGUI
      */
-    protected function buildTableGUI()
+    protected function buildTableGUI() : ilTestParticipantsTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -301,11 +315,17 @@ class ilTestParticipantsGUI
      * @param array $in_rows
      * @return array
      */
-    protected function applyFilterCriteria($in_rows)
+    protected function applyFilterCriteria($in_rows) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
-        $sess_filter = $_SESSION['form_tst_participants_' . $this->getTestObj()->getRefId()]['selection'];
+        $selected_pax = ilSession::get('form_tst_participants_' . $this->getTestObj()->getRefId());
+        
+        if ($selected_pax === null || !isset($selected_pax['selection'])) {
+            return $in_rows;
+        }
+        
+        $sess_filter = $selected_pax['selection'];
         $sess_filter = str_replace('"', '', $sess_filter);
         $sess_filter = explode(':', $sess_filter);
         $filter = substr($sess_filter[2], 0, strlen($sess_filter[2]) - 1);
@@ -412,7 +432,7 @@ class ilTestParticipantsGUI
                 $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
             }
         } else {
-            ilUtil::sendInfo($DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
         }
         $DIC->ctrl()->redirect($this, self::CMD_SHOW);
     }
@@ -433,7 +453,7 @@ class ilTestParticipantsGUI
                 $this->getTestObj()->disinviteUser($user_id);
             }
         } else {
-            ilUtil::sendInfo($DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
         }
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW);

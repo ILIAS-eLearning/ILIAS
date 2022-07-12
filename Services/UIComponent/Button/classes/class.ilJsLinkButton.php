@@ -1,48 +1,51 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Link Button GUI
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @deprecated use KS Buttons instead
  */
 class ilJsLinkButton extends ilButton
 {
-    protected $target;
+    protected string $target;
 
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self(self::TYPE_LINK);
     }
 
-    /**
-     * Set target
-     * @param string $a_value
-     */
-    public function setTarget($a_value)
+    public function setTarget(string $a_value) : void
     {
         $this->target = trim($a_value);
     }
 
-    /**
-     * Get target
-     * @return string
-     */
-    public function getTarget()
+    public function getTarget() : string
     {
         return $this->target;
     }
 
-    /**
-     * Prepare caption for render
-     * @return string
-     */
-    protected function renderCaption()
+    protected function renderCaption() : string
     {
         return '&nbsp;' . $this->getCaption() . '&nbsp;';
     }
 
-    public function render()
+    public function render() : string
     {
         $this->prepareRender();
 

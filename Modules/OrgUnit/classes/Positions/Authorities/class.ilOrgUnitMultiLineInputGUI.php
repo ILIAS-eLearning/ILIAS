@@ -1,8 +1,23 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitMultiLineInputGUI
- *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -11,71 +26,28 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     const HOOK_IS_LINE_REMOVABLE = "hook_is_line_removable";
     const HOOK_IS_INPUT_DISABLED = "hook_is_disabled";
     const HOOK_BEFORE_INPUT_RENDER = "hook_before_render";
-    /**
-     * @var array
-     */
-    protected $cust_attr = array();
-    /**
-     * @var
-     */
+    protected array $cust_attr = array();
     protected $value;
-    /**
-     * @var array
-     */
-    protected $inputs = array();
-    /**
-     * @var array
-     */
-    protected $input_options = array();
-    /**
-     * @var array
-     */
-    protected $hooks = array();
-    /**
-     * @var array
-     */
-    protected $line_values = array();
-    /**
-     * @var string
-     */
-    protected $template_dir = '';
-    /**
-     * @var array
-     */
-    protected $post_var_cache = array();
-    /**
-     * @var bool
-     */
-    protected $show_label = false;
-    /**
-     * @var bool
-     */
-    protected $show_label_once = false;
-    /**
-     * @var array
-     */
-    protected $hidden_inputs = array();
-    /**
-     * @var bool
-     */
-    protected $position_movable = false;
-    /**
-     * @var int
-     */
-    protected $counter = 0;
-    /**
-     * @var bool
-     */
-    protected $show_info = false;
-
+    protected array $inputs = array();
+    protected array $input_options = array();
+    /** @var string[] */
+    protected array $hooks = array();
+    protected array $line_values = array();
+    protected string $template_dir = '';
+    protected array $post_var_cache = array();
+    protected bool $show_label = false;
+    protected bool $show_label_once = false;
+    protected array $hidden_inputs = array();
+    protected bool $position_movable = false;
+    protected int $counter = 0;
+    protected bool $show_info = false;
 
     /**
      * Constructor
-     *
      * @param string $a_title   Title
      * @param string $a_postvar Post Variable
      */
-    public function __construct($a_title = "", $a_postvar = "")
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
         $this->setType("line_select");
@@ -83,11 +55,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->initCSSandJS();
     }
 
-
-    /**
-     * @return string
-     */
-    public function getHook($key)
+    public function getHook(string $key) : ?string
     {
         if (isset($this->hooks[$key])) {
             return $this->hooks[$key];
@@ -96,107 +64,56 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return false;
     }
 
-
-    /**
-     * @param array $options
-     */
-    public function addHook($key, $options)
+    public function addHook(string $key, array $options) : void
     {
         $this->hooks[$key] = $options;
     }
 
-
-    /**
-     * @param $key
-     *
-     * @return bool
-     */
-    public function removeHook($key)
+    public function removeHook(string $key) : void
     {
         if (isset($this->hooks[$key])) {
             unset($this->hooks[$key]);
-
-            return true;
         }
-
-        return false;
     }
 
-
-    /**
-     * @param       $input
-     * @param array $options
-     */
-    public function addInput(\ilFormPropertyGUI $input, $options = array())
+    public function addInput(\ilFormPropertyGUI $input, array $options = array()) : void
     {
         $this->inputs[$input->getPostVar()] = $input;
         $this->input_options[$input->getPostVar()] = $options;
         $this->counter++;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getTemplateDir()
+    public function getTemplateDir() : string
     {
         return $this->template_dir;
     }
 
-
-    /**
-     * @param mixed $template_dir
-     */
-    public function setTemplateDir($template_dir)
+    public function setTemplateDir(string $template_dir) : void
     {
         $this->template_dir = $template_dir;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isShowLabel()
+    public function isShowLabel() : bool
     {
         return $this->show_label;
     }
 
-
-    /**
-     * @param boolean $show_label
-     */
-    public function setShowLabel($show_label)
+    public function setShowLabel(bool $show_label)
     {
         $this->show_label = $show_label;
     }
 
-
-    /**
-     * Get Options.
-     *
-     * @return    array    Options. Array ("value" => "option_text")
-     */
-    public function getInputs()
+    public function getInputs() : array
     {
         return $this->inputs;
     }
 
-
-    /**
-     * @param bool $a_multi
-     */
-    public function setMulti($a_multi, $a_sortable = false, $a_addremove = true)
+    public function setMulti(bool $a_multi, bool $a_sortable = false, bool $a_addremove = true) : void
     {
         $this->multi = $a_multi;
     }
 
-
-    /**
-     * Set Value.
-     *
-     * @param string $a_value Value
-     */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         foreach ($this->inputs as $key => $item) {
             if (method_exists($item, 'setValue')) {
@@ -208,13 +125,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->value = $a_value;
     }
 
-
-    /**
-     * Get Value.
-     *
-     * @return    string    Value
-     */
-    public function getValue()
+    public function getValue() : array
     {
         $out = array();
         foreach ($this->inputs as $key => $item) {
@@ -224,13 +135,11 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $out;
     }
 
-
     /**
      * Set value by array
-     *
      * @param array $a_values value array
      */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         $data = $a_values[$this->getPostVar()];
         if ($this->getMulti()) {
@@ -240,13 +149,11 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         }
     }
 
-
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
-     *
-     * @return    boolean        Input ok, true/false
+     * @return    bool        Input ok, true/false
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $lng;
         $valid = true;
@@ -278,13 +185,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $valid;
     }
 
-
-    /**
-     * @param            $key
-     * @param            $value
-     * @param bool|false $override
-     */
-    public function addCustomAttribute($key, $value, $override = false)
+    public function addCustomAttribute(string $key, string $value, bool $override = false) : void
     {
         if (isset($this->cust_attr[$key]) && !$override) {
             $this->cust_attr[$key] .= ' ' . $value;
@@ -293,23 +194,12 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         }
     }
 
-
-    /**
-     * @return array
-     */
-    public function getCustomAttributes()
+    public function getCustomAttributes() : array
     {
         return (array) $this->cust_attr;
     }
 
-
-    /**
-     * @param                    $iterator_id
-     * @param \ilFormPropertyGUI $input
-     *
-     * @return string
-     */
-    protected function createInputPostVar($iterator_id, \ilFormPropertyGUI $input)
+    private function createInputPostVar(string $iterator_id, \ilFormPropertyGUI $input) : string
     {
         if ($this->getMulti()) {
             return $this->getPostVar() . '[' . $iterator_id . '][' . $input->getPostVar() . ']';
@@ -318,19 +208,15 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         }
     }
 
-
     /**
-     * Render item
-     *
-     * @param int $iterator_id
-     *
-     * @return string
-     * @throws \ilException
+     * @throws ilTemplateException
+     * @throws ilException
      */
-    public function render($iterator_id = 0, $clean_render = false)
+    public function render(int $iterator_id = 0, bool $clean_render = false) : string
     {
         $first_label = true;
-        $tpl = new \ilTemplate("tpl.multi_line_input.html", true, true, 'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting');
+        $tpl = new \ilTemplate("tpl.multi_line_input.html", true, true,
+            'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting');
         $class = 'multi_input_line';
         $this->addCustomAttribute('class', $class, true);
         foreach ($this->getCustomAttributes() as $key => $value) {
@@ -381,7 +267,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
                 case $is_hidden:
                     $tpl->setCurrentBlock('hidden');
                     $tpl->setVariable('NAME', $post_var);
-                    $tpl->setVariable('VALUE', \ilUtil::prepareFormOutput($input->getValue()));
+                    $tpl->setVariable('VALUE', ilLegacyFormElementsUtil::prepareFormOutput($input->getValue()));
                     break;
                 case $is_ta:
                     if ($this->isShowLabel() || ($this->isShowLabelOnce() && $first_label)) {
@@ -444,20 +330,13 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $tpl->get();
     }
 
-
-    public function initCSSandJS()
+    public function initCSSandJS() : void
     {
         global $tpl;
         $tpl->addJavascript('./Modules/OrgUnit/templates/default/multi_line_input.js');
     }
 
-
-    /**
-     * Insert property html
-     *
-     * @return    int    Size
-     */
-    public function insert(&$a_tpl)
+    public function insert(ilTemplate $a_tpl) : int
     {
         $output = "";
 
@@ -482,79 +361,49 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-
     /**
      * Get HTML for table filter
      */
     public function getTableFilterHTML()
     {
-        $html = $this->render();
-
-        return $html;
+        return $this->render();
     }
-
 
     /**
      * Get HTML for toolbar
      */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
-        $html = $this->render("toolbar");
-
-        return $html;
+        return $this->render("toolbar");
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isPositionMovable()
+    public function isPositionMovable() : bool
     {
         return $this->position_movable;
     }
 
-
-    /**
-     * @param boolean $position_movable
-     */
-    public function setPositionMovable($position_movable)
+    public function setPositionMovable(bool $position_movable)
     {
         $this->position_movable = $position_movable;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isShowLabelOnce()
+    public function isShowLabelOnce() : bool
     {
         return $this->show_label_once;
     }
 
-
-    /**
-     * @param boolean $show_label_once
-     */
-    public function setShowLabelOnce($show_label_once)
+    public function setShowLabelOnce(bool $show_label_once) : void
     {
         $this->setShowLabel(false);
         $this->show_label_once = $show_label_once;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isShowInfo()
+    public function isShowInfo() : bool
     {
         return $this->show_info;
     }
 
-
-    /**
-     * @param boolean $show_info
-     */
-    public function setShowInfo($show_info)
+    public function setShowInfo(bool $show_info) : void
     {
         $this->show_info = $show_info;
     }

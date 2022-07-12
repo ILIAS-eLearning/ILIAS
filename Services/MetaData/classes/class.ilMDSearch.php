@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,63 +22,40 @@
 */
 
 /**
-* Class ilMDSearch
-*
-* Base class for searching meta
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id
-*
-* @package ilias-search
-*
-*/
-
+ * Class ilMDSearch
+ * Base class for searching meta
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id
+ * @package ilias-search
+ */
 class ilMDSearch
 {
-    public $mode = '';
+    private string $mode = '';
 
-    /*
-     * instance of query parser
-     */
-    public $query_parser = null;
+    private ilQueryParser $query_parser;
+    private ilDBInterface $db;
+    private ilSearchResult $search_result;
 
-    public $db = null;
-
-    /**
-    * Constructor
-    * @access public
-    */
-    public function __construct($qp_obj)
+    public function __construct(ilQueryParser $qp_obj)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
         $this->query_parser = $qp_obj;
-        $this->db = $ilDB;
-
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
-
+        $this->db = $DIC->database();
         $this->search_result = new ilSearchResult();
     }
 
-    /**
-    * Define meta elements to search
-    *
-    * @param string mode keyword or all
-    * @access public
-    */
-    public function setMode($a_mode)
+    public function setMode(string $a_mode) : void
     {
         $this->mode = $a_mode;
     }
-    public function getMode()
+
+    public function getMode() : string
     {
         return $this->mode;
     }
 
-
-    public function performSearch()
+    public function performSearch() : ?ilSearchResult
     {
         switch ($this->getMode()) {
             case 'all':
@@ -89,14 +66,12 @@ class ilMDSearch
 
             default:
                 echo "ilMDSearch::performSearch() no mode given";
-                return false;
+                return null;
         }
+        return null;
     }
 
-
-
-    // Private
-    public function __searchKeywordsOnly()
+    public function __searchKeywordsOnly() : ilSearchResult
     {
         $where = " WHERE ";
         $field = " keyword ";
@@ -106,7 +81,7 @@ class ilMDSearch
                 $where .= strtoupper($this->query_parser->getCombination());
             }
             $where .= $field;
-            $where .= ("LIKE (" . $ilDB->quote("%" . $word . "%") . ")");
+            $where .= ("LIKE (" . $this->db->quote("%" . $word . "%", ilDBConstants::T_TEXT) . ")");
         }
 
         $query = "SELECT * FROM il_meta_keyword" .
@@ -117,7 +92,6 @@ class ilMDSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->obj_id, $row->obj_type, $row->rbac_id);
         }
-
         return $this->search_result;
     }
 }

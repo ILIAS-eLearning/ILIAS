@@ -1,1890 +1,1187 @@
-<?php
-
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * This class provides processing control methods.
- * A global instance is available via variable $ilCtrl
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * xml_style parameters: This mode was activated per default in the past, is now set to false but still being
- * used and needed, if link information is passed to the xslt processing e.g. in content pages.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
-class ilCtrl
+
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Filesystem\Stream\Streams;
+use Psr\Http\Message\ServerRequestInterface;
+use GuzzleHttp\Psr7\Response;
+
+/**
+ * Class ilCtrl provides processing control methods. A global
+ * instance is available through $DIC->ctrl() or $ilCtrl.
+ * @author Thibeau Fuhrer <thf@studer.raimann.ch>
+ */
+class ilCtrl implements ilCtrlInterface
 {
-    const IL_RTOKEN_NAME = 'rtoken';
-    
     /**
-     * Maps lowercase class names to lists of parameter names that saved for them.
-     *
-     * See saveParameter/setParameter for difference to save_parameter.
-     *
-     * This is used in: saveParameter, saveParameterByClass, getParameterArrayByClass
-     *
-     * @var	array<string, array<string, mixed>>
+     * Holds an instance of the http service's response sender.
+     * @var ResponseSenderStrategy
      */
-    protected $save_parameter;
+    private ResponseSenderStrategy $response_sender;
 
     /**
-     * Maps lowercase class names to lists of parameters set for them.
-     *
-     * See saveParameter/setParameter for difference to save_parameter.
-     *
-     * This is used in: setParameter, setParameterByClass, getParameterArrayByClass
-     *
-     * @var	array<string, mixed[]>
+     * Holds an instance of the current server request.
+     * @var ServerRequestInterface
      */
-    protected $parameter;
+    private ServerRequestInterface $server_request;
 
     /**
-     * Return commands per class.
-     *
-     * Return command sare defined by an upper context classes. If a subcontext calls
-     * returnToParent() it will redirect to the return command of the next upper context that defined
-     * a return command.
-     *
-     * This is used in: setReturn, setReturnByClass, getParentReturnByClass, searchReturnClass
-     *
-     * @var	array<string, string>
+     * Holds the current requests $_POST parameters.
+     * @var RequestWrapper
      */
-    protected $return;
+    private RequestWrapper $post_parameters;
 
     /**
-     * Stores the order in which different GUI classes were called.
-     *
-     * TODO: Might better be called call_stack.
-     *
-     * This is used in: forwardCommand, getHTML, getCallHistory
+     * Holds the current requests $_GET parameters.
+     * @var RequestWrapper
      */
-    protected $call_hist = array();	// calling history
+    private RequestWrapper $get_parameters;
 
     /**
-     * Stores which class calls which other class.
-     *
-     * This is used in: getNodeIdForTargetClass, fetchCallsOfClassFromCache, callOfClassNotKnown
+     * Holds an instance of the refinery factory.
+     * @var Refinery
      */
-    protected $calls = array();
+    private Refinery $refinery;
 
     /**
-     * Request token, prevents XSS.
-     *
-     * This is used in: getRequestToken
-     *
-     * @var string
+     * Holds an instance of the currently read control structure.
+     * @var ilCtrlStructureInterface
      */
-    protected $rtoken = false;
+    private ilCtrlStructureInterface $structure;
 
     /**
-     * Base script for link targets, reloads and so on
-     * @var string
+     * Holds an instance of the token repository.
+     * @var ilCtrlTokenRepositoryInterface
      */
-    protected $target_script = "ilias.php";
+    private ilCtrlTokenRepositoryInterface $token_repository;
 
     /**
-     * @var string
+     * Holds the current context information.
+     * @var ilCtrlContextInterface
      */
-    protected $module_dir;
+    private ilCtrlContextInterface $context;
 
     /**
-     * Flags nested getHTML processing from other nodes
-     *
-     * @var bool
+     * Holds an instance of the path factory.
+     * @var ilCtrlPathFactoryInterface
      */
-    protected $use_current_to_determine_next = false;
+    private ilCtrlPathFactoryInterface $path_factory;
 
     /**
-     * Current base class for nested getHTML processing
-     *
-     * @var string
+     * Holds an instance of the component factory.
+     * @var ilComponentFactory
      */
-    protected $inner_base_class = "";
+    private ilComponentFactory $component_factory;
 
     /**
-     * @var string
+     * Holds a history of calls made with the current ilCtrl instance.
+     * @var array<int, string[]>
      */
-    protected $verified_cmd = '';
-
-    protected string $cmdMode = "";
+    private array $stacktrace = [];
 
     /**
-     * control class constructor
+     * Holds an instance of the object that is currently executed.
+     * @var object|null
      */
-    public function __construct()
-    {
-        $this->initializeMemberVariables();
-
-        // this information should go to xml files one day
-        $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
-            "illmpresentationgui", "illmeditorgui",
-            "iladministrationgui");
-
-        $this->cmdMode = ($_GET["cmdMode"] ?? "");
-    }
-    
-    /**
-     * Initialize member variables.
-     *
-     * This is used in __construct and initBaseClass.
-     */
-    protected function initializeMemberVariables()
-    {
-        $this->save_parameter = array();
-        $this->parameter = array();			// save parameter array
-        $this->return = array();			// return commmands
-        $this->tab = array();
-        $this->current_node = 0;
-        $this->call_node = array();
-        $this->root_class = "";
-    }
+    private ?object $exec_object = null;
 
     /**
-     * Calls base class of current request. The base class is
-     * passed via $_GET["baseClass"] and is the first class in
-     * the call sequence of the request. Do not call this method
-     * within other scripts than ilias.php.
-     * @throws ilCtrlException
+     * ilCtrl Constructor
+     * @param ilCtrlStructureInterface       $structure
+     * @param ilCtrlTokenRepositoryInterface $token_repository
+     * @param ilCtrlPathFactoryInterface     $path_factory
+     * @param ilCtrlContextInterface         $context
+     * @param ResponseSenderStrategy         $response_sender
+     * @param ServerRequestInterface         $server_request
+     * @param RequestWrapper                 $post_parameters
+     * @param RequestWrapper                 $get_parameters
+     * @param Refinery                       $refinery
+     * @param ilComponentFactory             $component_factory
      */
-    public function callBaseClass()
-    {
-        $baseClass = strtolower($_GET['baseClass']);
-
-        $module_class = ilCachedCtrl::getInstance();
-        $mc_rec = $module_class->lookupModuleClass($baseClass);
-
-        $module = ($mc_rec['module'] ?? '');
-        $class = ($mc_rec['class'] ?? '');
-
-        if ($module === '') {
-            $mc_rec = $module_class->lookupServiceClass($baseClass);
-
-            $service = $mc_rec['service'];
-            $class = $mc_rec['class'];
-
-            if ($service === '') {
-                throw new ilCtrlException(
-                    "Could not find entry in modules.xml or services.xml for " .
-                    $baseClass . " <br/>" . str_replace("&", "<br />&", htmlentities($_SERVER["REQUEST_URI"]))
-                );
-            }
-
-            ilComponent::getComponentInfo('Services', $service);
-        }
-
-        $this->getCallStructure(strtolower($baseClass));
-        $base_class_gui = new $class();
-        $this->forwardCommand($base_class_gui);
-    }
-
-    /**
-     * get directory of current module
-     * @deprecated
-     * @return mixed
-     * @throws Exception
-     */
-    public function getModuleDir()
-    {
-        throw new Exception("ilCtrl::getModuleDir is deprecated.");
-        //return $this->module_dir;
-    }
-    
-    /**
-     * Forward flow of control to next gui class
-     * this invokes the executeCommand() method of the
-     * gui object that is passed via reference
-     *
-     * @param object $a_gui_object gui object that should receive
-     * @return mixed return data of invoked executeCommand() method
-     * @throws ilCtrlException
-     */
-    public function forwardCommand($a_gui_object)
-    {
-        $class = strtolower(get_class($a_gui_object));
-        $nr = $this->getNodeIdForTargetClass($this->current_node, $class);
-        $nr = $nr["node_id"];
-        if ($nr != "") {
-            $current_node = $this->current_node;
-            
-            $this->current_node = $nr;
-
-            // always populate the call history
-            // it will only be displayed in DEVMODE but is needed for UI plugins, too
-            $this->call_hist[] = array("class" => get_class($a_gui_object),
-                    "mode" => "execComm", "cmd" => $this->getCmd());
-
-            $html = $a_gui_object->executeCommand();
-            
-            // reset current node
-            $this->current_node = $current_node;
-            
-            return $html;
-        }
-        
-        throw new ilCtrlException("ERROR: Can't forward to class $class.");
-    }
-
-    /**
-     * Gets an HTML output from another GUI class and
-     * returns the flow of control to the calling class.
-     *
-     * @param object $a_gui_object GUI class that implements getHTML() method to return its HTML
-     * @param array|null $a_parameters parameter array
-     * @return string
-     * @throws ilCtrlException
-     */
-    public function getHTML($a_gui_object, array $a_parameters = null, array $class_path = [])
-    {
-        $class = strtolower(get_class($a_gui_object));
-
-        $baseclass = '';
-        if (count($class_path) > 0) {
-            $class_path = array_merge($class_path, [$class]);
-            $p = $this->getParameterArrayByClass($class_path);
-            $nr = $p["cmdNode"];
-            $baseclass = $p["baseClass"];
-            $this->inner_base_class = $p["cmdNode"];
-        } else {
-            $nr = $this->getNodeIdForTargetClass($this->current_node, $class);
-            $nr = $nr["node_id"];
-        }
-        if ($nr != "") {
-            $current_inner_base_class = $this->inner_base_class;
-            $this->use_current_to_determine_next = true;
-
-            $requestBaseClass = (string) ($_GET["baseClass"] ?? '');
-            if ($baseclass != $requestBaseClass) {
-                $this->inner_base_class = $baseclass;
-            }
-            $current_node = $this->current_node;
-            
-            // set current node to new gui class
-            $this->current_node = $nr;
-            
-            // always populate the call history
-            // it will only be displayed in DEVMODE but is needed for UI plugins, too
-            $this->call_hist[] = array("class" => get_class($a_gui_object),
-                    "mode" => "getHtml", "cmd" => $this->getCmd());
-            
-            // get block
-            if ($a_parameters != null) {
-                $html = $a_gui_object->getHTML($a_parameters);
-            } else {
-                $html = $a_gui_object->getHTML();
-            }
-            
-            // reset current node
-            $this->current_node = $current_node;
-            $this->inner_base_class = $current_inner_base_class;
-            $this->use_current_to_determine_next = false;
-            
-            // return block
-            return $html;
-        }
-
-        throw new ilCtrlException("ERROR: Can't getHTML from class $class.");
-    }
-    
-    /**
-     * Set context of current user interface. A context is a ILIAS repository
-     * object (obj ID + obj type) with an additional optional subobject (ID + Type)
-     *
-     * @param	integer		object ID
-     * @param	string		object type
-     * @param	integer		subobject ID
-     * @param	string		subobject type
-     */
-    public function setContext($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
-    {
-        $this->context_obj_id = $a_obj_id;
-        $this->context_obj_type = $a_obj_type;
-        $this->context_sub_obj_id = $a_sub_obj_id;
-        $this->context_sub_obj_type = $a_sub_obj_type;
-    }
-
-    /**
-     * Get context object id
-     *
-     * @return	int		object id
-     */
-    public function getContextObjId()
-    {
-        return $this->context_obj_id;
-    }
-
-    /**
-     * Get context object type
-     *
-     * @return	string		object type
-     */
-    public function getContextObjType()
-    {
-        return $this->context_obj_type;
-    }
-
-    /**
-     * Get context subobject id
-     *
-     * @return	int		subobject id
-     */
-    public function getContextSubObjId()
-    {
-        return $this->context_sub_obj_id;
-    }
-
-    /**
-     * Get context subobject type
-     *
-     * @return	string		subobject type
-     */
-    public function getContextSubObjType()
-    {
-        return $this->context_sub_obj_type;
-    }
-
-    /**
-     * Searches a node for a given class ($a_class) "near" another
-     * node ($a_par_node).
-     *
-     * It first looks if the given class is a child class of the current node.
-     * If such a child node has been found, its id is returned.
-     *
-     * If not, this method determines, whether the given class is a sibling
-     * of the current node within the call structure. If this is the case,
-     * then the corresponding id is returned.
-     *
-     * At last the method searches for the given class along the path from
-     * the current node to the root class of the call structure.
-     *
-     * @param string $a_par_node id of starting node for the search
-     * @param string $a_class class that should be searched
-     * @param bool $a_check
-     * @return array|bool id of target node that has been found
-     * @throws ilCtrlException
-     */
-    private function getNodeIdForTargetClass($a_par_node, $a_class, $a_check = false)
-    {
-        $class = strtolower($a_class);
-        $this->readClassInfo($class);
-        
-        if ($a_par_node === 0 || $a_par_node == "") {
-            return array("node_id" => $this->getCidForClass($class),
-                "base_class" => $class);
-        }
-        
-        $this->readNodeInfo($a_par_node);
-        
-        $node_cid = $this->getCurrentCidOfNode($a_par_node);
-
-        // target class is class of current node id
-        if ($class == $this->getClassForCid($node_cid)) {
-            return array("node_id" => $a_par_node,
-                "base_class" => "");
-        }
-
-        // target class is child of current node id
-        if (isset($this->calls[$this->getClassForCid($node_cid)]) &&
-            is_array($this->calls[$this->getClassForCid($node_cid)]) &&
-            in_array($a_class, $this->calls[$this->getClassForCid($node_cid)])) {
-            return array("node_id" => $a_par_node . ":" . $this->getCidForClass($class),
-                "base_class" => "");
-        }
-
-        // target class is sibling
-        $par_cid = $this->getParentCidOfNode($a_par_node);
-        if ($par_cid != "") {
-            if (is_array($this->calls[$this->getClassForCid($par_cid)]) &&
-                in_array($a_class, $this->calls[$this->getClassForCid($par_cid)])) {
-                return array("node_id" =>
-                    $this->removeLastCid($a_par_node) . ":" . $this->getCidForClass($class),
-                    "base_class" => "");
-            }
-        }
-
-        // target class is parent
-        $temp_node = $this->removeLastCid($a_par_node);
-        while ($temp_node != "") {
-            $temp_cid = $this->getCurrentCidOfNode($temp_node);
-            if ($this->getClassForCid($temp_cid) == $a_class) {
-                return array("node_id" => $temp_node,
-                    "base_class" => "");
-            }
-            $temp_node = $this->removeLastCid($temp_node);
-        }
-        
-        // target class is another base class
-        $n_class = "";
-        if ($a_class != "") {
-            $module_class = ilCachedCtrl::getInstance();
-            $mc_rec = $module_class->lookupModuleClass($class);
-            $n_class = $mc_rec['lower_class'] ?? '';
-
-            if ($n_class == "") {
-                $mc_rec = $module_class->lookupServiceClass($class);
-                $n_class = $mc_rec['lower_class'] ?? '';
-            }
-            
-            if ($n_class != "") {
-                $this->getCallStructure($n_class);
-                return array("node_id" => $this->getCidForClass($n_class),
-                    "base_class" => $class);
-            }
-        }
-
-        if ($a_check) {
-            return false;
-        }
-        
-        // Please do NOT change these lines.
-        // Developers must be aware, if they use classes unknown to the controller
-        // otherwise certain problem will be extremely hard to track down...
-
-        error_log("ERROR: Can't find target class $a_class for node $a_par_node " .
-            "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ")");
-            
-        throw new ilCtrlException("ERROR: Can't find target class $a_class for node $a_par_node " .
-            "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ").");
-    }
-
-    /**
-     * Check whether target is valid
-     *
-     * @param
-     * @return
-     */
-    public function checkTargetClass($a_class)
-    {
-        if (!is_array($a_class)) {
-            $a_class = array($a_class);
-        }
-
-        $nr = $this->current_node;
-        foreach ($a_class as $class) {
-            $class = strtolower($class);
-
-            if (!$this->getCidForClass($class, true)) {
-                return false;
-            }
-
-            $nr = $this->getNodeIdForTargetClass($nr, $class, true);
-            $nr = $nr["node_id"];
-            if ($nr === false) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Get command target node
-     *
-     * @return	string		id of current command target node
-     */
-    public function getCmdNode() : string
-    {
-        return $_GET["cmdNode"] ?? '';
-    }
-
-    /**
-     * Add a tab to tabs array (@deprecated use $ilTabs)
-     *
-     * @param	string		$a_lang_var		language variable
-     * @param	string		$a_link			link
-     * @param	string		$a_cmd			command (must be same as in link)
-     * @param	string		$a_class		command class (must be same as in link)
-     */
-    public function addTab($a_lang_var, $a_link, $a_cmd, $a_class)
-    {
-        $a_class = strtolower($a_class);
-
-        $this->tab[] = array("lang_var" => $a_lang_var,
-            "link" => $a_link, "cmd" => $a_cmd, "class" => $a_class);
-    }
-
-    /**
-     * Get tabs array		(@deprecated, use $ilTabs)
-     *
-     * @return	array		array of tab entries (array("lang_var", "link", "cmd", "class))
-     */
-    public function getTabs()
-    {
-        return $this->tab;
-    }
-
-    /**
-     * Get controller call history.
-     *
-     * This is used for the developer mode and presented in the footer
-     *
-     * @return	array		array of call history entries
-     */
-    public function getCallHistory()
-    {
-        return $this->call_hist;
-    }
-    
-    /**
-     * Get call structure of class context. This method must be called
-     * for the top level gui class in the leading php script. It must be
-     * called before the the current command is forwarded to the top level
-     * gui class. Example:
-     *
-     *	$ilCtrl->getCallStructure("ilrepositorygui");
-     *	$repository_gui = new ilRepositoryGUI();
-     *	$ilCtrl->forwardCommand($repository_gui);
-     *
-     * @param	string		$a_class	gui class name
-     *
-     * @access	public
-     */
-    public function getCallStructure($a_class)
-    {
-        $this->readClassInfo($a_class);
-    }
-
-    /**
-     * Reads call structure from db
-     */
-    public function readCallStructure($a_class, $a_nr = 0, $a_parent = 0)
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $a_class = strtolower($a_class);
-
-        $a_nr++;
-        
-        // determine call node structure
-        $this->call_node[$a_nr] = array("class" => $a_class, "parent" => $a_parent);
-
-        $call_set = $ilDB->query("SELECT * FROM ctrl_calls WHERE parent = " .
-            $ilDB->quote(strtolower($a_class), "text") .
-            " ORDER BY child", array("text"));
-        $a_parent = $a_nr;
-        while ($call_rec = $ilDB->fetchAssoc($call_set)) {
-            $a_nr = $this->readCallStructure($call_rec["child"], $a_nr, $a_parent);
-            $forw[] = $call_rec["child"];
-        }
-
-        // determine root class
-        $this->root_class = $a_class;
-        return $a_nr;
-    }
-
-    /**
-     * Set parameters that should be passed in every form and link of a
-     * gui class. All links that relate to the specified gui object class and
-     * are build e.g. by using getLinkTarger() or getFormAction() will include
-     * this parameter. This is the mechanism to add url parameters to the standard
-     * url target everytime.
-     *
-     * A typical example is the "ref_id" that should be included in almost every
-     * link or form action url. So the constructor of ilRepositoryGUI includes
-     * the command:
-     *
-     *	$this->ctrl->saveParameter($this, array("ref_id"));
-     *
-     * @param	object	$a_obj			gui object that will process the parameter
-     * @param	mixed	$a_parameter	parameter name (string) or array of parameter
-     *									names
-     *
-     * @access	public
-     */
-    public function saveParameter($a_obj, $a_parameter)
-    {
-        if (is_object($a_obj)) {
-            $this->saveParameterByClass(get_class($a_obj), $a_parameter);
-        }
-    }
-    
-    /**
-     * Save parameter for a class
-     *
-     * @param	string	class name
-     * @param	string	parameter name
-     */
-    public function saveParameterByClass($a_class, $a_parameter)
-    {
-        if (is_array($a_parameter)) {
-            foreach ($a_parameter as $parameter) {
-                $this->save_parameter[strtolower($a_class)][] = $parameter;
-            }
-        } else {
-            $this->save_parameter[strtolower($a_class)][] = $a_parameter;
-        }
-    }
-
-
-    /**
-     * Set parameters that should be passed a form and link of a
-     * gui class. All links that relate to the specified gui object class and
-     * are build e.g. by using getLinkTarger() or getFormAction() will include
-     * this parameter. This is the mechanism to add url parameters to the standard
-     * url target. The difference to the saveParameter() method is, that setParameter()
-     * does not simply forward the url parameter of the last request. You can set
-     * a spefific value.
-     *
-     * If this parameter is also a "saved parameter" (set by saveParameter() method)
-     * the saved value will be overwritten.
-     *
-     * The method is usually used in conjunction with a getFormAction() or getLinkTarget()
-     * call. E.g.:
-     *
-     *		$this->ctrl->setParameter($this, "obj_id", $data_row["obj_id"]);
-     *		$obj_link = $this->ctrl->getLinkTarget($this, "view");
-     *
-     * @param	object		$a_obj			gui object
-     * @param	string		$a_parameter	parameter name
-     * @param	string		$a_parameter	parameter value
-     */
-    public function setParameter($a_obj, $a_parameter, $a_value)
-    {
-        $this->parameter[strtolower(get_class($a_obj))][$a_parameter] = $a_value;
-    }
-
-
-    /**
-     * Same as setParameterByClass, except that a class name is passed.
-     *
-     * @param	string		$a_class		gui class name
-     * @param	string		$a_parameter	parameter name
-     * @param	string		$a_parameter	parameter value
-     */
-    public function setParameterByClass($a_class, $a_parameter, $a_value)
-    {
-        $this->parameter[strtolower($a_class)][$a_parameter] = $a_value;
-    }
-
-    /**
-     * Same as setParameterByClass, except that a class name is passed.
-     *
-     * @param	string		$a_class		gui class name
-     * @param	string		$a_parameter	parameter name
-     * @param	string		$a_parameter	parameter value
-     */
-    public function clearParameterByClass($a_class, $a_parameter)
-    {
-        unset($this->parameter[strtolower($a_class)][$a_parameter]);
-    }
-
-    /**
-     * Clears all parameters that have been set via setParameter for
-     * a GUI class.
-     *
-     * @param	object		$a_obj			gui object
-     */
-    public function clearParameters($a_obj)
-    {
-        $this->clearParametersByClass(strtolower(get_class($a_obj)));
-    }
-
-    /**
-     * Clears all parameters that have been set via setParameter for
-     * a GUI class.
-     *
-     * @param	string		$a_class		gui class name
-     */
-    public function clearParametersByClass($a_class)
-    {
-        $this->parameter[strtolower($a_class)] = array();
-    }
-    
-    protected function checkLPSettingsForward($a_gui_obj, $a_cmd_node)
-    {
-        global $DIC;
-
-        $objDefinition = $DIC["objDefinition"];
-        
-        // forward to learning progress settings if possible and accessible
-        if (isset($_GET["gotolp"]) && $_GET["gotolp"] &&
-            $a_gui_obj) {
-            $ref_id = $_GET["ref_id"];
-            if (!$ref_id) {
-                $ref_id = $_REQUEST["ref_id"];
-            }
-            
-            $gui_class = get_class($a_gui_obj);
-            
-            if ($gui_class == "ilSAHSEditGUI") {
-                // #1625 - because of scorm "sub-types" this is all very special
-                $obj_id = ilObject::_lookupObjectId($ref_id);
-                switch (ilObjSAHSLearningModule::_lookupSubType($obj_id)) {
-                    case "scorm2004":
-                        $class = "ilObjSCORM2004LearningModuleGUI";
-                        break;
-                
-                    case "scorm":
-                        $class = "ilObjSCORMLearningModuleGUI";
-                        break;
-
-                    case "aicc":
-                        $class = "ilObjAICCLearningModuleGUI";
-                        break;
-
-                    case "hacp":
-                        $class = "ilObjHACPLearningModuleGUI";
-                        break;
-                }
-                if ($GLOBALS["ilAccess"]->checkAccess("edit_learning_progress", "", $ref_id)) {
-                    $this->redirectByClass(array($gui_class, $class, "illearningprogressgui", "illplistofsettingsgui"), "");
-                }
-            }
-            // special case: cannot use any presentation GUIs
-            elseif ($gui_class == "ilLMPresentationGUI") {
-                $this->setParameterByClass("ilObjLearningModuleGUI", "gotolp", 1);
-                $this->redirectByClass(array("ilLMEditorGUI", "ilObjLearningModuleGUI"), "");
-            }
-                        
-            $type = ilObject::_lookupType($ref_id, true);
-            $class = "ilObj" . $objDefinition->getClassName($type) . "GUI";
-            
-            if ($gui_class == $class &&
-                ilObjectLP::isSupportedObjectType($type) &&
-                $GLOBALS["ilAccess"]->checkAccess("edit_learning_progress", "", $ref_id)) {
-                // add path to repository object gui if missing from cmdNode
-                if (!$a_cmd_node) {
-                    $repo_node = $this->getNodeIdForTargetClass(null, "ilrepositorygui");
-                    $obj_node = $this->getNodeIdForTargetClass($repo_node["node_id"], $gui_class);
-                    $a_cmd_node = $obj_node["node_id"];
-                }
-                // find path to lp settings
-                $lp_node = $this->getNodeIdForTargetClass($a_cmd_node, "illearningprogressgui");
-                $lp_settings_node = $this->getNodeIdForTargetClass($lp_node["node_id"], "illplistofsettingsgui");
-                $_GET["cmdNode"] = $lp_settings_node["node_id"];
-                $_GET["cmdClass"] = "ilLPListOfSettingsGUI";
-                $_GET["cmd"] = "";
-                return "illearningprogressgui";
-            }
-        }
-    }
-
-    /**
-     * Get next class in the control path from the current class
-     * to the target command class. This is the class that should
-     * be instantiated and be invoked via $ilCtrl->forwardCommand($class)
-     * next.
-     *
-     * @return	string		class name of next class
-     */
-    public function getNextClass($a_gui_class = null)
-    {
-        if ($this->use_current_to_determine_next) {
-            $cmdNode = $this->current_node;
-        } else {
-            $cmdNode = $this->getCmdNode();
-        }
-
-        if ($cmdNode == "") {
-            return ($class = $this->checkLPSettingsForward($a_gui_class, $cmdNode))
-                ? $class
-                : false;
-        } else {
-            if ($this->current_node == $cmdNode) {
-                return ($class = $this->checkLPSettingsForward($a_gui_class, $cmdNode))
-                    ? $class
-                    : "";
-            } else {
-                $path = $this->getPathNew($this->current_node, $cmdNode);
-                $this->readCidInfo($this->getCurrentCidOfNode($path[1]));
-                return $this->cid_class[$this->getCurrentCidOfNode($path[1])];
-            }
-        }
-    }
-
-    /**
-     * Get class path that can be used in include statements
-     * for a given class name.
-     *
-     * @param	string		$a_class_name		class name
-     */
-    public function lookupClassPath($a_class_name)
-    {
-        $a_class_name = strtolower($a_class_name);
-
-        $cached_ctrl = ilCachedCtrl::getInstance();
-        $class_rec = $cached_ctrl->lookupClassFile($a_class_name);
-
-        if ($class_rec["plugin_path"] != "") {
-            return $class_rec["plugin_path"] . "/" . $class_rec["filename"];
-        } else {
-            return $class_rec["filename"];
-        }
-    }
-
-    /**
-     * this method assumes that the class path has the format "dir/class.<class_name>.php"
-     *
-     * @param	string		$a_class_path		class path
-     * @access	public
-     *
-     * @return	string		class name
-     */
-    public function getClassForClasspath($a_class_path)
-    {
-        $path = pathinfo($a_class_path);
-        $file = $path["basename"];
-        $class = substr($file, 6, strlen($file) - 10);
-
-        return $class;
-    }
-
-    /**
-     * Get path in call structure.
-     *
-     * @param	string		$a_source_node		source node id
-     * @param	string		$a_source_node		target node id
-     */
-    private function getPathNew($a_source_node, $a_target_node)
-    {
-        if ($a_source_node == "1") {
-            $a_source_node = "";
-        }
-        if (substr($a_target_node, 0, strlen($a_source_node)) != $a_source_node) {
-            $failure = "ERROR: Path not found. Source:" . $a_source_node .
-                ", Target:" . $a_target_node;
-            if (DEVMODE == 1) {
-                throw new ilCtrlException($failure);
-            }
-            $GLOBALS['ilLog']->write(__METHOD__ . ' ' . $failure);
-            $this->redirectToURL('./ilias.php?baseClass=ilRepositoryGUI');
-        }
-        $temp_node = $a_source_node;
-        
-        $path = array();
-        if ($a_source_node != "") {
-            $path = array($a_source_node);
-        }
-        
-        $diffstart = ($a_source_node == "")
-            ? 0
-            : strlen($a_source_node) + 1;
-        $diff = substr($a_target_node, $diffstart);
-        $diff_arr = explode(":", $diff);
-        foreach ($diff_arr as $cid) {
-            if ($temp_node != "") {
-                $temp_node .= ":";
-            }
-            $temp_node .= $cid;
-            $path[] = $temp_node;
-        }
-        return $path;
-    }
-
-    /**
-     * set target script name
-     *
-     * @param	string		$a_target_script		target script name
-     */
-    public function setTargetScript(string $a_target_script)
-    {
-        $this->target_script = $a_target_script;
-    }
-
-    /**
-     * Get readable node
-     * @param
-     * @return
-     */
-    protected function getReadableNode($node)
-    {
-        return implode(
-            ":",
-            array_map(function ($cid) {
-                return $this->getClassForCid($cid);
-            }, explode(":", $node))
-        );
-    }
-
-    /**
-     * Get target script name
-     *
-     * @return	string		target script name
-     */
-    public function getTargetScript() : string
-    {
-        return $this->target_script;
-    }
-
-
-    /**
-     * Initialises new base class
-     *
-     * Note: this resets the whole current ilCtrl context completely.
-     * You can call callBaseClass() after that.
-     *
-     * @param	string		base class name
-     */
-    public function initBaseClass($a_base_class)
-    {
-        $_GET["baseClass"] = $a_base_class;
-        $_GET["cmd"] = "";
-        $_GET["cmdClass"] = "";
-        $_GET["cmdNode"] = "";
-        $this->initializeMemberVariables();
-    }
-    
-    /**
-     * Determines current get/post command
-     *
-     * @param	string		default command
-     * @param	array		safe commands: for these commands no token
-     *						is checked for post requests
-     */
-    public function getCmd($a_default_cmd = "", $a_safe_commands = "")
-    {
-        $cmd = "";
-        if (isset($_GET["cmd"])) {
-            $cmd = $_GET["cmd"];
-        }
-        if ($cmd == "post") {
-            if (isset($_POST["cmd"]) && is_array($_POST["cmd"])) {
-//                reset($_POST["cmd"]);
-            }
-            $cmd = isset($_POST["cmd"]) && is_array($_POST["cmd"]) ? key($_POST["cmd"]) : '';
-
-            // verify command
-            if ($this->verified_cmd != "") {
-                return $this->verified_cmd;
-            } else {
-                if (!$this->verifyToken() &&
-                    (!is_array($a_safe_commands) || !in_array($cmd, $a_safe_commands))) {
-                    return $a_default_cmd;
-                }
-            }
-            
-            $this->verified_cmd = $cmd;
-            if ($cmd == "" && isset($_POST["table_top_cmd"])) {		// selected command in multi-list (table2)
-                $cmd = key($_POST["table_top_cmd"]);
-                $this->verified_cmd = $cmd;
-                $_POST[$_POST["cmd_sv"][$cmd]] = $_POST[$_POST["cmd_sv"][$cmd] . "_2"];
-            }
-            if ($cmd == "" && isset($_POST["select_cmd2"])) {		// selected command in multi-list (table2)
-                if (isset($_POST["select_cmd_all2"])) {
-                    $_POST["select_cmd_all"] = $_POST["select_cmd_all2"];
-                } else {
-                    $_POST["select_cmd_all"] = $_POST["select_cmd_all2"] = null;
-                }
-                $cmd = $_POST["selected_cmd2"];
-                $this->verified_cmd = $cmd;
-            }
-            if ($cmd == "" && isset($_POST["select_cmd"])) {		// selected command in multi-list (table2)
-                if (isset($_POST["select_cmd_all"])) {
-                    $_POST["select_cmd_all2"] = $_POST["select_cmd_all"];
-                } else {
-                    $_POST["select_cmd_all"] = $_POST["select_cmd_all2"] = null;
-                }
-                $cmd = $_POST["selected_cmd"];
-                $this->verified_cmd = $cmd;
-            }
-            if ($cmd == "") {
-                $cmd = $_GET["fallbackCmd"];
-                $this->verified_cmd = $cmd;
-            }
-        }
-        if ($cmd == "") {
-            $cmd = $a_default_cmd;
-        }
-        return $cmd;
-    }
-
-    /**
-     * Set the current command
-     *
-     * IMPORTANT NOTE:
-     *
-     * please use this function only in exceptional cases
-     * it is not intended for setting commands in forms or links!
-     * use the corresponding parameters of getFormAction() and
-     * getLinkTarget() instead.
-     */
-    public function setCmd($a_cmd)
-    {
-        $_GET["cmd"] = $a_cmd;
-    }
-
-    /**
-     * Set the current command class
-     *
-     * IMPORTANT NOTE:
-     *
-     * please use this function only in exceptional cases
-     * it is not intended for setting the command class in forms or links!
-     * use the corresponding parameters of getFormAction() and
-     * getLinkTarget() instead.
-     */
-    public function setCmdClass($a_cmd_class)
-    {
-        $a_cmd_class = strtolower($a_cmd_class);
-        $nr = $this->getNodeIdForTargetClass($this->current_node, $a_cmd_class);
-        $nr = $nr["node_id"];
-        $_GET["cmdClass"] = $a_cmd_class;
-        $_GET["cmdNode"] = $nr;
-    }
-
-    /**
-     * Determines class that should execute the current command
-     *
-     * @return	string		class name
-     */
-    public function getCmdClass()
-    {
-        return strtolower($_GET["cmdClass"] ?? '');
-    }
-
-    /**
-     * Get form action url for gui class object
-     *
-     * @param	object		gui object
-     * @param	string		fallback command
-     * @param	string		anchor
-     * @param	bool		asynchronous call
-     * @param	bool		xml style t/f
-     * @return	string		script url
-     */
-    public function getFormAction(
-        $a_gui_obj,
-        $a_fallback_cmd = "",
-        $a_anchor = "",
-        $a_asynch = false,
-        $xml_style = false
+    public function __construct(
+        ilCtrlStructureInterface $structure,
+        ilCtrlTokenRepositoryInterface $token_repository,
+        ilCtrlPathFactoryInterface $path_factory,
+        ilCtrlContextInterface $context,
+        ResponseSenderStrategy $response_sender,
+        ServerRequestInterface $server_request,
+        RequestWrapper $post_parameters,
+        RequestWrapper $get_parameters,
+        Refinery $refinery,
+        ilComponentFactory $component_factory
     ) {
-        $script = $this->getFormActionByClass(
-            strtolower(get_class($a_gui_obj)),
-            $a_fallback_cmd,
-            $a_anchor,
-            $a_asynch,
-            $xml_style
-        );
-        return $script;
+        $this->structure = $structure;
+        $this->token_repository = $token_repository;
+        $this->response_sender = $response_sender;
+        $this->server_request = $server_request;
+        $this->post_parameters = $post_parameters;
+        $this->get_parameters = $get_parameters;
+        $this->refinery = $refinery;
+        $this->path_factory = $path_factory;
+        $this->context = $context;
+        $this->component_factory = $component_factory;
     }
 
-    /**
-     * Get form action url for gui class name
-     *
-     * @param	string		gui class name
-     * @param	string		fallback command
-     * @param	string		anchor
-     * @param	bool		asynchronous call
-     * @param	bool		xml style t/f
-     * @return	string		script url
-     */
-    public function getFormActionByClass(
-        $a_class,
-        $a_fallback_cmd = "",
-        $a_anchor = "",
-        $a_asynch = false,
-        $xml_style = false
-    ) {
-        if (!is_array($a_class)) {
-            $a_class = strtolower($a_class);
-        }
-        
-        $tok = $this->getRequestToken();
-
-        if ($a_asynch) {
-            $xml_style = false;
-        }
-
-        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch, $xml_style);
-        if ($a_fallback_cmd != "") {
-            $script = ilUtil::appendUrlParameterString($script, "fallbackCmd=" . $a_fallback_cmd, $xml_style);
-        }
-        $script = ilUtil::appendUrlParameterString(
-            $script,
-            self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
-            $xml_style
-        );
-        if ($a_anchor != "") {
-            $script = $script . "#" . $a_anchor;
-        }
-
-        return $script;
-    }
-    
-    /**
-     * Append request token as url parameter
-     *
-     * @param	string	url
-     * @param	boolean	xml style
-     */
-    public function appendRequestTokenParameterString($a_url, $xml_style = false)
+    public function __clone()
     {
-        return ilUtil::appendUrlParameterString(
-            $a_url,
-            self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
-            $xml_style
-        );
+        $this->structure = clone $this->structure;
     }
-    
+
     /**
-     * Get request token.
-     *
-     * @return	string		request token for user and session
+     * @inheritDoc
      */
-    public function getRequestToken()
+    public function callBaseClass(string $a_base_class = null) : void
     {
-        global $DIC;
+        // prioritise the context's baseclass over the given one.
+        $a_base_class = $this->context->getBaseClass() ?? $a_base_class;
 
-        $ilUser = $DIC["ilUser"];
-        $ilDB = $DIC->database();
+        // abort if no baseclass was provided.
+        if (null === $a_base_class) {
+            throw new ilCtrlException(__METHOD__ . " was not given a baseclass and the request doesn't include one either.");
+        }
 
-        
-        if ($this->rtoken != "") {
-            return $this->rtoken;
-        } else {
-            if (is_object($ilDB) && is_object($ilUser) && $ilUser->getId() > 0 &&
-                $ilUser->getId() != ANONYMOUS_USER_ID) {
-                $res = $ilDB->query("SELECT token FROM il_request_token WHERE user_id = " .
-                    $ilDB->quote($ilUser->getId(), "integer") .
-                    " AND session_id = " . $ilDB->quote(session_id(), "text"));
-                $rec = $ilDB->fetchAssoc($res);
-                if (isset($rec["token"]) && $rec["token"] != "") {
-                    $this->rtoken = $rec["token"];
-                    return $rec["token"];
+        // abort if the provided baseclass is unknown.
+        if (!$this->structure->isBaseClass($a_base_class)) {
+            throw new ilCtrlException("Provided class '$a_base_class' is not a baseclass");
+        }
+
+        // in case the baseclass was given by argument,
+        // set the context's baseclass.
+        $this->context->setBaseClass($a_base_class);
+
+        // no null-check needed as previous isBaseClass() was true.
+        $obj_name = $this->structure->getObjNameByName($a_base_class);
+        $this->forwardCommand(new $obj_name());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function forwardCommand(object $a_gui_object)
+    {
+        $class_name = get_class($a_gui_object);
+
+        // @TODO: remove this check once an interface for command classes exists.
+        if (!method_exists($a_gui_object, 'executeCommand')) {
+            throw new ilCtrlException("$class_name doesn't implement executeCommand().");
+        }
+
+        $this->exec_object = $a_gui_object;
+        $this->populateCall($class_name, self::CMD_MODE_PROCESS);
+
+        // with forward command we cannot progress, or set
+        // the current command class. Otherwise, the path-
+        // finding gets mixed up, as it can only be used in
+        // getHTML() method calls.
+        $this->context
+            ->setCmdMode(self::CMD_MODE_PROCESS);
+
+        return $a_gui_object->executeCommand();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getHTML(object $a_gui_object, array $a_parameters = null) : string
+    {
+        $class_name = get_class($a_gui_object);
+
+        // @TODO: remove this check once an interface for command classes exists.
+        if (!method_exists($a_gui_object, 'getHTML')) {
+            throw new ilCtrlException("$class_name doesn't implement getHTML().");
+        }
+
+        $this->exec_object = $a_gui_object;
+        $this->populateCall($class_name, self::CMD_MODE_HTML);
+        $this->context
+            ->setCmdClass($class_name)
+            ->setCmdMode(self::CMD_MODE_HTML);
+
+        return (null !== $a_parameters) ?
+            $a_gui_object->getHTML($a_parameters) :
+            $a_gui_object->getHTML();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCmd(string $fallback_command = null) : ?string
+    {
+        // retrieve $_GET and $_POST parameters.
+        $post_command = $this->getPostCommand();
+        $get_command = $this->getQueryParam(self::PARAM_CMD);
+        $table_command = $this->getTableCommand();
+
+        $is_post = (self::CMD_POST === $get_command);
+
+        // if the $_GET command is 'post', either the $_POST
+        // command or $_GETs fallback command is used.
+        // for now, the table command is used as fallback as well,
+        // but this will be removed once the implementation of
+        // table actions change.
+        $command = ($is_post) ?
+            $post_command ?? $table_command ?? $this->getQueryParam(self::PARAM_CMD_FALLBACK) :
+            $get_command;
+
+        // override the command that has been set during a
+        // request via ilCtrl::setCmd().
+        $context_command = $this->context->getCmd();
+        if (null !== $context_command && self::CMD_POST !== $context_command) {
+            $command = $context_command;
+        }
+
+        if (null !== $command) {
+            // if the command is for post requests, or the command
+            // is not considered safe, the csrf-validation must pass.
+            $cmd_class = $this->context->getCmdClass();
+            if (null !== $cmd_class && !$this->isCmdSecure($is_post, $cmd_class, $command)) {
+                $stored_token = $this->token_repository->getToken();
+                $sent_token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
+
+                if (null !== $sent_token && $stored_token->verifyWith($sent_token)) {
+                    return $command;
                 }
-                //echo "new rtoken, new entry for :".$ilUser->getId().":".session_id().":"; exit;
-                $random = new \ilRandom();
-                $this->rtoken = md5(uniqid($random->int(), true));
-                
-                // delete entries older than one and a half days
-                if ($random->int(1, 200) == 2) {
-                    $dt = new ilDateTime(time(), IL_CAL_UNIX);
-                    $dt->increment(IL_CAL_DAY, -1);
-                    $dt->increment(IL_CAL_HOUR, -12);
-                    $dq = "DELETE FROM il_request_token WHERE " .
-                        " stamp < " . $ilDB->quote($dt->get(IL_CAL_DATETIME), "timestamp");
-                    $ilDB->manipulate($dq);
-                }
-                
-                // IMPORTANT: Please do NOT try to move this implementation to a
-                // session basis. This will fail due to framesets that are used
-                // occasionally in ILIAS, e.g. in the chat, where multiple
-                // forms are loaded in different frames.
-                $ilDB->manipulate("INSERT INTO il_request_token (user_id, token, stamp, session_id) VALUES " .
-                    "(" .
-                    $ilDB->quote($ilUser->getId(), "integer") . "," .
-                    $ilDB->quote($this->rtoken, "text") . "," .
-                    $ilDB->now() . "," .
-                    $ilDB->quote(session_id(), "text") . ")");
-                return $this->rtoken;
-            }
-        }
-        return "";
-    }
-    
-    /**
-     * Verify Token
-     *
-     * @return	boolean		valid t/f
-     */
-    private function verifyToken()
-    {
-        global $DIC;
-
-        $ilUser = $DIC["ilUser"];
-
-        $ilDB = $DIC->database();
-        ;
-
-        if (is_object($ilUser) && is_object($ilDB) && $ilUser->getId() > 0 &&
-            $ilUser->getId() != ANONYMOUS_USER_ID) {
-            if ($_GET["rtoken"] == "") {
-                return false;
-            }
-
-            $set = $ilDB->query("SELECT * FROM il_request_token WHERE " .
-                " user_id = " . $ilDB->quote($ilUser->getId(), "integer") . " AND " .
-                " token = " . $ilDB->quote($_GET[self::IL_RTOKEN_NAME]), "text");
-            if ($ilDB->numRows($set) > 0) {
-                // remove tokens from older sessions
-                // if we do this immediately, working with multiple windows does not work:
-                // - window one: open form (with token a)
-                // - window two: open form (with token b)
-                // - submit window one: a is verified, but b must not be deleted immediately, otherwise
-                // - window two: submit results in invalid token
-                // see also bug #13551
-                $dt = new ilDateTime(time(), IL_CAL_UNIX);
-                $dt->increment(IL_CAL_DAY, -1);
-                $dt->increment(IL_CAL_HOUR, -12);
-                $ilDB->manipulate("DELETE FROM il_request_token WHERE " .
-                    " user_id = " . $ilDB->quote($ilUser->getId(), "integer") . " AND " .
-                    " session_id != " . $ilDB->quote(session_id(), "text") . " AND " .
-                    " stamp < " . $ilDB->quote($dt->get(IL_CAL_DATETIME), "timestamp"));
-                return true;
             } else {
-                return false;
+                return $command;
             }
-            
-            if ($_SESSION["rtokens"][$_GET[self::IL_RTOKEN_NAME]] != "") {
-                // remove used token
-                unset($_SESSION["rtokens"][$_GET[self::IL_RTOKEN_NAME]]);
-                
-                // remove old tokens
-                if (count($_SESSION["rtokens"]) > 100) {
-                    $to_remove = array();
-                    $sec = 7200;			// two hours
-
-                    foreach ($_SESSION["rtokens"] as $tok => $time) {
-                        if (time() - $time > $sec) {
-                            $to_remove[] = $tok;
-                        }
-                    }
-                    foreach ($to_remove as $tok) {
-                        unset($_SESSION["rtokens"][$tok]);
-                    }
-                }
-                
-                return true;
-            }
-            return false;
-        } else {
-            return true;		// do not verify, if user or db object is missing
         }
-        
-        return false;
+
+        return $fallback_command ?? '';
     }
 
     /**
-     * Redirect to another command
-     *
-     * @param	object		gui object
-     * @param	string		command
-     * @param	string		anchor
+     * @inheritDoc
      */
-    public function redirect($a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false)
+    public function setCmd(?string $a_cmd) : void
     {
-        $script = $this->getLinkTargetByClass(
-            strtolower(get_class($a_gui_obj)),
-            $a_cmd,
-            "",
-            $a_asynch,
-            false
+        if (!empty($a_cmd)) {
+            $this->context->setCmd($a_cmd);
+        } else {
+            $this->context->setCmd(null);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCmdClass() : ?string
+    {
+        return $this->context->getCmdClass() ?? '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setCmdClass($a_cmd_class) : void
+    {
+        if (!empty($a_cmd_class)) {
+            $this->context->setCmdClass($a_cmd_class);
+        } else {
+            $this->context->setCmdClass(null);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getNextClass($a_gui_class = null) : ?string
+    {
+        if (null === $a_gui_class && null === $this->exec_object) {
+            return '';
+        }
+
+        if (null === $this->context->getPath()) {
+            return '';
+        }
+
+        $next_cid = $this->context->getPath()->getNextCid(
+            $this->getClassByObject($a_gui_class ?? $this->exec_object)
         );
-        if ($a_anchor != "") {
-            $script = $script . "#" . $a_anchor;
+
+        if (null !== $next_cid) {
+            return $this->structure->getClassNameByCid($next_cid) ?? '';
         }
-        $this->redirectToURL($script);
+
+        return '';
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function saveParameter(object $a_gui_obj, $a_parameter) : void
+    {
+        $this->saveParameterByClass($this->getClassByObject($a_gui_obj), $a_parameter);
+    }
 
     /**
-     * @param $a_script
+     * @inheritDoc
      */
-    public function redirectToURL($a_script)
+    public function saveParameterByClass(string $a_class, $a_parameter) : void
     {
-        global $DIC;
+        if (!empty($a_parameter)) {
+            if (is_array($a_parameter)) {
+                foreach ($a_parameter as $parameter) {
+                    $this->structure->setPermanentParameterByClass($a_class, $parameter);
+                }
+            } else {
+                $this->structure->setPermanentParameterByClass($a_class, $a_parameter);
+            }
+        }
+    }
 
-        $ilPluginAdmin = null;
-        if (isset($DIC["ilPluginAdmin"])) {
-            $ilPluginAdmin = $DIC["ilPluginAdmin"];
+    /**
+     * @inheritDoc
+     */
+    public function setParameter(object $a_gui_obj, string $a_parameter, $a_value) : void
+    {
+        $this->setParameterByClass($this->getClassByObject($a_gui_obj), $a_parameter, $a_value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setParameterByClass(string $a_class, string $a_parameter, $a_value) : void
+    {
+        $this->structure->setTemporaryParameterByClass($a_class, $a_parameter, $a_value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParameterArray(object $a_gui_obj) : array
+    {
+        return $this->getParameterArrayByClass($this->getClassByObject($a_gui_obj));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParameterArrayByClass(string $a_class) : array
+    {
+        if (null === $this->structure->getClassCidByName($a_class)) {
+            throw new ilCtrlException("Cannot find provided class '$a_class' in the control structure.");
         }
 
-        if (!is_int(strpos($a_script, "://"))) {
-            if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH")) {
-                if (is_int(strpos($_SERVER["PHP_SELF"], "/setup/"))) {
-                    $a_script = "setup/" . $a_script;
-                }
-                $a_script = ILIAS_HTTP_PATH . "/" . $a_script;
+        $parameters = [];
+        $permanent_parameters = $this->structure->getPermanentParametersByClass($a_class);
+        if (null !== $permanent_parameters) {
+            foreach ($permanent_parameters as $parameter) {
+                $parameters[$parameter] = $this->getQueryParam($parameter);
             }
         }
 
-        // include the user interface hook
-        if (is_object($ilPluginAdmin)) {
-            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-            foreach ($pl_names as $pl) {
-                $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-                $gui_class = $ui_plugin->getUIClassInstance();
-                $resp = $gui_class->getHTML("Services/Utilities", "redirect", array( "html" => $a_script ));
-                if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {
-                    $a_script = $gui_class->modifyHTML($a_script, $resp);
-                }
+        $temporary_parameters = $this->structure->getTemporaryParametersByClass($a_class);
+        if (null !== $temporary_parameters) {
+            // override existing ones, as temporary parameters
+            // are prioritised over fetched ones.
+            foreach ($temporary_parameters as $key => $value) {
+                $parameters[$key] = $value;
             }
         }
 
-        // Manually trigger to write and close the session. This has the advantage that if an exception is thrown
-        // during the writing of the session (ILIAS writes the session into the database by default) we get an exception
-        // if the session_write_close() is triggered by exit() then the exception will be dismissed but the session
-        // is never written, which is a nightmare to develop with.
-        session_write_close();
-
-        global $DIC;
-        $http = $DIC->http();
-        switch ($http->request()->getHeaderLine('Accept')) {
-            case 'application/json':
-                $stream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
-                    'success' => true,
-                    'message' => 'Called redirect after async fileupload request',
-                    "redirect_url" => $a_script,
-                ]));
-                $http->saveResponse($http->response()->withBody($stream));
-                break;
-            default:
-                $http->saveResponse($http->response()->withAddedHeader("Location", $a_script));
-                break;
-        }
-        $http->sendResponse();
-        exit;
+        return $parameters;
     }
 
-
     /**
-     * Redirect to other gui class using class name
-     *
-     * @param	string		command target class
-     * @param	string		command
+     * @inheritDoc
      */
-    public function redirectByClass($a_class, $a_cmd = "", $a_anchor = "", $a_asynch = false)
+    public function clearParameters(object $a_gui_obj) : void
     {
-        $script = $this->getLinkTargetByClass($a_class, $a_cmd, "", $a_asynch, false);
-        if ($a_anchor != "") {
-            $script = $script . "#" . $a_anchor;
-        }
-        $this->redirectToURL($script);
+        $this->clearParametersByClass($this->getClassByObject($a_gui_obj));
     }
-    
+
     /**
-     * Is current command an asynchronous command?
-     *
-     * @return	boolean		asynchronous t/f
+     * @inheritDoc
      */
-    public function isAsynch()
+    public function clearParametersByClass(string $a_class) : void
     {
-        if ($this->cmdMode == "asynch") {
-            return true;
-        } else {
-            return false;
-        }
+        // apparently permanent parameters should not be removable,
+        // therefore the line below stays commented:
+        // $this->structure->removePermanentParametersByClass($a_class);
+        $this->structure->removeTemporaryParametersByClass($a_class);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function clearParameterByClass(string $a_class, string $a_parameter) : void
+    {
+        $this->structure->removeSingleParameterByClass($a_class, $a_parameter);
+    }
 
     /**
-     * Get link target for command using gui object
-     *
-     * @param	object		gui object (usually $this)
-     * @param	string		command
-     * @param	string		# anchor
-     * @param	boolean		asynchronous mode
-     * @param	boolean		xml style t/f
-     *
-     * @return	string		target link
+     * @inheritDoc
      */
     public function getLinkTarget(
-        $a_gui_obj,
-        $a_cmd = "",
-        $a_anchor = "",
-        $a_asynch = false,
-        $xml_style = false
-    ) {
-        $script = $this->getLinkTargetByClass(
-            strtolower(get_class($a_gui_obj)),
+        object $a_gui_obj,
+        string $a_cmd = null,
+        string $a_anchor = null,
+        bool $is_async = false,
+        bool $has_xml_style = false
+    ) : string {
+        return $this->getLinkTargetByClass(
+            $this->getClassByObject($a_gui_obj),
             $a_cmd,
             $a_anchor,
-            $a_asynch,
-            $xml_style
+            $is_async,
+            $has_xml_style
         );
-        return $script;
     }
 
-
     /**
-     * Get link target for command using gui class name
-     *
-     * @param	string/array		command target class
-     * @param	string		command
-     * @param	string		# anchor
-     * @param	boolean		asynchronous mode
-     * @param	boolean		xml style t/f
-     *
-     * @return	string		target link
+     * @inheritDoc
      */
     public function getLinkTargetByClass(
         $a_class,
-        $a_cmd = "",
-        $a_anchor = "",
-        $a_asynch = false,
-        $xml_style = false
-    ) {
-        if ($a_asynch) {
-            $xml_style = false;
-        }
-        
-        $script = $this->getTargetScript();
-        $script = $this->getUrlParameters($a_class, $script, $a_cmd, $xml_style);
-
-        if ($a_asynch) {
-            $amp = "&";
-            $script .= $amp . "cmdMode=asynch";
-        }
-        
-        if ($a_anchor != "") {
-            $script = $script . "#" . $a_anchor;
-        }
-
-        return $script;
+        string $a_cmd = null,
+        string $a_anchor = null,
+        bool $is_async = false,
+        bool $has_xml_style = false
+    ) : string {
+        return $this->getTargetUrl(
+            $a_class,
+            $a_cmd,
+            $a_anchor,
+            $is_async,
+            $has_xml_style
+        ) ?? '';
     }
 
     /**
-     * Set return command
+     * @inheritDoc
      */
-    public function setReturn($a_gui_obj, $a_cmd)
-    {
-        $script = $this->getTargetScript();
-        $script = $this->getUrlParameters(strtolower(get_class($a_gui_obj)), $script, $a_cmd);
-        $this->return[strtolower(get_class($a_gui_obj))] = $script;
-    }
-
-    /**
-     * Set return command
-     */
-    public function setReturnByClass($a_class, $a_cmd)
-    {
-        // may not be an array!
-        $a_class = strtolower($a_class);
-
-        $script = $this->getTargetScript();
-        $script = $this->getUrlParameters($a_class, $script, $a_cmd);
-        $this->return[strtolower($a_class)] = $script;
-    }
-
-    /**
-     * Redirects to next parent class that used setReturn.
-     */
-    public function returnToParent($a_gui_obj, $a_anchor = "")
-    {
-        $script = $this->getParentReturn($a_gui_obj);
-
-        $script = ilUtil::appendUrlParameterString(
-            $script,
-            "redirectSource=" . strtolower(get_class($a_gui_obj))
+    public function getFormAction(
+        object $a_gui_obj,
+        string $a_fallback_cmd = null,
+        string $a_anchor = null,
+        bool $is_async = false,
+        bool $has_xml_style = false
+    ) : string {
+        return $this->getFormActionByClass(
+            $this->getClassByObject($a_gui_obj),
+            $a_fallback_cmd,
+            $a_anchor,
+            $is_async,
+            $has_xml_style
         );
-        $script = ilUtil::appendUrlParameterString(
-            $script,
-            "cmdMode=" . $this->cmdMode
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFormActionByClass(
+        $a_class,
+        string $a_fallback_cmd = null,
+        string $a_anchor = null,
+        bool $is_async = false,
+        bool $has_xml_style = false
+    ) : string {
+        return $this->getTargetUrl(
+            $a_class,
+            $a_fallback_cmd,
+            $a_anchor,
+            $is_async,
+            $has_xml_style,
+            true
+        ) ?? '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function redirect(
+        object $a_gui_obj,
+        string $a_cmd = null,
+        string $a_anchor = null,
+        bool $is_async = false
+    ) : void {
+        $this->redirectByClass(
+            $this->getClassByObject($a_gui_obj),
+            $a_cmd,
+            $a_anchor,
+            $is_async
         );
-        if ($a_anchor != "") {
-            $script = $script . "#" . $a_anchor;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function redirectByClass(
+        $a_class,
+        string $a_cmd = null,
+        string $a_anchor = null,
+        bool $is_async = false
+    ) : void {
+        $this->redirectToURL(
+            $this->getLinkTargetByClass(
+                $a_class,
+                $a_cmd,
+                $a_anchor,
+                $is_async
+            )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function redirectToURL(string $target_url) : void
+    {
+        // prepend the ILIAS HTTP path if it wasn't already.
+        if (defined("ILIAS_HTTP_PATH") &&
+            strpos($target_url, "://") === false &&
+            strpos($target_url, "/") !== 0
+        ) {
+            $target_url = ILIAS_HTTP_PATH . "/" . $target_url;
         }
 
-        $this->redirectToURL($script);
-    }
+        // this line can be dropped after discussion with TB or JF,
+        // it keeps the functionality of UI plugin hooks alive.
+        $target_url = $this->modifyUrlWithPluginHooks($target_url);
 
+        // initialize http response object
+        $response = new Response();
 
-    /**
-     * Get return script url.
-     *
-     * Used in conjunction with ilTabs->setBackTarget and ilBlockGUI->addHeaderCommand.
-     */
-    public function getParentReturn($a_gui_obj)
-    {
-        return $this->getParentReturnByClass(strtolower(get_class($a_gui_obj)));
-    }
+        // there's an exceptional case for asynchronous file uploads
+        // where a json response is delivered.
+        if ('application/json' === $this->server_request->getHeaderLine('Accept')) {
+            try {
+                $body = Streams::ofString(
+                    json_encode(
+                        [
+                            'redirect_url' => $target_url,
+                            'success' => true,
+                            'message' => 'called redirect after asynchronous file-upload request.',
+                        ],
+                        JSON_THROW_ON_ERROR
+                    )
+                );
+            } catch (Throwable $exception) {
+                $body = Streams::ofString($exception->getMessage());
+            }
 
-
-    /**
-     * Get return script url
-     *
-     * Only used in getParentReturn.
-     */
-    public function getParentReturnByClass($a_class)
-    {
-        $a_class = strtolower($a_class);
-        $ret_class = $this->searchReturnClass($a_class);
-        if ($ret_class) {
-            return $this->return[$ret_class];
-        }
-    }
-
-    /**
-     * Get return class.
-     *
-     * Only used in COPage/ilPCParagraphGUI and COPage/ilPCPlaceHolderGUI
-     *
-     * @param	string|object	$class
-     * @return	string|bool
-     */
-    public function getReturnClass($a_class)
-    {
-        if (is_object($a_class)) {
-            $class = strtolower(get_class($a_class));
+            $response = $response->withBody($body);
         } else {
-            $class = strtolower($a_class);
+            $response = $response->withAddedHeader('Location', $target_url);
         }
-        return $this->searchReturnClass($class);
-    }
-    
-    
-    /**
-     * Determine current return class
-     */
-    private function searchReturnClass($a_class)
-    {
-        $a_class = strtolower($a_class);
 
-        $node = $this->getNodeIdForTargetClass($this->current_node, $a_class);
-        $node = $node["node_id"];
-        $n_arr = explode(":", $node);
-        for ($i = count($n_arr) - 2; $i >= 0; $i--) {
-            if (isset($this->return[$this->getClassForCid($n_arr[$i])])) {
-                return $this->getClassForCid($n_arr[$i]);
+        // manually trigger session_write_close() due to exceptions stored
+        // in the ILIAS database, otherwise this method is called by exit()
+        // which leads to the exceptions not being written to the database.
+        session_write_close();
+
+        try {
+            $this->response_sender->sendResponse($response);
+        } catch (ResponseSendingException $e) {
+            header("Location: $target_url");
+            if ('application/json' === $this->server_request->getHeaderLine('Accept')) {
+                $content = (null !== $response->getBody()) ?
+                    $response->getBody()->getContents() :
+                    [];
+
+                echo json_encode($content, JSON_THROW_ON_ERROR);
             }
+        } catch (Throwable $t) {
+            header("Location: $target_url");
+            echo $t->getMessage();
         }
 
-        return false;
+        exit;
     }
 
     /**
-     * Get current redirect source
-     *
-     * @return	string		redirect source class
+     * @inheritDoc
      */
-    public function getRedirectSource()
+    public function setContextObject(int $obj_id, string $obj_type) : void
     {
-        return $_GET["redirectSource"] ?? "";
+        // cannot process object without object type.
+        if (!empty($obj_type)) {
+            $this->context->setObjId($obj_id);
+            $this->context->setObjType($obj_type);
+        }
     }
 
     /**
-     * Get URL parameters for a class and append them to a string
-     * @param $a_class
-     * @param $a_str
-     * @param string $a_cmd command
-     * @param bool $xml_style
-     * @return string
+     * @inheritDoc
      */
-    public function getUrlParameters($a_class, $a_str, $a_cmd = "", $xml_style = false)
+    public function getContextObjId() : ?int
     {
-        $params = $this->getParameterArrayByClass($a_class, $a_cmd);
-
-        foreach ($params as $par => $value) {
-            if (strlen((string) $value)) {
-                $a_str = ilUtil::appendUrlParameterString($a_str, $par . "=" . $value, $xml_style);
-            }
-        }
-
-        return $a_str;
+        return $this->context->getObjId();
     }
 
     /**
-     * Get all set/save parameters for a gui object
+     * @inheritDoc
      */
-    public function getParameterArray($a_gui_obj, $a_cmd = "")
+    public function getContextObjType() : ?string
     {
-        $par_arr = $this->getParameterArrayByClass(strtolower(get_class($a_gui_obj)), $a_cmd);
-
-        return $par_arr;
+        return $this->context->getObjType();
     }
 
     /**
-     * Get all set/save parameters using gui class name
-     *
-     * @param	string		class name
-     * @param	string		cmd
-     $ @return	array		parameter array
+     * @inheritDoc
      */
-    public function getParameterArrayByClass($a_class, $a_cmd = "")
+    public function getCallHistory() : array
     {
-        if ($a_class == "") {
-            return array();
+        return $this->stacktrace;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function lookupClassPath(string $a_class) : string
+    {
+        $path = $this->structure->getRelativePathByName($a_class);
+        if (null === $path) {
+            throw new ilCtrlException("Class '$a_class' cannot be found in the control structure.");
         }
 
-        $current_base_class = $_GET["baseClass"] ?? "";
-        if ($this->use_current_to_determine_next && $this->inner_base_class != "") {
-            $current_base_class = $this->inner_base_class;
+        return $path;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getClassForClasspath(string $a_class_path) : string
+    {
+        $path_info = pathinfo($a_class_path);
+
+        return substr($path_info['basename'], 6, -4);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setTargetScript(string $a_target_script) : void
+    {
+        $this->context->setTargetScript($a_target_script);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isAsynch() : bool
+    {
+        return $this->context->isAsync();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setReturn(object $a_gui_obj, string $a_cmd = null) : void
+    {
+        $this->setReturnByClass($this->getClassByObject($a_gui_obj), $a_cmd);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setReturnByClass(string $a_class, string $a_cmd = null) : void
+    {
+        $this->structure->setReturnTargetByClass(
+            $a_class,
+            $this->getLinkTargetByClass(
+                $a_class,
+                $a_cmd
+            )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function returnToParent(object $a_gui_obj, string $a_anchor = null) : void
+    {
+        $class_name = $this->getClassByObject($a_gui_obj);
+        $target_url = $this->getParentReturnByClass($class_name);
+
+        // append redirect source to target url.
+        $target_url = $this->appendParameterString(
+            $target_url,
+            self::PARAM_REDIRECT,
+            $class_name
+        );
+
+        // append the provided anchor if necessary.
+        if (null !== $a_anchor) {
+            $target_url .= "#$a_anchor";
         }
 
-        if (!is_array($a_class)) {
-            $a_class = array($a_class);
-        }
+        $this->redirectToURL($target_url);
+    }
 
-        $nr = $this->current_node;
-        $new_baseclass = "";
-        foreach ($a_class as $class) {
-            $class = strtolower($class);
-            $nr = $this->getNodeIdForTargetClass($nr, $class);
-            if ($nr["base_class"] != "") {
-                $new_baseclass = $nr["base_class"];
-            }
-            $nr = $nr["node_id"];
-            $target_class = $class;
-        }
+    /**
+     * @inheritDoc
+     */
+    public function getParentReturn(object $a_gui_obj) : ?string
+    {
+        return $this->getParentReturnByClass($this->getClassByObject($a_gui_obj));
+    }
 
-        $path = $this->getPathNew(1, $nr);
-        $params = array();
-
-        // append parameters of parent classes
-        foreach ($path as $node_id) {
-            $class = ($node_id == "")
-                ? strtolower($current_base_class)
-                : $this->getClassForCid($this->getCurrentCidOfNode($node_id));
-            if (isset($this->save_parameter[$class]) && is_array($this->save_parameter[$class])) {
-                foreach ($this->save_parameter[$class] as $par) {
-                    if (isset($_GET[$par])) {
-                        $params[$par] = $_GET[$par];
-                    } elseif (isset($_POST[$par])) {
-                        $params[$par] = ilUtil::stripSlashesRecursive($_POST[$par]);
-                    }
+    /**
+     * @inheritDoc
+     */
+    public function getParentReturnByClass(string $a_class) : ?string
+    {
+        $path = $this->path_factory->find($this->context, $a_class);
+        if (null !== $path->getCidPath()) {
+            foreach ($path->getCidArray() as $cid) {
+                $current_class = $this->structure->getClassNameByCid($cid);
+                $return_target = $this->structure->getReturnTargetByClass($current_class);
+                if (null !== $return_target) {
+                    return $return_target;
                 }
             }
-
-            if (isset($this->parameter[$class]) && is_array($this->parameter[$class])) {
-                foreach ($this->parameter[$class] as $par => $value) {
-                    $params[$par] = $value;
-                }
-            }
         }
 
-        if ($a_cmd != "") {
-            $params["cmd"] = $a_cmd;
-        }
-
-        $params["cmdClass"] = $target_class;
-        $params["cmdNode"] = $nr;
-        if ($new_baseclass == "") {
-            $params["baseClass"] = $current_base_class;
-        } else {
-            $params["baseClass"] = $new_baseclass;
-        }
-
-        return $params;
-    }
-    
-    private function classCidUnknown($a_class)
-    {
-        return $this->class_cid[$a_class] == "";
+        return null;
     }
 
     /**
-     * Get class id for class after fetching and storing corresponding information, if necessary.
+     * @inheritDoc
      */
-    private function getCidForClass($a_class, $a_check = false)
+    public function getRedirectSource() : ?string
     {
-        if ($this->classCidUnknown($a_class)) {
-            $this->readClassInfo($a_class);
-        }
-        if ($this->classCidUnknown($a_class)) {
-            if ($a_check) {
-                return false;
-            }
-            if (DEVMODE == 1) {
-                $add = "<br><br>Please make sure your GUI class name ends with 'GUI' and that the filename is 'class.[YourClassName].php'. In exceptional cases you
-					may solve the issue by putting an empty * @ilCtrl_Calls [YourClassName]: into your class header." .
-                    " In both cases you need to reload the control structure in the setup.";
-            }
-            throw new ilCtrlException("Cannot find cid for class " . $a_class . "." . $add);
-        }
-        return $this->class_cid[$a_class];
-    }
-
-    private function cidClassUnknown($a_cid)
-    {
-        return (!isset($this->cid_class[$a_cid]) || $this->cid_class[$a_cid] == "");
-    }
-
-
-    /**
-     * Get class for class id after fetching and storing corresponding information, if necessary.
-     */
-    private function getClassForCid($a_cid)
-    {
-        if ($this->cidClassUnknown($a_cid)) {
-            $this->readCidInfo($a_cid);
-        }
-        if ($this->cidClassUnknown($a_cid)) {
-            throw new ilCtrlException("Cannot find class for cid " . $a_cid . ".");
-        }
-        return $this->cid_class[$a_cid];
-    }
-
-    private function fetchCallsOfClassFromCache($a_class, ilCachedCtrl $a_cached_ctrl)
-    {
-        foreach ($a_cached_ctrl->lookupCall($a_class) as $call) {
-            if ($call["child"] != "" && $this->callOfClassNotKnown($a_class, $call['child'])) {
-                $this->calls[$a_class][] = $call["child"];
-            }
-        }
+        return $this->context->getRedirectSource();
     }
 
     /**
-     * Save class respective to $a_cid and store corresponding
-     * class calls for future reference.
-     *
-     * @param object $a_cid		cid
+     * @inheritDoc
      */
-    private function readCidInfo($a_cid)
+    public function insertCtrlCalls($a_parent, $a_child, string $a_comp_prefix) : void
     {
-        if (isset($this->info_read_cid[$a_cid])) {
-            return;
-        }
-
-        $cached_ctrl = ilCachedCtrl::getInstance();
-        $cid_info = $cached_ctrl->lookupCid($a_cid);
-
-        if ($cid_info) {
-            $this->updateClassCidMap($cid_info['class'], $a_cid);
-            $this->fetchCallsOfClassFromCache($cid_info['class'], $cached_ctrl);
-            $this->info_read_class[$cid_info["class"]] = true;
-        }
-        
-        $this->info_read_cid[$a_cid] = true;
+        throw new ilCtrlException(__METHOD__ . " is deprecated and must not be used.");
     }
 
     /**
-     * Save classes respective to the class id's of a node and store corresponding
-     * class calls for future reference.
-     *
-     * @param	string	$a_node
+     * @inheritDoc
      */
-    private function readNodeInfo($a_node)
+    public function checkCurrentPathForClass(string $gui_class) : bool
     {
-        $class_ids = explode(":", $a_node);
-        foreach ($class_ids as $cid) {
-            $this->readCidInfo($cid);
-        }
-    }
-
-    /**
-     * Save class id respective to $a_class and store corresponding
-     * class calls for future reference.
-     *
-     * @param	object	$a_class	class name
-     */
-    private function readClassInfo($a_class)
-    {
-        $a_class = strtolower($a_class);
-        if (isset($this->info_read_class[$a_class])) {
-            return;
-        }
-
-        $cached_ctrl = ilCachedCtrl::getInstance();
-        $class_info = $cached_ctrl->lookupClassFile($a_class);
-
-        if ($class_info) {
-            $this->updateClassCidMap($a_class, $class_info['cid']);
-        }
-        $this->fetchCallsOfClassFromCache($a_class, $cached_ctrl);
-        if (!isset($this->class_cid[$a_class])) {
+        $class_cid = $this->structure->getClassCidByName($gui_class);
+        if (null === $class_cid) {
             return false;
         }
-        $this->info_read_class[$a_class] = true;
-        $this->info_read_cid[$this->class_cid[$a_class]] = true;
-    }
 
-    private function callOfClassNotKnown($a_class, $a_child)
-    {
-        return !isset($this->calls[$a_class])
-                || !is_array($this->calls[$a_class])
-                || !in_array($a_child, $this->calls[$a_class]);
-    }
-
-    private function updateClassCidMap($a_class, $a_cid)
-    {
-        $this->cid_class[$a_cid] = $a_class;
-        $this->class_cid[$a_class] = $a_cid;
+        return strpos(
+            $this->context->getPath()->getCidPath() ?? '',
+            $class_cid
+        ) !== false;
     }
 
     /**
-     * Get 2nd to last class id of node
-     */
-    private function getParentCidOfNode($a_node)
-    {
-        $class_ids = explode(":", $a_node);
-        return $class_ids[count($class_ids) - 2] ?? '';
-    }
-
-    /**
-     * Get last class id of node
-     */
-    private function getCidOfNode($a_node)
-    {
-        $class_ids = explode(":", $a_node);
-        return $class_ids[count($class_ids) - 1];
-    }
-
-    /**
-     * Remove the class id that comes at the beginning the sequence.
-     */
-    private function removeLastCid($a_node)
-    {
-        $lpos = strrpos($a_node, ":");
-        return substr($a_node, 0, $lpos);
-    }
-
-    /**
-     * Get cid of node
-     */
-    private function getCurrentCidOfNode($a_node)
-    {
-        $n_arr = explode(":", $a_node);
-        return $n_arr[count($n_arr) - 1];
-    }
-
-    /**
-     * Insert ctrl calls record
-     *
-     * @param
-     * @return
-     */
-    public function insertCtrlCalls($a_parent, $a_child, $a_comp_prefix)
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        ;
-
-        $a_parent = strtolower($a_parent);
-        $a_child = strtolower($a_child);
-        $a_comp_prefix = strtolower($a_comp_prefix);
-
-        $set = $ilDB->query(
-            "SELECT * FROM ctrl_calls WHERE " .
-            " parent = " . $ilDB->quote($a_parent, "text") . " AND " .
-            " child = " . $ilDB->quote($a_child, "text") . " AND " .
-            " comp_prefix = " . $ilDB->quote($a_comp_prefix, "text")
-        );
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return;
-        }
-        $ilDB->manipulate("INSERT INTO ctrl_calls " .
-            "(parent, child, comp_prefix) VALUES (" .
-            $ilDB->quote($a_parent, "text") . "," .
-            $ilDB->quote($a_child, "text") . "," .
-            $ilDB->quote($a_comp_prefix, "text") .
-            ")");
-    }
-
-    /**
-     * Check if current path contains a certain gui class
-     *
-     * @param $gui_class
-     * @return bool
-     * @throws ilCtrlException
-     */
-    public function checkCurrentPathForClass($gui_class)
-    {
-        foreach (explode(":", $this->getCmdNode()) as $cid) {
-            if ($cid != "" && strtolower($this->getClassForCid($cid)) == strtolower($gui_class)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get current class path as array of class file names
-     *
-     * @return array
-     * @throws ilCtrlException
+     * @inheritDoc
      */
     public function getCurrentClassPath() : array
     {
-        $path = [];
-        foreach (explode(":", $this->getCmdNode()) as $cid) {
-            if ($cid != "") {
-                $path[] = $this->getClassForCid($cid);
+        if (null === $this->context->getPath()->getCidPath()) {
+            return [];
+        }
+
+        $class_paths = [];
+        foreach ($this->context->getPath()->getCidArray(SORT_ASC) as $cid) {
+            $class_paths[] = $this->structure->getObjNameByCid($cid);
+        }
+
+        return $class_paths;
+    }
+
+    /**
+     * Returns a parameter with the given name from the current GET
+     * request.
+     * @param string $parameter_name
+     * @return string|null
+     */
+    private function getQueryParam(string $parameter_name) : ?string
+    {
+        if ($this->get_parameters->has($parameter_name)) {
+            return $this->get_parameters->retrieve(
+                $parameter_name,
+                $this->refinery->to()->string()
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * @deprecated
+     */
+    private function getTableCommand() : ?string
+    {
+        if ($this->post_parameters->has('table_top_cmd')) {
+            return $this->post_parameters->retrieve(
+                'table_top_cmd',
+                $this->refinery->custom()->transformation(function ($item) : ?string {
+                    return is_array($item) ? key($item) : null;
+                })
+            );
+        }
+        // Button on top of the table
+        if ($this->post_parameters->has('select_cmd2')) {
+            return $this->post_parameters->has('selected_cmd2')
+                ? $this->post_parameters->retrieve('selected_cmd2', $this->refinery->to()->string())
+                : null;
+        }
+        // Button at bottom of the table
+        if ($this->post_parameters->has('select_cmd')) {
+            return $this->post_parameters->has('selected_cmd')
+                ? $this->post_parameters->retrieve('selected_cmd', $this->refinery->to()->string())
+                : null;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the current $_POST command.
+     * @return string|null
+     */
+    private function getPostCommand() : ?string
+    {
+        if ($this->post_parameters->has(self::PARAM_CMD)) {
+            return $this->post_parameters->retrieve(
+                self::PARAM_CMD,
+                $this->refinery->custom()->transformation(
+                    static function ($value) {
+                        if (!empty($value)) {
+                            if (is_array($value)) {
+                                // this most likely only works by accident, but
+                                // the selected or clicked command button will
+                                // always be sent as first array entry. This
+                                // should definitely be done differently.
+                                return array_key_first($value);
+                            }
+
+                            return (string) $value;
+                        }
+
+                        return null;
+                    }
+                )
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * Helper function that returns a target URL string.
+     * (that function is horrific, I'm sorry little one)
+     * @param array|string $a_class
+     * @param string|null  $a_cmd
+     * @param string|null  $a_anchor
+     * @param bool         $is_async
+     * @param bool         $is_escaped
+     * @param bool         $is_post
+     * @return string|null
+     * @throws ilCtrlException
+     */
+    private function getTargetUrl(
+        $a_class,
+        string $a_cmd = null,
+        string $a_anchor = null,
+        bool $is_async = false,
+        bool $is_escaped = false,
+        bool $is_post = false
+    ) : ?string {
+        if (empty($a_class)) {
+            throw new ilCtrlException(__METHOD__ . " was provided with an empty class or class-array.");
+        }
+
+        $is_array = is_array($a_class);
+
+        $path = $this->path_factory->find($this->context, $a_class);
+        if (null !== ($exception = $path->getException())) {
+            throw $exception;
+        }
+
+        $base_class = $path->getBaseClass();
+        if (null === $base_class) {
+            throw new ilCtrlException("Cannot find a valid baseclass in the cid path '{$path->getCidPath()}'");
+        }
+
+        $target_url = $this->context->getTargetScript();
+        $target_url = $this->appendParameterString(
+            $target_url,
+            self::PARAM_BASE_CLASS,
+            $base_class,
+            $is_escaped
+        );
+
+        $cmd_class = ($is_array) ?
+            $a_class[array_key_last($a_class)] :
+            $a_class;
+
+        // only append the cid path and command class params
+        // if they exist.
+        if (null !== $path->getNextCid($base_class)) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CID_PATH,
+                $path->getCidPath(),
+                $is_escaped
+            );
+
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CMD_CLASS,
+                $cmd_class,
+                $is_escaped
+            );
+        }
+
+        // if the target url is generated for form actions,
+        // the command must be set to 'post'.
+        if ($is_post) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CMD,
+                self::CMD_POST,
+                $is_escaped
+            );
+        }
+
+        // the actual command is appended as fallback command
+        // for form actions and 'normal' get requests.
+        if (!empty($a_cmd)) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                ($is_post) ? self::PARAM_CMD_FALLBACK : self::PARAM_CMD,
+                $a_cmd,
+                $is_escaped
+            );
+        }
+
+        // collect all parameters of classes within the current
+        // targets path and append them to the target url.
+        foreach ($path->getCidArray(SORT_ASC) as $cid) {
+            $class_name = $this->structure->getClassNameByCid($cid);
+            if (null === $class_name) {
+                throw new ilCtrlException("Classname for cid '$cid' in current path cannot be found.");
+            }
+
+            $target_url = $this->appendParameterStringsByClass(
+                $class_name,
+                $target_url,
+                $is_escaped
+            );
+        }
+
+        // append a csrf token if the command is considered
+        // unsafe or the link is for form actions.
+        if (!$this->isCmdSecure($is_post, $cmd_class, $a_cmd)) {
+            $token = $this->token_repository->getToken();
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CSRF_TOKEN,
+                $token->getToken(),
+                $is_escaped
+            );
+        }
+
+        if ($is_async) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CMD_MODE,
+                self::CMD_MODE_ASYNC,
+                $is_escaped
+            );
+        }
+
+        if (!empty($a_anchor)) {
+            $target_url .= "#$a_anchor";
+        }
+
+        return $target_url;
+    }
+
+    /**
+     * This helper function wraps the deprecated UI functionality that
+     * modifies a URL target and "hacks into" existing HTML.
+     * @param string $target_url
+     * @return string
+     */
+    private function modifyUrlWithPluginHooks(string $target_url) : string
+    {
+        $ui_plugins = $this->component_factory->getActivePluginsInSlot("uihk");
+        foreach ($ui_plugins as $plugin_instance) {
+            /** @var $plugin_instance ilUserInterfaceHookPlugin */
+
+            $html = $plugin_instance
+                ->getUIClassInstance()
+                ->getHTML(
+                    'Services/Utilities',
+                    'redirect',
+                    ["html" => $target_url]
+                );
+
+            if (ilUIHookPluginGUI::KEEP !== $html['mode']) {
+                $target_url = $plugin_instance
+                    ->getUIClassInstance()
+                    ->modifyHTML(
+                        $target_url,
+                        $html
+                    );
             }
         }
-        if ($this->getCmdNode() == "" && $_GET["baseClass"] != "") {
-            $path[] = $_GET["baseClass"];
+
+        return $target_url;
+    }
+
+    /**
+     * Returns whether a given command is considered safe or not.
+     * @param bool        $is_post
+     * @param string      $cmd_class
+     * @param string|null $cmd
+     * @return bool
+     */
+    private function isCmdSecure(bool $is_post, string $cmd_class, string $cmd = null) : bool
+    {
+        // if no command is specified, the command is
+        // considered safe if it's not a POST command.
+        if (null === $cmd) {
+            return !$is_post;
         }
-        return $path;
+
+        // if the given command class doesn't exist, the
+        // command is not considered safe as it might've been
+        // tampered with.
+        $obj_name = $this->structure->getObjNameByName($cmd_class);
+        if (null === $obj_name) {
+            return false;
+        }
+
+        // if the command class does not yet implement the
+        // ilCtrlSecurityInterface, the command is considered
+        // safe if it's not a POST command.
+        if (!is_a($obj_name, ilCtrlSecurityInterface::class, true)) {
+            return !$is_post;
+        }
+
+        // the post command is considered safe if it's contained
+        // in the list of safe post commands.
+        if ($is_post) {
+            return in_array($cmd, $this->structure->getSafeCommandsByName($cmd_class), true);
+        }
+
+        // the get command is considered safe if it's not
+        // contained in the list of unsafe get commands.
+        return !in_array($cmd, $this->structure->getUnsafeCommandsByName($cmd_class), true);
+    }
+
+    /**
+     * Appends all parameters for a given class to the given URL.
+     * @param string $class_name
+     * @param string $target_url
+     * @param bool   $is_escaped
+     * @return string
+     * @throws ilCtrlException
+     */
+    private function appendParameterStringsByClass(
+        string $class_name,
+        string $target_url,
+        bool $is_escaped = false
+    ) : string {
+        $class_parameters = $this->getParameterArrayByClass($class_name);
+        if (!empty($class_parameters)) {
+            foreach ($class_parameters as $key => $value) {
+                $target_url = $this->appendParameterString(
+                    $target_url,
+                    $key,
+                    $value,
+                    $is_escaped
+                );
+            }
+        }
+
+        return $target_url;
+    }
+
+    /**
+     * Appends a query parameter to the given URL and returns it.
+     * @param string $url
+     * @param string $parameter_name
+     * @param mixed  $value
+     * @param bool   $is_escaped
+     * @return string
+     */
+    private function appendParameterString(
+        string $url,
+        string $parameter_name,
+        $value,
+        bool $is_escaped = false
+    ) : string {
+        // transform value into a string, since null will fail we can
+        // (temporarily) use the null coalescing operator.
+        $value = $this->refinery->kindlyTo()->string()->transform($value ?? '');
+
+        // only append value if its not an empty string. note that empty()
+        // cannot be used here since e.g. '0' would be empty.
+        if ('' !== $value) {
+            // declare ampersand escaped or not, according to
+            // the given argument.
+            $ampersand = ($is_escaped) ? '&amp;' : '&';
+
+            // check if the given url already contains the given
+            // parameter name.
+            if (preg_match("/($ampersand|\?)$parameter_name(=|$)/", $url)) {
+                // replace the value appended to the given parameter
+                // name by the provided one.
+                $url = preg_replace("/(?<=($parameter_name=))([^&]*|$)/", (string) $value, $url);
+            } else {
+                // append the parameter key => value pair and prepend
+                // a question mark or ampersand, determined by whether
+                // it's the first query param or not.
+                $url .= (strpos($url, '?') !== false) ?
+                    $ampersand . $parameter_name . '=' . $value :
+                    '?' . $parameter_name . '=' . $value;
+            }
+        }
+
+        return $url;
+    }
+
+    /**
+     * Helper function that populates a call in the current stacktrace.
+     * @param string $class_name
+     * @param string $cmd_mode
+     */
+    private function populateCall(string $class_name, string $cmd_mode) : void
+    {
+        $obj_name = $this->structure->getObjNameByName($class_name);
+
+        $this->stacktrace[] = [
+            self::PARAM_CMD_CLASS => $obj_name,
+            self::PARAM_CMD_MODE => $cmd_mode,
+            self::PARAM_CMD => $this->getCmd(),
+        ];
+    }
+
+    /**
+     * Helper function that returns the class name of a mixed
+     * (object or string) parameter.
+     * @param object|string $object
+     * @return string
+     */
+    private function getClassByObject($object) : string
+    {
+        return (is_object($object)) ? get_class($object) : $object;
     }
 }

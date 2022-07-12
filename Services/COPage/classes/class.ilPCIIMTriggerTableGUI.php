@@ -1,33 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for pc image map editor
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected array $pop_options;
+    protected array $popups;
+    protected array $ov_files;
+    protected array $areas;
+    protected ilObjMediaObject $mob;
+    protected array $ov_options;
+    protected string $parent_node_name;
+    protected ilPCInteractiveImage $pc_media_object;
+    protected array $area;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    
-    /**
-    * Constructor
-    */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_pc_media_object,
-        $a_parent_node_name
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilPCInteractiveImage $a_pc_media_object,
+        string $a_parent_node_name
     ) {
         global $DIC;
 
@@ -61,10 +71,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         $this->setRowTemplate("tpl.iim_trigger_row.html", "Services/COPage");
     }
     
-    /**
-     * Init columns
-     */
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn("", "", "1");	// checkbox
         $this->addColumn($this->lng->txt("title"), "Title", "");
@@ -75,10 +82,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         $this->addColumn($this->lng->txt("actions"), "", "");
     }
 
-    /**
-     * Init actions
-     */
-    public function initActions()
+    public function initActions() : void
     {
         $lng = $this->lng;
         
@@ -91,28 +95,17 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         }
     }
 
-
-    /**
-    * Get items of current folder
-    */
-    public function getItems()
+    public function getItems() : void
     {
         $triggers = $this->pc_media_object->getTriggers();
         
-        $triggers = ilUtil::sortArray($triggers, "Title", "asc", false, true);
+        $triggers = ilArrayUtil::sortArray($triggers, "Title", "asc", false, true);
         $this->setData($triggers);
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        //var_dump($a_set);
 
         $i = $a_set["Nr"];
 
@@ -171,7 +164,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 
         $this->tpl->setVariable(
             "CHECKBOX",
-            ilUtil::formCheckBox("", "tr[]", $i)
+            ilLegacyFormElementsUtil::formCheckbox("", "tr[]", $i)
         );
         $this->tpl->setVariable("VAR_NAME", "title[" . $i . "]");
         $this->tpl->setVariable("VAL_NAME", $a_set["Title"]);
@@ -193,11 +186,11 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         $this->tpl->setVariable("TXT_HEIGHT", $lng->txt("cont_height"));
         $this->tpl->setVariable(
             "OVERLAY_IMAGE",
-            ilUtil::formSelect($a_set["Overlay"], "ov[" . $i . "]", $this->ov_options, false, true)
+            ilLegacyFormElementsUtil::formSelect($a_set["Overlay"], "ov[" . $i . "]", $this->ov_options, false, true)
         );
         $this->tpl->setVariable(
             "CONTENT_POPUP",
-            ilUtil::formSelect($a_set["PopupNr"], "pop[" . $i . "]", $this->pop_options, false, true)
+            ilLegacyFormElementsUtil::formSelect($a_set["PopupNr"], "pop[" . $i . "]", $this->pop_options, false, true)
         );
     }
 }

@@ -1,8 +1,21 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Tree;
 
 /**
@@ -14,8 +27,8 @@ namespace ILIAS\UI\Component\Tree;
  * specified. Therefore, potential children are retrieved by TreeRecursion::getChildren
  * called with the respective record.
  * Additionally, a Tree can be configured with an $environment, which can be virtually
- * anything taht is usefull or required for the proper construction of nodes (or identifying children).
- * For example, if you want to present certain nodes depending of the user's permissions,
+ * anything that is usefull or required for the proper construction of nodes (or identifying children).
+ * For example, if you want to present certain nodes depending on the user's permissions,
  * you should use something like "$env['ilaccess'] = $DIC['ilAccess'];" and pass $env to
  * the implementation of TreeRecursion.
  * Please refer to the examples in src/UI/examples/Tree to see how this works.
@@ -26,8 +39,6 @@ interface TreeRecursion
      * Get a list of records (that list can also be empty).
      * Each record will be relayed to $this->build to retrieve a Node.
      * Also, each record will be asked for Sub-Nodes using this function.
-     *
-     * @return array
      */
     public function getChildren(
         $record,
@@ -39,8 +50,6 @@ interface TreeRecursion
      * The renderer will provide the $factory-parameter which is the UI-factory
      * for nodes, as well as the (unspecified) $environment as configured at the Tree.
      * $record is the data the node should be build for.
-     *
-     * @return Node\Node
      */
     public function build(
         Node\Factory $factory,

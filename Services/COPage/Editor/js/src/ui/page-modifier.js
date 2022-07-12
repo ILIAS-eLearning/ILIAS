@@ -1,4 +1,18 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Page modifier is an adapter for components to
@@ -175,16 +189,19 @@ export default class PageModifier {
     const uiModel = this.pageUI.uiModel;
     this.toolSlate.displayError(uiModel.errorMessage);
     const pm = this;
-    console.log(document.querySelector("#copg-editor-slate-error ul li a"));
-    document.querySelector("#copg-editor-slate-error ul li a").addEventListener("click", () => {
-      pm.showModal(il.Language.txt("copg_error"), error);
-      let m = document.getElementById("il-copg-ed-modal");
-      m = m.querySelector(".modal-dialog");
+
+    const content =  uiModel.errorModalMessage + error;
+
+    const link = document.querySelector("#copg-editor-slate-error ul li a");
+    link.addEventListener("click", () => {
+      pm.showModal(il.Language.txt("copg_error"), content);
+      let m = document.querySelector("#il-copg-ed-modal .modal-dialog");
       if (m) {
         m.style.width = "90%";
       }
     });
-  }
+    link.click();
+ }
 
   clearError() {
     this.toolSlate.clearError();

@@ -1,20 +1,32 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCase
 {
-    const VALID_QUALIFICATION_PERIOD_1 = 1;
-    const VALID_QUALIFICATION_PERIOD_2 = 2;
-    const INVALID_QUALIFICATION_PERIOD = -1;
-    const VALID_QUALIFICATION_DATE = '2019-02-14';
-    const VALID_RESTART_PERIOD_1 = 1;
-    const VALID_RESTART_PERIOD_2 = 2;
-    const INVALID_RESTART_PERIOD = -1;
+    private const VALID_QUALIFICATION_PERIOD_1 = 1;
+    private const VALID_QUALIFICATION_PERIOD_2 = 2;
+    private const INVALID_QUALIFICATION_PERIOD = -1;
+    private const VALID_QUALIFICATION_DATE = '2019-02-14';
+    private const VALID_RESTART_PERIOD_1 = 1;
+    private const VALID_RESTART_PERIOD_2 = 2;
+    private const INVALID_RESTART_PERIOD = -1;
 
     public function testSuccessfulCreate() : void
     {
@@ -40,7 +52,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 new DateTime(self::VALID_QUALIFICATION_DATE),
                 self::VALID_RESTART_PERIOD_1
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -54,7 +66,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 new DateTime(self::VALID_QUALIFICATION_DATE),
                 self::INVALID_RESTART_PERIOD
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -84,7 +96,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
 
         try {
             $obj->withQualificationPeriod(self::INVALID_QUALIFICATION_PERIOD);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -114,7 +126,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
 
         try {
             $obj->withRestartPeriod(self::INVALID_RESTART_PERIOD);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }

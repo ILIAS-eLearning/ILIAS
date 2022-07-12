@@ -1,24 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for tabs
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCTabsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
+    protected ilPCTabs $tabs;
+    protected int $pos = 0;
 
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_tabs
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilPCTabs $a_tabs
     ) {
         global $DIC;
 
@@ -40,7 +51,6 @@ class ilPCTabsTableGUI extends ilTable2GUI
         );
             
         $this->tabs = $a_tabs;
-        $caps = $this->tabs->getCaptions();
         $this->setData($this->tabs->getCaptions());
         $this->setLimit(0);
         
@@ -50,18 +60,11 @@ class ilPCTabsTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_tabs"));
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $this->pos += 10;
-        $this->tpl->setVariable("POS", ilUtil::prepareFormOutput($this->pos));
+        $this->tpl->setVariable("POS", ilLegacyFormElementsUtil::prepareFormOutput($this->pos));
         $this->tpl->setVariable("TID", $a_set["hier_id"] . ":" . $a_set["pc_id"]);
-        $this->tpl->setVariable("VAL_CAPTION", ilUtil::prepareFormOutput($a_set["caption"]));
+        $this->tpl->setVariable("VAL_CAPTION", ilLegacyFormElementsUtil::prepareFormOutput($a_set["caption"]));
     }
 }

@@ -1,45 +1,49 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Export configuration for media pools
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaPoolExportConfig extends ilExportConfig
 {
-    protected $master_only = false;
-    protected $include_media = true;
+    protected bool $master_only = false;
+    protected bool $include_media = true;
 
     /**
-     * Set master language only
-     *
-     * @param bool $a_val
-     * @param bool $a_include_media
+     * @param bool $a_val only master language?
+     * @param bool $a_include_media include media y/n?
      */
-    public function setMasterLanguageOnly($a_val, $a_include_media = true)
-    {
+    public function setMasterLanguageOnly(
+        bool $a_val,
+        bool $a_include_media = true
+    ) : void {
         $this->master_only = $a_val;
         $this->include_media = $a_include_media;
     }
 
-    /**
-     * Get master language only
-     *
-     * @return bool export only master language
-     */
-    public function getMasterLanguageOnly()
+    public function getMasterLanguageOnly() : bool
     {
         return $this->master_only;
     }
 
-    /**
-     * Get include media
-     *
-     * @return bool export media?
-     */
-    public function getIncludeMedia()
+    public function getIncludeMedia() : bool
     {
         return $this->include_media;
     }

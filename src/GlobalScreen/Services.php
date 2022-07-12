@@ -1,4 +1,22 @@
-<?php namespace ILIAS\GlobalScreen;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/** @noinspection PhpIncompatibleReturnTypeInspection */
+namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
@@ -11,58 +29,37 @@ use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 
 /**
  * Class Services
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class Services
 {
     use SingletonTrait;
-    /**
-     * @var Services
-     */
-    private static $instance = null;
-    /**
-     * @var ProviderFactory
-     */
-    private $provider_factory;
 
+    private static ?Services $instance = null;
+
+    private ProviderFactory $provider_factory;
+
+    public string $resource_version = '';
 
     /**
      * Services constructor.
-     *
      * @param ProviderFactory $provider_factory
+     * @param string          $resource_version
      */
-    public function __construct(ProviderFactory $provider_factory)
+    public function __construct(ProviderFactory $provider_factory, string $resource_version = '')
     {
         $this->provider_factory = $provider_factory;
+        $this->resource_version = $resource_version;
     }
-
-
-    /**
-     * @param ProviderFactory $provider_factory
-     *
-     * @return Services
-     */
-    public static function getInstance(ProviderFactory $provider_factory)
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self($provider_factory);
-        }
-
-        return self::$instance;
-    }
-
 
     /**
      * @return MainMenuItemFactory
      * @see MainMenuItemFactory
-     *
      */
     public function mainBar() : MainMenuItemFactory
     {
         return $this->get(MainMenuItemFactory::class);
     }
-
 
     /**
      * @return MetaBarItemFactory
@@ -71,7 +68,6 @@ class Services
     {
         return $this->get(MetaBarItemFactory::class);
     }
-
 
     /**
      * @return ToolServices
@@ -82,15 +78,13 @@ class Services
         return $this->get(ToolServices::class);
     }
 
-
     /**
      * @return LayoutServices
      */
     public function layout() : LayoutServices
     {
-        return $this->get(LayoutServices::class);
+        return $this->getWithArgument(LayoutServices::class, $this->resource_version);
     }
-
 
     /**
      * @return NotificationServices
@@ -100,7 +94,6 @@ class Services
         return $this->get(NotificationServices::class);
     }
 
-
     /**
      * @return CollectorFactory
      */
@@ -109,11 +102,9 @@ class Services
         return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
     }
 
-
     /**
      * @return IdentificationFactory
      * @see IdentificationFactory
-     *
      */
     public function identification() : IdentificationFactory
     {

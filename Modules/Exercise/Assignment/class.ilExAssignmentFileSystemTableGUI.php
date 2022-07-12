@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * File System Explorer GUI class
  * @author Jesús López <lopez@leifos.com>
@@ -14,15 +28,15 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
     protected int $requested_ass_id;
 
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_cur_dir,
-        $a_cur_subdir,
-        $a_label_enable,
-        $a_file_labels,
-        $a_label_header = "",
-        $a_commands = array(),
-        $a_post_dir_path = false
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        string $a_cur_dir,
+        string $a_cur_subdir,
+        bool $a_label_enable,
+        ?array $a_file_labels,
+        ?string $a_label_header = "",
+        ?array $a_commands = array(),
+        ?bool $a_post_dir_path = false
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -60,14 +74,14 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
     public function getEntries() : array
     {
         $entries = parent::getEntries();
-        if (count($entries) > 0) {
+        if ($entries !== []) {
             $this->addCommandButton("saveFilesOrder", $this->lng->txt("exc_save_order"));
         }
         $ass = new ilExAssignment($this->requested_ass_id);
         return $ass->fileAddOrder($entries);
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == "order_val") {
             return true;
@@ -93,12 +107,12 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
             $this->addColumn($this->label_header, "label");
         }
 
-        if (sizeof($this->row_commands)) {
+        if ($this->row_commands !== []) {
             $this->addColumn($this->lng->txt("actions"));
         }
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setCurrentBlock("Order");
         if ($a_set['order_id']) {

@@ -1,90 +1,85 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017, 2018, Stefan Hecken <stefan.hecken@concepts-and-training.de>, Richard Klees <richard.klees@concepts-and-training.de, Extended GPL, see docs/LICENSE */
-require_once("libs/composer/vendor/autoload.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use ILIAS\Refinery;
-use ILIAS\Data;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
 use PHPUnit\Framework\TestCase;
 
 class NotTest extends TestCase
 {
-    /**
-     * @var Data\Factory
-     */
-    private $df;
+    private DataFactory $df;
+    private ilLanguage $lng;
+    private Refinery $refinery;
+    private Constraint $not_true;
+    private Constraint $not_false;
 
-    /**
-     * @var \ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var \ILIAS\Refinery\Factory
-     */
-    private $refinery;
-
-    /**
-     * @var
-     */
-    private $not_true;
-
-    /**
-     * @var
-     */
-    private $not_false;
-
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->df = new Data\Factory();
-        $this->lng = $this->createMock(\ilLanguage::class);
-        $this->refinery = new \ILIAS\Refinery\Factory($this->df, $this->lng);
+        $this->df = new DataFactory();
+        $this->lng = $this->createMock(ilLanguage::class);
+        $this->refinery = new Refinery($this->df, $this->lng);
 
         $group = $this->refinery->custom();
 
         $this->not_true = $this->refinery->logical()->not($group->constraint(
-            function ($v) {
+            static function ($v) : bool {
                 return true;
             },
             "not_true"
         ));
 
         $this->not_false = $this->refinery->logical()->not($group->constraint(
-            function ($v) {
+            static function ($v) : bool {
                 return false;
             },
             "not_false"
         ));
     }
 
-    public function testAccepts()
+    public function testAccepts() : void
     {
         $this->assertTrue($this->not_false->accepts(null));
     }
 
-    public function testNotAccepts()
+    public function testNotAccepts() : void
     {
         $this->assertFalse($this->not_true->accepts(null));
     }
 
-    public function testCheckSucceed()
+    public function testCheckSucceed() : void
     {
         $this->not_false->check(null);
         $this->assertTrue(true); // does not throw
     }
 
-    public function testCheckFails()
+    public function testCheckFails() : void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->not_true->check(null);
     }
 
-    public function testNoProblemWith()
+    public function testNoProblemWith() : void
     {
         $this->assertNull($this->not_false->problemWith(null));
     }
 
-    public function testProblemWith()
+    public function testProblemWith() : void
     {
         $this->lng
             ->expects($this->once())
@@ -95,7 +90,7 @@ class NotTest extends TestCase
         $this->assertEquals("-not_true-", $this->not_true->problemWith(null));
     }
 
-    public function testRestrictOk()
+    public function testRestrictOk() : void
     {
         $ok = $this->df->ok(null);
 
@@ -103,7 +98,7 @@ class NotTest extends TestCase
         $this->assertTrue($res->isOk());
     }
 
-    public function testRestrictNotOk()
+    public function testRestrictNotOk() : void
     {
         $not_ok = $this->df->ok(null);
 
@@ -111,7 +106,7 @@ class NotTest extends TestCase
         $this->assertFalse($res->isOk());
     }
 
-    public function testRestrictError()
+    public function testRestrictError() : void
     {
         $error = $this->df->error("error");
 
@@ -119,9 +114,9 @@ class NotTest extends TestCase
         $this->assertSame($error, $res);
     }
 
-    public function testWithProblemBuilder()
+    public function testWithProblemBuilder() : void
     {
-        $new_c = $this->not_true->withProblemBuilder(function () {
+        $new_c = $this->not_true->withProblemBuilder(static function () : string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith(null));

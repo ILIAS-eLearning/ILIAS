@@ -1,23 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Survey category class
- *
  * The ilSurveyCategory class encapsules a survey category
- *
  * @author		Helmut Schottmüller <ilias@aurealis.de>
+ * @todo make a proper dto, get rid of magic functions
  */
 class ilSurveyCategory
 {
-    private $arrData;
-    
-    /**
-    * ilSurveyPhrases constructor
-    */
-    public function __construct($title = null, $other = 0, $neutral = 0, $label = null, $scale = null)
-    {
+    /** @var array{title: ?string, other: int, neutral: int, label: ?string, scale: ?int} */
+    private array $arrData;
+
+    public function __construct(
+        ?string $title = null,
+        int $other = 0,
+        int $neutral = 0,
+        ?string $label = null,
+        ?int $scale = null
+    ) {
         $this->arrData = array(
             "title" => $title,
             "other" => $other,
@@ -26,31 +42,28 @@ class ilSurveyCategory
             "scale" => $scale
         );
     }
-    
+
     /**
-    * Object getter
-    */
-    public function __get($value)
+     * @param string $value
+     * @return mixed
+     */
+    public function __get(string $value)
     {
         switch ($value) {
             case 'other':
             case 'neutral':
                 return ($this->arrData[$value]) ? 1 : 0;
-                break;
             default:
-                if (array_key_exists($value, $this->arrData)) {
-                    return $this->arrData[$value];
-                } else {
-                    return null;
-                }
-                break;
+                return $this->arrData[$value] ?? null;
         }
     }
 
     /**
-    * Object setter
-    */
-    public function __set($key, $value)
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public function __set(string $key, $value) : void
     {
         switch ($key) {
             default:

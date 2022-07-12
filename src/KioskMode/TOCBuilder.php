@@ -11,10 +11,10 @@ use ILIAS\UI;
  */
 interface TOCBuilder
 {
-    const LP_NOT_STARTED = 0;
-    const LP_IN_PROGRESS = 1;
-    const LP_COMPLETED = 2;
-    const LP_FAILED = 3;
+    public const LP_NOT_STARTED = 0;
+    public const LP_IN_PROGRESS = 1;
+    public const LP_COMPLETED = 2;
+    public const LP_FAILED = 3;
 
     /**
      * Finish building the TOC.

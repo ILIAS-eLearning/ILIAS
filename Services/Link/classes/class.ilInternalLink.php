@@ -1,50 +1,60 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilInternalLink
- *
  * Some methods to handle internal links
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilInternalLink
 {
     /**
      * Delete all links of a given source
-     *
-     * @param string $a_source_type source type
-     * @param int $a_source_if source id
-     * @param int $a_lang source language
      */
-    public static function _deleteAllLinksOfSource($a_source_type, $a_source_id, $a_lang = "-")
-    {
+    public static function _deleteAllLinksOfSource(
+        string $a_source_type,
+        int $a_source_id,
+        string $a_lang = "-"
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $lang_where = "";
-        if ($a_lang != "") {
+        if ($a_lang !== "") {
             $lang_where = " AND source_lang = " . $ilDB->quote($a_lang, "text");
         }
         
         $q = "DELETE FROM int_link WHERE source_type = " .
             $ilDB->quote($a_source_type, "text") . " AND source_id=" .
-            $ilDB->quote((int) $a_source_id, "integer") .
+            $ilDB->quote($a_source_id, "integer") .
             $lang_where;
         $ilDB->manipulate($q);
     }
 
     /**
      * Delete all links to a given target
-     *
-     * @param	string		$a_target_type		target type
-     * @param	int			$a_target_id		target id
-     * @param	int			$a_target_inst		target installation id
      */
-    public static function _deleteAllLinksToTarget($a_target_type, $a_target_id, $a_target_inst = 0)
-    {
+    public static function _deleteAllLinksToTarget(
+        string $a_target_type,
+        int $a_target_id,
+        int $a_target_inst = 0
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -53,27 +63,21 @@ class ilInternalLink
             "DELETE FROM int_link WHERE target_type = %s " .
             " AND target_id = %s AND target_inst = %s ",
             array("text", "integer", "integer"),
-            array($a_target_type, (int) $a_target_id, (int) $a_target_inst)
+            array($a_target_type, $a_target_id, $a_target_inst)
         );
     }
 
     /**
      * save internal link information
-     *
-     * @param	string		$a_source_type		source type
-     * @param	int			$a_source_if		source id
-     * @param	string		$a_target_type		target type
-     * @param	int			$a_target_id		target id
-     * @param	int			$a_target_inst		target installation id
      */
     public static function _saveLink(
-        $a_source_type,
-        $a_source_id,
-        $a_target_type,
-        $a_target_id,
-        $a_target_inst = 0,
-        $a_source_lang = "-"
-    ) {
+        string $a_source_type,
+        int $a_source_id,
+        string $a_target_type,
+        int $a_target_id,
+        int $a_target_inst = 0,
+        string $a_source_lang = "-"
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -82,11 +86,11 @@ class ilInternalLink
             "int_link",
             array(
                 "source_type" => array("text", $a_source_type),
-                "source_id" => array("integer", (int) $a_source_id),
+                "source_id" => array("integer", $a_source_id),
                 "source_lang" => array("text", $a_source_lang),
                 "target_type" => array("text", $a_target_type),
-                "target_id" => array("integer", (int) $a_target_id),
-                "target_inst" => array("integer", (int) $a_target_inst)
+                "target_id" => array("integer", $a_target_id),
+                "target_inst" => array("integer", $a_target_inst)
             ),
             array()
         );
@@ -94,23 +98,24 @@ class ilInternalLink
 
     /**
      * get all sources of a link target
-     *
      * @param	string		$a_target_type		target type
      * @param	int			$a_target_id		target id
      * @param	int			$a_target_inst		target installation id
-     *
      * @return	array		sources (array of array("type", "id"))
      */
-    public static function _getSourcesOfTarget($a_target_type, $a_target_id, $a_target_inst)
-    {
+    public static function _getSourcesOfTarget(
+        string $a_target_type,
+        int $a_target_id,
+        int $a_target_inst
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $q = "SELECT * FROM int_link WHERE " .
             "target_type = " . $ilDB->quote($a_target_type, "text") . " AND " .
-            "target_id = " . $ilDB->quote((int) $a_target_id, "integer") . " AND " .
-            "target_inst = " . $ilDB->quote((int) $a_target_inst, "integer");
+            "target_id = " . $ilDB->quote($a_target_id, "integer") . " AND " .
+            "target_inst = " . $ilDB->quote($a_target_inst, "integer");
         $source_set = $ilDB->query($q);
         $sources = array();
         while ($source_rec = $ilDB->fetchAssoc($source_set)) {
@@ -124,26 +129,28 @@ class ilInternalLink
 
     /**
      * Get all targets of a source object (e.g., a page)
-     *
      * @param	string		$a_source_type		source type (e.g. "lm:pg" | "dbk:pg")
      * @param	int			$a_source_id		source id
-     *
+     * @param	string		$a_source_lang		source language
      * @return	array		targets (array of array("type", "id", "inst"))
      */
-    public static function _getTargetsOfSource($a_source_type, $a_source_id, $a_source_lang = "-")
-    {
+    public static function _getTargetsOfSource(
+        string $a_source_type,
+        int $a_source_id,
+        string $a_source_lang = "-"
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $lang_where = "";
-        if ($a_source_lang != "") {
+        if ($a_source_lang !== "") {
             $lang_where = " AND source_lang = " . $ilDB->quote($a_source_lang, "text");
         }
 
         $q = "SELECT * FROM int_link WHERE " .
             "source_type = " . $ilDB->quote($a_source_type, "text") . " AND " .
-            "source_id = " . $ilDB->quote((int) $a_source_id, "integer") .
+            "source_id = " . $ilDB->quote($a_source_id, "integer") .
             $lang_where;
 
         $target_set = $ilDB->query($q);
@@ -159,15 +166,15 @@ class ilInternalLink
 
     /**
      * Get current id for an import id
-     *
      * @param	string		$a_type			target type ("PageObject" | "StructureObject" |
      *										"GlossaryItem" | "MediaObject")
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
-     *
      * @return	string		current target id (e.g. "il__pg_244")
      */
-    public static function _getIdForImportId($a_type, $a_target)
-    {
+    public static function _getIdForImportId(
+        string $a_type,
+        string $a_target
+    ) : ?string {
         switch ($a_type) {
             case "PageObject":
                 $id = ilLMObject::_getIdForImportId($a_target);
@@ -195,9 +202,10 @@ class ilInternalLink
                 // no import IDs for wiki pages (yet)
                 //$id = ilGlossaryTerm::_getIdForImportId($a_target);
                 $id = 0;
+                /*
                 if ($id > 0) {
                     return "il__wpage_" . $id;
-                }
+                }*/
                 break;
 
             case "MediaObject":
@@ -233,7 +241,7 @@ class ilInternalLink
                 // 26 Sep 2018: moved this under the import id handling above
                 // If an imported object is found, this is always preferred.
                 // see also bug #23324
-                if (ilInternalLink::_extractInstOfTarget($a_target) == IL_INST_ID
+                if (self::_extractInstOfTarget($a_target) == IL_INST_ID
                     && IL_INST_ID > 0) {
                     // does it have a ref id part?
                     if ($tarr[4] != "") {
@@ -244,20 +252,20 @@ class ilInternalLink
                 break;
 
         }
-        return false;
+        return null;
     }
 
     /**
      * Check if internal link refers to a valid target
-     *
      * @param	string		$a_type			target type ("PageObject" | "StructureObject" |
      *										"GlossaryItem" | "MediaObject")
      * @param	string		$a_target		target id, e.g. "il__pg_244")
-     *
-     * @return	boolean		true/false
+     * @return    bool        true/false
      */
-    public static function _exists($a_type, $a_target)
-    {
+    public static function _exists(
+        string $a_type,
+        string $a_target
+    ) : bool {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
@@ -266,23 +274,19 @@ class ilInternalLink
             case "PageObject":
             case "StructureObject":
                 return ilLMObject::_exists($a_target);
-                break;
 
             case "GlossaryItem":
                 return ilGlossaryTerm::_exists($a_target);
-                break;
 
             case "MediaObject":
                 return ilObjMediaObject::_exists($a_target);
-                break;
-                
+
             case "WikiPage":
                 return ilWikiPage::_exists("wiki", (int) $a_target);
-                break;
-                
+
             case "RepositoryItem":
                 if (is_int(strpos($a_target, "_"))) {
-                    $ref_id = ilInternalLink::_extractObjIdOfTarget($a_target);
+                    $ref_id = self::_extractObjIdOfTarget($a_target);
                     return $tree->isInTree($ref_id);
                 }
                 break;
@@ -293,26 +297,24 @@ class ilInternalLink
     
     /**
      * Extract installation id out of target
-     *
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
      */
-    public static function _extractInstOfTarget($a_target)
+    public static function _extractInstOfTarget(string $a_target) : ?int
     {
         if (!is_int(strpos($a_target, "__"))) {
             $target = explode("_", $a_target);
-            if ($target[1] > 0) {
-                return $target[1];
+            if (isset($target[1]) && $target[1] > 0) {
+                return (int) $target[1];
             }
         }
-        return false;
+        return null;
     }
     
     /**
      * Removes installation id from target string
-     *
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
      */
-    public static function _removeInstFromTarget($a_target)
+    public static function _removeInstFromTarget(string $a_target) : ?string
     {
         if (!is_int(strpos($a_target, "__"))) {
             $target = explode("_", $a_target);
@@ -320,43 +322,38 @@ class ilInternalLink
                 return "il__" . $target[2] . "_" . $target[3];
             }
         }
-        return false;
+        return null;
     }
     
     /**
      * Extract object id out of target
-     *
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
      */
-    public static function _extractObjIdOfTarget($a_target)
+    public static function _extractObjIdOfTarget(string $a_target) : int
     {
         $target = explode("_", $a_target);
-        return $target[count($target) - 1];
+        return (int) $target[count($target) - 1];
     }
 
     /**
      * Extract type out of target
-     *
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
      */
-    public static function _extractTypeOfTarget($a_target)
+    public static function _extractTypeOfTarget(string $a_target) : string
     {
         $target = explode("_", $a_target);
-        return $target[count($target) - 2];
+        return (string) $target[count($target) - 2];
     }
 
     /**
      * Search users
-     *
-     * @param
-     * @return
      */
-    public static function searchUsers($a_search_str)
+    public static function searchUsers(string $a_search_str) : array
     {
         $result = new ilSearchResult();
 
-        $query_parser = new ilQueryParser($a_search_str, '%_');
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser = new ilQueryParser($a_search_str);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->setMinWordLength(3);
         $query_parser->parse();
 

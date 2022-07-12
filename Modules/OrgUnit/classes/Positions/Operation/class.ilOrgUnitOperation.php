@@ -1,8 +1,23 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitOperation
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitOperation extends ActiveRecord
@@ -21,10 +36,12 @@ class ilOrgUnitOperation extends ActiveRecord
     const OP_VIEW_MEMBERS = 'view_members';
     const OP_VIEW_INDIVIDUAL_PLAN = 'view_individual_plan';
     const OP_EDIT_INDIVIDUAL_PLAN = 'edit_individual_plan';
+    const OP_READ_EMPLOYEE_TALK = 'read_employee_talk';
+    const OP_CREATE_EMPLOYEE_TALK = 'create_employee_talk';
+    const OP_EDIT_EMPLOYEE_TALK = 'edit_employee_talk';
 
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_sequence   true
@@ -32,43 +49,38 @@ class ilOrgUnitOperation extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $operation_id = 0;
+    protected ?int $operation_id = 0;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     127
      * @con_index      true
      */
-    protected $operation_string = '';
+    protected string $operation_string = '';
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     512
      */
-    protected $description = '';
+    protected string $description = '';
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      * @con_index      true
      */
-    protected $list_order = 0;
+    protected int $list_order = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      * @con_index      true
      */
-    protected $context_id = 0;
-
+    protected int $context_id = 0;
 
     public function create() : void
     {
@@ -82,100 +94,56 @@ class ilOrgUnitOperation extends ActiveRecord
         parent::create();
     }
 
-
-    /**
-     * @return int
-     */
-    public function getOperationId()
+    public function getOperationId() : ?int
     {
         return $this->operation_id;
     }
 
-
-    /**
-     * @param int $operation_id
-     */
-    public function setOperationId($operation_id)
+    public function setOperationId(int $operation_id) : void
     {
         $this->operation_id = $operation_id;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getOperationString()
+    public function getOperationString() : string
     {
         return $this->operation_string;
     }
 
-
-    /**
-     * @param string $operation_string
-     */
-    public function setOperationString($operation_string)
+    public function setOperationString(string $operation_string) : void
     {
         $this->operation_string = $operation_string;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getListOrder()
+    public function getListOrder() : int
     {
         return $this->list_order;
     }
 
-
-    /**
-     * @param int $list_order
-     */
-    public function setListOrder($list_order)
+    public function setListOrder(int $list_order) : void
     {
         $this->list_order = $list_order;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getContextId()
+    public function getContextId() : int
     {
         return $this->context_id;
     }
 
-
-    /**
-     * @param int $context_id
-     */
-    public function setContextId($context_id)
+    public function setContextId(int $context_id) : void
     {
         $this->context_id = $context_id;
     }
 
-
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return 'il_orgu_operations';

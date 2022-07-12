@@ -1,25 +1,33 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblAttribute
  *
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
 {
-
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return 'il_bibl_attribute';
     }
 
 
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return 'il_bibl_attribute';
@@ -27,32 +35,24 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
 
 
     /**
-     * @var
-     *
      * @con_has_field true
      * @con_fieldtype integer
      * @con_length    11
      */
-    protected $entry_id;
+    protected int $entry_id;
     /**
-     * @var
-     *
      * @con_has_field true
      * @con_fieldtype text
      * @con_length    32
      */
-    protected $name;
+    protected string $name;
     /**
-     * @var
-     *
      * @con_has_field true
      * @con_fieldtype text
      * @con_length    4000
      */
-    protected $value;
+    protected string $value;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
@@ -61,13 +61,10 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
      * @con_is_unique  true
      * @con_sequence   true
      */
-    protected $id;
+    protected ?int $id = null;
 
 
-    /**
-     * @return mixed
-     */
-    public function getEntryId()
+    public function getEntryId() : int
     {
         return $this->entry_id;
     }
@@ -76,16 +73,13 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @param mixed $entry_id
      */
-    public function setEntryId($entry_id)
+    public function setEntryId(int $entry_id) : void
     {
         $this->entry_id = $entry_id;
     }
 
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -94,16 +88,13 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @param mixed $name
      */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
 
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -112,16 +103,13 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @param mixed $value
      */
-    public function setValue($value)
+    public function setValue(string $value) : void
     {
         $this->value = $value;
     }
 
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -130,7 +118,7 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }

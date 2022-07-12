@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\RequestInterface;
 use ILIAS\Container;
@@ -46,17 +49,12 @@ class ilMemberViewSettings
         $this->ctrl = $DIC->ctrl();
         $this->logger = $DIC->logger()->cont();
         $this->read();
-        $this->container_service = $DIC
-            ->container();
+        $this->container_service = $DIC->container();
     }
-
 
     public static function getInstance() : ilMemberViewSettings
     {
-        if (self::$instance != null) {
-            return self::$instance;
-        }
-        return self::$instance = new ilMemberViewSettings();
+        return self::$instance ?? (self::$instance = new ilMemberViewSettings());
     }
 
     public function getContainer() : ?int
@@ -98,8 +96,8 @@ class ilMemberViewSettings
                 return $mv_status = false;
             }
 
-            if (!in_array($this->getCurrentRefId(), $this->container_items) and
-                $this->getContainer() != $this->getCurrentRefId()
+            if (!in_array($this->getCurrentRefId(), $this->container_items) &&
+                $this->getContainer() !== $this->getCurrentRefId()
             ) {
                 // outside of course
                 return $mv_status = false;
@@ -115,13 +113,13 @@ class ilMemberViewSettings
      */
     public function isActiveForRefId(int $a_ref_id) : bool
     {
-        if (!$this->active || !(int) $a_ref_id) {
+        if (!$this->active || !$a_ref_id) {
             return false;
         }
         
         if (
             !in_array($a_ref_id, $this->container_items) &&
-            $this->getContainer() != $a_ref_id) {
+            $this->getContainer() !== $a_ref_id) {
             return false;
         }
         return true;
@@ -160,7 +158,7 @@ class ilMemberViewSettings
      */
     public function isEnabled() : bool
     {
-        return (bool) $this->enabled;
+        return $this->enabled;
     }
     
     /**
@@ -185,7 +183,7 @@ class ilMemberViewSettings
             if (
                 $this->getCurrentRefId() &&
                 !in_array($this->getCurrentRefId(), $this->container_items) &&
-                $this->getCurrentRefId() != $this->getContainer()
+                $this->getCurrentRefId() !== $this->getContainer()
             ) {
                 $this->deactivate();
             }
@@ -207,8 +205,8 @@ class ilMemberViewSettings
             return $this->current_ref_id = $ref_id;
         }
         $target_str = (string) ($this->request->getQueryParams()['target'] ?? '');
-        if (strlen($target_str)) {
-            $target_arr = explode('_', (string) $target_str);
+        if ($target_str !== '') {
+            $target_arr = explode('_', $target_str);
             if (isset($target_arr[1]) && (int) $target_arr[1]) {
                 $this->current_ref_id = (int) $target_arr[1];
             }

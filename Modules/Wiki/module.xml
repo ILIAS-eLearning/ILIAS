@@ -9,7 +9,7 @@
 	</objectgroups>
 	<objects>
 		<object id="wiki" class_name="Wiki" dir="classes" default_pos="115" default_pres_pos="140"
-			checkbox="1" inherit="1" allow_link="1" rbac="1" export="1" allow_copy="1">
+			checkbox="1" inherit="1" allow_link="1" rbac="1" export="1" allow_copy="1" lti_provider="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>
@@ -28,7 +28,4 @@
 		<pagecontent pc_type="amdpl" name="AMDPageList" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="240"/>
 	</copage>
 	<logging />
-	<pdfpurposes>
-		<pdfpurpose name="ContentExport" preferred="WkhtmlToPdf" />
-	</pdfpurposes>
 </module>

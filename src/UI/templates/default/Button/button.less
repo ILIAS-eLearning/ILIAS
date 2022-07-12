@@ -1,6 +1,12 @@
 .btn {
 	font-size: @il-button-font-size;
 	.il-focus();
+
+  &:active {
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
 }
 
 //This is legacy for the old forms implementation. Can be removed as soon as the old implementation is removed.
@@ -17,15 +23,12 @@ input.btn{
 .btn-default {
   .button-variant(@il-btn-standard-color; @il-btn-standard-bg; @il-btn-standard-border);
   &:focus-visible {
-    outline-offset: @il-focus-outline-offset;
+    position: relative;
   }
 }
 
 .btn-primary {
   .button-variant(@il-btn-primary-color; @il-btn-primary-bg; @il-btn-primary-border);
-  &:focus-visible {
-    outline-offset: @il-focus-outline-offset;
-  }
 }
 
 .btn, .btn.btn-tag{
@@ -79,7 +82,7 @@ a[disabled], a fieldset[disabled] & {
 .btn-tag {
     display: inline-block;
     white-space: nowrap;
-    padding: @padding-xs-vertical @padding-xs-horizontal;
+    padding: @il-padding-xs-vertical @il-padding-xs-horizontal;
     margin: @il-btn-tag-margin;
     border-radius: @il-btn-tag-border-radius;
 
@@ -130,11 +133,26 @@ a[disabled], a fieldset[disabled] & {
 	padding-right: 18px;
 }
 
-.close{
+.minimize, .close {
+  font-size: (@font-size-base * 1.5);
+  font-weight: @close-font-weight;
+  line-height: 1;
   color: @il-neutral-light-color;
-  opacity: 1;
-  &:hover, &:focus{
+
+  &:hover,
+  &:focus {
     color: @il-neutral-color;
-    opacity: 1;
+    text-decoration: none;
   }
+
+  button& {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+  }
+}
+
+.close{
+  float: right;
 }

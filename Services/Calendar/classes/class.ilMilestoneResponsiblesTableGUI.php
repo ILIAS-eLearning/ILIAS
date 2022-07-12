@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,37 +21,33 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-
-
 /**
-* TableGUI class for selection of milestone responsibles
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
+ * TableGUI class for selection of milestone responsibles
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
 {
+    protected int $grp_id;
+    protected int $app_id;
+
+    private array $resp_users = [];
+
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        $a_grp_id,
-        $a_app_id
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_grp_id,
+        int $a_app_id
     ) {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->grp_id = $a_grp_id;
         $this->app_id = $a_app_id;
-        
+
         $this->addColumn("", "", "1");
-        $this->addColumn($lng->txt("user"), "", "100%");
+        $this->addColumn($this->lng->txt("user"), "", "100%");
         $this->setRowTemplate(
             "tpl.ms_responsible_users_row.html",
             "Services/Calendar"
@@ -59,24 +55,23 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setDefaultOrderField("lastname");
         $this->setMaxCount(9999);
-        $ilCtrl->setParameter($a_parent_obj, "app_id", $this->app_id);
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->ctrl->setParameter($a_parent_obj, "app_id", $this->app_id);
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->getParticipantsAndResponsibles();
-        $this->setTitle($lng->txt("cal_ms_users_responsible"));
+        $this->setTitle($this->lng->txt("cal_ms_users_responsible"));
         $this->addMultiCommand(
             "saveMilestoneResponsibleUsers",
-            $lng->txt("cal_save_responsible_users")
+            $this->lng->txt("cal_save_responsible_users")
         );
     }
-    
+
     /**
-    * Get participants and responsible users
-    */
+     * Get participants and responsible users
+     */
     public function getParticipantsAndResponsibles()
     {
         $participants = array();
         if ($this->app_id > 0) {
-            include_once("./Services/Calendar/classes/class.ilCalendarEntry.php");
             $app = new ilCalendarEntry($this->app_id);
             $resp_users = $app->readResponsibleUsers();
             foreach ($resp_users as $v) {
@@ -86,7 +81,6 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
             }
         }
 
-        include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
         $part = ilGroupParticipants::_getInstanceByObjId($this->grp_id);
         $admins = $part->getAdmins();
         $members = $part->getMembers();
@@ -100,18 +94,13 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
         }
         $this->setData($participants);
     }
-    
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
-    protected function fillRow($a_set)
-    {
-        global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
+    /**
+     * Standard Version of Fill Row. Most likely to
+     * be overwritten by derived class.
+     */
+    protected function fillRow(array $a_set) : void
+    {
         if (is_array($this->resp_users) && in_array($a_set["user_id"], $this->resp_users)) {
             $this->tpl->setVariable("CHECKED", ' checked="checked" ');
         }

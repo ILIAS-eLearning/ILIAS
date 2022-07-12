@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\PersonalWorkspace\StandardGUIRequest;
 
 /**
  * Workspace share handler table GUI class
@@ -9,40 +25,28 @@
  */
 class ilWorkspaceShareTableGUI extends ilTable2GUI
 {
+    protected ilSetting $settings;
+    protected ilObjUser $user;
     /**
-     * @var ilCtrl
+     * @var ilWorkspaceAccessHandler|ilPortfolioAccessHandler
      */
-    protected $ctrl;
+    protected $handler;
+    protected ?int $parent_node_id = null;
+    protected array $filter;
+    protected array $crs_ids;
+    protected array $grp_ids;
+    protected bool $portfolio_mode = false;
+    protected StandardGUIRequest $std_request;
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $handler; // [ilWorkspaceAccessHandler]
-    protected $parent_node_id; // [int]
-    protected $filter; // [array]
-    protected $crs_ids; // [array]
-    protected $grp_ids; // [array]
-    protected $portfolio_mode = false; // [bool]
-
-    /**
-     * Constructor
-     *
-     * @param object $a_parent_obj parent gui object
-     * @param string $a_parent_cmd parent default command
-     * @param object $a_handler workspace access handler
-     * @param bool $a_load_data
-     * @param int $a_parent_node_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_handler, $a_parent_node_id = null, $a_load_data = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        $a_handler,
+        int $a_parent_node_id = null,
+        bool $a_load_data = false
+    ) {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -50,11 +54,16 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-
         $this->handler = $a_handler;
-        
+        $this->std_request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
+
+        $this->parent_node_id = 0;
+
         if (stristr(get_class($a_parent_obj), "portfolio")) {
-            $this->parent_node_id = $a_parent_node_id;
+            $this->parent_node_id = (int) $a_parent_node_id;
             $this->portfolio_mode = true;
         }
         
@@ -114,7 +123,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             $this->importData();
             return;
         } else {
-            ilUtil::sendInfo($lng->txt("wsp_shared_mandatory_filter_info"));
+            $main_tpl->setOnScreenMessage('info', $lng->txt("wsp_shared_mandatory_filter_info"));
         }
 
         // initial state: show filters only
@@ -122,14 +131,14 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $this->disable("content");
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
         $ilUser = $this->user;
                 
-        $this->crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
-        $this->grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
+        $this->crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["crs"]);
+        $this->grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["grp"]);
                 
         $lng->loadLanguageModule("search");
         
@@ -137,10 +146,11 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $this->filter["user"] = $item->getValue();
                 
         // incoming back link (shared)
-        if ((int) $_REQUEST["shr_id"] &&
-            !is_array($_SESSION["form_" . $this->getId()]) && // #17747
+        $form_sess = ilSession::get("form_" . $this->getId());
+        if ($this->std_request->getShareId() &&
+            !is_array($form_sess) && // #17747
             !$this->filter["user"]) {
-            $this->filter["user"] = ilObjUser::_lookupName((int) $_REQUEST["shr_id"]);
+            $this->filter["user"] = ilObjUser::_lookupName($this->std_request->getShareId());
             $this->filter["user"] = $this->filter["user"]["login"];
             $item->setValue($this->filter["user"]);
         }
@@ -166,7 +176,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         } else {
             $options = array("prtf" => $lng->txt("obj_prtf"));
         }
-        if (sizeof($options)) {
+        if (count($options) > 0) {
             asort($options);
             $item = $this->addFilterItemByMetaType("obj_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_object_type"));
             $item->setOptions($options);
@@ -199,8 +209,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             }
         }
         
-        if (sizeof($options)) {
-            // asort($options);
+        if (count($options) > 0) {
             $item = $this->addFilterItemByMetaType("acl_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_type"));
             $item->setOptions(array("" => $lng->txt("search_any")) + $options);
             $this->filter["acl_type"] = $item->getValue();
@@ -221,7 +230,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         }
     }
     
-    protected function importData()
+    protected function importData() : void
     {
         $lng = $this->lng;
         
@@ -240,12 +249,11 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
                 if (!$user_data[$item["owner"]]["login"]) {
                     continue;
                 }
-                
                 $data[] = array(
                     "wsp_id" => $wsp_id,
                     "obj_id" => $item["obj_id"],
-                    "type" => $item["type"],
-                    "obj_type" => $lng->txt("wsp_type_" . $item["type"]),
+                    "type" => $item["type"] ?? "",
+                    "obj_type" => $lng->txt("wsp_type_" . ($item["type"] ?? "")),
                     "title" => $item["title"],
                     "owner_id" => $item["owner"],
                     "lastname" => $user_data[$item["owner"]]["lastname"],
@@ -259,41 +267,39 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         
         $this->setData($data);
     }
-    
+
     /**
-     * Fill table row
-     *
-     * @param array $a_set data array
+     * @param string[] $a_set
      */
-    protected function fillRow($node)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
                 
-        $this->tpl->setVariable("LASTNAME", $node["lastname"]);
-        $this->tpl->setVariable("FIRSTNAME", $node["firstname"]);
-        $this->tpl->setVariable("LOGIN", $node["login"]);
+        $this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
+        $this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
+        $this->tpl->setVariable("LOGIN", $a_set["login"]);
                             
-        $this->tpl->setVariable("TITLE", $node["title"]);
+        $this->tpl->setVariable("TITLE", $a_set["title"]);
                 
         if (!$this->portfolio_mode) {
-            $this->tpl->setVariable("TYPE", $node["obj_type"]);
-            $this->tpl->setVariable("ICON_ALT", $node["obj_type"]);
-            $this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $node["type"]));
+            $this->tpl->setVariable("TYPE", $a_set["obj_type"]);
+            $this->tpl->setVariable("ICON_ALT", $a_set["obj_type"]);
+            $this->tpl->setVariable("ICON", ilObject::_getIcon(0, "tiny", $a_set["type"]));
             
-            $url = $this->handler->getGotoLink($node["wsp_id"], $node["obj_id"]);
+            $url = $this->handler->getGotoLink($a_set["wsp_id"], $a_set["obj_id"]);
         } else {
-            $url = ilLink::_getStaticLink($node["obj_id"], "prtf", true);
+            $url = ilLink::_getStaticLink($a_set["obj_id"], "prtf", true);
         }
         $this->tpl->setVariable("URL_TITLE", $url);
         
         $this->tpl->setVariable(
             "ACL_DATE",
-            ilDatePresentation::formatDate(new ilDateTime($node["acl_date"], IL_CAL_UNIX))
+            ilDatePresentation::formatDate(new ilDateTime($a_set["acl_date"], IL_CAL_UNIX))
         );
         
-        asort($node["acl_type"]);
-        foreach ($node["acl_type"] as $obj_id) {
+        asort($a_set["acl_type"]);
+        foreach ($a_set["acl_type"] as $obj_id) {
             // see ilWorkspaceAccessTableGUI
             switch ($obj_id) {
                 case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
@@ -342,7 +348,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         
         if (!$this->portfolio_mode) {
             // files may be copied to own workspace
-            if ($node["type"] == "file") {
+            if ($a_set["type"] == "file") {
                 $ilCtrl->setParameter(
                     $this->parent_obj,
                     "wsp_id",
@@ -351,7 +357,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
                 $ilCtrl->setParameter(
                     $this->parent_obj,
                     "item_ref_id",
-                    $node["wsp_id"]
+                    $a_set["wsp_id"]
                 );
                 $url = $ilCtrl->getLinkTarget($this->parent_obj, "copyshared");
 

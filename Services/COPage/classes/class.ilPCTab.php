@@ -1,30 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCTab
- *
  * Tab content object (see ILIAS DTD)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCTab extends ilPageContent
 {
-    public $dom;
-
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         $this->setType("tabstab");
     }
 
-    /**
-    * insert new tab item after current one
-    */
-    public function newItemAfter()
+    public function newItemAfter() : void
     {
         $tab = $this->getNode();
         $new_tab = $this->dom->create_element("Tab");
@@ -36,31 +40,20 @@ class ilPCTab extends ilPageContent
         }
     }
 
-
-    /**
-    * insert new tab item before current one
-    */
-    public function newItemBefore()
+    public function newItemBefore() : void
     {
         $tab = $this->getNode();
         $new_tab = $this->dom->create_element("Tab");
         $new_tab = $tab->insert_before($new_tab, $tab);
     }
 
-
-    /**
-    * delete tab
-    */
-    public function deleteItem()
+    public function deleteItem() : void
     {
         $tab = $this->getNode();
         $tab->unlink($tab);
     }
 
-    /**
-    * move tab item down
-    */
-    public function moveItemDown()
+    public function moveItemDown() : void
     {
         $tab = $this->getNode();
         $next = $tab->next_sibling();
@@ -69,10 +62,7 @@ class ilPCTab extends ilPageContent
         $next->unlink($next);
     }
 
-    /**
-    * move tab item up
-    */
-    public function moveItemUp()
+    public function moveItemUp() : void
     {
         $tab = $this->getNode();
         $prev = $tab->previous_sibling();

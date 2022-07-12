@@ -6,7 +6,7 @@ namespace ILIAS\Data\UUID;
  * Class UuidInterface
  * @package ILIAS\Data\UUID
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 interface Uuid
 {

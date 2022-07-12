@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once("libs/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/Renderer/ilIndependentTemplate.php");
@@ -10,21 +24,26 @@ require_once(__DIR__ . "/../../Services/Language/classes/class.ilLanguage.php");
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Implementaiton\Component as I;
+use ILIAS\UI\Implementation\Render\DecoratedRenderer;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
-use ILIAS\UI\Implementation\ComponentRendererFSLoader;
 use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use PHPUnit\Framework\TestCase;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\UI\Component\Component;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
-    public function getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks)
+    public function getTemplate(string $path, bool $purge_unfilled_vars, bool $purge_unused_blocks) : Render\Template
     {
         return new ilIndependentGlobalTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
     }
@@ -32,67 +51,67 @@ class ilIndependentTemplateFactory implements TemplateFactory
 
 class NoUIFactory implements Factory
 {
-    public function counter()
+    public function counter() : C\Counter\Factory
     {
     }
-    public function button()
+    public function button() : C\Button\Factory
     {
     }
-    public function card()
+    public function card() : C\Card\Factory
     {
     }
-    public function deck(array $cards)
+    public function deck(array $cards) : C\Deck\Deck
     {
     }
-    public function listing()
+    public function listing() : C\Listing\Factory
     {
     }
-    public function image()
+    public function image() : C\Image\Factory
     {
     }
-    public function legacy($content)
+    public function legacy(string $content) : C\Legacy\Legacy
     {
     }
-    public function panel()
+    public function panel() : C\Panel\Factory
     {
     }
-    public function modal()
+    public function modal() : C\Modal\Factory
     {
     }
-    public function dropzone()
+    public function dropzone() : C\Dropzone\Factory
     {
     }
-    public function popover()
+    public function popover() : C\Popover\Factory
     {
     }
-    public function divider()
+    public function divider() : C\Divider\Factory
     {
     }
-    public function link()
+    public function link() : C\Link\Factory
     {
     }
-    public function dropdown()
+    public function dropdown() : C\Dropdown\Factory
     {
     }
-    public function item()
+    public function item() : C\Item\Factory
     {
     }
-    public function viewControl()
+    public function viewControl() : C\ViewControl\Factory
     {
     }
-    public function breadcrumbs(array $crumbs)
+    public function breadcrumbs(array $crumbs) : C\Breadcrumbs\Breadcrumbs
     {
     }
-    public function chart()
+    public function chart() : C\Chart\Factory
     {
     }
-    public function input()
+    public function input() : C\Input\Factory
     {
     }
-    public function table()
+    public function table() : C\Table\Factory
     {
     }
-    public function messageBox()
+    public function messageBox() : C\MessageBox\Factory
     {
     }
     public function layout() : C\Layout\Factory
@@ -101,7 +120,7 @@ class NoUIFactory implements Factory
     public function mainControls() : C\MainControls\Factory
     {
     }
-    public function tree()
+    public function tree() : C\Tree\Factory
     {
     }
     public function menu() : C\Menu\Factory
@@ -110,38 +129,49 @@ class NoUIFactory implements Factory
     public function symbol() : C\Symbol\Factory
     {
     }
+    public function toast() : C\Toast\Factory
+    {
+    }
+    public function player() : C\Player\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry
 {
     public $resources = array();
 
-    public function register($name)
+    public function register(string $name) : void
     {
         $this->resources[] = $name;
     }
 }
 
-class ilLanguageMock extends \ilLanguage
+class ilLanguageMock extends ilLanguage
 {
-    public $requested = array();
+    public array $requested = array();
+
     public function __construct()
     {
     }
-    public function txt($a_topic, $a_default_lang_fallback_mod = "")
+
+    public function txt($a_topic, $a_default_lang_fallback_mod = "") : string
     {
         $this->requested[] = $a_topic;
         return $a_topic;
     }
-    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null)
-    {
-    }
-    public $lang_module = 'common';
-    public function loadLanguageModule($lang_module)
+
+    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null) : void
     {
     }
 
-    public function getLangKey()
+    public string $lang_module = 'common';
+
+    public function loadLanguageModule(string $a_module) : void
+    {
+    }
+
+    public function getLangKey() : string
     {
         return "en";
     }
@@ -149,33 +179,34 @@ class ilLanguageMock extends \ilLanguage
 
 class LoggingJavaScriptBinding implements JavaScriptBinding
 {
-    private $count = 0;
-    public $ids = array();
-    public function createId()
+    public array $on_load_code = array();
+    public array $ids = array();
+    private int $count = 0;
+
+    public function createId() : string
     {
         $this->count++;
         $id = "id_" . $this->count;
         $this->ids[] = $id;
         return $id;
     }
-    public $on_load_code = array();
-    public function addOnLoadCode($code)
+
+    public function addOnLoadCode($code) : void
     {
         $this->on_load_code[] = $code;
     }
-    public function getOnLoadCodeAsync()
+
+    public function getOnLoadCodeAsync() : string
     {
+        return "";
     }
 }
 
 class TestDefaultRenderer extends DefaultRenderer
 {
-    /**
-     * @var array
-     */
-    protected $with_stub_renderings = [];
+    protected array $with_stub_renderings = [];
 
-    public function __construct(Render\Loader $component_renderer_loader, $with_stub_renderings = [])
+    public function __construct(Render\Loader $component_renderer_loader, array $with_stub_renderings = [])
     {
         $this->with_stub_renderings = array_map(function ($component) {
             return get_class($component);
@@ -183,12 +214,12 @@ class TestDefaultRenderer extends DefaultRenderer
         parent::__construct($component_renderer_loader);
     }
 
-    public function _getRendererFor(IComponent $component)
+    public function _getRendererFor(IComponent $component) : Render\ComponentRenderer
     {
         return $this->getRendererFor($component);
     }
 
-    public function getRendererFor(IComponent $component)
+    public function getRendererFor(IComponent $component) : Render\ComponentRenderer
     {
         if (in_array(get_class($component), $this->with_stub_renderings)) {
             return new TestDummyRenderer();
@@ -196,40 +227,65 @@ class TestDefaultRenderer extends DefaultRenderer
         return parent::getRendererFor($component);
     }
 
-    public function _getContexts()
+    public function _getContexts() : array
     {
         return $this->getContexts();
     }
 }
 
-class TestDummyRenderer extends DefaultRenderer
+class TestDummyRenderer implements Render\ComponentRenderer
 {
     public function __construct()
     {
     }
-    public function render($component)
+
+    public function render(ILIAS\UI\Component\Component $component, ILIAS\UI\Renderer $default_renderer) : string
     {
         return $component->getCanonicalName();
     }
+
+    public function registerResources(ResourceRegistry $registry) : void
+    {
+        // TODO: Implement registerResources() method.
+    }
 }
 
-class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator
+class TestDecoratedRenderer extends DecoratedRenderer
 {
-    protected $id = 0;
+    private $manipulate = false;
 
-    protected function createId()
+    public function manipulate() : void
+    {
+        $this->manipulate = true;
+    }
+
+    protected function manipulateRendering($component, Renderer $root) : ?string
+    {
+        if ($this->manipulate) {
+            return "This content was manipulated";
+        } else {
+            return null;
+        }
+    }
+}
+
+class IncrementalSignalGenerator extends SignalGenerator
+{
+    protected int $id = 0;
+
+    protected function createId() : string
     {
         return 'signal_' . ++$this->id;
     }
 }
 
-class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator
+class SignalGeneratorMock extends SignalGenerator
 {
 }
 
 class DummyComponent implements IComponent
 {
-    public function getCanonicalName()
+    public function getCanonicalName() : string
     {
         return "DummyComponent";
     }
@@ -250,31 +306,34 @@ abstract class ILIAS_UI_TestBase extends TestCase
         assert_options(ASSERT_WARNING, 1);
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         return new NoUIFactory();
     }
 
-    public function getTemplateFactory()
+    public function getTemplateFactory() : ilIndependentTemplateFactory
     {
         return new ilIndependentTemplateFactory();
     }
 
-    public function getResourceRegistry()
+    public function getResourceRegistry() : LoggingRegistry
     {
         return new LoggingRegistry();
     }
 
-    public function getLanguage()
+    public function getLanguage() : ilLanguageMock
     {
         return new ilLanguageMock();
     }
 
-    public function getJavaScriptBinding()
+    public function getJavaScriptBinding() : LoggingJavaScriptBinding
     {
         return new LoggingJavaScriptBinding();
     }
 
+    /**
+     * @return \ILIAS\Refinery\Factory|mixed|MockObject
+     */
     public function getRefinery()
     {
         return $this->getMockBuilder(\ILIAS\Refinery\Factory::class)
@@ -282,13 +341,15 @@ abstract class ILIAS_UI_TestBase extends TestCase
             ->getMock();
     }
 
-    public function getImagePathResolver()
+    public function getImagePathResolver() : ilImagePathResolver
     {
         return new ilImagePathResolver();
     }
 
-    public function getDefaultRenderer(JavaScriptBinding $js_binding = null, $with_stub_renderings = [])
-    {
+    public function getDefaultRenderer(
+        JavaScriptBinding $js_binding = null,
+        array $with_stub_renderings = []
+    ) : TestDefaultRenderer {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
         $resource_registry = $this->getResourceRegistry();
@@ -320,6 +381,14 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $refinery,
                         $image_path_resolver
                     ),
+                    new IconRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery,
+                        $image_path_resolver
+                    ),
                     new FieldRendererFactory(
                         $ui_factory,
                         $tpl_factory,
@@ -333,17 +402,18 @@ abstract class ILIAS_UI_TestBase extends TestCase
         );
         return new TestDefaultRenderer($component_renderer_loader, $with_stub_renderings);
     }
+    
+    public function getDecoratedRenderer(Renderer $default)
+    {
+        return new TestDecoratedRenderer($default);
+    }
 
-    public function normalizeHTML($html)
+    public function normalizeHTML(string $html) : string
     {
         return trim(str_replace(["\n", "\r"], "", $html));
     }
 
-    /**
-     * @param string $expected_html_as_string
-     * @param string $html_as_string
-     */
-    public function assertHTMLEquals($expected_html_as_string, $html_as_string)
+    public function assertHTMLEquals(string $expected_html_as_string, string $html_as_string) : void
     {
         $html = new DOMDocument();
         $html->formatOutput = true;
@@ -359,11 +429,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
     /**
      * A more radical version of normalizeHTML. Use if hard to tackle issues
      * occur by asserting due string outputs produce an equal DOM
-     *
-     * @param $html
-     * @return string
      */
-    protected function brutallyTrimHTML($html)
+    protected function brutallyTrimHTML(string $html) : string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
@@ -372,5 +439,15 @@ abstract class ILIAS_UI_TestBase extends TestCase
         $html = str_replace(" >", ">", $html);
         $html = str_replace(" <", "<", $html);
         return trim($html);
+    }
+
+    /**
+     * A naive replacement of all il_signal-ids with dots
+     * to ease comparisons of rendered output.
+     */
+    protected function brutallyTrimSignals(string $html) : string
+    {
+        $html = preg_replace('/il_signal_(\w+)/', "il_signal...", $html);
+        return $html;
     }
 }

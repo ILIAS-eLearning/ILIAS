@@ -1,74 +1,54 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/News/Timeline/interfaces/interface.ilTimelineItemInt.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  *  Timline (temporary implementation)
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTimelineGUI
 {
-    protected $items = array();
+    /** @var ilTimelineItemInt[] */
+    protected array $items = [];
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * Construct
-     *
-     * @param
-     * @return
-     */
     protected function __construct()
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
     }
 
-    /**
-     * Get instance
-     *
-     * @param
-     * @return
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self();
     }
 
-    /**
-     * Add item
-     *
-     * @param
-     * @return
-     */
-    public function addItem(ilTimelineItemInt $a_item)
+    public function addItem(ilTimelineItemInt $a_item) : void
     {
         $this->items[] = $a_item;
     }
 
-    /**
-     * Render
-     *
-     * @param
-     * @return
-     */
-    public function render($a_items_only = false)
-    {
+    public function render(
+        bool $a_items_only = false
+    ) : string {
         $this->tpl->addJavaScript("./Services/News/Timeline/js/Timeline.js");
         $this->tpl->addJavaScript("./Services/News/Timeline/libs/jquery-dynamic-max-height-master/src/jquery.dynamicmaxheight.js");
 
@@ -80,12 +60,12 @@ class ilTimelineGUI
         $keys = array_keys($this->items);
         foreach ($this->items as $k => $i) {
             $next = null;
-            if (isset($this->items[$keys[$k + 1]])) {
+            if (isset($keys[$k + 1], $this->items[$keys[$k + 1]])) {
                 $next = $this->items[$keys[$k + 1]];
             }
 
             $dt = $i->getDateTime();
-            if (is_null($next) || $dt->get(IL_CAL_FKT_DATE, "Y-m-d") != $next->getDateTime()->get(IL_CAL_FKT_DATE, "Y-m-d")) {
+            if (is_null($next) || $dt->get(IL_CAL_FKT_DATE, "Y-m-d") !== $next->getDateTime()->get(IL_CAL_FKT_DATE, "Y-m-d")) {
                 $t->setCurrentBlock("badge");
                 $t->setVariable("DAY", $dt->get(IL_CAL_FKT_DATE, "d"));
                 $t->setVariable("MONTH", $this->lng->txt("month_" . $dt->get(IL_CAL_FKT_DATE, "m") . "_short"));

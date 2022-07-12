@@ -15,9 +15,16 @@ class ilObjTestSettingsGeneralGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_tpl();
-
-        $objTestGui_mock = $this->createMock(ilObjTestGUI::class);
-        $objTestGui_mock->object = $this->createMock(ilObjTest::class);
+        $this->addGlobal_ilDB();
+        $this->addGlobal_ilias();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilErr();
+        $this->addGlobal_tree();
+        $this->addGlobal_ilAppEventHandler();
+        $this->addGlobal_objDefinition();
+        //$objTestGui_mock = $this->createMock(ilObjTestGUI::class);
+        $objTestGui_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getTestObject'))->getMock();
+        $objTestGui_mock->expects($this->any())->method('getTestObject')->willReturn($this->createMock(ilObjTest::class));
 
         $this->testObj = new ilObjTestSettingsGeneralGUI(
             $this->createMock(ilCtrl::class),

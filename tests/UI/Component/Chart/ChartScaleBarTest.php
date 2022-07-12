@@ -1,33 +1,48 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Test scale bar charts.
  */
 class ChartScaleBarTest extends ILIAS_UI_TestBase
 {
-    protected function getFactory()
+    protected function getFactory() : C\Chart\Factory
     {
         return new I\Component\Chart\Factory(
-            $this->createMock(C\Chart\ProgressMeter\Factory::class)
+            $this->createMock(C\Chart\ProgressMeter\Factory::class),
+            $this->createMock(C\Chart\Bar\Factory::class)
         );
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ScaleBar", $f->scaleBar(array("1" => false)));
     }
 
-    public function test_get_items()
+    public function test_get_items() : void
     {
         $f = $this->getFactory();
 
@@ -43,7 +58,7 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getItems(), $items);
     }
 
-    public function test_render()
+    public function test_render() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

@@ -1,30 +1,38 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* This is a utility class for the yui tooltips.
-* this only works, if a parent has class="yui-skin-sam" attached.
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * This is a utility class for the yui tooltips.
+ * this only works, if a parent has class="yui-skin-sam" attached.
+ */
 class ilTooltipGUI
 {
-    protected static $initialized = false;
-    protected static $library_initialized = false;
+    protected static bool $initialized = false;
+    protected static bool $library_initialized = false;
     
-    /**
-     * Adds a tooltip to an HTML element
-     *
-     * @param string $a_el_id element id
-     * @param string $a_el_id tooltip text
-     * @param string $a_el_id element id of container the tooltip should be added to
-     */
     public static function addTooltip(
-        $a_el_id,
-        $a_text,
-        $a_container = "",
-        $a_my = "bottom center",
-        $a_at = "top center",
-        $a_use_htmlspecialchars = true
-    ) {
+        string $a_el_id,
+        string $a_text,
+        string $a_container = "",
+        string $a_my = "bottom center",
+        string $a_at = "top center",
+        bool $a_use_htmlspecialchars = true
+    ) : void {
         // to get rid of globals here, we need to change the
         // process in learning modules, e.g. which does not work with $DIC (since it does not
         // use the standard template)
@@ -32,7 +40,7 @@ class ilTooltipGUI
         
         self::init();
 
-        $code = self::getTooltip(
+        $code = self::getToolTip(
             $a_el_id,
             $a_text,
             $a_container,
@@ -45,25 +53,21 @@ class ilTooltipGUI
     
     /**
      * Get tooltip js code
-     *
-     * @param string $a_el_id element id
-     * @param string $a_el_id tooltip text
-     * @param string $a_el_id element id of container the tooltip should be added to
      */
     public static function getToolTip(
-        $a_el_id,
-        $a_text,
-        $a_container = "",
-        $a_my = "bottom center",
-        $a_at = "top center",
-        $a_use_htmlspecialchars = true
-    ) {
+        string $a_el_id,
+        string $a_text,
+        string $a_container = "",
+        string $a_my = "bottom center",
+        string $a_at = "top center",
+        bool $a_use_htmlspecialchars = true
+    ) : string {
         $addstr = "";
 
         // not needed, just make sure the position plugin is included
         //		$addstr.= ", position: {viewport: $('#fixed_content')}";
         
-        if ($a_container != "") {
+        if ($a_container !== "") {
             $addstr .= ", container: '" . $a_container . "'";
         }
 
@@ -82,7 +86,7 @@ class ilTooltipGUI
     /**
      * Initializes the needed tooltip libraries.
      */
-    public static function init()
+    public static function init() : void
     {
         // for globals use, see comment above
         $tpl = $GLOBALS["tpl"];

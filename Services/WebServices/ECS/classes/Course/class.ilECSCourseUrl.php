@@ -1,54 +1,62 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseUrlConnector.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Represents a ecs course url
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCourseUrl
 {
-    const COURSE_URL_PREFIX = 'campusconnect/course/';
+    public const COURSE_URL_PREFIX = 'campusconnect/course/';
 
+    private ilLogger $logger;
+    
     // json fields
-    public $cms_lecture_id = '';
-    public $ecs_course_url = '';
-    public $lms_course_urls = null;
+    public string $cms_lecture_id = '';
+    public string $ecs_course_url = '';
+    public ?array $lms_course_urls = null;
     
-    
-    /**
-     * Constructor
-     */
     public function __construct()
     {
+        global $DIC;
+        
+        $this->logger = $DIC->logger()->wsrv();
     }
     
     /**
      * Set lecture id
-     * @param type $a_id
      */
-    public function setCmsLectureId($a_id)
+    public function setCmsLectureId(string $a_id) : void
     {
         $this->cms_lecture_id = $a_id;
     }
     
     /**
      * Set ecs course id
-     * @param int $a_id
      */
-    public function setECSId($a_id)
+    public function setECSId(int $a_id) : void
     {
         $this->ecs_course_url = self::COURSE_URL_PREFIX . $a_id;
     }
     
     /**
      * Add lms url
-     * @param ilECSCourseLmsUrl $lms_url
      */
-    public function addLmsCourseUrls(ilECSCourseLmsUrl $lms_url = null)
+    public function addLmsCourseUrls(ilECSCourseLmsUrl $lms_url = null) : void
     {
         $this->lms_course_urls[] = $lms_url;
     }
@@ -56,16 +64,15 @@ class ilECSCourseUrl
     /**
      * Send urls to ecs
      */
-    public function send(ilECSSetting $setting, $ecs_receiver_mid)
+    public function send(ilECSSetting $setting, $ecs_receiver_mid) : void
     {
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseUrlConnector.php';
         try {
             $con = new ilECSCourseUrlConnector($setting);
-            $url_id = $con->addUrl($this, $ecs_receiver_mid);
+            $con->addUrl($this, $ecs_receiver_mid);
             
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Received new url id ' . $url_id);
+            //$this->logger->info('Received new url id ' . $url_id);
         } catch (Exception $e) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $e->getMessage());
+            $this->logger->error($e->getMessage());
         }
     }
 }

@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -9,34 +23,26 @@ use PHPUnit\Framework\TestCase;
 
 class DateFormatTest extends TestCase
 {
-    public function testFactory()
+    public function setUp() : void
     {
         $f = new ILIAS\Data\Factory();
-        $df = $f->dateFormat();
-        $this->assertInstanceOf(DateFormat\Factory::class, $df);
-        return $df;
+        $this->df = $f->dateFormat();
     }
 
-    /**
-     * @depends testFactory
-     */
-    public function testDateFormatFactory(DateFormat\Factory $df)
+    public function testDateFormatFactory() : void
     {
-        $this->assertInstanceOf(DateFormat\DateFormat::class, $df->standard());
-        $this->assertInstanceOf(DateFormat\DateFormat::class, $df->germanShort());
-        $this->assertInstanceOf(DateFormat\DateFormat::class, $df->germanLong());
-        $this->assertInstanceOf(DateFormat\FormatBuilder::class, $df->custom());
+        $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->standard());
+        $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->germanShort());
+        $this->assertInstanceOf(DateFormat\DateFormat::class, $this->df->germanLong());
+        $this->assertInstanceOf(DateFormat\FormatBuilder::class, $this->df->custom());
     }
 
-    /**
-     * @depends testFactory
-     */
-    public function testDateFormatBuilderAndGetters(DateFormat\Factory $df)
+    public function testDateFormatBuilderAndGetters() : void
     {
         $expect = [
             '.', ',', '-', '/', ' ', 'd', 'jS', 'l', 'D', 'W', 'm', 'F', 'M', 'Y', 'y'
         ];
-        $format = $df->custom()
+        $format = $this->df->custom()
             ->dot()->comma()->dash()->slash()->space()
             ->day()->dayOrdinal()->weekday()->weekdayShort()
             ->week()->month()->monthSpelled()->monthSpelledShort()
@@ -52,11 +58,24 @@ class DateFormatTest extends TestCase
             implode('', $expect),
             $format->toString()
         );
+
+        $this->assertEquals(
+            $format->toString(),
+            (string) $format
+        );
     }
 
-    public function testInvalidTokens()
+    public function testInvalidTokens() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new DateFormat\DateFormat(['x', '2']);
+    }
+
+    public function test_applyTo() : void
+    {
+        $dt = new DateTimeImmutable("1985-04-05");
+        $format = $this->df->germanShort();
+        $this->assertEquals("05.04.1985", $format->applyTo($dt));
+        $this->assertEquals("05.04.1985", $dt->format((string) $format));
     }
 }

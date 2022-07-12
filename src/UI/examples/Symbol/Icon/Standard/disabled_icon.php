@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Examples\Symbol\Icon\Standard;
 
 function disabled_icon()
@@ -14,8 +14,6 @@ function disabled_icon()
 
     $buffer[] = $renderer->render($ico) . ' Large Group Enabled';
     $buffer[] = $renderer->render($ico->withDisabled(true)) . ' Large Group Disabled';
-    $buffer[] = $renderer->render($ico->withIsOutlined(true)) . ' Large Group Enabled Outlined';
-    $buffer[] = $renderer->render($ico->withDisabled(true)->withIsOutlined(true)) . ' Large Group Disabled Outlined';
 
     return implode('<br><br>', $buffer);
 }

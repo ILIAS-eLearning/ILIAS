@@ -1,50 +1,91 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 require_once(__DIR__ . "/../../../../Base.php");
 
+use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input;
-use \ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
-use \ILIAS\UI\Implementation\Component\Input\NameSource;
-use \ILIAS\UI\Implementation\Component\Input\InputData;
-use \ILIAS\UI\Implementation\Component\Input\Container\Filter\Filter;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Implementation\Component\Input\Container\Filter\Filter;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use \ILIAS\Data;
-use ILIAS\Refinery;
-
+use ILIAS\Data;
 use Psr\Http\Message\ServerRequestInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\UI\Component\Input\Field\Group;
 
 class FixedNameSourceFilter implements NameSource
 {
-    public $name = "name";
+    public string $name = "name";
 
-
-    public function getNewName()
+    public function getNewName() : string
     {
         return $this->name;
     }
 }
 
-
 class ConcreteFilter extends Filter
 {
-    public $input_data = null;
+    public array $inputs;
+    public ?Input\InputData $input_data = null;
+    protected Input\Field\Factory $input_factory;
+    protected Group $input_group;
 
-    public function __construct(SignalGenerator $signal_generator, Input\Field\Factory $field_factory, $toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action, array $inputs, array $is_input_rendered, $is_activated, $is_expanded)
-    {
+    public function __construct(
+        SignalGenerator $signal_generator,
+        Input\Field\Factory $field_factory,
+        $toggle_action_on,
+        $toggle_action_off,
+        $expand_action,
+        $collapse_action,
+        $apply_action,
+        $reset_action,
+        array $inputs,
+        array $is_input_rendered,
+        bool $is_activated,
+        bool $is_expanded
+    ) {
         $this->input_factory = $field_factory;
-        parent::__construct($signal_generator, $field_factory, $toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action, $inputs, $is_input_rendered, $is_activated, $is_expanded);
+        parent::__construct(
+            $signal_generator,
+            $field_factory,
+            $toggle_action_on,
+            $toggle_action_off,
+            $expand_action,
+            $collapse_action,
+            $apply_action,
+            $reset_action,
+            $inputs,
+            $is_input_rendered,
+            $is_activated,
+            $is_expanded
+        );
     }
 
 
-    public function _extractParamData(ServerRequestInterface $request)
+    public function _extractParamData(ServerRequestInterface $request) : Input\InputData
     {
         return $this->extractParamData($request);
     }
 
 
-    public function extractParamData(ServerRequestInterface $request)
+    public function extractParamData(ServerRequestInterface $request) : Input\InputData
     {
         if ($this->input_data !== null) {
             return $this->input_data;
@@ -54,26 +95,25 @@ class ConcreteFilter extends Filter
     }
 
 
-    public function setInputs(array $inputs)
+    public function setInputs(array $inputs) : void
     {
         $this->input_group = $this->input_factory->group($inputs);
         $this->inputs = $inputs;
     }
 
-
-    public function _getInput(ServerRequestInterface $request)
-    {
-        return $this->getInput($request);
-    }
+    // TODO: DW perhaps, this can be removed
+//    public function _getInput(ServerRequestInterface $request)
+//    {
+//        return $this->getInput($request);
+//    }
 }
-
 
 /**
  * Test on filter implementation.
  */
 class FilterTest extends ILIAS_UI_TestBase
 {
-    protected function buildFactory()
+    protected function buildFactory() : Input\Container\Filter\Factory
     {
         return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
             new SignalGenerator(),
@@ -81,10 +121,10 @@ class FilterTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function buildInputFactory()
+    protected function buildInputFactory() : Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
+        $language = $this->createMock(ilLanguage::class);
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
@@ -93,32 +133,32 @@ class FilterTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function buildButtonFactory()
+    protected function buildButtonFactory() : I\Button\Factory
     {
         return new ILIAS\UI\Implementation\Component\Button\Factory;
     }
 
-    protected function buildGlyphFactory()
+    protected function buildGlyphFactory() : I\Symbol\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory;
+        return new ILIAS\UI\Implementation\Component\Symbol\Factory();
     }
 
-    protected function buildPopoverFactory()
+    protected function buildPopoverFactory() : I\Popover\Factory
     {
         return new ILIAS\UI\Implementation\Component\Popover\Factory(new SignalGenerator());
     }
 
-    protected function buildLegacyFactory()
+    protected function buildLegacyFactory() : I\Legacy\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Legacy\Legacy("");
+        return new ILIAS\UI\Implementation\Component\Legacy\Factory();
     }
 
-    protected function buildListingFactory()
+    protected function buildListingFactory() : I\Listing\Factory
     {
         return new ILIAS\UI\Implementation\Component\Listing\Factory;
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         return new WithNoUIFactories(
             $this->buildButtonFactory(),
@@ -129,12 +169,12 @@ class FilterTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function buildDataFactory()
+    public function buildDataFactory() : Data\Factory
     {
-        return new \ILIAS\Data\Factory;
+        return new Data\Factory;
     }
 
-    public function test_getInputs()
+    public function test_getInputs() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -175,7 +215,7 @@ class FilterTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_extractParamData()
+    public function test_extractParamData() : void
     {
         $filter = new ConcreteFilter(
             new SignalGenerator(),
@@ -200,7 +240,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(InputData::class, $input_data);
     }
 
-    public function test_withRequest()
+    public function test_withRequest() : void
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $input_data = $this->createMock(InputData::class);
@@ -253,7 +293,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertEquals([$input_1, $input_2], $filter2->getInputs());
     }
 
-    public function test_getData()
+    public function test_getData() : void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -301,8 +341,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertEquals([1, 2], $filter->getData());
     }
 
-
-    public function test_with_activated()
+    public function test_with_activated() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -327,8 +366,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertTrue($filter1->isActivated());
     }
 
-
-    public function test_with_deactivated()
+    public function test_with_deactivated() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -353,8 +391,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertFalse($filter1->isActivated());
     }
 
-
-    public function test_with_expanded()
+    public function test_with_expanded() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -379,8 +416,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertTrue($filter1->isExpanded());
     }
 
-
-    public function test_with_collapsed()
+    public function test_with_collapsed() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -405,14 +441,43 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertFalse($filter1->isExpanded());
     }
 
+    /**
+     * @return FormInputInternal|mixed|MockObject
+     */
     protected function inputMock()
     {
         static $no = 2000;
-        $config = $this
+        return $this
             ->getMockBuilder(FormInputInternal::class)
-            ->setMethods(["getName", "withNameFrom", "withInput", "getContent", "getLabel", "withLabel", "getByline", "withByline", "isRequired", "withRequired", "isDisabled", "withDisabled", "getValue", "withValue", "getError", "withError", "withAdditionalTransformation", "withAdditionalConstraint", "getUpdateOnLoadCode", "getCanonicalName", "withOnLoadCode", "withAdditionalOnLoadCode", "getOnLoadCode", "withOnUpdate", "appendOnUpdate", "withResetTriggeredSignals", "getTriggeredSignals"])
+            ->onlyMethods([
+                "getName",
+                "withNameFrom",
+                "withInput",
+                "getContent",
+                "getLabel",
+                "withLabel",
+                "getByline",
+                "withByline",
+                "isRequired",
+                "withRequired",
+                "isDisabled",
+                "withDisabled",
+                "getValue",
+                "withValue",
+                "getError",
+                "withError",
+                "withAdditionalTransformation",
+                "getUpdateOnLoadCode",
+                "getCanonicalName",
+                "withOnLoadCode",
+                "withAdditionalOnLoadCode",
+                "getOnLoadCode",
+                "withOnUpdate",
+                "appendOnUpdate",
+                "withResetTriggeredSignals",
+                "getTriggeredSignals"
+            ])
             ->setMockClassName("Mock_InputNo" . ($no++))
             ->getMock();
-        return $config;
     }
 }

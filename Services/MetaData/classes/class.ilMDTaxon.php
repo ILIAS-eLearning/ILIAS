@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,132 +21,116 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element taxon)
-*
-* @package ilias-core
-* @version $Id$
-*/
-include_once 'class.ilMDBase.php';
-
+ * Meta Data class (element taxon)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDTaxon extends ilMDBase
 {
+    private string $taxon = '';
+    private ?ilMDLanguageItem $taxon_language = null;
+    private string $taxon_id = '';
+
     // SET/GET
-    public function setTaxon($a_taxon)
+    public function setTaxon(string $a_taxon) : void
     {
         $this->taxon = $a_taxon;
     }
-    public function getTaxon()
+
+    public function getTaxon() : string
     {
         return $this->taxon;
     }
-    public function setTaxonLanguage($lng_obj)
+
+    public function setTaxonLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->taxon_language = $lng_obj;
-        }
+        $this->taxon_language = $lng_obj;
     }
-    public function getTaxonLanguage()
+
+    public function getTaxonLanguage() : ?ilMDLanguageItem
     {
-        return is_object($this->taxon_language) ? $this->taxon_language : false;
+        return is_object($this->taxon_language) ? $this->taxon_language : null;
     }
-    public function getTaxonLanguageCode()
+
+    public function getTaxonLanguageCode() : string
     {
-        return is_object($this->taxon_language) ? $this->taxon_language->getLanguageCode() : false;
+        return is_object($this->taxon_language) ? $this->taxon_language->getLanguageCode() : '';
     }
-    public function setTaxonId($a_taxon_id)
+
+    public function setTaxonId(string $a_taxon_id) : void
     {
         $this->taxon_id = $a_taxon_id;
     }
-    public function getTaxonId()
+
+    public function getTaxonId() : string
     {
         return $this->taxon_id;
     }
-    
 
-    public function save()
+    public function save() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $fields = $this->__getFields();
-        $fields['meta_taxon_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_taxon'));
-        
+        $fields['meta_taxon_id'] = array('integer', $next_id = $this->db->nextId('il_meta_taxon'));
+
         if ($this->db->insert('il_meta_taxon', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
-    public function update()
+    public function update() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_taxon',
-                $this->__getFields(),
-                array("meta_taxon_id" => array('integer',$this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_taxon',
+            $this->__getFields(),
+            array("meta_taxon_id" => array('integer', $this->getMetaId()))
+        );
     }
 
-    public function delete()
+    public function delete() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_taxon " .
-                "WHERE meta_taxon_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            
+                "WHERE meta_taxon_id = " . $this->db->quote($this->getMetaId(), 'integer');
+
             $this->db->query($query);
-            
+
             return true;
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'parent_type' => array('text',$this->getParentType()),
-                     'parent_id' => array('integer',$this->getParentId()),
-                     'taxon' => array('text',$this->getTaxon()),
-                     'taxon_language' => array('text',$this->getTaxonLanguageCode()),
-                     'taxon_id' => array('text',$this->getTaxonId()));
+        return array(
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
+            'parent_type' => array('text', $this->getParentType()),
+            'parent_id' => array('integer', $this->getParentId()),
+            'taxon' => array('text', $this->getTaxon()),
+            'taxon_language' => array('text', $this->getTaxonLanguageCode()),
+            'taxon_id' => array('text', $this->getTaxonId())
+        );
     }
 
-    public function read()
+    public function read() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_taxon " .
-                "WHERE meta_taxon_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_taxon_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setParentId($row->parent_id);
+                $this->setParentId((int) $row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setTaxon($row->taxon);
                 $this->taxon_language = new ilMDLanguageItem($row->taxon_language);
@@ -155,33 +139,30 @@ class ilMDTaxon extends ilMDBase
         }
         return true;
     }
-                
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $random = new \ilRandom();
         $writer->xmlElement(
             'Taxon',
-            array('Language' => $this->getTaxonLanguageCode()
-                                          ? $this->getTaxonLanguageCode()
-                                          : 'en',
-                                          'Id' => $this->getTaxonId() ?
-                                            $this->getTaxonId() : ("ID" . $random->int())),
+            array(
+                'Language' => $this->getTaxonLanguageCode() ?: 'en',
+                'Id' => $this->getTaxonId() ?: ("ID" . $random->int())
+            ),
             $this->getTaxon()
         );
     }
 
-
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_taxon_id FROM il_meta_taxon " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
@@ -189,11 +170,11 @@ class ilMDTaxon extends ilMDBase
             "AND parent_id = " . $ilDB->quote($a_parent_id, 'integer') . " " .
             "AND parent_type = " . $ilDB->quote($a_parent_type, 'text');
 
-
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_taxon_id;
+            $ids[] = (int) $row->meta_taxon_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

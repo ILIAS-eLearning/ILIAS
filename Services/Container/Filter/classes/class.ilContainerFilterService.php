@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Container filter service factory.
@@ -84,14 +87,14 @@ class ilContainerFilterService
     {
         return new ilContainerFilterSet(
             [
-            $this->field(0, ilContainerFilterField::STD_FIELD_TITLE),
-            $this->field(0, ilContainerFilterField::STD_FIELD_DESCRIPTION),
-            $this->field(0, ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION),
-            $this->field(0, ilContainerFilterField::STD_FIELD_KEYWORD),
-            $this->field(0, ilContainerFilterField::STD_FIELD_AUTHOR),
-            $this->field(0, ilContainerFilterField::STD_FIELD_COPYRIGHT),
-            $this->field(0, ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT),
-            $this->field(0, ilContainerFilterField::STD_FIELD_OBJECT_TYPE)
+                $this->field(0, ilContainerFilterField::STD_FIELD_TITLE),
+                $this->field(0, ilContainerFilterField::STD_FIELD_DESCRIPTION),
+                $this->field(0, ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION),
+                $this->field(0, ilContainerFilterField::STD_FIELD_KEYWORD),
+                $this->field(0, ilContainerFilterField::STD_FIELD_AUTHOR),
+                $this->field(0, ilContainerFilterField::STD_FIELD_COPYRIGHT),
+                $this->field(0, ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT),
+                $this->field(0, ilContainerFilterField::STD_FIELD_OBJECT_TYPE)
             ]
         );
     }

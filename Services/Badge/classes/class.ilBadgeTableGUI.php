@@ -1,24 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for badge listing
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilBadgeTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    protected $has_write; // [bool]
-    protected $parent_type; // [string]
+    protected bool $has_write;
+    protected string $parent_type;
+    protected array $filter = [];
     
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_obj_id, $a_has_write = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd = "",
+        int $a_parent_obj_id = 0,
+        bool $a_has_write = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -27,7 +40,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         
         $this->setId("bdgbdg");
-        $this->has_write = (bool) $a_has_write;
+        $this->has_write = $a_has_write;
         $this->parent_type = ilObject::_lookupType($a_parent_obj_id);
                 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -67,7 +80,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         $this->getItems($a_parent_obj_id);
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
         
@@ -77,7 +90,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         $handler = ilBadgeHandler::getInstance();
         $valid_types = $handler->getAvailableTypesForObjType($this->parent_type);
         if ($valid_types &&
-            sizeof($valid_types) > 1) {
+            count($valid_types) > 1) {
             $lng->loadLanguageModule("search");
                     
             $options = array("" => $lng->txt("search_any"));
@@ -92,7 +105,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         }
     }
     
-    public function getItems($a_parent_obj_id)
+    public function getItems(int $a_parent_obj_id) : void
     {
         $data = array();
         
@@ -101,7 +114,7 @@ class ilBadgeTableGUI extends ilTable2GUI
                 "id" => $badge->getId(),
                 "title" => $badge->getTitle(),
                 "active" => $badge->isActive(),
-                "type" => ($this->parent_type != "bdga")
+                "type" => ($this->parent_type !== "bdga")
                     ? ilBadge::getExtendedTypeCaption($badge->getTypeInstance())
                     : $badge->getTypeInstance()->getCaption(),
                 "manual" => (!$badge->getTypeInstance() instanceof ilBadgeAuto),
@@ -112,7 +125,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

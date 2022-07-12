@@ -1,26 +1,30 @@
-<tr style="font-size: 75%" class="{CSS_ROW}">
-	<!-- BEGIN header_command -->
-	<td class="std">
-		<p>
-			<input type="checkbox" name="local[{POSITION_ID}]" id="local_{POSITION_ID}" value="1" {HEADER_CHECKED} {HEADER_DISABLED}/>
-			<label for="local_{POSITION_ID}"><font class="bold">{HEADER_COMMAND_TXT}</font></label>
-		</p>
-	</td>
-	<!-- END header_command -->
-	<!-- BEGIN position_td -->
-	<td class="std" style="vertical-align: top">
-		<p>
-			<input type="checkbox" name="position_perm[{POSITION_ID}][{PERM_ID}]" id="perm_{POSITION_ID}_{PERM_ID}" value="1" {PERM_CHECKED} {PERM_DISABLED} />
-			<label for="perm_{POSITION_ID}_{PERM_ID}" >{TXT_PERM}</label>
-		</p>
-	</td>
-	<!-- END position_td -->
-	<!-- BEGIN position_select_all -->
-	<td class="std">
-		<p>
-			<input type="checkbox" id="select_{JS_ROLE_ID}_{JS_SUBID}" onclick="setCheckboxes('{JS_FORM_NAME}','{JS_ROLE_ID}','{JS_SUBID}',{JS_ALL_PERMS}); return true;" {ALL_DISABLED}  />
-			<label for="select_{JS_ROLE_ID}_{JS_SUBID}"><font class="bold">{TXT_SEL_ALL}</font></label>
-		</p>
-	</td>
-	<!-- END position_select_all -->
+<tr class="{CSS_ROW}">
+    <!-- BEGIN header_command -->
+    <td class="std">
+        <p>
+            <input type="checkbox" name="local[{POSITION_ID}]" id="local_{POSITION_ID}" value="1" {HEADER_CHECKED}
+                   {HEADER_DISABLED}/>
+            <label for="local_{POSITION_ID}"><font class="bold">{HEADER_COMMAND_TXT}</font></label>
+        </p>
+    </td>
+    <!-- END header_command -->
+    <!-- BEGIN position_td -->
+    <td class="std" style="vertical-align: top">
+        <p>
+            <input type="checkbox" name="position_perm[{POSITION_ID}][{PERM_ID}]" id="perm_{POSITION_ID}_{PERM_ID}"
+                   value="1" {PERM_CHECKED} {PERM_DISABLED}/>
+            <label for="perm_{POSITION_ID}_{PERM_ID}">{TXT_PERM}</label>
+        </p>
+    </td>
+    <!-- END position_td -->
+    <!-- BEGIN position_select_all -->
+    <td class="std">
+        <p>
+            <input type="checkbox" id="select_{JS_ROLE_ID}_{JS_SUBID}"
+                   onclick="setCheckboxes('{JS_FORM_NAME}','{JS_ROLE_ID}','{JS_SUBID}',{JS_ALL_PERMS}); return true;"
+                   {ALL_DISABLED}/>
+            <label for="select_{JS_ROLE_ID}_{JS_SUBID}"><font class="bold">{TXT_SEL_ALL}</font></label>
+        </p>
+    </td>
+    <!-- END position_select_all -->
 </tr>

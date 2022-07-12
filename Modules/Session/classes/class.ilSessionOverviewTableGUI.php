@@ -1,7 +1,21 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Table presentation for session overview
@@ -11,10 +25,17 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilSessionOverviewTableGUI extends ilTable2GUI
 {
-    protected $events; // [array]
+    protected ilTree $tree;
+    protected ilAccessHandler $access;
+    protected array $events = [];
     
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_crs_ref_id, array $a_members)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_crs_ref_id, array $a_members)
     {
+        global $DIC;
+
+        $this->tree = $DIC->repositoryTree();
+        $this->access = $DIC->access();
+
         $this->setId('sessov');
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -27,7 +48,7 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
         $this->events = $this->gatherEvents($a_crs_ref_id);
         foreach ($this->events as $idx => $event_obj) {
             // tooltip properties
-            $tt = array();
+            $tt = [];
             if (trim($event_obj->getTitle())) {
                 $tt[] = $event_obj->getTitle();
             }
@@ -43,7 +64,7 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
             if (sizeof($this->events) <= 4) {
                 $caption = $event_obj->getFirstAppointment()->appointmentToString();
                 if (sizeof($tt) == 1) {
-                    $tt = array();
+                    $tt = [];
                 }
             }
             // use sequence
@@ -63,15 +84,13 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
         $this->getItems($this->events, $a_members);
     }
     
-    protected function gatherEvents($a_crs_ref_id)
+    protected function gatherEvents(int $a_crs_ref_id) : array
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        $ilAccess = $DIC['ilAccess'];
+        $tree = $this->tree;
+        $ilAccess = $this->access;
                 
-        $events = array();
-        foreach ($tree->getSubtree($tree->getNodeData($a_crs_ref_id), false, 'sess') as $event_id) {
+        $events = [];
+        foreach ($tree->getSubtree($tree->getNodeData($a_crs_ref_id), false, ['sess']) as $event_id) {
             $tmp_event = ilObjectFactory::getInstanceByRefId($event_id, false);
             if (!is_object($tmp_event) ||
                 !$ilAccess->checkAccess('manage_members', '', $event_id)) {
@@ -85,11 +104,9 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
         return array_values($events);
     }
     
-    protected function getItems(array $a_events, array $a_members)
+    protected function getItems(array $a_events, array $a_members) : void
     {
-        $data = array();
-        
-        include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+        $data = [];
         
         foreach ($a_members as $user_id) {
             $name = ilObjUser::_lookupName($user_id);
@@ -107,14 +124,14 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
         $this->setData($data);
     }
         
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('NAME', $a_set['name']);
         $this->tpl->setVariable('LOGIN', $a_set['login']);
         
         $this->tpl->setCurrentBlock('eventcols');
         foreach ($this->events as $event_obj) {
-            if ((bool) $a_set['event_' . $event_obj->getId()]) {
+            if ($a_set['event_' . $event_obj->getId()]) {
                 $this->tpl->setVariable("IMAGE_PARTICIPATED", ilUtil::getImagePath('icon_ok.svg'));
                 $this->tpl->setVariable("PARTICIPATED", $this->lng->txt('event_participated'));
             } else {

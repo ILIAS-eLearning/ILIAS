@@ -1,48 +1,66 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Mail\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ilMailGlobalServices;
+use DateTimeImmutable;
+use ilDateTime;
+use ilDatePresentation;
+use Throwable;
+use ILIAS\UI\Component\Item\Notification;
 
 /**
  * Class MailNotificationProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class MailNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class MailNotificationProvider extends AbstractNotificationProvider
 {
-    const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
+    public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
-    /**
-     * @inheritDoc
-     */
     public function getNotifications() : array
     {
         $id = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
 
-        if (0 === (int) $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
+        if (0 === $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];
         }
 
         $hasInternalMailAccess = $this->dic->rbac()->system()->checkAccess(
             'internal_mail',
-            \ilMailGlobalServices::getMailObjectRefId()
+            ilMailGlobalServices::getMailObjectRefId()
         );
         if (!$hasInternalMailAccess) {
             return [];
         }
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
-        $newMailData = \ilMailGlobalServices::getNewMailsData(
-            (int) $this->dic->user()->getId(),
+        $newMailData = ilMailGlobalServices::getNewMailsData(
+            $this->dic->user(),
             is_numeric($leftIntervalTimestamp) ? (int) $leftIntervalTimestamp : 0
         );
 
-        $numberOfNewMessages = (int) $newMailData['count'];
+        $numberOfNewMessages = $newMailData['count'];
         if (0 === $numberOfNewMessages) {
             return [];
         }
@@ -71,26 +89,26 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             )
         );
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, 'mail')
-                          ->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, 'mail');
         $title = $this->dic->ui()->factory()->link()->standard(
             $this->dic->language()->txt('nc_mail_noti_item_title'),
             $mailUrl
         );
 
+        /** @var Notification $notificationItem */
         $notificationItem = $this->dic->ui()->factory()
             ->item()
             ->notification($title, $icon)
             ->withDescription($body);
 
         try {
-            $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $newMailData['max_time']);
+            $dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $newMailData['max_time']);
             $notificationItem = $notificationItem->withProperties([
-                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
-                    new \ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
-                )
+                $this->dic->language()->txt('nc_mail_prop_time') => ilDatePresentation::formatDate(
+                    new ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
+                ),
             ]);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
         }
 
         $group = $factory->standardGroup($id('mail_bucket_group'))
@@ -99,8 +117,8 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                 $factory->standard($id('mail_bucket'))
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
-                        function () {
-                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
+                        function () : void {
+                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
                         }
                     )
                     ->withNewAmount(1)

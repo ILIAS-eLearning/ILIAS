@@ -1,11 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthCredentials.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Auth credentials for lti oauth based authentication
  *
@@ -18,7 +25,7 @@ class ilAuthFrontendCredentialsLTI extends ilAuthFrontendCredentials implements 
     {
         parent::__construct();
         // overwrite default lti logger
-        $this->setLogger($GLOBALS['DIC']->logger()->lti());
+//        $this->setLogger($GLOBALS['DIC']->logger()->lti());
     }
 
 
@@ -26,11 +33,14 @@ class ilAuthFrontendCredentialsLTI extends ilAuthFrontendCredentials implements 
     /**
      * Init credentials from request
      */
-    public function initFromRequest()
+    public function initFromRequest() : void
     {
-        $this->getLogger()->debug('New lti authentication request...');
-        $this->getLogger()->dump($_REQUEST, ilLogLevel::DEBUG);
+        global $DIC;
+        $logger = ilLoggerFactory::getLogger('ltis');
+        $logger->debug('New lti authentication request...');
+        // ToDo better entry for log!
+//        $logger->dump($_REQUEST, ilLogLevel::DEBUG);
         
-        $this->setUsername($_POST['user_id']);
+        $this->setUsername($DIC->http()->wrapper()->post()->retrieve('user_id', $DIC->refinery()->kindlyTo()->string()));
     }
 }

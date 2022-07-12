@@ -1,9 +1,27 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\ContentPage;
 
 use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
 use PHPUnit\Framework\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Class PageReadingTimeTest
@@ -25,7 +43,7 @@ class PageReadingTimeTest extends TestCase
     }
 
     /**
-     * @param $mixedType
+     * @param mixed $mixedType
      * @dataProvider mixedReadingTypesProvider
      */
     public function testPageReadingTimeValueThrowsExceptionWhenConstructedWithInvalidTypes($mixedType) : void
@@ -38,6 +56,6 @@ class PageReadingTimeTest extends TestCase
     public function testRawReadingTimeCanBeRetrievedFromValueObject() : void
     {
         $readingTime = new PageReadingTime(5);
-        $this->assertEquals(5, $readingTime->minutes());
+        $this->assertSame(5, $readingTime->minutes());
     }
 }

@@ -20,19 +20,22 @@
 		display: flex;
 		margin-bottom: @il-slate-content-spacing;
 		position: relative;
-		&.engaged:after,
-		&.disengaged:after {
+		&.engaged::before,
+		&.disengaged::before {
 				font-family: "il-icons";
-				font-size: @il-slate-bulky-glyph-size * 0.85;
+				font-size: @il-slate-bulky-glyph-size;
 				position: absolute;
 				right: 10px;
-				top: 20px;
+				top: 17px;
 		}
-		&.engaged:after {
+		&.engaged::before {
 				content: " \e604";
 		}
-		&.disengaged:after {
+		&.disengaged::before {
 				content: " \e606";
+		}
+		&:focus{
+			color: inherit;
 		}
 		&:hover,
 		&.engaged {
@@ -40,7 +43,6 @@
 		    color: inherit;
 		}
 		.icon {
-			margin-top: @padding-small-vertical;
 			margin-right: @il-slate-bulky-glyph-margin-right;
 			filter: invert(50%);
 
@@ -53,7 +55,7 @@
 		}
 		.bulky-label {
 			font-size: @il-slate-bulky-label-size;
-			line-height: @il-slate-bulky-label-size * 1.133333333333333;
+			line-height: @il-slate-bulky-label-size * @il-slate-bulky-icon-size;
 			text-align: left;
 			word-break: normal;
 		}
@@ -65,21 +67,21 @@
 	&.il-maincontrols-slate-notification{
 		.il-maincontrols-slate-notification-title{
 			text-transform: uppercase;
-			padding: @padding-large-horizontal;
+			padding: @il-padding-large-horizontal;
 			.btn-bulky{
 				.glyph{
 					:before{
 						content: " \e605";
 						font-family: "il-icons";
-						font-size: 1.7rem;
+						font-size: @il-slate-bulky-icon-size;
 						margin-right: 10px;
 					}
 				}
-				margin: -@padding-large-horizontal;
+				margin: -@il-margin-large-horizontal;
 				border: none;
 				border-right: solid 3px;
 				border-right-color: @il-main-dark-bg;;
-				padding: @padding-large-horizontal;
+				padding: @il-padding-large-horizontal;
 
 				background-color: transparent;
 				text-transform: uppercase;
@@ -97,14 +99,14 @@
 				:before{
 					content: " \e605";
 					font-family: "il-icons";
-					font-size: 1.7rem;
+					font-size: @il-slate-bulky-icon-size;
 					margin-right: 10px;
 				}
 			}
 			.bulky-label{
 				margin-top: 3px;
 			}
-			padding: @padding-small-horizontal;
+			padding: @il-padding-small-horizontal;
 			text-align: center;
 			text-transform: uppercase;
 		}
@@ -172,8 +174,8 @@
 // close slate
 .il-maincontrols-slate-close {
 	width: 100%;
-	border-bottom: 1px solid #eee;
-	border-top: 1px solid #eee;
+	border-bottom: 1px solid @il-main-border-color;
+	border-top: 1px solid @il-main-border-color;
 	height: 50px;
 	margin-top: auto;
 	bottom: 0;
@@ -182,7 +184,7 @@
 		display: none;
 	}
 	.btn-bulky {
-		background-color: #fff;
+		background-color: @il-main-bg;
 		width: 100%;
 		height: 100%;
 		padding: 0;
@@ -192,7 +194,7 @@
 			padding-right: 20px;
 		}
 		&.engaged {
-			background-color: #fff;
+			background-color: @il-main-bg;
 			border: 0;
 		}
 		&:active
@@ -214,7 +216,7 @@
 		.il-avatar{
 			margin-right: 45px - @il-avatar-inner-mobile-size;
 		}
-		.link-bulky .icon.small{
+		.link-bulky .icon.small, .btn-bulky .icon.small {
 			margin-right: 45px - @il-icon-size-small;
 		}
 	}

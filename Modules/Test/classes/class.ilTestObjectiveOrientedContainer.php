@@ -29,7 +29,7 @@ class ilTestObjectiveOrientedContainer
     /**
      * @return int
      */
-    public function getObjId()
+    public function getObjId() : ?int
     {
         return $this->objId;
     }
@@ -45,7 +45,7 @@ class ilTestObjectiveOrientedContainer
     /**
      * @return int
      */
-    public function getRefId()
+    public function getRefId() : ?int
     {
         return $this->refId;
     }
@@ -61,7 +61,7 @@ class ilTestObjectiveOrientedContainer
     /**
      * @return bool
      */
-    public function isObjectiveOrientedPresentationRequired()
+    public function isObjectiveOrientedPresentationRequired() : bool
     {
         return (bool) $this->getObjId();
     }

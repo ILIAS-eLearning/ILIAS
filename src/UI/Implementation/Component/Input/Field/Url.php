@@ -1,26 +1,36 @@
 <?php declare(strict_types=1);
 
-
-/* Copyright (c) 2021 Luka Stocker <luka.stocker@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\URI;
 use ILIAS\Refinery\Factory;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Constraint;
+use Closure;
+use Throwable;
 
 /**
  * This implements the URL input.
  */
 class Url extends Input implements C\Input\Field\Url
 {
-    /**
-     * @var string
-     */
-    protected $value;
-
     /**
      * @inheritdoc
      */
@@ -35,19 +45,17 @@ class Url extends Input implements C\Input\Field\Url
         $this->addTransformation();
     }
 
-    protected function addValidation()
+    protected function addValidation() : void
     {
         $txt_id = 'ui_invalid_url';
-        $error = function (callable $txt, $value) use ($txt_id) {
-            return $txt($txt_id, $value);
-        };
+        $error = fn (callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             if (is_string($v) && trim($v) === '') {
                 return true;
             }
             try {
                 $this->data_factory->uri($v);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 return false;
             }
             return true;
@@ -57,9 +65,9 @@ class Url extends Input implements C\Input\Field\Url
         $this->setAdditionalTransformation($from_before_until);
     }
 
-    protected function addTransformation()
+    protected function addTransformation() : void
     {
-        $trafo = $this->refinery->custom()->transformation(function ($v) {
+        $trafo = $this->refinery->custom()->transformation(function ($v) : ?\ILIAS\Data\URI {
             if (is_string($v) && trim($v) === '') {
                 return null;
             }
@@ -72,12 +80,12 @@ class Url extends Input implements C\Input\Field\Url
     /**
      * @inheritcoc
      */
-    public static function getURIChecker() : \Closure
+    public static function getURIChecker() : Closure
     {
         return static function (string $value) : bool {
             try {
                 new URI($value);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 return false;
             }
             return true;
@@ -102,25 +110,19 @@ class Url extends Input implements C\Input\Field\Url
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
-        if (!self::getURIChecker()) {
-            return false;
-        }
-        return true;
+        return $this->refinery->custom()->constraint(self::getURIChecker(), 'Not an URI');
     }
 
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            $code = "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-            return $code;
-        };
     }
 }

@@ -1,19 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Counter;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -30,16 +45,16 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Counter/counter.js');
+        $registry->register('./src/UI/templates/js/Counter/dist/counter.js');
     }
 
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(Component\Counter\Counter::class);
     }

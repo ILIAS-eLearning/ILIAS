@@ -1,23 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- *
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id\$
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilRSSButtonGUI
 {
-    const ICON_RSS = "rss";
-    const ICON_RSS_AUDIO = "rss audio";
-    const ICON_RSS_VIDEO = "rss video";
-    const ICON_ICAL = "ical";
-    const ICON_ITUNES = "itunes";
-    const ICON_ITUNES_AUDIO = "itunes audio";
-    const ICON_ITUNES_VIDEO = "itunes video";
+    public const ICON_RSS = "rss";
+    public const ICON_RSS_AUDIO = "rss audio";
+    public const ICON_RSS_VIDEO = "rss video";
+    public const ICON_ICAL = "ical";
+    public const ICON_ITUNES = "itunes";
+    public const ICON_ITUNES_AUDIO = "itunes audio";
+    public const ICON_ITUNES_VIDEO = "itunes video";
 
     /**
      * Get icon html
@@ -26,11 +36,13 @@ class ilRSSButtonGUI
      * @param string $a_href href
      * @return string icon html
      */
-    public static function get($a_type, $a_href = "")
-    {
+    public static function get(
+        string $a_type,
+        string $a_href = ""
+    ) : string {
         $tpl = new ilTemplate("tpl.rss_icon.html", true, true, "Services/News");
 
-        if ($a_href != "") {
+        if ($a_href !== "") {
             $tpl->setCurrentBlock("a_start");
             $tpl->setVariable("HREF", $a_href);
             $tpl->parseCurrentBlock();

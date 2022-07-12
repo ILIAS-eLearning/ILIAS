@@ -1,38 +1,33 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSConnectorException.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Connector for writing ecs course urls
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCourseUrlConnector extends ilECSConnector
 {
     /**
-     * Constructor
-     * @param ilECSSetting $settings
-     */
-    public function __construct(ilECSSetting $settings = null)
-    {
-        parent::__construct($settings);
-    }
-    
-    /**
      * Send url of newly created courses to ecs
-     * @return type
      * @throws ilECSConnectorException
      */
-    public function addUrl(ilECSCourseUrl $url, $a_target_mid)
+    public function addUrl(ilECSCourseUrl $url, $a_target_mid) : void
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        $ilLog->write(__METHOD__ . ': Add new course url ...');
+        $this->logger->info(__METHOD__ . ': Add new course url ...');
 
         $this->path_postfix = '/campusconnect/course_urls';
         
@@ -45,22 +40,23 @@ class ilECSCourseUrlConnector extends ilECSConnector
 
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_POST, true);
-            $this->curl->setOpt(CURLOPT_POSTFIELDS, json_encode($url));
+            $this->curl->setOpt(CURLOPT_POSTFIELDS, json_encode($url, JSON_THROW_ON_ERROR));
             
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Sending url ' . print_r(json_encode($url), true));
+            $this->logger->debug('Sending url ' . print_r(json_encode($url, JSON_THROW_ON_ERROR), true));
             
-            $ret = $this->call();
+            $this->call();
 
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
     
-            $ilLog->write(__METHOD__ . ': Checking HTTP status...');
-            if ($info != self::HTTP_CODE_CREATED) {
-                $ilLog->write(__METHOD__ . ': Cannot create course url ressource, did not receive HTTP 201. ');
-                $ilLog->write(__METHOD__ . ': POST was: ' . json_encode($url));
-                $ilLog->write(__METHOD__ . ': HTTP code: ' . $info);
+            $this->logger->debug('Checking HTTP status...');
+            if ($info !== self::HTTP_CODE_CREATED) {
+                $this->logger->debug('Cannot create course url ressource, did not receive HTTP 201. ');
+                $this->logger->debug('POST was: ' . json_encode($url, JSON_THROW_ON_ERROR));
+                $this->logger->debug('HTTP code: ' . $info);
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $ilLog->write(__METHOD__ . ': ... got HTTP 201 (created)');
+            $this->logger->debug('... got HTTP 201 (created)');
+            //TODO add returning of the new created courseurl id
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }

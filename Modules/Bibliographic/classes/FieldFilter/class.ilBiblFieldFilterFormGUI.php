@@ -1,42 +1,48 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblFieldFilterFormGUI
  *
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const F_FIELD_ID = "field_id";
     const F_FILTER_TYPE = "filter_type";
-    /**
-     * @var \ilBiblFactoryFacade
-     */
-    protected $facade;
-    /**
-     * @var  \ilBiblFieldFilterInterface
-     */
-    protected $filter;
-    /**
-     * @var ilBiblFieldFilterGUI
-     */
-    protected $parent_gui;
-
+    protected \ilBiblFactoryFacade $facade;
+    protected \ilBiblFieldFilterInterface $filter;
+    protected \ilBiblFieldFilterGUI $parent_gui;
+    protected ?int $filter_id;
 
     /**
      * ilBiblFieldFilterFormGUI constructor.
-     *
-     * @param \ilBiblFieldFilterGUI       $parent_gui
-     * @param \ilBiblFieldFilterInterface $field_filter
-     * @param \ilBiblFactoryFacade        $facade
      */
     public function __construct(ilBiblFieldFilterGUI $parent_gui, ilBiblFieldFilterInterface $field_filter, ilBiblFactoryFacade $facade)
     {
         $this->facade = $facade;
         $this->filter = $field_filter;
         $this->parent_gui = $parent_gui;
+        $q = $this->http()->wrapper()->query();
+        $this->filter_id = $q->has(ilBiblFieldFilterGUI::FILTER_ID)
+            ? $q->retrieve(ilBiblFieldFilterGUI::FILTER_ID, $this->dic()->refinery()->to()->int())
+            : null;
 
         $this->lng()->loadLanguageModule('bibl');
         $this->ctrl()->saveParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID);
@@ -46,15 +52,15 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function initForm()
+    public function initForm() : void
     {
         $this->setTarget('_top');
 
         $available_fields_for_object = $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId());
+        if (null !== $this->filter_id) {
+            $edited_filter = $this->facade->filterFactory()->findById($this->filter_id);
+        }
 
-        $edited_filter = $this->facade->filterFactory()->findById(
-            $this->http()->request()->getQueryParams()[ilBiblFieldFilterGUI::FILTER_ID]
-        );
 
         //show only the fields as options which don't have already a filter
         $options = [];
@@ -110,14 +116,14 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function fillForm()
+    public function fillForm() : void
     {
         $array = array(self::F_FIELD_ID => $this->filter->getFieldId(), self::F_FILTER_TYPE => $this->filter->getFilterType(),);
         $this->setValuesByArray($array);
     }
 
 
-    protected function fillObject()
+    protected function fillObject() : bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -136,20 +142,13 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    /**
-     * @return bool|string
-     */
-    public function saveObject()
+    public function saveObject() : bool
     {
-        if (!$this->fillObject()) {
-            return false;
-        }
-
-        return true;
+        return $this->fillObject();
     }
 
 
-    protected function initButtons()
+    protected function initButtons() : void
     {
         if ($this->filter->getId()) {
             $this->addCommandButton(ilBiblFieldFilterGUI::CMD_UPDATE, $this->lng()->txt('save'));

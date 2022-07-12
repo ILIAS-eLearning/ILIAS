@@ -38,8 +38,8 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
         $this->addGlobal_ilPluginAdmin();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
-        $_GET["ref_id"] = 2;
         $this->addGlobal_rbacsystem();
+        $this->addGlobal_refinery();
 
         $objTest = new ilObjTest();
 
@@ -50,9 +50,5 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
         $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
         $testObj = new ilTestPlayerFactory($objTest);
         $this->assertInstanceOf(ilTestPlayerRandomQuestionSetGUI::class, $testObj->getPlayerGUI());
-
-        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_DYNAMIC);
-        $testObj = new ilTestPlayerFactory($objTest);
-        $this->assertInstanceOf(ilTestPlayerDynamicQuestionSetGUI::class, $testObj->getPlayerGUI());
     }
 }

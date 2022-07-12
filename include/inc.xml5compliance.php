@@ -55,12 +55,12 @@ function domxml_open_mem($str, $mode = 0, &$error = null)
     return $doc;
 }
 
-function xpath_eval($xpath_context, $eval_str, $contextnode = null)
+function xpath_eval(php4DOMXPath $xpath_context, string $eval_str, $contextnode = null)
 {
     return $xpath_context->query($eval_str, $contextnode);
 }
 
-function xpath_new_context($dom_document)
+function xpath_new_context($dom_document) : php4DOMXPath
 {
     return new php4DOMXPath($dom_document);
 }
@@ -103,7 +103,7 @@ class php4DOMCDATASection extends php4DOMNode
 
 class php4DOMDocument
 {
-    public $myDOMDocument;
+    public DOMDocument $myDOMDocument;
 
     // ##altered
     public function __construct($source, $file = true, $a_mode = 0)
@@ -198,7 +198,7 @@ class php4DOMDocument
         return new php4DOMElement($this->myDOMDocument->createComment($data));
     }
 
-    public function create_element($name)
+    public function create_element(string $name) : php4DOMElement
     {
         return new php4DOMElement($this->myDOMDocument->createElement($name));
     }
@@ -490,9 +490,9 @@ class php4DOMNode
     public function node_name($a_local = false)
     {
         if ($a_local) {
-            return $this->myDOMNode->localName;
+            return $this->myDOMNode->localName ?? "";
         } else {
-            return $this->myDOMNode->nodeName;
+            return $this->myDOMNode->nodeName ?? "";
         }
     }
 
@@ -550,7 +550,7 @@ class php4DOMNode
 class php4DOMNodelist
 {
     public $myDOMNodelist;
-    public $nodeset;
+    public array $nodeset;
 
     public function __construct($aDOMNodelist)
     {
@@ -566,7 +566,7 @@ class php4DOMNodelist
 
 class php4DOMXPath
 {
-    public $myDOMXPath;
+    public DOMXPath $myDOMXPath;
 
     // ## added
     public function xpath_eval($eval_str)
@@ -579,7 +579,7 @@ class php4DOMXPath
         $this->myDOMXPath = new DOMXPath($dom_document->myDOMDocument);
     }
 
-    public function query($eval_str)
+    public function query(string $eval_str) : php4DOMNodelist
     {
         return new php4DOMNodelist($this->myDOMXPath->query($eval_str));
     }

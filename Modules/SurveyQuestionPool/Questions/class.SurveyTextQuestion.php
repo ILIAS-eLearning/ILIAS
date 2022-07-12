@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Text survey question
@@ -12,21 +26,17 @@
  */
 class SurveyTextQuestion extends SurveyQuestion
 {
-    public $maxchars;
-    public $textwidth;
-    public $textheight;
+    protected ?int $maxchars = null;
+    protected ?int $textwidth = null;
+    protected ?int $textheight = null;
     
-    /**
-    * The constructor takes possible arguments an creates an instance of the SurveyTextQuestion object.
-    *
-    * @param string $title A title string to describe the question
-    * @param string $description A description string to describe the question
-    * @param string $author A string containing the name of the questions author
-    * @param integer $owner A numerical ID to identify the owner/creator
-    * @access public
-    */
-    public function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1)
-    {
+    public function __construct(
+        string $title = "",
+        string $description = "",
+        string $author = "",
+        string $questiontext = "",
+        int $owner = -1
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -37,14 +47,7 @@ class SurveyTextQuestion extends SurveyQuestion
         $this->textheight = 5;
     }
     
-    /**
-    * Returns the question data fields from the database
-    *
-    * @param integer $id The question ID from the database
-    * @return array Array containing the question fields and data from the database
-    * @access public
-    */
-    public function getQuestionDataArray($id)
+    public function getQuestionDataArray(int $id) : array
     {
         $ilDB = $this->db;
         $result = $ilDB->queryF(
@@ -52,105 +55,78 @@ class SurveyTextQuestion extends SurveyQuestion
             array('integer'),
             array($id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             return $ilDB->fetchAssoc($result);
         } else {
             return array();
         }
     }
     
-    /**
-    * Loads a SurveyTextQuestion object from the database
-    *
-    * @param integer $id The database id of the text survey question
-    * @access public
-    */
-    public function loadFromDb($id)
+    public function loadFromDb(int $question_id) : void
     {
         $ilDB = $this->db;
         
         $result = $ilDB->queryF(
             "SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = svy_question.question_id WHERE svy_question.question_id = %s",
             array('integer'),
-            array($id)
+            array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            $this->setId($data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->label = $data['label'];
-            $this->setDescription($data["description"]);
-            $this->setObjId($data["obj_fi"]);
-            $this->setAuthor($data["author"]);
-            $this->setOwner($data["owner_fi"]);
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
-            $this->setObligatory($data["obligatory"]);
-            $this->setComplete($data["complete"]);
-            $this->setOriginalId($data["original_id"]);
+            $this->setId((int) $data["question_id"]);
+            $this->setTitle((string) $data["title"]);
+            $this->label = (string) $data['label'];
+            $this->setDescription((string) $data["description"]);
+            $this->setObjId((int) $data["obj_fi"]);
+            $this->setAuthor((string) $data["author"]);
+            $this->setOwner((int) $data["owner_fi"]);
+            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
+            $this->setObligatory((bool) $data["obligatory"]);
+            $this->setComplete((bool) $data["complete"]);
+            $this->setOriginalId((int) $data["original_id"]);
 
-            $this->setMaxChars($data["maxchars"]);
-            $this->setTextWidth($data["width"]);
-            $this->setTextHeight($data["height"]);
+            $this->setMaxChars((int) $data["maxchars"]);
+            $this->setTextWidth($data["width"] ? (int) $data["width"] : null);
+            $this->setTextHeight($data["height"] ? (int) $data["height"] : null);
         }
-        parent::loadFromDb($id);
+        parent::loadFromDb($question_id);
     }
 
-    /**
-    * Returns true if the question is complete for use
-    *
-    * @result boolean True if the question is complete for use, otherwise false
-    * @access public
-    */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (
             strlen($this->getTitle()) &&
             strlen($this->getAuthor()) &&
             strlen($this->getQuestiontext())
         ) {
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
-    
-    /**
-    * Sets the maximum number of allowed characters for the text answer
-    *
-    * @access public
-    */
-    public function setMaxChars($maxchars = 0)
+
+    public function setMaxChars(int $maxchars = 0) : void
     {
         $this->maxchars = $maxchars;
     }
-    
-    /**
-    * Returns the maximum number of allowed characters for the text answer
-    *
-    * @access public
-    */
-    public function getMaxChars()
+
+    public function getMaxChars() : int
     {
-        return ($this->maxchars) ? $this->maxchars : null;
+        return $this->maxchars;
     }
     
-    /**
-    * Saves a SurveyTextQuestion object to a database
-    *
-    * @access public
-    */
-    public function saveToDb($original_id = "")
+    public function saveToDb(int $original_id = 0) : int
     {
         $ilDB = $this->db;
         
         $affectedRows = parent::saveToDb($original_id);
-        if ($affectedRows == 1) {
-            $affectedRows = $ilDB->manipulateF(
+        if ($affectedRows === 1) {
+            $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
                 array('integer'),
                 array($this->getId())
             );
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxchars, width, height) VALUES (%s, %s, %s, %s)",
                 array('integer', 'integer', 'integer', 'integer'),
                 array($this->getId(), $this->getMaxChars(), $this->getTextWidth(), $this->getTextHeight())
@@ -158,19 +134,16 @@ class SurveyTextQuestion extends SurveyQuestion
 
             $this->saveMaterial();
         }
+        return $affectedRows;
     }
 
-    /**
-    * Returns an xml representation of the question
-    *
-    * @return string The xml representation of the question
-    * @access public
-    */
-    public function toXML($a_include_header = true, $obligatory_state = "")
-    {
-        $a_xml_writer = new ilXmlWriter;
+    public function toXML(
+        bool $a_include_header = true,
+        bool $obligatory_state = false
+    ) : string {
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
-        $this->insertXML($a_xml_writer, $a_include_header, $obligatory_state);
+        $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
         if (!$a_include_header) {
             $pos = strpos($xml, "?>");
@@ -179,19 +152,14 @@ class SurveyTextQuestion extends SurveyQuestion
         return $xml;
     }
     
-    /**
-    * Adds the question XML to a given XMLWriter object
-    *
-    * @param object $a_xml_writer The XMLWriter object
-    * @param boolean $a_include_header Determines wheather or not the XML should be used
-    * @access public
-    */
-    public function insertXML(&$a_xml_writer, $a_include_header = true)
-    {
+    public function insertXML(
+        ilXmlWriter $a_xml_writer,
+        $a_include_header = true
+    ) : void {
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
@@ -239,58 +207,38 @@ class SurveyTextQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("question");
     }
 
-    /**
-    * Returns the question type of the question
-    *
-    * @return integer The question type of the question
-    * @access public
-    */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "SurveyTextQuestion";
     }
 
-    /**
-    * Returns the name of the additional question data table in the database
-    *
-    * @return string The additional table name
-    * @access public
-    */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return "svy_qst_text";
     }
     
-    /**
-    * Creates the user data of the svy_answer table from the POST data
-    *
-    * @return array User data according to the svy_answer table
-    * @access public
-    */
-    public function &getWorkingDataFromUserInput($post_data)
-    {
-        $entered_value = $post_data[$this->getId() . "_text_question"];
+    public function getWorkingDataFromUserInput(
+        array $post_data
+    ) : array {
+        $entered_value = $post_data[$this->getId() . "_text_question"] ?? "";
         $data = array();
         if (strlen($entered_value)) {
-            array_push($data, array("textanswer" => $entered_value));
+            $data[] = array("textanswer" => $entered_value);
         }
         return $data;
     }
     
     /**
-    * Checks the input of the active user for obligatory status
-    * and entered values
-    *
-    * @param array $post_data The contents of the $_POST array
-    * @param integer $survey_id The database ID of the active survey
-    * @return string Empty string if the input is ok, an error message otherwise
-    * @access public
-    */
-    public function checkUserInput($post_data, $survey_id)
-    {
+     * Checks the input of the active user for obligatory status
+     * and entered values
+     */
+    public function checkUserInput(
+        array $post_data,
+        int $survey_id
+    ) : string {
         $entered_value = $post_data[$this->getId() . "_text_question"];
         
-        if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) {
+        if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) {
             return "";
         }
         
@@ -306,8 +254,11 @@ class SurveyTextQuestion extends SurveyQuestion
         return "";
     }
     
-    public function saveUserInput($post_data, $active_id, $a_return = false)
-    {
+    public function saveUserInput(
+        array $post_data,
+        int $active_id,
+        bool $a_return = false
+    ) : ?array {
         $ilDB = $this->db;
 
         $entered_value = $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_text_question"]);
@@ -321,7 +272,7 @@ class SurveyTextQuestion extends SurveyQuestion
             return array(array("value" => null, "textanswer" => $entered_value));
         }
         if (strlen($entered_value) == 0) {
-            return;
+            return null;
         }
         
         $next_id = $ilDB->nextId('svy_answer');
@@ -334,16 +285,12 @@ class SurveyTextQuestion extends SurveyQuestion
         $fields['textanswer'] = array("clob", (strlen($entered_value)) ? $entered_value : null);
         $fields['tstamp'] = array("integer", time());
 
-        $affectedRows = $ilDB->insert("svy_answer", $fields);
+        $ilDB->insert("svy_answer", $fields);
+
+        return null;
     }
     
-    /**
-    * Import response data from the question import file
-    *
-    * @return array $a_data Array containing the response data
-    * @access public
-    */
-    public function importResponses($a_data)
+    public function importResponses(array $a_data) : void
     {
         foreach ($a_data as $id => $data) {
             if ($data["maxlength"] > 0) {
@@ -358,46 +305,22 @@ class SurveyTextQuestion extends SurveyQuestion
         }
     }
 
-    /**
-    * Returns if the question is usable for preconditions
-    *
-    * @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
-    * @access public
-    */
-    public function usableForPrecondition()
+    public function usableForPrecondition() : bool
     {
         return false;
     }
 
-    /**
-    * Returns the width of the answer field
-    *
-    * @return integer The width of the answer field in characters
-    * @access public
-    */
-    public function getTextWidth()
+    public function getTextWidth() : ?int
     {
-        return ($this->textwidth) ? $this->textwidth : null;
+        return $this->textwidth;
     }
     
-    /**
-    * Returns the height of the answer field
-    *
-    * @return integer The height of the answer field in characters
-    * @access public
-    */
-    public function getTextHeight()
+    public function getTextHeight() : ?int
     {
-        return ($this->textheight) ? $this->textheight : null;
+        return $this->textheight;
     }
     
-    /**
-    * Sets the width of the answer field
-    *
-    * @param integer $a_textwidth The width of the answer field in characters
-    * @access public
-    */
-    public function setTextWidth($a_textwidth)
+    public function setTextWidth(?int $a_textwidth = null) : void
     {
         if ($a_textwidth < 1) {
             $this->textwidth = 50;
@@ -405,14 +328,8 @@ class SurveyTextQuestion extends SurveyQuestion
             $this->textwidth = $a_textwidth;
         }
     }
-    
-    /**
-    * Sets the height of the answer field
-    *
-    * @param integer $a_textheight The height of the answer field in characters
-    * @access public
-    */
-    public function setTextHeight($a_textheight)
+
+    public function setTextHeight(?int $a_textheight = null) : void
     {
         if ($a_textheight < 1) {
             $this->textheight = 5;

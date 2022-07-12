@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -27,7 +42,7 @@ class ilXlsFoParser
         $this->pageFormats = $pageFormats;
 
         if (null === $xmlChecker) {
-            $xmlChecker = new ilXMLChecker();
+            $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
         }
         $this->xmlChecker = $xmlChecker;
 
@@ -63,14 +78,11 @@ class ilXlsFoParser
         $content = "<html><body>" . $formData['certificate_text'] . "</body></html>";
         $content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
         $content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
-        $content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
-        $content = str_replace("&nbsp;", "&#160;", $content);
+        $content = str_replace(["<p></p>", "&nbsp;"], ["<p class=\"emptyrow\"></p>", "&#160;"], $content);
         $content = preg_replace("//", "", $content);
 
-        $this->xmlChecker->setXMLContent($content);
-        $this->xmlChecker->startParsing();
-
-        if ($this->xmlChecker->hasError()) {
+        $this->xmlChecker->parse($content);
+        if ($this->xmlChecker->result()->isError()) {
             throw new Exception($this->language->txt("certificate_not_well_formed"));
         }
 
@@ -88,9 +100,9 @@ class ilXlsFoParser
             '/_xsl' => $xsl
         ];
 
-        if (strcmp($formData['pageformat'], 'custom') == 0) {
-            $pageheight = $formData['pageheight'];
-            $pagewidth = $formData['pagewidth'];
+        if (strcmp($formData['pageformat'], 'custom') === 0) {
+            $pageheight = $formData['pageheight'] ?? '';
+            $pagewidth = $formData['pagewidth'] ?? '';
         } else {
             $pageformats = $this->pageFormats->fetchPageFormats();
             $pageheight = $pageformats[$formData['pageformat']]['height'];
@@ -112,9 +124,7 @@ class ilXlsFoParser
             )
         ];
 
-        $output = $this->xlstProcess->process($args, $params);
-
-        return $output;
+        return $this->xlstProcess->process($args, $params);
     }
 
     private function formatNumberString(string $a_number) : string

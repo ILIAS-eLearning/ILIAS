@@ -1,26 +1,30 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityLogicalAndDocumentCriteriaEvaluation
  */
 class ilAccessibilityLogicalAndDocumentCriteriaEvaluation implements ilAccessibilityDocumentCriteriaEvaluation
 {
-    /** @var ilAccessibilityCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
+    protected ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory;
+    protected ilObjUser $user;
+    protected ilLogger $log;
 
-    /** @var ilObjUser */
-    protected $user;
-
-    /** @var ilLogger */
-    protected $log;
-
-    /**
-     * ilAccessibilityDocumentLogicalAndCriteriaEvaluation constructor.
-     * @param ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilObjUser                                     $user
-     * @param ilLogger                                      $log
-     */
     public function __construct(
         ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory,
         ilObjUser $user,
@@ -31,9 +35,6 @@ class ilAccessibilityLogicalAndDocumentCriteriaEvaluation implements ilAccessibi
         $this->log = $log;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function evaluate(ilAccessibilitySignableDocument $document) : bool
     {
         $this->log->debug(sprintf(

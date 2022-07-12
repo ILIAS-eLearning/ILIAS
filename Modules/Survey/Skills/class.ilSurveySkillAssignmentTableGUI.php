@@ -1,66 +1,69 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Skill\Service\SkillTreeService;
 
 /**
  * TableGUI class for survey questions to skill assignment
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected SkillTreeService $skill_tree_service;
+    protected ilGlobalSkillTree $skill_tree;
+    protected ilObjSurvey $object;
+    protected ilAccessHandler $access;
+    protected ilSurveySkill $skill_survey;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_survey)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjSurvey $a_survey
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        
+
         $this->object = $a_survey;
         $this->skill_survey = new ilSurveySkill($a_survey);
-        
-        $this->skill_tree = new ilSkillTree();
+
+        $this->skill_tree_service = $DIC->skills()->tree();
+        $this->skill_tree = $this->skill_tree_service->getGlobalSkillTree();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->getQuestions();
-        //$this->setTitle($lng->txt("survey_questions_to_skill_ass"));
-        
+
         $this->addColumn($this->lng->txt("question"));
         $this->addColumn($this->lng->txt("survey_skill"));
         $this->addColumn($this->lng->txt("actions"));
         
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.svy_skill_ass_row.html", "Modules/Survey");
-
-        //		$this->addMultiCommand("", $lng->txt(""));
-//		$this->addCommandButton("", $lng->txt(""));
     }
     
-    /**
-     * Get questions
-     *
-     * @param
-     * @return
-     */
-    public function getQuestions()
+    public function getQuestions() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
         $survey_questions = $this->object->getSurveyQuestions();
+
+        $table_data = [];
 
         if (count($survey_questions) > 0) {
             $table_data = array();
@@ -69,7 +72,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
                 // it is only possible to assign  to a subset
                 // of question types: single choice(2)
                 $supported = false;
-                if (in_array($data["questiontype_fi"], array(2))) {
+                if ((int) $data["questiontype_fi"] === 2) {
                     $supported = true;
                 }
 
@@ -88,11 +91,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
         $this->setData($table_data);
     }
     
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -1,42 +1,48 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Signal;
+use ILIAS\Refinery\Constraint;
+use Closure;
 
 /**
  * This implements the select.
  */
 class Select extends Input implements C\Input\Field\Select
 {
-    protected $options;
-    protected $label;
+    protected array $options;
+    protected string $label;
+
+    /**
+     * @var mixed
+     */
     protected $value;
+    private bool $complex = false;
 
-    /**
-     * @var bool
-     */
-    private $complex = false;
-
-    /**
-     * Select constructor.
-     *
-     * @param DataFactory $data_factory
-     * @param \ILIAS\Refinery\Factory $refinery
-     * @param string $label
-     * @param array $options
-     * @param string $byline
-     */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        $label,
-        $options,
-        $byline
+        string $label,
+        array $options,
+        ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
         $this->options = $options;
@@ -45,7 +51,7 @@ class Select extends Input implements C\Input\Field\Select
     /**
      * @return array with the key/value options.
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options;
     }
@@ -55,15 +61,13 @@ class Select extends Input implements C\Input\Field\Select
      */
     protected function isClientSideValueOk($value) : bool
     {
-        return
-            in_array($value, array_keys($this->options))
-            || $value == "";
+        return in_array($value, array_keys($this->options)) || $value == "";
     }
 
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
         return $this->refinery->string()->hasMinLength(1);
     }
@@ -71,15 +75,12 @@ class Select extends Input implements C\Input\Field\Select
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            $code = "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
-            return $code;
-        };
     }
 
     /**

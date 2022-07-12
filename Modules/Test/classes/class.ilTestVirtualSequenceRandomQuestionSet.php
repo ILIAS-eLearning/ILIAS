@@ -12,7 +12,7 @@ require_once 'Modules/Test/interfaces/interface.ilTestRandomQuestionSequence.php
  */
 class ilTestVirtualSequenceRandomQuestionSet extends ilTestVirtualSequence implements ilTestRandomQuestionSequence
 {
-    private $questionsSourcePoolDefinitionMap;
+    private array $questionsSourcePoolDefinitionMap;
     
     public function __construct(ilDBInterface $db, ilObjTest $testOBJ, ilTestSequenceFactory $testSequenceFactory)
     {
@@ -26,7 +26,7 @@ class ilTestVirtualSequenceRandomQuestionSet extends ilTestVirtualSequence imple
         return $this->questionsSourcePoolDefinitionMap[$questionId];
     }
 
-    protected function fetchQuestionsFromPasses($activeId, $passes)
+    protected function fetchQuestionsFromPasses(int $activeId, array $passes) : void
     {
         $this->questionsPassMap = array();
         

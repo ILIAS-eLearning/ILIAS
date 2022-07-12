@@ -13,12 +13,12 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      * @param $html string
      * @return string
      */
-    public function format($string)
+    public function format($string) : string
     {
         $string = $this->handleLineBreaks($string);
 
         require_once 'Services/RTE/classes/class.ilRTE.php';
-        $string = (string) ilRTE::_replaceMediaObjectImageSrc($string, 1);
+        $string = ilRTE::_replaceMediaObjectImageSrc($string, 1);
 
         $string = str_replace("</li><br />", "</li>", $string);
         $string = str_replace("</li><br>", "</li>", $string);
@@ -37,7 +37,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      * @param string $string
      * @return string
      */
-    protected function handleLineBreaks($string)
+    protected function handleLineBreaks($string) : string
     {
         if (!ilUtil::isHTML($string)) {
             $string = nl2br($string);
@@ -50,7 +50,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      * @param string $string
      * @return string
      */
-    protected function convertLatexSpanToTex($string)
+    protected function convertLatexSpanToTex($string) : string
     {
         // we try to save all latex tags
         $try = true;
@@ -80,7 +80,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      * @param string $string
      * @return string
      */
-    protected function stripHtmlExceptSelfAssessmentTags($string)
+    protected function stripHtmlExceptSelfAssessmentTags($string) : string
     {
         $tags = self::getSelfAssessmentTags();
 
@@ -99,7 +99,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      * @param string $string
      * @return string
      */
-    public function migrateToLmContent($string)
+    public function migrateToLmContent($string) : string
     {
         $string = $this->convertLatexSpanToTex($string);
         $string = $this->stripHtmlExceptSelfAssessmentTags($string);
@@ -109,7 +109,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
     /**
      * @param assQuestion $question
      */
-    public static function prepareQuestionForLearningModule(assQuestion $question)
+    public static function prepareQuestionForLearningModule(assQuestion $question) : void
     {
         $question->migrateContentForLearningModule(new self());
     }
@@ -118,7 +118,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      * Get tags allowed in question tags in self assessment mode
      * @return array array of tags
      */
-    public static function getSelfAssessmentTags()
+    public static function getSelfAssessmentTags() : array
     {
         // set tags we allow in self assessment mode
         $st = ilUtil::getSecureTags();

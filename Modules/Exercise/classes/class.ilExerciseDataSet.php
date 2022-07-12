@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -460,30 +474,30 @@ class ilExerciseDataSet extends ilDataSet
                     case "4.4.0":
                     case "5.0.0":
                         return array(
-                            "exc_assignment" => array("ids" => $a_rec["Id"])
+                            "exc_assignment" => array("ids" => $a_rec["Id"] ?? null)
                         );
 
                     case "5.1.0":
                     case "5.2.0":
                     case "5.3.0":
                         return array(
-                            "exc_crit_cat" => array("ids" => $a_rec["Id"]),
-                            "exc_assignment" => array("ids" => $a_rec["Id"])
+                            "exc_crit_cat" => array("ids" => $a_rec["Id"] ?? null),
+                            "exc_assignment" => array("ids" => $a_rec["Id"] ?? null)
                         );
                 }
                 break;
 
             case "exc_crit_cat":
                 return array(
-                    "exc_crit" => array("ids" => $a_rec["Id"])
+                    "exc_crit" => array("ids" => $a_rec["Id"] ?? null)
                 );
 
             case "exc_assignment":
                 switch ($a_version) {
                     case "5.3.0":
                         return array(
-                            "exc_ass_file_order" => array("ids" => $a_rec["Id"]),
-                            "exc_ass_reminders" => array("ids" => $a_rec["Id"])
+                            "exc_ass_file_order" => array("ids" => $a_rec["Id"] ?? null),
+                            "exc_ass_reminders" => array("ids" => $a_rec["Id"] ?? null)
                         );
 
                 }
@@ -620,7 +634,7 @@ class ilExerciseDataSet extends ilDataSet
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = $fstorage->getPath();
-                        ilUtil::rCopy($source_dir, $target_dir);
+                        ilFileUtils::rCopy($source_dir, $target_dir);
                     }
                     
                     // (4.4) global feedback file
@@ -628,7 +642,7 @@ class ilExerciseDataSet extends ilDataSet
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = $fstorage->getGlobalFeedbackPath();
-                        ilUtil::rCopy($source_dir, $target_dir);
+                        ilFileUtils::rCopy($source_dir, $target_dir);
                     }
 
                     // (5.3) assignment files inside ILIAS
@@ -638,7 +652,7 @@ class ilExerciseDataSet extends ilDataSet
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = $fwebstorage->getPath();
-                        ilUtil::rCopy($source_dir, $target_dir);
+                        ilFileUtils::rCopy($source_dir, $target_dir);
                     }
 
                     // 5.4 Team wiki assignment AR

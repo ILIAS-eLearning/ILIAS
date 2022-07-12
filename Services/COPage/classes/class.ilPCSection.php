@@ -1,38 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCSection
- *
  * Section content object (see ILIAS DTD)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCSection extends ilPageContent
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    public php4DOMElement $sec_node;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $dom;
-    public $sec_node;
-
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -42,23 +38,17 @@ class ilPCSection extends ilPageContent
         $this->setType("sec");
     }
 
-    /**
-    * Set node
-    */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->sec_node = $a_node->first_child();		// this is the Section node
     }
 
-    /**
-    * Create section node in xml.
-    *
-    * @param	object	$a_pg_obj		Page Object
-    * @param	string	$a_hier_id		Hierarchical ID
-    */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->sec_node = $this->dom->create_element("Section");
@@ -66,12 +56,7 @@ class ilPCSection extends ilPageContent
         $this->sec_node->set_attribute("Characteristic", "Block");
     }
 
-    /**
-    * Set Characteristic of section
-    *
-    * @param	string	$a_char		Characteristic
-    */
-    public function setCharacteristic($a_char)
+    public function setCharacteristic(string $a_char) : void
     {
         if (!empty($a_char)) {
             $this->sec_node->set_attribute("Characteristic", $a_char);
@@ -82,12 +67,7 @@ class ilPCSection extends ilPageContent
         }
     }
 
-    /**
-    * Get characteristic of section.
-    *
-    * @return	string		characteristic
-    */
-    public function getCharacteristic()
+    public function getCharacteristic() : string
     {
         if (is_object($this->sec_node)) {
             $char = $this->sec_node->get_attribute("Characteristic");
@@ -96,47 +76,41 @@ class ilPCSection extends ilPageContent
             }
             return $char;
         }
+        return "";
     }
     
-    /**
-     * Get lang vars needed for editing
-     * @return array array of lang var keys
-     */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("ed_insert_section");
     }
 
     /**
      * After page has been updated (or created)
-     *
-     * @param object $a_page page object
-     * @param DOMDocument $a_domdoc dom document
-     * @param string $a_xml xml
-     * @param bool $a_creation true on creation, otherwise false
      */
-    public static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
-    {
+    public static function afterPageUpdate(
+        ilPageObject $a_page,
+        DOMDocument $a_domdoc,
+        string $a_xml,
+        bool $a_creation
+    ) : void {
         self::saveTimings($a_page);
     }
 
     /**
-     * @inheritDoc
+     * @throws ilDateTimeException
      */
-    public function modifyPageContentPostXsl($a_output, $a_mode, $a_abstract_only = false)
-    {
+    public function modifyPageContentPostXsl(
+        string $a_output,
+        string $a_mode,
+        bool $a_abstract_only = false
+    ) : string {
         $a_output = self::insertTimings($a_output);
         $a_output = $this->handleAccess($a_output, $a_mode);
 
         return $a_output;
     }
 
-    /**
-     * Set activation from
-     *
-     * @param string $a_unix_ts unix ts activation from
-     */
-    public function setActiveFrom($a_unix_ts)
+    public function setActiveFrom(int $a_unix_ts) : void
     {
         if ($a_unix_ts > 0) {
             $this->sec_node->set_attribute("ActiveFrom", $a_unix_ts);
@@ -149,24 +123,19 @@ class ilPCSection extends ilPageContent
 
     /**
      * Get activation from
-     *
-     * @return string unix ts activation from
      */
-    public function getActiveFrom()
+    public function getActiveFrom() : int
     {
         if (is_object($this->sec_node)) {
-            return $this->sec_node->get_attribute("ActiveFrom");
+            return (int) $this->sec_node->get_attribute("ActiveFrom");
         }
-
-        return "";
+        return 0;
     }
 
     /**
      * Set activation to
-     *
-     * @param string $a_unix_ts unix ts activation to
      */
-    public function setActiveTo($a_unix_ts)
+    public function setActiveTo(int $a_unix_ts) : void
     {
         if ($a_unix_ts > 0) {
             $this->sec_node->set_attribute("ActiveTo", $a_unix_ts);
@@ -177,28 +146,18 @@ class ilPCSection extends ilPageContent
         }
     }
 
-    /**
-     * Get activation to
-     *
-     * @return string unix ts activation to
-     */
-    public function getActiveTo()
+    public function getActiveTo() : int
     {
         if (is_object($this->sec_node)) {
-            return $this->sec_node->get_attribute("ActiveTo");
+            return (int) $this->sec_node->get_attribute("ActiveTo");
         }
-
-        return "";
+        return 0;
     }
 
-    /**
-     * Set attribute
-     *
-     * @param string $a_attr attribute
-     * @param string $a_val attribute value
-     */
-    protected function setAttribute($a_attr, $a_val)
-    {
+    protected function setAttribute(
+        string $a_attr,
+        string $a_val
+    ) : void {
         if (!empty($a_val)) {
             $this->sec_node->set_attribute($a_attr, $a_val);
         } else {
@@ -208,13 +167,7 @@ class ilPCSection extends ilPageContent
         }
     }
 
-    /**
-     * Get attribute
-     *
-     * @param string $a_attr attribute
-     * @return string attribute value
-     */
-    public function getAttribute($a_attr)
+    public function getAttribute(string $a_attr) : string
     {
         if (is_object($this->sec_node)) {
             return $this->sec_node->get_attribute($a_attr);
@@ -224,62 +177,44 @@ class ilPCSection extends ilPageContent
 
     /**
      * Set permission
-     *
      * @param string $a_val "read"|"write"|"visible"|"no_read"
      */
-    public function setPermission($a_val)
+    public function setPermission(string $a_val) : void
     {
         $this->setAttribute("Permission", $a_val);
     }
 
-    /**
-     * Get permission
-     *
-     * @return string
-     */
-    public function getPermission()
+    public function getPermission() : string
     {
         return $this->getAttribute("Permission");
     }
 
-
-    /**
-     * Set permission ref id
-     *
-     * @param integer $a_ref_id ref id
-     */
-    public function setPermissionRefId($a_ref_id)
+    public function setPermissionRefId(int $a_ref_id) : void
     {
         $this->setAttribute("PermissionRefId", "il__ref_" . $a_ref_id);
     }
 
-    /**
-     * Get permission ref id
-     *
-     * @return int ref id
-     */
-    public function getPermissionRefId()
+    public function getPermissionRefId() : int
     {
         $id = explode("_", $this->getAttribute("PermissionRefId"));
         if (in_array($id[1], array("", 0, IL_INST_ID))) {
-            return $id[3];
+            return (int) $id[3];
         }
-        return "";
+        return 0;
     }
 
     /**
      * Set no link
      */
-    public function setNoLink()
+    public function setNoLink() : void
     {
         ilDOMUtil::deleteAllChildsByName($this->sec_node, array("IntLink", "ExtLink"));
     }
 
     /**
      * Set link of area to an external one
-     * @param string $a_href
      */
-    public function setExtLink($a_href)
+    public function setExtLink(string $a_href) : void
     {
         $this->setNoLink();
         if (trim($a_href) != "") {
@@ -298,8 +233,11 @@ class ilPCSection extends ilPageContent
     /**
      * Set link of area to an internal one
      */
-    public function setIntLink($a_type, $a_target, $a_target_frame)
-    {
+    public function setIntLink(
+        string $a_type,
+        string $a_target,
+        string $a_target_frame
+    ) : void {
         $this->setNoLink();
         $attributes = array("Type" => $a_type, "Target" => $a_target,
             "TargetFrame" => $a_target_frame);
@@ -313,13 +251,7 @@ class ilPCSection extends ilPageContent
         );
     }
 
-    /**
-     * Get link
-     *
-     * @param
-     * @return
-     */
-    public function getLink()
+    public function getLink() : array
     {
         $childs = $this->sec_node->child_nodes();
         foreach ($childs as $child) {
@@ -338,13 +270,10 @@ class ilPCSection extends ilPageContent
     }
 
 
-    /**
-     * @param $a_html
-     * @param $a_mode
-     * @return mixed|string
-     */
-    public function handleAccess($a_html, $a_mode)
-    {
+    public function handleAccess(
+        string $a_html,
+        string $a_mode
+    ) : string {
         $ilAccess = $this->access;
 
         while (($start = strpos($a_html, "{{{{{Section;Access;")) > 0) {
@@ -353,10 +282,9 @@ class ilPCSection extends ilPageContent
             $id = explode("_", $access_attr[3]);
             $section_nr = $access_attr[6];
             $access = true;
-
             if (in_array($id[1], array("", 0, IL_INST_ID)) && $id[3] > 0) {
                 if ($access_attr[5] == "no_read") {
-                    $access = !$ilAccess->checkAccess($access_attr[5], "", $id[3]);
+                    $access = !$ilAccess->checkAccess("read", "", $id[3]);
                 } else {
                     $access = $ilAccess->checkAccess($access_attr[5], "", $id[3]);
                 }
@@ -375,17 +303,12 @@ class ilPCSection extends ilPageContent
         }
 
         $a_html = str_replace("{{{{{Section;Access}}}}}", "", $a_html);
-
         return $a_html;
     }
 
-    /**
-     * Save timings
-     *
-     * @param ilPageObject $a_page  page object
-     */
-    public static function saveTimings($a_page)
-    {
+    public static function saveTimings(
+        ilPageObject $a_page
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -434,12 +357,12 @@ class ilPCSection extends ilPageContent
 
     /**
      * Get page cache update trigger string
-     *
-     * @param ilPageObject $a_page
      * @return string trigger string
+     * @throws ilDateTimeException
      */
-    public static function getCacheTriggerString($a_page)
-    {
+    public static function getCacheTriggerString(
+        ilPageObject $a_page
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -465,12 +388,11 @@ class ilPCSection extends ilPageContent
 
     /**
      * Insert timings (in edit mode)
-     *
-     * @param string $a_html html
-     * @return string htmls
+     * @throws ilDateTimeException
      */
-    public function insertTimings($a_html)
-    {
+    public function insertTimings(
+        string $a_html
+    ) : string {
         $lng = $this->lng;
 
         $end = 0;
@@ -508,5 +430,34 @@ class ilPCSection extends ilPageContent
             }
         }
         return $a_html;
+    }
+
+    public function getProtected() : bool
+    {
+        if (is_object($this->sec_node)) {
+            return ($this->sec_node->get_attribute("Protected") == "1");
+        }
+
+        return false;
+    }
+
+    public function setProtected(bool $val) : void
+    {
+        if ($val) {
+            $this->sec_node->set_attribute("Protected", "1");
+        } else {
+            $this->sec_node->set_attribute("Protected", "0");
+        }
+    }
+
+    public function getModel() : ?stdClass
+    {
+        if ($this->sec_node->node_name() != "Section") {
+            return null;
+        }
+        $model = new stdClass();
+        $model->protected = $this->getProtected();
+
+        return $model;
     }
 }

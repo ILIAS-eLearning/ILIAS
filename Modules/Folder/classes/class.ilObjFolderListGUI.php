@@ -1,6 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Folder\StandardGUIRequest;
 
 /**
  * Class ilObjFolderListGUI
@@ -9,11 +22,13 @@
  */
 class ilObjFolderListGUI extends ilObjectListGUI
 {
-    /**
-    * initialisation
-    */
-    public function init()
+    protected StandardGUIRequest $folder_request;
+
+    public function init() : void
     {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -26,72 +41,40 @@ class ilObjFolderListGUI extends ilObjectListGUI
 
         // general commands array
         $this->commands = ilObjFolderAccess::_getCommands();
+        $this->folder_request = $DIC
+            ->folder()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
-    public function getProperties()
-    {
-        $props = parent::getProperties();
-
-        return $props;
-    }
-
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
         
         // BEGIN WebDAV: Mount webfolder.
-        switch ($a_cmd) {
-            case 'mount_webfolder':
-                if (ilDAVActivationChecker::_isActive()) {
+        switch ($cmd) {
+            default:
+
+                if ($cmd === 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
                     global $DIC;
                     $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
                     $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
                     $cmd_link = $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
                     break;
-                } // Fall through, when plugin is inactive.
-                // no break
-            default:
+                }
+
                 // separate method for this line
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
+                $ilCtrl->setParameterByClass(
+                    "ilrepositorygui",
+                    "ref_id",
+                    $this->folder_request->getRefId()
+                );
                 break;
         }
         
         return $cmd_link;
-        // END WebDAV: Mount Webfolder
     }
-
-    // BEGIN WebDAV: mount_webfolder in _blank frame
-    /**
-    * Get command target frame.
-    *
-    * Overwrite this method if link frame is not current frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd)
-    {
-        // begin-patch fm
-        return parent::getCommandFrame($a_cmd);
-        // end-patch fm
-    }
-    // END WebDAV: mount_webfolder in _blank frame
 }

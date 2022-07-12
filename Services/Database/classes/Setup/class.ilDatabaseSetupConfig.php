@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Setup;
 use ILIAS\Data\Password;
 
@@ -27,6 +41,8 @@ class ilDatabaseSetupConfig implements Setup\Config
     protected ?\ILIAS\Data\Password $password = null;
 
     protected string $path_to_db_dump;
+
+    public ilDatabaseSetupConfig $config;
 
     public function __construct(
         string $type,
@@ -60,7 +76,7 @@ class ilDatabaseSetupConfig implements Setup\Config
         $this->path_to_db_dump = $path_to_db_dump ?? self::DEFAULT_PATH_TO_DB_DUMP;
     }
 
-    public function getType(): string
+    public function getType() : string
     {
         return $this->type;
     }
@@ -118,7 +134,7 @@ class ilDatabaseSetupConfig implements Setup\Config
              * @param	string		value
              * @return mixed|void return value string or boolean 'false' on failure
              */
-            public function readVariable($a_group, $a_var_name)
+            public function readVariable(string $a_group, string $a_var_name) : string
             {
                 if ($a_group !== "db") {
                     throw new \LogicException(
@@ -131,10 +147,10 @@ class ilDatabaseSetupConfig implements Setup\Config
                     case "host":
                         return $this->config->getHost();
                     case "port":
-                        return $this->config->getPort();
+                        return (string) $this->config->getPort();
                     case "pass":
                         $pw = $this->config->getPassword();
-                        return $pw ? $pw->toString() : null;
+                        return $pw ? $pw->toString() : "";
                     case "name":
                         return $this->config->getDatabase();
                     case "type":
@@ -146,68 +162,67 @@ class ilDatabaseSetupConfig implements Setup\Config
                 }
             }
 
-            /** @noinspection MagicMethodsValidityInspection */
             public function __construct(\ilDatabaseSetupConfig $config)
             {
                 $this->config = $config;
             }
-            public function read(): void
+            public function read() : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function parse(): void
+            public function parse() : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function fixIniFile(): void
+            public function fixIniFile() : void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function write(): void
+            public function write() : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function show(): void
+            public function show() : string
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function getGroupCount(): void
+            public function getGroupCount() : int
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function readGroups(): void
+            public function readGroups() : array
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function groupExists($a_group_name): void
+            public function groupExists(string $a_group_name) : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function readGroup($a_group_name): void
+            public function readGroup(string $a_group_name) : array
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function addGroup($a_group_name): void
+            public function addGroup(string $a_group_name) : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function removeGroup($a_group_name): void
+            public function removeGroup(string $a_group_name) : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function variableExists($a_group, $a_var_name): void
+            public function variableExists(string $a_group, string $a_var_name) : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function setVariable($a_group_name, $a_var_name, $a_var_value): void
+            public function setVariable(string $a_group_name, string $a_var_name, string $a_var_value) : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function error($a_errmsg): void
+            public function error(string $a_errmsg) : bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function getError(): void
+            public function getError() : string
             {
                 throw new \LogicException("Just a mock here...");
             }

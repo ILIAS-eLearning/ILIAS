@@ -1,105 +1,56 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author Jens Conze
- * @version $Id$
- *
  * @ingroup ServicesMail
  */
 class ilMailOptionsGUI
 {
-    /** @var ilGlobalPageTemplate */
-    private $tpl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
+    private ilSetting $settings;
+    private ilObjUser $user;
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
+    protected ilMailOptionsFormGUI $form;
 
-    /** @var ilCtrl */
-    private $ctrl;
-
-    /** @var ilLanguage */
-    private $lng;
-
-    /** @var ilSetting */
-    private $settings;
-
-    /** @var ilObjUser */
-    private $user;
-
-    /** @var ilFormatMail */
-    private $umail;
-
-    /** @var ilMailbox */
-    private $mbox;
-
-    /** @var ServerRequestInterface */
-    protected $request;
-
-    /** @var ilMailOptionsFormGUI */
-    protected $form;
-
-    /**
-     * ilMailOptionsGUI constructor.
-     * @param ilGlobalPageTemplate|null $tpl
-     * @param ilCtrl|null $ctrl
-     * @param ilSetting|null $setting
-     * @param ilLanguage|null $lng
-     * @param ilObjUser|null $user
-     * @param ServerRequestInterface|null $request
-     * @param ilFormatMail|null $mail
-     * @param ilMailbox|null $malBox
-     */
     public function __construct(
-        ilGlobalPageTemplate $tpl = null,
-        ilCtrl $ctrl = null,
+        ilGlobalTemplateInterface $tpl = null,
+        ilCtrlInterface $ctrl = null,
         ilSetting $setting = null,
         ilLanguage $lng = null,
         ilObjUser $user = null,
-        ServerRequestInterface $request = null,
-        ilFormatMail $mail = null,
-        ilMailbox $malBox = null
+        GlobalHttpState $http = null,
+        Refinery $refinery = null
     ) {
         global $DIC;
-
-        $this->tpl = $tpl;
-        if (null === $this->tpl) {
-            $this->tpl = $DIC->ui()->mainTemplate();
-        }
-
-        $this->ctrl = $ctrl;
-        if (null === $this->ctrl) {
-            $this->ctrl = $DIC->ctrl();
-        }
-
-        $this->settings = $setting;
-        if (null === $this->settings) {
-            $this->settings = $DIC->settings();
-        }
-
-        $this->lng = $lng;
-        if (null === $this->lng) {
-            $this->lng = $DIC->language();
-        }
-
-        $this->user = $user;
-        if (null === $this->user) {
-            $this->user = $DIC->user();
-        }
-
-        $this->request = $request;
-        if (null === $this->request) {
-            $this->request = $DIC->http()->request();
-        }
-
-        $this->umail = $mail;
-        if (null === $this->umail) {
-            $this->umail = new ilFormatMail($this->user->getId());
-        }
-
-        $this->mbox = $malBox;
-        if (null === $this->mbox) {
-            $this->mbox = new ilMailbox($this->user->getId());
-        }
+        $this->tpl = $tpl ?? $DIC->ui()->mainTemplate();
+        $this->ctrl = $ctrl ?? $DIC->ctrl();
+        $this->settings = $setting ?? $DIC->settings();
+        $this->lng = $lng ?? $DIC->language();
+        $this->user = $user ?? $DIC->user();
+        $this->http = $http ?? $DIC->http();
+        $this->refinery = $refinery ?? $DIC->refinery();
 
         $this->lng->loadLanguageModule('mail');
         $this->ctrl->saveParameter($this, 'mobj_id');
@@ -107,14 +58,18 @@ class ilMailOptionsGUI
 
     public function executeCommand() : void
     {
-        if (!$this->settings->get('show_mail_settings')) {
-            $referrer = $this->request->getQueryParams()['referrer'] ?? '';
-            if (strtolower('ilPersonalSettingsGUI') === strtolower($referrer)) {
-                $this->ctrl->redirectByClass('ilPersonalSettingsGUI');
-                return;
+        if (!$this->settings->get('show_mail_settings', '0')) {
+            $referrer = '';
+            if ($this->http->wrapper()->query()->has('referrer')) {
+                $referrer = $this->http->wrapper()->query()->retrieve(
+                    'referrer',
+                    $this->refinery->kindlyTo()->string()
+                );
             }
-            $this->ctrl->redirectByClass('ilMailGUI');
-            return;
+            if (strtolower(ilPersonalSettingsGUI::class) === strtolower($referrer)) {
+                $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
+            }
+            $this->ctrl->redirectByClass(ilMailGUI::class);
         }
 
         $nextClass = $this->ctrl->getNextClass($this);
@@ -129,51 +84,33 @@ class ilMailOptionsGUI
         }
     }
 
-    /**
-     * @param ilMailOptionsFormGUI $form
-     */
     public function setForm(ilMailOptionsFormGUI $form) : void
     {
         $this->form = $form;
     }
 
-    /**
-     * @return ilMailOptionsFormGUI
-     */
     protected function getForm() : ilMailOptionsFormGUI
     {
-        if (null !== $this->form) {
-            return $this->form;
-        }
-
-        return new ilMailOptionsFormGUI(
-            new ilMailOptions((int) $this->user->getId()),
+        return $this->form ?? new ilMailOptionsFormGUI(
+            new ilMailOptions($this->user->getId()),
             $this,
             'saveOptions'
         );
     }
 
-    /**
-     * Called if the user pushes the submit button of the mail options form.
-     * Passes the post data to the mail options model instance to store them.
-     */
     protected function saveOptions() : void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
 
         $form = $this->getForm();
         if ($form->save()) {
-            ilUtil::sendSuccess($this->lng->txt('mail_options_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_options_saved'), true);
             $this->ctrl->redirect($this, 'showOptions');
         }
 
         $this->showOptions($form);
     }
 
-    /**
-     * Called to display the mail options form
-     * @param $form ilMailOptionsFormGUI|null
-     */
     protected function showOptions(ilMailOptionsFormGUI $form = null) : void
     {
         if (null === $form) {

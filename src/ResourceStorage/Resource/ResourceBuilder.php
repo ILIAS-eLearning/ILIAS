@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
 namespace ILIAS\ResourceStorage\Resource;
 
 use Generator;
@@ -32,52 +47,21 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
  */
 class ResourceBuilder
 {
-
-    /**
-     * @var InformationRepository
-     */
-    private $information_repository;
-    /**
-     * @var ResourceRepository
-     */
-    private $resource_repository;
-    /**
-     * @var RevisionRepository
-     */
-    private $revision_repository;
-    /**
-     * @var StorageHandlerFactory
-     */
-    private $storage_handler_factory;
-    /**
-     * @var StakeholderRepository
-     */
-    private $stakeholder_repository;
-    /**
-     * @var LockHandler
-     */
-    private $lock_handler;
+    private \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
+    private \ILIAS\ResourceStorage\Resource\Repository\ResourceRepository $resource_repository;
+    private \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
+    private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $storage_handler_factory;
+    private \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository $stakeholder_repository;
+    private \ILIAS\ResourceStorage\Lock\LockHandler $lock_handler;
     /**
      * @var StorableResource[]
      */
-    protected $resource_cache = [];
-    /**
-     * @var FileNamePolicy
-     */
-    protected $file_name_policy;
-    /**
-     * @var StorageHandler
-     */
-    protected $primary_storage_handler;
+    protected array $resource_cache = [];
+    protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
+    protected \ILIAS\ResourceStorage\StorageHandler\StorageHandler $primary_storage_handler;
 
     /**
      * ResourceBuilder constructor.
-     * @param StorageHandlerFactory $storage_handler_factory
-     * @param RevisionRepository    $revision_repository
-     * @param ResourceRepository    $resource_repository
-     * @param InformationRepository $information_repository
-     * @param StakeholderRepository $stakeholder_repository
-     * @param LockHandler           $lock_handler
      * @param FileNamePolicy|null   $file_name_policy
      */
     public function __construct(
@@ -229,12 +213,9 @@ class ResourceBuilder
             return $resource;
         }
         return $resource;
-
     }
 
     /**
-     * @param ResourceIdentification $identification
-     * @return bool
      * @description check if a resource exists
      */
     public function has(ResourceIdentification $identification) : bool
@@ -243,7 +224,6 @@ class ResourceBuilder
     }
 
     /**
-     * @param StorableResource $resource
      * @description after you have modified a resource, you can store it here
      * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
      */
@@ -253,13 +233,12 @@ class ResourceBuilder
             $this->file_name_policy->check($revision->getInformation()->getSuffix());
         }
 
-        $r = $this->lock_handler->lockTables([
-            $this->resource_repository->getNameForLocking(),
-            $this->revision_repository->getNameForLocking(),
-            $this->information_repository->getNameForLocking(),
-            $this->stakeholder_repository->getNameForLocking(),
-
-        ], function () use ($resource) {
+        $r = $this->lock_handler->lockTables(array_merge(
+            $this->resource_repository->getNamesForLocking(),
+            $this->revision_repository->getNamesForLocking(),
+            $this->information_repository->getNamesForLocking(),
+            $this->stakeholder_repository->getNamesForLocking(),
+        ), function () use ($resource) : void {
             $this->resource_repository->store($resource);
 
             foreach ($resource->getAllRevisions() as $revision) {
@@ -275,8 +254,6 @@ class ResourceBuilder
     }
 
     /**
-     * @param StorableResource $resource
-     * @return StorableResource
      * @description Clone anexisting resource with all it's revisions, stakeholders and information
      */
     public function clone(StorableResource $resource) : StorableResource
@@ -307,12 +284,10 @@ class ResourceBuilder
         }
         $this->store($new_resource);
         return $new_resource;
-
     }
 
     /**
      * @description  Store one Revision
-     * @param Revision $revision
      * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
      */
     public function storeRevision(Revision $revision) : void
@@ -333,8 +308,6 @@ class ResourceBuilder
     }
 
     /**
-     * @param ResourceIdentification $identification
-     * @return StorableResource
      * @throws ResourceNotFoundException
      * @description Get a Resource out of a Identification
      */
@@ -352,7 +325,6 @@ class ResourceBuilder
 
     /**
      * @description Reve a complete revision. if there are other Stakeholder, only your stakeholder gets removed
-     * @param StorableResource         $resource
      * @param ResourceStakeholder|null $stakeholder
      * @return bool whether ResourceStakeholders handled this successful
      */
@@ -384,7 +356,7 @@ class ResourceBuilder
     public function removeRevision(StorableResource $resource, int $revision_number) : void
     {
         $reveision_to_delete = $resource->getSpecificRevision($revision_number);
-        if ($reveision_to_delete) {
+        if ($reveision_to_delete !== null) {
             $this->deleteRevision($resource, $reveision_to_delete);
         }
         $this->store($resource);
@@ -403,9 +375,9 @@ class ResourceBuilder
     }
 
     /**
-     * @return Generator
+     * @return \Iterator<\ILIAS\ResourceStorage\Resource\StorableResource>
      */
-    public function getAll() : Generator
+    public function getAll() : \Iterator
     {
         /**
          * @var $resource StorableResource
@@ -415,10 +387,6 @@ class ResourceBuilder
         }
     }
 
-    /**
-     * @param StorableResource $resource
-     * @return StorableResource
-     */
     private function populateNakedResourceWithRevisionsAndStakeholders(StorableResource $resource) : StorableResource
     {
         $revisions = $this->revision_repository->get($resource);

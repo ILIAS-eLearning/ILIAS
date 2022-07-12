@@ -1,12 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field\Input;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\Data\Result;
 
 /**
@@ -17,26 +30,18 @@ interface InputInternal extends Input
 {
     /**
      * The name of the input as used in HTML.
-     *
-     * @return string
      */
-    public function getName();
-
+    public function getName() : ?string;
 
     /**
      * Get an input like this with input from post data.
      *
-     * @param    InputData $input
-     *
-     * @return    Input
+     * @return static
      */
     public function withInput(InputData $input);
 
-
     /**
      * Get the current content of the input.
-     *
-     * @return    Result
      */
-    public function getContent();
+    public function getContent() : Result;
 }

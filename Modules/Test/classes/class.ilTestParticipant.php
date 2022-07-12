@@ -110,7 +110,7 @@ class ilTestParticipant
     /**
      * @return string
      */
-    public function getActiveId()
+    public function getActiveId() : ?string
     {
         return $this->activeId;
     }
@@ -126,7 +126,7 @@ class ilTestParticipant
     /**
      * @return string
      */
-    public function getAnonymousId()
+    public function getAnonymousId() : ?string
     {
         return $this->anonymousId;
     }
@@ -142,7 +142,7 @@ class ilTestParticipant
     /**
      * @return string
      */
-    public function getUsrId()
+    public function getUsrId() : ?string
     {
         return $this->usrId;
     }
@@ -158,7 +158,7 @@ class ilTestParticipant
     /**
      * @return string
      */
-    public function getLogin()
+    public function getLogin() : ?string
     {
         return $this->login;
     }
@@ -174,7 +174,7 @@ class ilTestParticipant
     /**
      * @return string
      */
-    public function getLastname()
+    public function getLastname() : ?string
     {
         return $this->lastname;
     }
@@ -190,7 +190,7 @@ class ilTestParticipant
     /**
      * @return string
      */
-    public function getFirstname()
+    public function getFirstname() : ?string
     {
         return $this->firstname;
     }
@@ -206,7 +206,7 @@ class ilTestParticipant
     /**
      * @return string
      */
-    public function getMatriculation()
+    public function getMatriculation() : ?string
     {
         return $this->matriculation;
     }
@@ -222,7 +222,7 @@ class ilTestParticipant
     /**
      * @return bool
      */
-    public function isActiveStatus()
+    public function isActiveStatus() : ?bool
     {
         return $this->activeStatus;
     }
@@ -238,7 +238,7 @@ class ilTestParticipant
     /**
      * @return string
      */
-    public function getClientIp()
+    public function getClientIp() : ?string
     {
         return $this->clientIp;
     }
@@ -254,7 +254,7 @@ class ilTestParticipant
     /**
      * @return int
      */
-    public function getFinishedTries()
+    public function getFinishedTries() : ?int
     {
         return $this->finishedTries;
     }
@@ -270,7 +270,7 @@ class ilTestParticipant
     /**
      * @return bool
      */
-    public function isTestFinished()
+    public function isTestFinished() : ?bool
     {
         return $this->testFinished;
     }
@@ -286,7 +286,7 @@ class ilTestParticipant
     /**
      * @return bool
      */
-    public function hasUnfinishedPasses()
+    public function hasUnfinishedPasses() : ?bool
     {
         return $this->unfinishedPasses;
     }
@@ -315,7 +315,7 @@ class ilTestParticipant
         $this->scoring = $scoring;
     }
     
-    public function hasScoring()
+    public function hasScoring() : bool
     {
         return $this->scoring instanceof ilTestParticipantScoring;
     }

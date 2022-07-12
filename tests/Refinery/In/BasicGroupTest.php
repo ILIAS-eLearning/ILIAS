@@ -1,42 +1,48 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\In;
 
 use ILIAS\Refinery\In\Parallel;
 use ILIAS\Refinery\In\Series;
-use ILIAS\Refinery\In\Group;
+use ILIAS\Refinery\In\Group as InGroup;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 
-require_once('./libs/composer/vendor/autoload.php');
-
 class BasicGroupTest extends TestCase
 {
-    /**
-     * @var Group
-     */
-    private $group;
+    private InGroup $group;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->group = new Group();
+        $this->group = new InGroup();
     }
-
-    public function testParallelInstanceCreated()
+    
+    public function testParallelInstanceCreated() : void
     {
-        $transformation = $this->group->parallel(array(new StringTransformation(), new IntegerTransformation()));
+        $transformation = $this->group->parallel([new StringTransformation(), new IntegerTransformation()]);
         $this->assertInstanceOf(Parallel::class, $transformation);
     }
 
-    public function testSeriesInstanceCreated()
+    public function testSeriesInstanceCreated() : void
     {
-        $transformation = $this->group->series(array(new StringTransformation(), new IntegerTransformation()));
+        $transformation = $this->group->series([new StringTransformation(), new IntegerTransformation()]);
         $this->assertInstanceOf(Series::class, $transformation);
     }
 }

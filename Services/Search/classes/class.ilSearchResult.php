@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,138 +27,128 @@
 *
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version Id$
 *
 * @package ilias-search
 */
-include_once('Services/Search/classes/class.ilUserSearchCache.php');
 
-define('DEFAULT_SEARCH', 0);
-define('ADVANCED_SEARCH', 1);
-define('ADVANCED_MD_SEARCH', 4);
 
 class ilSearchResult
 {
-    public $permission = 'visible';
+    private string $permission = 'visible';
 
-    public $user_id;
-    public $entries = array();
-    public $results = array();
-    public $observers = array();
+    private int $user_id;
+    private array $entries = array();
+    private array $results = array();
+    private array $observers = array();
+    private int $max_hits = 0;
 
-    protected $search_cache = null;
-    protected $offset = 0;
+    protected ilUserSearchCache $search_cache;
+    protected int $offset = 0;
 
     // OBJECT VARIABLES
-    public $ilias;
-    public $ilAccess;
+    protected ILIAS $ilias;
+    protected ilAccess $ilAccess;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected ilObjUser $user;
+    protected ilSearchSettings $search_settings;
 
     // Stores info if MAX HITS is reached or not
-    public $limit_reached = false;
-    public $result;
-    
-    protected $preventOverwritingMaxhits = false;
+    public bool $limit_reached = false;
 
-    /**
-     * @var ilLogger
-     */
-    private $logger;
+    protected bool $preventOverwritingMaxhits = false;
+
+
 
     /**
     * Constructor
     * @access	public
     */
-    public function __construct($a_user_id = 0)
+    public function __construct(int $a_user_id = 0)
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $this->ilAccess = $DIC->access();
+        $this->ilias = $DIC['ilias'];
+        $this->db = $DIC->database();
+        $this->tree = $DIC->repositoryTree();
+        $this->user = $DIC->user();
 
-        $this->logger = $DIC->logger()->src();
 
-        $this->ilAccess = $ilAccess;
+
         if ($a_user_id) {
             $this->user_id = $a_user_id;
         } else {
-            $this->user_id = $ilUser->getId();
+            $this->user_id = $this->user->getId();
         }
         $this->__initSearchSettingsObject();
         $this->initUserSearchCache();
-
-        $this->db = $ilDB;
     }
 
     /**
     * Set the required permission for the rbac checks in function 'filter()'
     */
-    public function setRequiredPermission($a_permission)
+    public function setRequiredPermission(string $a_permission) : void
     {
         $this->permission = $a_permission;
     }
-    
-    public function getRequiredPermission()
+
+    public function getRequiredPermission() : string
     {
         return $this->permission;
     }
 
 
-    public function setUserId($a_user_id)
+    public function setUserId(int $a_user_id) : void
     {
         $this->user_id = $a_user_id;
     }
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    public function getEntries()
+    public function getEntries() : array
     {
-        return $this->entries ? $this->entries : array();
+        return $this->entries;
     }
 
-    public function isLimitReached()
+    public function isLimitReached() : bool
     {
-        return $this->limit_reached ? true : false;
+        return $this->limit_reached;
     }
 
-    public function setMaxHits($a_max_hits)
+    public function setMaxHits(int $a_max_hits) : void
     {
         $this->max_hits = $a_max_hits;
     }
-    public function getMaxHits()
+    public function getMaxHits() : int
     {
         return $this->max_hits;
     }
-    
+
     /**
      * Check if offset is reached
-     *
-     * @access public
-     * @param int current counter of result
-     * @return bool reached or not
      */
-    public function isOffsetReached($a_counter)
+    public function isOffsetReached(int $a_counter) : bool
     {
-        return ($a_counter < $this->offset) ? false : true;
+        return !($a_counter < $this->offset);
     }
-    
+
     /**
      *
      * add search result entry
      * Entries are stored with 'obj_id'. This method is typically called to store db query results.
-     * @param integer object object_id
+     * @param int object object_id
      * @param string obj_type 'lm' or 'crs' ...
      * @param array value position of query parser words in query string
-     * @param integer child id e.g id of page or chapter
-     * @access	public
+     * @param int child id e.g id of page or chapter
+     * @return void
      */
-    public function addEntry($a_obj_id, $a_type, $found, $a_child_id = 0)
+    public function addEntry(int $a_obj_id, string $a_type, array $found, int $a_child_id = 0) : void
     {
         // Create new entry if it not exists
-        if (!$this->entries[$a_obj_id]) {
+        if (!isset($this->entries[$a_obj_id])) {
             $this->entries[$a_obj_id]['obj_id'] = $a_obj_id;
             $this->entries[$a_obj_id]['type'] = $a_type;
             $this->entries[$a_obj_id]['found'] = $found;
@@ -182,7 +172,6 @@ class ilSearchResult
                 $counter++;
             }
         }
-        return true;
     }
 
     /**
@@ -190,7 +179,7 @@ class ilSearchResult
      * Check number of entries
      * @access	public
      */
-    public function numEntries()
+    public function numEntries() : int
     {
         return count($this->getEntries());
     }
@@ -201,23 +190,19 @@ class ilSearchResult
      * @param object result_obj
      * @access	public
      */
-    public function mergeEntries(&$result_obj)
+    public function mergeEntries(ilSearchResult $result_obj) : void
     {
         foreach ($result_obj->getEntries() as $entry) {
             $this->addEntry($entry['obj_id'], $entry['type'], $entry['found']);
             $this->__updateEntryChilds($entry['obj_id'], $entry['child']);
         }
-        return true;
     }
 
     /**
-     *
      * diff entries of this instance and another result object
      * Used for search in results
-     * @param object result_obj
-     * @access	public
      */
-    public function diffEntriesFromResult(&$result_obj)
+    public function diffEntriesFromResult() : void
     {
         $new_entries = $this->getEntries();
         $this->entries = array();
@@ -239,12 +224,9 @@ class ilSearchResult
     }
 
     /**
-     *
      * Build intersection of entries (all entries that are present in both result sets)
-     * @param object result_obj
-     * @access	public
      */
-    public function intersectEntries(&$result_obj)
+    public function intersectEntries(ilSearchResult $result_obj) : void
     {
         $new_entries = $this->getEntries();
         $this->entries = array();
@@ -276,51 +258,49 @@ class ilSearchResult
      * @param string obj_type 'lm' or 'crs' ...
      * @access	public
      */
-    public function addResult($a_ref_id, $a_obj_id, $a_type)
+    public function addResult(int $a_ref_id, int $a_obj_id, string $a_type) : void
     {
         $this->results[$a_ref_id]['ref_id'] = $a_ref_id;
         $this->results[$a_ref_id]['obj_id'] = $a_obj_id;
         $this->results[$a_ref_id]['type'] = $a_type;
     }
 
-    public function getResults()
+    public function getResults() : array
     {
-        return $this->results ? $this->results : array();
+        return $this->results;
     }
-    
+
     /**
      * get result ids
-     *
-     * @access public
-     * @return array result ids
+     * @return int[] result ids
      */
-    public function getResultIds()
+    public function getResultIds() : array
     {
+        $ids = [];
         foreach ($this->getResults() as $id => $tmp) {
             $ids[] = $id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
-    
-    public function getResultsByObjId()
+
+    public function getResultsByObjId() : array
     {
-        $tmp_res = array();
+        $tmp_res = [];
         foreach ($this->getResults() as $ref_id => $res_data) {
             $tmp_res[$res_data['obj_id']][] = $ref_id;
         }
-        return $tmp_res ? $tmp_res : array();
+        return $tmp_res;
     }
 
 
     /**
-     *
      * Get unique results. Return an array of obj_id (No multiple results for references)
      * Results are stored with 'ref_id'. This method is typically called after checking access of entries.
-     * @access	public
      */
-    public function getUniqueResults()
+    public function getUniqueResults() : array
     {
-        $obj_ids = array();
+        $obj_ids = [];
+        $objects = [];
         foreach ($this->results as $result) {
             if (in_array($result['obj_id'], $obj_ids)) {
                 continue;
@@ -328,48 +308,38 @@ class ilSearchResult
             $obj_ids[] = $result['obj_id'];
             $objects[] = $result;
         }
-        return $objects ? $objects : array();
+        return $objects;
     }
 
-    public function getResultsForPresentation()
+    public function getResultsForPresentation() : array
     {
-        $res = array();
-        
+        $res = [];
         foreach ($this->getResults() as $result) {
             $res[$result['ref_id']] = $result['obj_id'];
         }
         return $res;
     }
 
-    public function getSubitemIds()
+    public function getSubitemIds() : array
     {
         $res = array();
         foreach ($this->getResults() as $row) {
             $res[$row['obj_id']] = $row['child'];
         }
-        return $res ? $res : array();
+        return $res;
     }
-    
-    
-    
+
+
+
     /**
      * Filter search result.
      * Do RBAC checks.
-     *
      * Allows paging of results for referenced objects
-     *
-     * @access public
-     * @param int root node id
-     * @param bool check and boolean search
-     * @return bool success status
-     *
      */
-    public function filter($a_root_node, $check_and)
+    public function filter(int $a_root_node, bool $check_and) : bool
     {
-        global $DIC;
 
-        $tree = $DIC['tree'];
-        
+
         // get ref_ids and check access
         $counter = 0;
         $offset_counter = 0;
@@ -395,7 +365,7 @@ class ilSearchResult
                 continue;
             }
             // Check referenced objects
-            foreach (ilObject::_getAllReferences($entry['obj_id']) as $ref_id) {
+            foreach (ilObject::_getAllReferences((int) $entry['obj_id']) as $ref_id) {
                 // Failed check: if ref id check is failed by previous search
                 if ($this->search_cache->isFailed($ref_id)) {
                     continue;
@@ -405,13 +375,13 @@ class ilSearchResult
                     ++$offset_counter;
                     continue;
                 }
-                
+
                 if (!$this->callListeners($ref_id, $entry)) {
                     continue;
                 }
-                
-                
-                
+
+
+
                 // RBAC check
                 $type = ilObject::_lookupType($ref_id, true);
                 if ($this->ilAccess->checkAccessOfUser(
@@ -422,7 +392,7 @@ class ilSearchResult
                     $type,
                     $entry['obj_id']
                 )) {
-                    if ($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node, $ref_id)) {
+                    if ($a_root_node == ROOT_FOLDER_ID or $this->tree->isGrandChild($a_root_node, $ref_id)) {
                         // Call listeners
                         #if($this->callListeners($ref_id,$entry))
                         if (1) {
@@ -433,7 +403,7 @@ class ilSearchResult
                             $counter++;
                             $offset_counter++;
                             // Stop if maximum of hits is reached
-                            
+
                             if ($counter >= $this->getMaxHits()) {
                                 $this->limit_reached = true;
                                 $this->search_cache->setResults($this->results);
@@ -449,49 +419,41 @@ class ilSearchResult
         $this->search_cache->setResults($this->results);
         return false;
     }
-    
+
     /**
      *
      * Filter search area of result set
      * @access	public
      */
-    public function filterResults($a_root_node)
+    public function filterResults(int $a_root_node) : void
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-
         $tmp_results = $this->getResults();
         $this->results = array();
         foreach ($tmp_results as $result) {
-            if ($tree->isGrandChild($a_root_node, $result['ref_id']) and $tree->isInTree($result['ref_id'])) {
+            if ($this->tree->isGrandChild($a_root_node, $result['ref_id']) and $this->tree->isInTree($result['ref_id'])) {
                 $this->addResult($result['ref_id'], $result['obj_id'], $result['type']);
                 $this->__updateResultChilds($result['ref_id'], $result['child']);
             }
         }
-
-        return true;
     }
 
 
     /**
      *
      * Save search results
-     * @param integer DEFAULT_SEARCH or ADVANCED_SEARCH
-     * @access	public
+     * @param int DEFAULT_SEARCH or ADVANCED_SEARCH
      */
-    public function save($a_type = DEFAULT_SEARCH)
+    public function save(int $a_type = ilUserSearchCache::DEFAULT_SEARCH) : void
     {
         $this->search_cache->save();
-        return false;
     }
     /**
      *
      * read search results
-     * @param integer DEFAULT_SEARCH or ADVANCED_SEARCH
+     * @param int DEFAULT_SEARCH or ADVANCED_SEARCH
      * @access	public
      */
-    public function read($a_type = DEFAULT_SEARCH)
+    public function read(int $a_type = ilUserSearchCache::DEFAULT_SEARCH) : void
     {
         $this->results = $this->search_cache->getResults();
     }
@@ -500,11 +462,11 @@ class ilSearchResult
     /**
      *
      * Update childs for a specific entry
-     * @param integer object object_id
+     * @param int object object_id
      * @param array array of child ids. E.g 'pg', 'st'
      * @access	private
      */
-    public function __updateEntryChilds($a_obj_id, $a_childs)
+    public function __updateEntryChilds(int $a_obj_id, array $a_childs) : bool
     {
         if ($this->entries[$a_obj_id] and is_array($a_childs)) {
             foreach ($a_childs as $child_id) {
@@ -523,7 +485,7 @@ class ilSearchResult
      * @param array array of child ids. E.g 'pg', 'st'
      * @access	private
      */
-    public function __updateResultChilds($a_ref_id, $a_childs)
+    public function __updateResultChilds(int $a_ref_id, array $a_childs) : bool
     {
         if ($this->results[$a_ref_id] and is_array($a_childs)) {
             foreach ($a_childs as $child_id) {
@@ -536,46 +498,41 @@ class ilSearchResult
 
 
 
-    public function __initSearchSettingsObject()
+    public function __initSearchSettingsObject() : void
     {
-        include_once 'Services/Search/classes/class.ilSearchSettings.php';
-
         $this->search_settings = new ilSearchSettings();
         if (!$this->preventOverwritingMaxhits()) {
             $this->setMaxHits($this->search_settings->getMaxHits());
         }
     }
-    
+
     /**
      * Init user search cache
      *
      * @access private
      *
      */
-    protected function initUserSearchCache()
+    protected function initUserSearchCache() : void
     {
-        include_once('Services/Search/classes/class.ilUserSearchCache.php');
         $this->search_cache = ilUserSearchCache::_getInstance($this->getUserId());
         $this->offset = $this->getMaxHits() * ($this->search_cache->getResultPageNumber() - 1) ;
     }
-    
+
     /**
      * If you call this function and pass "true" the maxhits setting will not be overwritten
      * in __initSearchSettingsObject()
-     *
      * @access	public
-     * @param	boolean	$a_flag	true or false to set the flag or leave blank to get the status of the flag
-     * @returmn	boolean	if called without parameter the status of the flag will be returned, otherwise $this
-     *
+     * @param	bool|null $a_flag true or false to set the flag or leave blank to get the status of the flag
+     * @return	bool|ilSearchResult	if called without parameter the status of the flag will be returned, otherwise $this
      */
-    public function preventOverwritingMaxhits($a_flag = null)
+    public function preventOverwritingMaxhits(?bool $a_flag = null)
     {
         if (null === $a_flag) {
             return $this->preventOverwritingMaxhits;
         }
-        
+
         $this->preventOverwritingMaxhits = $a_flag;
-        
+
         return $this;
     }
 
@@ -586,15 +543,16 @@ class ilSearchResult
      * The function should return true or false.
      * @param object class of callback function
      * @param string name of callback method
-     * @access public
      */
-    public function addObserver(&$a_class, $a_method)
+    public function addObserver(object $a_class, string $a_method) : bool
     {
         $this->observers[] = array('class' => $a_class,
                                    'method' => $a_method);
         return true;
     }
-    public function callListeners($a_ref_id, &$a_data)
+
+
+    public function callListeners(int $a_ref_id, array $a_data) : bool
     {
         foreach ($this->observers as $observer) {
             $class = &$observer['class'];

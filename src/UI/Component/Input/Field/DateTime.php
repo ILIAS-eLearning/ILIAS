@@ -1,16 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Component\Component;
+use DateTimeImmutable;
 
 /**
  * This describes the datetime-field.
  */
-interface DateTime extends Component, FormInput
+interface DateTime extends FormInput
 {
     /**
      * Get an input like this using the given format.
@@ -29,53 +44,46 @@ interface DateTime extends Component, FormInput
 
     /**
      * Get the timezone of this input.
-     * @return null|string
      */
-    public function getTimezone();
+    public function getTimezone() : ?string;
 
     /**
      * Limit accepted values to datetime past (and including) the given $datetime.
      */
-    public function withMinValue(\DateTimeImmutable $datetime) : DateTime;
+    public function withMinValue(DateTimeImmutable $datetime) : DateTime;
 
     /**
      * Return the lowest value the input accepts.
-     * @return  \DateTime | null
      */
-    public function getMinValue();
+    public function getMinValue() : ?DateTimeImmutable;
 
     /**
      * Limit accepted values to datetime before (and including) the given value.
      */
-    public function withMaxValue(\DateTimeImmutable $datetime) : DateTime;
+    public function withMaxValue(DateTimeImmutable $datetime) : DateTime;
 
     /**
      * Return the maximum date the input accepts.
-     * @return  \DateTime | null
      */
-    public function getMaxValue();
+    public function getMaxValue() : ?DateTimeImmutable;
 
     /**
      * Input both date and time.
-     * @return  DateTime
      */
     public function withUseTime(bool $with_time) : DateTime;
 
     /**
      * Should the input be used to get both date and time?
-     * @return  DateTime
      */
     public function getUseTime() : bool;
 
     /**
      * Use this Input for a time-value rather than a date.
-     * @return  DateTime
      */
     public function withTimeOnly(bool $time_only) : DateTime;
 
     /**
      * Should the input be used to get a time only?
-     * @return  DateTime
      */
     public function getTimeOnly() : bool;
 }

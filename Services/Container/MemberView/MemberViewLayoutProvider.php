@@ -3,26 +3,27 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\Layout\Page\Page;
-use ILIAS\UI\Component\Layout\Page\Standard;
 use ILIAS\UI\Component\MainControls\ModeInfo;
 use ilLink;
 use ilMemberViewSettings;
@@ -33,7 +34,7 @@ use ilObject;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MemberViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
+class MemberViewLayoutProvider extends AbstractModificationProvider
 {
     /**
      * @inheritDoc
@@ -53,7 +54,7 @@ class MemberViewLayoutProvider extends AbstractModificationProvider implements M
         $url = new URI(ilLink::_getLink(
             $ref_id,
             ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
-            array('mv' => 0)
+            ['mv' => 0]
         ));
 
         $modeinfo = $dic->ui()->factory()->mainControls()->modeInfo(
@@ -77,7 +78,7 @@ class MemberViewLayoutProvider extends AbstractModificationProvider implements M
         return $this->factory->page()
             ->withLowPriority()
             ->withModification(
-                function (PagePartProvider $parts) use ($mv_mode_info) : Page {
+                static function (PagePartProvider $parts) use ($mv_mode_info) : Page {
                     $p = new StandardPageBuilder();
                     $page = $p->build($parts);
                     return $page->withModeInfo($mv_mode_info);

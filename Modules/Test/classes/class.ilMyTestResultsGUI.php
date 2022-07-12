@@ -17,99 +17,54 @@
  */
 class ilMyTestResultsGUI
 {
-    /**
-     * command constants
-     */
     const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserResultsOverview';
-    
-    /**
-     * @var ilObjTest
-     */
-    protected $testObj;
-    
-    /**
-     * @var ilTestAccess
-     */
-    protected $testAccess;
-    
-    /**
-     * @var ilTestSession
-     */
-    protected $testSession;
-    
-    /**
-     * @var ilTestObjectiveOrientedContainer
-     */
-    protected $objectiveParent;
-    
-    /**
-     * @return ilObjTest
-     */
-    public function getTestObj()
+
+    protected ?ilObjTest $testObj = null;
+    protected ?ilTestAccess $testAccess = null;
+    protected ?ilTestSession $testSession = null;
+    protected ?ilTestObjectiveOrientedContainer $objectiveParent = null;
+
+    public function getTestObj() : ?ilObjTest
     {
         return $this->testObj;
     }
     
-    /**
-     * @param ilObjTest $testObj
-     */
-    public function setTestObj($testObj)
+    public function setTestObj(ilObjTest $testObj) : void
     {
         $this->testObj = $testObj;
     }
-    
-    /**
-     * @return ilTestAccess
-     */
-    public function getTestAccess()
+
+    public function getTestAccess() : ?ilTestAccess
     {
         return $this->testAccess;
     }
     
-    /**
-     * @param ilTestAccess $testAccess
-     */
-    public function setTestAccess($testAccess)
+    public function setTestAccess(ilTestAccess $testAccess) : void
     {
         $this->testAccess = $testAccess;
     }
-    
-    /**
-     * @return ilTestSession
-     */
-    public function getTestSession()
+
+    public function getTestSession() : ?ilTestSession
     {
         return $this->testSession;
     }
-    
-    /**
-     * @param ilTestSession $testSession
-     */
-    public function setTestSession($testSession)
+
+    public function setTestSession(ilTestSession $testSession) : void
     {
         $this->testSession = $testSession;
     }
     
-    /**
-     * @return ilTestObjectiveOrientedContainer
-     */
-    public function getObjectiveParent()
+    public function getObjectiveParent() : ?ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }
-    
-    /**
-     * @param ilTestObjectiveOrientedContainer $objectiveParent
-     */
-    public function setObjectiveParent($objectiveParent)
+
+    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objectiveParent) : void
     {
         $this->objectiveParent = $objectiveParent;
     }
-    
-    /**
-     * Execute Command
-     */
-    public function executeCommand()
+
+    public function executeCommand() : void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

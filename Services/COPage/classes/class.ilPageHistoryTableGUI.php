@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Page History Table GUI Class
@@ -9,21 +23,14 @@
  */
 class ilPageHistoryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
+    protected ilAccessHandler $access;
     protected bool $rselect = false;
     protected bool $lselect = false;
 
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd = ""
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -51,10 +58,9 @@ class ilPageHistoryTableGUI extends ilTable2GUI
     
     /**
     * Should this field be sorted numeric?
-    *
-    * @return	boolean		numeric ordering; default is false
+    * @return    bool        numeric ordering; default is false
     */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == "sortkey") {
             return true;
@@ -66,7 +72,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

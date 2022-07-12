@@ -32,12 +32,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->values = array();
         if (is_array($a_value)) {
@@ -54,7 +49,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	Key size
     */
-    public function setKeySize($a_size)
+    public function setKeySize($a_size) : void
     {
         $this->key_size = $a_size;
     }
@@ -64,7 +59,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	Key size
     */
-    public function getKeySize()
+    public function getKeySize() : int
     {
         return $this->key_size;
     }
@@ -74,7 +69,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	value size
     */
-    public function setValueSize($a_size)
+    public function setValueSize($a_size) : void
     {
         $this->value_size = $a_size;
     }
@@ -84,7 +79,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	value size
     */
-    public function getValueSize()
+    public function getValueSize() : int
     {
         return $this->value_size;
     }
@@ -94,7 +89,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	Key maxlength
     */
-    public function setKeyMaxlength($a_maxlength)
+    public function setKeyMaxlength($a_maxlength) : void
     {
         $this->key_maxlength = $a_maxlength;
     }
@@ -104,7 +99,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	Key maxlength
     */
-    public function getKeyMaxlength()
+    public function getKeyMaxlength() : int
     {
         return $this->key_maxlength;
     }
@@ -114,7 +109,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	value maxlength
     */
-    public function setValueMaxlength($a_maxlength)
+    public function setValueMaxlength($a_maxlength) : void
     {
         $this->value_maxlength = $a_maxlength;
     }
@@ -124,7 +119,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	value maxlength
     */
-    public function getValueMaxlength()
+    public function getValueMaxlength() : int
     {
         return $this->value_maxlength;
     }
@@ -134,7 +129,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	string	$a_name	value name
     */
-    public function setValueName($a_name)
+    public function setValueName($a_name) : void
     {
         $this->value_name = $a_name;
     }
@@ -144,7 +139,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	string	value name
     */
-    public function getValueName()
+    public function getValueName() : string
     {
         return $this->value_name;
     }
@@ -154,7 +149,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	string	$a_name	value name
     */
-    public function setKeyName($a_name)
+    public function setKeyName($a_name) : void
     {
         $this->key_name = $a_name;
     }
@@ -164,7 +159,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	string	value name
     */
-    public function getKeyName()
+    public function getKeyName() : string
     {
         return $this->key_name;
     }
@@ -174,7 +169,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values)
+    public function setValues($a_values) : void
     {
         $this->values = $a_values;
     }
@@ -184,7 +179,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -194,7 +189,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -204,23 +199,22 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
@@ -255,10 +249,9 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
 
     /**
     * Insert property html
-    *
-    * @return	int	Size
+    * @return	void	Size
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -268,10 +261,10 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
         foreach ($this->values as $value) {
             if (is_array($value)) {
                 $tpl->setCurrentBlock("prop_key_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value[0]));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value[0]));
                 $tpl->parseCurrentBlock();
                 $tpl->setCurrentBlock("prop_value_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value[1]));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value[1]));
                 $tpl->parseCurrentBlock();
             }
             if ($this->getAllowMove()) {

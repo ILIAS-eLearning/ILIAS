@@ -1,13 +1,13 @@
-.il-maincontrols-metabar {
+ .il-maincontrols-metabar {
 	display: flex;
     justify-content: space-between;
     align-items: center;
 
 	list-style-type: none; /* Remove bullets */
 
-	// no display labels in metabar level 1
-	>li >.btn-bulky > .bulky-label {
-		display: none;
+	// no display labels in metabar level 1, but make them readable by screenreaders
+	> li > .btn-bulky > .bulky-label, > li > .link-bulky > .bulky-label {
+		.sr-only();
 	}
 
 	.glyphicon {
@@ -34,7 +34,7 @@
 		position: absolute;
 	}
 
-	.btn {
+	.btn, .il-link {
 		position: relative;
 	}
 
@@ -48,7 +48,15 @@
 		top: 32px;
 	}
 
-	.btn-bulky {
+	 > li > .il-link.link-bulky {
+		 display: block;
+		 text-align: center;
+		 padding: @il-padding-base-vertical @il-padding-base-horizontal;
+		 line-height: @il-metabar-entry-height;
+		 border: 1px solid transparent;
+	 }
+
+	 > li > .btn-bulky, > li > .link-bulky {
 		background-color: transparent;
 		height: @il-metabar-entry-height;
 		min-width: @il-metabar-entry-width;
@@ -74,35 +82,29 @@
 		}
 	}
 
-	.bulky-label {
-		white-space: normal;
-		margin-top: @il-mainbar-bulky-label-margin-top;
-		display: block;
-	}
-
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		.il-counter-novelty {
-			top: 7px;
+			top: @il-margin-large-vertical;
 		}
 		.il-counter-status {
 			top: 22px;
 		}
 
 		.il-metabar-more-button {
-			padding-right: 20px;
+			padding-right: @il-padding-large-horizontal;
 			.icon.custom {
 				position: relative;
 				img {
-					margin-right: 5px;
+					margin-right: @il-margin-small-horizontal;
 				}
 				.badge {
 					position: absolute;
-					margin-right: 3px;
+					margin-right: @il-margin-xs-horizontal;
 					&.il-counter-novelty {
-						margin-top: -5px;
+						margin-top: -@il-margin-large-vertical;
 					}
 					&.il-counter-status {
-						margin-top: 10px;
+						margin-top: @il-margin-xxlarge-vertical;
 					}
 				}
 			}
@@ -125,6 +127,11 @@
 
 	top: @il-metabar-entry-height;
 
+	.bulky-label{
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		width: 100%;
 		top: @il-metabar-small-entry-height;
@@ -137,7 +144,7 @@
 		.il-counter-status,
 		.il-counter-novelty {
 			margin-top: 0;
-			top: 5px
+			top: @il-margin-large-vertical
 		}
 		.bulky-label {
 			margin-left: 10px;
@@ -151,10 +158,10 @@
 				content: "\e606";
 
 				font-family: "il-icons";
-				font-size: @il-slate-bulky-glyph-size * 0.85;
+				font-size: @il-font-size-base;
 				position: absolute;
-				right: 10px;
-				top: 20px;
+				right: @il-margin-large-horizontal;
+				top: @il-line-height-base;
 			}
 		}
 

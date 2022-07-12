@@ -22,6 +22,7 @@ class ilImagemapPreview
     public $linewidth_outer;
     public $linewidth_inner;
     public $lng;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
     * ilImagemapPreview constructor
@@ -34,17 +35,18 @@ class ilImagemapPreview
     public function __construct($imagemap_filename = "")
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC['lng'];
         $this->lng = &$lng;
         $this->imagemap_filename = $imagemap_filename;
-        $this->preview_filename = $preview_filename;
+
         if (!@is_file($this->preview_filename)) {
             $extension = ".jpg";
             if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $this->imagemap_filename, $matches)) {
                 $extension = "." . $matches[1];
             }
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            $this->preview_filename = ilUtil::ilTempnam() . $extension;
+            $this->preview_filename = ilFileUtils::ilTempnam() . $extension;
         }
         $this->areas = array();
         $this->points = array();
@@ -52,12 +54,12 @@ class ilImagemapPreview
         $this->linewidth_inner = 2;
     }
 
-    public function getAreaCount()
+    public function getAreaCount() : int
     {
         return count($this->areas);
     }
 
-    public function getPointCount()
+    public function getPointCount() : int
     {
         return count($this->points);
     }
@@ -73,7 +75,7 @@ class ilImagemapPreview
         $linecolor = "red",
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
-    ) {
+    ) : void {
         if (ini_get("safe_mode")) {
             if ((strpos($fillcolor, "#") !== false) || (strpos($fillcolor, "rgb") !== false)) {
                 $fillcolor = str_replace("\"", "", $fillcolor);
@@ -99,7 +101,7 @@ class ilImagemapPreview
         $linecolor = "red",
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
-    ) {
+    ) : void {
         $this->points[$index] = array(
             "coords" => "$coords",
             "linecolor" => '"' . $linecolor . '"',
@@ -109,7 +111,7 @@ class ilImagemapPreview
         );
     }
 
-    public function getAreaIdent()
+    public function getAreaIdent() : string
     {
         if (count($this->areas) + count($this->points) > 0) {
             $arr = array_merge(array_keys($this->areas), array_keys($this->points));
@@ -125,7 +127,7 @@ class ilImagemapPreview
         }
     }
 
-    public function createPreview()
+    public function createPreview() : void
     {
         if (count($this->areas) + count($this->points) == 0) {
             return;
@@ -192,10 +194,40 @@ class ilImagemapPreview
             }
         }
 
-        $source = ilUtil::escapeShellCmd($this->imagemap_filename);
-        $target = ilUtil::escapeShellCmd($this->preview_filename);
+        $source = $this->escapeShellCmd($this->imagemap_filename);
+        $target = $this->escapeShellCmd($this->preview_filename);
+        $convert_cmd = $this->escapeShellCmd($convert_cmd);
+        $convert_cmd = preg_replace('/\\\\(#([a-fA-F0-9]{3}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8}))/', '${1}', $convert_cmd);
         $convert_cmd = $source . "[0] " . $convert_cmd . " " . $target;
-        ilUtil::execConvert($convert_cmd);
+        $this->execQuoted(PATH_TO_CONVERT, $convert_cmd);
+    }
+
+    public static function escapeShellCmd($a_arg)
+    {
+        if (ini_get('safe_mode') == 1) {
+            return $a_arg;
+        }
+        setlocale(LC_CTYPE, "UTF8", "en_US.UTF-8"); // fix for PHP escapeshellcmd bug. See: http://bugs.php.net/bug.php?id=45132
+        return escapeshellcmd($a_arg);
+    }
+
+    public static function execQuoted($cmd, $args = null)
+    {
+        global $DIC;
+
+        if (ilUtil::isWindows() && strpos($cmd, " ") !== false && substr($cmd, 0, 1) !== '"') {
+            $cmd = '"' . $cmd . '"';
+            if ($args) {
+                $cmd .= " " . $args;
+            }
+        } elseif ($args) {
+            $cmd .= " " . $args;
+        }
+        exec($cmd, $arr);
+
+        $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
+
+        return $arr;
     }
 
     public function getPreviewFilename($imagePath, $baseFileName)
@@ -213,12 +245,12 @@ class ilImagemapPreview
                 }
                 @unlink($pfile);
                 if (strlen($pfile) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+                    $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
                 } else {
                     $filename = basename($previewfile);
                 }
             } else {
-                ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
             }
         }
         return $filename;
@@ -228,7 +260,7 @@ class ilImagemapPreview
     * get imagemap html code
     * note: html code should be placed in template files
     */
-    public function getImagemap($title)
+    public function getImagemap($title) : string
     {
         $map = "<map name=\"$title\"> ";
         foreach ($this->areas as $area) {

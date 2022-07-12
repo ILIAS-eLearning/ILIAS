@@ -1,9 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
-include_once './Services/Membership/classes/class.ilMembershipRegistrationSettings.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * @defgroup ModulesSession Modules/Session
@@ -15,93 +27,52 @@ include_once './Services/Membership/classes/class.ilMembershipRegistrationSettin
 */
 class ilObjSession extends ilObject
 {
-    const MAIL_ALLOWED_ALL = 1;
-    const MAIL_ALLOWED_ADMIN = 2;
+    public const MAIL_ALLOWED_ALL = 1;
+    public const MAIL_ALLOWED_ADMIN = 2;
+    public const LOCAL_ROLE_PARTICIPANT_PREFIX = 'il_sess_participant';
+    public const CAL_REG_START = 1;
 
-    const LOCAL_ROLE_PARTICIPANT_PREFIX = 'il_sess_participant';
-    
-    const CAL_REG_START = 1;
-    
-    protected $db;
-    
-    protected $location;
-    protected $name;
-    protected $phone;
-    protected $email;
-    protected $details;
-    protected $registration;
-    protected $event_id;
-    
-    protected $reg_type = ilMembershipRegistrationSettings::TYPE_NONE;
-    protected $reg_limited = 0;
-    protected $reg_min_users = 0;
-    protected $reg_limited_users = 0;
-    protected $reg_waiting_list = 0;
-    protected $reg_waiting_list_autofill; // [bool]
+    protected ilLogger $session_logger;
+    protected ilObjectDataCache $obj_data_cache;
+    protected ilAppEventHandler $event_handler;
+    protected string $location = "";
+    protected string $name = "";
+    protected string $phone = "";
+    protected string $email = "";
+    protected string $details = "";
+    protected int $event_id = 0;
+    protected int $reg_type = ilMembershipRegistrationSettings::TYPE_NONE;
+    protected int $reg_limited = 0;
+    protected int $reg_min_users = 0;
+    protected int $reg_limited_users = 0;
+    protected bool $reg_waiting_list = false;
+    protected bool $reg_waiting_list_autofill = false;
+    protected bool $show_members = false;
+    protected bool $show_cannot_participate_option = true;
+    protected int $mail_members = self::MAIL_ALLOWED_ADMIN;
+    protected array $appointments = [];
+    protected array $files = [];
+    protected ?ilSessionParticipants $members_obj = null;
+    protected bool $registrationNotificationEnabled = false;
+    protected string $notificationOption = ilSessionConstants::NOTIFICATION_INHERIT_OPTION;
 
-    /**
-     * @var bool
-     */
-    protected $show_members = false;
-
-    /**
-     * @var bool
-     */
-    protected $show_cannot_participate_option = true;
-
-    /**
-     * @var int
-     */
-    protected $mail_members = self::MAIL_ALLOWED_ADMIN;
-
-    protected $appointments;
-    protected $files = array();
-    
-    /**
-     * @var ilLogger
-     */
-    protected $session_logger = null;
-
-    /**
-     * @var \ilSessionParticipants
-     */
-    protected $members_obj;
-
-    private $registrationNotificationEnabled = false;
-    private $notificationOption = ilSessionConstants::NOTIFICATION_INHERIT_OPTION;
-
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $this->session_logger = $GLOBALS['DIC']->logger()->sess();
+        $this->session_logger = $DIC->logger()->root();
+        $this->obj_data_cache = $DIC['ilObjDataCache'];
+        $this->event_handler = $DIC->event();
 
-        $this->db = $ilDB;
         $this->type = "sess";
         parent::__construct($a_id, $a_call_by_reference);
     }
-    
-    /**
-     * lookup registration enabled
-     *
-     * @access public
-     * @param
-     * @return
-     * @static
-     */
-    public static function _lookupRegistrationEnabled($a_obj_id)
+
+    public static function _lookupRegistrationEnabled(int $a_obj_id) : bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $query = "SELECT reg_type FROM event " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
@@ -111,38 +82,27 @@ class ilObjSession extends ilObject
         }
         return false;
     }
-    
-    /**
-     * Get session data
-     * @param object $a_obj_id
-     * @return
-     */
-    public static function lookupSession($a_obj_id)
+
+    public static function lookupSession(int $a_obj_id) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $query = "SELECT * FROM event " .
-            "WHERE obj_id = " . $ilDB->quote($a_obj_id);
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
+        $data = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $data['location'] = $row->location ? $row->location : '';
-            $data['details'] = $row->details ? $row->details : '';
-            $data['name'] = $row->tutor_name ? $row->tutor_name : '';
-            $data['email'] = $row->tutor_email ? $row->tutor_email : '';
-            $data['phone'] = $row->tutor_phone ? $row->tutor_phone : '';
+            $data['location'] = $row->location ?: '';
+            $data['details'] = $row->details ?: '';
+            $data['name'] = $row->tutor_name ?: '';
+            $data['email'] = $row->tutor_email ?: '';
+            $data['phone'] = $row->tutor_phone ?: '';
         }
-        return (array) $data;
+        return $data;
     }
-    
-    /**
-     * get title
-     * (overwritten from base class)
-     *
-     * @access public
-     * @return
-     */
+
     public function getPresentationTitle() : string
     {
         $date = new ilDate($this->getFirstAppointment()->getStart()->getUnixTime(), IL_CAL_UNIX);
@@ -153,10 +113,7 @@ class ilObjSession extends ilObject
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getPresentationTitleAppointmentPeriod()
+    public function getPresentationTitleAppointmentPeriod() : string
     {
         $title = '';
         if ($this->getTitle()) {
@@ -171,9 +128,8 @@ class ilObjSession extends ilObject
     /**
      * Create local session participant role
      */
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
         $role = ilObjRole::createDefaultRole(
             self::LOCAL_ROLE_PARTICIPANT_PREFIX . '_' . $this->getRefId(),
             'Participant of session obj_no.' . $this->getId(),
@@ -185,269 +141,165 @@ class ilObjSession extends ilObject
             $this->session_logger->warning('Could not create default session role.');
             $this->session_logger->logStack(ilLogLevel::WARNING);
         }
-        return array();
     }
-    
-    /**
-     * sget event id
-     *
-     * @access public
-     * @return
-     */
-    public function getEventId()
+
+    public function getEventId() : int
     {
         return $this->event_id;
     }
-    
-    /**
-     * set location
-     *
-     * @access public
-     * @param string location
-     */
-    public function setLocation($a_location)
+
+    public function setLocation(string $a_location) : void
     {
         $this->location = $a_location;
     }
-    
-    /**
-     * get location
-     *
-     * @access public
-     * @return string location
-     */
-    public function getLocation()
+
+    public function getLocation() : string
     {
         return $this->location;
     }
-    
-    /**
-     * set name
-     *
-     * @access public
-     * @param string name
-     */
-    public function setName($a_name)
+
+    public function setName(string $a_name) : void
     {
         $this->name = $a_name;
     }
-    
-    /**
-     * get name
-     *
-     * @access public
-     * @return string name
-     */
-    public function getName()
+
+    public function getName() : string
     {
         return $this->name;
     }
-    
-    /**
-     * set phone
-     *
-     * @access public
-     * @param string phone
-     */
-    public function setPhone($a_phone)
+
+    public function setPhone(string $a_phone) : void
     {
         $this->phone = $a_phone;
     }
-    
-    /**
-     * get phone
-     *
-     * @access public
-     * @return string phone
-     */
-    public function getPhone()
+
+    public function getPhone() : string
     {
         return $this->phone;
     }
-    
-    /**
-     * set email
-     *
-     * @access public
-     * @param string email
-     * @return
-     */
-    public function setEmail($a_email)
+
+    public function setEmail(string $a_email) : void
     {
         $this->email = $a_email;
     }
-    
-    /**
-     * get email
-     *
-     * @access public
-     * @return string email
-     */
-    public function getEmail()
+
+    public function getEmail() : string
     {
         return $this->email;
     }
-    
-    /**
-     * check if there any tutor settings
-     *
-     * @access public
-     */
-    public function hasTutorSettings()
+
+    public function hasTutorSettings() : bool
     {
-        return strlen($this->getName()) or
-            strlen($this->getEmail()) or
+        return strlen($this->getName()) ||
+            strlen($this->getEmail()) ||
             strlen($this->getPhone());
     }
-    
-    
-    /**
-     * set details
-     *
-     * @access public
-     * @param string details
-     */
-    public function setDetails($a_details)
+
+    public function setDetails(string $a_details) : void
     {
         $this->details = $a_details;
     }
-    
-    /**
-     * get details
-     *
-     * @access public
-     * @return string details
-     */
-    public function getDetails()
+
+    public function getDetails() : string
     {
         return $this->details;
     }
     
-    public function setRegistrationType($a_type)
+    public function setRegistrationType(int $a_type) : void
     {
         $this->reg_type = $a_type;
     }
     
-    public function getRegistrationType()
+    public function getRegistrationType() : int
     {
         return $this->reg_type;
     }
     
-    public function isRegistrationUserLimitEnabled()
+    public function isRegistrationUserLimitEnabled() : int
     {
         return $this->reg_limited;
     }
     
-    public function enableRegistrationUserLimit($a_limit)
+    public function enableRegistrationUserLimit(int $a_limit) : void
     {
         $this->reg_limited = $a_limit;
     }
     
-    public function getRegistrationMinUsers()
+    public function getRegistrationMinUsers() : int
     {
         return $this->reg_min_users;
     }
     
-    public function setRegistrationMinUsers($a_users)
+    public function setRegistrationMinUsers(int $a_users) : void
     {
         $this->reg_min_users = $a_users;
     }
     
-    public function getRegistrationMaxUsers()
+    public function getRegistrationMaxUsers() : int
     {
         return $this->reg_limited_users;
     }
     
-    public function setRegistrationMaxUsers($a_users)
+    public function setRegistrationMaxUsers(int $a_users) : void
     {
         $this->reg_limited_users = $a_users;
     }
     
-    public function isRegistrationWaitingListEnabled()
+    public function isRegistrationWaitingListEnabled() : bool
     {
         return $this->reg_waiting_list;
     }
     
-    public function enableRegistrationWaitingList($a_stat)
+    public function enableRegistrationWaitingList(bool $a_stat) : void
     {
         $this->reg_waiting_list = $a_stat;
     }
     
-    public function setWaitingListAutoFill($a_value)
+    public function setWaitingListAutoFill(bool $a_value) : void
     {
-        $this->reg_waiting_list_autofill = (bool) $a_value;
+        $this->reg_waiting_list_autofill = $a_value;
     }
     
-    public function hasWaitingListAutoFill()
+    public function hasWaitingListAutoFill() : bool
     {
-        return (bool) $this->reg_waiting_list_autofill;
+        return $this->reg_waiting_list_autofill;
     }
 
-    /**
-     * Show members gallery
-     * @param $a_status
-     */
-    public function setShowMembers($a_status)
+    public function setShowMembers(bool $a_status) : void
     {
-        $this->show_members = (bool) $a_status;
+        $this->show_members = $a_status;
     }
 
-    /**
-     * Member gallery enabled
-     * @return bool
-     */
-    public function getShowMembers()
+    public function getShowMembers() : bool
     {
-        return (bool) $this->show_members;
+        return $this->show_members;
     }
 
-    /**
-     * @return bool
-     */
-    public function isRegistrationNotificationEnabled()
+    public function isRegistrationNotificationEnabled() : bool
     {
-        return (bool) $this->registrationNotificationEnabled;
+        return $this->registrationNotificationEnabled;
     }
 
-    /**
-     * @param $value
-     * @return mixed
-     */
-    public function setRegistrationNotificationEnabled($value)
+    public function setRegistrationNotificationEnabled(bool $value) : void
     {
-        return $this->registrationNotificationEnabled = $value;
+        $this->registrationNotificationEnabled = $value;
     }
 
-    /**
-     * @return string
-     */
-    public function getRegistrationNotificationOption()
+    public function getRegistrationNotificationOption() : string
     {
         return $this->notificationOption;
     }
 
-    /**
-     * @param $value
-     */
-    public function setRegistrationNotificationOption($value)
+    public function setRegistrationNotificationOption(string $value) : void
     {
         $this->notificationOption = $value;
     }
 
-    /**
-     * is registration enabled
-     *
-     * @access public
-     * @return
-     */
-    public function enabledRegistration()
+    public function enabledRegistration() : bool
     {
         return $this->reg_type != ilMembershipRegistrationSettings::TYPE_NONE;
     }
 
-    /**
-     * @return bool
-     */
     public function enabledRegistrationForUsers() : bool
     {
         return
@@ -460,104 +312,53 @@ class ilObjSession extends ilObject
         return $this->show_cannot_participate_option;
     }
 
-    /**
-     * @param bool $status
-     */
     public function enableCannotParticipateOption(bool $status) : void
     {
         $this->show_cannot_participate_option = $status;
     }
-    
-    /**
-     * get appointments
-     *
-     * @access public
-     * @return array
-     */
-    public function getAppointments()
+
+    public function getAppointments() : array
     {
-        return $this->appointments ? $this->appointments : array();
+        return $this->appointments;
     }
-    
-    /**
-     * add appointment
-     *
-     * @access public
-     * @param object ilSessionAppointment
-     * @return
-     */
-    public function addAppointment($appointment)
+
+    public function addAppointment(ilSessionAppointment $appointment) : void
     {
         $this->appointments[] = $appointment;
     }
     
     /**
-     * set appointments
-     *
-     * @access public
-     * @param array ilSessionAppointments
-     * @return
+     * @param ilSessionAppointment[]
      */
-    public function setAppointments($appointments)
+    public function setAppointments(array $appointments) : void
     {
         $this->appointments = $appointments;
     }
 
-    /**
-     * get first appointment
-     *
-     * @access public
-     * @return  ilSessionAppointment
-     */
-    public function getFirstAppointment()
+    public function getFirstAppointment() : ilSessionAppointment
     {
-        return is_object($this->appointments[0]) ? $this->appointments[0] : ($this->appointments[0] = new ilSessionAppointment());
-    }
-    
-    /**
-     * get files
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function getFiles()
-    {
-        return $this->files ? $this->files : array();
+        $app = $this->appointments[0] ?? null;
+        return is_object($app) ? $app : ($this->appointments[0] = new ilSessionAppointment());
     }
 
+    public function getFiles() : array
+    {
+        return $this->files;
+    }
 
-    /**
-     * Set mail to members type
-     * @param int $a_type
-     */
-    public function setMailToMembersType($a_type)
+    public function setMailToMembersType(int $a_type) : void
     {
         $this->mail_members = $a_type;
     }
 
-    /**
-     * Get mail to members type
-     * @return int
-     */
-    public function getMailToMembersType()
+    public function getMailToMembersType() : int
     {
         return $this->mail_members;
     }
 
-
-    /**
-     * validate
-     *
-     * @access public
-     * @param
-     * @return bool
-     */
-    public function validate()
+    public function validate() : bool
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
+        $ilErr = $this->error;
         
         // #17114
         if ($this->isRegistrationUserLimitEnabled() &&
@@ -568,19 +369,11 @@ class ilObjSession extends ilObject
         
         return true;
     }
-    
-    /**
-     * Clone course (no member data)
-     *
-     * @access public
-     * @param int target ref_id
-     * @param int copy id
-     *
-     */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObjSession
     {
         /**
-         * @var ilObjSession
+         * @var ilObjSession $new_obj
          */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
@@ -608,22 +401,14 @@ class ilObjSession extends ilObject
         
     
         // Copy learning progress settings
-        include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
         unset($obj_settings);
         
         return $new_obj;
     }
-    
-    /**
-     * clone settings
-     *
-     * @access public
-     * @param ilObjSession
-     * @return
-     */
-    public function cloneSettings(ilObjSession $new_obj)
+
+    public function cloneSettings(ilObjSession $new_obj) : bool
     {
         ilContainer::_writeContainerSetting(
             $new_obj->getId(),
@@ -634,7 +419,6 @@ class ilObjSession extends ilObject
             )
         );
 
-        // @var ilObjSession $new_obj
         $new_obj->setLocation($this->getLocation());
         $new_obj->setName($this->getName());
         $new_obj->setPhone($this->getPhone());
@@ -658,46 +442,25 @@ class ilObjSession extends ilObject
         
         return true;
     }
-    
-    /**
-     * Clone dependencies
-     *
-     * @param int target id ref_id of new session
-     * @param int copy_id
-     * @return
-     */
-    public function cloneDependencies($a_target_id, $a_copy_id)
-    {
-        global $DIC;
 
-        $ilObjDataCache = $DIC['ilObjDataCache'];
+    public function cloneDependencies($a_target_id, $a_copy_id) : bool
+    {
+        $ilObjDataCache = $this->obj_data_cache;
         
         parent::cloneDependencies($a_target_id, $a_copy_id);
 
         $target_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
-        
-        include_once('./Modules/Session/classes/class.ilEventItems.php');
+
         $session_materials = new ilEventItems($target_obj_id);
         $session_materials->cloneItems($this->getId(), $a_copy_id);
 
         return true;
     }
-    
-    
-    
-    /**
-     * create new session
-     *
-     * @access public
-     */
-    public function create($a_skip_meta_data = false)
+
+    public function create(bool $a_skip_meta_data = false) : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        global $DIC;
-
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        $ilDB = $this->db;
+        $ilAppEventHandler = $this->event_handler;
     
         parent::create();
         
@@ -717,18 +480,18 @@ class ilObjSession extends ilObject
             $this->db->quote($this->getPhone(), 'text') . ", " .
             $this->db->quote($this->getEmail(), 'text') . ", " .
             $this->db->quote($this->getDetails(), 'text') . "," .
-            $this->db->quote($this->enabledRegistrationForUsers(), 'integer') . ", " .
+            $this->db->quote((int) $this->enabledRegistrationForUsers(), 'integer') . ", " .
             $this->db->quote($this->getRegistrationType(), 'integer') . ', ' .
             $this->db->quote($this->getRegistrationMaxUsers(), 'integer') . ', ' .
             $this->db->quote($this->isRegistrationUserLimitEnabled(), 'integer') . ', ' .
-            $this->db->quote($this->isRegistrationWaitingListEnabled(), 'integer') . ', ' .
+            $this->db->quote((int) $this->isRegistrationWaitingListEnabled(), 'integer') . ', ' .
             $this->db->quote($this->getRegistrationMinUsers(), 'integer') . ', ' .
-            $this->db->quote($this->hasWaitingListAutoFill(), 'integer') . ', ' .
-            $this->db->quote($this->getShowMembers(), 'integer') . ', ' .
+            $this->db->quote((int) $this->hasWaitingListAutoFill(), 'integer') . ', ' .
+            $this->db->quote((int) $this->getShowMembers(), 'integer') . ', ' .
             $this->db->quote($this->getMailToMembersType(), 'integer') . ',' .
-            $this->db->quote($this->isRegistrationNotificationEnabled(), 'integer') . ', ' .
+            $this->db->quote((int) $this->isRegistrationNotificationEnabled(), 'integer') . ', ' .
             $this->db->quote($this->getRegistrationNotificationOption(), 'text') . ', ' .
-            $this->db->quote($this->isCannotParticipateOptionEnabled(), ilDBConstants::T_INTEGER) . ' ' .
+            $this->db->quote((int) $this->isCannotParticipateOptionEnabled(), ilDBConstants::T_INTEGER) . ' ' .
             ")";
         $res = $ilDB->manipulate($query);
         $this->event_id = $next_id;
@@ -743,22 +506,11 @@ class ilObjSession extends ilObject
 
         return $this->getId();
     }
-    
-    /**
-     * update object
-     *
-     * @access public
-     * @param
-     * @return bool success
-     */
-    public function update($a_skip_meta_update = false)
+
+    public function update(bool $a_skip_meta_update = false) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        global $DIC;
-
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        $ilDB = $this->db;
+        $ilAppEventHandler = $this->event_handler;
 
         if (!parent::update()) {
             return false;
@@ -773,19 +525,19 @@ class ilObjSession extends ilObject
             "tutor_phone = " . $this->db->quote($this->getPhone(), 'text') . ", " .
             "tutor_email = " . $this->db->quote($this->getEmail(), 'text') . ", " .
             "details = " . $this->db->quote($this->getDetails(), 'text') . ", " .
-            "registration = " . $this->db->quote($this->enabledRegistrationForUsers(), 'integer') . ", " .
+            "registration = " . $this->db->quote((int) $this->enabledRegistrationForUsers(), 'integer') . ", " .
             "reg_type = " . $this->db->quote($this->getRegistrationType(), 'integer') . ", " .
             "reg_limited = " . $this->db->quote($this->isRegistrationUserLimitEnabled(), 'integer') . ", " .
             "reg_limit_users = " . $this->db->quote($this->getRegistrationMaxUsers(), 'integer') . ", " .
             "reg_min_users = " . $this->db->quote($this->getRegistrationMinUsers(), 'integer') . ", " .
-            "reg_waiting_list = " . $this->db->quote($this->isRegistrationWaitingListEnabled(), 'integer') . ", " .
-            "reg_auto_wait = " . $this->db->quote($this->hasWaitingListAutoFill(), 'integer') . ", " .
-            'show_members = ' . $this->db->quote($this->getShowMembers(), 'integer') . ', ' .
+            "reg_waiting_list = " . $this->db->quote((int) $this->isRegistrationWaitingListEnabled(), 'integer') . ", " .
+            "reg_auto_wait = " . $this->db->quote((int) $this->hasWaitingListAutoFill(), 'integer') . ", " .
+            'show_members = ' . $this->db->quote((int) $this->getShowMembers(), 'integer') . ', ' .
             'mail_members = ' . $this->db->quote($this->getMailToMembersType(), 'integer') . ', ' .
-            "reg_auto_wait = " . $this->db->quote($this->hasWaitingListAutoFill(), 'integer') . ", " .
-            "reg_notification = " . $this->db->quote($this->isRegistrationNotificationEnabled(), 'integer') . ", " .
+            "reg_auto_wait = " . $this->db->quote((int) $this->hasWaitingListAutoFill(), 'integer') . ", " .
+            "reg_notification = " . $this->db->quote((int) $this->isRegistrationNotificationEnabled(), 'integer') . ", " .
             "notification_opt = " . $this->db->quote($this->getRegistrationNotificationOption(), 'text') . ", " .
-            'show_cannot_part = ' . $this->db->quote($this->isCannotParticipateOptionEnabled(), ilDBConstants::T_INTEGER) . ' ' .
+            'show_cannot_part = ' . $this->db->quote((int) $this->isCannotParticipateOptionEnabled(), ilDBConstants::T_INTEGER) . ' ' .
             "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
         
@@ -798,21 +550,11 @@ class ilObjSession extends ilObject
         );
         return true;
     }
-    
-    /**
-     * delete session and all related data
-     *
-     * @access public
-     * @return bool
-     */
-    public function delete()
+
+    public function delete() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        global $DIC;
-
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        $ilDB = $this->db;
+        $ilAppEventHandler = $this->event_handler;
         
         if (!parent::delete()) {
             return false;
@@ -824,14 +566,9 @@ class ilObjSession extends ilObject
         $query = "DELETE FROM event " .
             "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
-        include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+
         ilSessionAppointment::_deleteBySession($this->getId());
-        
-        include_once('./Modules/Session/classes/class.ilEventItems.php');
         ilEventItems::_delete($this->getId());
-        
-        include_once('./Modules/Session/classes/class.ilEventParticipants.php');
         ilEventParticipants::_deleteByEvent($this->getId());
         
         foreach ($this->getFiles() as $file) {
@@ -845,19 +582,11 @@ class ilObjSession extends ilObject
                 'obj_id' => $this->getId(),
                 'appointments' => $this->prepareCalendarAppointments('delete'))
         );
-        
-        
+
         return true;
     }
-    
-    /**
-     * read session data
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function read()
+
+    public function read() : void
     {
         parent::read();
         
@@ -871,69 +600,48 @@ class ilObjSession extends ilObject
             $this->setPhone($row->tutor_phone);
             $this->setEmail($row->tutor_email);
             $this->setDetails($row->details);
-            $this->setRegistrationType($row->reg_type);
-            $this->enableRegistrationUserLimit($row->reg_limited);
-            $this->enableRegistrationWaitingList($row->reg_waiting_list);
-            $this->setWaitingListAutoFill($row->reg_auto_wait);
-            $this->setRegistrationMaxUsers($row->reg_limit_users);
-            $this->setRegistrationMinUsers($row->reg_min_users);
+            $this->setRegistrationType((int) $row->reg_type);
+            $this->enableRegistrationUserLimit((int) $row->reg_limited);
+            $this->enableRegistrationWaitingList((bool) $row->reg_waiting_list);
+            $this->setWaitingListAutoFill((bool) $row->reg_auto_wait);
+            $this->setRegistrationMaxUsers((int) $row->reg_limit_users);
+            $this->setRegistrationMinUsers((int) $row->reg_min_users);
             $this->setShowMembers((bool) $row->show_members);
             $this->setMailToMembersType((int) $row->mail_members);
-            $this->setRegistrationNotificationEnabled($row->reg_notification);
+            $this->setRegistrationNotificationEnabled((bool) $row->reg_notification);
             $this->setRegistrationNotificationOption($row->notification_opt);
             $this->enableCannotParticipateOption((bool) $row->show_cannot_part);
-            $this->event_id = $row->event_id;
+            $this->event_id = (int) $row->event_id;
         }
 
         $this->initAppointments();
         $this->initFiles();
     }
-    
-    /**
-     * init appointments
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function initAppointments()
+
+    protected function initAppointments() : void
     {
         // get assigned appointments
-        include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
         $this->appointments = ilSessionAppointment::_readAppointmentsBySession($this->getId());
     }
-    
-    /**
-     * init files
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    public function initFiles()
+
+    public function initFiles() : void
     {
-        include_once('./Modules/Session/classes/class.ilSessionFile.php');
         $this->files = ilSessionFile::_readFilesByEvent($this->getEventId());
     }
     
     
     /**
-     * Prepare calendar appointments
-     *
-     * @access public
-     * @param string mode UPDATE|CREATE|DELETE
-     * @return
+     * @param string $a_mode UPDATE|CREATE|DELETE
+     * @return ilCalendarAppointmentTemplate[]|array
      */
-    public function prepareCalendarAppointments($a_mode = 'create')
+    public function prepareCalendarAppointments(string $a_mode = 'create') : array
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php');
-        
         switch ($a_mode) {
             case 'create':
             case 'update':
 
                 $app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
-                $app->setTranslationType(IL_CAL_TRANSLATION_NONE);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
                 $app->setTitle($this->getTitle() ? $this->getTitle() : $this->lng->txt('obj_sess'));
                 $app->setDescription($this->getLongDescription());
                 $app->setLocation($this->getLocation());
@@ -948,14 +656,13 @@ class ilObjSession extends ilObject
                 
             case 'delete':
                 // Nothing to do: The category and all assigned appointments will be deleted.
-                return array();
+                return [];
         }
+
+        return [];
     }
-    
-    /**
-     * Handle auto fill for session members
-     */
-    public function handleAutoFill()
+
+    public function handleAutoFill() : bool
     {
         if (
             !$this->isRegistrationWaitingListEnabled() ||
@@ -991,19 +698,15 @@ class ilObjSession extends ilObject
             if ($this->enabledRegistrationForUsers()) {
                 $this->session_logger->debug('Registration enabled: register user');
                 $parts->register($user_id);
-                $parts->sendNotification(
-                    ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
-                    $user_id
-                );
             } else {
                 $this->session_logger->debug('Registration disabled: set user status to participated.');
                 $parts->getEventParticipants()->updateParticipation($user_id, true);
-                $parts->sendNotification(
-                    ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
-                    $user_id
-                );
             }
-            
+            $parts->sendNotification(
+                ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
+                $user_id
+            );
+
             $session_waiting_list->removeFromList($user_id);
             
             $current++;
@@ -1011,27 +714,16 @@ class ilObjSession extends ilObject
                 break;
             }
         }
-    }
-    
 
-    /**
-     * init participants object
-     *
-     *
-     * @access protected
-     * @return
-     */
-    protected function initParticipants()
+        return true;
+    }
+
+    protected function initParticipants() : void
     {
         $this->members_obj = ilSessionParticipants::_getInstanceByObjId($this->getId());
     }
-    
-    /**
-     * Get members objects
-     *
-     * @return  \ilSessionParticipants
-     */
-    public function getMembersObject()
+
+    public function getMembersObject() : ilSessionParticipants
     {
         if (!$this->members_obj instanceof ilSessionParticipants) {
             $this->initParticipants();
@@ -1039,11 +731,7 @@ class ilObjSession extends ilObject
         return $this->members_obj;
     }
 
-    /**
-     * ALways disabled
-     * @return bool
-     */
-    public function getEnableMap()
+    public function getEnableMap() : bool
     {
         return false;
     }

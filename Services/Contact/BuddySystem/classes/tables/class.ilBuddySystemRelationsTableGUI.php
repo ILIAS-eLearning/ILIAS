@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBuddyList
@@ -9,12 +24,14 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 {
     private const APPLY_FILTER_CMD = 'applyContactsTableFilter';
     private const RESET_FILTER_CMD = 'resetContactsTableFilter';
-    private const STATE_FILTER_ELM_ID = 'relation_state_type';
+    public const STATE_FILTER_ELM_ID = 'relation_state_type';
 
     protected ilGlobalTemplateInterface $containerTemplate;
     protected bool $hasAccessToMailSystem = false;
     protected bool $isChatEnabled = false;
     protected ilObjUser $user;
+    /** @var array<string, mixed>  */
+    protected array $filter = [];
 
     /**
      * @param object $a_parent_obj
@@ -38,7 +55,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         );
 
         $chatSettings = new ilSetting('chatroom');
-        $this->isChatEnabled = (bool) $chatSettings->get('chat_enabled');
+        $this->isChatEnabled = (bool) $chatSettings->get('chat_enabled', '0');
 
         $this->setDefaultOrderDirection('ASC');
         $this->setDefaultOrderField('public_name');
@@ -72,7 +89,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         $this->filters = [];
         $this->filter = [];
@@ -83,9 +100,14 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         );
 
         $options = [];
-        $state = ilBuddySystemRelationStateFactory::getInstance()->getStatesAsOptionArray();
-        foreach ($state as $key => $option) {
-            $options[$key] = $option;
+        $state_factory = ilBuddySystemRelationStateFactory::getInstance();
+        foreach ($state_factory->getValidStates() as $state) {
+            if ($state->isInitial()) {
+                continue;
+            }
+
+            $state_filter_mapper = $state_factory->getTableFilterStateMapper($state);
+            $options += $state_filter_mapper->optionsForState();
         }
         $relations_state_selection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
         $this->addFilterItem($relations_state_selection);
@@ -99,8 +121,24 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     }
 
     /**
-     *
+     * @param string $filterKey
+     * @param mixed $value
+     * @return void
      */
+    public function applyFilterValue(string $filterKey, $value) : void
+    {
+        foreach ([$this->getFilterItems(), $this->getFilterItems(true)] as $filterItems) {
+            foreach ($filterItems as $item) {
+                /** @var ilTableFilterItem|ilFormPropertyGUI $item */
+                if ($item->getPostVar() === $filterKey) {
+                    $item->setValueByArray([$filterKey => $value]);
+                    $item->writeToSession();
+                    break 2;
+                }
+            }
+        }
+    }
+
     public function populate() : void
     {
         $this->setExternalSorting(false);
@@ -111,14 +149,16 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $relations = ilBuddyList::getInstanceByGlobalUser()->getRelations();
 
         $state_filter = (string) $this->filter[self::STATE_FILTER_ELM_ID];
-        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter) {
-            return !strlen($state_filter) || strtolower(get_class($relation->getState())) == strtolower($state_filter);
+        $state_factory = ilBuddySystemRelationStateFactory::getInstance();
+        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory) : bool {
+            $state_filter_mapper = $state_factory->getTableFilterStateMapper($relation->getState());
+            return $state_filter === '' || $state_filter_mapper->filterMatchesRelation($state_filter, $relation);
         });
 
         $public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
         $logins = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
 
-        $logins = array_map(function ($value) {
+        $logins = array_map(static function (string $value) : string {
             $matches = null;
             preg_match_all('/\[([^\[]+?)\]/', $value, $matches);
             return (
@@ -129,7 +169,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
             ) ? $matches[1][count($matches[1]) - 1] : '';
         }, $logins);
 
-        $public_name_query = (string) $this->filter['public_name'];
+        $public_name_query = (string) ($this->filter['public_name'] ?? '');
         $relations = $relations->filter(static function (ilBuddySystemRelation $relation) use (
             $public_name_query,
             $relations,
@@ -168,10 +208,10 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->hasAccessToMailSystem) {
-            $a_set['chb'] = ilUtil::formCheckbox(0, 'usr_id[]', $a_set['usr_id']);
+            $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'usr_id[]', (string) $a_set['usr_id']);
         }
 
         $public_profile = ilObjUser::_lookupPref($a_set['usr_id'], 'public_profile');
@@ -198,7 +238,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function render()
+    public function render() : string
     {
         $listener_tpl = new ilTemplate(
             'tpl.buddy_system_relation_table_listener.html',
@@ -210,7 +250,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $listener_tpl->setVariable('FILTER_ELM_ID', self::STATE_FILTER_ELM_ID);
         $listener_tpl->setVariable(
             'NO_ENTRIES_TEXT',
-            $this->getNoEntriesText() ? $this->getNoEntriesText() : $this->lng->txt('no_items')
+            $this->getNoEntriesText() ?: $this->lng->txt('no_items')
         );
 
         return parent::render() . $listener_tpl->get();

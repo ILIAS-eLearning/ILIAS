@@ -1,12 +1,30 @@
-<?php
-/* Copyright (c) 2017 Jesús López <lopez@leifos.de> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use LogicException;
 
 /**
  * Class Renderer
@@ -16,11 +34,7 @@ class Renderer extends AbstractComponentRenderer
 {
     public const MODE_ROLE = "group";
 
-    /**
-     * @param Component\Component $component
-     * @param RendererInterface $default_renderer
-     */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -36,9 +50,10 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\ViewControl\Pagination) {
             return $this->renderPagination($component, $default_renderer);
         }
+        throw new LogicException("Component '{$component->getCanonicalName()}' isn't supported by this renderer.");
     }
 
-    protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer)
+    protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer) : string
     {
         $f = $this->getUIFactory();
 
@@ -56,7 +71,8 @@ class Renderer extends AbstractComponentRenderer
 
             $tpl->setCurrentBlock("view_control");
 
-            //At this point we don't have an specific text for the button aria label. component->getAriaLabel gets the main viewcontrol aria label.
+            //At this point we don't have a specific text for the button aria label.
+            // component->getAriaLabel gets the main view control aria label.
             $button = $f->button()->standard($label, $action)->withAriaLabel($label);
             if ($activate_first_item) {
                 $button = $button->withEngagedState(true);
@@ -73,8 +89,10 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderSection(Component\ViewControl\Section $component, RendererInterface $default_renderer)
-    {
+    protected function renderSection(
+        Component\ViewControl\Section $component,
+        RendererInterface $default_renderer
+    ) : string {
         $tpl = $this->getTemplate("tpl.section.html", true, true);
 
         // render middle button
@@ -89,12 +107,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    /**
-     * @param Component\Button\Button $component button
-     * @param $tpl
-     * @param string $type
-     */
-    protected function renderSectionButton(Component\Button\Button $component, $tpl, $type)
+    protected function renderSectionButton(Component\Button\Button $component, Template $tpl, string $type) : void
     {
         $uptype = strtoupper($type);
 
@@ -114,9 +127,10 @@ class Renderer extends AbstractComponentRenderer
         $this->renderId($component, $tpl, $type . "_with_id", $uptype . "_ID");
     }
 
-
-    protected function renderSortation(Component\ViewControl\Sortation $component, RendererInterface $default_renderer)
-    {
+    protected function renderSortation(
+        Component\ViewControl\Sortation $component,
+        RendererInterface $default_renderer
+    ) : string {
         $f = $this->getUIFactory();
 
         $tpl = $this->getTemplate("tpl.sortation.html", true, true);
@@ -127,12 +141,10 @@ class Renderer extends AbstractComponentRenderer
             $internal_signal = $component->getSelectSignal();
             $signal = $triggeredSignals[0]->getSignal();
 
-            $component = $component->withAdditionalOnLoadCode(function ($id) use ($internal_signal, $signal) {
-                return "$(document).on('{$internal_signal}', function(event, signalData) {
-							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '{$signal}', '{$id}');
+            $component = $component->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$internal_signal', function(event, signalData) {
+							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '$signal', '$id');
 							return false;
-						})";
-            });
+						})");
         }
 
         $this->renderId($component, $tpl, "id", "ID");
@@ -145,7 +157,7 @@ class Renderer extends AbstractComponentRenderer
             if ($triggeredSignals) {
                 $shy = $f->button()->shy($label, $val)->withOnClick($internal_signal);
             } else {
-                $url = $component->getTargetURL();
+                $url = $component->getTargetURL() ?? '';
                 $url .= (strpos($url, '?') === false) ?  '?' : '&';
                 $url .= $component->getParameterName() . '=' . $val;
                 $shy = $f->button()->shy($label, $url);
@@ -160,10 +172,10 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-
-
-    protected function renderPagination(Component\ViewControl\Pagination $component, RendererInterface $default_renderer)
-    {
+    protected function renderPagination(
+        Component\ViewControl\Pagination $component,
+        RendererInterface $default_renderer
+    ) : string {
         $tpl = $this->getTemplate("tpl.pagination.html", true, true);
 
         /**
@@ -174,12 +186,10 @@ class Renderer extends AbstractComponentRenderer
         if ($triggeredSignals) {
             $internal_signal = $component->getInternalSignal();
             $signal = $triggeredSignals[0]->getSignal();
-            $component = $component->withOnLoadCode(function ($id) use ($internal_signal, $signal) {
-                return "$(document).on('{$internal_signal}', function(event, signalData) {
-							il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '{$signal}', '{$id}');
+            $component = $component->withOnLoadCode(fn ($id) => "$(document).on('$internal_signal', function(event, signalData) {
+							il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
 							return false;
-						})";
-            });
+						})");
 
             $id = $this->bindJavaScript($component);
             $tpl->setVariable('ID', $id);
@@ -189,7 +199,7 @@ class Renderer extends AbstractComponentRenderer
         $chunk_options = array();
         foreach ($range as $entry) {
             $shy = $this->getPaginationShyButton($entry, $component);
-            if ((int) $entry === $component->getCurrentPage()) {
+            if ($entry === $component->getCurrentPage()) {
                 $shy = $shy->withEngagedState(true);
             }
             $chunk_options[] = $shy;
@@ -233,11 +243,9 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Get the range of pagination-buttons to show.
      *
-     * @param Component\ViewControl\Pagination 	$component
-     *
      * @return  int[]
      */
-    protected function getPaginationRange(Component\ViewControl\Pagination $component)
+    protected function getPaginationRange(Component\ViewControl\Pagination $component) : array
     {
         if (!$component->getMaxPaginationButtons()) {
             $start = 0;
@@ -258,26 +266,21 @@ class Renderer extends AbstractComponentRenderer
         return range($start, $stop);
     }
 
-
-    /**
-     * @param string 	$val
-     * @param Component\ViewControl\Pagination 	$component
-     * @param string 	$label
-     *
-     * @return \ILIAS\UI\Component\Button\Shy
-     */
-    protected function getPaginationShyButton($val, Component\ViewControl\Pagination $component, $label = '')
-    {
+    protected function getPaginationShyButton(
+        int $val,
+        Component\ViewControl\Pagination $component,
+        string $label = ''
+    ) : Shy {
         $f = $this->getUIFactory();
 
         if ($label === '') {
-            $label = (string) ((int) $val + 1);
+            $label = (string) ($val + 1);
         }
 
         if ($component->getTriggeredSignals()) {
             $shy = $f->button()->shy($label, (string) $val)->withOnClick($component->getInternalSignal());
         } else {
-            $url = $component->getTargetURL();
+            $url = $component->getTargetURL() ?? '';
             if (strpos($url, '?') === false) {
                 $url .= '?' . $component->getParameterName() . '=' . $val;
             } else {
@@ -294,15 +297,12 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * Add back/next-glyphs to the template for left/right browsing in pagination
-     *
-     * @param Component\ViewControl\Pagination 	$component
-     * @param RendererInterface $default_renderer 	$default_renderer
-     * @param \ILIAS\UI\Implementation\Render\Template 	$tpl
-     *
-     * @return void
      */
-    protected function setPaginationBrowseControls(Component\ViewControl\Pagination $component, RendererInterface $default_renderer, $tpl)
-    {
+    protected function setPaginationBrowseControls(
+        Component\ViewControl\Pagination $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ) : void {
         $prev = max(0, $component->getCurrentPage() - 1);
         $next = $component->getCurrentPage() + 1;
 
@@ -312,7 +312,7 @@ class Renderer extends AbstractComponentRenderer
             $back = $f->symbol()->glyph()->back('')->withOnClick($component->getInternalSignal());
             $forward = $f->symbol()->glyph()->next('')->withOnClick($component->getInternalSignal());
         } else {
-            $url = $component->getTargetURL();
+            $url = $component->getTargetURL() ?? '';
             if (strpos($url, '?') === false) {
                 $url_prev = $url . '?' . $component->getParameterName() . '=' . $prev;
                 $url_next = $url . '?' . $component->getParameterName() . '=' . $next;
@@ -345,15 +345,14 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Add quick-access to first/last pages in pagination.
      *
-     * @param Component\ViewControl\Pagination 	$component
      * @param int[]	$range
-     * @param RendererInterface $default_renderer 	$default_renderer
-     * @param \ILIAS\UI\Implementation\Render\Template $tpl
-     *
-     * @return void
      */
-    protected function setPaginationFirstLast(Component\ViewControl\Pagination $component, $range, RendererInterface $default_renderer, $tpl)
-    {
+    protected function setPaginationFirstLast(
+        Component\ViewControl\Pagination $component,
+        array $range,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ) : void {
         if (!in_array(0, $range)) {
             $shy = $this->getPaginationShyButton(0, $component);
             $tpl->setVariable('FIRST', $default_renderer->render($shy));
@@ -365,20 +364,22 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-
     /**
      * @inheritdoc
      */
-    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/ViewControl/sortation.js');
         $registry->register('./src/UI/templates/js/ViewControl/pagination.js');
     }
 
-
-    protected function renderId(Component\JavaScriptBindable $component, $tpl, $block, $template_var)
-    {
+    protected function renderId(
+        Component\JavaScriptBindable $component,
+        Template $tpl,
+        string $block,
+        string $template_var
+    ) : void {
         $id = $this->bindJavaScript($component);
         if (!$id) {
             $id = $this->createId();
@@ -391,7 +392,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(
             Component\ViewControl\Mode::class,

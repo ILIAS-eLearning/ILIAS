@@ -1,25 +1,36 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilADNDismiss
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilADNDismiss extends ActiveRecord
 {
+    public const TABLE_NAME = 'il_adn_dismiss';
 
-    const TABLE_NAME = 'il_adn_dismiss';
-
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }
 
     /**
-     * @return string
      * @deprecated
      */
     public static function returnDbTableName() : string
@@ -27,23 +38,15 @@ class ilADNDismiss extends ActiveRecord
         return self::TABLE_NAME;
     }
 
-    /**
-     * @var array
-     */
-    protected static $request_cache = array();
+    protected static array $request_cache = array();
 
-    /**
-     * @param ilObjUser         $ilObjUser
-     * @param ilADNNotification $ilADNNotification
-     * @return bool
-     */
     public static function hasDimissed(ilObjUser $ilObjUser, ilADNNotification $ilADNNotification) : bool
     {
         $not_id = $ilADNNotification->getId();
         $usr_id = $ilObjUser->getId();
         if (!isset(self::$request_cache[$usr_id][$not_id])) {
             self::$request_cache[$usr_id][$not_id] = self::where(array(
-                'usr_id'          => $usr_id,
+                'usr_id' => $usr_id,
                 'notification_id' => $not_id,
             ))->hasSets();
         }
@@ -51,13 +54,9 @@ class ilADNDismiss extends ActiveRecord
         return (bool) self::$request_cache[$usr_id][$not_id];
     }
 
-    /**
-     * @param ilObjUser         $ilObjUser
-     * @param ilADNNotification $ilADNNotification
-     */
     public static function dismiss(ilObjUser $ilObjUser, ilADNNotification $ilADNNotification) : void
     {
-        if (!self::hasDimissed($ilObjUser, $ilADNNotification) and $ilADNNotification->isUserAllowedToDismiss($ilObjUser)) {
+        if (!self::hasDimissed($ilObjUser, $ilADNNotification) && $ilADNNotification->isUserAllowedToDismiss($ilObjUser)) {
             $obj = new self();
             $obj->setNotificationId($ilADNNotification->getId());
             $obj->setUsrId($ilObjUser->getId());
@@ -65,9 +64,6 @@ class ilADNDismiss extends ActiveRecord
         }
     }
 
-    /**
-     * @param ilADNNotification $ilADNNotification
-     */
     public static function reactivateAll(ilADNNotification $ilADNNotification) : void
     {
         /**
@@ -79,7 +75,6 @@ class ilADNDismiss extends ActiveRecord
     }
 
     /**
-     * @var int
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -87,66 +82,46 @@ class ilADNDismiss extends ActiveRecord
      * @con_length     8
      * @con_sequence   true
      */
-    protected $id = 0;
+    protected ?int $id = null;
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $usr_id = 0;
+    protected int $usr_id = 0;
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $notification_id = 0;
+    protected int $notification_id = 0;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getUsrId()
+    public function getUsrId() : int
     {
         return $this->usr_id;
     }
 
-    /**
-     * @param int $usr_id
-     */
-    public function setUsrId($usr_id)
+    public function setUsrId(int $usr_id) : void
     {
         $this->usr_id = $usr_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getNotificationId()
+    public function getNotificationId() : int
     {
         return $this->notification_id;
     }
 
-    /**
-     * @param int $notification_id
-     */
-    public function setNotificationId($notification_id)
+    public function setNotificationId(int $notification_id) : void
     {
         $this->notification_id = $notification_id;
     }

@@ -1,8 +1,18 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Handles scorm mail placeholders
  *
@@ -11,36 +21,27 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
  */
 class ilScormMailTemplateLPContext extends ilMailTemplateContext
 {
-    const ID = 'sahs_context_lp';
+    public const ID = 'sahs_context_lp';
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule('sahs');
 
         return $lng->txt('sahs_mail_context_lp');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule('sahs');
 
@@ -49,7 +50,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 
     /**
      * Return an array of placeholders
-     * @return array
      */
     public function getSpecificPlaceholders() : array
     {
@@ -57,12 +57,9 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
          * @var $lng ilLanguage
          */
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule('trac');
-
-        // tracking settings
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
         $tracking = new ilObjUserTracking();
 
 
@@ -120,12 +117,12 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
     }
 
     /**
-     * {@inheritdoc}
+     * @throws ilDateTimeException
      */
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
+        ?ilObjUser $recipient = null,
         bool $html_markup = false
     ) : string {
         /**
@@ -138,9 +135,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
             return '';
         }
 
-        $obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
-
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+        $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
         $tracking = new ilObjUserTracking();
 
         switch ($placeholder_id) {
@@ -148,16 +143,12 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 return $ilObjDataCache->lookupTitle($obj_id);
 
             case 'sahs_link':
-                require_once './Services/Link/classes/class.ilLink.php';
                 return ilLink::_getLink($context_parameters['ref_id'], 'sahs');
 
             case 'sahs_status':
                 if ($recipient === null) {
                     return '';
                 }
-
-                include_once './Services/Tracking/classes/class.ilLPStatus.php';
-                include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
                 $status = ilLPStatus::_lookupStatus($obj_id, $recipient->getId());
                 if (!$status) {
                     $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -168,8 +159,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 if ($recipient === null) {
                     return '';
                 }
-
-                include_once './Services/Tracking/classes/class.ilLPMarks.php';
                 $mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
                 return strlen(trim($mark)) ? $mark : '-';
 
@@ -180,13 +169,11 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 
                 $scores = array();
                 $obj_id = ilObject::_lookupObjId($context_parameters['ref_id']);
-                include_once 'Modules/ScormAicc/classes/class.ilScormLP.php';
                 $coll = ilScormLP::getInstance($obj_id)->getCollectionInstance();
-                if ($coll->getItems()) {
-                    include_once 'Services/Tracking/classes/class.ilTrQuery.php';
+                if ($coll !== null && $coll->getItems()) {
                     //changed static call into dynamic one//ukohnle
                     //foreach(ilTrQuery::getSCOsStatusForUser($recipient->getId(), $obj_id, $coll->getItems()) as $item)
-                    $SCOStatusForUser = (new ilTrQuery)->getSCOsStatusForUser(
+                    $SCOStatusForUser = ilTrQuery::getSCOsStatusForUser(
                         $recipient->getId(),
                         $obj_id,
                         $coll->getItems()
@@ -203,7 +190,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 }
 
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
-                    include_once './Services/Tracking/classes/class.ilLearningProgress.php';
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['spent_seconds'])) {
                         return ilDatePresentation::secondsToString(
@@ -221,7 +207,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 }
 
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
-                    include_once './Services/Tracking/classes/class.ilLearningProgress.php';
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['access_time_min'])) {
                         return ilDatePresentation::formatDate(new ilDateTime(
@@ -238,7 +223,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 }
 
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
-                    include_once './Services/Tracking/classes/class.ilLearningProgress.php';
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['access_time'])) {
                         return ilDatePresentation::formatDate(new ilDateTime($progress['access_time'], IL_CAL_UNIX));

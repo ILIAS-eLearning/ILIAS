@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI;
 
 use ILIAS\UI\Component\Component;
@@ -13,16 +27,16 @@ use ILIAS\UI\Component\Component;
  */
 interface Renderer
 {
-
     /**
      * Render given component. If an array of components is passed, this method returns a concatenated output of
      * each rendered component, in the same order as given in the array
      *
      * @param Component|Component[] $component
+     * @param ?Renderer $root of renderers in the chain to be used for rendering sub components.
      *
      * @return string
      */
-    public function render($component);
+    public function render($component, ?Renderer $root = null);
 
     /**
      * Same as render, except that this version also returns any javascript code bound to the on load event,
@@ -30,9 +44,11 @@ interface Renderer
      * so it will not be rendered twice if render async is called multiple times.
      *
      * @param Component|Component[] $component
+     * @param ?Renderer $root of renderers in the chain to be used for rendering sub components.
+     *
      * @return string
      */
-    public function renderAsync($component);
+    public function renderAsync($component, ?Renderer $root = null);
 
     /**
      * Get a new renderer with an additional context.
@@ -47,9 +63,6 @@ interface Renderer
      * If a component wants to render itself differently in different contexts, it must
      * implement a RendererFactory. The class \ILIAS\UI\Implementation\Render\FSLoader
      * contains directions how to do that.
-     *
-     * @param  Component	$context
-     * @return Renderer
      */
-    public function withAdditionalContext(Component $context);
+    public function withAdditionalContext(Component $context) : Renderer;
 }

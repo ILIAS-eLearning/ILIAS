@@ -1,7 +1,23 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Refinery\Factory;
 
 class ilObjLearningSequenceContentGUI
 {
@@ -22,6 +38,8 @@ class ilObjLearningSequenceContentGUI
     protected ilAccess $access;
     protected ilConfirmationGUI $confirmation_gui;
     protected LSItemOnlineStatus $ls_item_online_status;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public function __construct(
         ilObjLearningSequenceGUI $parent_gui,
@@ -30,7 +48,9 @@ class ilObjLearningSequenceContentGUI
         ilLanguage $lng,
         ilAccess $access,
         ilConfirmationGUI $confirmation_gui,
-        LSItemOnlineStatus $ls_item_online_status
+        LSItemOnlineStatus $ls_item_online_status,
+        ArrayBasedRequestWrapper $post_wrapper,
+        Factory $refinery
     ) {
         $this->parent_gui = $parent_gui;
         $this->ctrl = $ctrl;
@@ -39,9 +59,11 @@ class ilObjLearningSequenceContentGUI
         $this->access = $access;
         $this->confirmation_gui = $confirmation_gui;
         $this->ls_item_online_status = $ls_item_online_status;
+        $this->post_wrapper = $post_wrapper;
+        $this->refinery = $refinery;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -66,6 +88,8 @@ class ilObjLearningSequenceContentGUI
         $this->parent_gui->showPossibleSubObjects();
 
         $data = $this->parent_gui->getObject()->getLSItems();
+        // Sadly, ilTable2 only wants an array for fillRow, so we need to wrap this...
+        array_map(fn ($s) => [$s], $data);
         $this->renderTable($data);
     }
 
@@ -95,10 +119,13 @@ class ilObjLearningSequenceContentGUI
      */
     protected function confirmDelete() : void
     {
-        $ref_ids = $_POST["id"];
+        $ref_ids = $this->post_wrapper->retrieve(
+            "id",
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
 
         if (!$ref_ids || count($ref_ids) < 1) {
-            ilUtil::sendInfo($this->lng->txt('no_entries_selected_for_delete'), true);
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt('no_entries_selected_for_delete'), true);
             $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
         }
 
@@ -117,15 +144,14 @@ class ilObjLearningSequenceContentGUI
 
     protected function delete() : void
     {
-        $ref_ids = $_POST["id"];
-
-        $ref_ids = array_map(function ($i) {
-            return (int) $i;
-        }, $ref_ids);
+        $ref_ids = $this->post_wrapper->retrieve(
+            "id",
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
 
         $this->parent_gui->getObject()->deletePostConditionsForSubObjects($ref_ids);
 
-        ilUtil::sendSuccess($this->lng->txt('entries_deleted'), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt('entries_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
     }
 
@@ -145,7 +171,6 @@ class ilObjLearningSequenceContentGUI
 
     protected function save() : void
     {
-        $post = $_POST;
         $data = $this->parent_gui->getObject()->getLSItems();
 
         $updated = [];
@@ -155,17 +180,20 @@ class ilObjLearningSequenceContentGUI
             $order = $this->getFieldName(self::FIELD_ORDER, $ref_id);
             $condition_type = $this->getFieldName(self::FIELD_POSTCONDITION_TYPE, $ref_id);
 
+            $condition_type = $this->post_wrapper->retrieve($condition_type, $this->refinery->kindlyTo()->string());
+            $online = $this->post_wrapper->retrieve($online, $this->refinery->kindlyTo()->bool());
+            $order = $this->post_wrapper->retrieve($order, $this->refinery->kindlyTo()->int());
+
             $condition = $lsitem->getPostCondition()
-                ->withConditionOperator($post[$condition_type]);
+                ->withConditionOperator($condition_type);
             $updated[] = $lsitem
-                ->withOnline((bool) $post[$online])
-                ->withOrderNumber((int) $post[$order])
+                ->withOnline($online)
+                ->withOrderNumber($order)
                 ->withPostCondition($condition);
         }
 
         $this->parent_gui->getObject()->storeLSItems($updated);
-
-        ilUtil::sendSuccess($this->lng->txt('entries_updated'), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt('entries_updated'), true);
         $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
     }
 }

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -13,14 +28,14 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $customUserFieldsPlaceholderValues->method('getPlaceholderValues')
-                                 ->willReturn(array());
+                                 ->willReturn([]);
 
         $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
              ->disableOriginalConstructor()
              ->getMock();
 
         $defaultPlaceholderValues->method('getPlaceholderValues')
-             ->willReturn(array());
+             ->willReturn([]);
 
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -76,11 +91,11 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
         $placeholderValues = $valuesObject->getPlaceholderValues(100, 200);
 
         $this->assertEquals(
-            array(
+            [
                 'COURSE_TITLE' => 'Some Title',
                 'DATE_COMPLETED' => '2018-09-10',
                 'DATETIME_COMPLETED' => '2018-09-10 10:32:00'
-            ),
+            ],
             $placeholderValues
         );
     }
@@ -93,10 +108,10 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $customUserFieldsPlaceholderValues->method('getPlaceholderValuesForPreview')
              ->willReturn(
-                 array(
+                 [
                      'SOME_PLACEHOLDER' => 'ANYTHING',
                      'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
-                 )
+                 ]
              );
 
         $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
@@ -105,10 +120,10 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $defaultPlaceholderValues->method('getPlaceholderValuesForPreview')
             ->willReturn(
-                array(
+                [
                     'SOME_PLACEHOLDER' => 'ANYTHING',
                     'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
-                )
+                ]
             );
 
         $language = $this->getMockBuilder(ilLanguage::class)
@@ -153,12 +168,12 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $placeholderValues = $valuesObject->getPlaceholderValuesForPreview(100, 10);
 
-        $this->assertEquals(
-            array(
+        $this->assertSame(
+            [
                 'SOME_PLACEHOLDER' => 'ANYTHING',
                 'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
                 'COURSE_TITLE' => 'SomeTitle'
-            ),
+            ],
             $placeholderValues
         );
     }

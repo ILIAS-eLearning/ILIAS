@@ -55,7 +55,7 @@ class ilTestMailNotification extends ilMailNotification
      * send an advanced notification to the owner of the test
      * @param int $owner_id
      * @param string $title
-     * @param sting $usr_data
+     * @param string $usr_data
      * @param array $file_names
      */
     public function sendAdvancedNotification($owner_id, $title, $usr_data, $file_names)

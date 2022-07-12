@@ -1,134 +1,86 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
 
 abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 {
-    private $settings = null;
-    protected $ref_id = 0;
-    private $search_term = '';
+    private ilSearchSettings $settings;
+    protected int $ref_id;
+    private string $search_term;
     
-    private $results = null;
-    
-    /**
-     * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
+    private ?ilRepositoryObjectDetailSearchResult $results = null;
+
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
     {
         $this->settings = ilSearchSettings::getInstance();
         $this->ref_id = $a_ref_id;
-        $this->setId('repository_object_search_result_' . $this->ref_id);
+        $this->setId('rep_obj_search_res_' . $this->ref_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
-    
-    /**
-     * Set search term
-     * @param type $a_term
-     */
-    public function setSearchTerm($a_term)
+
+    public function setSearchTerm(string $a_term) : void
     {
         $this->search_term = $a_term;
     }
-    
-    /**
-     * Get search term
-     * @return type
-     */
-    public function getSearchTerm()
+
+    public function getSearchTerm() : string
     {
         return $this->search_term;
     }
-    
-    /**
-     * Get search settings
-     * @return ilSearchSettings
-     */
-    public function getSettings()
+
+    public function getSettings() : ilSearchSettings
     {
         return $this->settings;
     }
-    
-    /**
-     * Set result object
-     * @param ilRepositoryObjectDetailSearchResult $a_result
-     */
-    public function setResults(ilRepositoryObjectDetailSearchResult $a_result)
+
+    public function setResults(ilRepositoryObjectDetailSearchResult $a_result) : void
     {
         $this->results = $a_result;
     }
     
-    public function getResults()
+    public function getResults() : ilRepositoryObjectDetailSearchResult
     {
         return $this->results;
     }
 
-    /**
-     * init table
-     */
-    public function init()
+    public function init() : void
     {
         $this->initColumns();
         $this->initRowTemplate();
         
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(false);
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setLimit(0);
         
-        $this->setTitle($lng->txt('search_results') . ' "' . str_replace(array('"'), '', $this->getSearchTerm()) . '"');
+        $this->setTitle(
+            $this->lng->txt('search_results') . ' "' . str_replace(array('"'), '', $this->getSearchTerm()) . '"'
+        );
     }
 
-    /**
-     * Init columns
-     */
-    protected function initColumns()
+    protected function initColumns() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        
         if ($this->getSettings()->enabledLucene()) {
-            $lng->loadLanguageModule('search');
-            #$this->addColumn($lng->txt("title"), "title", "80%");
-            #$this->addColumn($lng->txt("lucene_relevance_short"), "relevance", "20%");
-            $this->addColumn($lng->txt("title"), "", "80%");
-            $this->addColumn($lng->txt("lucene_relevance_short"), "", "20%");
+            $this->lng->loadLanguageModule('search');
+            $this->addColumn($this->lng->txt("title"), "", "80%");
+            $this->addColumn($this->lng->txt("lucene_relevance_short"), "", "20%");
         } else {
-            $this->addColumn($lng->txt("title"), "", "100%");
+            $this->addColumn($this->lng->txt("title"), "", "100%");
         }
     }
 
-    /**
-     * init row template
-     */
-    protected function initRowTemplate()
+    protected function initRowTemplate() : void
     {
         $this->setRowTemplate('tpl.repository_object_search_result_row.html', 'Services/Search');
     }
     
-    
-    /**
-     * Parse search result set and call set data
-     */
+
     abstract public function parse();
     
-    
-    /**
-     * Get relevance html
-     */
-    public function getRelevanceHTML($a_rel)
+
+    public function getRelevanceHTML(float $a_rel) : string
     {
         $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'Services/Search');
-        
-        include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+
         $pbar = ilProgressBar::getInstance();
         $pbar->setCurrent($a_rel);
         

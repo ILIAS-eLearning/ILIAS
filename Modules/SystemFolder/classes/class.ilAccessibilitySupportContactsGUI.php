@@ -7,7 +7,7 @@
  *
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilAccessibilitySupportContactsGUI
+class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilTemplate
@@ -125,7 +125,9 @@ class ilAccessibilitySupportContactsGUI
         $users = ilAccessibilitySupportContacts::getValidSupportContactIds();
         if (count($users) > 0) {
             if (!$user->getId() || $user->getId() == ANONYMOUS_USER_ID) {
-                $mails = ilUtil::prepareFormOutput(ilAccessibilitySupportContacts::getMailsToAddress());
+                $mails = ilLegacyFormElementsUtil::prepareFormOutput(
+                    ilAccessibilitySupportContacts::getMailsToAddress()
+                );
                 $request_scheme =
                     isset($http->request()->getServerParams()['HTTPS'])
                     && $http->request()->getServerParams()['HTTPS'] !== 'off'
@@ -133,7 +135,7 @@ class ilAccessibilitySupportContactsGUI
                 $url = $request_scheme . '://'
                     . $http->request()->getServerParams()['HTTP_HOST']
                     . $http->request()->getServerParams()['REQUEST_URI'];
-                return "mailto:" . $mails . "?body=%0D%0A%0D%0A" . $lng->txt("report_accessibility_link") . "%0D%0A" . rawurlencode($url);
+                return "mailto:" . $mails . "?body=%0D%0A%0D%0A" . $lng->txt("report_accessibility_link_mailto") . "%0A" . rawurlencode($url);
             } else {
                 return $ctrl->getLinkTargetByClass("ilaccessibilitysupportcontactsgui", "");
             }

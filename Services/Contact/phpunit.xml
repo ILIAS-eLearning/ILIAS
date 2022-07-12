@@ -3,6 +3,9 @@
   <coverage>
     <include>
       <directory suffix=".php">classes</directory>
+      <directory suffix=".php">BuddySystem/classes</directory>
+      <directory suffix=".php">BuddySystem/exceptions</directory>
+      <directory suffix=".php">BuddySystem/interfaces</directory>
     </include>
     <report>
       <html outputDirectory="build/coverage" highLowerBound="80"/>

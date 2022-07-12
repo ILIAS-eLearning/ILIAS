@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,32 +21,28 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Utility class for meta data handling
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @package ilias-core
-* @version $Id$
-*/
+ * Utility class for meta data handling
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDUtils
 {
     /**
      * LOM datatype duration is a string like P2M4DT7H18M2S (2 months 4 days 7 hours 18 minutes 2 seconds)
      * This function tries to parse a given string in an array of months, days, hours, minutes and seconds
-     *
-     * @param string string to parse
-     * @return array  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or false if not parsable
-     *
+     * @return int[]  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or empty array if not parsable
      */
-    public static function _LOMDurationToArray($a_string)
+    public static function _LOMDurationToArray(string $a_string) : array
     {
         $a_string = trim($a_string);
         #$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
         $pattern = '/^P(\d{1,2}M)?(\d{1,2}D)?(T(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?)?$/i';
 
+        $months = $days = $hours = $min = $sec = null;
         if (!preg_match($pattern, $a_string, $matches)) {
-            return false;
+            return [];
         }
         // Month
         if (preg_match('/^P(\d+)M/i', $a_string, $matches)) {
@@ -57,7 +53,7 @@ class ilMDUtils
             #var_dump("<pre>",$matches,"<pre>");
             $days = $matches[1];
         }
-        
+
         if (preg_match('/(\d+)+H/i', $a_string, $matches)) {
             #var_dump("<pre>",$matches,"<pre>");
             $hours = $matches[1];
@@ -70,26 +66,16 @@ class ilMDUtils
             #var_dump("<pre>",$matches,"<pre>");
             $sec = $matches[1];
         }
-        
+
         // Hack for zero values
-        if (!$months and !$days and !$hours and !$min and !$sec) {
-            return false;
+        if (!$months && !$days && !$hours && !$min && !$sec) {
+            return [];
         }
-        
-        return array($months,$days,$hours,$min,$sec);
+
+        return array((int) $months, (int) $days, (int) $hours, (int) $min, (int) $sec);
     }
-    
-    /**
-     * Fill html meta tags
-     *
-     * @access public
-     * @static
-     *
-     * @param int rbac_id
-     * @param int obj_id
-     * @param string obj type
-     */
-    public static function _fillHTMLMetaTags($a_rbac_id, $a_obj_id, $a_type)
+
+    public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type) : bool
     {
         global $DIC;
 
@@ -98,41 +84,35 @@ class ilMDUtils
 
         $tpl = $DIC['tpl'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        include_once('Services/MetaData/classes/class.ilMDKeyword.php');
-        foreach (ilMDKeyword::_getKeywordsByLanguageAsString($a_rbac_id, $a_obj_id, $a_type) as $lng_code => $key_string) {
+
+        foreach (ilMDKeyword::_getKeywordsByLanguageAsString(
+            $a_rbac_id,
+            $a_obj_id,
+            $a_type
+        ) as $lng_code => $key_string) {
             $tpl->setCurrentBlock('mh_meta_item');
             $tpl->setVariable('MH_META_NAME', 'keywords');
             $tpl->setVariable('MH_META_LANG', $lng_code);
             $tpl->setVariable('MH_META_CONTENT', $key_string);
             $tpl->parseCurrentBlock();
         }
-        include_once('Services/MetaData/classes/class.ilMDContribute.php');
+
         foreach (ilMDContribute::_lookupAuthors($a_rbac_id, $a_obj_id, $a_type) as $author) {
             $tpl->setCurrentBlock('mh_meta_item');
             $tpl->setVariable('MH_META_NAME', 'author');
             $tpl->setVariable('MH_META_CONTENT', $author);
             $tpl->parseCurrentBlock();
         }
+        return true;
     }
 
-    /**
-     * Parse copyright
-     *
-     *
-     * @access public
-     * @static
-     *
-     * @param string copyright
-     */
-    public static function _parseCopyright($a_copyright)
+    public static function _parseCopyright(string $a_copyright) : string
     {
-        include_once('Services/MetaData/classes/class.ilMDSettings.php');
         $settings = ilMDSettings::_getInstance();
         if (!$settings->isCopyrightSelectionActive()) {
             return $a_copyright;
         }
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+
         return ilMDCopyrightSelectionEntry::_lookupCopyright($a_copyright);
     }
 }

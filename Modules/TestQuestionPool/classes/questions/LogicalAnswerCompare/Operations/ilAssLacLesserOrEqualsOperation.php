@@ -17,7 +17,7 @@ class ilAssLacLesserOrEqualsOperation extends ilAssLacAbstractOperation
      */
     public static $pattern = "<=";
 
-    public function getDescription()
+    public function getDescription() : string
     {
         return "mit weniger oder gleich ";
     }
@@ -25,7 +25,7 @@ class ilAssLacLesserOrEqualsOperation extends ilAssLacAbstractOperation
     /**
      * @return string
      */
-    public function getPattern()
+    public function getPattern() : string
     {
         return self::$pattern;
     }

@@ -47,7 +47,7 @@ class ilSystemCheckDefinitionProcessor implements ilComponentDefinitionProcessor
         if ($name === "systemcheck_task") {
             $group_id = ilSCGroups::getInstance()->lookupGroupByComponentId($this->component_id);
             $tasks = ilSCTasks::getInstanceByGroupId($group_id);
-            $tasks->updateFromComponentDefinition($attributes['identifier']);
+            $tasks->updateFromComponentDefinition((string) ($attributes['identifier'] ?? ''));
         }
     }
 

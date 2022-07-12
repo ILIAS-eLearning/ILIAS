@@ -1,147 +1,99 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Description: <button> (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button) by Mozilla Contributors is licensed under CC-BY-SA 2.5.
  * @author  Michael Jansen <mjansen@databay.de>
- * @package ServicesUIComponent
+ * @deprecated use KS Buttons instead
  */
 class ilButton extends ilButtonBase
 {
     /**
      * The button has no default behavior. It can have client-side scripts associated with the element's events,
      * which are triggered when the events occur.
-     * @var string
      */
-    const BUTTON_TYPE_BUTTON = 'button';
+    public const BUTTON_TYPE_BUTTON = 'button';
 
     /**
      * The button submits the form data to the server.
      * This is the default if the attribute is not specified, or if the attribute is dynamically changed to an empty or invalid value.
-     * @var string
      */
-    const BUTTON_TYPE_SUBMIT = 'submit';
+    public const BUTTON_TYPE_SUBMIT = 'submit';
 
     /**
      * The button resets all the controls to their initial values.
-     * @var string
      */
-    const BUTTON_TYPE_RESET = 'reset';
+    public const BUTTON_TYPE_RESET = 'reset';
 
     /**
      * The default value if the attribute is not specified.
-     * @var string
      */
-    const FORM_ENC_TYPE_APPLICATION = 'application/x-www-form-urlencoded';
+    public const FORM_ENC_TYPE_APPLICATION = 'application/x-www-form-urlencoded';
 
     /**
      * Use this value if you are using an <input> element with the type attribute set to file.
-     * @var string
      */
-    const FORM_ENC_TYPE_MULTI_PART = 'multipart/form-data';
+    public const FORM_ENC_TYPE_MULTI_PART = 'multipart/form-data';
 
-    /**
-     * @var string
-     */
-    const FORM_ENC_TYPE_PLAIN = 'text/plain';
-
-    /**
-     * @var string
-     */
-    const FORM_METHOD_POST = 'POST';
-
-    /**
-     * @var string
-     */
-    const FORM_METHOD_GET = 'GET';
+    public const FORM_ENC_TYPE_PLAIN = 'text/plain';
+    public const FORM_METHOD_POST = 'POST';
+    public const FORM_METHOD_GET = 'GET';
 
     /**
      * Load the response into the same browsing context as the current one.
      * This value is the default if the attribute is not specified.
-     * @var string
      */
-    const FORM_TARGET_SELF = '_self';
+    public const FORM_TARGET_SELF = '_self';
 
     /**
      * Load the response into a new unnamed browsing context.
-     * @var string
      */
-    const FORM_TARGET_BLANK = '_blank';
+    public const FORM_TARGET_BLANK = '_blank';
 
     /**
      * Load the response into the parent browsing context of the current one.
      * If there is no parent, this option behaves the same way as self::FORM_TARGET_SELF.
-     * @var string
      */
-    const FORM_TARGET_PARENT = '_parent';
+    public const FORM_TARGET_PARENT = '_parent';
 
     /**
      * Load the response into the top-level browsing context (that is, the browsing context that is
      * an ancestor of the current one, and has no parent).
      * If there is no parent, this option behaves the same way as self::FORM_TARGET_SELF.
-     * @var string
      */
-    const FORM_TARGET_TOP = '_top';
+    public const FORM_TARGET_TOP = '_top';
 
-    /**
-     * The type of the button.
-     * @var string
-     */
-    protected $button_type = self::BUTTON_TYPE_SUBMIT;
+    protected string $button_type = self::BUTTON_TYPE_SUBMIT;
+    protected ?string $name = null;
+    protected ?string $value = null;
+    protected ?string $form = null;
+    protected ?string $form_action = null;
+    protected ?string $form_enc_type = null;
+    protected ?string $form_method = null;
+    protected ?string $form_target = null;
+    protected bool $form_novalidate = false;
 
-    /**
-     * @var string|null
-     */
-    protected $name = null;
-
-    /**
-     * @var string|null
-     */
-    protected $value = null;
-
-    /**
-     * @var string|null
-     */
-    protected $form = null;
-
-    /**
-     * @var string|null
-     */
-    protected $form_action = null;
-
-    /**
-     * @var string|null
-     */
-    protected $form_enc_type = null;
-
-    /**
-     * @var string|null
-     */
-    protected $form_method = null;
-
-    /**
-     * @var string|null
-     */
-    protected $form_target = null;
-
-    /**
-     * @var bool|null
-     */
-    protected $form_novalidate = null;
-
-    /**
-     * @return self
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self(self::TYPE_BUTTON);
     }
 
-    /**
-     * @return array()
-     */
-    public static function getValidFormTargets()
+    public static function getValidFormTargets() : array
     {
         return array(
             self::FORM_TARGET_BLANK,
@@ -151,10 +103,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    /**
-     * @return array()
-     */
-    public static function getValidFormMethods()
+    public static function getValidFormMethods() : array
     {
         return array(
             self::FORM_METHOD_POST,
@@ -162,10 +111,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    /**
-     * @return array()
-     */
-    public static function getValidFormEncTypes()
+    public static function getValidFormEncTypes() : array
     {
         return array(
             self::FORM_ENC_TYPE_APPLICATION,
@@ -174,10 +120,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    /**
-     * @return array()
-     */
-    public static function getValidButtonTypes()
+    public static function getValidButtonTypes() : array
     {
         return array(
             self::BUTTON_TYPE_SUBMIT,
@@ -186,10 +129,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    /**
-     * @return boolean
-     */
-    public function isFormNovalidate()
+    public function isFormNovalidate() : ?bool
     {
         return $this->form_novalidate;
     }
@@ -197,15 +137,13 @@ class ilButton extends ilButtonBase
     /**
      * If the button is a submit button, this Boolean attribute specifies that the form is not to be validated when it is submitted.
      * If this attribute is specified, it overrides the novalidate attribute of the button's form owner.
-     * @param boolean $form_novalidate
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setFormNovalidate($form_novalidate)
+    public function setFormNovalidate(bool $form_novalidate) : self
     {
         if (!is_bool($form_novalidate)) {
             throw new InvalidArgumentException(
-                sprintf("Please pass a value of type 'boolean' to specify whether the form is not to be validated when it is submitted")
+                "Please pass a value of type 'boolean' to specify whether the form is not to be validated when it is submitted"
             );
         }
 
@@ -213,10 +151,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFormTarget()
+    public function getFormTarget() : ?string
     {
         return $this->form_target;
     }
@@ -226,11 +161,9 @@ class ilButton extends ilButtonBase
      * is received after submitting the form. This is a name of, or keyword for, a browsing context
      * (for example, tab, window, or inline frame). If this attribute is specified, it overrides the target attribute of
      * the button's form owner.
-     * @param string $form_target
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setFormTarget($form_target)
+    public function setFormTarget(string $form_target) : self
     {
         if (!in_array($form_target, self::getValidFormTargets())) {
             throw new InvalidArgumentException(
@@ -245,21 +178,16 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFormMethod()
+    public function getFormMethod() : ?string
     {
         return $this->form_method;
     }
 
     /**
      * If the button is a submit button, this attribute specifies the HTTP method that the browser uses to submit the form.
-     * @param string $form_method
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setFormMethod($form_method)
+    public function setFormMethod(string $form_method) : self
     {
         if (!in_array($form_method, self::getValidFormMethods())) {
             throw new InvalidArgumentException(
@@ -274,21 +202,16 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFormEncType()
+    public function getFormEncType() : ?string
     {
         return $this->form_enc_type;
     }
 
     /**
      * If this attribute is specified, it overrides the enctype attribute of the button's form owner.
-     * @param string $form_enc_type
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setFormEncType($form_enc_type)
+    public function setFormEncType(string $form_enc_type) : self
     {
         if (!in_array($form_enc_type, self::getValidFormEncTypes())) {
             throw new InvalidArgumentException(
@@ -303,10 +226,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFormAction()
+    public function getFormAction() : ?string
     {
         return $this->form_action;
     }
@@ -314,15 +234,13 @@ class ilButton extends ilButtonBase
     /**
      * The URI of a program that processes the information submitted by the button.
      * If specified, it overrides the action attribute of the button's form owner.
-     * @param string $form_action
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setFormAction($form_action)
+    public function setFormAction(string $form_action) : self
     {
         if (!is_string($form_action)) {
             throw new InvalidArgumentException(
-                sprintf("The form action must be of type 'string'")
+                "The form action must be of type 'string'"
             );
         }
 
@@ -330,10 +248,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getForm()
+    public function getForm() : string
     {
         return $this->form;
     }
@@ -344,15 +259,13 @@ class ilButton extends ilButtonBase
      * If this attribute is not specified, the <button> element must be a descendant of a form element.
      * This attribute enables you to place <button> elements anywhere within a document,
      * not just as descendants of their <form> elements.
-     * @param string
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setForm($form)
+    public function setForm(string $form) : self
     {
         if (!is_string($form)) {
             throw new InvalidArgumentException(
-                sprintf("The form id must be of type 'string'")
+                "The form id must be of type 'string'"
             );
         }
 
@@ -360,25 +273,20 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue() : ?string
     {
         return $this->value;
     }
 
     /**
      * The initial value of the button.
-     * @param string $value
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setValue($value)
+    public function setValue(string $value) : self
     {
         if (!is_string($value)) {
             throw new InvalidArgumentException(
-                sprintf("The initial value of the button must be of type 'string'")
+                "The initial value of the button must be of type 'string'"
             );
         }
 
@@ -386,26 +294,21 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
 
     /**
      * The name of the button, which is submitted with the form data.
-     * @param string $name
      * @param bool   $is_command if true, a cmd[] is wrapped around the passed name
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setName($name, $is_command = true)
+    public function setName(string $name, bool $is_command = true) : self
     {
         if (!is_string($name)) {
             throw new InvalidArgumentException(
-                sprintf("The name of the button must be of type 'string'")
+                "The name of the button must be of type 'string'"
             );
         }
 
@@ -413,20 +316,15 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getButtonType()
+    public function getButtonType() : string
     {
         return $this->button_type;
     }
 
     /**
-     * @param string $button_type
      * @throws InvalidArgumentException
-     * @return self
      */
-    public function setButtonType($button_type)
+    public function setButtonType(string $button_type) : self
     {
         if (!in_array($button_type, self::getValidButtonTypes())) {
             throw new InvalidArgumentException(
@@ -441,23 +339,19 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    /**
-     * Render HTML
-     * @return string
-     */
-    public function render()
+    public function render() : string
     {
         $this->prepareRender();
 
-        $attr = array();
-        $attr['type'] = $this->getButtonType();
-        $attr['name'] = $this->getName();
-        $attr['value'] = $this->getValue();
-        $attr['form'] = $this->getForm();
-        $attr['formaction'] = $this->getFormAction();
-        $attr['formmethod'] = $this->getFormMethod();
-        $attr['formenctype'] = $this->getFormEncType();
-        $attr['formtarget'] = $this->getFormTarget();
+        $attr = [];
+        $attr['type'] = $this->getButtonType() ?? '';
+        $attr['name'] = $this->getName() ?? '';
+        $attr['value'] = $this->getValue() ?? '';
+        $attr['form'] = $this->getForm() ?? '';
+        $attr['formaction'] = $this->getFormAction() ?? '';
+        $attr['formmethod'] = $this->getFormMethod() ?? '';
+        $attr['formenctype'] = $this->getFormEncType() ?? '';
+        $attr['formtarget'] = $this->getFormTarget() ?? '';
         $attr['formnovalidate'] = $this->isFormNovalidate() ? var_export($this->isFormNovalidate(), 1) : null;
 
         if (self::FORM_TARGET_BLANK === $this->getFormTarget()) {

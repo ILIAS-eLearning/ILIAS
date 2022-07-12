@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Exception\IOException;
 
@@ -112,11 +126,11 @@ class ilCertificateAppEventListener implements ilAppEventListener
      * @param array  $a_parameter
      * @throws IOException
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         global $DIC;
 
-        $listener = new static(
+        $listener = new self(
             $DIC->database(),
             $DIC['ilObjDataCache'],
             $DIC->logger()->cert()
@@ -136,8 +150,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $settings = new ilSetting('certificate');
 
         if ($status === ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-            $objectId = $this->parameters['obj_id'] ?? 0;
-            $userId = $this->parameters['usr_id'] ?? 0;
+            $objectId = (int) ($this->parameters['obj_id'] ?? 0);
+            $userId = (int) ($this->parameters['usr_id'] ?? 0);
 
             $type = $this->objectDataCache->lookupType($objectId);
 
@@ -179,9 +193,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     ));
                 }
             } else {
-                $this->logger->info(sprintf(
+                $this->logger->info(
                     "Object type ($type) is not of interest, skipping certificate evaluation for this object"
-                ));
+                );
             }
 
             if ($type === 'crs') {
@@ -280,19 +294,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
         ));
     }
 
-    /**
-     * @param                       $type
-     * @param                       $objectId
-     * @param int                   $userId
-     * @param ilCertificateTemplate $template
-     * @param ilSetting             $settings
-     * @throws ilDatabaseException
-     * @throws ilException
-     * @throws ilInvalidCertificateException|JsonException
-     */
     private function processEntry(
-        $type,
-        $objectId,
+        string $type,
+        int $objectId,
         int $userId,
         ilCertificateTemplate $template,
         ilSetting $settings

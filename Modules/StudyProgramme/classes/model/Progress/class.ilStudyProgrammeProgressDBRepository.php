@@ -1,32 +1,46 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRepository
 {
-    protected static $cache = [];
-    protected $db;
+    public const TABLE = 'prg_usr_progress';
 
-    const TABLE = 'prg_usr_progress';
+    private const FIELD_ID = 'id';
+    private const FIELD_ASSIGNMENT_ID = 'assignment_id';
+    private const FIELD_PRG_ID = 'prg_id';
+    private const FIELD_USR_ID = 'usr_id';
+    private const FIELD_POINTS = 'points';
+    private const FIELD_POINTS_CUR = 'points_cur';
+    private const FIELD_STATUS = 'status';
+    private const FIELD_COMPLETION_BY = 'completion_by';
+    private const FIELD_ASSIGNMENT_DATE = 'assignment_date';
+    private const FIELD_LAST_CHANGE = 'last_change';
+    private const FIELD_LAST_CHANGE_BY = 'last_change_by';
+    private const FIELD_COMPLETION_DATE = 'completion_date';
+    private const FIELD_DEADLINE = 'deadline';
+    private const FIELD_VQ_DATE = 'vq_date';
+    private const FIELD_INVALIDATED = 'invalidated';
+    private const FIELD_MAIL_SENT_RISKYTOFAIL = 'sent_mail_risky_to_fail';
+    private const FIELD_MAIL_SENT_WILLEXPIRE = 'sent_mail_expires';
+    private const FIELD_IS_INDIVIDUAL = 'individual';
 
-    const FIELD_ID = 'id';
-    const FIELD_ASSIGNMENT_ID = 'assignment_id';
-    const FIELD_PRG_ID = 'prg_id';
-    const FIELD_USR_ID = 'usr_id';
-    const FIELD_POINTS = 'points';
-    const FIELD_POINTS_CUR = 'points_cur';
-    const FIELD_STATUS = 'status';
-    const FIELD_COMPLETION_BY = 'completion_by';
-    const FIELD_ASSIGNMENT_DATE = 'assignment_date';
-    const FIELD_LAST_CHANGE = 'last_change';
-    const FIELD_LAST_CHANGE_BY = 'last_change_by';
-    const FIELD_COMPLETION_DATE = 'completion_date';
-    const FIELD_DEADLINE = 'deadline';
-    const FIELD_VQ_DATE = 'vq_date';
-    const FIELD_INVALIDATED = 'invalidated';
-    const FIELD_MAIL_SENT_RISKYTOFAIL = 'sent_mail_risky_to_fail';
-    const FIELD_MAIL_SENT_WILLEXPIRE = 'sent_mail_expires';
-    const FIELD_IS_INDIVIDUAL = 'individual';
+    protected static array $cache = [];
+    protected ilDBInterface $db;
 
     public function __construct(ilDBInterface $db)
     {
@@ -53,8 +67,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             self::FIELD_POINTS_CUR => 0,
             self::FIELD_STATUS => ilStudyProgrammeProgress::STATUS_IN_PROGRESS,
             self::FIELD_COMPLETION_BY => null,
-            self::FIELD_LAST_CHANGE => ilUtil::now(),
-            self::FIELD_ASSIGNMENT_DATE => ilUtil::now(),
+            self::FIELD_LAST_CHANGE => date("Y-m-d H:i:s"),
+            self::FIELD_ASSIGNMENT_DATE => date("Y-m-d H:i:s"),
             self::FIELD_LAST_CHANGE_BY => $acting_user,
             self::FIELD_COMPLETION_DATE => null,
             self::FIELD_DEADLINE => null,
@@ -113,7 +127,10 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
-    public function getRootProgressOf(ilStudyProgrammeAssignment $assignment) : ilStudyProgrammeProgress
+    /**
+     * @return ilStudyProgrammeProgress|void
+     */
+    public function getRootProgressOf(ilStudyProgrammeAssignment $assignment)
     {
         $rows = $this->loadByFilter(
             [
@@ -171,6 +188,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      * @inheritdoc
      *
      * @throws ilException
+     * @return ilStudyProgrammeProgress[]
      */
     public function getByAssignmentId(int $assignment_id) : array
     {
@@ -196,8 +214,6 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     }
 
     /**
-     * @inheritDoc
-     *
      * @throws ilException
      */
     public function getPassedDeadline() : array
@@ -210,8 +226,6 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     }
 
     /**
-     * @inheritdoc
-     *
      * @throws ilException
      */
     public function getRiskyToFailInstances() : array
@@ -226,7 +240,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeProgress $progress)
+    public function update(ilStudyProgrammeProgress $progress) : void
     {
         $this->updateRowDB(
             [
@@ -239,28 +253,34 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                 self::FIELD_POINTS_CUR => $progress->getCurrentAmountOfPoints(),
                 self::FIELD_COMPLETION_BY => $progress->getCompletionBy(),
                 self::FIELD_LAST_CHANGE_BY => $progress->getLastChangeBy(),
-                self::FIELD_LAST_CHANGE => $progress->getLastChange()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT),
-                self::FIELD_ASSIGNMENT_DATE => $progress->getAssignmentDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT),
+                self::FIELD_LAST_CHANGE =>
+                    $progress->getLastChange()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT)
+                ,
+                self::FIELD_ASSIGNMENT_DATE =>
+                    $progress->getAssignmentDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT)
+                ,
                 self::FIELD_COMPLETION_DATE =>
                     $progress->getCompletionDate() ?
-                        $progress->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
-                self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT) : null,
-                self::FIELD_VQ_DATE => $progress->getValidityOfQualification() ? $progress->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
+                        $progress->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) :
+                        null
+                ,
+                self::FIELD_DEADLINE =>
+                    $progress->getDeadline() ?
+                        $progress->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT) :
+                        null
+                ,
+                self::FIELD_VQ_DATE =>
+                    $progress->getValidityOfQualification() ?
+                        $progress->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) :
+                        null
+                ,
                 self::FIELD_INVALIDATED => $progress->isInvalidated() ? 1 : 0,
                 self::FIELD_IS_INDIVIDUAL => $progress->hasIndividualModifications() ? 1 : 0
             ]
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function delete(ilStudyProgrammeProgress $progress)
-    {
-        $this->deleteDB($progress->getId());
-    }
-
-    protected function insertRowDB(array $row)
+    protected function insertRowDB(array $row) : void
     {
         $this->db->insert(
             self::TABLE,
@@ -299,7 +319,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         $this->db->manipulate($query);
 
         return array_map(
-            function ($progress) {
+            static function (ilStudyProgrammeProgress $progress) : int {
                 return $progress->getNodeId();
             },
             $progresses
@@ -344,9 +364,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         $this->db->update(self::TABLE, $values, $where);
     }
 
-
-
-    protected function updateRowDB(array $data)
+    protected function updateRowDB(array $data) : void
     {
         $where = [
             self::FIELD_ID => [
@@ -469,7 +487,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         return $prgrs;
     }
 
-    protected function loadByFilter(array $filter)
+    protected function loadByFilter(array $filter) : Generator
     {
         $q = $this->getSQLHeader()
             . '	WHERE TRUE';
@@ -482,7 +500,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
-    protected function loadExpiredSuccessful()
+    protected function loadExpiredSuccessful() : Generator
     {
         $q = $this->getSQLHeader()
             . ' WHERE ' . $this->db->in(
@@ -508,7 +526,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
-    protected function loadPassedDeadline()
+    protected function loadPassedDeadline() : Generator
     {
         $q =
              $this->getSQLHeader() . PHP_EOL
@@ -533,7 +551,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
-    protected function loadRiskyToFailInstance()
+    protected function loadRiskyToFailInstance() : Generator
     {
         $q = $this->getSQLHeader()
             . ' WHERE ' . $this->db->in(
@@ -587,7 +605,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     public function getRiskyToFail(array $programmes_and_due) : array
     {
         $ret = [];
-        if (count($programmes_and_due) == 0) {
+        if (count($programmes_and_due) === 0) {
             return $ret;
         }
 
@@ -618,7 +636,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         bool $discard_formerly_notified = true
     ) : array {
         $ret = [];
-        if (count($programmes_and_due) == 0) {
+        if (count($programmes_and_due) === 0) {
             return $ret;
         }
 
@@ -647,6 +665,28 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         
     protected function nextId() : int
     {
-        return (int) $this->db->nextId(self::TABLE);
+        return $this->db->nextId(self::TABLE);
+    }
+
+    public function deleteAllOrphanedProgresses(
+        string $assignment_table,
+        string $assignment_id_field
+    ) : void {
+        $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
+            . 'WHERE ' . self::FIELD_ASSIGNMENT_ID . PHP_EOL
+            . 'NOT IN (' . PHP_EOL
+            . 'SELECT ' . $this->db->quoteIdentifier($assignment_id_field)
+            . ' FROM ' . $this->db->quoteIdentifier($assignment_table) . PHP_EOL
+            . ');' . PHP_EOL;
+        $this->db->manipulate($query);
+    }
+
+    public function deleteProgressesFor(int $prg_obj_id) : void
+    {
+        $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
+            . ' WHERE ' . self::FIELD_PRG_ID . ' = '
+            . $this->db->quote($prg_obj_id, 'integer');
+
+        $this->db->manipulate($query);
     }
 }

@@ -1,179 +1,167 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
 /**
-* Base class for course and group participants
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMembership
-*/
-
-define("IL_CRS_ADMIN", 1);
-define("IL_CRS_TUTOR", 3);
-define("IL_CRS_MEMBER", 2);
-
-define('IL_GRP_ADMIN', 4);
-define('IL_GRP_MEMBER', 5);
-
-define('IL_SESS_MEMBER', 6);
-
-define('IL_LSO_ADMIN', 7);
-define('IL_LSO_MEMBER', 8);
-
-define("IL_ROLE_POSITION_ADMIN", 1);
-define("IL_ROLE_POSITION_TUTOR", 2);
-define("IL_ROLE_POSITION_MEMBER", 3);
-
-
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Base class for course and group participants
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesMembership
+ */
+/**
+ * @todo move these constants to ilParticipants
+ */
 abstract class ilParticipants
 {
-    protected $component = '';
-    
-    protected $obj_id = 0;
-    protected $type = '';
-    protected $ref_id = 0;
-    
-    protected $roles = array();
-    protected $role_data = array();
-    protected $roles_sorted = [];
-    protected $role_assignments = [];
-    
-    protected $participants = array();
-    protected $participants_status = array();
-    protected $members = array();
-    protected $tutors = array();
-    protected $admins = array();
-    
-    protected $subscribers = array();
-    
-    /**
-     * @var ilDBInterface
-     */
-    protected $ilDB;
-    
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
-    /**
-     *
-     * @var \ilLogger
-     */
-    protected $logger = null;
+    public const IL_CRS_ADMIN = 1;
+    public const IL_CRS_TUTOR = 3;
+    public const IL_CRS_MEMBER = 2;
+    public const IL_GRP_ADMIN = 4;
+    public const IL_GRP_MEMBER = 5;
+    public const IL_SESS_MEMBER = 6;
+    public const IL_LSO_ADMIN = 7;
+    public const IL_LSO_MEMBER = 8;
+    public const IL_ROLE_POSITION_ADMIN = 1;
+    public const IL_ROLE_POSITION_TUTOR = 2;
+    public const IL_ROLE_POSITION_MEMBER = 3;
+
+    protected string $component = '';
+    protected int $ref_id = 0;
+    protected int $obj_id = 0;
+    protected string $type = '';
+    protected array $roles = [];
+    protected array $role_data = [];
+    protected array $roles_sorted = [];
+    protected array $role_assignments = [];
+    protected array $participants = [];
+    protected array $participants_status = [];
+    protected array $members = [];
+    protected array $tutors = [];
+    protected array $admins = [];
+    protected array $subscribers = [];
+    protected ilAppEventHandler $eventHandler;
+    protected ilRbacReview $rbacReview;
+    protected ilRbacAdmin $rbacAdmin;
+    protected ilObjectDataCache $objectDataCache;
+    protected ilDBInterface $ilDB;
+    protected ilLanguage $lng;
+    protected ilLogger $logger;
+    protected ilErrorHandling $error;
+    protected ilRecommendedContentManager $recommended_content_manager;
 
     /**
-     * @var ilRecommendedContentManager
+     * @param string component definition e.g Modules/Course used for event handler
+     * @param int ref_id of container
      */
-    protected $recommended_content_manager;
-
-    /**
-     * Singleton Constructor
-     *
-     * @access public
-     * @param string component definition e.g Modules/Course
-     * @param int obj_id of container
-     *
-     */
-    public function __construct($a_component_name, $a_ref_id)
+    public function __construct(string $a_component_name, int $a_ref_id)
     {
-        $this->ilDB = $GLOBALS['DIC']->database();
-        $this->lng = $GLOBALS['DIC']->language();
-        $this->logger = $GLOBALS['DIC']->logger()->mem();
-     
+        global $DIC;
+
+        $this->ilDB = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->logger = $DIC->logger()->mmbr();
+        $this->eventHandler = $DIC->event();
+        $this->rbacReview = $DIC->rbac()->review();
+        $this->rbacAdmin = $DIC->rbac()->admin();
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->error = $DIC['ilErr'];
         $this->component = $a_component_name;
-        
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
-        
+        $this->recommended_content_manager = new ilRecommendedContentManager();
+    
         $this->readParticipants();
         $this->readParticipantsStatus();
-        $this->recommended_content_manager = new ilRecommendedContentManager();
     }
-    
-    /**
-     * Get instance by ref_id
-     * @param int $a_ref_id
-     * @return ilParticipants
-     */
-    public static function getInstance($a_ref_id)
+
+    public static function getInstance(int $a_ref_id) : ilParticipants
     {
+        global $DIC;
+
+        $logger = $DIC->logger()->mmbr();
+
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         $type = ilObject::_lookupType($obj_id);
-        
+
         switch ($type) {
             case 'crs':
             case 'grp':
             case 'lso':
                 return self::getInstanceByObjId($obj_id);
             case 'sess':
-                include_once './Modules/Session/classes/class.ilSessionParticipants.php';
                 return ilSessionParticipants::getInstance($a_ref_id);
             default:
-                $GLOBALS['DIC']->logger()->mem()->logStack();
-                $GLOBALS['DIC']->logger()->mem()->warning('Invalid ref_id -> obj_id given: ' . $a_ref_id . ' -> ' . $obj_id);
-                throw new \InvalidArgumentException('Invalid obj_id given.');
+                $logger()->mem()->logStack();
+                $logger()->mem()->warning('Invalid ref_id -> obj_id given: ' . $a_ref_id . ' -> ' . $obj_id);
+                throw new InvalidArgumentException('Invalid obj_id given.');
         }
     }
-    
+
     /**
      * Get instance by obj type
-     *
-     * @param int $a_obj_id
-     * @return ilParticipants
-     * @throws InvalidArgumentException
      * @deprecated since version 5.4 use getInstance() (ref_id based)
+     * @todo       remove this method in favour of selff::getInstance
      */
-    public static function getInstanceByObjId($a_obj_id)
+    public static function getInstanceByObjId(int $a_obj_id) : ilParticipants
     {
+        global $DIC;
+
+        $logger = $DIC->logger()->mmbr();
+
         $type = ilObject::_lookupType($a_obj_id);
         switch ($type) {
             case 'crs':
-                include_once './Modules/Course/classes/class.ilCourseParticipants.php';
                 return ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-                
+
             case 'grp':
-                include_once './Modules/Group/classes/class.ilGroupParticipants.php';
                 return ilGroupParticipants::_getInstanceByObjId($a_obj_id);
-                
+
             case 'sess':
-                include_once './Modules/Session/classes/class.ilSessionParticipants.php';
                 return ilSessionParticipants::_getInstanceByObjId($a_obj_id);
             case 'lso':
                 return ilLearningSequenceParticipants::_getInstanceByObjId($a_obj_id);
             default:
-                $GLOBALS['DIC']->logger()->mmbr()->logStack(ilLogLevel::WARNING);
-                $GLOBALS['DIC']->logger()->mmbr()->warning(': Invalid obj_id given: ' . $a_obj_id);
+                $logger()->mmbr()->logStack(ilLogLevel::WARNING);
+                $logger()->mmbr()->warning(': Invalid obj_id given: ' . $a_obj_id);
                 throw new InvalidArgumentException('Invalid obj id given');
         }
     }
-    
+
     /**
      * Get component name
      * Used for raising events
      */
-    protected function getComponent()
+    protected function getComponent() : string
     {
         return $this->component;
     }
-    
 
-    
     /**
      * Check if (current) user has access to the participant list
-     * @param int $a_obj
-     * @param int $a_usr_id
      */
-    public static function hasParticipantListAccess($a_obj_id, $a_usr_id = null)
+    public static function hasParticipantListAccess(int $a_obj_id, int $a_usr_id = null) : bool
     {
         global $DIC;
 
         $access = $DIC->access();
 
         if (!$a_usr_id) {
-            $a_usr_id = $GLOBALS['DIC']['ilUser']->getId();
+            $a_usr_id = $DIC->user()->getId();
         }
 
         // if write access granted => return true
@@ -185,12 +173,12 @@ abstract class ilParticipants
         }
         $part = self::getInstance($ref_id);
         if ($part->isAssigned($a_usr_id)) {
-            if ($part->getType() == 'crs') {
+            if ($part->getType() === 'crs') {
                 if (!ilObjCourse::lookupShowMembersEnabled($a_obj_id)) {
                     return false;
                 }
             }
-            if ($part->getType() == 'grp') {
+            if ($part->getType() === 'grp') {
                 if (!ilObjGroup::lookupShowMembersEnabled($a_obj_id)) {
                     return false;
                 }
@@ -201,21 +189,19 @@ abstract class ilParticipants
         return false;
     }
 
-
     /**
      * Get user membership assignments by type
-     *
-     * @param int[] $a_user_ids
-     * @param string[] $a_type
-     * @param bool $a_only_member_roles
      */
-    public static function getUserMembershipAssignmentsByType($a_user_ids, $a_type, $a_only_member_roles)
-    {
+    public static function getUserMembershipAssignmentsByType(
+        array $a_user_ids,
+        array $a_type,
+        bool $a_only_member_roles
+    ) : array {
         global $DIC;
-
-        $logger = $DIC->logger()->mmbr();
+        
         $ilDB = $DIC->database();
 
+        $j2 = $a2 = '';
         if ($a_only_member_roles) {
             $j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
             $a2 = 'AND obd2.title = ' . $ilDB->concat(
@@ -226,7 +212,7 @@ abstract class ilParticipants
                         array('obr.ref_id'),
                     ),
                 false
-                );
+            );
         }
 
         $query = "SELECT DISTINCT obd.obj_id,obr.ref_id,ua.usr_id FROM rbac_ua ua " .
@@ -239,33 +225,26 @@ abstract class ilParticipants
             'AND ' . $ilDB->in('ua.usr_id', $a_user_ids, false, 'integer') . ' ' .
             $a2;
 
-        $logger->debug($query);
-
-
         $obj_ids = [];
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {
-            $obj_ids[$row->obj_id][] = $row->usr_id;
+            $obj_ids[(int) $row->obj_id][] = (int) $row->usr_id;
         }
-
-        $logger->dump($obj_ids, \ilLogLevel::DEBUG);
-
         return $obj_ids;
     }
 
     /**
      * get membership by type
      * Get course or group membership
-     *
-     * @access public
-     * @param int $a_usr_id usr_id
-     * @param string|array $a_type crs or grp | array of strings
-     * @param bool $a_only_member_role
-     * @return
-     * @static
+     * @param int      $a_usr_id usr_id
+     * @param string[] $a_type   array of object types
+     * @return int[]
      */
-    public static function _getMembershipByType($a_usr_id, $a_type, $a_only_member_role = false)
-    {
+    public static function _getMembershipByType(
+        int $a_usr_id,
+        array $a_type,
+        bool $a_only_member_role = false
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -281,11 +260,11 @@ abstract class ilParticipants
             $j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
             $a2 = 'AND obd2.title = ' . $ilDB->concat(
                 array(
-                    array($ilDB->quote('il_', 'text')),
-                    array('obd.type'),
-                    array($ilDB->quote('_member_', 'text')),
-                    array('obr.ref_id'),
-                ),
+                        array($ilDB->quote('il_', 'text')),
+                        array('obd.type'),
+                        array($ilDB->quote('_member_', 'text')),
+                        array('obr.ref_id'),
+                    ),
                 false
             );
         }
@@ -303,71 +282,49 @@ abstract class ilParticipants
         $res = $ilDB->query($query);
         $ref_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
-            $ref_ids[] = $row->obj_id;
+            $ref_ids[] = (int) $row->obj_id;
         }
-        
         return $ref_ids;
     }
-    
-    
-    
+
     /**
      * Static function to check if a user is a participant of the container object
-     *
-     * @access public
-     * @param int ref_id
-     * @param int user id
-     * @static
      */
-    public static function _isParticipant($a_ref_id, $a_usr_id)
+    public static function _isParticipant(int $a_ref_id, int $a_usr_id) : bool
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-
+        $rbacreview = $DIC->rbac()->review();
         $local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
-        
         return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
     }
 
     /**
      * Lookup the number of participants (crs admins, tutors, members, grp admins, members)
-     *
-     * @global ilRbacReview $rbacreview
-     * @param int $a_ref_id
-     *
      */
-    public static function lookupNumberOfParticipants($a_ref_id)
+    public static function lookupNumberOfParticipants(int $a_ref_id) : int
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-
+        $rbacreview = $DIC->rbac()->review();
         $lroles = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
         return $rbacreview->getNumberOfAssignedUsers($lroles);
     }
 
     /**
      * Lookup number of members
-     * @global ilRbacReview $rbacreview
-     * @global <type> $ilObjDataCache
-     * @param <type> $a_ref_id
-     * @return int
      */
-    public static function lookupNumberOfMembers($a_ref_id)
+    public static function lookupNumberOfMembers(int $a_ref_id) : int
     {
         global $DIC;
 
         $rbacreview = $DIC->rbac()->review();
         $ilObjDataCache = $DIC['ilObjDataCache'];
-
         $has_policies = $rbacreview->getLocalPolicies($a_ref_id);
-
         if (!$has_policies) {
             return 0;
         }
         $lroles = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
-
         $memberRoles = array();
         foreach ($lroles as $role_id) {
             $title = $ilObjDataCache->lookupTitle($role_id);
@@ -385,394 +342,278 @@ abstract class ilParticipants
         return $rbacreview->getNumberOfAssignedUsers($memberRoles);
     }
 
-
     /**
      * Check if user is blocked
-     *
-     * @access public
-     * @static
-     *
-     * @param int course id
-     * @param int usr_id
      */
-    public static function _isBlocked($a_obj_id, $a_usr_id)
+    public static function _isBlocked(int $a_obj_id, int $a_usr_id) : bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "SELECT * FROM obj_members " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
             "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
             "AND blocked = " . $ilDB->quote(1, 'integer');
         $res = $ilDB->query($query);
-        return $res->numRows() ? true : false;
+        return (bool) $res->numRows();
     }
-    
+
     /**
      * Check if user has passed course
-     *
-     * @access public
-     * @static
-     *
-     * @param int obj_id
-     * @param int user id
      */
-    public static function _hasPassed($a_obj_id, $a_usr_id)
+    public static function _hasPassed(int $a_obj_id, int $a_usr_id) : bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "SELECT * FROM obj_members " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
             "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
             "AND passed = '1'";
         $res = $ilDB->query($query);
-        return $res->numRows() ? true : false;
+        return (bool) $res->numRows();
     }
-    
+
     /**
      * Delete all entries
-     * Normally called for course deletion
-     *
-     * @access public
-     * @static
-     *
-     * @param int obj_id
+     * Normally called in case of object deletion
      */
-    public static function _deleteAllEntries($a_obj_id)
+    public static function _deleteAllEntries(int $a_obj_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "DELETE FROM obj_members " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
 
         $query = "DELETE FROM il_subscribers " .
-            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . "";
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
-        $query = 'DELETE FROM crs_waiting_list ' .
-                'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
-        $ilDB->manipulate($query);
 
-        return true;
+        $query = 'DELETE FROM crs_waiting_list ' .
+            'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
+        $ilDB->manipulate($query);
     }
-    
+
     /**
      * Delete user data
-     *
-     * @access public
-     * @static
-     *
-     * @param int user id
      */
-    public static function _deleteUser($a_usr_id)
+    public static function _deleteUser(int $a_usr_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $query = "DELETE FROM obj_members WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . "";
+        $ilDB = $DIC->database();
+        $query = "DELETE FROM obj_members WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
 
-        $query = "DELETE FROM il_subscribers WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . "";
+        $query = "DELETE FROM il_subscribers WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
 
-        include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
         ilCourseWaitingList::_deleteUser($a_usr_id);
     }
-    
-    public static function getDefaultMemberRole($a_ref_id)
+
+    public static function getDefaultMemberRole(int $a_ref_id) : int
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        
+        $rbacreview = $DIC->rbac()->review();
+
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         $type = ilObject::_lookupType($obj_id);
-        
-        if (!in_array($type, array('crs','grp'))) {
+
+        if (!in_array($type, array('crs', 'grp'))) {
             return 0;
         }
-        
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        
 
         $roles = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
-        
         foreach ($roles as $role) {
             $title = ilObject::_lookupTitle($role);
-            if (substr($title, 0, 13) == ('il_' . $type . '_member')) {
+            if (strpos($title, ('il_' . $type . '_member')) === 0) {
                 return $role;
             }
         }
         return 0;
     }
-        
-    /**
-     * get current obj_id
-     * @return type
-     */
-    public function getObjId()
+
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
-    
-    /**
-     * Get object type
-     * @return string obj_type
-     */
-    public function getType()
+
+    public function getType() : string
     {
         return $this->type;
     }
-    
+
     /**
      * Get admin, tutor which have notification enabled
-     *
-     * @access public
      * @return int[] of user ids
      */
-    public function getNotificationRecipients()
+    public function getNotificationRecipients() : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM obj_members " .
             "WHERE notification = 1 " .
-            "AND obj_id = " . $ilDB->quote($this->obj_id) . " ";
-        $res = $ilDB->query($query);
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, ilDBConstants::T_INTEGER) . " ";
+        $res = $this->ilDB->query($query);
         $recp = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id)) {
-                $recp[] = $row->usr_id;
+            if ($this->isAdmin((int) $row->usr_id) || $this->isTutor((int) $row->usr_id)) {
+                $recp[] = (int) $row->usr_id;
             }
         }
         return $recp;
     }
-    
+
     /**
      * Get number of members (not participants)
-     *
-     * @access public
-     *
      */
-    public function getCountMembers()
+    public function getCountMembers() : int
     {
         return count($this->members);
     }
-    
+
     /**
      * Get number of participants
-     *
-     * @access public
-     *
      */
-    public function getCountParticipants()
+    public function getCountParticipants() : int
     {
         return count($this->participants);
     }
-    
-    
-    
-    
+
     /**
      * Get all participants ids
-     *
-     * @access public
-     * @return array array of user ids
+     * @return int[]
      */
-    public function getParticipants()
+    public function getParticipants() : array
     {
-        return $this->participants ? $this->participants : array();
+        return $this->participants;
     }
-    
+
     /**
      * Get all members ids (admins and tutors are not members)
      * Use get participants to fetch all
-     *
-     * @access public
-     * @return array array of user ids
+     * @return int[]
      */
-    public function getMembers()
+    public function getMembers() : array
     {
-        return $this->members ? $this->members : array();
+        return $this->members;
     }
+
     /**
      * Get all admins ids
-     *
-     * @access public
-     * @return array array of user ids
+     * @return int[]
      */
-    public function getAdmins()
+    public function getAdmins() : array
     {
-        return $this->admins ? $this->admins : array();
+        return $this->admins;
     }
-    
-    /**
-     * Get number of admins
-     * @return
-     */
-    public function getCountAdmins()
+
+    public function getCountAdmins() : int
     {
         return count($this->getAdmins());
     }
-    
-    
+
     /**
      * Get all tutors ids
-     *
-     * @access public
-     * @return array array of user ids
+     * @return int[]
      */
-    public function getTutors()
+    public function getTutors() : array
     {
-        return $this->tutors ? $this->tutors : array();
+        return $this->tutors;
     }
-    
+
     /**
-     * is user admin
-     *
-     * @access public
-     * @param int usr_id
-     *
+     * check if user is admin
      */
-    public function isAdmin($a_usr_id)
+    public function isAdmin(int $a_usr_id) : bool
     {
-        return in_array($a_usr_id, $this->admins) ? true : false;
+        return in_array($a_usr_id, $this->admins);
     }
-    
+
     /**
      * is user tutor
-     *
-     * @access public
-     * @param int usr_id
-     *
      */
-    public function isTutor($a_usr_id)
+    public function isTutor(int $a_usr_id) : bool
     {
-        return in_array($a_usr_id, $this->tutors) ? true : false;
+        return in_array($a_usr_id, $this->tutors);
     }
-    
+
     /**
      * is user member
-     *
-     * @access public
-     * @param int usr_id
-     *
      */
-    public function isMember($a_usr_id)
+    public function isMember(int $a_usr_id) : bool
     {
-        return in_array($a_usr_id, $this->members) ? true : false;
+        return in_array($a_usr_id, $this->members);
     }
-    
-    
-    
-    
+
     /**
      * check if user is assigned
-     *
-     * @access public
-     * @param
-     *
      */
-    public function isAssigned($a_usr_id)
+    public function isAssigned(int $a_usr_id) : bool
     {
         return in_array($a_usr_id, $this->participants);
     }
-    
+
     /**
      * Check if user is last admin
-     * @param int $a_usr_id
-     * @return bool
      */
-    public function isLastAdmin($a_usr_id)
+    public function isLastAdmin(int $a_usr_id) : bool
     {
-        return in_array($a_usr_id, $this->getAdmins()) and count($this->getAdmins()) == 1;
+        return in_array($a_usr_id, $this->getAdmins()) && count($this->getAdmins()) === 1;
     }
-    
-    
+
     /**
-     * Get course roles
-     *
-     * @access public
-     * @param
-     *
+     * Get object roles
      */
-    public function getRoles()
+    public function getRoles() : array
     {
-        return $this->roles ? $this->roles : array();
+        return $this->roles;
     }
-    
+
     /**
      * Get assigned roles
-     *
-     * @access public
-     * @param int user_id
-     *
      */
-    public function getAssignedRoles($a_usr_id)
+    public function getAssignedRoles(int $a_usr_id) : array
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        
+        $assigned = [];
         foreach ($this->roles as $role) {
-            if ($rbacreview->isAssigned($a_usr_id, $role)) {
+            if ($this->rbacReview->isAssigned($a_usr_id, $role)) {
                 $assigned[] = $role;
             }
         }
-        return $assigned ? $assigned : array();
+        return $assigned;
     }
-    
+
     /**
      * Update role assignments
-     *
      * @access public
      * @param int usr_id
-     * @param array array of new roles
-     *
+     * @param int[] array of new roles
      */
-    public function updateRoleAssignments($a_usr_id, $a_roles)
+    public function updateRoleAssignments($a_usr_id, $a_roles) : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $rbacadmin = $DIC['rbacadmin'];
-        
-        $roles = $a_roles ? $a_roles : array();
-        
         foreach ($this->getRoles() as $role_id) {
-            if ($rbacreview->isAssigned($a_usr_id, $role_id)) {
-                if (!in_array($role_id, $roles)) {
-                    $rbacadmin->deassignUser($role_id, $a_usr_id);
+            if ($this->rbacReview->isAssigned($a_usr_id, $role_id)) {
+                if (!in_array($role_id, $a_roles)) {
+                    $this->rbacAdmin->deassignUser($role_id, $a_usr_id);
                 }
-            } else {
-                if (in_array($role_id, $roles)) {
-                    $rbacadmin->assignUser($role_id, $a_usr_id);
-                }
+            } elseif (in_array($role_id, $a_roles)) {
+                $this->rbacAdmin->assignUser($role_id, $a_usr_id);
             }
         }
-        $rbacreview->clearCaches();
+        $this->rbacReview->clearCaches();
         $this->readParticipants();
         $this->readParticipantsStatus();
     }
-    
+
     /**
-     * Check if user for deletion are last admins
-     *
+     * Check if users for deletion are last admins
      * @access public
-     * @param array array of user ids for deletion
-     *
+     * @param int[] array of user ids for deletion
+     * @todo   fix this and add unit test
      */
-    public function checkLastAdmin($a_usr_ids)
+    public function checkLastAdmin(array $a_usr_ids) : bool
     {
         foreach ($this->getAdmins() as $admin_id) {
             if (!in_array($admin_id, $a_usr_ids)) {
@@ -781,442 +622,335 @@ abstract class ilParticipants
         }
         return false;
     }
-    
+
     /**
      * Check if user is blocked
-     *
-     * @access public
-     * @param int user_id
-     *
      */
-    public function isBlocked($a_usr_id)
+    public function isBlocked(int $a_usr_id) : bool
     {
         if (isset($this->participants_status[$a_usr_id])) {
-            return $this->participants_status[$a_usr_id]['blocked'] ? true : false;
+            return (bool) $this->participants_status[$a_usr_id]['blocked'];
         }
         return false;
     }
-    
+
     /**
-     * Check if user has passed course
-     *
-     * @access public
-     * @param int user_id
-     *
+     * Check if user has passed object
      */
-    public function hasPassed($a_usr_id)
+    public function hasPassed(int $a_usr_id) : bool
     {
         if (isset($this->participants_status[$a_usr_id])) {
-            return $this->participants_status[$a_usr_id]['passed'] ? true : false;
+            return (bool) $this->participants_status[$a_usr_id]['passed'];
         }
         return false;
     }
-    
+
     /**
      * Drop user from all roles
-     *
-     * @access public
-     * @param int usr_id
-     *
      */
-    public function delete($a_usr_id)
+    public function delete(int $a_usr_id) : void
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        $ilDB = $DIC['ilDB'];
-
         $this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
-
         foreach ($this->roles as $role_id) {
-            $rbacadmin->deassignUser($role_id, $a_usr_id);
+            $this->rbacAdmin->deassignUser($role_id, $a_usr_id);
         }
-        
+
         $query = "DELETE FROM obj_members " .
-            "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($this->obj_id, 'integer');
-        $res = $ilDB->manipulate($query);
-        
+            "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer');
+        $res = $this->ilDB->manipulate($query);
+
         $this->readParticipants();
         $this->readParticipantsStatus();
-        
-        $GLOBALS['DIC']['ilAppEventHandler']->raise(
+
+        $this->eventHandler->raise(
             $this->getComponent(),
             "deleteParticipant",
-            array(
-                    'obj_id' => $this->obj_id,
-                    'usr_id' => $a_usr_id)
+            [
+                'obj_id' => $this->obj_id,
+                'usr_id' => $a_usr_id
+            ]
         );
-        
-        return true;
     }
 
     /**
      * Update blocked status
-     *
-     * @access public
-     * @param int usr_id
-     * @param bool blocked
-     *
      */
-    public function updateBlocked($a_usr_id, $a_blocked)
+    public function updateBlocked(int $a_usr_id, bool $a_blocked) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $this->participants_status[$a_usr_id]['blocked'] = (int) $a_blocked;
-
         $query = "SELECT * FROM obj_members " .
-        "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " " .
-        "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer');
-        $res = $ilDB->query($query);
+            "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
+            "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer');
+        $res = $this->ilDB->query($query);
         if ($res->numRows()) {
             $query = "UPDATE obj_members SET " .
-                "blocked = " . $ilDB->quote((int) $a_blocked, 'integer') . " " .
-                "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " " .
-                "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer');
+                "blocked = " . $this->ilDB->quote((int) $a_blocked, 'integer') . " " .
+                "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
+                "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer');
         } else {
             $query = "INSERT INTO obj_members (blocked,obj_id,usr_id,notification,passed) " .
                 "VALUES ( " .
-                $ilDB->quote((int) $a_blocked, 'integer') . ", " .
-                $ilDB->quote($this->obj_id, 'integer') . ", " .
-                $ilDB->quote($a_usr_id, 'integer') . ", " .
-                $ilDB->quote(0, 'integer') . ", " .
-                $ilDB->quote(0, 'integer') .
+                $this->ilDB->quote((int) $a_blocked, 'integer') . ", " .
+                $this->ilDB->quote($this->obj_id, 'integer') . ", " .
+                $this->ilDB->quote($a_usr_id, 'integer') . ", " .
+                $this->ilDB->quote(0, 'integer') . ", " .
+                $this->ilDB->quote(0, 'integer') .
                 ")";
         }
-        $res = $ilDB->manipulate($query);
-        return true;
+        $res = $this->ilDB->manipulate($query);
     }
-    
-    // cognos-blu-patch: begin
-    /**
-     * Update contact setting
-     * @global type $ilDB
-     * @param type $a_usr_id
-     * @param type $a_contact
-     * @return boolean
-     */
-    public function updateContact($a_usr_id, $a_contact)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $ilDB->manipulate(
+    public function updateContact(int $a_usr_id, bool $a_contact) : void
+    {
+        $this->ilDB->manipulate(
             'UPDATE obj_members SET ' .
-                'contact = ' . $ilDB->quote($a_contact, 'integer') . ' ' .
-                'WHERE obj_id = ' . $ilDB->quote($this->obj_id, 'integer') . ' ' .
-                'AND usr_id = ' . $ilDB->quote($a_usr_id, 'integer')
+            'contact = ' . $this->ilDB->quote($a_contact, 'integer') . ' ' .
+            'WHERE obj_id = ' . $this->ilDB->quote($this->obj_id, 'integer') . ' ' .
+            'AND usr_id = ' . $this->ilDB->quote($a_usr_id, 'integer')
         );
-        
         $this->participants_status[$a_usr_id]['contact'] = $a_contact;
-        return true;
     }
-    
+
     /**
      * get user ids which are confirgured as contact
-     * @return array
+     * @return int[]
      */
-    public function getContacts()
+    public function getContacts() : array
     {
         $contacts = array();
-        foreach ((array) $this->participants_status as $usr_id => $status) {
+        foreach ($this->participants_status as $usr_id => $status) {
             if ($status['contact']) {
-                $contacts[] = $usr_id;
+                $contacts[] = (int) $usr_id;
             }
         }
         return $contacts;
     }
-    
-    
-    // cognos-blu-patch: end
 
     /**
      * Update notification status
-     *
-     * @access public
-     * @param int usr_id
-     * @param bool passed
-     *
      */
-    public function updateNotification($a_usr_id, $a_notification)
+    public function updateNotification(int $a_usr_id, bool $a_notification) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $this->participants_status[$a_usr_id]['notification'] = (int) $a_notification;
+        $this->participants_status[$a_usr_id]['notification'] = $a_notification;
 
         $query = "SELECT * FROM obj_members " .
-        "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " " .
-        "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer');
-        $res = $ilDB->query($query);
+            "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
+            "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer');
+        $res = $this->ilDB->query($query);
         if ($res->numRows()) {
             $query = "UPDATE obj_members SET " .
-                "notification = " . $ilDB->quote((int) $a_notification, 'integer') . " " .
-                "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " " .
-                "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer');
+                "notification = " . $this->ilDB->quote((int) $a_notification, 'integer') . " " .
+                "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
+                "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer');
         } else {
             $query = "INSERT INTO obj_members (notification,obj_id,usr_id,passed,blocked) " .
                 "VALUES ( " .
-                $ilDB->quote((int) $a_notification, 'integer') . ", " .
-                $ilDB->quote($this->obj_id, 'integer') . ", " .
-                $ilDB->quote($a_usr_id, 'integer') . ", " .
-                $ilDB->quote(0, 'integer') . ", " .
-                $ilDB->quote(0, 'integer') .
+                $this->ilDB->quote((int) $a_notification, 'integer') . ", " .
+                $this->ilDB->quote($this->obj_id, 'integer') . ", " .
+                $this->ilDB->quote($a_usr_id, 'integer') . ", " .
+                $this->ilDB->quote(0, 'integer') . ", " .
+                $this->ilDB->quote(0, 'integer') .
                 ")";
         }
-        $res = $ilDB->manipulate($query);
-        return true;
+        $res = $this->ilDB->manipulate($query);
     }
-    
 
-    
-    
-    /**
-     * Add user to object
-     *
-     * @access public
-     * @param int user id
-     * @param int role IL_CRS_ADMIN || IL_CRS_TUTOR || IL_CRS_MEMBER
-     *
-     */
-    public function add($a_usr_id, $a_role)
+    public function add(int $a_usr_id, int $a_role) : bool
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-
         if ($this->isAssigned($a_usr_id)) {
             return false;
         }
 
         switch ($a_role) {
-            case IL_CRS_ADMIN:
+            case self::IL_LSO_ADMIN:
+            case self::IL_GRP_ADMIN:
+            case self::IL_CRS_ADMIN:
                 $this->admins[] = $a_usr_id;
                 break;
 
-            case IL_CRS_TUTOR:
+            case self::IL_CRS_TUTOR:
                 $this->tutors[] = $a_usr_id;
                 break;
 
-            case IL_CRS_MEMBER:
+            case self::IL_SESS_MEMBER:
+            case self::IL_LSO_MEMBER:
+            case self::IL_GRP_MEMBER:
+            case self::IL_CRS_MEMBER:
                 $this->members[] = $a_usr_id;
                 break;
 
-            case IL_GRP_ADMIN:
-                $this->admins[] = $a_usr_id;
-                break;
-
-            case IL_GRP_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
-
-            case IL_LSO_ADMIN:
-                $this->admins[] = $a_usr_id;
-                break;
-
-            case IL_LSO_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
-
-            case IL_SESS_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
         }
-        
+
         $this->participants[] = $a_usr_id;
-        $rbacadmin->assignUser($this->role_data[$a_role], $a_usr_id);
-        
+        $this->rbacAdmin->assignUser($this->role_data[$a_role], $a_usr_id);
+
         // Delete subscription request
         $this->deleteSubscriber($a_usr_id);
-        
-        include_once './Services/Membership/classes/class.ilWaitingList.php';
+
         ilWaitingList::deleteUserEntry($a_usr_id, $this->obj_id);
 
-        $ilAppEventHandler->raise(
+        $this->eventHandler->raise(
             $this->getComponent(),
             "addParticipant",
             array(
-                    'obj_id' => $this->obj_id,
-                    'usr_id' => $a_usr_id,
-                    'role_id' => $a_role)
+                'obj_id' => $this->obj_id,
+                'usr_id' => $a_usr_id,
+                'role_id' => $a_role
+            )
         );
         return true;
     }
-    
 
     /**
-     * Delete users
-     *
-     * @access public
-     * @param array user ids
-     *
+     * @param int[]
      */
-    public function deleteParticipants($a_user_ids)
+    public function deleteParticipants(array $a_user_ids) : bool
     {
         foreach ($a_user_ids as $user_id) {
             $this->delete($user_id);
         }
         return true;
     }
-    
+
     /**
      * Add desktop item
-     *
      * @access public
-     * @param int usr_id
-     *
      */
-    public function addRecommendation($a_usr_id)
+    public function addRecommendation(int $a_usr_id) : void
     {
         // deactivated for now, see discussion at
         // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
         // $this->recommended_content_manager->addObjectRecommendation($a_usr_id, $this->ref_id);
-        return true;
     }
-    
 
-    
-    /**
-     * check if notification is enabled
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function isNotificationEnabled($a_usr_id)
+    public function isNotificationEnabled(int $a_usr_id) : bool
     {
         if (isset($this->participants_status[$a_usr_id])) {
-            return $this->participants_status[$a_usr_id]['notification'] ? true : false;
+            return (bool) $this->participants_status[$a_usr_id]['notification'];
         }
         return false;
     }
-    
-    // cognos-blu-patch: begin
-    /**
-     * Check if user is contact
-     * @param int usr_id
-     */
-    public function isContact($a_usr_id)
+
+    public function isContact(int $a_usr_id) : bool
     {
         if (isset($this->participants_status[$a_usr_id])) {
             return (bool) $this->participants_status[$a_usr_id]['contact'];
         }
         return false;
     }
-    // cognos-blu-patch: end
-    
-    
-    /**
-     * Get role id of auto generated role type
-     * @param type $a_role_type
-     */
-    public function getAutoGeneratedRoleId($a_role_type)
+
+    public function getAutoGeneratedRoleId(int $a_role_type) : int
     {
         if (array_key_exists($a_role_type, $this->role_data)) {
             return $this->role_data[$a_role_type];
         }
-        
         return 0;
     }
-    
-    
-    /**
-     * Read participants
-     *
-     * @access private
-     * @param
-     *
-     */
-    protected function readParticipants()
+
+    protected function readParticipants() : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilLog = $DIC['ilLog'];
-        
-        $GLOBALS['DIC']['rbacreview']->clearCaches();
-        $this->roles = $rbacreview->getRolesOfRoleFolder($this->ref_id, false);
-
-        $users = array();
-        $this->participants = array();
-        $this->members = $this->admins = $this->tutors = array();
+        $this->roles = $this->rbacReview->getRolesOfRoleFolder($this->ref_id, false);
+        $this->participants = [];
+        $this->members = $this->admins = $this->tutors = [];
 
         $additional_roles = [];
         $auto_generated_roles = [];
         foreach ($this->roles as $role_id) {
-            $title = $ilObjDataCache->lookupTitle($role_id);
+            $title = $this->objectDataCache->lookupTitle($role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
-                    $this->role_data[IL_CRS_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
+                    $this->role_data[self::IL_CRS_MEMBER] = $role_id;
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = array_unique(array_merge($assigned, $this->members));
                     $this->role_assignments[$role_id] = $assigned;
                     break;
 
                 case 'il_crs_a':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
-                    $this->role_data[IL_CRS_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
-                    $this->admins = $rbacreview->assignedUsers($role_id);
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
+                    $this->role_data[self::IL_CRS_ADMIN] = $role_id;
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
+                    $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
-        
+
                 case 'il_crs_t':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_TUTOR;
-                    $this->role_data[IL_CRS_TUTOR] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
-                    $this->tutors = $rbacreview->assignedUsers($role_id);
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_TUTOR;
+                    $this->role_data[self::IL_CRS_TUTOR] = $role_id;
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
+                    $this->tutors = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
-                    
+
                 case 'il_grp_a':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
-                    $this->role_data[IL_GRP_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
-                    $this->admins = $rbacreview->assignedUsers($role_id);
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
+                    $this->role_data[self::IL_GRP_ADMIN] = $role_id;
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
+                    $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
-                    
+
                 case 'il_grp_m':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
-                    $this->role_data[IL_GRP_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
-                    $this->members = $rbacreview->assignedUsers($role_id);
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
+                    $this->role_data[self::IL_GRP_MEMBER] = $role_id;
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
+                    $this->members = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
-                
+
                 case 'il_sess_':
-                    $this->role_data[IL_SESS_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
-                    $this->members = $rbacreview->assignedUsers($role_id);
+                    $this->role_data[self::IL_SESS_MEMBER] = $role_id;
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
+                    $this->members = $this->rbacReview->assignedUsers($role_id);
                     break;
 
                 case 'il_lso_m':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
-                    $this->role_data[IL_LSO_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
-                    $this->members = $rbacreview->assignedUsers($role_id);
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
+                    $this->role_data[self::IL_LSO_MEMBER] = $role_id;
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
+                    $this->members = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
 
                 case 'il_lso_a':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
-                    $this->role_data[IL_LSO_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
-                    $this->admins = $rbacreview->assignedUsers($role_id);
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
+                    $this->role_data[self::IL_LSO_ADMIN] = $role_id;
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
+                    $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
 
                 default:
                     $additional_roles[$role_id] = $title;
-                    $this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id), $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = array_unique(array_merge($assigned, $this->members));
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -1226,89 +960,74 @@ abstract class ilParticipants
         asort($additional_roles);
         $this->roles_sorted = $auto_generated_roles + $additional_roles;
     }
-    
+
     /**
      * Read status of participants (blocked, notification, passed)
-     *
-     * @access private
-     * @param
-     *
      */
-    protected function readParticipantsStatus()
+    protected function readParticipantsStatus() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM obj_members " .
-            "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " ";
-        $res = $ilDB->query($query);
-        $this->participants_status = array();
+            "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " ";
+        $res = $this->ilDB->query($query);
+        $this->participants_status = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->participants_status[$row->usr_id]['blocked'] = $row->blocked;
-            $this->participants_status[$row->usr_id]['notification'] = $row->notification;
-            $this->participants_status[$row->usr_id]['passed'] = $row->passed;
-            // cognos-blu-patch: begin
-            $this->participants_status[$row->usr_id]['contact'] = $row->contact;
-            // cognos-blu-patch: end
+            $this->participants_status[(int) $row->usr_id]['blocked'] = (bool) $row->blocked;
+            $this->participants_status[(int) $row->usr_id]['notification'] = (bool) $row->notification;
+            $this->participants_status[(int) $row->usr_id]['passed'] = (bool) $row->passed;
+            $this->participants_status[(int) $row->usr_id]['contact'] = (bool) $row->contact;
         }
     }
-    
+
     /**
-     * Check grouping membership
-     *
-     * @access public
-     * @param
-     *
+     * Check membership for
      */
-    public function isGroupingMember($a_usr_id, $a_field = '')
+    public function isGroupingMember(int $a_usr_id, string $a_field = '') : bool
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilDB = $DIC['ilDB'];
-
-        // Used for membership limitations -> check membership by given field
-        if ($a_field) {
-            include_once './Services/User/classes/class.ilObjUser.php';
-
-            $tmp_user = &ilObjectFactory::getInstanceByObjId($a_usr_id);
-            switch ($a_field) {
-                case 'login':
-                    $and = "AND login = " . $ilDB->quote($tmp_user->getLogin(), 'text') . " ";
-                    break;
-                case 'email':
-                    $and = "AND email = " . $ilDB->quote($tmp_user->getEmail(), 'text') . " ";
-                    break;
-                case 'matriculation':
-                    $and = "AND matriculation = " . $ilDB->quote($tmp_user->getMatriculation(), 'text') . " ";
-                    break;
-
-                default:
-                    $and = "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
-                    break;
-            }
-            
-            if (!$this->getParticipants()) {
-                return false;
-            }
-
-            $query = "SELECT * FROM usr_data ud " .
-                "WHERE " . $ilDB->in('usr_id', $this->getParticipants(), false, 'integer') . " " .
-                $and;
-
-            $res = $ilDB->query($query);
-            return $res->numRows() ? true : false;
+        if ($a_field === '') {
+            return false;
         }
+        // Used for membership limitations -> check membership by given field
+        $tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
+        if (!$tmp_user instanceof ilObjUser) {
+            $this->logger->logStack(ilLogLevel::ERROR);
+            throw new DomainException('Invalid user id given: ' . $a_usr_id);
+        }
+        switch ($a_field) {
+            case 'login':
+                $and = "AND login = " . $this->ilDB->quote($tmp_user->getLogin(), 'text') . " ";
+                break;
+            case 'email':
+                $and = "AND email = " . $this->ilDB->quote($tmp_user->getEmail(), 'text') . " ";
+                break;
+            case 'matriculation':
+                $and = "AND matriculation = " . $this->ilDB->quote($tmp_user->getMatriculation(), 'text') . " ";
+                break;
+
+            default:
+                $and = "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " ";
+                break;
+        }
+
+        if (!$this->getParticipants()) {
+            return false;
+        }
+
+        $query = "SELECT * FROM usr_data ud " .
+            "WHERE " . $this->ilDB->in('usr_id', $this->getParticipants(), false, 'integer') . " " .
+            $and;
+
+        $res = $this->ilDB->query($query);
+        return (bool) $res->numRows();
     }
 
-    public static function lookupSubscribers($a_obj_id)
+    /**
+     * @return int[]
+     */
+    public static function lookupSubscribers(int $a_obj_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         $subscribers = array();
         $query = "SELECT usr_id FROM il_subscribers " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
@@ -1316,54 +1035,34 @@ abstract class ilParticipants
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $subscribers[] = $row->usr_id;
+            $subscribers[] = (int) $row->usr_id;
         }
         return $subscribers;
     }
-    
+
     /**
      * get all subscribers
-     *
-     * @access public
+     * int[]
      */
-    public function getSubscribers()
+    public function getSubscribers() : array
     {
         $this->readSubscribers();
-
         return $this->subscribers;
     }
 
-    
-    /**
-     * get number of subscribers
-     *
-     * @access public
-     */
-    public function getCountSubscribers()
+    public function getCountSubscribers() : int
     {
         return count($this->getSubscribers());
     }
 
-    /**
-     * get subscriber data
-     *
-     * @access public
-     */
-    public function getSubscriberData($a_usr_id)
+    public function getSubscriberData(int $a_usr_id) : array
     {
         return $this->readSubscriberData($a_usr_id);
     }
 
-
-
-    /**
-     * Assign subscribers
-     *
-     * @access public
-     */
-    public function assignSubscribers($a_usr_ids)
+    public function assignSubscribers(array $a_usr_ids) : bool
     {
-        if (!is_array($a_usr_ids) or !count($a_usr_ids)) {
+        if (!is_array($a_usr_ids) || !count($a_usr_ids)) {
             return false;
         }
         foreach ($a_usr_ids as $id) {
@@ -1374,45 +1073,34 @@ abstract class ilParticipants
         return true;
     }
 
-    /**
-     * Assign subscriber
-     *
-     * @access public
-     */
-    public function assignSubscriber($a_usr_id)
+    public function assignSubscriber(int $a_usr_id) : bool
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        
-        $ilErr->setMessage("");
+        $this->error->setMessage("");
         if (!$this->isSubscriber($a_usr_id)) {
-            $ilErr->appendMessage($this->lng->txt("crs_user_notsubscribed"));
+            $this->error->appendMessage($this->lng->txt("crs_user_notsubscribed"));
 
             return false;
         }
         if ($this->isAssigned($a_usr_id)) {
             $tmp_obj = ilObjectFactory::getInstanceByObjId($a_usr_id);
-            $ilErr->appendMessage($tmp_obj->getLogin() . ": " . $this->lng->txt("crs_user_already_assigned"));
+            $this->error->appendMessage($tmp_obj->getLogin() . ": " . $this->lng->txt("crs_user_already_assigned"));
 
             return false;
         }
 
-        if (!$tmp_obj = &ilObjectFactory::getInstanceByObjId($a_usr_id)) {
-            $ilErr->appendMessage($this->lng->txt("crs_user_not_exists"));
-
+        if (!$tmp_obj = ilObjectFactory::getInstanceByObjId($a_usr_id, false)) {
+            $this->error->appendMessage($this->lng->txt("crs_user_not_exists"));
             return false;
         }
 
-        // TODO: must be group or course member role
         if ($this instanceof ilCourseParticipants) {
-            $this->add($tmp_obj->getId(), IL_CRS_MEMBER);
+            $this->add($tmp_obj->getId(), self::IL_CRS_MEMBER);
         }
         if ($this instanceof ilGroupParticipants) {
-            $this->add($tmp_obj->getId(), IL_GRP_MEMBER);
+            $this->add($tmp_obj->getId(), self::IL_GRP_MEMBER);
         }
         if ($this instanceof ilLearningSequenceParticipants) {
-            $this->add($tmp_obj->getId(), IL_LSO_MEMBER);
+            $this->add($tmp_obj->getId(), self::IL_LSO_MEMBER);
         }
         if ($this instanceof ilSessionParticipants) {
             $this->register($tmp_obj->getId());
@@ -1422,154 +1110,94 @@ abstract class ilParticipants
     }
 
     /**
-     * Assign subscriber
-     *
-     * @access public
+     * @todo check and fix notification
      */
-    public function autoFillSubscribers()
+    public function autoFillSubscribers() : int
     {
         $this->readSubscribers();
-
         $counter = 0;
         foreach ($this->subscribers as $subscriber) {
             if (!$this->assignSubscriber($subscriber)) {
                 continue;
-            } else {
-                // TODO: notification
-                #$this->sendNotification($this->NOTIFY_ACCEPT_SUBSCRIBER,$subscriber);
             }
             ++$counter;
         }
-
         return $counter;
     }
 
-    /**
-     * Add subscriber
-     *
-     * @access public
-     */
-    public function addSubscriber($a_usr_id)
+    public function addSubscriber(int $a_usr_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "INSERT INTO il_subscribers (usr_id,obj_id,subject,sub_time) " .
             " VALUES (" .
-            $ilDB->quote($a_usr_id, 'integer') . "," .
-            $ilDB->quote($this->obj_id, 'integer') . ", " .
-            $ilDB->quote('', 'text') . ", " .
-            $ilDB->quote(time(), 'integer') .
+            $this->ilDB->quote($a_usr_id, 'integer') . "," .
+            $this->ilDB->quote($this->obj_id, 'integer') . ", " .
+            $this->ilDB->quote('', 'text') . ", " .
+            $this->ilDB->quote(time(), 'integer') .
             ")";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+        $res = $this->ilDB->manipulate($query);
     }
 
-
-    /**
-     * Update subscription time
-     *
-     * @access public
-     */
-    public function updateSubscriptionTime($a_usr_id, $a_subtime)
+    public function updateSubscriptionTime(int $a_usr_id, int $a_subtime) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "UPDATE il_subscribers " .
-            "SET sub_time = " . $ilDB->quote($a_subtime, 'integer') . " " .
-            "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+            "SET sub_time = " . $this->ilDB->quote($a_subtime, 'integer') . " " .
+            "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " ";
+        $res = $this->ilDB->manipulate($query);
     }
-    
-    /**
-     * update subject
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function updateSubject($a_usr_id, $a_subject)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function updateSubject(int $a_usr_id, string $a_subject) : void
+    {
         $query = "UPDATE il_subscribers " .
-            "SET subject = " . $ilDB->quote($a_subject, 'text') . " " .
-            "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-        return true;
+            "SET subject = " . $this->ilDB->quote($a_subject, 'text') . " " .
+            "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " ";
+        $res = $this->ilDB->manipulate($query);
     }
 
-    
-    /**
-     * Delete subsciber
-     *
-     * @access public
-     */
-    public function deleteSubscriber($a_usr_id)
+    public function deleteSubscriber(int $a_usr_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "DELETE FROM il_subscribers " .
-            "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+            "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " ";
+        $res = $this->ilDB->manipulate($query);
     }
 
-    
-    /**
-     * Delete subscibers
-     *
-     * @access public
-     */
-    public function deleteSubscribers($a_usr_ids)
+    public function deleteSubscribers(array $a_usr_ids) : bool
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilDB = $DIC['ilDB'];
-        
-        if (!is_array($a_usr_ids) or !count($a_usr_ids)) {
-            $ilErr->setMessage('');
-            $ilErr->appendMessage($this->lng->txt("no_usr_ids_given"));
-
+        if (!count($a_usr_ids)) {
+            $this->error->setMessage('');
+            $this->error->appendMessage($this->lng->txt("no_usr_ids_given"));
             return false;
         }
         $query = "DELETE FROM il_subscribers " .
-            "WHERE " . $ilDB->in('usr_id', (array) $a_usr_ids, false, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($this->obj_id, 'integer');
-        $res = $ilDB->query($query);
+            "WHERE " . $this->ilDB->in('usr_id', $a_usr_ids, false, 'integer') . " " .
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer');
+        $res = $this->ilDB->query($query);
         return true;
     }
-    
-    
-    /**
-     * check if is subscriber
-     *
-     * @access public
-     */
-    public function isSubscriber($a_usr_id)
+
+    public function isSubscriber(int $a_usr_id) : bool
+    {
+        $query = "SELECT * FROM il_subscribers " .
+            "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer');
+
+        $res = $this->ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function _isSubscriber(int $a_obj_id, int $a_usr_id) : bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "SELECT * FROM il_subscribers " .
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($this->obj_id, 'integer') . "";
+            "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -1579,113 +1207,79 @@ abstract class ilParticipants
     }
 
     /**
-     * check if user is subscriber
-     *
-     * @access public
-     * @static
+     * @todo fix performance; check if method is in use
      */
-    public static function _isSubscriber($a_obj_id, $a_usr_id)
+    protected function readSubscribers() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = "SELECT * FROM il_subscribers " .
-            "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . "";
-
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return true;
-        }
-        return false;
-    }
-    
-    /**
-     * read subscribers
-     *
-     * @access protected
-     */
-    protected function readSubscribers()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $this->subscribers = array();
-
+        $this->subscribers = [];
         $query = "SELECT usr_id FROM il_subscribers " .
-            "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " " .
+            "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
             "ORDER BY sub_time ";
 
         $res = $this->ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            // DELETE SUBSCRIPTION IF USER HAS BEEN DELETED
-            if (!ilObjectFactory::getInstanceByObjId($row->usr_id, false)) {
-                $this->deleteSubscriber($row->usr_id);
+            if (!ilObjectFactory::getInstanceByObjId((int) $row->usr_id, false)) {
+                $this->deleteSubscriber((int) $row->usr_id);
             }
-            $this->subscribers[] = $row->usr_id;
+            $this->subscribers[] = (int) $row->usr_id;
         }
-        return true;
     }
 
     /**
-     * read subscribers
-     *
-     * @access protected
+     * @return array<{time: int, usr_id: int, subject: string}>
      */
-    protected function readSubscriberData($a_usr_id)
+    protected function readSubscriberData(int $a_usr_id) : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "SELECT * FROM il_subscribers " .
-            "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer') . " " .
-            "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer') . "";
+            "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
+            "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer');
 
         $res = $this->ilDB->query($query);
+        $data = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $data["time"] = $row->sub_time;
-            $data["usr_id"] = $row->usr_id;
-            $data['subject'] = $row->subject;
+            $data["time"] = (int) $row->sub_time;
+            $data["usr_id"] = (int) $row->usr_id;
+            $data['subject'] = (string) $row->subject;
         }
-        return $data ? $data : array();
+        return $data;
     }
 
-    public static function lookupSubscribersData($a_obj_id)
+    /**
+     * @param int $a_usr_id
+     * @return array<int, array<{time: int, usr_id: int, subject: string}>>
+     */
+    public static function lookupSubscribersData(int $a_obj_id) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT * FROM il_subscribers ' .
             'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
 
         $data = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $data[$row->usr_id]['time'] = $row->sub_time;
-            $data[$row->usr_id]['usr_id'] = $row->usr_id;
-            $data[$row->usr_id]['subject'] = $row->subject;
+            $data[$row->usr_id]['time'] = (int) $row->sub_time;
+            $data[$row->usr_id]['usr_id'] = (int) $row->usr_id;
+            $data[$row->usr_id]['subject'] = (string) $row->subject;
         }
         return $data;
     }
 
     /**
      * Get all support contacts for a user
-     *
-     * @param int $a_usr_id usr_id
-     * @param string $a_type crs or grp
+     * @param int    $a_usr_id usr_id
+     * @param string $a_type   crs or grp
      * @return array array of contacts (keys are usr_id and obj_id)
+     * @todo  join the two queries or alternatively reuse _getMembershipByType
+     * @todo  fix returning fetchAssoc result
      */
-    public static function _getAllSupportContactsOfUser($a_usr_id, $a_type)
+    public static function _getAllSupportContactsOfUser(int $a_usr_id, string $a_type) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        // todo: join the two queries or alternatively reuse _getMembershipByType
         // for the first part
 
         // this will also dismiss local roles!
@@ -1706,7 +1300,7 @@ abstract class ilParticipants
         $res = $ilDB->query($query);
         $obj_ids = array();
         while ($row = $ilDB->fetchObject($res)) {
-            $obj_ids[] = $row->obj_id;
+            $obj_ids[] = (int) $row->obj_id;
         }
 
         $set = $ilDB->query("SELECT obj_id, usr_id FROM obj_members " .
@@ -1716,16 +1310,13 @@ abstract class ilParticipants
         while ($rec = $ilDB->fetchAssoc($set)) {
             $res[] = $rec;
         }
-
         return $res;
     }
 
     /**
      * Set role order position
-     * @param  int $a_user_id
-     * @return string
      */
-    public function setRoleOrderPosition($a_user_id)
+    public function setRoleOrderPosition(int $a_user_id) : string
     {
         $counter = 0;
         $sortable_assignments = '9999999999';

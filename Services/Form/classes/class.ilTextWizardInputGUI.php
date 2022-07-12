@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class represents a text wizard property in a property form.
@@ -9,22 +23,14 @@
  */
 class ilTextWizardInputGUI extends ilTextInputGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    protected $values = array();
-    protected $allowMove = false;
+    protected ilGlobalTemplateInterface $tpl;
+    protected array $values = array();
+    protected bool $allowMove = false;
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -33,72 +39,43 @@ class ilTextWizardInputGUI extends ilTextInputGUI
         $this->validationRegexp = "";
     }
 
-    /**
-    * Set Values
-    *
-    * @param	array	$a_value	Value
-    */
-    public function setValues($a_values)
+    public function setValues(array $a_values) : void
     {
         $this->values = $a_values;
     }
-    
+
     /**
-    * Set Value
-    *
-    * @param	array	$a_value	Value
-    */
-    public function setValue($a_value)
+     * @param array|string $a_value
+     */
+    public function setValue($a_value) : void
     {
         $this->values = $a_value;
     }
 
-    /**
-    * Get Values
-    *
-    * @return	array	Values
-    */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
 
-    /**
-    * Set allow move
-    *
-    * @param	boolean	$a_allow_move Allow move
-    */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove(bool $a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
 
-    /**
-    * Get allow move
-    *
-    * @return	boolean	Allow move
-    */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
-        $foundvalues = $_POST[$this->getPostVar()];
-        if (is_array($foundvalues)) {
-            foreach ($foundvalues as $idx => $value) {
-                $_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
+        $foundvalues = $this->getInput();
+        if (count($foundvalues) > 0) {
+            foreach ($foundvalues as $value) {
                 if ($this->getRequired() && trim($value) == "") {
                     $this->setAlert($lng->txt("msg_input_is_required"));
-
                     return false;
                 } elseif (strlen($this->getValidationRegexp())) {
                     if (!preg_match($this->getValidationRegexp(), $value)) {
@@ -115,26 +92,26 @@ class ilTextWizardInputGUI extends ilTextInputGUI
         return $this->checkSubItemsInput();
     }
 
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function getInput() : array
+    {
+        return $this->strArray($this->getPostVar());
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
     
-    public function render($a_mode = "")
+    public function render(string $a_mode = "") : string
     {
         $tpl = new ilTemplate("tpl.prop_textwizardinput.html", true, true, "Services/Form");
         $i = 0;
         foreach ($this->values as $value) {
             if (strlen($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->parseCurrentBlock();
             }
             if ($this->getAllowMove()) {

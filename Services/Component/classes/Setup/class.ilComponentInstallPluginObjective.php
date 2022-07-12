@@ -52,7 +52,9 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             new ClientIdReadObjective(),
             new \ilIniFilesPopulatedObjective(),
             new \ilDatabaseUpdatedObjective(),
-            new \ilComponentPluginAdminInitObjective()
+            new \ilComponentPluginAdminInitObjective(),
+            new \ilComponentRepositoryExistsObjective(),
+            new \ilComponentFactoryExistsObjective()
         ];
     }
 
@@ -61,21 +63,25 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
+        $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
+        $info = $component_repository->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (!is_null($plugin) && $plugin['must_install'] && $plugin['supports_cli_setup']) {
-            $pl = ilPlugin::getPluginObject(
-                $plugin['component_type'],
-                $plugin['component_name'],
-                $plugin['slot_id'],
-                $plugin['name']
+        if (!$info->supportsCLISetup()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name does not support command line setup."
             );
-
-            $pl->install();
         }
 
+        if ($info->isInstalled()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name is already installed."
+            );
+        }
+
+        $ORIG_DIC = $this->initEnvironment($environment);
+        $plugin = $component_repository->getPlugin($info->getId());
+        $plugin->install();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
         return $environment;
@@ -86,17 +92,10 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
+        $plugin = $component_repository->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (is_null($plugin) || !$plugin['supports_cli_setup']) {
-            return false;
-        }
-
-        $GLOBALS["DIC"] = $ORIG_DIC;
-
-        return $plugin['must_install'];
+        return !$plugin->isInstalled();
     }
 
     protected function initEnvironment(Setup\Environment $environment) : ILIAS\DI\Container
@@ -116,15 +115,38 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
+        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLogger {
+            public function __construct()
+            {
+            }
+            public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
+            {
+            }
+            public function info(string $a_message) : void
+            {
+            }
+            public function warning(string $a_message) : void
+            {
+            }
+            public function error(string $a_message) : void
+            {
+            }
+            public function debug(string $a_message, array $a_context = []) : void
+            {
+            }
+            public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
+            {
+            }
+        };
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
             public function __construct()
             {
             }
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLog"];
             }
-            public static function getLogger($a)
+            public static function getLogger(string $a_component_id) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLog"];
             }
@@ -133,7 +155,6 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
-        $GLOBALS["DIC"]["ilCtrl"] = new ilCtrl();
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
         $GLOBALS["DIC"]["tree"] = null;
@@ -141,7 +162,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
-            public $prefs = [];
+            public array $prefs = [];
 
             public function __construct()
             {

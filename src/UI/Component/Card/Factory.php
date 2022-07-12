@@ -1,15 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Card;
+
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Button\Shy;
 
 /**
  * This is how the factory for UI elements looks.
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -27,12 +43,11 @@ interface Factory
      *          Standard Card MUST be used if there is no good reason using
      *          another instance.
      * ---
-     * @param string $title
+     * @param string|Shy $title
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\Standard
      */
-    public function standard($title, $image = null);
-
+    public function standard($title, Image $image = null) : Standard;
 
     /**
      * ---
@@ -61,9 +76,9 @@ interface Factory
      *       - https://docu.ilias.de/goto_docu_wiki_wpage_4921_1357.html
      *
      * ---
-     * @param string $title
+     * @param string|Shy $title
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\RepositoryObject
      */
-    public function repositoryObject($title, $image);
+    public function repositoryObject($title, Image $image) : RepositoryObject;
 }

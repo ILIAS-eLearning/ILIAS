@@ -1,7 +1,7 @@
 /**
  * @module ol/Feature
  */
-import BaseObject, {getChangeEventType} from './Object.js';
+import BaseObject from './Object.js';
 import EventType from './events/EventType.js';
 import {assert} from './asserts.js';
 import {listen, unlistenByKey} from './events.js';
@@ -11,7 +11,20 @@ import {listen, unlistenByKey} from './events.js';
  */
 
 /**
- * @typedef {Feature|import("./render/Feature.js").default} FeatureLike
+ * @typedef {Feature<import("./geom/Geometry.js").default>|import("./render/Feature.js").default} FeatureLike
+ */
+
+/***
+ * @template Return
+ * @typedef {import("./Observable").OnSignature<import("./Observable").EventTypes, import("./events/Event.js").default, Return> &
+ *   import("./Observable").OnSignature<import("./ObjectEventType").Types|'change:geometry', import("./Object").ObjectEvent, Return> &
+ *   import("./Observable").CombinedOnSignature<import("./Observable").EventTypes|import("./ObjectEventType").Types
+ *     |'change:geometry', Return>} FeatureOnSignature
+ */
+
+/***
+ * @template Geometry
+ * @typedef {Object<string, *> & { geometry?: Geometry }} ObjectWithGeometry
  */
 
 /**
@@ -61,13 +74,28 @@ import {listen, unlistenByKey} from './events.js';
  */
 class Feature extends BaseObject {
   /**
-   * @param {Geometry|Object<string, *>=} opt_geometryOrProperties
+   * @param {Geometry|ObjectWithGeometry<Geometry>} [opt_geometryOrProperties]
    *     You may pass a Geometry object directly, or an object literal containing
    *     properties. If you pass an object literal, you may include a Geometry
    *     associated with a `geometry` key.
    */
   constructor(opt_geometryOrProperties) {
     super();
+
+    /***
+     * @type {FeatureOnSignature<import("./events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {FeatureOnSignature<import("./events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {FeatureOnSignature<void>}
+     */
+    this.un;
 
     /**
      * @private
@@ -100,10 +128,7 @@ class Feature extends BaseObject {
      */
     this.geometryChangeKey_ = null;
 
-    this.addEventListener(
-      getChangeEventType(this.geometryName_),
-      this.handleGeometryChanged_
-    );
+    this.addChangeListener(this.geometryName_, this.handleGeometryChanged_);
 
     if (opt_geometryOrProperties) {
       if (
@@ -124,17 +149,17 @@ class Feature extends BaseObject {
   /**
    * Clone this feature. If the original feature has a geometry it
    * is also cloned. The feature id is not set in the clone.
-   * @return {Feature} The clone.
+   * @return {Feature<Geometry>} The clone.
    * @api
    */
   clone() {
-    const clone = new Feature(
-      this.hasProperties() ? this.getProperties() : null
+    const clone = /** @type {Feature<Geometry>} */ (
+      new Feature(this.hasProperties() ? this.getProperties() : null)
     );
     clone.setGeometryName(this.getGeometryName());
     const geometry = this.getGeometry();
     if (geometry) {
-      clone.setGeometry(geometry.clone());
+      clone.setGeometry(/** @type {Geometry} */ (geometry.clone()));
     }
     const style = this.getStyle();
     if (style) {
@@ -240,7 +265,7 @@ class Feature extends BaseObject {
    * single style object, an array of styles, or a function that takes a
    * resolution and returns an array of styles. To unset the feature style, call
    * `setStyle()` without arguments or a falsey value.
-   * @param {import("./style/Style.js").StyleLike=} opt_style Style for this feature.
+   * @param {import("./style/Style.js").StyleLike} [opt_style] Style for this feature.
    * @api
    * @fires module:ol/events/Event~BaseEvent#event:change
    */
@@ -274,15 +299,9 @@ class Feature extends BaseObject {
    * @api
    */
   setGeometryName(name) {
-    this.removeEventListener(
-      getChangeEventType(this.geometryName_),
-      this.handleGeometryChanged_
-    );
+    this.removeChangeListener(this.geometryName_, this.handleGeometryChanged_);
     this.geometryName_ = name;
-    this.addEventListener(
-      getChangeEventType(this.geometryName_),
-      this.handleGeometryChanged_
-    );
+    this.addChangeListener(this.geometryName_, this.handleGeometryChanged_);
     this.handleGeometryChanged_();
   }
 }

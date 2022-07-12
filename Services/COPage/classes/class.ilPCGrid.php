@@ -1,29 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Grid element
  *
- * @author Alex Killing <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCGrid extends ilPageContent
 {
-    protected $grid_node;
+    protected php4DOMElement $grid_node;
 
     /**
      * Init page content component.
      */
-    public function init()
+    public function init() : void
     {
         $this->setType("grid");
     }
 
     /**
      * Set content node
-     * @param object $a_node
+     * @param php4DOMElement $a_node
      */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->grid_node = $a_node->first_child();		// this is the Tabs node
@@ -34,19 +48,16 @@ class ilPCGrid extends ilPageContent
      *
      *  Note that these are mapped to (BS3):
      *  s > .col-xs, m > .col-sm, l > .col-md, xl > .col-lg
-     *
-     * @return array
      */
-    public static function getSizes()
+    public static function getSizes() : array
     {
         return array("s" => "s", "m" => "m", "l" => "l", "xl" => "xl");
     }
 
     /**
      * Get widths
-     * @return array
      */
-    public static function getWidths()
+    public static function getWidths() : array
     {
         return array(
             "1" => "1/12", "2" => "2/12", "3" => "3/12",
@@ -56,33 +67,25 @@ class ilPCGrid extends ilPageContent
         );
     }
 
-    /**
-    * Create new Grid node
-    */
-    public function create($a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->grid_node = $this->dom->create_element("Grid");
         $this->grid_node = $this->node->append_child($this->grid_node);
     }
 
-    /**
-     * @param $post_layout_template
-     * @param $number_of_cells
-     * @param $s
-     * @param $m
-     * @param $l
-     * @param $xl
-     */
     public function applyTemplate(
         int $post_layout_template,
         int $number_of_cells,
-        $s,
-        $m,
-        $l,
-        $xl
-    ) {
+        int $s,
+        int $m,
+        int $l,
+        int $xl
+    ) : void {
         switch ($post_layout_template) {
             case ilPCGridGUI::TEMPLATE_TWO_COLUMN:
                 $this->addGridCell(12, 6, 6, 6);
@@ -109,7 +112,7 @@ class ilPCGrid extends ilPageContent
 
 
             case ilPCGridGUI::TEMPLATE_MANUAL:
-                for ($i = 0; $i < (int) $number_of_cells; $i++) {
+                for ($i = 0; $i < $number_of_cells; $i++) {
                     $this->addGridCell($s, $m, $l, $xl);
                 }
                 break;
@@ -117,34 +120,9 @@ class ilPCGrid extends ilPageContent
     }
 
     /**
-     * Set attribute of grid tag
-     *
-     * @param string $a_attr	attribute name
-     * @param string $a_value attribute value
-     */
-    /*
-    protected function setTabsAttribute($a_attr, $a_value)
-    {
-        if (!empty($a_value))
-        {
-            $this->grid_node->set_attribute($a_attr, $a_value);
-        }
-        else
-        {
-            if ($this->grid_node->has_attribute($a_attr))
-            {
-                $this->grid_node->remove_attribute($a_attr);
-            }
-        }
-    }*/
-
-
-    /**
      * Save positions of grid cells
-     *
-     * @param array $a_pos
      */
-    public function savePositions($a_pos)
+    public function savePositions(array $a_pos) : void
     {
         asort($a_pos);
 
@@ -169,8 +147,12 @@ class ilPCGrid extends ilPageContent
     /**
      * Save widths of cells
      */
-    public function saveWidths($a_width_s, $a_width_m, $a_width_l, $a_width_xl)
-    {
+    public function saveWidths(
+        array $a_width_s,
+        array $a_width_m,
+        array $a_width_l,
+        array $a_width_xl
+    ) : void {
         $cell_nodes = $this->grid_node->child_nodes();
         for ($i = 0; $i < count($cell_nodes); $i++) {
             if ($cell_nodes[$i]->node_name() == "GridCell") {
@@ -190,8 +172,10 @@ class ilPCGrid extends ilPageContent
     /**
      * Delete grid cell
      */
-    public function deleteGridCell($a_hier_id, $a_pc_id)
-    {
+    public function deleteGridCell(
+        string $a_hier_id,
+        string $a_pc_id
+    ) : void {
         $childs = $this->grid_node->child_nodes();
         for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "GridCell") {
@@ -206,8 +190,12 @@ class ilPCGrid extends ilPageContent
     /**
      * Add grid cell
      */
-    public function addGridCell($a_s, $a_m, $a_l, $a_xl)
-    {
+    public function addGridCell(
+        int $a_s,
+        int $a_m,
+        int $a_l,
+        int $a_xl
+    ) : void {
         $new_item = $this->dom->create_element("GridCell");
         $new_item = $this->grid_node->append_child($new_item);
         //$new_item->set_attribute("xs", $a_xs);
@@ -221,7 +209,7 @@ class ilPCGrid extends ilPageContent
     /**
      * Add a cell
      */
-    public function addCell()
+    public function addCell() : void
     {
         $new_item = $this->dom->create_element("GridCell");
         $new_item->set_attribute("WIDTH_XS", "");
@@ -236,28 +224,22 @@ class ilPCGrid extends ilPageContent
      * Get lang vars needed for editing
      * @return array array of lang var keys
      */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("pc_grid", "pc_grid_cell", "ed_delete_cell", "ed_cell_left", "ed_cell_right");
     }
 
-    /**
-     * Get Javascript files
-     */
-    public function getJavascriptFiles($a_mode)
+    public function getJavascriptFiles(string $a_mode) : array
     {
         return parent::getJavascriptFiles($a_mode);
     }
 
-    /**
-     * Get Javascript files
-     */
-    public function getCssFiles($a_mode)
+    public function getCssFiles(string $a_mode) : array
     {
         return parent::getCssFiles($a_mode);
     }
 
-    public function getCellData()
+    public function getCellData() : array
     {
         $cells = array();
         $cell_nodes = $this->grid_node->child_nodes();

@@ -1,145 +1,119 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
 /**
-* Editing history for object custom user fields
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMembership
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
+ * Editing history for object custom user fields
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesMembership
+ */
 class ilObjectCustomUserFieldHistory
 {
-    private $obj_id = 0;
-    private $user_id = 0;
-    private $update_user = 0;
-    private $editing_time = null;
-    
-    /**
-     * Constructor
-     * @param type $a_obj_id
-     * @param type $a_user_id
-     */
-    public function __construct($a_obj_id, $a_user_id)
+    private int $obj_id = 0;
+    private int $user_id = 0;
+    private int $update_user = 0;
+    private ?ilDateTime $editing_time = null;
+    protected ilDBInterface $db;
+
+    public function __construct(int $a_obj_id, int $a_user_id)
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
         $this->obj_id = $a_obj_id;
         $this->user_id = $a_user_id;
         $this->read();
     }
-    
+
     /**
-     * Get entries by obj_id
-     * @global type $ilDB
-     * @param type $a_obj_id
-     * @return \ilDateTime
+     * @return array<int, array<{update_user: int, editing_time: ilDateTime}>>
+     * @throws ilDateTimeException
      */
-    public static function lookupEntriesByObjectId($a_obj_id)
+    public static function lookupEntriesByObjectId(int $a_obj_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT * FROM obj_user_data_hist ' .
-                'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
+            'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
-        
+
         $users = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $users[$row->usr_id]['update_user'] = $row->update_user;
-            $users[$row->usr_id]['editing_time'] = new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC);
+            $users[(int) $row->usr_id]['update_user'] = (int) $row->update_user;
+            $users[(int) $row->usr_id]['editing_time'] = new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC);
         }
         return $users;
     }
 
-    /**
-     * Set update user
-     * @param int $a_id
-     */
-    public function setUpdateUser($a_id)
+    public function setUpdateUser(int $a_id) : void
     {
         $this->update_user = $a_id;
     }
-    
-    /**
-     * get update user
-     * @return type
-     */
-    public function getUpdateUser()
+
+    public function getUpdateUser() : int
     {
         return $this->update_user;
     }
-    
-    /**
-     * Set editing time
-     * @param ilDateTime $dt
-     */
-    public function setEditingTime(ilDateTime $dt)
+
+    public function setEditingTime(ilDateTime $dt) : void
     {
         $this->editing_time = $dt;
     }
-    
-    /**
-     * Get editing time
-     * @return ilDateTime
-     */
-    public function getEditingTime()
+
+    public function getEditingTime() : ?\ilDateTime
     {
         return $this->editing_time;
     }
-    
-    /**
-     * Save entry
-     */
-    public function save()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function save() : void
+    {
         $this->delete();
-        
         $query = 'INSERT INTO obj_user_data_hist (obj_id, usr_id, update_user, editing_time) ' .
-                'VALUES( ' .
-                $ilDB->quote($this->obj_id, 'integer') . ', ' .
-                $ilDB->quote($this->user_id, 'integer') . ', ' .
-                $ilDB->quote($this->getUpdateUser(), 'integer') . ', ' .
-                $ilDB->quote($this->getEditingTime()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC)) . ' ' .
-                ')';
-        $ilDB->manipulate($query);
+            'VALUES( ' .
+            $this->db->quote($this->obj_id, 'integer') . ', ' .
+            $this->db->quote($this->user_id, 'integer') . ', ' .
+            $this->db->quote($this->getUpdateUser(), 'integer') . ', ' .
+            $this->db->quote(
+                $this->getEditingTime()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
+                ilDBConstants::T_INTEGER
+            ) . ' ' .
+            ')';
+        $this->db->manipulate($query);
     }
-    
-    /**
-     * Delete one entry
-     */
-    public function delete()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function delete() : void
+    {
         $query = 'DELETE FROM obj_user_data_hist ' .
-                'WHERE obj_id = ' . $ilDB->quote($this->obj_id, 'integer') . ' ' .
-                'AND usr_id = ' . $ilDB->quote($this->user_id, 'integer');
-        $ilDB->manipulate($query);
+            'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .
+            'AND usr_id = ' . $this->db->quote($this->user_id, 'integer');
+        $this->db->manipulate($query);
     }
-    
-    /**
-     * read entry
-     * @global type $ilDB
-     */
-    protected function read()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    protected function read() : void
+    {
         $query = 'SELECT * FROM obj_user_data_hist ' .
-                'WHERE obj_id = ' . $ilDB->quote($this->obj_id, 'integer') . ' ' .
-                'AND usr_id = ' . $ilDB->quote($this->user_id, 'integer');
-        $res = $ilDB->query($query);
+            'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .
+            'AND usr_id = ' . $this->db->quote($this->user_id, 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setEditingTime(new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC));
-            $this->setUpdateUser($row->update_user);
+            $this->setUpdateUser((int) $row->update_user);
         }
     }
 }

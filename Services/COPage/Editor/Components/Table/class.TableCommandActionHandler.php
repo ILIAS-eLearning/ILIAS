@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Table;
 
@@ -12,30 +26,11 @@ use ILIAS\COPage\Editor\Server;
  */
 class TableCommandActionHandler implements Server\CommandActionHandler
 {
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilPageObjectGUI
-     */
-    protected $page_gui;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var Server\UIWrapper
-     */
-    protected $ui_wrapper;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilLanguage $lng;
+    protected \ilPageObjectGUI $page_gui;
+    protected \ilObjUser $user;
+    protected Server\UIWrapper $ui_wrapper;
 
     public function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -49,95 +44,21 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    /**
-     * @param $query
-     * @param $body
-     * @return Server\Response
-     */
-    public function handle($query, $body) : Server\Response
+    public function handle(array $query, array $body) : Server\Response
     {
         switch ($body["action"]) {
-            case "insert":
-//                return $this->insertCommand($body);
-                break;
-
             case "update.data":
                 return $this->updateDataCommand($body);
-                break;
 
             case "modify.table":
                 return $this->modifyTableCommand($body);
-                break;
 
             default:
                 throw new Exception("Unknown action " . $body["action"]);
-                break;
         }
     }
 
-    /**
-     * Insert command
-     * @param $body
-     * @return Server\Response
-     */
-    /*
-    protected function insertCommand($body) : Server\Response
-    {
-        $page = $this->page_gui->getPageObject();
-
-        $hier_id = "pg";
-        $pc_id = "";
-        if (!in_array($body["after_pcid"], ["", "pg"])) {
-            $hier_ids = $page->getHierIdsForPCIds([$body["after_pcid"]]);
-            $hier_id = $hier_ids[$body["after_pcid"]];
-            $pc_id = $body["after_pcid"];
-        }
-
-
-        // if (!$mob_gui->checkFormInput()) {
-        $pc_media = new \ilPCMediaObject($page);
-        $pc_media->createMediaObject();
-        $mob = $pc_media->getMediaObject();
-        \ilObjMediaObjectGUI::setObjectPerCreationForm($mob);
-        $pc_media->createAlias($page, $hier_id, $pc_id);
-        $updated = $page->update();
-
-        return $this->ui_wrapper->sendPage($this->page_gui);
-    }*/
-
-    /**
-     * Update command
-     * @param $body
-     * @return Server\Response
-     */
-    /*
-    protected function updateCommand($body) : Server\Response
-    {
-        $page = $this->page_gui->getPageObject();
-        $pc_media = $page->getContentObjectForPcId($body["pcid"]);
-
-        $quick_edit = new \ilPCMediaObjectQuickEdit($pc_media);
-
-        $quick_edit->setTitle(\ilUtil::stripSlashes($body["standard_title"]));
-        $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"]));
-        $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"]));
-
-        $quick_edit->setUseFullscreen((bool) ($body["fullscreen"]));
-        $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"]));
-        $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"]));
-
-        $pc_media->getMediaObject()->update();
-        $page->update();
-
-        return $this->ui_wrapper->sendPage($this->page_gui);
-    }*/
-
-    /**
-     * Update command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function updateDataCommand($body) : Server\Response
+    protected function updateDataCommand(array $body) : Server\Response
     {
         $updated = $this->updateData($body["data"]["pcid"], $body["data"]["content"]);
         if ($body["data"]["redirect"]) {
@@ -148,14 +69,14 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     }
 
     /**
-     * Get reponse data object
-     * @param \ilPageObjectGUI $page_gui
-     * @param                  $updated
-     * @param string           $pcid
-     * @return Server\Response
+     * @param string|bool|array $updated
+     * @throws \ilDateTimeException
      */
-    public function sendUpdateResponse(\ilPageObjectGUI $page_gui, $updated, string $pcid) : Server\Response
-    {
+    public function sendUpdateResponse(
+        \ilPageObjectGUI $page_gui,
+        $updated,
+        string $pcid
+    ) : Server\Response {
         $error = null;
 
         $last_change = null;
@@ -184,41 +105,40 @@ class TableCommandActionHandler implements Server\CommandActionHandler
 
 
     /**
-     * Update data
-     * @param $pcid
-     * @param $content
+     * @return array|bool
+     * @throws \ilDateTimeException
      */
-    protected function updateData($pcid, $content)
-    {
+    protected function updateData(
+        string $pcid,
+        array $content
+    ) {
         $page = $this->page_gui->getPageObject();
         $table = $page->getContentObjectForPcId($pcid);
 
         $data = [];
         $updated = true;
-        if (is_array($content)) {
-            foreach ($content as $i => $row) {
-                if (is_array($row)) {
-                    foreach ($row as $j => $cell) {
-                        $text = "<div>" . $cell . "</div>";
-                        if ($updated) {
-                            // determine cell content
-                            $text = \ilPCParagraph::handleAjaxContent($text);
-                            $data[$i][$j] = $text;
-                            $updated = ($text !== false);
-                            $text = $text["text"];
-                        }
+        foreach ($content as $i => $row) {
+            if (is_array($row)) {
+                foreach ($row as $j => $cell) {
+                    $text = "<div>" . $cell . "</div>";
+                    if ($updated) {
+                        // determine cell content
+                        $text = \ilPCParagraph::handleAjaxContent($text);
+                        $data[$i][$j] = $text;
+                        $updated = ($text !== false);
+                        $text = $text["text"];
+                    }
 
-                        if ($updated) {
-                            $text = \ilPCParagraph::_input2xml(
-                                $text,
-                                $table->getLanguage(),
-                                true,
-                                false
-                            );
-                            $text = \ilPCParagraph::handleAjaxContentPost($text);
+                    if ($updated) {
+                        $text = \ilPCParagraph::_input2xml(
+                            $text,
+                            $table->getLanguage(),
+                            true,
+                            false
+                        );
+                        $text = \ilPCParagraph::handleAjaxContentPost($text);
 
-                            $data[$i][$j] = $text;
-                        }
+                        $data[$i][$j] = $text;
                     }
                 }
             }
@@ -233,12 +153,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     }
 
 
-    /**
-     * Update command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function modifyTableCommand($body) : Server\Response
+    protected function modifyTableCommand(array $body) : Server\Response
     {
         $page = $this->page_gui->getPageObject();
         $page->addHierIDs();
@@ -296,22 +211,30 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     }
 
     /**
-     * Send whole page as response
-     * @param $page_gui
-     * @param $pcid
-     * @return Server\Response
+     * Send whole table as response
      */
-    public function sendTable($page_gui, $pcid) : Server\Response
-    {
+    public function sendTable(
+        \ilPageObjectGUI $page_gui,
+        string $pcid
+    ) : Server\Response {
         $page = $page_gui->getPageObject();
-        $page->addHierIds();
+        $page->addHierIDs();
         $table = $page->getContentObjectForPcId($pcid);
-        $table_gui = new \ilPCDataTableGUI(
-            $page_gui->getPageObject(),
-            $table,
-            $page->getHierIdForPCId($pcid),
-            $pcid
-        );
+        if ($table->getType() == "dtab") {
+            $table_gui = new \ilPCDataTableGUI(
+                $page_gui->getPageObject(),
+                $table,
+                $page->getHierIdForPcId($pcid),
+                $pcid
+            );
+        } else {
+            $table_gui = new \ilPCTableGUI(
+                $page_gui->getPageObject(),
+                $table,
+                $page->getHierIdForPcId($pcid),
+                $pcid
+            );
+        }
 
         $data = new \stdClass();
         $data->renderedContent = $table_gui->getEditDataTable();

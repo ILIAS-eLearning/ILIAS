@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilObjChatroomAdminAccessTest
@@ -9,7 +25,7 @@
 class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
 {
     protected ilObjChatroomAdminAccess $adminAccess;
-
+    /** @var ilRbacSystem&MockObject */
     protected ilRbacSystem $ilAccessMock;
 
     public function testCommandDefitionFullfilsExpectations() : void
@@ -23,12 +39,12 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
         $commands = $this->adminAccess::_getCommands();
 
         $this->assertIsArray($commands);
-        $this->assertEquals($expected, $commands);
+        $this->assertSame($expected, $commands);
     }
 
     public function testGotoCheckFails() : void
     {
-        $this->ilAccessMock->expects($this->any())
+        $this->ilAccessMock
             ->method('checkAccess')
             ->with(
                 $this->equalTo('visible'),
@@ -53,12 +69,6 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
             )->willReturn(true);
 
         $this->assertTrue($this->adminAccess::_checkGoto('chtr_5'));
-    }
-
-    public function testGotoCheckFailsWithTargetNotBeingOfTypeString() : void
-    {
-        $this->assertFalse($this->adminAccess::_checkGoto(['chtr', '5']));
-        $this->assertFalse($this->adminAccess::_checkGoto(5));
     }
 
     protected function setUp() : void

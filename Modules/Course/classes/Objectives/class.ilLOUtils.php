@@ -1,33 +1,55 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=0);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Settings for LO courses
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  */
 class ilLOUtils
 {
-    
+
     /**
      * Check if objective is completed
      */
-    public static function isCompleted($a_cont_oid, $a_test_rid, $a_objective_id, $max_points, $reached, $limit_perc)
-    {
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+    public static function isCompleted(
+        int $a_cont_oid,
+        int $a_test_rid,
+        int $a_objective_id,
+        int $max_points,
+        int $reached,
+        int $limit_perc
+    ) : bool {
         $settings = ilLOSettings::getInstanceByObjId($a_cont_oid);
-        
+
         if (self::lookupRandomTest(ilObject::_lookupObjId($a_test_rid))) {
-            if (!$max_points) {
+            if ($max_points === 0) {
                 return true;
             } else {
                 return ($reached / $max_points * 100) >= $limit_perc;
             }
         } else {
-            $required_perc = self::lookupObjectiveRequiredPercentage($a_cont_oid, $a_objective_id, $a_test_rid, $max_points);
-            
-            if (!$max_points) {
+            $required_perc = self::lookupObjectiveRequiredPercentage(
+                $a_cont_oid,
+                $a_objective_id,
+                $a_test_rid,
+                $max_points
+            );
+
+            if ($max_points === 0) {
                 return true;
             } else {
                 return ($reached / $max_points * 100) >= $required_perc;
@@ -35,23 +57,17 @@ class ilLOUtils
         }
     }
 
-    /**
-     *
-     * @param type $a_container_id
-     * @param type $a_objective_id
-     * @param type $a_test_type
-     */
-    public static function lookupObjectiveRequiredPercentage($a_container_id, $a_objective_id, $a_test_ref_id, $a_max_points)
-    {
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+    public static function lookupObjectiveRequiredPercentage(
+        int $a_container_id,
+        int $a_objective_id,
+        int $a_test_ref_id,
+        int $a_max_points
+    ) : int {
         $settings = ilLOSettings::getInstanceByObjId($a_container_id);
-        
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
         $a_test_type = $assignments->getTypeByTest($a_test_ref_id);
-        
+
         if ($assignments->isSeparateTest($a_test_ref_id)) {
-            include_once './Services/Object/classes/class.ilObjectFactory.php';
             $factory = new ilObjectFactory();
             $tst = $factory->getInstanceByRefId($a_test_ref_id, false);
             if ($tst instanceof ilObjTest) {
@@ -63,43 +79,26 @@ class ilLOUtils
                 }
             }
         }
-        
-        
-        
         $tst_ref_id = $a_test_ref_id;
         if (self::lookupRandomTest(ilObject::_lookupObjId($tst_ref_id))) {
-            include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-            return (int) ilLORandomTestQuestionPools::lookupLimit($a_container_id, $a_objective_id, $a_test_type);
+            return ilLORandomTestQuestionPools::lookupLimit($a_container_id, $a_objective_id, $a_test_type);
         } else {
-            include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
-            $limit = ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
-            return $limit;
+            return ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
         }
     }
-    
-    /**
-     *
-     * @param int $a_container_id
-     * @param int $a_objective_id
-     * @param int $a_ref_id
-     * @return  int $a_passes
-     */
-    public static function lookupMaxAttempts($a_container_id, $a_objective_id, $a_test_ref_id)
+
+    public static function lookupMaxAttempts(int $a_container_id, int $a_objective_id, int $a_test_ref_id) : int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
-        /**
-         * @var ilLOTestAssignments
-         */
+        $ilDB = $DIC->database();
+
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
         if (!$assignments->isSeparateTest($a_test_ref_id)) {
             // no limit of tries for tests assigned to multiple objectives.
             return 0;
         }
-        
+
         $query = 'SELECT nr_of_tries FROM tst_tests ' .
             'WHERE obj_fi = ' . $ilDB->quote(ilObject::_lookupObjId($a_test_ref_id), 'integer');
         $res = $ilDB->query($query);
@@ -108,27 +107,19 @@ class ilLOUtils
         }
         return 0;
     }
-    
-    
-    /**
-     * Check if test is a random test
-     * @param type $a_test_obj_id
-     * @return bool
-     */
-    public static function lookupRandomTest($a_test_obj_id)
+
+    public static function lookupRandomTest(int $a_test_obj_id) : bool
     {
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         return ilObjTest::_lookupRandomTest($a_test_obj_id);
     }
-    
+
     /**
      * Lookup assigned qpl name (including taxonomy) by sequence
-     * @param type $a_test_ref_id
-     * @param type $a_sequence_id
-     * @return string
      */
-    public static function lookupQplBySequence($a_test_ref_id, $a_sequence_id)
+    public static function lookupQplBySequence(int $a_test_ref_id, int $a_sequence_id) : string
     {
+        global $DIC;
+
         if (!$a_sequence_id) {
             return '';
         }
@@ -136,23 +127,20 @@ class ilLOUtils
         if (!$tst instanceof ilObjTest) {
             return '';
         }
-        include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-        include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
         $list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-            $GLOBALS['DIC']['ilDB'],
+            $DIC->database(),
             $tst,
             new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-                $GLOBALS['DIC']['ilDB'],
+                $DIC->database(),
                 $tst
             )
         );
-                
+
         $list->loadDefinitions();
 
-        include_once './Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
         $translator = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
         $translator->loadLabels($list);
-        
+
         $title = '';
         foreach ($list as $definition) {
             if ($definition->getId() != $a_sequence_id) {
@@ -162,76 +150,38 @@ class ilLOUtils
         }
         return $title;
     }
-    
-    /**
-     * build title by definition
-     * @param ilTestRandomQuestionSetSourcePoolDefinition $def
-     */
-    protected static function buildQplTitleByDefinition(ilTestRandomQuestionSetSourcePoolDefinition $def, ilTestTaxonomyFilterLabelTranslater $trans)
-    {
+
+    protected static function buildQplTitleByDefinition(
+        ilTestRandomQuestionSetSourcePoolDefinition $def,
+        ilTestTaxonomyFilterLabelTranslater $trans
+    ) : string {
         $title = $def->getPoolTitle();
-        // fau: taxFilter/typeFilter - get title for extended filter conditions
         $filterTitle = array();
         $filterTitle[] = $trans->getTaxonomyFilterLabel($def->getMappedTaxonomyFilter());
         $filterTitle[] = $trans->getTypeFilterLabel($def->getTypeFilter());
         if (!empty($filterTitle)) {
             $title .= ' -> ' . implode(' / ', $filterTitle);
         }
-        #$tax_id = $def->getMappedFilterTaxId();
-        #if($tax_id)
-        #{
-        #	$title .= (' -> '. $trans->getTaxonomyTreeLabel($tax_id));
-        #}
-        #$tax_node = $def->getMappedFilterTaxNodeId();
-        #if($tax_node)
-        #{
-        #	$title .= (' -> ' .$trans->getTaxonomyNodeLabel($tax_node));
-        #}
-        // fau.
         return $title;
     }
-    
-    public static function hasActiveRun($a_container_id, $a_test_ref_id, $a_objective_id)
+
+    public static function hasActiveRun(int $a_container_id, int $a_test_ref_id, int $a_objective_id) : bool
     {
         return false;
-        
-        // check if pass exists
-        include_once './Modules/Test/classes/class.ilObjTest.php';
-        if (
-            !ilObjTest::isParticipantsLastPassActive(
-                $a_test_ref_id,
-                $GLOBALS['DIC']['ilUser']->getId()
-            )
-        ) {
-            return false;
-        }
-
-        // check if multiple pass exists
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
-        $last_objectives = ilLOTestRun::lookupObjectives(
-            $a_container_id,
-            $GLOBALS['DIC']['ilUser']->getId(),
-            ilObject::_lookupObjId($a_test_ref_id)
-        );
-        
-        if (count((array) $last_objectives) and in_array((int) $a_objective_id, (array) $last_objectives)) {
-            return true;
-        }
-        return false;
     }
-    
-    public static function getTestResultLinkForUser($a_test_ref_id, $a_user_id)
+
+    public static function getTestResultLinkForUser(int $a_test_ref_id, int $a_user_id) : string
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        
+        $ilCtrl = $DIC->ctrl();
+        $ilUser = $DIC->user();
+        $ilAccess = $DIC->access();
+
         if ($ilUser->getId() == ANONYMOUS_USER_ID) {
-            return;
+            return '';
         }
-                
+
         $valid = $tutor = false;
         if ($a_user_id == $ilUser->getId()) {
             $valid = $ilAccess->checkAccess('read', '', $a_test_ref_id);
@@ -243,7 +193,6 @@ class ilLOUtils
         if ($valid) {
             $testObjId = ilObject::_lookupObjId($a_test_ref_id);
             if (!$tutor) {
-                require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
                 if (ilObjTestAccess::visibleUserResultExists($testObjId, $a_user_id)) {
                     $ilCtrl->setParameterByClass('ilObjTestGUI', 'ref_id', $a_test_ref_id);
                     $ctrlClasses = array('ilRepositoryGUI', 'ilObjTestGUI', 'ilTestResultsGUI');
@@ -252,14 +201,16 @@ class ilLOUtils
                     return $link;
                 }
             } else {
-                include_once 'Modules/Test/classes/class.ilObjTest.php';
                 $testId = ilObjTest::_getTestIDFromObjectID($testObjId);
                 if ($testId) {
                     $userActiveId = ilObjTest::_getActiveIdOfUser($a_user_id, $testId);
                     if ($userActiveId) {
                         $ilCtrl->setParameterByClass('ilTestEvaluationGUI', 'ref_id', $a_test_ref_id);
                         $ilCtrl->setParameterByClass('ilTestEvaluationGUI', 'active_id', $userActiveId);
-                        $link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjTestGUI', 'ilTestEvaluationGUI'), 'outParticipantsResultsOverview');
+                        $link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI',
+                                                                    'ilObjTestGUI',
+                                                                    'ilTestEvaluationGUI'
+                        ), 'outParticipantsResultsOverview');
                         $ilCtrl->setParameterByClass('ilTestEvaluationGUI', 'ref_id', '');
                         $ilCtrl->setParameterByClass('ilTestEvaluationGUI', 'active_id', '');
                         return $link;
@@ -267,5 +218,6 @@ class ilLOUtils
                 }
             }
         }
+        return '';
     }
 }

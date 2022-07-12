@@ -1,8 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Nils Haagen <nhaagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Component\Table;
+
+use Closure;
 
 /**
  * Table factory
@@ -22,7 +38,7 @@ interface Factory
      *       The Presentation Table represents the displayed dataset an entirety rather
      *       than a list of single rows. The table facilitates exploring the dataset,
      *       where the purpose of this exploration is known and supported. Single records
-     *       may be derived and composed from all kind of sources and do not necessarily
+     *       may be derived and composed of all kind of sources and do not necessarily
      *       reference a persistent entity like an ilObject.
      *
      *   composition: >
@@ -53,7 +69,7 @@ interface Factory
      *       be displayed in a Presentation Table.
      *     Listing Panel: >
      *       Listing Panels list items, where an item is a unique entity
-     *       in the system, i.e. an identifyable, persistently stored object. This is
+     *       in the system, i.e. an identifiable, persistently stored object. This is
      *       not necessarily the case for Presentation Tables, where records can be composed
      *       of any data from any source in the system.
      *
@@ -71,9 +87,9 @@ interface Factory
      *           by only using the keyboard.
      *
      * ---
-     * @param string	$title
-     * @param array		$view_controls 	a list of view controls
-     * @param \Closure 	$row_mapping
+     * @param string  $title
+     * @param array   $view_controls 	a list of view controls
+     * @param Closure $row_mapping
      * @return \ILIAS\UI\Component\Table\Presentation
      *
      * The closure $row_mapping MUST accept the following parameter
@@ -91,8 +107,7 @@ interface Factory
      * UI examples.
      *
      */
-    public function presentation(string $title, array $view_controls, \Closure $row_mapping) : Presentation;
-
+    public function presentation(string $title, array $view_controls, Closure $row_mapping) : Presentation;
 
     /**
      * ---
@@ -111,7 +126,7 @@ interface Factory
      *       View Controls and the table-body itself.
      *       The Table brings some ViewControls with it: The assumption is that the exploration
      *       of every Data Table will benefit from pagination, sortation and column selection.
-     *       Records are beeing applied to Columns to build the actual cells.
+     *       Records are being applied to Columns to build the actual cells.
      *
      *   effect: >
      *       The ordering among the records in the table, the visibility of columns as well as
@@ -126,7 +141,7 @@ interface Factory
      *       fields are displayed with equal emphasis (or rather, the lack of it).
      *     Listing Panel: >
      *       Listing Panels list items, where an item is a unique entity
-     *       in the system, i.e. an identifyable, persistently stored object. This is
+     *       in the system, i.e. an identifiable, persistently stored object. This is
      *       not necessarily the case for Tables, where records can be composed
      *       of any data from any source in the system.
      *
@@ -176,7 +191,7 @@ interface Factory
      *       the data record.
      *
      *   composition: >
-     *       Colums consist of a title and data-cells. Next to the title, according to config,
+     *       Columns consist of a title and data-cells. Next to the title, according to config,
      *       a Glyph will indicate the ability to sort as well as the current direction.
      *
      *   effect: >
@@ -196,7 +211,7 @@ interface Factory
      *         If the data is sorted by this column, it's header MUST show the direction in the
      *         "aria-sort" attribute ('ascending'|'descending'|'none', if sortable but not applied).
      *       3: >
-     *         Every Column MUST have the attribute "aria-colindex" with it's position
+     *         Every Column MUST have the attribute "aria-colindex" with its position
      *         in all available - not visible - columns of the table.
      * ---
      * @param string     $title
