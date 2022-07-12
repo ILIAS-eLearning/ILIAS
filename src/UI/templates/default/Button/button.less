@@ -1,6 +1,12 @@
 .btn {
 	font-size: @il-button-font-size;
 	.il-focus();
+
+  &:active {
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
 }
 
 //This is legacy for the old forms implementation. Can be removed as soon as the old implementation is removed.
