@@ -1912,10 +1912,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $rule = $result["conflict_action"][0];
 
         //If local roles exist, merge the roles that are to be assigned, otherwise just take the array that has global roles
-        $roles = isset($result["local_role_selection"]) ? array_merge(
-            $result["global_role_selection"],
-            $result["local_role_selection"]
-        ) : $result["global_role_selection"];
+        $local_role_selection = (array) ($result['local_role_selection'] ?? []);
+        $global_role_selection = (array) ($result['global_role_selection'] ?? []);
+        $roles = array_merge(
+            $local_role_selection,
+            $global_role_selection
+        );
 
         $role_assignment = array();
         foreach ($roles as $value) {
