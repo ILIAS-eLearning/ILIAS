@@ -7305,6 +7305,11 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .btn.engaged {
   outline: none;
 }
+.btn:active {
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
 input.btn {
   display: inline-block;
   min-width: 60px;
