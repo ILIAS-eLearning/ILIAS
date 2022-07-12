@@ -604,6 +604,7 @@ class ilCalendarCategories
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->categories[] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['obj_type'] = '';
             $this->categories_info[(int) $row->cat_id]['source_ref_id'] = 0;
             $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
             $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
@@ -662,6 +663,7 @@ class ilCalendarCategories
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->categories[] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['obj_type'] = '';
             $this->categories_info[(int) $row->cat_id]['source_ref_id'] = 0;
             $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
             $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
@@ -748,6 +750,7 @@ class ilCalendarCategories
                 $res = $this->db->query($query);
                 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                     $this->categories[] = (int) $row->cat_id;
+                    $this->categories_info[(int) $row->cat_id]['obj_type'] = '';
                     $this->categories_info[(int) $row->cat_id]['source_ref_id'] = 0;
                     $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
                     $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
@@ -770,6 +773,7 @@ class ilCalendarCategories
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->categories[] = (int) $row->cat_id;
+                $this->categories_info[(int) $row->cat_id]['obj_type'] = '';
                 $this->categories_info[(int) $row->cat_id]['source_ref_id'] = 0;
                 $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
                 $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
@@ -800,6 +804,7 @@ class ilCalendarCategories
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->categories[] = (int) $row->cat_id;
             $this->categories_info[(int) $row->cat_id]['source_ref_id'] = 0;
+            $this->categories_info[(int) $row->cat_id]['obj_type'] = '';
             $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
             $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
             $this->categories_info[(int) $row->cat_id]['title'] = $row->title;
@@ -855,12 +860,12 @@ class ilCalendarCategories
             $this->categories_info[(int) $row->cat_id]['settings'] = $settings;
 
             $this->categories[] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['obj_type'] = ilObject::_lookupType((int) $row->obj_id);
             $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
             $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
             $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
             #$this->categories_info[$row->cat_id]['title'] = ilObject::_lookupTitle($row->obj_id);
             $this->categories_info[(int) $row->cat_id]['title'] = $row->title;
-            $this->categories_info[(int) $row->cat_id]['obj_type'] = ilObject::_lookupType((int) $row->obj_id);
             $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
             $this->categories_info[(int) $row->cat_id]['remote'] = false;
             $this->categories_info[(int) $row->cat_id]['source_ref_id'] = $a_source_ref_id;
