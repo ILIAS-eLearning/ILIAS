@@ -239,7 +239,7 @@ class ilTestParticipantList implements Iterator
             $scoring->setMaxPoints((float) $row['max_points']);
             
             $scoring->setPassed((bool) $row['passed']);
-            $scoring->setFinalMark((string) $row['mark_official']);
+            $scoring->setFinalMark((string) $row['mark_short']);
             
             $this->getParticipantByActiveId($row['active_fi'])->setScoring($scoring);
             
