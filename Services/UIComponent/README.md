@@ -1,15 +1,15 @@
 # UIComponent Service
 
-The UI Component Service is depricated and MUST NOT be used anymore.
+***The UI Component Service is deprecated and MUST NOT be used anymore.***
 
-## UserInterfaceHook Pluginslot 
+## UserInterfaceHook Pluginslot
 This plugin slot has been published as stable with ILIAS 4.2. The goal of the user interface plugin slot is to allow simple
- modifications of standard components of the ILIAS user interface. The slot is defined by the UIComponent Service of ILIAS 
+ modifications of standard components of the ILIAS user interface. The slot is defined by the UIComponent Service of ILIAS
  and named "UserInterfaceHook". This means all plugins have to be installed into directories at:
 
 `Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/<Plugin_Name>`
 
-The ID of the UIComponent Service is "ui", the ID of the slot is "uihk". These are used as prefixes together with your 
+The ID of the UIComponent Service is "ui", the ID of the slot is "uihk". These are used as prefixes together with your
 plugin id for database tables and for language variable identifiers:
 
 DB Table / Language VariablePrefixes: `ui_uihk_<Plugin_ID>_`
