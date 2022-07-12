@@ -1,4 +1,19 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Item\Item;
@@ -481,8 +496,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
             ilAdvancedMDRecordGUI::MODE_APP_PRESENTATION,
             $a_obj_type,
             $a_obj_id,
-            $a_sub_obj_type,
-            $a_sub_obj_id
+            (string) $a_sub_obj_type,
+            (int) $a_sub_obj_id
         );
         $md_items = $record_gui->parse();
         if (count($md_items)) {
