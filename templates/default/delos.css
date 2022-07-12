@@ -8462,6 +8462,9 @@ input[type="checkbox"]:focus:focus-visible {
   border: 1px solid #757575;
   background-color: white;
 }
+.il-filter .input-group .btn-bulky {
+  background-color: #f0f0f0;
+}
 .il-filter .leftaddon {
   overflow: hidden;
   white-space: nowrap;
