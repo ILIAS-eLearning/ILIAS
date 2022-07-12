@@ -9191,7 +9191,7 @@ survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
 survey#:#import_from_file#:#Import von Benutzerdaten aus einer Datei
 survey#:#import_from_text#:#Import von Benutzerdaten aus einem Text
 survey#:#import_no_file_selected#:#Keine Datei ausgewählt!
-survey#:#import_question#:#Frage(n) importieren
+survey#:#import_question#:#Fragen importieren
 survey#:#import_wrong_file_type#:#Falscher Dateityp!
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
@@ -9300,15 +9300,15 @@ survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Z
 survey#:#please_enter_mail_url#:#Bitte verwenden Sie den Platzhalter für die URL [url].
 survey#:#please_select#:#-- bitte auswählen --
 survey#:#preview#:#Vorschau
-survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgende(n) Phrase(n) löschen wollen?
-survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
+survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgenden Fragen löschen wollen?
+survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen löschen wollen?
 survey#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie kopieren wollen!
 survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock zu definieren!
 survey#:#qpl_delete_phrase_select_none#:#Bitte wählen Sie mindestens eine Phrase aus, die Sie löschen wollen!
 survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
 survey#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie exportieren wollen!
-survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.
-survey#:#qpl_questions_deleted#:#Frage(n) gelöscht.
+survey#:#qpl_phrases_deleted#:#Fragen gelöscht.
+survey#:#qpl_questions_deleted#:#Fragen gelöscht.
 survey#:#qpl_savephrase_empty#:#Bitte geben Sie einen Titel für die Phrase an!
 survey#:#qpl_savephrase_exists#:#Der Titel der Phrase existiert bereits! Bitte geben Sie einen anderen Titel an.
 survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!
@@ -9325,14 +9325,14 @@ survey#:#questionblock_inserted#:#Fragenblock eingefügt
 survey#:#questionblocks#:#Fragenblöcke
 survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt
 survey#:#questions#:#Fragen
-survey#:#questions_inserted#:#Frage(n) angefügt
-survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
+survey#:#questions_inserted#:#Fragen angefügt
+survey#:#questions_removed#:#Fragen und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragetyp
 survey#:#ratio_absolute#:#Absolutskaliert
 survey#:#ratio_non_absolute#:#Verhältnisskaliert
 survey#:#recipients#:#Empfänger
 survey#:#remove_question#:#Entfernen
-survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage entfernen wollen?
+survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen und/oder Fragenblöcke aus der Umfrage entfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#results#:#Ergebnisse
 survey#:#resume_survey#:#Umfrage fortsetzen
@@ -9371,7 +9371,7 @@ survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Vers
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
 survey#:#spl_paste_no_objects#:#Es sind keine Fragen in der Zwischenablage vorhanden. Bitte nutzen Sie hierfür die Kopieren- oder Verschieben-Schaltflächen.
-survey#:#spl_paste_success#:#Frage(n) eingefügt
+survey#:#spl_paste_success#:#Fragen eingefügt
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
@@ -9385,7 +9385,7 @@ survey#:#survey_block_hidden#:#nicht sichtbar
 survey#:#survey_block_visible#:#sichtbar
 survey#:#survey_cancel_preview#:#Vorschau abbrechen
 survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
-survey#:#survey_clipboard_notice#:#Es befinden sich Frage(n) in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
+survey#:#survey_clipboard_notice#:#Es befinden sich Fragen in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
 survey#:#survey_code#:#Zugangsschlüssel
 survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL <small>(Benutzen Sie die rechte Maustaste, um die URL zu kopieren)</small>
