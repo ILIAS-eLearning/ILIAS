@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
@@ -140,7 +156,7 @@ class ilCalendarAppointmentPresentationGUI
 
         #21529 create new toolbar with unique id using the entry id for this purpose
         $toolbar = new ilToolbarGUI();
-        $toolbar->setId($this->appointment['event']->getEntryId());
+        $toolbar->setId((string) $this->appointment['event']->getEntryId());
 
         $f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 
@@ -208,7 +224,7 @@ class ilCalendarAppointmentPresentationGUI
             }
 
             if ($new_toolbar = $plugin->toolbarReplaceContent()) {
-                $new_toolbar->setId($a_toolbar->getId());
+                $new_toolbar->setId((string) $a_toolbar->getId());
                 $toolbar = $new_toolbar;
             }
         }

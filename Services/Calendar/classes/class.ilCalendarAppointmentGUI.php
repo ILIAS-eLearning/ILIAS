@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -620,6 +634,7 @@ class ilCalendarAppointmentGUI
         $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
 
         $confirm = new ilConfirmationGUI();
+        $confirm->setHeaderText($this->lng->txt('cal_delete_cal'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
         $confirm->addItem('appointments[]', (string) $this->app->getEntryId(), $this->app->getTitle());
@@ -634,7 +649,7 @@ class ilCalendarAppointmentGUI
      * ^ */
     protected function editSingle() : void
     {
-        $GLOBALS['DIC']['ilCtrl']->setParameter($this, 'rexcl', 1);
+        $this->ctrl->setParameter($this, 'rexl', "1");
         $this->edit(true);
     }
 
@@ -652,8 +667,7 @@ class ilCalendarAppointmentGUI
         }
 
         $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
-
-        if ($a_edit_single_app) {
+        if ($this->getRecurrenceExclusionFromQuery()) {
             $this->ctrl->setParameter($this, 'rexl', 1);
 
             // Calculate new appointment time
@@ -888,6 +902,7 @@ class ilCalendarAppointmentGUI
             $this->ctrl->returnToParent($this);
         }
         foreach ($app_ids as $app_id) {
+            $app_id = (int) $app_id;
             $app = new ilCalendarEntry($app_id);
             $app->delete();
 

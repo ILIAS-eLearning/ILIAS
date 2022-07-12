@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -64,7 +65,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
         array $a_appointment,
         ?ilInfoScreenGUI $a_info_screen,
         ?ilToolbarGUI $a_toolbar,
-        Item $a_list_item
+        ?Item $a_list_item
     ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -105,7 +106,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
         array $a_appointment,
         ?ilInfoScreenGUI $a_info_screen,
         ?ilToolbarGUI $a_toolbar,
-        Item $a_list_item
+        ?Item $a_list_item
     ) : ilCalendarAppointmentPresentation {
         return new static($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
     }

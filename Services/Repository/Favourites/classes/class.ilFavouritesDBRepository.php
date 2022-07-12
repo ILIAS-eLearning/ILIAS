@@ -103,8 +103,8 @@ class ilFavouritesDBRepository
             while ($item_rec = $ilDB->fetchAssoc($item_set)) {
                 if ($item_rec["type"] !== "rolf" &&
                     $item_rec["type"] !== "itgr" &&
-                    $tree->isInTree($item_rec["ref_id"])) { // due to bug 11508
-                    $parent_ref = $tree->getParentId($item_rec["ref_id"]);
+                    $tree->isInTree((int) $item_rec["ref_id"])) { // due to bug 11508
+                    $parent_ref = $tree->getParentId((int) $item_rec["ref_id"]);
 
                     if (!isset($all_parent_path[$parent_ref])) {
                         if ($parent_ref > 0) {	// workaround for #0023176
