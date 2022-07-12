@@ -16812,3 +16812,7 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.
+sess#:#sess_info_new_sess_type#:#New Session Type
+sess#:#il_sess_status_open#:#Open Session
+sess#:#sess_change_type#:#Change Session Type

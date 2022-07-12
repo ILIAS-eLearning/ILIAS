@@ -16844,3 +16844,7 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+sess#:#sess_warn_sess_type_changed#:#Sind Sie sicher, dass Sie die Sitzungsart ändern möchten? Die Rechteeinstellungen dieser Sitzung werden überschrieben und an die neue Art der Sitzung angepasst.
+sess#:#sess_info_new_sess_type#:#Neue Sitzungsart
+sess#:#il_sess_status_open#:#Offene Sitzung
+sess#:#sess_change_type#:#Sitzungsart ändern
