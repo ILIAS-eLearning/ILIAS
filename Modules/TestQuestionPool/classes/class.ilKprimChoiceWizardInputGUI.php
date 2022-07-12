@@ -79,7 +79,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $answer->setImageFile($a_value['imagename'][$index]);
                 }
                 
-                if (strlen($a_value['correctness'][$index])) {
+                if (isset($a_value['correctness']) && strlen($a_value['correctness'][$index])) {
                     $answer->setCorrectness((bool) $a_value['correctness'][$index]);
                 }
 
