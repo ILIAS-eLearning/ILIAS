@@ -20,7 +20,7 @@
  * @author	Alex Killing <alex.killing@gmx.de>
  * @author	Sascha Hofmann <shofmann@databay.de>
  *
- * @deprecated 10
+ * @deprecated 11
  */
 class ilTable2GUI extends ilTableGUI
 {

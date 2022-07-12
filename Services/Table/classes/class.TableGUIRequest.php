@@ -22,7 +22,7 @@ use ILIAS\Repository;
 
 /**
  *
- * @deprecated 10
+ * @deprecated 11
  */
 class TableGUIRequest
 {
