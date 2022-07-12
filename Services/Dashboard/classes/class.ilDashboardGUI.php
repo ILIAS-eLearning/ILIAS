@@ -434,14 +434,16 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
         $request = $DIC->http()->request();
+        
+        $query_params = $request->getQueryParams();
 
-        if ($request->getQueryParams()["cal_view"]) {
-            $cal_view = $request->getQueryParams()["cal_view"];
+        if (array_key_exists("cal_view", $query_params) && $query_params["cal_view"]) {
+            $cal_view = $query_params["cal_view"];
             $this->ctrl->setParameter($this, "cal_view", $cal_view);
         }
 
-        if (!empty($request->getQueryParams()["cal_agenda_per"])) {
-            $cal_period = $request->getQueryParams()["cal_agenda_per"];
+        if (!empty($query_params["cal_agenda_per"])) {
+            $cal_period = $query_params["cal_agenda_per"];
             $this->ctrl->setParameter($this, "cal_agenda_per", $cal_period);
         }
 

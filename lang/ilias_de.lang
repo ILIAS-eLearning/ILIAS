@@ -647,7 +647,7 @@ assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde 
 assessment#:#coordinates#:#Koordinaten
 assessment#:#copy_and_link_to_questionpool#:#Zu Fragenpool hinzufügen
 assessment#:#copy_no_questions_selected#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.
-assessment#:#copy_questions_success#:#Die Frage(n) wurden kopiert.
+assessment#:#copy_questions_success#:#Die Fragen wurden kopiert.
 assessment#:#correct_answers#:#Richtige Antworten:
 assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
@@ -726,7 +726,7 @@ assessment#:#err_unit_in_variables#:#Die Einheit kann nicht gelöscht werden. Si
 assessment#:#err_unit_is_baseunit#:#Die Einheit kann nicht gelöscht werden. Sie wird von anderen Einheiten als Basiseinheit verwendet.
 assessment#:#err_wrong_categoryname#:#Die Kategorie existiert bereits.
 assessment#:#err_wrong_rating_advanced#:#Bitte stellen Sie sicher, dass die Summe der erweiterten Bewertungsoptionen genau 100 Prozent ergibt.
-assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
+assessment#:#error_importing_question#:#Beim Importieren der Fragen ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
 assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihre ILIAS-Administration und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die ID des ILIAS-Kontos %s und die Test-ID %s erzeugen.###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#errors#:#Fehler
@@ -820,7 +820,7 @@ assessment#:#height#:#Höhe
 assessment#:#identical_scoring#:#Identische Bewertung
 assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
 assessment#:#imagemap#:#Imagemap
-assessment#:#import_question#:#Frage(n) importieren
+assessment#:#import_question#:#Fragen importieren
 assessment#:#imported#:#importiert
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
@@ -934,9 +934,9 @@ assessment#:#msg_circle_added#:#Kreis hinzugefügt
 assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
 assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer oder gleich der Anzahl der Definitionen sein.
 assessment#:#msg_poly_added#:#Polygon hinzugefügt
-assessment#:#msg_questions_moved#:#Frage(n) verschoben
+assessment#:#msg_questions_moved#:#Fragen verschoben
 assessment#:#msg_rect_added#:#Rechteck hinzugefügt
-assessment#:#msg_selected_for_move#:#Frage(n) zum Verschieben ausgewählt
+assessment#:#msg_selected_for_move#:#Fragen zum Verschieben ausgewählt
 assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit
 assessment#:#next_question#:#Weiter
@@ -1028,7 +1028,7 @@ assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
-assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
+assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert
 assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
 assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu entfernen!
 assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
@@ -1059,13 +1059,13 @@ assessment#:#qpl_lac_legend_header_common#:#Aussagenlogik
 assessment#:#qpl_lac_legend_header_quest_specific#:#Fragenspezifische Ausdrücke
 assessment#:#qpl_lac_legend_label_operators#:#Operatoren
 assessment#:#qpl_maxchars_info_numeric_question#:#Wenn Sie hier einen Wert eintragen, wird das Feld für die numerische Antwort mit der angegebenen Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Zu beachten ist dabei, dass das Dezimaltrennzeichen dabei mit gezählt wird.
-assessment#:#qpl_move_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden zum Verschieben markiert
+assessment#:#qpl_move_insert_clipboard#:#Die ausgewählten Fragen wurden zum Verschieben markiert
 assessment#:#qpl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus
 assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#Die untere Schranke muss ein gültiger numerischer Wert sein, der niedriger ist als die obere Schranke.
 assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#Die obere Schranke muss ein gültiger numerischer Wert sein, der größer ist als die untere Schranke.
 assessment#:#qpl_paste_error#:#Mindestens eine Frage konnte nicht in den Fragenpool eingefügt werden. Möglicher Grund: Sie haben versucht die Frage in den selben Fragenpool zu verschieben.
 assessment#:#qpl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie wenigstens eine Frage in die Zwischenablage.
-assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingefügt
+assessment#:#qpl_paste_success#:#Die Fragen wurden in den Fragenpool eingefügt
 assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomie "%s"
 assessment#:#qpl_qst_edit_form_taxonomy_section#:#Zuordnung zu Taxonomieknoten
 assessment#:#qpl_qst_inp_matching_mode#:#Zuordnungsmodus
@@ -1079,7 +1079,7 @@ assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche di
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
-assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
+assessment#:#qpl_questions_deleted#:#Fragen gelöscht
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomien können zum Filtern der Fragen genutzt werden.
@@ -1206,7 +1206,7 @@ assessment#:#search_users#:#nach Benutzern
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 assessment#:#select_one_user#:#Bitte wählen Sie mindestens einen Benutzer aus.
-assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
+assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Fragen aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#select_unit#:#--- Einheit auswählen ---
 assessment#:#selected_category#:#Ausgewählte Kategorie: %s
 assessment#:#selection#:#Auswahl
@@ -1503,8 +1503,8 @@ assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordne Fra
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Fragenpool
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
-assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
-assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
+assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen dem Test hinzufügen wollen?
+assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgenden Fragen hinzufügen wollen?
 assessment#:#tst_instant_feedback#:#Direkte Rückmeldung
 assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung zur richtigen Lösung
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Ist die Gesamtheit der Antwort richtig, so zeigt ILIAS beim Anklicken des 'Rückmeldung anfordern'-Buttons die eine Art hinterlegter Rückmeldung an. Ist die Gesamtheit der Antwort nicht vollständig richtig, wird eine andere  Rückmeldung angezeigt. Beide Versionen müssen bei der Frage im Reiter 'Rückmeldung' hinterlegt werden.
@@ -1622,6 +1622,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
+assessment#:#tst_opening_period#:#Zugangszeiten
+assessment#:#tst_opening_period_desc#:#Interval, in dem Teilnehmer Zugriff auf den Test haben. <b>Wichtig</b>: Benutzen Sie diese Option <b>nicht</b> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe jedes Teilnehmers automatisch gespeichert.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind in vorherigen Versuchen erfolgreich beantwortet worden.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen erneut bearbeiten oder nur einsehen. Wenn Sie die aus früheren Versuchen übernommenen Antworten nicht verändern, können Sie Ihr Lernzielergebnis auch nicht verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten oder einsehen möchten, können Sie zurück gehen. Die Fragen werden in jedem Fall in der Auswertung berücksichtigt.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind optional.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Da für diesen Versuch aber neue Fragen ausgewählt wurden, wurden Ihre Antworten aus vorherigen Versuchen nicht übernommen. Sie können sich bei erneuter Bearbeitung der Fragen Ihr Lernzielergebnis auch verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten möchten können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
 assessment#:#tst_participant#:#Teilnehmer
@@ -1750,8 +1752,8 @@ assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Ausgeschnitte
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Ausgeschnittenen Lösungshinweis dem gewählten voranstellen
 assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Lösungshinweis hinzufügen
 assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Zwischenablage für Sortierung der Lösungshinweise zurücksetzen
-assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
-assessment#:#tst_questions_removed#:#Frage(n) entfernt!
+assessment#:#tst_questions_inserted#:#Fragen angefügt!
+assessment#:#tst_questions_removed#:#Fragen entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_reached_points#:#Erreichte Punkte
@@ -1759,7 +1761,7 @@ assessment#:#tst_reached_points_of_max#:#%s von %s
 assessment#:#tst_remove_mark#:#Markierung entfernen
 assessment#:#tst_remove_question#:#Sind Sie sicher, dass Sie die folgende Frage aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen aus Ihrem Test entfernen wollen?
-assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
+assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
 assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach Start des Tests anbieten
 assessment#:#tst_report_after_passed#:#Testergebnisse erst anzeigen wenn der Test bestanden wurde
@@ -4251,7 +4253,7 @@ common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Mails:
 common#:#import_lm#:#ILIAS-Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Tests importieren
-common#:#import_questions_into_qpl#:#Frage(n) in den Fragenpool importieren
+common#:#import_questions_into_qpl#:#Fragen in den Fragenpool importieren
 common#:#import_sahs#:#SCORM-Lernmodul importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
@@ -6673,7 +6675,7 @@ content#:#cont_out_of_focus_message#:#Diese Seite ist nicht mehr Teil der Inhalt
 content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
 content#:#cont_ov_all_correct#:#Sie haben alle Fragen richtig beantwortet.
 content#:#cont_ov_preview#:#Die Fragenübersicht funktioniert nicht im Seiteneditor-Kontext. Benutzen Sie stattdessen die Vorschau auf SCO- oder SCORM-Level.
-content#:#cont_ov_some_correct#:#Sie haben [x] von [y] Frage(n) richtig beantwortet.
+content#:#cont_ov_some_correct#:#Sie haben [x] von [y] Fragen richtig beantwortet.
 content#:#cont_ov_wrong_answered#:#Die folgenden Fragen wurden noch nicht oder falsch beantwortet
 content#:#cont_overlay_image#:#Bild für Overlay
 content#:#cont_overlay_images#:#Overlay-Bilder
@@ -15371,7 +15373,7 @@ survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
 survey#:#import_from_file#:#Import von Benutzerdaten aus einer Datei
 survey#:#import_from_text#:#Import von Benutzerdaten aus einem Text
 survey#:#import_no_file_selected#:#Keine Datei ausgewählt!
-survey#:#import_question#:#Frage(n) importieren
+survey#:#import_question#:#Fragen importieren
 survey#:#import_wrong_file_type#:#Falscher Dateityp!
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
@@ -15484,15 +15486,15 @@ survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Z
 survey#:#please_enter_mail_url#:#Bitte verwenden Sie den Platzhalter für die URL [url].
 survey#:#please_select#:#-- bitte auswählen --
 survey#:#preview#:#Vorschau
-survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgende(n) Phrase(n) löschen wollen?
-survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
+survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgenden Phrasen löschen wollen?
+survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen löschen wollen?
 survey#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie kopieren wollen!
 survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock zu definieren!
 survey#:#qpl_delete_phrase_select_none#:#Bitte wählen Sie mindestens eine Phrase aus, die Sie löschen wollen!
 survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
 survey#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie exportieren wollen!
-survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.
-survey#:#qpl_questions_deleted#:#Frage(n) gelöscht.
+survey#:#qpl_phrases_deleted#:#Phrasen gelöscht.
+survey#:#qpl_questions_deleted#:#Fragen gelöscht.
 survey#:#qpl_savephrase_empty#:#Bitte geben Sie einen Titel für die Phrase an!
 survey#:#qpl_savephrase_exists#:#Der Titel der Phrase existiert bereits! Bitte geben Sie einen anderen Titel an.
 survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!
@@ -15509,14 +15511,14 @@ survey#:#questionblock_inserted#:#Fragenblock eingefügt
 survey#:#questionblocks#:#Fragenblöcke
 survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt
 survey#:#questions#:#Fragen
-survey#:#questions_inserted#:#Frage(n) angefügt
-survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
+survey#:#questions_inserted#:#Fragen angefügt
+survey#:#questions_removed#:#Fragen und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragetyp
 survey#:#ratio_absolute#:#Absolutskaliert
 survey#:#ratio_non_absolute#:#Verhältnisskaliert
 survey#:#recipients#:#Empfänger
 survey#:#remove_question#:#Entfernen
-survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage entfernen wollen?
+survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen und/oder Fragenblöcke aus der Umfrage entfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#results#:#Ergebnisse
 survey#:#resume_survey#:#Umfrage fortsetzen
@@ -15555,7 +15557,7 @@ survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Vers
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
 survey#:#spl_paste_no_objects#:#Es sind keine Fragen in der Zwischenablage vorhanden. Bitte nutzen Sie hierfür die Kopieren- oder Verschieben-Schaltflächen.
-survey#:#spl_paste_success#:#Frage(n) eingefügt
+survey#:#spl_paste_success#:#Fragen eingefügt
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
@@ -15628,7 +15630,7 @@ survey#:#survey_calculate_sum_score#:#Skalenpunktesumme berechnen
 survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkt von Single Choice, Multiple Choice und Matrixfragen je Teilnehmer. Achtung: Wenn Teilnehmer solche Fragen überspringen, wird die gesammte Skalenpunktesumme nicht berechnet.
 survey#:#survey_cancel_preview#:#Vorschau abbrechen
 survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
-survey#:#survey_clipboard_notice#:#Es befinden sich Frage(n) in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
+survey#:#survey_clipboard_notice#:#Es befinden sich Fragen in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
 survey#:#survey_code#:#Zugangsschlüssel
 survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschlüssel löschen?
 survey#:#survey_code_url#:#URL für direkten Zugriff
