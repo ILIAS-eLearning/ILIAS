@@ -20,7 +20,7 @@
  * Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @deprecated 10
+ * @deprecated 11
  *
  */
 class ilTableTemplatesStorage
