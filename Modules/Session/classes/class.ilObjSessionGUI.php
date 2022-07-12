@@ -1067,7 +1067,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setHeaderText($this->lng->txt('sess_warn_sess_type_changed'));
-        $confirm->addItem('sess_type',
+        $confirm->addItem(
+            'sess_type',
             (string) $new_type,
             $this->lng->txt('sess_info_new_sess_type') . ': ' . $new_type_txt
         );
