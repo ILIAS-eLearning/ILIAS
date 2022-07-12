@@ -1,5 +1,18 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
 
@@ -204,7 +217,12 @@ class assSingleChoiceImport extends assQuestionImport
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
                 $this->object->isSingleline = true;
             }
-            $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["imagefile"]["label"]);
+            if(isset($answer["imagefile"]["label"])) {
+                $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"],
+                    $answer["imagefile"]["label"]);
+            } else {
+                $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"]);
+            }
         }
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(

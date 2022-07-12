@@ -97,9 +97,9 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
         return $this->curQuestionId;
     }
 
-    public function setCurQuestionId(int $curQuestionId) : void
+    public function setCurQuestionId(?int $curQuestionId) : void
     {
-        $this->curQuestionId = $curQuestionId;
+        $this->curQuestionId = (int)$curQuestionId;
     }
 
     public function getCurAssignment() : \ilAssQuestionSkillAssignmentImport

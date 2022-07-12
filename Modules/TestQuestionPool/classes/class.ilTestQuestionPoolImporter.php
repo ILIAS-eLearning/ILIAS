@@ -1,5 +1,18 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 include_once("./Services/Export/classes/class.ilXmlImporter.php");
 
@@ -153,7 +166,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
                 if ($new_tax_ids !== false) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage($tid, $new);
+                        ilObjTaxonomy::saveUsage( (int)$tid, $new);
                     }
                 }
                 

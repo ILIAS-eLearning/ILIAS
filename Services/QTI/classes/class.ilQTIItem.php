@@ -275,9 +275,9 @@ class ilQTIItem
         return $this->iliasSourceVersion;
     }
 
-    public function setIliasSourceVersion(string $iliasSourceVersion) : void
+    public function setIliasSourceVersion(?string $iliasSourceVersion) : void
     {
-        $this->iliasSourceVersion = $iliasSourceVersion;
+        $this->iliasSourceVersion = $iliasSourceVersion ?? '';
     }
 
     public function getIliasSourceNic() : ?string
