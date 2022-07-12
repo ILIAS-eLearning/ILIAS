@@ -16945,8 +16945,17 @@ body.ilBodyPrint {
   }
 }
 div.ilStartupSection form.form-horizontal {
+  border: 1px solid #dddddd;
+  border-radius: 3px;
   text-align: left;
   width: 40em;
+}
+div.ilStartupSection form.form-horizontal .ilFormHeader {
+  padding: 9px 15px;
+  background-color: #f9f9f9;
+}
+div.ilStartupSection form.form-horizontal .form-group {
+  margin: 9px 0;
 }
 @media only screen and (max-width: 768px) {
   div.ilStartupSection form.form-horizontal {
