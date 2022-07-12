@@ -15181,6 +15181,10 @@ sess#:#sess_mail_all#:#For all Participants
 sess#:#sess_mail_all_info#:#All participants can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.
 sess#:#sess_contact#:#Contact
 sess#:#sess_mem_contacts#:#Tutorial Support
+sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.
+sess#:#sess_info_new_sess_type#:#New Session Type
+sess#:#il_sess_status_open#:#Open Session
+sess#:#sess_change_type#:#Change Session Type
 dateplaner#:#cal_calendar_subscription_modal_title#:#Calendar Subscription
 sess#:#sess_members#:#Participants
 grp#:#grp_contact#:#Support
