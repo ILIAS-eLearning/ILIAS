@@ -272,15 +272,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
             $row = $this->db->fetchAssoc($result);
 
-            $top_item_crs_ref = $this->tree->checkForParentType($this->getRefId(), 'crs');
-            $top_item_grp_ref = $this->tree->checkForParentType($this->getRefId(), 'grp');
-            $top_item_ref_id = $top_item_crs_ref > 0 ? $top_item_crs_ref : $top_item_grp_ref;
-            if ($top_item_ref_id) {
-                $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
-                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
-                    $row['top_item_title'] = $top_item->getTitle();
-                    $row['top_item_type'] = $top_item->getType();
-                }
+            $top_item = $this->getTopItemForForum($this->getRefId());
+            if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
+                $row['top_item_title'] = $top_item->getTitle();
+                $row['top_item_type'] = $top_item->getType();
             }
 
             $this->notificationCache->store($cacheKey, $row);
@@ -293,6 +288,29 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->top_item_type = $row['top_item_type'] ?? '';
 
         $this->is_anonymized = (bool) $row['anonymized'];
+    }
+
+    public function getTopItemForForum($frm_ref_id) : ?ilObject
+    {
+        $cacheKey = $this->notificationCache->createKeyByValues([
+            'forum_top_items',
+            $frm_ref_id
+        ]);
+
+        if (false === $this->notificationCache->exists($cacheKey)) {
+
+            $top_item_ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
+            if (!$top_item_ref_id) {
+                $top_item_ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
+            }
+
+            if ($top_item_ref_id) {
+                $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
+                $this->notificationCache->store($cacheKey, $top_item);
+                return $top_item;
+            }
+        }
+        return null;
     }
 
     private function readAttachments() : void

@@ -33,6 +33,8 @@ class ilForumCronNotification extends ilCronJob
     private static array $ref_ids_by_obj_id = [];
     /** @var array<int, int[]> */
     private static array $accessible_ref_ids_by_user = [];
+    /** @var array<int, ilObjCourse|ilObjGroup> */
+    private static array $top_items_by_frm_ref_id = [];
 
     private ilLanguage $lng;
     private ilSetting $settings;
@@ -232,15 +234,11 @@ class ilForumCronNotification extends ilCronJob
             }
 
             $row['ref_id'] = $ref_id;
-            $top_item_crs_ref = $this->tree->checkForParentType($ref_id, 'crs');
-            $top_item_grp_ref = $this->tree->checkForParentType($ref_id, 'grp');
-            $top_item_ref_id = $top_item_crs_ref > 0 ? $top_item_crs_ref : $top_item_grp_ref;
-            if ($top_item_ref_id) {
-                $top_item = ilObjectFactory::getInstanceByObjId($top_item_ref_id);
-                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
-                    $row['top_item_title'] = $top_item->getTitle();
-                    $row['top_item_type'] = $top_item->getType();
-                }
+
+            $top_item = $this->getTopItemForForum($ref_id);
+            if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
+                $row['top_item_title'] = $top_item->getTitle();
+                $row['top_item_type'] = $top_item->getType();
             }
 
             if ($this->existsProviderObject((int) $row['pos_pk'], $notification_type)) {
@@ -294,6 +292,31 @@ class ilForumCronNotification extends ilCronJob
         }
 
         $this->resetProviderCache();
+    }
+
+    public function getTopItemForForum($frm_ref_id) : ?ilObject
+    {
+        if (
+            isset(self::$top_items_by_frm_ref_id[$frm_ref_id]) &&
+            (
+                self::$top_items_by_frm_ref_id[$frm_ref_id] instanceof ilObjForum ||
+                self::$top_items_by_frm_ref_id[$frm_ref_id] instanceof ilObjGroup
+            )
+        ) {
+            return self::$top_items_by_frm_ref_id[$frm_ref_id];
+        }
+
+        $top_item_ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
+        if (!$top_item_ref_id) {
+            $top_item_ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
+        }
+
+        if ($top_item_ref_id) {
+            $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
+            self::$top_items_by_frm_ref_id[$frm_ref_id] = $top_item;
+            return $top_item;
+        }
+        return null;
     }
 
     public function existsProviderObject(int $post_id, int $notification_type) : bool
