@@ -2027,7 +2027,7 @@ auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc#:#OpenId Connect
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
-auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
+auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenId-Connect-Attributen
 auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
 auth#:#auth_oidc_settings_additional_scopes#:#Zusätzliche Scopes
