@@ -2641,7 +2641,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if (strlen($this->object->getIntroduction())) {
             $info->addSection($this->lng->txt("tst_introduction"));
             $info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction(), true) .
-                    $info->getHiddenToggleButton());
+                "<br />" . $info->getHiddenToggleButton());
         } else {
             $info->addSection($this->lng->txt("show_details"));
             $info->addProperty("", $info->getHiddenToggleButton());
