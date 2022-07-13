@@ -34,10 +34,12 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('category');
         $this->setDefaultOrderDirection('ASC');
 
-        if ($this->getParentObject()->isCRUDContext()) {
-            $this->addMultiCommand('confirmDeleteCategories', $this->lng->txt('delete'));
-        } else {
-            $this->addMultiCommand('confirmImportGlobalCategories', $this->lng->txt('import'));
+        if ($DIC->rbac()->system()->checkAccess('write', $DIC->workflowEngine()->internal()->request()->getRefId())) {
+            if ($this->getParentObject()->isCRUDContext()) {
+                $this->addMultiCommand('confirmDeleteCategories', $this->lng->txt('delete'));
+            } else {
+                $this->addMultiCommand('confirmImportGlobalCategories', $this->lng->txt('import'));
+            }
         }
 
         $this->populateTitle();
@@ -69,8 +71,13 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($this->getParentObject(), 'category_id', $row['category_id']);
         $action->addItem($this->lng->txt('un_show_units'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory'));
         if ($this->getParentObject()->isCRUDContext()) {
-            $action->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitCategoryModificationForm'));
-            $action->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteCategory'));
+            if ($DIC->rbac()->system()->checkAccess(
+                'edit',
+                $DIC->workflowEngine()->internal()->request()->getRefId()
+            )) {
+                $action->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitCategoryModificationForm'));
+                $action->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteCategory'));
+            }
         } else {
             $action->addItem($this->lng->txt('import'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmImportGlobalCategory'));
         }
