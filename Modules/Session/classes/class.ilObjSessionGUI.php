@@ -992,6 +992,18 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             return;
         }
 
+        //Mantis 21972: Choose didactic template on settings screen
+        $old_type = ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+
+        $modified = false;
+        $new_type_info = $this->form->getInput('didactic_type');
+        if ($new_type_info) {
+            $new_type = explode('_', $this->form->getInput('didactic_type'));
+            $new_type = (int) $new_type[1];
+
+            $modified = ($new_type !== $old_type);
+        }
+
         if (
             $this->record_gui instanceof \ilAdvancedMDRecordGUI &&
             !$this->record_gui->importEditFormPostValues()
@@ -1036,8 +1048,47 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->object->hasWaitingListAutoFill()) {
             $this->object->handleAutoFill();
         }
-        
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_updated'), true);
+
+        //Mantis 21972: Choose didactic template on settings screen
+        if (!$modified) {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_updated'), true);
+            $this->ctrl->redirect($this, 'edit');
+            return;
+        }
+
+        if ($new_type == 0) {
+            $new_type_txt = $this->lng->txt('il_sess_status_open');
+        } else {
+            $dtpl = new ilDidacticTemplateSetting($new_type);
+            $new_type_txt = $dtpl->getPresentationTitle($this->lng->getLangKey());
+        }
+        $this->tabs_gui->activateTab('settings');
+
+        $confirm = new ilConfirmationGUI();
+        $confirm->setFormAction($this->ctrl->getFormAction($this));
+        $confirm->setHeaderText($this->lng->txt('sess_warn_sess_type_changed'));
+        $confirm->addItem(
+            'sess_type',
+            (string) $new_type,
+            $this->lng->txt('sess_info_new_sess_type') . ': ' . $new_type_txt
+        );
+        $confirm->setConfirm($this->lng->txt('sess_change_type'), 'updateSessionType');
+        $confirm->setCancel($this->lng->txt('cancel'), 'edit');
+
+        $this->tpl->setContent($confirm->getHTML());
+    }
+
+    /**
+     * change session type
+     */
+    public function updateSessionTypeObject() : void
+    {
+        ilDidacticTemplateUtils::switchTemplate(
+            $this->object->getRefId(),
+            (int) $this->http->request()->getParsedBody()['sess_type']
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'edit');
     }
 
@@ -1434,9 +1485,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setMultipart(true);
 
-        if ($a_mode == 'create') {
-            $this->form = $this->initDidacticTemplate($this->form);
-        }
+        $this->form = $this->initDidacticTemplate($this->form);
         
         $this->lng->loadLanguageModule('dateplaner');
         $dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'), 'event');
