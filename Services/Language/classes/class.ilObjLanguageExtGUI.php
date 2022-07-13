@@ -362,9 +362,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $row["topic"] = $keys[1];
             $row["name"] = $name;
             $row["translation"] = $translation;
-            $row["comment"] = $comments[$name] ?: "";
+            $row["comment"] = $comments[$name] ?? "";
             $row["default"] = $compare_content[$name];
-            $row["default_comment"] = $compare_comments[$name] ?: "";
+            $row["default_comment"] = $compare_comments[$name] ?? "";
 
             $data[] = $row;
         }
