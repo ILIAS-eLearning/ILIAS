@@ -26,6 +26,8 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 {
     protected ilCtrl $ilCtrl;
     protected array $filter;
+    protected ilRbacSystem $rbac;
+    protected ILIAS\WorkflowEngine\Service $service;
 
     public function __construct(
         ilObjWorkflowEngineGUI $parent_obj,
@@ -38,6 +40,8 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         global $DIC;
         $this->ilCtrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
+        $this->rbac = $DIC->rbac()->system();
+        $this->service = $DIC->workflowEngine();
 
         $this->initColumns();
         $this->setEnableHeader(true);
@@ -90,8 +94,12 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         if (in_array('instances', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("instances"), "instances", "15%");
         }
-
-        $this->addColumn($this->lng->txt("actions"), "", "10%");
+        if ($this->rbac->checkAccess(
+            'edit',
+            $this->service->internal()->request()->getRefId()
+        )) {
+            $this->addColumn($this->lng->txt("actions"), "", "10%");
+        }
     }
 
     /**
@@ -199,42 +207,47 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_INSTANCES_ACTIVE', 0 + $a_set['instances']['active']);
         }
 
-        $action = new ilAdvancedSelectionListGUI();
-        $action->setId('asl_' . $a_set['id']);
-        $action->setListTitle($this->lng->txt('actions'));
-        $this->ilCtrl->setParameter($this->parent_obj, 'process_id', $a_set['id']);
-        $action->addItem(
-            $this->lng->txt('start_process'),
-            'start',
-            $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.start')
-        );
-
-        if (0 + $a_set['instances']['active'] === 0) {
+        if ($this->rbac->checkAccess(
+            'edit',
+            $this->service->internal()->request()->getRefId()
+        )) {
+            $action = new ilAdvancedSelectionListGUI();
+            $action->setId('asl_' . $a_set['id']);
+            $action->setListTitle($this->lng->txt('actions'));
+            $this->ilCtrl->setParameter($this->parent_obj, 'process_id', $a_set['id']);
             $action->addItem(
-                $this->lng->txt('delete_definition'),
-                'delete',
-                $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.confirmdelete')
+                $this->lng->txt('start_process'),
+                'start',
+                $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.start')
             );
+
+            if (0 + $a_set['instances']['active'] === 0) {
+                $action->addItem(
+                    $this->lng->txt('delete_definition'),
+                    'delete',
+                    $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.confirmdelete')
+                );
+            }
+
+            require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $a_set['id'] . '.php';
+            /** @var class-string $class */
+            $class = substr($a_set['id'], 4);
+            /** @noinspection PhpUndefinedFieldInspection (defined in ilWorkflowScaffold.php / generated code */
+            if ($class::$startEventRequired) {
+                $action->addItem(
+                    $this->lng->txt('start_listening'),
+                    'startlistening',
+                    $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.startlistening')
+                );
+
+                $action->addItem(
+                    $this->lng->txt('stop_listening'),
+                    'stoplistening',
+                    $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.stoplistening')
+                );
+            }
+
+            $this->tpl->setVariable('HTML_ASL', $action->getHTML());
         }
-
-        require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $a_set['id'] . '.php';
-        /** @var class-string $class */
-        $class = substr($a_set['id'], 4);
-        /** @noinspection PhpUndefinedFieldInspection (defined in ilWorkflowScaffold.php / generated code */
-        if ($class::$startEventRequired) {
-            $action->addItem(
-                $this->lng->txt('start_listening'),
-                'startlistening',
-                $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.startlistening')
-            );
-
-            $action->addItem(
-                $this->lng->txt('stop_listening'),
-                'stoplistening',
-                $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.stoplistening')
-            );
-        }
-
-        $this->tpl->setVariable('HTML_ASL', $action->getHTML());
     }
 }
