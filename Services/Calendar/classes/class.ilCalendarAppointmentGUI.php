@@ -255,7 +255,6 @@ class ilCalendarAppointmentGUI
         $this->form->addItem($calendar);
 
         if (!$a_as_milestone) {
-            $this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
             $dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'), 'event');
             $dur->setRequired(true);
             $dur->enableToggleFullTime(
