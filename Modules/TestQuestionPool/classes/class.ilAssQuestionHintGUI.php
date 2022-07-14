@@ -145,7 +145,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $this->questionOBJ->updateTimestamp();
             }
 
-            $originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
+            $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->original_id);
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             if ($this->request->raw('calling_test') && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
                 $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);

@@ -273,7 +273,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_delete_success_msg'), true);
 
-        $originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
+        $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->original_id);
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -330,7 +330,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_save_order_success_msg'), true);
 
-        $originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
+        $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->original_id);
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         global $DIC;
         $ilUser = $DIC['ilUser'];
