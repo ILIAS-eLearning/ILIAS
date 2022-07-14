@@ -248,16 +248,6 @@ class ilSearchResult
         }
     }
 
-
-    /**
-     *
-     * add search result
-     * Results are stored with 'ref_id'. This method is typically called after checking access of entries.
-     * @param integer ref_id
-     * @param integer obj_id
-     * @param string obj_type 'lm' or 'crs' ...
-     * @access	public
-     */
     public function addResult(int $a_ref_id, int $a_obj_id, string $a_type) : void
     {
         $this->results[$a_ref_id]['ref_id'] = $a_ref_id;
@@ -430,9 +420,9 @@ class ilSearchResult
         $tmp_results = $this->getResults();
         $this->results = array();
         foreach ($tmp_results as $result) {
-            if ($this->tree->isGrandChild($a_root_node, $result['ref_id']) and $this->tree->isInTree($result['ref_id'])) {
+            if ($this->tree->isGrandChild($a_root_node, $result['ref_id']) && $this->tree->isInTree($result['ref_id'])) {
                 $this->addResult($result['ref_id'], $result['obj_id'], $result['type']);
-                $this->__updateResultChilds($result['ref_id'], $result['child']);
+                $this->__updateResultChilds($result['ref_id'], $result['child'] ?? []);
             }
         }
     }
@@ -479,11 +469,7 @@ class ilSearchResult
         return false;
     }
     /**
-     *
-     * Update childs for a specific result
-     * @param integer  object ref_id
-     * @param array array of child ids. E.g 'pg', 'st'
-     * @access	private
+     * Update child ids for a specific result
      */
     public function __updateResultChilds(int $a_ref_id, array $a_childs) : bool
     {
