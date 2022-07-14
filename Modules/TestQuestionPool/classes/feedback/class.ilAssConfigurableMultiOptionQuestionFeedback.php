@@ -98,7 +98,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
                     $this->questionOBJ->getId(),
                     0,
                     $index,
-                    $form->getInput("feedback_answer_$index")
+                    (string) ($form->getInput("feedback_answer_$index") ?? '')
                 );
             }
         }
