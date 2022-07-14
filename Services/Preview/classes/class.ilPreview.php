@@ -255,7 +255,7 @@ class ilPreview
         $images = array();
 
         // status must be created
-        $path = $this->getStoragePath();
+        $path = $this->getAbsoluteStoragePath();
         if ($this->getRenderStatus() === self::RENDER_STATUS_CREATED && ($handle = @opendir($path))) {
             // load files
             while (false !== ($file = readdir($handle))) {
@@ -414,7 +414,7 @@ class ilPreview
      */
     public function getAbsoluteStoragePath() : string
     {
-        return ILIAS_ABSOLUTE_PATH . substr($this->getStorage()->getPath(), 1);
+        return ILIAS_WEB_DIR . "/" . CLIENT_ID . "/{$this->getStorage()->getPath()}";
     }
 
     /**
