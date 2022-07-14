@@ -3476,9 +3476,9 @@ abstract class assQuestion
         return $this->additionalContentEditingMode;
     }
 
-    public function setAdditionalContentEditingMode(string $additionalContentEditingMode) : void
+    public function setAdditionalContentEditingMode(?string $additionalContentEditingMode) : void
     {
-        if (!in_array($additionalContentEditingMode, $this->getValidAdditionalContentEditingModes())) {
+        if (!in_array((string) $additionalContentEditingMode, $this->getValidAdditionalContentEditingModes())) {
             throw new ilTestQuestionPoolException('invalid additional content editing mode given: ' . $additionalContentEditingMode);
         }
 
