@@ -49,13 +49,14 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testIntroduction() : void
     {
-        $this->assertNull($this->testObj->getIntroduction());
+        $this->assertEmpty($this->testObj->getIntroduction());
         $this->testObj->setIntroduction("Test");
         $this->assertEquals("Test", $this->testObj->getIntroduction());
     }
 
     public function testFinalStatement() : void
     {
+        $this->assertEmpty($this->testObj->getFinalStatement());
         $this->testObj->setFinalStatement("Test");
         $this->assertEquals("Test", $this->testObj->getFinalStatement());
     }

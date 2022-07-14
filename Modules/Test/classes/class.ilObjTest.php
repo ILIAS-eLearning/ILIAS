@@ -60,7 +60,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public $metadata;
     public array $questions;
     protected bool $introductionEnabled;
-    protected ?string $introduction;
+    protected string $introduction;
 
     /**
      * Defines the mark schema
@@ -800,6 +800,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
      * Returns the content of all RTE enabled text areas in the test
+     * @return string[]
      */
     public function getAllRTEContent() : array
     {
@@ -1619,32 +1620,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->introductionEnabled = $introductionEnabled;
     }
 
-    public function getIntroduction() : ?string
+    public function getIntroduction() : string
     {
-        return (strlen($this->introduction)) ? $this->introduction : null;
+        return $this->introduction;
     }
 
-    /**
-     * Sets the introduction text of the ilObjTest object
-     *
-     * @param string $introduction An introduction string for the test
-     * @access public
-     * @see $introduction
-     */
-    public function setIntroduction($introduction = "") : void
+    public function setIntroduction(string $introduction) : void
     {
         $this->introduction = $introduction;
     }
 
-
-    /**
-    * Sets the final statement text of the ilObjTest object
-    *
-    * @param string $a_statement A final statement
-    * @access public
-    * @see $_finalstatement
-    */
-    public function setFinalStatement($a_statement = "")
+    public function setFinalStatement(string $a_statement) : void
     {
         $this->_finalstatement = $a_statement;
     }
@@ -1706,12 +1692,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->_showfinalstatement = ($show) ? 1 : 0;
     }
 
-    /**
-    * @see $_finalstatement
-    */
-    public function getFinalStatement() : ?string
+    public function getFinalStatement() : string
     {
-        return (strlen($this->_finalstatement)) ? $this->_finalstatement : null;
+        return $this->_finalstatement;
     }
 
     /**
@@ -9181,8 +9164,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setTitleOutput($testsettings["TitleOutput"]);
         $this->setPassScoring($testsettings["PassScoring"]);
         $this->setIntroductionEnabled($testsettings["IntroEnabled"]);
-        $this->setIntroduction($testsettings["Introduction"]);
-        $this->setFinalStatement($testsettings["FinalStatement"]);
+        $this->setIntroduction($testsettings["Introduction"] ?? '');
+        $this->setFinalStatement($testsettings["FinalStatement"] ?? '');
         $this->setShowInfo($testsettings["ShowInfo"]);
         $this->setForceJS($testsettings["ForceJS"]);
         $this->setCustomStyle($testsettings["CustomStyle"]);

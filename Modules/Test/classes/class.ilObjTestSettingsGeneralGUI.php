@@ -1547,7 +1547,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         }
 
         $this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
-        $this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue());
+        $this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue() ?? '');
 
         if ($form->getItemByPostVar('redirection_enabled')->getChecked()) {
             $this->testOBJ->setRedirectionMode($form->getItemByPostVar('redirection_mode')->getValue());

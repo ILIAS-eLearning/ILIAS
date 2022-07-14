@@ -2637,8 +2637,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if ($this->object->getShowInfo()) {
             $info->enablePrivateNotes();
         }
-        
-        if (strlen($this->object->getIntroduction())) {
+
+        if ($this->object->getIntroduction() !== '') {
             $info->addSection($this->lng->txt("tst_introduction"));
             $info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction(), true) .
                 "<br />" . $info->getHiddenToggleButton());
