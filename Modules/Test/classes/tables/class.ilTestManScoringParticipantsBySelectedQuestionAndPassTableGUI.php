@@ -163,10 +163,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             'VAL_EVALUATED',
             ($finalized) ? $this->lng->txt('yes') : $this->lng->txt('no')
         );
-        $fin_usr_id = $a_set['finalized_by_usr_id'];
+        $fin_usr_id = $a_set['finalized_by_usr_id'] ?? null;
 
         $this->tpl->setVariable('VAL_MODAL_CORRECTION', $a_set['feedback']);
-        if ($fin_usr_id > 0) {
+        if (is_numeric($fin_usr_id) && $fin_usr_id > 0) {
             $this->tpl->setVariable('VAL_FINALIZED_BY', ilObjUser::_lookupFullname($fin_usr_id));
         }
         $fin_timestamp = $a_set['finalized_tstamp'];
