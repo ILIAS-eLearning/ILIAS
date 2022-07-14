@@ -61,7 +61,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         $user_ids = array();
 
         foreach ($status_info['results'] as $user_data) {
-            if ($user_data[$resultArrayStatus]) {
+            if (isset($user_data[$resultArrayStatus]) && $user_data[$resultArrayStatus]) {
                 $user_ids[] = (int) $user_data['user_id'];
             }
         }
