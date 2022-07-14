@@ -34,7 +34,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('category');
         $this->setDefaultOrderDirection('ASC');
 
-        if ($DIC->rbac()->system()->checkAccess('write', $DIC->workflowEngine()->internal()->request()->getRefId())) {
+        if ($DIC->rbac()->system()->checkAccess('edit', $DIC->workflowEngine()->internal()->request()->getRefId())) {
             if ($this->getParentObject()->isCRUDContext()) {
                 $this->addMultiCommand('confirmDeleteCategories', $this->lng->txt('delete'));
             } else {
