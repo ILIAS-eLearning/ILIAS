@@ -25,8 +25,8 @@ use ILIAS\Administration\SettingsTemplateGUIRequest;
  */
 class ilSettingsTemplateGUI
 {
-    protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilCtrlInterface $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
 
