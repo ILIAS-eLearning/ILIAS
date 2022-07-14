@@ -127,12 +127,12 @@
       "note": "The former patch (ILIAS < 5.4.0) is not needed anymore. Use of size() has been removed from the lib."
     },
     "moment": {
-      "introduction-date": null,
+      "introduction-date": "2015-09-22",
       "approved-by": "Jour Fixe",
-      "developer": null,
-      "purpose": "",
-      "last-update-for-ilias": null,
-      "note": ""
+      "developer": "jluetzen",
+      "purpose": "Calendar",
+      "last-update-for-ilias": "2022-07-14",
+      "note": "Used for the datetime picker in the calendar component. Since 2016 this library is used in the chat component as well."
     },
     "eonasdan-bootstrap-datetimepicker": {
       "introduction-date": null,
