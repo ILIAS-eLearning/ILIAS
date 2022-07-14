@@ -37,10 +37,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      */
     private $questionTreeButtonEnabled = false;
 
-    /**
-     * @var bool
-     */
-    private $questionTreeVisible = false;
+    private bool $questionTreeVisible = false;
 
     /**
      * @var bool
@@ -137,10 +134,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         return $this->questionTreeVisible;
     }
 
-    /**
-     * @param boolean $questionTreeVisible
-     */
-    public function setQuestionTreeVisible($questionTreeVisible)
+    public function setQuestionTreeVisible(bool $questionTreeVisible) : void
     {
         $this->questionTreeVisible = $questionTreeVisible;
     }
