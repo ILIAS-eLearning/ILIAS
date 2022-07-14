@@ -3581,10 +3581,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $obligationsAnswered = true;
         
         while ($row = $ilDB->fetchAssoc($result)) {
-            $percentvalue = (
-                $row['points'] ? $arrResults[ $row['question_id'] ]['reached'] / $row['points'] : 0
-            );
-            
+            if(!isset($arrResults[ $row['question_id'] ])) {
+                $percentvalue = 0.0;
+            } else {
+                $percentvalue = (
+                $row['points'] ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0
+                );
+            }
             if ($percentvalue < 0) {
                 $percentvalue = 0.0;
             }
