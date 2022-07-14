@@ -166,7 +166,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
                 if ($new_tax_ids !== false) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage( (int)$tid, $new);
+                        ilObjTaxonomy::saveUsage((int) $tid, $new);
                     }
                 }
                 

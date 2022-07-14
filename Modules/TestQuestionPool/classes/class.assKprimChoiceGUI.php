@@ -507,7 +507,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
             $template->setCurrentBlock("answer_row");
             $template->setVariable("ANSWER_ID", $answer_id);
-            $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput((string)$answer->getAnswertext(), true));
+            $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput((string) $answer->getAnswertext(), true));
             $template->setVariable('VALUE_TRUE', 1);
             $template->setVariable('VALUE_FALSE', 0);
 

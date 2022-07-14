@@ -100,7 +100,6 @@ abstract class ilTestProcessLocker
 
     protected function onBeforeExecutingNamedOperation(string $operationDescriptor) : void
     {
-        
     }
 
     protected function onAfterExecutingNamedOperation(string $operationDescriptor) : void

@@ -968,16 +968,16 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     
     public function isAddableAnswerOptionValue(int $qIndex, string $answerOptionValue) : bool
     {
-            $found = false;
+        $found = false;
 
-            foreach ($this->getAnswers() as $item) {
-                if ($answerOptionValue !== $item->getAnswerText()) {
-                    continue;
-                }
-
-                $found = true;
-                break;
+        foreach ($this->getAnswers() as $item) {
+            if ($answerOptionValue !== $item->getAnswerText()) {
+                continue;
             }
+
+            $found = true;
+            break;
+        }
 
         return !$found;
     }

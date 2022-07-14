@@ -3581,11 +3581,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $obligationsAnswered = true;
         
         while ($row = $ilDB->fetchAssoc($result)) {
-            if(!isset($arrResults[ $row['question_id'] ])) {
+            if (!isset($arrResults[ $row['question_id'] ])) {
                 $percentvalue = 0.0;
             } else {
                 $percentvalue = (
-                $row['points'] ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0
+                    $row['points'] ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0
                 );
             }
             if ($percentvalue < 0) {
@@ -6677,7 +6677,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->loadQuestions();
             $num = count($this->questions);
         }
-        if($num === null) {
+        if ($num === null) {
             $num = 0;
         }
 
@@ -8688,7 +8688,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if ($this->isHTML($a_material)) {
             $attrs["texttype"] = "text/xhtml";
         }
-        $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+        $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc((string) $a_material, 0));
 
         $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
         foreach ($mobs as $mob) {
@@ -9450,7 +9450,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
-            $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+            $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'] ?? '', 1);
         } else {
             $DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for " .
                 "active_fi = $active_id , question_fi = $question_id and pass = $pass");
@@ -9483,7 +9483,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $pass = $row['pass'];
             $question = $row['question_fi'];
 
-            $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+            $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'] ?? '', 1);
 
             $feedback[$active][$pass][$question] = $row;
         }
@@ -9551,7 +9551,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             'active_fi' => [ 'integer', $active_id],
             'question_fi' => [ 'integer', $question_id],
             'pass' => [ 'integer', $pass],
-            'feedback' => [ 'clob', ilRTE::_replaceMediaObjectImageSrc($feedback, 0)],
+            'feedback' => [ 'clob', ilRTE::_replaceMediaObjectImageSrc((string) $feedback, 0)],
             'tstamp' => [ 'integer', time()]
         ];
 

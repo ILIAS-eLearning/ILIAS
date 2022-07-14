@@ -90,7 +90,7 @@ class ilMarkSchemaGUI
         foreach ($postdata as $key => $value) {
             if (preg_match('/mark_short_(\d+)/', $key, $matches)) {
                 $passed = "0";
-                if(isset($postdata["passed_$matches[1]"])) {
+                if (isset($postdata["passed_$matches[1]"])) {
                     $passed = "1";
                 }
 

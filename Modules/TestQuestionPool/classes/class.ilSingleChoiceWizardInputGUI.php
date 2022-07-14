@@ -59,7 +59,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
-                    $answer = new ASS_AnswerBinaryStateImage((string)$value, (float)$a_value['points'][$index], (int)$index, 1, "", -1);
+                    $answer = new ASS_AnswerBinaryStateImage((string) $value, (float) $a_value['points'][$index], (int) $index, 1, "", -1);
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
                     } else {
@@ -222,7 +222,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (isset($foundvalues['imagename'])) &&  (strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (((strlen($answervalue)) == 0) && (isset($foundvalues['imagename'])) && (strlen($foundvalues['imagename'][$aidx]) == 0)) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }

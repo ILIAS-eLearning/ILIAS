@@ -119,7 +119,6 @@ class ilTestSession
         $submitted = ($this->isSubmitted()) ? 1 : 0;
         $active = ilSession::get($this->active_id);
         if (!isset($active['tst_last_increase_pass']) || $active['tst_last_increase_pass'] !== null) {
-
             $active['tst_last_increase_pass'] = 0;
             //ilSession::set($this->active_id, $active);
             //$_SESSION[$this->active_id]['tst_last_increase_pass'] = 0;
