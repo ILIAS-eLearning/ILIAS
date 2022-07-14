@@ -546,6 +546,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $basedir = ilObjQuestionPool::_createImportDirectory();
 
+        $xml_file = '';
+        $qti_file = '';
+        $subdir = '';
+
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         // copy uploaded file to import directory
         $file = pathinfo($_FILES["xmldoc"]["name"]);
