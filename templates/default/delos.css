@@ -10472,6 +10472,16 @@ footer {
     border-top: none;
   }
 }
+/*
+**************************************************************
+	Print View
+**************************************************************
+*/
+@media print {
+  .il-system-infos {
+    display: none;
+  }
+}
 .il-drilldown ul {
   list-style: none;
   padding: 0;
