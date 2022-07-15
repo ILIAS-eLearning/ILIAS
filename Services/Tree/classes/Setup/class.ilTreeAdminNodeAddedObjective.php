@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
 
@@ -69,14 +67,19 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
 
     public function achieve(Environment $environment) : Environment
     {
+        global $DIC;
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $DIC['ilDB'] = $DIC['ilDB'] ?? $db;
 
         if (!defined("ROOT_FOLDER_ID")) {
             define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
         }
         if (!defined("SYSTEM_FOLDER_ID")) {
             define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
+        }
+        if (!defined("ILIAS_LOG_ENABLED")) {
+            define("ILIAS_LOG_ENABLED", false);
         }
 
         $obj_type_id = $db->nextId("object_data");
@@ -110,8 +113,12 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
         ];
         $db->insert("object_reference", $values);
 
-        $tree = new ilTree(ROOT_FOLDER_ID);
-        $tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+        $tree = new ilTree(
+            ROOT_FOLDER_ID,
+            0,
+            $db
+        );
+        $tree->insertNode((int) $ref_id, (int) SYSTEM_FOLDER_ID);
 
         foreach ($this->rbac_ops as $ops_id) {
             if (ilRbacReview::_isRBACOperation($obj_type_id, $ops_id)) {
@@ -123,7 +130,6 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
             ];
             $db->insert("rbac_ta", $values);
         }
-
         return $environment;
     }
 
