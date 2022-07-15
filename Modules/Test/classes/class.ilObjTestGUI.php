@@ -493,7 +493,19 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $gui = new ilTestQuestionBrowserTableGUI($this->ctrl, $this->tpl, $ilTabs, $this->lng, $tree, $ilDB, $ilPluginAdmin, $this->getTestObject(), $ilAccess);
+                $gui = new ilTestQuestionBrowserTableGUI(
+                    $this->ctrl,
+                    $this->tpl,
+                    $ilTabs,
+                    $this->lng,
+                    $tree,
+                    $ilDB,
+                    $ilPluginAdmin,
+                    $this->getTestObject(),
+                    $ilAccess,
+                    $DIC->http(),
+                    $DIC->refinery()
+                );
                 $gui->setWriteAccess($ilAccess->checkAccess("write", "", $this->ref_id));
                 $gui->init();
                 $this->ctrl->forwardCommand($gui);

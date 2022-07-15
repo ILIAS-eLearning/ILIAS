@@ -59,7 +59,11 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $this->setSelectText($lng->txt("select"));
     }
 
-    public function setValue(string $a_value) : void
+    /**
+     * @param int|string $a_value
+     * @return void
+     */
+    public function setValue($a_value) : void
     {
         $this->value = (int) $a_value;
     }
