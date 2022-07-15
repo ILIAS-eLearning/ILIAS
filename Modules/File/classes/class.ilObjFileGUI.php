@@ -598,21 +598,17 @@ class ilObjFileGUI extends ilObject2GUI
      */
     public function infoScreenForward() : void
     {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-        $ilErr = $DIC['ilErr'];
-        $ilToolbar = $DIC['ilToolbar'];
-
-        $ilTabs->activateTab("id_info");
+        $this->tabs_gui->activateTab("id_info");
 
         if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
+            $GLOBALS['DIC']['ilErr']->raiseError($this->lng->txt("msg_no_perm_read"));
         }
 
         $info = new ilInfoScreenGUI($this);
 
         if ($this->checkPermissionBool("read", "sendfile")) {
             $button = ilLinkButton::getInstance();
+            $button->setTarget('_blank');
             $button->setCaption("file_download");
             $button->setPrimary(true);
 
@@ -623,7 +619,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $button->setUrl($this->ctrl->getLinkTarget($this, "sendfile"));
             }
 
-            $ilToolbar->addButtonInstance($button);
+            $this->toolbar->addButtonInstance($button);
         }
 
         $info->enablePrivateNotes();
