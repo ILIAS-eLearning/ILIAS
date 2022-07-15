@@ -730,7 +730,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
-        $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
+        $registry->register('./node_modules/moment/min/moment-with-locales.min.js');
         $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
 
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
