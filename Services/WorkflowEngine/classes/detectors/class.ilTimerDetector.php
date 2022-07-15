@@ -205,7 +205,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
         $this->deleteDetectorFromDb();
     }
 
-    public function setDbId(int $a_id) : void
+    public function setDbId(?int $a_id) : void
     {
         $this->db_id = $a_id;
     }

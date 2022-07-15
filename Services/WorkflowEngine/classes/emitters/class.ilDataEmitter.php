@@ -39,7 +39,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      */
     private bool $emitted;
 
-    protected ?string $name = null;
+    protected $name;
 
     protected string $var_name = '';
 

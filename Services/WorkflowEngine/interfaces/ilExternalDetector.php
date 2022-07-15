@@ -30,7 +30,7 @@ interface ilExternalDetector extends ilDetector
 {
     // Event listener table persistence scheme.
 
-    public function setDbId(int $a_id) : void;
+    public function setDbId(?int $a_id) : void;
 
     /**
      * @return mixed

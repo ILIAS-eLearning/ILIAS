@@ -142,7 +142,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
         $this->onStartWorkflow();
 
         // Figure out, if there is a start-node set - or nodes at all.
-        if ($this->start_node == null) {
+        if ($this->start_node === null) {
             if (count($this->nodes) !== 0) {
                 $this->start_node = $this->nodes[0];
             } else {
@@ -290,7 +290,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function getDbId() : int
     {
-        if ($this->db_id != null) {
+        if ($this->db_id !== null) {
             return $this->db_id;
         }
 
@@ -303,7 +303,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function hasDbId() : bool
     {
-        if ($this->db_id == 0) {
+        if ($this->db_id === 0) {
             return false;
         }
         return true;
