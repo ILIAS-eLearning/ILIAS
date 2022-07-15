@@ -66,10 +66,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->object->flushDefinitions();
 
         // add terms
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+        $terms = $form->getItemByPostVar('terms');
         foreach ($_POST['terms']['answer'] as $index => $answer) {
             $filename = $_POST['terms']['imagename'][$index] ?? '';
-            if (($_FILES['terms']['name']['image'][$index] ?? '') !== '') {
+            if (($_FILES['terms']['name']['image'][$index] ?? '') !== '' &&
+                in_array($_FILES['terms']['type']['image'][$index] ?? '', ['image/jpeg', 'image/png', 'image/gif'])
+            ) {
                 // upload the new file
                 $name = $_FILES['terms']['name']['image'][$index];
                 if ($this->object->setImageFile(
@@ -88,10 +90,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             );
         }
         // add definitions
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';
+        $definitions = $form->getItemByPostVar('definitions');
         foreach ($_POST['definitions']['answer'] as $index => $answer) {
             $filename = $_POST['definitions']['imagename'][$index] ?? '';
-            if (($_FILES['definitions']['name']['image'][$index] ?? '') !== '') {
+            if (($_FILES['definitions']['name']['image'][$index] ?? '') !== '' &&
+                in_array($_FILES['definitions']['type']['image'][$index] ?? '', ['image/jpeg', 'image/png', 'image/gif'])
+            ) {
                 // upload the new file
                 $name = $_FILES['definitions']['name']['image'][$index];
                 if ($this->object->setImageFile(
@@ -111,10 +115,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         // add matching pairs
         if (is_array($_POST['pairs']['points'])) {
-            require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
             foreach ($_POST['pairs']['points'] as $index => $points) {
-                $term_id = $_POST['pairs']['term'][$index];
-                $definition_id = $_POST['pairs']['definition'][$index];
+                $term_id = $_POST['pairs']['term'][$index] ?? 0;
+                $definition_id = $_POST['pairs']['definition'][$index] ?? 0;
                 $this->object->addMatchingPair(
                     $this->object->getTermWithIdentifier($term_id),
                     $this->object->getDefinitionWithIdentifier($definition_id),
