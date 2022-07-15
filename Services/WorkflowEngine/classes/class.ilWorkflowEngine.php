@@ -139,10 +139,7 @@ class ilWorkflowEngine
         }
     }
 
-    /**
-     * @param ilExtractedParams $extractedParams
-     */
-    public function launchArmedWorkflows($component, $event, ilExtractedParams $extractedParams) : void// TODO PHP8-REVIEW Type hints or corresponding PHPDoc missing
+    public function launchArmedWorkflows(string $component, string $event, ilExtractedParams $extractedParams) : void
     {
         global $DIC;
         /** @var ilSetting $ilSetting */

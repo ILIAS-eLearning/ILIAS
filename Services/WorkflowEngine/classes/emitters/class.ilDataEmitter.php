@@ -39,7 +39,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      */
     private bool $emitted;
 
-    protected $name;// TODO PHP8-REVIEW Type or corresponding PHPDoc missing
+    protected ?string $name = null;
 
     protected string $var_name = '';
 

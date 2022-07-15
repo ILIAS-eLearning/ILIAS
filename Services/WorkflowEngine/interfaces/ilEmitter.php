@@ -28,8 +28,6 @@
  */
 interface ilEmitter
 {
-    /**
-     * @return mixed
-     */
-    public function emit() : void;// TOOD PHP8-REVIEW mixed is not subtype of void
+
+    public function emit() : void;
 }

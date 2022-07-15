@@ -149,7 +149,7 @@ class ilWorkflowScaffold
         $this->auxilliary_methods[] = $auxilliary_method;
     }
 
-    public function __construct($bpmn2_array)// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
+    public function __construct(array $bpmn2_array)
     {
         $this->registerRequire('./Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php');
         $this->bpmn2_array = $bpmn2_array;
@@ -161,7 +161,7 @@ class ilWorkflowScaffold
         return $this->constructor_method_content;
     }
 
-    public function setConstructorMethodContent($constructor_method_content) : void// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
+    public function setConstructorMethodContent(string $constructor_method_content) : void
     {
         $this->constructor_method_content = $constructor_method_content;
     }

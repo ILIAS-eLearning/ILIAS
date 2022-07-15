@@ -91,12 +91,12 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
         $this->target_detector->trigger([]);
     }
 
-    public function setName($name)
+    public function setName( ?string $name) : void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName() : ?string
     {
         return $this->name;
     }

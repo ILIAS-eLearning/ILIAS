@@ -33,17 +33,11 @@ interface ilWorkflowEngineElement
      * This method returns the context of the element. Due to the hierarchical
      * structure of the workflow engine, this is a reference to the parent object.
      * Using this, the caller can traverse through the tree of elements.
+     * @return mixed;
      */
-    public function getContext();// TOOD PHP8-REVIEW Missing return type or corresponding PHPDoc comment
+    public function getContext();
 
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function setName($name);// TOOD PHP8-REVIEW Missing type hint or corresonding PHPDoc comment
+    public function setName( ?string $name) : void;
 
-    /**
-     * @return mixed
-     */
-    public function getName();
+    public function getName() : ?string;
 }

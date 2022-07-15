@@ -28,11 +28,7 @@
  */
 interface ilDetector
 {
-    /**
-     * @param $params
-     * @return null|bool
-     */
-    public function trigger($params) : ?bool;// TOOD PHP8-REVIEW Missing type hint or PHPDoc
+    public function trigger( ?array $params) : ?bool;
 
     /**
      * @return mixed

@@ -36,7 +36,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      */
     private bool $detection_state = false;
 
-    protected $name;// TODO PHP8-REVIEW Type or corresponding PHPDoc missing
+    protected ?string $name = null;
 
     protected ?ilNode $source_node = null;
 

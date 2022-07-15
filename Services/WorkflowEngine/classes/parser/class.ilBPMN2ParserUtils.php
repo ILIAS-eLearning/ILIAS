@@ -27,22 +27,13 @@ class ilBPMN2ParserUtils
     #region XML to Array conversion
     // as per http://php.net/manual/en/simplexmlelement.children.php#100603
 
-    /**
-     * @param string $xml_string
-     */
-    public function load_string(string $xml_string)// TODO PHP8-REVIEW Return type or corresponding PHPDoc missing
+    public function load_string(string $xml_string) : array
     {
         $node = new SimpleXMLElement($xml_string);
         return $this->add_node($node);
     }
 
-    /**
-     * @param        $node
-     * @param null   $parent
-     * @param string $namespace
-     * @param bool   $recursive
-     */
-    private function add_node($node, &$parent = null, string $namespace = '', bool $recursive = false)// TODO PHP8-REVIEW Return type or corresponding PHPDoc missing
+    private function add_node($node, &$parent = null, string $namespace = '', bool $recursive = false) : array
     {
         $namespaces = $node->getNameSpaces(true);
         $content = (string) $node;

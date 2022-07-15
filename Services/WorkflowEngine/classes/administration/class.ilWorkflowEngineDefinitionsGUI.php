@@ -139,7 +139,7 @@ class ilWorkflowEngineDefinitionsGUI
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @noinspection PhpInconsistentReturnPointsInspection
      */
-    public function handleUploadSubmit()// TODO PHP8-REVIEW Missing return type or PHPDoc comment
+    public function handleUploadSubmit() : ?string
     {
         $this->processUploadFormCancellation();
 

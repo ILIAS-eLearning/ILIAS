@@ -30,12 +30,7 @@ interface ilExternalDetector extends ilDetector
 {
     // Event listener table persistence scheme.
 
-    /**
-     * @param $a_id
-     *
-     * @return mixed
-     */
-    public function setDbId($a_id) : void;// TOOD PHP8-REVIEW mixed is not subtype of void / Missing type hint or corresponding PHPDoc comment
+    public function setDbId(int $a_id) : void;
 
     /**
      * @return mixed
