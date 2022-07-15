@@ -18,13 +18,11 @@
 
 namespace ILIAS\EmployeeTalk\Setup;
 
-use ilOrgUnitOperationContextQueries;
-use ilOrgUnitOperationContext;
-use ilOrgUnitOperationQueries;
-use ilOrgUnitOperation;
-use ilTree;
 use ILIAS\Modules\EmployeeTalk\TalkSeries\Entity\EmployeeTalkSerieSettings;
-use ilUtil;
+use ilOrgUnitOperation;
+use ilOrgUnitOperationContext;
+use ilOrgUnitOperationContextQueries;
+use ilOrgUnitOperationQueries;
 
 /**
  * @author Nicolas Schaefli <nick@fluxlabs.ch>
@@ -38,7 +36,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db = $db;
     }
 
-    private function useTransaction(callable $updateStep): void
+    private function useTransaction(callable $updateStep) : void
     {
         try {
             if ($this->db->supportsTransactions()) {
@@ -100,28 +98,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_1() : void
     {
-        $this->useTransaction(function (\ilDBInterface $db) {
-            // create object data entry
-            $id = $db->nextId("object_data");
-            $db->manipulateF(
-                "INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) " .
-                "VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
-                array($id, "tala", "__TalkTemplateAdministration", "Talk Templates", -1, ilUtil::now(), ilUtil::now())
-            );
-
-            // create object reference entry
-            $ref_id = $db->nextId('object_reference');
-            $res = $db->manipulateF(
-                "INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
-                array("integer", "integer"),
-                array($ref_id, $id)
-            );
-
-            // put in tree
-            $tree = new ilTree(ROOT_FOLDER_ID);
-            $tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
-        });
+        // removed this content in favour of a ilTreeAdminNodeAddedObjective
     }
 
     public function step_2() : void
@@ -195,7 +172,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
     public function step_5() : void
     {
         $this->useTransaction(function (\ilDBInterface $db) {
-            EmployeeTalkSerieSettings::updateDB();
+            EmployeeTalkSerieSettings::updateDB(); // Please do not use updateDB in core!
         });
     }
 }
