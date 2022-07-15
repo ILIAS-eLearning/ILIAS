@@ -290,7 +290,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function getDbId() : int
     {
-        if ($this->db_id !== null) {
+        if ($this->db_id != null) {
             return $this->db_id;
         }
 
@@ -303,7 +303,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function hasDbId() : bool
     {
-        if ($this->db_id === 0) {
+        if ($this->db_id == 0) {
             return false;
         }
         return true;
