@@ -543,11 +543,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
     
     /**
-     * @deprecated
+     * @deprecated no longer available since it's unclear/unspecified how to export
      */
     public function export(string $a_target_dir) : void
     {
-        $this->implementation->export($a_target_dir);
+        //
     }
     
     
