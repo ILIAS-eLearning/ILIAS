@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Output class for assessment test execution
@@ -168,7 +181,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->testSession->setUserId($ilUser->getId());
         $access_code = ilSession::get('tst_access_code');
         if ($access_code != null && isset($access_code[$this->object->getTestId()])) {
-            $this->testSession->setAnonymousId($access_code[$this->object->getTestId()]);
+            $this->testSession->setAnonymousId((int) $access_code[$this->object->getTestId()]);
         }
         $this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainer()->getObjId());
         $this->testSession->saveToDb();

@@ -35,7 +35,8 @@ class ilTestSession
     private int $pass;
     public int $active_id;
     public int $user_id;
-    public ?int $anonymous_id;
+    /** @var int|string|null */
+    public $anonymous_id = null;
     public int $test_id;
     public int $lastsequence;
     protected ?string $lastPresentationMode;
@@ -100,7 +101,7 @@ class ilTestSession
                 $row = $ilDB->fetchAssoc($result);
                 $this->active_id = (int) $row["active_id"];
                 $this->user_id = (int) $row["user_fi"];
-                $this->anonymous_id = (int) $row["anonymous_id"];
+                $this->anonymous_id = $row["anonymous_id"];
                 $this->test_id = (int) $row["test_fi"];
                 $this->lastsequence = (int) $row["lastindex"];
                 $this->pass = (int) $row["tries"];
@@ -189,7 +190,7 @@ class ilTestSession
             );
         } else {
             if (!$this->activeIDExists($this->getUserId(), $this->getTestId())) {
-                $anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : null;
+                $anonymous_id = $this->getAnonymousId() ?: null;
 
                 $next_id = $ilDB->nextId('tst_active');
                 $ilDB->insert(
@@ -325,13 +326,20 @@ class ilTestSession
     {
         return $this->test_id;
     }
-    
-    public function setAnonymousId($anonymous_id)
+
+    /**
+     * @param int|null|string $anonymous_id
+     * @return void
+     */
+    public function setAnonymousId($anonymous_id) : void
     {
         $this->anonymous_id = $anonymous_id;
     }
-    
-    public function getAnonymousId() : int
+
+    /**
+     * @return int|string|null
+     */
+    public function getAnonymousId()
     {
         return $this->anonymous_id;
     }
