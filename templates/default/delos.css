@@ -10560,6 +10560,16 @@ footer {
     border-top: none;
   }
 }
+/*
+**************************************************************
+	Print View
+**************************************************************
+*/
+@media print {
+  .il-system-infos {
+    display: none;
+  }
+}
 .il-drilldown ul,
 .il-drilldown li {
   padding: 0;
