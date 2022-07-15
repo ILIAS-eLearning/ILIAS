@@ -193,7 +193,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         foreach ($assignments as $assignment) {
             $assignment->delete();
         }
-        ilUtil::sendSuccess($this->language->txt('remove_successful'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->language->txt('remove_successful'), true);
         $this->cancel();
     }
 
