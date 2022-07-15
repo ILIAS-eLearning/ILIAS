@@ -55,7 +55,7 @@ class ilSearchObjectListFactory
         $full_class = "ilObj" . $class . "ListGUI";
 
         include_once($location . "/class." . $full_class . ".php");
-        $item_list_gui = new $full_class();
+        $item_list_gui = new $full_class(ilObjectListGUI::CONTEXT_SEARCH);
 
         $item_list_gui->enableDelete(false);
         $item_list_gui->enablePath(true);
