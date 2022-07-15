@@ -670,7 +670,8 @@ class Renderer extends AbstractComponentRenderer
         foreach ($input->getDynamicInputs() as $metadata_input) {
             $file_info = null;
             if (null !== ($data = $metadata_input->getValue())) {
-                $file_id = $data[$input->getUploadHandler()->getFileIdentifierParameterName()] ?? null;
+                $file_id = (!$input->hasMetadataInputs()) ?
+                    $data : $data[$input->getUploadHandler()->getFileIdentifierParameterName()] ?? null;
 
                 if (null !== $file_id) {
                     $file_info = $input->getUploadHandler()->getInfoResult($file_id);

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field\Input as InputInterface;
@@ -49,6 +49,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         ?InputInterface $metadata_input,
         ?string $byline
     ) {
+        $this->max_file_size = $this->getMaxFileSizeDefault();
         $this->language = $language;
         $this->data_factory = $data_factory;
         $this->refinery = $refinery;

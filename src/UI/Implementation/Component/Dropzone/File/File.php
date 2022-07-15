@@ -65,6 +65,7 @@ abstract class File implements FileInterface
         string $post_url,
         ?Input $metadata_input = null
     ) {
+        $this->max_file_size = $this->getMaxFileSizeDefault();
         $this->input_factory = $input_factory;
         $this->language = $language;
         $this->upload_handler = $upload_handler;
