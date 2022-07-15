@@ -143,8 +143,10 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
 
             $ilFileDelivery = new \ilFileDelivery($file);
             $ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
-            $ilFileDelivery->setConvertFileNameToAsci((bool) !$ilClientIniFile->readVariable('file_access',
-                'disable_ascii'));
+            $ilFileDelivery->setConvertFileNameToAsci((bool) !$ilClientIniFile->readVariable(
+                'file_access',
+                'disable_ascii'
+            ));
 
             // also returning the 'real' filename if a history file is delivered
             if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename')
@@ -191,10 +193,10 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
         return (int) $v2["version"] - (int) $v1["version"];
     }
 
-    public function export($a_target_dir)
+    public function export(string $target_dir) : void
     {
         $subdir = "il_" . IL_INST_ID . "_file_" . $this->getId();
-        ilUtil::makeDir($a_target_dir . "/objects/" . $subdir);
+        ilUtil::makeDir($target_dir . "/objects/" . $subdir);
 
         $filedir = $this->getDirectory($this->getVersion()); // FSX
 
@@ -202,7 +204,7 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
             $filedir = $this->getDirectory();
         }
 
-        ilUtil::rCopy($filedir, $a_target_dir . "/objects/" . $subdir);
+        ilUtil::rCopy($filedir, $target_dir . "/objects/" . $subdir);
     }
 
     /**
@@ -281,27 +283,22 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
 
         // BEGIN bugfix #31730
         // if more than 2 commas are detected, the need for reassembling the filename is: possible to necessary
-        if (sizeof($data) > 2)
-        {
-          $last = sizeof($data) - 1;
-          for ($n = 1; $n < $last - 1; $n++)
-          {
-            $data[0] .= "," . $data[$n];
-          }
+        if (sizeof($data) > 2) {
+            $last = sizeof($data) - 1;
+            for ($n = 1; $n < $last - 1; $n++) {
+                $data[0] .= "," . $data[$n];
+            }
 
-          // trying to distinguish the next-to-last being a 'last part of the filename'
-          // or a 'version information',  based on having a dot included or not
-          if (strpos($data[$last - 1], ".") !== false)
-          {
-            $data[0] .= "," . $data[$last - 1];
-            $data[1] = $data[$last];
-            $data[2] = $data[$last];
-          }
-          else
-          {
-            $data[1] = $data[$last - 1];
-            $data[2] = $data[$last];
-          }
+            // trying to distinguish the next-to-last being a 'last part of the filename'
+            // or a 'version information',  based on having a dot included or not
+            if (strpos($data[$last - 1], ".") !== false) {
+                $data[0] .= "," . $data[$last - 1];
+                $data[1] = $data[$last];
+                $data[2] = $data[$last];
+            } else {
+                $data[1] = $data[$last - 1];
+                $data[2] = $data[$last];
+            }
         }
         // END bugfix #31730
         
@@ -406,5 +403,4 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
     {
         return '-';
     }
-
 }

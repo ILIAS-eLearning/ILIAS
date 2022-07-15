@@ -125,7 +125,9 @@ interface ilObjFileImplementationInterface
      *                           )
      */
     public function getVersions($version_ids = null) : array;
-
-    public function export($a_target_dir);
-
+    
+    /**
+     * @depracated
+     */
+    public function export(string $target_dir) : void;
 }
