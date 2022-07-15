@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
@@ -113,8 +129,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $r = $DIC->http()->request()->getParsedBody();
         foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
             $item = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
-            $item->setPosition((int) $data['position']);
-            $item->setActiveStatus((bool) $data['active']);
+            $item->setPosition((int) ($data['position'] ?? 999));
+            $item->setActiveStatus((bool) ($data['active'] ?? false));
             $this->repository->updateItem($item);
         }
         $this->cancel();
