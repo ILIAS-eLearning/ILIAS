@@ -25,7 +25,7 @@ class ilADTIntegerFormBridge extends ilADTFormBridge
         if ($max !== null) {
             $number->setMaxValue($max);
 
-            $length = strlen($max);
+            $length = strlen(strval($max));
             $number->setSize($length);
             $number->setMaxLength($length);
         }

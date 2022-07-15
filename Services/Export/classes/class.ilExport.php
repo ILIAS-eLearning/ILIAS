@@ -545,6 +545,7 @@ class ilExport
 
         $sv = $exp->determineSchemaVersion($a_entity, $a_target_release);
         $sv["uses_dataset"] ??= false;
+        $sv['xsd_file'] ??= '';
         $this->log->debug("schema version for entity: $a_entity, target release: $a_target_release");
         $this->log->debug("...is: " . $sv["schema_version"] . ", namespace: " . $sv["namespace"] .
             ", xsd file: " . $sv["xsd_file"] . ", uses_dataset: " . ((int) $sv["uses_dataset"]));
