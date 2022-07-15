@@ -128,7 +128,7 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
                 // no break
             default:
                 $search_gui = new ilSearchGUI();
-                $this->ctrl->setCmdClass(ilSearchGUI::class);
+                $this->ctrl->setCmdClass(ilSearchGUI::class); // required to fix ctrl issues like ilCtrl cannot find a path for 'ilobjectcopygui' that reaches 'ilSearchControllerGUI'
                 $this->ctrl->forwardCommand($search_gui);
                 break;
         }
