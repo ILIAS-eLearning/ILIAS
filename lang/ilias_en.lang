@@ -4797,7 +4797,7 @@ common#:#obj_facs_desc#:#Settings for files and file handling
 common#:#obj_facs#:#Files
 common#:#obj_file_duplicate#:#Duplicate File
 common#:#obj_file#:#File
-common#:#obj_file_inline#:#Learning Module File
+common#:#obj_file_inline#:#Inline File
 common#:#obj_fils_desc#:#Configuration of File Service Settings.
 common#:#obj_fils#:#File Services
 common#:#objf#:#Object definitions
