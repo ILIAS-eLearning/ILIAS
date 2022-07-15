@@ -88,23 +88,18 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // add terms
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
         foreach ($_POST['terms']['answer'] as $index => $answer) {
-            if (isset($_POST['terms']['imagename'])) {
-                $filename = $_POST['terms']['imagename'][$index];
-                if (strlen($_FILES['terms']['name']['image'][$index])) {
-                    // upload the new file
-                    $name = $_FILES['terms']['name']['image'][$index];
-                    if ($this->object->setImageFile(
-                        $_FILES['terms']['tmp_name']['image'][$index],
-                        $this->object->getEncryptedFilename($name)
-                    )
-                    ) {
-                        $filename = $this->object->getEncryptedFilename($name);
-                    } else {
-                        $filename = "";
-                    }
+            $filename = $_POST['terms']['imagename'][$index] ?? '';
+            if (($_FILES['terms']['name']['image'][$index] ?? '') !== '') {
+                // upload the new file
+                $name = $_FILES['terms']['name']['image'][$index];
+                if ($this->object->setImageFile(
+                    $_FILES['terms']['tmp_name']['image'][$index],
+                    $this->object->getEncryptedFilename($name)
+                )) {
+                    $filename = $this->object->getEncryptedFilename($name);
+                } else {
+                    $filename = "";
                 }
-            } else {
-                $filename = '';
             }
             // @PHP8-CR: There seems to be a bigger issue lingering here and won't suppress / "quickfix" this but
             // postpone further analysis, eventually involving T&A TechSquad (see also remark in assMatchingQuestionGUI
@@ -115,23 +110,19 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // add definitions
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';
         foreach ($_POST['definitions']['answer'] as $index => $answer) {
-            if (isset($_POST['definitions']['imagename'])) {
-                $filename = $_POST['definitions']['imagename'][$index];
-                if (strlen($_FILES['definitions']['name']['image'][$index])) {
-                    // upload the new file
-                    $name = $_FILES['definitions']['name']['image'][$index];
-                    if ($this->object->setImageFile(
-                        $_FILES['definitions']['tmp_name']['image'][$index],
-                        $this->object->getEncryptedFilename($name)
-                    )
-                    ) {
-                        $filename = $this->object->getEncryptedFilename($name);
-                    } else {
-                        $filename = "";
-                    }
+            $filename = $_POST['definitions']['imagename'][$index] ?? '';
+            if (($_FILES['definitions']['name']['image'][$index] ?? '') !== '') {
+                // upload the new file
+                $name = $_FILES['definitions']['name']['image'][$index];
+                if ($this->object->setImageFile(
+                    $_FILES['definitions']['tmp_name']['image'][$index],
+                    $this->object->getEncryptedFilename($name)
+                )
+                ) {
+                    $filename = $this->object->getEncryptedFilename($name);
+                } else {
+                    $filename = "";
                 }
-            } else {
-                $filename = '';
             }
             $this->object->addDefinition(
                 new assAnswerMatchingDefinition($answer, $filename, $_POST['definitions']['identifier'][$index])
