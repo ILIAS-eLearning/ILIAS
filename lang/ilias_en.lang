@@ -2547,7 +2547,7 @@ book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, 
 book#:#book_schedule_type_none#:#No Schedule
 book#:#book_schedule_type_none_preference_info#:#This type can be used for seminar papers, seminar places and such. Participants will indicate their preferences. Items will be assigned automatically after the preferences deadline.
 book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
-book#:#book_schedule_type#:#Type
+book#:#book_schedule_type#:#Booking Mode
 book#:#book_schedule_updated#:#The booking schedule has been updated.
 book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking (or switch to a different type of pool).
 book#:#book_select_pool#:#Select Pool

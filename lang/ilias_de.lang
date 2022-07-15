@@ -2563,7 +2563,7 @@ book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatstheme
 book#:#book_schedule_type_none#:#Ohne Zeitplan verteilen
 book#:#book_schedule_type_none_preference_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc. Teilnehmer können zunächst Präferenzen nennen. Nach einer Frist werden dann die Buchungen automatisch vorgenommen.
 book#:#book_schedule_type_none_preference#:#Ohne Zeitplan, mit Präferenzen
-book#:#book_schedule_type#:#Typ
+book#:#book_schedule_type#:#Buchungsmodus
 book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
 book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden (oder der Typ des Buchungspools geändert werden).
 book#:#book_schedule#:#Zeitplan
