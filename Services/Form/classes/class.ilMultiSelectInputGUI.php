@@ -274,7 +274,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
     {
         $data = unserialize($a_data);
 
-        if (is_array($a_data)) {
+        if (is_array($data)) {
             $this->setValue($data);
         } else {
             $this->setValue([]);
