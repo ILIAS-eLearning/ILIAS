@@ -2770,32 +2770,32 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
     
     /**
-     * @param array $removeQuestionIds
+     * @param int[] $removeQuestionIds
      */
-    public function removeQuestions($removeQuestionIds)
+    public function removeQuestions(array $removeQuestionIds) : void
     {
         foreach ($removeQuestionIds as $value) {
-            $this->removeQuestion($value);
+            $this->removeQuestion((int) $value);
         }
         
         $this->reindexFixedQuestionOrdering();
     }
-    
-    /**
-    * Removes a question from the test object
-    *
-    * @param integer $question_id The database id of the question to be removed
-    * @access public
-    * @see $test_id
-    */
-    public function removeQuestion($question_id)
+
+    public function removeQuestion(int $question_id) : void
     {
-        $question = ilObjTest::_instanciateQuestion($question_id);
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
+        try {
+            $question = self::_instanciateQuestion($question_id);
+            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+                $this->logAction(
+                    $this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()),
+                    $question_id
+                );
+            }
+            $question->delete($question_id);
+        } catch (InvalidArgumentException $e) {
+            $this->log->error($e->getMessage());
+            $this->log->error($e->getTraceAsString());
         }
-        $question->delete($question_id);
     }
     
     /**
@@ -4905,19 +4905,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Creates an instance of a question with a given question id
-    *
-    * @param integer $question_id The question id
-    * @access public
-     *
+     * Creates an instance of a question with a given question id
+     * @param int $question_id The question id
+     * @throws InvalidArgumentException
      * @deprecated use assQuestion::_instanciateQuestion($question_id) instead
-    */
+     */
     public static function _instanciateQuestion($question_id) : ?assQuestion
     {
-        if (strcmp($question_id, "") != 0) {
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+        if (strcmp((string) $question_id, "") !== 0) {
             return assQuestion::instantiateQuestion($question_id);
         }
+
         return null;
     }
 
@@ -6614,12 +6612,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $newObj;
     }
 
-    /**
-    * Returns the number of questions in the test
-    *
-    * @return integer The number of questions
-    * @access	public
-    */
     public function getQuestionCount() : int
     {
         $num = 0;
@@ -6640,10 +6632,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $questionSetConfig->loadFromDb();
 
             if ($questionSetConfig->isQuestionAmountConfigurationModePerPool()) {
-                require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-                require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilderWithAmountPerPool.php';
-                require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-
                 $sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
                     $ilDB,
                     $this,
@@ -6652,16 +6640,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
                 $sourcePoolDefinitionList->loadDefinitions();
 
-                $num = $sourcePoolDefinitionList->getQuestionAmount();
-            } else {
+                if (is_int($sourcePoolDefinitionList->getQuestionAmount())) {
+                    $num = $sourcePoolDefinitionList->getQuestionAmount();
+                }
+            } elseif (is_int($questionSetConfig->getQuestionAmountPerTest())) {
                 $num = $questionSetConfig->getQuestionAmountPerTest();
             }
         } else {
             $this->loadQuestions();
             $num = count($this->questions);
-        }
-        if ($num === null) {
-            $num = 0;
         }
 
         return $num;

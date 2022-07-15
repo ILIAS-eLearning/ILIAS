@@ -854,9 +854,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         );
     }
 
-    public function delete($original_id) : void
+    public function delete(int $question_id) : void
     {
-        parent::delete($original_id);
+        parent::delete($question_id);
         $this->clearFolder(false);
     }
     
