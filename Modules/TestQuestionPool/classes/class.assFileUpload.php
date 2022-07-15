@@ -1093,7 +1093,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         switch ($key) {
             case "maxsize":
-                $this->setMaxSize(($value ?? null) ? (int) $value : null);
+                $this->setMaxSize($value ? (int) $value : null);
                 break;
             case "allowedextensions":
                 $this->setAllowedExtensions($value);
