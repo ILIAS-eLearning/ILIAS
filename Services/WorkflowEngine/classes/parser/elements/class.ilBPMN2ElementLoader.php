@@ -32,12 +32,12 @@ class ilBPMN2ElementLoader
      *
      * @param $bpmn2_array
      */
-    public function __construct($bpmn2_array)// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
+    public function __construct(array $bpmn2_array)
     {
         $this->bpmn2_array = $bpmn2_array;
     }
 
-    public function load(string $element_name)// TODO PHP8-REVIEW Return type or corresponding PHPDoc missing
+    public function load(string $element_name) : ilBaseElement
     {
         preg_match('/[A-Z]/', $element_name, $matches, PREG_OFFSET_CAPTURE);
         $type = strtolower(substr($element_name, (int) ($matches[0][1] ?? 0)));

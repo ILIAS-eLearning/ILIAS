@@ -26,7 +26,7 @@ class ilComplexGatewayElement extends ilBaseElement
 {
     public string $element_varname;
 
-    public function getPHP($element, ilWorkflowScaffold $class_object) : string// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
+    public function getPHP(array $element, ilWorkflowScaffold $class_object) : string
     {
         $code = "";
         $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);

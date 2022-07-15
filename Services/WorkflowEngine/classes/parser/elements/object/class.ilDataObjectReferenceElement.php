@@ -26,13 +26,7 @@ class ilDataObjectReferenceElement extends ilBaseElement
 {
     public string $element_varname;
 
-    /**
-     * @param                     $element
-     * @param ilWorkflowScaffold  $class_object
-     *
-     * @return string
-     */
-    public function getPHP($element, ilWorkflowScaffold $class_object) : string// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
+    public function getPHP(array $element, ilWorkflowScaffold $class_object) : string
     {
         // We need to register an instance var that is a reference.
         $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);

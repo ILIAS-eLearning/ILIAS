@@ -27,13 +27,7 @@ class ilTaskElement extends ilBaseElement
     /** @var string $element_varname */
     public string $element_varname;
 
-    /**
-     * @param                     $element
-     * @param ilWorkflowScaffold  $class_object
-     *
-     * @return string
-     */
-    public function getPHP($element, ilWorkflowScaffold $class_object) : string// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
+    public function getPHP(array $element, ilWorkflowScaffold $class_object) : string
     {
         $code = "";
         $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
