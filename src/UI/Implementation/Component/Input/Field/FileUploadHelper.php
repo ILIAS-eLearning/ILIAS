@@ -30,7 +30,11 @@ trait FileUploadHelper
     protected array $accepted_mime_types = [];
     protected bool $has_metadata_inputs = false;
     protected int $max_file_amount = 1;
-    protected int $max_file_size = 2048;
+
+    /**
+     * @var int MUST be set manually because the file-size has to be gathered programatically.
+     */
+    protected int $max_file_size;
 
     public function getUploadHandler() : UploadHandler
     {
@@ -39,6 +43,10 @@ trait FileUploadHelper
 
     public function withMaxFileSize(int $size_in_bytes) : FileUpload
     {
+        if ($size_in_bytes > $this->getMaxFileSizeDefault()) {
+            throw new \InvalidArgumentException("Given file-size exceeds the limit of {$this->getMaxFileSizeDefault()} bytes.");
+        }
+
         $clone = clone $this;
         $clone->max_file_size = $size_in_bytes;
 
@@ -74,5 +82,10 @@ trait FileUploadHelper
     public function getAcceptedMimeTypes() : array
     {
         return $this->accepted_mime_types;
+    }
+
+    protected function getMaxFileSizeDefault() : int
+    {
+        return (int) \ilFileUtils::getUploadSizeLimitBytes();
     }
 }
