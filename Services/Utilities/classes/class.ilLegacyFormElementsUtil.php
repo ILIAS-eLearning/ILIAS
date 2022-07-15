@@ -33,9 +33,10 @@ class ilLegacyFormElementsUtil
 {
 
     /**
+     * @param string|int $a_str
      * @deprecated
      */
-    public static function prepareFormOutput(string $a_str, bool $a_strip = false) : string
+    public static function prepareFormOutput($a_str, bool $a_strip = false) : string
     {
         if ($a_strip) {
             $a_str = ilUtil::stripSlashes($a_str);

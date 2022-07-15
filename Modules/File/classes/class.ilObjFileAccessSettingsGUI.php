@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\Services;
 
 /**
@@ -59,20 +59,18 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      */
     public function executeCommand() : void
     {
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        $ilias = $DIC['ilias'];
-        $lng = $DIC['lng'];
-
-        $lng->loadLanguageModule("file");
+        $this->lng->loadLanguageModule("file");
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$ilAccess->checkAccess('read', '', $this->object->getRefId())) {
-            $ilias->raiseError($lng->txt('no_permission'), $ilias->error_obj->MESSAGE);
+        if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
+            $this->ilias->raiseError(
+                $this->lng->txt('no_permission'),
+                $this->ilias->error_obj->MESSAGE
+            );
         }
 
         switch ($next_class) {
@@ -100,19 +98,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      */
     public function getAdminTabs() : void
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-
-        $GLOBALS['DIC']['lng']->loadLanguageModule('fm');
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'file_objects',
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
                 array(self::CMD_EDIT_SETTINGS, "view")
             );
         }
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget("perm_settings", $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"), array(), 'ilpermissiongui');
         }
     }
@@ -243,11 +236,16 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         if ($form->checkInput()) {
             // TODO switch to new forms
             $post = (array) $this->http->request()->getParsedBody();
-            $this->object->setDownloadWithUploadedFilename(ilUtil::stripSlashes($post['download_with_uploaded_filename']));
-            $this->object->setInlineFileExtensions(ilUtil::stripSlashes($post['inline_file_extensions']));
+            $this->object->setDownloadWithUploadedFilename(
+                ilUtil::stripSlashes($post['download_with_uploaded_filename'] ?? '')
+            );
+            $this->object->setInlineFileExtensions(
+                ilUtil::stripSlashes($post['inline_file_extensions'] ?? '')
+            );
             $this->object->update();
             $this->folderSettings->set("bgtask_download_limit", (int) $post["bg_limit"]);
-            ilPreviewSettings::setPreviewEnabled($post["enable_preview"] == 1);
+            $enable_preview = (int) ($post["enable_preview"] ?? 0);
+            ilPreviewSettings::setPreviewEnabled($enable_preview === 1);
             ilPreviewSettings::setMaximumPreviews($post["max_previews_per_object"]);
 
             $this->tpl->setOnScreenMessage('success', $DIC->language()->txt('settings_saved'), true);

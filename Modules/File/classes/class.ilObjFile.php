@@ -192,6 +192,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function getFile(?int $a_hist_entry_id = null) : string
     {
+        $this->initImplementation();
         return $this->implementation->getFile($a_hist_entry_id);
     }
     

@@ -574,7 +574,7 @@ class ilConditionHandlerGUI
             $icon = ilUtil::getImagePath('icon_' . $condition['trigger_type'] . '.svg');
             $alt = $this->lng->txt('obj_' . $condition['trigger_type']);
 
-            $cgui->addItem("conditions[]", $condition_id, $title, $icon, $alt);
+            $cgui->addItem("conditions[]", (string) $condition_id, $title, $icon, $alt);
         }
 
         $this->tpl->setContent($cgui->getHTML());
