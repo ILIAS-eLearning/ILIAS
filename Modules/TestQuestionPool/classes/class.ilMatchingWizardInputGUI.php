@@ -200,7 +200,10 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (array_key_exists('imagename', $foundvalues) && strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (strlen($answervalue) == 0 && (
+                        array_key_exists('imagename', $foundvalues) &&
+                        ($foundvalues['imagename'][$aidx] ?? '') === ''
+                    )) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
