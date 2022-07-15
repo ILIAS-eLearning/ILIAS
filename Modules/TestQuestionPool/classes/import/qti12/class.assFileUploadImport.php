@@ -50,7 +50,7 @@ class assFileUploadImport extends assQuestionImport
         $this->object->setObjId($questionpool_id);
         $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
         $this->object->setPoints($item->getMetadataEntry("points"));
-        $this->object->setMaxSize($item->getMetadataEntry("maxsize"));
+        $this->object->setMaxSize($item->getMetadataEntry("maxsize") ? (int) $item->getMetadataEntry("maxsize") : null);
         $this->object->setAllowedExtensions($item->getMetadataEntry("allowedextensions"));
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(

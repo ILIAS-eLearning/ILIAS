@@ -35,7 +35,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
     // hey.
 
-    protected ?float $maxsize = null;
+    protected ?int $maxsize = null;
 
     protected $allowedextensions;
 
@@ -113,7 +113,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             array( "integer", "float", "text", "integer" ),
             array(
                                 $this->getId(),
-                                (strlen($this->getMaxSize())) ? $this->getMaxSize() : null,
+                                $this->getMaxSize(),
                                 (strlen($this->getAllowedExtensions())) ? $this->getAllowedExtensions() : null,
                                 (int) $this->isCompletionBySubmissionEnabled()
                             )
@@ -149,7 +149,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            $this->setMaxSize($data["maxsize"]);
+            $this->setMaxSize(($data["maxsize"] ?? null) ? (int) $data["maxsize"] : null);
             $this->setAllowedExtensions($data["allowedextensions"]);
             $this->setCompletionBySubmission($data['compl_by_submission'] == 1 ? true : false);
 
@@ -635,42 +635,38 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $max_filesize;
     }
 
-    /**
-    * Return the maximum allowed file size in bytes
-    *
-  * @return integer The number of bytes of the maximum allowed file size
-    */
-    public function getMaxFilesizeInBytes()
+    public function getMaxFilesizeInBytes() : int
     {
-        if (strlen($this->getMaxSize())) {
+        if ($this->getMaxSize() > 0) {
             return $this->getMaxSize();
-        } else {
-            // get the value for the maximal uploadable filesize from the php.ini (if available)
-            $umf = get_cfg_var("upload_max_filesize");
-            // get the value for the maximal post data from the php.ini (if available)
-            $pms = get_cfg_var("post_max_size");
-
-            //convert from short-string representation to "real" bytes
-            $multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
-
-            $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-            $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-
-            if (count($umf_parts) == 2) {
-                $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
-            }
-            if (count($pms_parts) == 2) {
-                $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
-            }
-
-            // use the smaller one as limit
-            $max_filesize = min($umf, $pms);
-
-            if (!$max_filesize) {
-                $max_filesize = max($umf, $pms);
-            }
-            return $max_filesize;
         }
+
+        // get the value for the maximal uploadable filesize from the php.ini (if available)
+        $umf = get_cfg_var("upload_max_filesize");
+        // get the value for the maximal post data from the php.ini (if available)
+        $pms = get_cfg_var("post_max_size");
+
+        //convert from short-string representation to "real" bytes
+        $multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
+
+        $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+        if (count($umf_parts) === 2) {
+            $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
+        }
+        if (count($pms_parts) === 2) {
+            $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
+        }
+
+        // use the smaller one as limit
+        $max_filesize = min($umf, $pms);
+
+        if (!$max_filesize) {
+            $max_filesize = max($umf, $pms);
+        }
+
+        return (int) $max_filesize;
     }
 
     // hey: prevPassSolutions - refactored method to get intermediate/authorized
@@ -1031,24 +1027,14 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $user_solution;
     }
 
-    /**
-    * Get max file size
-    *
-    * @return double Max file size
-    */
-    public function getMaxSize() : ?float
+    public function getMaxSize() : ?int
     {
         return $this->maxsize;
     }
 
-    /**
-    * Set max file size
-    *
-    * @param double $a_value Max file size
-    */
-    public function setMaxSize($a_value) : void
+    public function setMaxSize(?int $a_value) : void
     {
-        $this->maxsize = (int) $a_value;
+        $this->maxsize = $a_value;
     }
 
     /**
@@ -1107,7 +1093,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         switch ($key) {
             case "maxsize":
-                $this->setMaxSize($value);
+                $this->setMaxSize(($value ?? null) ? (int) $value : null);
                 break;
             case "allowedextensions":
                 $this->setAllowedExtensions($value);
