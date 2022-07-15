@@ -122,6 +122,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                     $set["user_id"] = $user_id;
                     $set["orgu_assignments"] = [];
                     $set['view_lp'] = false;
+                    $set['user_id'] = $usr_id;
                     $data[$usr_id] = $set;
                 }
                 $data[$usr_id]['orgu_assignments'][] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
@@ -209,6 +210,10 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
      */
     protected function addActions(&$selection)
     {
-        $selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_CONFIRM));
+        $selection->addItem(
+            $this->lng->txt("remove"),
+            "delete_from_employees",
+            $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_CONFIRM)
+        );
     }
 }
