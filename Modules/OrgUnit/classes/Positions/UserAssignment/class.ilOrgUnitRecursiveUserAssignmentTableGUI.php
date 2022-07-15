@@ -71,10 +71,6 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-
-
-
-
     /**
      * @return array
      */
@@ -87,6 +83,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         // maybe any parent gives us recursive permission
         (int) $root = (int) ilObjOrgUnit::getRootOrgRefId();
         $parent = (int) $orgu_tree->getParent($this->orgu_ref_id);
+        
         while ($parent !== $root) {
             if (ilObjOrgUnitAccess::_checkAccessStaffRec($parent)) {
                 self::$permission_access_staff_recursive = array_merge(
@@ -94,7 +91,9 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                     $orgu_tree->getAllChildren($parent)
                 );
             }
+            $parent = (int) $orgu_tree->getParent($parent);
         }
+
         foreach ($orgu_tree->getAllChildren($this->orgu_ref_id) as $ref_id) {
             $recursive = in_array($ref_id, self::$permission_access_staff_recursive);
             if (!$recursive) {
