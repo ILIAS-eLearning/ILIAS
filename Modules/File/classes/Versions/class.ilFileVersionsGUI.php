@@ -79,7 +79,12 @@ class ilFileVersionsGUI
         $this->access = $DIC->access();
         $this->storage = $DIC->resourceStorage();
         $this->ui = $DIC->ui();
-        $this->tree = $DIC->repositoryTree();
+        if ($this->isWorkspaceContext()) {
+            $this->tree = new ilWorkspaceTree($DIC->user()->getId());
+        } else {
+            $this->tree = $DIC->repositoryTree();
+        }
+
         $this->parent_id = $this->tree->getParentId($this->file->getRefId()) ?? $this->getParentIdType();
         $this->wsp_access = new ilWorkspaceAccessHandler($this->tree);
         $this->version_id = $this->http->wrapper()->query()->has(self::HIST_ID)
