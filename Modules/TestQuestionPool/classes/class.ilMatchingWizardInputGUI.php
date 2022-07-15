@@ -158,20 +158,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-                    if (isset($a_value['imagename'])) {
-                        $answer = new assAnswerMatchingTerm(
-                            $value,
-                            $a_value['imagename'][$index],
-                            $a_value['identifier'][$index]
-                        );
-                    } else {
-                        $answer = new assAnswerMatchingTerm(
-                            $value,
-                            '',
-                            $a_value['identifier'][$index]
-                        );
-                    }
+                    $answer = new assAnswerMatchingTerm(
+                        $value,
+                        $a_value['imagename'][$index] ?? '',
+                        $a_value['identifier'][$index] ?? ''
+                    );
                     array_push($this->values, $answer);
                 }
             }
@@ -200,15 +191,17 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (strlen($answervalue) == 0 && (
-                        array_key_exists('imagename', $foundvalues) &&
-                        ($foundvalues['imagename'][$aidx] ?? '') === ''
+                    if ($answervalue === '' && (
+                        (!isset($foundvalues['imagename'][$aidx]) || $foundvalues['imagename'][$aidx] === '') &&
+                        !isset($_FILES[$this->getPostVar()]['tmp_name']['image'][$aidx])
                     )) {
+                        // If there is to text answer, no already staged image, and no uploaded image ...
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
                 }
             }
+
             if (!$this->hideImages) {
                 if (is_array($_FILES[$this->getPostVar()]['error']['image'])) {
                     foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error) {
@@ -228,11 +221,10 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired()) {
-                                        if (isset($foundvalues['imagename'])) {
-                                            if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
-                                                $this->setAlert($lng->txt("form_msg_file_no_upload"));
-                                                return false;
-                                            }
+                                        if ((!isset($foundvalues['imagename'][$index]) || $foundvalues['imagename'][$index] === '') &&
+                                            (!isset($foundvalues['answer'][$index]) && $foundvalues['answer'][$index] === '')) {
+                                            $this->setAlert($lng->txt("form_msg_file_no_upload"));
+                                            return false;
                                         }
                                     }
                                     break;
