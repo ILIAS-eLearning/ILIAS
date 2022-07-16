@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Implementation\Component\Dropzone\File\File;
@@ -29,7 +29,7 @@ class FileTest extends FileTestBase
 
     public function setUp() : void
     {
-        $this->dropzone = new class($this->getInputFactory(), $this->getLanguage(), $this->getUploadHandlerMock(), self::FILE_DROPZONE_POST_URL) extends File {
+        $this->dropzone = new class($this->getInputFactory(), $this->getLanguage(), $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class), $this->getUploadHandlerMock(), self::FILE_DROPZONE_POST_URL) extends File {
         };
 
         parent::setUp();
@@ -71,7 +71,7 @@ class FileTest extends FileTestBase
 
     public function testFormGenerationWithMetadataFields() : void
     {
-        $dropzone_form = (new class($this->getInputFactory(), $this->getLanguage(), $this->getUploadHandlerMock(), self::FILE_DROPZONE_POST_URL, $this->getFieldFactory()->text('test_input_1')) extends File {
+        $dropzone_form = (new class($this->getInputFactory(), $this->getLanguage(), $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class), $this->getUploadHandlerMock(), self::FILE_DROPZONE_POST_URL, $this->getFieldFactory()->text('test_input_1')) extends File {
         })->getForm();
 
         $this->assertEquals(self::FILE_DROPZONE_POST_URL, $dropzone_form->getPostURL());

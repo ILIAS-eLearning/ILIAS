@@ -364,6 +364,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
     public function getFieldFactory() : Field\Factory
     {
         return new Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new IncrementalSignalGenerator(),
             new Data\Factory(),
             $this->getRefinery(),

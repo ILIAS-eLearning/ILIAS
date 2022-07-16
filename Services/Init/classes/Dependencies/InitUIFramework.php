@@ -37,6 +37,11 @@ class InitUIFramework
                 $c["ui.factory.legacy"]
             );
         };
+        $c["ui.upload_limit_resolver"] = function ($c) {
+            return new \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver(
+                (int) \ilFileUtils::getUploadSizeLimitBytes()
+            );
+        };
         $c["ui.signal_generator"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\SignalGenerator();
         };
@@ -155,6 +160,7 @@ class InitUIFramework
             $refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
 
             return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+                $c["ui.upload_limit_resolver"],
                 $c["ui.signal_generator"],
                 $data_factory,
                 $refinery,
@@ -187,6 +193,7 @@ class InitUIFramework
         };
         $c["ui.factory.dropzone.file"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory(
+                $c["ui.upload_limit_resolver"],
                 $c["ui.factory.input"],
                 $c["lng"]
             );

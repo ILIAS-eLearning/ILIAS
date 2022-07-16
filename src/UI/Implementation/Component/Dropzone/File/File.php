@@ -31,6 +31,7 @@ use ILIAS\UI\Component\Signal;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Transformation;
 use ilLanguage;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -61,11 +62,12 @@ abstract class File implements FileInterface
     public function __construct(
         InputFactory $input_factory,
         ilLanguage $language,
+        UploadLimitResolver $upload_limit_resolver,
         UploadHandler $upload_handler,
         string $post_url,
         ?Input $metadata_input = null
     ) {
-        $this->max_file_size = $this->getMaxFileSizeDefault();
+        $this->upload_limit_resolver = $upload_limit_resolver;
         $this->input_factory = $input_factory;
         $this->language = $language;
         $this->upload_handler = $upload_handler;

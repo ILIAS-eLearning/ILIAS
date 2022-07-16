@@ -41,6 +41,7 @@ class FilterFactoryTest extends AbstractFactoryTest
         return new Factory(
             new SignalGenerator(),
             new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
+                $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
                 new SignalGenerator(),
                 $df,
                 new ILIAS\Refinery\Factory($df, $language),

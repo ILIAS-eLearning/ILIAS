@@ -25,6 +25,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\Refinery\Constraint;
 use Closure;
 use ilLanguage;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * Class File
@@ -44,12 +45,13 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         ilLanguage $language,
         DataFactory $data_factory,
         Refinery $refinery,
+        UploadLimitResolver $upload_limit_resolver,
         C\Input\Field\UploadHandler $handler,
         string $label,
         ?InputInterface $metadata_input,
         ?string $byline
     ) {
-        $this->max_file_size = $this->getMaxFileSizeDefault();
+        $this->upload_limit_resolver = $upload_limit_resolver;
         $this->language = $language;
         $this->data_factory = $data_factory;
         $this->refinery = $refinery;

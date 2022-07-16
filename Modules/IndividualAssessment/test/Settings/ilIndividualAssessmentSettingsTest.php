@@ -49,6 +49,7 @@ class ilIndividualAssessmentSettingsTest extends TestCase
         $df = new ILIAS\Data\Factory();
         $refinery = new ILIAS\Refinery\Factory($df, $lng);
         $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new ILIAS\UI\Implementation\Component\SignalGenerator(),
             $df,
             $refinery,
