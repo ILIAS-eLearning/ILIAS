@@ -2,28 +2,28 @@
 
 namespace ILIAS\UI\examples\MainControls\Footer;
 
-use ILIAS\UI\examples\Layout\Page\Standard as PageStandardExample;
+use ILIAS\DI\Container;
 
-function footer_with_modals()
+function footer_with_modals() : string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
+
     $renderer = $DIC->ui()->renderer();
 
     $url = 'src/UI/examples/MainControls/Footer/footer_with_modals.php?new_footer_2_ui=1';
 
-    $page_demo = $f->button()->primary('See UI in fullscreen-mode', $url);
+    $page_demo = $f->link()->standard('See UI in fullscreen-mode', $url);
 
     return $renderer->render([
         $page_demo
     ]);
 }
 
-function pageFooterDemo2Footer()
+function pageFooterDemo2Footer() : \ILIAS\UI\Component\MainControls\Footer
 {
     global $DIC;
     $f = $DIC->ui()->factory();
-    $renderer = $DIC->ui()->renderer();
 
     $text = 'Additional info:';
     $links = [];
@@ -33,31 +33,39 @@ function pageFooterDemo2Footer()
 
     $roundTripModal = $f->modal()->roundtrip('Withdrawal of Consent', $f->legacy('Withdrawal of Consent ...'));
     $shyButton = $f->button()->shy('Terms Of Service', '#');
-    $footer = $footer->withAdditionalModalAndTrigger($roundTripModal, $shyButton);
-
-    return $footer;
+    return $footer->withAdditionalModalAndTrigger($roundTripModal, $shyButton);
 }
+
 global $DIC;
-$refinery = $DIC->refinery();
-$request_wrapper = $DIC->http()->wrapper()->query();
 
-if ($request_wrapper->has('new_footer_2_ui') && $request_wrapper->retrieve('new_footer_2_ui', $refinery->kindlyTo()->string()) == '1') {
+//Render Footer in Fullscreen mode
+if (basename($_SERVER["SCRIPT_FILENAME"]) == "footer_with_modals.php") {
     chdir('../../../../../');
+    require_once("libs/composer/vendor/autoload.php");
+    require_once("src/UI/examples/MainControls/Footer/footer.php");
+    \ilInitialisation::initILIAS();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
+}
 
-    PageStandardExample\_initIliasForPreview();
 
-    $f = $DIC->ui()->factory();
-    $renderer = $DIC->ui()->renderer();
+if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_footer_2_ui') && $request_wrapper->retrieve('new_footer_2_ui', $refinery->kindlyTo()->string()) == '1') {
+    echo renderFooterWithModalsInFullscreenMode($DIC);
+}
+
+function renderFooterWithModalsInFullscreenMode(Container $dic) : string
+{
+    $f = $dic->ui()->factory();
+    $renderer = $dic->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
     $responsive_logo = $f->image()->responsive("templates/default/images/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pageFooterDemoCrumbs($f);
     $metabar = pageFooterDemoMetabar($f);
-    $mainbar = pageFooterDemoMainbar($f, $renderer);
-    $footer = pageFooterDemo2Footer($f);
+    $mainbar = pageFooterDemoMainbar($f);
+    $footer = pageFooterDemo2Footer();
+    $tc = $dic->ui()->factory()->toast()->container();
 
-    $entries = $mainbar->getEntries();
-    $tools = $mainbar->getToolEntries();
-    $content = pageFooterDemoContent($f, $renderer, $mainbar);
+    $content = pageFooterDemoContent($f);
 
     $page = $f->layout()->page()->standard(
         $content,
@@ -66,12 +74,13 @@ if ($request_wrapper->has('new_footer_2_ui') && $request_wrapper->retrieve('new_
         $breadcrumbs,
         $logo,
         $responsive_logo,
-        null,
+        "./templates/default/images/favicon.ico",
+        $tc,
         $footer,
         'UI PAGE FOOTER DEMO', //page title
         'ILIAS', //short title
         'Std. Page Footer Demo' //view title
     )->withUIDemo(true);
 
-    echo $renderer->render($page);
+    return $renderer->render($page);
 }

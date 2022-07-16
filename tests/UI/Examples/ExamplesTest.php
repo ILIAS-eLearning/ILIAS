@@ -36,6 +36,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
     {
         //This avoids various index not set warnings, which are only relevant in test context.
         $_SERVER["REQUEST_URI"] = "";
+        $_SERVER['SCRIPT_NAME'] = "";
+        $_SERVER['QUERY_STRING'] = "param=1";
+
         //This avoids Undefined index: ilfilehash for the moment
         $_POST["ilfilehash"] = "";
         $this->setUpMockDependencies();
@@ -138,5 +141,33 @@ class ExamplesTest extends ILIAS_UI_TestBase
             }
         }
         return $function_names;
+    }
+
+    /**
+     * @dataProvider provideListOfFullscreenExamples
+     */
+    public function testFullscreenModeExamples(string $example_function_name, string $example_path) : void
+    {
+        global $DIC;
+        $DIC = $this->dic;
+
+        include_once $example_path;
+        try {
+            $this->assertIsString($example_function_name($DIC), " Example $example_function_name does not render a string");
+        } catch (NotImplementedException $e) {
+            $this->assertTrue(true);
+        }
+    }
+
+    public function provideListOfFullscreenExamples() : array
+    {
+        return [
+            ['ILIAS\UI\examples\MainControls\Footer\renderFooterInFullscreenMode', "src/UI/examples/MainControls/Footer/footer.php"],
+            ['ILIAS\UI\examples\MainControls\Footer\renderFooterWithModalsInFullscreenMode', "src/UI/examples/MainControls/Footer/footer_with_modals.php"],
+            ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "src/UI/examples/MainControls/MetaBar/base_metabar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\renderFooterInFullscreenMode', "src/UI/examples/Layout/Page/Standard/ui.php"]
+        ];
     }
 }
