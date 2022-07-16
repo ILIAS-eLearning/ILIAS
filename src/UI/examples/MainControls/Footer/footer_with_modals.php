@@ -42,7 +42,6 @@ global $DIC;
 if (basename($_SERVER["SCRIPT_FILENAME"]) == "footer_with_modals.php") {
     chdir('../../../../../');
     require_once("libs/composer/vendor/autoload.php");
-    require_once("src/UI/examples/MainControls/Footer/footer.php");
     \ilInitialisation::initILIAS();
     $refinery = $DIC->refinery();
     $request_wrapper = $DIC->http()->wrapper()->query();
@@ -55,6 +54,8 @@ if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_fo
 
 function renderFooterWithModalsInFullscreenMode(Container $dic) : string
 {
+    require_once("src/UI/examples/MainControls/Footer/footer.php");
+
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
