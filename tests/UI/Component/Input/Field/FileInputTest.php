@@ -74,6 +74,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         $language = $this->createMock(ilLanguage::class);
 
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
             new ILIAS\Refinery\Factory($df, $language),

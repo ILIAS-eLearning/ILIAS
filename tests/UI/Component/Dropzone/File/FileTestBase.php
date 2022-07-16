@@ -44,6 +44,7 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
 
         $this->generator = new IncrementalSignalGenerator();
         $this->factory = new I\Component\Dropzone\File\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             $this->getInputFactory(),
             $this->getLanguage()
         );
@@ -139,8 +140,7 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
             $this->getFieldFactory(),
             new I\Component\Input\Container\Factory(
                 new I\Component\Input\Container\Form\Factory(
-                    $this->getFieldFactory(),
-                    $this->getIncrementalNameSource()
+                    $this->getFieldFactory()
                 ),
                 $this->createMock(I\Component\Input\Container\Filter\Factory::class),
                 $this->createMock(I\Component\Input\Container\ViewControl\Factory::class)
@@ -152,6 +152,7 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
     protected function getFieldFactory() : C\Input\Field\Factory
     {
         return new I\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             $this->generator,
             $this->createMock(\ILIAS\Data\Factory::class),
             $this->getRefinery(),

@@ -102,6 +102,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
     protected function buildFactory() : I\Input\Field\Factory
     {
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $this->data_factory,
             $this->refinery,

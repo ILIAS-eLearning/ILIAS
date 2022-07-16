@@ -18,6 +18,7 @@
  
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Component\Dropzone\File\Standard as StandardInterface;
 use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
 use ILIAS\UI\Component\Dropzone\File\Factory as FactoryInterface;
@@ -31,11 +32,16 @@ use ilLanguage;
  */
 class Factory implements FactoryInterface
 {
+    protected UploadLimitResolver $upload_limit_resolver;
     protected InputFactory $factory;
     protected ilLanguage $language;
 
-    public function __construct(InputFactory $factory, ilLanguage $language)
-    {
+    public function __construct(
+        UploadLimitResolver $upload_limit_resolver,
+        InputFactory $factory,
+        ilLanguage $language
+    ) {
+        $this->upload_limit_resolver = $upload_limit_resolver;
         $this->factory = $factory;
         $this->language = $language;
     }
@@ -48,6 +54,7 @@ class Factory implements FactoryInterface
         return new Standard(
             $this->factory,
             $this->language,
+            $this->upload_limit_resolver,
             $upload_handler,
             $post_url,
             $metadata_input
@@ -66,6 +73,7 @@ class Factory implements FactoryInterface
         return new Wrapper(
             $this->factory,
             $this->language,
+            $this->upload_limit_resolver,
             $upload_handler,
             $post_url,
             $content,
