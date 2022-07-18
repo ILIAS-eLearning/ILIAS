@@ -135,7 +135,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $data_filtered = $a_data;
 
         //Filter by title
-        if (isset($this->filter["title"])) {
+        if (isset($this->filter["title"]) && $this->filter['title'] !== '') {
             foreach ($data_filtered as $key => $material) {
                 $title = $material["title"];
                 if (stripos($title, $this->filter["title"]) === false) {
@@ -145,7 +145,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
 
         //Filter by obj type
-        if (isset($this->filter['type'])) {
+        if (isset($this->filter['type']) && $this->filter['type'] !== '') {
             foreach ($data_filtered as $key => $material) {
                 $type = $material["type"];
                 //types can be: file, exc
@@ -156,7 +156,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
 
         //Filter by status
-        if (isset($this->filter["status"])) {
+        if (isset($this->filter["status"]) && $this->filter['status'] !== '') {
             //items_ref = materials already assigned.
             $assigned_items = new ilEventItems($this->parent_object_id);
             $assigned_items = $assigned_items->getItems();
