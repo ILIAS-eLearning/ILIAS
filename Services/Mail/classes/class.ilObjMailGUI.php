@@ -241,6 +241,16 @@ class ilObjMailGUI extends ilObjectGUI
             $this
         );
 
+        $mn = new ilFormSectionHeaderGUI();
+        $mn->setTitle($this->lng->txt('auto_responder'));
+        $form->addItem($mn);
+
+        $input = new ilNumberInputGUI($this->lng->txt('mail_auto_responder_idle_time'), 'mail_auto_responder_idle_time');
+        $input->setInfo($this->lng->txt('mail_auto_responder_idle_time_info'));
+        $input->setSuffix($this->lng->txt('days'));
+        $input->setDisabled(!$this->isEditingAllowed());
+        $form->addItem($input);
+
         if ($this->isEditingAllowed()) {
             $form->addCommandButton('save', $this->lng->txt('save'));
         }
@@ -262,6 +272,7 @@ class ilObjMailGUI extends ilObjectGUI
             'show_mail_settings' => (bool) $this->settings->get('show_mail_settings', '1'),
             'mail_maxsize_attach' => $this->settings->get('mail_maxsize_attach', ''),
             'mail_notification' => $this->settings->get('mail_notification', ''),
+            'mail_auto_responder_idle_time' => (int) $this->settings->get('mail_auto_responder_idle_time', ''),
         ]);
     }
 
@@ -288,6 +299,7 @@ class ilObjMailGUI extends ilObjectGUI
             $this->settings->set('mail_address_option', (string) $mail_address_option);
             $this->settings->set('mail_maxsize_attach', (string) $form->getInput('mail_maxsize_attach'));
             $this->settings->set('mail_notification', (string) ((int) $form->getInput('mail_notification')));
+            $this->settings->set('mail_auto_responder_idle_time', (string) $form->getInput('mail_auto_responder_idle_time'));
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this);
