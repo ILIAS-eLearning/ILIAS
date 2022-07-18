@@ -35,7 +35,7 @@ class ilSettingsTemplateGUI
     protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
     protected ilSettingsTemplate $settings_template;
-    protected SettingsTemplateGUIRequest $request;
+    protected SettingsTemplateGUIRequest $request ;
 
     public function __construct(ilSettingsTemplateConfig $a_config)
     {
@@ -50,13 +50,14 @@ class ilSettingsTemplateGUI
         $this->lng = $this->dic->language();
         $ilCtrl = $this->dic->ctrl();
 
-        $ilCtrl->saveParameter($this, array("templ_id"));
-        $this->setConfig($a_config);
-        $this->readSettingsTemplate();
         $this->request = new SettingsTemplateGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
+
+        $ilCtrl->saveParameter($this, array("templ_id"));
+        $this->setConfig($a_config);
+        $this->readSettingsTemplate();
     }
 
     public function executeCommand() : void
