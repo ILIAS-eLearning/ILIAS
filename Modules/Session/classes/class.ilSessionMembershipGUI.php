@@ -308,11 +308,14 @@ class ilSessionMembershipGUI extends ilMembershipGUI
     public function getAttendanceListUserData(int $user_id, array $filters = []) : array
     {
         $data = $this->getMembersObject()->getEventParticipants()->getUser($user_id);
-        
+        $data['registered'] = (bool) ($data['registered'] ?? false);
+        $data['participated'] = (bool) ($data['participated'] ?? false);
+
         if ($filters && $filters["registered"] && !$data["registered"]) {
             return [];
         }
-        
+
+
         $data['registered'] = $data['registered'] ?
             $this->lng->txt('yes') :
             $this->lng->txt('no');

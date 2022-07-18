@@ -521,7 +521,7 @@ class ilEventParticipants
             if (isset($this->participants[$usr_id])) {
                 continue;
             }
-            $this->participants[$usr_id]['usr_id'] = $usr_id;
+            $this->participants[$usr_id]['usr_id'] = (int) $usr_id;
             $this->participants[$usr_id]['registered'] = false;
             $this->participants[$usr_id]['participated'] = false;
             $this->participants[$usr_id]['excused'] = false;
