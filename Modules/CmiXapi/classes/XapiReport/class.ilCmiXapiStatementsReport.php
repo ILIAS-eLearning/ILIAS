@@ -48,17 +48,19 @@ class ilCmiXapiStatementsReport
      */
     protected $isMixedContentType;
 
-    public function __construct(string $responseBody, $objId)
+    public function __construct(string $responseBody, $obj)
     {
         global $DIC;
         $this->userLanguage = $DIC->user()->getLanguage();
 
         $responseBody = json_decode($responseBody, true);
-        
-        $this->contentType = ilObjCmiXapi::getInstance($objId,false)->getContentType();
-        
-        $this->isMixedContentType = ilObjCmiXapi::getInstance($objId,false)->isMixedContentType();
-        
+
+        if ($obj instanceof ilObjCmiXapi) {
+            $this->contentType = $obj->getContentType();
+//          $this->contentType = ilObjCmiXapi::getInstance($objId,false)->getContentType();
+            $this->isMixedContentType = $obj->isMixedContentType();
+//          $this->isMixedContentType = ilObjCmiXapi::getInstance($objId,false)->isMixedContentType();
+        }
         if (count($responseBody)) {
             $this->response = current($responseBody);
             $this->statements = $this->response['statements'];
@@ -69,7 +71,7 @@ class ilCmiXapiStatementsReport
             $this->maxCount = 0;
         }
         
-        foreach (ilCmiXapiUser::getUsersForObject($objId) as $cmixUser) {
+        foreach (ilCmiXapiUser::getUsersForObject($obj->getId()) as $cmixUser) {
             $this->cmixUsersByIdent[$cmixUser->getUsrIdent()] = $cmixUser;
         }
     }

@@ -81,24 +81,16 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
             $this->filter["actor"] = $ti->getValue();
         }
         
-        /**
-         * dynamic verbsList (postponed or never used)
-         */
-        /*
-        $verbs = $this->parent_obj->getVerbs(); // ToDo: Caching
         $si = new ilSelectInputGUI('Used Verb', "verb");
-        $si->setOptions(ilCmiXapiVerbList::getInstance()->getDynamicSelectOptions($verbs));
+        if (strtolower($this->ctrl->getCmdClass()) == "illticonsumerxapistatementsgui") {
+            $si->setOptions(ilCmiXapiVerbList::getInstance()->getSelectOptions());
+        } else { //xapi
+            $verbs = $this->parent_obj->getVerbs(); // ToDo: Caching
+            $si->setOptions(ilCmiXapiVerbList::getInstance()->getDynamicSelectOptions($verbs));
+        }
         $this->addFilterItem($si);
         $si->readFromSession();
         $this->filter["verb"] = $si->getValue();
-        */
-
-        $si = new ilSelectInputGUI('Used Verb', "verb");
-        $si->setOptions(ilCmiXapiVerbList::getInstance()->getSelectOptions());
-        $this->addFilterItem($si);
-        $si->readFromSession();
-        $this->filter["verb"] = $si->getValue();
-
         $dp = new ilCmiXapiDateDurationInputGUI('Period', 'period');
         $dp->setShowTime(true);
         $this->addFilterItem($dp);

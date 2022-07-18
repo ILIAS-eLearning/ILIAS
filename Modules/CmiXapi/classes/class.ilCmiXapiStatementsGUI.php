@@ -187,7 +187,7 @@ class ilCmiXapiStatementsGUI
             }
         }
         $linkBuilder = new ilCmiXapiStatementsReportLinkBuilder(
-            $this->object->getId(),
+            $this->object,
             $this->object->getLrsType()->getLrsEndpointStatementsAggregationLink(),
             $filter
         );
@@ -196,7 +196,7 @@ class ilCmiXapiStatementsGUI
             $this->object->getLrsType()->getBasicAuth(),
             $linkBuilder
         );
-        $statementsReport = $request->queryReport($this->object->getId());
+        $statementsReport = $request->queryReport($this->object);
         $data = $statementsReport->getTableData();
         $table->setData($data);
         $table->setMaxCount($statementsReport->getMaxCount());
@@ -213,8 +213,8 @@ class ilCmiXapiStatementsGUI
         $table->setResetCommand('resetFilter');
         return $table;
     }
-    /*
-	//dynamic verbs needs feature request
+
+	//dynamic verbs
     public function getVerbs()
     {
         global $DIC;
@@ -230,14 +230,14 @@ class ilCmiXapiStatementsGUI
             'Authorization' => $defaultBasicAuth,
             'Cache-Control' => 'no-cache, no-store, must-revalidate'
         ];
-        $fallbackHeaders = [
-            'X-Experience-API-Version' => '1.0.3',
-            'Authorization' => $fallbackBasicAuth,
-            'Content-Type' => 'application/json;charset=utf-8',
-            'Cache-Control' => 'no-cache, no-store, must-revalidate'
-        ];
+//        $fallbackHeaders = [
+//            'X-Experience-API-Version' => '1.0.3',
+//            'Authorization' => $fallbackBasicAuth,
+//            'Content-Type' => 'application/json;charset=utf-8',
+//            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+//        ];
         $pipeline = json_encode($this->getVerbsPipline());
-        $pipeline2 = json_encode($this->getVerbsPipline(),JSON_PRETTY_PRINT);        
+//        $pipeline2 = json_encode($this->getVerbsPipline(),JSON_PRETTY_PRINT);
         //$DIC->logger()->root()->log($pipeline2);
 
         $defaultVerbsUrl = $defaultLrs . "?pipeline=" . urlencode($pipeline);
@@ -317,5 +317,4 @@ class ilCmiXapiStatementsGUI
 
         return $pipeline;
     }
-    */
 }

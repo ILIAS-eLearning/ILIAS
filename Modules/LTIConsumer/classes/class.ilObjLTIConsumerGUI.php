@@ -604,7 +604,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
         
         $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
-            $this->object->getId(),
+            $this->object,
             $aggregateEndPointUrl,
             $filter
         );
@@ -620,7 +620,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
         
         try {
-            $report = $request->queryReport($this->object->getId());
+            $report = $request->queryReport($this->object);
             
             $DIC->ui()->mainTemplate()->setContent(
                 $report->getResponseDebug()
