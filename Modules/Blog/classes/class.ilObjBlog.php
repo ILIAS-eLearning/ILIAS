@@ -291,7 +291,7 @@ class ilObjBlog extends ilObject2
             $storage = new ilFSStorageBlog($this->id);
             $storage->delete();
             
-            $this->setImage(null);
+            $this->setImage("");
             
             $this->handleQuotaUpdate();
         }
