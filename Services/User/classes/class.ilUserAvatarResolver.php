@@ -99,21 +99,21 @@ class ilUserAvatarResolver
             array('integer'),
             array($this->user_id)
         );
-    
-        $row = $this->db->fetchAssoc($res);
-        $this->login = $row['login'];
-        $this->firstname = $row['firstname'];
-        $this->lastname = $row['lastname'];
-    
-        switch ($row['keyword']) {
-            case 'public_upload':
-                $this->has_public_upload = $row['value'] === 'y';
-                break;
-            case 'public_profile':
-                $this->has_public_profile = ($row['value'] === 'y' || $row['value'] === 'g');
-                break;
-        }
         
+        while ($row = $this->db->fetchAssoc($res)) { // MUST be loop
+            $this->login = $row['login'];
+            $this->firstname = $row['firstname'];
+            $this->lastname = $row['lastname'];
+
+            switch ($row['keyword']) {
+                case 'public_upload':
+                    $this->has_public_upload = $row['value'] === 'y';
+                    break;
+                case 'public_profile':
+                    $this->has_public_profile = ($row['value'] === 'y' || $row['value'] === 'g');
+                    break;
+            }
+        }
 
         // Uploaded file
         $webspace_dir = '';
