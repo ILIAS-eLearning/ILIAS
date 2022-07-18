@@ -100,7 +100,7 @@ class ilLDAPRoleAssignmentRules
         $res = $ilDB->query($query);
         $roles = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($row->rule_id);
+            $rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId((int) $row->rule_id);
 
             $matches = $rule->matches($a_usr_data);
             if ($matches && $row->add_on_update) {
