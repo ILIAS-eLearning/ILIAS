@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\ResourceStorage\Services;
 use ILIAS\DI\Container;
 
@@ -247,9 +247,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
         $id = explode("_", $a_target);
         $DIC->ctrl()->setTargetScript('ilias.php');
-        $DIC->ctrl()->setParameterByClass(ilObjBibliographicGUI::class, "ref_id", $id[0]);
+        $DIC->ctrl()->setParameterByClass(ilObjBibliographicGUI::class, "ref_id", (int) ($id[0] ?? 1));
         // Detail-View
-        if ($id[1]) {
+        if (isset($id[1]) && $id[1] !== '') {
             $DIC->ctrl()
                 ->setParameterByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
             $DIC->ctrl()->redirectByClass(
