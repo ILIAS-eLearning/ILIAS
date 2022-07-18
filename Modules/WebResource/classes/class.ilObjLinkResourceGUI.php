@@ -1324,7 +1324,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         foreach ($link_ids as $link_id) {
             $link = $links->getItem($link_id);
-            $confirm->addItem('link_ids[]', $link_id, $link['title']);
+            $confirm->addItem('link_ids[]', (string) $link_id, $link['title']);
         }
         $this->tpl->setContent($confirm->getHTML());
     }
