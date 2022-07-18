@@ -710,7 +710,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $file,
                     (int) $wh_input["width"],
                     (int) $wh_input["height"],
-                    (boolean) $wh_input["constr_prop"]
+                    (bool) ($wh_input["constr_prop"] ?? false)
                 );
             }
 
@@ -739,7 +739,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $form->getInput("standard_type"),
             $mob_dir . "/" . $location,
             $media_item->getLocation(),
-            $wh_input["constr_prop"],
+            (bool) ($wh_input["constr_prop"] ?? false),
             ($form->getInput("standard_size") == "original"),
             ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
             ($wh_input["height"] == "") ? null : (int) $wh_input["height"]
@@ -792,7 +792,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         $file,
                         (int) $full_wh_input["width"],
                         (int) $full_wh_input["height"],
-                        (boolean) $full_wh_input["constr_prop"]
+                        (bool) ($full_wh_input["constr_prop"] ?? false)
                     );
                 }
     
@@ -825,7 +825,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $type,
                 $mob_dir . "/" . $location,
                 $media_item2->getLocation(),
-                $full_wh_input["constr_prop"],
+                (bool) ($wh_input["constr_prop"] ?? false),
                 ($form->getInput("full_size") == "original"),
                 ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
                 ($wh_input["height"] == "") ? null : (int) $wh_input["height"]
@@ -1003,7 +1003,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                             $file,
                             (int) $wh_input["width"],
                             (int) $wh_input["height"],
-                            (boolean) $wh_input["constr_prop"]
+                            (bool) ($wh_input["constr_prop"] ?? false)
                         );
                     }
                     $std_item->setFormat($format);
@@ -1020,7 +1020,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $form->getInput("standard_type"),
                 $mob_dir . "/" . $location,
                 $std_item->getLocation(),
-                $wh_input["constr_prop"],
+                (bool) ($wh_input["constr_prop"] ?? false),
                 ($form->getInput("standard_size") == "original"),
                 ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
                 ($wh_input["height"] == "") ? null : (int) $wh_input["height"]
@@ -1107,7 +1107,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                                 $file,
                                 (int) $wh_input["width"],
                                 (int) $wh_input["height"],
-                                (boolean) $wh_input["constr_prop"]
+                                (bool) ($wh_input["constr_prop"] ?? false)
                             );
                         }
                         $full_item->setFormat($format);
@@ -1138,7 +1138,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                             $file,
                             (int) $wh_input["width"],
                             (int) $wh_input["height"],
-                            (boolean) $wh_input["constr_prop"]
+                            (bool) ($wh_input["constr_prop"] ?? false)
                         );
                     }
                 }
@@ -1150,7 +1150,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $type,
                     $mob_dir . "/" . $location,
                     $full_item->getLocation(),
-                    $wh_input["constr_prop"],
+                    (bool) ($wh_input["constr_prop"] ?? false),
                     ($form->getInput("full_size") == "original"),
                     ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
                     ($wh_input["height"] == "") ? null : (int) $wh_input["height"]
