@@ -639,10 +639,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->modifyItemGUI($list_gui, $item, false);
             
             $html .= $list_gui->getListItemHTML(
-                $item['ref_id'],
-                $item['obj_id'],
-                $item['title'],
-                $item['description']
+                (int) $item['ref_id'],
+                (int) $item['obj_id'],
+                (string) $item['title'],
+                (string) $item['description']
             );
         }
         
