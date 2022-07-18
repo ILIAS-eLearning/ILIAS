@@ -33,8 +33,8 @@ class ilForumCronNotification extends ilCronJob
     private static array $ref_ids_by_obj_id = [];
     /** @var array<int, int[]> */
     private static array $accessible_ref_ids_by_user = [];
-    /** @var array<int, ilObjCourse|ilObjGroup> */
-    private static array $top_items_by_frm_ref_id = [];
+    /** @var array<int, ilObjCourse|ilObjGroup|null> */
+    private static array $container_by_frm_ref_id = [];
 
     private ilLanguage $lng;
     private ilSetting $settings;
@@ -235,10 +235,9 @@ class ilForumCronNotification extends ilCronJob
 
             $row['ref_id'] = $ref_id;
 
-            $top_item = $this->getTopItemForForum($ref_id);
-            if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
-                $row['top_item_title'] = $top_item->getTitle();
-                $row['top_item_type'] = $top_item->getType();
+            $container = $this->determineClosestContainer($ref_id);
+            if ($container instanceof ilObjCourse || $container instanceof ilObjGroup) {
+                $row['closest_container'] = $container;
             }
 
             if ($this->existsProviderObject((int) $row['pos_pk'], $notification_type)) {
@@ -294,28 +293,28 @@ class ilForumCronNotification extends ilCronJob
         $this->resetProviderCache();
     }
 
-    public function getTopItemForForum($frm_ref_id) : ?ilObject
+    /**
+     * @param int $frm_ref_id
+     * @return ilObjCourse|ilObjGroup|null
+     */
+    public function determineClosestContainer(int $frm_ref_id) : ?ilObject
     {
-        if (
-            isset(self::$top_items_by_frm_ref_id[$frm_ref_id]) &&
-            (
-                self::$top_items_by_frm_ref_id[$frm_ref_id] instanceof ilObjForum ||
-                self::$top_items_by_frm_ref_id[$frm_ref_id] instanceof ilObjGroup
-            )
-        ) {
-            return self::$top_items_by_frm_ref_id[$frm_ref_id];
+        if (isset(self::$container_by_frm_ref_id[$frm_ref_id])) {
+            return self::$container_by_frm_ref_id[$frm_ref_id];
         }
 
-        $top_item_ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
-        if (!$top_item_ref_id) {
-            $top_item_ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
+        $ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
+        if (!($ref_id > 0)) {
+            $ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
         }
 
-        if ($top_item_ref_id) {
-            $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
-            self::$top_items_by_frm_ref_id[$frm_ref_id] = $top_item;
-            return $top_item;
+        if ($ref_id > 0) {
+            /** @var ilObjCourse|ilObjGroup $container */
+            $container = ilObjectFactory::getInstanceByRefId($ref_id);
+            self::$container_by_frm_ref_id[$frm_ref_id] = $container;
+            return $container;
         }
+
         return null;
     }
 
