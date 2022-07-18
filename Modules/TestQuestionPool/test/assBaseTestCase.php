@@ -55,6 +55,8 @@ abstract class assBaseTestCase extends TestCase
 
         $this->setGlobalVariable('http', $this->getMockBuilder(ILIAS\HTTP\Services::class)->disableOriginalConstructor()->getMock());
 
+        $this->setGlobalVariable('upload', $this->createMock(ILIAS\FileUpload\FileUpload::class));
+
         parent::setUp();
     }
 
