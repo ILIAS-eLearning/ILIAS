@@ -36,7 +36,6 @@ use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
 class ilObjFileGUI extends ilObject2GUI
 {
     public const UPLOAD_MAX_FILES = 100;
-    public const UPLOAD_MAX_FILE_SIZE = 1_000_000_000; // around 1gb
     public const PARAM_FILES = Dropzone::FILE_INPUT_KEY;
 
     public const PARAM_UPLOAD_ORIGIN = 'origin';
@@ -346,7 +345,7 @@ class ilObjFileGUI extends ilObject2GUI
                         ilObjFileProcessorInterface::OPTION_FILENAME => $this->ui->factory()->input()->field()->text($this->lng->txt('title')),
                         ilObjFileProcessorInterface::OPTION_DESCRIPTION => $this->ui->factory()->input()->field()->textarea($this->lng->txt('description')),
                     ])
-                )->withMaxFiles(self::UPLOAD_MAX_FILES)->withMaxFileSize(self::UPLOAD_MAX_FILE_SIZE),
+                )->withMaxFiles(self::UPLOAD_MAX_FILES)->withMaxFileSize((int) ilFileUtils::getUploadSizeLimitBytes()),
             ]
         );
     }

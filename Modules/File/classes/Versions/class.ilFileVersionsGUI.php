@@ -370,12 +370,9 @@ class ilFileVersionsGUI
 
     private function confirmDeleteFile() : void
     {
-        global $DIC;
+        $parent_id = $this->tree->getParentId($this->ref_id);
 
-        $parent_id = $DIC->repositoryTree()->getParentId($this->ref_id);
-
-        $ru = new ilRepositoryTrashGUI($this);
-        $ru->deleteObjects($parent_id, array($this->ref_id));
+        ilRepUtil::deleteObjects($parent_id, [$this->ref_id]);
 
         // redirect to parent object
         $this->ctrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $parent_id);
