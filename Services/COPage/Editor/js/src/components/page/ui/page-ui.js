@@ -913,7 +913,7 @@ export default class PageUI {
         break;
 
       default:
-        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiActions + this.uiModel.multiEditHelp);
+        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiEditHelp + this.uiModel.multiActions );
         this.initTopActions();
         this.initMultiButtons();
         break;

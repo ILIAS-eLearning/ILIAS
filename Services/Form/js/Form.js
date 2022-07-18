@@ -64,6 +64,9 @@ il.Form = {
 		id      = il.Form.escapeSelector(id);
 		cont_id = il.Form.escapeSelector(cont_id);
 
+		console.log(id);
+		console.log(cont_id);
+
 		if (cb == null) {
 			il.Form.sub_active[cont_id] = id;
 		} else {
@@ -74,10 +77,15 @@ il.Form = {
 			}
 		}
 
+		console.log(il.Form.sub_active);
+
 		var parent_subform = $("#" + cont_id).parents(".ilSubForm")[0];
-		
+
+		console.log("close...");
 		$("#" + cont_id + " div.ilSubForm[id!='" + id + "']").each(function() {
-			
+
+			console.log(this.id);
+
 			// #18482 - check if subform is on same level as parent
 			if(parent_subform == $(this).parents(".ilSubForm")[0]) {
 				
@@ -97,6 +105,7 @@ il.Form = {
 				
 			}
 		})
+		console.log("...close");
 
 		// activate subform
 		obj = $("#" + id).get(0);

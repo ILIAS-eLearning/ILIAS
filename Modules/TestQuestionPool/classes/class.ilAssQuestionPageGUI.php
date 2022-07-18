@@ -73,10 +73,11 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 
     public function showPage() : string
     {
-        $this->setOriginalPresentationTitle($this->getPresentationTitle());
-
-        $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
-
+        if ($this->getPresentationTitle() !== null) {
+            $this->setOriginalPresentationTitle($this->getPresentationTitle());
+            $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
+        }
+        
         // fau: testNav - enable page toc as placeholder for info and actions block (see self::insertPageToc)
         $config = $this->getPageConfig();
         $config->setEnablePageToc('y');
