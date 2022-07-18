@@ -40,7 +40,7 @@ class ilUserAvatarResolver
     protected ilDBInterface $db;
     protected Factory $ui;
     protected bool $letter_avatars_activated;
-    
+
     public function __construct(int $user_id)
     {
         global $DIC;
@@ -66,20 +66,20 @@ class ilUserAvatarResolver
             array($this->user_id)
         );
 
-        while ($row = $this->db->fetchAssoc($res)) {
-            $this->login = $row['login'];
-            $this->firstname = $row['firstname'];
-            $this->lastname = $row['lastname'];
+        $row = $this->db->fetchAssoc($res);
+        $this->login = $row['login'];
+        $this->firstname = $row['firstname'];
+        $this->lastname = $row['lastname'];
 
-            switch ($row['keyword']) {
-                case 'public_upload':
-                    $this->has_public_upload = $row['value'] === 'y';
-                    break;
-                case 'public_profile':
-                    $this->has_public_profile = ($row['value'] === 'y' || $row['value'] === 'g');
-                    break;
-            }
+        switch ($row['keyword']) {
+            case 'public_upload':
+                $this->has_public_upload = $row['value'] === 'y';
+                break;
+            case 'public_profile':
+                $this->has_public_profile = ($row['value'] === 'y' || $row['value'] === 'g');
+                break;
         }
+
 
         // Uploaded file
         $webspace_dir = '';
@@ -123,7 +123,7 @@ class ilUserAvatarResolver
             return $this->ui->symbol()->avatar()->picture($picture, $this->login)
                             ->withLabel($alternative_text);
         }
-    
+
         if ($this->letter_avatars_activated === false) {
             return $this->ui->symbol()->avatar()->picture(
                 \ilUtil::getImagePath('no_photo_xsmall.jpg'),
@@ -131,7 +131,7 @@ class ilUserAvatarResolver
             );
         }
 
-        return $this->ui->symbol()->avatar()->letter($this->login)->withLabel($alternative_text);
+        return $this->ui->symbol()->avatar()->letter($this->abbreviation)->withLabel($alternative_text);
     }
 
     public function getLegacyPictureURL() : string
