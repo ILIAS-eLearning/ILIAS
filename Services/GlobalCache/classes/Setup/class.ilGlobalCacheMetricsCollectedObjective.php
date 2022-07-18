@@ -79,12 +79,12 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
                 );
                 $port = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
+                    Setup\Metrics\Metric::TYPE_GAUGE,
                     $server->getPort()
                 );
                 $weight = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
+                    Setup\Metrics\Metric::TYPE_GAUGE,
                     $server->getWeight()
                 );
 
