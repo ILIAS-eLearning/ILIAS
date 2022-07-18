@@ -1160,33 +1160,34 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN1:
-                if (levenshtein($a_original, $a_entered) <= 1) {
+                if ($this->levenshtein($a_original, $a_entered, 1) >= 0) {
                     $result = $max_points;
                 }
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN2:
-                if (levenshtein($a_original, $a_entered) <= 2) {
+                if ($this->levenshtein($a_original, $a_entered, 2) >= 0) {
                     $result = $max_points;
                 }
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN3:
-                if (levenshtein($a_original, $a_entered) <= 3) {
+                if ($this->levenshtein($a_original, $a_entered, 3) >= 0) {
                     $result = $max_points;
                 }
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN4:
-                if (levenshtein($a_original, $a_entered) <= 4) {
+                if ($this->levenshtein($a_original, $a_entered, 4) >= 0) {
                     $result = $max_points;
                 }
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN5:
-                if (levenshtein($a_original, $a_entered) <= 5) {
+                if ($this->levenshtein($a_original, $a_entered, 5) >= 0) {
                     $result = $max_points;
                 }
                 break;
         }
         return $result;
     }
+
 
     /**
     * Returns the points for a text gap and compares the given solution with

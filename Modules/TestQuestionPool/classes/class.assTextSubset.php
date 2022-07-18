@@ -447,39 +447,43 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         $result = 0;
         $textrating = $this->getTextRating();
         foreach ($answers as $key => $value) {
+            if($this->answers[$key]->getPoints() <= 0){
+                continue;
+            }
+            
             switch ($textrating) {
                 case TEXTGAP_RATING_CASEINSENSITIVE:
-                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0 && $this->answers[$key]->getPoints() > 0) {
+                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_CASESENSITIVE:
-                    if (strcmp($value, $answer) == 0 && $this->answers[$key]->getPoints() > 0) {
+                    if (strcmp($value, $answer) == 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN1:
-                    if (levenshtein($value, $answer) <= 1 && $this->answers[$key]->getPoints() > 0) {
+                    if ($this->levenshtein($value, $answer, 1) >= 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN2:
-                    if (levenshtein($value, $answer) <= 2 && $this->answers[$key]->getPoints() > 0) {
+                    if ($this->levenshtein($value, $answer, 2) >= 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN3:
-                    if (levenshtein($value, $answer) <= 3 && $this->answers[$key]->getPoints() > 0) {
+                    if ($this->levenshtein($value, $answer, 3) >= 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN4:
-                    if (levenshtein($value, $answer) <= 4 && $this->answers[$key]->getPoints() > 0) {
+                    if ($this->levenshtein($value, $answer,4) >= 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN5:
-                    if (levenshtein($value, $answer) <= 5 && $this->answers[$key]->getPoints() > 0) {
+                    if ($this->levenshtein($value, $answer, 5) >= 0) {
                         return $key;
                     }
                     break;

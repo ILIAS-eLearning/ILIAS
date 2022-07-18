@@ -468,27 +468,27 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         foreach ($answerwords as $a_original) {
             switch ($textrating) {
                 case TEXTGAP_RATING_LEVENSHTEIN1:
-                    if (levenshtein($a_original, $a_keyword) <= 1) {
+                    if ($this->levenshtein($a_original, $a_keyword, 1) >= 0) {
                         return true;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN2:
-                    if (levenshtein($a_original, $a_keyword) <= 2) {
+                    if ($this->levenshtein($a_original, $a_keyword, 2) >= 0) {
                         return true;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN3:
-                    if (levenshtein($a_original, $a_keyword) <= 3) {
+                    if ($this->levenshtein($a_original, $a_keyword, 3) >= 0) {
                         return true;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN4:
-                    if (levenshtein($a_original, $a_keyword) <= 4) {
+                    if ($this->levenshtein($a_original, $a_keyword, 4) >= 0) {
                         return true;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN5:
-                    if (levenshtein($a_original, $a_keyword) <= 5) {
+                    if ($this->levenshtein($a_original, $a_keyword, 5) >= 0) {
                         return true;
                     }
                     break;
@@ -513,50 +513,38 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         
         switch ($this->getKeywordRelation()) {
             case 'any':
-
                 $points = 0;
-
                 foreach ($answers as $answer) {
                     $qst_answer = $answer->getAnswertext();
                     $user_answer = '  ' . $solution;
-
                     if ($this->isKeywordMatching($user_answer, $qst_answer)) {
                         $points += $answer->getPoints();
                     }
                 }
-
                 break;
 
             case 'all':
-
                 $points = $this->getMaximumPoints();
-
                 foreach ($answers as $answer) {
                     $qst_answer = $answer->getAnswertext();
                     $user_answer = '  ' . $solution;
-
                     if (!$this->isKeywordMatching($user_answer, $qst_answer)) {
                         $points = 0;
                         break;
                     }
                 }
-
                 break;
 
             case 'one':
-
                 $points = 0;
-
                 foreach ($answers as $answer) {
                     $qst_answer = $answer->getAnswertext();
                     $user_answer = '  ' . $solution;
-
                     if ($this->isKeywordMatching($user_answer, $qst_answer)) {
                         $points = $this->getMaximumPoints();
                         break;
                     }
                 }
-
                 break;
         }
 
