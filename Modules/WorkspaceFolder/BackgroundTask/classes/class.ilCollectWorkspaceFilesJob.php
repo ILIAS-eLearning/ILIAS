@@ -160,7 +160,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
                 $files_from_folder = $this->recurseFolder($child["child"], $child['title'], $temp_dir, $num_recursions, $a_initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
             } elseif (($child["type"] == "file") and ($this->getFileDirs($child["child"], $child['title'], $temp_dir) != false)) {
-                $files[] = $this->getFileDirs($child["ref_id"], $child['title'], $temp_dir);
+                $files[] = $this->getFileDirs((int) $child["wsp_id"], $child['title'], $temp_dir);
             }
         }
         // ensure that empty folders are also contained in the downloaded zip
