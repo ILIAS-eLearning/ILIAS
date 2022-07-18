@@ -52,14 +52,20 @@ class ilMail
     protected array $userInstancesByIdMap = [];
     /** @var callable */
     protected $usrIdByLoginCallable;
-    /** @var callable */
-    protected $loginByUsrIdCallable;
+    protected ilAutoResponderService $auto_responder_service;
+
+    public function getAutoResponderService() : ilAutoResponderService
+    {
+        return $this->auto_responder_service;
+    }
+
+    public function setAutoResponderService(ilAutoResponderService $auto_responder_service) : void
+    {
+        $this->auto_responder_service = $auto_responder_service;
+    }
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
     protected ilObjUser $actor;
-    protected bool $auto_responder_status = false;
-    /** @var array<int, ilMailOptions>  */
-    protected array $auto_responder_data = [];
 
     public function __construct(
         int $a_user_id,
@@ -74,7 +80,7 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
-        callable $loginByUsrIdCallable = null,
+        ilAutoResponderService $auto_responder_service = null,
         int $mailAdminNodeRefId = null,
         protected ?int $mail_obj_ref_id = null,
         ilObjUser $actor = null
@@ -94,9 +100,7 @@ class ilMail
         $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login): int {
             return (int) ilObjUser::_lookupId($login);
         };
-        $this->loginByUsrIdCallable = $loginByUsrIdCallable ?? static function (int $usrId) : string {
-            return ilObjUser::_lookupLogin($usrId);
-        };
+        $this->auto_responder_service = $auto_responder_service ?? new ilAutoResponderServiceImpl();
         $this->user_id = $a_user_id;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();
@@ -105,25 +109,6 @@ class ilMail
         $this->table_mail = 'mail';
         $this->table_mail_saved = 'mail_saved';
         $this->setSaveInSentbox(false);
-    }
-
-    public function enableAutoResponder() : self
-    {
-        $mail = clone $this;
-        $mail->auto_responder_status = true;
-        return $mail;
-    }
-
-    public function disableAutoResponder() : self
-    {
-        $mail = clone $this;
-        $mail->auto_responder_status = false;
-        return $mail;
-    }
-
-    public function isAutoResponderEnabled() : bool
-    {
-        return $this->auto_responder_status;
     }
 
     public function withContextId(string $contextId): self
@@ -601,7 +586,7 @@ class ilMail
         int $sentMailId,
         bool $usePlaceholders = false
     ): bool {
-        $this->auto_responder_data = [];
+        $this->auto_responder_service->emptyAutoResponderData();
         if ($usePlaceholders) {
             $toUsrIds = $this->getUserIds([$to]);
             $this->logger->debug(sprintf(
@@ -655,22 +640,8 @@ class ilMail
                 $sentMailId
             );
         }
-        $this->auto_responder_status = false;
-        if ($this->auto_responder_data) {
-            foreach ($this->auto_responder_data as $usr_id => $mail_options) {
-                $tmpmail = new ilFormatMail($usr_id);
-                $tmpmail->setSaveInSentbox(false);
-                $tmpmail->sendMail(
-                    ($this->loginByUsrIdCallable)($this->user_id),
-                    '',
-                    '',
-                    $mail_options->getAbsenceAutoResponderSubject(),
-                    $mail_options->getAbsenceAutoResponderBody() . chr(13) . chr(10) . $mail_options->getSignature(),
-                    [],
-                    false
-                );
-            }
-        }
+        $this->auto_responder_service->disableAutoResponder();
+        $this->auto_responder_service->handleAutoResponderMails($this->user_id);
 
         return true;
     }
@@ -771,9 +742,10 @@ class ilMail
                 $user->getId()
             );
 
-            if ($this->isAutoResponderEnabled() && $mailOptions->isAbsent()) {
-                $this->auto_responder_data[$user->getId()] = $mailOptions;
-            }
+            $this->auto_responder_service->handleAutoResponderData(
+                $user->getId(),
+                $mailOptions
+            );
 
             if ($attachments !== []) {
                 $this->mfile->assignAttachmentsToDirectory($internalMailId, $sentMailId);
@@ -1091,7 +1063,7 @@ class ilMail
             serialize(array_merge(
                 $this->contextParameters,
                 [
-                    'auto_responder' => $this->isAutoResponderEnabled()
+                    'auto_responder' => $this->auto_responder_service->isAutoResponderEnabled()
                 ]
             ))
         ]);

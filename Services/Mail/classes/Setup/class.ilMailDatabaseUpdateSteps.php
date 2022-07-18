@@ -5,19 +5,15 @@ declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
- *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
- *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
  *********************************************************************/
-
 class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
@@ -167,6 +163,34 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                     'default' => null
                 ]
             );
+        }
+    }
+
+    public function step_8() : void
+    {
+        if (!$this->db->tableExists('auto_responder')) {
+            $this->db->createTable(
+                'auto_responder',
+                [
+                    'sender_id' => [
+                        'type' => 'integer',
+                        'length' => 4,
+                        'notnull' => true
+                    ],
+                    'receiver_id' => [
+                        'type' => 'integer',
+                        'length' => 4,
+                        'notnull' => true
+                    ],
+                    'send_time' => [
+                        'type' => 'timestamp',
+                        'notnull' => true
+                    ]
+                ]
+            );
+            $this->db->addPrimaryKey('auto_responder', ['sender_id', 'receiver_id']);
+            $this->db->addIndex('auto_responder', ['send_time']);
+
         }
     }
 }
