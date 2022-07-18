@@ -43,7 +43,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     {
         if (parent::init()) {
             if ($this->ass_id > 0) {
-                $this->submission_path = $this->getAbsolutePath() . "/subm_" . $this->ass_id;
+                $this->submission_path = $this->path . "/subm_" . $this->ass_id;
                 $this->tmp_path = $this->path . "/tmp_" . $this->ass_id;
                 $this->feedb_path = $this->path . "/feedb_" . $this->ass_id;
                 $this->multi_feedback_upload_path = $this->path . "/mfb_up_" . $this->ass_id;
