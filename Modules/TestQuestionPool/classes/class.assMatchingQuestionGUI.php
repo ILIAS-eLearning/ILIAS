@@ -65,59 +65,82 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->object->flushTerms();
         $this->object->flushDefinitions();
 
-        // add terms
-        $terms = $form->getItemByPostVar('terms');
-        foreach ($_POST['terms']['answer'] as $index => $answer) {
-            $filename = $_POST['terms']['imagename'][$index] ?? '';
-            if (($_FILES['terms']['name']['image'][$index] ?? '') !== '' &&
-                in_array($_FILES['terms']['type']['image'][$index] ?? '', ['image/jpeg', 'image/png', 'image/gif'])
-            ) {
-                // upload the new file
-                $name = $_FILES['terms']['name']['image'][$index];
-                if ($this->object->setImageFile(
-                    $_FILES['terms']['tmp_name']['image'][$index],
-                    $this->object->getEncryptedFilename($name)
-                )) {
-                    $filename = $this->object->getEncryptedFilename($name);
-                } else {
-                    $filename = "";
+        $uploads = $this->request->getProcessedUploads();
+        $allowed_mime_types = ['image/jpeg', 'image/png', 'image/gif'];
+
+        if ($this->request->isset('terms')) {
+            $answers = $this->request->raw('terms')['answer'] ?? [];
+            $terms_image_names = $this->request->raw('terms')['imagename'] ?? [];
+            $terms_identifiers = $this->request->raw('terms')['identifier'] ?? [];
+
+            foreach ($answers as $index => $answer) {
+                $filename = $terms_image_names[$index] ?? '';
+
+                $upload_tmp_name = $this->request->getUploadFilename(['terms', 'image'], $index);
+
+                if (isset($uploads[$upload_tmp_name]) && $uploads[$upload_tmp_name]->isOk() &&
+                    in_array($uploads[$upload_tmp_name]->getMimeType(), $allowed_mime_types)) {
+                    $filename = '';
+                    $name = $uploads[$upload_tmp_name]->getName();
+                    if ($this->object->setImageFile(
+                        $uploads[$upload_tmp_name]->getPath(),
+                        $this->object->getEncryptedFilename($name)
+                    )) {
+                        $filename = $this->object->getEncryptedFilename($name);
+                    }
                 }
+                // @PHP8-CR: There seems to be a bigger issue lingering here and won't suppress / "quickfix" this but
+                // postpone further analysis, eventually involving T&A TechSquad (see also remark in assMatchingQuestionGUI
+                $this->object->addTerm(
+                    new assAnswerMatchingTerm(
+                        ilUtil::stripSlashes($answer),
+                        $filename,
+                        $terms_identifiers[$index] ?? ''
+                    )
+                );
             }
-            // @PHP8-CR: There seems to be a bigger issue lingering here and won't suppress / "quickfix" this but
-            // postpone further analysis, eventually involving T&A TechSquad (see also remark in assMatchingQuestionGUI
-            $this->object->addTerm(
-                new assAnswerMatchingTerm($answer, $filename, $_POST['terms']['identifier'][$index])
-            );
-        }
-        // add definitions
-        $definitions = $form->getItemByPostVar('definitions');
-        foreach ($_POST['definitions']['answer'] as $index => $answer) {
-            $filename = $_POST['definitions']['imagename'][$index] ?? '';
-            if (($_FILES['definitions']['name']['image'][$index] ?? '') !== '' &&
-                in_array($_FILES['definitions']['type']['image'][$index] ?? '', ['image/jpeg', 'image/png', 'image/gif'])
-            ) {
-                // upload the new file
-                $name = $_FILES['definitions']['name']['image'][$index];
-                if ($this->object->setImageFile(
-                    $_FILES['definitions']['tmp_name']['image'][$index],
-                    $this->object->getEncryptedFilename($name)
-                )
-                ) {
-                    $filename = $this->object->getEncryptedFilename($name);
-                } else {
-                    $filename = "";
-                }
-            }
-            $this->object->addDefinition(
-                new assAnswerMatchingDefinition($answer, $filename, $_POST['definitions']['identifier'][$index])
-            );
         }
 
-        // add matching pairs
-        if (is_array($_POST['pairs']['points'])) {
-            foreach ($_POST['pairs']['points'] as $index => $points) {
-                $term_id = $_POST['pairs']['term'][$index] ?? 0;
-                $definition_id = $_POST['pairs']['definition'][$index] ?? 0;
+        if ($this->request->isset('definitions')) {
+            $answers = $this->request->raw('definitions')['answer'] ?? [];
+            $definitions_image_names = $this->request->raw('definitions')['imagename'] ?? [];
+            $definitions_identifiers = $this->request->raw('definitions')['identifier'] ?? [];
+
+            foreach ($answers as $index => $answer) {
+                $filename = $definitions_image_names[$index] ?? '';
+
+                $upload_tmp_name = $this->request->getUploadFilename(['definitions', 'image'], $index);
+
+                if (isset($uploads[$upload_tmp_name]) && $uploads[$upload_tmp_name]->isOk() &&
+                    in_array($uploads[$upload_tmp_name]->getMimeType(), $allowed_mime_types)) {
+                    $filename = '';
+                    $name = $uploads[$upload_tmp_name]->getName();
+                    if ($this->object->setImageFile(
+                        $uploads[$upload_tmp_name]->getPath(),
+                        $this->object->getEncryptedFilename($name)
+                    )) {
+                        $filename = $this->object->getEncryptedFilename($name);
+                    }
+                }
+
+                $this->object->addDefinition(
+                    new assAnswerMatchingDefinition(
+                        ilUtil::stripSlashes($answer),
+                        $filename,
+                        $definitions_identifiers[$index] ?? ''
+                    )
+                );
+            }
+        }
+
+        if ($this->request->isset('pairs')) {
+            $points_of_pairs = $this->request->raw('pairs')['points'] ?? [];
+            $pair_terms = $this->request->raw('pairs')['term'] ?? [];
+            $pair_definitions = $this->request->raw('pairs')['definition'] ?? [];
+
+            foreach ($points_of_pairs as $index => $points) {
+                $term_id = $pair_terms[$index] ?? 0;
+                $definition_id = $pair_definitions[$index] ?? 0;
                 $this->object->addMatchingPair(
                     $this->object->getTermWithIdentifier($term_id),
                     $this->object->getDefinitionWithIdentifier($definition_id),

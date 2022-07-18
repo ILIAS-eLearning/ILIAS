@@ -25,7 +25,8 @@ class InternalService
     {
         $this->request = new InternalRequestService(
             $DIC->http(),
-            $DIC->refinery()
+            $DIC->refinery(),
+            $DIC->upload()
         );
     }
 
