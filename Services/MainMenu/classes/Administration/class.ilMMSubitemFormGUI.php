@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
@@ -167,8 +183,7 @@ class ilMMSubitemFormGUI
         if (is_null($data)) {
             return false;
         }
-        
-        $this->item_facade->setAction((string) $data[0]['action']);
+
         $this->item_facade->setDefaultTitle((string) $data[0][self::F_TITLE]);
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
@@ -187,7 +202,7 @@ class ilMMSubitemFormGUI
         }
         
         if ($this->item_facade->supportsCustomIcon()) {
-            $icon = (string) $data[0][self::F_ICON][0];
+            $icon = (string) ($data[0][self::F_ICON][0] ?? '');
             $this->item_facade->setIconID($icon);
         }
         
