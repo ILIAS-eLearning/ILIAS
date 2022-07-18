@@ -2371,7 +2371,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $op = new ilRadioOption($txt, $key);
             $si->addOption($op);
         }
-        $lpres->addSubItem($si);
+        $tile_view->addSubItem($si);
         $si->setValue(
             (string) ((int) ilContainer::_lookupContainerSetting($this->object->getId(), "tile_size"))
         );
