@@ -76,7 +76,7 @@ class ilPlainTextHandler extends Handler
             $ret .= "\n\n-- $title --\n\n";
             if (count($content) > 0) {
                 foreach ($content as $key => $value) {
-                    $key = str_pad($key, self::KEY_SPACE);
+                    $key = str_pad((string) $key, self::KEY_SPACE);
 
                     // indent multiline values, first print_r, split in lines,
                     // indent all but first line, then implode again.
