@@ -40,6 +40,7 @@ class FormFactoryTest extends AbstractFactoryTest
         $language = $this->createMock(ilLanguage::class);
         return new I\Container\Form\Factory(
             new I\Field\Factory(
+                $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
                 new SignalGenerator(),
                 $df,
                 new Factory($df, $language),

@@ -120,13 +120,13 @@ class ilObjWikiAccess extends ilObjectAccess
                 $refs = ilObject::_getAllReferences($w_id);
             }
             foreach ($refs as $r) {
-                if ($ilAccess->checkAccess("read", "", $r) ||
-                    $ilAccess->checkAccess("visible", "", $r)) {
+                if ($ilAccess->checkAccess("read", "", (int) $r) ||
+                    $ilAccess->checkAccess("visible", "", (int) $r)) {
                     return true;
                 }
             }
-        } elseif ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+        } elseif ($ilAccess->checkAccess("read", "", (int) $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", (int) $t_arr[1])) {
             return true;
         }
         return false;

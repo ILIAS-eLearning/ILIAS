@@ -1,6 +1,21 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
  * Responsible for loading the UI Framework into the dependency injection container of ILIAS
  */
 class InitUIFramework
@@ -35,6 +50,11 @@ class InitUIFramework
                 $c["ui.factory.symbol"],
                 $c["ui.factory.toast"],
                 $c["ui.factory.legacy"]
+            );
+        };
+        $c["ui.upload_limit_resolver"] = function ($c) {
+            return new \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver(
+                (int) \ilFileUtils::getUploadSizeLimitBytes()
             );
         };
         $c["ui.signal_generator"] = function ($c) {
@@ -155,6 +175,7 @@ class InitUIFramework
             $refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
 
             return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+                $c["ui.upload_limit_resolver"],
                 $c["ui.signal_generator"],
                 $data_factory,
                 $refinery,
@@ -187,6 +208,7 @@ class InitUIFramework
         };
         $c["ui.factory.dropzone.file"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory(
+                $c["ui.upload_limit_resolver"],
                 $c["ui.factory.input"],
                 $c["lng"]
             );

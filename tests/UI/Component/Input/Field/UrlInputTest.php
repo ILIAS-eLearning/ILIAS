@@ -40,6 +40,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $data_factory = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $data_factory,
             new Refinery($data_factory, $language),

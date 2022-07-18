@@ -43,6 +43,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
             new Refinery($df, $language),
