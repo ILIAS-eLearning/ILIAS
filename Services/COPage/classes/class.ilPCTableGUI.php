@@ -170,7 +170,15 @@ class ilPCTableGUI extends ilPageContentGUI
         $html .= "<br />" . $this->renderTable("");
         $tpl->setContent($html);
     }
-    
+
+    protected function getFormTitle(string $a_mode = "edit") : string
+    {
+        if ($a_mode === "create") {
+            return $this->lng->txt("cont_insert_table");
+        }
+        return $this->lng->txt("cont_table_properties");
+    }
+
     public function initPropertiesForm(
         string $a_mode = "edit"
     ) : void {
@@ -181,11 +189,7 @@ class ilPCTableGUI extends ilPageContentGUI
         
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
-        if ($a_mode == "create") {
-            $this->form->setTitle($this->lng->txt("cont_insert_table"));
-        } else {
-            $this->form->setTitle($this->lng->txt("cont_table_properties"));
-        }
+        $this->form->setTitle($this->getFormTitle($a_mode));
 
         if ($a_mode == "create") {
             $nr = array();

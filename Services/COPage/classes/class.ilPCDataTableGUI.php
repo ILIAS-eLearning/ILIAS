@@ -28,7 +28,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -42,6 +42,14 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->http = $DIC->http();
+    }
+
+    protected function getFormTitle(string $a_mode = "edit") : string
+    {
+        if ($a_mode === "create") {
+            return $this->lng->txt("cont_ed_insert_dtab");
+        }
+        return $this->lng->txt("cont_table_properties");
     }
 
     /**
