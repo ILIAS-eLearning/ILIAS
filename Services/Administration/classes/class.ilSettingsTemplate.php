@@ -200,7 +200,7 @@ class ilSettingsTemplate
             $this->setSetting(
                 $rec["setting"],
                 $rec["value"],
-                $rec["hide"]
+                (bool) ((int) ($rec["hide"] ?? 0))
             );
         }
 
