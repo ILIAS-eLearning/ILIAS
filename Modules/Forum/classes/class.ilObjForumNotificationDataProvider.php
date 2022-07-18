@@ -28,8 +28,8 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     protected ?string $update_user_name = null;
     public int $pos_author_id = 0;
     protected int $forum_id = 0;
-    protected string $top_item_title = '';
-    protected string $top_item_type = '';
+    /** @var ilObjGroup|ilObjCourse */
+    protected ?ilObject $closest_container = null;
     protected string $forum_title = '';
     protected string $thread_title = '';
     protected array $attachments = [];
@@ -82,14 +82,14 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->forum_id;
     }
 
-    public function getTopItemTitle() : string
+    public function closestContainer() : ?ilObject
     {
-        return $this->top_item_title;
+        return $this->closest_container;
     }
 
-    public function getTopItemType() : string
+    public function providesClosestContainer() : bool
     {
-        return $this->top_item_type;
+        return $this->closest_container !== null;
     }
 
     public function getForumTitle() : string
@@ -272,10 +272,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
             $row = $this->db->fetchAssoc($result);
 
-            $top_item = $this->getTopItemForForum($this->getRefId());
-            if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
-                $row['top_item_title'] = $top_item->getTitle();
-                $row['top_item_type'] = $top_item->getType();
+            $container = $this->determineClosestContainer($this->getRefId());
+            if ($container instanceof ilObjCourse || $container instanceof ilObjGroup) {
+                $row['closest_container'] = $container;
             }
 
             $this->notificationCache->store($cacheKey, $row);
@@ -284,32 +283,31 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $row = $row ?? $this->notificationCache->fetch($cacheKey);
         $this->forum_id = (int) $row['top_pk'];
         $this->forum_title = (string) $row['top_name'];
-        $this->top_item_title = $row['top_item_title'] ?? '';
-        $this->top_item_type = $row['top_item_type'] ?? '';
+        $this->closest_container = $row['closest_container'] ?? null;
 
         $this->is_anonymized = (bool) $row['anonymized'];
     }
 
-    public function getTopItemForForum($frm_ref_id) : ?ilObject
+    public function determineClosestContainer(int $frm_ref_id) : ?ilObject
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
-            'forum_top_items',
+            'forum_container',
             $frm_ref_id
         ]);
 
         if (false === $this->notificationCache->exists($cacheKey)) {
-
-            $top_item_ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
-            if (!$top_item_ref_id) {
-                $top_item_ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
+            $ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
+            if (!($ref_id > 0)) {
+                $ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
             }
 
-            if ($top_item_ref_id) {
-                $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
-                $this->notificationCache->store($cacheKey, $top_item);
-                return $top_item;
+            if ($ref_id > 0) {
+                $container = ilObjectFactory::getInstanceByRefId($ref_id);
+                $this->notificationCache->store($cacheKey, $container);
+                return $container;
             }
         }
+
         return null;
     }
 
@@ -328,7 +326,11 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         }
     }
 
-    public function getForumNotificationRecipients($notification_type) : array
+    /**
+     * @param int $notification_type
+     * @return int[]
+     */
+    public function getForumNotificationRecipients(int $notification_type) : array
     {
         $event_type = $this->getEventType($notification_type);
         $cacheKey = $this->notificationCache->createKeyByValues([
@@ -365,6 +367,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return array_unique($rcps);
     }
 
+    /**
+     * @param int $notification_type
+     * @return int[]
+     */
     public function getThreadNotificationRecipients(int $notification_type) : array
     {
         if (!$this->getThreadId()) {
@@ -404,6 +410,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return (array) $this->notificationCache->fetch($cacheKey);
     }
 
+    /**
+     * @return int[]
+     */
     public function getPostAnsweredRecipients() : array
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
@@ -417,6 +426,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
             $this->notificationCache->store($cacheKey, $parent_objPost);
         }
 
+        /** @var ilForumPost $parent_objPost */
         $parent_objPost = $this->notificationCache->fetch($cacheKey);
         $rcps = [];
         $rcps[] = $parent_objPost->getPosAuthorId();
@@ -424,6 +434,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $rcps;
     }
 
+    /**
+     * @return int[]
+     */
     public function getPostActivationRecipients() : array
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
@@ -442,9 +455,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return (array) $rcps;
     }
 
-    public function setPosAuthorId($pos_author_id) : void
+    public function setPosAuthorId(int $pos_author_id) : void
     {
-        $this->pos_author_id = (int) $pos_author_id;
+        $this->pos_author_id = $pos_author_id;
     }
 
     public function getPosAuthorId() : int
@@ -452,6 +465,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->pos_author_id;
     }
 
+    /**
+     * @param int $objId
+     * @return int[]
+     */
     private function getRefIdsByObjId(int $objId) : array
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
@@ -466,6 +483,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->notificationCache->fetch($cacheKey);
     }
 
+    /**
+     * @param ilDBStatement $statement
+     * @return int[]
+     */
     private function createRecipientArray(ilDBStatement $statement) : array
     {
         $refIds = $this->getRefIdsByObjId($this->getObjId());
@@ -515,6 +536,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
                 $event_type = 0;
                 break;
         }
+
         return $event_type;
     }
 }

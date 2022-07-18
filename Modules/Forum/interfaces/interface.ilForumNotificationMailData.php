@@ -28,9 +28,10 @@ interface ilForumNotificationMailData
 
     public function getForumId() : int;
 
-    public function getTopItemTitle() : string;
+    /** @return ilObjCourse|ilObjGroup|null */
+    public function closestContainer() : ?ilObject;
 
-    public function getTopItemType() : string;
+    public function providesClosestContainer() : bool;
 
     public function getForumTitle() : string;
 

@@ -76,7 +76,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
                         $provider = new ilObjForumNotificationDataProvider(
                             $post,
-                            $a_parameter['ref_id'],
+                            (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
                         );
 
@@ -179,7 +179,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         if ($immediate_notifications_enabled && $post->isActivated()) {
                             $provider = new ilObjForumNotificationDataProvider(
                                 $post,
-                                $a_parameter['ref_id'],
+                                (int) $a_parameter['ref_id'],
                                 new ilForumNotificationCache()
                             );
 
@@ -230,7 +230,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
                         $provider = new ilObjForumNotificationDataProvider(
                             $post,
-                            $a_parameter['ref_id'],
+                            (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
                         );
 
@@ -287,7 +287,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         if ($immediate_notifications_enabled) {
                             $provider = new ilObjForumNotificationDataProvider(
                                 $post,
-                                $a_parameter['ref_id'],
+                                (int) $a_parameter['ref_id'],
                                 new ilForumNotificationCache()
                             );
                             if ($post->isCensored() && $post->isActivated()) {
@@ -348,7 +348,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
                         $provider = new ilObjForumNotificationDataProvider(
                             $post,
-                            $a_parameter['ref_id'],
+                            (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
                         );
 

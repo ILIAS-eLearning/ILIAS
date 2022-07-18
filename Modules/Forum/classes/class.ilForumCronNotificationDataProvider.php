@@ -27,8 +27,8 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     private int $obj_id;
     private int $forum_id;
     private string $forum_title;
-    private string $top_item_title;
-    private string $top_item_type;
+    /** @var ilObjCourse|ilObjGroup|null */
+    private ?ilObject $closest_container = null;
     private int $thread_id;
     private string $thread_title;
     private int $post_id;
@@ -44,6 +44,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     private bool $is_anonymized = false;
     private string $import_name;
     private array $attachments = [];
+    /** @var int[] */
     private array $cron_recipients = [];
     private int $post_update_user_id;
     private int $pos_author_id;
@@ -57,8 +58,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->notification_type = $notification_type;
         $this->obj_id = (int) $row['obj_id'];
         $this->ref_id = (int) $row['ref_id'];
-        $this->top_item_title = $row['top_item_title'];
-        $this->top_item_type = $row['top_item_type'];
+        $this->closest_container = $row['closest_container'];
         $this->thread_id = (int) $row['thread_id'];
         $this->thread_title = $row['thr_subject'];
         $this->forum_id = (int) $row['pos_top_fk'];
@@ -116,6 +116,9 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->cron_recipients[] = $user_id;
     }
 
+    /**
+     * @return int[]
+     */
     public function getCronRecipients() : array
     {
         return $this->cron_recipients;
@@ -136,14 +139,14 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         return $this->forum_id;
     }
 
-    public function getTopItemTitle() : string
+    public function closestContainer() : ?ilObject
     {
-        return $this->top_item_title;
+        return $this->closest_container;
     }
 
-    public function getTopItemType() : string
+    public function providesClosestContainer() : bool
     {
-        return $this->top_item_type;
+        return $this->closest_container !== null;
     }
 
     public function getForumTitle() : string
@@ -313,7 +316,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         int $displayUserId,
         string $usrAlias,
         string $importName
-    ) {
+    ) : ilForumAuthorInformation {
         $cacheKey = $this->notificationCache->createKeyByValues([
             $this->notification_type,
             $lng->getLangKey(),
