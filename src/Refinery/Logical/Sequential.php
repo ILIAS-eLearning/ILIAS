@@ -18,11 +18,12 @@
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ilLanguage;
 
-class Sequential extends Constraint
+class Sequential extends CustomConstraint
 {
     /**
      * There's a test to show this state will never be visible

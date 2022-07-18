@@ -69,7 +69,10 @@ class Select extends Input implements C\Input\Field\Select
      */
     protected function getConstraintForRequirement() : ?Constraint
     {
-        return $this->refinery->string()->hasMinLength(1);
+        return $this->refinery->logical()->sequential([
+            $this->refinery->to()->string(),
+            $this->refinery->string()->hasMinLength(1)
+        ]);
     }
 
     /**
