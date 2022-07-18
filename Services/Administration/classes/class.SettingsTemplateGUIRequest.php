@@ -63,9 +63,9 @@ class SettingsTemplateGUIRequest
         return $this->str("value_" . $id);
     }
 
-    public function getHide(string $id) : int
+    public function getHide(string $id) : bool
     {
-        return $this->int("hide_" . $id);
+        return (bool) $this->int("hide_" . $id);
     }
 
     /** @return int[] */

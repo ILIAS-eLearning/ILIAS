@@ -64,7 +64,7 @@ class ilObjCloudModuleMigration implements Migration
     public function step(Environment $environment) : void
     {
         while ($result = $this->db->fetchObject($this->getCloudReferencesQuery())) {
-            $cloud_object = new ilObjCloud($result->ref_id);
+            $cloud_object = new ilObjCloud((int) $result->ref_id);
             $cloud_object->delete();
         }
     }
