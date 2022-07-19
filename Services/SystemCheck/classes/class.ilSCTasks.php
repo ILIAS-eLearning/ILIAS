@@ -44,7 +44,7 @@ class ilSCTasks
             'where id = ' . $db->quote($a_task_id, ilDBConstants::T_INTEGER);
         $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->identifier;
+            return (string) $row->identifier;
         }
         return '';
     }
@@ -75,7 +75,7 @@ class ilSCTasks
             'WHERE id = ' . $ilDB->quote($a_task_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->grp_id;
+            return (int) $row->grp_id;
         }
         return 0;
     }
@@ -151,7 +151,7 @@ class ilSCTasks
 
         $this->tasks = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->tasks[] = ilSCComponentTaskFactory::getTask($row->grp_id, $row->id);
+            $this->tasks[] = ilSCComponentTaskFactory::getTask((int) $row->grp_id, (int) $row->id);
         }
     }
 }

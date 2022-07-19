@@ -70,7 +70,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($a_set['last_update'] ?? ''));
 
         // Actions
-        if ($this->access->checkAccess('write', '', $this->parent_obj->object->getRefId())) {
+        if ($this->access->checkAccess('write', '', $this->parent_obj->getObject()->getRefId())) {
             $id = (int) ($a_set['id'] ?? 0);
             $list = new ilAdvancedSelectionListGUI();
             $list->setSelectionHeaderClass('small');

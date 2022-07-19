@@ -93,10 +93,10 @@ class ilSCTask
             'WHERE id = ' . $this->db->quote($this->getId(), ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setGroupId($row->grp_id);
+            $this->setGroupId((int) $row->grp_id);
             $this->setLastUpdate(new ilDateTime($row->last_update, IL_CAL_DATETIME, ilTimeZone::UTC));
-            $this->setStatus($row->status);
-            $this->setIdentifier($row->identifier);
+            $this->setStatus((int) $row->status);
+            $this->setIdentifier((string) $row->identifier);
         }
         return true;
     }

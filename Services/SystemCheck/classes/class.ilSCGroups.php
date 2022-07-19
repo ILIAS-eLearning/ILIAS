@@ -48,7 +48,7 @@ class ilSCGroups
             'WHERE component = ' . $this->db->quote($a_component_id, ilDBConstants::T_TEXT);
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->id;
+            return (int) $row->id;
         }
         return 0;
     }
@@ -69,7 +69,7 @@ class ilSCGroups
 
         $this->groups = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->groups[] = new ilSCGroup($row->id);
+            $this->groups[] = new ilSCGroup((int) $row->id);
         }
     }
 }

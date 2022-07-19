@@ -86,9 +86,9 @@ class ilSCGroup
             'WHERE id = ' . $this->db->quote($this->getId(), ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setComponentId($row->component);
+            $this->setComponentId((string) $row->component);
             $this->setLastUpdate(new ilDateTime($row->last_update, IL_CAL_DATETIME, ilTimeZone::UTC));
-            $this->setStatus($row->status);
+            $this->setStatus((int) $row->status);
         }
         return true;
     }
