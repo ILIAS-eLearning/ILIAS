@@ -439,7 +439,16 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 }
             }
 
-            $actions->addItem($this->lng->txt('preview'), '', $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
+            $actions->addItem(
+                $this->lng->txt('preview'),
+                '',
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            );
+            $actions->addItem(
+                $this->lng->txt('statistics'),
+                '',
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
+            );
             if ($this->getEditable()) {
                 $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'] . 'GUI', 'editQuestion');
                 $actions->addItem($this->lng->txt('edit_question'), '', $editHref);

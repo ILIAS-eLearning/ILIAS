@@ -390,8 +390,6 @@ abstract class assQuestionGUI
     public function assessment() : void
     {
         $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
-
-
         $usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
         $this->tpl->setContent(implode('<br />', array(

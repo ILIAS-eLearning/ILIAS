@@ -38,6 +38,7 @@ class ilAssQuestionPreviewGUI
 {
     const CMD_SHOW = 'show';
     const CMD_RESET = 'reset';
+    const CMD_STATISTICS = 'assessment';
     const CMD_INSTANT_RESPONSE = 'instantResponse';
     const CMD_HANDLE_QUESTION_ACTION = 'handleQuestionAction';
     const CMD_GATEWAY_CONFIRM_HINT_REQUEST = 'gatewayConfirmHintRequest';
@@ -95,6 +96,16 @@ class ilAssQuestionPreviewGUI
                     $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', self::CMD_SHOW),
                     '',
                     [strtolower(__CLASS__)]
+                );
+                // Assessment of questions sub menu entry
+                $q_type = $this->questionOBJ->getQuestionType();
+                $classname = $q_type . "GUI";
+                $this->tabs->addTarget(
+                    "statistics",
+                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', "assessment"),
+                    array("assessment"),
+                    $classname,
+                    ""
                 );
                 if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
                     $ref_id = $_GET["calling_test"];
@@ -272,6 +283,12 @@ class ilAssQuestionPreviewGUI
         $this->tpl->setContent($tpl->get());
     }
     
+    private function assessmentCmd()
+    {
+        $this->tabs->activateTab('statistics');
+        $this->questionGUI->assessment();
+    }
+
     protected function handleInstantResponseRendering(ilTemplate $tpl) : void
     {
         $renderHeader = false;
