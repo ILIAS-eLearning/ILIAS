@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\UI\Component\Input\Field\FormInput;
+
 /**
  * Dashboard settings
  *
@@ -125,7 +127,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $side_panel = $this->side_panel_settings;
 
-
         $fields["enable_favourites"] = $f->input()->field()->checkbox($lng->txt("dash_enable_favourites"))
             ->withValue($this->viewSettings->enabledSelectedItems());
         $info_text = ($this->viewSettings->enabledMemberships())
@@ -141,7 +142,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withValue($this->viewSettings->enabledMemberships());
 
         // main panel
-        $section1 = $f->input()->field()->section($fields, $lng->txt("dash_main_panel"));
+        $section1 = $f->input()->field()->section($this->maybeDisable($fields), $lng->txt("dash_main_panel"));
 
         $sp_fields = [];
         foreach ($side_panel->getValidModules() as $mod) {
@@ -150,7 +151,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
 
         // side panel
-        $section2 = $f->input()->field()->section($sp_fields, $lng->txt("dash_side_panel"));
+        $section2 = $f->input()->field()->section($this->maybeDisable($sp_fields), $lng->txt("dash_side_panel"));
 
         $form_action = $ctrl->getLinkTarget($this, "saveSettings");
         return $f->input()->container()->form()->standard(
@@ -165,7 +166,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $ilAccess = $this->access;
         $side_panel = $this->side_panel_settings;
         
-        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+        if (!$this->canWrite()) {
+            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
             $ilCtrl->redirect($this, "editSettings");
         }
 
@@ -260,7 +262,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withOption('tile', $lng->txt("dash_tile"));
         $default_pres = $default_pres->withValue($this->viewSettings->getDefaultPresentationByView($view));
         $sec_presentation = $ui_factory->input()->field()->section(
-            ["avail_pres" => $avail_pres, "default_pres" => $default_pres],
+            $this->maybeDisable(["avail_pres" => $avail_pres, "default_pres" => $default_pres]),
             $lng->txt("dash_presentation")
         );
 
@@ -277,7 +279,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
         $default_sort = $default_sort->withValue($this->viewSettings->getDefaultSortingByView($view));
         $sec_sortation = $ui_factory->input()->field()->section(
-            ["avail_sort" => $avail_sort, "default_sort" => $default_sort],
+            $this->maybeDisable(["avail_sort" => $avail_sort, "default_sort" => $default_sort]),
             $lng->txt("dash_sortation")
         );
 
@@ -328,6 +330,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
+        if (!$this->canWrite()) {
+            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $ctrl->redirect($this, $redirect_cmd);
+        }
+
         $form = $this->getViewSettingsForm($view);
         $form = $form->withRequest($request);
         $form_data = $form->getData();
@@ -344,5 +351,25 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ctrl->redirect($this, $redirect_cmd);
+    }
+
+    /**
+     * @param FormInput[] $fields
+     * @return FormInput[]
+     */
+    private function maybeDisable(array $fields) : array
+    {
+        if ($this->canWrite()) {
+            return $fields;
+        }
+
+        return array_map(static function (FormInput $field) : FormInput {
+            return $field->withDisabled(true);
+        }, $fields);
+    }
+
+    private function canWrite() : bool
+    {
+        return $this->rbacsystem->checkAccess('write', $this->object->getRefId());
     }
 }
