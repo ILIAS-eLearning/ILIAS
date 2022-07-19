@@ -100,7 +100,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         $categories = array_filter(
             $this->repository->getAllUnitCategories(),
             static function (assFormulaQuestionUnitCategory $category) use ($repo) : bool {
-                return $category->getQuestionFi() === $repo->getConsumerId() ? true : false;
+                return $category->getQuestionFi() === $repo->getConsumerId();
             }
         );
         $data = [];
@@ -120,7 +120,6 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
      */
     protected function showUnitCategories(array $categories) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilLocalUnitCategoryTableGUI.php';
         $table = new ilLocalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());
         $table->setData($categories);
 

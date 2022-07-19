@@ -575,7 +575,7 @@ class ilUnitConfigurationRepository
             [$id]
         );
         while ($row = $this->db->fetchAssoc($res)) {
-            $this->deleteUnit($row['unit_id']);
+            $this->deleteUnit((int) $row['unit_id']);
         }
 
         $ar = $this->db->manipulateF(

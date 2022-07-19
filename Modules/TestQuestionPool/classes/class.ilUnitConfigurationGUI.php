@@ -541,18 +541,18 @@ abstract class ilUnitConfigurationGUI
         $num_to_confirm = 0;
         foreach ($category_ids as $category_id) {
             try {
-                $category = $this->repository->getUnitCategoryById((int) $category_id);
+                $category = $this->repository->getUnitCategoryById($category_id);
             } catch (ilException $e) {
                 continue;
             }
 
-            if (!$this->repository->isCRUDAllowed((int) $category_id)) {
+            if (!$this->repository->isCRUDAllowed($category_id)) {
                 $errors[] = $category->getDisplayString() . ' - ' . $this->lng->txt('change_adm_categories_not_allowed');
                 continue;
             }
 
             $possible_error = $this->repository->checkDeleteCategory($category_id);
-            if ($possible_error !== '') {
+            if (is_string($possible_error) && $possible_error !== '') {
                 $errors[] = $category->getDisplayString() . ' - ' . $possible_error;
                 continue;
             }
@@ -621,7 +621,7 @@ abstract class ilUnitConfigurationGUI
             }
 
             $possible_error = $this->repository->deleteCategory($category_id);
-            if ($possible_error !== '') {
+            if (is_string($possible_error) && $possible_error !== '') {
                 $errors[] = $category->getDisplayString() . ' - ' . $possible_error;
                 continue;
             }

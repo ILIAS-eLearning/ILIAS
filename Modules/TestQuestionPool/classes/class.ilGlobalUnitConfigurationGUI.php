@@ -56,7 +56,6 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
 
     protected function showUnitCategories(array $categories) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilGlobalUnitCategoryTableGUI.php';
         $table = new ilGlobalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());
         $table->setData($categories);
 
