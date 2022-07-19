@@ -1644,15 +1644,16 @@ class ilObjTestGUI extends ilObjectGUI
     /**
     * Called when a new question should be created from a test after confirmation
     *
-    * Called when a new question should be created from a test after confirmation
-    *
     * @access	public
     */
     public function executeCreateQuestionObject()
     {
         $qpl_ref_id = $_REQUEST["sel_qpl"];
-
-        $qpl_mode = $_REQUEST['usage'];
+        
+        $qpl_mode = 1;
+        if (array_key_exists('usage', $_REQUEST) && is_numeric($_REQUEST['usage'])) {
+            $qpl_mode = $_REQUEST['usage'];
+        }
         
         if (isset($_REQUEST['qtype'])) {
             include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
@@ -1660,9 +1661,9 @@ class ilObjTestGUI extends ilObjectGUI
         } elseif (isset($_REQUEST['sel_question_types'])) {
             $sel_question_types = $_REQUEST["sel_question_types"];
         }
-
-        if (!$qpl_mode || ($qpl_mode == 2 && strcmp($_REQUEST["txt_qpl"], "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0)) {
-            //if ((strcmp($_REQUEST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
+        
+        if (($qpl_mode == 2 && strcmp($_REQUEST["txt_qpl"], "") == 0) ||
+            ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0)) {
             // Mantis #14890
             $_REQUEST['sel_question_types'] = $sel_question_types;
             ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
@@ -1676,10 +1677,9 @@ class ilObjTestGUI extends ilObjectGUI
             } elseif ($qpl_mode == 1) {
                 $qpl_ref_id = $_GET["ref_id"];
             }
-
-            include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php";
+            
             $baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=" . $_GET["ref_id"] . "&calling_test=" . $_GET["ref_id"] . "&sel_question_types=" . $sel_question_types;
-
+            
             if (isset($_REQUEST['prev_qid'])) {
                 $baselink .= '&prev_qid=' . $_REQUEST['prev_qid'];
             } elseif (isset($_REQUEST['position'])) {
@@ -1698,7 +1698,6 @@ class ilObjTestGUI extends ilObjectGUI
                 );
             }
             
-            #var_dump($_REQUEST['prev_qid']);
             ilUtil::redirect($baselink);
             
             exit();
