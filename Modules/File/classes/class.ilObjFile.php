@@ -37,7 +37,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     use ilObjFileUsages;
     use ilObjFilePreviewHandler;
     use ilObjFileNews;
-    
+    use ilObjFileSecureString;
+
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
     public const OBJECT_TYPE = "file";
@@ -333,7 +334,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $q = "SELECT * FROM file_data WHERE file_id = %s";
         $r = $DIC->database()->queryF($q, ['integer'], [$this->getId()]);
         $row = $r->fetchObject();
-        $this->filename = $row->file_name ?? '';
+
+        $this->filename = $this->secure($row->file_name ?? '');
         $this->filetype = $row->file_type ?? '';
         $this->filesize = $row->file_size ?? 0;
         $this->version = $row->version ?? 1;
