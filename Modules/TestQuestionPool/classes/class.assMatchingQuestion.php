@@ -981,19 +981,19 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function removeTermImage($index) : void
     {
-        $term = $this->terms[$index];
+        $term = $this->terms[$index] ?? null;
         if (is_object($term)) {
             $this->deleteImagefile($term->picture);
-            $term->picture = null;
+            $term->picture = '';
         }
     }
     
     public function removeDefinitionImage($index) : void
     {
-        $definition = $this->definitions[$index];
+        $definition = $this->definitions[$index] ?? null;
         if (is_object($definition)) {
             $this->deleteImagefile($definition->picture);
-            $definition->picture = null;
+            $definition->picture = '';
         }
     }
     

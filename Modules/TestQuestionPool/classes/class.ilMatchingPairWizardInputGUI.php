@@ -34,10 +34,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $this->terms = array();
         $this->definitions = array();
         if (is_array($a_value)) {
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
-            if (is_array($a_value['term'])) {
+            if (isset($a_value['term']) && is_array($a_value['term'])) {
                 foreach ($a_value['term'] as $idx => $term) {
                     $this->pairs[] = new assAnswerMatchingPair(new assAnswerMatchingTerm('', '', $term), new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]), $a_value['points'][$idx]);
                 }
@@ -119,7 +116,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         }
         if (is_array($foundvalues)) {
             // check answers
-            if (is_array($foundvalues['term'])) {
+            if (isset($foundvalues['term']) && is_array($foundvalues['term'])) {
                 foreach ($foundvalues['term'] as $val) {
                     if ($this->getRequired() && $val < 1) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
