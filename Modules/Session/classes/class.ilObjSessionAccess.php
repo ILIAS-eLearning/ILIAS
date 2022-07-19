@@ -135,7 +135,7 @@ class ilObjSessionAccess extends ilObjectAccess
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
 
-        if (isset(self::$registered[$a_usr_id])) {
+        if (isset(self::$registered[$a_usr_id][$a_obj_id])) {
             return (bool) self::$registered[$a_usr_id][$a_obj_id];
         }
         
@@ -145,7 +145,7 @@ class ilObjSessionAccess extends ilObjectAccess
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             self::$registered[$a_usr_id][$row->event_id] = (bool) $row->registered;
         }
-        return (bool) self::$registered[$a_usr_id][$a_obj_id];
+        return (bool) (self::$registered[$a_usr_id][$a_obj_id] ?? false);
     }
 
     public static function _preloadData($a_obj_ids, $a_ref_ids) : void
