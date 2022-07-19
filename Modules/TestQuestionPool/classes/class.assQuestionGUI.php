@@ -1927,13 +1927,11 @@ abstract class assQuestionGUI
     public function setQuestionTabs()
     {
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
         $ilTabs = $DIC['ilTabs'];
 
         $ilTabs->clearTargets();
 
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
         if (strlen($q_type)) {
@@ -1964,6 +1962,12 @@ abstract class assQuestionGUI
                 $classname,
                 ""
             );
+        }
+        
+        // Unit editor
+        if ($_GET['q_id'] && $this->getQuestionType() === 'assFormulaQuestion') {
+            // add tab for question hint within common class assQuestionGUI
+            $this->addTab_Units($ilTabs);
         }
 
         $this->addBackTab($ilTabs);
