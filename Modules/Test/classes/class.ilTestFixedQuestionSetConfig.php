@@ -126,9 +126,6 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         // TODO: Implement saveToDb() method.
     }
     
-    /**
-     * @return ilTestReindexedSequencePositionMap
-     */
     public function reindexQuestionOrdering() : ilTestReindexedSequencePositionMap
     {
         $query = "
@@ -139,27 +136,26 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         
         $res = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->testOBJ->getTestId())
+            ['integer'],
+            [$this->testOBJ->getTestId()]
         );
         
         $sequenceIndex = 0;
-        
-        require_once 'Modules/Test/classes/class.ilTestReindexedSequencePositionMap.php';
+
         $reindexedSequencePositionMap = new ilTestReindexedSequencePositionMap();
         
         while ($row = $this->db->fetchAssoc($res)) {
             $sequenceIndex++; // start with 1
             
-            $reindexedSequencePositionMap->addPositionMapping($row['sequence'], $sequenceIndex);
+            $reindexedSequencePositionMap->addPositionMapping((int) $row['sequence'], $sequenceIndex);
             
             $this->db->update(
                 'tst_test_question',
-                array('sequence' => array('integer', $sequenceIndex)),
-                array('question_fi' => array('integer', $row['question_fi']))
+                ['sequence' => ['integer', $sequenceIndex]],
+                ['question_fi' => ['integer', $row['question_fi']]]
             );
         }
-        
+
         return $reindexedSequencePositionMap;
     }
 

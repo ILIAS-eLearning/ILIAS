@@ -21,4 +21,15 @@ class ilTestReindexedSequencePositionMapTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestReindexedSequencePositionMap::class, $this->testObj);
     }
+
+    public function testSequenceCanBeSetAndRetrieved() : void
+    {
+        $this->testObj->addPositionMapping(1, 2);
+        self::assertEquals(2, $this->testObj->getNewSequencePosition(1));
+    }
+
+    public function testNullIsReturnedIfSequenceDoesNotExistInMap() : void
+    {
+        self::assertNull($this->testObj->getNewSequencePosition(5));
+    }
 }
