@@ -268,6 +268,7 @@ class ilMemberExport
         foreach ($this->user_ids as $usr_id) {
             $row++;
             $col = 0;
+            $usr_id = (int) $usr_id;
 
             $udf_data = new ilUserDefinedData($usr_id);
             foreach ($all_fields as $field) {
@@ -462,9 +463,12 @@ class ilMemberExport
         }
         if (!$this->privacy->courseConfirmationRequired() or $this->agreement[$a_usr_id]['accepted']) {
             $field_info = explode('_', $a_field);
-            $field_id = $field_info[1];
-            $value = $this->user_course_fields[$a_usr_id][$field_id];
-            $this->addCol($value, $row, $col);
+            $field_id = $field_info[1] ?? 0;
+            $value = '';
+            if (isset($this->user_course_fields[$a_usr_id][$a_field])) {
+                $value = $this->user_course_fields[$a_usr_id][$field_id];
+            }
+            $this->addCol((string) $value, $row, $col);
             return true;
         }
         #$this->csv->addColumn('');

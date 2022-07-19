@@ -115,7 +115,6 @@ class ilMemberExportGUI
         $roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_sub'), 'subscribers'));
         $roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_wait'), 'waiting_list'));
         $form->addItem($roles);
-
         $current_roles = array();
         foreach (array('admin', 'tutor', 'member', 'subscribers', 'waiting_list') as $role) {
             if ($this->exportSettings->enabled($role)) {
@@ -223,7 +222,9 @@ class ilMemberExportGUI
         if ($this->http->wrapper()->post()->has('export_members')) {
             $incoming = $this->http->wrapper()->post()->retrieve(
                 'export_members',
-                $this->refinery->kindlyTo()->string()
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
             );
         }
         if (count($incoming)) {
