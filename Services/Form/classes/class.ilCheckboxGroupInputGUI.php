@@ -93,7 +93,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
 
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()] ?? []);
+        $this->setValue($a_values[$this->getPostVar()] ?? null);
         foreach ($this->getOptions() as $option) {
             foreach ($option->getSubItems() as $item) {
                 $item->setValueByArray($a_values);
