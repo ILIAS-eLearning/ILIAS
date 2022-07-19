@@ -26,7 +26,7 @@ class ilMultilingualismGUI
     protected \ILIAS\Multilingualism\StandardGUIRequest $request;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilObjUser $user;
     protected ilMultilingualism $obj_trans;
@@ -42,13 +42,10 @@ class ilMultilingualismGUI
 
         $this->toolbar = $DIC->toolbar();
         $this->user = $DIC->user();
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $tpl = $DIC["tpl"];
-
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        $this->tpl = $tpl;
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('obj');
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->obj_trans = ilMultilingualism::getInstance($a_obj_id, $a_type);
         $this->request = new \ILIAS\Multilingualism\StandardGUIRequest(

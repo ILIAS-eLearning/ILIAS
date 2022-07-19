@@ -632,6 +632,7 @@ class ilDidacticTemplateSettingsGUI
 
     protected function setEditTabs(string $a_tab_active = "edit") : void
     {
+        $this->lng->loadLanguageModule('obj');
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
             $this->lng->txt('didactic_back_to_overview'),
