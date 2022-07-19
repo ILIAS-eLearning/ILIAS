@@ -1,12 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
-require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
-
 
 class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 {
@@ -854,9 +863,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         );
     }
 
-    public function delete($original_id) : void
+    public function delete(int $question_id) : void
     {
-        parent::delete($original_id);
+        parent::delete($question_id);
         $this->clearFolder(false);
     }
     

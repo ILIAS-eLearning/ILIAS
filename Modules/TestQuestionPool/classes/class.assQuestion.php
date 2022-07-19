@@ -1487,14 +1487,11 @@ abstract class assQuestion
         $page->delete();
     }
 
-    /**
-    * Deletes a question and all materials from the database
-    */
     public function delete(int $question_id) : void
     {
         if ($question_id < 1) {
             return;
-        } // nothing to do
+        }
 
         $result = $this->db->queryF(
             "SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
@@ -2551,6 +2548,11 @@ abstract class assQuestion
         return self::instantiateQuestion($question_id);
     }
 
+    /**
+     * @param int $question_id
+     * @return assQuestion
+     * @throws InvalidArgumentException
+     */
     public static function instantiateQuestion(int $question_id) : assQuestion
     {
         global $DIC;
@@ -2559,9 +2561,10 @@ abstract class assQuestion
         $lng = $DIC['lng'];
 
         $question_type = assQuestion::_getQuestionType($question_id);
-        if (!strlen($question_type)) {
+        if ($question_type === '') {
             throw new InvalidArgumentException('No question with ID ' . $question_id . ' exists');
         }
+
         assQuestion::_includeClass($question_type);
         $question = new $question_type();
         $question->loadFromDb($question_id);
