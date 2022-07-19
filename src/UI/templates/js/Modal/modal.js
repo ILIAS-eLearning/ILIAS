@@ -5,6 +5,7 @@ il.UI = il.UI || {};
 
     UI.modal = (function ($) {
 
+        var triggeredSignalsStorage = [];
         var defaultShowOptions = {
             backdrop: true,
             keyboard: true,
@@ -16,6 +17,10 @@ il.UI = il.UI || {};
 
 
         var showModal = function (id, options, signalData) {
+            if (triggeredSignalsStorage[signalData.id] === true) {
+              return;
+            }
+            triggeredSignalsStorage[signalData.id] = true;
             options = $.extend(defaultShowOptions, options);
             if (options.ajaxRenderUrl) {
                 var $container = $('#' + id);
@@ -24,10 +29,12 @@ il.UI = il.UI || {};
                     if ($modal.length) {
                         $modal.modal(options);
                     }
+                    triggeredSignalsStorage[signalData.id] = false;
                 });
             } else {
                 var $modal = $('#' + id);
                 $modal.modal(options);
+                triggeredSignalsStorage[signalData.id] = false;
             }
 			initializedModalboxes[signalData.id] = id;
 		};
