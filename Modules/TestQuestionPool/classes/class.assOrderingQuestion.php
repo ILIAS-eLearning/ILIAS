@@ -1,14 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
-require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
-
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
 
 /**
  * Class for ordering questions
@@ -52,12 +60,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public $thumb_geometry = 100;
 
-    /**
-    * Minimum element height
-    *
-    * @var integer
-    */
-    public $element_height;
+    public ?int $element_height = null;
 
     public $old_ordering_depth = array();
     public $leveled_ordering = array();
@@ -169,7 +172,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->ordering_type = strlen($data["ordering_type"]) ? $data["ordering_type"] : OQ_TERMS;
             $this->thumb_geometry = $data["thumb_geometry"];
-            $this->element_height = $data["element_height"];
+            $this->element_height = $data["element_height"] ? (int) $data['element_height'] : null;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             
             try {
@@ -1077,24 +1080,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->thumb_geometry = ($a_geometry < 1) ? 100 : $a_geometry;
     }
 
-    /*
-    * Get the minimum element height
-    *
-    * @return integer Height
-    */
-    public function getElementHeight() : int
+    public function getElementHeight() : ?int
     {
         return $this->element_height;
     }
-    
-    /*
-    * Set the minimum element height
-    *
-    * @param integer $a_height Height
-    */
-    public function setElementHeight($a_height) : void
+
+    public function setElementHeight(?int $a_height) : void
     {
-        $this->element_height = ($a_height < 20) ? "" : $a_height;
+        $this->element_height = ($a_height < 20) ? null : $a_height;
     }
 
     /*

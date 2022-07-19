@@ -1,4 +1,4 @@
-function($){
+(function($){
     $(document).ready(function() {
         $.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init({
             fieldContainerSelector: '.ilWzdContainerText',

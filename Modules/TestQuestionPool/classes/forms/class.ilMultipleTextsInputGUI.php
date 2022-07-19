@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -73,24 +86,24 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
     public function onCheckInput() : bool
     {
         $lng = $this->lng;
-        
-        $submittedElements = $_POST[$this->getPostVar()];
-        
-        if (!is_array($submittedElements) && $this->getRequired()) {
+
+        $submittedElements = $this->getInput();
+
+        if ($submittedElements === [] && $this->getRequired()) {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
         
         foreach ($submittedElements as $submittedValue) {
             $submittedContentText = $this->fetchContentTextFromValue($submittedValue);
-            
-            if ($this->getRequired() && trim($submittedContentText) == "") {
+
+            if ($this->getRequired() && trim((string) $submittedContentText) === "") {
                 $this->setAlert($lng->txt('msg_input_is_required'));
                 return false;
             }
             
-            if (strlen($this->getValidationRegexp())) {
-                if (!preg_match($this->getValidationRegexp(), $submittedContentText)) {
+            if ($this->getValidationRegexp() !== '') {
+                if (!preg_match($this->getValidationRegexp(), (string) $submittedContentText)) {
                     $this->setAlert($lng->txt('msg_wrong_format'));
                     return false;
                 }
@@ -174,10 +187,10 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
     }
     
     /**
-     * @param $value
-     * @return string
+     * @param mixed $value
+     * @return string|ilAssOrderingElement|null
      */
-    protected function fetchContentTextFromValue($value) : ?string
+    protected function fetchContentTextFromValue($value)
     {
         if ($this->valueHasContentText($value)) {
             return $value;

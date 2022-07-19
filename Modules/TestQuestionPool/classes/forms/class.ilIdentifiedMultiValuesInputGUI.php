@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -200,7 +214,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
     final public function setValueByArray(array $a_values) : void
     {
         if (!is_array($a_values[$this->getPostVar()])) {
-            $a_values[$this->getPostVar()] = array();
+            $a_values[$this->getPostVar()] = [];
         }
         
         $a_values[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
@@ -214,18 +228,19 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
     {
         $this->identified_multi_values = $a_values[$this->getPostVar()];
     }
+
+    /**
+     * @return string[]
+     */
+    public function getInput() : array
+    {
+        $values = $this->arrayArray($this->getPostVar());
+
+        return $this->prepareMultiValuesSubmit($values);
+    }
     
     final public function checkInput() : bool
     {
-        /*
-        if (!is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = array();
-        }
-
-        $_POST[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
-            $_POST[$this->getPostVar()]
-        );
-        */
         return $this->onCheckInput();
     }
     
