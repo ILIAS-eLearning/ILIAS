@@ -182,7 +182,7 @@ class ilObjectCustomUserFieldsGUI
         foreach ($field_ids as $field_id) {
             $tmp_field = new ilCourseDefinedFieldDefinition($this->getObjId(), $field_id);
 
-            $confirm->addItem('field_ids[]', $field_id, $tmp_field->getName());
+            $confirm->addItem('field_ids[]', (string) $field_id, $tmp_field->getName());
         }
 
         $confirm->setConfirm($this->lng->txt('delete'), 'deleteFields');
@@ -246,7 +246,7 @@ class ilObjectCustomUserFieldsGUI
 
     protected function editField() : void
     {
-        if (!$this->initMemberIdFromQuery()) {
+        if (!$this->initFielIdFromQuery()) {
             $this->listFields();
             return;
         }
@@ -254,7 +254,7 @@ class ilObjectCustomUserFieldsGUI
         $this->initFieldForm(self::MODE_UPDATE);
         $udf = new ilCourseDefinedFieldDefinition($this->getObjId(), $this->initFielIdFromQuery());
         $this->form->getItemByPostVar('na')->setValue($udf->getName());
-        $this->form->getItemByPostVar('ty')->setValue($udf->getType());
+        $this->form->getItemByPostVar('ty')->setValue((string) $udf->getType());
         $this->form->getItemByPostVar('re')->setChecked($udf->isRequired());
         $this->form->getItemByPostVar('va')->setValues($udf->getValues());
         $this->form->getItemByPostVar('va')->setOpenAnswerIndexes($udf->getValueOptions());
@@ -267,11 +267,11 @@ class ilObjectCustomUserFieldsGUI
         if ($this->form->checkInput()) {
             $udf = new ilCourseDefinedFieldDefinition($this->getObjId(), $this->initFielIdFromQuery());
             $udf->setName($this->form->getInput('na'));
-            $udf->setType($this->form->getInput('ty'));
+            $udf->setType((int) $this->form->getInput('ty'));
             $prepared = $udf->prepareValues($this->form->getInput('va'));
             $udf->setValues($prepared);
             $udf->setValueOptions($this->form->getItemByPostVar('va')->getOpenAnswerIndexes());
-            $udf->enableRequired($this->form->getInput('re'));
+            $udf->enableRequired((bool) $this->form->getInput('re'));
             $udf->update();
 
             // Finally reset member agreements

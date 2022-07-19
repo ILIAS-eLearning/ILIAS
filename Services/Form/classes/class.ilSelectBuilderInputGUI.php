@@ -82,7 +82,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         }
         
         foreach ($this->strArray($this->getPostVar() . '_open') as $oindex => $ovalue) {
-            $this->addOpenAnswerIndex($oindex);
+            $this->addOpenAnswerIndex((string) $oindex);
         }
 
         return $this->checkSubItemsInput();
