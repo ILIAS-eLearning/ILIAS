@@ -1809,9 +1809,9 @@ abstract class assQuestionGUI
     {
         $this->object->setTitle($_POST["title"]);
         $this->object->setAuthor($_POST["author"]);
-        $this->object->setComment($_POST["comment"]);
+        $this->object->setComment($_POST["comment"] ?? '');
         if ($this->object->getSelfAssessmentEditingMode()) {
-            $this->object->setNrOfTries($_POST['nr_of_tries']);
+            $this->object->setNrOfTries((int) ($_POST['nr_of_tries'] ?? 0));
         }
         
         try {
@@ -1822,9 +1822,9 @@ abstract class assQuestionGUI
         
         $this->object->setQuestion(ilUtil::stripOnlySlashes($_POST['question'])); // ?
         $this->object->setEstimatedWorkingTime(
-            $_POST["Estimated"]["hh"],
-            $_POST["Estimated"]["mm"],
-            $_POST["Estimated"]["ss"]
+            $_POST["Estimated"]["hh"] ?? 0,
+            $_POST["Estimated"]["mm"] ?? 0,
+            $_POST["Estimated"]["ss"] ?? 0
         );
     }
 
