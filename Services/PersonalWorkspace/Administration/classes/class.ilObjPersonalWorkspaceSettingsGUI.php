@@ -141,25 +141,25 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         // Enable 'Personal Workspace'
         $wsp_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_personal_resources'), 'wsp');
         $wsp_prop->setValue('1');
-        $wsp_prop->setChecked((bool) $ilSetting->get('disable_personal_workspace'));
+        $wsp_prop->setChecked(!$ilSetting->get('disable_personal_workspace'));
         $form->addItem($wsp_prop);
 
         // Enable 'Blogs'
         $blog_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_blogs'), 'blog');
         $blog_prop->setValue('1');
-        $blog_prop->setChecked((bool) $ilSetting->get('disable_wsp_blogs'));
+        $blog_prop->setChecked(!$ilSetting->get('disable_wsp_blogs'));
         $wsp_prop->addSubItem($blog_prop);
 
         // Enable 'Files'
         $file_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_files'), 'file');
         $file_prop->setValue('1');
-        $file_prop->setChecked((bool) $ilSetting->get('disable_wsp_files'));
+        $file_prop->setChecked(!$ilSetting->get('disable_wsp_files'));
         $wsp_prop->addSubItem($file_prop);
 
         // Enable 'Links'
         $link_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_links'), 'link');
         $link_prop->setValue('1');
-        $link_prop->setChecked((bool) $ilSetting->get('disable_wsp_links'));
+        $link_prop->setChecked(!$ilSetting->get('disable_wsp_links'));
         $wsp_prop->addSubItem($link_prop);
 
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
@@ -194,10 +194,10 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
                 $link = 0;
             }
 
-            $ilSetting->set('disable_personal_workspace', (string) $wsp);
-            $ilSetting->set('disable_wsp_blogs', (string) $blog);
-            $ilSetting->set('disable_wsp_files', (string) $file);
-            $ilSetting->set('disable_wsp_links', (string) $link);
+            $ilSetting->set('disable_personal_workspace', (string) !$wsp);
+            $ilSetting->set('disable_wsp_blogs', (string) !$blog);
+            $ilSetting->set('disable_wsp_files', (string) !$file);
+            $ilSetting->set('disable_wsp_links', (string) !$link);
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
