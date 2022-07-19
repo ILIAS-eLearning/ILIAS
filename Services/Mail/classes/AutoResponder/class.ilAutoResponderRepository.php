@@ -23,4 +23,5 @@ interface ilAutoResponderRepository
     public function read(ilAutoResponder $auto_responder) : ilAutoResponder;
     public function store(ilAutoResponder $auto_responder) : void;
     public function delete(ilAutoResponder $auto_responder) : void;
+    public function deleteBySenderId(int $sender_id) : void;
 }

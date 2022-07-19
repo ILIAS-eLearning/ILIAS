@@ -37,7 +37,7 @@ class ilAutoResponderDatabaseRepository implements ilAutoResponderRepository
             $auto_responder_results[] = new ilAutoResponder(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
-                $row['send_time']
+                new DateTimeImmutable($row['send_time'])
             );
         }
         return $auto_responder_results;
@@ -57,10 +57,15 @@ class ilAutoResponderDatabaseRepository implements ilAutoResponderRepository
             $auto_responder_results[] = new ilAutoResponder(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
-                $row['send_time']
+                new DateTimeImmutable($row['send_time'])
             );
         }
         return $auto_responder_results;
+    }
+
+    public function read(ilAutoResponder $auto_responder) : ilAutoResponder
+    {
+        return $this->findBySenderIdAndReceiverId($auto_responder->getSenderId(), $auto_responder->getReceiverId());
     }
 
     public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : ?ilAutoResponder
@@ -78,18 +83,13 @@ class ilAutoResponderDatabaseRepository implements ilAutoResponderRepository
         ) : null;
     }
 
-    public function read(ilAutoResponder $auto_responder) : ilAutoResponder
-    {
-        return $this->findBySenderIdAndReceiverId($auto_responder->getSenderId(), $auto_responder->getReceiverId());
-    }
-
     public function store(ilAutoResponder $auto_responder) : void
     {
         $this->db->replace(
             self::TABLE_NAME,
             [
-            'sender_id' => ['integer', $auto_responder->getSenderId()],
-            'receiver_id' => ['integer', $auto_responder->getReceiverId()]
+                'sender_id' => ['integer', $auto_responder->getSenderId()],
+                'receiver_id' => ['integer', $auto_responder->getReceiverId()]
             ],
             [
                 'send_time' => ['timestamp', $auto_responder->getSendTime()->format('Y-m-d H:i:s')]
@@ -103,5 +103,13 @@ class ilAutoResponderDatabaseRepository implements ilAutoResponderRepository
             $auto_responder->getSenderId(),
             'integer'
         ) . ' AND receiver_id = ' . $this->db->quote($auto_responder->getReceiverId(), 'integer'));
+    }
+
+    public function deleteBySenderId(int $sender_id) : void
+    {
+        $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
+            $sender_id,
+            'integer'
+        ));
     }
 }

@@ -60,8 +60,6 @@ class ilAutoResponderServiceImpl implements ilAutoResponderService
     {
         if ($this->auto_responder_data) {
             foreach ($this->auto_responder_data as $usr_id => $mail_options) {
-
-                // TODO: idle_time
                 $auto_responder = $this->auto_responder_repository->findBySenderIdAndReceiverId(
                     $usr_id,
                     $receiver_usr_id
@@ -70,7 +68,7 @@ class ilAutoResponderServiceImpl implements ilAutoResponderService
                     $auto_responder = new ilAutoResponder(
                         $usr_id,
                         $receiver_usr_id,
-                        (new \DateTimeImmutable('NOW'))->sub(new \DateInterval('P' . $this->global_idle_time_interval . 'D'))
+                        (new DateTimeImmutable('NOW'))->sub(new DateInterval('P' . $this->global_idle_time_interval . 'D'))
                     );
                 }
                 if (!$auto_responder->hasAutoResponderSent(
