@@ -1517,11 +1517,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         } elseif ($this->testrequest->isset('sel_question_types')) {
             $sel_question_types = $this->testrequest->raw("sel_question_types");
         }
-
-        if (!$qpl_mode || ($qpl_mode == 2 && strcmp($this->testrequest->raw("txt_qpl"), "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0)) {
-            //if ((strcmp($_REQUEST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
-            // Mantis #14890
-            $_REQUEST['sel_question_types'] = $sel_question_types;
+        
+        if (($qpl_mode == 2 && strcmp($this->testrequest->raw("txt_qpl"), "") == 0) ||
+            ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0)) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("questionpool_not_entered"));
             $this->createQuestionObject();
             return;
@@ -1575,9 +1573,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     /**
     * Called when a new question should be created from a test
     *
-    * Called when a new question should be created from a test
-    *
+    * Called when a new question should be created from a test    *
     * @access	public
+
     */
     public function createQuestionObject()
     {
@@ -1592,10 +1590,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "executeCreateQuestion"));
         $form->setTitle($lng->txt("ass_create_question"));
+        
+        if ($this->testrequest->isset('qtype')) {
+            $sel_question_types = ilObjQuestionPool::getQuestionTypeByTypeId($this->testrequest->raw("qtype"));
+        } elseif ($this->testrequest->isset('sel_question_types')) {
+            $sel_question_types = $this->testrequest->raw("sel_question_types");
+        }
 
 
         $hidden = new ilHiddenInputGUI('sel_question_types');
-        $hidden->setValue($this->testrequest->raw("sel_question_types"));
+        $hidden->setValue($sel_question_types);
         $form->addItem($hidden);
 
         // content editing mode
