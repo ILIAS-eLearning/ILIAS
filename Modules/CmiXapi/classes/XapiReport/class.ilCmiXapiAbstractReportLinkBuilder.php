@@ -28,20 +28,23 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
      * @var ilCmiXapiStatementsReportFilter
      */
     protected $filter;
+
+    protected $obj;
     
     /**
      * ilCmiXapiAbstractReportLinkBuilder constructor.
-     * @param $objId
+     * @param $obj
      * @param $userIdentMode
      * @param $aggregateEndPoint
      * @param ilCmiXapiStatementsReportFilter $filter
      */
     public function __construct(
-        $objId,
+        $obj,
         $aggregateEndPoint,
         ilCmiXapiStatementsReportFilter $filter
     ) {
-        $this->objId = $objId;
+        $this->obj = $obj;
+        $this->objId = $obj->getID();
         $this->aggregateEndPoint = $aggregateEndPoint;
         $this->filter = $filter;
     }
@@ -102,6 +105,6 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
      */
     public function getObj()
     {
-        return ilObjCmiXapi::getInstance($this->getObjId(),false);
+        return $this->obj;
     }
 }

@@ -296,6 +296,12 @@ class ilCmiXapiSettingsGUI
             $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
+                $DIC->language()->txt('conf_privacy_ident_il_uuid_SHA256'),
+                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256
+            );
+            $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_SHA256_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
                 $DIC->language()->txt('conf_privacy_ident_il_uuid_random'),
                 ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
             );

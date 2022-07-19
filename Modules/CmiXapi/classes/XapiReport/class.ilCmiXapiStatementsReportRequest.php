@@ -33,12 +33,12 @@ class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
     /**
      * @return ilCmiXapiStatementsReport $report
      */
-    public function queryReport($objId)
+    public function queryReport($obj)
     {
         $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
-        
-        $report = new ilCmiXapiStatementsReport($reportResponse, $objId);
-        
+
+        $report = new ilCmiXapiStatementsReport($reportResponse, $obj);
+
         return $report;
     }
 }

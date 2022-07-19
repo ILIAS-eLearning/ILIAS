@@ -538,7 +538,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $filter->setActivityId($this->object->getActivityId());
         
         $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
-            $this->object->getId(),
+            $this->object,
             $this->object->getLrsType()->getLrsEndpointStatementsAggregationLink(),
             $filter
         );
@@ -549,7 +549,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         );
         
         try {
-            $report = $request->queryReport($this->object->getId());
+            $report = $request->queryReport($this->object);
             
             $DIC->ui()->mainTemplate()->setContent(
                 $report->getResponseDebug()
@@ -835,7 +835,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $filter = $this->buildReportFilter($since, $until);
         
         $linkBuilder = new ilCmiXapiStatementsReportLinkBuilder(
-            $this->object->getId(),
+            $this->object,
             $this->object->getLrsType()->getLrsEndpointStatementsAggregationLink(),
             $filter
         );
@@ -845,7 +845,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $linkBuilder
         );
         
-        return $request->queryReport($this->object->getId());
+        return $request->queryReport($this->object);
     }
     
     protected function buildReportFilter(ilCmiXapiDateTime $since, ilCmiXapiDateTime $until)
@@ -880,6 +880,8 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 return "real_email";
             case 4:
                 return "il_uuid_random";
+            case 5:
+                return "il_uuid_SHA256";
         }
         return '';
     }

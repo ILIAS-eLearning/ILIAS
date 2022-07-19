@@ -27,11 +27,11 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         
         $obj = $this->getObj();
         $id = null;
-        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC)
+        if ($obj instanceof ilObjLTIConsumer || $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC)
         {
             $id = '$statement.actor.mbox';
         }
-        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType())
+        if ($obj instanceof ilObjCmiXapi && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType())
         {
             $id = '$statement.actor.account.name';
         }
@@ -61,7 +61,7 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         ];
         
         $obj = $this->getObj();
-        if (($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType())
+        if ($obj instanceof ilObjLTIConsumer || ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType())
         {
             $stage['$or'] = $this->getUsersStack();
         }
@@ -83,7 +83,7 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
     {
         $users = [];
         $obj = $this->getObj();
-        if ($obj->isMixedContentType())
+        if ($obj instanceof ilObjCmiXapi && $obj->isMixedContentType())
         {
             foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) 
             {
