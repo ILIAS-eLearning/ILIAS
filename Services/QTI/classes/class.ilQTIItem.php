@@ -285,7 +285,7 @@ class ilQTIItem
         return $this->iliasSourceNic;
     }
 
-    public function setIliasSourceNic(string $iliasSourceNic) : void
+    public function setIliasSourceNic(?string $iliasSourceNic) : void
     {
         $this->iliasSourceNic = $iliasSourceNic;
     }
