@@ -55,7 +55,7 @@ class ilUnitConfigurationRepository
             [$category_id]
         );
         $row = $this->db->fetchAssoc($res);
-        return isset($row['question_fi']) && $row['question_fi'] == $this->getConsumerId();
+        return isset($row['question_fi']) && (int) $row['question_fi'] === $this->getConsumerId();
     }
 
     public function copyCategory(int $category_id, int $question_fi, ?string $category_name = null) : int
@@ -329,8 +329,7 @@ class ilUnitConfigurationRepository
 
         $units = [];
         $result = $ilDB->queryF(
-            "
-			SELECT units.*, baseunits.unit baseunit_title
+            "SELECT units.*, baseunits.unit baseunit_title, il_qpl_qst_fq_ucat.category
 			FROM il_qpl_qst_fq_unit units
 			INNER JOIN il_qpl_qst_fq_ucat ON il_qpl_qst_fq_ucat.category_id = units.category_fi  
 			LEFT JOIN il_qpl_qst_fq_unit baseunits ON baseunits.unit_id = units.baseunit_fi
@@ -340,7 +339,7 @@ class ilUnitConfigurationRepository
             [$category]
         );
 
-        if ($result->numRows()) {
+        if ($result->numRows() > 0) {
             while ($row = $ilDB->fetchAssoc($result)) {
                 $unit = new assFormulaQuestionUnit();
                 $unit->initFormArray($row);
@@ -410,11 +409,13 @@ class ilUnitConfigurationRepository
     public function getAdminUnitCategories() : array
     {
         $categories = [];
+
         $result = $this->db->queryF(
             "SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s  ORDER BY category",
             ['integer'],
             [0]
         );
+
         if ($result = $this->db->numRows($result)) {
             while ($row = $this->db->fetchAssoc($result)) {
                 $value = strcmp('-qpl_qst_formulaquestion_' . $row['category'] . '-', $this->lng->txt($row['category'])) === 0
@@ -552,7 +553,8 @@ class ilUnitConfigurationRepository
             ['integer', 'integer'],
             [$this->getConsumerId(), 0]
         );
-        if ($result->numRows()) {
+
+        if ($result->numRows() > 0) {
             while ($row = $this->db->fetchAssoc($result)) {
                 $category = new assFormulaQuestionUnitCategory();
                 $category->initFormArray($row);
