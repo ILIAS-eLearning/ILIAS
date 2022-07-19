@@ -1180,9 +1180,6 @@ abstract class ilTestExport
         );
         $ilBench->stop("TestExport", "buildExportFile_zipFile");
 
-        // destroy writer object
-        $this->xml->_XmlWriter();
-
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
         $ilBench->stop("TestExport", "buildExportFile");
 
