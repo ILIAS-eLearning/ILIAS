@@ -163,6 +163,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 
+        $q_type = '';
         if (!(in_array($next_class, array('', 'ilobjquestionpoolgui')) && $cmd == 'questions') && $q_id < 1) {
             $q_type = $this->qplrequest->raw("sel_question_types");
         }
