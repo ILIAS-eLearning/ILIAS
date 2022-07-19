@@ -13,7 +13,7 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
  */
 class ilObjFileListGUI extends ilObjectListGUI
 {
-
+    use ilObjFileSecureString;
     /**
      * initialisation
      */
@@ -85,7 +85,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function getTitle()
     {
         // Remove filename extension from title
-        return preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title);
+        return $this->secure(preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title));
     }
 
 

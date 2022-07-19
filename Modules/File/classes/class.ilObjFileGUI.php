@@ -18,6 +18,7 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  */
 class ilObjFileGUI extends ilObject2GUI
 {
+    use ilObjFileSecureString;
     const CMD_EDIT = "edit";
     const CMD_VERSIONS = "versions";
     /**
@@ -760,7 +761,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         // File Info
         $info->addSection($this->lng->txt("file_info"));
-        $info->addProperty($this->lng->txt("filename"), $this->object->getFileName());
+        $info->addProperty($this->lng->txt("filename"), $this->secure($this->object->getFileName()));
         $info->addProperty($this->lng->txt("type"), $this->object->guessFileType());
 
         $info->addProperty($this->lng->txt("size"), ilUtil::formatSize(ilObjFile::_lookupFileSize($this->object->getId()), 'long'));
