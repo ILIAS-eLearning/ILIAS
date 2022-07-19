@@ -1,9 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
 
 /**
  * The assFileUploadGUI class encapsulates the GUI representation for file upload questions.
@@ -62,7 +75,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $this->object->setPoints($_POST["points"]);
-        $this->object->setMaxSize($_POST["maxsize"]);
+        $this->object->setMaxSize(($_POST['maxsize'] ?? null) ? (int) $_POST['maxsize'] : null);
         $this->object->setAllowedExtensions($_POST["allowedextensions"]);
         $this->object->setCompletionBySubmission($_POST['completion_by_submission'] == 1 ? true : false);
     }
@@ -113,24 +126,22 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
     public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
-        // maxsize
         $maxsize = new ilNumberInputGUI($this->lng->txt("maxsize"), "maxsize");
-        $maxsize->setValue($this->object->getMaxSize());
+        $maxsize->allowDecimals(false);
+        $maxsize->setValue($this->object->getMaxSize() > 0 ? (string) $this->object->getMaxSize() : null);
         $maxsize->setInfo($this->lng->txt("maxsize_info"));
         $maxsize->setSize(10);
         $maxsize->setMinValue(0);
-        $maxsize->setMaxValue($this->determineMaxFilesize());
+        $maxsize->setMaxValue((float) $this->determineMaxFilesize());
         $maxsize->setRequired(false);
         $form->addItem($maxsize);
 
-        // allowedextensions
         $allowedextensions = new ilTextInputGUI($this->lng->txt("allowedextensions"), "allowedextensions");
         $allowedextensions->setInfo($this->lng->txt("allowedextensions_info"));
         $allowedextensions->setValue($this->object->getAllowedExtensions());
         $allowedextensions->setRequired(false);
         $form->addItem($allowedextensions);
 
-        // points
         $points = new ilNumberInputGUI($this->lng->txt("points"), "points");
         $points->allowDecimals(true);
         $points->setValue(
@@ -147,16 +158,13 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             'ass_completion_by_submission'
         ), 'completion_by_submission');
         $subcompl->setInfo($this->lng->txt('ass_completion_by_submission_info'));
-        $subcompl->setValue(1);
+        $subcompl->setValue('1');
         $subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());
         $form->addItem($subcompl);
         return $form;
     }
 
-    /**
-     * @return mixed
-     */
-    public function determineMaxFilesize()
+    public function determineMaxFilesize() : int
     {
         //mbecker: Quick fix for mantis bug 8595: Change size file
         $upload_max_filesize = get_cfg_var("upload_max_filesize");
@@ -178,11 +186,11 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
 
-        if (count($umf_parts) == 2) {
+        if (count($umf_parts) === 2) {
             $upload_max_filesize = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
 
-        if (count($pms_parts) == 2) {
+        if (count($pms_parts) === 2) {
             $post_max_size = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
 
@@ -193,6 +201,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $max_filesize = max($upload_max_filesize, $post_max_size);
             return $max_filesize;
         }
+
         return $max_filesize;
     }
 

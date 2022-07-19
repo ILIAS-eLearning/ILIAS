@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for file upload question imports
@@ -50,7 +63,7 @@ class assFileUploadImport extends assQuestionImport
         $this->object->setObjId($questionpool_id);
         $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
         $this->object->setPoints($item->getMetadataEntry("points"));
-        $this->object->setMaxSize($item->getMetadataEntry("maxsize"));
+        $this->object->setMaxSize($item->getMetadataEntry("maxsize") ? (int) $item->getMetadataEntry("maxsize") : null);
         $this->object->setAllowedExtensions($item->getMetadataEntry("allowedextensions"));
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
