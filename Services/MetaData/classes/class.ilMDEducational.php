@@ -327,7 +327,9 @@ class ilMDEducational extends ilMDBase
     public function getTypicalLearningTimeSeconds() : int
     {
         $time_arr = ilMDUtils::_LOMDurationToArray($this->getTypicalLearningTime());
-
+        if ($time_arr === []) {
+            return 0;
+        }
         return 60 * 60 * 24 * 30 * $time_arr[0] + 60 * 60 * 24 * $time_arr[1] + 60 * 60 * $time_arr[2] + 60 * $time_arr[3] + $time_arr[4];
     }
 
