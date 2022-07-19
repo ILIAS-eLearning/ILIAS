@@ -26,7 +26,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
     protected object $parentGui;
     protected ilAutoResponderRepository $autoResponderRepository;
 
-    public function __construct(protected ilMailOptions $options, object $parentGui, protected string $positiveCmd, ilAutoResponderRepository $autoResponderRepository)
+    public function __construct(protected ilMailOptions $options, object $parentGui, protected string $positiveCmd, ilAutoResponderRepository $autoResponderRepository = null)
     {
         if (!method_exists($parentGui, 'executeCommand')) {
             throw new InvalidArgumentException(sprintf(
