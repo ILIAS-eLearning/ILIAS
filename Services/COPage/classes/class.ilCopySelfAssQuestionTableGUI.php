@@ -79,7 +79,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
             $questionList = new ilAssQuestionList(
                 $DIC->database(),
                 $DIC->language(),
-                $DIC["ilPluginAdmin"]
+                $DIC["component.repository"]
             );
             $questionList->setParentObjId($this->pool_obj_id);
             $questionList->load();

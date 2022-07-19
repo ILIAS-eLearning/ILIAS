@@ -44,7 +44,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         $lng = $DIC['lng'];
         $ilTabs = $DIC['ilTabs'];
 
@@ -74,7 +74,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         
         $this->initProcessLocker($this->testSession->getActiveId());
         
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this->object);
         $this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
         $this->testSequence->loadFromDb();
         $this->testSequence->loadQuestions();
@@ -781,25 +781,20 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         global $DIC;
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
-        $questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
+        $questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $component_repository, $this->object);
         $questionSetConfig->loadFromDb();
 
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
         $sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($ilDB, $this->object);
 
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
         $sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($ilDB, $this->object, $sourcePoolDefinitionFactory);
         $sourcePoolDefinitionList->loadDefinitions();
 
-        $this->processLocker->executeRandomPassBuildOperation(function () use ($ilDB, $ilPluginAdmin, $questionSetConfig, $sourcePoolDefinitionList) {
+        $this->processLocker->executeRandomPassBuildOperation(function () use ($ilDB, $component_repository, $questionSetConfig, $sourcePoolDefinitionList) {
             if (!$this->performTearsAndAngerBrokenConfessionChecks()) {
-                require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
-                $stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
+                $stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $component_repository);
 
-                require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
                 $questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($ilDB, $this->object, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList);
 
                 $questionSetBuilder->performBuild($this->testSession);

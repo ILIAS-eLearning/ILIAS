@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -9,10 +24,7 @@
  */
 class ilAssQuestionType
 {
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $pluginAdmin;
+    protected ilComponentRepository $component_repository;
     
     /**
      * @var integer
@@ -40,7 +52,7 @@ class ilAssQuestionType
     public function __construct()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $this->pluginAdmin = $DIC['ilPluginAdmin'];
+        $this->component_repository = $DIC['component.repository'];
     }
     
     /**
@@ -115,17 +127,19 @@ class ilAssQuestionType
         if (!$this->isPlugin()) {
             return true;
         }
-        return false;
 
-        /* Plugins MUST overwrite this method an report back their activation status
-        require_once 'Modules/TestQuestionPool/classes/class.ilQuestionsPlugin.php';
-        return $this->pluginAdmin->isActive(
-            ilComponentInfo::TYPE_MODULES,
-            ilQuestionsPlugin::COMP_NAME,
-            ilQuestionsPlugin::SLOT_ID,
-            $this->getPluginName()
-        );
-        */
+        // Plugins MAY overwrite this method an report back their activation status
+        return $this->component_repository
+            ->getComponentByTypeAndName(
+                ilComponentInfo::TYPE_MODULES,
+                'TestQuestionPool'
+            )
+            ->getPluginSlotById(
+                'qst'
+            )
+            ->getPluginByName(
+                $this->getPluginName()
+            )->isActive();
     }
     
     /**

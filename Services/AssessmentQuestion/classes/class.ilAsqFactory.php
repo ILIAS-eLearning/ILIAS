@@ -1,13 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAsqQuestionAuthoringFactory
- *
  * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
- *
  * @package    Services/AssessmentQuestion
  */
 class ilAsqFactory
@@ -27,10 +38,12 @@ class ilAsqFactory
     public function getQuestionDataArray($parentObjectId) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        global $ilPluginAdmin; /* @var ilPluginAdmin $ilPluginAdmin */
 
-        $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $ilPluginAdmin);
-        $list->setParentObjIdsFilter(array($parentObjectId));
+        /* @var ilComponentRepository $component_repository */
+        $component_repository = $DIC['component.repository'];
+
+        $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $component_repository);
+        $list->setParentObjIdsFilter([$parentObjectId]);
         $list->load();
 
         return $list->getQuestionDataArray(); // returns an array of arrays containing the question data
@@ -48,9 +61,11 @@ class ilAsqFactory
     public function getQuestionInstances($parentObjectId) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        global $ilPluginAdmin; /* @var ilPluginAdmin $ilPluginAdmin */
-        
-        $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $ilPluginAdmin);
+
+        /* @var ilComponentRepository $component_repository */
+        $component_repository = $DIC['component.repository'];
+
+        $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $component_repository);
         $list->setParentObjIdsFilter(array($parentObjectId));
         $list->load();
         

@@ -18,53 +18,25 @@
 
 /**
  * abstract parent class that manages/holds the data for a question set configuration
- *
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
  * @package		Modules/Test
  */
 abstract class ilTestQuestionSetConfig
 {
-    /**
-     * global $tree object instance
-     *
-     * @var ilTree
-     */
-    protected $tree = null;
-    
-    /**
-     * global $ilDB object instance
-     *
-     * @var ilDBInterface
-     */
-    protected $db = null;
+    protected ilTree $tree;
+    protected ilDBInterface $db;
+    protected ilComponentRepository $component_repository;
+    protected ilObjTest $testOBJ;
 
-    /**
-     * global $pluginAdmin object instance
-     *
-     * @var ilPluginAdmin
-     */
-    protected $pluginAdmin = null;
-
-    /**
-     * object instance of current test
-     *
-     * @var ilObjTest
-     */
-    protected $testOBJ = null;
-
-    /**
-     * @param ilTree $tree
-     * @param ilDBInterface $db
-     * @param ilPluginAdmin $pluginAdmin
-     * @param ilObjTest $testOBJ
-     */
-    public function __construct(ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
-    {
+    public function __construct(
+        ilTree $tree,
+        ilDBInterface $db,
+        ilComponentRepository $component_repository,
+        ilObjTest $testOBJ
+    ) {
         $this->tree = $tree;
         $this->db = $db;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
     

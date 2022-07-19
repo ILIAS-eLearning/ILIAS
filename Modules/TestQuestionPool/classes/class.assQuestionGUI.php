@@ -668,12 +668,12 @@ abstract class assQuestionGUI
                 global $DIC;
                 $tree = $DIC['tree'];
                 $ilDB = $DIC['ilDB'];
-                $ilPluginAdmin = $DIC['ilPluginAdmin'];
+                $component_repository = $DIC['component.repository'];
                 // TODO: Courier Antipattern!
                 $_GET["ref_id"] = $this->request->raw("test_ref_id");
                 $test = new ilObjTest($this->request->raw("test_ref_id"), true);
 
-                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
+                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
 
                 $test->insertQuestion($testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId());
                 
@@ -722,13 +722,13 @@ abstract class assQuestionGUI
                     global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
-                    $ilPluginAdmin = $DIC['ilPluginAdmin'];
+                    $component_repository = $DIC['component.repository'];
 
                     // TODO: Courier Antipattern!
                     //$_GET["ref_id"] = $this->request->raw("calling_test");
 
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
+                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
 
                     $new_id = $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),
@@ -767,10 +767,10 @@ abstract class assQuestionGUI
                         global $DIC;
                         $tree = $DIC['tree'];
                         $ilDB = $DIC['ilDB'];
-                        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+                        $component_repository = $DIC['component.repository'];
                         // TODO: Courier Antipattern!
                         $test = new ilObjTest($this->request->getRefId(), true);
-                        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
+                        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
                         $test->insertQuestion(
                             $testQuestionSetConfigFactory->getQuestionSetConfig(),
                             $this->object->getId()
@@ -820,12 +820,12 @@ abstract class assQuestionGUI
                     global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
-                    $ilPluginAdmin = $DIC['ilPluginAdmin'];
+                    $component_repository = $DIC['component.repository'];
                     // TODO: Courier Antipattern!
                     //$_GET["ref_id"] = $this->request->raw("calling_test");
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
 
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
+                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
 
                     $new_id = $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),

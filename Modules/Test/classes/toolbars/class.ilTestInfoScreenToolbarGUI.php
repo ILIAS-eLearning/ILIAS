@@ -1,11 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
-require_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
-require_once 'Services/Form/classes/class.ilHiddenInputGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -23,7 +32,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     protected ilDBInterface $db;
     protected ilAccessHandler $access;
     protected ilCtrl $ctrl;
-    protected ilPluginAdmin $pluginAdmin;
+    protected ilComponentRepository $component_repository;
     private \ilGlobalTemplateInterface $main_tpl;
 
     protected ?ilObjTest $testOBJ = null;
@@ -43,8 +52,13 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     private array $infoMessages = array();
     private array $failureMessages = array();
 
-    public function __construct(ilDBInterface $db, ilAccessHandler $access, ilCtrl $ctrl, ilLanguage $lng, ilPluginAdmin $pluginAdmin)
-    {
+    public function __construct(
+        ilDBInterface $db,
+        ilAccessHandler $access,
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilComponentRepository $component_repository
+    ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var ILIAS\DI\Container $DIC */
         $this->DIC = $DIC;
@@ -52,7 +66,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         $this->access = $access;
         $this->ctrl = $ctrl;
         $this->lng = $lng;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
     }
 
     public function getGlobalToolbar() : ?ilToolbarGUI

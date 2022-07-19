@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Factory for test question set config
@@ -11,46 +26,21 @@
  */
 class ilTestQuestionSetConfigFactory
 {
-    /**
-     * singleton instance of test question set config
-     *
-     * @var ilTestQuestionSetConfig
-     */
-    private $testQuestionSetConfig = null;
-    
-    /**
-     * global $tree object instance
-     *
-     * @var ilTree
-     */
-    private $tree = null;
-    
-    /**
-     * object instance of $ilDB
-     *
-     * @var ilDBInterface
-     */
-    private $db = null;
+    private ilTree $tree;
+    private ilDBInterface $db;
+    private ilComponentRepository $component_repository;
+    private ilObjTest $testOBJ;
+    private ?ilTestQuestionSetConfig $testQuestionSetConfig = null;
 
-    /**
-     * object instance of $ilPluginAdmin
-     *
-     * @var ilPluginAdmin
-     */
-    private $pluginAdmin = null;
-
-    /**
-     * object instance of current test
-     *
-     * @var ilObjTest
-     */
-    private $testOBJ = null;
-    
-    public function __construct(ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
-    {
+    public function __construct(
+        ilTree $tree,
+        ilDBInterface $db,
+        ilComponentRepository $component_repository,
+        ilObjTest $testOBJ
+    ) {
         $this->tree = $tree;
         $this->db = $db;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
     
@@ -74,7 +64,7 @@ class ilTestQuestionSetConfigFactory
                 $this->testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
                     $this->tree,
                     $this->db,
-                    $this->pluginAdmin,
+                    $this->component_repository,
                     $this->testOBJ
                 );
             }
@@ -82,7 +72,7 @@ class ilTestQuestionSetConfigFactory
                 $this->testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
                     $this->tree,
                     $this->db,
-                    $this->pluginAdmin,
+                    $this->component_repository,
                     $this->testOBJ
                 );
             }
@@ -91,7 +81,7 @@ class ilTestQuestionSetConfigFactory
                 $this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
                     $this->tree,
                     $this->db,
-                    $this->pluginAdmin,
+                    $this->component_repository,
                     $this->testOBJ
                 );
             }

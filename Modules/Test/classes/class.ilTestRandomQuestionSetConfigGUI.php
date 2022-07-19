@@ -16,15 +16,6 @@
  *
  *********************************************************************/
 
-
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolBuilder.php';
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfigStateMessageHandler.php';
-
-require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-
 /**
  * GUI class that manages the question set configuration for continues tests
  *
@@ -61,84 +52,23 @@ class ilTestRandomQuestionSetConfigGUI
     
     const HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD = 'afterRebuildQuestionStageCmd';
     private \ILIAS\Test\InternalRequestService $testrequest;
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl = null;
-    
-    /**
-     * @var ilAccess
-     */
-    public $access = null;
-    
-    /**
-     * @var ilTabsGUI
-     */
-    public $tabs = null;
-    
-    /**
-     * @var ilLanguage
-     */
-    public $lng = null;
-    
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    public $tpl = null;
-    
-    /**
-     * @var ilDBInterface
-     */
-    public $db = null;
-    
-    /**
-     * @var ilTree
-     */
-    public $tree = null;
 
-    /**
-     * @var ilPluginAdmin
-     */
-    public $pluginAdmin = null;
-    
-    /**
-     * @var ilObjectDefinition
-     */
-    public $objDefinition = null;
-
-    /**
-     * @var ilObjTest
-     */
-    public $testOBJ = null;
-    
-    /**
-     * @var ilTestRandomQuestionSetConfig
-     */
-    protected $questionSetConfig = null;
-
-    /**
-     * @var ilTestRandomQuestionSetSourcePoolDefinitionFactory
-     */
-    protected $sourcePoolDefinitionFactory = null;
-
-    /**
-     * @var ilTestRandomQuestionSetSourcePoolDefinitionList
-     */
-    protected $sourcePoolDefinitionList = null;
-
-    /**
-     * @var ilTestRandomQuestionSetStagingPoolBuilder
-     */
-    protected $stagingPool = null;
-
-    /**
-     * @var ilTestRandomQuestionSetConfigStateMessageHandler
-     */
-    protected $configStateMessageHandler;
-    /**
-     * @var ilTestProcessLockerFactory
-     */
-    private $processLockerFactory;
+    public ilCtrlInterface $ctrl;
+    public ?ilAccessHandler $access;
+    public ilTabsGUI $tabs;
+    public ilLanguage $lng;
+    public ilGlobalTemplateInterface $tpl;
+    public ilDBInterface $db;
+    public ilTree $tree;
+    public ilComponentRepository $component_repository;
+    public ilObjectDefinition $objDefinition;
+    public ilObjTest $testOBJ;
+    protected ilTestRandomQuestionSetConfig $questionSetConfig;
+    protected ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory;
+    protected ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList;
+    protected ilTestRandomQuestionSetStagingPoolBuilder $stagingPool;
+    protected ilTestRandomQuestionSetConfigStateMessageHandler $configStateMessageHandler;
+    private ilTestProcessLockerFactory $processLockerFactory;
 
     /**
      * @var ArrayAccess
@@ -153,7 +83,7 @@ class ilTestRandomQuestionSetConfigGUI
         ilGlobalTemplateInterface $tpl,
         ilDBInterface $db,
         ilTree $tree,
-        ilPluginAdmin $pluginAdmin,
+        ilComponentRepository $component_repository,
         ilObjTest $testOBJ,
         ilTestProcessLockerFactory $processLockerFactory
     ) {
@@ -167,7 +97,7 @@ class ilTestRandomQuestionSetConfigGUI
         $this->tpl = $tpl;
         $this->db = $db;
         $this->tree = $tree;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
 
         $this->dic = $DIC;
@@ -176,7 +106,7 @@ class ilTestRandomQuestionSetConfigGUI
         $this->questionSetConfig = new ilTestRandomQuestionSetConfig(
             $this->tree,
             $this->db,
-            $this->pluginAdmin,
+            $this->component_repository,
             $this->testOBJ
         );
         $this->questionSetConfig->loadFromDb();
@@ -926,12 +856,10 @@ class ilTestRandomQuestionSetConfigGUI
         $targetRef = $this->fetchTargetRefParameter();
         
         if (count($poolIds)) {
-            require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetPoolDeriver.php';
-            
             foreach ($poolIds as $poolId) {
                 $lostPool = $this->sourcePoolDefinitionList->getLostPool($poolId);
-                
-                $deriver = new ilTestRandomQuestionSetPoolDeriver($this->db, $this->pluginAdmin, $this->testOBJ);
+
+                $deriver = new ilTestRandomQuestionSetPoolDeriver($this->db, $this->component_repository, $this->testOBJ);
                 $deriver->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
                 $deriver->setTargetContainerRef($targetRef);
                 $deriver->setOwnerId($this->dic['ilUser']->getId());

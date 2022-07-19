@@ -1,61 +1,44 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Factory for test sequence
- *
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
  * @package		Modules/Test
  */
 class ilTestSequenceFactory
 {
-    /**
-     * singleton instances of test sequences
-     *
-     * @var array
-     */
-    private $testSequences = array();
-    
-    /**
-     * global ilDBInterface object instance
-     *
-     * @var ilDBInterface
-     */
-    private $db = null;
-    
-    /**
-     * global ilLanguage object instance
-     *
-     * @var ilLanguage
-     */
-    private $lng = null;
-    
-    /**
-     * global ilPluginAdmin object instance
-     *
-     * @var ilPluginAdmin
-     */
-    private $pluginAdmin = null;
-    
-    /**
-     * object instance of current test
-     *
-     * @var ilObjTest
-     */
-    private $testOBJ = null;
-    
-    /**
-     * constructor
-     *
-     * @param ilObjTest $testOBJ
-     */
-    public function __construct(ilDBInterface $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
-    {
+    /** @var array<int, array<int, ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceDynamicQuestionSet|ilTestSequenceSummaryProvider>> */
+    private array $testSequences = [];
+    private ilDBInterface $db;
+    private ilLanguage $lng;
+    private ilComponentRepository $component_repository;
+    private ilObjTest $testOBJ;
+
+    public function __construct(
+        ilDBInterface $db,
+        ilLanguage $lng,
+        ilComponentRepository $component_repository,
+        ilObjTest $testOBJ
+    ) {
         $this->db = $db;
         $this->lng = $lng;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
     
@@ -77,7 +60,7 @@ class ilTestSequenceFactory
      *
      * @param integer $activeId
      * @param integer $pass
-     * @return ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceDynamicQuestionSet
+     * @return ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceDynamicQuestionSet|ilTestSequenceSummaryProvider
      */
     public function getSequenceByActiveIdAndPass($activeId, $pass)
     {
@@ -102,7 +85,7 @@ class ilTestSequenceFactory
                 $questionSet = new ilTestDynamicQuestionSet(
                     $this->db,
                     $this->lng,
-                    $this->pluginAdmin,
+                    $this->component_repository,
                     $this->testOBJ
                 );
                 $this->testSequences[$activeId][$pass] = new ilTestSequenceDynamicQuestionSet(

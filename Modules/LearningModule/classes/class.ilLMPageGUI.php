@@ -29,6 +29,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 {
     protected ilDBInterface $db;
     protected PresentationGUIRequest $pres_request;
+    protected ilComponentRepository $component_repository;
 
     public function __construct(
         int $a_id = 0,
@@ -41,7 +42,8 @@ class ilLMPageGUI extends ilPageObjectGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->db = $DIC->database();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_repository = $DIC['component.repository'];
+
         $this->log = $DIC["ilLog"];
         parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
         $this->pres_request = $DIC
@@ -78,7 +80,7 @@ class ilLMPageGUI extends ilPageObjectGUI
         $ilUser = $this->user;
         $ilDB = $this->db;
         $lng = $this->lng;
-        $ilPluginAdmin = $this->plugin_admin;
+        $component_repository = $this->component_repository;
 
         parent::processAnswer();
 
@@ -98,7 +100,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 
             $as = ilPageQuestionProcessor::getAnswerStatus($id, $ilUser->getId());
             // get question information
-            $qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+            $qlist = new ilAssQuestionList($ilDB, $lng, $component_repository);
             $qlist->setParentObjId(0);
             $qlist->setJoinObjectData(false);
             $qlist->addFieldFilter("question_id", array($id));

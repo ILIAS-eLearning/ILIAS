@@ -1,8 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once 'Modules/Test/classes/class.ilTestService.php';
 
 /**
 * Service GUI class for tests. This class is the parent class for all
@@ -116,7 +130,7 @@ class ilTestServiceGUI
         $ilias = $DIC['ilias'];
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         $ilTabs = $DIC['ilTabs'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
@@ -135,11 +149,9 @@ class ilTestServiceGUI
 
         $this->service = new ilTestService($a_object);
         $this->testrequest = $DIC->test()->internal()->request();
-        require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
         $this->testSessionFactory = new ilTestSessionFactory($this->object);
 
-        require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-        $this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+        $this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this->object);
 
         $this->objectiveOrientedContainer = null;
     }
@@ -1033,13 +1045,12 @@ class ilTestServiceGUI
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
         $table_gui->initFilter();
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-        $questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+        $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
 
         $questionList->setParentObjIdsFilter(array($this->object->getId()));
         $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);

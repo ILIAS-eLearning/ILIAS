@@ -1,10 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolFactory.php';
-require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-        
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -13,45 +24,30 @@ require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
  */
 class ilTestRandomQuestionSetPoolDeriver
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-    
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $pluginAdmin;
-    
-    /**
-     * @var ilObjTest
-     */
-    protected $testOBJ;
-    
+    protected ilDBInterface $db;
+    protected ilComponentRepository $component_repository;
+    protected ilObjTest $testOBJ;
+    protected ilQuestionPoolFactory $poolFactory;
+
     /**
      * @var integer
      */
     protected $targetContainerRef;
-    
+
     /**
      * @var integer
      */
     protected $ownerId;
-    
-    /**
-     * @var ilQuestionPoolFactory
-     */
-    protected $poolFactory;
-    
+
     /**
      * @var ilTestRandomQuestionSetSourcePoolDefinitionList
      */
     protected $sourcePoolDefinitionList;
     
-    public function __construct(ilDBInterface $ilDB, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
+    public function __construct(ilDBInterface $ilDB, ilComponentRepository $component_repository, ilObjTest $testOBJ)
     {
         $this->db = $ilDB;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
         $this->poolFactory = new ilQuestionPoolFactory();
     }
@@ -108,7 +104,7 @@ class ilTestRandomQuestionSetPoolDeriver
     {
         $questionList = new ilTestRandomQuestionSetStagingPoolQuestionList(
             $this->db,
-            $this->pluginAdmin
+            $this->component_repository
         );
         
         $questionList->setTestObjId($this->testOBJ->getId());

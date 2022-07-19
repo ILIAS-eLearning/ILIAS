@@ -1,12 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-require_once 'Modules/Test/classes/class.ilTestPlayerFactory.php';
-require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
-require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
-require_once 'Modules/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -87,7 +95,7 @@ class ilTestInfoScreenToolbarFactory
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $d['tree'],
             $d['ilDB'],
-            $d['ilPluginAdmin'],
+            $d['component.repository'],
             $this->getTestOBJ()
         );
         
@@ -97,7 +105,7 @@ class ilTestInfoScreenToolbarFactory
         $this->testSequenceFactory = new ilTestSequenceFactory(
             $d['ilDB'],
             $d['lng'],
-            $d['ilPluginAdmin'],
+            $d['component.repository'],
             $this->getTestOBJ()
         );
     }
@@ -115,7 +123,7 @@ class ilTestInfoScreenToolbarFactory
         
         $d = $GLOBALS['DIC'];
         
-        $toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng'], $d['ilPluginAdmin']);
+        $toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng'], $d['component.repository']);
         
         $toolbar->setTestOBJ($this->getTestOBJ());
         $toolbar->setTestPlayerGUI($this->testPlayerFactory->getPlayerGUI());

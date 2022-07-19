@@ -55,17 +55,6 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     // fau.
 
     /**
-     * @param ilTree $tree
-     * @param ilDBInterface $db
-     * @param ilPluginAdmin $pluginAdmin
-     * @param ilObjTest $testOBJ
-     */
-    public function __construct(ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
-    {
-        parent::__construct($tree, $db, $pluginAdmin, $testOBJ);
-    }
-
-    /**
      * @param boolean $requirePoolsWithHomogeneousScoredQuestions
      */
     public function setPoolsWithHomogeneousScoredQuestionsRequired($requirePoolsWithHomogeneousScoredQuestions)
@@ -345,10 +334,8 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         $sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
         $sourcePoolDefinitionList->loadDefinitions();
 
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
-        $stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($this->db, $this->pluginAdmin);
+        $stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($this->db, $this->component_repository);
 
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
         $questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($this->db, $this->testOBJ, $this, $sourcePoolDefinitionList, $stagingPoolQuestionList);
         
         //fau: fixRandomTestBuildable - get messages if set is not buildable

@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Service class for tests.
@@ -181,16 +196,13 @@ class ilTestService
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component_repository'];
 
-        require_once 'Modules/Test/classes/class.ilTestVirtualSequence.php';
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this->object);
 
         if ($this->object->isRandomTest()) {
-            require_once 'Modules/Test/classes/class.ilTestVirtualSequenceRandomQuestionSet.php';
             $virtualSequence = new ilTestVirtualSequenceRandomQuestionSet($ilDB, $this->object, $testSequenceFactory);
         } else {
-            require_once 'Modules/Test/classes/class.ilTestVirtualSequence.php';
             $virtualSequence = new ilTestVirtualSequence($ilDB, $this->object, $testSequenceFactory);
         }
 

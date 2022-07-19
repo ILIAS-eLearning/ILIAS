@@ -98,7 +98,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         $tree = $DIC['tree'];
         $lng->loadLanguageModule("assessment");
         $this->type = "tst";
@@ -112,7 +112,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         parent::__construct("", (int) $refId, true, false);
 
         if ($this->object instanceof ilObjTest) {
-            $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this->object);
+            $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this->object);
             $this->testSessionFactory = new ilTestSessionFactory($this->object);
             $this->setTestAccess(new ilTestAccess($this->ref_id, $this->object->getTestId()));
         } else {
@@ -147,7 +147,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
         $ilTabs = $DIC['ilTabs'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         $ilDB = $DIC['ilDB'];
         $tree = $DIC['tree'];
         $ilias = $DIC['ilias'];
@@ -418,7 +418,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->lng,
                     $this->tree,
                     $ilDB,
-                    $ilPluginAdmin,
+                    $component_repository,
                     $ilUser,
                     $this
                 );
@@ -437,7 +437,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->lng,
                     $this->tree,
                     $ilDB,
-                    $ilPluginAdmin,
+                    $component_repository,
                     $this
                 );
                 $this->ctrl->forwardCommand($gui);
@@ -449,7 +449,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $gui = new ilObjTestDynamicQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $ilPluginAdmin, $this->getTestObject());
+                $gui = new ilObjTestDynamicQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $component_repository, $this->getTestObject());
                 $this->ctrl->forwardCommand($gui);
                 break;
             
@@ -467,7 +467,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->tpl,
                     $ilDB,
                     $tree,
-                    $ilPluginAdmin,
+                    $component_repository,
                     $this->getTestObject(),
                     (new ilTestProcessLockerFactory(
                         new ilSetting('assessment'),
@@ -483,7 +483,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $gui = new ilObjTestDynamicQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $ilPluginAdmin, $this->getTestObject());
+                $gui = new ilObjTestDynamicQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $component_repository, $this->getTestObject());
                 $this->ctrl->forwardCommand($gui);
                 break;
             
@@ -500,7 +500,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->lng,
                     $tree,
                     $ilDB,
-                    $ilPluginAdmin,
+                    $component_repository,
                     $this->getTestObject(),
                     $ilAccess,
                     $DIC->http(),
@@ -517,7 +517,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $tree, $ilPluginAdmin, $this->getTestObject(), $this->ref_id);
+                $gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $tree, $component_repository, $this->getTestObject(), $this->ref_id);
                 $this->ctrl->forwardCommand($gui);
                 break;
             
@@ -909,7 +909,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     private function testResultsGatewayObject()
     {
-        global $DIC, $ilPluginAdmin;
+        global $DIC;
         $this->tabs_gui->clearTargets();
 
         $this->prepareOutput();
@@ -922,7 +922,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $gui = new ilParticipantsTestResultsGUI();
         $gui->setTestObj($this->object);
 
-        $factory = new ilTestQuestionSetConfigFactory($this->tree, $DIC->database(), $ilPluginAdmin, $this->object);
+        $factory = new ilTestQuestionSetConfigFactory(
+            $this->tree,
+            $DIC->database(),
+            $DIC['component.repository'],
+            $this->object
+        );
         $gui->setQuestionSetConfig($factory->getQuestionSetConfig());
         $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
         $gui->setTestAccess($this->getTestAccess());

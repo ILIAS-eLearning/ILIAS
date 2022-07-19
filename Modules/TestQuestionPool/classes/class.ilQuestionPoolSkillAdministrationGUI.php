@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTableGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -50,10 +62,7 @@ class ilQuestionPoolSkillAdministrationGUI
      */
     private $db;
 
-    /**
-     * @var ilPluginAdmin
-     */
-    private $pluginAdmin;
+    private ilComponentRepository $component_repository;
 
     /**
      * @var ilObjQuestionPool
@@ -62,9 +71,19 @@ class ilQuestionPoolSkillAdministrationGUI
     
     /** @var string|int|null  */
     private $refId;
-    
-    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjQuestionPool $poolOBJ, $refId)
-    {
+
+    public function __construct(
+        ILIAS $ilias,
+        ilCtrl $ctrl,
+        ilAccessHandler $access,
+        ilTabsGUI $tabs,
+        ilGlobalTemplateInterface $tpl,
+        ilLanguage $lng,
+        ilDBInterface $db,
+        ilComponentRepository $component_repository,
+        ilObjQuestionPool $poolOBJ,
+        $refId
+    ) {
         $this->ilias = $ilias;
         $this->ctrl = $ctrl;
         $this->access = $access;
@@ -72,7 +91,7 @@ class ilQuestionPoolSkillAdministrationGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->db = $db;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->poolOBJ = $poolOBJ;
         $this->refId = $refId;
     }
@@ -132,9 +151,7 @@ class ilQuestionPoolSkillAdministrationGUI
 
         switch ($nextClass) {
             case 'ilassquestionskillassignmentsgui':
-
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
                 $questionList->setParentObjId($this->poolOBJ->getId());
                 $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
                 $questionList->load();

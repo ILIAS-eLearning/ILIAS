@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
-include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
@@ -500,10 +512,9 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             global $DIC;
             $tree = $DIC['tree'];
             $ilDB = $DIC['ilDB'];
-            $ilPluginAdmin = $DIC['ilPluginAdmin'];
+            $component_repository = $DIC['component.repository'];
 
-            require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-            $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this->test_object);
+            $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this->test_object);
             $testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
 
             foreach ($selected_array as $key => $value) {
