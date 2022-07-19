@@ -359,7 +359,7 @@ class ilSettingsTemplateGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteSettingsTemplate");
 
             foreach ($this->request->getTemplateIds() as $i) {
-                $cgui->addItem("tid[]", $i, ilSettingsTemplate::lookupTitle($i));
+                $cgui->addItem("tid[]", (string) $i, ilSettingsTemplate::lookupTitle($i));
             }
 
             $tpl->setContent($cgui->getHTML());
