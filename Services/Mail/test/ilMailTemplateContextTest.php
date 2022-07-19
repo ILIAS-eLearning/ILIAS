@@ -208,7 +208,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
             '[TITLE]',
             '[FIRSTNAME_LASTNAME_SUPERIOR]',
             '[ILIAS_URL]',
-            '[CLIENT_NAME]',
+            '[INSTALLATION_NAME]',
         ]));
 
         $replaceMessage = $placeholderResolver->resolve($user);

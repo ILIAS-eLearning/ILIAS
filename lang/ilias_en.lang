@@ -10717,8 +10717,8 @@ mail#:#mail_my_courses#:#My Courses
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
-mail#:#mail_nacc_client_desc#:#Client Description
-mail#:#mail_nacc_client_name#:#Client Name
+mail#:#mail_nacc_installation_desc#:#Installation Description
+mail#:#mail_nacc_installation_name#:#Installation Name
 mail#:#mail_nacc_if_timelimit#:#This text is only included if the user has a limited access period.
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_login#:#Username (Login ID)
