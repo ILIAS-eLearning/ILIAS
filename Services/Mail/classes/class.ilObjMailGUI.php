@@ -535,9 +535,9 @@ class ilObjMailGUI extends ilObjectGUI
 
         $placeholders = new ilManualPlaceholderInputGUI('mail_system_sys_signature');
         $placeholder_list = [
-            ['placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')],
-            ['placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')],
-            ['placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
+            ['placeholder' => 'INSTALLATION_NAME', 'label' => $this->lng->txt('mail_nacc_installation_name')],
+            ['placeholder' => 'INSTALLATION_DESC', 'label' => $this->lng->txt('mail_nacc_installation_desc')],
+            ['placeholder' => 'ILIAS_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
         ];
         foreach ($placeholder_list as $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);

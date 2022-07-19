@@ -87,9 +87,9 @@ abstract class ilMailTemplateContext
                 'placeholder' => 'ILIAS_URL',
                 'label' => $this->getLanguage()->txt('mail_nacc_ilias_url'),
             ],
-            'client_name' => [
-                'placeholder' => 'CLIENT_NAME',
-                'label' => $this->getLanguage()->txt('mail_nacc_client_name'),
+            'installation_name' => [
+                'placeholder' => 'INSTALLATION_NAME',
+                'label' => $this->getLanguage()->txt('mail_nacc_installation_name'),
             ],
         ];
     }
@@ -163,7 +163,7 @@ abstract class ilMailTemplateContext
                     . $this->envHelper->getClientId();
                 break;
 
-            case 'client_name' === $placeholder_id:
+            case 'installation_name' === $placeholder_id:
                 $resolved = $this->envHelper->getClientId();
                 break;
 

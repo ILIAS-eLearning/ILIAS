@@ -632,7 +632,7 @@ is sent:
 * \[IF_NO_PASSWORD\]...\[/IF_NO_PASSWORD\]: This text block is only included, if the new user account has been created without a password.
 * \[ADMIN_MAIL\]: Email address of Administrator
 * \[ILIAS_URL\]: URL of ILIAS system
-* \[CLIENT_NAME\]: Client Name
+* \[INSTALLATION_NAME\]: Installation Name
 * \[TARGET\]: URL of target item, e.g. a linked course that is passed to ILIAS from outside.
 * \[TARGET_TITLE\]: Title of target item, e.g. course title.
 * \[TARGET_TYPE\]: Type of target item, e.g. ‘Course’ for a course item.

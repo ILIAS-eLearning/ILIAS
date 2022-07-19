@@ -41,7 +41,7 @@ class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
         $subtpl->setVariable('TXT_LAST_NAME', $this->lng->txt('lastname'));
         $subtpl->setVariable('TXT_LOGIN', $this->lng->txt('mail_nacc_login'));
         $subtpl->setVariable('TXT_ILIAS_URL', $this->lng->txt('mail_nacc_ilias_url'));
-        $subtpl->setVariable('TXT_CLIENT_NAME', $this->lng->txt('mail_nacc_client_name'));
+        $subtpl->setVariable('TXT_INSTALLATION_NAME', $this->lng->txt('mail_nacc_installation_name'));
 
         $a_tpl->setCurrentBlock('prop_generic');
         $a_tpl->setVariable('PROP_GENERIC', $subtpl->get());

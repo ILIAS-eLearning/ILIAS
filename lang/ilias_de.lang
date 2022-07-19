@@ -10706,8 +10706,8 @@ mail#:#mail_my_courses#:#Meine Kurse
 mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
 mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
-mail#:#mail_nacc_client_desc#:#Beschreibung des Mandanten
-mail#:#mail_nacc_client_name#:#Name des Mandanten
+mail#:#mail_nacc_installation_desc#:#Beschreibung der Installation
+mail#:#mail_nacc_installation_name#:#Name der Installation
 mail#:#mail_nacc_if_timelimit#:#Dieser Textblock wird nur eingefügt, wenn der Benutzer einen begrenzten Zugangszeitraum hat.
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
 mail#:#mail_nacc_login#:#Login-Account

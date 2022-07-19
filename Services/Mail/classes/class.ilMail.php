@@ -1430,16 +1430,16 @@ class ilMail
         }
 
         $signature = str_ireplace(
-            '[CLIENT_NAME]',
+            '[INSTALLATION_NAME]',
             $DIC['ilClientIniFile']->readVariable('client', 'name'),
             $signature
         );
         $signature = str_ireplace(
-            '[CLIENT_DESC]',
+            '[INSTALLATION_DESC]',
             $DIC['ilClientIniFile']->readVariable('client', 'description'),
             $signature
         );
-        $signature = str_ireplace('[CLIENT_URL]', $clientUrl, $signature);
+        $signature = str_ireplace('[ILIAS_URL]', $clientUrl, $signature);
 
         if (!preg_match('/^[\n\r]+/', $signature)) {
             $signature = "\n" . $signature;
