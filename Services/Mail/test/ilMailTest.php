@@ -159,9 +159,7 @@ class ilMailTest extends ilMailBaseTest
             static function (string $login) use ($loginToIdMap): int {
                 return $loginToIdMap[$login] ?? 0;
             },
-            static function (string $usrId) use ($loginToIdMap) : string {
-                return array_flip($loginToIdMap)[$usrId] ?? '';
-            },
+            $this->getMockBuilder(ilAutoResponderServiceImpl::class)->disableOriginalConstructor()->getMock(),
             4711,
             $actor
         );
@@ -568,9 +566,7 @@ class ilMailTest extends ilMailBaseTest
             static function (string $login): int {
                 return 780;
             },
-            static function (int $usrId) : string {
-                return 'Test';
-            },
+            $this->getMockBuilder(ilAutoResponderServiceImpl::class)->disableOriginalConstructor()->getMock(),
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );
