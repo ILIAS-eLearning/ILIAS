@@ -13,8 +13,9 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Resource;
 
 use Generator;
@@ -39,6 +40,7 @@ use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\Preloader\SecureString;
 
 /**
  * Class ResourceBuilder
@@ -47,12 +49,14 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
  */
 class ResourceBuilder
 {
+    use SecureString;
     private \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
     private \ILIAS\ResourceStorage\Resource\Repository\ResourceRepository $resource_repository;
     private \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
     private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $storage_handler_factory;
     private \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository $stakeholder_repository;
     private \ILIAS\ResourceStorage\Lock\LockHandler $lock_handler;
+
     /**
      * @var StorableResource[]
      */
@@ -408,14 +412,14 @@ class ResourceBuilder
     {
         $info = $revision->getInformation();
 
-        $info->setTitle($info_resolver->getFileName());
+        $info->setTitle($this->secure($info_resolver->getFileName()));
         $info->setMimeType($info_resolver->getMimeType());
-        $info->setSuffix($info_resolver->getSuffix());
+        $info->setSuffix($this->secure($info_resolver->getSuffix()));
         $info->setSize($info_resolver->getSize());
         $info->setCreationDate($info_resolver->getCreationDate());
 
         $revision->setInformation($info);
-        $revision->setTitle($info_resolver->getRevisionTitle());
+        $revision->setTitle($this->secure($info_resolver->getRevisionTitle()));
         $revision->setOwnerId($info_resolver->getOwnerId());
 
         return $revision;

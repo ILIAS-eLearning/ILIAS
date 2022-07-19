@@ -26,6 +26,8 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilObjFileListGUI extends ilObjectListGUI
 {
+    use ilObjFileSecureString;
+
     protected string $title;
     
     /**
@@ -86,7 +88,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function getTitle() : string
     {
         // Remove filename extension from title
-        return preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title);
+        return $this->secure(preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title));
     }
 
     /**
