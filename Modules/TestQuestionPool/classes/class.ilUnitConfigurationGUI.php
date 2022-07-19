@@ -245,7 +245,7 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        if ($this->request->isset('sequence') || !is_array($this->request->raw('sequence'))) {
+        if (!$this->request->isset('sequence') || !is_array($this->request->raw('sequence'))) {
             $this->showUnitsOfCategory();
             return;
         }
