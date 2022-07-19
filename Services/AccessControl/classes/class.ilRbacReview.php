@@ -990,14 +990,19 @@ class ilRbacReview
         return $ops_ids;
     }
 
+    /**
+     * ref_id not used yet. Protected permission acts 'global' for each role,
+     */
     public function isProtected(int $a_ref_id, int $a_role_id) : bool
     {
-        // ref_id not used yet. protected permission acts 'global' for each role,
-        $query = "SELECT protected FROM rbac_fa " .
-            "WHERE rol_id = " . $this->db->quote($a_role_id, 'integer') . " ";
+        $query = 'SELECT protected FROM rbac_fa ' .
+            'WHERE rol_id = ' . $this->db->quote($a_role_id, ilDBConstants::T_INTEGER) . ' ' .
+            'AND assign = ' . $this->db->quote('y', ilDBConstants::T_TEXT);
         $res = $this->db->query($query);
-        $row = $this->db->fetchAssoc($res);
-        return ilUtil::yn2tf($row['protected']);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return $row->protected === 'y';
+        }
+        return false;
     }
 
     public function isBlockedAtPosition(int $a_role_id, int $a_ref_id) : bool
