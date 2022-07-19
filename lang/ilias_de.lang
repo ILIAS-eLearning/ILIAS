@@ -9627,8 +9627,6 @@ forum#:#frm_moderators_not_exist_yet#:#Bitte fügen Sie eine Person für die Mod
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens eine Person aus.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer für die Moderation.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
-forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
-forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
 forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" aktiviert
