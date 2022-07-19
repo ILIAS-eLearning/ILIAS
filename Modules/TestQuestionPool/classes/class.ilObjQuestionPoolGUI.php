@@ -429,7 +429,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
                     $this->redirectAfterMissingWrite();
                 }
-
+                
+                if ($cmd === 'assessment' &&
+                    $this->object->getType() === 'tst' &&
+                    !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
+                
                 $this->ctrl->setReturn($this, "questions");
 
                 $questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType($this->object->getId()), $this->fetchAuthoringQuestionIdParamater());
