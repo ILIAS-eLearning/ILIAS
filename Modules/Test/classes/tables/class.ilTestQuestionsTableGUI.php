@@ -294,7 +294,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass(
             $target_class,
             'calling_test',
-            $this->getId()
+            $this->parent_obj->getObject()->getRefId()
         );
         
         $link = $this->ctrl->getLinkTargetByClass($target_class, $cmd);
@@ -410,7 +410,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         return $this->obligatoryQuestionsHandlingEnabled;
     }
 
-    public function setObligatoryQuestionsHandlingEnabled(bool $obligatoryQuestionsHandlingEnabled)
+    public function setObligatoryQuestionsHandlingEnabled(bool $obligatoryQuestionsHandlingEnabled) : void
     {
         $this->obligatoryQuestionsHandlingEnabled = $obligatoryQuestionsHandlingEnabled;
     }
