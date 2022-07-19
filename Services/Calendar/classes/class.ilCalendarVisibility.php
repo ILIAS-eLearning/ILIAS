@@ -87,8 +87,13 @@ class ilCalendarVisibility
     {
         $hidden = array();
         foreach ($category_info as $cat_id => $info) {
+            $subitem_ids = [];
+            if (array_key_exists('subitem_ids', $info) && is_array($info['subitem_ids'])) {
+                $subitem_ids = $info['subitem_ids'];
+            }
+            
             if ($this->isHidden($cat_id, $info)) {
-                $hidden = array_merge((array) $hidden, (array) $info['subitem_ids'], array($cat_id));
+                $hidden = array_merge((array) $hidden, $subitem_ids, array($cat_id));
             }
         }
         return array_diff($categories, $hidden);

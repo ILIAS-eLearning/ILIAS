@@ -181,7 +181,7 @@ class ilQTIParser extends ilSaxParser
 
     protected ?string $questionSetType = null;
 
-    public function __construct(?string $a_xml_file, int $a_mode = self::IL_MO_PARSE_QTI, int $a_qpl_id = 0, string $a_import_idents = "")
+    public function __construct(?string $a_xml_file, int $a_mode = self::IL_MO_PARSE_QTI, int $a_qpl_id = 0, $a_import_idents = "")
     {
         global $lng;
 
@@ -279,7 +279,7 @@ class ilQTIParser extends ilSaxParser
         }
         $this->sametag = false;
         $this->characterbuffer = "";
-        $this->depth[$a_xml_parser] += 1; // Issue with SplObjectStorage: Cannot use ++.
+        $this->depth[$a_xml_parser] = ($this->depth[$a_xml_parser] ?? 0) + 1; // Issue with SplObjectStorage: Cannot use ++.
         $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
         $this->qti_element = $a_name;
 

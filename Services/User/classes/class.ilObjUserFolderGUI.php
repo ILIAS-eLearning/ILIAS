@@ -1440,7 +1440,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                     $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "ignore";
 
-                    $selectable_roles = array();
+                    $selectable_roles = [];
                     if ($this->object->getRefId() == USER_FOLDER_ID) {
                         // There are too many roles in a large ILIAS installation
                         // that's why whe show only a choice with the the option "ignore",
@@ -1449,24 +1449,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         foreach ($matching_role_ids as $id) {
                             $selectable_roles[$role_id . "-" . $id] = $l_roles[$id];
                         }
-
-                        $select = $ui->input()->field()->select(
-                            $role["name"],
-                            $selectable_roles
-                        )
-                                     ->withValue($pre_select)
-                                     ->withRequired(true);
-                        $local_selects[] = $select;
                     } else {
                         foreach ($l_roles as $local_role_id => $value) {
                             if ($local_role_id !== "ignore") {
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }
                         }
-                        if (count($selectable_roles)) {
-                            $select = $ui->input()->field()->select($role["name"], $selectable_roles);
-                            $local_selects[] = $select;
+                    }
+
+                    if (count($selectable_roles) > 0) {
+                        $select = $ui->input()->field()
+                            ->select($role["name"], $selectable_roles)
+                            ->withRequired(true);
+                        if (array_key_exists($pre_select, $selectable_roles)) {
+                            $select = $select->withValue($pre_select);
                         }
+                        $local_selects[] = $select;
                     }
                 }
             }
@@ -1511,28 +1509,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->lng->txt("file_info")
         );
 
-        $global_role_info_section = $ui->input()->field()->section(
-            [$global_roles_assignment_info],
-            $this->lng->txt("global_role_assignment")
-        );
-        $global_role_selection_section = $ui->input()->field()->section(
-            $global_selects,
-            ""
-        );
-        $conflict_action_section = $ui->input()->field()->section(
-            [$conflict_action_select],
-            ""
-        );
-        $form_action = $DIC->ctrl()->getFormActionByClass(
-            'ilObjUserFolderGui',
-            'importUsers'
-        );
+        $form_action = $DIC->ctrl()->getFormActionByClass('ilObjUserFolderGui', 'importUsers');
 
-        $form_elements = array(
-            "file_info" => $file_info_section,
-            "global_role_info" => $global_role_info_section,
-            "global_role_selection" => $global_role_selection_section
-        );
+        $form_elements = [
+            "file_info" => $file_info_section
+        ];
+        
+        if (!empty($global_selects)) {
+            $global_role_info_section = $ui->input()
+                ->field()
+                ->section([$global_roles_assignment_info], $this->lng->txt("global_role_assignment"));
+            $global_role_selection_section = $ui->input()->field()->section($global_selects, "");
+            $form_elements["global_role_info"] = $global_role_info_section;
+            $form_elements["global_role_selection"] = $global_role_selection_section;
+        }
 
         if (!empty($local_selects)) {
             $local_role_info_section = $ui->input()->field()->section(
@@ -1548,7 +1538,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $form_elements["local_role_selection"] = $local_role_selection_section;
         }
 
-        $form_elements["conflict_action"] = $conflict_action_section;
+        $form_elements["conflict_action"] = $ui->input()->field()->section([$conflict_action_select], "");
 
         if ($mail_section !== null) {
             $form_elements["send_mail"] = $mail_section;
@@ -1753,10 +1743,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $rule = $result["conflict_action"][0];
 
         //If local roles exist, merge the roles that are to be assigned, otherwise just take the array that has global roles
-        $roles = isset($result["local_role_selection"]) ? array_merge(
-            $result["global_role_selection"],
-            $result["local_role_selection"]
-        ) : $result["global_role_selection"];
+        $local_role_selection = (array) ($result['local_role_selection'] ?? []);
+        $global_role_selection = (array) ($result['global_role_selection'] ?? []);
+        $roles = array_merge(
+            $local_role_selection,
+            $global_role_selection
+        );
 
         $role_assignment = array();
         foreach ($roles as $value) {

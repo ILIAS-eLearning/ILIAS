@@ -18,6 +18,7 @@
 
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 
 /**
  * Copy definition for workspace folders
@@ -37,7 +38,7 @@ class ilWorkspaceCopyDefinition extends AbstractValue
     private array $object_wsp_ids = [];
     private int $num_files = 0;
     private int $sum_file_sizes = 0;
-    private bool $adheres_to_limit = false;
+    private ?BooleanValue $adheres_to_limit = null;
 
     public function getCopyDefinitions() : array
     {
@@ -105,12 +106,12 @@ class ilWorkspaceCopyDefinition extends AbstractValue
         $this->sum_file_sizes = $sum_file_sizes;
     }
 
-    public function getAdheresToLimit() : bool
+    public function getAdheresToLimit() : BooleanValue
     {
         return $this->adheres_to_limit;
     }
 
-    public function setAdheresToLimit(bool $adheres_to_limit) : void
+    public function setAdheresToLimit(BooleanValue $adheres_to_limit) : void
     {
         $this->adheres_to_limit = $adheres_to_limit;
     }

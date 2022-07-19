@@ -541,7 +541,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
     protected function completeAddAnswerAction($answers, $questionIndex)
     {
-          foreach ($answers as $key => $ans) {
+        foreach ($answers as $key => $ans) {
             $found = false;
 
             foreach ($this->object->getAnswers() as $item) {

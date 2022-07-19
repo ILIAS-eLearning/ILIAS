@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Handles calendar authentication tokens for external calendar subscriptions
@@ -27,6 +41,10 @@ class ilCalendarAuthenticationToken
 
     public function __construct(int $a_user_id, string $a_token = '')
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
+
         $this->user = $a_user_id;
         $this->token = $a_token;
         $this->read();
@@ -124,15 +142,6 @@ class ilCalendarAuthenticationToken
     public function isIcalExpired() : bool
     {
         return true;
-        /*
-        if (!ilCalendarSettings::_getInstance()->isSynchronisationCacheEnabled()) {
-            return true;
-        }
-        if (!ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes()) {
-            return true;
-        }
-        return time() > ($this->ical_ctime + 60 * ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes());
-         */
     }
 
     public function add() : string

@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilMMTabHandling
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -42,12 +58,16 @@ class ilMMTabHandling
         ?string $calling_class = ""
     ) : void {
         $this->tabs->clearTargets(); // clears Help-ID
-        
+
         // Help Screen-ID
         $this->help->setScreenIdComponent('mme');
-        $this->help->setScreenId($tab);
-        $this->help->setSubScreenId($subtab);
-        
+        if ($tab !== null) {
+            $this->help->setScreenId($tab);
+        }
+        if ($subtab !== null) {
+            $this->help->setSubScreenId($subtab);
+        }
+
         if ($this->rbacsystem->checkAccess('visible,read', $this->ref_id)) {
             $this->tabs->addTab(
                 ilObjMainMenuGUI::TAB_MAIN,

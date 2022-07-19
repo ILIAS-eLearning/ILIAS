@@ -287,7 +287,7 @@ class ilSessionDataSet extends ilDataSet
         }
         if ($a_entity == "sess_item") {
             // make ref id an object id
-            $a_set["ItemId"] = ilObject::_lookupObjId($a_set["ItemId"]);
+            $a_set["ItemId"] = ilObject::_lookupObjId((int) ($a_set["ItemId"] ?? 0));
         }
         return $a_set;
     }
@@ -301,7 +301,7 @@ class ilSessionDataSet extends ilDataSet
         switch ($a_entity) {
             case "sess":
                 return array(
-                    "sess_item" => array("ids" => $a_rec["Id"])
+                    "sess_item" => array("ids" => ($a_rec["Id"] ?? ''))
                 );
         }
 
@@ -321,44 +321,44 @@ class ilSessionDataSet extends ilDataSet
                     $newObj->setType("sess");
                     $newObj->create(true);
                 }
-                $newObj->setTitle($a_rec["Title"]);
-                $newObj->setDescription($a_rec["Description"]);
-                $newObj->setLocation($a_rec["Location"]);
-                $newObj->setName($a_rec["TutorName"]);
-                $newObj->setPhone($a_rec["TutorPhone"]);
-                $newObj->setEmail($a_rec["TutorEmail"]);
-                $newObj->setDetails($a_rec["Details"]);
+                $newObj->setTitle((string) ($a_rec["Title"] ?? ''));
+                $newObj->setDescription((string) ($a_rec["Description"] ?? ''));
+                $newObj->setLocation((string) ($a_rec["Location"] ?? ''));
+                $newObj->setName((string) ($a_rec["TutorName"] ?? ''));
+                $newObj->setPhone((string) ($a_rec["TutorPhone"] ?? ''));
+                $newObj->setEmail((string) ($a_rec["TutorEmail"] ?? ''));
+                $newObj->setDetails((string) ($a_rec["Details"] ?? ''));
 
                 switch ($a_schema_version) {
                     case "5.0.0":
                     case "5.1.0":
-                        $newObj->setRegistrationType((int) $a_rec["Registration"]);
+                        $newObj->setRegistrationType((int) ($a_rec["Registration"] ?? 0));
 
-                        $newObj->enableRegistrationUserLimit((int) $a_rec["LimitedRegistration"]);
-                        $newObj->setRegistrationMaxUsers((int) $a_rec["LimitUsers"]);
-                        $newObj->enableRegistrationWaitingList((bool) $a_rec["WaitingList"]);
+                        $newObj->enableRegistrationUserLimit((int) ($a_rec["LimitedRegistration"] ?? 0));
+                        $newObj->setRegistrationMaxUsers((int) ($a_rec["LimitUsers"] ?? 0));
+                        $newObj->enableRegistrationWaitingList((bool) ($a_rec["WaitingList"] ?? false));
 
                         if (isset($a_rec["MinUsers"])) {
-                            $newObj->setRegistrationMinUsers((int) $a_rec["MinUsers"]);
+                            $newObj->setRegistrationMinUsers((int) ($a_rec["MinUsers"] ?? 0));
                         }
 
                         if (isset($a_rec["AutoWait"])) {
-                            $newObj->setWaitingListAutoFill((bool) $a_rec["AutoWait"]);
+                            $newObj->setWaitingListAutoFill((bool) ($a_rec["AutoWait"] ?? false));
                         }
                         break;
                     case '5.4.0':
                     case '7.0':
                         if (isset($a_rec['MailMembers'])) {
-                            $newObj->setMailToMembersType((int) $a_rec['MailMembers']);
+                            $newObj->setMailToMembersType((int) ($a_rec['MailMembers'] ?? 0));
                         }
                         if (isset($a_rec['ShowMembers'])) {
-                            $newObj->setShowMembers((bool) $a_rec['ShowMembers']);
+                            $newObj->setShowMembers((bool) ($a_rec['ShowMembers'] ?? false));
                         }
                         if (isset($a_rec['ShowCannotPart'])) {
-                            $newObj->enableCannotParticipateOption((bool) $a_rec['show_cannot_part']);
+                            $newObj->enableCannotParticipateOption((bool) ($a_rec['show_cannot_part'] ?? false));
                             break;
                         }
-                        $this->applyDidacticTemplate($newObj, (int) $a_rec['Type']);
+                        $this->applyDidacticTemplate($newObj, (int) ($a_rec['Type'] ?? 0));
                         break;
                 }
 
@@ -367,11 +367,11 @@ class ilSessionDataSet extends ilDataSet
                 $start = new ilDateTime($a_rec["EventStart"], IL_CAL_DATETIME, "UTC");
                 $end = new ilDateTime($a_rec["EventEnd"], IL_CAL_DATETIME, "UTC");
                 $app = new ilSessionAppointment();
-                $app->setStart($a_rec["EventStart"]);
-                $app->setEnd($a_rec["EventEnd"]);
+                $app->setStart($start);
+                $app->setEnd($end);
                 $app->setStartingTime($start->get(IL_CAL_UNIX));
                 $app->setEndingTime($end->get(IL_CAL_UNIX));
-                $app->toggleFullTime((bool) $a_rec["Fulltime"]);
+                $app->toggleFullTime((bool) ($a_rec["Fulltime"] ?? false));
                 $app->setSessionId($newObj->getId());
                 $app->create();
 
@@ -406,9 +406,9 @@ class ilSessionDataSet extends ilDataSet
         $ref_ids = [];
         $counter = 0;
         foreach ($a_obj_ids as $obj_id) {
-            $ref_ids = ilObject::_getAllReferences($obj_id);
+            $ref_ids = ilObject::_getAllReferences((int) $obj_id);
             foreach ($ref_ids as $ref_id) {
-                $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($ref_id);
+                $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId((int) $ref_id);
                 $this->data[$counter++]['Type'] = $tpl_id;
                 break;
             }

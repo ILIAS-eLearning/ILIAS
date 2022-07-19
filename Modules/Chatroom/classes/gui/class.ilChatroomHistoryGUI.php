@@ -36,8 +36,6 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
-        $this->mainTpl->addJavaScript('./Services/Form/js/date_duration.js');
-
         $scope = $room->getRoomId();
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);

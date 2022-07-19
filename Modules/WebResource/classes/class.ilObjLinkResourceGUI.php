@@ -1324,7 +1324,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         foreach ($link_ids as $link_id) {
             $link = $links->getItem($link_id);
-            $confirm->addItem('link_ids[]', $link_id, $link['title']);
+            $confirm->addItem('link_ids[]', (string) $link_id, $link['title']);
         }
         $this->tpl->setContent($confirm->getHTML());
     }
@@ -1600,33 +1600,31 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
             // #10612
             $parts = explode("|", $a_target);
-
-            if ($parts[0] == 'wpage') {
+            $type = (string) ($parts[0] ?? '');
+            $ref_id = (int) ($parts[1] ?? 0);
+            
+            if ($type == 'wpage') {
                 return ilLink::_getStaticLink(
                     0,
                     'wiki',
                     true,
-                    '&target=wiki_wpage_' . $parts[1]
+                    '&target=wiki_wpage_' . $ref_id
                 );
             }
-
-            if ($parts[0] == "term") {
+            if ($type == "term") {
                 // #16894
                 return ilLink::_getStaticLink(
                     0,
                     "git",
                     true,
-                    "&target=git_" . $parts[1]
+                    "&target=git_" . $ref_id
                 );
             }
-
-            if ($parts[0] == "page") {
-                $parts[0] = "pg";
+            if ($type == "page") {
+                $type = "pg";
             }
-
-            $a_target = ilLink::_getStaticLink($parts[1], $parts[0]);
+            $a_target = ilLink::_getStaticLink($ref_id, $type);
         }
-
         return $a_target;
     }
 

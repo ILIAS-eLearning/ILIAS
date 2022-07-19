@@ -31,7 +31,7 @@ class ilCaseNode extends ilBaseNode
     private bool $is_exclusive_fork = false;
     /** @var ilEmitter[] $else_emitters */
     public array $else_emitters;
-    public bool $is_exclusive;
+    public bool $is_exclusive = false;
     private array $condition_emitter_pairs = [];
 
     /**
@@ -46,15 +46,14 @@ class ilCaseNode extends ilBaseNode
         $this->emitters = [];
         $this->else_emitters = [];
         $this->activities = [];
-        $this->is_exclusive = false;
     }
 
-    public function setIsExclusiveJoin($is_exclusive) : void// TODO PHP8-REVIEW Missing type hint or PHPDoc
+    public function setIsExclusiveJoin(bool $is_exclusive) : void
     {
         $this->is_exclusive_join = $is_exclusive;
     }
 
-    public function setIsExclusiveFork($is_exclusive) : void// TODO PHP8-REVIEW Missing type hint or PHPDoc
+    public function setIsExclusiveFork(bool $is_exclusive) : void
     {
         $this->is_exclusive_fork = $is_exclusive;
     }

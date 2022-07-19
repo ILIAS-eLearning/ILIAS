@@ -547,7 +547,7 @@ class ilAttendanceList
 
         if ($this->user_filters) {
             foreach ($this->user_filters as $sub_id => $sub_item) {
-                $filters[$sub_id] = (bool) $sub_item[2];
+                $filters[$sub_id] = (bool) ($sub_item[2] ?? false);
             }
         }
 
@@ -575,14 +575,14 @@ class ilAttendanceList
                                 }
                             // no break
                             case "login":
-                                if (!$user_data[$id]) {
-                                    $value = ilObjUser::_lookupLogin($user_id);
+                                if (!($user_data[$id] ?? false)) {
+                                    $value = ilObjUser::_lookupLogin((int) $user_id);
                                     break;
                                 }
 
                             // no break
                             default:
-                                $value = (string) $user_data[$id];
+                                $value = (string) ($user_data[$id] ?? '');
                                 break;
                         }
                         $tpl->setVariable("TXT_PRESET", $value);

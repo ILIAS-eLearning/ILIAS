@@ -111,7 +111,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         if ($this->wiki_request->getPage() !== "") {
             $tpl->setPermanentLink(
                 "wiki",
-                $this->requested_ref_id,
+                null,
                 "wpage_" . $this->getPageObject()->getId() . "_" . $this->requested_ref_id,
                 "",
                 $head_title
@@ -263,7 +263,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $this->requested_ref_id,
             $wiki_id
         );
-        $dispatcher->setSubObject("wpg", $page_id);
+
+        // see #33422
+        // $dispatcher->setSubObject("wpg", $page_id);
 
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),

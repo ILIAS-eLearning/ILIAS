@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * File System Explorer GUI class
  * @author Jesús López <lopez@leifos.com>
@@ -115,12 +115,8 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setCurrentBlock("Order");
-        if ($a_set['order_id']) {
-            $this->tpl->setVariable("ID", $a_set['order_id']);
-        }
-        if ($a_set["order_val"]) {
-            $this->tpl->setVariable("ORDER_VAL", $a_set["order_val"]);
-        }
+        $this->tpl->setVariable("ID", (string) $a_set['order_id']);
+        $this->tpl->setVariable("ORDER_VAL", (string) $a_set["order_val"]);
         $this->tpl->parseCurrentBlock();
 
         parent::fillRow($a_set);

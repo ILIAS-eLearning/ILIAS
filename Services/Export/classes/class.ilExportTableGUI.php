@@ -118,7 +118,7 @@ class ilExportTableGUI extends ilTable2GUI
         $file_id = $this->getRowId($a_set);
         $this->tpl->setVariable('VAL_ID', $file_id);
 
-        $type = ($this->formats[$a_set['type']] != "")
+        $type = (isset($this->formats[$a_set['type']]) && $this->formats[$a_set['type']] != "")
             ? $this->formats[$a_set['type']]
             : $a_set['type'];
         $this->tpl->setVariable('VAL_TYPE', $type);

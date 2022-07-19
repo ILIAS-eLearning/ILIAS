@@ -493,7 +493,19 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $gui = new ilTestQuestionBrowserTableGUI($this->ctrl, $this->tpl, $ilTabs, $this->lng, $tree, $ilDB, $ilPluginAdmin, $this->getTestObject(), $ilAccess);
+                $gui = new ilTestQuestionBrowserTableGUI(
+                    $this->ctrl,
+                    $this->tpl,
+                    $ilTabs,
+                    $this->lng,
+                    $tree,
+                    $ilDB,
+                    $ilPluginAdmin,
+                    $this->getTestObject(),
+                    $ilAccess,
+                    $DIC->http(),
+                    $DIC->refinery()
+                );
                 $gui->setWriteAccess($ilAccess->checkAccess("write", "", $this->ref_id));
                 $gui->init();
                 $this->ctrl->forwardCommand($gui);
@@ -2121,22 +2133,41 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());
         $this->tpl->parseCurrentBlock();
     }
-    
-    /**
-     * @param $ilToolbar
-     * @param $context
-     */
-    private function populateQuestionBrowserToolbarButtons(ilToolbarGUI $toolbar, $context)
+
+    private function populateQuestionBrowserToolbarButtons(ilToolbarGUI $toolbar, string $context) : void
     {
-        $this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CONTEXT_PARAMETER, $context);
-        
-        $this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::MODE_PARAMETER, ilTestQuestionBrowserTableGUI::MODE_BROWSE_POOLS);
-        
-        $toolbar->addButton($this->lng->txt("tst_browse_for_qpl_questions"), $this->ctrl->getLinkTargetByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CMD_BROWSE_QUESTIONS));
-        
-        $this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::MODE_PARAMETER, ilTestQuestionBrowserTableGUI::MODE_BROWSE_TESTS);
-        
-        $toolbar->addButton($this->lng->txt("tst_browse_for_tst_questions"), $this->ctrl->getLinkTargetByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CMD_BROWSE_QUESTIONS));
+        $this->ctrl->setParameterByClass(
+            ilTestQuestionBrowserTableGUI::class,
+            ilTestQuestionBrowserTableGUI::CONTEXT_PARAMETER,
+            $context
+        );
+        $this->ctrl->setParameterByClass(
+            ilTestQuestionBrowserTableGUI::class,
+            ilTestQuestionBrowserTableGUI::MODE_PARAMETER,
+            ilTestQuestionBrowserTableGUI::MODE_BROWSE_POOLS
+        );
+
+        $toolbar->addButton(
+            $this->lng->txt("tst_browse_for_qpl_questions"),
+            $this->ctrl->getLinkTargetByClass(
+                ilTestQuestionBrowserTableGUI::class,
+                ilTestQuestionBrowserTableGUI::CMD_BROWSE_QUESTIONS
+            )
+        );
+
+        $this->ctrl->setParameterByClass(
+            ilTestQuestionBrowserTableGUI::class,
+            ilTestQuestionBrowserTableGUI::MODE_PARAMETER,
+            ilTestQuestionBrowserTableGUI::MODE_BROWSE_TESTS
+        );
+
+        $toolbar->addButton(
+            $this->lng->txt("tst_browse_for_tst_questions"),
+            $this->ctrl->getLinkTargetByClass(
+                ilTestQuestionBrowserTableGUI::class,
+                ilTestQuestionBrowserTableGUI::CMD_BROWSE_QUESTIONS
+            )
+        );
     }
 
     public function takenObject()
@@ -2637,11 +2668,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if ($this->object->getShowInfo()) {
             $info->enablePrivateNotes();
         }
-        
-        if (strlen($this->object->getIntroduction())) {
+
+        if ($this->object->getIntroduction() !== '') {
             $info->addSection($this->lng->txt("tst_introduction"));
             $info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction(), true) .
-                    $info->getHiddenToggleButton());
+                "<br />" . $info->getHiddenToggleButton());
         } else {
             $info->addSection($this->lng->txt("show_details"));
             $info->addProperty("", $info->getHiddenToggleButton());

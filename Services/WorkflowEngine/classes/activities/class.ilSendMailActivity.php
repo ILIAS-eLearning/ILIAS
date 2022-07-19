@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -173,7 +173,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
                 $content = $this->context->getContext()->getInstanceVarById($placeholder);
             }
 
-            if ($content != '') {
+            if ($content !== '') {
                 $message_text = str_replace($match, $content, $message_text);
             }
         }

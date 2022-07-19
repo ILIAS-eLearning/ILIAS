@@ -29,7 +29,6 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
-
     private $ilTabs;
 
     public function __construct($id = -1)

@@ -56,7 +56,7 @@ trait BaseGUIRequest
     }
 
     // get integer parameter kindly
-    protected function int(string $key) : int
+    public function int(string $key) : int
     {
         if ($this->isArray($key) || $this->str($key) === "") {
             return 0;

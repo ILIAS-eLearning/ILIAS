@@ -42,6 +42,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
             ->will($this->returnArgument(0));
 
         return new Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $data_factory,
             new ILIAS\Refinery\Factory($data_factory, $language),

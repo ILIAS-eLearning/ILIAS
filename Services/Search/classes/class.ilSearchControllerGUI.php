@@ -99,22 +99,26 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         switch ($forward_class) {
             case 'illucenesearchgui':
                 $this->setLastClass('illucenesearchgui');
-                                $this->ctrl->forwardCommand(new ilLuceneSearchGUI());
+                $this->ctrl->setCmdClass(ilLuceneSearchGUI::class);
+                $this->ctrl->forwardCommand(new ilLuceneSearchGUI());
                 break;
                 
             case 'illuceneadvancedsearchgui':
                 $this->setLastClass('illuceneadvancedsearchgui');
-                                $this->ctrl->forwardCommand(new ilLuceneAdvancedSearchGUI());
+                $this->ctrl->setCmdClass(ilLuceneAdvancedSearchGUI::class);
+                $this->ctrl->forwardCommand(new ilLuceneAdvancedSearchGUI());
                 break;
             
             case 'illuceneusersearchgui':
                 $this->setLastClass('illuceneusersearchgui');
-                                $this->ctrl->forwardCommand(new ilLuceneUserSearchGUI());
+                $this->ctrl->setCmdClass(ilLuceneUserSearchGUI::class);
+                $this->ctrl->forwardCommand(new ilLuceneUserSearchGUI());
                 break;
                 
             case 'iladvancedsearchgui':
                 // Remember last class
                 $this->setLastClass('iladvancedsearchgui');
+                $this->ctrl->setCmdClass(ilAdvancedSearchGUI::class);
                 $this->ctrl->forwardCommand(new ilAdvancedSearchGUI());
                 break;
 
@@ -123,8 +127,8 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
                 $this->setLastClass('ilsearchgui');
                 // no break
             default:
-
                 $search_gui = new ilSearchGUI();
+                $this->ctrl->setCmdClass(ilSearchGUI::class);
                 $this->ctrl->forwardCommand($search_gui);
                 break;
         }

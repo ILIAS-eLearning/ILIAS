@@ -36,7 +36,6 @@ use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
 class ilObjFileGUI extends ilObject2GUI
 {
     public const UPLOAD_MAX_FILES = 100;
-    public const UPLOAD_MAX_FILE_SIZE = 1_000_000_000; // around 1gb
     public const PARAM_FILES = Dropzone::FILE_INPUT_KEY;
 
     public const PARAM_UPLOAD_ORIGIN = 'origin';
@@ -284,12 +283,13 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         if (1 === count($a_forms)) {
-            if ($a_forms[0] instanceof Standard) {
-                return $this->ui->renderer()->render($a_forms[0]);
+            $creation_form = end($a_forms);
+            if ($creation_form instanceof Standard) {
+                return $this->ui->renderer()->render($creation_form);
             }
 
-            if ($a_forms[0] instanceof ilPropertyFormGUI) {
-                return $a_forms[0]->getHTML();
+            if ($creation_form instanceof ilPropertyFormGUI) {
+                return $creation_form->getHTML();
             }
         }
 
@@ -345,7 +345,7 @@ class ilObjFileGUI extends ilObject2GUI
                         ilObjFileProcessorInterface::OPTION_FILENAME => $this->ui->factory()->input()->field()->text($this->lng->txt('title')),
                         ilObjFileProcessorInterface::OPTION_DESCRIPTION => $this->ui->factory()->input()->field()->textarea($this->lng->txt('description')),
                     ])
-                )->withMaxFiles(self::UPLOAD_MAX_FILES)->withMaxFileSize(self::UPLOAD_MAX_FILE_SIZE),
+                )->withMaxFiles(self::UPLOAD_MAX_FILES)->withMaxFileSize((int) ilFileUtils::getUploadSizeLimitBytes()),
             ]
         );
     }
@@ -412,7 +412,16 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
-        $link = ilLink::_getLink($this->requested_ref_id);
+        switch ($this->id_type) {
+            case self::WORKSPACE_NODE_ID:
+                $link = $this->ctrl->getLinkTargetByClass(ilObjWorkspaceRootFolderGUI::class);
+                break;
+            case self::REPOSITORY_NODE_ID:
+            default:
+                $link = ilLink::_getLink($this->requested_ref_id);
+                break;
+        }
+
         $this->ctrl->redirectToURL($link);
     }
 
@@ -588,21 +597,17 @@ class ilObjFileGUI extends ilObject2GUI
      */
     public function infoScreenForward() : void
     {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-        $ilErr = $DIC['ilErr'];
-        $ilToolbar = $DIC['ilToolbar'];
-
-        $ilTabs->activateTab("id_info");
+        $this->tabs_gui->activateTab("id_info");
 
         if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
+            $GLOBALS['DIC']['ilErr']->raiseError($this->lng->txt("msg_no_perm_read"));
         }
 
         $info = new ilInfoScreenGUI($this);
 
         if ($this->checkPermissionBool("read", "sendfile")) {
             $button = ilLinkButton::getInstance();
+            $button->setTarget('_blank');
             $button->setCaption("file_download");
             $button->setPrimary(true);
 
@@ -613,7 +618,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $button->setUrl($this->ctrl->getLinkTarget($this, "sendfile"));
             }
 
-            $ilToolbar->addButtonInstance($button);
+            $this->toolbar->addButtonInstance($button);
         }
 
         $info->enablePrivateNotes();

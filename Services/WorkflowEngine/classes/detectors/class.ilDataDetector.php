@@ -36,7 +36,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      */
     private bool $detection_state = false;
 
-    protected $name;// TODO PHP8-REVIEW Type or corresponding PHPDoc missing
+    protected $name;
 
     protected ?ilNode $source_node = null;
 
@@ -82,7 +82,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
         $id = $this->var_name;
         $name = $this->var_name;
         foreach ($definitions as $definition) {
-            if ($definition['id'] == $name) {
+            if ($definition['id'] === $name) {
                 if ($definition['reference']) {
                     $id = $definition['target'];
                 }

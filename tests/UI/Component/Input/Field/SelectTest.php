@@ -21,6 +21,7 @@ require_once(__DIR__ . "/../../../Base.php");
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class SelectForTest extends ILIAS\UI\Implementation\Component\Input\Field\Select
@@ -45,6 +46,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
             new Refinery($df, $language),
@@ -81,6 +83,28 @@ class SelectInputTest extends ILIAS_UI_TestBase
         );
 
         $this->assertTrue($select->_isClientSideValueOk(""));
+    }
+
+    public function testEmptyStringCreatesErrorIfSelectIsRequired() : void
+    {
+        $options = [];
+        $select = $this->buildFactory()->select(
+            "",
+            $options,
+            ""
+        )
+        ->withRequired(true)
+        ->withNameFrom($this->name_source);
+
+        $data = $this->createMock(InputData::class);
+        $data->expects($this->once())
+            ->method("getOr")
+            ->willReturn(null);
+        $select = $select->withInput(
+            $data
+        );
+
+        $this->assertNotEquals(null, $select->getError());
     }
 
     public function testEmptyStringIsAnAcceptableClientSideValueEvenIfSelectIsRequired() : void

@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -163,10 +178,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             'VAL_EVALUATED',
             ($finalized) ? $this->lng->txt('yes') : $this->lng->txt('no')
         );
-        $fin_usr_id = $a_set['finalized_by_usr_id'];
+        $fin_usr_id = $a_set['finalized_by_usr_id'] ?? null;
 
         $this->tpl->setVariable('VAL_MODAL_CORRECTION', $a_set['feedback']);
-        if ($fin_usr_id > 0) {
+        if (is_numeric($fin_usr_id) && $fin_usr_id > 0) {
             $this->tpl->setVariable('VAL_FINALIZED_BY', ilObjUser::_lookupFullname($fin_usr_id));
         }
         $fin_timestamp = $a_set['finalized_tstamp'];

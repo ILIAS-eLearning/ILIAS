@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -150,12 +150,12 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
         foreach ($this->parameters as $key => $parameter) {
             $set = false;
             foreach ($list as $instance_var) {
-                if ($instance_var['id'] == $parameter) {
+                if ($instance_var['id'] === $parameter) {
                     $set = true;
                     $role = $instance_var['role'];
                     if ($instance_var['reference']) {
                         foreach ($list as $definitions) {
-                            if ($definitions['id'] == $instance_var['target']) {
+                            if ($definitions['id'] === $instance_var['target']) {
                                 $role = $definitions['role'];
                             }
                         }
@@ -172,7 +172,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
         /** @var ?array $return_value */
         $return_value = call_user_func([$name[0], $name[1]], $this, [$params, $this->outputs]);
         foreach ((array) $return_value as $key => $value) {
-            $this->context->getContext()->setInstanceVarById($key, $value);
+            $this->context->getContext()->setInstanceVarById((string) $key, $value);
         }
     }
 

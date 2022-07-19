@@ -241,13 +241,15 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param $field_name
+     * @deprecated never use in ILIAS Core, Plugins only
      */
     final public static function removeDBField(string $field_name) : bool
     {
         return self::getCalledClass()->getArConnector()->removeField(self::getCalledClass(), $field_name);
     }
-
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
     final protected function installDatabase() : bool
     {
         if (!self::tableExists()) {
@@ -264,6 +266,9 @@ abstract class ActiveRecord
         return $this->getArConnector()->updateDatabase($this);
     }
 
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
     final public static function updateDB() : bool
     {
         if (!self::tableExists()) {
@@ -274,17 +279,24 @@ abstract class ActiveRecord
 
         return self::getCalledClass()->getArConnector()->updateDatabase(self::getCalledClass());
     }
-
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
     final public static function resetDB() : bool
     {
         return self::getCalledClass()->getArConnector()->resetDatabase(self::getCalledClass());
     }
 
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
     final public static function truncateDB() : void
     {
         self::getCalledClass()->getArConnector()->truncateDatabase(self::getCalledClass());
     }
-
+    /**
+     * @depracated never use in ILIAS Core, Plugins only
+     */
     final public static function flushDB() : void
     {
         self::truncateDB();

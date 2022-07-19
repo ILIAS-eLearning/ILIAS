@@ -17,8 +17,6 @@
  *********************************************************************/
 
 
-require_once 'Modules/Test/classes/class.ilTestQuestionSetConfig.php';
-
 /**
  * class that manages/holds the data for a question set configuration for continues tests
  *
@@ -377,7 +375,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         return false;
     }
     
-    public function removeQuestionSetRelatedData()
+    public function removeQuestionSetRelatedData() : void
     {
         $sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
         $sourcePoolDefinitionList->deleteDefinitions();

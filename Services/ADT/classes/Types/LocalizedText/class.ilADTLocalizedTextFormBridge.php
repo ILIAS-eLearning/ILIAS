@@ -40,10 +40,19 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
             } else {
                 $is_translation = true;
             }
+            
+            $languages = $this->getADT()->getTranslations();
+            
+            $text = '';
+            
+            if (array_key_exists($active_language, $languages)) {
+                $text = $languages[$active_languages];
+            }
+            
             $this->addElementToForm(
                 $this->getTitle(),
                 $this->getElementId() . '_' . $active_language,
-                (string) $this->getADT()->getTranslations()[$active_language],
+                $text,
                 $is_translation,
                 $active_language
             );

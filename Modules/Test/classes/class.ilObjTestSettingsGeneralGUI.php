@@ -825,31 +825,19 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $header->setTitle($this->lng->txt("tst_settings_header_execution"));
         $form->addItem($header);
 
-        // starting time
-        $startingtime = new ilDateTimeInputGUI($this->lng->txt("tst_starting_time"), 'starting_time');
-        $startingtime->setInfo($this->lng->txt("tst_starting_time_desc"));
-        $startingtime->setShowTime(true);
-        if ($this->testOBJ->getStartingTime() != 0) {
-            $startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
-        } else {
-            $startingtime->setDate(null);
-        }
-
-        $form->addItem($startingtime);
+        $opening_period = new ilDateDurationInputGUI($this->lng->txt("tst_opening_period"), "opening_period");
+        $opening_period->setShowTime(true);
+        $opening_period->setStart(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
+        $opening_period->setEnd(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
+        $opening_period->setStartText($this->lng->txt('tst_starting_time'));
+        $opening_period->setEndText($this->lng->txt('tst_ending_time'));
+        $opening_period->setInfo($this->lng->txt('tst_opening_period_desc'));
+        $opening_period->setAllowOpenIntervals(true);
         if ($this->testOBJ->participantDataExist()) {
-            $startingtime->setDisabled(true);
+            $opening_period->setDisabled(true);
         }
 
-        // ending time
-        $endingtime = new ilDateTimeInputGUI($this->lng->txt("tst_ending_time"), 'ending_time');
-        $endingtime->setInfo($this->lng->txt("tst_ending_time_desc"));
-        $endingtime->setShowTime(true);
-        if ($this->testOBJ->getEndingTime() != 0) {
-            $endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
-        } else {
-            $endingtime->setDate(null);
-        }
-        $form->addItem($endingtime);
+        $form->addItem($opening_period);
 
         // test password
         $pwEnabled = new ilCheckboxInputGUI($this->lng->txt('tst_password'), 'password_enabled');
@@ -906,25 +894,21 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     private function saveTestAccessProperties(ilPropertyFormGUI $form)
     {
         if (!$this->testOBJ->participantDataExist()) {
-            // starting time
-            $starting_time = $form->getItemByPostVar('starting_time')->getDate();
-            if ($starting_time instanceof ilDateTime) {
-                $this->testOBJ->setStartingTime($starting_time->getUnixtime());
+            $opening_period = $form->getItemByPostVar('opening_period');
+            if ($opening_period && $opening_period->getStart()) {
+                $this->testOBJ->setStartingTime($opening_period->getStart()->get(IL_CAL_UNIX));
                 $this->testOBJ->setStartingTimeEnabled(true);
             } else {
                 $this->testOBJ->setStartingTime(null);
                 $this->testOBJ->setStartingTimeEnabled(false);
             }
-        }
-
-        // ending time
-        $ending_time = $form->getItemByPostVar('ending_time')->getDate();
-        if ($ending_time instanceof ilDateTime) {
-            $this->testOBJ->setEndingTime($ending_time->getUnixtime());
-            $this->testOBJ->setEndingTimeEnabled(true);
-        } else {
-            $this->testOBJ->setEndingTime(null);
-            $this->testOBJ->setEndingTimeEnabled(false);
+            if ($opening_period && $opening_period->getEnd()) {
+                $this->testOBJ->setEndingTime($opening_period->getEnd()->get(IL_CAL_UNIX));
+                $this->testOBJ->setEndingTimeEnabled(true);
+            } else {
+                $this->testOBJ->setEndingTime(null);
+                $this->testOBJ->setEndingTimeEnabled(false);
+            }
         }
 
         if ($this->formPropertyExists($form, 'password_enabled')) {
@@ -1563,7 +1547,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         }
 
         $this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
-        $this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue());
+        $this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue() ?? '');
 
         if ($form->getItemByPostVar('redirection_enabled')->getChecked()) {
             $this->testOBJ->setRedirectionMode($form->getItemByPostVar('redirection_mode')->getValue());

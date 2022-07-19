@@ -127,14 +127,18 @@ class ilInitialisation
         // initialize constants
         define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
         define("ILIAS_WEB_DIR", $ilIliasIniFile->readVariable("clients", "path"));
-        define("ILIAS_ABSOLUTE_PATH", $ilIliasIniFile->readVariable('server', 'absolute_path'));
+        if (!defined("ILIAS_ABSOLUTE_PATH")) {
+            define("ILIAS_ABSOLUTE_PATH", $ilIliasIniFile->readVariable('server', 'absolute_path'));
+        }
 
         // logging
         define("ILIAS_LOG_DIR", $ilIliasIniFile->readVariable("log", "path"));
         define("ILIAS_LOG_FILE", $ilIliasIniFile->readVariable("log", "file"));
-        define("ILIAS_LOG_ENABLED", $ilIliasIniFile->readVariable("log", "enabled"));
+        if (!defined("ILIAS_LOG_ENABLED")) {
+            define("ILIAS_LOG_ENABLED", $ilIliasIniFile->readVariable("log", "enabled"));
+        }
         define("ILIAS_LOG_LEVEL", $ilIliasIniFile->readVariable("log", "level"));
-
+        
         // read path + command for third party tools from ilias.ini
         define("PATH_TO_CONVERT", $ilIliasIniFile->readVariable("tools", "convert"));
         define("PATH_TO_FFMPEG", $ilIliasIniFile->readVariable("tools", "ffmpeg"));
@@ -511,9 +515,15 @@ class ilInitialisation
         define("DEBUG", (int) $ilClientIniFile->readVariable("system", "DEBUG"));
         define("DEVMODE", (int) $ilClientIniFile->readVariable("system", "DEVMODE"));
         define("SHOWNOTICES", (int) $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
-        define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
-        define("SYSTEM_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
-        define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
+        if (!defined("ROOT_FOLDER_ID")) {
+            define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
+        }
+        if (!defined("SYSTEM_FOLDER_ID")) {
+            define("SYSTEM_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
+        }
+        if (!defined("ROLE_FOLDER_ID")) {
+            define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
+        }
         define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
         define("ERROR_HANDLER", $error_handler ?: "PRETTY_PAGE");
@@ -526,8 +536,12 @@ class ilInitialisation
         // define ("MAXLENGTH_OBJ_TITLE",125);#$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
         // define ("MAXLENGTH_OBJ_DESC",$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_DESC'));
 
-        define("CLIENT_DATA_DIR", ILIAS_DATA_DIR . "/" . CLIENT_ID);
-        define("CLIENT_WEB_DIR", ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID);
+        if (!defined("CLIENT_DATA_DIR")) {
+            define("CLIENT_DATA_DIR", ILIAS_DATA_DIR . "/" . CLIENT_ID);
+        }
+        if (!defined("CLIENT_WEB_DIR")) {
+            define("CLIENT_WEB_DIR", ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID);
+        }
         define("CLIENT_NAME", $ilClientIniFile->readVariable('client', 'name')); // Change SS
 
         $db_type = $ilClientIniFile->readVariable("db", "type");

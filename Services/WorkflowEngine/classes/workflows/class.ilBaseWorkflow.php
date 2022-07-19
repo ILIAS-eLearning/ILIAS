@@ -142,7 +142,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
         $this->onStartWorkflow();
 
         // Figure out, if there is a start-node set - or nodes at all.
-        if ($this->start_node == null) {
+        if ($this->start_node === null) {
             if (count($this->nodes) !== 0) {
                 $this->start_node = $this->nodes[0];
             } else {

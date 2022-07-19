@@ -190,7 +190,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
                 // internal
                 if (isset($a_attribs['internal'])) {
-                    $this->current_link->setInternal($a_attribs['internal']);
+                    $this->current_link->setInternal((bool) $a_attribs['internal']);
                 }
                 break;
 

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
@@ -192,6 +192,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function getFile(?int $a_hist_entry_id = null) : string
     {
+        $this->initImplementation();
         return $this->implementation->getFile($a_hist_entry_id);
     }
     
@@ -367,10 +368,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_obj->setTitle($cloned_title); // see https://mantis.ilias.de/view.php?id=31375
         $new_obj->setPageCount($this->getPageCount());
         $new_obj->update();
-        
-        // copy all previews
-        ilPreview::copyPreviews($this->getId(), $new_obj->getId());
-        
+
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
@@ -542,11 +540,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
     
     /**
-     * @deprecated
+     * @deprecated no longer available since it's unclear/unspecified how to export
      */
     public function export(string $a_target_dir) : void
     {
-        $this->implementation->export($a_target_dir);
+        //
     }
     
     

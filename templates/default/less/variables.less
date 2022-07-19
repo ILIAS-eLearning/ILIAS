@@ -354,8 +354,8 @@ with the il- variable set here.
 //##
 
 //** The Toggle Button without the Switch
-@il-btn-toggle-height: 19px;
-@il-btn-toggle-padding: 25px;
+@il-btn-toggle-height: 24px;
+@il-btn-toggle-padding: 27px;
 @il-btn-toggle-border: 1px solid;
 @il-btn-toggle-border-color: rgba(0, 0, 0, 0.1);
 @il-btn-toggle-border-radius: 40px;
@@ -363,40 +363,40 @@ with the il- variable set here.
 @il-disabled-btn-toggle-bg: lighten(@il-disabled-btn-toggle-switch-color, 30%);
 
 //** The Switch of the Toggle Button
-@il-btn-toggle-switch-position-top: -4px;
-@il-btn-toggle-switch-size: 25px;
+@il-btn-toggle-switch-position-top: 2px;
+@il-btn-toggle-switch-size: 18px;
 @il-btn-toggle-switch-border-color: rgba(0, 0, 0, 0.2);
 @il-btn-toggle-switch-transition: all 0.25s ease-in-out;
 @il-enabled-btn-toggle-switch-color: @il-main-color;
-@il-enabled-btn-toggle-switch-position-left: 53%;
+@il-enabled-btn-toggle-switch-position-left: 63%;
 @il-disabled-btn-toggle-switch-color: #808080;
-@il-disabled-btn-toggle-switch-position-left: -6%;
+@il-disabled-btn-toggle-switch-position-left: 4%;
 
 //** The ON/OFF Label of the Toggle Button
-@il-btn-toggle-label-position-top: 0;
-@il-btn-toggle-label-on-position-left: 5px;
-@il-btn-toggle-label-off-position-left: 23px;
+@il-btn-toggle-label-position-top:3px;
+@il-btn-toggle-label-on-position-left: 9px;
+@il-btn-toggle-label-off-position-left: 24px;
 @il-btn-toggle-label-font-weight: 600;
 @il-btn-toggle-label-font-size: @il-font-size-small;
 @il-btn-toggle-label-on-color: @il-main-bg;
 
 //** on
 @il-btn-toggle-bg-color-on: @il-secondary-color;
-@il-btn-toggle-border-color-on: #bfbfbf;
-@il-btn-toggle-switch-bg-color-on: @il-main-dark-bg;
-@il-btn-toggle-switch-border-color-on: #bfbfbf;
+@il-btn-toggle-border-color-on: @il-secondary-color;
+@il-btn-toggle-switch-bg-color-on: @il-main-bg;
+@il-btn-toggle-switch-border-color-on: @il-main-bg;
 
 //** off
-@il-btn-toggle-bg-color-off: @il-main-dark-bg;
-@il-btn-toggle-border-color-off: #bfbfbf;
-@il-btn-toggle-switch-bg-color-off: @il-main-dark-bg;
-@il-btn-toggle-switch-border-color-off: #bfbfbf;
+@il-btn-toggle-bg-color-off: @il-main-border-color;
+@il-btn-toggle-border-color-off: @il-main-border-color;
+@il-btn-toggle-switch-bg-color-off: @il-main-bg;
+@il-btn-toggle-switch-border-color-off: @il-main-bg;
 
 //** unavailable
-@il-btn-toggle-bg-color-unavailable: #cdcdcd;
-@il-btn-toggle-border-color-unavailable: #bfbfbf;
-@il-btn-toggle-switch-bg-color-unavailable: lighten(@il-neutral-color, 30%);
-@il-btn-toggle-switch-border-color-unavailable: #bfbfbf;
+@il-btn-toggle-bg-color-unavailable: @il-neutral-light-color;
+@il-btn-toggle-border-color-unavailable: @il-neutral-light-color;
+@il-btn-toggle-switch-bg-color-unavailable: @il-neutral-color;
+@il-btn-toggle-switch-border-color-unavailable: @il-neutral-color;
 
 //== Standard Form
 //
@@ -516,7 +516,7 @@ with the il- variable set here.
 //== Toolbar
 //
 //##
-@il-toolbar-margin: @il-margin-xlarge-horizontal; // Margin between toolbar items
+@il-toolbar-margin: @il-margin-xlarge-horizontal; 
 @il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: 40px;
 @il-toolbar-border: 1px solid @il-main-border-color;

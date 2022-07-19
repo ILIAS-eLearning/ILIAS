@@ -42,8 +42,8 @@ abstract class AbstractBaseItem implements isItem
     protected ?Closure $visiblility_callable = null;
     protected bool $is_always_available = false;
     protected ?TypeInformation $type_information = null;
-    protected Legacy $non_available_reason;
-    
+    protected ?Legacy $non_available_reason = null;
+
     /**
      * AbstractBaseItem constructor.
      * @param IdentificationInterface $provider_identification

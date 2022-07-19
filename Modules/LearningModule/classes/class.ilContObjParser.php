@@ -957,7 +957,7 @@ class ilContObjParser extends ilMDSaxParser
                 } else {
                     $xml = $this->page_object->getXMLContent();
                     if ($this->cur_qid != "") {
-                        $ids = $this->qst_mapping[$this->cur_qid];
+                        $ids = $this->qst_mapping[$this->cur_qid] ?? ['pool' => 0, 'test' => 0];
                         if ($ids["pool"] > 0) {
                             // question pool question
                             $page = new ilAssQuestionPage($ids["pool"]);

@@ -40,7 +40,7 @@ class ilUserAvatarResolver
     protected ilDBInterface $db;
     protected Factory $ui;
     protected bool $letter_avatars_activated;
-    
+
     public function __construct(int $user_id)
     {
         global $DIC;
@@ -66,7 +66,7 @@ class ilUserAvatarResolver
             array($this->user_id)
         );
 
-        while ($row = $this->db->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($res)) { // MUST be loop
             $this->login = $row['login'];
             $this->firstname = $row['firstname'];
             $this->lastname = $row['lastname'];
@@ -119,10 +119,11 @@ class ilUserAvatarResolver
         }
 
         if ($this->useUploadedFile()) {
-            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login)
+            $picture = ilWACSignedPath::signFile($this->uploaded_file);
+            return $this->ui->symbol()->avatar()->picture($picture, $this->login)
                             ->withLabel($alternative_text);
         }
-    
+
         if ($this->letter_avatars_activated === false) {
             return $this->ui->symbol()->avatar()->picture(
                 \ilUtil::getImagePath('no_photo_xsmall.jpg'),
@@ -130,7 +131,7 @@ class ilUserAvatarResolver
             );
         }
 
-        return $this->ui->symbol()->avatar()->letter($this->login)->withLabel($alternative_text);
+        return $this->ui->symbol()->avatar()->letter($this->abbreviation)->withLabel($alternative_text);
     }
 
     public function getLegacyPictureURL() : string

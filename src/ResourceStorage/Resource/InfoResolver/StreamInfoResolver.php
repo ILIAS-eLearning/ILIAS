@@ -63,7 +63,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         if (class_exists('finfo')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             //We only need the first few bytes to determine the mime-type this helps to reduce RAM-Usage
-            $this->mime_type = finfo_buffer($finfo, $this->file_stream->read(100));
+            $this->mime_type = finfo_buffer($finfo, $this->file_stream->read(255));
             if ($this->file_stream->isSeekable()) {
                 $this->file_stream->rewind();
             }

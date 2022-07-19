@@ -24,7 +24,7 @@ require_once 'Modules/TestQuestionPool/interfaces/interface.ilAssSpecificFeedbac
  */
 class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
 {
-    private bool $isSingleline;
+    private bool $isSingleline = true;
 
     /**
     * The given answers of the single choice question

@@ -32,7 +32,7 @@ abstract class ilBaseElement
         return $this->bpmn2_array;
     }
 
-    public function setBpmn2Array($bpmn2_array) : void// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
+    public function setBpmn2Array(?array $bpmn2_array) : void
     {
         $this->bpmn2_array = $bpmn2_array;
     }

@@ -343,13 +343,7 @@ class ilWorkflowDbHelper
         return $instance;
     }
 
-    /**
-     * Takes a detector as an argument and saves it to the database.
-     * @param array $event
-     * @param       $process_id
-     * @return mixed
-     */
-    public static function writeStartEventData(array $event, $process_id)// TODO PHP8-REVIEW Missing type hint or PHPDoc
+    public static function writeStartEventData(array $event, string $process_id) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -389,7 +383,7 @@ class ilWorkflowDbHelper
         );
     }
 
-    public static function findApplicableWorkflows($component, $event, $params) : array// TODO PHP8-REVIEW Missing type hints or PHPDoc
+    public static function findApplicableWorkflows(string $component, string $event, ilExtractedParams $params) : array
     {
         $query = "SELECT event_id, workflow_id FROM wfe_startup_events WHERE
 		type = '" . $component . "' AND content = '" . $event . "' AND subject_type = '" . $params->getSubjectType() . "'
@@ -409,7 +403,7 @@ class ilWorkflowDbHelper
         return $workflows;
     }
 
-    public static function getStaticInputDataForEvent($event_id) : array// TODO PHP8-REVIEW Missing type hint or PHPDoc
+    public static function getStaticInputDataForEvent(int $event_id) : array
     {
         $query = "SELECT name, value FROM wfe_static_inputs WHERE event_id = '" . $event_id . "'";
 
@@ -427,7 +421,7 @@ class ilWorkflowDbHelper
         return $retval;
     }
 
-    public static function deleteStartEventData($event_id) : void// TODO PHP8-REVIEW Missing type hint or PHPDoc
+    public static function deleteStartEventData(int $event_id) : void
     {
         global $DIC;
 

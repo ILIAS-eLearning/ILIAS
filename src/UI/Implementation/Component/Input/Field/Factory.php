@@ -18,6 +18,7 @@
  
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Component\Input\Field;
@@ -32,17 +33,20 @@ use ilLanguage;
  */
 class Factory implements Field\Factory
 {
+    protected UploadLimitResolver $upload_limit_resolver;
     protected Data\Factory $data_factory;
     protected SignalGeneratorInterface $signal_generator;
     private \ILIAS\Refinery\Factory $refinery;
     protected ilLanguage $lng;
 
     public function __construct(
+        UploadLimitResolver $upload_limit_resolver,
         SignalGeneratorInterface $signal_generator,
         Data\Factory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
         ilLanguage $lng
     ) {
+        $this->upload_limit_resolver = $upload_limit_resolver;
         $this->signal_generator = $signal_generator;
         $this->data_factory = $data_factory;
         $this->refinery = $refinery;
@@ -178,7 +182,7 @@ class Factory implements Field\Factory
         string $byline = null,
         Input $metadata_input = null
     ) : Field\File {
-        return new File($this->lng, $this->data_factory, $this->refinery, $handler, $label, $metadata_input, $byline);
+        return new File($this->lng, $this->data_factory, $this->refinery, $this->upload_limit_resolver, $handler, $label, $metadata_input, $byline);
     }
 
     /**

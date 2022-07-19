@@ -2001,10 +2001,12 @@ class ilObject
         return $this->obj_definition->getSubObjects($this->type, $filter);
     }
 
-    public static function _getObjectTypeIdByTitle(string $type) : ?int
+    public static function _getObjectTypeIdByTitle(string $type, \ilDBInterface $ilDB = null) : ?int
     {
-        global $DIC;
-        $ilDB = $DIC->database();
+        if (!$ilDB) {
+            global $DIC;
+            $ilDB = $DIC->database();
+        }
 
         $sql =
             "SELECT obj_id FROM object_data" . PHP_EOL

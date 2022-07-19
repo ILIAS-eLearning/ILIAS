@@ -18,6 +18,7 @@
  
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
@@ -43,12 +44,13 @@ class Wrapper extends File implements WrapperInterface
     public function __construct(
         InputFactory $input_factory,
         ilLanguage $language,
+        UploadLimitResolver $upload_limit_resolver,
         UploadHandler $upload_handler,
         string $post_url,
         $content,
         ?Input $metadata_input
     ) {
-        parent::__construct($input_factory, $language, $upload_handler, $post_url, $metadata_input);
+        parent::__construct($input_factory, $language, $upload_limit_resolver, $upload_handler, $post_url, $metadata_input);
 
         $content = $this->toArray($content);
         $this->checkArgListElements('content', $content, [Component::class]);

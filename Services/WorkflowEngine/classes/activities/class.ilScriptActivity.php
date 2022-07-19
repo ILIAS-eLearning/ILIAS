@@ -28,7 +28,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     private $context;
 
     /** @var string|Closure|null */
-    private $method = null;
+    private $method;
 
     protected string $name;
 
@@ -37,7 +37,8 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
         $this->context = $context;
     }
 
-    public function setMethod($value) : void// TODO PHP8-REVIEW Missing type hint or PHPDoc comment
+    /** @param string|Closure|null $value */
+    public function setMethod($value) : void
     {
         $this->method = $value;
     }

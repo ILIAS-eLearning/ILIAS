@@ -111,7 +111,7 @@ class ilGlobalCacheSettings implements Setup\Config
         }
     }
 
-    public function writeToIniFile(ilIniFile $ilIniFile) : void
+    public function writeToIniFile(ilIniFile $ilIniFile) : bool
     {
         $ilIniFile->setVariable(
             self::INI_HEADER_CACHE,
@@ -138,12 +138,7 @@ class ilGlobalCacheSettings implements Setup\Config
                 $this->isComponentActivated($comp) ? '1' : '0'
             );
         }
-        if ($ilIniFile->write()) {
-            ilGlobalCache::log(
-                'saved new settings: ' . $this->__toString(),
-                self::LOG_LEVEL_FORCED
-            );
-        }
+        return $ilIniFile->write();
     }
 
     public function activateAll() : void

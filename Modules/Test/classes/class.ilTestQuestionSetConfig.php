@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * abstract parent class that manages/holds the data for a question set configuration
@@ -115,7 +130,7 @@ abstract class ilTestQuestionSetConfig
     /**
      * removes all question set config related data
      */
-    abstract public function removeQuestionSetRelatedData();
+    abstract public function removeQuestionSetRelatedData() : void;
 
     /**
      * resets all test settings that depends on a non changed question set config

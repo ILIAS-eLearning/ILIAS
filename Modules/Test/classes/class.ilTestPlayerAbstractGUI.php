@@ -2040,7 +2040,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         
         $navigationToolbarGUI->setSuspendTestButtonEnabled($this->object->getShowCancel());
         $navigationToolbarGUI->setQuestionTreeButtonEnabled($this->object->getListOfQuestions());
-        $navigationToolbarGUI->setQuestionTreeVisible($ilUser->getPref('side_list_of_questions'));
+        $navigationToolbarGUI->setQuestionTreeVisible((bool) $ilUser->getPref('side_list_of_questions'));
         $navigationToolbarGUI->setQuestionListButtonEnabled($this->object->getListOfQuestions());
         $navigationToolbarGUI->setFinishTestCommand($this->getFinishTestCommand());
         

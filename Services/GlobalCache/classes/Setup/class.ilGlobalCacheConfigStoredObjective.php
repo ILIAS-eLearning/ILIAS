@@ -53,17 +53,18 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-
-        ilMemcacheServer::flushDB();
+        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        /** @var $db ilDBInterface */
+        $db->manipulate("TRUNCATE TABLE il_gc_memcache_server");
 
         $memcached_nodes = $this->settings->getMemcachedNodes();
         foreach ($memcached_nodes as $node) {
             $node->create();
         }
 
-        $this->settings->writeToIniFile($client_ini);
+        $return = $this->settings->writeToIniFile($client_ini);
 
-        if (!$client_ini->write()) {
+        if (!$client_ini->write() || !$return) {
             throw new Setup\UnachievableException("Could not write client.ini.php");
         }
 

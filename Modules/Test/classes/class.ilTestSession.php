@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Test session handler
@@ -119,7 +134,6 @@ class ilTestSession
         $submitted = ($this->isSubmitted()) ? 1 : 0;
         $active = ilSession::get($this->active_id);
         if (!isset($active['tst_last_increase_pass']) || $active['tst_last_increase_pass'] !== null) {
-
             $active['tst_last_increase_pass'] = 0;
             //ilSession::set($this->active_id, $active);
             //$_SESSION[$this->active_id]['tst_last_increase_pass'] = 0;

@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Displays an overview of all loaded preview renderers.
  *
@@ -49,18 +52,18 @@ class ilRendererTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set) : void
     {
-        $name = $a_set['name'];
-        $type = $this->lng->txt("renderer_type_" . ($a_set['s_plugin'] ? "plugin" : "builtin"));
+        $name = $a_set['name'] ?? '-';
+        $type = $this->lng->txt("renderer_type_" . (($a_set['s_plugin'] ?? false) ? "plugin" : "builtin"));
 
-        $repo_types = array();
+        $repo_types = [];
         foreach ($a_set['supported_repo_types'] as $repo_type) {
             $repo_types[] = $this->lng->txt($repo_type);
         }
 
         // supports files?
         $file_types = "";
-        if ($a_set['object'] instanceof ilFilePreviewRenderer) {
-            $file_types = implode(", ", $a_set['supported_file_formats']);
+        if (isset($a_set['object']) && $a_set['object'] instanceof ilFilePreviewRenderer) {
+            $file_types = implode(", ", $a_set['supported_file_formats'] ?? []);
         }
 
         // fill template

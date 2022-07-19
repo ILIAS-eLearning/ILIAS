@@ -4675,7 +4675,7 @@ common#:#obj_facs_desc#:#Configure access to file objects.###11 03 2008 new vari
 common#:#obj_feed#:#Web Feed###02 04 2007 new variable
 common#:#obj_file#:#Файл
 common#:#obj_file_duplicate#:#Duplicate File###23 10 2017 new variable
-common#:#obj_file_inline#:#Learning Module File###11 03 2008 new variable
+common#:#obj_file_inline#:#Inline File###11 03 2008 new variable
 common#:#obj_fold#:#Папка
 common#:#obj_fold_duplicate#:#Copy Folder###10 11 2018 new variable
 common#:#obj_frm#:#Форум

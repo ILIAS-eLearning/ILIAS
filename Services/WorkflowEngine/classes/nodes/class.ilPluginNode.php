@@ -30,16 +30,16 @@ class ilPluginNode extends ilBaseNode
     /**
      * This holds a list of emitters attached to the node.
      * In this node type, these are the 'else' emitters.
-     * @var ilEmitter Array of ilEmitter
+     * @var ilEmitter[] Array of ilEmitter
      */
-    private $else_emitters;// TODO PHP8-REVIEW Please provide a type hint or use PHPDoc comments. If it is an array use ilEmitter[] and use an excplicit array type.
+    private array $else_emitters = [];
 
     /**
      * This holds a list of activities attached to the node.
      * In this node type, these are the 'else' activities.
-     * @var ilActivity Array of ilActivity
+     * @var ilActivity[] Array of ilActivity
      */
-    private $else_activities;// TODO PHP8-REVIEW Please provide a type hint or use PHPDoc comments. If it is an array use ilActivity[] and use an excplicit array type.
+    private array $else_activities = [];
 
     /**
      * This holds the piece of code used to determine if the 'then' or the 'else'
@@ -92,7 +92,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Passes a trigger to attached detectors.
      */
-    public function trigger($a_type, $a_params = null) : void// TODO PHP8-REVIEW Please provide a type hint or use PHPDoc comments
+    public function trigger(string $a_type, ?array $a_params = null) : void
     {
         if ($this->active === true && count($this->detectors) !== 0) {
             foreach ($this->detectors as $detector) {
@@ -254,7 +254,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @var string PHP code to be executed to determine the 'decision' of the node.
      */
-    public function setEvaluationExpression($a_expression) : void// TODO PHP8-REVIEW Please provide a type hint or use PHPDoc comments. If it is an array use ilEmitter[] and use an excplicit array type.
+    public function setEvaluationExpression(string $a_expression) : void
     {
         // TODO Rework to use a Plugin here.
         $this->evaluation_expression = $a_expression;

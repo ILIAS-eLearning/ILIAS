@@ -304,12 +304,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
         $this->deleteDetectorFromDb();
     }
 
-    /**
-     * Sets the database id of the detector.
-     *
-     * @param int $a_id
-     */
-    public function setDbId($a_id) : void
+    public function setDbId(?int $a_id) : void
     {
         $this->db_id = $a_id;
     }

@@ -60,7 +60,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public $metadata;
     public array $questions;
     protected bool $introductionEnabled;
-    protected ?string $introduction;
+    protected string $introduction;
 
     /**
      * Defines the mark schema
@@ -800,6 +800,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
      * Returns the content of all RTE enabled text areas in the test
+     * @return string[]
      */
     public function getAllRTEContent() : array
     {
@@ -1619,32 +1620,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->introductionEnabled = $introductionEnabled;
     }
 
-    public function getIntroduction() : ?string
+    public function getIntroduction() : string
     {
-        return (strlen($this->introduction)) ? $this->introduction : null;
+        return $this->introduction;
     }
 
-    /**
-     * Sets the introduction text of the ilObjTest object
-     *
-     * @param string $introduction An introduction string for the test
-     * @access public
-     * @see $introduction
-     */
-    public function setIntroduction($introduction = "") : void
+    public function setIntroduction(string $introduction) : void
     {
         $this->introduction = $introduction;
     }
 
-
-    /**
-    * Sets the final statement text of the ilObjTest object
-    *
-    * @param string $a_statement A final statement
-    * @access public
-    * @see $_finalstatement
-    */
-    public function setFinalStatement($a_statement = "")
+    public function setFinalStatement(string $a_statement) : void
     {
         $this->_finalstatement = $a_statement;
     }
@@ -1706,12 +1692,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->_showfinalstatement = ($show) ? 1 : 0;
     }
 
-    /**
-    * @see $_finalstatement
-    */
-    public function getFinalStatement() : ?string
+    public function getFinalStatement() : string
     {
-        return (strlen($this->_finalstatement)) ? $this->_finalstatement : null;
+        return $this->_finalstatement;
     }
 
     /**
@@ -2787,32 +2770,32 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
     
     /**
-     * @param array $removeQuestionIds
+     * @param int[] $removeQuestionIds
      */
-    public function removeQuestions($removeQuestionIds)
+    public function removeQuestions(array $removeQuestionIds) : void
     {
         foreach ($removeQuestionIds as $value) {
-            $this->removeQuestion($value);
+            $this->removeQuestion((int) $value);
         }
         
         $this->reindexFixedQuestionOrdering();
     }
-    
-    /**
-    * Removes a question from the test object
-    *
-    * @param integer $question_id The database id of the question to be removed
-    * @access public
-    * @see $test_id
-    */
-    public function removeQuestion($question_id)
+
+    public function removeQuestion(int $question_id) : void
     {
-        $question = ilObjTest::_instanciateQuestion($question_id);
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
+        try {
+            $question = self::_instanciateQuestion($question_id);
+            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+                $this->logAction(
+                    $this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()),
+                    $question_id
+                );
+            }
+            $question->delete($question_id);
+        } catch (InvalidArgumentException $e) {
+            $this->log->error($e->getMessage());
+            $this->log->error($e->getTraceAsString());
         }
-        $question->delete($question_id);
     }
     
     /**
@@ -3581,10 +3564,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $obligationsAnswered = true;
         
         while ($row = $ilDB->fetchAssoc($result)) {
-            $percentvalue = (
-                $row['points'] ? $arrResults[ $row['question_id'] ]['reached'] / $row['points'] : 0
-            );
-            
+            if (!isset($arrResults[ $row['question_id'] ])) {
+                $percentvalue = 0.0;
+            } else {
+                $percentvalue = (
+                    $row['points'] ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0
+                );
+            }
             if ($percentvalue < 0) {
                 $percentvalue = 0.0;
             }
@@ -4919,19 +4905,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Creates an instance of a question with a given question id
-    *
-    * @param integer $question_id The question id
-    * @access public
-     *
+     * Creates an instance of a question with a given question id
+     * @param int $question_id The question id
+     * @throws InvalidArgumentException
      * @deprecated use assQuestion::_instanciateQuestion($question_id) instead
-    */
+     */
     public static function _instanciateQuestion($question_id) : ?assQuestion
     {
-        if (strcmp($question_id, "") != 0) {
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+        if (strcmp((string) $question_id, "") !== 0) {
             return assQuestion::instantiateQuestion($question_id);
         }
+
         return null;
     }
 
@@ -6628,12 +6612,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $newObj;
     }
 
-    /**
-    * Returns the number of questions in the test
-    *
-    * @return integer The number of questions
-    * @access	public
-    */
     public function getQuestionCount() : int
     {
         $num = 0;
@@ -6654,10 +6632,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $questionSetConfig->loadFromDb();
 
             if ($questionSetConfig->isQuestionAmountConfigurationModePerPool()) {
-                require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-                require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilderWithAmountPerPool.php';
-                require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-
                 $sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
                     $ilDB,
                     $this,
@@ -6666,16 +6640,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
                 $sourcePoolDefinitionList->loadDefinitions();
 
-                $num = $sourcePoolDefinitionList->getQuestionAmount();
-            } else {
+                if (is_int($sourcePoolDefinitionList->getQuestionAmount())) {
+                    $num = $sourcePoolDefinitionList->getQuestionAmount();
+                }
+            } elseif (is_int($questionSetConfig->getQuestionAmountPerTest())) {
                 $num = $questionSetConfig->getQuestionAmountPerTest();
             }
         } else {
             $this->loadQuestions();
             $num = count($this->questions);
-        }
-        if($num === null) {
-            $num = 0;
         }
 
         return $num;
@@ -8685,7 +8658,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if ($this->isHTML($a_material)) {
             $attrs["texttype"] = "text/xhtml";
         }
-        $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+        $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc((string) $a_material, 0));
 
         $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
         foreach ($mobs as $mob) {
@@ -9178,8 +9151,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setTitleOutput($testsettings["TitleOutput"]);
         $this->setPassScoring($testsettings["PassScoring"]);
         $this->setIntroductionEnabled($testsettings["IntroEnabled"]);
-        $this->setIntroduction($testsettings["Introduction"]);
-        $this->setFinalStatement($testsettings["FinalStatement"]);
+        $this->setIntroduction($testsettings["Introduction"] ?? '');
+        $this->setFinalStatement($testsettings["FinalStatement"] ?? '');
         $this->setShowInfo($testsettings["ShowInfo"]);
         $this->setForceJS($testsettings["ForceJS"]);
         $this->setCustomStyle($testsettings["CustomStyle"]);
@@ -9447,7 +9420,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
-            $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+            $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'] ?? '', 1);
         } else {
             $DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for " .
                 "active_fi = $active_id , question_fi = $question_id and pass = $pass");
@@ -9480,7 +9453,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $pass = $row['pass'];
             $question = $row['question_fi'];
 
-            $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+            $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'] ?? '', 1);
 
             $feedback[$active][$pass][$question] = $row;
         }
@@ -9548,7 +9521,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             'active_fi' => [ 'integer', $active_id],
             'question_fi' => [ 'integer', $question_id],
             'pass' => [ 'integer', $pass],
-            'feedback' => [ 'clob', ilRTE::_replaceMediaObjectImageSrc($feedback, 0)],
+            'feedback' => [ 'clob', ilRTE::_replaceMediaObjectImageSrc((string) $feedback, 0)],
             'tstamp' => [ 'integer', time()]
         ];
 

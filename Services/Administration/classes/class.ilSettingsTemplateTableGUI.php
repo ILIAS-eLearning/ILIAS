@@ -83,8 +83,8 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
 
         $ilCtrl->setParameter($this->parent_obj, "templ_id", $a_set["id"]);
         $this->tpl->setVariable("VAL_ID", $a_set["id"]);
-        $this->tpl->setVariable("VAL_TITLE", ilSettingsTemplate::translate($a_set["title"]));
-        $this->tpl->setVariable("VAL_DESCRIPTION", ilSettingsTemplate::translate($a_set["description"]));
+        $this->tpl->setVariable("VAL_TITLE", ilSettingsTemplate::translate($a_set["title"] ?? ''));
+        $this->tpl->setVariable("VAL_DESCRIPTION", ilSettingsTemplate::translate($a_set["description"] ?? ''));
         if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
             $this->tpl->setVariable(

@@ -27,7 +27,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
     private $inMetaDataTag;
     private $inMdGeneralTag;
     private bool $descriptionProcessed = false;
-    private string $cdata;
+    private string $cdata = "";
 
     /**
      * @param ilObjQuestionPool $poolOBJ

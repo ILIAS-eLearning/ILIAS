@@ -24,7 +24,7 @@
  */
 class ilMessageDefinitionElement extends ilBaseElement
 {
-    public function getMessageDefinitionArray($message) : string// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
+    public function getMessageDefinitionArray(array $message) : string
     {
         $message_definition = [];
 

@@ -1,11 +1,9 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 namespace ILIAS\UI\examples\MainControls\MetaBar;
 
-use ILIAS\UI\examples\Layout\Page\Standard as PageStandardExample;
-use GuzzleHttp\Psr7\ServerRequest;
+use ILIAS\DI\Container;
 
-function base_metabar()
+function base_metabar() : string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -18,7 +16,7 @@ function base_metabar()
             feature bellow in the second example.
             </p>');
 
-    $page_demo = $f->button()->primary('See UI in fullscreen-mode', $url);
+    $page_demo = $f->link()->standard('See UI in fullscreen-mode', $url);
 
     return $renderer->render([
         $txt,
@@ -26,48 +24,54 @@ function base_metabar()
     ]);
 }
 
-function buildMetabar($f)
+function buildMetabar(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\MetaBar
 {
     $help = $f->button()->bulky($f->symbol()->glyph()->help(), 'Help', '#');
     $search = $f->button()->bulky($f->symbol()->glyph()->search(), 'Search', '#');
     $user = $f->button()->bulky($f->symbol()->glyph()->user(), 'User', '#');
 
-    $notes = $f->maincontrols()->slate()->legacy(
+    $notes = $f->mainControls()->slate()->legacy(
         'Notification',
         $f->symbol()->glyph()->notification(),
         $f->legacy('some content')
     );
 
-    $metabar = $f->mainControls()->metabar()
-                 ->withAdditionalEntry('search', $search)
-                 ->withAdditionalEntry('help', $help)
-                 ->withAdditionalEntry('notes', $notes)
-                 ->withAdditionalEntry('user', $user)
-    ;
-
-    return $metabar;
+    return $f->mainControls()->metaBar()
+             ->withAdditionalEntry('search', $search)
+             ->withAdditionalEntry('help', $help)
+             ->withAdditionalEntry('notes', $notes)
+             ->withAdditionalEntry('user', $user);
 }
 
 global $DIC;
-$refinery = $DIC->refinery();
-$request_wrapper = $DIC->http()->wrapper()->query();
 
-if ($request_wrapper->has('new_metabar_ui') && $request_wrapper->retrieve('new_metabar_ui', $refinery->kindlyTo()->string()) == '1') {
+//Render Footer in Fullscreen mode
+if (basename($_SERVER["SCRIPT_FILENAME"]) == "base_metabar.php") {
     chdir('../../../../../');
-    PageStandardExample\_initIliasForPreview();
+    require_once("libs/composer/vendor/autoload.php");
+    \ilInitialisation::initILIAS();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
+}
 
-    $f = $DIC->ui()->factory();
-    $renderer = $DIC->ui()->renderer();
+
+if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_metabar_ui') && $request_wrapper->retrieve('new_metabar_ui', $refinery->kindlyTo()->string()) == '1') {
+    echo renderMetaBarInFullscreenMode($DIC);
+}
+
+function renderMetaBarInFullscreenMode(Container $dic) : string
+{
+    $f = $dic->ui()->factory();
+    $renderer = $dic->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
     $responsive_logo = $f->image()->responsive("templates/default/images/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pageMetabarDemoCrumbs($f);
     $metabar = buildMetabar($f);
-    $mainbar = pageMetabarDemoMainbar($f, $renderer);
+    $mainbar = pageMetabarDemoMainbar($f);
     $footer = pageMetabarDemoFooter($f);
+    $tc = $dic->ui()->factory()->toast()->container();
 
-    $entries = $mainbar->getEntries();
-    $tools = $mainbar->getToolEntries();
-    $content = pageMetabarDemoContent($f, $renderer, $mainbar);
+    $content = pageMetabarDemoContent($f);
 
     $page = $f->layout()->page()->standard(
         $content,
@@ -76,40 +80,41 @@ if ($request_wrapper->has('new_metabar_ui') && $request_wrapper->retrieve('new_m
         $breadcrumbs,
         $logo,
         $responsive_logo,
-        null,
+        "./templates/default/images/favicon.ico",
+        $tc,
         $footer,
         'UI Meta Bar DEMO', //page title
         'ILIAS', //short title
         'ILIAS Meta Bar Demo' //view title
     )->withUIDemo(true);
 
-    echo $renderer->render($page);
+    return $renderer->render($page);
 }
 
 
-function pageMetabarDemoContent($f, $r, $mainbar)
+function pageMetabarDemoContent(\ILIAS\UI\Factory $f) : array
 {
-    return array(
+    return [
         $f->panel()->standard(
             'All about the Meta Bar',
             $f->legacy(
                 "See above"
             )
         ),
-    );
+    ];
 }
 
-function pageMetabarDemoCrumbs($f)
+function pageMetabarDemoCrumbs(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
 {
     return $f->breadcrumbs([]);
 }
 
-function pageMetabarDemoMainbar($f, $r)
+function pageMetabarDemoMainbar(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\MainBar
 {
-    return $f->mainControls()->mainbar();
+    return $f->mainControls()->mainBar();
 }
 
-function pageMetabarDemoFooter($f)
+function pageMetabarDemoFooter(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\Footer
 {
     $text = 'Footer';
     $links = [];
