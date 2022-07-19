@@ -45,7 +45,47 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
                 $this->db->beginTransaction();
             }
 
-            $updateStep();
+            // ATTENTION: This is a total abomination. It only exists to allow the db-
+            // update to run. This is a memento to the fact, that dependency injection
+            // is something we want. Currently, every component could just service
+            // locate the whole world via the global $DIC.
+            /** @noRector  */
+            $DIC = $GLOBALS["DIC"] ?? [];
+            $GLOBALS["DIC"] = new \ILIAS\DI\Container();
+            $GLOBALS["DIC"]["ilDB"] = $this->db;
+            $GLOBALS["ilDB"] = $this->db;
+            $GLOBALS["DIC"]["ilLog"] = new class() {
+                public function write() : void
+                {
+                }
+                public function info() : void
+                {
+                }
+                public function warning($msg) : void
+                {
+                }
+                public function error($msg) : void
+                {
+                    throw new \ILIAS\Setup\UnachievableException(
+                        "Problem in DB-Update: $msg"
+                    );
+                }
+            };
+            $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
+            $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
+                public function getRootLogger() : object
+                {
+                    return new class() {
+                        public function write() : void
+                        {
+                        }
+                    };
+                }
+            };
+
+            $updateStep($this->db);
+
+            $GLOBALS["DIC"] = $DIC;
 
             if ($this->db->supportsTransactions()) {
                 $this->db->commit();
@@ -60,10 +100,10 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_1() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function (\ilDBInterface $db) {
             // create object data entry
-            $id = $this->db->nextId("object_data");
-            $this->db->manipulateF(
+            $id = $db->nextId("object_data");
+            $db->manipulateF(
                 "INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) " .
                 "VALUES (%s, %s, %s, %s, %s, %s, %s)",
                 array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
@@ -71,8 +111,8 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
             );
 
             // create object reference entry
-            $ref_id = $this->db->nextId('object_reference');
-            $res = $this->db->manipulateF(
+            $ref_id = $db->nextId('object_reference');
+            $res = $db->manipulateF(
                 "INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
                 array("integer", "integer"),
                 array($ref_id, $id)
@@ -86,10 +126,10 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_2() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function (\ilDBInterface $db) {
             $etalTableName = 'etal_data';
 
-            $this->db->createTable($etalTableName, [
+            $db->createTable($etalTableName, [
                 'object_id' => ['type' => 'integer', 'length' => 8, 'notnull' => true],
                 'series_id' => ['type' => 'text', 'length' => 36, 'notnull' => true, 'fixed' => true],
                 'start_date' => ['type' => 'integer', 'length' => 8, 'notnull' => true],
@@ -100,18 +140,18 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
                 'completed' => ['type' => 'integer', 'length' => 1, 'notnull' => true]
             ]);
 
-            $this->db->addPrimaryKey($etalTableName, ['object_id']);
-            $this->db->addIndex($etalTableName, ['series_id'], 'ser');
-            $this->db->addIndex($etalTableName, ['employee'], 'emp');
+            $db->addPrimaryKey($etalTableName, ['object_id']);
+            $db->addIndex($etalTableName, ['series_id'], 'ser');
+            $db->addIndex($etalTableName, ['employee'], 'emp');
         });
     }
 
     public function step_3() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function (\ilDBInterface $db) {
             $etalTableName = 'etal_data';
 
-            $this->db->addTableColumn(
+            $db->addTableColumn(
                 $etalTableName,
                 'standalone_date',
                 [
@@ -126,7 +166,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_4() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function (\ilDBInterface $db) {
             ilOrgUnitOperationContextQueries::registerNewContext(
                 ilOrgUnitOperationContext::CONTEXT_ETAL,
                 ilOrgUnitOperationContext::CONTEXT_OBJECT
@@ -154,7 +194,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_5() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function (\ilDBInterface $db) {
             EmployeeTalkSerieSettings::updateDB();
         });
     }
