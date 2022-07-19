@@ -27,8 +27,6 @@ class ilLPStatusIcons
     public const ICON_VARIANT_SCORM = 2;
     public const ICON_VARIANT_DEFAULT = ilLPStatusIcons::ICON_VARIANT_LONG;
 
-    private ilLanguage $lng;
-
     private static ?self $instance_variant_long = null;
     private static ?self $instance_variant_short = null;
     private static ?self $instance_variant_scorm = null;

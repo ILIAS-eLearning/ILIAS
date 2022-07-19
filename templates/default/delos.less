@@ -1573,14 +1573,14 @@ img.ilSmallIcon {
 
 /* LP Icon short */
 img.ilLPIconShort {
-	width: 18px;
-	height: 18px;
+	width: @il-icon-size-xsmall;
+	height: @il-icon-size-xsmall;
 }
 
 /* LP Icon long */
 img.ilLPIconLong {
-	width: 53px;
-	height: 18px;
+	width: round(@il-icon-size-xsmall * 40/14);
+	height: @il-icon-size-xsmall;
 }
 
 /* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */

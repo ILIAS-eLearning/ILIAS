@@ -13172,13 +13172,13 @@ img.ilSmallIcon {
 }
 /* LP Icon short */
 img.ilLPIconShort {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
 }
 /* LP Icon long */
 img.ilLPIconLong {
-  width: 53px;
-  height: 18px;
+  width: 43px;
+  height: 15px;
 }
 /* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
 .ilPreventBreakOut {
