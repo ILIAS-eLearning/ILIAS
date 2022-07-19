@@ -3380,35 +3380,40 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if (!$user_id) {
             $user_id = $ilUser->getId();
         }
+
         $tst_access_code = ilSession::get('tst_access_code');
-        if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && $tst_access_code !== null && (strlen($tst_access_code[$this->getTestId()]))) {
+        if (is_array($tst_access_code) &&
+            $ilUser->getId() === ANONYMOUS_USER_ID &&
+            isset($tst_access_code[$this->getTestId()]) &&
+            $tst_access_code[$this->getTestId()] !== '') {
             $result = $ilDB->queryF(
-                "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-                array('integer','integer','text'),
-                array($user_id, $this->test_id, $tst_access_code[$this->getTestId()])
+                'SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s',
+                ['integer', 'integer', 'text'],
+                [$user_id, $this->test_id, $tst_access_code[$this->getTestId()]]
             );
-        } elseif (strlen($anonymous_id)) {
+        } elseif ((string) $anonymous_id !== '') {
             $result = $ilDB->queryF(
-                "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-                array('integer','integer','text'),
-                array($user_id, $this->test_id, $anonymous_id)
+                'SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s',
+                ['integer', 'integer', 'text'],
+                [$user_id, $this->test_id, $anonymous_id]
             );
         } else {
-            if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
+            if ($ilUser->getId() === ANONYMOUS_USER_ID) {
                 return null;
             }
             $result = $ilDB->queryF(
-                "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-                array('integer','integer'),
-                array($user_id, $this->test_id)
+                'SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s',
+                ['integer', 'integer'],
+                [$user_id, $this->test_id]
             );
         }
+
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
-            return $row["active_id"];
-        } else {
-            return 0;
+            return (int) $row['active_id'];
         }
+
+        return 0;
     }
 
     public static function _getActiveIdOfUser($user_id = "", $test_id = "")
