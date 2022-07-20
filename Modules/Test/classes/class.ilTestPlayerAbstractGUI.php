@@ -1509,12 +1509,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         if ($this->object->isEndingTimeEnabled()) {
             $date_time = new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX);
             preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date_time->get(IL_CAL_TIMESTAMP), $matches);
-            $template->setVariable("ENDYEAR", $matches[1]);
-            $template->setVariable("ENDMONTH", $matches[2] - 1);
-            $template->setVariable("ENDDAY", $matches[3]);
-            $template->setVariable("ENDHOUR", $matches[4]);
-            $template->setVariable("ENDMINUTE", $matches[5]);
-            $template->setVariable("ENDSECOND", $matches[6]);
+            if (!empty($matches)) {
+                $template->setVariable("ENDYEAR", $matches[1]);
+                $template->setVariable("ENDMONTH", $matches[2] - 1);
+                $template->setVariable("ENDDAY", $matches[3]);
+                $template->setVariable("ENDHOUR", $matches[4]);
+                $template->setVariable("ENDMINUTE", $matches[5]);
+                $template->setVariable("ENDSECOND", $matches[6]);
+            }
         }
         $template->setVariable("YEARNOW", $datenow["year"]);
         $template->setVariable("MONTHNOW", $datenow["mon"] - 1);
