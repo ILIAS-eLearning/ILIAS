@@ -500,7 +500,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
     {
         $container_text = '';
         if ($this->provider->providesClosestContainer()) {
-            $container_text = " (" . $this->getLanguageText('obj_' . $this->provider->closestContainer()->getType()) .
+            $container_text = " (" . $this->getLanguageText('frm_noti_obj_' . $this->provider->closestContainer()->getType()) .
                 " \"" . $this->provider->closestContainer()->getTitle() . "\")";
         }
 
