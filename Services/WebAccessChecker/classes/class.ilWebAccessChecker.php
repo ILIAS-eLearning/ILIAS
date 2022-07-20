@@ -215,6 +215,9 @@ class ilWebAccessChecker
         }
         $this->setInitialized(true);
 
+        // This workaround is needed because these issues:
+        // https://mantis.ilias.de/view.php?id=32284 and
+        // https://mantis.ilias.de/view.php?id=32063
         if ($DIC->user()->getId() === 0) {
             $DIC->user()->setId(ANONYMOUS_USER_ID);
         }
