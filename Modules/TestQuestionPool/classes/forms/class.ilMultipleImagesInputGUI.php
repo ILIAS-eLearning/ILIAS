@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -24,6 +38,8 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      * @var bool
      */
     protected $editElementOrderEnabled = false;
+
+    protected stdClass $dodging_files;
     
     /**
      * @var array
@@ -47,16 +63,17 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
         
-        $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
-        $this->setSize('25');
+        $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
+        $this->setSize(25);
         $this->validationRegexp = "";
 
         $manipulator = new ilMultipleImagesAdditionalIndexLevelRemover();
         $manipulator->setPostVar($this->getPostVar());
         $this->addFormValuesManipulator($manipulator);
 
-        $manipulator = new ilMultipleImagesFileSubmissionDataCompletion();
-        $manipulator->setPostVar($this->getPostVar());
+        $this->dodging_files = new stdClass();
+
+        $manipulator = new ilMultipleImagesFileSubmissionDataCompletion($this->dodging_files);
         $this->addFormValuesManipulator($manipulator);
         
         $manipulator = new ilIdentifiedMultiFilesJsPositionIndexRemover();
@@ -166,8 +183,11 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     public function onCheckInput() : bool
     {
         $F = $_FILES[$this->getPostVar()];
-        if ($F && isset($_REQUEST[$this->getPostVar()][self::FILE_DATA_INDEX_DODGING_FILE])) {
-            $F = array_merge(array(self::FILE_DATA_INDEX_DODGING_FILE => $_REQUEST[$this->getPostVar()][self::FILE_DATA_INDEX_DODGING_FILE]), $F);
+
+        $submittedElements = $this->getInput();
+
+        if ($F && ((array) $this->dodging_files) !== []) {
+            $F = array_merge([self::FILE_DATA_INDEX_DODGING_FILE => (array) $this->dodging_files], $F);
         }
 
         if ($this->getRequired() && !is_array($F['error'])) {
@@ -192,7 +212,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                     case UPLOAD_ERR_NO_FILE:
                         if (!$this->getRequired()) {
                             break;
-                        } elseif (strlen($F[self::FILE_DATA_INDEX_DODGING_FILE][$index])) {
+                        } elseif (isset($F[self::FILE_DATA_INDEX_DODGING_FILE][$index]) && $F[self::FILE_DATA_INDEX_DODGING_FILE][$index] !== '') {
                             break;
                         }
                         $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
