@@ -16678,3 +16678,7 @@ prtf#:#prtf_copy_blog_pg#:#Copy Blog Page
 assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
 copg#:#copg_reload_page#:#Reload Page
+assessment#:#qst_use_nested_answers#:#Nested answers
+assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
+assessment#:#qst_nested_nested_answers_off#:#No indents, just order
+assessment#:#tab_nest_answers#:#Nesting

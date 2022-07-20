@@ -347,16 +347,16 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         $tpl = $this->getItemTemplate();
         
         switch ($this->getOrderingType()) {
-            case OQ_TERMS:
-            case OQ_NESTED_TERMS:
+            case assOrderingQuestion::OQ_TERMS:
+            case assOrderingQuestion::OQ_NESTED_TERMS:
             
                 $tpl->setCurrentBlock('item_text');
                 $tpl->setVariable("ITEM_CONTENT", ilUtil::prepareFormOutput($element['content']));
                 $tpl->parseCurrentBlock();
                 break;
                 
-            case OQ_PICTURES:
-            case OQ_NESTED_PICTURES:
+            case assOrderingQuestion::OQ_PICTURES:
+            case assOrderingQuestion::OQ_NESTED_PICTURES:
                 
                 $tpl->setCurrentBlock('item_image');
                 $tpl->setVariable("ITEM_SOURCE", $this->getThumbnailSource($element));
