@@ -340,7 +340,7 @@ class ilForumMailNotification extends ilMailNotification
         $this->appendBody("\n\n");
         if ($this->provider->providesClosestContainer()) {
             $this->appendBody(
-                $this->getLanguageText('obj_' . $this->provider->closestContainer()->getType()) . ": " .
+                $this->getLanguageText('frm_noti_obj_' . $this->provider->closestContainer()->getType()) . ": " .
                 $this->provider->closestContainer()->getTitle()
             );
             $this->appendBody("\n\n");
