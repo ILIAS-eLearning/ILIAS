@@ -13152,6 +13152,8 @@ forum#:#forums_notification_show_frm#:#Zum Forum gehen: %s
 forum#:#thread_deleted_by#:#folgendes Thema im Forum "%2$s" wurde von "%1$s" gelöscht:
 forum#:#content_deleted_thread#:#Inhalt des gelöschten Themas:
 forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" aufgehoben:
+forum#:#frm_noti_obj_crs#:#Kurs
+forum#:#frm_noti_obj_grp#:#Gruppe
 forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
 forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" aktiviert

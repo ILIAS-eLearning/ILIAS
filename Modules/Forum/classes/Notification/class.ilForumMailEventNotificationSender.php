@@ -491,8 +491,8 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $body .= "\n\n";
         $body .= $this->getLanguageText('forum') . ": " . $this->provider->getForumTitle();
         $body .= "\n\n";
-        if ($this->provider->getTopItemType() !== '' && $this->provider->getTopItemTitle() !== '') {
-            $body .= $this->getLanguageText($this->provider->getTopItemType()) . ": " . $this->provider->getTopItemTitle();
+        if ($this->provider->providesClosestContainer()) {
+            $body .= $this->getLanguageText('obj_' . $this->provider->closestContainer()->getType()) . ": " . $this->provider->closestContainer()->getTitle();
             $body .= "\n\n";
         }
         $body .= $this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle();
@@ -579,13 +579,16 @@ class ilForumMailEventNotificationSender extends ilMailNotification
      */
     private function createSubjectText(string $subject) : string
     {
-        if ($this->provider->getTopItemTitle() !== '' && $this->provider->getTopItemType() !== '') {
-            $top_item_text = "(" . $this->getLanguageText($this->provider->getTopItemType()) . " \"" . $this->provider->getTopItemTitle() . "\")";
+        $container_text = '';
+        if ($this->provider->providesClosestContainer()) {
+            $container_text = " (" . $this->getLanguageText('frm_noti_obj_' . $this->provider->closestContainer()->getType()) .
+                " \"" . $this->provider->closestContainer()->getTitle() . "\")";
         }
+
         return sprintf(
             $this->getLanguageText($subject),
             $this->provider->getForumTitle(),
-            $top_item_text ?? '',
+            $container_text,
             $this->provider->getThreadTitle()
         );
     }

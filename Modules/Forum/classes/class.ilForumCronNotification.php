@@ -45,6 +45,9 @@ class ilForumCronNotification extends ilCronJob
      * @var array
      */
     protected static $accessible_ref_ids_by_user = array();
+
+    /** @var array<int, ilObjCourse|ilObjGroup|null> */
+    private static $container_by_frm_ref_id = [];
     
     /**
      * @var int
@@ -268,15 +271,9 @@ class ilForumCronNotification extends ilCronJob
 
             $row['ref_id'] = $ref_id;
 
-            $top_item_crs_ref = $this->tree->checkForParentType($ref_id, 'crs');
-            $top_item_grp_ref = $this->tree->checkForParentType($ref_id, 'grp');
-            $top_item_ref_id = $top_item_crs_ref > 0 ? $top_item_crs_ref : $top_item_grp_ref;
-            if ($top_item_ref_id) {
-                $top_item = ilObjectFactory::getInstanceByObjId($top_item_ref_id);
-                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
-                    $row['top_item_title'] = $top_item->getTitle();
-                    $row['top_item_type'] = $top_item->getType();
-                }
+            $container = $this->determineClosestContainer($ref_id);
+            if ($container instanceof ilObjCourse || $container instanceof ilObjGroup) {
+                $row['closest_container'] = $container;
             }
 
             if ($this->existsProviderObject($row['pos_pk'])) {
@@ -330,6 +327,31 @@ class ilForumCronNotification extends ilCronJob
         }
         
         $this->resetProviderCache();
+    }
+
+    /**
+     * @param int $frm_ref_id
+     * @return ilObjCourse|ilObjGroup|null
+     */
+    public function determineClosestContainer(int $frm_ref_id) : ?ilObject
+    {
+        if (isset(self::$container_by_frm_ref_id[$frm_ref_id])) {
+            return self::$container_by_frm_ref_id[$frm_ref_id];
+        }
+
+        $ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
+        if (!($ref_id > 0)) {
+            $ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
+        }
+
+        if ($ref_id > 0) {
+            /** @var ilObjCourse|ilObjGroup $container */
+            $container = ilObjectFactory::getInstanceByRefId($ref_id);
+            self::$container_by_frm_ref_id[$frm_ref_id] = $container;
+            return $container;
+        }
+
+        return null;
     }
 
     /**

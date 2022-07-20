@@ -19,10 +19,8 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     public $pos_author_id = 0;
     /** @var int */
     protected $forum_id = 0;
-    /** @var string $top_item_title */
-    protected $top_item_title = '';
-    /** @var string $top_item_type */
-    protected $top_item_type = '';
+    /** @var ilObjGroup|ilObjCourse */
+    protected $closest_container = null;
     /** @var string $forum_title */
     protected $forum_title = '';
     /** @var string $thread_title */
@@ -106,14 +104,14 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->forum_id;
     }
 
-    public function getTopItemTitle() : string
+    public function closestContainer() : ?ilObject
     {
-        return $this->top_item_title;
+        return $this->closest_container;
     }
 
-    public function getTopItemType() : string
+    public function providesClosestContainer() : bool
     {
-        return $this->top_item_type;
+        return $this->closest_container !== null;
     }
 
     /**
@@ -356,15 +354,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
             $row = $this->db->fetchAssoc($result);
 
-            $top_item_crs_ref = $this->tree->checkForParentType($this->getRefId(), 'crs');
-            $top_item_grp_ref = $this->tree->checkForParentType($this->getRefId(), 'grp');
-            $top_item_ref_id = $top_item_crs_ref > 0 ? $top_item_crs_ref : $top_item_grp_ref;
-            if ($top_item_ref_id) {
-                $top_item = ilObjectFactory::getInstanceByRefId($top_item_ref_id);
-                if ($top_item instanceof ilObjCourse || $top_item instanceof ilObjGroup) {
-                    $row['top_item_title'] = $top_item->getTitle();
-                    $row['top_item_type'] = $top_item->getType();
-                }
+            $container = $this->determineClosestContainer($this->getRefId());
+            if ($container instanceof ilObjCourse || $container instanceof ilObjGroup) {
+                $row['closest_container'] = $container;
             }
 
             $this->notificationCache->store($cacheKey, $row);
@@ -373,11 +365,33 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $row = $row ?? $this->notificationCache->fetch($cacheKey);
         $this->forum_id = $row['top_pk'];
         $this->forum_title = $row['top_name'];
-        $this->top_item_title = $row['top_item_title'] ?? '';
-        $this->top_item_type = $row['top_item_type'] ?? '';
+        $this->closest_container = $row['closest_container'] ?? null;
 
 
         $this->is_anonymized = (bool) $row['anonymized'];
+    }
+
+    public function determineClosestContainer(int $frm_ref_id) : ?ilObject
+    {
+        $cacheKey = $this->notificationCache->createKeyByValues([
+            'forum_container',
+            $frm_ref_id
+        ]);
+
+        if (false === $this->notificationCache->exists($cacheKey)) {
+            $ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
+            if (!($ref_id > 0)) {
+                $ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
+            }
+
+            if ($ref_id > 0) {
+                $container = ilObjectFactory::getInstanceByRefId($ref_id);
+                $this->notificationCache->store($cacheKey, $container);
+                return $container;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -399,7 +413,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getForumNotificationRecipients()
     {
@@ -467,7 +481,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getPostAnsweredRecipients()
     {
@@ -490,7 +504,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getPostActivationRecipients()
     {

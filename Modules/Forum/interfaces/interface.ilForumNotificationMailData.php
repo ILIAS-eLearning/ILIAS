@@ -22,9 +22,11 @@ interface ilForumNotificationMailData
      */
     public function getForumId();
 
-    public function getTopItemTitle() : string;
+    /** @return ilObjCourse|ilObjGroup|null */
+    public function closestContainer() : ?ilObject;
 
-    public function getTopItemType() : string;
+    public function providesClosestContainer() : bool;
+
     
     /**
      * @return string frm_data.top_name
