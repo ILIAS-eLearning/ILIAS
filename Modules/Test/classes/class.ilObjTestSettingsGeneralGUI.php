@@ -884,14 +884,14 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     {
         if (!$this->testOBJ->participantDataExist()) {
             $opening_period = $form->getItemByPostVar('opening_period');
-            if ($opening_period && $opening_period->getStart()) {
+            if ($opening_period && $opening_period->getStart() && !$opening_period->getStart()->isNull()) {
                 $this->testOBJ->setStartingTime($opening_period->getStart()->get(IL_CAL_UNIX));
                 $this->testOBJ->setStartingTimeEnabled(true);
             } else {
                 $this->testOBJ->setStartingTime(null);
                 $this->testOBJ->setStartingTimeEnabled(false);
             }
-            if ($opening_period && $opening_period->getEnd()) {
+            if ($opening_period && $opening_period->getEnd() && !$opening_period->getEnd()->isNull()) {
                 $this->testOBJ->setEndingTime($opening_period->getEnd()->get(IL_CAL_UNIX));
                 $this->testOBJ->setEndingTimeEnabled(true);
             } else {
