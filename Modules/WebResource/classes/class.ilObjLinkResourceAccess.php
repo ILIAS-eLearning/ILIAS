@@ -126,11 +126,8 @@ class ilObjLinkResourceAccess extends ilObjectAccess
             $item['description'] = (string) $row->description;
             $item['target'] = (string) $row->target;
             $item['active'] = (bool) $row->active;
-            $item['disable_check'] = (bool) $row->disable_check;
             $item['create_date'] = (int) $row->create_date;
             $item['last_update'] = (int) $row->last_update;
-            $item['last_check'] = (int) $row->last_check;
-            $item['valid'] = (bool) $row->valid;
             $item['link_id'] = (int) $row->link_id;
             self::$item[(int) $row->webr_id] = $item;
         }
@@ -156,11 +153,8 @@ class ilObjLinkResourceAccess extends ilObjectAccess
             $item['description'] = (string) $row->description;
             $item['target'] = (string) $row->target;
             $item['active'] = (bool) $row->active;
-            $item['disable_check'] = (bool) $row->disable_check;
             $item['create_date'] = (int) $row->create_date;
             $item['last_update'] = (int) $row->last_update;
-            $item['last_check'] = (int) $row->last_check;
-            $item['valid'] = (bool) $row->valid;
             $item['link_id'] = (int) $row->link_id;
             self::$item[(int) $row->webr_id] = $item;
         }

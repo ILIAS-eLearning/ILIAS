@@ -5840,10 +5840,8 @@ common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="
 common#:#webr_active#:#Active
 common#:#webr_add#:#Add Weblink
 common#:#webr_deleted_items#:#Deleted Weblink(s).
-common#:#webr_disable_check#:#Disable Validation
 common#:#webr_edit#:#Edit Weblink
 common#:#web_resources#:#Weblinks
-common#:#webr_last_check_table#:#Last check:
 common#:#webr_sure_delete_items#:#Do you really want to delete the following Weblink(s)?
 common#:#webr#:#Weblink
 common#:#webservices#:#SOAP

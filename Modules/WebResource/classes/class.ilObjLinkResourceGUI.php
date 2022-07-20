@@ -204,7 +204,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             // Save link
             $this->link->setLinkResourceId($new_object->getId());
             $this->link->add();
-            $this->link->updateValid(true);
             $this->tpl->setOnScreenMessage(
                 'success',
                 $this->lng->txt('webr_link_added')
@@ -544,7 +543,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         )
         ) {
             $link_id = $this->link->add();
-            $this->link->updateValid(true);
 
             if (
                 ilParameterAppender::_isEnabled() &&
@@ -740,10 +738,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                         $this->refinery->kindlyTo()->string()
                     );
             }
-            $orig = ilLinkResourceItems::lookupItem(
-                $this->object->getId(),
-                $link_id
-            );
             $links->setLinkId($link_id);
             $links->setTitle(ilUtil::stripSlashes($data['title'] ?? ''));
             $links->setDescription(ilUtil::stripSlashes($data['desc'] ?? ''));
@@ -751,9 +745,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 str_replace('"', '', ilUtil::stripSlashes($data['tar'] ?? ''))
             );
             $links->setActiveStatus((bool) ($data['act'] ?? false));
-            $links->setDisableCheckStatus((bool) ($data['che'] ?? false));
-            $links->setLastCheckDate($orig['last_check']);
-            $links->setValidStatus((bool) ($data['vali'] ?? false));
             $links->setInternal(ilLinkInputGUI::isInternalLink($data['tar'] ?? ''));
             $links->update();
 
@@ -788,9 +779,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 'title' => $values['title'],
                 'tar' => $values['target'],
                 'desc' => $values['description'],
-                'act' => (int) $values['active'],
-                'che' => (int) $values['disable_check'],
-                'vali' => (int) $values['valid']
+                'act' => (int) $values['active']
             )
         );
     }
@@ -823,7 +812,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->link->setTarget(str_replace('"', '', $link_input));
         $this->link->setTitle($this->form->getInput('title'));
         $this->link->setDescription($this->form->getInput('desc'));
-        $this->link->setDisableCheckStatus((bool) $this->form->getInput('che'));
         $this->link->setInternal(ilLinkInputGUI::isInternalLink($link_input));
 
         if ($a_mode == self::LINK_MOD_CREATE) {
@@ -832,11 +820,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->link->setActiveStatus((bool) $this->form->getInput('act'));
         }
 
-        if ($a_mode == self::LINK_MOD_EDIT) {
-            $this->link->setValidStatus((bool) $this->form->getInput('vali'));
-        } else {
-            $this->link->setValidStatus(true);
-        }
         if (!ilParameterAppender::_isEnabled()) {
             return $valid;
         }
@@ -1006,20 +989,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $act->setChecked(true);
                 $act->setValue((string) 1);
                 $this->form->addItem($act);
-
-                // Check
-                $che = new ilCheckboxInputGUI(
-                    $this->lng->txt('webr_disable_check'),
-                    'che'
-                );
-                $che->setValue((string) 1);
-                $this->form->addItem($che);
-            }
-
-            // Valid
-            if ($a_mode == self::LINK_MOD_EDIT) {
-                $val = new ilCheckboxInputGUI($this->lng->txt('valid'), 'vali');
-                $this->form->addItem($val);
             }
 
             if (ilParameterAppender::_isEnabled(
@@ -1363,7 +1332,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $link_id = 0;
         if ($this->http->wrapper()->query()->has('link_id')) {
-            $link_id = (array) $this->http->wrapper()->query()->retrieve(
+            $link_id = $this->http->wrapper()->query()->retrieve(
                 'link_id',
                 $this->refinery->kindlyTo()->int()
             );
