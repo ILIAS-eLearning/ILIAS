@@ -376,6 +376,11 @@ class ilInitialisation
      */
     protected static function buildHTTPPath() : bool
     {
+        $ilias_http_path_from_env = getenv('ILIAS_HTTP_PATH');
+        if (isset($ilias_http_path_from_env)) {
+            return define('ILIAS_HTTP_PATH', $ilias_http_path_from_env);
+        }
+
         global $DIC;
 
         if ($DIC['https']->isDetected()) {
