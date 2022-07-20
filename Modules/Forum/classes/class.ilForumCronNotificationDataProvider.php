@@ -28,15 +28,8 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
      */
     protected $forum_id = 0;
 
-    /**
-     * @var string
-     */
-    protected $top_item_title = '';
-
-    /**
-     * @var string
-     */
-    protected $top_item_type = '';
+    /** @var ilObjCourse|ilObjGroup|null */
+    private $closest_container = null;
 
     /**
      * @var string $forum_title
@@ -112,7 +105,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     protected $attachments = array();
 
     /**
-     * @var array $cron_recipients user_ids
+     * @var int[] $cron_recipients user_ids
      */
     protected $cron_recipients = array();
 
@@ -155,8 +148,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->obj_id = $row['obj_id'];
         $this->ref_id = $row['ref_id'];
 
-        $this->top_item_title = $row['top_item_title'];
-        $this->top_item_type = $row['top_item_type'];
+        $this->closest_container = $row['closest_container'];
 
         $this->thread_id = $row['thread_id'];
         $this->thread_title = $row['thr_subject'];
@@ -231,7 +223,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getCronRecipients()
     {
@@ -262,14 +254,14 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         return $this->forum_id;
     }
 
-    public function getTopItemTitle() : string
+    public function closestContainer() : ?ilObject
     {
-        return $this->top_item_title;
+        return $this->closest_container;
     }
 
-    public function getTopItemType() : string
+    public function providesClosestContainer() : bool
     {
-        return $this->top_item_type;
+        return $this->closest_container !== null;
     }
 
     /**

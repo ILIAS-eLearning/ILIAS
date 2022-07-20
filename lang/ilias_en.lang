@@ -13145,6 +13145,8 @@ forum#:#forums_notification_show_frm#:#Show forum: %s
 forum#:#thread_deleted_by#:#following thread in forum "%2$s"was deleted by "%1$s":
 forum#:#content_deleted_thread#:#Content of the deleted thread:
 forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
+forum#:#frm_noti_obj_crs#:#course
+forum#:#frm_noti_obj_grp#:#group
 forum#:#frm_noti_message#:#Message:
 forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
 forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s"%2$s%, thread "%3$s"
