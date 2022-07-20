@@ -304,8 +304,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 			WHERE frm_data.top_pk = %s
 			AND frm_notification.frm_id = frm_data.top_frm_fk 
 			AND frm_notification.user_id != %s
-			AND frm_notification.interested_events & %s
-			' . $condition . '
+			AND (frm_notification.interested_events & %s' . $condition . ')
 			GROUP BY frm_notification.user_id ',
                 ['integer', 'integer', 'integer'],
                 [$this->getForumId(), $this->user->getId(), $event_type]
