@@ -1,9 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -189,7 +201,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->object->setThumbGeometry($_POST["thumb_geometry"]);
         // $this->object->setElementHeight($_POST["element_height"]);
         //$this->object->setOrderingType( $_POST["ordering_type"] );
-        $this->object->setPoints($_POST["points"]);
+        $this->object->setPoints((float) ($_POST["points"] ?? 0.0));
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void

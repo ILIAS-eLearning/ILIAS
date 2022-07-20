@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for ordering question imports
@@ -192,7 +205,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->setOrderingType($type);
         $this->object->setObjId($questionpool_id);
         $this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
-        $this->object->setElementHeight($item->getMetadataEntry("element_height"));
+        $this->object->setElementHeight($item->getMetadataEntry("element_height") ? (int) $item->getMetadataEntry("element_height") : null);
         $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
         $this->object->setShuffle($shuffle);
         $points = 0;
