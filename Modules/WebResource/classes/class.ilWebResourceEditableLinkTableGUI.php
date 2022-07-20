@@ -50,13 +50,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->addColumn('', '', '1px');
         $this->addColumn($this->lng->txt('title'), 'title', '25%');
         $this->addColumn($this->lng->txt('target'), 'target', '25%');
-        $this->addColumn($this->lng->txt('valid'), 'valid', '10px');
-        $this->addColumn($this->lng->txt('webr_active'), 'active', '10px');
-        $this->addColumn(
-            $this->lng->txt('webr_disable_check'),
-            'disable_check',
-            '10px'
-        );
+        $this->addColumn($this->lng->txt('webr_active'), 'active');
 
         $this->setEnableHeader(true);
         $this->setFormAction(
@@ -99,9 +93,6 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $tmp['target'] = $link['target'];
             $tmp['link_id'] = $link['link_id'];
             $tmp['active'] = $link['active'];
-            $tmp['disable_check'] = $link['disable_check'];
-            $tmp['valid'] = $link['valid'];
-            $tmp['last_check'] = $link['last_check'];
             $tmp['params'] = [];
 
             $rows[] = $tmp;
@@ -121,8 +112,6 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $tmp['title'] = $request_link_info[$link_id]['title'];
             $tmp['description'] = $request_link_info[$link_id]['desc'];
             $tmp['target'] = $request_link_info[$link_id]['tar'];
-            $tmp['valid'] = $request_link_info[$link_id]['vali'];
-            $tmp['disable_check'] = $request_link_info[$link_id]['che'];
             $tmp['active'] = $request_link_info[$link_id]['act'];
             $tmp['value'] = $request_link_info[$link_id]['val'];
             $tmp['name'] = $request_link_info[$link_id]['nam'];
@@ -147,9 +136,6 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $tmp['target'] = $link['target'];
             $tmp['link_id'] = $link['link_id'];
             $tmp['active'] = $link['active'];
-            $tmp['disable_check'] = $link['disable_check'];
-            $tmp['valid'] = $link['valid'];
-            $tmp['last_check'] = $link['last_check'];
             $tmp['params'] = ilParameterAppender::_getParams($link['link_id']);
             $rows[] = $tmp;
         }
@@ -217,45 +203,12 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable(
-            'TXT_LAST_CHECK',
-            $this->lng->txt('webr_last_check_table')
-        );
-        $this->tpl->setVariable(
-            'LAST_CHECK',
-            $a_set['last_check'] ?
-                ilDatePresentation::formatDate(
-                    new ilDateTime($a_set['last_check'], IL_CAL_UNIX)
-                ) :
-                $this->lng->txt('no_date')
-        );
-
-        // Valid
-        $this->tpl->setVariable(
-            'VAL_VALID',
-            ilLegacyFormElementsUtil::formCheckbox(
-                $a_set['valid'],
-                'links[' . $a_set['id'] . '][vali]',
-                '1'
-            )
-        );
-
         // Active
         $this->tpl->setVariable(
             'VAL_ACTIVE',
             ilLegacyFormElementsUtil::formCheckbox(
                 $a_set['active'],
                 'links[' . $a_set['id'] . '][act]',
-                '1'
-            )
-        );
-
-        // Valid
-        $this->tpl->setVariable(
-            'VAL_CHECK',
-            ilLegacyFormElementsUtil::formCheckbox(
-                $a_set['disable_check'],
-                'links[' . $a_set['id'] . '][che]',
                 '1'
             )
         );

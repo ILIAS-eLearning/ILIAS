@@ -175,19 +175,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                     (bool) $a_attribs['active']
                 );
 
-                // Valid
-                if (!isset($a_attribs['valid'])) {
-                    $valid = 1;
-                } else {
-                    $valid = $a_attribs['valid'] ? 1 : 0;
-                }
-                $this->current_link->setValidStatus((bool) $valid);
-
-                // Disable check
-                $this->current_link->setDisableCheckStatus(
-                    (bool) $a_attribs['disableValidation']
-                );
-
                 // internal
                 if (isset($a_attribs['internal'])) {
                     $this->current_link->setInternal((bool) $a_attribs['internal']);
