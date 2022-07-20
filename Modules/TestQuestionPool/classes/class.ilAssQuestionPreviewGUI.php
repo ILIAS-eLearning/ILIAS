@@ -46,66 +46,29 @@ class ilAssQuestionPreviewGUI
     const TAB_ID_QUESTION = 'question';
     
     const FEEDBACK_FOCUS_ANCHOR = 'focus';
-    
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
 
-    /**
-     * @var ilGlobalTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var assQuestionGUI
-     */
-    protected $questionGUI;
-
-    /**
-     * @var assQuestion
-     */
-    protected $questionOBJ;
-
-    /**
-     * @var ilAssQuestionPreviewSettings
-     */
-    protected $previewSettings;
-
-    /**
-     * @var ilAssQuestionPreviewSession
-     */
-    protected $previewSession;
-
-    /**
-     * @var ilAssQuestionPreviewHintTracking
-     */
-    protected $hintTracking;
-
+    private ilCtrlInterface $ctrl;
+    private ilTabsGUI $tabs;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilDBInterface $db;
+    private ilObjUser $user;
+    private assQuestionGUI $questionGUI;
+    private assQuestion $questionOBJ;
+    private ilAssQuestionPreviewSettings $previewSettings;
+    private ilAssQuestionPreviewSession $previewSession;
+    private ilAssQuestionPreviewHintTracking $hintTracking;
     private RandomGroup $randomGroup;
-    
-    public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user, RandomGroup $randomGroup)
-    {
+
+    public function __construct(
+        ilCtrl $ctrl,
+        ilTabsGUI $tabs,
+        ilGlobalTemplateInterface $tpl,
+        ilLanguage $lng,
+        ilDBInterface $db,
+        ilObjUser $user,
+        RandomGroup $randomGroup
+    ) {
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->tpl = $tpl;
@@ -124,16 +87,16 @@ class ilAssQuestionPreviewGUI
 
         $this->questionOBJ->setObjId($parentObjId);
 
-        if ($this->ctrl->getCmd() == 'editQuestion') {
+        if ($this->ctrl->getCmd() === 'editQuestion') {
             $this->questionGUI->setQuestionTabs();
         } else {
             if ($_GET["q_id"]) {
                 $this->tabs->clearTargets();
                 $this->tabs->addTarget(
-                    ilAssQuestionPreviewGUI::TAB_ID_QUESTION,
-                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW),
-                    array(),
-                    array('ilAssQuestionPreviewGUI')
+                    self::TAB_ID_QUESTION,
+                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', self::CMD_SHOW),
+                    '',
+                    [strtolower(__CLASS__)]
                 );
                 if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
                     $ref_id = $_GET["calling_test"];
@@ -440,12 +403,11 @@ class ilAssQuestionPreviewGUI
         
         $pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $questionHtml));
 
-        //$pageGUI->setHeader($this->questionOBJ->getTitle()); // NO ADDITIONAL HEADER
         $pageGUI->setPresentationTitle($this->questionOBJ->getTitle());
 
-        //$pageGUI->setTemplateTargetVar("ADM_CONTENT"); // NOT REQUIRED, OR IS?
-
         $tpl->setVariable('QUESTION_OUTPUT', $pageGUI->preview());
+        // \ilPageObjectGUI::preview sets an undefined tab, so the "question" tab has to be activated again
+        $this->tabs->setTabActive(self::TAB_ID_QUESTION);
     }
     
     protected function populateReachedPointsOutput(ilTemplate $tpl) : void
