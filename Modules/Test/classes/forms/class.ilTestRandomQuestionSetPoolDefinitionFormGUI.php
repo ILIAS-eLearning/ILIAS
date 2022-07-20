@@ -81,11 +81,11 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         );
 
         $hiddenDefId = new ilHiddenInputGUI('src_pool_def_id');
-        $hiddenDefId->setValue($sourcePool->getId());
+        $hiddenDefId->setValue((string) $sourcePool->getId());
         $this->addItem($hiddenDefId);
 
         $hiddenPoolId = new ilHiddenInputGUI('quest_pool_id');
-        $hiddenPoolId->setValue($sourcePool->getPoolId());
+        $hiddenPoolId->setValue((string) $sourcePool->getPoolId());
         $this->addItem($hiddenPoolId);
 
         $nonEditablePoolLabel = new ilNonEditableValueGUI(
@@ -165,7 +165,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
             // fau.
         } else {
             $hiddenNoTax = new ilHiddenInputGUI('filter_tax');
-            $hiddenNoTax->setValue(0);
+            $hiddenNoTax->setValue('0');
             $this->addItem($hiddenNoTax);
 
             $nonEditableNoTax = new ilNonEditableValueGUI(
