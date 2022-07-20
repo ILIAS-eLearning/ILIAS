@@ -55,9 +55,9 @@ class ilAssQuestionPreviewGUI
     private ilObjUser $user;
     private assQuestionGUI $questionGUI;
     private assQuestion $questionOBJ;
-    private ilAssQuestionPreviewSettings $previewSettings;
-    private ilAssQuestionPreviewSession $previewSession;
-    private ilAssQuestionPreviewHintTracking $hintTracking;
+    private ?ilAssQuestionPreviewSettings $previewSettings = null;
+    private ?ilAssQuestionPreviewSession $previewSession = null;
+    private ?ilAssQuestionPreviewHintTracking $hintTracking = null;
     private RandomGroup $randomGroup;
 
     public function __construct(
@@ -80,8 +80,6 @@ class ilAssQuestionPreviewGUI
 
     public function initQuestion($questionId, $parentObjId) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-        
         $this->questionGUI = assQuestion::instantiateQuestionGUI($questionId);
         $this->questionOBJ = $this->questionGUI->object;
 
@@ -136,7 +134,6 @@ class ilAssQuestionPreviewGUI
                             $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context'])
                         );
                     } else {
-                        require_once 'Services/Link/classes/class.ilLink.php';
                         $this->tabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
                     }
                     //} elseif (true) {
@@ -160,7 +157,6 @@ class ilAssQuestionPreviewGUI
 
     public function initPreviewSettings($parentRefId) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewSettings.php';
         $this->previewSettings = new ilAssQuestionPreviewSettings($parentRefId);
         
         $this->previewSettings->init();
@@ -168,7 +164,6 @@ class ilAssQuestionPreviewGUI
 
     public function initPreviewSession($userId, $questionId) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewSession.php';
         $this->previewSession = new ilAssQuestionPreviewSession($userId, $questionId);
 
         $this->previewSession->init();
@@ -176,7 +171,6 @@ class ilAssQuestionPreviewGUI
     
     public function initHintTracking() : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewHintTracking.php';
         $this->hintTracking = new ilAssQuestionPreviewHintTracking($this->db, $this->previewSession);
     }
     
@@ -207,8 +201,6 @@ class ilAssQuestionPreviewGUI
         
         switch ($nextClass) {
             case 'ilassquestionhintrequestgui':
-                
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
                 $gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW, $this->questionGUI, $this->hintTracking);
 
                 $this->ctrl->forwardCommand($gui);
@@ -217,7 +209,6 @@ class ilAssQuestionPreviewGUI
 
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackPageObjectCommandForwarder.php';
                 $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
                 $forwarder->forward();
                 break;
@@ -351,7 +342,6 @@ class ilAssQuestionPreviewGUI
     
     private function populatePreviewToolbar(ilTemplate $tpl) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewToolbarGUI.php';
         $toolbarGUI = new ilAssQuestionPreviewToolbarGUI($this->lng);
 
         $toolbarGUI->setFormAction($this->ctrl->getFormAction($this, self::CMD_SHOW));
@@ -465,7 +455,6 @@ class ilAssQuestionPreviewGUI
 
     private function getQuestionNavigationHtml() : string
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php';
         $navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
 
         $navGUI->setInstantResponseCmd(self::CMD_INSTANT_RESPONSE);
@@ -571,9 +560,7 @@ class ilAssQuestionPreviewGUI
             $this->showCmd();
             return;
         }
-        
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
-        
+
         $this->ctrl->redirectByClass(
             'ilAssQuestionHintRequestGUI',
             ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST
@@ -588,8 +575,6 @@ class ilAssQuestionPreviewGUI
             return;
         }
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
-        
         $this->ctrl->redirectByClass(
             'ilAssQuestionHintRequestGUI',
             ilAssQuestionHintRequestGUI::CMD_SHOW_LIST
