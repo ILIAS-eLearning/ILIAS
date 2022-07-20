@@ -218,7 +218,9 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
             $questionAmountPerSourcePool->setSize(4);
             
             if ($sourcePool->getQuestionAmount()) {
-                $questionAmountPerSourcePool->setValue($sourcePool->getQuestionAmount());
+                $questionAmountPerSourcePool->setValue(
+                    $sourcePool->getQuestionAmount() ? (string) $sourcePool->getQuestionAmount() : null
+                );
             }
             
             $this->addItem($questionAmountPerSourcePool);
