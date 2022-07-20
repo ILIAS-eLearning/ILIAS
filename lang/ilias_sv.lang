@@ -16323,3 +16323,7 @@ sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session ty
 sess#:#sess_info_new_sess_type#:#New Session Type###13 07 2022 new variable
 sess#:#il_sess_status_open#:#Open Session###13 07 2022 new variable
 sess#:#sess_change_type#:#Change Session Type###13 07 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###20 07 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###20 07 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###20 07 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###20 07 2022 new variable

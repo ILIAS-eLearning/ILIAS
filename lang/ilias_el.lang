@@ -16305,3 +16305,14 @@ buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###04 05 2022 new variable
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###04 05 2022 new variable
 buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###04 05 2022 new variable
 buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###04 05 2022 new variable
+common#:#certificates#:#Certificates###20 07 2022 new variable
+common#:#report_accessibility_link_mailto#:#Reported%20Link:###20 07 2022 new variable
+glo#:#glo_please_select_other_glo#:#Please select another glossary.###20 07 2022 new variable
+sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###20 07 2022 new variable
+sess#:#sess_info_new_sess_type#:#New Session Type###20 07 2022 new variable
+sess#:#il_sess_status_open#:#Open Session###20 07 2022 new variable
+sess#:#sess_change_type#:#Change Session Type###20 07 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###20 07 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###20 07 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###20 07 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###20 07 2022 new variable
