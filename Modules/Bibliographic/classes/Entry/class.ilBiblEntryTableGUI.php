@@ -166,7 +166,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         }
 
         usort($entries, function ($a, $b) {
-            return $a['content'] > $b['content'];
+            return strcmp($a['content'], $b['content']);
         });
 
         $this->setData($entries);
