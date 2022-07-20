@@ -373,6 +373,11 @@ class ilInitialisation
      */
     protected static function buildHTTPPath()
     {
+        $ilias_http_path_from_env = getenv('ILIAS_HTTP_PATH');
+        if (isset($ilias_http_path_from_env)) {
+            return define('ILIAS_HTTP_PATH', $ilias_http_path_from_env);
+        }
+
         include_once './Services/Http/classes/class.ilHTTPS.php';
         $https = new ilHTTPS();
 
