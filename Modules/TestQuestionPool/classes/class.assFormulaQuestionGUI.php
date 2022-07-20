@@ -710,6 +710,19 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $this->editQuestion();
     }
     
+    protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs)
+    {
+        // Unit editor
+        if ($_GET['q_id']) {
+            $ilTabs->addTarget(
+                'units',
+                $this->ctrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''),
+                '',
+                'illocalunitconfigurationgui'
+            );
+        }
+    }
+    
     public function saveReturnFQ()
     {
         global $DIC;
