@@ -189,7 +189,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->object->setThumbGeometry($_POST["thumb_geometry"]);
         // $this->object->setElementHeight($_POST["element_height"]);
         //$this->object->setOrderingType( $_POST["ordering_type"] );
-        $this->object->setPoints($_POST["points"]);
+        $this->object->setPoints((float) ($_POST["points"] ?? 0.0));
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
