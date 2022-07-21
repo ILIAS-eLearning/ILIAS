@@ -110,20 +110,25 @@ class ilLoggerFactory
             }
         }
     }
-    
+
     /**
      * Check if console handler is available
-     * @return boolean
+     * @return bool
      */
-    protected function isConsoleAvailable()
+    protected function isConsoleAvailable() : bool
     {
-        include_once './Services/Context/classes/class.ilContext.php';
         if (ilContext::getType() != ilContext::CONTEXT_WEB) {
             return false;
         }
-        if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch") {
+
+        if ((isset($_GET['cmdMode']) && $_GET['cmdMode'] === 'asynch') || (
+            isset($GLOBALS['DIC']['http']) &&
+            strtolower($GLOBALS['DIC']->http()->request()->getServerParams()['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest'
+        )) {
+            // In theory, we could analyze the HTTP_ACCEPT header and return true for text/html
             return false;
         }
+
         return true;
     }
     
