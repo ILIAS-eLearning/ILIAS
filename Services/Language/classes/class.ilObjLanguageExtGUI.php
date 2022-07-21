@@ -788,9 +788,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $row["all"] = count($this->object->getAllValues(array($module)));
             $row["changed"] = count($this->object->getChangedValues(array($module)));
             $row["unchanged"] = $row["all"] - $row["changed"];
-            isset($total["all"]) ? $total["all"] += $row["all"] : $total["all"] += $row["all"];
-            isset($total["changed"]) ? $total["changed"] += $row["changed"] : $total["changed"] += $row["changed"];
-            isset($total["unchanged"]) ? $total["unchanged"] += $row["unchanged"] : $total["unchanged"] += $row["unchanged"];
+            isset($total["all"]) ? $total["all"] += $row["all"] : $total["all"] = $row["all"];
+            isset($total["changed"]) ? $total["changed"] += $row["changed"] : $total["changed"] = $row["changed"];
+            isset($total["unchanged"]) ? $total["unchanged"] += $row["unchanged"] : $total["unchanged"] = $row["unchanged"];
             $data[] = $row;
         }
         $total["module"] = "<b>" . $this->lng->txt("language_all_modules") . "</b>";
