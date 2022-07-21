@@ -1,37 +1,38 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestReindexedSequencePositionMap
- *
  * @author      Björn Heyser <info@bjoernheyser.de>
- *
  * @package     Modules/Test
  */
 class ilTestReindexedSequencePositionMap
 {
-    /**
-     * @var array
-     */
-    protected $sequencePositionMap = array();
+    /** @var array<int, int> */
+    private array $sequencePositionMap = [];
     
-    /**
-     * @param int $oldSequencePosition
-     * @param int $newSequencePosition
-     */
-    public function addPositionMapping($oldSequencePosition, $newSequencePosition)
+    public function addPositionMapping(int $oldSequencePosition, int $newSequencePosition) : void
     {
         $this->sequencePositionMap[$oldSequencePosition] = $newSequencePosition;
     }
     
-    /**
-     * @param int $oldSequencePosition
-     * @return int
-     */
-    public function getNewSequencePosition($oldSequencePosition) : int
+    public function getNewSequencePosition(int $oldSequencePosition) : ?int
     {
-        return $this->sequencePositionMap[$oldSequencePosition];
+        return $this->sequencePositionMap[$oldSequencePosition] ?? null;
     }
 }

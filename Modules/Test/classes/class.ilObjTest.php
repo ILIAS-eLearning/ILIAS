@@ -2744,7 +2744,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * @param array $activeIds
      * @param ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
      */
-    public function removeQuestionFromSequences($questionId, $activeIds, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap)
+    public function removeQuestionFromSequences($questionId, $activeIds, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap) : void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
