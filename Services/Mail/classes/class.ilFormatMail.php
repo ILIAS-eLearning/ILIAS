@@ -102,7 +102,7 @@ class ilFormatMail extends ilMail
     {
         $formatted = [];
 
-        $linebreak = $this->mail_options->getLinebreak();
+        $linebreak = ilMailOptions::DEFAULT_LINE_BREAK;
 
         $lines = explode(chr(10), $message);
         foreach ($lines as $iValue) {
