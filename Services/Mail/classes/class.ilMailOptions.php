@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +34,6 @@ class ilMailOptions
     protected ilDBInterface $db;
     protected ilSetting $settings;
     protected string $table_mail_options = 'mail_options';
-    protected int $linebreak = 0;
     protected string $signature = '';
     protected bool $isCronJobNotificationEnabled = false;
     protected int $incomingType = self::INCOMING_LOCAL;
@@ -71,7 +68,6 @@ class ilMailOptions
             $this->emailAddressMode = (int) $this->settings->get('mail_address_option');
         }
 
-        $this->linebreak = self::DEFAULT_LINE_BREAK;
         $this->isCronJobNotificationEnabled = false;
         $this->signature = '';
 
@@ -81,7 +77,6 @@ class ilMailOptions
                 'user_id' => ['integer', $this->usrId],
             ],
             [
-                'linebreak' => ['integer', $this->linebreak],
                 'signature' => ['text', $this->signature],
                 'incoming_type' => ['integer', $this->incomingType],
                 'mail_address_option' => ['integer', $this->emailAddressMode],
@@ -94,7 +89,7 @@ class ilMailOptions
     {
         $query = implode(' ', [
             'SELECT mail_options.cronjob_notification,',
-            'mail_options.signature, mail_options.linebreak, mail_options.incoming_type,',
+            'mail_options.signature, mail_options.incoming_type,',
             'mail_options.mail_address_option, usr_data.email, usr_data.second_email',
             'FROM mail_options',
             'LEFT JOIN usr_data ON mail_options.user_id = usr_data.usr_id',
@@ -109,7 +104,6 @@ class ilMailOptions
         if ($row !== null) {
             $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
             $this->signature = (string) $row->signature;
-            $this->linebreak = (int) $row->linebreak;
             $this->incomingType = (int) $row->incoming_type;
             $this->emailAddressMode = (int) $row->mail_address_option;
 
@@ -140,7 +134,6 @@ class ilMailOptions
     {
         $data = [
             'signature' => ['text', $this->getSignature()],
-            'linebreak' => ['integer', $this->getLinebreak()],
             'incoming_type' => ['integer', $this->getIncomingType()],
             'mail_address_option' => ['integer', $this->getEmailAddressMode()],
         ];
@@ -162,7 +155,7 @@ class ilMailOptions
 
     public function getLinebreak(): int
     {
-        return $this->linebreak;
+        return self::DEFAULT_LINE_BREAK;
     }
 
     public function getSignature(): string
@@ -175,12 +168,7 @@ class ilMailOptions
         return $this->incomingType;
     }
 
-    public function setLinebreak(int $linebreak): void
-    {
-        $this->linebreak = $linebreak;
-    }
-
-    public function setSignature(string $signature): void
+    public function setSignature(string $signature) : void
     {
         $this->signature = $signature;
     }
