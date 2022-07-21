@@ -22,6 +22,9 @@ use ILIAS\FileUpload\Location;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
+require_once("./Services/Object/classes/class.ilObjectGUI.php");
+require_once("Services/Language/classes/class.ilObjLanguageAccess.php");
+
 /**
 * Class ilObjLanguageExtGUI
 *
