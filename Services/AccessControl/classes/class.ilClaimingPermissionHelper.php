@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +14,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+
 /**
  * Claiming permission helper base class
  *
@@ -98,7 +98,7 @@ abstract class ilClaimingPermissionHelper
      */
     protected function isValidContextAndAction(
         int $a_context_type,
-        int $a_context_id,
+        string $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ) : bool {
@@ -148,7 +148,7 @@ abstract class ilClaimingPermissionHelper
      */
     public function hasPermission(
         int $a_context_type,
-        int $a_context_id,
+        string $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ) : bool {
@@ -162,7 +162,7 @@ abstract class ilClaimingPermissionHelper
     /**
      * Check permissions
      */
-    public function hasPermissions(int $a_context_type, int $a_context_id, array $a_action_ids) : array
+    public function hasPermissions(int $a_context_type, string $a_context_id, array $a_action_ids) : array
     {
         $res = array();
         
@@ -185,12 +185,12 @@ abstract class ilClaimingPermissionHelper
      */
     protected function checkPermission(
         int $a_context_type,
-        int $a_context_id,
+        string $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ) : bool {
         return ($this->checkRBAC() &&
-            $this->checkPlugins($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id));
+            $this->checkPlugins($a_context_type, (string) $a_context_id, $a_action_id, $a_action_sub_id));
     }
     
     /**
@@ -215,7 +215,7 @@ abstract class ilClaimingPermissionHelper
      */
     protected function checkPlugins(
         int $a_context_type,
-        int $a_context_id,
+        string $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ) : bool {
