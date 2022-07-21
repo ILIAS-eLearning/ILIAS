@@ -768,7 +768,7 @@ class ilAdvancedMDSettingsGUI
                 // global, optional record
                 if ($item['readonly'] &&
                     $item['optional'] &&
-                    $post_active[$item['id']] ?? false) {
+                    ($post_active[$item['id']] ?? false)) {
                     $selected_global[] = $item['id'];
                 } elseif ($item['local']) {
                     $record_obj = ilAdvancedMDRecord::_getInstanceByRecordId($item['id']);
