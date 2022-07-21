@@ -118,10 +118,10 @@ class ilAdvancedMDSettingsGUI
 
     protected function getRecordIdsFromPost() : SplFixedArray
     {
-        if ($this->http->wrapper()->post()->has('field_id')) {
+        if ($this->http->wrapper()->post()->has('record_id')) {
             return SplFixedArray::fromArray(
                 $this->http->wrapper()->post()->retrieve(
-                    'field_id',
+                    'record_id',
                     $this->refinery->kindlyTo()->listOf(
                         $this->refinery->kindlyTo()->int()
                     )
