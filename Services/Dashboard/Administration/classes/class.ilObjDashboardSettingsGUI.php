@@ -290,7 +290,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $tabs = $this->tabs_gui;
         $ui_renderer = $this->ui_renderer;
 
-        $tabs->activateTab("pd_settings");
+        $tabs->activateTab("settings");
         $this->setSettingsSubTabs("view_courses_groups");
 
         $form = $this->getViewSettingsForm($this->viewSettings->getMembershipsView());
@@ -377,7 +377,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $tabs = $this->tabs_gui;
         $ui_renderer = $this->ui_renderer;
 
-        $tabs->activateTab("pd_settings");
+        $tabs->activateTab("settings");
         $this->setSettingsSubTabs("view_favourites");
 
         $view = $this->viewSettings->getSelectedItemsView();
