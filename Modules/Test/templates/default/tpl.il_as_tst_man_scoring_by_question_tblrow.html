@@ -10,74 +10,75 @@
 		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" data-answer-title="{ANSWER_TITLE}" href="#">{VAL_TXT_ANSWER}</a>
 		<!-- BEGIN row_js -->
 		<script type="text/javascript">
-			(function($) {
-				$().ready(function() {
+			il.Util.addOnLoad(function() {
+				(function ($) {
+					$().ready(function () {
 
-					$(".iosAssAnswerModalTrigger").off("click");
-					$(".iosAssAnswerModalTrigger").on("click", function(e) {
-						
-						var $this = $(this),
-							modal = $this.data("modal");
+						$(".iosAssAnswerModalTrigger").off("click");
+						$(".iosAssAnswerModalTrigger").on("click", function (e) {
 
-						e.preventDefault();
-						e.stopPropagation();
+							var $this = $(this),
+									modal = $this.data("modal");
 
-						if (modal == undefined) {
-							$.ajax({
-								url: $this.data("answer-href"),
-								dataType: 'html',
-								success: function(data) {
-									modal = il.Modal.dialogue({
-										show:    false,
-										header:  $this.data("answer-title"),
-										body:    data,
-										buttons: {}
-									});
+							e.preventDefault();
+							e.stopPropagation();
 
-									$this.data("modal", modal);
+							if (modal == undefined) {
+								$.ajax({
+									url: $this.data("answer-href"),
+									dataType: 'html',
+									success: function (data) {
+										modal = il.Modal.dialogue({
+											show: false,
+											header: $this.data("answer-title"),
+											body: data,
+											buttons: {}
+										});
 
-									if (typeof MathJax != "undefined") {
-										MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+										$this.data("modal", modal);
+
+										if (typeof MathJax != "undefined") {
+											MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+										}
+
+										modal.show();
 									}
+								})
+							} else {
+								modal.show();
+							}
+						});
+						<!-- BEGIN scoring_by_question_refresher -->
+						il.TestScoringByQuestion = (function (scope) {
+							'use strict';
 
-									modal.show();
-								}
-							})
-						} else {
-							modal.show();
-						}
+							var pub = {};
+							var pro = {};
+
+							pub.correctTableData = function (data) {
+								data = JSON.parse(data);
+								console.log(data);
+								var sub_string = '_' + data.feedback.pass + '_' + data.feedback.active_fi + '_' + data.feedback.question_fi;
+								var $scoring = $('.reached_points' + sub_string);
+								var $feedback = $('.feedback' + sub_string);
+								var $finalized = $('.finalized_evaluation' + sub_string);
+								var $finalized_by = $('.finalized_by' + sub_string);
+								var $finalized_on = $('.finalized_on' + sub_string);
+
+								$scoring.html(data.points);
+								$feedback.html(data.feedback.feedback);
+								$finalized.html(data.feedback.finalized_evaluation);
+								$finalized_by.html(data.feedback.finalized_by);
+								$finalized_on.html(data.feedback.finalized_on_date);
+							};
+
+							pub.protect = pro;
+							return pub;
+						}(il));
+						<!-- END scoring_by_question_refresher -->
 					});
-					<!-- BEGIN scoring_by_question_refresher -->
-					il.TestScoringByQuestion  = (function (scope) {
-						'use strict';
-
-						var pub = {};
-						var pro = {};
-
-						pub.correctTableData = function(data)
-						{
-							data = JSON.parse(data);
-							console.log(data);
-							var sub_string 		= '_' + data.feedback.pass +'_' + data.feedback.active_fi +'_' + data.feedback.question_fi;
-							var $scoring 		= $('.reached_points' + sub_string);
-							var $feedback 		= $('.feedback' + sub_string);
-							var $finalized 		= $('.finalized_evaluation' + sub_string);
-							var $finalized_by 	= $('.finalized_by' + sub_string);
-							var $finalized_on 	= $('.finalized_on' + sub_string);
-							
-							$scoring.html(data.points);
-							$feedback.html(data.feedback.feedback);
-							$finalized.html(data.feedback.finalized_evaluation);
-							$finalized_by.html(data.feedback.finalized_by);
-							$finalized_on.html(data.feedback.finalized_on_date);
-						};
-
-						pub.protect = pro;
-						return pub;
-					}(il));
-					<!-- END scoring_by_question_refresher -->
-				});
-			}(jQuery));
+				}(jQuery))
+			});
 		</script>
 		<!-- END row_js -->
 	</td>
