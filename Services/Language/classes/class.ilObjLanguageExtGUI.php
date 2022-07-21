@@ -423,7 +423,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             if (count($keys) === 2) {
                 // avoid line breaks
                 $value = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $value);
-                $value = str_replace("<<", "«",$value);
+                $value = str_replace("<<", "«", $value);
                 $value = ilUtil::stripSlashes($value);
                 $save_array[$key] = $value;
 
@@ -469,7 +469,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ro = new ilRadioOption($this->lng->txt("language_mode_existing_delete"), "delete");
         $ro->setInfo($this->lng->txt("language_mode_existing_delete_info"));
         $rg->addOption($ro);
-        $rg->setValue($this->getSession()["import"]["mode_existing"] ?: "keepall");
+        $rg->setValue($this->getSession()["import"]["mode_existing"] ?? "keepall");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -552,7 +552,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $rg->addOption($ro);
         }
 
-        $rg->setValue($this->getSession()["export"]["scope"] ?: "global");
+        $rg->setValue($this->getSession()["export"]["scope"] ?? "global");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -788,9 +788,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $row["all"] = count($this->object->getAllValues(array($module)));
             $row["changed"] = count($this->object->getChangedValues(array($module)));
             $row["unchanged"] = $row["all"] - $row["changed"];
-            $total["all"] += $row["all"];
-            $total["changed"] += $row["changed"];
-            $total["unchanged"] += $row["unchanged"];
+            isset($total["all"]) ? $total["all"] += $row["all"] : $total["all"] = $row["all"];
+            isset($total["changed"]) ? $total["changed"] += $row["changed"] : $total["changed"] = $row["changed"];
+            isset($total["unchanged"]) ? $total["unchanged"] += $row["unchanged"] : $total["unchanged"] = $row["unchanged"];
             $data[] = $row;
         }
         $total["module"] = "<b>" . $this->lng->txt("language_all_modules") . "</b>";
