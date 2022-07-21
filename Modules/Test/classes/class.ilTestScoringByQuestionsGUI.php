@@ -122,20 +122,18 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
                 foreach ($testResultData as $questionData) {
                     $feedback = [];
+                    $is_answered = (bool) ($questionData['answered'] ?? false);
+                    $finalized_evaluation = (bool) ($questionData['finalized_evaluation'] ?? false);
 
                     if (isset($complete_feedback[$active_id][$passNr - 1][$qst_id])) {
                         $feedback = $complete_feedback[$active_id][$passNr - 1][$qst_id];
                     }
 
-                    if (false == isset($feedback['finalized_evaluation'])) {
-                        $feedback['finalized_evaluation'] = "";
-                    }
-
                     $check_filter =
-                        ($finalized_filter != self::ONLY_FINALIZED || $feedback['finalized_evaluation'] == 1) &&
-                        ($finalized_filter != self::EXCEPT_FINALIZED || $feedback['finalized_evaluation'] != 1);
+                        ($finalized_filter != self::ONLY_FINALIZED || $finalized_evaluation) &&
+                        ($finalized_filter != self::EXCEPT_FINALIZED || !$finalized_evaluation);
 
-                    $check_answered = ($answered_filter == false || $questionData['answered']);
+                    $check_answered = $answered_filter == false || $is_answered;
 
                     if (
                         isset($questionData['qid']) &&
