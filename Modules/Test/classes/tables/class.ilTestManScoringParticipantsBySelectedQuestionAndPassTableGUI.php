@@ -173,10 +173,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         $this->tpl->setVariable('VAL_REACHED_POINTS', $a_set['reached_points']);
         $this->tpl->setVariable('VAL_MAX_POINTS', $a_set['maximum_points']);
-        $finalized = (isset($row['finalized_evaluation']) && $a_set['finalized_evaluation'] == 1);
+        $finalized = isset($row['finalized_evaluation']) && ((int) $a_set['finalized_evaluation']) === 1;
         $this->tpl->setVariable(
             'VAL_EVALUATED',
-            ($finalized) ? $this->lng->txt('yes') : $this->lng->txt('no')
+            $finalized ? $this->lng->txt('yes') : $this->lng->txt('no')
         );
         $fin_usr_id = $a_set['finalized_by_usr_id'] ?? null;
 
@@ -184,7 +184,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         if (is_numeric($fin_usr_id) && $fin_usr_id > 0) {
             $this->tpl->setVariable('VAL_FINALIZED_BY', ilObjUser::_lookupFullname($fin_usr_id));
         }
-        $fin_timestamp = $a_set['finalized_tstamp'];
+        $fin_timestamp = $a_set['finalized_tstamp'] ?? 0;
         if ($fin_timestamp > 0) {
             $time = new ilDateTime($fin_timestamp, 3);
             $this->tpl->setVariable('VAL_FINALIZED_ON', \ilDatePresentation::formatDate($time));
