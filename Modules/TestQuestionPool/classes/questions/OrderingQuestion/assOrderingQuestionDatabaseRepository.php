@@ -11,7 +11,7 @@ class assOrderingQuestionDatabaseRepository
     const TABLE_NAME_QUESTIONS = 'qpl_qst_ordering';
     const TABLE_NAME_ANSWERS = 'qpl_a_ordering';
 
-    protected \ilDBInterface $db;
+    protected $db;
 
     public function __construct(\ilDBInterface $db)
     {
