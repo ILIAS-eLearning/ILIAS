@@ -71,6 +71,7 @@ class ilServicesMainMenuTest extends TestCase
         $this->dic_mock['lng'] = $DIC['lng'] = $this->createMock(ilLanguage::class);
         $this->dic_mock['ui.factory'] = $DIC['ui.factory'] = $this->createMock(\ILIAS\UI\Factory::class);
         $this->dic_mock['ui.renderer'] = $DIC['ui.renderer'] = $this->createMock(\ILIAS\UI\Renderer::class);
+        $this->dic_mock['objDefinition'] = $DIC['objDefinition'] = $this->createMock(ilObjectDefinition::class);
     }
     
     protected function tearDown() : void
