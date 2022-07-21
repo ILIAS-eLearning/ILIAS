@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilADNDismiss
  * @author  Fabian Schmid <fs@studer-raimann.ch>

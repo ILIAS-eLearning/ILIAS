@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilADNAbstractGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>

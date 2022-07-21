@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjAdministrativeNotificationAccess
  * @author Fabian Schmid <fs@studer-raimann.ch>
