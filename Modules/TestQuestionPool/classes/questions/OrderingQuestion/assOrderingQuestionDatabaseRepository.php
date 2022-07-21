@@ -49,7 +49,7 @@ class assOrderingQuestionDatabaseRepository
     }
 
     /**
-     * @return ilAssOrderingElement[]
+     * @return \ilAssOrderingElement[]
      */
     protected function getOrderingElementsForList(int $question_id) : array
     {
