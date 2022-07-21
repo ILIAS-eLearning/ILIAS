@@ -897,6 +897,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         throw new ilTestException('question id does not relate to parent object!');
     }
+    
+    private function questionsTabGatewayObject()
+    {
+        if ($this->object->isRandomTest()) {
+            $this->ctrl->redirectByClass('ilTestRandomQuestionSetConfigGUI');
+        }
+        
+        $this->ctrl->redirectByClass('ilObjTestGUI', 'questions');
+    }
 
     private function userResultsGatewayObject()
     {
