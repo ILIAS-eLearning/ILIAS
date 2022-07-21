@@ -22,7 +22,7 @@ class ilAccountRegistrationGUI
     protected ilRegistrationSettings $registration_settings;
     protected bool $code_enabled = false;
     protected bool $code_was_used;
-    protected ilTermsOfServiceDocumentCriteriaEvaluation $termsOfServiceEvaluation;
+    protected ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation;
     protected ilRecommendedContentManager $recommended_content_manager;
 
     protected ?ilPropertyFormGUI $form = null;

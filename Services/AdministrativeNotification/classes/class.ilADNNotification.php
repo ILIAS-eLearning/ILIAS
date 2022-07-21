@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilADNNotification
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -465,7 +465,10 @@ class ilADNNotification extends ActiveRecord
     
     public function getTypeDuringEvent() : int
     {
-        return $this->type_during_event;
+        return in_array(
+            $this->type_during_event,
+            [self::TYPE_WARNING, self::TYPE_ERROR, self::TYPE_INFO]
+        ) ? $this->type_during_event : self::TYPE_INFO;
     }
     
     public function setDismissable(bool $dismissable) : void

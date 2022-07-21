@@ -68,7 +68,7 @@ class ilPasswordAssistanceGUI
         }
         $key = '';
         if ($this->http->wrapper()->query()->has('key')) {
-            $lang = $this->http->wrapper()->query()->retrieve(
+            $key = $this->http->wrapper()->query()->retrieve(
                 'key',
                 $this->refinery->kindlyTo()->string()
             );
@@ -270,7 +270,9 @@ class ilPasswordAssistanceGUI
         // Create a new session id
         // #9700 - this didn't do anything before?!
         // db_set_save_handler();
-        session_start();
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         $pwassist_session['pwassist_id'] = db_pwassist_create_id();
         session_destroy();
         db_pwassist_session_write(
@@ -368,6 +370,7 @@ class ilPasswordAssistanceGUI
         }
 
         // Retrieve the session, and check if it is valid
+        require_once 'include/inc.pwassist_session_handler.php';
         $pwassist_session = db_pwassist_session_read($pwassist_id);
         if (
             !is_array($pwassist_session) ||

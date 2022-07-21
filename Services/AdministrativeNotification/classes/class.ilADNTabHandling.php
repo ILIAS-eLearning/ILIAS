@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilADNTabHandling
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -57,8 +57,10 @@ class ilADNTabHandling
         // Help Screen-ID
         $this->help->setScreenIdComponent('adn');
         $this->help->setScreenId($tab);
-        $this->help->setSubScreenId($subtab);
-        
+        if (null !== $subtab) {
+            $this->help->setSubScreenId($subtab);
+        }
+
         if ($this->rbacsystem->checkAccess('visible,read', $this->ref_id)) {
             $this->tabs->addTab(
                 ilObjAdministrativeNotificationGUI::TAB_MAIN,

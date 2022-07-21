@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\Services;
@@ -274,8 +274,12 @@ class ilADNNotificationUIFormGUI
     
     protected function fillObject() : bool
     {
-        $this->notification = $this->form->getData();
-        return $this->notification instanceof ilADNNotification;
+        $data = $this->form->getData();
+        if (!$data instanceof ilADNNotification) {
+            return false;
+        }
+        $this->notification = $data;
+        return true;
     }
     
     public function saveObject() : bool
