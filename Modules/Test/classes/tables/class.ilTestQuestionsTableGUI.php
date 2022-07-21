@@ -40,11 +40,14 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     protected float $totalPoints = 0;
     protected string $totalWorkingTime = '';
     private int $position = 0;
+    private int $parent_ref_id;
 
     public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
     {
         $this->setId('tst_qst_lst_' . $parentRefId);
-        
+
+        $this->parent_ref_id = (int) $parentRefId;
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->setFormName('questionbrowser');
@@ -294,7 +297,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass(
             $target_class,
             'calling_test',
-            $this->parent_obj->getObject()->getRefId()
+            (string) $this->parent_ref_id
         );
         
         $link = $this->ctrl->getLinkTargetByClass($target_class, $cmd);
