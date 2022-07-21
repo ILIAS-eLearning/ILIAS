@@ -748,26 +748,23 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             foreach ($_POST['choice']['answer'] as $index => $answertext) {
                 $answertext = ilUtil::secureString($answertext);
 
-                if (isset($_POST['choice']['imagename'])) {
-                    $picturefile = $_POST['choice']['imagename'][$index];
-                    $file_org_name = $_FILES['choice']['name']['image'][$index];
-                    $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
+                $picturefile = $_POST['choice']['imagename'][$index] ?? '';
+                $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
+                $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
 
-                    if (strlen($file_temp_name)) {
-                        // check suffix
-                        $parts = explode(".", $file_org_name);
-                        $suffix = strtolower(array_pop($parts));
-                        if (in_array($suffix, array("jpg", "jpeg", "png", "gif"))) {
-                            // upload image
-                            $filename = $this->object->buildHashedImageFilename($file_org_name);
-                            if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
-                                $picturefile = $filename;
-                            }
+                if ($file_temp_name !== '') {
+                    // check suffix
+                    $parts = explode(".", $file_org_name);
+                    $suffix = strtolower(array_pop($parts));
+                    if (in_array($suffix, ["jpg", "jpeg", "png", "gif"])) {
+                        // upload image
+                        $filename = $this->object->buildHashedImageFilename($file_org_name);
+                        if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
+                            $picturefile = $filename;
                         }
                     }
-                } else {
-                    $picturefile = '';
                 }
+
                 $this->object->addAnswer(
                     $answertext,
                     $_POST['choice']['points'][$index],
