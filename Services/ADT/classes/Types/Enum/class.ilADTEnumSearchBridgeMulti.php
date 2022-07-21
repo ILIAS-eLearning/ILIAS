@@ -123,7 +123,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
                 }
             } else {
                 // #18028
-                return !(bool) count(array_diff($current, (array) $a_adt->getSelections()));
+                return !count(array_diff($current, (array) $a_adt->getSelections()));
             }
         }
         return false;

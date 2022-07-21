@@ -814,7 +814,7 @@ class ilAdvancedMDSettingsGUI
         // add items to delete
         foreach ($field_ids as $field_id) {
             $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
-            $c_gui->addItem("field_id[]", $field_id, $field->getTitle() ?: 'No Title');
+            $c_gui->addItem("field_id[]", (string) $field_id, $field->getTitle() ?: 'No Title');
         }
         $this->tpl->setContent($c_gui->getHTML());
     }

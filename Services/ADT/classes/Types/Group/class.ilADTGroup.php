@@ -114,7 +114,7 @@ class ilADTGroup extends ilADT
             foreach ($this->getElements() as $element_id => $element) {
                 if (!$element->isValid()) {
                     foreach ($element->getValidationErrors() as $error) {
-                        $this->addElementValidationError($element_id, $error);
+                        $this->addElementValidationError((string) $element_id, $error);
                     }
                     $valid = false;
                 }

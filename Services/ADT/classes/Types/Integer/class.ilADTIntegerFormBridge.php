@@ -40,7 +40,6 @@ class ilADTIntegerFormBridge extends ilADTFormBridge
         $max = $def->getMax();
         if ($max !== null) {
             $number->setMaxValue($max);
-
             $length = strlen(strval($max));
             $number->setSize($length);
             $number->setMaxLength($length);
@@ -50,18 +49,15 @@ class ilADTIntegerFormBridge extends ilADTFormBridge
         if ($suffix !== null) {
             $number->setSuffix($suffix);
         }
-
-        $number->setValue($this->getADT()->getNumber());
-
+        $number->setValue((string) $this->getADT()->getNumber());
         $this->addToParentElement($number);
     }
 
     public function importFromPost() : void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
-        $this->getADT()->setNumber($this->getForm()->getInput($this->getElementId()));
-
+        $this->getADT()->setNumber((int) $this->getForm()->getInput($this->getElementId()));
         $field = $this->getForm()->getItemByPostVar($this->getElementId());
-        $field->setValue($this->getADT()->getNumber());
+        $field->setValue((string) $this->getADT()->getNumber());
     }
 }

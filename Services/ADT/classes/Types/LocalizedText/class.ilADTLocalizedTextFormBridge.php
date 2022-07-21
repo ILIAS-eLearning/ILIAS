@@ -46,7 +46,7 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
             $text = '';
             
             if (array_key_exists($active_language, $languages)) {
-                $text = $languages[$active_languages];
+                $text = $languages[$active_language];
             }
             
             $this->addElementToForm(

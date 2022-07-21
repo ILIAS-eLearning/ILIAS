@@ -58,6 +58,13 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
         $this->afterUpdate();
     }
 
+    public function getAdditionalPrimaryFields() : array
+    {
+        return [
+            'value_index' => [ilDBConstants::T_TEXT, '']
+        ];
+    }
+
     /**
      *
      */

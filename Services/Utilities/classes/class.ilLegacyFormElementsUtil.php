@@ -240,7 +240,7 @@ class ilLegacyFormElementsUtil
             $sel_second .= "</select>\n";
             $sel_second = preg_replace("/(value\=\"$second\")/", "$1 selected=\"selected\"", $sel_second);
         }
-        $timeformat = $lng->text["lang_timeformat"];
+        $timeformat = ($lng->text["lang_timeformat"] ?? '');
         if (strlen($timeformat) == 0) {
             $timeformat = "H:i:s";
         }

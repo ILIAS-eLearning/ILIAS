@@ -79,6 +79,11 @@ abstract class ilADTDBBridge
         $this->primary = $a_value;
     }
 
+    public function getAdditionalPrimaryFields() : array
+    {
+        return [];
+    }
+
     /**
      * Get primary fields
      * @return array

@@ -1,5 +1,19 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ADT Active Record by type helper class
@@ -285,15 +299,23 @@ class ilADTActiveRecordByType
             foreach ($tmp as $table => $elements) {
                 foreach ($elements as $element_id => $fields) {
                     if (is_array($fields) && count($fields)) {
+                        $current_db_bridge = $this->findCurrentDBBridge($element_id);
                         if (isset($existing[$table][$element_id])) {
                             // update
-                            $primary = $this->properties->getPrimary();
+                            $primary = array_merge(
+                                $this->properties->getPrimary(),
+                                $current_db_bridge->getAdditionalPrimaryFields()
+                            );
                             $primary[$this->getElementIdColumn()] = array($this->element_column_type, $element_id);
                             $this->db->update($table, $fields, $primary);
                         } else {
                             // insert
                             $fields[$this->getElementIdColumn()] = array($this->element_column_type, $element_id);
-                            $fields = array_merge($this->properties->getPrimary(), $fields);
+                            $fields = array_merge(
+                                $this->properties->getPrimary(),
+                                $current_db_bridge->getAdditionalPrimaryFields(),
+                                $fields
+                            );
                             $this->db->insert($table, $fields);
                         }
                     }
@@ -326,6 +348,16 @@ class ilADTActiveRecordByType
                 }
             }
         }
+    }
+
+    protected function findCurrentDBBridge(int $element_id) : ?ilADTDBBridge
+    {
+        foreach ($this->properties->getElements() as $prop_element_id => $prop_element) {
+            if ($element_id === $prop_element_id) {
+                return $prop_element;
+            }
+        }
+        return null;
     }
 
     protected static function buildPartialPrimaryWhere(array $a_primary) : string

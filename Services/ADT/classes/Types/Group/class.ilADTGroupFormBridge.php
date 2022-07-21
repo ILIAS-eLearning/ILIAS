@@ -79,11 +79,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
                 if (is_array($parent)) {
                     $parent = $parent[0];
                 }
-                if (isset($adt_forms[$parent])) {
-                    $parent = $adt_forms[$parent];
-                } else {
-                    $parent = null;
-                }
+                $parent = $adt_forms[$parent] ?? null;
             }
             if ($element->shouldBeImportedFromPost($parent)) {
                 $element->importFromPost();
@@ -118,7 +114,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
             }
 
             foreach ($tmp as $element_id => $errors) {
-                $field = $this->getForm()->getItemByPostVar($element_id);
+                $field = $this->getForm()->getItemByPostVar((string) $element_id);
                 $field->setAlert(implode("<br />", $errors));
             }
 

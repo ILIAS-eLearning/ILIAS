@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -696,7 +697,7 @@ abstract class ilAdvancedMDFieldDefinition
 
         if ($a_permissions->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            (int) $this->getFieldId(),
+            (string) $this->getFieldId(),
             ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
             ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES
         )) {
