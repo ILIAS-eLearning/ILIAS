@@ -29,7 +29,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
 
     /**
      * ASS_AnswerBinaryState constructor
-     * The constructor takes possible arguments an creates an instance of the ASS_AnswerBinaryState object.
+     * The constructor takes possible arguments and creates an instance of the ASS_AnswerBinaryState object.
      * @param string  $answertext A string defining the answer text
      * @param double  $points     The number of points given for the selected answer
      * @param integer $order      A nonnegative value representing a possible display or sort order
