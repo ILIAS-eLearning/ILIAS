@@ -153,11 +153,6 @@ class ilMailOptions
         );
     }
 
-    public function getLinebreak(): int
-    {
-        return self::DEFAULT_LINE_BREAK;
-    }
-
     public function getSignature(): string
     {
         return $this->signature;
