@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -101,7 +100,7 @@ class ilCustomUserFieldsGUI
                 
         if ($this->getPermissions()->hasPermission(
             ilUDFPermissionHelper::CONTEXT_UDF,
-            $this->ref_id,
+            (string) $this->ref_id,
             ilUDFPermissionHelper::ACTION_UDF_CREATE_FIELD
         )) {
             $ilToolbar->addButton(
@@ -189,7 +188,7 @@ class ilCustomUserFieldsGUI
         if ($this->field_definition) {
             $perms = $this->permissions->hasPermissions(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
-                $this->field_definition["field_id"],
+                (string) $this->field_definition["field_id"],
                 array(
                     array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                         ilUDFPermissionHelper::SUBACTION_FIELD_TITLE)
@@ -497,7 +496,7 @@ class ilCustomUserFieldsGUI
             
             $perms = $this->permissions->hasPermissions(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
-                $this->field_id,
+                (string) $this->field_id,
                 array(
                     array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                         ilUDFPermissionHelper::SUBACTION_FIELD_TITLE)
@@ -634,7 +633,7 @@ class ilCustomUserFieldsGUI
         foreach ($fields as $id) {
             if (!$this->getPermissions()->hasPermission(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
-                $id,
+                (string) $id,
                 ilUDFPermissionHelper::ACTION_FIELD_DELETE
             )) {
                 $field = $user_field_definitions->getDefinition($id);
@@ -674,7 +673,7 @@ class ilCustomUserFieldsGUI
         foreach ($a_fields as $field_id => $definition) {
             $perms = $this->permissions->hasPermissions(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
-                $field_id,
+                (string) $field_id,
                 array(
                     array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
                         ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL)

@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -277,7 +291,7 @@ class ilAdvancedMDSettingsGUI
 
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_MD,
-            $this->ref_id,
+            (string) $this->ref_id,
             array(
                 ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD,
                 ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS
@@ -369,7 +383,7 @@ class ilAdvancedMDSettingsGUI
             if (in_array($obj_type, $this->permissions->getAllowedObjectTypes())) {
                 $perm = $this->getPermissions()->hasPermissions(
                     ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
-                    0,
+                    "0",
                     array(
                         ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_DESCRIPTION
                         ,
@@ -412,20 +426,20 @@ class ilAdvancedMDSettingsGUI
                 $old = $old_sub[$field_id];
 
                 $perm_def = $this->getSubstitutionFieldPermissions($obj_type, $field_id);
-                if ($perm_def["show"]) {
+                if ($perm_def["show"] ?? false) {
                     $active = (bool) $form->getInput('show_' . $obj_type . '_' . $field_id);
                 } else {
-                    $active = $old["active"];
+                    $active = $old["active"] ?? false;
                 }
                 if ($active) {
                     $new_sub[$field_id] = $old;
                     if ($perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FIELD_POSITIONS]) {
                         $new_sub[$field_id]['pos'] = (int) $form->getInput('position_' . $obj_type . '_' . $field_id);
                     }
-                    if ($perm_def["bold"]) {
+                    if ($perm_def["bold"] ?? false) {
                         $new_sub[$field_id]['bold'] = (bool) $form->getInput('bold_' . $obj_type . '_' . $field_id);
                     }
-                    if ($perm_def["newline"]) {
+                    if ($perm_def["newline"] ?? false) {
                         $new_sub[$field_id]['newline'] = (bool) $form->getInput('newline_' . $obj_type . '_' . $field_id);
                     }
                 }
@@ -462,7 +476,7 @@ class ilAdvancedMDSettingsGUI
         foreach ($record_ids as $record_id) {
             if (!$this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-                $record_id,
+                (string) $record_id,
                 ilAdvancedMDPermissionHelper::ACTION_RECORD_EXPORT
             )) {
                 $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
@@ -657,7 +671,7 @@ class ilAdvancedMDSettingsGUI
 
             if (!$this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-                $record_id,
+                (string) $record_id,
                 ilAdvancedMDPermissionHelper::ACTION_RECORD_DELETE
             )) {
                 $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
@@ -702,7 +716,7 @@ class ilAdvancedMDSettingsGUI
         foreach ($this->getParsedRecordObjects() as $item) {
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-                $item['id'],
+                (string) $item['id'],
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION
                     ,
@@ -821,7 +835,7 @@ class ilAdvancedMDSettingsGUI
         foreach ($field_ids as $field_id) {
             if (!$this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-                $field_id,
+                (string) $field_id,
                 ilAdvancedMDPermissionHelper::ACTION_FIELD_DELETE
             )) {
                 $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
@@ -875,7 +889,7 @@ class ilAdvancedMDSettingsGUI
 
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            $this->record->getRecordId(),
+            (string) $this->record->getRecordId(),
             array(
                 ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD
                 ,
@@ -962,7 +976,7 @@ class ilAdvancedMDSettingsGUI
 
         if ($this->getPermissions()->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            $record_id,
+            (string) $record_id,
             ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS
         )) {
             $positions_flipped = array_flip(array_keys($positions));
@@ -975,7 +989,7 @@ class ilAdvancedMDSettingsGUI
         foreach ($fields as $field) {
             if ($this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-                $field->getFieldId(),
+                (string) $field->getFieldId(),
                 ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                 ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE
             )) {
@@ -1388,7 +1402,7 @@ class ilAdvancedMDSettingsGUI
         }
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            $this->record->getRecordId(),
+            (string) $this->record->getRecordId(),
             array(
                 array(ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY,
                       ilAdvancedMDPermissionHelper::SUBACTION_RECORD_TITLE
@@ -1537,8 +1551,8 @@ class ilAdvancedMDSettingsGUI
                 $this->form->setTitle($this->lng->txt('md_adv_create_record'));
                 $this->form->addCommandButton('saveRecord', $this->lng->txt('add'));
                 $this->form->addCommandButton('showRecords', $this->lng->txt('cancel'));
+                break;
 
-                // no break
             case 'edit':
                 $this->form->setTitle($this->lng->txt('md_adv_edit_record'));
                 $this->form->addCommandButton('updateRecord', $this->lng->txt('save'));
@@ -1552,7 +1566,7 @@ class ilAdvancedMDSettingsGUI
         if ($a_obj_type == "crs") {
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_COURSE,
-                $a_field_id,
+                (string) $a_field_id,
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_COURSE_SHOW_FIELD
                     ,
@@ -1575,7 +1589,7 @@ class ilAdvancedMDSettingsGUI
         } elseif ($a_obj_type == "cat") {
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_CATEGORY,
-                $a_field_id,
+                (string) $a_field_id,
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_SHOW_FIELD
                     ,
@@ -1598,7 +1612,7 @@ class ilAdvancedMDSettingsGUI
         } elseif ($a_obj_type == "sess") {
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_SESSION,
-                $a_field_id,
+                (string) $a_field_id,
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_SHOW_FIELD
                     ,
@@ -1621,7 +1635,7 @@ class ilAdvancedMDSettingsGUI
         } elseif ($a_obj_type == "grp") {
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_GROUP,
-                $a_field_id,
+                (string) $a_field_id,
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_SHOW_FIELD
                     ,
@@ -1644,7 +1658,7 @@ class ilAdvancedMDSettingsGUI
         } elseif ($a_obj_type == "iass") {
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_IASS,
-                $a_field_id,
+                (string) $a_field_id,
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_SHOW_FIELD
                     ,
@@ -1667,7 +1681,7 @@ class ilAdvancedMDSettingsGUI
         } elseif ($a_obj_type == "exc") {
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_EXERCISE,
-                $a_field_id,
+                (string) $a_field_id,
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD
                     ,
@@ -1716,7 +1730,7 @@ class ilAdvancedMDSettingsGUI
             if (in_array($obj_type, $this->permissions->getAllowedObjectTypes())) {
                 $perm = $this->getPermissions()->hasPermissions(
                     ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
-                    $obj_type,
+                    (string) $obj_type,
                     array(
                         ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_DESCRIPTION
                         ,
@@ -1835,7 +1849,7 @@ class ilAdvancedMDSettingsGUI
 
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            $this->record->getRecordId(),
+            (string) $this->record->getRecordId(),
             array(
                 array(ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY,
                       ilAdvancedMDPermissionHelper::SUBACTION_RECORD_TITLE
@@ -2035,7 +2049,7 @@ class ilAdvancedMDSettingsGUI
 
             $tmp_arr['perm'] = $this->permissions->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-                $record->getRecordId(),
+                (string) $record->getRecordId(),
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT
                     ,

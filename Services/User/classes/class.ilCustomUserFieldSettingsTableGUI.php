@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -103,7 +102,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
         
         $perms = $this->permissions->hasPermissions(
             ilUDFPermissionHelper::CONTEXT_FIELD,
-            $field,
+            (string) $field,
             array(
                 ilUDFPermissionHelper::ACTION_FIELD_EDIT
                 ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
