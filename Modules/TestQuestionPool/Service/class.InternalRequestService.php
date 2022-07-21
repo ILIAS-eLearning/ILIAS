@@ -130,4 +130,20 @@ class InternalRequestService
     {
         return $this->http->request()->getParsedBody();
     }
+
+    /**
+     * @return int[]
+     */
+    public function getUnitIds() : array
+    {
+        return $this->intArray("unit_ids");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getUnitCategoryIds() : array
+    {
+        return $this->intArray("category_ids");
+    }
 }
