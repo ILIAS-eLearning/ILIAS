@@ -77,7 +77,7 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
             return $values;
         }
         
-        $storedImages = $values[ilMultipleImagesInputGUI::STORED_IMAGE_SUBFIELD_NAME];
+        $storedImages = $values[ilMultipleImagesInputGUI::STORED_IMAGE_SUBFIELD_NAME] ?? [];
         $actualValues = array();
             
         foreach ($values[ilMultipleImagesInputGUI::ITERATOR_SUBFIELD_NAME] as $index => $value) {

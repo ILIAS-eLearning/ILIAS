@@ -1242,7 +1242,7 @@ assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
 assessment#:#test_question_set_type_fixed_info#:#All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool.
 assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions
-assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools. 
+assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools.
 assessment#:#test_question_set_type_random#:#Use of a random set of questions
 assessment#:#test_question_set_type#:#Selection of Test Questions
 assessment#:#test_results#:#Summary Test Results
@@ -1743,6 +1743,10 @@ assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points_of_max#:#%s of %s
 assessment#:#tst_reached_points#:#Reached Points
+assessment#:#qst_use_nested_answers#:#Nested answers
+assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
+assessment#:#qst_nested_nested_answers_off#:#No indents, just order
+assessment#:#tab_nest_answers#:#Nesting
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
@@ -14420,7 +14424,7 @@ search#:#search_tst_svy#:#Tests/Surveys
 search#:#search_type#:#Type
 search#:#search_user_extended#:#Extended User Search
 search#:#search_user_search_form#:#Global User Search
-search#:#search_user_search_info_form#:#Users can be found in the global search. Furthermore, data in personal profiles of users is indexed if the Lucene fulltext search is enabled. 
+search#:#search_user_search_info_form#:#Users can be found in the global search. Furthermore, data in personal profiles of users is indexed if the Lucene fulltext search is enabled.
 search#:#search_users#:#Search Users
 search#:#search_user#:#Users
 search#:#select_orgu#:#Select Organisational Units

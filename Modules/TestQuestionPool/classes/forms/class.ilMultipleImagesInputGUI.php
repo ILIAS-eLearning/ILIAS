@@ -242,7 +242,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             foreach ($F['tmp_name'] as $index => $tmpname) {
                 $filename = $F['name'][$index];
                 $filename_arr = pathinfo($filename);
-                $suffix = $filename_arr["extension"];
+                $suffix = $filename_arr["extension"] ?? '';
                 $mimetype = $F['type'][$index];
                 $size_bytes = $F['size'][$index];
                 // check suffixes
@@ -258,7 +258,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         foreach ($F['tmp_name'] as $index => $tmpname) {
             $filename = $F['name'][$index];
             $filename_arr = pathinfo($filename);
-            $suffix = $filename_arr["extension"];
+            $suffix = $filename_arr["extension"] ?? '';
             $mimetype = $F['type'][$index];
             $size_bytes = $F['size'][$index];
             // virus handling
