@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\Modal\InterruptiveItem;

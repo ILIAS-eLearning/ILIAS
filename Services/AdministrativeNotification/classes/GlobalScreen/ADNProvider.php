@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\AdministrativeNotification\GlobalScreen;
 
 use ilADNNotification;
