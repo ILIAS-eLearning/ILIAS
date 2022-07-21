@@ -442,6 +442,7 @@ class ilSoapFunctions
     }
 
     /**
+     * @deprecated
      * @return bool|soap_fault|SoapFault|null
      */
     public static function distributeMails(string $sid, string $mail_xml)
