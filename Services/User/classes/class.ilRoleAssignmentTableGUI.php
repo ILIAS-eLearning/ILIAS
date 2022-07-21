@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,6 +23,8 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 {
     protected ilPathGUI $path_gui;
     protected array $filter; // Missing array type.
+
+    protected ilObjectDefinition $objectDefinition;
     
     public function __construct(
         object $a_parent_obj,
@@ -34,6 +35,8 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $rbacsystem = $DIC['rbacsystem'];
+        $this->objectDefinition = $DIC['objDefinition'];
+
 
         $lng->loadLanguageModule('rbac');
         $this->setId("usrroleass");
@@ -224,17 +227,26 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $obj_id = ilObject::_lookupObjId($ref_id);
         $title = ilObject::_lookupTitle($obj_id);
 
-        $list = ilObjectListGUIFactory::_getListGUIByType($type);
-        $list->initItem(
-            $ref_id,
-            $obj_id,
-            $type,
-            $title
-        );
+        if ($this->objectDefinition->isAdministrationObject($type)) {
+            return $this->lng->txt('obj_' . $type);
+        }
 
-        ilDatePresentation::setUseRelativeDates(false);
-        $title = $list->getTitle();
-        ilDatePresentation::resetToDefaults();
+        try {
+            $list = ilObjectListGUIFactory::_getListGUIByType($type);
+            $list->initItem(
+                $ref_id,
+                $obj_id,
+                $type,
+                $title
+            );
+
+            ilDatePresentation::setUseRelativeDates(false);
+            $title = $list->getTitle();
+            ilDatePresentation::resetToDefaults();
+            return $title;
+        } catch (ilObjectException $e) {
+            // could be an administration object
+        }
         return $title;
     }
 }

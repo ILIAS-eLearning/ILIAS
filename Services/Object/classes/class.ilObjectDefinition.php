@@ -810,6 +810,9 @@ class ilObjectDefinition
      */
     public function isAdministrationObject(string $obj_name) : bool
     {
+        if (!isset($this->obj_data[$obj_name])) {
+            return false;
+        }
         return (bool) $this->obj_data[$obj_name]['administration'];
     }
     

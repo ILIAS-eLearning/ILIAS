@@ -39,6 +39,7 @@ class ilPathGUI
 
     protected ilLanguage $lng;
     protected ilTree $tree;
+    protected ilObjectDefinition $objectDefinition;
 
     /**
      * Constructor
@@ -51,6 +52,7 @@ class ilPathGUI
         $this->endnode = (int) ROOT_FOLDER_ID;
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
+        $this->objectDefinition = $DIC['objDefinition'];
     }
 
     /**
@@ -217,6 +219,10 @@ class ilPathGUI
 
     protected function buildTitle(int $a_obj_id) : string
     {
+        $type = ilObject::_lookupType($a_obj_id);
+        if ($this->objectDefinition->isAdministrationObject($type)) {
+            return $this->lng->txt('obj_' . $type);
+        }
         return ilObject::_lookupTitle($a_obj_id);
     }
 

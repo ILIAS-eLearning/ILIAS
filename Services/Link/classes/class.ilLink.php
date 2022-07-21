@@ -35,6 +35,7 @@ class ilLink
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
+        $objDefinition = $DIC['objDefinition'];
 
         if ($a_type === '' && !is_null($a_ref_id)) {
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
@@ -44,6 +45,11 @@ class ilLink
             foreach ($a_params as $name => $value) {
                 $param_string .= ('&' . $name . '=' . $value);
             }
+        }
+
+        // workaround for administration links
+        if ($objDefinition->isAdministrationObject($a_type)) {
+            return ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilAdministrationGUI&cmd=jump&ref_id=' . $a_ref_id;
         }
         switch ($a_type) {
             case 'git':
