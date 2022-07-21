@@ -3459,14 +3459,18 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Calculates the results of a test for a given user
-    * and returns an array with all test results
-    *
-    * @return array An array containing the test results for the given user
-    * @access public
-    */
-    public function &getTestResult($active_id, $pass = null, $ordered_sequence = false, $considerHiddenQuestions = true, $considerOptionalQuestions = true) : array
-    {
+     * Calculates the results of a test for a given user
+     * and returns an array with all test results
+     *
+     * @return array An array containing the test results for the given user
+     */
+    public function &getTestResult(
+        $active_id,
+        $pass = null,
+        bool $ordered_sequence = false,
+        bool $considerHiddenQuestions = true,
+        bool $considerOptionalQuestions = true
+    ) : array {
         global $DIC;
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
@@ -3580,26 +3584,26 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $percentvalue = 0.0;
             }
             
-            $data = array(
+            $data = [
                 "nr" => "$key",
                 "title" => ilLegacyFormElementsUtil::prepareFormOutput($row['title']),
                 "max" => round($row['points'], 2),
-                "reached" => round($arrResults[$row['question_id']]['reached'], 2),
-                'requested_hints' => $arrResults[$row['question_id']]['requested_hints'],
-                'hint_points' => $arrResults[$row['question_id']]['hint_points'],
+                "reached" => round($arrResults[$row['question_id']]['reached'] ?? 0, 2),
+                'requested_hints' => $arrResults[$row['question_id']]['requested_hints'] ?? 0,
+                'hint_points' => $arrResults[$row['question_id']]['hint_points'] ?? 0,
                 "percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
                 "solution" => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
                 "type" => $row["type_tag"],
                 "qid" => $row['question_id'],
                 "original_id" => $row["original_id"],
                 "workedthrough" => isset($arrResults[$row['question_id']]) ? 1 : 0,
-                'answered' => $arrResults[$row['question_id']]['answered']
-            );
-            
-            if (!$arrResults[ $row['question_id'] ]['answered']) {
+                'answered' => $arrResults[$row['question_id']]['answered'] ?? 0
+            ];
+
+            if (!isset($arrResults[ $row['question_id'] ]['answered']) || !$arrResults[ $row['question_id'] ]['answered']) {
                 $obligationsAnswered = false;
             }
-            
+
             $unordered[ $row['question_id'] ] = $data;
             
             $key++;
