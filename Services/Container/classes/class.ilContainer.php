@@ -885,46 +885,11 @@ class ilContainer extends ilObject
     {
         global $DIC;
 
-        $ilSetting = $DIC->settings();
-        $ilObjDataCache = $DIC["ilObjDataCache"];
-
-        // using long descriptions?
-        $short_desc = $ilSetting->get("rep_shorten_description");
-        $short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
-        if (!$short_desc || (int) $short_desc_max_length !== ilObject::DESC_LENGTH) {
-            // using (part of) shortened description
-            if ($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::DESC_LENGTH) {
-                foreach ($objects as $key => $object) {
-                    $objects[$key]["description"] = ilStr::shortenTextExtended(
-                        $object["description"],
-                        (int) $short_desc_max_length,
-                        true
-                    );
-                }
-            }
-            // using (part of) long description
-            else {
-                $obj_ids = [];
-                foreach ($objects as $key => $object) {
-                    $obj_ids[] = $object["obj_id"];
-                }
-                if (count($obj_ids)) {
-                    $long_desc = ilObject::getLongDescriptions($obj_ids);
-                    foreach ($objects as $key => $object) {
-                        // #12166 - keep translation, ignore long description
-                        if ($ilObjDataCache->isTranslatedDescription((int) $object["obj_id"])) {
-                            $long_desc[$object["obj_id"]] = $object["description"];
-                        }
-                        if ($short_desc && $short_desc_max_length) {
-                            $long_desc[$object["obj_id"]] = ilStr::shortenTextExtended(
-                                $long_desc[$object["obj_id"]] ?? '',
-                                (int) $short_desc_max_length,
-                                true
-                            );
-                        }
-                        $objects[$key]["description"] = $long_desc[$object["obj_id"]];
-                    }
-                }
+        $short_desc = $DIC->settings()->get("rep_shorten_description");
+        $short_desc_max_length = $DIC->settings()->get("rep_shorten_description_length");
+        if ($short_desc && $short_desc_max_length !== false) {
+            foreach ($objects as $key => $object) {
+                $objects[$key]["description"] = ilStr::shortenTextExtended($object["description"], (int) $short_desc_max_length, true);
             }
         }
         return $objects;
