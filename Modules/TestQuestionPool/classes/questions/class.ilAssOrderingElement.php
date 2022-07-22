@@ -378,9 +378,9 @@ class ilAssOrderingElement
         }
     }
     
-    public function __toString()
+    public function __toString() : string
     {
-        return $this->getContent();
+        return $this->getContent() ?? '';
     }
     
     protected function thumbnailFileExists() : bool
