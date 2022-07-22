@@ -2,9 +2,6 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\DI\Container;
-use ILIAS\ResourceStorage\Preloader\SecureString;
-
 include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 /**
@@ -16,7 +13,10 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
  */
 class ilObjFileListGUI extends ilObjectListGUI
 {
-    use SecureString;
+    use ilObjFileSecureString;
+    
+    protected $title = '';
+    
     /**
      * initialisation
      */
@@ -84,7 +84,8 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function getTitle()
     {
         // Remove filename extension from title
-        return $this->secure(preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title));
+        $string = preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title);
+        return $this->secure(is_string($string) ? $string : '');
     }
 
 

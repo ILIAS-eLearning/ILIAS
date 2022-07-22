@@ -8,7 +8,6 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
-use ILIAS\ResourceStorage\Preloader\SecureString;
 
 /**
  * Class ilObjFile
@@ -23,7 +22,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     use ilObjFileUsages;
     use ilObjFilePreviewHandler;
     use ilObjFileNews;
-    use SecureString;
+    use ilObjFileSecureString;
 
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
@@ -425,8 +424,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $q = "SELECT * FROM file_data WHERE file_id = %s";
         $r = $DIC->database()->queryF($q, ['integer'], [$this->getId()]);
         $row = $r->fetchObject();
-
-        $this->setFileName($this->secure($row->file_name));
+    
+        $this->setFileName($this->secure($row->file_name ?? ''));
         $this->setFileType($row->file_type);
         $this->setFileSize($row->file_size);
         $this->setVersion($row->version ? $row->version : 1);
