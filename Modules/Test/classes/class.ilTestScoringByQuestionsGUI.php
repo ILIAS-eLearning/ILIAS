@@ -299,9 +299,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
             $this->tpl->setOnScreenMessage('success', $msg, true);
 
-            if (isset($active_id)) {
-                $correction_feedback = $this->object->getSingleManualFeedback($active_id, $qst_id, $pass);
-                $correction_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
+            if (isset($active_id) && $lastAndHopefullyCurrentQuestionId) {
+                $correction_feedback = ilObjTest::getSingleManualFeedback($active_id, $lastAndHopefullyCurrentQuestionId, $pass);
+                $correction_points = assQuestion::_getReachedPoints($active_id, $lastAndHopefullyCurrentQuestionId, $pass);
             }
         }
 
@@ -322,11 +322,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             } else {
                 $correction_feedback['finalized_evaluation'] = $this->lng->txt('no');
             }
+
             echo json_encode([ 'feedback' => $correction_feedback, 'points' => $correction_points, "translation" => ['yes' => $this->lng->txt('yes'), 'no' => $this->lng->txt('no')]]);
-            exit();
-        } else {
-            $this->showManScoringByQuestionParticipantsTable();
         }
+
+        $this->showManScoringByQuestionParticipantsTable();
     }
 
     /**
