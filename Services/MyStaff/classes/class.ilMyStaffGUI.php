@@ -159,9 +159,10 @@ class ilMyStaffGUI
         global $DIC;
 
         if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
+            $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
             $lp_icon = $DIC->ui()->factory()->image()
                            ->standard(
-                               ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()),
+                               $lp_icons->getImagePathForStatus($my_staff_course->getUsrLpStatus()),
                                ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()))
                            );
 

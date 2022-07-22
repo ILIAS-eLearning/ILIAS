@@ -142,10 +142,13 @@ class ilExAssignmentGUI
         $tpl->setVariable("TITLE", $a_ass->getTitle() . $mand);
 
         // status icon
-        $stat = $a_ass->getMemberStatus()->getStatus();
-        $pic = $a_ass->getMemberStatus()->getStatusIcon();
-        $tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
-        $tpl->setVariable("ALT_STATUS", $lng->txt("exc_" . $stat));
+        $tpl->setVariable(
+            "ICON_STATUS",
+            $this->getIconForStatus(
+                $a_ass->getMemberStatus()->getStatus(),
+                ilLPStatusIcons::ICON_VARIANT_SHORT
+            )
+        );
 
         return $tpl->get();
     }
@@ -428,9 +431,7 @@ class ilExAssignmentGUI
             }
 
             if ($status != "" && $status != "notgraded") {
-                $img = '<img src="' . ilUtil::getImagePath("scorm/" . $status . ".svg") . '" ' .
-                    ' alt="' . $lng->txt("exc_" . $status) . '" title="' . $lng->txt("exc_" . $status) .
-                    '" />';
+                $img = $this->getIconForStatus($status);
                 $a_info->addProperty(
                     $lng->txt("status"),
                     $img . " " . $lng->txt("exc_" . $status)
@@ -510,5 +511,34 @@ class ilExAssignmentGUI
         }
         
         return $url;
+    }
+
+    /**
+     * Get the rendered icon for a status (failed, passed or not graded).
+     */
+    protected function getIconForStatus(string $status, int $variant = ilLPStatusIcons::ICON_VARIANT_LONG) : string
+    {
+        $icons = ilLPStatusIcons::getInstance($variant);
+        $lng = $this->lng;
+
+        switch ($status) {
+            case "passed":
+                return $icons->renderIcon(
+                    $icons->getImagePathCompleted(),
+                    $lng->txt("exc_" . $status)
+                );
+
+            case "failed":
+                return $icons->renderIcon(
+                    $icons->getImagePathFailed(),
+                    $lng->txt("exc_" . $status)
+                );
+
+            default:
+                return $icons->renderIcon(
+                    $icons->getImagePathNotAttempted(),
+                    $lng->txt("exc_" . $status)
+                );
+        }
     }
 }

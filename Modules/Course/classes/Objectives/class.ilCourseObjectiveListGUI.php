@@ -123,14 +123,18 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         $this->lng->loadLanguageModule('trac');
         $this->tpl->setCurrentBlock('item_progress');
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         switch (ilCourseObjectiveResultCache::getStatus(
             $this->user->getId(),
             $this->getContainerObject()->object->getId()
         )) {
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_status'));
-                $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/not_attempted.svg'));
-                $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_no_attempted'));
+                $this->tpl->setVariable(
+                    'PROGRESS_ICON',
+                    $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
+                );
                 break;
 
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST:
@@ -141,11 +145,15 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
                     $this->getContainerObject()->object->getId(),
                     $this->obj_id
                 )) {
-                    $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.svg'));
-                    $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_failed'));
+                    $this->tpl->setVariable(
+                        'PROGRESS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
+                    );
                 } else {
-                    $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/passed.svg'));
-                    $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_passed'));
+                    $this->tpl->setVariable(
+                        'PROGRESS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
+                    );
                 }
                 break;
 
@@ -157,11 +165,15 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
                     $this->getContainerObject()->object->getId(),
                     $this->obj_id
                 )) {
-                    $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.svg'));
-                    $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_failed'));
+                    $this->tpl->setVariable(
+                        'PROGRESS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
+                    );
                 } else {
-                    $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/passed.svg'));
-                    $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_passed'));
+                    $this->tpl->setVariable(
+                        'PROGRESS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
+                    );
                 }
                 break;
 

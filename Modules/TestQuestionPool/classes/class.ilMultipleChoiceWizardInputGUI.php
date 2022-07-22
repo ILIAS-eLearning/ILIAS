@@ -19,7 +19,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index);
+                    $answer = new ASS_AnswerMultipleResponseImage($value, (float) $a_value['points'][$index], $index);
                     $answer->setPointsChecked($a_value['points'][$index]);
                     $answer->setPointsUnchecked($a_value['points_unchecked'][$index]);
                     if (isset($a_value['imagename'])) {

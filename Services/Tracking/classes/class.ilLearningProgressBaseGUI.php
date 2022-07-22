@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
@@ -320,41 +334,8 @@ class ilLearningProgressBaseGUI
     }
 
     /**
-     * Get image path for status
-     * @param string|int
-     * @return string
-     * @todo separate string int
-     */
-    public static function _getImagePathForStatus($a_status) : string
-    {
-        // constants are either number or string, so make comparison string-based
-        switch ($a_status) {
-            case ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
-            case ilLPStatus::LP_STATUS_IN_PROGRESS:
-            case ilLPStatus::LP_STATUS_REGISTERED:
-                return ilUtil::getImagePath('scorm/incomplete.svg');
-
-            case ilLPStatus::LP_STATUS_COMPLETED_NUM:
-            case ilLPStatus::LP_STATUS_COMPLETED:
-            case ilLPStatus::LP_STATUS_PARTICIPATED:
-                return ilUtil::getImagePath('scorm/complete.svg');
-
-            case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
-            case ilLPStatus::LP_STATUS_NOT_PARTICIPATED:
-            case ilLPStatus::LP_STATUS_NOT_REGISTERED:
-                return ilUtil::getImagePath('scorm/not_attempted.svg');
-
-            case ilLPStatus::LP_STATUS_FAILED_NUM:
-            case ilLPStatus::LP_STATUS_FAILED:
-                return ilUtil::getImagePath('scorm/failed.svg');
-
-            default:
-                return ilUtil::getImagePath('scorm/not_attempted.svg');
-        }
-    }
-
-    /**
      * Get status alt text
+     * @todo Move this to a factory.
      */
     public static function _getStatusText(
         int $a_status,
@@ -445,16 +426,16 @@ class ilLearningProgressBaseGUI
         );
 
         if (ilObjectLP::isSupportedObjectType($type)) {
-            $status = $this->__readStatus($item_id, $user_id);
-            $status_path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                $status
-            );
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
             $status_text = ilLearningProgressBaseGUI::_getStatusText(
                 ilLPStatus::_lookupStatus($item_id, $user_id)
             );
             $info->addProperty(
                 $this->lng->txt('trac_status'),
-                ilUtil::img($status_path, $status_text) . " " . $status_text
+                $icons->renderIconForStatus(ilLPStatus::_lookupStatus($item_id, $user_id)) .
+                    " " .
+                    $status_text
             );
 
             // status
@@ -576,8 +557,10 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __getLegendHTML() : string
+    public function __getLegendHTML(int $variant = ilLPStatusIcons::ICON_VARIANT_LONG) : string
     {
+        $icons = ilLPStatusIcons::getInstance($variant);
+
         $tpl = new ilTemplate(
             "tpl.lp_legend.html",
             true,
@@ -586,19 +569,19 @@ class ilLearningProgressBaseGUI
         );
         $tpl->setVariable(
             "IMG_NOT_ATTEMPTED",
-            ilUtil::getImagePath("scorm/not_attempted.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
         );
         $tpl->setVariable(
             "IMG_IN_PROGRESS",
-            ilUtil::getImagePath("scorm/incomplete.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
         );
         $tpl->setVariable(
             "IMG_COMPLETED",
-            ilUtil::getImagePath("scorm/completed.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
         );
         $tpl->setVariable(
             "IMG_FAILED",
-            ilUtil::getImagePath("scorm/failed.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
         );
         $tpl->setVariable(
             "TXT_NOT_ATTEMPTED",

@@ -97,16 +97,14 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 );
             }
 
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+
             foreach ($this->status as $status) {
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                    $status
-                );
-                $text = ilLearningProgressBaseGUI::_getStatusText($status);
-                $icon = ilUtil::img($path, $text);
+                $icon = $icons->renderIconForStatus($status);
 
                 foreach ($this->types as $type) {
                     if ($type != "avg") {
-                        $caption = $icon . $this->lng->txt(
+                        $caption = $icon . " " . $this->lng->txt(
                             "trac_object_stat_lp_" . $type
                         );
                     } else {
@@ -440,19 +438,18 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             }
         }
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         // add captions
         foreach (array_keys($data) as $figure) {
             $status = substr($figure, 0, -4);
             $type = substr($figure, -3);
 
             if ($status != "mem_cnt") {
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                    (int) $status
-                );
                 $text = ilLearningProgressBaseGUI::_getStatusText(
                     (int) $status
                 );
-                $icon = ilUtil::img($path, $text);
+                $icon = $icons->renderIconForStatus((int) $status);
                 $text = $icon . " " . $text;
             } else {
                 $text = $this->lng->txt("members");
