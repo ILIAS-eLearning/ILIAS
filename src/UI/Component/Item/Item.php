@@ -21,7 +21,7 @@ namespace ILIAS\UI\Component\Item;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link\Link;
-use ILIAS\UI\Component\Dropdown\Standard;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * Common interface to all items.
@@ -48,13 +48,13 @@ interface Item extends Component
      * Get a new item with the given properties as key-value pairs.
      * The key is holding the title and the value is holding the content of the
      * specific data set.
-     * @param array<string,string|Shy> $properties Label => Content
+     * @param array<string,string|Shy|Icon> $properties Label => Content
      */
     public function withProperties(array $properties) : Item;
 
     /**
      * Get the properties of the appointment.
-     * @return array<string,string|Shy>		Title => Content
+     * @return array<string,string|Shy|Icon>		Title => Content
      */
     public function getProperties() : array;
 }

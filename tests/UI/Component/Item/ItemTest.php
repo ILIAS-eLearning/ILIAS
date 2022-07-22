@@ -549,7 +549,7 @@ EOT;
         );
     }
 
-    public function test_shy_title_and_property() : void
+    public function test_shy_title_and_various_properties() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -558,32 +558,50 @@ EOT;
         $df->color('#ff00ff');
 
         $c = $f->standard(new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"))
-            ->withProperties(array("test" => new I\Component\Button\Shy("GitHub", "https://www.github.com")));
+            ->withProperties([
+                "Property Text" => "Text",
+                "Property HTML" => "<a>Link</a>",
+                "Property Shy" => new I\Component\Button\Shy("GitHub", "https://www.github.com"),
+                "Property Icon" => new I\Component\Symbol\Icon\Standard("name", "aria_label", "small", false)
+            ]);
 
-        $html = $r->render($c);
-        $expected = <<<EOT
+        $html = $this->brutallyTrimHTML($r->render($c));
+        $expected = $this->brutallyTrimHTML(<<<EOT
 <div class="il-item il-std-item ">
-			<div class="il-item-title"><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button></div>
-
-			<hr class="il-item-divider" />
-			<div class="row">
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-sm-5 col-lg-4 il-item-property-name">test</div>
-						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_2"  >GitHub</button></div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-sm-5 col-lg-4 il-item-property-name"></div>
-						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"></div>
-					</div>
-				</div>
-			</div>
+   <div class="il-item-title"><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></div>
+   <hr class="il-item-divider" />
+   <div class="row">
+      <div class="col-md-6">
+         <div class="row">
+            <div class="col-sm-5 col-lg-4 il-item-property-name">Property Text</div>
+            <div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">Text</div>
+         </div>
+      </div>
+      <div class="col-md-6">
+         <div class="row">
+            <div class="col-sm-5 col-lg-4 il-item-property-name">Property HTML</div>
+            <div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><a>Link</a></div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-6">
+         <div class="row">
+            <div class="col-sm-5 col-lg-4 il-item-property-name">Property Shy</div>
+            <div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></div>
+         </div>
+      </div>
+      <div class="col-md-6">
+         <div class="row">
+            <div class="col-sm-5 col-lg-4 il-item-property-name">Property Icon</div>
+            <div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label"/></div>
+         </div>
+      </div>
+   </div>
 </div>
-EOT;
+EOT);
 
-        $this->assertHTMLEquals($expected, $html);
+        $this->assertEquals($expected, $html);
     }
 
     public function test_link_title() : void
