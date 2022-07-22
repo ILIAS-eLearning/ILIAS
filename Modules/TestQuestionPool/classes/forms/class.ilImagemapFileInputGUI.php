@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-
 /**
 * This class represents an image map file property in a property form.
 *
@@ -25,8 +23,6 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 * @version $Id$
 * @ingroup	ServicesForm
 */
-include_once "./Services/Form/classes/class.ilImageFileInputGUI.php";
-
 class ilImagemapFileInputGUI extends ilImageFileInputGUI
 {
     protected $areas = array();
@@ -99,7 +95,6 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     {
         if (is_array($a_areas['name'])) {
             $this->areas = array();
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
             foreach ($a_areas['name'] as $idx => $name) {
                 if ($this->getPointsUncheckedFieldEnabled() && isset($a_areas['points_unchecked'])) {
                     $pointsUnchecked = $a_areas['points_unchecked'][$idx];
@@ -151,6 +146,18 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         parent::setValue($a_value);
     }
 
+    public function getInput() : array
+    {
+        return parent::getInput();
+    }
+    
+    private function getPostBody() : array
+    {
+        $val = $this->arrayArray($this->getPostVar());
+        $val = ilArrayUtil::stripSlashesRecursive($val);
+        return $val;
+    }
+
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
@@ -160,9 +167,6 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        }
         // remove trailing '/'
         $_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
 
@@ -232,19 +236,26 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
             }
         }
         
+        $post_body = $this->getPostBody();
+        
         $max = 0;
-        if (isset($_POST[$this->getPostVar()]['coords']) && is_array($_POST[$this->getPostVar()]['coords']['name'])) {
-            foreach ($_POST[$this->getPostVar()]['coords']['name'] as $idx => $name) {
-                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired())) {
+        if (isset($post_body['coords']) && is_array($post_body['coords']['name'])) {
+            foreach ($post_body['coords']['name'] as $idx => $name) {
+                if ($this->getRequired() && (
+                    !isset($post_body['coords']['points'][$idx]) ||
+                    $post_body['coords']['points'][$idx] == ''
+                )) {
                     $this->setAlert($lng->txt('form_msg_area_missing_points'));
                     return false;
                 }
-                if ((!is_numeric($_POST[$this->getPostVar()]['coords']['points'][$idx]))) {
+
+                if ((!is_numeric($post_body['coords']['points'][$idx]))) {
                     $this->setAlert($lng->txt('form_msg_numeric_value_required'));
                     return false;
                 }
-                if ($_POST[$this->getPostVar()]['coords']['points'][$idx] > 0) {
-                    $max = $_POST[$this->getPostVar()]['coords']['points'][$idx];
+
+                if ($post_body['coords']['points'][$idx] > 0) {
+                    $max = $post_body['coords']['points'][$idx];
                 }
             }
         }
@@ -277,7 +288,6 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
             }
             $template->setCurrentBlock("image");
             if (count($this->getAreas())) {
-                include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
                 $preview = new ilImagemapPreview($this->getImagePath() . $this->getValue());
                 foreach ($this->getAreas() as $index => $area) {
                     $preview->addArea($index, $area->getArea(), $area->getCoords(), $area->getAnswertext(), "", "", true, $this->getLineColor());
