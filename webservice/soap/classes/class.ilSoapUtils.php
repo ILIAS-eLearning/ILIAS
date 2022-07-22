@@ -40,6 +40,7 @@ class ilSoapUtils extends ilSoapAdministration
     }
 
     /**
+     * @deprecated
      * @return bool|soap_fault|SoapFault|null
      */
     public function distributeMails(string $sid, string $a_mail_xml)
