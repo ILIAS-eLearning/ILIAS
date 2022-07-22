@@ -9688,6 +9688,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $component_repository = $DIC['component.repository'];
 
+        if (!$component_repository->getComponentByTypeAndName(
+            ilComponentInfo::TYPE_MODULES,
+            'TestQuestionPool'
+        )->getPluginSlotById('qst')->hasPluginName($a_pname)) {
+            return false;
+        }
+
         return $component_repository
             ->getComponentByTypeAndName(
                 ilComponentInfo::TYPE_MODULES,

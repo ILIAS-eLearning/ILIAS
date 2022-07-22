@@ -129,6 +129,13 @@ class ilAssQuestionType
         }
 
         // Plugins MAY overwrite this method an report back their activation status
+        if (!$this->component_repository->getComponentByTypeAndName(
+            ilComponentInfo::TYPE_MODULES,
+            'TestQuestionPool'
+        )->getPluginSlotById('qst')->hasPluginName($this->getPluginName())) {
+            return false;
+        }
+
         return $this->component_repository
             ->getComponentByTypeAndName(
                 ilComponentInfo::TYPE_MODULES,

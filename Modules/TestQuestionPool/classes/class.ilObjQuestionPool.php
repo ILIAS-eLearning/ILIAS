@@ -1534,10 +1534,17 @@ class ilObjQuestionPool extends ilObject
     public function isPluginActive($questionType) : bool
     {
         global $DIC;
-        /** @var ilComponentRepository $component_factory */
-        $component_factory = $DIC['component.factory'];
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC['component.repository'];
 
-        return  $component_factory
+        if (!$component_repository->getComponentByTypeAndName(
+            ilComponentInfo::TYPE_MODULES,
+            'TestQuestionPool'
+        )->getPluginSlotById('qst')->hasPluginName($questionType)) {
+            return false;
+        }
+
+        return  $component_repository
             ->getComponentByTypeAndName(
                 ilComponentInfo::TYPE_MODULES,
                 'TestQuestionPool'
