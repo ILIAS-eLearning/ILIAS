@@ -969,7 +969,7 @@ class ilObjTestGUI extends ilObjectGUI
     {
         switch ($this->object->getQuestionSetType()) {
             case ilObjTest::QUESTION_SET_TYPE_FIXED:
-                $this->ctrl->redirectByClass('ilTestExpressPageObjectGUI', 'showPage');
+                $this->ctrl->redirectByClass('ilObjTestGUI', 'questions');
 
                 // no break
             case ilObjTest::QUESTION_SET_TYPE_RANDOM:
