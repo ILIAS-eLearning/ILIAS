@@ -221,7 +221,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             
             // check for existing test result data
             if (!$this->object->getTestResult($active_id, $pass)) {
-                if (false == isset($skipParticipant[$pass])) {
+                if (!isset($skipParticipant[$pass])) {
                     $skipParticipant[$pass] = [];
                 }
                 $skipParticipant[$pass][$active_id] = true;
@@ -230,10 +230,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             }
             
             foreach ((array) $questions as $qst_id => $reached_points) {
-                if (false == isset($manPointsPost[$pass])) {
+                if (!isset($manPointsPost[$pass])) {
                     $manPointsPost[$pass] = [];
                 }
-                if (false == isset($manPointsPost[$pass][$active_id])) {
+                if (!isset($manPointsPost[$pass][$active_id])) {
                     $manPointsPost[$pass][$active_id] = [];
                 }
                 $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
@@ -252,8 +252,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         foreach ($participantData->getActiveIds() as $active_id) {
             $questions = $activeData[$active_id];
             $update_participant = false;
-            
-            if (false == $skipParticipant[$pass][$active_id]) {
+            $qst_id = null;
+
+            if (!($skipParticipant[$pass][$active_id] ?? false)) {
                 foreach ((array) $questions as $qst_id => $reached_points) {
                     $this->saveFeedback($active_id, $qst_id, $pass, $ajax);
                     $update_participant = assQuestion::_setReachedPoints(
