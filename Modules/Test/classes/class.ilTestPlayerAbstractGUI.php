@@ -288,7 +288,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $button->setId('bottomnextbutton');
 
         $this->tpl->setCurrentBlock("next_bottom");
-        $this->tpl->setVariable("BTN_NEXT", $button->render());
+        $this->tpl->setVariable("BTN_NEXT_BOTTOM", $button->render());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -308,7 +308,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $button->setId('bottomprevbutton');
 
         $this->tpl->setCurrentBlock("prev_bottom");
-        $this->tpl->setVariable("BTN_PREV", $button->render());
+        $this->tpl->setVariable("BTN_PREV_BOTTOM", $button->render());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -1550,11 +1550,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $sideListActive = $ilUser->getPref('side_list_of_questions');
 
         if ($sideListActive) {
-            $this->tpl->addCss(
-                ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"),
-                "screen"
-            );
-
             $questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, false);
 
             require_once 'Modules/Test/classes/class.ilTestQuestionSideListGUI.php';
