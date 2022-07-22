@@ -165,7 +165,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $post = $_POST;
         $this->object->setThumbGeometry($post["thumb_geometry"]);
-         $this->object->setPoints($post["points"]);
+        $this->object->setPoints($post["points"]);
 
         $use_nested = (bool) $post[self::F_USE_NESTED];
         $this->object->setNestingType($use_nested);
@@ -261,10 +261,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->writeAnswerSpecificPostData($form);
         $this->writeQuestionSpecificPostData($form);
 
-            return 0; // return 0 = all fine, was saved either forced or validated
-        }
+        return 0; // return 0 = all fine, was saved either forced or validated
+    }
 
-        protected function addEditSubtabs($active = self::TAB_EDIT_QUESTION)
+    protected function addEditSubtabs($active = self::TAB_EDIT_QUESTION)
     {
         $tabs = $this->getTabs();
         $tabs->addSubTab(

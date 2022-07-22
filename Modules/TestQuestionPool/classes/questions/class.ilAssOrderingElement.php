@@ -453,7 +453,7 @@ class ilAssOrderingElement
         }
         
         $parts = explode(self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident);
-        $return(
+        return(
             count($parts) == 4
             && ilAssOrderingElementList::isValidRandomIdentifier($parts[0])
             && ilAssOrderingElementList::isValidSolutionIdentifier($parts[1])
