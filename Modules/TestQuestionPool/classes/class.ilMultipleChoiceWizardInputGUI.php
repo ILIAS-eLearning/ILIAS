@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * This class represents a multiple choice wizard property in a property form.
@@ -14,19 +27,16 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
     public function setValue($a_value) : void
     {
-        $this->values = array();
-        if (is_array($a_value)) {
-            if (is_array($a_value['answer'])) {
-                foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-                    $answer = new ASS_AnswerMultipleResponseImage($value, (float) $a_value['points'][$index], $index);
-                    $answer->setPointsChecked($a_value['points'][$index]);
-                    $answer->setPointsUnchecked($a_value['points_unchecked'][$index]);
-                    if (isset($a_value['imagename'])) {
-                        $answer->setImage($a_value['imagename'][$index]);
-                    }
-                    array_push($this->values, $answer);
+        $this->values = [];
+        if (is_array($a_value) && isset($a_value['answer']) && is_array($a_value['answer'])) {
+            foreach ($a_value['answer'] as $index => $value) {
+                $answer = new ASS_AnswerMultipleResponseImage($value, (float) ($a_value['points'][$index] ?? 0), $index);
+                $answer->setPointsChecked((float) ($a_value['points'][$index] ?? 0));
+                $answer->setPointsUnchecked((float) ($a_value['points_unchecked'][$index] ?? 0));
+                if (isset($a_value['imagename'][$index])) {
+                    $answer->setImage($a_value['imagename'][$index]);
                 }
+                $this->values[] = $answer;
             }
         }
     }
