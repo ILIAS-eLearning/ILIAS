@@ -427,6 +427,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                     $this->redirectAfterMissingWrite();
                 }
                 
+                if ($cmd === 'assessment' &&
+                    $this->object->getType() === 'tst' &&
+                    !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
+                
                 $this->ctrl->setReturn($this, "questions");
                 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
                 $questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParamater());
