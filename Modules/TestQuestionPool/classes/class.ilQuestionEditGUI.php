@@ -158,12 +158,8 @@ class ilQuestionEditGUI
                         $method,
                         $parameters
                     );
-                    //var_dump($object);
-//var_dump($method);
-//var_dump($parameters);
                 }
-
-                //$q_gui->setQuestionTabs();
+                
                 $count = $q_gui->object->isInUse();
                 if ($count > 0) {
                     global $DIC;

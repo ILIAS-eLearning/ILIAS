@@ -102,6 +102,11 @@ abstract class assQuestionGUI
     // hey.
     
     /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+    
+    /**
      * @var \ilPropertyFormGUI
      */
     protected $editForm;
@@ -157,26 +162,6 @@ abstract class assQuestionGUI
     
     public function addHeaderAction()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-/*
-        $DIC->ui()->mainTemplate()->setVariable(
-            "HEAD_ACTION",
-            $this->getHeaderAction()
-        );
-
-        $notesUrl = $this->ctrl->getLinkTargetByClass(
-            array("ilcommonactiondispatchergui", "ilnotegui"),
-            "",
-            "",
-            true,
-            false
-        );
-
-        ilNoteGUI::initJavascript($notesUrl, IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
-
-        $redrawActionsUrl = $DIC->ctrl()->getLinkTarget($this, 'redrawHeaderAction', '', true);
-        $DIC->ui()->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
-*/
     }
     
     public function redrawHeaderAction()
@@ -1927,34 +1912,38 @@ abstract class assQuestionGUI
     public function setQuestionTabs()
     {
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
         $ilTabs = $DIC['ilTabs'];
 
         $ilTabs->clearTargets();
-
+        $this->setDefaultTabs($ilTabs);
+        $this->setQuestionSpecificTabs($ilTabs);
+        $this->addBackTab($ilTabs);
+    }
+    
+    protected function setDefaultTabs(ilTabsGUI $ilTabs)
+    {
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
-
+        
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
         }
-
+        
         if ($_GET["q_id"]) {
             $this->addTab_Question($ilTabs);
         }
-
+        
         // add tab for question feedback within common class assQuestionGUI
         $this->addTab_QuestionFeedback($ilTabs);
-
+        
         // add tab for question hint within common class assQuestionGUI
         $this->addTab_QuestionHints($ilTabs);
-
+        
         // add tab for question's suggested solution within common class assQuestionGUI
         $this->addTab_SuggestedSolution($ilTabs, $classname);
-
+        
         // Assessment of questions sub menu entry
         if ($_GET["q_id"]) {
             $ilTabs->addTarget(
@@ -1965,8 +1954,10 @@ abstract class assQuestionGUI
                 ""
             );
         }
-
-        $this->addBackTab($ilTabs);
+    }
+    
+    protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs)
+    {
     }
     
     public function addTab_SuggestedSolution(ilTabsGUI $tabs, $classname)
@@ -2016,20 +2007,6 @@ abstract class assQuestionGUI
         $tabLink = $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         
         $tabs->addTarget('tst_feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
-    }
-
-    /**
-     * @param ilTabsGUI $tabs
-     */
-    protected function addTab_Units(ilTabsGUI $tabs)
-    {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $tabs->addTarget('units', $ilCtrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
     }
     
     /**
