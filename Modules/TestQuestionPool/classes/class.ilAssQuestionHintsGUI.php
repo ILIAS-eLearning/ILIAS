@@ -288,11 +288,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_delete_success_msg'), true);
 
-        $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->original_id);
+        $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId());
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
             $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
         
@@ -345,11 +345,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_save_order_success_msg'), true);
 
-        $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->original_id);
+        $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId());
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
             $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
         
