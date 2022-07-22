@@ -90,7 +90,7 @@ class ilAccountRegistrationGUI
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
-    public function displayForm() : ilTemplate
+    public function displayForm() : ilGlobalTemplateInterface
     {
         $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registration.html', 'Services/Registration'], true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
@@ -622,7 +622,7 @@ class ilAccountRegistrationGUI
         }
     }
 
-    public function login() : ilTemplate
+    public function login() : ilGlobalTemplateInterface
     {
         $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registered.html', 'Services/Registration'], false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
