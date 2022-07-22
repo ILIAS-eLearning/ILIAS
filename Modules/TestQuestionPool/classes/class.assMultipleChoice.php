@@ -530,7 +530,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
         unset($this->answers[$index]);
         $this->answers = array_values($this->answers);
-        for ($i = 0; $i < count($this->answers); $i++) {
+        for ($i = 0, $iMax = count($this->answers); $i < $iMax; $i++) {
             if ($this->answers[$i]->getOrder() > $index) {
                 $this->answers[$i]->setOrder($i);
             }
@@ -1393,5 +1393,10 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $config = parent::buildTestPresentationConfig();
         $config->setUseUnchangedAnswerLabel($this->lng->txt('tst_mc_label_none_above'));
         return $config;
+    }
+
+    public function isSingleline()
+    {
+        return (bool)$this->isSingleline;
     }
 }

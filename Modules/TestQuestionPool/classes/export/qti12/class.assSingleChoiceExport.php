@@ -1,7 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for single choice question exports
@@ -71,7 +83,7 @@ class assSingleChoiceExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getSpecificFeedbackSetting());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        $this->addQtiMetaDataField($a_xml_writer, 'singleline', $this->object->isSingleline ? 1 : 0);
+        $this->addQtiMetaDataField($a_xml_writer, 'singleline', $this->object->isSingleline() ? 1 : 0);
         
         $a_xml_writer->xmlEndTag("qtimetadata");
         $a_xml_writer->xmlEndTag("itemmetadata");

@@ -222,7 +222,7 @@ class assMultipleChoiceImport extends assQuestionImport
 
         foreach ($answers as $answer) {
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
-                $this->object->isSingleline = true;
+                $this->object->setIsSingleline(true);
             }
             $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"]);
         }

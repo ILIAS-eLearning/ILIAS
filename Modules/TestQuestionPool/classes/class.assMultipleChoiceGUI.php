@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -89,7 +100,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             return $this->object->getMultilineAnswerSetting() ? false : true;
         } else {
             // a saved question is edited
-            return $this->object->isSingleline;
+            return $this->object->isSingleline();
         }
     }
 
@@ -732,10 +743,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         $this->object->setMultilineAnswerSetting($_POST["types"]);
         if (isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
-            $this->object->isSingleline = true;
+            $this->object->setIsSingleline(true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
         } else {
-            $this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
+            $this->object->setIsSingleline( ($_POST["types"] == 0) ? true : false );
         }
         $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : null);
     }
@@ -744,7 +755,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
-        if ($this->object->isSingleline) {
+        if ($this->object->isSingleline()) {
             foreach ($_POST['choice']['answer'] as $index => $answertext) {
                 $answertext = ilUtil::secureString($answertext);
 

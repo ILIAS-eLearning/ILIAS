@@ -217,7 +217,7 @@ class assSingleChoiceImport extends assQuestionImport
         $this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
         foreach ($answers as $answer) {
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
-                $this->object->isSingleline = true;
+                $this->object->setIsSingleline(true);
             }
             if (isset($answer["imagefile"]["label"])) {
                 $this->object->addAnswer(
