@@ -298,6 +298,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         );
         $lp_data = $class::_getObjectStatus($this->getObjId(), $this->usr_id);
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         $grp = new ilCheckboxGroupInputGUI($subitem_title, "sids");
         $grp->setInfo($subitem_info);
         $form->addItem($grp);
@@ -326,9 +328,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 }
             }
 
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $icon = ilUtil::img($path, $text);
+            $icon = $icons->renderIconForStatus($status);
 
             $opt = new ilCheckboxOption(
                 $icon . " " . $possible_items[$item_id]["title"],
@@ -410,6 +410,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         );
         $info = $class::_getStatusInfo($this->getObjId(), true);
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         foreach ($coll_items as $item_id) {
             // #16599 - deleted items should not be displayed
             if (!array_key_exists($item_id, $possible_items)) {
@@ -430,9 +432,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 )) {
                 $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             }
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $field->setHtml(ilUtil::img($path, $text));
+            $field->setHtml($icons->renderIconForStatus($status));
 
             // stats
             $spent = 0;

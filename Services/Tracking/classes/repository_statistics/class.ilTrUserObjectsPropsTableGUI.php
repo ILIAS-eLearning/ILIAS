@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Build table list for objects of given user
@@ -269,6 +283,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         if (!$this->isPercentageAvailable($a_set["obj_id"])) {
             $a_set["percentage"] = null;
@@ -298,13 +313,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                             break;
 
                         case "status":
-                            $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                                $a_set[$c]
-                            );
-                            $text = ilLearningProgressBaseGUI::_getStatusText(
-                                $a_set[$c]
-                            );
-                            $val = ilUtil::img($path, $text);
+                            $val = $icons->renderIconForStatus($a_set[$c] ?? ilLPStatusIcons::ICON_VARIANT_LONG);
 
                             if ($a_set["ref_id"] &&
                                 $a_set["type"] != "lobj" &&

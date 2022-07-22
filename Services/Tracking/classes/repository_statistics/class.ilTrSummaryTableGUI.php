@@ -1,5 +1,19 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -474,10 +488,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                               ilLPStatus::LP_STATUS_FAILED_NUM
         );
         $status_map = array();
+        $status_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
         foreach ($valid_status as $status) {
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $status_map[$status] = ilUtil::img($path, $text);
+            $status_map[$status] = $status_icons->renderIconForStatus($status);
         }
 
         // language map
