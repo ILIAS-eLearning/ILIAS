@@ -324,6 +324,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             }
 
             echo json_encode([ 'feedback' => $correction_feedback, 'points' => $correction_points, "translation" => ['yes' => $this->lng->txt('yes'), 'no' => $this->lng->txt('no')]]);
+            exit();
         }
 
         $this->showManScoringByQuestionParticipantsTable();
