@@ -13106,6 +13106,16 @@ img.ilSmallIcon {
   width: 22px;
   height: 22px;
 }
+/* LP Icon short */
+img.ilLPIconShort {
+  width: 15px;
+  height: 15px;
+}
+/* LP Icon long */
+img.ilLPIconLong {
+  width: 43px;
+  height: 15px;
+}
 /* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
 .ilPreventBreakOut {
   overflow-wrap: break-word;

@@ -316,7 +316,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
         
         $this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
-        $this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
+        $this->tpl->setVariable('LEGEND', $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT));
     }
 
     public function __initDetails($a_details_id)
