@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestExport.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -25,7 +38,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
         $srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
@@ -66,10 +79,9 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         global $DIC;
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
-        $questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->test_obj);
+        $questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $component_repository, $this->test_obj);
         $questionSetConfig->loadFromDb();
 
         $xmlWriter->xmlElement('RandomQuestionSetSettings', array(
@@ -166,9 +178,9 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         if (!isset($this->stagingPoolQuestionListByPoolId[$poolId])) {
             global $DIC;
             $ilDB = $DIC['ilDB'];
-            $ilPluginAdmin = $DIC['ilPluginAdmin'];
+            $component_repository = $DIC['component.repository'];
             
-            $questionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
+            $questionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $component_repository);
             $questionList->setTestId($this->test_obj->getTestId());
             $questionList->setPoolId($poolId);
             $questionList->loadQuestions();

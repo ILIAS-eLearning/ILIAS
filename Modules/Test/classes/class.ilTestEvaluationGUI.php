@@ -1,10 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Output class for assessment test evaluation
@@ -2046,7 +2056,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         $resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
         $questionIds = array();
@@ -2061,8 +2071,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
         $table_gui->initFilter();
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-        $questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+        $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
 
         $questionList->setIncludeQuestionIdsFilter($questionIds);
         $questionList->setQuestionInstanceTypeFilter(null);

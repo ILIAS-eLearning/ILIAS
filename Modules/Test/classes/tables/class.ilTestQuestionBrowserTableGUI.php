@@ -45,7 +45,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private ilTabsGUI $tabs;
     private ilTree $tree;
     private ilDBInterface $db;
-    private ilPluginAdmin $pluginAdmin;
+    private ilComponentRepository $component_repository;
     private ilObjTest $testOBJ;
     private ilAccessHandler $access;
 
@@ -59,7 +59,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         ilLanguage $lng,
         ilTree $tree,
         ilDBInterface $db,
-        ilPluginAdmin $pluginAdmin,
+        ilComponentRepository $component_repository,
         ilObjTest $testOBJ,
         ilAccessHandler $access,
         ILIAS\HTTP\GlobalHttpState $httpState,
@@ -71,7 +71,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->tree = $tree;
         $this->db = $db;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
         $this->access = $access;
         $this->httpState = $httpState;
@@ -447,7 +447,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
-            $this->pluginAdmin,
+            $this->component_repository,
             $this->testOBJ
         );
 
@@ -456,7 +456,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     private function getQuestionsData() : array
     {
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
 
         $questionList->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
         $questionList->setExcludeQuestionIdsFilter($this->testOBJ->getExistingQuestions());

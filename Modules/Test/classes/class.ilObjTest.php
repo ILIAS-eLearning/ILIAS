@@ -477,7 +477,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         $lng = $DIC['lng'];
 
         require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
@@ -497,8 +497,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array($this->getTestId())
         );
 
-        require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
+        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this);
         $testQuestionSetConfigFactory->getQuestionSetConfig()->removeQuestionSetRelatedData();
 
         // delete export files
@@ -739,13 +738,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
+        $component_repository = $DIC['component.repository'];
+
         $test = new ilObjTest($obj_id, false);
         $test->loadFromDb();
 
-        require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
+        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
         
         return $test->isComplete($testQuestionSetConfigFactory->getQuestionSetConfig());
     }
@@ -832,15 +830,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         
         // moved online_status to ilObjectActivation (see below)
 
         // cleanup RTE images
         $this->cleanupMediaobjectUsage();
 
-        require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
+        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this);
         $testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
         
         include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -2751,7 +2748,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $testSequenceFactory = new ilTestSequenceFactory(
             $DIC->database(),
             $DIC->language(),
-            $DIC['ilPluginAdmin'],
+            $DIC['component.repository'],
             $this
         );
         
@@ -3475,7 +3472,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         $results = $this->getResultsForActiveId($active_id);
         
@@ -3483,17 +3480,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $pass = $results['pass'];
         }
 
-        require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
         $testSessionFactory = new ilTestSessionFactory($this);
         $testSession = $testSessionFactory->getSession($active_id);
         
-        require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this);
         $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
         
         if ($this->isDynamicTest()) {
-            require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-            $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this);
+            $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $component_repository, $this);
             $dynamicQuestionSetConfig->loadFromDb();
             
             $testSequence->loadFromDb($dynamicQuestionSetConfig);
@@ -4344,13 +4338,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
                         $DIC->repositoryTree(),
                         $DIC->database(),
-                        $DIC['ilPluginAdmin'],
+                        $DIC['component.repository'],
                         $this
                     );
                     $dynamicQuestionSetConfig->loadFromDb();
 
                     require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-                    $testSequenceFactory = new ilTestSequenceFactory($DIC->database(), $DIC->language(), $DIC['ilPluginAdmin'], $this);
+                    $testSequenceFactory = new ilTestSequenceFactory($DIC->database(), $DIC->language(), $DIC['component.repository'], $this);
                     $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $testpass);
 
                     $testSequence->loadFromDb($dynamicQuestionSetConfig);
@@ -6296,15 +6290,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         /**
          * @var $tree          ilTree
          * @var $ilDB          ilDBInterface
-         * @var $ilPluginAdmin ilPluginAdmin
          */
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         $tree = $DIC['tree'];
 
         require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
+        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this);
         $this->saveCompleteStatus($testQuestionSetConfigFactory->getQuestionSetConfig());
         
         if ($this->participantDataExist()) {
@@ -6494,7 +6487,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $certificateLogger = $DIC->logger()->cert();
         $tree = $DIC['tree'];
         $ilDB = $DIC->database();
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         $this->loadFromDb();
 
@@ -6602,7 +6595,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $cloneAction->cloneCertificate($this, $newObj);
 
-        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
+        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this);
         $testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj);
 
         require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
@@ -6629,12 +6622,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             global $DIC;
             $tree = $DIC['tree'];
             $ilDB = $DIC['ilDB'];
-            $ilPluginAdmin = $DIC['ilPluginAdmin'];
+            $component_repository = $DIC['component.repository'];
 
             $questionSetConfig = new ilTestRandomQuestionSetConfig(
                 $tree,
                 $ilDB,
-                $ilPluginAdmin,
+                $component_repository,
                 $this
             );
 
@@ -7585,18 +7578,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $tree = $DIC['tree'];
             $ilDB = $DIC['ilDB'];
             $lng = $DIC['lng'];
-            $ilPluginAdmin = $DIC['ilPluginAdmin'];
+            $component_repository = $DIC['component.repository'];
             
             require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
             $testSessionFactory = new ilTestSessionFactory($this);
             $testSession = $testSessionFactory->getSession($active_id);
 
-            require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-            $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
+            $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this);
             $testSequence = $testSequenceFactory->getSequenceByTestSession($testSession);
 
-            require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-            $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this);
+            $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $component_repository, $this);
             $dynamicQuestionSetConfig->loadFromDb();
             
             $testSequence->loadFromDb($dynamicQuestionSetConfig);
@@ -9695,12 +9686,19 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function isPluginActive($a_pname) : bool
     {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        if ($ilPluginAdmin->isActive(ilComponentInfo::TYPE_MODULES, "TestQuestionPool", "qst", $a_pname)) {
-            return true;
-        } else {
-            return false;
-        }
+        $component_repository = $DIC['component.repository'];
+
+        return $component_repository
+            ->getComponentByTypeAndName(
+                ilComponentInfo::TYPE_MODULES,
+                'TestQuestionPool'
+            )
+            ->getPluginSlotById(
+                'qst'
+            )
+            ->getPluginByName(
+                $a_pname
+            )->isActive();
     }
     
     public function getPassed($active_id)
@@ -10211,10 +10209,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $tree = $DIC['tree'];
         $db = $DIC['ilDB'];
-        $pluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         
-        require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $qscFactory = new ilTestQuestionSetConfigFactory($tree, $db, $pluginAdmin, $this);
+        $qscFactory = new ilTestQuestionSetConfigFactory($tree, $db, $component_repository, $this);
         $questionSetConfig = $qscFactory->getQuestionSetConfig();
         
         /* @var ilTestFixedQuestionSetConfig $questionSetConfig */
@@ -11408,7 +11405,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         /* @var ilObjTest $testOBJ */
 
@@ -11416,11 +11413,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $activeId = $testOBJ->getActiveIdOfUser($userId);
 
-        require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
         $testSessionFactory = new ilTestSessionFactory($testOBJ);
 
-        require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $testOBJ);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $testOBJ);
 
         $testSession = $testSessionFactory->getSession($activeId);
         $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $testSession->getPass());
@@ -11442,7 +11437,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         /* @var ilObjTest $testOBJ */
 
@@ -11451,13 +11446,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         
         $activeId = $testOBJ->getActiveIdOfUser($userId);
         
-        require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
         $testSessionFactory = new ilTestSessionFactory($testOBJ);
         // Added temporarily bugfix smeyer
         $testSessionFactory->reset();
 
-        require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $testOBJ);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $testOBJ);
         
         $testSession = $testSessionFactory->getSession($activeId);
         $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $testSession->getPass());

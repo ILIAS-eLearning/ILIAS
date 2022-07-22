@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
-require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -15,59 +27,31 @@ require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
  */
 class ilTestSkillAdministrationGUI
 {
-    /**
-     * @var ILIAS
-     */
-    private $ilias;
-
-    /**
-     * @var ilCtrl
-     */
-    private $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    private $access;
-
-    /**
-     * @var ilTabsGUI
-     */
-    private $tabs;
-
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    private $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
-
-    /**
-     * @var ilTree
-     */
-    private $tree;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    private $pluginAdmin;
-
-    /**
-     * @var ilObjTest
-     */
-    private $testOBJ;
+    private ILIAS $ilias;
+    private ilCtrlInterface $ctrl;
+    private ilAccessHandler $access;
+    private ilTabsGUI $tabs;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilDBInterface $db;
+    private ilTree $tree;
+    private ilComponentRepository $component_repository;
+    private ilObjTest $testOBJ;
     private $refId;
 
-    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ, $refId)
-    {
+    public function __construct(
+        ILIAS $ilias,
+        ilCtrl $ctrl,
+        ilAccessHandler $access,
+        ilTabsGUI $tabs,
+        ilGlobalTemplateInterface $tpl,
+        ilLanguage $lng,
+        ilDBInterface $db,
+        ilTree $tree,
+        ilComponentRepository $component_repository,
+        ilObjTest $testOBJ,
+        $refId
+    ) {
         $this->ilias = $ilias;
         $this->ctrl = $ctrl;
         $this->access = $access;
@@ -76,7 +60,7 @@ class ilTestSkillAdministrationGUI
         $this->lng = $lng;
         $this->db = $db;
         $this->tree = $tree;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
         $this->refId = $refId;
     }
@@ -96,8 +80,7 @@ class ilTestSkillAdministrationGUI
 
                 $questionContainerId = $this->getQuestionContainerId();
                 
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
                 $questionList->setParentObjId($questionContainerId);
                 $questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
                 $questionList->load();
@@ -189,7 +172,7 @@ class ilTestSkillAdministrationGUI
             $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
                 $this->tree,
                 $this->db,
-                $this->pluginAdmin,
+                $this->component_repository,
                 $this->testOBJ
             );
 
@@ -219,7 +202,7 @@ class ilTestSkillAdministrationGUI
         $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
-            $this->pluginAdmin,
+            $this->component_repository,
             $this->testOBJ
         );
         

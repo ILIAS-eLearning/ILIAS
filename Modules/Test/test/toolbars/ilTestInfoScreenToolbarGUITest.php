@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestInfoScreenToolbarGUITest
@@ -27,14 +42,13 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $access_mock = $this->createMock(ilAccessHandler::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
-        $pluginAdmin_mock = $this->createMock(ilPluginAdmin::class);
     
         $this->testInfoScreenToolbarGUI = new ilTestInfoScreenToolbarGUI(
             $db_mock,
             $access_mock,
             $ctrl_mock,
             $lng_mock,
-            $pluginAdmin_mock
+            $this->createMock(ilComponentRepository::class)
         );
     }
     

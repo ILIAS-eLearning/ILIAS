@@ -827,14 +827,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
-                    $ilPluginAdmin = $DIC['ilPluginAdmin'];
+                    $component_repository = $DIC['component.repository'];
 
-                    include_once("./Modules/Test/classes/class.ilObjTest.php");
                     $_GET["ref_id"] = $this->request->raw("calling_test");
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
 
-                    require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
+                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
 
                     $new_id = $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),

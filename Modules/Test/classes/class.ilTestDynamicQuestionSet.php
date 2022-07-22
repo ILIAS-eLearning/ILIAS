@@ -1,75 +1,49 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class manages access to the dynamic question set
  * provided for the current test
- *
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
  * @package		Modules/Test
  */
 class ilTestDynamicQuestionSet
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $db = null;
-    
-    /**
-     * @var ilLanguage
-     */
-    private $lng = null;
-    
-    /**
-     * @var ilPluginAdmin
-     */
-    private $pluginAdmin = null;
-    
-    /**
-     * @var ilObjTest
-     */
-    private $testOBJ = null;
-    
-    /**
-     * @var ilAssQuestionList
-     */
-    private $completeQuestionList = null;
-    
-    /**
-     * @var ilAssQuestionList
-     */
-    private $selectionQuestionList = null;
-    
-    /**
-     * @var ilAssQuestionList
-     */
-    private $filteredQuestionList = null;
-    
-    /**
-     * @var array
-     */
-    private $actualQuestionSequence = array();
-    
-    /**
-     * Constructor
-     *
-     * @param ilObjTest $testOBJ
-     */
-    public function __construct(ilDBInterface $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
+    private ilDBInterface $db;
+    private ilLanguage $lng;
+    private ilComponentRepository $component_repository;
+    private ilObjTest $testOBJ;
+    private ?ilAssQuestionList $completeQuestionList = null;
+    private ?ilAssQuestionList $selectionQuestionList = null;
+    private ?ilAssQuestionList $filteredQuestionList = null;
+    private array $actualQuestionSequence = [];
+
+    public function __construct(ilDBInterface $db, ilLanguage $lng, ilComponentRepository $component_repository, ilObjTest $testOBJ)
     {
         $this->db = $db;
         $this->lng = $lng;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    public function load(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
+    public function load(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection) : void
     {
         $this->completeQuestionList = $this->initCompleteQuestionList(
             $dynamicQuestionSetConfig,
@@ -315,7 +289,7 @@ class ilTestDynamicQuestionSet
      */
     private function buildQuestionList($sourceQuestionPoolId, $answerStatusActiveId) : ilAssQuestionList
     {
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
         $questionList->setParentObjId($sourceQuestionPoolId);
         $questionList->setAnswerStatusActiveId($answerStatusActiveId);
         return $questionList;

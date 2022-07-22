@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionType.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Handles a list of questions
@@ -14,15 +27,8 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionType
  */
 class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $db = null;
-    
-    /**
-     * @var ilPluginAdmin
-     */
-    private $pluginAdmin = null;
+    private ilDBInterface $db;
+    private ilComponentRepository $component_repository;
 
     /**
      * @var integer
@@ -62,10 +68,10 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
      */
     private $questions = array();
 
-    public function __construct(ilDBInterface $db, ilPluginAdmin $pluginAdmin)
+    public function __construct(ilDBInterface $db, ilComponentRepository $component_repository)
     {
         $this->db = $db;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
     }
 
     public function setTestObjId($testObjId)
@@ -253,7 +259,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     }
     // fau;
 
-    private function isActiveQuestionType($questionData) : bool
+    private function isActiveQuestionType(array $questionData) : bool
     {
         if (!isset($questionData['plugin'])) {
             return false;
@@ -262,8 +268,18 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         if (!$questionData['plugin']) {
             return true;
         }
-        
-        return $this->pluginAdmin->isActive(ilComponentInfo::TYPE_MODULES, 'TestQuestionPool', 'qst', $questionData['plugin_name']);
+
+        return $this->component_repository
+            ->getComponentByTypeAndName(
+                ilComponentInfo::TYPE_MODULES,
+                'TestQuestionPool'
+            )
+            ->getPluginSlotById(
+                'qst'
+            )
+            ->getPluginByName(
+                $questionData['plugin_name']
+            )->isActive();
     }
 
     public function resetQuestionList()

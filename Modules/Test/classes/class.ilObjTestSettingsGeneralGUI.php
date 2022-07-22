@@ -47,53 +47,24 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     const INSTANT_FEEDBACK_TRIGGER_MANUAL = 0;
     const INSTANT_FEEDBACK_TRIGGER_FORCED = 1;
 
-    /** @var ilCtrl $ctrl */
-    protected $ctrl = null;
+    protected ilCtrlInterface $ctrl;
+    protected ilAccessHandler $access;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTree $tree;
+    protected ilDBInterface $db;
+    protected ilComponentRepository $component_repository;
+    protected ilObjUser $activeUser;
+    protected ilObjTestGUI $testGUI;
+    private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
-    /** @var ilAccessHandler $access */
-    protected $access = null;
-
-    /** @var ilLanguage $lng */
-    protected $lng = null;
-
-    /** @var ilGlobalTemplateInterface $tpl */
-    protected $tpl = null;
-
-    /** @var ilTree $tree */
-    protected $tree = null;
-
-    /** @var ilDBInterface $db */
-    protected $db = null;
-
-    /** @var ilPluginAdmin $pluginAdmin */
-    protected $pluginAdmin = null;
-
-    /** @var ilObjUser $activeUser */
-    protected $activeUser = null;
-
-    /** @var ilObjTestGUI $testGUI */
-    protected $testGUI = null;
-
-    /** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
-    private $testQuestionSetConfigFactory = null;
-
-    /**
-     * Constructor
-     *
-     * @param ilCtrl          $ctrl
-     * @param ilAccessHandler $access
-     * @param ilLanguage      $lng
-     * @param ilTemplate      $tpl
-     * @param ilDBInterface   $db
-     * @param ilObjTestGUI    $testGUI
-     */
     public function __construct(
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilAccessHandler $access,
         ilLanguage $lng,
         ilTree $tree,
         ilDBInterface $db,
-        ilPluginAdmin $pluginAdmin,
+        ilComponentRepository $component_repository,
         ilObjUser $activeUser,
         ilObjTestGUI $testGUI
     ) {
@@ -105,13 +76,17 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tree = $tree;
         $this->db = $db;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->activeUser = $activeUser;
 
         $this->testGUI = $testGUI;
 
-        require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $testGUI->getTestObject());
+        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+            $this->tree,
+            $this->db,
+            $this->component_repository,
+            $testGUI->getTestObject()
+        );
 
         parent::__construct($testGUI->getTestObject());
     }

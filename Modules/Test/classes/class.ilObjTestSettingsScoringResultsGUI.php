@@ -1,20 +1,20 @@
 <?php
 
 /**
-* This file is part of ILIAS, a powerful learning management system
-* published by ILIAS open source e-Learning e.V.
-*
-* ILIAS is licensed with the GPL-3.0,
-* see https://www.gnu.org/licenses/gpl-3.0.en.html
-* You should have received a copy of said license along with the
-* source code, too.
-*
-* If this is not the case or you just want to try ILIAS, you'll find
-* us at:
-* https://www.ilias.de
-* https://github.com/ILIAS-eLearning
-*
-*********************************************************************/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class that manages the editing of general test settings/properties
@@ -36,60 +36,23 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     const CMD_SAVE_FORM = 'saveForm';
     const CMD_CONFIRMED_SAVE_FORM = 'confirmedSaveForm';
 
-    /** @var ilCtrl $ctrl */
-    protected $ctrl = null;
-    
-    /** @var ilAccess $access */
-    protected $access = null;
-    
-    /** @var ilLanguage $lng */
-    protected $lng = null;
-    
-    /** @var ilGlobalTemplateInterface $tpl */
-    protected $tpl = null;
-    
-    /** @var ilTree $tree */
-    protected $tree = null;
-    
-    /** @var ilDBInterface $db */
-    protected $db = null;
+    protected ilCtrlInterface $ctrl;
+    protected ilAccessHandler $access;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTree $tree;
+    protected ilDBInterface $db;
+    protected ilComponentRepository $component_repository;
+    protected ilObjTestGUI $testGUI;
+    private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
-    /** @var ilPluginAdmin $pluginAdmin */
-    protected $pluginAdmin = null;
-
-    /** @var ilObjTest $testOBJ */
-    protected $testOBJ = null;
-
-    /** @var ilObjTestGUI $testGUI */
-    protected $testGUI = null;
-    
-    /** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
-    private $testQuestionSetConfigFactory = null;
-
-    /**
-     * object instance for currently active settings template
-     *
-     * @var $settingsTemplate ilSettingsTemplate
-     */
-    protected $settingsTemplate = null;
-
-    /**
-     * Constructor
-     *
-     * @param ilCtrl          $ctrl
-     * @param ilAccessHandler $access
-     * @param ilLanguage      $lng
-     * @param ilTemplate      $tpl
-     * @param ilDBInterface   $db
-     * @param ilObjTestGUI    $testGUI
-     */
     public function __construct(
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilAccessHandler $access,
         ilLanguage $lng,
         ilTree $tree,
         ilDBInterface $db,
-        ilPluginAdmin $pluginAdmin,
+        ilComponentRepository $component_repository,
         ilObjTestGUI $testGUI
     ) {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -100,18 +63,21 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tree = $tree;
         $this->db = $db;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
 
         $this->testGUI = $testGUI;
         $this->testOBJ = $testGUI->getObject();
 
-        require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $this->testOBJ);
-        
+        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+            $this->tree,
+            $this->db,
+            $this->component_repository,
+            $this->testOBJ
+        );
+
         $templateId = $this->testOBJ->getTemplate();
 
         if ($templateId) {
-            include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
             $this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
         }
     }

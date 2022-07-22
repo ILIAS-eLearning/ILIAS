@@ -53,12 +53,12 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilDB", $db_mock);
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
         $this->setGlobalVariable("ilObjDataCache", $this->createMock(ilObjectDataCache::class));
-        $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
-        $pluginAdmin = new ilPluginAdmin($this->createMock(ilComponentRepository::class));
-        $this->setGlobalVariable("ilPluginAdmin", $pluginAdmin);
+
+        $component_repository = $this->createMock(ilComponentRepository::class);
+        $this->setGlobalVariable("component.repository", $component_repository);
 
         $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
         $this->parentObj_mock->method('getObject')->willReturn($this->createMock(ilObjTest::class));
@@ -69,7 +69,7 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
             $lng_mock,
             $tree_mock,
             $db_mock,
-            $pluginAdmin,
+            $component_repository,
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilAccessHandler::class),
             $this->createMock(\ILIAS\HTTP\GlobalHttpState::class),

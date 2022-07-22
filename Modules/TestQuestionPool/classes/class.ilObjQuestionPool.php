@@ -1,18 +1,20 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
@@ -1531,22 +1533,21 @@ class ilObjQuestionPool extends ilObject
     */
     public function isPluginActive($questionType) : bool
     {
-        /* @var ilPluginAdmin $ilPluginAdmin */
         global $DIC;
+        /** @var ilComponentRepository $component_factory */
         $component_factory = $DIC['component.factory'];
 
-        foreach ($component_factory->getActivePluginsInSlot("qst") as $plugin) {
-            if ($plugin->getPluginName() == $questionType) { // plugins having pname == qtype
-                return true;
-            }
-
-            /* @var ilQuestionsPlugin $plugin */
-            if ($plugin->getQuestionType() == $questionType) { // plugins havin an independent name
-                return true;
-            }
-        }
-
-        return false;
+        return  $component_factory
+            ->getComponentByTypeAndName(
+                ilComponentInfo::TYPE_MODULES,
+                'TestQuestionPool'
+            )
+            ->getPluginSlotById(
+                'qst'
+            )
+            ->getPluginByName(
+                $questionType
+            )->isActive();
     }
 
     /*

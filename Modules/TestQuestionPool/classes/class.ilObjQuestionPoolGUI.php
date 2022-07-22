@@ -124,7 +124,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
         $ilias = $DIC['ilias'];
         $randomGroup = $DIC->refinery()->random();
 
@@ -380,7 +380,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $forwarder = new ilObjQuestionPoolTaxonomyEditingCommandForwarder(
                     $obj,
                     $ilDB,
-                    $ilPluginAdmin,
+                    $component_repository,
                     $ilCtrl,
                     $ilTabs,
                     $lng
@@ -402,7 +402,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $tpl,
                     $lng,
                     $ilDB,
-                    $ilPluginAdmin,
+                    $component_repository,
                     $obj,
                     $this->ref_id
                 );
@@ -1045,7 +1045,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         if (get_class($this->object) == "ilObjTest") {
             if ($this->qplrequest->raw("calling_test") > 0) {
@@ -1707,7 +1707,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      * @global ilRbacSystem  $rbacsystem
      * @global ilDBInterface $ilDB
      * @global ilLanguage $lng
-     * @global ilPluginAdmin $ilPluginAdmin
      * @return ilQuestionBrowserTableGUI
      */
     private function buildQuestionBrowserTableGUI($taxIds) : ilQuestionBrowserTableGUI
@@ -1716,7 +1715,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $rbacsystem = $DIC['rbacsystem'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        /* @var ilComponentRepository $component_repository */
+        $component_repository = $DIC['component.repository'];
 
         $writeAccess = (bool) $rbacsystem->checkAccess('write', $this->qplrequest->getRefId());
         $enableCommenting = $writeAccess;
@@ -1731,7 +1731,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         );
 
         $table_gui->setEditable($writeAccess);
-        $questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+        $questionList = new ilAssQuestionList($ilDB, $lng, $component_repository);
         $questionList->setParentObjId($this->object->getId());
 
         foreach ($table_gui->getFilterItems() as $item) {
