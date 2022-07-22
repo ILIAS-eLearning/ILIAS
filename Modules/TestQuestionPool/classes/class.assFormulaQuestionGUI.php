@@ -50,55 +50,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->object->loadFromDb($id);
         }
     }
-
-    /**
-     * Sets the ILIAS tabs for this question type
-     * Sets the ILIAS tabs for this question type
-     * @access public
-     */
-    public function setQuestionTabs() : void
+    
+    protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs) : void
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->clearTargets();
-
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->request->getQuestionId());
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        $q_type = $this->object->getQuestionType();
-
-        if (strlen($q_type)) {
-            $classname = $q_type . "GUI";
-            $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
-        }
-
-        if ($_GET["q_id"]) {
-            $this->addTab_Question($ilTabs);
-        }
-
-        if ($this->request->isset('q_id')) {
-            // add tab for question feedback within common class assQuestionGUI
-            $this->addTab_QuestionFeedback($ilTabs);
-
-            // add tab for question hint within common class assQuestionGUI
-            $this->addTab_QuestionHints($ilTabs);
-
-            // add tab for question hint within common class assQuestionGUI
-            $this->addTab_Units($ilTabs);
-
-            // Assessment of questions sub menu entry
-            $ilTabs->addTarget(
-                "statistics",
-                $this->ctrl->getLinkTargetByClass($classname, "assessment"),
-                array("assessment"),
-                $classname,
-                ""
-            );
-        }
-
-        $this->addBackTab($ilTabs);
+        $ilTabs->addTarget('units', $this->ctrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
     }
 
     public function getCommand($cmd)
