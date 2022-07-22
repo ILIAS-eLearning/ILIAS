@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -696,7 +697,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $this->object->setIsSingleline(true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
         } else {
-            $this->object->setIsSingleline( ($_POST["types"] == 0) ? true : false );
+            $this->object->setIsSingleline(($_POST["types"] == 0) ? true : false);
         }
         $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : null);
     }
