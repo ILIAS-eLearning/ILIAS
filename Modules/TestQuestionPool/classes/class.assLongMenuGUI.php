@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
 include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -317,7 +315,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $feedback = '';
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
-                $fb = $this->getGenericFeedbackOutput($active_id, $pass);
+                $fb = $this->getGenericFeedbackOutput((int) $active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
             

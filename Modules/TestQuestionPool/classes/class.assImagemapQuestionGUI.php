@@ -555,7 +555,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $questionoutput = $template->get();
-        $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
+        $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput((int) $active_id, $pass) : "";
         if (strlen($feedback)) {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?

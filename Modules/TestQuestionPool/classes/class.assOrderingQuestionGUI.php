@@ -412,7 +412,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $feedback = '';
 
             if (!$this->isTestPresentationContext()) {
-                $fb = $this->getGenericFeedbackOutput($active_id, $pass);
+                $fb = $this->getGenericFeedbackOutput((int) $active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
 

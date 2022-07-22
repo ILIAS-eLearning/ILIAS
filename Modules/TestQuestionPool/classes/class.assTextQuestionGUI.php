@@ -236,7 +236,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $feedback = '';
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
-                $fb = $this->getGenericFeedbackOutput($active_id, $pass);
+                $fb = $this->getGenericFeedbackOutput((int) $active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
@@ -346,7 +346,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $feedback = '';
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
-                $fb = $this->getGenericFeedbackOutput($active_id, $pass);
+                $fb = $this->getGenericFeedbackOutput((int) $active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
