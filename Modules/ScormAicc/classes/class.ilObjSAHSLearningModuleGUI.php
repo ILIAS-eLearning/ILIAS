@@ -475,7 +475,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 }
                 $mprops = [];
                 $mprops = $importer->moduleProperties;
-                $subType = $mprops["SubType"][0];
+                $subType = $mprops["SubType"];
                 if ($subType == "scorm") {
                     include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
                     $newObj = new ilObjSCORMLearningModule();
