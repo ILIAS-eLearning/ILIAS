@@ -3743,7 +3743,7 @@ common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Roll
 common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
 common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht das vorgegebene Format.
-common#:#msg_bt_download_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend im Notification Center (Glocken-Symbol) oben rechts herunterladen.
+common#:#msg_bt_download_started#:#Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen.
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_courses#:#Meine Kurse
 common#:#my_courses_groups#:#Meine Kurse und Gruppen
@@ -3776,7 +3776,7 @@ common#:#no_start_file#:#Keine Startdatei
 common#:#no_title#:#Kein Titel
 common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
 common#:#no_xml_file_found_in_zip#:#Die XML-Datei konnte nicht innerhalb der ZIP-Datei gefunden werden:
-common#:#noc#:#Notification Center
+common#:#noc#:#Nachrichtenzentrale
 common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
 common#:#none#:#Keine
 common#:#normal#:#Normal
@@ -14877,7 +14877,7 @@ common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
 common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Benutzerkonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
 common#:#user_never_logged_in#:#Benutzerzugänge ohne Anmeldung löschen
 common#:#user_never_logged_in_info#:#Accounts werden gelöscht, wenn sie sich noch nie in ILIAS angemeldet haben.
-dateplaner#:#cal_download_files_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend im Notification Center (Glocken-Symbol) oben rechts herunterladen.
+dateplaner#:#cal_download_files_started#:#Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen.
 common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#obj_exc_duplicate#:#Übung kopieren
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
@@ -15452,7 +15452,7 @@ user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ von $3$ ist selbst zugewiesen.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ von $3$ wurde selbst zugewiesen in $1$.
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
-exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
+exc#:#exc_down_files_started_bg#:#Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen.
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum

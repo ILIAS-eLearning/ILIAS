@@ -3277,7 +3277,7 @@ common#:#msg_user_last_role1#:#The following users are assigned to this role onl
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#User assignment changed
 common#:#msg_wrong_format#:#The value you entered is not a valid format.
-common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
+common#:#msg_bt_download_started#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 common#:#my_bms#:#Bookmarks
 common#:#my_courses#:#My Courses
 common#:#name#:#Name
@@ -14872,7 +14872,7 @@ common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
 common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
 common#:#user_never_logged_in#:#Delete user accounts without login
 common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
-dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
+dateplaner#:#cal_download_files_started#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
 common#:#obj_exc_duplicate#:#Copy Exercise
@@ -15465,7 +15465,7 @@ user#:#msg_spoint_not_modified#:#Starting point not modified
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
 blog#:#blog_download_submission#:#Download Submission
-exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.
+exc#:#exc_down_files_started_bg#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 user#:#user_profile_info_std#:#Default User Profile Info
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
