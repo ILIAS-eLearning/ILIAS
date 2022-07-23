@@ -4607,7 +4607,7 @@ common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
 common#:#move_selected_items#:#Verschieben
 common#:#move#:#Verschieben
-common#:#msg_bt_download_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend im Notification Center (Glocken-Symbol) oben rechts herunterladen.
+common#:#msg_bt_download_started#:#Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen.
 common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
@@ -4709,7 +4709,7 @@ common#:#no_access_item_public#:#Um dieses Objekt zu nutzen, müssen Sie angemel
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Benutzervereinbarung angeboten. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen.
-common#:#noc#:#Notification Center
+common#:#noc#:#Nachrichtenzentrale
 common#:#no_condition_selected#:#Sie haben keine Vorbedingung ausgewählt.
 common#:#no_date#:#Kein Datum
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
@@ -8097,7 +8097,7 @@ dateplaner#:#cal_delete_single#:#Nur diesen Termin löschen
 dateplaner#:#cal_details#:#Termindetails
 dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
 dateplaner#:#cal_download_files#:#Dateien herunterladen
-dateplaner#:#cal_download_files_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend im Notification Center (Glocken-Symbol) oben rechts herunterladen.
+dateplaner#:#cal_download_files_started#:#Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen.
 dateplaner#:#cal_down_no_files#:#Nichts zum Herunterladen, die aufgeführten Veranstaltungen enthalten keine Dateien.
 dateplaner#:#cal_dstart_dend_warn#:#Bitte überprüfen Sie Ihre Eingabe. Der Tagesbeginn muss vor dem Tagesende sein.
 dateplaner#:#cal_duration#:#Dauer
@@ -8999,7 +8999,7 @@ exc#:#exc_direct_no_submit#:#Nicht abgeben
 exc#:#exc_direct_submit#:#Abgeben
 exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
 exc#:#exc_direct_submit_portfolio#:#Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun.
-exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
+exc#:#exc_down_files_started_bg#:#Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen.
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_earliest_start_time#:#Frühester Starttermin
 exc#:#exc_edit_assignment#:#Einstellungen der Übungseinheit

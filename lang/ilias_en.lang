@@ -4588,7 +4588,7 @@ common#:#moveChapter#:#Move
 common#:#move#:#Move
 common#:#movePage#:#Move
 common#:#move_selected_items#:#Move
-common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
+common#:#msg_bt_download_started#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
@@ -8069,7 +8069,7 @@ dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_details#:#Appointment Details
 dateplaner#:#cal_download_all_files#:#Download all Files
 dateplaner#:#cal_download_files#:#Download Files
-dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
+dateplaner#:#cal_download_files_started#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 dateplaner#:#cal_down_no_files#:#Nothing to download! The events listed do not contain any files.
 dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.
 dateplaner#:#cal_duration#:#Duration
@@ -8971,7 +8971,7 @@ exc#:#exc_direct_no_submit#:#Do not submit
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.
 exc#:#exc_direct_submit#:#Submit
-exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.
+exc#:#exc_down_files_started_bg#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 exc#:#exc_download_zip_structure#:#Download ZIP Structure
 exc#:#exc_earliest_start_time#:#Earliest Start Time
 exc#:#exc_edit_assignment#:#Edit Assignment
