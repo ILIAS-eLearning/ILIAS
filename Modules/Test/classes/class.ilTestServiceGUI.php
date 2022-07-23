@@ -504,7 +504,7 @@ class ilTestServiceGUI
                     
                     $scoretemplate->setCurrentBlock("feedback");
                     $scoretemplate->setVariable("FEEDBACK_NAME_INPUT", $question);
-                    $feedback = $this->object->getSingleManualFeedback($active_id, $question, $pass)['feedback'];
+                    $feedback = ilObjTest::getSingleManualFeedback((int) $active_id, (int) $question, (int) $pass)['feedback'] ?? '';
                     $scoretemplate->setVariable(
                         "VALUE_FEEDBACK",
                         ilLegacyFormElementsUtil::prepareFormOutput(
