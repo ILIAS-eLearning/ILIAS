@@ -152,14 +152,14 @@ class ilSCORMExplorer extends ilExplorer
         global $DIC;
         $ilBench = $DIC['ilBench'];
 
-        if ($option["visible"]) {
+        if (isset($option["visible"]) && $option["visible"] == true) {
             $tpl = new ilTemplate("tpl.sahs_tree_ul.html", true, true, "Modules/ScormAicc");
             $tpl = $this->insertObject($option, $tpl, $jsApi);
         } else {
             $tpl = new ilTemplate("tpl.sahs_tree_free.html", true, true, "Modules/ScormAicc");
         }
 
-        if (is_array($option["childs"]) && count($option["childs"])) {
+        if (isset($option["childs"]) && is_array($option["childs"]) && count($option["childs"]) > 0) {
             foreach ($option["childs"] as $key => $ch_option) {
                 $tpl->setCurrentBlock("childs");
                 $tpl->setVariable("CHILDS", $this->createOutput($ch_option, $jsApi)->get());
@@ -194,24 +194,25 @@ class ilSCORMExplorer extends ilExplorer
             $ilErr->raiseError(get_class($this) . "::insertObject(): Missing parameter or wrong datatype! " .
                                     "options:" . var_dump($option), $ilErr->error_obj->WARNING);
         }
+        $clickable = false;
+        if ($option["c_type"] == "sit") {
+            //get scorm item
+            $sc_object = new ilSCORMItem((int) $option["id"]);
+            $id_ref = $sc_object->getIdentifierRef();
 
-        //get scorm item
-        $sc_object = new ilSCORMItem((int) $option["id"]);
-        $id_ref = $sc_object->getIdentifierRef();
+            //get scorm resource ref id
+            $sc_res_id = ilSCORMResource::_lookupIdByIdRef($id_ref, $sc_object->getSLMId());
 
-        //get scorm resource ref id
-        $sc_res_id = ilSCORMResource::_lookupIdByIdRef($id_ref, $sc_object->getSLMId());
+            //get scorm type
+            $scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
 
-        //get scorm type
-        $scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
+            //is scorm clickabke
+            $clickable = $this->isClickable($option["c_type"], (int) $option["id"]);
 
-        //is scorm clickabke
-        $clickable = $this->isClickable($option["c_type"], (int) $option["id"]);
-
-        if ($this->output_icons && $clickable) {
-            $this->getOutputIcons($tpl, $option, (int) $option["id"], $scormtype);
+            if ($this->output_icons && $clickable) {
+                $this->getOutputIcons($tpl, $option, (int) $option["id"], $scormtype);
+            }
         }
-
         if ($clickable) {	// output link
             $tpl->setCurrentBlock("link");
             $frame_target = $this->buildFrameTarget($option["c_type"], $option["id"], $option["obj_id"]);
@@ -264,7 +265,7 @@ class ilSCORMExplorer extends ilExplorer
         );
 
         // status
-        $status = ($trdata["cmi.core.lesson_status"] == "")
+        $status = !isset($trdata["cmi.core.lesson_status"])
                 ? "not attempted"
                 : $trdata["cmi.core.lesson_status"];
 
@@ -287,13 +288,13 @@ class ilSCORMExplorer extends ilExplorer
                 $lng->txt("cont_sc_stat_" . str_replace(" ", "_", $status));
 
         // score
-        if ($trdata["cmi.core.score.raw"] != "") {
+        if (isset($trdata["cmi.core.score.raw"])) {
             $alt .= ", " . $lng->txt("cont_credits") .
                 ": " . $trdata["cmi.core.score.raw"];
         }
 
         // total time
-        if ($trdata["cmi.core.total_time"] != "" &&
+        if (isset($trdata["cmi.core.total_time"]) &&
                 $trdata["cmi.core.total_time"] !== "0000:00:00.00") {
             $alt .= ", " . $lng->txt("cont_total_time") .
                 ": " . $trdata["cmi.core.total_time"];

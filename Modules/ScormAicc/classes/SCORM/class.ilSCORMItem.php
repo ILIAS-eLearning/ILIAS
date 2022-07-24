@@ -25,7 +25,7 @@ class ilSCORMItem extends ilSCORMObject
 {
     public string $import_id;
     public string $identifierref;
-    public bool $isvisible;
+    public bool $isvisible = true;
     public ?string $parameters = null;
     public ?string $prereq_type = null;
     public ?string $prerequisites = null;
@@ -156,7 +156,6 @@ class ilSCORMItem extends ilSCORMObject
             array($this->getId())
         );
         $obj_rec = $ilDB->fetchAssoc($obj_set);
-        
         $this->setImportId((string) $obj_rec["import_id"]);
         $this->setIdentifierRef((string) $obj_rec["identifierref"]);
         if (strtolower((string) $obj_rec["isvisible"]) === "false") {

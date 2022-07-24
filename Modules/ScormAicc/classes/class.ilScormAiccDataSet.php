@@ -90,10 +90,10 @@ class ilScormAiccDataSet extends ilDataSet
                     continue;
                 }
                 //fix localization and mastery_score
-                if ($key === "MasteryScore" && $data[$key][0] == 0) {
+                if ($key === "MasteryScore" && isset($data[$key][0]) && $data[$key][0] == 0) {
                     continue;
                 }
-                if ($key === "Localization" && $data[$key][0] == "") {
+                if ($key === "Localization" && isset($data[$key][0]) && $data[$key][0] == "") {
                     continue;
                 }
                 //end fix
@@ -123,7 +123,7 @@ class ilScormAiccDataSet extends ilDataSet
                     }
                 }
 
-                if (is_array($od_columns)) {
+                if (isset($od_columns) && is_array($od_columns)) {
                     if (count($od_columns) > 0) {
                         $od_conditions ["obj_id"] = ["integer", $a_id];
                         $ilDB->update("object_data", $od_columns, $od_conditions);

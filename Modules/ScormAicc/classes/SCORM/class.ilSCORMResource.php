@@ -24,9 +24,9 @@ class ilSCORMResource extends ilSCORMObject
 {
     public string $import_id;
     public string $resourcetype;
-    public ?string $scormtype;
+    public ?string $scormtype = null;
     public ?string $href;
-    public ?string $xml_base;
+    public ?string $xml_base = null;
     public array $files;
     public array $dependencies;
 

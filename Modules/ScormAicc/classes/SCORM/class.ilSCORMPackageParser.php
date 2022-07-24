@@ -170,7 +170,9 @@ class ilSCORMPackageParser extends ilSaxParser
                 $manifest->setSLMId($this->slm_object->getId());
                 $manifest->setImportId($a_attribs["identifier"]);
                 $manifest->setVersion($a_attribs["version"]);
-                $manifest->setXmlBase($a_attribs["xml:base"]);
+                if (isset($a_attribs["xml:base"])) {
+                    $manifest->setXmlBase($a_attribs["xml:base"]);
+                }
                 $manifest->create();
                 if (!$this->tree_created) {
                     $this->sc_tree = new ilSCORMTree($this->slm_object->getId());
@@ -194,7 +196,9 @@ class ilSCORMPackageParser extends ilSaxParser
                 $organization = new ilSCORMOrganization();
                 $organization->setSLMId($this->slm_object->getId());
                 $organization->setImportId($a_attribs["identifier"]);
-                $organization->setStructure($a_attribs["structure"]);
+                if (isset($a_attribs["structure"])) {
+                    $organization->setStructure($a_attribs["structure"]);
+                }
                 $organization->create();
                 $this->current_organization = &$organization;
                 $this->sc_tree->insertNode($organization->getId(), $this->getCurrentParent());
@@ -206,12 +210,16 @@ class ilSCORMPackageParser extends ilSaxParser
                 $item->setSLMId($this->slm_object->getId());
                 $item->setImportId($a_attribs["identifier"]);
                 $item->setIdentifierRef($a_attribs["identifierref"]);
-                if (strtolower((string) $a_attribs["isvisible"]) !== "false") {
-                    $item->setVisible(true);
-                } else {
-                    $item->setVisible(false);
+                if (isset($a_attribs["isvisible"])) {
+                    if (strtolower((string) $a_attribs["isvisible"]) !== "false") {
+                        $item->setVisible(true);
+                    } else {
+                        $item->setVisible(false);
+                    }
                 }
-                $item->setParameters($a_attribs["parameters"]);
+                if (isset($a_attribs["parameters"])) {
+                    $item->setParameters($a_attribs["parameters"]);
+                }
                 $item->create();
                 $this->sc_tree->insertNode($item->getId(), $this->getCurrentParent());
                 $this->parent_stack[] = $item->getId();
@@ -225,7 +233,9 @@ class ilSCORMPackageParser extends ilSaxParser
             case "resources":
                 $resources = new ilSCORMResources();
                 $resources->setSLMId($this->slm_object->getId());
-                $resources->setXmlBase($a_attribs["xml:base"]);
+                if (isset($a_attribs["xml:base"])) {
+                    $resources->setXmlBase($a_attribs["xml:base"]);
+                }
                 $resources->create();
                 $this->sc_tree->insertNode($resources->getId(), $this->getCurrentParent());
                 $this->parent_stack[] = $resources->getId();
@@ -236,8 +246,12 @@ class ilSCORMPackageParser extends ilSaxParser
                 $resource->setSLMId($this->slm_object->getId());
                 $resource->setImportId($a_attribs["identifier"]);
                 $resource->setResourceType($a_attribs["type"]);
-                $resource->setScormType($a_attribs["adlcp:scormtype"]);
-                $resource->setXmlBase($a_attribs["xml:base"]);
+                if (isset($a_attribs["adlcp:scormtype"])) {
+                    $resource->setScormType($a_attribs["adlcp:scormtype"]);
+                }
+                if (isset($a_attribs["xml:base"])) {
+                    $resource->setXmlBase($a_attribs["xml:base"]);
+                }
                 $resource->setHRef($a_attribs["href"]);
                 $resource->create();
                 $this->current_resource = &$resource;

@@ -22,7 +22,7 @@
 */
 class ilSCORMResources extends ilSCORMObject
 {
-    public ?string $xml_base;
+    public ?string $xml_base = null;
 
     /**
     * Constructor

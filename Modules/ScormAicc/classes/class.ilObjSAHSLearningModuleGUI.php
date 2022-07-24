@@ -331,6 +331,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $rbacsystem = $DIC->access();
         $ilErr = $DIC['ilErr'];
         $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $importFromXml = false;
 
         // check create permission
         if (!$rbacsystem->checkAccess("create", '', $refId, "sahs")) {

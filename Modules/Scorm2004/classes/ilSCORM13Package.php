@@ -111,7 +111,12 @@ class ilSCORM13Package
             $this->packageId = $packageId;
             $this->dbRemoveAll();
         }
-        
+
+        $this->packageData['persistprevattempts'] = 0;
+        $this->packageData['default_lesson_mode'] = 'normal';
+        $this->packageData['credit'] = 'credit';
+        $this->packageData['auto_review'] = 'n';
+
         $this->packageFolder = $packageFolder;
         $this->packageId = $packageId;
         $this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';

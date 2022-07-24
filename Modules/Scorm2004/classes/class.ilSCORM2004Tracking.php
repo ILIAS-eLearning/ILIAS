@@ -399,6 +399,7 @@ class ilSCORM2004Tracking
         }
         $time = 0;
         foreach ($scos as $sco) {
+            $sec = 0;
             $data_set = $ilDB->queryF(
                 '
 				SELECT total_time

@@ -269,7 +269,7 @@ class ilSCORMPresentationGUI
             array($this->slm->getId(),$ilUser->getId())
         );
         $val_rec = $ilDB->fetchAssoc($res);
-        if ($val_rec["cnt"] == 0) { //offline_mode could be inserted
+        if (!is_array($val_rec)) {
             $attempts = 1;
             $ilDB->manipulateF(
                 'INSERT INTO sahs_user (obj_id,user_id,package_attempts,module_version,last_access) VALUES(%s,%s,%s,%s,%s)',
