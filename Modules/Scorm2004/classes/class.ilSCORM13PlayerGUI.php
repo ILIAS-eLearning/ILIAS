@@ -135,7 +135,7 @@ class ilSCORM13PlayerGUI
     public int $ref_id;
     public ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected string $page;
+    protected string $page = "";
 
     public function __construct()
     {
@@ -973,7 +973,8 @@ class ilSCORM13PlayerGUI
             "_INVALIDNAVREQ_" => "seq_invalidnavreq",
             "_SEQABANDON_" => "seq_abandon",
             "_SEQABANDONALL_" => "seq_abandonall",
-            "_TOC_" => "seq_toc"
+            "_TOC_" => "seq_toc",
+            "" => ""
         );
 
         $this->tpl = new ilGlobalTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");

@@ -23,7 +23,7 @@
 class ilSCORMPackageParser extends ilSaxParser
 {
     private ilSCORMTree $sc_tree;
-    public int $cnt;				// counts open elements
+//    public array $cnt;				// counts open elements
     public array $current_element;	// store current element type
     public object $slm_object;      //better ilObjSCORMModule
     public array $parent_stack;		// stack of current parent nodes
@@ -88,7 +88,7 @@ class ilSCORMPackageParser extends ilSaxParser
 //        } else {
 //            $this->cnt[$a_name]++;
 //        }
-        $this->current_element[] = $a_name;
+        $this->current_element[count($this->current_element)] = $a_name;
     }
 
     /**
@@ -103,12 +103,12 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
      * returns current element
      */
-    public function getCurrentElement() : string
+    public function getCurrentElement() : ?string
     {
         return ($this->current_element[count($this->current_element) - 1]);
     }
 
-    public function getAncestorElement(int $nr = 1) : string
+    public function getAncestorElement(int $nr = 1) : ?string
     {
         return ($this->current_element[count($this->current_element) - 1 - $nr]);
     }
@@ -215,7 +215,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $item->create();
                 $this->sc_tree->insertNode($item->getId(), $this->getCurrentParent());
                 $this->parent_stack[] = $item->getId();
-                $this->item_stack[] = &$item;
+                $this->item_stack[count($this->item_stack)] = &$item;
                 break;
 
             case "adlcp:prerequisites":

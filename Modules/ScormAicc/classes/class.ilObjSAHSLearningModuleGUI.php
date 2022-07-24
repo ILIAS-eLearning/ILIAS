@@ -418,11 +418,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $zar->close();
                 $importer = new ilScormAiccImporter();
                 $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
-                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
-                    $importFromXml = true;
-                }
+                $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+                $importFromXml = true;
+//                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
+//                    $importFromXml = true;
+//                }
                 $mprops = $importer->moduleProperties;
-                $subType = $mprops["SubType"][0];
+                $subType = (string) $mprops["SubType"];
                 if ($subType === "scorm") {
                     $newObj = new ilObjSCORMLearningModule();
                 } else {

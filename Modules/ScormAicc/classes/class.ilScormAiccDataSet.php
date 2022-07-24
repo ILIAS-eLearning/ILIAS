@@ -97,15 +97,17 @@ class ilScormAiccDataSet extends ilDataSet
                     continue;
                 }
                 //end fix
-                if (isset($data[$key])) {
+                if (isset($data[$key]) && is_array($data[$key])) {
                     if (count($data[$key]) > 0) {
                         $columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
                     }
                 }
             }
-            if (count($columns) > 0) {
-                $conditions ["id"] = ["integer", $a_id];
-                $ilDB->update($this->db_table, $columns, $conditions);
+            if (is_array($columns)) {
+                if (count($columns) > 0) {
+                    $conditions ["id"] = ["integer", $a_id];
+                    $ilDB->update($this->db_table, $columns, $conditions);
+                }
             }
 
             //setting title and description in table object_data
@@ -115,15 +117,17 @@ class ilScormAiccDataSet extends ilDataSet
                 "Description" => ["db_col" => "description", "db_type" => "text"]
             ];
             foreach ($od_properties as $key => $value) {
-                if (isset($data[$key])) {
+                if (isset($data[$key]) && is_array($data[$key])) {
                     if (count($data[$key]) > 0) {
                         $od_columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
                     }
                 }
 
-                if (count($od_columns) > 0) {
-                    $od_conditions ["obj_id"] = ["integer", $a_id];
-                    $ilDB->update("object_data", $od_columns, $od_conditions);
+                if (is_array($od_columns)) {
+                    if (count($od_columns) > 0) {
+                        $od_conditions ["obj_id"] = ["integer", $a_id];
+                        $ilDB->update("object_data", $od_columns, $od_conditions);
+                    }
                 }
             }
         } else {

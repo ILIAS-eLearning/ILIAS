@@ -21,7 +21,7 @@ class ilSCORM13Package
 //    private $packageFile;
     private string $packageFolder;
     private string $packagesFolder;
-    private array $packageData;
+    private array $packageData = [];
 //    private $slm;
 //    private $slm_tree;
 
@@ -33,8 +33,8 @@ class ilSCORM13Package
     public array $diagnostic;
 //    public $status;
     public int $packageId;
-    public string $packageName;
-    public string $packageHash;
+    public string $packageName = "";
+    public string $packageHash = "";
     public int $userId;
 
 //    private $idmap = array();
@@ -240,7 +240,7 @@ class ilSCORM13Package
      * xml element to process
      * reference to array object where to copy values
      */
-    public function jsonNode(object $node, array &$sink) : void
+    public function jsonNode(object $node, ?array &$sink) : void
     {
         foreach ($node->attributes() as $k => $v) {
             // cast to boolean and number if possible

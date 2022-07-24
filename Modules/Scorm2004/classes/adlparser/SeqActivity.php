@@ -35,7 +35,7 @@ class SeqActivity
     //SeqRuleset
     public ?array $mExitActionRules = null;
 
-//    public $mXML = null;
+    public ?string $mXML = null;
 
     public int $mDepth = 0;
 
@@ -193,9 +193,9 @@ class SeqActivity
        
     public float $mProgressWeight = 1.0;
 
-    public bool $mmActivityExDurControl;
+    public bool $mmActivityExDurControl = false;
 
-    public string $iTiming;
+    public string $iTiming = "";
     
 
     public function __construct()

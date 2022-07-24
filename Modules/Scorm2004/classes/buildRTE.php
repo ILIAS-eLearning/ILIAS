@@ -3,6 +3,7 @@
     //location of the RTE-script-files
     $location = "../scripts";
     $a_outjsmin = [];
+    $out = "";
     
     //list all scripts that are needed for the RTE
     $mandatory_scripts = array( "sequencer/ADLAuxiliaryResource.js",
@@ -38,13 +39,13 @@
 //        $jsMin = new JSMin($inp, false);
 //        $jsMin->minify();
 //        $a_outjsmin[] = $jsMin->out;
-        $out[] = $inp;
+        $outAr[] = $inp;
     }
     $timestamp = time();
     $f_time = date("YndHis", $timestamp);
     $comment = "// Build: $f_time \n";
 //    $outjsmin = implode("", $a_outjsmin);
-    $out = implode("", $out);
+    $out = implode("", $outAr);
 //    $outjsmin = $comment . $outjsmin;
     $out = $comment . $out;
     $filenamemin = "../scripts/buildrte/rte-min.js";

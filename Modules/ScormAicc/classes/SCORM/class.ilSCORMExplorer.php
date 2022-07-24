@@ -206,10 +206,10 @@ class ilSCORMExplorer extends ilExplorer
         $scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
 
         //is scorm clickabke
-        $clickable = $this->isClickable($option["c_type"], $option["id"]);
+        $clickable = $this->isClickable($option["c_type"], (int) $option["id"]);
 
         if ($this->output_icons && $clickable) {
-            $this->getOutputIcons($tpl, $option, $option["id"], $scormtype);
+            $this->getOutputIcons($tpl, $option, (int) $option["id"], $scormtype);
         }
 
         if ($clickable) {	// output link

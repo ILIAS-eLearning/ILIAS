@@ -167,7 +167,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         // todo determine imsmanifest.xml path here...
         $slmParser = new ilSCORMPackageParser($this, $manifest_file);
         $slmParser->startParsing();
-        return $slmParser->getPackageTitle();
+        return (string) $slmParser->getPackageTitle();
     }
 
     /**

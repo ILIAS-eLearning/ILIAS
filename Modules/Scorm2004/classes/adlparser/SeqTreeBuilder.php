@@ -83,9 +83,7 @@
             //read seqCollection
             $seqCollection = $doc->getElementsByTagName("sequencingCollection")->item(0);
 
-            if ($seqCollection !== null) {
-                $root = $this->buildNode($default_organization, $seqCollection, $doc);
-            }
+            $root = $this->buildNode($default_organization, $seqCollection, $doc);
 
             //return no data please check
             $objectivesGlobalToSystem = $default_organization->getAttributeNS("http://www.adlnet.org/xsd/adlseq_v1p3", "objectivesGlobalToSystem");
@@ -121,7 +119,7 @@
 
 
 
-        private function buildNode(object $node, object $seq, object $doc) : SeqActivity
+        private function buildNode(object $node, ?object $seq, object $doc) : SeqActivity
         {
 
         //create a new activity object
@@ -167,7 +165,7 @@
                         if ($tempVal) {
                             $act->setCompletionThreshold($tempVal);
                         } elseif ($curNode->nodeValue != null && $curNode->nodeValue != '') {
-                            $act->setCompletionThreshold($curNode->nodeValue);
+                            $act->setCompletionThreshold((float) $curNode->nodeValue);
                         }
 
                         $tempVal = $curNode->getAttribute("progressWeight");
