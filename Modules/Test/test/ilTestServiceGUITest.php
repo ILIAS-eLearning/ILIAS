@@ -75,4 +75,43 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
     {
         $this->assertEquals("testCmd", $this->testObj->getCommand("testCmd"));
     }
+
+    public function testBuildFixedShufflerSeedReturnsValidSeed(): void
+    {
+        $seeds = [
+            [
+                'question_id' => 1,
+                'pass_id' => 1,
+                'active_id' => 1,
+                'return' => 10000004
+            ],
+            [
+                'question_id' => 9999999,
+                'pass_id' => 1,
+                'active_id' => 1,
+                'return' => 10000000
+            ],
+            [
+                'question_id' => 234342342342342334,
+                'pass_id' => 11,
+                'active_id' => 1634545234234232344,
+                'return' => 1634545234234232355
+            ],
+            [
+                'question_id' => 23434234,
+                'pass_id' => 11,
+                'active_id' => 9223372036854775804,
+                'return' => 9223372036854775804
+            ]
+        ];
+
+        $reflection = new \ReflectionClass(ilTestServiceGUI::class);
+        $method = $reflection->getMethod('buildFixedShufflerSeed');
+        $method->setAccessible(true);
+
+        foreach ($seeds as $seed) {
+            $fixed_seed = $method->invoke($this->testObj, $seed['question_id'], $seed['pass_id'], $seed['active_id']);
+            $this->assertEquals($seed['return'], $fixed_seed);
+        }
+    }
 }
