@@ -50,8 +50,6 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
     const NEW_OBJ_TITLE = "";
     
-    protected ?ilObject $object;
-    
     private ilCmiXapiAccess $cmixAccess;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
@@ -63,6 +61,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
 
         $this->lng->loadLanguageModule("cmix");
+
     }
 
     public function getType() : string
