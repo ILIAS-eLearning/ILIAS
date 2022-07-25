@@ -1662,32 +1662,39 @@ abstract class assQuestionGUI
     public function setQuestionTabs() : void
     {
         $this->ilTabs->clearTargets();
-
+        
+        $this->setDefaultTabs($this->ilTabs);
+        $this->setQuestionSpecificTabs($this->ilTabs);
+        $this->addBackTab($this->ilTabs);
+    }
+    
+    protected function setDefaultTabs(ilTabsGUI $ilTabs) : void
+    {
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->request->getQuestionId());
         $q_type = $this->object->getQuestionType();
-
+        
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
-
+        
         if ($this->request->isset("q_id")) {
-            $this->addTab_Question($this->ilTabs);
+            $this->addTab_Question($ilTabs);
         }
-
+        
         // add tab for question feedback within common class assQuestionGUI
-        $this->addTab_QuestionFeedback($this->ilTabs);
-
+        $this->addTab_QuestionFeedback($ilTabs);
+        
         // add tab for question hint within common class assQuestionGUI
-        $this->addTab_QuestionHints($this->ilTabs);
-
+        $this->addTab_QuestionHints($ilTabs);
+        
         // add tab for question's suggested solution within common class assQuestionGUI
-        $this->addTab_SuggestedSolution($this->ilTabs, $classname);
-
+        $this->addTab_SuggestedSolution($ilTabs, $classname);
+        
         // Assessment of questions sub menu entry
         if ($this->request->getQuestionId()) {
-            $this->ilTabs->addTarget(
+            $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
                 array("assessment"),
@@ -1695,8 +1702,12 @@ abstract class assQuestionGUI
                 ""
             );
         }
-
-        $this->addBackTab($this->ilTabs);
+        
+        $this->addBackTab($ilTabs);
+    }
+    
+    protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs) : void
+    {
     }
     
     public function addTab_SuggestedSolution(ilTabsGUI $tabs, string $classname) : void
@@ -1736,11 +1747,6 @@ abstract class assQuestionGUI
         $tabLink = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         
         $tabs->addTarget('tst_feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
-    }
-
-    protected function addTab_Units(ilTabsGUI $tabs) : void
-    {
-        $tabs->addTarget('units', $this->ctrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
     }
     
     protected function addTab_QuestionHints(ilTabsGUI $tabs) : void
