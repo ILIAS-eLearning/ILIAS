@@ -593,7 +593,7 @@ abstract class assQuestionGUI
     
     public function sync() : void
     {
-        $original_id = $this->object->original_id;
+        $original_id = $this->object->getOriginalId();
         if ($original_id) {
             $this->object->syncWithOriginal();
         }
@@ -807,7 +807,7 @@ abstract class assQuestionGUI
             }
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
-                && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+                && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->setParameter($this, 'test_express_mode', $this->request->raw('test_express_mode'));
                 $this->ctrl->redirect($this, "originalSyncForm");
@@ -1282,10 +1282,10 @@ abstract class assQuestionGUI
                         }
                         $file->setValue($_FILES["file"]["name"]);
                         $this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
-                        $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
+                        $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
-                            && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+                            && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                             $this->originalSyncForm("suggestedsolution");
                             return;
                         } else {
@@ -1344,10 +1344,10 @@ abstract class assQuestionGUI
                             $this->object->saveSuggestedSolution("text", "", 0, $solution_array["value"]);
                             break;
                     }
-                    $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
+                    $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
-                        && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+                        && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                         $this->originalSyncForm("suggestedsolution");
                         return;
                     } else {
