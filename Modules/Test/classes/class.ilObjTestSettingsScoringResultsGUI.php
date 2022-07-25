@@ -418,7 +418,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $passDeletion = new ilRadioGroupInputGUI($this->lng->txt('tst_pass_deletion'), 'pass_deletion_allowed');
         $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_not_allowed'), 0, ''));
         $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_allowed'), 1, ''));
-        $passDeletion->setValue($this->testOBJ->isPassDeletionAllowed());
+        $passDeletion->setValue((int) $this->testOBJ->isPassDeletionAllowed());
         $resultsAccessEnabled->addSubItem($passDeletion);
 
         $form->addItem($resultsAccessEnabled);
