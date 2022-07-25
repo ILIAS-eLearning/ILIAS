@@ -143,9 +143,10 @@ class ilAssQuestionPreviewSession
         $this->saveSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED, $seed);
     }
     
-    public function getRandomizerSeed()
+    public function getRandomizerSeed() : ?int
     {
-        return $this->readSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED);
+        $val = $this->readSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED);
+        return $val === [] ? null : $val;
     }
 
     public function randomizerSeedExists() : bool
