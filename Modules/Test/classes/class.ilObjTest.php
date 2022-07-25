@@ -9388,42 +9388,35 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public static function getManualFeedback($active_id, $question_id, $pass) : string
     {
         $feedback = "";
-        $row = self::getSingleManualFeedback($active_id, $question_id, $pass);
+        $row = self::getSingleManualFeedback((int) $active_id, (int) $question_id, (int) $pass);
 
-        if (count($row) > 0 && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id))) {
-            $feedback = $row['feedback'];
+        if ($row !== [] && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id))) {
+            $feedback = $row['feedback'] ?? '';
         }
 
         return $feedback;
     }
 
-    /**
-     * Retrieves the manual feedback for a question in a test
-     *
-     * @param integer $active_id Active ID of the user
-     * @param integer $question_id Question ID
-     * @param integer $pass Pass number
-     * @return array The feedback text
-     * @access public
-     */
-    public static function getSingleManualFeedback($active_id, $question_id, $pass) : array
+    public static function getSingleManualFeedback(int $active_id, int $question_id, int $pass) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        $row = array();
+        $row = [];
         $result = $ilDB->queryF(
             "SELECT * FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-            array('integer', 'integer', 'integer'),
-            array($active_id, $question_id, $pass)
+            ['integer', 'integer', 'integer'],
+            [$active_id, $question_id, $pass]
         );
 
-        if ($result->numRows() === 1) {
+        if ($ilDB->numRows($result) === 1) {
             $row = $ilDB->fetchAssoc($result);
             $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'] ?? '', 1);
-        } else {
-            $DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for " .
-                "active_fi = $active_id , question_fi = $question_id and pass = $pass");
+        } elseif ($ilDB->numRows($result) > 1) {
+            $DIC->logger()->root()->warning(
+                "WARNING: Multiple feedback entries on tst_manual_fb for " .
+                "active_fi = $active_id , question_fi = $question_id and pass = $pass"
+            );
         }
 
         return $row;
@@ -9460,30 +9453,25 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         return $feedback;
     }
-    
-    /**
-    * Saves the manual feedback for a question in a test
-    * @param integer $active_id Active ID of the user
-    * @param integer $question_id Question ID
-    * @param integer $pass Pass number
-    * @param string $feedback The feedback text
-    * @param boolean $finalized In Feedback is final
-    * @param boolean $is_single_feedback
-    * @return boolean TRUE if the operation succeeds, FALSE otherwise
-    * @access public
-    */
-    public function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false, $is_single_feedback = false) : bool
-    {
+
+    public function saveManualFeedback(
+        int $active_id,
+        int $question_id,
+        int $pass,
+        ?string $feedback,
+        bool $finalized = false,
+        bool $is_single_feedback = false
+    ) : bool {
         global $DIC;
 
-        $feedback_old = $this->getSingleManualFeedback($active_id, $question_id, $pass);
+        $feedback_old = self::getSingleManualFeedback($active_id, $question_id, $pass);
 
-        $finalized_record = (int) $feedback_old['finalized_evaluation'];
+        $finalized_record = (int) ($feedback_old['finalized_evaluation'] ?? 0);
         if ($finalized_record === 0 || ($is_single_feedback && $finalized_record === 1)) {
             $DIC->database()->manipulateF(
                 "DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-                array('integer', 'integer', 'integer'),
-                array($active_id, $question_id, $pass)
+                ['integer', 'integer', 'integer'],
+                [$active_id, $question_id, $pass]
             );
 
             $this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized, $feedback_old);
@@ -9496,18 +9484,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return true;
     }
 
-    /**
-     * Inserts a manual feedback into the DB
-     *
-     * @param integer $active_id Active ID of the user
-     * @param integer $question_id Question ID
-     * @param integer $pass Pass number
-     * @param string  $feedback The feedback text
-     * @param array  $feedback_old The feedback before update
-     * @param boolean $finalized In Feedback is final
-     */
-    private function insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized, $feedback_old)
-    {
+    private function insertManualFeedback(
+        int $active_id,
+        int $question_id,
+        int $pass,
+        ?string $feedback,
+        bool $finalized,
+        array $feedback_old
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -9521,16 +9505,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             'active_fi' => [ 'integer', $active_id],
             'question_fi' => [ 'integer', $question_id],
             'pass' => [ 'integer', $pass],
-            'feedback' => [ 'clob', ilRTE::_replaceMediaObjectImageSrc((string) $feedback, 0)],
+            'feedback' => [ 'clob', $feedback ? ilRTE::_replaceMediaObjectImageSrc($feedback, 0) : null],
             'tstamp' => [ 'integer', time()]
         ];
 
-        if ($feedback_old['finalized_evaluation'] == 1) {
+        if ($feedback_old !== [] && (int) $feedback_old['finalized_evaluation'] === 1) {
             $user = $feedback_old['finalized_by_usr_id'];
             $finalized_time = $feedback_old['finalized_tstamp'];
         }
 
-        if ($finalized === true || $feedback_old['finalized_evaluation'] == 1) {
+        if ($finalized === true || ($feedback_old !== [] && (int) $feedback_old['finalized_evaluation'] === 1)) {
             if (!array_key_exists('evaluated', $_POST)) {
                 $update_default['finalized_evaluation'] = ['integer', 0];
                 $update_default['finalized_by_usr_id'] = ['integer', 0];

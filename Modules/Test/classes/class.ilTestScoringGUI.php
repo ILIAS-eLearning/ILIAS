@@ -314,12 +314,12 @@ class ilTestScoringGUI extends ilTestServiceGUI
             );
 
             $feedback = ilUtil::stripSlashes(
-                $form->getItemByPostVar("question__{$questionId}__feedback")->getValue(),
+                (string) $form->getItemByPostVar("question__{$questionId}__feedback")->getValue(),
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
                     
-            $this->object->saveManualFeedback($activeId, $questionId, $pass, $feedback);
+            $this->object->saveManualFeedback($activeId, (int) $questionId, (int) $pass, $feedback);
 
             $notificationData[$questionId] = array(
                 'points' => $reachedPoints, 'feedback' => $feedback
@@ -460,7 +460,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $area = new ilTextAreaInputGUI($lng->txt('set_manual_feedback'), "question__{$questionId}__feedback");
             $area->setUseRTE(true);
             if ($initValues) {
-                $area->setValue($this->object->getSingleManualFeedback($activeId, $questionId, $pass)['feedback'] ?? '');
+                $area->setValue(ilObjTest::getSingleManualFeedback((int) $activeId, (int) $questionId, (int) $pass)['feedback'] ?? '');
             }
             $form->addItem($area);
             if (strlen(trim($bestSolution))) {
