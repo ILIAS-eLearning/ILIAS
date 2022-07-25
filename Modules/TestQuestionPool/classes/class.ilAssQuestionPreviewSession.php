@@ -64,7 +64,7 @@ class ilAssQuestionPreviewSession
     private function readSessionValue($subIndex)
     {
         $val = ilSession::get(self::SESSION_BASEINDEX);
-        return $val[$this->getSessionContextIndex()][$subIndex];
+        return $val[$this->getSessionContextIndex()][$subIndex] ?? [];
         //return $_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex];
     }
 
@@ -112,14 +112,14 @@ class ilAssQuestionPreviewSession
         if ($this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
             $requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
             return isset($requestedHints[$hintId]);
-        } else {
-            return false;
         }
+
+        return false;
     }
     
     public function addRequestedHint($hintId) : void
     {
-        $requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+        $requestedHints = $this->getRequestedHints();
         $requestedHints[$hintId] = $hintId;
         $this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, $requestedHints);
     }
@@ -129,7 +129,8 @@ class ilAssQuestionPreviewSession
         if ($this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
             return $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
         }
-        return array();
+
+        return [];
     }
     
     public function resetRequestedHints() : void
