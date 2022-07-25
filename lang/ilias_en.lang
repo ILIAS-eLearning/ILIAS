@@ -13322,10 +13322,10 @@ rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
-rbac#:#manage_comp_temp#:#User can change Competence Templates
-rbac#:#manage_comp#:#User can change Competences
+rbac#:#manage_comp_temp#:#User can edit Competence Templates
+rbac#:#manage_comp#:#User can edit Competences
 rbac#:#manage_materials#:#Manage Materials
-rbac#:#manage_profiles#:#User can change Competence Profiles
+rbac#:#manage_profiles#:#User can edit Competence Profiles
 rbac#:#mcst_copy#:#User can copy mediacast
 rbac#:#mcst_delete#:#User can move or delete mediacast
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
