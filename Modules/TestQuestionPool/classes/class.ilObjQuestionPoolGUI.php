@@ -1396,7 +1396,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->qplrequest->getRefId());
                 break;
         }
-        if (!is_array($this->qplrequest->raw("q_id")) && $this->qplrequest->raw("q_id") > 0) {
+        if (!is_array($this->qplrequest->raw("q_id")) && $this->qplrequest->raw("q_id") > 0 && $this->qplrequest->raw('cmd') !== 'questions') {
             $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->raw("q_id"));
             if ($q_gui !== null && $q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
@@ -1420,7 +1420,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         parent::setTitleAndDescription();
 
-        if (!is_array($this->qplrequest->raw("q_id")) && $this->qplrequest->raw("q_id") > 0) {
+        if (!is_array($this->qplrequest->raw("q_id")) && $this->qplrequest->raw("q_id") > 0 && $this->qplrequest->raw('cmd') !== 'questions') {
             $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
             if ($q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
