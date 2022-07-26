@@ -20,6 +20,8 @@ include_once 'Modules/Test/classes/class.ilTestService.php';
 */
 class ilTestServiceGUI
 {
+    protected const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
+    
     /**
      * @var ilObjTest
      */
@@ -359,10 +361,11 @@ class ilTestServiceGUI
         foreach ($result_array as $question_data) {
             if (($question_data["workedthrough"] == 1) || ($only_answered_questions == false)) {
                 $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "Modules/TestQuestionPool");
-                $question = $question_data["qid"];
-                if (is_numeric($question)) {
+                $question_id = $question_data["qid"];
+                if (is_numeric($question_id)) {
                     $maintemplate->setCurrentBlock("printview_question");
-                    $question_gui = $this->object->createQuestionGUI("", $question);
+                    $question_gui = $this->object->createQuestionGUI("", $question_id);
+                    $question_gui->object->setShuffler($this->buildQuestionAnswerShuffler((string) $question_id, (string) $active_id, (string) $pass));
                     if (is_object($question_gui)) {
                         if ($this->isPdfDeliveryRequest()) {
                             $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
@@ -370,11 +373,11 @@ class ilTestServiceGUI
                         
                         if ($anchorNav) {
                             $template->setCurrentBlock('block_id');
-                            $template->setVariable('BLOCK_ID', "detailed_answer_block_act_{$active_id}_qst_{$question}");
+                            $template->setVariable('BLOCK_ID', "detailed_answer_block_act_{$active_id}_qst_{$question_id}");
                             $template->parseCurrentBlock();
 
                             $template->setCurrentBlock('back_anchor');
-                            $template->setVariable('HREF_BACK_ANCHOR', "#pass_details_tbl_row_act_{$active_id}_qst_{$question}");
+                            $template->setVariable('HREF_BACK_ANCHOR', "#pass_details_tbl_row_act_{$active_id}_qst_{$question_id}");
                             $template->setVariable('TXT_BACK_ANCHOR', $this->lng->txt('tst_back_to_question_list'));
                             $template->parseCurrentBlock();
                         }
@@ -450,6 +453,33 @@ class ilTestServiceGUI
 
         $maintemplate->setVariable("RESULTS_OVERVIEW", $headerText);
         return $maintemplate->get();
+    }
+    
+    protected function buildQuestionAnswerShuffler(string $question_id, string $active_id, string $active_pass) : ilArrayElementShuffler
+    {
+        $shuffler = new ilArrayElementShuffler();
+        
+        $fixed_seed = $this->buildFixedShufflerSeedFromBasicSeed($question_id . $active_id . $active_pass);
+        $shuffler->setSeed($fixed_seed);
+        
+        return $shuffler;
+    }
+    
+    /**
+     * @param $questionId
+     * @return string
+     */
+    protected function buildFixedShufflerSeedFromBasicSeed(string $basic_seed) : string
+    {
+        $fixed_seed = $basic_seed;
+        
+        if (strlen($fixed_seed) < self::FIXED_SHUFFLER_SEED_MIN_LENGTH) {
+            $fixed_seed *= (
+                10 * (self::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixed_seed))
+            );
+        }
+        
+        return $fixed_seed;
     }
     
     /**
@@ -723,7 +753,7 @@ class ilTestServiceGUI
         }
         $template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
         $template->setVariable("TEXT_SOLUTION_OUTPUT", $this->lng->txt("tst_your_answer_was")); // Mantis 28646. I don't really know why Ingmar renamed the placeholder, so
-                                                                                                // I set both old and new since the old one is set as well in several places.
+        // I set both old and new since the old one is set as well in several places.
         $maxpoints = $question_gui->object->getMaximumPoints();
         if ($maxpoints == 1) {
             $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");

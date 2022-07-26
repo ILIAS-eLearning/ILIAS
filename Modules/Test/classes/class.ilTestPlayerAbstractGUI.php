@@ -26,8 +26,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 {
     const PRESENTATION_MODE_VIEW = 'view';
     const PRESENTATION_MODE_EDIT = 'edit';
-
-    const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
     
     public $ref_id;
     public $saveResult;
@@ -2457,28 +2455,28 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      * @param $sequenceElement
      * @return object
      */
-    protected function getQuestionGuiInstance($questionId, $fromCache = true)
+    protected function getQuestionGuiInstance($question_id, $fromCache = true)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
         
-        if (!$fromCache || !isset($this->cachedQuestionGuis[$questionId])) {
-            $questionGui = $this->object->createQuestionGUI("", $questionId);
+        if (!$fromCache || !isset($this->cachedQuestionGuis[$question_id])) {
+            $questionGui = $this->object->createQuestionGUI("", $question_id);
             $questionGui->setTargetGui($this);
             $questionGui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
             $questionGui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
             $questionGui->populateJavascriptFilesRequiredForWorkForm($tpl);
             $questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
-            $questionGui->object->setShuffler($this->buildQuestionAnswerShuffler($questionId));
+            $questionGui->object->setShuffler($this->buildQuestionAnswerShuffler((string) $question_id, (string) $this->testSession->getActiveId(), (string) $this->testSession->getPass()));
             
             // hey: prevPassSolutions - determine solution pass index and configure gui accordingly
             $this->initTestQuestionConfig($questionGui->object);
             // hey.
             
-            $this->cachedQuestionGuis[$questionId] = $questionGui;
+            $this->cachedQuestionGuis[$question_id] = $questionGui;
         }
         
-        return $this->cachedQuestionGuis[$questionId];
+        return $this->cachedQuestionGuis[$question_id];
     }
 
     /**
@@ -2527,22 +2525,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $questionOBJ->getTestPresentationConfig()->setPreviousPassSolutionReuseAllowed(
             $this->object->isPreviousSolutionReuseEnabled($this->testSession->getActiveId())
         );
-    }
-    // hey.
-    
-    /**
-     * @param $questionId
-     * @return ilArrayElementShuffler
-     */
-    protected function buildQuestionAnswerShuffler($questionId)
-    {
-        require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-        $shuffler = new ilArrayElementShuffler();
-        
-        $fixedSeed = $this->buildFixedShufflerSeed($questionId);
-        $shuffler->setSeed($fixedSeed);
-        
-        return $shuffler;
     }
 
     /**
@@ -2875,23 +2857,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // fau: testNav - always set default presentation mode to "edit"
         return self::PRESENTATION_MODE_EDIT;
         // fau.
-    }
-    
-    /**
-     * @param $questionId
-     * @return string
-     */
-    protected function buildFixedShufflerSeed($questionId)
-    {
-        $fixedSeed = $questionId . $this->testSession->getActiveId() . $this->testSession->getPass();
-        
-        if (strlen($fixedSeed) < self::FIXED_SHUFFLER_SEED_MIN_LENGTH) {
-            $fixedSeed *= (
-                10 * (self::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixedSeed))
-            );
-        }
-        
-        return $fixedSeed;
     }
     
     protected function registerForcedFeedbackNavUrl($forcedFeedbackNavUrl)
