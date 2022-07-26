@@ -1483,8 +1483,10 @@ abstract class assQuestion
 
     protected function deletePageOfQuestion(int $question_id) : void
     {
-        $page = new ilAssQuestionPage($question_id);
-        $page->delete();
+        if (ilAssQuestionPage::_exists('qpl', $question_id, "", true)) {
+            $page = new ilAssQuestionPage($question_id);
+            $page->delete();
+        }
     }
 
     public function delete(int $question_id) : void
@@ -2467,30 +2469,34 @@ abstract class assQuestion
     public function syncWithOriginal() : void
     {
         if (!$this->getOriginalId()) {
-            return;
+            return; // No original -> no sync
         }
-
+        $currentID = $this->getId();
+        $currentObjId = $this->getObjId();
+        $originalID = $this->getOriginalId();
         $originalObjId = self::lookupParentObjId($this->getOriginalId());
 
         if (!$originalObjId) {
-            return;
+            return; // Original does not exist -> no sync
         }
 
         $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
 
+        // Now we become the original
         $this->setId($this->getOriginalId());
         $this->setOriginalId(null);
         $this->setObjId($originalObjId);
-
+        // And save ourselves as the original
         $this->saveToDb();
 
-        $this->deletePageOfQuestion($this->getOriginalId());
+        // Now we delete the originals page content
+        $this->deletePageOfQuestion($originalID);
         $this->createPageObject();
-        $this->copyPageOfQuestion($this->getId());
+        $this->copyPageOfQuestion($currentID);
 
-        $this->setId($this->getId());
-        $this->setOriginalId($this->getOriginalId());
-        $this->setObjId($this->getObjId());
+        $this->setId($currentID);
+        $this->setOriginalId($originalID);
+        $this->setObjId($currentObjId);
 
         $this->updateSuggestedSolutions($this->getOriginalId());
         $this->syncXHTMLMediaObjectsOfQuestion();
