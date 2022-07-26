@@ -6136,7 +6136,8 @@ content#:#cont_cp_question_diff_formats_info#:#Please note that some formatting 
 content#:#cont_create_link#:#Create Link
 content#:#cont_create_mob#:#Create Media Object
 content#:#cont_credit_mode#:#Grading Tracking Status
-content#:#cont_credit_off#:#Tracking Status not Graded
+content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.
+content#:#cont_credit_off#:#Tracking Status not graded
 content#:#cont_credit_on#:#Grade Tracking Status (Passed or Failed)
 content#:#cont_credits#:#Credits
 content#:#cont_current_chapter#:#Current Chapter
@@ -6792,12 +6793,12 @@ content#:#cont_save_widths#:#Save Widths
 content#:#cont_saving#:#Saving...
 content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.
 content#:#cont_sc_auto_continue#:#Redirect Users
-content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
+content#:#cont_sc_auto_review_2004#:#Store Data
 content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achieved status is completed and passed
 content#:#cont_sc_auto_review_completed#:#keep tracking data if achieved status is completed
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
-content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the Tracking Status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
 content#:#cont_sc_auto_review_passed_or_failed#:#keep tracking data if achieved status is passed or failed
