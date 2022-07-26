@@ -211,31 +211,19 @@ class ItemTest extends ILIAS_UI_TestBase
 			<div class="il-item-description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
 			<hr class="il-item-divider" />
 			<div class="row">
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-sm-5 col-lg-4 il-item-property-name">Origin</div>
-						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">Course Title 1</div>
-					</div>
+                <div class="col-md-6 il-multi-line-cap-3">
+					<span class="il-item-property-name">Origin</span><span class="il-item-property-value">Course Title 1</span>
 				</div>
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-sm-5 col-lg-4 il-item-property-name">Last Update</div>
-						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">24.11.2011</div>
-					</div>
+				<div class="col-md-6 il-multi-line-cap-3">
+					<span class="il-item-property-name">Last Update</span><span class="il-item-property-value">24.11.2011</span>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-sm-5 col-lg-4 il-item-property-name">Location</div>
-						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">Room 123, Main Street 44, 3012 Bern</div>
-					</div>
+                <div class="col-md-6 il-multi-line-cap-3">
+					<span class="il-item-property-name">Location</span><span class="il-item-property-value">Room 123, Main Street 44, 3012 Bern</span>
 				</div>
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-sm-5 col-lg-4 il-item-property-name"></div>
-						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"></div>
-					</div>
+				<div class="col-md-6 il-multi-line-cap-3">
+					<span class="il-item-property-name"></span><span class="il-item-property-value"></span>
 				</div>
 			</div>
 </div>
@@ -573,32 +561,12 @@ EOT;
    <div class="il-item-title"><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></div>
    <hr class="il-item-divider" />
    <div class="row">
-      <div class="col-md-6">
-         <div class="row">
-            <div class="col-sm-5 col-lg-4 il-item-property-name">Property Text</div>
-            <div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">Text</div>
-         </div>
-      </div>
-      <div class="col-md-6">
-         <div class="row">
-            <div class="col-sm-5 col-lg-4 il-item-property-name">Property HTML</div>
-            <div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><a>Link</a></div>
-         </div>
-      </div>
+      <div class="col-md-6 il-multi-line-cap-3"><span class="il-item-property-name">Property Text</span><span class="il-item-property-value">Text</span></div>
+      <div class="col-md-6 il-multi-line-cap-3"><span class="il-item-property-name">Property HTML</span><span class="il-item-property-value"><a>Link</a></span></div>
    </div>
    <div class="row">
-      <div class="col-md-6">
-         <div class="row">
-            <div class="col-sm-5 col-lg-4 il-item-property-name">Property Shy</div>
-            <div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></div>
-         </div>
-      </div>
-      <div class="col-md-6">
-         <div class="row">
-            <div class="col-sm-5 col-lg-4 il-item-property-name">Property Icon</div>
-            <div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label"/></div>
-         </div>
-      </div>
+      <div class="col-md-6 il-multi-line-cap-3"><span class="il-item-property-name">Property Shy</span><span class="il-item-property-value"><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></span></div>
+      <div class="col-md-6 il-multi-line-cap-3"><span class="il-item-property-name">Property Icon</span><span class="il-item-property-value"><img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label"/></span></div>
    </div>
 </div>
 EOT);

@@ -7759,6 +7759,9 @@ ul.dropdown-menu > li > .btn:focus {
   color: #6f6f6f;
   overflow: hidden;
 }
+.il-item .il-item-property-name:not(:empty):after {
+  content: ": ";
+}
 .il-item .il-item-property-value {
   font-size: 0.75rem;
   overflow: hidden;
@@ -19984,4 +19987,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */
