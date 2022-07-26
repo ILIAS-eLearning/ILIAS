@@ -32,6 +32,7 @@
 */
 class ilUserSearchOptions
 {
+    public const FIELD_TYPE_UDF_UNDEFINED = 0;
     public const FIELD_TYPE_UDF_SELECT = 1;
     public const FIELD_TYPE_UDF_TEXT = 2;
     public const FIELD_TYPE_SELECT = 3;
@@ -132,9 +133,7 @@ class ilUserSearchOptions
                     
                 case 'org_units':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
-
-                                        $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
-
+                    $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
                     $options[0] = $lng->txt('select_one');
                     foreach ($paths as $org_ref_id => $path) {
                         $options[$org_ref_id] = $path;
@@ -238,7 +237,9 @@ class ilUserSearchOptions
                     break;
 
                 default:
-                    throw new \Exception('unsupported udf type');
+                    // do not throw: udf plugin support
+                    $fields[$counter]['type'] = $definition['field_type'];
+                    break;
             }
             ++$counter;
         }
