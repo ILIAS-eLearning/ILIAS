@@ -4294,7 +4294,8 @@ content#:#cont_copy_to_clipboard#:#Copy to clipboard
 content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.
 content#:#cont_create_mob#:#Create Media Object
 content#:#cont_credit_mode#:#Grading Tracking Status
-content#:#cont_credit_off#:#Tracking Status not Graded
+content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.
+content#:#cont_credit_off#:#Tracking Status not graded
 content#:#cont_credit_on#:#Grade Tracking Status (Passed or Failed)
 content#:#cont_credits#:#Credits
 content#:#cont_current_chapter#:#Current Chapter
@@ -12012,8 +12013,8 @@ adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#adve_char_selector_settings#:#Character Selector
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.
-content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
-content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_2004#:#Store Data
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the Tracking Status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
