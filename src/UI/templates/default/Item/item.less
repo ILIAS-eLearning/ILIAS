@@ -45,6 +45,9 @@
 		font-size: @font-size-small;
 		color: @il-text-light-color;
 		overflow: hidden;
+		&:not(:empty):after {
+			content: ": "
+		}
 	}
 
 	.il-item-property-value {

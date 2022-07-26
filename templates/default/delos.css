@@ -7828,6 +7828,9 @@ ul.dropdown-menu > li > .btn:focus {
   color: #6f6f6f;
   overflow: hidden;
 }
+.il-item .il-item-property-name:not(:empty):after {
+  content: ": ";
+}
 .il-item .il-item-property-value {
   font-size: 12px;
   overflow: hidden;
