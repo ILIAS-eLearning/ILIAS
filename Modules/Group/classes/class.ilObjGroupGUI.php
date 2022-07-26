@@ -1657,22 +1657,22 @@ class ilObjGroupGUI extends ilContainerGUI
 
             $prev = new ilNumberInputGUI($this->lng->txt('sess_num_prev'), 'sp');
             $prev->setMinValue(0);
-            $prev->setValue(
+            $prev->setValue((string) (
                 $this->object->getNumberOfPreviousSessions() == -1 ?
                     '' :
                     $this->object->getNumberOfPreviousSessions()
-            );
+            ));
             $prev->setSize(2);
             $prev->setMaxLength(3);
             $sess->addSubItem($prev);
 
             $next = new ilNumberInputGUI($this->lng->txt('sess_num_next'), 'sn');
             $next->setMinValue(0);
-            $next->setValue(
+            $next->setValue((string) (
                 $this->object->getNumberOfNextSessions() == -1 ?
                     '' :
                     $this->object->getNumberOfNextSessions()
-            );
+            ));
             $next->setSize(2);
             $next->setMaxLength(3);
             $sess->addSubItem($next);
