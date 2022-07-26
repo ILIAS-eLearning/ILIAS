@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * INIFile Parser
@@ -85,62 +100,15 @@ class ilIniFile
     {
         //use php4 function parse_ini_file
         $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
-
-        //check if groups are filled
         if ($this->GROUPS == false) {
-            // second try
-            $this->fixIniFile();
-
-            $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
-            if ($this->GROUPS == false) {
-                $this->error("file_not_accessible");
-                return false;
-            }
+            $this->error("file_not_accessible");
+            return false;
         }
+
         //set current group
         $temp = array_keys($this->GROUPS);
         $this->CURRENT_GROUP = $temp[count($temp) - 1];
         return true;
-    }
-
-    /**
-     * Fix ini file (make it compatible for PHP 5.3)
-     */
-    public function fixIniFile() : void
-    {
-        // first read content
-        $lines = array();
-        $fp = @fopen($this->INI_FILE_NAME, "r");
-        $starttag = '';
-        while (!feof($fp)) {
-            $l = fgets($fp, 4096);
-            $skip = false;
-            if ((substr($l, 0, 2) == "/*" && $starttag) ||
-                substr($l, 0, 5) == "*/ ?>") {
-                $skip = true;
-            }
-            $starttag = false;
-            if (substr($l, 0, 5) == "<?php") {
-                $l = "; <?php exit; ?>";
-                $starttag = true;
-            }
-            if (!$skip) {
-                $l = str_replace("\n", "", $l);
-                $l = str_replace("\r", "", $l);
-                $lines[] = $l;
-            }
-        }
-        fclose($fp);
-
-        // now write it back
-        $fp = @fopen($this->INI_FILE_NAME, "w");
-
-        if (!empty($fp)) {
-            foreach ($lines as $l) {
-                fwrite($fp, $l . "\r\n");
-            }
-        }
-        fclose($fp);
     }
 
     /**
