@@ -1799,7 +1799,7 @@ abstract class assQuestionGUI
 
     protected function hasCorrectSolution($activeId, $passIndex) : bool
     {
-        $reachedPoints = $this->object->getAdjustedReachedPoints($activeId, $passIndex, true);
+        $reachedPoints = $this->object->getAdjustedReachedPoints((int) $activeId, (int) $passIndex, true);
         $maximumPoints = $this->object->getMaximumPoints();
         
         return $reachedPoints == $maximumPoints;
