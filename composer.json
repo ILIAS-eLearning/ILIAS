@@ -9,7 +9,7 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"php setup/cli.php build-artifacts --yes"
+			"@php setup/cli.php build-artifacts --yes"
 		],
 		"post-install-cmd": [
 		  "rm -rf libs/composer/vendor/geshi/geshi/contrib"
