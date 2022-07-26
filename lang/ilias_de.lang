@@ -16453,9 +16453,12 @@ adn#:#msg_permanent#:#Anzeige
 adn#:#msg_permanent_info#:#Ankündigungen permanent oder zeitlich begrenzt anzeigen
 adn#:#msg_dismissable#:#Manuell schließen
 adn#:#msg_dismissable_info#:#Benutzer können Ankündigung schließen und sehen diese künftig nicht mehr.
-adn#:#msg_limited_to_role_ids#:#Rollen
-adn#:#msg_limit_to_roles#:#Rollen-abhängige Anzeige
-adn#:#msg_limit_to_roles_info#:#Nur ausgewählte Rollen sehen die Ankündigung.
+adn#:#msg_presentation#:#Anzeige
+adn#:#msg_limited_to_role_ids#:#Anzeige
+adn#:#msg_show_to_all_roles#:#Allen Rollen anzeigen
+adn#:#msg_show_to_all_roles_info#:#Die Benachrichtigung wird allen Benutzern angezeigt und ist auch im Öffentlichen Bereich für nicht-eingeloggte Personen sichtbar.
+adn#:#msg_limit_to_roles#:#Auf ausgewählte Rollen beschränken
+adn#:#msg_limit_to_roles_info#:#Benachrichtigung wird nur Personen mit einer der nachfolgend ausgewählten Rollen angezeigt.
 adn#:#msg_form_title#:#Ankündigung
 adn#:#msg_table_title#:#Ankündigungen
 adn#:#common_actions#:#Aktionen

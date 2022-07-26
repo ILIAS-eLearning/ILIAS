@@ -16434,9 +16434,12 @@ adn#:#msg_permanent#:#Display
 adn#:#msg_permanent_info#:#Display Notifications permanently or temporarily
 adn#:#msg_dismissable#:#Dismissable
 adn#:#msg_dismissable_info#:#Notifications can be closed by the user. The user won't see this notification again.
-adn#:#msg_limited_to_role_ids#:#Roles
-adn#:#msg_limit_to_roles#:#Role-sensitive Presentation
-adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notification.
+adn#:#msg_presentation#:#Presentation
+adn#:#msg_limited_to_role_ids#:#Presentation
+adn#:#msg_show_to_all_roles#:#Show to all roles
+adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.
+adn#:#msg_limit_to_roles#:#Limited to Selected Roles
+adn#:#msg_limit_to_roles_info#:#Only selected roles will see the notification.
 adn#:#msg_form_title#:#Notification
 adn#:#msg_table_title#:#Notifications
 adn#:#common_actions#:#Actions
