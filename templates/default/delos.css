@@ -9206,6 +9206,8 @@ header {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 .breadcrumbs {
+  position: sticky;
+  top: 0;
   align-items: center;
   background-color: white;
   display: flex;
@@ -9292,18 +9294,12 @@ main {
   display: block;
 }
 .il-layout-page-content {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  grid-column: 2;
-  grid-row: 3;
+  display: flex;
+  flex-flow: column;
   overflow: auto;
 }
 .il-layout-page-content:focus-visible {
   outline: none;
-}
-.il-layout-page-content > div {
-  display: flex;
-  flex-flow: column;
 }
 .il-layout-page-content #mainspacekeeper {
   flex-grow: 1;
@@ -10424,10 +10420,6 @@ footer {
   .il-mode-info + div {
     padding-top: 30px;
   }
-}
-.il-layout-page-content > div {
-  display: grid;
-  grid-template-rows: auto 1fr;
 }
 .il-mode-info span.il-mode-info-content {
   margin: auto;
