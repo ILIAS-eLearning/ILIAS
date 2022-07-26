@@ -172,10 +172,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 
                 $gui->initQuestion((int) $_GET['q_id'], $this->object->getId());
                 $gui->initPreviewSettings($this->object->getRefId());
-
-                // I am not sure why the question needs a parent in order to be previewed. So I skip it.
-                //$gui->initPreviewSession($ilUser->getId(), $this->fetchAuthoringQuestionIdParamater());
-                $gui->initPreviewSession($ilUser->getId(), $this->object->getId());
+                $gui->initPreviewSession($ilUser->getId(), $this->fetchAuthoringQuestionIdParamater());
                 $gui->initHintTracking();
                 $gui->initStyleSheets();
 
