@@ -34,10 +34,19 @@ trait ObjectiveHelper
         IOWrapper $io = null
     ) : Environment {
         $iterator = new ObjectiveIterator($environment, $objective);
+        $current = null;
+
+        register_shutdown_function(static function () use (&$current) {
+            if (null !== $current) {
+                throw new \RuntimeException("Objective '{$current->getLabel()}' failed because it halted the program.");
+            }
+        });
 
         while ($iterator->valid()) {
             $current = $iterator->current();
             if (!$current->isApplicable($environment)) {
+                // reset objective to mark it as processed without halting the program.
+                $current = null;
                 $iterator->next();
                 continue;
             }
@@ -62,6 +71,9 @@ trait ObjectiveHelper
                     }
                     $io->error($message);
                 }
+            } finally {
+                // reset objective to mark it as processed without halting the program.
+                $current = null;
             }
             $iterator->next();
         }
