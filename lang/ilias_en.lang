@@ -10180,7 +10180,7 @@ wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating
 rating#:#rating_overlay_submit#:#Submit Rating
 rep#:#rep_visibility_until#:#Limited Availability Period
 assessment#:#tst_activation_online_info#:#If online, participants can take the test.
-assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test.
+assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. Further access, including to tests already in progress, will be prevented at the end of the period.
 book#:#booking_nr_of_items#:#Nr of Items
 book#:#book_schedule_type_fixed#:#Fixed Schedule
 book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, video projectors and such.

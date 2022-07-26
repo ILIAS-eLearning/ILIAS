@@ -10174,7 +10174,7 @@ rep#:#rep_activation_limited_visibility#:#Immer sichtbar
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
 rep#:#rep_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
-assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden.
+assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden. Der weitere Zugriff, auch auf bereits laufende Tests, wird zum Ende des Zeitraums unterbunden.
 book#:#booking_nr_of_items#:#Anzahl
 book#:#book_schedule_type_fixed#:#Belegungen zu Terminen
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
