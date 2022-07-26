@@ -1296,7 +1296,7 @@ assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzstufen.
 assessment#:#tst_activate_skill_service#:#Kompetenzen
-assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden.
+assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden. Der weitere Zugriff, auch auf bereits laufende Tests, wird zum Ende des Zeitraums unterbunden.
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
