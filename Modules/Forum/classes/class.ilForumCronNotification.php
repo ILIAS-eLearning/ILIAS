@@ -73,7 +73,6 @@ class ilForumCronNotification extends ilCronJob
             $ilDB = $DIC->database();
         }
         $this->ilDB = $ilDB;
-        $this->tree = $DIC->repositoryTree();
 
         if ($notificationCache === null) {
             $notificationCache = new \ilForumNotificationCache();
@@ -147,6 +146,7 @@ class ilForumCronNotification extends ilCronJob
 
         $ilSetting = $DIC->settings();
         $lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
 
         $this->logger = $DIC->logger()->frm();
 
