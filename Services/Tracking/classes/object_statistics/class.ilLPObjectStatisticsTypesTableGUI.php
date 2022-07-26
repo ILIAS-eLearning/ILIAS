@@ -181,7 +181,10 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
             }
 
             foreach ($months as $month => $row) {
-                $value = $row[$this->filter["measure"]];
+                $value = '';
+                if (isset($this->filter['measure']) && isset($row[$this->filter['measure']])) {
+                    $value = $row[$this->filter["measure"]];
+                }
                 $data[$type]["month_" . $month] = $value;
             }
         }
@@ -212,8 +215,10 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                         $type
                     );
                 }
-
-                $value = $item[$this->filter["measure"]];
+                $value = '';
+                if (isset($this->filter['measure']) && isset($item[$this->filter['measure']])) {
+                    $value = $item[$this->filter["measure"]];
+                }
                 $data[$type]["month_live"] = $value;
             }
         }
