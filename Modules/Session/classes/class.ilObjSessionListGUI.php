@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 
 /**
@@ -74,7 +73,11 @@ class ilObjSessionListGUI extends ilObjectListGUI
     {
         $app_info = $this->getAppointmentInfo();
         $title = strlen($this->title) ? (': ' . $this->title) : '';
-        return ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], (bool) $app_info['fullday']) . $title;
+        return ilSessionAppointment::_appointmentToString(
+            $app_info['start'] ?? 0,
+            $app_info['end'] ?? 0,
+            (bool) ($app_info['fullday'] ?? false)
+        ) . $title;
     }
 
     public function getCommandLink($a_cmd) : string
