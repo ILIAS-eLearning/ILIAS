@@ -313,7 +313,7 @@ span.ilAlert {
 }
 .dropdown-menu {
 	background-color: @dropdown-bg;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 	border: 0 none;
     .box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
 	// Links within the dropdown menu
@@ -321,7 +321,7 @@ span.ilAlert {
 		display: block;
 		clear: both;
 		padding: 3px 10px;
-		font-weight: normal;
+		font-weight: @il-font-weight-base;
 		font-size: @il-font-size-dropdown;
 		line-height: @line-height-base;
 		background-color: @dropdown-link-bg;
@@ -475,7 +475,7 @@ sub, sup {
 }
 
 strong, b {
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 }
 
 a {
@@ -789,7 +789,7 @@ tr.std {
 th {
 	text-align: left;
 	vertical-align: bottom;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 }
 
 td.std, th.std {
@@ -810,7 +810,7 @@ th.option, td.option {
 	background-color: @il-main-bg;
 	color: @il-text-color;
 	padding: 3px;
-	font-weight : bold;
+	font-weight : @il-font-weight-bold;
 	vertical-align: top;
 	text-align: right;
 	border-top: 1px solid #9eadba;
@@ -824,7 +824,7 @@ td.sub_option {
 	background-color: white;
 	color: @il-text-color;
 	padding: 3px;
-	font-weight : bold;
+	font-weight : @il-font-weight-bold;
 	vertical-align: top;
 	border-top: 1px solid #9eadba;
 }
@@ -856,7 +856,7 @@ td.option_desc, p.option_desc {
 	color: @il-text-color;
 	padding: 3px;
 	font-style: italic;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 	vertical-align: top;
 	text-align: left;
 }
@@ -876,7 +876,7 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited {
 	text-decoration: none;
 	margin: 0 3px 0 0;
 	white-space: nowrap;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 }
 
 [dir="rtl"] a.il_ContainerItemCommand2:link,
@@ -907,7 +907,7 @@ div.il_ContainerItemCommands {
 h3.il_ContainerItemTitle {
 	padding: 0;
 	margin: 0;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 	font-size: @il-font-size-base;
 	display: inline;
 }
@@ -925,7 +925,7 @@ div.il_ContainerItemTitle {
 div.il_ItemProperties {
 	margin: 2px 0 5px;
 	text-align: left;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 	font-size: @il-font-size-small;
 }
 
@@ -936,7 +936,7 @@ div.il_ItemProperties {
 div.il_ItemNotice {
 	margin: 2px 0 5px;
 	text-align: left;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 	font-size: @il-font-size-small;
 	color: green;
 }
@@ -947,7 +947,7 @@ div.il_ItemNotice {
 
 a.il_ItemProperty:link, a.il_ItemProperty:visited {
 	text-decoration: none;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 }
 
 a.il_ItemProperty:hover {
@@ -963,7 +963,7 @@ span.il_ItemAlertProperty {
 div.il_Description, td.il_Description {
 	margin: 2px 0 5px;
 	font-size: @il-font-size-small;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 	text-align: left;
 }
 
@@ -1000,7 +1000,7 @@ a#il_mhead_t_focus {
 	color: @il-neutral-color;
 	vertical-align: middle;
 	font-size: @il-font-size-h1;
-	font-weight: 400;
+	font-weight: @il-font-weight-bold;
     cursor: default;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
         font-size: @il-font-size-xxlarge;
@@ -1018,7 +1018,7 @@ h1.ilHeader {
 }
 
 h2.ilHeader {
-	font-weight: normal;
+	font-weight: @il-font-weight-bold;
 	padding: 0;
 	margin: 0;
 	display: inline;
@@ -1176,7 +1176,7 @@ div.invisible_border {
 /* ------- Helptext --------- */
 span.il_Helptext {
 	font-size: @il-font-size-small;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 }
 
 /* ----------------- alternative text styles ------------- */
@@ -1208,20 +1208,20 @@ span.il_Helptext {
 }
 
 .obligatory {
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 	color: #800000;
 	font-variant: normal;
 }
 
 .warning {
 	text-decoration: none;
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 	color: @il-danger-color;
 }
 
 div.Access {
 	text-decoration: none;
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 	text-decoration: underline;
 	color: @il-danger-color;
 }
@@ -1233,27 +1233,27 @@ div.Access {
 
 .default {
 	text-decoration: none;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 }
 
 
 .quote {
 	font-style: italic;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 }
 
 .subtitle {
 	font-style: italic;
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 	font-size: @il-font-size-small;
 }
 
 .questiontext {
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 }
 
 .bold {
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 }
 
 .light {
@@ -1512,7 +1512,7 @@ div.ilSideBarContent{
 		float: left;
 		clear: left;
 		width: 100%;
-		font-weight: bold;
+		font-weight: @il-font-weight-bold;
 	}
 	.ui-menu-more {
 		display: block;

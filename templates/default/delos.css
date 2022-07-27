@@ -5011,7 +5011,7 @@ kbd {
 kbd kbd {
   padding: 0;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: 600;
   box-shadow: none;
 }
 pre {
@@ -5878,7 +5878,7 @@ label {
   display: inline-block;
   max-width: 100%;
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: 600;
 }
 input[type="search"] {
   -webkit-box-sizing: border-box;
@@ -6029,7 +6029,7 @@ input[type="search"] {
   min-height: 20px;
   padding-left: 20px;
   margin-bottom: 0;
-  font-weight: normal;
+  font-weight: 400;
   cursor: pointer;
 }
 .radio input[type="radio"],
@@ -6051,7 +6051,7 @@ input[type="search"] {
   padding-left: 20px;
   margin-bottom: 0;
   vertical-align: top;
-  font-weight: normal;
+  font-weight: 400;
   cursor: pointer;
 }
 .radio-inline + .radio-inline,
@@ -6946,7 +6946,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #161616;
   font-size: 1.115rem;
   line-height: 1.33;
-  font-weight: 400;
+  font-weight: 600;
 }
 .panel .panel-heading.ilHeader h4,
 .panel .panel-heading.ilBlockHeader h4,
@@ -7074,7 +7074,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .il-panel-listing-std-container > h2 {
   color: #161616;
   font-size: 1.115rem;
-  font-weight: 500;
+  font-weight: 600;
   float: left;
   padding: 9px 15px;
   margin: 0;
@@ -7155,7 +7155,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   margin: 6px 0 0 0;
 }
 .il-card .caption dl dt {
-  font-weight: normal;
+  font-weight: 400;
   color: #6f6f6f;
   padding-top: 6px;
 }
@@ -7681,7 +7681,7 @@ hr.il-divider-with-label {
 }
 ul.dropdown-menu {
   background-color: white;
-  font-weight: normal;
+  font-weight: 400;
   border: 0 none;
   -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
@@ -7695,7 +7695,7 @@ ul.dropdown-menu > li > .btn {
   width: 100%;
   clear: both;
   padding: 3px 15px;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.42857143;
   background-color: transparent;
@@ -7789,7 +7789,7 @@ ul.dropdown-menu > li > .btn:focus {
   float: left;
   color: #161616;
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: 400;
   padding: 9px 15px;
   margin: 0;
 }
@@ -7912,7 +7912,7 @@ ul.dropdown-menu > li > .btn:focus {
   background-color: white;
   padding: 0px 6px 0px 6px;
   border: 1px solid #4c6586;
-  font-weight: normal;
+  font-weight: 400;
 }
 .il-viewcontrol-pagination .dropdown-toggle {
   padding-top: 0;
@@ -8081,7 +8081,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-score {
   font-size: 0.625rem;
-  font-weight: bold;
+  font-weight: 600;
   fill: #000000;
 }
 .il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-comparision {
@@ -8357,7 +8357,7 @@ select.form-control {
   vertical-align: top;
 }
 label {
-  font-weight: normal;
+  font-weight: 400;
 }
 td.form-inline > div.form-group {
   display: block;
@@ -8391,7 +8391,7 @@ input[type="checkbox"]:focus:focus-visible {
   outline: none;
   padding: 0 0px 4px;
   line-height: 1.42857143;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   margin-bottom: 6.6px;
 }
 .il-input-tag-container .il-input-tag .tagify__tag {
@@ -8785,7 +8785,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 }
 .il-table-presentation-row .il-table-presentation-row-header h4 {
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: 400;
   padding: 0;
   margin: 0;
   cursor: pointer;
@@ -8864,7 +8864,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   padding: 5px;
 }
 .il-table-data .header.cell {
-  font-weight: bold;
+  font-weight: 600;
 }
 .il-workflow.linear {
   -webkit-box-shadow: none;
@@ -10523,7 +10523,7 @@ footer {
 }
 .il-system-info div.il-system-info-content-wrapper span.il-system-info-headline {
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 600;
   margin-right: 9px;
 }
 .il-system-info div.il-system-info-actions {
@@ -10671,7 +10671,7 @@ footer {
   text-align: center;
 }
 .icon .abbreviation {
-  font-weight: bold;
+  font-weight: 600;
   position: absolute;
 }
 .icon img {
@@ -10925,7 +10925,7 @@ footer {
   object-fit: cover;
 }
 .il-avatar.il-avatar-letter span.abbreviation {
-  font-weight: lighter;
+  font-weight: 300;
   text-transform: inherit;
   font-size: calc(41px / 2);
   line-height: 1;
@@ -11134,7 +11134,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 #000000;
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -11526,7 +11526,7 @@ with the il- variable set here.
 }
 .il-popover .il-popover-title-container h4.il-popover-title {
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: 400;
   padding: 8px 14px;
   background-color: transparent;
   text-transform: none;
@@ -12033,7 +12033,7 @@ span.ilAlert {
 }
 .dropdown-menu {
   background-color: white;
-  font-weight: normal;
+  font-weight: 400;
   border: 0 none;
   -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
@@ -12042,7 +12042,7 @@ span.ilAlert {
   display: block;
   clear: both;
   padding: 3px 10px;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.42857143;
   background-color: transparent;
@@ -12192,7 +12192,7 @@ sup {
 }
 strong,
 b {
-  font-weight: bold;
+  font-weight: 600;
 }
 a {
   text-decoration: none;
@@ -12470,7 +12470,7 @@ tr.std {
 th {
   text-align: left;
   vertical-align: bottom;
-  font-weight: normal;
+  font-weight: 400;
 }
 td.std,
 th.std {
@@ -12490,7 +12490,7 @@ td.option {
   background-color: white;
   color: #161616;
   padding: 3px;
-  font-weight: bold;
+  font-weight: 600;
   vertical-align: top;
   text-align: right;
   border-top: 1px solid #9eadba;
@@ -12503,7 +12503,7 @@ td.sub_option {
   background-color: white;
   color: #161616;
   padding: 3px;
-  font-weight: bold;
+  font-weight: 600;
   vertical-align: top;
   border-top: 1px solid #9eadba;
 }
@@ -12532,7 +12532,7 @@ p.option_desc {
   color: #161616;
   padding: 3px;
   font-style: italic;
-  font-weight: normal;
+  font-weight: 400;
   vertical-align: top;
   text-align: left;
 }
@@ -12552,7 +12552,7 @@ a.il_ContainerItemCommand:visited {
   text-decoration: none;
   margin: 0 3px 0 0;
   white-space: nowrap;
-  font-weight: normal;
+  font-weight: 400;
 }
 [dir="rtl"] a.il_ContainerItemCommand2:link,
 [dir="rtl"] a.il_ContainerItemCommand2:visited,
@@ -12577,7 +12577,7 @@ div.il_ContainerItemCommands {
 h3.il_ContainerItemTitle {
   padding: 0;
   margin: 0;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 0.875rem;
   display: inline;
 }
@@ -12592,7 +12592,7 @@ div.il_ContainerItemTitle {
 div.il_ItemProperties {
   margin: 2px 0 5px;
   text-align: left;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 0.75rem;
 }
 [dir="rtl"] div.il_ItemProperties {
@@ -12601,7 +12601,7 @@ div.il_ItemProperties {
 div.il_ItemNotice {
   margin: 2px 0 5px;
   text-align: left;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 0.75rem;
   color: green;
 }
@@ -12611,7 +12611,7 @@ div.il_ItemNotice {
 a.il_ItemProperty:link,
 a.il_ItemProperty:visited {
   text-decoration: none;
-  font-weight: normal;
+  font-weight: 400;
 }
 a.il_ItemProperty:hover {
   color: black;
@@ -12625,7 +12625,7 @@ div.il_Description,
 td.il_Description {
   margin: 2px 0 5px;
   font-size: 0.75rem;
-  font-weight: normal;
+  font-weight: 400;
   text-align: left;
 }
 [dir="rtl"] div.il_Description,
@@ -12654,7 +12654,7 @@ a#il_mhead_t_focus {
   color: #2c2c2c;
   vertical-align: middle;
   font-size: 1.75rem;
-  font-weight: 400;
+  font-weight: 600;
   cursor: default;
 }
 @media only screen and (max-width: 768px) {
@@ -12674,7 +12674,7 @@ h1.ilHeader {
   }
 }
 h2.ilHeader {
-  font-weight: normal;
+  font-weight: 600;
   padding: 0;
   margin: 0;
   display: inline;
@@ -12819,7 +12819,7 @@ div.invisible_border {
 /* ------- Helptext --------- */
 span.il_Helptext {
   font-size: 0.75rem;
-  font-weight: normal;
+  font-weight: 400;
 }
 /* ----------------- alternative text styles ------------- */
 .base {
@@ -12845,18 +12845,18 @@ span.il_Helptext {
   color: #d00;
 }
 .obligatory {
-  font-weight: normal;
+  font-weight: 400;
   color: #800000;
   font-variant: normal;
 }
 .warning {
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
   color: #d00;
 }
 div.Access {
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
   text-decoration: underline;
   color: #d00;
 }
@@ -12866,22 +12866,22 @@ div.Access {
 }
 .default {
   text-decoration: none;
-  font-weight: normal;
+  font-weight: 400;
 }
 .quote {
   font-style: italic;
-  font-weight: normal;
+  font-weight: 400;
 }
 .subtitle {
   font-style: italic;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 0.75rem;
 }
 .questiontext {
-  font-weight: bold;
+  font-weight: 600;
 }
 .bold {
-  font-weight: bold;
+  font-weight: 600;
 }
 .light {
   color: #6f6f6f;
@@ -13129,7 +13129,7 @@ div.ilSideBarContent {
   float: left;
   clear: left;
   width: 100%;
-  font-weight: bold;
+  font-weight: 600;
 }
 .ui-menu .ui-menu-more {
   display: block;
@@ -13470,7 +13470,7 @@ h1.ilExplorerHead {
   padding: 10px 5px 10px 28px;
   vertical-align: top;
   text-align: left;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 0.75rem;
 }
 div.il_ExplorerTree {
@@ -13589,16 +13589,16 @@ img.il_ExplorerIcon {
 /* Modules/Forum */
 a.postread,
 a.postread:visited {
-  font-weight: normal;
+  font-weight: 400;
 }
 a.postunread,
 a.postunread:visited {
-  font-weight: bold;
+  font-weight: 600;
 }
 a.postnew,
 a.postnew:visited {
   font-style: italic;
-  font-weight: bold;
+  font-weight: 600;
 }
 blockquote.ilForumQuote {
   margin: 0 20px 10px;
@@ -13607,7 +13607,7 @@ blockquote.ilForumQuote {
   font-size: 0.75rem;
 }
 div.ilForumQuoteHead {
-  font-weight: bold;
+  font-weight: 600;
   font-size: 0.75rem;
   margin: 0 0 10px;
 }
@@ -13735,14 +13735,14 @@ div.ilFrmPostHeader span.small {
 .ilFrmPostCensorshipAdvice {
   margin: 0;
   padding: 0;
-  font-weight: bold;
+  font-weight: 600;
 }
 .ilFrmPostAttachmentsContainer {
   margin: 20px 0 0;
-  font-weight: bold;
+  font-weight: 600;
 }
 .ilFrmPostAttachmentsContainer a {
-  font-weight: normal;
+  font-weight: 400;
 }
 .ilFrmPostAttachmentsContainer img {
   vertical-align: middle;
@@ -13766,7 +13766,7 @@ div.ilFrmPostHeader span.small {
   display: inline-block;
 }
 .ilForumTreeTitleUnread {
-  font-weight: bold;
+  font-weight: 600;
 }
 .ilForumTreeUnlinkedContent {
   display: block;
@@ -13784,11 +13784,11 @@ div.ilFrmPostHeader span.small {
 /* Services/Mail */
 a.mailread,
 a.mailread:visited {
-  font-weight: normal;
+  font-weight: 400;
 }
 a.mailunread,
 a.mailunread:visited {
-  font-weight: bold;
+  font-weight: 600;
 }
 .iosMailFilter .checkbox {
   display: inline-block !important;
@@ -14708,13 +14708,13 @@ table.calstd {
 }
 .calheader {
   color: #161616;
-  font-weight: normal;
+  font-weight: 400;
   background-color: #f9f9f9;
 }
 th.calstd {
   text-align: center;
   background-color: #f9f9f9;
-  font-weight: normal;
+  font-weight: 400;
   border-spacing: 0px;
   border-collapse: collapse;
   border-width: 1px;
@@ -14872,7 +14872,7 @@ div.calfullcontent {
 p.il_cal_monthday {
   padding: 2px;
   margin: 0px;
-  font-weight: normal;
+  font-weight: 400;
 }
 p.il_cal_navigation {
   padding: 0px 3px 0px 0px;
@@ -14888,11 +14888,11 @@ table.calmini {
 th.calmini {
   text-align: center;
   font-size: 90%;
-  font-weight: normal;
+  font-weight: 400;
   background-color: white;
 }
 a.calminiapp {
-  font-weight: bold;
+  font-weight: 600;
 }
 p.il_calmini_monthday,
 div.il_calmini_monthday {
@@ -15081,14 +15081,14 @@ td.ilGroupedListNewCol {
 }
 /* Services/Table */
 div.tblfooter {
-  font-weight: normal;
+  font-weight: 400;
   background-color: #f9f9f9;
   padding: 3px;
   font-size: 0.625rem;
   text-align: right;
 }
 div.ilTableNav {
-  font-weight: normal;
+  font-weight: 400;
   padding: 0 15px;
   font-size: 0.625rem;
   text-align: right;
@@ -15104,7 +15104,7 @@ div.ilTableNav .ilFloatRight .ilOverlay {
 }
 tr.tblfooter {
   color: #161616;
-  font-weight: normal;
+  font-weight: 400;
   background-color: #f9f9f9;
   border-top: 1px solid #f0f0f0;
 }
@@ -15114,7 +15114,7 @@ td.submit {
   background-color: #f9f9f9;
 }
 div.ilTableHeaderTitleBlock {
-  font-weight: bold;
+  font-weight: 600;
   padding: 3px;
   font-size: 0.75rem;
   color: #161616;
@@ -15128,7 +15128,7 @@ div.ilTableHeaderTitle + .ilHeaderDesc {
   margin: 0 15px 9px;
 }
 h3.ilTableHeaderTitleBlock {
-  font-weight: bold;
+  font-weight: 600;
   font-size: 0.875rem;
   display: inline;
   padding: 0;
@@ -15174,7 +15174,7 @@ legend.ilTableFilter {
   border: none;
   padding: 0 15px;
   margin: 0;
-  font-weight: normal;
+  font-weight: 400;
   text-align: right;
 }
 legend.ilTableFilter > a {
@@ -15216,7 +15216,7 @@ td.ilFilterOption {
 }
 td.ilFilterType {
   font-size: 0.625rem;
-  font-weight: bold;
+  font-weight: 600;
   text-align: left;
   white-space: nowrap;
   padding: 3px;
@@ -15225,10 +15225,10 @@ div.ilTableContainer {
   overflow: auto;
 }
 .tblheader {
-  font-weight: normal;
+  font-weight: 400;
 }
 tr.tblheader {
-  font-weight: normal;
+  font-weight: 400;
   background-color: #f9f9f9;
   font-size: 0.75rem;
   border-bottom: 1px solid #dddddd;
@@ -15687,7 +15687,7 @@ img.ilPollQuestionImage {
   padding: 5px;
 }
 #ilMMSearch ul li label {
-  font-weight: normal;
+  font-weight: 400;
 }
 #ilMMSearchMenu legend {
   margin-bottom: 0;
@@ -15747,12 +15747,12 @@ input.ilMainMenuSearch {
   color: #161616;
 }
 span.ilSearchHighlight {
-  font-weight: bold;
+  font-weight: 600;
 }
 div.il_SearchFragment {
   margin: 2px 0 5px;
   font-size: 0.625rem;
-  font-weight: normal;
+  font-weight: 400;
   text-align: left;
 }
 #ilSearchResultsTable.table-striped > tbody > tr > td {
@@ -15766,7 +15766,7 @@ div.il_SearchFragment {
 }
 /* Services/Help */
 #ilHelpText .ilc_text_inline_Strong {
-  font-weight: bold;
+  font-weight: 600;
 }
 #ilHelpBack {
   padding-bottom: 20px;
@@ -15795,7 +15795,7 @@ a#ilHelpClose {
   background-position: 3px 3px;
   padding: 5px 5px 5px 30px;
   font-size: 0.75rem;
-  font-weight: bold;
+  font-weight: 600;
   border: none;
 }
 #ilHelpPanel li {
@@ -15835,7 +15835,7 @@ td.dcl_actions {
   margin-bottom: 40px;
 }
 .ilDclRecordViewNav {
-  font-weight: normal;
+  font-weight: 400;
   padding: 3px;
   font-size: 0.75rem;
   width: 80%;
@@ -15937,7 +15937,7 @@ img.ilProfileImage {
 h3.ilProfileName {
   margin: 0 0 10px;
   padding: 0;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 1.115rem;
 }
 div.ilProfileSection {
@@ -15948,7 +15948,7 @@ div.ilProfileSection {
 h3.ilProfileSectionHead {
   margin: 0 0 3px;
   padding: 0;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 1rem;
   color: #161616;
 }
@@ -16046,7 +16046,7 @@ div.ilc_PredTextPlaceHolderThumb {
   font-size: 0.625rem;
   background: url("images/question_placeholder_thumb.png") no-repeat center;
   background-color: white;
-  font-weight: bold;
+  font-weight: 600;
 }
 div.ilc_MediaPlaceHolderThumb {
   background-image: url("images/media_placeholder_thumb.png");
@@ -16059,7 +16059,7 @@ div.ilc_PredTextPlaceHolderThumb {
 }
 div.ilc_HeadlineThumb {
   font-size: 0.75rem;
-  font-weight: bold;
+  font-weight: 600;
   width: 100%;
   border-bottom: 1px solid #2c2c2c;
   color: #161616;
@@ -16662,7 +16662,7 @@ td.il_adv_sel {
   text-align: left;
   white-space: nowrap;
   cursor: pointer;
-  font-weight: normal;
+  font-weight: 400;
 }
 #ilAdvSelListTable_item_creation td.il_adv_sel {
   min-width: 150px;
@@ -16843,7 +16843,7 @@ div.ilBlockHeaderBig,
 td.ilBlockHeader,
 td.ilBlockHeaderBig {
   /* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
-  font-weight: normal;
+  font-weight: 400;
   padding: 3px 0;
   margin: 0 9px;
   text-align: left;
@@ -16856,7 +16856,7 @@ td.ilBlockHeaderBig {
   font-size: 0.875rem;
 }
 h2.ilBlockHeader {
-  font-weight: 400;
+  font-weight: 600;
   margin: 0;
   padding: 0;
   font-size: 1rem;
@@ -17574,7 +17574,7 @@ span.ilNewsRssIcon:hover {
   }
   td.column {
     text-align: center;
-    font-weight: bold!important;
+    font-weight: 600 !important;
   }
   td.bipolar {
     text-align: center;
@@ -17585,7 +17585,7 @@ span.ilNewsRssIcon:hover {
   }
   .questionblockTitle {
     font-size: 140%;
-    font-weight: bold;
+    font-weight: 600;
     color: #222222;
     margin-top: 1em;
     margin-bottom: 0px;
@@ -17617,7 +17617,7 @@ span.ilNewsRssIcon:hover {
   table.categorywizard th,
   table.matrixrowwizard th {
     font-size: 90%;
-    font-weight: bold;
+    font-weight: 600;
     text-align: center;
   }
   .neutral_category_title {
@@ -17635,7 +17635,7 @@ span.ilNewsRssIcon:hover {
   .questionTitle {
     padding-top: 8px;
     padding-bottom: 4px;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 110%;
     border-bottom: 1px #aaa solid;
   }
@@ -18469,7 +18469,7 @@ span.ilProfileBadge .modal .img-responsive {
 .bootstrap-datetimepicker-widget .timepicker-minute,
 .bootstrap-datetimepicker-widget .timepicker-second {
   width: 54px;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1rem;
   margin: 0;
 }
@@ -18971,7 +18971,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 #qtip-preview .qtip-title {
   background: transparent;
-  font-weight: normal;
+  font-weight: 400;
 }
 #qtip-preview .qtip-close {
   right: 20px;
@@ -19641,7 +19641,7 @@ div.ilc_Page.readonly textarea[disabled] {
   background-image: url('images/answered.svg');
 }
 #tst_output #tst_left ul.shortlist li.active {
-  font-weight: bold;
+  font-weight: 600;
 }
 #tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime {
   text-align: center;
@@ -19653,7 +19653,7 @@ div.ilc_Page.readonly textarea[disabled] {
 }
 #tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime .ilTstWorkingFormInfo_ProcessTimeLeft {
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 #tst_output #tst_right h1.ilc_page_title_PageTitle {
   margin-bottom: 6px;
