@@ -980,7 +980,6 @@ abstract class assQuestionGUI
             } elseif ($_GET["calling_test"]) {
                 require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $test = new ilObjTest($_GET["calling_test"]);
-                #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
                 $q_id = $this->object->getId();
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
                     global $DIC;
@@ -1007,9 +1006,9 @@ abstract class assQuestionGUI
 
                     $this->ctrl->setParameter($this, 'q_id', $new_id);
                     $this->ctrl->setParameter($this, 'calling_test', $_GET['calling_test']);
-                    #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
                 ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->ctrl->setParameterByClass('ilAssQuestionPreviewGUI', 'q_id', $q_id);
                 $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             } else {
                 if ($this->object->getId() != $old_id) {
