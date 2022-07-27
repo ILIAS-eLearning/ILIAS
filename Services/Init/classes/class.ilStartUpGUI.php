@@ -170,6 +170,7 @@ class ilStartUpGUI
         if ($force_login) {
             $this->logger->debug('Force login');
             if ($auth_session->isValid()) {
+                $messages = $this->retrieveMessagesFromSession();
                 $this->logger->debug('Valid session -> logout current user');
                 ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
                 $auth_session->logout();
@@ -183,6 +184,12 @@ class ilStartUpGUI
                 );
             }
             $this->logger->debug('Show login page');
+            
+            if (isset($messages) && count($messages) > 0) {
+                foreach ($messages as $type => $content) {
+                    $this->mainTemplate->setOnScreenMessage($type, $content);
+                }
+            }
             return $this->showLoginPage();
         }
 
@@ -270,6 +277,24 @@ class ilStartUpGUI
         $gtpl = $DIC['tpl'];
         $gtpl->setContent($tpl->get());
         $gtpl->printToStdout("DEFAULT", false, true);
+    }
+    
+    protected function retrieveMessagesFromSession() : array
+    {
+        $messages = [];
+        if (isset($_SESSION[ilGlobalTemplate::MESSAGE_TYPE_FAILURE])) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_FAILURE] = $_SESSION[ilGlobalTemplate::MESSAGE_TYPE_FAILURE];
+        }
+        if (isset($_SESSION[ilGlobalTemplate::MESSAGE_TYPE_SUCCESS])) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_SUCCESS] = $_SESSION[ilGlobalTemplate::MESSAGE_TYPE_SUCCESS];
+        }
+        if (isset($_SESSION[ilGlobalTemplate::MESSAGE_TYPE_INFO])) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_INFO] = $_SESSION[ilGlobalTemplate::MESSAGE_TYPE_INFO];
+        }
+        if (isset($_SESSION[ilGlobalTemplate::MESSAGE_TYPE_QUESTION])) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_QUESTION] = $_SESSION[ilGlobalTemplate::MESSAGE_TYPE_QUESTION];
+        }
+        return $messages;
     }
 
     protected function showCodeForm($a_username = null, $a_form = null)
@@ -845,8 +870,8 @@ class ilStartUpGUI
             $tpl->setVariable('SHIB_FORMACTION', './shib_login.php'); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
             $federation_name = $ilSetting->get("shib_federation_name");
             $admin_mail = ' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt(
-                    "administrator"
-                ) . '</a>.';
+                "administrator"
+            ) . '</a>.';
             if ($ilSetting->get("shib_hos_type") == 'external_wayf') {
                 $tpl->setCurrentBlock("shibboleth_login");
                 $tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
@@ -1599,7 +1624,8 @@ class ilStartUpGUI
                 $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
                 $tpl->setVariable('TXT_ACCEPT', $this->lng->txt('accept_usr_agreement_btn'));
                 $tpl->setVariable('DENY_TERMS_OF_SERVICE', $this->lng->txt('deny_usr_agreement'));
-                $tpl->setVariable('DENIAL_BUTTON',
+                $tpl->setVariable(
+                    'DENIAL_BUTTON',
                     $this->dic->ui()->renderer()->render(
                         $this->dic->ui()->factory()->button()->standard(
                             $this->dic->language()->txt('deny_usr_agreement_btn'),
@@ -1832,8 +1858,14 @@ class ilStartUpGUI
     {
         ilUtil::setCookie('iltest', 'cookie', false);
 
+        $this->lng->loadLanguageModule('registration');
+
         if (!isset($_GET['rh']) || !strlen(trim($_GET['rh']))) {
-            $this->ctrl->redirectToURL('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
+            $this->mainTemplate->setOnScreenMessage(ilGlobalTemplate::MESSAGE_TYPE_FAILURE, $this->lng->txt('reg_confirmation_hash_not_passed'), true);
+            $this->ctrl->redirectToURL(sprintf(
+                './login.php?cmd=force_login&lang=%s',
+                $this->lng->getLangKey()
+            ));
         }
 
         try {
@@ -1865,8 +1897,9 @@ class ilStartUpGUI
             );
             $accountMail->withEmailConfirmationRegistrationMode()->send($user, $password);
 
+            $this->mainTemplate->setOnScreenMessage(ilGlobalTemplate::MESSAGE_TYPE_SUCCESS, $this->lng->txt('reg_account_confirmation_successful'), true);
             $this->ctrl->redirectToURL(sprintf(
-                './login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful&lang=%s',
+                './login.php?cmd=force_login&lang=%s',
                 $user->getLanguage()
             ));
         } catch (ilRegConfirmationLinkExpiredException $exception) {
@@ -1885,14 +1918,16 @@ class ilStartUpGUI
                 ]
             );
 
+            $this->mainTemplate->setOnScreenMessage(ilGlobalTemplate::MESSAGE_TYPE_FAILURE, $this->lng->txt($exception->getMessage()), true);
             $this->ctrl->redirectToURL(sprintf(
-                './login.php?cmd=force_login&reg_confirmation_msg=%s',
-                $exception->getMessage()
+                './login.php?cmd=force_login&lang=%s',
+                $this->lng->getLangKey()
             ));
         } catch (ilRegistrationHashNotFoundException $exception) {
+            $this->mainTemplate->setOnScreenMessage(ilGlobalTemplate::MESSAGE_TYPE_FAILURE, $this->lng->txt($exception->getMessage()), true);
             $this->ctrl->redirectToURL(sprintf(
-                './login.php?cmd=force_login&reg_confirmation_msg=%s',
-                $exception->getMessage()
+                './login.php?cmd=force_login&lang=%s',
+                $this->lng->getLangKey()
             ));
         }
     }
