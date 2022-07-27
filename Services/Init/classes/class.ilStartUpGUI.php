@@ -217,6 +217,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if ($force_login) {
             $this->logger->debug('Force login');
             if ($auth_session->isValid()) {
+                $messages = $this->retrieveMessagesFromSession();
                 $this->logger->debug('Valid session -> logout current user');
                 ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
                 $auth_session->logout();
@@ -230,6 +231,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 );
             }
             $this->logger->debug('Show login page');
+            if (isset($messages) && count($messages) > 0) {
+                foreach ($messages as $type => $content) {
+                    $this->mainTemplate->setOnScreenMessage($type, $content);
+                }
+            }
             $this->showLoginPage();
             return;
         }
@@ -328,6 +334,24 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $gtpl = $DIC['tpl'];
         $gtpl->setContent($tpl->get());
         $gtpl->printToStdout("DEFAULT", false, true);
+    }
+
+    protected function retrieveMessagesFromSession(): array
+    {
+        $messages = [];
+        if (ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_FAILURE)) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_FAILURE] = ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_FAILURE);
+        }
+        if (ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_SUCCESS)) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_SUCCESS] = ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_SUCCESS);
+        }
+        if (ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_INFO)) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_INFO] = ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_INFO);
+        }
+        if (ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_QUESTION)) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_QUESTION] = ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_QUESTION);
+        }
+        return $messages;
     }
 
     protected function showCodeForm($a_username = null, $a_form = null): void
@@ -1755,7 +1779,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             );
         }
         if (!strlen($regitration_hash) || !strlen(trim($regitration_hash))) {
-            $this->ctrl->redirectToURL('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
+            $this->mainTemplate->setOnScreenMessage(ilGlobalTemplate::MESSAGE_TYPE_FAILURE, $this->lng->txt('reg_confirmation_hash_not_passed'), true);
+            $this->ctrl->redirectToURL(sprintf(
+                './login.php?cmd=force_login&lang=%s',
+                $this->lng->getLangKey()
+            ));
         }
 
         try {
@@ -1788,8 +1816,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             );
             $accountMail->withEmailConfirmationRegistrationMode()->send($user, $password);
 
+            $this->mainTemplate->setOnScreenMessage(ilGlobalTemplate::MESSAGE_TYPE_SUCCESS, $this->lng->txt('reg_account_confirmation_successful'), true);
             $this->ctrl->redirectToURL(sprintf(
-                './login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful&lang=%s',
+                './login.php?cmd=force_login&lang=%s',
                 $user->getLanguage()
             ));
         } catch (ilRegConfirmationLinkExpiredException $exception) {
@@ -1808,14 +1837,16 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 ]
             );
 
+            $this->mainTemplate->setOnScreenMessage(ilGlobalTemplate::MESSAGE_TYPE_FAILURE, $this->lng->txt($exception->getMessage()), true);
             $this->ctrl->redirectToURL(sprintf(
-                './login.php?cmd=force_login&reg_confirmation_msg=%s',
-                $exception->getMessage()
+                './login.php?cmd=force_login&lang=%s',
+                $this->lng->getLangKey()
             ));
         } catch (ilRegistrationHashNotFoundException $exception) {
+            $this->mainTemplate->setOnScreenMessage(ilGlobalTemplate::MESSAGE_TYPE_FAILURE, $this->lng->txt($exception->getMessage()), true);
             $this->ctrl->redirectToURL(sprintf(
-                './login.php?cmd=force_login&reg_confirmation_msg=%s',
-                $exception->getMessage()
+                './login.php?cmd=force_login&lang=%s',
+                $this->lng->getLangKey()
             ));
         }
     }
