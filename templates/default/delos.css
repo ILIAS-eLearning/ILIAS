@@ -9206,6 +9206,8 @@ header {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 .breadcrumbs {
+  position: sticky;
+  top: 0;
   align-items: center;
   background-color: white;
   display: flex;
@@ -9292,18 +9294,12 @@ main {
   display: block;
 }
 .il-layout-page-content {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  grid-column: 2;
-  grid-row: 3;
+  display: flex;
+  flex-flow: column;
   overflow: auto;
 }
 .il-layout-page-content:focus-visible {
   outline: none;
-}
-.il-layout-page-content > div {
-  display: flex;
-  flex-flow: column;
 }
 .il-layout-page-content #mainspacekeeper {
   flex-grow: 1;
@@ -10425,10 +10421,6 @@ footer {
     padding-top: 30px;
   }
 }
-.il-layout-page-content > div {
-  display: grid;
-  grid-template-rows: auto 1fr;
-}
 .il-mode-info span.il-mode-info-content {
   margin: auto;
   background-color: #B54F00;
@@ -11135,7 +11127,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
+  box-shadow: 3px 9px 9px 0 #000000;
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -13703,6 +13695,24 @@ div.ilFrmPostHeader span.small {
   }
   .sort_by_posts .ilFrmPostRow.ilFrmPost-level-4 {
     padding-left: 150px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-5 {
+    padding-left: 190px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-6 {
+    padding-left: 220px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-7 {
+    padding-left: 240px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-8 {
+    padding-left: 260px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-9 {
+    padding-left: 280px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-10 {
+    padding-left: 300px;
   }
 }
 .ilFrmPostCensorshipAdvice {
@@ -17334,6 +17344,9 @@ span.ilNewsRssIcon:hover {
   border-bottom: 14px solid transparent;
   content: " ";
 }
+.ilTimeline > li > .ilTimelinePanel .panel h2 {
+  display: none;
+}
 .ilTimeline > li > .ilTimelineBadge {
   color: white;
   width: 50px;
@@ -19888,4 +19901,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=./delos.css.map */

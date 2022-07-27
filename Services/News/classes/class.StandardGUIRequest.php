@@ -52,6 +52,11 @@ class StandardGUIRequest
         return $id;
     }
 
+    public function getNewsPage() : int
+    {
+        return $this->int("news_page");
+    }
+
     public function getNewsRefId() : int
     {
         return $this->int("news_ref_id");

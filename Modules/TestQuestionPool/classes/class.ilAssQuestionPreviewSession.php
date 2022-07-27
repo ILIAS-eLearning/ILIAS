@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 
 /**
@@ -64,7 +78,7 @@ class ilAssQuestionPreviewSession
     private function readSessionValue($subIndex)
     {
         $val = ilSession::get(self::SESSION_BASEINDEX);
-        return $val[$this->getSessionContextIndex()][$subIndex];
+        return $val[$this->getSessionContextIndex()][$subIndex] ?? [];
         //return $_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex];
     }
 
@@ -85,7 +99,7 @@ class ilAssQuestionPreviewSession
 
     public function getParticipantsSolution()
     {
-        return $this->readSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION);
+        return $this->readSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION) !== [] ?? null;
     }
     
     public function hasParticipantSolution() : bool
@@ -112,14 +126,14 @@ class ilAssQuestionPreviewSession
         if ($this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
             $requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
             return isset($requestedHints[$hintId]);
-        } else {
-            return false;
         }
+
+        return false;
     }
     
     public function addRequestedHint($hintId) : void
     {
-        $requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+        $requestedHints = $this->getRequestedHints();
         $requestedHints[$hintId] = $hintId;
         $this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, $requestedHints);
     }
@@ -129,7 +143,8 @@ class ilAssQuestionPreviewSession
         if ($this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
             return $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
         }
-        return array();
+
+        return [];
     }
     
     public function resetRequestedHints() : void
@@ -142,9 +157,10 @@ class ilAssQuestionPreviewSession
         $this->saveSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED, $seed);
     }
     
-    public function getRandomizerSeed()
+    public function getRandomizerSeed() : ?int
     {
-        return $this->readSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED);
+        $val = $this->readSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED);
+        return $val === [] ? null : $val;
     }
 
     public function randomizerSeedExists() : bool

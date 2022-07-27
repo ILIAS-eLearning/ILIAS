@@ -53,6 +53,7 @@ class ilSCORM2004Tracking
         global $DIC;
 
         $ilDB = $DIC->database();
+        $users = [];
 
         $in = $ilDB->in('cp_node.cp_node_id', $a_scorm_item_ids, false, 'integer');
 
@@ -77,7 +78,7 @@ class ilSCORM2004Tracking
             $users[$row->user_id] = $row->completed;
         }
 
-        return $users ? : array();
+        return $users;
     }
 
     /**
@@ -399,6 +400,7 @@ class ilSCORM2004Tracking
         }
         $time = 0;
         foreach ($scos as $sco) {
+            $sec = 0;
             $data_set = $ilDB->queryF(
                 '
 				SELECT total_time

@@ -59,8 +59,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         // Get a list of existing plugins in the system.
         $plugins = $this->getPluginNames();
 
-        foreach ($plugins as $plugin) {
-            $plugin_name = $plugin[3];
+        foreach ($plugins as $plugin_name) {
             $agents = $agents->withAdditionalAgent(
                 strtolower($plugin_name),
                 $this->getPluginAgent($plugin_name)
@@ -183,8 +182,8 @@ class ImplementationOfAgentFinder implements AgentFinder
             );
         foreach ($directories as $dir) {
             $groups = [];
-            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/(\\w+)/.$%", (string) $dir, $groups)) {
-                yield $groups[4];
+            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/((\\w+/){2})([^/\.]+)$%", (string) $dir, $groups)) {
+                yield $groups[6];
             }
         }
     }

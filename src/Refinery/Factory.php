@@ -168,4 +168,9 @@ class Factory
     {
         return new IdentityTransformation();
     }
+
+    public function always($value) : Transformation
+    {
+        return new ConstantTransformation($value);
+    }
 }

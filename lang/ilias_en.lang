@@ -1281,7 +1281,7 @@ assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
 assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questions to competences and the definition of thresholds for reaching a specific competence level.
-assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test.
+assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. Further access, including to tests already in progress, will be prevented at the end of the period.
 assessment#:#tst_activation_online_info#:#If online, participants can take the test.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
@@ -4588,7 +4588,7 @@ common#:#moveChapter#:#Move
 common#:#move#:#Move
 common#:#movePage#:#Move
 common#:#move_selected_items#:#Move
-common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
+common#:#msg_bt_download_started#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
@@ -6136,7 +6136,8 @@ content#:#cont_cp_question_diff_formats_info#:#Please note that some formatting 
 content#:#cont_create_link#:#Create Link
 content#:#cont_create_mob#:#Create Media Object
 content#:#cont_credit_mode#:#Grading Tracking Status
-content#:#cont_credit_off#:#Tracking Status not Graded
+content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.
+content#:#cont_credit_off#:#Tracking Status not graded
 content#:#cont_credit_on#:#Grade Tracking Status (Passed or Failed)
 content#:#cont_credits#:#Credits
 content#:#cont_current_chapter#:#Current Chapter
@@ -6792,12 +6793,12 @@ content#:#cont_save_widths#:#Save Widths
 content#:#cont_saving#:#Saving...
 content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.
 content#:#cont_sc_auto_continue#:#Redirect Users
-content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
+content#:#cont_sc_auto_review_2004#:#Store Data
 content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achieved status is completed and passed
 content#:#cont_sc_auto_review_completed#:#keep tracking data if achieved status is completed
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
-content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the Tracking Status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
 content#:#cont_sc_auto_review_passed_or_failed#:#keep tracking data if achieved status is passed or failed
@@ -8069,7 +8070,7 @@ dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_details#:#Appointment Details
 dateplaner#:#cal_download_all_files#:#Download all Files
 dateplaner#:#cal_download_files#:#Download Files
-dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
+dateplaner#:#cal_download_files_started#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 dateplaner#:#cal_down_no_files#:#Nothing to download! The events listed do not contain any files.
 dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.
 dateplaner#:#cal_duration#:#Duration
@@ -8971,7 +8972,7 @@ exc#:#exc_direct_no_submit#:#Do not submit
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.
 exc#:#exc_direct_submit#:#Submit
-exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.
+exc#:#exc_down_files_started_bg#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 exc#:#exc_download_zip_structure#:#Download ZIP Structure
 exc#:#exc_earliest_start_time#:#Earliest Start Time
 exc#:#exc_edit_assignment#:#Edit Assignment
@@ -13322,10 +13323,10 @@ rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
-rbac#:#manage_comp_temp#:#User can change Competence Templates
-rbac#:#manage_comp#:#User can change Competences
+rbac#:#manage_comp_temp#:#User can edit Competence Templates
+rbac#:#manage_comp#:#User can edit Competences
 rbac#:#manage_materials#:#Manage Materials
-rbac#:#manage_profiles#:#User can change Competence Profiles
+rbac#:#manage_profiles#:#User can edit Competence Profiles
 rbac#:#mcst_copy#:#User can copy mediacast
 rbac#:#mcst_delete#:#User can move or delete mediacast
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings

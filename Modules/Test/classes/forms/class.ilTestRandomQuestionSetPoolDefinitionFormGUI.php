@@ -1,14 +1,25 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class for random question set pool config form
  *
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
  * @package		Modules/Test
  *
  * @ilCtrl_Calls ilTestRandomQuestionSetPoolDefinitionFormGUI: ilFormPropertyDispatchGUI
@@ -25,7 +36,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 
     private ?string $saveAndNewCommand = null;
     
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
+    public function __construct(ilCtrlInterface $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
     {
         parent::__construct();
 
@@ -227,7 +238,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         }
     }
     
-    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $availableTaxonomyIds)
+    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $availableTaxonomyIds) : void
     {
         // fau: taxFilter/typeFilter - submit multiple taxonomy and node selections - submit type selections
         $filter = array();

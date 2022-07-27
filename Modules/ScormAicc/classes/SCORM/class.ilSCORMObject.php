@@ -23,7 +23,7 @@
 class ilSCORMObject
 {
     public int $id;
-    public ?string $title = "";
+    public string $title = "";
     public ?string $type;
     public int $slm_id;
 
@@ -59,12 +59,12 @@ class ilSCORMObject
         $this->type = $a_type;
     }
 
-    public function getTitle() : ?string
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    public function setTitle(?string $a_title) : void
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }

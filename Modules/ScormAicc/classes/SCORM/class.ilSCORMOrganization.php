@@ -23,7 +23,7 @@
 class ilSCORMOrganization extends ilSCORMObject
 {
     public string $import_id;
-    public ?string $structure;
+    public ?string $structure = null;
 
     /**
     * Constructor

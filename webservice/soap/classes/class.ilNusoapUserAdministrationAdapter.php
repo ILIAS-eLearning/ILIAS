@@ -819,7 +819,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_NAMESPACE . '#sendMail',
             SERVICE_STYLE,
             SERVICE_USE,
-            'ILIAS distributeMails(): Distribute ILIAS mails according according to the mail setting of the recipients as ' .
+            'DEPRECATED ILIAS distributeMails(): Distribute ILIAS mails according according to the mail setting of the recipients as ' .
             'ILIAS internal mail or as e-mail.'
         );
 

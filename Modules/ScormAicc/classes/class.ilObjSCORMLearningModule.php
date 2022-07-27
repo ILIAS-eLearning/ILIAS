@@ -52,7 +52,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
         foreach ($childs as $child) {
             if ($child["c_type"] === "sit") {
-                $sc_item = new ilSCORMItem($child["obj_id"]);
+                $sc_item = new ilSCORMItem((int) $child["obj_id"]);
                 if ($sc_item->getIdentifierRef() != "") {
                     $items[] = $sc_item;
                 }
@@ -167,7 +167,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         // todo determine imsmanifest.xml path here...
         $slmParser = new ilSCORMPackageParser($this, $manifest_file);
         $slmParser->startParsing();
-        return $slmParser->getPackageTitle();
+        return (string) $slmParser->getPackageTitle();
     }
 
     /**

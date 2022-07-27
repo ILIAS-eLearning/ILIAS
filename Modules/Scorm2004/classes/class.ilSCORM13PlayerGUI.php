@@ -135,7 +135,7 @@ class ilSCORM13PlayerGUI
     public int $ref_id;
     public ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected string $page;
+    protected string $page = "";
 
     public function __construct()
     {
@@ -160,7 +160,7 @@ class ilSCORM13PlayerGUI
     /**
      * execute command
      */
-    public function &executeCommand() : void
+    public function executeCommand() : void
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -451,7 +451,9 @@ class ilSCORM13PlayerGUI
         // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
         // $this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
         $this->tpl->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
-        $this->tpl->setVariable((string) $langstrings);
+        foreach ($langstrings as $key => $value) {
+            $this->tpl->setVariable($key, $value);
+        }
         $this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
@@ -973,7 +975,8 @@ class ilSCORM13PlayerGUI
             "_INVALIDNAVREQ_" => "seq_invalidnavreq",
             "_SEQABANDON_" => "seq_abandon",
             "_SEQABANDONALL_" => "seq_abandonall",
-            "_TOC_" => "seq_toc"
+            "_TOC_" => "seq_toc",
+            "" => ""
         );
 
         $this->tpl = new ilGlobalTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
@@ -1306,10 +1309,11 @@ class ilSCORM13PlayerGUI
         );
 
         $suspended = false;
-
-        $dat = $ilDB->fetchObject($res)->data;
-        if ($dat != null && $dat != '') {
-            $suspended = true;
+        while ($data = $ilDB->fetchAssoc($res)) {
+            $dat = $data['data'];
+            if ($dat != null && $dat != '') {
+                $suspended = true;
+            }
         }
 
         if ($shared_global_to_sys == 0 && !$suspended) {

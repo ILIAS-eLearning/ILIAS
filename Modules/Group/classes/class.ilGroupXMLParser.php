@@ -1,17 +1,20 @@
 <?php declare(strict_types=1);
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Group Import Parser
  *
@@ -392,16 +395,14 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             return true;
         }
 
-        $this->group_obj->setImportId($this->group_data["id"]);
-        $this->group_obj->setTitle($this->group_data["title"]);
-        $this->group_obj->setDescription($this->group_data["description"]);
+        $this->group_obj->setImportId($this->group_data["id"] ?? '');
+        $this->group_obj->setTitle($this->group_data["title"] ?? '');
+        $this->group_obj->setDescription($this->group_data["description"] ?? '');
         $this->group_obj->setInformation((string) $this->group_data['information']);
 
-        if (
-            $this->group_data['period_start'] &&
-            $this->group_data['period_end']) {
+        if (isset($this->group_data['period_start']) && isset($this->group_data['period_end'])) {
             try {
-                if ($this->group_data['period_with_time']) {
+                if ($this->group_data['period_with_time'] ?? false) {
                     $this->group_obj->setPeriod(
                         new \ilDateTime($this->group_data['period_start'], IL_CAL_UNIX),
                         new \ilDateTime($this->group_data['period_end'], IL_CAL_UNIX)
@@ -423,7 +424,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         if (isset($this->group_data["owner"])) {
             $owner = $this->group_data["owner"];
             if (!is_numeric($owner)) {
-                $owner = ilUtil::__extractId($owner, IL_INST_ID);
+                $owner = ilUtil::__extractId($owner, (int) IL_INST_ID);
             }
             if (is_numeric($owner) && $owner > 0) {
                 $this->group_obj->setOwner($owner);
@@ -464,7 +465,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             }
         }
         // SET GROUP SPECIFIC DATA
-        switch ($this->group_data['registration_type']) {
+        switch ($this->group_data['registration_type'] ?? '') {
             case 'direct':
             case 'enabled':
                 $flag = ilGroupConstants::GRP_REGISTRATION_DIRECT;
@@ -489,12 +490,12 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
 
         $registration_end = null;
-        if ($this->group_data['expiration_end']) {
+        if ($this->group_data['expiration_end'] ?? false) {
             $registration_end = new ilDateTime($this->group_data['expiration_end'], IL_CAL_UNIX);
         }
 
         $registration_start = null;
-        if ($this->group_data['expiration_start']) {
+        if ($this->group_data['expiration_start'] ?? false) {
             $registration_start = new ilDateTime($this->group_data['expiration_start'], IL_CAL_UNIX);
         }
         if (
@@ -507,15 +508,15 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         } else {
             $this->group_obj->enableUnlimitedRegistration(true);
         }
-        $this->group_obj->setPassword($this->group_data['password']);
-        $this->group_obj->enableMembershipLimitation($this->group_data['max_members_enabled']);
+        $this->group_obj->setPassword($this->group_data['password'] ?? '');
+        $this->group_obj->enableMembershipLimitation((bool) ($this->group_data['max_members_enabled'] ?? false));
         $this->group_obj->setMaxMembers($this->group_data['max_members'] ?: 0);
-        $this->group_obj->enableWaitingList($this->group_data['waiting_list_enabled']);
+        $this->group_obj->enableWaitingList((bool) ($this->group_data['waiting_list_enabled'] ?? false));
 
-        $this->group_obj->setWaitingListAutoFill($this->group_data['auto_wait']);
-        $this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
-        $this->group_obj->setMinMembers($this->group_data['min_members']);
-        $this->group_obj->setShowMembers($this->group_data['show_members'] ?: 0);
+        $this->group_obj->setWaitingListAutoFill((bool) ($this->group_data['auto_wait'] ?? false));
+        $this->group_obj->setCancellationEnd($this->group_data['cancel_end'] ?? null);
+        $this->group_obj->setMinMembers((int) ($this->group_data['min_members'] ?? 0));
+        $this->group_obj->setShowMembers((bool) ($this->group_data['show_members'] ?? false));
         $this->group_obj->setAutoNotification($this->group_data['auto_notification'] ? true : false);
         $this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
         if (isset($this->group_data['view_mode'])) {

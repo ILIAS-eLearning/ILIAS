@@ -593,7 +593,7 @@ abstract class assQuestionGUI
     
     public function sync() : void
     {
-        $original_id = $this->object->original_id;
+        $original_id = $this->object->getOriginalId();
         if ($original_id) {
             $this->object->syncWithOriginal();
         }
@@ -612,8 +612,7 @@ abstract class assQuestionGUI
 
                 ilUtil::redirect(ilLink::_getLink($ref_id));
             }
-            $_GET["ref_id"] = $this->request->raw("calling_test");
-            
+
             if ($this->request->raw('test_express_mode')) {
                 ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
             } else {
@@ -807,7 +806,7 @@ abstract class assQuestionGUI
             }
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
-                && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+                && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->setParameter($this, 'test_express_mode', $this->request->raw('test_express_mode'));
                 $this->ctrl->redirect($this, "originalSyncForm");
@@ -1282,10 +1281,10 @@ abstract class assQuestionGUI
                         }
                         $file->setValue($_FILES["file"]["name"]);
                         $this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
-                        $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
+                        $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
-                            && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+                            && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                             $this->originalSyncForm("suggestedsolution");
                             return;
                         } else {
@@ -1344,10 +1343,10 @@ abstract class assQuestionGUI
                             $this->object->saveSuggestedSolution("text", "", 0, $solution_array["value"]);
                             break;
                     }
-                    $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
+                    $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
-                        && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+                        && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                         $this->originalSyncForm("suggestedsolution");
                         return;
                     } else {
@@ -1662,32 +1661,39 @@ abstract class assQuestionGUI
     public function setQuestionTabs() : void
     {
         $this->ilTabs->clearTargets();
-
+        
+        $this->setDefaultTabs($this->ilTabs);
+        $this->setQuestionSpecificTabs($this->ilTabs);
+        $this->addBackTab($this->ilTabs);
+    }
+    
+    protected function setDefaultTabs(ilTabsGUI $ilTabs) : void
+    {
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->request->getQuestionId());
         $q_type = $this->object->getQuestionType();
-
+        
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
-
+        
         if ($this->request->isset("q_id")) {
-            $this->addTab_Question($this->ilTabs);
+            $this->addTab_Question($ilTabs);
         }
-
+        
         // add tab for question feedback within common class assQuestionGUI
-        $this->addTab_QuestionFeedback($this->ilTabs);
-
+        $this->addTab_QuestionFeedback($ilTabs);
+        
         // add tab for question hint within common class assQuestionGUI
-        $this->addTab_QuestionHints($this->ilTabs);
-
+        $this->addTab_QuestionHints($ilTabs);
+        
         // add tab for question's suggested solution within common class assQuestionGUI
-        $this->addTab_SuggestedSolution($this->ilTabs, $classname);
-
+        $this->addTab_SuggestedSolution($ilTabs, $classname);
+        
         // Assessment of questions sub menu entry
         if ($this->request->getQuestionId()) {
-            $this->ilTabs->addTarget(
+            $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
                 array("assessment"),
@@ -1695,8 +1701,12 @@ abstract class assQuestionGUI
                 ""
             );
         }
-
-        $this->addBackTab($this->ilTabs);
+        
+        $this->addBackTab($ilTabs);
+    }
+    
+    protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs) : void
+    {
     }
     
     public function addTab_SuggestedSolution(ilTabsGUI $tabs, string $classname) : void
@@ -1736,11 +1746,6 @@ abstract class assQuestionGUI
         $tabLink = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         
         $tabs->addTarget('tst_feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
-    }
-
-    protected function addTab_Units(ilTabsGUI $tabs) : void
-    {
-        $tabs->addTarget('units', $this->ctrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
     }
     
     protected function addTab_QuestionHints(ilTabsGUI $tabs) : void
@@ -1794,7 +1799,7 @@ abstract class assQuestionGUI
 
     protected function hasCorrectSolution($activeId, $passIndex) : bool
     {
-        $reachedPoints = $this->object->getAdjustedReachedPoints($activeId, $passIndex, true);
+        $reachedPoints = $this->object->getAdjustedReachedPoints((int) $activeId, (int) $passIndex, true);
         $maximumPoints = $this->object->getMaximumPoints();
         
         return $reachedPoints == $maximumPoints;

@@ -24,7 +24,7 @@ class ilSCORMManifest extends ilSCORMObject
 {
     public string $import_id;
     public ?string $version;
-    public ?string $xml_base;
+    public ?string $xml_base = null;
 
     /**
     * @param int $a_id Object ID

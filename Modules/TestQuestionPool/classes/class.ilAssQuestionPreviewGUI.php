@@ -589,8 +589,7 @@ class ilAssQuestionPreviewGUI
         if (!$this->previewSession->randomizerSeedExists()) {
             $this->previewSession->setRandomizerSeed((new RandomSeed())->createSeed());
         }
-
-        return $this->randomGroup->shuffleArray(new GivenSeed($this->previewSession->getRandomizerSeed()));
+        return $this->randomGroup->shuffleArray(new GivenSeed((int) $this->previewSession->getRandomizerSeed()));
     }
     
     protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML) : void

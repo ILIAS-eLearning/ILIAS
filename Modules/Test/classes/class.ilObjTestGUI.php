@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\ConstraintViolationException;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -897,13 +899,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         throw new ilTestException('question id does not relate to parent object!');
     }
-    
+
     private function questionsTabGatewayObject()
     {
         if ($this->object->isRandomTest()) {
             $this->ctrl->redirectByClass('ilTestRandomQuestionSetConfigGUI');
         }
-        
+
         $this->ctrl->redirectByClass('ilObjTestGUI', 'questions');
     }
 
@@ -1527,25 +1529,26 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     /**
     * Called when a new question should be created from a test after confirmation
-    *
-    * Called when a new question should be created from a test after confirmation
-    *
-    * @access	public
     */
-    public function executeCreateQuestionObject()
+    public function executeCreateQuestionObject() : void
     {
         $qpl_ref_id = $this->testrequest->raw("sel_qpl");
 
-        $qpl_mode = $this->testrequest->raw('usage');
+        try {
+            $qpl_mode = $this->testrequest->int('usage');
+        } catch (ConstraintViolationException $e) {
+            $qpl_mode = 1;
+        }
         
         if ($this->testrequest->isset('qtype')) {
             $sel_question_types = ilObjQuestionPool::getQuestionTypeByTypeId($this->testrequest->raw("qtype"));
         } elseif ($this->testrequest->isset('sel_question_types')) {
             $sel_question_types = $this->testrequest->raw("sel_question_types");
         }
-        
-        if (($qpl_mode == 2 && strcmp($this->testrequest->raw("txt_qpl"), "") == 0) ||
-            ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0)) {
+
+        if (($qpl_mode == 2 && strcmp($this->testrequest->raw("txt_qpl"), "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0)) {
+            // Mantis #14890
+            $_REQUEST['sel_question_types'] = $sel_question_types;
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("questionpool_not_entered"));
             $this->createQuestionObject();
             return;
@@ -1576,8 +1579,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     false
                 );
             }
-            
-            #var_dump($_REQUEST['prev_qid']);
+
             ilUtil::redirect($baselink);
             
             exit();
@@ -1616,7 +1618,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "executeCreateQuestion"));
         $form->setTitle($lng->txt("ass_create_question"));
-        
+
         if ($this->testrequest->isset('qtype')) {
             $sel_question_types = ilObjQuestionPool::getQuestionTypeByTypeId($this->testrequest->raw("qtype"));
         } elseif ($this->testrequest->isset('sel_question_types')) {

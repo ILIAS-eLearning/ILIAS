@@ -671,7 +671,7 @@ class ilRepositorySearchGUI
             
         // UDF
         foreach (ilUserSearchOptions::_getSearchableFieldsInfo(!$this->isSearchableCheckEnabled()) as $info) {
-            switch ($info['type']) {
+            switch ($info['type'] ?? ilUserSearchOptions::FIELD_TYPE_UDF_UNDEFINED) {
                 case ilUserSearchOptions::FIELD_TYPE_UDF_SELECT:
                 case ilUserSearchOptions::FIELD_TYPE_SELECT:
                         

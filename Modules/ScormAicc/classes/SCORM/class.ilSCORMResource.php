@@ -24,9 +24,9 @@ class ilSCORMResource extends ilSCORMObject
 {
     public string $import_id;
     public string $resourcetype;
-    public ?string $scormtype;
+    public ?string $scormtype = null;
     public ?string $href;
-    public ?string $xml_base;
+    public ?string $xml_base = null;
     public array $files;
     public array $dependencies;
 
@@ -197,7 +197,7 @@ class ilSCORMResource extends ilSCORMObject
         );
         
         if ($id_rec = $ilDB->fetchAssoc($id_set)) {
-            return $id_rec["id"];
+            return (int) $id_rec["id"];
         }
         return 0;
     }
@@ -213,7 +213,7 @@ class ilSCORMResource extends ilSCORMObject
             array($a_obj_id)
         );
         if ($st_rec = $ilDB->fetchAssoc($st_set)) {
-            return $st_rec["scormtype"];
+            return (string) $st_rec["scormtype"];//check UK usually null
         }
         return "";
     }

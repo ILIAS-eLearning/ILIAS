@@ -1397,6 +1397,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function isSingleline()
     {
-        return (bool)$this->isSingleline;
+        return (bool) $this->isSingleline;
     }
 }

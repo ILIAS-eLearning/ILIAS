@@ -17,7 +17,6 @@
  *********************************************************************/
 
 include_once 'Modules/Test/classes/inc.AssessmentConstants.php';
-include_once 'Modules/Test/classes/class.ilTestScoringGUI.php';
 
 /**
  * ilTestScoringByQuestionsGUI
@@ -176,17 +175,14 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $tpl->setContent($table->getHTML());
     }
 
-    /**
-     * @param bool $ajax
-     */
-    protected function saveManScoringByQuestion($ajax = false)
+    protected function saveManScoringByQuestion(bool $ajax = false) : void
     {
         global $DIC;
         $ilAccess = $DIC->access();
 
         if (
-            false == $ilAccess->checkAccess("write", "", $this->ref_id) &&
-            false == $ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
+            false === $ilAccess->checkAccess("write", "", $this->ref_id) &&
+            false === $ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
         ) {
             if ($ajax) {
                 echo $this->lng->txt('cannot_edit_test');
@@ -197,7 +193,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
         }
 
-        if (false == isset($_POST['scoring']) || false == is_array($_POST['scoring'])) {
+        if (!isset($_POST['scoring']) || !is_array($_POST['scoring'])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_save_manscoring_failed_unknown'));
             $this->showManScoringByQuestionParticipantsTable();
             return;
@@ -221,7 +217,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             
             // check for existing test result data
             if (!$this->object->getTestResult($active_id, $pass)) {
-                if (false == isset($skipParticipant[$pass])) {
+                if (!isset($skipParticipant[$pass])) {
                     $skipParticipant[$pass] = [];
                 }
                 $skipParticipant[$pass][$active_id] = true;
@@ -230,10 +226,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             }
             
             foreach ((array) $questions as $qst_id => $reached_points) {
-                if (false == isset($manPointsPost[$pass])) {
+                if (!isset($manPointsPost[$pass])) {
                     $manPointsPost[$pass] = [];
                 }
-                if (false == isset($manPointsPost[$pass][$active_id])) {
+                if (!isset($manPointsPost[$pass][$active_id])) {
                     $manPointsPost[$pass][$active_id] = [];
                 }
                 $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
@@ -252,10 +248,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         foreach ($participantData->getActiveIds() as $active_id) {
             $questions = $activeData[$active_id];
             $update_participant = false;
-            
-            if (false == $skipParticipant[$pass][$active_id]) {
+            $qst_id = null;
+
+            if (!($skipParticipant[$pass][$active_id] ?? false)) {
                 foreach ((array) $questions as $qst_id => $reached_points) {
-                    $this->saveFeedback($active_id, $qst_id, $pass, $ajax);
+                    $this->saveFeedback((int) $active_id, (int) $qst_id, (int) $pass, $ajax);
                     $update_participant = assQuestion::_setReachedPoints(
                         $active_id,
                         $qst_id,
@@ -298,9 +295,13 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
             $this->tpl->setOnScreenMessage('success', $msg, true);
 
-            if (isset($active_id)) {
-                $correction_feedback = $this->object->getSingleManualFeedback($active_id, $qst_id, $pass);
-                $correction_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
+            if (isset($active_id) && $lastAndHopefullyCurrentQuestionId) {
+                $correction_feedback = ilObjTest::getSingleManualFeedback(
+                    (int) $active_id,
+                    (int) $lastAndHopefullyCurrentQuestionId,
+                    (int) $pass
+                );
+                $correction_points = assQuestion::_getReachedPoints($active_id, $lastAndHopefullyCurrentQuestionId, $pass);
             }
         }
 
@@ -321,11 +322,12 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             } else {
                 $correction_feedback['finalized_evaluation'] = $this->lng->txt('no');
             }
+
             echo json_encode([ 'feedback' => $correction_feedback, 'points' => $correction_points, "translation" => ['yes' => $this->lng->txt('yes'), 'no' => $this->lng->txt('no')]]);
             exit();
-        } else {
-            $this->showManScoringByQuestionParticipantsTable();
         }
+
+        $this->showManScoringByQuestionParticipantsTable();
     }
 
     /**
@@ -504,7 +506,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $scoring_post_var = 'scoring' . $post_var;
         $reached_points = assQuestion::_getReachedPoints($active_id, $question_id, $pass);
         $form = new ilPropertyFormGUI();
-        $feedback = $this->object->getSingleManualFeedback($active_id, $question_id, $pass);
+        $feedback = ilObjTest::getSingleManualFeedback((int) $active_id, (int) $question_id, (int) $pass);
         $disable = false;
         $form->setFormAction($ilCtrl->getFormAction($this, 'showManScoringByQuestionParticipantsTable'));
         $form->setTitle($this->lng->txt('manscoring'));
@@ -601,13 +603,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         );
     }
 
-    /**
-     * @param $active_id
-     * @param $qst_id
-     * @param $pass
-     * @param $is_single_feedback
-     */
-    protected function saveFeedback($active_id, $qst_id, $pass, $is_single_feedback)
+    protected function saveFeedback(int $active_id, int $qst_id, int $pass, bool $is_single_feedback) : void
     {
         $feedback = null;
         if ($this->doesValueExistsInPostArray('feedback', $active_id, $qst_id, $pass)) {
@@ -618,22 +614,26 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $this->saveFinalization($active_id, $qst_id, $pass, $feedback, $is_single_feedback);
     }
 
-    /**
-     * @param $active_id
-     * @param $qst_id
-     * @param $pass
-     * @param $feedback
-     */
-    protected function saveFinalization($active_id, $qst_id, $pass, $feedback, $is_single_feedback)
-    {
+    protected function saveFinalization(
+        int $active_id,
+        int $qst_id,
+        int $pass,
+        ?string $feedback,
+        bool $is_single_feedback
+    ) : void {
         $evaluated = false;
         if ($this->doesValueExistsInPostArray('evaluated', $active_id, $qst_id, $pass)) {
-            $evaluated = (int) $_POST['evaluated'][$pass][$active_id][$qst_id];
-            if ($evaluated === 1) {
-                $evaluated = true;
-            }
+            $evaluated = (bool) ($_POST['evaluated'][$pass][$active_id][$qst_id] ?? false);
         }
-        $this->object->saveManualFeedback($active_id, $qst_id, $pass, $feedback, $evaluated, $is_single_feedback);
+
+        $this->object->saveManualFeedback(
+            $active_id,
+            $qst_id,
+            $pass,
+            $feedback,
+            $evaluated,
+            $is_single_feedback
+        );
     }
     /**
      * @param $post_value
@@ -646,7 +646,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         return (
             isset($_POST[$post_value][$pass][$active_id][$qst_id]) &&
-            strlen($_POST[$post_value][$pass][$active_id][$qst_id]) > 0
+            $_POST[$post_value][$pass][$active_id][$qst_id] != ''
         );
     }
 }

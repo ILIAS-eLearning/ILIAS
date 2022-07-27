@@ -215,7 +215,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             }
             if (!isset($questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ])) {
                 $question = assQuestion::_instantiateQuestion($row['question_id']);
-                $duplicateId = $question->duplicate(true, null, null, null, $this->testOBJ->getId());
+                $duplicateId = $question->duplicate(true, '', '', '', $this->testOBJ->getId());
 
                 $nextId = $this->db->nextId('tst_rnd_cpy');
                 $this->db->insert('tst_rnd_cpy', array(

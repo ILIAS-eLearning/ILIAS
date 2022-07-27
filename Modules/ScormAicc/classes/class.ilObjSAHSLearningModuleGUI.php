@@ -331,6 +331,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $rbacsystem = $DIC->access();
         $ilErr = $DIC['ilErr'];
         $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $importFromXml = false;
 
         // check create permission
         if (!$rbacsystem->checkAccess("create", '', $refId, "sahs")) {
@@ -418,11 +419,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $zar->close();
                 $importer = new ilScormAiccImporter();
                 $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
-                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
-                    $importFromXml = true;
-                }
+                $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+                $importFromXml = true;
+//                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
+//                    $importFromXml = true;
+//                }
                 $mprops = $importer->moduleProperties;
-                $subType = $mprops["SubType"][0];
+                $subType = (string) $mprops["SubType"];
                 if ($subType === "scorm") {
                     $newObj = new ilObjSCORMLearningModule();
                 } else {

@@ -485,7 +485,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
-        $news = new ilNewsItem($this->std_request->getNewsId());
         
         $tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
 
@@ -495,11 +494,30 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $c = current($this->data);
         $curr_cnt = 1;
 
-        while ($c["id"] > 0 && (int) $c["id"] !== $this->std_request->getNewsId()) {
-            $previous = $c;
-            $c = next($this->data);
-            $curr_cnt++;
+        if ($this->std_request->getNewsId() > 0) {
+            $news = new ilNewsItem($this->std_request->getNewsId());
+            $news_context = $this->std_request->getNewsContext();
+            while ($c["id"] > 0 && (int) $c["id"] !== $this->std_request->getNewsId()) {
+                $previous = $c;
+                $c = next($this->data);
+                $curr_cnt++;
+            }
+        } else {
+            $news_page = $this->std_request->getNewsPage();
+            $news_context = 0;
+            while ($curr_cnt - 1 < $news_page) {
+                $previous = $c;
+                $c = next($this->data);
+                if ($curr_cnt - 1 === $news_page) {
+                }
+                $curr_cnt++;
+            }
+            $news = new ilNewsItem($c["id"]);
+            if ($c["ref_id"] > 0) {
+                $news_context = (int) $c["ref_id"];
+            }
         }
+
 
         if (!is_array($c) && is_object($news) && $news->getId() > 0
             && ilNewsItem::_lookupContextObjId($news->getId()) !== $ilCtrl->getContextObjId()) {
@@ -523,7 +541,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "update_date" => $news->getUpdateDate(),
                 "creation_date" => "",
                 "content_is_lang_var" => false,
-                "loc_context" => $this->std_request->getNewsContext(),
+                "loc_context" => $news_context,
                 "context_obj_type" => $news->getContextObjType(),
                 "title" => ""
             ];
@@ -531,13 +549,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             foreach ($c["aggregation"] as $c_item) {
                 ilNewsItem::_setRead($ilUser->getId(), $c_item["id"]);
                 $c_item["loc_context"] = $c_item["ref_id"];
-                $c_item["loc_stop"] = $this->std_request->getNewsContext();
+                $c_item["loc_stop"] = $news_context;
                 $news_list[] = $c_item;
             }
         } else {								// no aggregation, simple news item
             $news_list[] = [
                 "id" => $news->getId(),
-                "ref_id" => $this->std_request->getNewsContext(),
+                "ref_id" => $news_context,
                 "user_id" => $news->getUserId(),
                 "content_type" => $news->getContentType(),
                 "mob_id" => $news->getMobId(),
@@ -552,7 +570,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "context_sub_obj_id" => $news->getContextSubObjId(),
                 "content_is_lang_var" => $news->getContentIsLangVar(),
                 "content_text_is_lang_var" => $news->getContentTextIsLangVar(),
-                "loc_context" => $this->std_request->getNewsContext(),
+                "loc_context" => $news_context,
                 "title" => $news->getTitle()
             ];
             ilNewsItem::_setRead($ilUser->getId(), $this->std_request->getNewsId());
@@ -607,11 +625,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
                     $title = basename($media_path);
                     $html = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
-                } elseif (in_array($mime, ["audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"])) {
-                    $mp = new ilMediaPlayerGUI();
-                    $mp->setFile($media_path);
-                    $mp->setDisplayHeight(200);
-                    $html = $mp->getMediaPlayerHtml();
+                } elseif (in_array($mime, ["video/mp4"])) {
+                    $video = $ui_factory->player()->video($media_path);
+                    $html = $ui_renderer->render($video);
+                } elseif (in_array($mime, ["audio/mpeg"])) {
+                    $audio = $ui_factory->player()->audio($media_path);
+                    $html = $ui_renderer->render($audio);
                 } else {
                     // download?
                     $html = "";
@@ -678,7 +697,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 
             // context / title
-            if ($this->std_request->getNewsContext() > 0) {
+            if ($news_context > 0) {
                 //$obj_id = ilObject::_lookupObjId($_GET["news_context"]);
                 $obj_id = ilObject::_lookupObjId($item["ref_id"]);
                 $obj_type = ilObject::_lookupType($obj_id);
@@ -784,42 +803,25 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $tpl->setVariable("ITEM_ROW_CSS", $row_css);
             $tpl->parseCurrentBlock();
         }
-        
-        $content_block = new ilDashboardContentBlockGUI();
-        $content_block->setContent($tpl->get());
+
+        $content = $tpl->get();
         if ($this->getProperty("title") != "") {
-            $content_block->setTitle($this->getProperty("title"));
+            $title = $this->getProperty("title");
         } else {
-            $content_block->setTitle($lng->txt("news_internal_news"));
+            $title = $lng->txt("news_internal_news");
         }
+        $panel = $this->ui->factory()->panel()->standard($title, $this->ui->factory()->legacy($content));
 
-        // previous
-        if ($previous != "") {
-            if ($previous["ref_id"] > 0) {
-                $ilCtrl->setParameter($this, "news_context", $previous["ref_id"]);
-            }
-            $ilCtrl->setParameter($this, "news_id", $previous["id"]);
-            // @todo: make this a view control
-            $content_block->addBlockCommand($ilCtrl->getLinkTarget($this, "showNews"), $lng->txt("previous"));
-            $ilCtrl->setParameter($this, "news_context", "");
-        }
-        
-        // next
-        if ($c = next($this->data)) {
-            if ($c["ref_id"] > 0) {
-                $ilCtrl->setParameter($this, "news_context", $c["ref_id"]);
-            }
-            $ilCtrl->setParameter($this, "news_id", $c["id"]);
-            // @todo: make this a view control
-            $content_block->addBlockCommand($ilCtrl->getLinkTarget($this, "showNews"), $lng->txt("next"));
-        }
-        $ilCtrl->setParameter($this, "news_context", "");
-        $ilCtrl->setParameter($this, "news_id", "");
-        $content_block->setCurrentItemNumber($curr_cnt);
-        $content_block->setEnableNumInfo(true);
-        $content_block->setData($this->getData());
+        $parameter_name = 'news_page';
 
-        return $content_block->getHTML();
+        $pagination = $this->ui->factory()->viewControl()->pagination()
+                              ->withTargetURL($ilCtrl->getLinkTarget($this, "showNews"), "news_page")
+                              ->withTotalEntries(count($this->getData()))
+                              ->withPageSize(1)
+                              ->withCurrentPage($curr_cnt - 1);
+        $panel = $panel->withViewControls([$pagination]);
+
+        return $this->ui->renderer()->render($panel);
     }
 
     protected function getMediaPath(int $mob_id) : string
@@ -1220,12 +1222,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "&obj_id=" . $this->block_id .
                 "&hash=" . ilObjUser::_lookupFeedHash($ilUser->getId(), true)
         );
-        
-        $content_block = new ilDashboardContentBlockGUI();
-        $content_block->setContent($tpl->get());
-        $content_block->setTitle($lng->txt("news_internal_news"));
 
-        return $content_block->getHTML();
+        $panel = $this->ui->factory()->panel()->standard(
+            $lng->txt("news_internal_news"),
+            $this->ui->factory()->legacy($tpl->get())
+        );
+
+        return $this->ui->renderer()->render($panel);
     }
 
     public function getDynamic() : bool
