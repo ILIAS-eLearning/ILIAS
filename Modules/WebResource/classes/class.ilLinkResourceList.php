@@ -100,10 +100,10 @@ class ilLinkResourceList
         $res = $this->db->query($query);
         if ($this->db->numRows($res) !== 0) {
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setTitle($row->title);
-                $this->setDescription($row->description);
-                $this->setCreateDate($row->create_date);
-                $this->setLastUpdateDate($row->last_update);
+                $this->setTitle((string) $row->title);
+                $this->setDescription((string) $row->description);
+                $this->setCreateDate((int) $row->create_date);
+                $this->setLastUpdateDate((int) $row->last_update);
             }
             return true;
         }

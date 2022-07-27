@@ -256,12 +256,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
             // update object
             $this->object->setTitle($form->getInput('title'));
-            $this->object->setDescription($form->getInput('desc'));
+            $this->object->setDescription((string) $form->getInput('desc'));
             $this->object->update();
 
             // update sorting
             $sort = new ilContainerSortingSettings($this->object->getId());
-            $sort->setSortMode($form->getInput('sor'));
+            $sort->setSortMode((int) $form->getInput('sor'));
             $sort->update();
 
             // tile image
@@ -1200,9 +1200,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $position = $this->http->wrapper()->post()->retrieve(
                 'position',
                 $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->dictOf(
-                        $this->refinery->kindlyTo()->int()
-                    )
+                    $this->refinery->kindlyTo()->int()
                 )
             );
         }
