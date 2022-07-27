@@ -283,7 +283,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $i->getId()
         );
         $note_gui->setDefaultCommand("getWidget");
-
+        $note_gui->setShowEmptyListMessage(false);
+        $note_gui->setShowHeader(false);
         $html .= $this->ctrl->getHTML($note_gui);
 
         $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $this->std_request->getNewsId());

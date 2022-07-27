@@ -11134,7 +11134,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
+  box-shadow: 3px 9px 9px 0 #000000;
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -17343,6 +17343,9 @@ span.ilNewsRssIcon:hover {
   border-bottom: 14px solid transparent;
   content: " ";
 }
+.ilTimeline > li > .ilTimelinePanel .panel h2 {
+  display: none;
+}
 .ilTimeline > li > .ilTimelineBadge {
   color: white;
   width: 50px;
@@ -19897,4 +19900,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=./delos.css.map */

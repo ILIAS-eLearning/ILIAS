@@ -85,6 +85,8 @@ class ilNoteGUI
     protected string $note_mess = "";
     protected array $item_list_gui = [];
     protected bool $use_obj_title_header = true;
+    protected bool $show_empty_list_message = true;
+    protected bool $show_header = true;
 
     /**
      * @param int|int[]    $a_rep_obj_id object id of repository object (0 for personal desktop)
@@ -172,6 +174,27 @@ class ilNoteGUI
         $this->requested_note_mess = $this->request->getNoteMess();
         $this->requested_news_id = $this->request->getNewsId();
     }
+
+    public function setShowEmptyListMessage(bool $a_val) : void
+    {
+        $this->show_empty_list_message = $a_val;
+    }
+
+    public function getShowEmptyListMessage() : bool
+    {
+        return $this->show_empty_list_message;
+    }
+
+    public function setShowHeader(bool $a_val) : void
+    {
+        $this->show_header = $a_val;
+    }
+
+    public function getShowHeader() : bool
+    {
+        return $this->show_header;
+    }
+
 
     public function setUseObjectTitleHeader(bool $a_val) : void
     {
@@ -270,7 +293,8 @@ class ilNoteGUI
         // #15948 - public enabled vs. comments_settings
         if ($this->requested_note_type === Note::PUBLIC) {
             $active = true;
-            if (!is_array($this->rep_obj_id)) {
+            // news items (in timeline) do not check, if the object has news activated!
+            if (!is_array($this->rep_obj_id) && $this->news_id === 0) {
                 $active = $this->manager->commentsActive($this->rep_obj_id);
             }
 
@@ -309,7 +333,6 @@ class ilNoteGUI
                 }
             }
         }
-
         return $this->renderContent($content);
     }
 
@@ -538,19 +561,22 @@ class ilNoteGUI
             $it_group_title = $this->getItemGroupTitle($this->rep_obj_id);
             $item_groups = [$f->item()->group($it_group_title, [])];
             $panel = $f->panel()->listing()->standard("", $item_groups);
-            if ($this->search_text === "") {
-                $mess_txt = ($this->requested_note_type === Note::PRIVATE)
-                    ? $lng->txt("notes_no_notes")
-                    : $lng->txt("notes_no_comments");
-            } else {
-                $mess_txt = ($this->requested_note_type === Note::PRIVATE)
-                    ? $lng->txt("notes_no_notes_found")
-                    : $lng->txt("notes_no_comments_found");
+            $mess_txt = "";
+            if ($this->show_empty_list_message) {
+                if ($this->search_text === "") {
+                    $mess_txt = ($this->requested_note_type === Note::PRIVATE)
+                        ? $lng->txt("notes_no_notes")
+                        : $lng->txt("notes_no_comments");
+                } else {
+                    $mess_txt = ($this->requested_note_type === Note::PRIVATE)
+                        ? $lng->txt("notes_no_notes_found")
+                        : $lng->txt("notes_no_comments_found");
+                }
+                $mess = $f->messageBox()->info($mess_txt);
+                //$html = $this->renderComponents([$panel, $mess]);
+                $html = $this->renderComponents([$mess]);
+                $tpl->setVariable("NOTES_LIST", $html);
             }
-            $mess = $f->messageBox()->info($mess_txt);
-            //$html = $this->renderComponents([$panel, $mess]);
-            $html = $this->renderComponents([$mess]);
-            $tpl->setVariable("NOTES_LIST", $html);
         } elseif ($this->search_text !== "") {
             $mess_txt = ($this->requested_note_type === Note::PRIVATE)
                 ? $lng->txt("notes_no_notes_found")
@@ -613,6 +639,9 @@ class ilNoteGUI
 
     protected function getItemGroupTitle(int $obj_id = 0) : string
     {
+        if (!$this->show_header) {
+            return "";
+        }
         if (!is_array($this->rep_obj_id) && !$this->getUseObjectTitleHeader()) {
             $it_group_title = ($this->requested_note_type === Note::PRIVATE)
                 ? $this->lng->txt("notes")
@@ -1222,7 +1251,6 @@ class ilNoteGUI
     {
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
-
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         $ctrl->setParameter($this, "news_id", $this->news_id);
@@ -1243,8 +1271,8 @@ class ilNoteGUI
             $this->news_id
         );
 
-        $cnt[$this->obj_id][Note::PUBLIC] = $this->manager->getNrOfNotesForContext($context, Note::PUBLIC);
-        $cnt[$this->obj_id][Note::PRIVATE] = $this->manager->getNrOfNotesForContext($context, Note::PRIVATE);
+        $cnt[$this->rep_obj_id][Note::PUBLIC] = $this->manager->getNrOfNotesForContext($context, Note::PUBLIC);
+        $cnt[$this->rep_obj_id][Note::PRIVATE] = $this->manager->getNrOfNotesForContext($context, Note::PRIVATE);
         $cnt = $cnt[$this->rep_obj_id][Note::PUBLIC] ?? 0;
 
         $tpl = new ilTemplate("tpl.note_widget_header.html", true, true, "Services/Notes");
