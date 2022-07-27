@@ -135,10 +135,7 @@ abstract class assQuestion
      */
     private string $export_image_path;
 
-    /**
-     * An external id of a question
-     */
-    protected string $external_id = '';
+    protected ?string $external_id = null;
 
     const ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT = 'default';
     const ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT = 'pageobject';
@@ -216,7 +213,7 @@ abstract class assQuestion
         $this->shuffle = 1;
         $this->nr_of_tries = 0;
         $this->setEstimatedWorkingTime(0, 1, 0);
-        $this->setExternalId('');
+        $this->setExternalId(null);
 
         $this->questionActionCmd = 'handleQuestionAction';
         $this->export_image_path = '';
@@ -270,12 +267,12 @@ abstract class assQuestion
     }
 
     // hey: prevPassSolutions - question action actracted (heavy use in fileupload refactoring)
-
     private function generateExternalId(int $question_id) : string
     {
         if ($question_id > 0) {
             return 'il_' . IL_INST_ID . '_qst_' . $question_id;
         }
+
         return uniqid('', true);
     }
 
@@ -599,16 +596,17 @@ abstract class assQuestion
         $this->lifecycle = $lifecycle;
     }
 
-    public function setExternalId(string $external_id) : void
+    public function setExternalId(?string $external_id) : void
     {
         $this->external_id = $external_id;
     }
 
     public function getExternalId() : string
     {
-        if (!strlen($this->external_id)) {
+        if ($this->external_id === null || $this->external_id === '') {
             return $this->generateExternalId($this->getId());
         }
+
         return $this->external_id;
     }
 
@@ -1891,11 +1889,11 @@ abstract class assQuestion
     public function loadFromDb(int $question_id) : void
     {
         $result = $this->db->queryF(
-            "SELECT external_id FROM qpl_questions WHERE question_id = %s",
-            array("integer"),
-            array($question_id)
+            'SELECT external_id FROM qpl_questions WHERE question_id = %s',
+            ['integer'],
+            [$question_id]
         );
-        if ($this->db->numRows($result) == 1) {
+        if ($this->db->numRows($result) === 1) {
             $data = $this->db->fetchAssoc($result);
             $this->external_id = $data['external_id'];
         }
