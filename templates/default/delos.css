@@ -13713,6 +13713,24 @@ div.ilFrmPostHeader span.small {
   .sort_by_posts .ilFrmPostRow.ilFrmPost-level-4 {
     padding-left: 150px;
   }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-5 {
+    padding-left: 190px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-6 {
+    padding-left: 220px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-7 {
+    padding-left: 240px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-8 {
+    padding-left: 260px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-9 {
+    padding-left: 280px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-10 {
+    padding-left: 300px;
+  }
 }
 .ilFrmPostCensorshipAdvice {
   margin: 0;
