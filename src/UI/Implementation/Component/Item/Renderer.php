@@ -319,10 +319,12 @@ class Renderer extends AbstractComponentRenderer
             $cnt = 0;
             foreach ($props as $name => $value) {
                 $name = htmlentities($name);
-                if ($value instanceof Button\Shy) {
+                if ($value instanceof Button\Shy || $value instanceof \ILIAS\UI\Component\Symbol\Icon\Icon) {
                     $value = $default_renderer->render($value);
                 } else {
-                    $value = htmlentities($value);
+                    //Note, as soon as we got rid of all legacy ListGUI needing to render LP Icons as string, we
+                    //should introduce here htmlentities
+                    $value = $value;
                 }
                 $cnt++;
                 if ($cnt % 2 == 1) {

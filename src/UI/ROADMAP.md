@@ -345,6 +345,11 @@ elements Item and Card or unify them into a common concept. This will help
 developers to pick the right tool for their job as well as clarify the future
 development of the two concepts.
 
+### Improve the properties in Items / Restrict the accepted types
+Currently, the values of the properties are not sanitized by htmlentities as, e.g. the values are.
+This is due to the need of passing Icons as rendered strings by legacy List GUIs. As soon as those are
+fully abandoned (or are not feeding any Items anymore), we should again sanitize the values, and pass
+Icons as proper Icon Components.
 
 ### Define JS-Patterns for the UI-Framework
 
