@@ -33,7 +33,7 @@ label {
   display: inline-block;
   max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: @il-font-weight-bold;
 }
 
 
@@ -227,7 +227,7 @@ input[type="search"] {
     min-height: @line-height-computed; // Ensure the input doesn't jump when there is no text
     padding-left: 20px;
     margin-bottom: 0;
-    font-weight: normal;
+    font-weight: @il-font-weight-base;
     cursor: pointer;
   }
 }
@@ -253,7 +253,7 @@ input[type="search"] {
   padding-left: 20px;
   margin-bottom: 0;
   vertical-align: top;
-  font-weight: normal;
+  font-weight: @il-font-weight-base;
   cursor: pointer;
 }
 .radio-inline + .radio-inline,
