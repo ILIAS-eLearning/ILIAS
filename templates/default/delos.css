@@ -16944,7 +16944,10 @@ body.ilBodyPrint {
   }
 }
 .ilStartupSection {
-  padding-top: 25px;
+  padding-top: 50px;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 .ilStartupSection .control-label {
   width: 33.33%;
