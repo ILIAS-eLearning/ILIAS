@@ -5492,7 +5492,6 @@ abstract class assQuestion
         return false;
     }
 
-
     /* doubles isInUse? */
     public function isInActiveTest() : bool
     {
@@ -5503,76 +5502,5 @@ abstract class assQuestion
 
         $res = $this->db->query($query);
         return $res->numRows() > 0;
-    }
-
-    /**
-     * Levenshtein function alternative code as mentioned in the bug report:
-     * https://mantis.ilias.de/view.php?id=17861
-     * Original code under MIT-License:
-     * https://github.com/GordonLesti/levenshtein/blob/master/src/Levenshtein.php
-     *
-     * Runtime improvements have been added:
-     * A interruption that triggers when the difference in length is bigger than the allowed maximum distance
-     * A maximum distance that interrupts the execution of the algorithm if it already is worse than the allowed
-     *
-     * @param string $str1 first string for distance calculation
-     * @param string $str2 second string for distance calculation
-     * @param int $maximumDistance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
-     * @param float $costIns cost for insertion default 1
-     * @param float $costRep cost for replacement default 1
-     * @param float $costDel cost for deletion default 1
-     * @return float with Levenshtein distance, if a interrupt happens earlier than the return is -1
-     */
-    protected function levenshtein(string $str1, string $str2, int $maximumDistance = 0, float $costIns = 1.0, float $costRep = 1.0, float $costDel = 1.0): float
-    {
-        $matrix = [];
-        $str1Array = $this->StringToArray($str1);
-        $str2Array = $this->StringToArray($str2);
-        $str1Length = count($str1Array);
-        $str2Length = count($str2Array);
-
-        // if the difference between strings is bigger than the maximum allowed levenshtein distance we can skip the whole process
-        if (abs($str1Length - $str2Length) > $maximumDistance && $maximumDistance != 0){
-            return -1;
-        }
-
-        $row = [];
-        $row[0] = 0.0;
-        for ($j = 1; $j < $str2Length + 1; $j++) {
-            $row[$j] = $j * $costIns;
-        }
-
-        $matrix[0] = $row;
-        for ($i = 0; $i < $str1Length; $i++) {
-            $row = [];
-            $row[0] = ($i + 1) * $costDel;
-            for ($j = 0; $j < $str2Length; $j++) {
-                $row[$j + 1] = min(
-                    $matrix[$i][$j + 1] + $costDel,
-                    $row[$j] + $costIns,
-                    $matrix[$i][$j] + ($str1Array[$i] === $str2Array[$j] ? 0.0 : $costRep)
-                );
-            }
-            if (min($row) > $maximumDistance && $maximumDistance != 0){
-                return -1;
-            }
-            $matrix[$i + 1] = $row;
-        }
-        return $matrix[$str1Length][$str2Length];
-    }
-
-    /**
-     * Helper function for Levenstein distance calculation, used to convert strings into arrays.
-     * @param string $str the string that is converted into an array
-     * @return array an array containing the characters of the string, each in a single cell
-     */
-    protected function StringToArray(string $str): array
-    {
-        $length = strlen($str);
-        $array = [];
-        for ($i = 0; $i < $length; $i++) {
-            $array[$i] = substr($str, $i, 1);
-        }
-        return $array;
     }
 }

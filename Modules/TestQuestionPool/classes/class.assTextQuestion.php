@@ -440,6 +440,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function isKeywordMatching($answertext, $a_keyword)
     {
+        global $DIC;
+        $refinery = $DIC->refinery();
         $result = false;
         $textrating = $this->getTextRating();
         include_once "./Services/Utilities/classes/class.ilStr.php";
@@ -465,30 +467,39 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 array_push($answerwords, trim($answerword));
             }
         }
+
+        // init levenshtein, it is probably cheaper initialize the Levenshtein 5 times instead n times
+        $transformation1 = $refinery->string()->levenshteinDefault($a_keyword, 1);
+        $transformation2 = $refinery->string()->levenshteinDefault($a_keyword, 2);
+        $transformation3 = $refinery->string()->levenshteinDefault($a_keyword, 3);
+        $transformation4 = $refinery->string()->levenshteinDefault($a_keyword, 4);
+        $transformation5 = $refinery->string()->levenshteinDefault($a_keyword, 5);
+
+        // run answers against Levenshtein methods
         foreach ($answerwords as $a_original) {
             switch ($textrating) {
                 case TEXTGAP_RATING_LEVENSHTEIN1:
-                    if ($this->levenshtein($a_original, $a_keyword, 1) >= 0) {
+                    if ($transformation1->transform($a_original) >= 0) {
                         return true;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN2:
-                    if ($this->levenshtein($a_original, $a_keyword, 2) >= 0) {
+                    if ($transformation2->transform($a_original) >= 0) {
                         return true;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN3:
-                    if ($this->levenshtein($a_original, $a_keyword, 3) >= 0) {
+                    if ($transformation3->transform($a_original) >= 0) {
                         return true;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN4:
-                    if ($this->levenshtein($a_original, $a_keyword, 4) >= 0) {
+                    if ($transformation4->transform($a_original) >= 0) {
                         return true;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN5:
-                    if ($this->levenshtein($a_original, $a_keyword, 5) >= 0) {
+                    if ($transformation5->transform($a_original) >= 0) {
                         return true;
                     }
                     break;

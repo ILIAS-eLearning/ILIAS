@@ -1146,6 +1146,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getTextgapPoints($a_original, $a_entered, $max_points)
     {
         include_once "./Services/Utilities/classes/class.ilStr.php";
+        global $DIC;
+        $refinery = $DIC->refinery();
         $result = 0;
         $gaprating = $this->getTextgapRating();
         switch ($gaprating) {
@@ -1160,30 +1162,23 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN1:
-                if ($this->levenshtein($a_original, $a_entered, 1) >= 0) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshteinDefault($a_original, 1);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN2:
-                if ($this->levenshtein($a_original, $a_entered, 2) >= 0) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshteinDefault($a_original, 2);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN3:
-                if ($this->levenshtein($a_original, $a_entered, 3) >= 0) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshteinDefault($a_original, 3);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN4:
-                if ($this->levenshtein($a_original, $a_entered, 4) >= 0) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshteinDefault($a_original, 4);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN5:
-                if ($this->levenshtein($a_original, $a_entered, 5) >= 0) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshteinDefault($a_original, 5);
                 break;
+        }
+        if (isset($transformation) && $transformation->transform($a_entered) >= 0) {
+            $result = $max_points;
         }
         return $result;
     }

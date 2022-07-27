@@ -68,6 +68,7 @@ class Group
         return new SplitString($delimiter, $this->dataFactory);
     }
 
+
     /**
      * Creates a transformation that strips tags from a string.
      *
@@ -107,5 +108,40 @@ class Group
     public function estimatedReadingTime($withImages = false) : EstimatedReadingTime
     {
         return new EstimatedReadingTime($withImages);
+    }
+
+
+    /**
+     * Creates an object of the Levenshtein class
+     * This class calculates the levenshtein distance with a default value of 1.0 per insert, delete, replacement.
+     *
+     * @param string $str string for distance calculation
+     * @param int $maximumDistance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
+     * @return Levenshtein
+     */
+    public function levenshteinDefault(string $str, int $maximumDistance) : Levenshtein
+    {
+        return new Levenshtein($str, $maximumDistance, 1.0, 1.0, 1.0);
+    }
+
+
+    /**
+     * Creates an object of the Levenshtein class
+     * This class calculates the levenshtein distance with custom parameters for insert, delete, replacement.
+     *
+     * @param string $str string for distance calculation
+     * @param int $maximumDistance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
+     * @param float $costIns cost for insertion default 1.0
+     * @param float $costRep cost for replacement default 1.0
+     * @param float $costDel cost for deletion default 1.0
+     * @return Levenshtein
+     */
+    public function levenshteinCustom(string $str,
+                                      int $maximumDistance,
+                                      float $costIns,
+                                      float $costRep,
+                                      float $costDel
+    ) : Levenshtein {
+        return new Levenshtein($str, $maximumDistance, $costIns, $costRep, $costDel);
     }
 }
