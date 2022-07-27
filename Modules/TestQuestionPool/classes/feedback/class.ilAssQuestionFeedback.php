@@ -175,8 +175,8 @@ abstract class ilAssQuestionFeedback
     final public function saveGenericFormProperties(ilPropertyFormGUI $form) : void
     {
         if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $this->saveGenericFeedbackContent($this->questionOBJ->getId(), false, $form->getInput('feedback_incomplete'));
-            $this->saveGenericFeedbackContent($this->questionOBJ->getId(), true, $form->getInput('feedback_complete'));
+            $this->saveGenericFeedbackContent($this->questionOBJ->getId(), false, (string) $form->getInput('feedback_incomplete'));
+            $this->saveGenericFeedbackContent($this->questionOBJ->getId(), true, (string) $form->getInput('feedback_complete'));
         }
     }
     
@@ -660,7 +660,7 @@ abstract class ilAssQuestionFeedback
         $pageObjectId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
         
         if ($pageObjectId != -1) {
-            $pageObjectId = $this->saveGenericFeedbackContent($questionId, $solutionCompleted, null);
+            $pageObjectId = $this->saveGenericFeedbackContent($questionId, $solutionCompleted, '');
         }
         
         return $pageObjectId;
