@@ -219,10 +219,12 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $img_tpl->setVariable("IMAGE", $image);
 
             $html = $img_tpl->get();
-        } elseif (in_array($mime, ["audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"])) {
-            $mp = new ilMediaPlayerGUI();
-            $mp->setFile($media_path);
-            $html = $mp->getMediaPlayerHtml();
+        } elseif (in_array($mime, ["video/mp4"])) {
+            $video = $ui_factory->player()->video($media_path);
+            $html = $ui_renderer->render($video);
+        } elseif (in_array($mime, ["audio/mpeg"])) {
+            $audio = $ui_factory->player()->audio($media_path);
+            $html = $ui_renderer->render($audio);
         } else {
             // download?
             $html = "";

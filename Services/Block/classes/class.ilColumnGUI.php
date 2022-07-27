@@ -569,13 +569,12 @@ class ilColumnGUI
                         $nr = -16;
                     }
                     $side = ilBlockSetting::_lookupSide($type, $user_id);
-                    if (is_null($side)) {
+                    if (is_null($side) || $side === "") {
                         $side = $def_side;
                     }
                     if ($side == IL_COL_LEFT) {
                         $side = IL_COL_RIGHT;
                     }
-                    
                     $this->blocks[$side][] = array(
                         "nr" => $nr,
                         "class" => $class,
@@ -666,8 +665,7 @@ class ilColumnGUI
                 }
             }
         }
-        
-        
+
         $this->blocks[IL_COL_LEFT] =
             ilArrayUtil::sortArray($this->blocks[IL_COL_LEFT], "nr", "asc", true);
         $this->blocks[IL_COL_RIGHT] =
