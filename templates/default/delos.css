@@ -11127,7 +11127,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 #000000;
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -16944,7 +16944,10 @@ body.ilBodyPrint {
   }
 }
 .ilStartupSection {
-  padding-top: 25px;
+  padding-top: 50px;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 .ilStartupSection .control-label {
   width: 33.33%;
