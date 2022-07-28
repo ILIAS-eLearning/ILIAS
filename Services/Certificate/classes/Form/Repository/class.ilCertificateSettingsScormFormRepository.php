@@ -27,7 +27,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 {
     private ilObject $object;
     private ilLanguage $language;
-    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilCertificateSettingsFormRepository $settingsFormFactory;
     private ilSetting $setting;
 
     public function __construct(
@@ -59,7 +59,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
             );
         }
 
-        $this->settingsFromFactory = $settingsFormRepository;
+        $this->settingsFormFactory = $settingsFormRepository;
 
         if (null === $setting) {
             $setting = new ilSetting('scorm');
@@ -79,7 +79,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
      */
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
-        $form = $this->settingsFromFactory->createForm($certificateGUI);
+        $form = $this->settingsFormFactory->createForm($certificateGUI);
 
         $short_name = new ilTextInputGUI($this->language->txt('certificate_short_name'), 'short_name');
         $short_name->setRequired(true);
@@ -102,7 +102,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 
     public function fetchFormFieldData(string $content) : array
     {
-        $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
+        $formFields = $this->settingsFormFactory->fetchFormFieldData($content);
         $formFields['certificate_enabled_scorm'] = $this->setting->get(
             'certificate_' . $this->object->getId(),
             (string) $formFields['certificate_enabled_scorm']
