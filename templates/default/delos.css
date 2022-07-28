@@ -16826,7 +16826,7 @@ div.ilBlockHeaderBig,
 td.ilBlockHeader,
 td.ilBlockHeaderBig {
   /* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
-  font-weight: 400;
+  font-weight: 600;
   padding: 3px 0;
   margin: 0 9px;
   text-align: left;
@@ -16945,7 +16945,7 @@ body.ilBodyPrint {
 }
 .ilStartupSection {
   padding-top: 50px;
-  width: max-content;
+  width: fit-content;
   margin-left: auto;
   margin-right: auto;
 }
@@ -17686,7 +17686,7 @@ div.ilSurveyPageEditActionMenu {
 /* Services/Tags */
 .ilTagCloud {
   font-size: 0.75rem;
-  padding: 6px 12px;
+  padding: 6px 0;
 }
 .ilTag {
   background-color: #75deea;
