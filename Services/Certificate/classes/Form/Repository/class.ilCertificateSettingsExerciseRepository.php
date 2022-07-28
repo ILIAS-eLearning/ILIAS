@@ -26,7 +26,7 @@ use ILIAS\Filesystem\Exception\IOException;
 class ilCertificateSettingsExerciseRepository implements ilCertificateFormRepository
 {
     private ilLanguage $language;
-    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilCertificateSettingsFormRepository $settingsFormFactory;
     private ilObject $object;
 
     public function __construct(
@@ -56,7 +56,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
             );
         }
 
-        $this->settingsFromFactory = $settingsFormFactory;
+        $this->settingsFormFactory = $settingsFormFactory;
     }
 
     /**
@@ -71,7 +71,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
      */
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
-        return $this->settingsFromFactory->createForm($certificateGUI);
+        return $this->settingsFormFactory->createForm($certificateGUI);
     }
 
     public function save(array $formFields) : void
@@ -80,6 +80,6 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 
     public function fetchFormFieldData(string $content) : array
     {
-        return $this->settingsFromFactory->fetchFormFieldData($content);
+        return $this->settingsFormFactory->fetchFormFieldData($content);
     }
 }
