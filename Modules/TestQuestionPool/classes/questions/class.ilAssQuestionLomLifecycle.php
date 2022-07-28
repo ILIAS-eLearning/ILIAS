@@ -1,51 +1,57 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAssQuestionLomLifecycle
- *
  * @author      Björn Heyser <info@bjoernheyser.de>
- *
  * @package     Modules/Test
  */
 class ilAssQuestionLomLifecycle
 {
-    const DRAFT = 'draft';
-    const FINAL = 'final';
-    const REVISED = 'revised';
-    const UNAVAILABLE = 'unavailable';
-    
-    /**
-     * @var string
-     */
-    protected $identifier;
-    
+    public const DRAFT = 'draft';
+    public const FINAL = 'final';
+    public const REVISED = 'revised';
+    public const UNAVAILABLE = 'unavailable';
+
+    protected string $identifier;
+
     /**
      * ilAssQuestionLomLifecycle constructor.
-     * @param string $identifier
+     * @param mixed $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
     public function __construct($identifier = '')
     {
-        if (strlen($identifier)) {
+        if (is_string($identifier) && $identifier !== '') {
             $identifier = strtolower($identifier);
-            $this->validateIdentifier($identifier);
-            $this->setIdentifier($identifier);
         }
+
+        $this->validateIdentifier($identifier);
+        $this->setIdentifier($identifier);
     }
-    
-    /**
-     * @return string
-     */
+
     public function getIdentifier() : string
     {
         return $this->identifier;
     }
-    
+
     /**
-     * @param string $identifier
+     * @param mixed $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
     public function setIdentifier($identifier) : void
@@ -53,7 +59,7 @@ class ilAssQuestionLomLifecycle
         $this->validateIdentifier($identifier);
         $this->identifier = $identifier;
     }
-    
+
     /**
      * @return string[]
      */
@@ -61,40 +67,33 @@ class ilAssQuestionLomLifecycle
     {
         return [self::DRAFT, self::FINAL, self::REVISED, self::UNAVAILABLE];
     }
-    
+
     /**
-     * @param string $identifier
+     * @param mixed $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
     public function validateIdentifier($identifier) : void
     {
-        if (!in_array($identifier, $this->getValidIdentifiers())) {
+        if (!in_array($identifier, $this->getValidIdentifiers(), true)) {
             throw new ilTestQuestionPoolInvalidArgumentException(
-                'invalid lom lifecycle given: ' . $identifier
+                'Invalid lom lifecycle given: ' . $identifier
             );
         }
     }
-    
-    /**
-     * @return string
-     */
+
     public function getMappedIliasLifecycleIdentifer() : string
     {
         switch ($this->getIdentifier()) {
             case self::UNAVAILABLE:
-                
                 return ilAssQuestionLifecycle::OUTDATED;
-            
+
             case self::REVISED:
             case self::FINAL:
-        
                 return ilAssQuestionLifecycle::FINAL;
-                
+
             case self::DRAFT:
             default:
-                
                 return ilAssQuestionLifecycle::DRAFT;
-            
         }
     }
 }
