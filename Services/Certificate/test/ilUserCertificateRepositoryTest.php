@@ -54,7 +54,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository(
             $database,
@@ -133,7 +133,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository(
             $database,
@@ -196,7 +196,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository(
             $database,
@@ -228,7 +228,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someDefaultTitle');
 
@@ -290,7 +290,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someDefaultTitle');
 
@@ -334,7 +334,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
@@ -360,7 +360,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
@@ -398,7 +398,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
@@ -435,7 +435,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 

@@ -155,7 +155,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
             $type = $this->objectDataCache->lookupType($objectId);
 
-            $this->logger->info(sprintf(
+            $this->logger->debug(sprintf(
                 "Certificate evaluation triggered, received 'completed' learning progress for: usr_id: %s/obj_id: %s/type: %s",
                 $userId,
                 $objectId,
@@ -167,7 +167,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     $template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
                     if (true === $template->isCurrentlyActive()) {
-                        $this->logger->info(sprintf(
+                        $this->logger->debug(sprintf(
                             "Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                             $userId,
                             $objectId,
@@ -176,7 +176,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                         ));
                         $this->processEntry($type, $objectId, $userId, $template, $settings);
                     } else {
-                        $this->logger->info(sprintf(
+                        $this->logger->debug(sprintf(
                             "Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                             $userId,
                             $objectId,
@@ -185,7 +185,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                         ));
                     }
                 } catch (ilException $exception) {
-                    $this->logger->info(sprintf(
+                    $this->logger->debug(sprintf(
                         "Did not find an active certificate template for case: usr_id: %s/obj_id: %s/type: %s",
                         $userId,
                         $objectId,
@@ -193,20 +193,20 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     ));
                 }
             } else {
-                $this->logger->info(
+                $this->logger->debug(
                     "Object type ($type) is not of interest, skipping certificate evaluation for this object"
                 );
             }
 
             if ($type === 'crs') {
-                $this->logger->info(
+                $this->logger->debug(
                     'Skipping handling for course, because courses cannot be certificate trigger ' .
                     '(with globally disabled learning progress) for other certificate enabled objects'
                 );
                 return;
             }
 
-            $this->logger->info(
+            $this->logger->debug(
                 'Triggering certificate evaluation of possible depending course objects ...'
             );
 
@@ -218,7 +218,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
             foreach (ilObject::_getAllReferences($objectId) as $refId) {
                 $templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $userId);
                 if (0 === count($templatesOfCompletedCourses)) {
-                    $this->logger->info(sprintf(
+                    $this->logger->debug(sprintf(
                         "No dependent course certificate template configuration found for child object: usr_id: %s/obj_id: %s/ref_id: %s/type: %s",
                         $userId,
                         $objectId,
@@ -236,7 +236,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                         if (true === $courseTemplate->isCurrentlyActive()) {
                             $type = $this->objectDataCache->lookupType($courseObjectId);
 
-                            $this->logger->info(sprintf(
+                            $this->logger->debug(sprintf(
                                 "Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                                 $userId,
                                 $courseObjectId,
@@ -245,7 +245,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                             ));
                             $this->processEntry($type, $courseObjectId, $userId, $courseTemplate, $settings);
                         } else {
-                            $this->logger->info(sprintf(
+                            $this->logger->debug(sprintf(
                                 "Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                                 $userId,
                                 $objectId,
@@ -260,7 +260,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 }
             }
 
-            $this->logger->info(
+            $this->logger->debug(
                 'Finished certificate evaluation'
             );
         }
@@ -278,7 +278,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
             return;
         }
 
-        $this->logger->info('User has been deleted. Try to delete user certificates');
+        $this->logger->debug('User has been deleted. Try to delete user certificates');
 
         $userId = $this->parameters['usr_id'];
 
@@ -288,7 +288,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
         $portfolioFileService->deleteUserDirectory($userId);
 
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'All relevant data sources for the user certificates for user(user_id: "%s" deleted)',
             $userId
         ));
