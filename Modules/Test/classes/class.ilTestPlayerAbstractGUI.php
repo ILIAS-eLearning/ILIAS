@@ -2890,4 +2890,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             unset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]);
         }
     }
+
+    protected function handleFileUploadCmd()
+    {
+        $this->updateWorkingTime();
+        $this->saveQuestionSolution(false);
+        $this->ctrl->redirect($this, ilTestPlayerCommands::SUBMIT_SOLUTION );
+    }
+
 }
