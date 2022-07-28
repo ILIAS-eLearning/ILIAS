@@ -718,13 +718,17 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     */
     public function &joinAnswers() : array
     {
-        $join = array();
+        $join = [];
         foreach ($this->answers as $answer) {
-            if (!is_array($join[$answer->getPoints() . ""])) {
-                $join[$answer->getPoints() . ""] = array();
+            $key = $answer->getPoints() . '';
+
+            if (!isset($join[$key]) || !is_array($join[$key])) {
+                $join[$key] = [];
             }
-            array_push($join[$answer->getPoints() . ""], $answer->getAnswertext());
+
+            $join[$key][] = $answer->getAnswertext();
         }
+
         return $join;
     }
     
