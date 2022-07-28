@@ -36,7 +36,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
             ->willReturn(20);
 
         $loggerMock->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $loggerMock->expects($this->atLeastOnce())
             ->method('debug');
@@ -79,7 +79,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $loggerMock->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $databaseMock->expects($this->once())
             ->method('quote')
@@ -104,7 +104,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $loggerMock->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $loggerMock->expects($this->atLeastOnce())
             ->method('debug');
