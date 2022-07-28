@@ -121,15 +121,7 @@ SELECT
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title 
-    END
-  ) as title
+  COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
@@ -192,15 +184,7 @@ SELECT
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title 
-    END
-  ) as title
+  COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
@@ -307,15 +291,7 @@ AND currently_active = 1';
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
   usr_data.lastname,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title
-    END
-  ) as title
+  COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
@@ -382,15 +358,7 @@ AND il_cert_user_cert.currently_active = 1';
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title 
-    END
-  ) as title
+  COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
