@@ -17686,7 +17686,7 @@ div.ilSurveyPageEditActionMenu {
 /* Services/Tags */
 .ilTagCloud {
   font-size: 0.75rem;
-  padding: 6px 12px;
+  padding: 6px 0;
 }
 .ilTag {
   background-color: #75deea;
