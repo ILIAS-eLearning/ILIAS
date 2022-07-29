@@ -67,40 +67,55 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {
-                $this->getMailer()->addAddress($recipient);
+                if ($this->getMailer()->addAddress($recipient)) {
+                    ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+                }
             }
         }
 
         foreach ($mail->getCc() as $carbon_copies) {
             $cc_pieces = array_filter(array_map('trim', explode(',', $carbon_copies)));
             foreach ($cc_pieces as $carbon_copy) {
-                $this->getMailer()->addCC($carbon_copy);
+                if (!$this->getMailer()->addCC($carbon_copy)) {
+                    ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+                }
             }
         }
 
         foreach ($mail->getBcc() as $blind_carbon_copies) {
             $bcc_pieces = array_filter(array_map('trim', explode(',', $blind_carbon_copies)));
             foreach ($bcc_pieces as $blind_carbon_copy) {
-                $this->getMailer()->addBCC($blind_carbon_copy);
+                if (!$this->getMailer()->addBCC($blind_carbon_copy)) {
+                    ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+                }
             }
         }
 
         $this->getMailer()->Subject = $mail->getSubject();
 
         if ($mail->getFrom()->hasReplyToAddress()) {
-            $this->getMailer()->addReplyTo($mail->getFrom()->getReplyToAddress(), $mail->getFrom()->getReplyToName());
+            if (!$this->getMailer()->addReplyTo($mail->getFrom()->getReplyToAddress(), $mail->getFrom()->getReplyToName())) {
+                ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+            }
         }
         if ($mail->getFrom()->hasEnvelopFromAddress()) {
             $this->getMailer()->Sender = $mail->getFrom()->getEnvelopFromAddress();
         }
-        $this->getMailer()->setFrom($mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName(), false);
+
+        if (!$this->getMailer()->setFrom($mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName(), false)) {
+            ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+        }
 
         foreach ($mail->getAttachments() as $attachment) {
-            $this->getMailer()->addAttachment($attachment['path'], $attachment['name']);
+            if (!$this->getMailer()->addAttachment($attachment['path'], $attachment['name'])) {
+                ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+            }
         }
 
         foreach ($mail->getImages() as $image) {
-            $this->getMailer()->addEmbeddedImage($image['path'], $image['cid'], $image['name']);
+            if (!$this->getMailer()->addEmbeddedImage($image['path'], $image['cid'], $image['name'])) {
+                ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+            }
         }
 
         if ($mail->getFinalBodyAlt()) {
