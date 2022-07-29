@@ -12454,12 +12454,12 @@ prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
 prg#:#prg_custom_plan#:#Custom Plan
-prg#:#prg_dash_label_finish_until#:#Finish until:
-prg#:#prg_dash_label_gain#:#Current Completion:
-prg#:#prg_dash_label_minimum#:#Minimum Completion:
-prg#:#prg_dash_label_restart_from#:#Restart from:
-prg#:#prg_dash_label_status#:#Status:
-prg#:#prg_dash_label_valid#:#Valid:
+prg#:#prg_dash_label_finish_until#:#Finish until
+prg#:#prg_dash_label_gain#:#Current Completion
+prg#:#prg_dash_label_minimum#:#Minimum Completion
+prg#:#prg_dash_label_restart_from#:#Restart from
+prg#:#prg_dash_label_status#:#Status
+prg#:#prg_dash_label_valid#:#Valid
 prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline#:#Deadline

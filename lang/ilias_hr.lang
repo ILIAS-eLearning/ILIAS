@@ -1,6 +1,21 @@
-/* Copyright (c) 1998-2021 ILIAS open source e-Learing e.V., GPL3, see docs/LICENSE */
 /**
-* ILIAS language file (All entries)
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
+********************************************************************
+*/
+/**
+* ILIAS language file
 *
 * @module			language file Croatian
 * @modulegroup		language
@@ -12122,12 +12137,12 @@ prg#:#prg_create_new_leaf#:#Kreiraj novi list
 prg#:#prg_create_new_node#:#Kreiraj novi čvor
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails###04 06 2021 new variable
 prg#:#prg_custom_plan#:#Prilagođeni plan
-prg#:#prg_dash_label_finish_until#:#Finish until:###04 06 2021 new variable
-prg#:#prg_dash_label_gain#:#Current Completion:###04 06 2021 new variable
-prg#:#prg_dash_label_minimum#:#Minimum Completion:###04 06 2021 new variable
-prg#:#prg_dash_label_restart_from#:#Restart from:###04 06 2021 new variable
-prg#:#prg_dash_label_status#:#Status:###04 06 2021 new variable
-prg#:#prg_dash_label_valid#:#Valid:###04 06 2021 new variable
+prg#:#prg_dash_label_finish_until#:#Finish until###04 06 2021 new variable
+prg#:#prg_dash_label_gain#:#Current Completion###04 06 2021 new variable
+prg#:#prg_dash_label_minimum#:#Minimum Completion###04 06 2021 new variable
+prg#:#prg_dash_label_restart_from#:#Restart from###04 06 2021 new variable
+prg#:#prg_dash_label_status#:#Status###04 06 2021 new variable
+prg#:#prg_dash_label_valid#:#Valid###04 06 2021 new variable
 prg#:#prg_deadline#:#Rok
 prg#:#prg_deadline_date#:#Processing time expires at fixed date###04 06 2021 new variable
 prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.###04 06 2021 new variable
