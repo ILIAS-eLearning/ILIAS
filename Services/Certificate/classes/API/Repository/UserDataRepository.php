@@ -71,7 +71,7 @@ class UserDataRepository
         $sql = 'SELECT
     cert.pattern_certificate_id,
     cert.obj_id,
-    cert.user_id,
+    cert.usr_id,
     cert.user_name,
     cert.acquired_timestamp,
     cert.currently_active,
@@ -110,7 +110,7 @@ FROM
                 $row['title'] ?? $this->defaultTitle,
                 (int) $row['obj_id'],
                 (int) $row['acquired_timestamp'],
-                (int) $row['user_id'],
+                (int) $row['usr_id'],
                 $row['firstname'],
                 $row['lastname'],
                 $row['login'],
@@ -153,7 +153,7 @@ FROM
 SELECT 
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.currently_active,
@@ -170,7 +170,7 @@ UNION
 SELECT 
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.currently_active,
@@ -186,7 +186,7 @@ WHERE object_reference.deleted IS NULL';
 
         $sql .= '
 ) AS cert
-INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
+INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
 ' . $this->createWhereCondition($filter);
 
         if (!$max_count_only) {
@@ -249,7 +249,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
 
         $userIds = $filter->getUserIds();
         if (!empty($userIds)) {
-            $wheres[] = $this->database->in('cert.user_id', $userIds, false, ilDBConstants::T_INTEGER);
+            $wheres[] = $this->database->in('cert.usr_id', $userIds, false, ilDBConstants::T_INTEGER);
         }
 
         $objIds = $filter->getObjIds();

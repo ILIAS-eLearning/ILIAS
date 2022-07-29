@@ -51,4 +51,11 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTable('il_cert_bgtask_migr');
         }
     }
+
+    public function step_4() : void
+    {
+        if ($this->db->tableExists('il_cert_user_cert') && $this->db->tableColumnExists('il_cert_user_cert', 'user_id')) {
+            $this->db->renameTableColumn('il_cert_user_cert', 'user_id', 'usr_id');
+        }
+    }
 }

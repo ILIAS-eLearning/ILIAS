@@ -73,7 +73,7 @@ class ilUserCertificateRepository
             'pattern_certificate_id' => ['integer', $userCertificate->getPatternCertificateId()],
             'obj_id' => ['integer', $objId],
             'obj_type' => ['text', $userCertificate->getObjType()],
-            'user_id' => ['integer', $userId],
+            'usr_id' => ['integer', $userId],
             'user_name' => ['text', $userCertificate->getUserName()],
             'acquired_timestamp' => ['integer', $userCertificate->getAcquiredTimestamp()],
             'certificate_content' => ['clob', $userCertificate->getCertificateContent()],
@@ -109,7 +109,7 @@ SELECT
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
   il_cert_user_cert.obj_type,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.certificate_content,
@@ -125,7 +125,7 @@ SELECT
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND currently_active = 1';
 
         $query = $this->database->query($sql);
@@ -172,7 +172,7 @@ SELECT
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
   il_cert_user_cert.obj_type,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.certificate_content,
@@ -188,7 +188,7 @@ SELECT
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND currently_active = 1
 AND acquired_timestamp >= ' . $this->database->quote($startTimestamp, 'integer') . '
 AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
@@ -235,7 +235,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
 
         $sql = 'SELECT *
 FROM il_cert_user_cert
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND obj_id = ' . $this->database->quote($objectId, 'integer') . '
 AND currently_active = 1';
 
@@ -278,7 +278,7 @@ AND currently_active = 1';
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
   il_cert_user_cert.obj_type,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.certificate_content,
@@ -295,8 +295,8 @@ AND currently_active = 1';
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE il_cert_user_cert.user_id = ' . $this->database->quote($userId, 'integer') . '
+LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.usr_id
+WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND il_cert_user_cert.obj_id = ' . $this->database->quote($objectId, 'integer') . '
 AND il_cert_user_cert.currently_active = 1';
 
@@ -346,7 +346,7 @@ AND il_cert_user_cert.currently_active = 1';
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
   il_cert_user_cert.obj_type,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.certificate_content,
@@ -362,7 +362,7 @@ AND il_cert_user_cert.currently_active = 1';
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
  AND obj_type = ' . $this->database->quote($type, 'text') . '
  AND currently_active = 1';
 
@@ -440,7 +440,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         );
 
         $sql = 'SELECT obj_id FROM il_cert_user_cert
- WHERE user_id = ' . $this->database->quote($userId, 'integer') .
+ WHERE usr_id = ' . $this->database->quote($userId, 'integer') .
             ' AND ' . $inStatementObjectIds .
             ' AND currently_active = ' . $this->database->quote(1, 'integer');
 
@@ -464,7 +464,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
     {
         $this->logger->debug(sprintf('START - Fetch certificate for object("%s")"', $objectId));
 
-        $sql = 'SELECT user_id FROM il_cert_user_cert
+        $sql = 'SELECT usr_id FROM il_cert_user_cert
 WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
  AND currently_active = ' . $this->database->quote(1, 'integer');
 
@@ -474,7 +474,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
 
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
-            $result[] = (int) $row['user_id'];
+            $result[] = (int) $row['usr_id'];
         }
 
         return $result;
@@ -484,7 +484,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
     {
         $this->logger->debug(sprintf('START - Delete certificate for user("%s")"', $userId));
 
-        $sql = 'DELETE FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer');
+        $sql = 'DELETE FROM il_cert_user_cert WHERE usr_id = ' . $this->database->quote($userId, 'integer');
 
         $this->database->manipulate($sql);
 
@@ -505,7 +505,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
         ));
 
         $sql = 'SELECT * FROM il_cert_user_cert
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND obj_id = ' . $this->database->quote($objId, 'integer');
 
         $query = $this->database->query($sql);
@@ -570,7 +570,7 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
 UPDATE il_cert_user_cert
 SET currently_active = 0
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
-AND  user_id = ' . $this->database->quote($userId, 'integer');
+AND  usr_id = ' . $this->database->quote($userId, 'integer');
 
         $this->database->manipulate($sql);
 
@@ -591,7 +591,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
             (int) $row['pattern_certificate_id'],
             (int) $row['obj_id'],
             $row['obj_type'],
-            (int) $row['user_id'],
+            (int) $row['usr_id'],
             $row['user_name'],
             (int) $row['acquired_timestamp'],
             $row['certificate_content'],
