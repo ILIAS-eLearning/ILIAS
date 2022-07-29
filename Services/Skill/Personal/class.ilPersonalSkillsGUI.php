@@ -704,6 +704,11 @@ class ilPersonalSkillsGUI
             }
 
             $sub = $this->ui_fac->panel()->sub($title, $panel_comps);
+            if ($this->getFilter()->showMaterialsRessources() && $this->getProfileId() > 0) {
+                $sub = $sub->withFurtherInformation(
+                    $this->getSuggestedResourcesForProfile($level_data, $bs["id"], $bs["tref"])
+                );
+            }
             if ($a_edit) {
                 $actions = [];
                 $ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
@@ -721,11 +726,6 @@ class ilPersonalSkillsGUI
                     $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "selfEvaluation")
                 );
                 $sub = $sub->withActions($this->ui_fac->dropdown()->standard($actions)->withLabel($lng->txt("actions")));
-                if ($this->getFilter()->showMaterialsRessources() && $this->getProfileId() > 0) {
-                    $sub = $sub->withFurtherInformation(
-                        $this->getSuggestedResourcesForProfile($level_data, $bs["id"], $bs["tref"])
-                    );
-                }
             }
 
             $sub_panels[] = $sub;
@@ -1755,41 +1755,39 @@ class ilPersonalSkillsGUI
         $tpl = new ilTemplate("tpl.skill_entries_latest.html", true, true, "Services/Skill");
 
         $user_entries = $skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type);
+        $user_entries_filtered = $this->getFilteredEntriesForSkill(
+            $user_entries,
+            $top_skill_id,
+            $bs,
+            $user
+        );
         if ($eval_type == ilBasicSkill::EVAL_BY_SELF) {
-            $latest_entries = $this->getSelfEvalEntriesLatestOnly($user_entries);
+            $latest_entries = $this->getSelfEvalEntriesLatestOnly($user_entries_filtered);
         } else {
-            $latest_entries = $this->getAllEntriesLatestOnly($user_entries);
+            $latest_entries = $this->getAllEntriesLatestOnly($user_entries_filtered);
         }
-        if (!empty($latest_entries)) {
-            $latest_entries_filtered = $this->getFilteredEntriesForSkill(
-                $latest_entries,
-                $top_skill_id,
-                $bs,
-                $user
+
+        $latest_entries_html = "";
+        foreach ($latest_entries as $entry) {
+            $latest_entries_html .= $this->ui_ren->render(
+                $this->ui_fac->legacy($this->getEvalItem($level_data, $entry, true))
             );
+        }
 
-            $latest_entries_filtered_html = "";
-            foreach ($latest_entries_filtered as $f_entry) {
-                $latest_entries_filtered_html .= $this->ui_ren->render(
-                    $this->ui_fac->legacy($this->getEvalItem($level_data, $f_entry, true))
-                );
+        if (!empty($latest_entries_html)) {
+            $tpl->setVariable("SKILL_ENTRIES", $latest_entries_html);
+
+            if (count($user_entries_filtered) != count($latest_entries)) {
+                $tpl->setCurrentBlock("all_entries_button");
+                $show_all_button = $this->ui_fac->button()->standard($lng->txt("skmg_show_all"), "#")
+                                                ->withOnLoadCode(function ($id) {
+                                                    return "$('#$id').on('click', function() {SkillEntries.showNonLatest($id); return false;})";
+                                                });
+                $tpl->setVariable("BUTTON", $this->ui_ren->render($show_all_button));
+                $tpl->parseCurrentBlock();
             }
 
-            if (!empty($latest_entries_filtered_html)) {
-                $tpl->setVariable("SKILL_ENTRIES", $latest_entries_filtered_html);
-
-                if (count($user_entries) != count($latest_entries)) {
-                    $tpl->setCurrentBlock("all_entries_button");
-                    $show_all_button = $this->ui_fac->button()->standard($lng->txt("skmg_show_all"), "#")
-                                                    ->withOnLoadCode(function ($id) {
-                                                        return "$('#$id').on('click', function() {SkillEntries.showNonLatest($id); return false;})";
-                                                    });
-                    $tpl->setVariable("BUTTON", $this->ui_ren->render($show_all_button));
-                    $tpl->parseCurrentBlock();
-                }
-
-                return $tpl->get();
-            }
+            return $tpl->get();
         }
 
         return "";
@@ -1808,37 +1806,35 @@ class ilPersonalSkillsGUI
         $tpl = new ilTemplate("tpl.skill_entries_non_latest.html", true, true, "Services/Skill");
 
         $user_entries = $skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type);
+        $user_entries_filtered = $this->getFilteredEntriesForSkill(
+            $user_entries,
+            $top_skill_id,
+            $bs,
+            $user
+        );
         if ($eval_type == ilBasicSkill::EVAL_BY_SELF) {
-            $non_latest_entries = $this->getSelfEvalEntriesWithoutLatest($user_entries);
+            $non_latest_entries = $this->getSelfEvalEntriesWithoutLatest($user_entries_filtered);
         } else {
-            $non_latest_entries = $this->getAllEntriesWithoutLatest($user_entries);
+            $non_latest_entries = $this->getAllEntriesWithoutLatest($user_entries_filtered);
         }
-        if (!empty($non_latest_entries)) {
-            $non_latest_entries_filtered = $this->getFilteredEntriesForSkill(
-                $non_latest_entries,
-                $top_skill_id,
-                $bs,
-                $user
+
+        $non_latest_entries_filtered_html = "";
+        foreach ($non_latest_entries as $entry) {
+            $non_latest_entries_filtered_html .= $this->ui_ren->render(
+                $this->ui_fac->legacy($this->getEvalItem($level_data, $entry, false))
             );
+        }
 
-            $non_latest_entries_filtered_html = "";
-            foreach ($non_latest_entries_filtered as $f_entry) {
-                $non_latest_entries_filtered_html .= $this->ui_ren->render(
-                    $this->ui_fac->legacy($this->getEvalItem($level_data, $f_entry, false))
-                );
-            }
+        if (!empty($non_latest_entries_filtered_html)) {
+            $tpl->setVariable("SKILL_ENTRIES", $non_latest_entries_filtered_html);
 
-            if (!empty($non_latest_entries_filtered_html)) {
-                $tpl->setVariable("SKILL_ENTRIES", $non_latest_entries_filtered_html);
+            $show_latest_button = $this->ui_fac->button()->standard($lng->txt("skmg_show_latest_entries"), "#")
+                                               ->withOnLoadCode(function ($id) {
+                                                   return "$('#$id').on('click', function() {SkillEntries.hideNonLatest($id); return false;})";
+                                               });
+            $tpl->setVariable("BUTTON", $this->ui_ren->render($show_latest_button));
 
-                $show_latest_button = $this->ui_fac->button()->standard($lng->txt("skmg_show_latest_entries"), "#")
-                                                   ->withOnLoadCode(function ($id) {
-                                                       return "$('#$id').on('click', function() {SkillEntries.hideNonLatest($id); return false;})";
-                                                   });
-                $tpl->setVariable("BUTTON", $this->ui_ren->render($show_latest_button));
-
-                return $tpl->get();
-            }
+            return $tpl->get();
         }
 
         return "";
