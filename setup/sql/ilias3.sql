@@ -2608,7 +2608,7 @@ CREATE TABLE `cmix_token` (
   `returned_for_cmi5_session` varchar(255) NOT NULL DEFAULT '',
   `cmi5_session_data` longtext DEFAULT NULL,
   PRIMARY KEY (`token`),
-  UNIQUE KEY `c1_idx` (`obj_id`,`usr_id`),
+  UNIQUE KEY `c1_idx` (`obj_id`,`usr_id`,`ref_id`),
   KEY `i1_idx` (`token`,`valid_until`)
 ) ;
 
@@ -20412,7 +20412,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','90');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','91');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 INSERT INTO `settings` VALUES ('common','rep_favourites','1');
 
@@ -25024,4 +25024,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2022-06-29 18:47:52
+-- Dump completed on 2022-07-29 16:43:33

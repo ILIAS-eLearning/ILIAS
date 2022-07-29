@@ -5743,7 +5743,7 @@ $ilDB->addPrimaryKey("cmix_token", $pk_fields);
 $in_fields = array("token","valid_until");
 $ilDB->addIndex("cmix_token", $in_fields, "i1", false);
 
-$in_fields = array("obj_id","usr_id");
+$in_fields = array("obj_id","usr_id","ref_id");
 $ilDB->addUniqueConstraint("cmix_token", $in_fields, "c1");
 
 
@@ -48777,7 +48777,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '90')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '91')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
