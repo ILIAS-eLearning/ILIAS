@@ -305,7 +305,7 @@ class ilMDKeyword extends ilMDBase
             $lang = $md_key->getKeywordLanguageCode();
 
             // entered keyword already exists
-            if (is_array($new_keywords[$lang]) && in_array($md_key->getKeyword(), $new_keywords[$lang], true)) {
+            if (is_array($new_keywords[$lang] ?? false) && in_array($md_key->getKeyword(), $new_keywords[$lang], true)) {
                 unset($new_keywords[$lang][array_search($md_key->getKeyword(), $new_keywords[$lang], true)]);
             } else {  // existing keyword has not been entered again -> delete
                 $md_key->delete();
