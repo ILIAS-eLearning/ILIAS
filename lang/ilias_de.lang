@@ -29,21 +29,13 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_access_key#:#Access-Key
-acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
-acc#:#acc_comp_frm#:#Forum
-acc#:#acc_comp_global#:#Global
-acc#:#acc_comp_mail#:#Mail
-acc#:#acc_component#:#Komponente
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
 acc#:#acc_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
 acc#:#acc_crit_type_usr_language#:#Benutzersprache
 acc#:#acc_ctrl_cpt_txt#:#Info Barrierefreiheit
-acc#:#acc_dashboard#:#Dashboard
 acc#:#acc_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
 acc#:#acc_deleted_documents_s#:#Das Dokument wurde gelöscht.
-acc#:#acc_delete#:#Löschen
 acc#:#acc_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
 acc#:#acc_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
 acc#:#acc_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
@@ -66,10 +58,6 @@ acc#:#acc_form_new_doc_head#:#Dokument erstellen
 acc#:#acc_forward_mail#:#Weiterleiten
 acc#:#acc_function#:#Funktion
 acc#:#acc_last_rep_visited#:#Magazin/Zuletzt besucht
-acc#:#acc_mark_all_read#:#Alle auf gelesen setzen
-acc#:#acc_next#:#Weiter (zur nächsten Seite)
-acc#:#acc_previous#:#Zurück (zur vorigen Seite)
-acc#:#acc_reply#:#Antworten
 acc#:#acc_saved_sorting#:#Die Sortierung wurde gespeichert.
 acc#:#acc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
 acc#:#acc_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
@@ -98,11 +86,6 @@ administration#:#adm_adm_role_protect#:#Administratorrolle schützen
 administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen.
 administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_auth_reg#:#Authentifizierung Registrierung
-administration#:#adm_captcha_anonymous_auth#:#Zeigt zusätzlich ein Captcha im Anmeldeformular an, um die Anmeldung durch Roboter zu verhindern. Bitte beachten Sie, dass der Einsatz des Captchas die Barrierefreiheit Ihrer Installation einschränkt.
-administration#:#adm_captcha_anonymous_frm#:#Captcha für nicht angemeldete Benutzer, die im Forum Beiträge schreiben wollen. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
-administration#:#adm_captcha_anonymous_reg#:#Zeigt zusätzlich ein Captcha im Registrierungsformular an, um die Anmeldung durch Roboter zu verhindern. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
-administration#:#adm_captcha_anonymous_short#:#Captcha
-administration#:#adm_captcha_anonymous_wiki#:#Captcha für nicht angemeldete Benutzer, die im Wiki eine Seite bearbeiten wollen. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
 administration#:#adm_communication#:#Kommunikation
 administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
 administration#:#adm_db_bench_chronological#:#Chronologisch
@@ -381,9 +364,6 @@ adn#:#msg_display_date_start#:#Anzeige ab
 adn#:#msg_error_false_date_configuration#:#Mit dieser Konfiguration von Daten kann keine Benachrichtigung erstellt werden. Das Ereignis muss innerhalb der Anzeigezeit liegen.
 adn#:#msg_event_date_end#:#Ende Ereignis
 adn#:#msg_event_date_start#:#Beginn Ereignis
-adn#:#msg_form_button_cancel#:#Abbrechen
-adn#:#msg_form_button_delete#:#Löschen
-adn#:#msg_form_button_reset#:#Zurücksetzen
 adn#:#msg_form_title#:#Ankündigung
 adn#:#msg_limited_to_role_ids#:#Rollen
 adn#:#msg_limit_to_roles_info#:#Nur ausgewählte Rollen sehen die Ankündigung.
@@ -392,7 +372,6 @@ adn#:#msg_permanent#:#Anzeige
 adn#:#msg_permanent_info#:#Ankündigungen permanent oder zeitlich begrenzt anzeigen
 adn#:#msg_permanent_no#:#Zeitlich begrenzt
 adn#:#msg_permanent_yes#:#Permanent
-adn#:#msg_reset_dismiss#:#Für alle Benutzer zurücksetzen
 adn#:#msg_success_created#:#Ankündigung erstellt
 adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
@@ -2468,7 +2447,6 @@ book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Buchungsobjekte
 book#:#book_booking_reminders#:#Anstehende Reservierungen
 book#:#book_bookings_per_user#:#Buchungen je Benutzer
-book#:#book_booking_types#:#Buchungsobjekte
 book#:#book_cal_entry#:#Buchung von:
 book#:#book_confirm_booking#:#Buchung vornehmen
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
@@ -2512,7 +2490,6 @@ book#:#book_nr_preferences#:#Präferenzen
 book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
 book#:#book_objects_available#:#Verfügbare Objekte: %s
-book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Begrenzung der Buchungsanzahl
@@ -3927,7 +3904,6 @@ common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder e
 common#:#error_extraction_failed#:#Das Entpacken des Archivs und dessen Ordnerstruktur ist fehlgeschlagen. Wahrscheinlich verfügen Sie nicht über die Rechte um Ordner oder Kategorien in diesem Objekt zu erstellen.
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
-common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die max. Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
@@ -3985,11 +3961,9 @@ common#:#ext_cat_settings#:#Erweiterte Einstellungen bearbeiten
 common#:#ext_link#:#Link
 common#:#extracting#:#Entpacken...
 common#:#eyeclosed#:#Geschlossenes Auge - Klicken um den Inhalt des Eingabefelds zu verbergen
-common#:#eyeopen#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds aufzuzeigen
 common#:#failure_message#:#Fehlermeldung
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
-common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#feed#:#Webfeed
 common#:#field_name#:#Feldname
 common#:#field_type#:#Feldtyp
@@ -4473,8 +4447,6 @@ common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_member#:#Mail an Mitglied
 common#:#mail_members#:#Mail an Mitglieder
-common#:#mail_multiple_recipients_found#:#Geben Sie eine genauere E-Mail-Adresse ein, da ILIAS mehrere Empfänger gefunden hat.
-common#:#mail_no_recipient_found#:#Geben Sie bitte eine andere E-Mail-Adresse an. ILIAS konnte keinen zugehörigen Empfänger finden.
 common#:#mail_not_sent#:#Ihre Mail konnte nicht verschickt werden
 common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
@@ -4743,7 +4715,6 @@ common#:#nr_following_sessions#:#%1d folgende Sitzung(en)...
 common#:#num_of_selected_files#:#%s Datei(en) ausgewählt
 common#:#num_users#:#Anzahl Benutzer
 common#:#obj_accs#:#Barrierefreiheit
-common#:#obj_accs_captcha#:#Captchas
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
@@ -4818,7 +4789,6 @@ common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, we
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_facs#:#Dateien
 common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
-common#:#obj_feed#:#Webfeed
 common#:#obj_file#:#Datei
 common#:#obj_file_duplicate#:#Datei kopieren
 common#:#obj_file_inline#:#Inline Datei
@@ -4980,7 +4950,6 @@ common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_sess#:#Sitzung
 common#:#objs_etal#:#Mitarbeiter-Gespräche
 common#:#objs_exc#:#Übungen
-common#:#objs_feed#:#Webfeeds
 common#:#objs_file#:#Dateien
 common#:#objs_fold#:#Ordner
 common#:#objs_frm#:#Foren
@@ -5864,10 +5833,8 @@ common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a hre
 common#:#webr_active#:#Aktiv
 common#:#webr_add#:#Weblink anlegen
 common#:#webr_deleted_items#:#Der/die Weblink(s) wurde(n) gelöscht.
-common#:#webr_disable_check#:#Überprüfung deaktivieren
 common#:#webr_edit#:#Weblink bearbeiten
 common#:#web_resources#:#Weblinks
-common#:#webr_last_check_table#:#Letzte Überprüfung:
 common#:#webr_sure_delete_items#:#Sind Sie sicher, dass Sie die folgenden Weblinks löschen möchten?
 common#:#webr#:#Weblink
 common#:#webservices#:#SOAP
@@ -6081,8 +6048,6 @@ content#:#cont_cach_mode#:#Modus
 content#:#cont_cant_copy_folders#:#Ordner können nicht in die Zwischenablage kopiert werden
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardansicht nicht möglich.
-content#:#cont_captcha_code#:#Code
-content#:#cont_captcha_verification#:#Benutzerverifikation
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_caption_style#:#Caption Style
 content#:#cont_cc_emp#:#Betont
@@ -7195,10 +7160,6 @@ copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbauste
 copg#:#copg_x_minutes#:#%s Minute(n)
 cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
 cpad#:#cpad_reading_time_status#:#Lesezeit
-cptch#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
-cptch#:#captcha_audio_title#:#Akustisches Captcha. Bitte anklicken, um Zeichen vorgelesen zu bekommen.
-cptch#:#captcha_code_info#:#Bitte geben Sie die Zeichen aus der Grafik in das Textfeld ein.
-cptch#:#captcha_code_reload#:#Neue Grafik laden
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war
@@ -9401,20 +9362,6 @@ export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
-feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich
-feed#:#block_feed_block_feed_url#:#URL des Webfeeds
-feed#:#block_feed_block_head#:#Externer Webfeed
-feed#:#block_feed_block_title#:#Titel
-feed#:#feed_disable_rep_feeds#:#Externe Webfeeds deaktivieren
-feed#:#feed_disable_rep_feeds_info#:#Deaktiviert die Präsentation aller externer Webfeeds im Magazin, z. B. für den Fall     eines Problems mit einer externen Feed-Quelle.
-feed#:#feed_feed_items#:#Webfeed-Themen
-feed#:#feed_import#:#Webfeed importieren
-feed#:#feed_loading_feed#:#Newsfeed wird geladen ...
-feed#:#feed_no_js_click_here#:#Wird der Newsfeed nicht angezeigt, klicken Sie bitte hier.
-feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
-feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
-feed#:#feed_open_source_page#:#Gehe zur externen Nachricht
-feed#:#feed_settings#:#Externe Webfeeds
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9460,7 +9407,6 @@ fold#:#fold_copy#:#Ordner kopieren
 fold#:#fold_import#:#Ordner importieren
 fold#:#fold_presentation#:#Darstellung
 fold#:#fold_settings#:#Ordnereigenschaften
-form#:#captcha_code#:#Sicherheitsüberprüfung
 form#:#email_not_match#:#Ihre Eingaben für die E-Mail-Adresse stimmen nicht überein! Bitte geben Sie die E-Mail-Adresse erneut ein.
 form#:#form_alphabet_all#:#Alle
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
@@ -9527,7 +9473,6 @@ forum#:#ascending_order#:#Neueste Beiträge unten
 forum#:#autosave_draft_info#:#<span class="asterisk">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.<span/>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.<span/>
 forum#:#close_topics#:#Schließen
-forum#:#cont_captcha_code#:#Code
 forum#:#content_censored_post#:#Inhalt des zensierten Beitrags:
 forum#:#content_deleted_post#:#Inhalt des gelöschten Beitrags:
 forum#:#content_deleted_thread#:#Inhalt des gelöschten Themas:
@@ -9552,7 +9497,6 @@ forum#:#file_upload_allowed#:#Dateien anhängen
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
-forum#:#file_upload_option_allow_desc#:#In allen Foren können Dateien an Beiträge angehangen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
 forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
@@ -9720,9 +9664,7 @@ forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist b
 forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr
 forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert
 forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert
-forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in zeitlichen Reihenfolge der Erstellung gezeigt.
 forum#:#sort_by_date#:#Sortieren nach Datum
-forum#:#sort_by_posts_desc#:#Das Thema wird in Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
 forum#:#sorting#:#Sortierung
@@ -12245,7 +12187,6 @@ orgu#:#user_import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu 
 orgu#:#users_successfuly_added#:#Der Benutzer wurde erfolgreich eingetragen.
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_pdcal#:#Kalender anzeigen
@@ -13308,7 +13249,6 @@ rbac#:#lngf_edit_permission#:#Rechteeinstellungen der Administration ändern
 rbac#:#lngf_read#:#Lesezugriff auf Sprachenverwaltung
 rbac#:#lngf_visible#:#Sprachenverwaltung ist sichtbar
 rbac#:#lngf_write#:#Spracheinstellungen können bearbeitet und erweiterte Sprachenverwaltung genutzt werden
-rbac#:#log#:#Log
 rbac#:#logs_edit_permission#:#Rechteeinstellung der Protokollierung ändern
 rbac#:#logs_read#:#Lesezugriff auf Einstellungen der Protokollierung
 rbac#:#logs_visible#:#Protokollierungs-Administration ist sichtbar
@@ -13526,7 +13466,6 @@ rbac#:#rbac_create_crs#:#Kurs anlegen
 rbac#:#rbac_create_crsr#:#Kurslink anlegen
 rbac#:#rbac_create_dcl#:#Datensammlung anlegen
 rbac#:#rbac_create_exc#:#Übung anlegen
-rbac#:#rbac_create_feed#:#Webfeed anlegen
 rbac#:#rbac_create_file#:#Datei hochladen
 rbac#:#rbac_create_fold#:#Ordner anlegen
 rbac#:#rbac_create_frm#:#Forum anlegen
@@ -16509,8 +16448,6 @@ user#:#user_publish_options#:#Profil veröffentlichen
 user#:#user_role_starting_point#:#Benutzer - Startseite
 user#:#user_save_continue#:#Speichern und weiter
 user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
-user#:#user_screen_reader_optimization_info#:#Passt ILIAS an die Nutzung mit einem Screenreader / Bildschirmleseprogramm an.
-user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
 user#:#user_set_publishing_options#:#Veröffentlichung konfigurieren
 user#:#user_set_visibilty_options#:#Sichtbarkeit konfigurieren
@@ -16855,3 +16792,32 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+adn#:#btn_cancel#:#Cancel###29 07 2022 new variable
+adn#:#btn_delete_confirm#:#Would you like to delete this Notification?###29 07 2022 new variable
+adn#:#btn_delete#:#Delete###29 07 2022 new variable
+adn#:#btn_edit#:#Edit###29 07 2022 new variable
+adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?###29 07 2022 new variable
+adn#:#btn_reset#:#Reset###29 07 2022 new variable
+cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###29 07 2022 new variable
+common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###29 07 2022 new variable
+common#:#minimize#:#Minimize###29 07 2022 new variable
+common#:#obj_cld#:#Cloud Object###29 07 2022 new variable
+common#:#objs_cld#:#Cloud Objects###29 07 2022 new variable
+mathjax#:#mathjax_mathjax#:#MathJax###29 07 2022 new variable
+pdfgen#:#footer_text#:#Text###29 07 2022 new variable
+rbac#:#cld_delete_files#:#Users can delete Files in the cloud object###29 07 2022 new variable
+rbac#:#cld_delete_folders#:#Users can delete Folders in the cloud object###29 07 2022 new variable
+rbac#:#cld_delete#:#User can delete cloud object###29 07 2022 new variable
+rbac#:#cld_download#:#User can download files from the cloud object###29 07 2022 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###29 07 2022 new variable
+rbac#:#cld_edit_permission#:#User can change permission settings###29 07 2022 new variable
+rbac#:#cld_files_visible#:#Files are visible in the cloud object###29 07 2022 new variable
+rbac#:#cld_folders_create#:#Folders may be created in the cloud object###29 07 2022 new variable
+rbac#:#cld_folders_visible#:#Folders are visible in the cloud object###29 07 2022 new variable
+rbac#:#cld_permission#:#User can change permission settings###29 07 2022 new variable
+rbac#:#cld_read#:#User can open a Cloud Object###29 07 2022 new variable
+rbac#:#cld_upload#:#User can upload files to the cloud object###29 07 2022 new variable
+rbac#:#cld_visible#:#Cloud Object is visible###29 07 2022 new variable
+rbac#:#cld_write#:#User can edit cloud object settings###29 07 2022 new variable
+rbac#:#rbac_create_cld#:#Create Cloud Object###29 07 2022 new variable
+wsp#:#search_no_match#:#Your search did not match any results.###29 07 2022 new variable

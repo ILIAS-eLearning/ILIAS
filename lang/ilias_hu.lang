@@ -14,19 +14,11 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_access_key#:#Gyorsbillentyű
-acc#:#acc_access_keys#:#Gyorsbillentyűk
 acc#:#acc_add_document_btn_label#:#Dokumentum hozzáadása
-acc#:#acc_comp_frm#:#Fórum
-acc#:#acc_comp_global#:#Általános
-acc#:#acc_comp_mail#:#Levelek
-acc#:#acc_component#:#Komponens
 acc#:#acc_crit_type_usr_language#:#A profil nyelve
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#Ezt a feltételt nem csatolhatja ehhez az értékhez. Már létezik egy ugyanilyen kritérium.
 acc#:#acc_criterion_assignment_must_be_unique_update#:#Nem változtathatja meg a kritériumot kívánt módon. Már létezik egy ugyanilyen kritérium.
 acc#:#acc_ctrl_cpt_txt#:#Hozzáférés-vezérlés koncepciója
-acc#:#acc_dashboard#:#Műszerfal
-acc#:#acc_delete#:#Törlés
 acc#:#acc_deleted_documents_p#:#A dokumentumokat sikeresen törölte.
 acc#:#acc_deleted_documents_s#:#A dokumentumot sikeresen törölte.
 acc#:#acc_doc_crit_attached#:#A feltételt sikeresen hozzárendelte.
@@ -51,10 +43,6 @@ acc#:#acc_form_new_doc_head#:#Dokumentum létrehozása
 acc#:#acc_forward_mail#:#Továbbítás
 acc#:#acc_function#:#Funkció
 acc#:#acc_last_rep_visited#:#Tartalomtár/Utoljára látogatott
-acc#:#acc_mark_all_read#:#Összes megjelölése olvasottként
-acc#:#acc_next#:#Következő
-acc#:#acc_previous#:#Előző
-acc#:#acc_reply#:#Válasz
 acc#:#acc_saved_sorting#:#A rendezést sikeresen mentette.
 acc#:#acc_sure_delete_documents_p#:#Biztos, hogy törli a kiválasztott dokumentumokat?
 acc#:#acc_sure_delete_documents_s#:#Biztos, hogy törli a kiválasztott dokumentumot?
@@ -81,11 +69,6 @@ administration#:#adm_activate_db_benchmark_desc#:#A teljesítménymérést autom
 administration#:#adm_add_settings_template#:#Sablon létrehozása
 administration#:#adm_adm_role_protect#:#Rendszergazdai szerep védelme
 administration#:#adm_adm_role_protect_info#:#Ha be van kapcsolva, csak a rendszergazda rendelhet felhasználókat a rendszergazda szerephez, illetve csak ő vonhatja vissza azt.
-administration#:#adm_captcha_anonymous_auth#:#Captcha bekapcsolása bejelentkezési űrlapokra. Kérjük, ne feledje, hogy ez befolyásolhatja ILIAS-ának hozzáférhetőségét.
-administration#:#adm_captcha_anonymous_frm#:#Captcha bekapcsolása nyilvános fórumokon. Kérjük, ne feledje, hogy ez befolyásolhatja ILIAS-ának hozzáférhetőségét.
-administration#:#adm_captcha_anonymous_reg#:#Captcha bekapcsolása regisztrációs űrlapokra. Kérjük, ne feledje, hogy ez befolyásolhatja ILIAS-ának hozzáférhetőségét.
-administration#:#adm_captcha_anonymous_short#:#Captcha
-administration#:#adm_captcha_anonymous_wiki#:#Captcha bekapcsolása nyilvános wikikre. Kérjük, ne feledje, hogy ez befolyásolhatja ILIAS-ának hozzáférhetőségét.
 administration#:#adm_communication#:#Kommunikáció
 administration#:#adm_db_bench_by_first_table#:#Első SQL tábla szerint aggregálva
 administration#:#adm_db_bench_chronological#:#Időrendi
@@ -1225,11 +1208,6 @@ assessment#:#test_jump_to#:#Ugrás kérdésre
 assessment#:#test_move_page#:#Kérdések áthelyezése
 assessment#:#test_next_question#:#Következő kérdés
 assessment#:#test_prev_question#:#Előző kérdés
-assessment#:#test_question_pool_usage#:#Kérdésgyűjtemények használata
-assessment#:#test_question_pool_usage_optional#:#A kérdések kérdésgyűjteményhez rendelhetőek
-assessment#:#test_question_pool_usage_optional_info#:#A kérdéseket másik tesztben is fel lehet használni.
-assessment#:#test_question_pool_usage_tst_directly#:#A kérdéseket közvetlenül a tesztben hozzuk létre
-assessment#:#test_question_pool_usage_tst_directly_info#:#A kérdéseket nem lehet másik tesztben felhasználni.
 assessment#:#test_results#:#Teszteredmények összefoglalója
 assessment#:#test_scoring#:#Pontozási beállítások
 assessment#:#test_template_reset#:#A sablont sikeresen eltávolította.
@@ -1791,11 +1769,6 @@ assessment#:#tst_score_cut_question_desc#:#Előfordulhat, hogy egy résztvevők 
 assessment#:#tst_score_cut_test#:#Negatív pontszámú végeredmény 0-ra módosítása
 assessment#:#tst_score_cut_test_desc#:#Az összes kérdésre elért válasz pontszáma - melyek között lehet negatív is - összeadódik. A végeredmény, az összpontszám azonban nem lehet negatív, azt 0-ra módosítjuk. Ebben az esetben a negatív pontszámok nagy hangsúlyt kapnak.
 assessment#:#tst_score_cutting#:#Negatív pontszámok
-assessment#:#tst_score_mcmr_questions#:#Többválaszos kérdések, melyeknél egy válasz sincs megjelölve (jelölőnégyzetes)
-assessment#:#tst_score_mcmr_use_scoring_system#:#Egy megjelölt választ sem tartalmazó válaszok mentése és pontozása (Elavult)
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Az 'Alábbiak egyike sem' választása lehetővé teszi egy jelölőnégyzetet sem kiválasztott válaszok mentését. Az ilyen válaszért a kérdésnél meghatározott pontszám jár. Ez a beállítás a következő ILIAS-verzióban már nem lesz elérhető, csak korábbi ILIAS-verziók kompatibilitása miatt maradt a már meglévő tesztekben.
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Egy megjelölt választ sem tartalmazó válaszok mentésének tiltása
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Amennyiben a résztvevő egy jelölőnégyzetet sem választ ki, válaszát nem mentjük. A résztvevők 0 pontot kapnak ebben az esetben.
 assessment#:#tst_score_reporting#:#Jelentés a ponteredményekről
 assessment#:#tst_score_reporting_date#:#Eredmény megjelenítésének dátuma
 assessment#:#tst_search_users#:#Résztvevők keresése
@@ -2075,7 +2048,6 @@ auth#:#login_page_switch_rte#:#Rich Text szerkesztő használata
 auth#:#lti_consumer_inactive#:#LTI-eszközfogyasztó ki van kapcsolva.
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Jelenleg online
-awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 awrn#:#awareness_settings#:#Beállítások
 awrn#:#awrn_caching_period#:#Gyorsítótárazási időköz
 awrn#:#awrn_caching_period_info#:#Ennyi időnként frissül a felső sávban a felhasználók száma, illetve új felhasználó érzékelése.
@@ -2218,7 +2190,6 @@ bibl#:#bib_default_type#:#Típus
 bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_volume#:#Kötet
 bibl#:#bib_default_year#:#Év
-bibl#:#bibl_add#:#Bibliográfia hozzáadása
 bibl#:#bibl_copy#:#Bibliográfia másolása
 bibl#:#bibl_edit#:#Bibliográfia módosítása
 bibl#:#bibl_filter#:#Szűrő
@@ -2422,7 +2393,6 @@ book#:#book_book#:#Lefoglalom
 book#:#book_booked_in#:#Lefoglalt
 book#:#book_booking_information#:#Információ
 book#:#book_booking_reminders#:#Jövőbeni foglalások
-book#:#book_booking_types#:#Foglalható objektumok
 book#:#book_cal_entry#:#Ennek a foglalása:
 book#:#book_confirm_booking#:#Foglalás megerősítése
 book#:#book_confirm_booking_no_schedule#:#Biztos, hogy lefoglalja az alábbi objektumot?
@@ -2464,10 +2434,8 @@ book#:#book_object_added#:#Sikeresen létrehozott egy foglalástípust.
 book#:#book_object_deleted#:#A foglalható objektumot sikeresen törölte.
 book#:#book_object_updated#:#A foglalható objektumot sikeresen frissítette.
 book#:#book_objects_available#:#%s elérhető objektum
-book#:#book_objects_list#:#Foglalható objektumok
 book#:#book_open#:#Foglalásgyűjtemény megnyitása
 book#:#book_overall_limit#:#Foglalások maximális száma
-book#:#book_overall_limit_info#:#Ebben a foglalásgyűjteményben egy felhasználónak sem lehet ennél több foglalása
 book#:#book_overall_limit_warning#:#Foglalásai elérték a maximális megengedett számot.
 book#:#book_participant_already_assigned#:#A résztvevőt már korábban hozzárendelték.
 book#:#book_participant_assigned#:#A résztvevő(k)nek sikeresen lefoglalta.
@@ -2569,9 +2537,7 @@ buddysystem#:#buddy_enable_info#:#Ha be van kapcsolva, felhasználók kérések 
 buddysystem#:#buddy_handle_contact_request#:#Kapcsolat kérése
 buddysystem#:#buddy_noti_cr_profile_not_published#:#A profil nincs közzétéve.
 buddysystem#:#buddy_notification_contact_request#:#Ismerősnek jelölés
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ismerősnek jelölés elutasítása:
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ismerősnek jelölés elutasítása
-buddysystem#:#buddy_notification_contact_request_link#:#Ismerősnek jelölés elfogadása:
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Ismerősnek jelölés elfogadása
 buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]'[REQUESTING_USER]' ismerősnek jelölt.[BR][BR]Személyes profilja: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_notification_contact_request_short#:#'[REQUESTING_USER]' ismerősnek jelölt meg.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
@@ -2841,15 +2807,12 @@ chatroom#:#dhparam#:#Diffie-Hellman paraméter
 chatroom#:#display_past_msgs#:#Elküldött üzenetek száma
 chatroom#:#duration_from#:#Innen:
 chatroom#:#duration_to#:#Ide:
-chatroom#:#enable_history#:#Előzmények engedélyezése
 chatroom#:#enable_smilies#:#Hangulatjelek engedélyezése
 chatroom#:#end_whisper#:#Mégsem
 chatroom#:#enter#:#Csevegőszobába belépés
 chatroom#:#error_log#:#Csevegőszerver hibanapló
 chatroom#:#hint_display_past_msgs#:#A szobába belépéskor megjelenítendő korábbi üzenetek száma. A '0' érték kikapcsolja ezt a funkciót.
 chatroom#:#hint_enable_smilies#:#Ha be van kapcsolva, a konfigurált szövegrészeket ikonra cseréljük. Beállításokhoz tekints meg a hangulatjelek fület.
-chatroom#:#hint_osd#:#Ha be van kapcsolva, a felhasználók felbukkanó ablakban kapnak értesítést a Tartalomtár-csevegésekről.
-chatroom#:#hint_osd_interval#:#Lekérdezési intervallum az új értesítések ellenőrzéséhez. Alacsonyabb szám esetén a felhasználó gyakrabban kap értesítést, de a webszervernek több kérést kell lekezelnie.
 chatroom#:#history_by_day#:#Előzmények naponta
 chatroom#:#history_by_session#:#Munkamenet-előzmények
 chatroom#:#history_byday_title#:#Beszélgetés megjelenítése naponként
@@ -2924,16 +2887,12 @@ chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Egy sorba egy kulcss
 chatroom_adm#:#chatroom_upload_smiley#:#Feltöltött hangulatjel
 chatroom_adm#:#chatserver_settings_title#:#Csevegőszerver beállításai
 chatroom_adm#:#client_settings#:#Általános beállítások
-chatroom_adm#:#enable_osd#:#Tartalomtár-csevegés: Képernyő-értesítések engedélyezése
 chatroom_adm#:#general_settings_title#:#Általános csevegésbeállítások
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#osc_adm_browser_noti_info#:#Ha be van kapcsolva, a felhasználók maguk eldönthetik, hogy kérnek-e értesítést böngészőjükben az új beszélgetésekről és üzenetekről. Az értesítések aktiválódnak amikor az ILIAS másik böngészőfülön vagy a háttérben van, illetve az előtérben egy bizonyos tételenségi idő után is.
 chatroom_adm#:#osc_adm_browser_noti_label#:#Böngésző-értesítések
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Az értesítés számának csökkentése egy minimális időköz megadásával, mely időzíti a bejövő üzenetek böngésző-értesítéseit.
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Böngész-értesítési időköz
-chatroom_adm#:#osd_intervall#:#Frissítési intervallum
-chatroom_adm#:#play_invitation_sound#:#Hang lejátszása
-chatroom_adm#:#play_invitation_sound_info#:#Új Tartalomtárcsevegés-meghíváskor egy hangot játszunk le.
 chatroom_adm#:#port_info#:#A ritkán használt portokat gyakran blokkolják tűzfalak vagy proxyszerverek. A felhasználó böngészője nem fog tudni kapcsolatot létesíteni a csevegőszerverrel, ha blokkolt az adott port.
 chatroom_adm#:#protocol#:#Protokoll
 chatroom_adm#:#public_chat_permissions#:#Nyilvános csevegőszoba jogosultságai
@@ -2947,56 +2906,6 @@ classification#:#clsfct_block_title#:#Címkefelhő
 classification#:#clsfct_content_no_match#:#Nincs találat
 classification#:#clsfct_content_title#:#Címke alapján szűrt tartalom
 classification#:#clsfct_selected_objects#:#Kiválasztott objektumok
-cld#:#cld_add#:#Felhő-objektum hozzáadása
-cld#:#cld_add_download_failed#:#Letöltés sikertelen
-cld#:#cld_add_file#:#Fájl
-cld#:#cld_add_folder#:#Mappa
-cld#:#cld_add_items_from_service_failed#:#Szolgáltatásból új elem hozzáadása sikertelen
-cld#:#cld_add_new_item#:#Új elem hozzáadása
-cld#:#cld_auth_failed#:#Hitelesítés sikertelen
-cld#:#cld_auth_failed_no_object_created#:#Hitelesítés sikertelen, Felhőobjektum nem jött létre.
-cld#:#cld_authentication_failed#:#Hitelesítés sikertelen
-cld#:#cld_config_entry_does_not_exist#:#Konfigurációs bejegyzés nem létezik
-cld#:#cld_config_no_valid_get_or_set_function#:#Nincs érvényes get, illetve set függvény a konfigurációs értékhez.
-cld#:#cld_config_table_does_not_exist#:#Konfigurációs tábla nem létezik
-cld#:#cld_config_unknown_exception#:#Ismeretlen kivétel
-cld#:#cld_confirm_delete_file#:#Biztos, hogy az alábbi fájl törlődjön:
-cld#:#cld_confirm_delete_folder#:#Biztos, hogy az alábbi mappa törlődjön:
-cld#:#cld_create_folder#:#Mappa létrehozása
-cld#:#cld_delete_failed#:#Törlés sikertelen
-cld#:#cld_edit_Settings#:#Felhő beállítások
-cld#:#cld_file_deleted#:#Az objektumot sikeresen törölte
-cld#:#cld_file_not_existing_on_service#:#Fájl nem létezik a szolgáltatásban:
-cld#:#cld_folder_already_existing_on_service#:#Mappa már létezik a szolgáltatásban:
-cld#:#cld_folder_created#:#Sikeresen létrehozott egy mappát
-cld#:#cld_folder_creation_failed#:#Mappa létrehozása sikertelen
-cld#:#cld_folder_name#:#Mappa neve
-cld#:#cld_folder_not_existing_on_service#:#Mappa nem létezik a szolgáltatásban:
-cld#:#cld_id_already_exists_in_file_tree_in_session#:#ID már létezik a munkamenet fájl-faszerkezetében:
-cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#ID nem létezik a munkamenet fájl-faszerkezetében:
-cld#:#cld_info_add_file_to_current_directory#:#Fájl hozzáadása az jelenlegi mappához
-cld#:#cld_info_add_folder_to_current_directory#:#Mappa hozzáadása az jelenlegi mappához
-cld#:#cld_invalid_input#:#Érvénytelen input
-cld#:#cld_new#:#Új felhőobjektum
-cld#:#cld_no_service_active#:#Nincs aktív felhőbővítmény
-cld#:#cld_no_service_selected#:#Egy szolgáltatást sem választott ki
-cld#:#cld_not_authenticated_offline#:#Nincs hitelesítve - Offline
-cld#:#cld_object_added#:#Új felhő-objektum hozzáadva
-cld#:#cld_only_owner_has_permission_to_change_root_path#:#Adatvédelmi aggályok miatt csak a felhő-objektum létrehozójának van lehetősége a gyökérmappa jogosultságain változtatni
-cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Az útvonal nem létezik a munkamenet fájl-faszerkezetében:
-cld#:#cld_permission_denied#:#Hozzáférés megtagadva
-cld#:#cld_permission_to_change_root_folder_denied#:#A gyökérmappa jogosultságainak változtatása tiltva van
-cld#:#cld_plugin_hook_could_not_be_instantiated#:#A bővítménykampó (plug-in hook) nem példányosítható
-cld#:#cld_plugin_not_active#:#Bővítmény nem aktív
-cld#:#cld_root_folder#:#Gyökérmappa
-cld#:#cld_service#:#Szolgáltatás
-cld#:#cld_service_class_file_not_found#:#Szolgáltatásosztály-fájl nem található
-cld#:#cld_service_not_active#:#Szolgáltatás nem aktív
-cld#:#cld_service_specific_settings#:#Specifikus beállítások
-cld#:#cld_unknown_exception#:#Ismeretlen kivétel
-cld#:#cld_upload_failed#:#Feltöltés sikertelen
-cld#:#cld_upload_failed_max_filesize#:#Feltöltés sikertelen (a fájl mérete meghaladja a maximumot)
-cld#:#cld_upload_files#:#Fájlok feltöltése
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#activity_id#:#Aktivitás-ID
@@ -3060,8 +2969,6 @@ cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
 cmix#:#cmix_new#:#Új xAPI/cmi5 objektum
 cmix#:#completed_info#:#Indicates the actor finished or concluded the activity normally.
 cmix#:#completed_label#:#Statements with the verb 'completed'
-cmix#:#conf_any_window#:#Akárhány ablak
-cmix#:#conf_any_window_info#:#A tartalom egy új ablakban nyílik meg, ami az elhagyásakor bezárul.
 cmix#:#conf_availability#:#Elérhetőség
 cmix#:#conf_availability_0#:#Nem érhető el
 cmix#:#conf_availability_1#:#A már létezők engedélyezettek
@@ -3276,14 +3183,11 @@ cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Objektum
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 objektum to generate a certificate for it
 cntr#:#cntr_add_new_item#:#Új objektum létrehozása
 cntr#:#cntr_adopt_content#:#Tartalom örökítése
-cntr#:#cntr_back_to_old_editor#:#Vissza a régi szerkesztőhöz
 cntr#:#cntr_container_only_on_their_own#:#Egyszerű objektumonként csak kategóriák, kurzusok, csoportok, mappák, illetve képzési programok másolhatóak. Csak egy elemet válasszon.
 cntr#:#cntr_copy_crs_grp#:#Kurzusaim és csoportjaim
 cntr#:#cntr_copy_repo_tree#:#Tartalomtár
 cntr#:#cntr_hide_title_and_icon#:#Cím és ikon elrejtése
 cntr#:#cntr_manage#:#Kezelés
-cntr#:#cntr_old_editor_open_standard_editor#:#Szabványos szerkesztő megnyitása
-cntr#:#cntr_old_editor_warning#:#Ennek a szerkesztőnek a karbantartása az ILIAS jövőbeni verzióiban nem fog folytatódni. Most még használhatja ennek a lapnak a szerkesztéséhez, de azt ajánljuk, hogy amint lehet, kapcsoljon át az ILIAS szabványos lapszerkesztőjére.
 cntr#:#cntr_ordering#:#Rendezés
 cntr#:#cntr_saved_sorting#:#Rendezés mentése sikerült
 cntr#:#cntr_switch_to_new_editor_cmd#:#Új tartalom kapcsolása ehhez a laphoz. A régi tartalom eltávolításra kerül.
@@ -3314,7 +3218,6 @@ cntr#:#sorting_new_items_direction#:#Új objektumok rendezési iránya
 cntr#:#sorting_new_items_order#:#Új objektumok rendezése
 cntr#:#sorting_new_items_position#:#Új objektumok pozíciója
 cntr#:#tab_back_to_repository#:#Vissza a Tartalomtárhoz
-common#:#3rd_party_software#:#Harmadik fél szoftvere
 common#:#HH#:#ÓÓ:PP
 common#:#absolute_path#:#Abszolút elérési út
 common#:#accept_usr_agreement#:#A Szolgáltatási feltételekben leírtakat tudomásul veszem, és azt elfogadom.
@@ -3904,7 +3807,6 @@ common#:#error#:#Hiba
 common#:#error_empty_file_or_folder#:#A fájl valójában mappa vagy a mérete 0 byte.
 common#:#error_extraction_failed#:#Az archívum fájl (és mappa) kicsomagolása sikertelen. Valószínűleg nincs jogosultsága mappát vagy kategóriákat létrehozni az objektum alá.
 common#:#error_parser#:#Hiba történt a szintaktikai elemző indulásakor.
-common#:#error_recipient#:#Hibás címzett
 common#:#error_upload_was_zero_bytes#:#A feltöltés sikertelen, mert a fájl valójában mappa, vagy mérete 0 byte, vagy mérete meghaladja a feltölthet maximumot, vagy átnevezték.
 common#:#event_ass_materials_prop#:#Esemény segédanyagai
 common#:#event_assign_files#:#Fájlhozzárendelés
@@ -3959,7 +3861,6 @@ common#:#failure_message#:#Hibaüzenet
 common#:#fax#:#Fax
 common#:#feed#:#Webhírforrás
 common#:#feedback#:#Visszajelzés
-common#:#feedback_recipient#:#Visszajelzés címzettje
 common#:#field_name#:#Mezőnév
 common#:#field_type#:#Mezőtípus
 common#:#file#:#Fájl
@@ -4016,7 +3917,6 @@ common#:#filter_users_without_disk_usage#:#Csak azon felhasználók, akik nem ha
 common#:#first#:#Első
 common#:#firstname#:#Családnév
 common#:#flatview#:#Oldalsáv elrejtése
-common#:#fm_start#:#Megnyitás fájlkezelővel
 common#:#fold#:#Mappa
 common#:#fold_add#:#Mappa létrehozása
 common#:#fold_added#:#Sikeresen létrehozott egy mappát.
@@ -4433,8 +4333,6 @@ common#:#mail_mails_of#:#Levél
 common#:#mail_maxsize_attach#:#Mellékletek maximális összmérete
 common#:#mail_member#:#E-mail a tagoknak
 common#:#mail_members#:#Levél küldése tagoknak
-common#:#mail_multiple_recipients_found#:#Jellemzőbb e-mail címet adjon meg! Az ILIAS több lehetséges címzettet talált ezzel a címmel: %s
-common#:#mail_no_recipient_found#:#Adjon meg egy másik e-mail címet! Az ILIAS nem talál címzettet ezzel az e-mail címmel.
 common#:#mail_not_sent#:#A levelet nem küldte el!
 common#:#mail_search_no#:#Egy bejegyzés sem felel meg a keresési feltételnek.
 common#:#mail_select_one#:#Legalább egy levelet ki kell választania!
@@ -4702,7 +4600,6 @@ common#:#num_of_selected_files#:#%s fájlt választott ki
 common#:#num_users#:#Felhasználók száma
 common#:#obj#:#Objektum
 common#:#obj_accs#:#Könnyű kezelés
-common#:#obj_accs_captcha#:#Captchák
 common#:#obj_accs_desc#:#Könnyű kezelés beállításai
 common#:#obj_adm#:#Rendszerbeállítások
 common#:#obj_adm_desc#:#Itt talál mindent az ILIAS rendszerbeállításainak kezeléséhez.
@@ -4769,7 +4666,6 @@ common#:#obj_extt#:#Harmadik fél szoftvere
 common#:#obj_extt_desc#:#ILIAS által támogatott külső szoftverek, szolgáltatások konfigurálása
 common#:#obj_facs#:#Fájlok
 common#:#obj_facs_desc#:#Fájlok és fájlkezelési beállítások
-common#:#obj_feed#:#Webhírforrás
 common#:#obj_file#:#Fájl
 common#:#obj_file_duplicate#:#Fájl duplikálása
 common#:#obj_file_inline#:#Tananyagfájl
@@ -4986,7 +4882,6 @@ common#:#objs_crs#:#Kurzusok
 common#:#objs_crsr#:#Kurzuslink
 common#:#objs_dcl#:#Adatgyűjtések
 common#:#objs_exc#:#Beadandó feladatok
-common#:#objs_feed#:#Webhírforrások
 common#:#objs_file#:#Fájlok
 common#:#objs_fold#:#Mappák
 common#:#objs_frm#:#Fórumok
@@ -5573,7 +5468,6 @@ common#:#time_limit_from#:#Mettől (időkorlát)
 common#:#time_limit_message#:#Üzenet (időkorlát)
 common#:#time_limit_no_users_selected#:#Válasszon ki egy felhasználót!
 common#:#time_limit_not_valid#:#Az időszak érvénytelen.
-common#:#time_limit_owner#:#Tulajdonos (időkorlát)
 common#:#time_limit_reached#:#ILIAS-fiókja nem aktív.
 common#:#time_limit_unlimited#:#Korlátlan (időkorlát)
 common#:#time_limit_until#:#Meddig (időkorlát)
@@ -5801,9 +5695,7 @@ common#:#webr#:#Weblink
 common#:#webr_active#:#Aktív
 common#:#webr_add#:#Weblink létrehozása
 common#:#webr_deleted_items#:#Törölt weblink(ek).
-common#:#webr_disable_check#:#Ellenőrzés letiltása
 common#:#webr_edit#:#Weblink módosítása
-common#:#webr_last_check_table#:#Utolsó ellenőrzés:
 common#:#webr_sure_delete_items#:#Biztos, hogy törli az alábbi weblink(ek)et?
 common#:#webservices#:#Webszolgáltatások
 common#:#week#:#Hét
@@ -6033,8 +5925,6 @@ content#:#cont_cach_mode_manual_info#:#Csak az alábbi csoportok konzultációs 
 content#:#cont_cant_copy_folders#:#A mappák nem másolhatók a vágólapra.
 content#:#cont_cant_del_full#:#A teljes képernyős fájl nem törölhető.
 content#:#cont_cant_del_std#:#A szabvány nézetű fájl nem törölhető.
-content#:#cont_captcha_code#:#Kód
-content#:#cont_captcha_verification#:#Felhasználó ellenőrzése
 content#:#cont_caption#:#Felirat
 content#:#cont_cc_emp#:#Dőlt
 content#:#cont_cc_imp#:#Fontos
@@ -6151,7 +6041,6 @@ content#:#cont_dir_file#:#Mappa / fájl
 content#:#cont_dir_renamed#:#A mappát sikeresen átnevezte.
 content#:#cont_disable_def_feedback#:#Alapértelmezett kérdés-visszajelzés tiltása
 content#:#cont_disable_def_feedback_info#:#Ha ki van kapcsolva, megválaszolt kérdések semmilyen visszajelzést nem jelenítenek meg a hallgatónak. Egyéni visszajelzéseket szükséges megadni a kérdésekhez.
-content#:#cont_double_click_to_delete#:#Tartalom szerkesztéséhez, törléséhez vagy (in)aktiváláshoz kattintson egyszer, kijelöléséhez pedig duplán annak helyőrzőjére.
 content#:#cont_download#:#Letöltés
 content#:#cont_download_no_download#:#A felhasználók nem fognak tudni letölteni, mert a letöltés nincs aktiválva.
 content#:#cont_download_no_menu#:#A felhasználók nem fognak tudni letölteni, mert a tananyagmenü nincs aktiválva.
@@ -6193,25 +6082,18 @@ content#:#cont_ed_go#:#OK
 content#:#cont_ed_grid_col_width#:#Oszlopszélesség
 content#:#cont_ed_grid_col_width_info#:#Az oszlopszélesség - a képernyő méretétől függően - a sor 1/12-ed részének többszöröse. Eszközöket adunk meg példának, a képernyő mérete határozza meg a konkrét viselkedést. 12/12 a 100%-os szélesség.
 content#:#cont_ed_grid_col_widths#:#Oszlopszélességek
-content#:#cont_ed_insert_amd_page_list#:#Oldallista beszúrása
 content#:#cont_ed_insert_blog#:#Blog beszúrása
-content#:#cont_ed_insert_consultation_hours#:#Konzultációs időpontok beszúrása
 content#:#cont_ed_insert_dtab#:#Táblázat beszúrása
-content#:#cont_ed_insert_flist#:#Fájllista beszúrása
 content#:#cont_ed_insert_grid#:#Oszlopos elrendezés beszúrása
 content#:#cont_ed_insert_grid_info#:#Soronként 12 egységre osztott reszponzív oszlopos elrendezés hozzáadása.
 content#:#cont_ed_insert_iim#:#Interaktív kép beszúrása
 content#:#cont_ed_insert_incl#:#Tartalom-építőelem beszúrása
-content#:#cont_ed_insert_learning_history#:#Tanulási történelem beszúrása
 content#:#cont_ed_insert_list#:#Fejlettebb felsorolás beszúrása
-content#:#cont_ed_insert_login_page_element#:#Bejelentkezési lap elemének beszúrása
 content#:#cont_ed_insert_map#:#Térkép beszúrása
 content#:#cont_ed_insert_media#:#Kép/média beszúrása
-content#:#cont_ed_insert_my_courses#:#Kurzusaim beszúrása
 content#:#cont_ed_insert_par#:#Szöveg beszúrása
 content#:#cont_ed_insert_pcqst#:#Kérdés beszúrása
 content#:#cont_ed_insert_plach#:#Helyőrző beszúrása
-content#:#cont_ed_insert_profile#:#Személyes adatok beszúrása
 content#:#cont_ed_insert_qover#:#Kérdésáttekintés beszúrása
 content#:#cont_ed_insert_repobj#:#Forráslista beszúrása
 content#:#cont_ed_insert_sec#:#Bekezdés beszúrása
@@ -6220,7 +6102,6 @@ content#:#cont_ed_insert_src#:#Kód beszúrása
 content#:#cont_ed_insert_tab#:#Fejlettebb táblázat beszúrása
 content#:#cont_ed_insert_tabs#:#Harmonika beszúrása
 content#:#cont_ed_insert_templ#:#Tartalomsablon beillesztése
-content#:#cont_ed_insert_verification#:#Igazolás beszúrása
 content#:#cont_ed_item_down#:#Elem lefelé mozgatása
 content#:#cont_ed_item_up#:#Elem felfelé mozgatása
 content#:#cont_ed_list#:#Fejlettebb felsorolás
@@ -6878,7 +6759,6 @@ content#:#cont_text_code#:#Kód:
 content#:#cont_text_com#:#Megjegyzés:
 content#:#cont_text_emp#:#Hangsúlyos szöveg:
 content#:#cont_text_fn#:#Lábjegyzet:
-content#:#cont_text_iln#:#Belső link
 content#:#cont_text_imp#:#Fontos:
 content#:#cont_text_keyword#:#Kulcsszó
 content#:#cont_text_placeh#:#Kattintson és szerkesszen szöveg beszúrásához
@@ -7086,10 +6966,6 @@ copg#:#copg_sec_link_info#:#Ha erre az egész blokkra állít be egy linket, gy�
 copg#:#copg_snippet_cannot_be_edited#:#Ez egy előre definiált tartalom-építőelem, ezért itt nem módosítható.
 cpad#:#cpad_reading_time_status#:#Olvasási idő
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
-cptch#:#captcha_alt_txt#:#Ez egy vizuális Captcha. Audio Captcha-ért kattints a fülre.
-cptch#:#captcha_audio_title#:#Audio Captcha. Kattintson a Captcha betűinek és karaktereinek lejátszásához.
-cptch#:#captcha_code_info#:#Gépelje be a kép betűit és karaktereit.
-cptch#:#captcha_code_reload#:#Új kép betöltése
 cptch#:#cptch_freetype_support_needed#:#Ennek a funkciónak a használatához a PHP freetype támogatását engedélyeznie kell.
 cptch#:#cptch_wrong_input#:#Hibás bemenet
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Az ütemezett feladatot deaktiváltuk, mert több, mint 3 órája inaktív
@@ -9245,20 +9121,6 @@ export#:#export_resource#:#Forrás
 export#:#export_save_selection#:#Export indítása
 export#:#export_select_resources#:#Források kiválasztása
 export#:#no_file#:#Nincs fájl
-feed#:#block_feed_block_feed_url#:#Hírforrás URL-je
-feed#:#block_feed_block_feed_url_info#:#Érvényes RSS/Atom URL-nek kell lennie
-feed#:#block_feed_block_head#:#Külső webhírforrások
-feed#:#block_feed_block_title#:#Cím
-feed#:#feed_disable_rep_feeds#:#Webhírforrások elrejtése
-feed#:#feed_disable_rep_feeds_info#:#Külső webhírforrások letiltása forrásuk okozta váratlan hiba esetén.
-feed#:#feed_feed_items#:#Hírforrástétel(ek)
-feed#:#feed_import#:#Hírforrás importálása
-feed#:#feed_loading_feed#:#Hírforrás betöltése...
-feed#:#feed_no_js_click_here#:#Ha a hírforrás nem jelenik meg, kattintson ide.
-feed#:#feed_no_local_url#:#Az URL nem ellenőrizhető. Kérem, valós külső hírforrás URL-t adjon meg.
-feed#:#feed_no_valid_url#:#A hírforrás URL nem érvényes.
-feed#:#feed_open_source_page#:#Megnyitás új ablakban
-feed#:#feed_settings#:#Külső webhírforrások beállításai
 file#:#file_copy#:#Fájl másolása
 file#:#file_download#:#Fájl letöltése
 file#:#file_import#:#Fájlok importálása
@@ -9294,18 +9156,10 @@ fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
 fils#:#file_suffix_overall_positive#:#Overall Positive List
 fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
-fm#:#fm_settings_active#:#Fájlkezelő engedélyezése
-fm#:#fm_settings_active_info#:#A felhasználó kategóriákat, kurzusokat, csoportokat és mappákat nyithat meg a 'Megnyitás fájlkezelővel' művelet segítségével a Tartalomtárban.
-fm#:#fm_settings_filesize#:#Maximális fájlfeltöltési méret
-fm#:#fm_settings_filesize_info#:#Adja meg MB-ban a fájlfeltöltés maximális méretét.
-fm#:#fm_settings_local#:#Helyi fájlrendszer megjelenítése
-fm#:#fm_settings_local_info#:#Ha be van kapcsolva, a fájlkezelő két kerettel indul el. Az egyik a helyi fájlrendszert, a másik az ILIAS Tartalomtár nézetét tartalmazza. Ha ki van kapcsolva, csak az ILIAS Tartalomtár látható.
-fm#:#fm_settings_tab#:#Fájlkezelő
 fold#:#fold_copy#:#Mappa másolása
 fold#:#fold_import#:#Mappa importálása
 fold#:#fold_presentation#:#Mappa megjelenítése
 fold#:#fold_settings#:#Mappabeállítások
-form#:#captcha_code#:#Biztonsági ellenőrzés
 form#:#email_not_match#:#A beírt e-mail címek nem egyeznek! Írd be újra az e-mail címed.
 form#:#form_alphabet_all#:#Összes
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
@@ -9368,7 +9222,6 @@ forum#:#ascending_order#:#Legújabb hozzászólás alul
 forum#:#autosave_draft_info#:#<span class="asterisk">Ezt a piszkozatot automatikusan mentjük %s másodpercenként.</span>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">Ezt a hozzászólást automatikusan piszkozatként mentjük %s másodpercenként.</span>
 forum#:#close_topics#:#Lezárás
-forum#:#cont_captcha_code#:#Kód
 forum#:#content_censored_post#:#A cenzúrázott hozzászólás tartalma:
 forum#:#content_deleted_post#:#Törölt hozzászólás tartalma:
 forum#:#content_deleted_thread#:#A törölt téma tartalma:
@@ -9450,7 +9303,6 @@ forum#:#frm_censorship_applied#:#A cenzúrázást sikeresen végrehajtotta.
 forum#:#frm_censorship_revoked#:#A cenzúrázást sikeresen visszavonta.
 forum#:#frm_copy#:#Fórum másolása
 forum#:#frm_default_view#:#Alapértelmezett nézet
-forum#:#frm_detach_moderator_role#:#Moderátorszerep elvétele
 forum#:#frm_edit_title#:#Cím módosítása
 forum#:#frm_mark_as_read#:#Megjelölés olvasottként
 forum#:#frm_mark_as_unread#:#Megjelölés olvasatlanként
@@ -9491,7 +9343,6 @@ forum#:#frm_search#:#Keresés
 forum#:#frm_selected_merge_src#:#Összevonásra kijelölt téma: %s
 forum#:#frm_settings_form_header#:#Fórumbeállítások
 forum#:#frm_settings_mod_functions_header#:#Moderátori funkciók
-forum#:#frm_settings_presentation_header#:#Megjelenítés
 forum#:#frm_settings_privacy_header#:#Adatvédelem
 forum#:#frm_settings_user_functions_header#:#Felhasználói funkciók
 forum#:#frm_statistics#:#Statisztika
@@ -9872,7 +9723,6 @@ itgr#:#itgr_edit#:#Objektumcsoportok módosítása
 itgr#:#itgr_expandable_closed#:#Kibontható (kezdetben zárt)
 itgr#:#itgr_expandable_open#:#Kibontható (kezdetben nyitott)
 itgr#:#itgr_hide_title#:#Cím elrejtése
-itgr#:#itgr_hide_title_info#:#Objektumcsoport címnek elrejtése a tanulók elől.
 itgr#:#itgr_item#:#Objektum
 itgr#:#itgr_materials#:#Objektumok
 itgr#:#itgr_show_title#:#Cím megjelenítése
@@ -10439,7 +10289,6 @@ lti#:#user_lng#:#Felhasználó nyelve
 lti#:#user_provider_subtab#:#Kiszolgálók Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Fogyasztók Objektum###XXX
 ltiv#:#ltiv_create_info#:#Select a completed LTI Fogyasztók objektum to generate a certificate for it
-mail#:#activate_serial_letter_placeholders#:#Körlevélhelyőrzők aktiválása
 mail#:#back_to_folder#:#Vissza a mappához
 mail#:#bc#:#Titkos másolat (BCC)
 mail#:#chat_users_have_been_invited#:#Az alábbi felhasználókat hívta meg
@@ -10704,16 +10553,12 @@ maps#:#maps_std_location_desc#:#Kattintson a térképre a hely beállításához
 maps#:#maps_tile_server#:#Csempékhez szerver
 maps#:#maps_zoom_level#:#Nagyítás szintje
 mathjax#:#mathjax_enable_client#:#MathJax engedélyezése a böngészőben
-mathjax#:#mathjax_enable_mathjax#:#MathJax engedélyezése
-mathjax#:#mathjax_enable_mathjax_info#:#A LaTeX kifejezések támogatásának bekapcsolása a MathJax alapú matematikai kimenethez.
 mathjax#:#mathjax_enable_server#:#MathJax engedélyezése a szerveren
 mathjax#:#mathjax_enable_server_info#:#Aktiválja a TeX szerveroldali képpé renderelését.
 mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_limiter#:#Beágyazott határolójelek
 mathjax#:#mathjax_limiter_info#:#Válassza ki a beágyazott határolójeleket, ahogy azok az Ön MathJax installációjában konfiguráltak.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax#:#URL a MathJaxhoz
-mathjax#:#mathjax_path_to_mathjax_desc#:#Például https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML vagy egy URL a saját helyi telepítésre.
 mathjax#:#mathjax_server_address#:#Szerver címe
 mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.
@@ -10731,7 +10576,6 @@ mathjax#:#mathjax_server_timeout#:#Időtúllépés
 mathjax#:#mathjax_server_timeout_info#:#A MathJax szerver hívásának időtúllépése másodpercben
 mathjax#:#mathjax_settings#:#MathJax beállítások
 mathjax#:#mathjax_test_expression#:#Teszt kifejezés
-mathjax#:#mathjax_test_expression_info#:#Ezt a LaTeX kifejezést rendereljük a MathJax mentett beállításaival.
 mcst#:#mcst_add_new_item#:#Új médiasugárzás-objektum létrehozása
 mcst#:#mcst_audioportable_settings_info#:#Fájlkiterjesztések vesszővel elválasztott felsorolása
 mcst#:#mcst_audioportable_settings_title#:#Hangformátumok fájlkiterjesztési
@@ -11986,7 +11830,6 @@ orgu#:#user_import_successful#:#Az importálás sikeresen megszakítva. Hozzáre
 orgu#:#users_successfuly_added#:#Felhasználó sikeresen hozzáadva.
 orgu#:#view_learning_progress#:#Tanulási haladás megjelenítése
 orgu#:#view_learning_progress_rec#:#Tanulási haladás rekurzív megjelenítése
-pd#:#block_create_pdfeed#:#Új webhírforrás létrehozása
 pd#:#block_show_chatviewer#:#Csevegésnéző megjelenítése
 pd#:#block_show_pdbookm#:#Könyvjelzők megjelenítése
 pd#:#block_show_pdcal#:#Naptár megjelenítése
@@ -12165,8 +12008,6 @@ prg#:#content_automation#:#Tartalomautomatizmus
 prg#:#content_automation_title#:#Automatikusan hozzáadja, illetve eltávolítja a kategóriákban lévő kurzusokat.
 prg#:#could_not_add_users_no_permissons#:#%d felhasználót nem sikerült hozzárendelni jogosultság hiánya miatt..
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
-prg#:#dealine_date_info#:#Határidő
-prg#:#dealine_period_info#:#A hozzárendelés után a feldogozásra adott napok száma
 prg#:#edit_participants#:#Tagok módosítása
 prg#:#error_updating_deadline#:#Hiba a határidő módosításakor.
 prg#:#error_updating_expire_date#:#Hiba a lejárati idő módosításakor.
@@ -12360,9 +12201,7 @@ prg#:#prg_validity_of_qualification#:#A megszerzett képesítés érvényessége
 prg#:#prg_validity_of_qualification_limit#:#Képesítés lejárata
 prg#:#prg_validity_of_qualification_restart#:#Megújítás
 prg#:#prg_view#:#Megtekintés
-prg#:#prgr_edit_info#:#Kérem, válasszon egy Képzési programot az új link elkészítéséhez.
 prg#:#prgr_may_not_create_circular_reference#:#Erre a Képzési programra mutató link nem hozható létre, mert a szülőobjektumának linkje már szerepel itt.
-prg#:#prgr_new#:#Képzési programra mutató link létrehozása
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>ezúton értesítjük, hogy '%s' Képzési programhoz újra hozzárendelték.
 prg#:#re_assigned_mail_subject#:#Részvétel megújítása Képzési programban
 prg#:#restart_information#:#Információk a függőben lévő lejáró képesítések automatikus megújításról
@@ -13184,7 +13023,6 @@ rbac#:#rbac_create_crs#:#Kurzus létrehozása
 rbac#:#rbac_create_crsr#:#Kurzuslink létrehozása
 rbac#:#rbac_create_dcl#:#Adatgyűjtés létrehozása
 rbac#:#rbac_create_exc#:#Beadandó feladat létrehozása
-rbac#:#rbac_create_feed#:#Webhírforrás létrehozása
 rbac#:#rbac_create_file#:#Fájl feltöltése
 rbac#:#rbac_create_fold#:#Mappa létrehozása
 rbac#:#rbac_create_frm#:#Fórum létrehozása
@@ -14067,10 +13905,8 @@ search#:#search_for_grp_members#:#Csoportok keresése
 search#:#search_for_orgu_members#:#Szervezeti egységek keresése
 search#:#search_for_role_members#:#Szerepek keresése
 search#:#search_for_users#:#Felhasználók keresése
-search#:#search_full_info#:#Válassza ezt a beállítást nagy mennyiségű adathalmazban kereséshez.
 search#:#search_grp_title#:#Csoportnév
 search#:#search_hide_adv_search#:#Fejlettebb keresés elrejtése
-search#:#search_index#:#Indexelt keresés
 search#:#search_item_filter_form#:#Keresés típus szerint
 search#:#search_item_filter_form_info#:#A keresés a kiválasztott objektumtípusokra korlátozható.
 search#:#search_like_info#:#Válassza ezt az opciót a legjobb eredmények eléréséhez.
@@ -14392,30 +14228,6 @@ skmg#:#skmg_usage_type_info_prof#:#Kompetenciaprofilokban felhasználásra
 skmg#:#skmg_usage_type_info_res#:#ILIAS-objektumok hozzárendelése javasolt erőforrásként
 skmg#:#skmg_usage_type_info_user#:#Felhasználókhoz rendelve
 skmg#:#skmg_your_self_evaluation#:#Az Ön önértékelése
-sop#:#sop_already_exported#:#Ezt a tananyagot már exportálták. Nyissa meg egy olyan számítógépen, melyre Firefox-ot telepítettek SCORM Offline Player kiegészítővel.
-sop#:#sop_check_system_requirements#:#Rendszerkövetelmények ellenőrzése
-sop#:#sop_desc_export#:#Tananyagot offline módban csak offline lehet használni. Amint a követési adatot visszaimportálták az ILIAS-ba, a tananyag ismét online lesz.
-sop#:#sop_export#:#SCORM-tananyag exportálása
-sop#:#sop_lm_not_exists#:#A tananyag nem található ennek a böngészőnek az offline gyorsítótárában. <br />Kérem, ugyanazt az eszközt és böngészőt használja, mint amelyiken a tananyagot exportálta.<br /><br />Amennyiben az ugyanazon eszköz ugyanazon böngészője, talán böngésző gyorsítótárának ürítésével törlődött a tananyag is. További információért keresse a rendszergazdát.
-sop#:#sop_msg_close_lm#:#A tanulási folyamat még nyitva van. Legyen szíves zárja be a SCORM Offline Player-t.
-sop#:#sop_msg_export_content#:#Tartalom átemelése a SCORM Offline Manager-be folyamatban. Ez sok időt vehet igénybe. Kérem, várjon türelemmel.
-sop#:#sop_msg_export_failure#:#A tartalom és a követési adat átemelése a SCORM Offline Manager-be sikertelen.
-sop#:#sop_msg_export_ok#:#A tartalom és a követési adat átemelése sikeresen megtörtént.
-sop#:#sop_msg_export_tracking#:#Követési adat átemelése a SCORM Offline Manager-be folyamatban. Kérem, várjon.
-sop#:#sop_msg_lm_not_exists#:#A tananyag vagy nem létezik vagy nem aktív a SCORM Offline Manager-ben.
-sop#:#sop_msg_push_tracking#:#Követési adat átemelése az ILIAS-ba folyamatban. Kérem, várjon.
-sop#:#sop_msg_push_tracking_ok#:#A követési adat átemelése sikeresen megtörtént.
-sop#:#sop_purge_cache#:#Tananyag offline gyorsítótárának törlése
-sop#:#sop_push_tracking#:#Követési adat importálása
-sop#:#sop_reload_page#:#Oldal újratöltése
-sop#:#sop_start_som#:#SOM indítása
-sop#:#sop_start_sop#:#Tananyag offline indítása
-sop#:#sop_system_check_error#:#A böngészője nem támogatja a szükséges HTML5 funkciókat.
-sop#:#sop_system_check_https#:#a szükséges HTML5 funkciókhoz http helyett https-t szükséges használni
-sop#:#sop_text_export#:#SCORM-tananyag exportálása offline használathoz
-sop#:#sop_text_push_tracking#:#Offline követési adat importálása az ILIAS-ba és online módra váltása
-sop#:#sop_text_start_offline#:#Tananyag offline módban történő indítása
-sop#:#sop_text_start_som#:#SCORM Offline Manager indítása
 style#:#Style#:#Stílus
 style#:#adapt_icon#:#Ikon átvétele
 style#:#adapt_icon_description#:#Ikonszínek átvétele vagy az ikon módosítása.
@@ -14838,7 +14650,6 @@ style#:#system_style_activation#:#Rendszerstílust sikeresen aktiválta
 style#:#system_style_activation_description#:#Aktív rendszerstílust rendelhet felhasználókhoz, illetve aktív rendszerstílust választhatnak a felhasználók maguknak, ha a Rendszerbeállítások » ILIAS-fiókok » Beállítások » Standard mezők » Alapértelmezett skin be van kapcsolva.
 style#:#system_style_default_description#:#Stílus beállítása alapértelmezett rendszerstílusnak. Az alapértelmezett rendszerstílust rendeljük azon felhasználókhoz, akikhez nem volt stílus rendelve vagy a felhasználó nincs bejelentkezve.
 style#:#system_style_personal_description#:#Stílus beállítása személyes rendszerstílusnak. Ez a jelenlegi módosítások megtekintését könnyítheti.
-style#:#to#:#ide:
 style#:#update_colors#:#Színek frissítése
 style#:#update_icon#:#Ikon frissítése
 style#:#update_variables#:#Változók frissítése
@@ -16082,8 +15893,6 @@ user#:#user_publish_options#:#Profil közzététele
 user#:#user_role_starting_point#:#Felhasználó - Kiindulási pont
 user#:#user_save_continue#:#Mentés és folytatás
 user#:#user_save_ordering_and_titles#:#Sorrend és címek mentése
-user#:#user_screen_reader_optimization#:#Képernyőolvasó optimalizálás
-user#:#user_screen_reader_optimization_info#:#ILIAS finomhangolása képernyőolvasókkal való használathoz.
 user#:#user_select_course_group#:#Kurzus/csoport kiválasztása
 user#:#user_set_publishing_options#:#Közzététel beállítása
 user#:#user_set_visibilty_options#:#Láthatóság beállítása
@@ -16474,3 +16283,527 @@ orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
 etal#:#etal_open#:#Open Employee Talk
 etal#:#lock_edititng_for_others#:#Lock editing for others
 etal#:#talk_serial#:#Talk Serial
+administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 07 2022 new variable
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###29 07 2022 new variable
+adn#:#msg_error_false_date_configuration#:#Can't create a notification with this configuration of dates. The event must be within the display time.###29 07 2022 new variable
+adn#:#msg_success_updated#:#Notification updated###29 07 2022 new variable
+adn#:#msg_type_0#:#Notice###29 07 2022 new variable
+adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
+adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
+assessment#:#autosavecontent#:#Autosave Content###29 07 2022 new variable
+assessment#:#backtocallingpage#:#Back to the question page###29 07 2022 new variable
+assessment#:#backtocallingpool#:#Back to the question pool###29 07 2022 new variable
+assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
+assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
+assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
+assessment#:#exam_id_label#:#Exam Id###29 07 2022 new variable
+assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.###29 07 2022 new variable
+assessment#:#test_question_set_type_fixed_info#:#All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool.###29 07 2022 new variable
+assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions###29 07 2022 new variable
+assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools.###29 07 2022 new variable
+assessment#:#test_question_set_type_random#:#Use of a random set of questions###29 07 2022 new variable
+assessment#:#test_question_set_type#:#Selection of Test Questions###29 07 2022 new variable
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
+assessment#:#tst_btn_reset_pool_sync#:#Edit/Cancel Synchronisation###29 07 2022 new variable
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
+assessment#:#tst_man_scoring_only_answered#:#Only answered###29 07 2022 new variable
+assessment#:#tst_opening_period#:#Access times###29 07 2022 new variable
+assessment#:#tst_opening_period_desc#:#Interval in which Users have access to the test. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function "Limit processing time", see below. Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.###29 07 2022 new variable
+assessment#:#qst_use_nested_answers#:#Nested answers###29 07 2022 new variable
+assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers###29 07 2022 new variable
+assessment#:#qst_nested_nested_answers_off#:#No indents, just order###29 07 2022 new variable
+assessment#:#tab_nest_answers#:#Nesting###29 07 2022 new variable
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###29 07 2022 new variable
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###29 07 2022 new variable
+awrn#:#awrn_filter#:#User Filter###29 07 2022 new variable
+bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.###29 07 2022 new variable
+blog#:#blog_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
+blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.###29 07 2022 new variable
+blog#:#blog_link#:#Link###29 07 2022 new variable
+blog#:#blog_postings#:#Postings###29 07 2022 new variable
+blog#:#blog_selected_pages#:#Selected Postings###29 07 2022 new variable
+blog#:#blog_show_print_view#:#Show Print View###29 07 2022 new variable
+blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
+book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
+book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
+book#:#book_nr_preferences#:#Prefences###29 07 2022 new variable
+book#:#book_pref_deadline_info#:#Preferences can be given up to this point.###29 07 2022 new variable
+buddysystem#:#buddy_bs_state_linked_p#:#Linked###29 07 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###29 07 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###29 07 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###29 07 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###29 07 2022 new variable
+chatroom#:#chat_broadcast_typing#:#Broadcast Typing###29 07 2022 new variable
+chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.###29 07 2022 new variable
+chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###29 07 2022 new variable
+chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###29 07 2022 new variable
+chatroom#:#chat_enable_history#:#Enable History###29 07 2022 new variable
+chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.###29 07 2022 new variable
+chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###29 07 2022 new variable
+chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###29 07 2022 new variable
+chatroom#:#chat_invitations#:#Chat invitations###29 07 2022 new variable
+chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted###29 07 2022 new variable
+chatroom#:#chat_settings_functions_header#:#Chat Room Functions###29 07 2022 new variable
+chatroom#:#chat_show_auto_messages#:#Show Status Messages###29 07 2022 new variable
+chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
+chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
+chatroom#:#chat_use_typing_broadcast#:#Typing will be broadcasted###29 07 2022 new variable
+chatroom#:#display_past_msgs_suffix#:#Messages###29 07 2022 new variable
+chatroom#:#preferred_chatname#:#Preferred Name###29 07 2022 new variable
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###29 07 2022 new variable
+cmix#:#conf_new_window#:#New Window###29 07 2022 new variable
+cmix#:#type_cmi5#:#cmi5 Learning Module###29 07 2022 new variable
+cmix#:#type_generic#:#xAPI Standard Object###29 07 2022 new variable
+cmps#:#cmps_available_version#:#Available Version###29 07 2022 new variable
+cmps#:#cmps_current_db_version#:#Current DB-Version###29 07 2022 new variable
+cmps#:#cmps_detailed_information#:#Detailed Informationen###29 07 2022 new variable
+cmps#:#cmps_is_active#:#Activated###29 07 2022 new variable
+cmps#:#cmps_is_installed#:#Installed###29 07 2022 new variable
+cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###29 07 2022 new variable
+cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled###29 07 2022 new variable
+cmps#:#cmps_plugin_updated#:#The plugin has been updated###29 07 2022 new variable
+cmps#:#cmps_refresh_lng#:#Refresh language###29 07 2022 new variable
+cmps#:#cmps_responsible_mail#:#Mail (Responsible)###29 07 2022 new variable
+cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup###29 07 2022 new variable
+cmps#:#cmps_supports_export#:#Supports export###29 07 2022 new variable
+cmps#:#cmps_supports_learning_progress#:#Supports learning progress###29 07 2022 new variable
+common#:#actions_for#:#Actions for %s###29 07 2022 new variable
+common#:#bibl_add#:#Add Bibliography###29 07 2022 new variable
+common#:#catr_add#:#Add Category Link###29 07 2022 new variable
+common#:#catr_settings#:#Category Link Settings###29 07 2022 new variable
+common#:#certificates#:#Certificates###29 07 2022 new variable
+common#:#cld_abandoned#:#The Cloud Object has been abandoned as of ILIAS 8. No data has been lost. Contact your System Administration for more information.###29 07 2022 new variable
+common#:#crsr_add#:#Add Course Link###29 07 2022 new variable
+common#:#current_user_avatar#:#Your User Avatar###29 07 2022 new variable
+common#:#didactic_template#:#Didactic Template###29 07 2022 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 07 2022 new variable
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###29 07 2022 new variable
+common#:#file_system_clean_temp_dir_cron#:#Clean temp directory###29 07 2022 new variable
+common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.###29 07 2022 new variable
+common#:#grpr_add#:#Add Group Link###29 07 2022 new variable
+common#:#hist_lm_pg_update#:#Page changed.###29 07 2022 new variable
+common#:#il_lti_instructor#:#LTI Instructor###29 07 2022 new variable
+common#:#il_lti_learner#:#LTI Learner###29 07 2022 new variable
+common#:#installation_status#:#Installation Status###29 07 2022 new variable
+common#:#label_search_options#:#Search Area###29 07 2022 new variable
+common#:#minimize#:#Minimize###29 07 2022 new variable
+common#:#mm_private_chats#:#Private Chats###29 07 2022 new variable
+common#:#msg_no_files_selected#:#No files selected###29 07 2022 new variable
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###29 07 2022 new variable
+common#:#obj_chtr_duplicate#:#Copy Chat Room###29 07 2022 new variable
+common#:#obj_nota_desc#:#Notification Administration###29 07 2022 new variable
+common#:#obj_nota#:#Notifications###29 07 2022 new variable
+common#:#objs_prgr#:#Links to Study Programmes###29 07 2022 new variable
+common#:#prgr_add#:#Add Study Programme Link###29 07 2022 new variable
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###29 07 2022 new variable
+common#:#prgr_new#:#Create Study Programme Link###29 07 2022 new variable
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service###29 07 2022 new variable
+common#:#report_accessibility_link_mailto#:#Reported%20Link:###29 07 2022 new variable
+common#:#show_content#:#Show Content###29 07 2022 new variable
+common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#tools#:#Tools###29 07 2022 new variable
+common#:#user_avatar_of#:#User Avatar of###29 07 2022 new variable
+common#:#user_avatar#:#User Avatar###29 07 2022 new variable
+common#:#usr_field_change_components_listening#:#There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?###29 07 2022 new variable
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted.###29 07 2022 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure that you do not want to accept the Terms of Service?###29 07 2022 new variable
+cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)###29 07 2022 new variable
+cont#:#cont_tile_size_1#:#small (up to six tiles in a row)###29 07 2022 new variable
+cont#:#cont_tile_size_2#:#large (up to three tiles in a row)###29 07 2022 new variable
+cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)###29 07 2022 new variable
+cont#:#cont_tile_size_4#:#full (one tile in a row)###29 07 2022 new variable
+cont#:#cont_tile_size#:#Tile Size###29 07 2022 new variable
+content#:#cont_Book#:#Book###29 07 2022 new variable
+content#:#cont_caption_style#:#Caption Style Class###29 07 2022 new variable
+content#:#cont_choose_from_clipboard#:#Choose from Clipboard###29 07 2022 new variable
+content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.###29 07 2022 new variable
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.###29 07 2022 new variable
+content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplicate PC IDs).###29 07 2022 new variable
+content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.###29 07 2022 new variable
+content#:#cont_ed_insert_amdfrm#:#Insert Advanced Metadata###29 07 2022 new variable
+content#:#cont_ed_insert_amdpl#:#Insert Page List###29 07 2022 new variable
+content#:#cont_ed_insert_cach#:#Insert Consultation Hours###29 07 2022 new variable
+content#:#cont_ed_insert_flst#:#Insert File List###29 07 2022 new variable
+content#:#cont_ed_insert_lhist#:#Insert Learning History###29 07 2022 new variable
+content#:#cont_ed_insert_lpe#:#Insert Login Page Element###29 07 2022 new variable
+content#:#cont_ed_insert_mcrs#:#Insert My Courses###29 07 2022 new variable
+content#:#cont_ed_insert_prof#:#Insert Personal Data###29 07 2022 new variable
+content#:#cont_ed_insert_vrfc#:#Insert Certificate###29 07 2022 new variable
+content#:#cont_footnote#:#Footnote###29 07 2022 new variable
+content#:#cont_keyword#:#Keyword###29 07 2022 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###29 07 2022 new variable
+content#:#cont_media#:#Images/Media###29 07 2022 new variable
+content#:#cont_Numbers#:#Numbers###29 07 2022 new variable
+content#:#cont_open_clipboard#:#Open Clipboard###29 07 2022 new variable
+content#:#cont_pc_media#:#Image/Media###29 07 2022 new variable
+content#:#cont_sec_protected#:#Protected###29 07 2022 new variable
+content#:#cont_sec_protected_text#:#The following section is protected and can not be edited.###29 07 2022 new variable
+content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode.###29 07 2022 new variable
+content#:#cont_sur_block_format#:#Surrounding Section###29 07 2022 new variable
+content#:#cont_text_iln_link#:#Internal Link###29 07 2022 new variable
+content#:#cont_Verse#:#Verse/Stanza###29 07 2022 new variable
+copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.###29 07 2022 new variable
+copg#:#copg_an_error_occured#:#An error occured.###29 07 2022 new variable
+copg#:#copg_cron_days#:#Delete pages older than###29 07 2022 new variable
+copg#:#copg_cron_days_info#:#Page history entries older than this period will be deleted.###29 07 2022 new variable
+copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###29 07 2022 new variable
+copg#:#copg_cron_keep_entries#:#Keep Minimum###29 07 2022 new variable
+copg#:#copg_days#:#Days###29 07 2022 new variable
+copg#:#copg_details#:#Details###29 07 2022 new variable
+copg#:#copg_entries#:#Entries###29 07 2022 new variable
+copg#:#copg_error#:#Error###29 07 2022 new variable
+copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 07 2022 new variable
+copg#:#copg_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
+copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###29 07 2022 new variable
+copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###29 07 2022 new variable
+copg#:#copg_page_element_not_found#:#Page element not found.###29 07 2022 new variable
+copg#:#copg_reload_page#:#Reload Page###29 07 2022 new variable
+copg#:#copg_x_minutes#:#%s minute(s)###29 07 2022 new variable
+crs#:#crs_objective_result_details#:#« Show Details###29 07 2022 new variable
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###29 07 2022 new variable
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###29 07 2022 new variable
+dash#:#dash_sort_by_alphabet#:#Sort by Alphabet###29 07 2022 new variable
+dateplaner#:#cal_change_calendar_view#:#Change Calendar View###29 07 2022 new variable
+dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###29 07 2022 new variable
+dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###29 07 2022 new variable
+exc#:#exc_fullscreen#:#Fullscreen###29 07 2022 new variable
+exc#:#exc_print_pdf#:#Print/PDF###29 07 2022 new variable
+exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.###29 07 2022 new variable
+exp#:#exp_print_pdf#:#Print/PDF###29 07 2022 new variable
+exp#:#exp_show_print_view#:#Show Print View###29 07 2022 new variable
+file#:#migrated#:#Status###29 07 2022 new variable
+file#:#msg_unzip_success#:#Archive has been successfully unziped.###29 07 2022 new variable
+file#:#resource_id#:#Resource ID###29 07 2022 new variable
+file#:#storage_id#:#Storage ID###29 07 2022 new variable
+file#:#versionname#:#Title###29 07 2022 new variable
+file#:#version_uploaded#:#Version uploaded###29 07 2022 new variable
+form#:#form_invalid_uri#:#Invalid URI format.###29 07 2022 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###29 07 2022 new variable
+form#:#form_take_snapshot#:#Take Snapshot###29 07 2022 new variable
+form#:#form_use_camera#:#Use Camera###29 07 2022 new variable
+forum#:#empty_thread#:#Empty Thread###29 07 2022 new variable
+forum#:#error_no_target_selected#:#Please select a forum.###29 07 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###29 07 2022 new variable
+forum#:#frm_activation_online_info#:#Set the forum online to make it visible and available to other users. If not, only administrators will have access to it.###29 07 2022 new variable
+forum#:#frm_noti_obj_crs#:#course###29 07 2022 new variable
+forum#:#frm_noti_obj_grp#:#group###29 07 2022 new variable
+forum#:#new_thread_with_post#:#New Thread with Posting###29 07 2022 new variable
+forum#:#notification_settings#:#Notification Settings###29 07 2022 new variable
+forum#:#notify_censored#:#Censored Posts###29 07 2022 new variable
+forum#:#notify_modified#:#Modified Posts###29 07 2022 new variable
+forum#:#notify_post_deleted#:#Deleted Posts###29 07 2022 new variable
+forum#:#notify_thread_deleted#:#Deleted Threads###29 07 2022 new variable
+forum#:#notify_uncensored#:#Uncensored Posts###29 07 2022 new variable
+forum#:#reset_limited_view_button#:#Show entire thread###29 07 2022 new variable
+forum#:#reset_limited_view_info#:#Limited view on this post and all posts below it.###29 07 2022 new variable
+forum#:#reset_limited_view#:#Limited view on this post an all posts below it.###29 07 2022 new variable
+forum#:#sticky_threads_sorting#:#Sticky Threads Sorting###29 07 2022 new variable
+forum#:#target_select#:#Select posting for limited view###29 07 2022 new variable
+glo#:#glo_collection#:#Collection Glossary###29 07 2022 new variable
+glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.###29 07 2022 new variable
+glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.###29 07 2022 new variable
+glo#:#glo_content_assembly#:#Content Assembly###29 07 2022 new variable
+glo#:#glo_please_select_other_glo#:#Please select another glossary.###29 07 2022 new variable
+help#:#help_search_label#:#Search Help###29 07 2022 new variable
+irss#:#max_revision#:#Max. Revision###29 07 2022 new variable
+irss#:#resource_id#:#Resource ID###29 07 2022 new variable
+irss#:#stakeholders#:#Stakeholders###29 07 2022 new variable
+irss#:#storage_id#:#Storage ID###29 07 2022 new variable
+irss#:#storage_info#:#Storage Information###29 07 2022 new variable
+itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
+itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
+itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
+itgr#:#itgr_list#:#List###29 07 2022 new variable
+itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
+itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
+itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
+ldap#:#ldap_escapedn#:#Escape DN###29 07 2022 new variable
+ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.###29 07 2022 new variable
+lm#:#lm_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
+lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###29 07 2022 new variable
+lng#:#language_detection#:#Language Detection###29 07 2022 new variable
+lso#:#lso_player_viewmodelabel#:#Learning Sequence###29 07 2022 new variable
+mail#:#deleteTemplate#:#Delete###29 07 2022 new variable
+mail#:#mail_filter_only_user_mails#:#Hide System Notifications###29 07 2022 new variable
+mail#:#mail_is_read#:#gelesen###29 07 2022 new variable
+mail#:#mail_is_unread#:#ungelesen###29 07 2022 new variable
+mail#:#mail_no_subject#:#No subject available###29 07 2022 new variable
+mail#:#mail_roles#:#to users with the following local roles###29 07 2022 new variable
+mail#:#mail_sel_label#:#Choose the Recipients###29 07 2022 new variable
+mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.###29 07 2022 new variable
+maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup###29 07 2022 new variable
+mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script. Mathjax 3 is supported, but MathJax 2 is recommended.###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###29 07 2022 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
+mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by the script in the browser.###29 07 2022 new variable
+mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.###29 07 2022 new variable
+mcst#:#mcst_audio_files#:#Audio Files###29 07 2022 new variable
+mcst#:#mcst_autoplay_active#:#Autoplay (Default on)###29 07 2022 new variable
+mcst#:#mcst_autoplay#:#Autoplay###29 07 2022 new variable
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)###29 07 2022 new variable
+mcst#:#mcst_download_all#:#Download All###29 07 2022 new variable
+mcst#:#mcst_download_started_bg#:#Download of files has started. Please check your background tasks in the top right corner.###29 07 2022 new variable
+mcst#:#mcst_img_gallery#:#Image Gallery###29 07 2022 new variable
+mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress###29 07 2022 new variable
+mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.###29 07 2022 new variable
+mcst#:#mcst_next_items#:#Next Items###29 07 2022 new variable
+mcst#:#mcst_no_autoplay#:#No Autoplay###29 07 2022 new variable
+mcst#:#mcst_nr_videos#:#Number of Initial Videos###29 07 2022 new variable
+mcst#:#mcst_podcast#:#Podcast###29 07 2022 new variable
+mcst#:#mcst_prev_items#:#Previous Items###29 07 2022 new variable
+mcst#:#mcst_show_description#:#Show Description###29 07 2022 new variable
+mcst#:#mcst_video_cast#:#Videocast###29 07 2022 new variable
+mcst#:#mcst_video_completion_threshold_info#:#Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point.###29 07 2022 new variable
+mcst#:#mcst_video_completion_threshold#:#Video Completion Threshold###29 07 2022 new variable
+mcst#:#mcst_view_abandoned#:#The current presentation mode has been abandoned. Please open the settings and switch to another mode.###29 07 2022 new variable
+mcst#:#mcst_watched#:#watched###29 07 2022 new variable
+mep#:#mep_mpg#:#Content Snippet###29 07 2022 new variable
+meta#:#meta_obj_type_active#:#Dataset offered###29 07 2022 new variable
+mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.###29 07 2022 new variable
+notes#:#notes_delete_comment#:#Do you really want to delete this comment?###29 07 2022 new variable
+notes#:#notes_delete_note#:#Do you really want to delete this note?###29 07 2022 new variable
+notes#:#notes_html_export#:#HTML Export###29 07 2022 new variable
+notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.###29 07 2022 new variable
+notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.###29 07 2022 new variable
+notes#:#notes_no_notes#:#No notes have been attached yet.###29 07 2022 new variable
+notes#:#notes_origin#:#Origin###29 07 2022 new variable
+notes#:#notes_text#:#Text###29 07 2022 new variable
+notes#:#note_text#:#Text###29 07 2022 new variable
+notification_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.###29 07 2022 new variable
+notification_adm#:#enable_osd#:#Enable On-Screen Notifications###29 07 2022 new variable
+notification_adm#:#notification_settings#:#Notifciation Settings###29 07 2022 new variable
+notification_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.###29 07 2022 new variable
+notification_adm#:#osd_delay#:#Presentation Delay###29 07 2022 new variable
+notification_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in seconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.###29 07 2022 new variable
+notification_adm#:#osd_interval#:#Refreshinterval###29 07 2022 new variable
+notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
+notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
+notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
+prg#:#assignments#:#Assignments###29 07 2022 new variable
+prg#:#auto_add_success#:#Add automatism successfully.###29 07 2022 new variable
+prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.###29 07 2022 new variable
+prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###29 07 2022 new variable
+prg#:#deadline_updated#:#Updated deadline###29 07 2022 new variable
+prg#:#mail_assignments#:#Mail to assigned Users###29 07 2022 new variable
+prg#:#manage_assignments#:#Manage Assignments###29 07 2022 new variable
+prg#:#msg_change_deadline_date_failed#:#Deadline not updated for:###29 07 2022 new variable
+prg#:#msg_change_deadline_date#:#Updated deadline for %s users.###29 07 2022 new variable
+prg#:#msg_change_expire_date_failed#:#Expire date not updated for:###29 07 2022 new variable
+prg#:#msg_change_expire_date#:#Updated expire date for %s users.###29 07 2022 new variable
+prg#:#msg_impossible_target_status#:#Impossible target status###29 07 2022 new variable
+prg#:#msg_mark_accredited_failed#:#Not marked accredited:###29 07 2022 new variable
+prg#:#msg_mark_accredited#:#%s users successfully marked accredited###29 07 2022 new variable
+prg#:#msg_mark_not_relevant_failed#:#Not unmarked relevant:###29 07 2022 new variable
+prg#:#msg_mark_not_relevant#:#%s users successfully unmarked relevant###29 07 2022 new variable
+prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:###29 07 2022 new variable
+prg#:#msg_mark_relevant#:#%s users successfully marked relevant###29 07 2022 new variable
+prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.###29 07 2022 new variable
+prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:###29 07 2022 new variable
+prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.###29 07 2022 new variable
+prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###29 07 2022 new variable
+prg#:#msg_update_from_settings#:#Updated %s users from settings:###29 07 2022 new variable
+prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###29 07 2022 new variable
+prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)###29 07 2022 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###29 07 2022 new variable
+prg#:#prg_manage_members_short#:#Manage Assignments###29 07 2022 new variable
+prg#:#status_changed#:#Updated status###29 07 2022 new variable
+prg#:#status_transition_not_allowed#:#Status change not allowed###29 07 2022 new variable
+prg#:#status_unchanged#:#Status unchanged###29 07 2022 new variable
+prg#:#updated_from_settings#:#Updated from settings###29 07 2022 new variable
+prg#:#validity_updated#:#Updated validity###29 07 2022 new variable
+prg#:#will_not_modify_deadline_on_successful_progress#:#No change because already completed or marked accredited###29 07 2022 new variable
+prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant###29 07 2022 new variable
+prg#:#will_not_modify_relevant_progress#:#already relevant###29 07 2022 new variable
+prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful###29 07 2022 new variable
+prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrelevant.###29 07 2022 new variable
+prtf#:#prtf_add_assignment#:#Add Assignment###29 07 2022 new variable
+prtf#:#prtf_copy_blog_pg#:#Copy Blog Page###29 07 2022 new variable
+prtf#:#prtf_copy_pg#:#Copy Page###29 07 2022 new variable
+prtf#:#prtf_delete_assignment#:#Delete Assignments###29 07 2022 new variable
+prtf#:#prtf_delete_assignment_sure#:#Do you really want to delete the following assignment(s)?###29 07 2022 new variable
+prtf#:#prtf_edit_data#:#Edit Data###29 07 2022 new variable
+prtf#:#prtf_role_assignment#:#Role Assignment###29 07 2022 new variable
+prtf#:#prtf_role_title#:#Role###29 07 2022 new variable
+prtf#:#prtf_sec_protected_info#:#Protected sections cannot be edited by portfolio owners.###29 07 2022 new variable
+prtf#:#prtf_template_title#:#Portfolio Template###29 07 2022 new variable
+prtt#:#prtt_pfpg#:#Portfolio Page###29 07 2022 new variable
+prtt#:#prtt_select_datasets#:#Select Datasets###29 07 2022 new variable
+rating#:#rating_avg_rating#:#Average Rating###29 07 2022 new variable
+rating#:#rating_open_dialog#:#Open rating dialog###29 07 2022 new variable
+rating#:#rating_personal_rating#:#Your Rating###29 07 2022 new variable
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###29 07 2022 new variable
+rbac#:#adn_edit_permission#:#User can change permissions of Administrative Notifications' administration.###29 07 2022 new variable
+rbac#:#adn_read#:#User has read access to administration of Administrative Notifications.###29 07 2022 new variable
+rbac#:#adn_visible#:#Administration of Administrative Notifications is visible.###29 07 2022 new variable
+rbac#:#adn_write#:#User can add and edit Administrative Notifications.###29 07 2022 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###29 07 2022 new variable
+rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.###29 07 2022 new variable
+rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.###29 07 2022 new variable
+rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.###29 07 2022 new variable
+rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.###29 07 2022 new variable
+rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.###29 07 2022 new variable
+rbac#:#coms_read#:#User has read access to administration of Comments.###29 07 2022 new variable
+rbac#:#coms_visible#:#Administration of Comments is visible.###29 07 2022 new variable
+rbac#:#coms_write#:#User can edit settings of administration of Comments.###29 07 2022 new variable
+rbac#:#cpad_edit_permissions#:#User can change permission settings of administration of Content Pages.###29 07 2022 new variable
+rbac#:#cpad_read#:#User has read access to administration of Content Pages.###29 07 2022 new variable
+rbac#:#cpad_visible#:#Administration of Content Pages is visible.###29 07 2022 new variable
+rbac#:#cpad_write#:#User can edit settings of administration of Content Pages.###29 07 2022 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###29 07 2022 new variable
+rbac#:#fils_edit_permissions#:#User can change permission settings of File Services administration.###29 07 2022 new variable
+rbac#:#fils_read#:#User has read access to File Services administration.###29 07 2022 new variable
+rbac#:#fils_visible#:#Administration of File Services is visible.###29 07 2022 new variable
+rbac#:#fils_write#:#User can edit and configure File Services.###29 07 2022 new variable
+rbac#:#il_lti_global_role#:#LTI User###29 07 2022 new variable
+rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.###29 07 2022 new variable
+rbac#:#lhts_read#:#User has read access to Learning History administration.###29 07 2022 new variable
+rbac#:#lhts_visible#:#Administration of Learning History is visible.###29 07 2022 new variable
+rbac#:#lhts_write#:#User can edit settings of Learning History administration.###29 07 2022 new variable
+rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.###29 07 2022 new variable
+rbac#:#lsos_read#:#User has read access to Learning Sequences administration.###29 07 2022 new variable
+rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.###29 07 2022 new variable
+rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.###29 07 2022 new variable
+rbac#:#manage_comp_temp#:#User can edit Competence Templates###29 07 2022 new variable
+rbac#:#manage_comp#:#User can edit Competences###29 07 2022 new variable
+rbac#:#manage_profiles#:#User can edit Competence Profiles###29 07 2022 new variable
+rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###29 07 2022 new variable
+rbac#:#nots_read#:#User has read access to Notes administration.###29 07 2022 new variable
+rbac#:#nots_visible#:#Administration of Notes is visible.###29 07 2022 new variable
+rbac#:#nots_write#:#User can edit settings of Notes administration.###29 07 2022 new variable
+rbac#:#obj_skee#:#Competence Tree###29 07 2022 new variable
+rbac#:#prgr_copy#:#User can copy links to study programmes.###29 07 2022 new variable
+rbac#:#prgr_delete#:#User can move or delete links to study programmes.###29 07 2022 new variable
+rbac#:#prgr_edit_permission#:#User can change permission settings.###29 07 2022 new variable
+rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###29 07 2022 new variable
+rbac#:#prgr_write#:#User can edit settings of links to study programmes.###29 07 2022 new variable
+rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.###29 07 2022 new variable
+rbac#:#prss_read#:#User has read access to Personal Resources administration.###29 07 2022 new variable
+rbac#:#prss_visible#:#Administration of Personal Resources is visible.###29 07 2022 new variable
+rbac#:#prss_write#:#User can edit settings of Personal Resources administration.###29 07 2022 new variable
+rbac#:#push_desktop_items#:#Recommend Content###29 07 2022 new variable
+rbac#:#rbac_create_prgr#:#Create link to study programme###29 07 2022 new variable
+rbac#:#read_comp#:#User has read access to Competences and Competence Templates###29 07 2022 new variable
+rbac#:#read_profiles#:#User has read access to Competence Profiles###29 07 2022 new variable
+rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.###29 07 2022 new variable
+rbac#:#wbdv_read#:#User has read access to WebDAV administration.###29 07 2022 new variable
+rbac#:#wbdv_visible#:#Administration of WebDAV is visible.###29 07 2022 new variable
+rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.###29 07 2022 new variable
+rep#:#rep_favourites#:#Favourites###29 07 2022 new variable
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###29 07 2022 new variable
+rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###29 07 2022 new variable
+search#:#search_field#:#Search Input Field###29 07 2022 new variable
+sess#:#il_sess_status_open#:#Open Session###29 07 2022 new variable
+sess#:#sess_change_type#:#Change Session Type###29 07 2022 new variable
+sess#:#sess_info_new_sess_type#:#New Session Type###29 07 2022 new variable
+sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###29 07 2022 new variable
+skll#:#skll_lhist_skill_profile_fulfilled#:#Competence Profile $3$ was fulfilled.###29 07 2022 new variable
+skmg#:#skmg_add_skill_tree#:#Add Competence Tree###29 07 2022 new variable
+skmg#:#skmg_custom_image_alt#:#Custom image for competence profile###29 07 2022 new variable
+skmg#:#skmg_eval_type_latest_1#:#Latest Appraisal###29 07 2022 new variable
+skmg#:#skmg_eval_type_latest_2#:#Latest Measurement###29 07 2022 new variable
+skmg#:#skmg_eval_type_latest_3#:#Latest Self-Evaluation###29 07 2022 new variable
+skmg#:#skmg_form_presentation#:#Presentation###29 07 2022 new variable
+skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion###29 07 2022 new variable
+skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.###29 07 2022 new variable
+skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.###29 07 2022 new variable
+skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement###29 07 2022 new variable
+skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.###29 07 2022 new variable
+skmg#:#skmg_show_all#:#Show All###29 07 2022 new variable
+skmg#:#skmg_show_latest_entries#:#Show Latest Entries###29 07 2022 new variable
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###29 07 2022 new variable
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.###29 07 2022 new variable
+skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.###29 07 2022 new variable
+skmg#:#skmg_skill_profile_comparison#:#Profile Comparison###29 07 2022 new variable
+skmg#:#skmg_skill_tree#:#Competence Tree###29 07 2022 new variable
+skmg#:#skmg_skill_trees#:#Competence Trees###29 07 2022 new variable
+skmg#:#skmg_target_levels#:#Competence Targets###29 07 2022 new variable
+style#:#sty_bg_img_info#:#To add images to the dropdown selection please upload them in the "Images" section of the style first.###29 07 2022 new variable
+style#:#sty_class_name#:#Class Name###29 07 2022 new variable
+style#:#sty_class#:#Style Class###29 07 2022 new variable
+style#:#sty_copy_to#:#to:###29 07 2022 new variable
+style#:#sty_create_new_class#:#Create new style class###29 07 2022 new variable
+style#:#style_support_reuse_info#:#Allow sub-objects of the current container to re-use this content style.###29 07 2022 new variable
+style#:#style_support_reuse#:#Re-Use###29 07 2022 new variable
+style#:#sty_outdated#:#Outdated###29 07 2022 new variable
+style#:#sty_overwrite_existing_class#:#Overwrite existing style class###29 07 2022 new variable
+style#:#sty_parameters#:#Parameters###29 07 2022 new variable
+style#:#sty_paste_chars#:#Paste Classes###29 07 2022 new variable
+style#:#sty_remove_outdated#:#Remove Outdated Status###29 07 2022 new variable
+style#:#sty_resize_image#:#Resize Image###29 07 2022 new variable
+style#:#sty_resize#:#Resize###29 07 2022 new variable
+style#:#sty_save_hide_order_status#:#Save Order and Hidden Status###29 07 2022 new variable
+style#:#sty_save_order_status#:#Save Order###29 07 2022 new variable
+style#:#sty_set_outdated#:#Set Outdated###29 07 2022 new variable
+style#:#sty_titles#:#Titles###29 07 2022 new variable
+survey#:#survey_notification_target_group_invited#:#All users who got the survey put on their Personal Desktop###29 07 2022 new variable
+survey#:#survey_reminder_cron#:#Remind users to participate###29 07 2022 new variable
+survey#:#svy_add_internal_user#:#Add User###29 07 2022 new variable
+survey#:#svy_add_internal_user_info#:#The rater has a registered user on this platform.###29 07 2022 new variable
+survey#:#svy_add_rater#:#Add Rater###29 07 2022 new variable
+survey#:#svy_all_raters#:#All Raters###29 07 2022 new variable
+survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
+survey#:#svy_dont_send#:#Don't send a message###29 07 2022 new variable
+survey#:#svy_external_rater#:#Add External Rater###29 07 2022 new variable
+survey#:#svy_external_rater_info#:#The rater is not registered on this platform.###29 07 2022 new variable
+survey#:#svy_ext_rater_firstname#:#First name of external rater###29 07 2022 new variable
+survey#:#svy_ext_rater_lastname#:#Last name of external rater###29 07 2022 new variable
+survey#:#svy_ind_feedb_info#:#Users get distinct evaluations by others.###29 07 2022 new variable
+survey#:#svy_ind_feedb_mode#:#Individual Feedback###29 07 2022 new variable
+survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.###29 07 2022 new variable
+survey#:#svy_mail_context_rater_invitation_survey_title#:#Survey Title###29 07 2022 new variable
+survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation###29 07 2022 new variable
+survey#:#svy_only_max_one_external_rater#:#Please select only one external rater.###29 07 2022 new variable
+survey#:#svy_privacy_info#:#Privacy###29 07 2022 new variable
+survey#:#svy_rater#:#Rater###29 07 2022 new variable
+survey#:#svy_rater_see_app_info#:#The names of appraisees will be presented to raters to enable them evaluating the questions.###29 07 2022 new variable
+survey#:#svy_save_and_continue#:#Save and Continue###29 07 2022 new variable
+survey#:#svy_search_user_info#:#Search for users or roles and pick participants.###29 07 2022 new variable
+survey#:#svy_search_user#:#Search User###29 07 2022 new variable
+survey#:#svy_select_rater#:#Select Rater###29 07 2022 new variable
+survey#:#svy_type_of_rater#:#Type of Rater###29 07 2022 new variable
+svy#:#svy_all_pages#:#All Pages###29 07 2022 new variable
+svy#:#svy_all_participants#:#All Participants###29 07 2022 new variable
+svy#:#svy_all_questions#:#All Questions###29 07 2022 new variable
+svy#:#svy_current_page#:#Current Page###29 07 2022 new variable
+svy#:#svy_print_selection#:#Print View Selection###29 07 2022 new variable
+svy#:#svy_selected_participants#:#Selected Participants###29 07 2022 new variable
+svy#:#svy_selected_questions#:#Selected Questions###29 07 2022 new variable
+svy#:#svy_selection#:#Selection###29 07 2022 new variable
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###29 07 2022 new variable
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###29 07 2022 new variable
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###29 07 2022 new variable
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###29 07 2022 new variable
+trac#:#trac_frm_contribution_num_postings#:#Minimum number of Postings###29 07 2022 new variable
+trac#:#trac_mode_contribution_to_discussion#:#Contributions to Discussion###29 07 2022 new variable
+trac#:#trac_mode_contribution_to_discussion_info#:#The learning progress status will be determined by the number of written postings.###29 07 2022 new variable
+trac#:#trac_paths#:#Paths###29 07 2022 new variable
+trac#:#trac_reference_ids_column#:#Reference-Ids###29 07 2022 new variable
+ui#:#datetime_required#:#Time/Date required###29 07 2022 new variable
+ui#:#duration_default_label_end#:#end###29 07 2022 new variable
+ui#:#duration_default_label_start#:#start###29 07 2022 new variable
+ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###29 07 2022 new variable
+ui#:#ui_error_switchable_group_required#:#Please select an option.###29 07 2022 new variable
+ui#:#ui_file_input_general_error#:#An error occurred! You can check the JavaScript console of your browser for more information and/or contact your ILIAS system administration about this incident.###29 07 2022 new variable
+ui#:#ui_file_input_invalid_amount#:#You cannot upload this many files, please remove some in order to continue.###29 07 2022 new variable
+ui#:#ui_file_input_invalid_mime#:#Files of type '%s' are not allowed###29 07 2022 new variable
+ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s.###29 07 2022 new variable
+ui#:#ui_invalid_url#:#Invalid URL-format###29 07 2022 new variable
+ui#:#ui_link_label#:#Label###29 07 2022 new variable
+ui#:#ui_link_url#:#URL###29 07 2022 new variable
+ui#:#ui_tag_required#:#Please insert at least one tag.###29 07 2022 new variable
+ui#:#ui_transcription#:#Transcript###29 07 2022 new variable
+user#:#user_local_role#:#Local Role###29 07 2022 new variable
+validation#:#no_array#:#Given value is not an array###29 07 2022 new variable
+validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.###29 07 2022 new variable
+validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.###29 07 2022 new variable
+violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable
+wiki#:#wiki_sec_protect_info#:#Protected sections can only be edited by users having "Edit Settings" permission.###29 07 2022 new variable
