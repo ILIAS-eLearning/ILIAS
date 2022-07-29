@@ -101,12 +101,12 @@ class ilCertificateQueueRepository
 
     public function removeFromQueueByUserId(int $user_id) : void
     {
-        $this->logger->debug(sprintf('START - Remove entries for user(user_id: "%s") from queue', $user_id));
+        $this->logger->debug(sprintf('START - Remove entries for user (usr_id: "%s") from queue', $user_id));
 
         $sql = 'DELETE FROM il_cert_cron_queue WHERE usr_id = ' . $this->database->quote($user_id, 'integer');
 
         $this->database->manipulate($sql);
 
-        $this->logger->debug(sprintf('END - Entries for user(user_id: "%s") deleted from queue', $user_id));
+        $this->logger->debug(sprintf('END - Entries for user (usr_id: "%s") deleted from queue', $user_id));
     }
 }

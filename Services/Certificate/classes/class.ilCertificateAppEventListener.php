@@ -289,7 +289,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $portfolioFileService->deleteUserDirectory($userId);
 
         $this->logger->debug(sprintf(
-            'All relevant data sources for the user certificates for user(user_id: "%s" deleted)',
+            'All relevant data sources for the user certificates for user (usr_id: "%s" deleted)',
             $userId
         ));
     }

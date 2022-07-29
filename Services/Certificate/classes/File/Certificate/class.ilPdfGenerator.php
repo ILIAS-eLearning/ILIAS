@@ -92,7 +92,7 @@ class ilPdfGenerator
 
         $user = ilObjectFactory::getInstanceByObjId($userId);
         if (!$user instanceof ilObjUser) {
-            throw new ilException(sprintf('The user_id "%s" does NOT reference a user', $userId));
+            throw new ilException(sprintf('The usr_id "%s" does NOT reference a user', $userId));
         }
 
         return $this->pdfFilenameFactory->create($certificate);
