@@ -44,4 +44,18 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('il_cert_user_cert', 'certificate_content_backup');
         }
     }
+
+    public function step_3() : void
+    {
+        if ($this->db->tableExists('il_cert_bgtask_migr')) {
+            $this->db->dropTable('il_cert_bgtask_migr');
+        }
+    }
+
+    public function step_4() : void
+    {
+        if ($this->db->tableExists('il_cert_user_cert') && $this->db->tableColumnExists('il_cert_user_cert', 'user_id')) {
+            $this->db->renameTableColumn('il_cert_user_cert', 'user_id', 'usr_id');
+        }
+    }
 }

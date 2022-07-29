@@ -31,8 +31,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 
         $database
             ->expects($this->once())
-            ->method('numRows')
-            ->willReturn(1);
+            ->method('fetchAssoc')
+            ->willReturn(['1' => '1']);
 
         $database
             ->expects($this->once())

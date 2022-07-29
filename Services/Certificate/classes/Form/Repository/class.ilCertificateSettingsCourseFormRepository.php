@@ -26,7 +26,7 @@ use ILIAS\Filesystem\Exception\IOException;
 class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepository
 {
     private ilLanguage $language;
-    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilCertificateSettingsFormRepository $settingsFormFactory;
     private ilObjCourse $object;
     private ilObjectLP $learningProgressObject;
     private ilCertificateObjUserTrackingHelper $trackingHelper;
@@ -45,7 +45,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilObjectLP $learningProgressObject = null,
-        ?ilCertificateSettingsFormRepository $settingsFromFactory = null,
+        ?ilCertificateSettingsFormRepository $settingsFormFactory = null,
         ?ilCertificateObjUserTrackingHelper $trackingHelper = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateObjectLPHelper $lpHelper = null,
@@ -56,8 +56,8 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
         $this->language = $language;
 
-        if (null === $settingsFromFactory) {
-            $settingsFromFactory = new ilCertificateSettingsFormRepository(
+        if (null === $settingsFormFactory) {
+            $settingsFormFactory = new ilCertificateSettingsFormRepository(
                 $object->getId(),
                 $certificatePath,
                 $hasAdditionalElements,
@@ -68,7 +68,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 $placeholderDescriptionObject
             );
         }
-        $this->settingsFromFactory = $settingsFromFactory;
+        $this->settingsFormFactory = $settingsFormFactory;
 
         if (null === $learningProgressObject) {
             $learningProgressObject = ilObjectLP::getInstance($this->object->getId());
@@ -114,7 +114,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
      */
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
-        $form = $this->settingsFromFactory->createForm($certificateGUI);
+        $form = $this->settingsFormFactory->createForm($certificateGUI);
 
         $objectLearningProgressSettings = new ilLPObjSettings($this->object->getId());
 
@@ -193,7 +193,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
     public function fetchFormFieldData(string $content) : array
     {
-        $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
+        $formFields = $this->settingsFormFactory->fetchFormFieldData($content);
 
         $formFields['subitems'] = json_decode($this->setting->get(
             'cert_subitems_' . $this->object->getId(),

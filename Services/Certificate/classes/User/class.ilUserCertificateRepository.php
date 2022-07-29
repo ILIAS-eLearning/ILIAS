@@ -56,7 +56,7 @@ class ilUserCertificateRepository
      */
     public function save(ilUserCertificate $userCertificate) : ilUserCertificate
     {
-        $this->logger->info('START - saving of user certificate');
+        $this->logger->debug('START - saving of user certificate');
 
         $version = (int) $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
         ++$version;
@@ -73,7 +73,7 @@ class ilUserCertificateRepository
             'pattern_certificate_id' => ['integer', $userCertificate->getPatternCertificateId()],
             'obj_id' => ['integer', $objId],
             'obj_type' => ['text', $userCertificate->getObjType()],
-            'user_id' => ['integer', $userId],
+            'usr_id' => ['integer', $userId],
             'user_name' => ['text', $userCertificate->getUserName()],
             'acquired_timestamp' => ['integer', $userCertificate->getAcquiredTimestamp()],
             'certificate_content' => ['clob', $userCertificate->getCertificateContent()],
@@ -102,14 +102,14 @@ class ilUserCertificateRepository
      */
     public function fetchActiveCertificates(int $userId) : array
     {
-        $this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
+        $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
         $sql = '
 SELECT 
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
   il_cert_user_cert.obj_type,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.certificate_content,
@@ -121,19 +121,11 @@ SELECT
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title 
-    END
-  ) as title
+  COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND currently_active = 1';
 
         $query = $this->database->query($sql);
@@ -153,7 +145,7 @@ AND currently_active = 1';
         }
 
         $this->logger->debug(sprintf('Actual results: "%s"', json_encode($result, JSON_THROW_ON_ERROR)));
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'END - All active certificates for user: "%s" total: "%s"',
             $userId,
             count($result)
@@ -173,14 +165,14 @@ AND currently_active = 1';
         int $startTimestamp,
         int $endTimeStamp
     ) : array {
-        $this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
+        $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
         $sql = '
 SELECT 
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
   il_cert_user_cert.obj_type,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.certificate_content,
@@ -192,19 +184,11 @@ SELECT
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title 
-    END
-  ) as title
+  COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND currently_active = 1
 AND acquired_timestamp >= ' . $this->database->quote($startTimestamp, 'integer') . '
 AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
@@ -226,7 +210,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
         }
 
         $this->logger->debug(sprintf('Actual results: "%s"', json_encode($result, JSON_THROW_ON_ERROR)));
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'END - All active certificates for user: "%s" total: "%s"',
             $userId,
             count($result)
@@ -243,7 +227,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
      */
     public function fetchActiveCertificate(int $userId, int $objectId) : ilUserCertificate
     {
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'START - Fetching all active certificates for user: "%s" and object: "%s"',
             $userId,
             $objectId
@@ -251,7 +235,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
 
         $sql = 'SELECT *
 FROM il_cert_user_cert
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND obj_id = ' . $this->database->quote($objectId, 'integer') . '
 AND currently_active = 1';
 
@@ -260,7 +244,7 @@ AND currently_active = 1';
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Active certificate values: %s', json_encode($row, JSON_THROW_ON_ERROR)));
 
-            $this->logger->info(sprintf(
+            $this->logger->debug(sprintf(
                 'END -Found active user certificate for user: "%s" and object: "%s"',
                 $userId,
                 $objectId
@@ -284,7 +268,7 @@ AND currently_active = 1';
      */
     public function fetchActiveCertificateForPresentation(int $userId, int $objectId) : ilUserCertificatePresentation
     {
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'START - Fetching all active certificates for user: "%s" and object: "%s"',
             $userId,
             $objectId
@@ -294,7 +278,7 @@ AND currently_active = 1';
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
   il_cert_user_cert.obj_type,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.certificate_content,
@@ -307,20 +291,12 @@ AND currently_active = 1';
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
   usr_data.lastname,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title
-    END
-  ) as title
+  COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE il_cert_user_cert.user_id = ' . $this->database->quote($userId, 'integer') . '
+LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.usr_id
+WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND il_cert_user_cert.obj_id = ' . $this->database->quote($objectId, 'integer') . '
 AND il_cert_user_cert.currently_active = 1';
 
@@ -329,7 +305,7 @@ AND il_cert_user_cert.currently_active = 1';
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Active certificate values: %s', json_encode($row, JSON_THROW_ON_ERROR)));
 
-            $this->logger->info(sprintf(
+            $this->logger->debug(sprintf(
                 'END -Found active user certificate for user: "%s" and object: "%s"',
                 $userId,
                 $objectId
@@ -360,7 +336,7 @@ AND il_cert_user_cert.currently_active = 1';
      */
     public function fetchActiveCertificatesByTypeForPresentation(int $userId, string $type) : array
     {
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'START - Fetching all active certificates for user: "%s" and type: "%s"',
             $userId,
             $type
@@ -370,7 +346,7 @@ AND il_cert_user_cert.currently_active = 1';
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
   il_cert_user_cert.obj_type,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.certificate_content,
@@ -382,19 +358,11 @@ AND il_cert_user_cert.currently_active = 1';
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title 
-    END
-  ) as title
+  COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
  AND obj_type = ' . $this->database->quote($type, 'text') . '
  AND currently_active = 1';
 
@@ -414,7 +382,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
             $result[] = $presentation;
         }
 
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'END - Fetching all active certificates for user: "%s" and type: "%s"',
             $userId,
             $type
@@ -430,7 +398,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
      */
     public function fetchCertificate(int $id) : ilUserCertificate
     {
-        $this->logger->info(sprintf('START - Fetch certificate by id: "%s"', $id));
+        $this->logger->debug(sprintf('START - Fetch certificate by id: "%s"', $id));
 
         $sql = 'SELECT * FROM il_cert_user_cert WHERE id = ' . $this->database->quote($id, 'integer');
 
@@ -439,7 +407,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
 
-            $this->logger->info(sprintf('END - Fetch certificate by id: "%s"', $id));
+            $this->logger->debug(sprintf('END - Fetch certificate by id: "%s"', $id));
 
             return $this->createUserCertificate($row);
         }
@@ -454,7 +422,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
      */
     public function fetchObjectIdsWithCertificateForUser(int $userId, array $objectIds) : array
     {
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'START - Fetch certificate for user("%s") and ids: "%s"',
             $userId,
             json_encode($objectIds, JSON_THROW_ON_ERROR)
@@ -472,7 +440,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         );
 
         $sql = 'SELECT obj_id FROM il_cert_user_cert
- WHERE user_id = ' . $this->database->quote($userId, 'integer') .
+ WHERE usr_id = ' . $this->database->quote($userId, 'integer') .
             ' AND ' . $inStatementObjectIds .
             ' AND currently_active = ' . $this->database->quote(1, 'integer');
 
@@ -494,9 +462,9 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
      */
     public function fetchUserIdsWithCertificateForObject(int $objectId) : array
     {
-        $this->logger->info(sprintf('START - Fetch certificate for object("%s")"', $objectId));
+        $this->logger->debug(sprintf('START - Fetch certificate for object("%s")"', $objectId));
 
-        $sql = 'SELECT user_id FROM il_cert_user_cert
+        $sql = 'SELECT usr_id FROM il_cert_user_cert
 WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
  AND currently_active = ' . $this->database->quote(1, 'integer');
 
@@ -506,7 +474,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
 
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
-            $result[] = (int) $row['user_id'];
+            $result[] = (int) $row['usr_id'];
         }
 
         return $result;
@@ -514,13 +482,13 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
 
     public function deleteUserCertificates(int $userId) : void
     {
-        $this->logger->info(sprintf('START - Delete certificate for user("%s")"', $userId));
+        $this->logger->debug(sprintf('START - Delete certificate for user("%s")"', $userId));
 
-        $sql = 'DELETE FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer');
+        $sql = 'DELETE FROM il_cert_user_cert WHERE usr_id = ' . $this->database->quote($userId, 'integer');
 
         $this->database->manipulate($sql);
 
-        $this->logger->info(sprintf('END - Successfully deleted certificate for user("%s")"', $userId));
+        $this->logger->debug(sprintf('END - Successfully deleted certificate for user("%s")"', $userId));
     }
 
     /**
@@ -530,14 +498,14 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
      */
     private function fetchCertificatesOfObject(int $objId, int $userId) : array
     {
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'START -  fetching all certificates of object(user id: "%s", object id: "%s")',
             $userId,
             $objId
         ));
 
         $sql = 'SELECT * FROM il_cert_user_cert
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+WHERE usr_id = ' . $this->database->quote($userId, 'integer') . '
 AND obj_id = ' . $this->database->quote($objId, 'integer');
 
         $query = $this->database->query($sql);
@@ -549,12 +517,12 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
                 json_encode($row, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
             ));
 
-            $this->logger->info(sprintf('Certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
+            $this->logger->debug(sprintf('Certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
 
             $result[] = $this->createUserCertificate($row);
         }
 
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'END -  fetching all certificates of object(user id: "%s", object id: "%s")',
             $userId,
             $objId
@@ -565,7 +533,7 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
 
     private function fetchLatestVersion(int $objId, int $userId) : string
     {
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'START -  fetching of latest certificates of object(user id: "%s", object id: "%s")',
             $userId,
             $objId
@@ -580,7 +548,7 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
             }
         }
 
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'END -  fetching of latest certificates of object(user id: "%s", object id: "%s") with version "%s"',
             $userId,
             $objId,
@@ -592,7 +560,7 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
 
     private function deactivatePreviousCertificates(int $objId, int $userId) : void
     {
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'START - deactivating previous certificates for user id: "%s" and object id: "%s"',
             $userId,
             $objId
@@ -602,11 +570,11 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
 UPDATE il_cert_user_cert
 SET currently_active = 0
 WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
-AND  user_id = ' . $this->database->quote($userId, 'integer');
+AND  usr_id = ' . $this->database->quote($userId, 'integer');
 
         $this->database->manipulate($sql);
 
-        $this->logger->info(sprintf(
+        $this->logger->debug(sprintf(
             'END - deactivating previous certificates for user id: "%s" and object id: "%s"',
             $userId,
             $objId
@@ -623,7 +591,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
             (int) $row['pattern_certificate_id'],
             (int) $row['obj_id'],
             $row['obj_type'],
-            (int) $row['user_id'],
+            (int) $row['usr_id'],
             $row['user_name'],
             (int) $row['acquired_timestamp'],
             $row['certificate_content'],

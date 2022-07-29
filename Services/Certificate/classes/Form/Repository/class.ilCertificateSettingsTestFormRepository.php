@@ -25,7 +25,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
  */
 class ilCertificateSettingsTestFormRepository implements ilCertificateFormRepository
 {
-    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilCertificateSettingsFormRepository $settingsFormFactory;
     private ilLanguage $language;
     private ilObjTest $testObject;
 
@@ -56,7 +56,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
                 $placeholderDescriptionObject
             );
         }
-        $this->settingsFromFactory = $settingsFormRepository;
+        $this->settingsFormFactory = $settingsFormRepository;
     }
 
     /**
@@ -71,7 +71,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
      */
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
-        return $this->settingsFromFactory->createForm($certificateGUI);
+        return $this->settingsFormFactory->createForm($certificateGUI);
     }
 
     public function save(array $formFields) : void
@@ -80,6 +80,6 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 
     public function fetchFormFieldData(string $content) : array
     {
-        return $this->settingsFromFactory->fetchFormFieldData($content);
+        return $this->settingsFormFactory->fetchFormFieldData($content);
     }
 }

@@ -72,8 +72,8 @@ LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_translation trans ON trans.obj_id = object_data.obj_id
 AND trans.lang_code = ' . $this->database->quote($params['language'], 'text') . '
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.usr_id
+WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
         if ([] !== $params) {
             $sql .= $this->getOrderByPart($params, $filter);
@@ -119,7 +119,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
             $cnt_sql = '
 				SELECT COUNT(*) cnt
 				FROM il_cert_user_cert
-				WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+				WHERE usr_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
             $row_cnt = $this->database->fetchAssoc($this->database->query($cnt_sql));
 
