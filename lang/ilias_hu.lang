@@ -1,4 +1,19 @@
-/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/**
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
+********************************************************************
+*/
 /**
 * ILIAS language file
 *
@@ -12059,12 +12074,12 @@ prg#:#prg_create_new_leaf#:#Új levél létrehozása
 prg#:#prg_create_new_node#:#Új csomópont létrehozása
 prg#:#prg_cron_job_configuration#:#Automatikus e-mailek beállításai
 prg#:#prg_custom_plan#:#Teljesítette-e
-prg#:#prg_dash_label_finish_until#:#Befejezés eddig:
-prg#:#prg_dash_label_gain#:#Jelenlegi teljesítettség:
-prg#:#prg_dash_label_minimum#:#Minimális teljesítettség:
-prg#:#prg_dash_label_restart_from#:#Megújítás ekkortól:
-prg#:#prg_dash_label_status#:#Állapot:
-prg#:#prg_dash_label_valid#:#Érvényes:
+prg#:#prg_dash_label_finish_until#:#Befejezés eddig
+prg#:#prg_dash_label_gain#:#Jelenlegi teljesítettség
+prg#:#prg_dash_label_minimum#:#Minimális teljesítettség
+prg#:#prg_dash_label_restart_from#:#Megújítás ekkortól
+prg#:#prg_dash_label_status#:#Állapot
+prg#:#prg_dash_label_valid#:#Érvényes
 prg#:#prg_deadline#:#Határidő
 prg#:#prg_deadline_date#:#A feldolgozási idő egy megadott időpontban jár le
 prg#:#prg_deadline_date_desc#:#A programot a megadott időpontig kell teljesíteni.

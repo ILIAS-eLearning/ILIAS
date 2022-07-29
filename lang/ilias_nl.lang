@@ -1,6 +1,21 @@
-/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file (All entries)
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
+********************************************************************
+*/
+/**
+* ILIAS language file
 *
 * @module			language file Dutch
 * @modulegroup		language
@@ -11709,12 +11724,12 @@ prg#:#prg_create_new_leaf#:#Create new leaf###30 08 2015 new variable
 prg#:#prg_create_new_node#:#Create new node###30 08 2015 new variable
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails###07 02 2020 new variable
 prg#:#prg_custom_plan#:#Custom Plan###30 08 2015 new variable
-prg#:#prg_dash_label_finish_until#:#Finish until:###07 02 2020 new variable
-prg#:#prg_dash_label_gain#:#Current Completion:###07 02 2020 new variable
-prg#:#prg_dash_label_minimum#:#Minimum Completion:###07 02 2020 new variable
-prg#:#prg_dash_label_restart_from#:#Restart from:###07 02 2020 new variable
-prg#:#prg_dash_label_status#:#Status:###07 02 2020 new variable
-prg#:#prg_dash_label_valid#:#Valid:###07 02 2020 new variable
+prg#:#prg_dash_label_finish_until#:#Finish until###07 02 2020 new variable
+prg#:#prg_dash_label_gain#:#Current Completion###07 02 2020 new variable
+prg#:#prg_dash_label_minimum#:#Minimum Completion###07 02 2020 new variable
+prg#:#prg_dash_label_restart_from#:#Restart from###07 02 2020 new variable
+prg#:#prg_dash_label_status#:#Status###07 02 2020 new variable
+prg#:#prg_dash_label_valid#:#Valid###07 02 2020 new variable
 prg#:#prg_deadline#:#Deadline###31 08 2017 new variable
 prg#:#prg_deadline_date#:#Processing time expires at fixed date###07 02 2020 new variable
 prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.###07 02 2020 new variable
