@@ -2702,32 +2702,21 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $info->addProperty($this->lng->txt("title"), $this->object->getTitle());
         }
         if (!$this->object->getOfflineStatus() &&
-            $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig())) {
-            if ($ilAccess->checkAccess("read", "", $this->ref_id)) {
-                if ($this->object->getShowInfo() || !$this->object->getForceJS()) {
-                    // use javascript
-                    $checked_javascript = false;
-                    if ($this->object->getJavaScriptOutput()) {
-                        $checked_javascript = true;
-                    }
+            $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig()) &&
+            $ilAccess->checkAccess("read", "", $this->ref_id) &&
+            !$this->object->isRandomTest() &&
+            !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() &&
+            $this->object->getNrOfTries() != 1) {
+            if ($this->object->getUsePreviousAnswers() == 0) {
+                if ($this->object->getShowInfo()) {
+                    $info->addProperty($this->lng->txt("tst_use_previous_answers"), $this->lng->txt("tst_dont_use_previous_answers"));
                 }
-                // hide previous results
-                if (!$this->object->isRandomTest() && !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-                    if ($this->object->getNrOfTries() != 1) {
-                        if ($this->object->getUsePreviousAnswers() == 0) {
-                            if ($this->object->getShowInfo()) {
-                                $info->addProperty($this->lng->txt("tst_use_previous_answers"), $this->lng->txt("tst_dont_use_previous_answers"));
-                            }
-                        } else {
-                            $use_previous_answers = false;
-                            $checked_previous_answers = false;
-                            if (isset($ilUser->prefs["tst_use_previous_answers"]) && $ilUser->prefs["tst_use_previous_answers"]) {
-                                $checked_previous_answers = true;
-                            }
-                            $info->addPropertyCheckbox($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers", 1, $this->lng->txt("tst_use_previous_answers_user"), $checked_previous_answers);
-                        }
-                    }
+            } else {
+                $checked_previous_answers = false;
+                if ($ilUser->prefs["tst_use_previous_answers"]) {
+                    $checked_previous_answers = true;
                 }
+                $info->addPropertyCheckbox($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers", 1, $this->lng->txt("tst_use_previous_answers_user"), $checked_previous_answers);
             }
         }
 
