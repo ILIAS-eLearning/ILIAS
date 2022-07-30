@@ -282,17 +282,17 @@ class ilStartUpGUI
     protected function retrieveMessagesFromSession() : array
     {
         $messages = [];
-        if (isset($_SESSION[ilGlobalTemplate::MESSAGE_TYPE_FAILURE])) {
-            $messages[ilGlobalTemplate::MESSAGE_TYPE_FAILURE] = $_SESSION[ilGlobalTemplate::MESSAGE_TYPE_FAILURE];
+        if (ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_FAILURE)) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_FAILURE] = ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_FAILURE);
         }
-        if (isset($_SESSION[ilGlobalTemplate::MESSAGE_TYPE_SUCCESS])) {
-            $messages[ilGlobalTemplate::MESSAGE_TYPE_SUCCESS] = $_SESSION[ilGlobalTemplate::MESSAGE_TYPE_SUCCESS];
+        if (ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_SUCCESS)) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_SUCCESS] = ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_SUCCESS);
         }
-        if (isset($_SESSION[ilGlobalTemplate::MESSAGE_TYPE_INFO])) {
-            $messages[ilGlobalTemplate::MESSAGE_TYPE_INFO] = $_SESSION[ilGlobalTemplate::MESSAGE_TYPE_INFO];
+        if (ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_INFO)) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_INFO] = ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_INFO);
         }
-        if (isset($_SESSION[ilGlobalTemplate::MESSAGE_TYPE_QUESTION])) {
-            $messages[ilGlobalTemplate::MESSAGE_TYPE_QUESTION] = $_SESSION[ilGlobalTemplate::MESSAGE_TYPE_QUESTION];
+        if (ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_QUESTION)) {
+            $messages[ilGlobalTemplate::MESSAGE_TYPE_QUESTION] = ilSession::get(ilGlobalTemplate::MESSAGE_TYPE_QUESTION);
         }
         return $messages;
     }
