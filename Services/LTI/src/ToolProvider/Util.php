@@ -216,23 +216,47 @@ final class Util
     /**
      * Return GET and POST request parameters (POST parameters take precedence)
      *
-     * @return array
+     * @return array|null
      */
     public static function getRequestParameters() : ?array
     {
         if (is_null(self::$requestParameters)) {
 //            special for ILIAS instead of
 //            self::$requestParameters = array_merge($_GET, $_POST);
-            self::$requestParameters = array_merge(
-                //Argument 1 passed to Symfony\Component\HttpFoundation\Request::createRequestFromFactory() must be of the type array, object given
-                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->query->all(),
-                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->request->all()
+//            self::$requestParameters = array_merge(
+//                //Argument 1 passed to Symfony\Component\HttpFoundation\Request::createRequestFromFactory() must be of the type array, object given
+//                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->query->all(),
+//                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->request->all()
 //                (array) $_GET, (array) $_POST
-            );
-        }
+//            );
+            global $DIC;
+            $post = $DIC->http()->wrapper()->post();
+            $query = $DIC->http()->wrapper()->query();
+            $refinery = $DIC->refinery()->kindlyTo()->string();
 
+            $requestAr = ['iss', 'login_hint','target_link_uri','openid_configuration','registration_token'];
+            foreach ($requestAr as $param) {
+//                self::getSingleRequestParameter($param, $post, $query, $refinery);
+                if ($post->has($param)) {
+                    self::$requestParameters[$param] = $post->retrieve($param, $refinery);
+                }
+                if ($query->has($param)) {
+                    self::$requestParameters[$param] = $query->retrieve($param, $refinery);
+                }
+            }
+        }
         return self::$requestParameters;
     }
+
+//    public static function getSingleRequestParameter(string $param, \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post, \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query, \ILIAS\Refinery\Transformation $refinery) : void
+//    {
+//        if ($post->has($param)) {
+//            self::$requestParameters[$param] = $post->retrieve($param, $refinery);
+//        }
+//        if ($query->has($param)) {
+//            self::$requestParameters[$param] = $query->retrieve($param, $refinery);
+//        }
+//    }
 
     /**
      * Log an error message.

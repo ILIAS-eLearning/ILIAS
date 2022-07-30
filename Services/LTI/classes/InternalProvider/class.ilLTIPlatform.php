@@ -32,7 +32,7 @@ class ilLTIPlatform extends ToolProvider\Platform
     /**
      * @var int ref_id
      */
-    protected int $ref_id;
+    protected int $ref_id = 0;
 
     /**
      * @var int ext consumer id
@@ -266,6 +266,25 @@ class ilLTIPlatform extends ToolProvider\Platform
     // local_role_always_member, default_skin
 
     /**
+     * Load the platform from the database by its consumer key.
+     *
+     * @param string          $key             Consumer key
+     * @param ilLTIDataConnector   $dataConnector   A data connector object
+     * @param bool            $autoEnable      true if the platform is to be enabled automatically (optional, default is false)
+     * @return \ilLTIPlatform Platform       The platform object
+     */
+    public static function fromConsumerKey(?string $key = null, $dataConnector = null, $autoEnable = false) : \ilLTIPlatform
+    {
+        $platform = new ilLTIPlatform($dataConnector);
+        $platform->initialize();
+        $platform->setKey($key);
+        ilLoggerFactory::getLogger('ltis')->debug('Loading with key: ' . $platform->getKey());
+        $dataConnector->loadPlatform($platform);
+        $dataConnector->loadGlobalToolConsumerSettings($platform);
+        return $platform;
+    }
+
+    /**
      * Load the platform from the database by its record ID.
      * @param int        $id            The platform record ID
      * @param ilLTIDataConnector $dataConnector Database connection object
@@ -275,9 +294,11 @@ class ilLTIPlatform extends ToolProvider\Platform
     {
 //        $platform = new static($dataConnector);
         $platform = new ilLTIPlatform($dataConnector);
+        $platform->initialize();
         $platform->setRecordId((int) $id);
         ilLoggerFactory::getLogger('ltis')->info('Loading with record id: ' . $platform->getRecordId());
         $dataConnector->loadPlatform($platform);
+        $dataConnector->loadGlobalToolConsumerSettings($platform);
         return $platform;
     }
 
@@ -289,9 +310,9 @@ class ilLTIPlatform extends ToolProvider\Platform
     public static function fromExternalConsumerId(int $id, ilLTIDataConnector $dataConnector) : \ilLTIPlatform
     {
         $platform = new ilLTIPlatform($dataConnector);
-        $platform->setRecordId((int) $id);
-        $dataConnector->loadPlatform($platform);
-//        $platform->initialize();
+        //$platform->setRecordId((int) $id);
+        //$dataConnector->loadPlatform($platform);
+        $platform->initialize();
         $platform->setExtConsumerId($id);
         if (!$dataConnector->loadGlobalToolConsumerSettings($platform)) {
             $platform->initialize();

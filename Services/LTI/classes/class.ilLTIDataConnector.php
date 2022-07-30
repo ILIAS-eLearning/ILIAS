@@ -61,7 +61,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             'platform_id, client_id, deployment_id, public_key, ' .
             'lti_version, signature_method, consumer_name, consumer_version, consumer_guid, ' .
             'profile, tool_proxy, settings, protected, enabled, ' .
-            'enable_from, enable_until, last_access, created, updated ' .
+            'enable_from, enable_until, last_access, created, updated, ext_consumer_id ' .
             'FROM lti2_consumer WHERE ';
         if (!is_null($id)) {
             $query .= 'consumer_pk = %s';
@@ -143,6 +143,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $platform->created = strtotime($row->created);
             $platform->updated = strtotime($row->updated);
             //ILIAS specific
+            $platform->setExtConsumerId(intval($row->ext_consumer_id));
             // if ($platform->setTitle) $platform->setTitle($row->title);
             // if ($platform->setDescription) $platform->setDescription($row->description);
             // if ($platform->setPrefix) $platform->setPrefix($row->prefix);
@@ -156,30 +157,30 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return $ok;
     }
     #######
-    /**
-     * Load tool consumer settings
-     * @param ilLTIPlatform $platform
-     * @return bool
-     */
-    public function loadObjectToolConsumerSettings(ilLTIPlatform $platform) : bool
-    {
-        $this->loadGlobalToolConsumerSettings($platform);
-
-        $ilDB = $this->database;
-
-        $query = 'SELECT * from lti2_consumer where id = ' . $ilDB->quote($platform->getExtConsumerId(), 'integer');
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $platform->setTitle($row->title);
-            $platform->setDescription($row->description);
-            $platform->setPrefix($row->prefix);
-            $platform->setLanguage($row->user_language);
-            $platform->setRole($row->role);
-            $platform->setActive($row->active);
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * Load tool consumer settings
+//     * @param ilLTIPlatform $platform
+//     * @return bool
+//     */
+//    public function loadObjectToolConsumerSettings(ilLTIPlatform $platform) : bool
+//    {
+//        $this->loadGlobalToolConsumerSettings($platform);
+//
+//        $ilDB = $this->database;
+//
+//        $query = 'SELECT * from lti2_consumer where id = ' . $ilDB->quote($platform->getExtConsumerId(), 'integer');
+//        $res = $ilDB->query($query);
+//        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+//            $platform->setTitle($row->title);
+//            $platform->setDescription($row->description);
+//            $platform->setPrefix($row->prefix);
+//            $platform->setLanguage($row->user_language);
+//            $platform->setRole($row->role);
+//            $platform->setActive((bool) $row->active);
+//            return true;
+//        }
+//        return false;
+//    }
 
     /**
      * Load global tool consumer settings in consumer

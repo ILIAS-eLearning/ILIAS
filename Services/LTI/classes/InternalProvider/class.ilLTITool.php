@@ -184,6 +184,9 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
         }
         $this->dataConnector = $dataConnector;
 //        parent::__construct($dataConnector);
+        $this->setParameterConstraint('resource_link_id', true, 50, array('basic-lti-launch-request'));
+        $this->setParameterConstraint('user_id', true, 50, array('basic-lti-launch-request'));
+        $this->setParameterConstraint('roles', true, null, array('basic-lti-launch-request'));
     }
 
     /**
@@ -274,24 +277,24 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     ###    PROTECTED METHODS
     ###
 
-//    /**
-//     * Process a valid launch request
-//     */
-//    protected function onLaunch() : void
-//    {
-//        // save/update current user
-//        if ($this->user instanceof User) {
-//            $this->user->save();
-//        }
-//
-//        if ($this->context instanceof Context) {
-//            $this->context->save();
-//        }
-//
-//        if ($this->resourceLink instanceof ResourceLink) {
-//            $this->resourceLink->save();
-//        }
-//    }
+    /**
+     * Process a valid launch request
+     */
+    protected function onLaunch() : void
+    {
+        // save/update current user
+        if ($this->user instanceof User) {
+            $this->user->save();
+        }
+
+        if ($this->context instanceof Context) {
+            $this->context->save();
+        }
+
+        if ($this->resourceLink instanceof ResourceLink) {
+            $this->resourceLink->save();
+        }
+    }
 
 //    /**
 //     * Process a valid content-item request
