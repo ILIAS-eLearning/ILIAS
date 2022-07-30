@@ -2701,8 +2701,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
             $info->addProperty($this->lng->txt("title"), $this->object->getTitle());
         }
-        if (!$this->object->getOfflineStatus() && $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig())) {
-            if ((!$this->object->getFixedParticipants() || false) && $ilAccess->checkAccess("read", "", $this->ref_id)) {
+        if (!$this->object->getOfflineStatus() &&
+            $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig())) {
+            if ($ilAccess->checkAccess("read", "", $this->ref_id)) {
                 if ($this->object->getShowInfo() || !$this->object->getForceJS()) {
                     // use javascript
                     $checked_javascript = false;
