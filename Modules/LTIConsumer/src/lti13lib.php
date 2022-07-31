@@ -57,6 +57,9 @@ class lti13lib
         return '';
     }
 
+    /**
+     * @return array<string, null>|array<string, string>
+     */
     public function getPrivateKey() : array
     {
         $privatekey = $this->setting->get(self::LTI_1_3_PRIVATE_KEY);
@@ -67,6 +70,9 @@ class lti13lib
         ];
     }
 
+    /**
+     * @return array<string, array<int, array<string, mixed>>>
+     */
     public function getJwks() : array
     {
         $jwks = ['keys' => []];
@@ -157,7 +163,7 @@ class lti13lib
         return '';
     }
 
-    public function signatureFromDER($der, $keySize) : string
+    public function signatureFromDER(string $der, $keySize) : string
     {
         // OpenSSL returns the ECDSA signatures as a binary ASN.1 DER SEQUENCE
         list($offset, $_) = self::readDER($der);
@@ -185,7 +191,7 @@ class lti13lib
      * @param string $nonce    Nonce value to use
      * @return array|null
      */
-    public function LTISignJWT(array $parms, string $endPoint, string $oAuthConsumerKey, $typeId = 0, string $nonce = '') : ?array
+    public function LTISignJWT(array $parms, string $endPoint, string $oAuthConsumerKey, $typeId = 0, string $nonce = '') : array
     {
         if (empty($typeId)) {
             $typeId = 0;

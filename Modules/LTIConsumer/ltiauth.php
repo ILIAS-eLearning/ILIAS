@@ -17,7 +17,6 @@
 
 /** @noRector */
 chdir("../../");
-require_once("libs/composer/vendor/autoload.php");
 ilInitialisation::initILIAS();
 
 /**
