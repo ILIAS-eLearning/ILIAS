@@ -1,17 +1,20 @@
 <?php declare(strict_types=1);
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * SCORM Resource
 *
@@ -25,7 +28,7 @@ class ilSCORMResource extends ilSCORMObject
     public string $import_id;
     public string $resourcetype;
     public ?string $scormtype = null;
-    public ?string $href;
+    public ?string $href = null;
     public ?string $xml_base = null;
     public array $files;
     public array $dependencies;
@@ -97,6 +100,9 @@ class ilSCORMResource extends ilSCORMObject
         $this->files[] = &$a_file_obj;
     }
 
+    /**
+                 * @return mixed[]
+                 */
     public function &getFiles() : array
     {
         return $this->files;
@@ -107,6 +113,9 @@ class ilSCORMResource extends ilSCORMObject
         $this->dependencies[] = &$a_dependency;
     }
 
+    /**
+                 * @return mixed[]
+                 */
     public function &getDependencies() : array
     {
         return $this->dependencies;

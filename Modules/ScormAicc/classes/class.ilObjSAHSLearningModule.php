@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 //require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 /** @defgroup ModulesScormAicc Modules/ScormAicc
  */
@@ -51,7 +54,7 @@ class ilObjSAHSLearningModule extends ilObject
     private int $open_mode;
     private int $width;
     private int $height;
-    private ?int $mastery_score;
+    private ?int $mastery_score = null;
     private int $id_setting;
     private int $name_setting;
     private string $sub_type;
@@ -70,7 +73,7 @@ class ilObjSAHSLearningModule extends ilObject
     * @param	integer	reference_id or object_id
     * @param	boolean	treat the id as reference_id (true) or object_id (false)
     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "sahs";
         parent::__construct($a_id, $a_call_by_reference);
