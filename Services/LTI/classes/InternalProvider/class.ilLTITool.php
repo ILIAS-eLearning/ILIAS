@@ -283,8 +283,8 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     protected function onLaunch() : void
     {
         // save/update current user
-        if ($this->user instanceof User) {
-            $this->user->save();
+        if ($this->userResult instanceof User) {
+            $this->userResult->save();
         }
 
         if ($this->context instanceof Context) {

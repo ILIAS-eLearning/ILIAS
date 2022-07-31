@@ -796,7 +796,7 @@ if (!class_exists('OAuthServer')) {
         /**
          * figure out the signature with some defaults
          * @param OAuthRequest $request
-         * @return string|object
+         * @return object
          * @throws OAuthException
          */
         private function getSignatureMethod(OAuthRequest $request) : object
@@ -823,7 +823,6 @@ if (!class_exists('OAuthServer')) {
                 implode(", ", array_keys($this->signature_methods))
                 );
             }
-//            die($signature_method.var_dump($this->signature_methods));
             return $this->signature_methods[$signature_method];
         }
 

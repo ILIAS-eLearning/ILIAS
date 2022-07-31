@@ -129,8 +129,13 @@ class ilLTIViewGUI
     public function initGUI() : void
     {
         $this->log->debug("initGUI");
-        $baseclass = strtolower($this->wrapper->query()->retrieve('baseClass', $this->kindlyTo->string()));
-        $cmdclass = strtolower($this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()));
+        $baseclass = '';
+        if ($this->wrapper->query()->has('baseClass')) {
+            $baseclass = strtolower($this->wrapper->query()->retrieve('baseClass', $this->kindlyTo->string()));
+        }
+        if ($this->wrapper->query()->has('cmdClass')) {
+            $cmdclass = strtolower($this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()));
+        }
         if ($baseclass == 'illtiroutergui') {
             return;
         }
@@ -425,7 +430,7 @@ class ilLTIViewGUI
         } else {
             parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
         }
-        if ((int) $query['ref_id']) {
+        if (isset($query['ref_id']) && (int) $query['ref_id']) {
             $this->effectiveRefId = (int) $query['ref_id'];
             return;
         }

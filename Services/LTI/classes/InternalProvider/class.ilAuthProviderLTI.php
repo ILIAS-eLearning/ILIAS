@@ -422,6 +422,43 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $newUser["profile_incomplete"] = 0;
 
         // ILIAS 8
+        //check
+        $newUser["gender"] = null;
+        $newUser["title"] = null;
+        $newUser["birthday"] = null;
+        $newUser["institution"] = null;
+        $newUser["department"] = null;
+        $newUser["street"] = null;
+        $newUser["city"] = null;
+        $newUser["zipcode"] = null;
+        $newUser["country"] = null;
+        $newUser["sel_country"] = null;
+        $newUser["phone_office"] = null;
+        $newUser["phone_home"] = null;
+        $newUser["phone_mobile"] = null;
+        $newUser["fax"] = null;
+        $newUser["matriculation"] = null;
+        $newUser["second_email"] = null;
+        $newUser["hobby"] = null;
+        $newUser["client_ip"] = null;
+        $newUser["passwd_salt"] = null;//$newUser->getPasswordSalt();
+        $newUser["latitude"] = null;
+        $newUser["longitude"] = null;
+        $newUser["loc_zoom"] = null;
+        $newUser["last_login"] = null;
+        $newUser["first_login"] = null;
+        $newUser["last_profile_prompt"] = null;
+        $newUser["last_update"] = ilUtil::now();
+        $newUser["create_date"] = ilUtil::now();
+        $newUser["referral_comment"] = null;
+        $newUser["approve_date"] = null;
+        $newUser["agree_date"] = null;
+        $newUser["inactivation_date"] = null;
+        $newUser["time_limit_from"] = null;
+        $newUser["time_limit_until"] = null;
+        $newUser["is_self_registered"] = null;
+        //end to check
+
         $newUser["passwd_enc_type"] = "";
         $newUser["active"] = true;
         $newUser["time_limit_owner"] = 7;
