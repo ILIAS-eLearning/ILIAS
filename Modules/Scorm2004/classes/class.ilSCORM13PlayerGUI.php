@@ -1,19 +1,22 @@
 <?php /** @noinspection ForgottenDebugOutputInspection */
 declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * @version $Id$
@@ -1175,6 +1178,9 @@ class ilSCORM13PlayerGUI
         return $result;
     }
 
+    /**
+     * @return mixed[]|string[]
+     */
     public function quoteJSONArray(?array $a_array) : array
     {
         global $DIC;
@@ -1326,7 +1332,9 @@ class ilSCORM13PlayerGUI
     }
 
     //debug extentions
-
+    /**
+     * @return mixed[]
+     */
     private function getNodeData(int $sco_id) : array
     {
         global $DIC;
@@ -1679,6 +1687,9 @@ class ilSCORM13PlayerGUI
         return new ilTemplate("tpl.scorm2004.debugtxt.txt", true, true, "Modules/Scorm2004");
     }
 
+    /**
+     * @return mixed[]
+     */
     private function getDebugValues(?bool $test_sco = false) : array
     {
         global $DIC;

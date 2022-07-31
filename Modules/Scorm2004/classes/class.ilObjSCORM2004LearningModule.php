@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjSCORM2004LearningModule
@@ -305,9 +319,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     public function deleteTrackingDataOfUsers(array $a_users) : void
     {
         $ilDB = $this->db;
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-        include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
         ilChangeEvent::_deleteReadEventsForUsers($this->getId(), $a_users);
 
         foreach ($a_users as $user) {
@@ -318,8 +329,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 
     /**
-    * get all tracked items of current user
-    */
+     * get all tracked items of current user
+     * @return array<int, array<string, mixed>>
+     */
     public function getTrackedItems() : array
     {
         $ilUser = $this->user;
@@ -349,6 +361,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     /**
      * @throws ilDateTimeException
+     * @return array<int|string, mixed[]>
      */
     public function getTrackingDataAgg(int $a_user_id, ?bool $raw = false) : array
     {
@@ -462,10 +475,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        include_once("./Services/Tracking/classes/class.ilLPStatus.php");
         $scos = array();
-        //get all SCO's of this object ONLY RELEVANT!
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -595,7 +605,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             // ilLPMarks::_deleteForUsers($this->getId(), $usersToDelete);
             $this->deleteTrackingDataOfUsers($usersToDelete);
         }
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->getId(), $users);
 
         return true;
@@ -654,7 +663,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         if ($bErr) {
             return 0;
         }
-        return $aV[0] * 3155760000 + $aV[1] * 262980000 + $aV[2] * 8640000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
+        return $aV[0] * 3_155_760_000 + $aV[1] * 262_980_000 + $aV[2] * 8_640_000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
     }
 
     public static function getQuantityOfSCOs(int $a_slm_id) : int
@@ -775,6 +784,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
      * get all tracking items of scorm object
      * currently a for learning progress only
+     * @return array<int, array<string, mixed>>
      */
     public static function _getTrackingItems(int $a_obj_id) : array
     {
@@ -961,6 +971,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return ($set == 1) ? $max : null;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function _getScores2004ForUser(int $a_cp_node_id, int $a_user) : array
     {
         global $DIC;

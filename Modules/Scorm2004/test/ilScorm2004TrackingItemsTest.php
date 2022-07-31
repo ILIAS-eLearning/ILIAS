@@ -1,9 +1,4 @@
 <?php declare(strict_types=1);
-
-require_once __DIR__ . '/ilScorm2004BaseTestCase.php';
-require_once dirname(__DIR__, 1) . '/classes/class.ilSCORM2004TrackingItems.php';
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
  * Class ilScorm2004TrackingItemsTest
  * @author Uwe Kohnle <support@internetlehrer-gmbh.de>
