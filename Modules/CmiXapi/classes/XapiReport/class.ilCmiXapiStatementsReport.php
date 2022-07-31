@@ -57,7 +57,7 @@ class ilCmiXapiStatementsReport
         
         $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
         
-        if (count($responseBody) > 0) {
+        if (is_array($responseBody) && count($responseBody) > 0) {
             $this->response = current($responseBody);
             $this->statements = $this->response['statements'];
             $this->maxCount = $this->response['maxcount'];

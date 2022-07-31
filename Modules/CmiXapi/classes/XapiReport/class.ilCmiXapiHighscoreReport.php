@@ -44,7 +44,7 @@ class ilCmiXapiHighscoreReport
         $this->objId = $objId;
         $responseBody = json_decode($responseBody, true);
         
-        if (count($responseBody)) {
+        if (is_array($responseBody) && count($responseBody)) {
             $this->response = $responseBody;
         } else {
             $this->response = array();

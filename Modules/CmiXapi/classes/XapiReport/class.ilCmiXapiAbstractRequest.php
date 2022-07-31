@@ -57,7 +57,7 @@ abstract class ilCmiXapiAbstractRequest
             $promises['default'] = $client->sendAsync($request, $req_opts);
             $responses = GuzzleHttp\Promise\settle($promises)->wait();
             self::checkResponse($responses['default'], $body);
-            return $body;
+            return (string) $body;
         } catch (Exception $e) {
             ilObjCmiXapi::log()->error($e->getMessage());
             throw new Exception("LRS Connection Problems", $e->getCode(), $e);
