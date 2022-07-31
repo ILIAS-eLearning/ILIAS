@@ -16821,3 +16821,93 @@ rbac#:#cld_visible#:#Cloud Object is visible###29 07 2022 new variable
 rbac#:#cld_write#:#User can edit cloud object settings###29 07 2022 new variable
 rbac#:#rbac_create_cld#:#Create Cloud Object###29 07 2022 new variable
 wsp#:#search_no_match#:#Your search did not match any results.###29 07 2022 new variable
+lti#:#lti_obj_version#:#LTI Version
+lti#:#lti_obj_version_11#:#Version 1.1
+lti#:#lti_obj_version_13#:#Version 1.3
+lti#:#lti_13_step1#:#Schritt 1
+lti#:#lti_13_step1_info#:#Tragen Sie bei der initierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
+lti#:#lti_13_step2#:#Schritt 2
+lti#:#lti_13_step2_info#:#Von der initierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
+lti#:#lti_13_platform_id#:#Plattform-ID
+lti#:#lti_13_client_id#:#Client-ID
+lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_con_prov_instructor_email#:#E-Mail von Lehrenden
+lti#:#lti_con_prov_instructor_email_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende die E-Mail-Adresse übertragen werden. Dazu müssen sie Kurs- oder GruppenadministratorInnen sein.
+lti#:#lti_con_prov_instructor_name#:#Name von Lehrenden
+lti#:#lti_con_prov_instructor_name_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende der Name übertragen werden.
+lti#:#lti_con_version#:#LTI Version
+lti#:#lti_con_version_1.1#:#Version 1.1
+lti#:#lti_con_version_1.3#:#Version 1.3
+lti#:#lti_con_tool_url#:#Login URL
+lti#:#lti_con_initiate_login_url#:#Initiate Login URL
+lti#:#lti_con_redirection_uris#:#Redirection URI
+lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
+lti#:#lti_con_key_type_rsa#:#RSA-Schlüssel
+lti#:#lti_con_key_type_rsa_public_key#:#Öffentlicher Schlüssel
+lti#:#lti_con_key_type_rsa_public_key_info#:#Tragen Sie den vom Tool (Provider) bereitgestellten Schlüssel im PEM-Format hier ein.
+lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
+lti#:#lti_con_key_type_jwk_url#:#URL
+lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
+lti#:#lti_con_content_item_url#:#Inhalts-URL
+lti#:#lti13_hints#:#Hinweise
+lti#:#conf_privacy_ident#:#Benutzeridentifikation
+lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Benutzernamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
+lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
+lti#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+lti#:#conf_privacy_name#:#Benutzername
+lti#:#conf_privacy_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+lti#:#conf_privacy_name_none#:#Keiner
+lti#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
+lti#:#conf_privacy_name_firstname#:#Vorname
+lti#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen.
+lti#:#conf_privacy_name_lastname#:#Titel und Nachname
+lti#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
+lti#:#conf_privacy_name_fullname#:#Vollständiger Name
+lti#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
+cmix#:#conf_privacy_ident#:#Benutzeridentifikation
+cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Benutzernamen. Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
+cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+cmix#:#conf_privacy_name#:#Benutzername
+cmix#:#conf_privacy_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+cmix#:#conf_privacy_name_none#:#Keiner
+cmix#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
+cmix#:#conf_privacy_name_firstname#:#Vorname
+cmix#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen
+cmix#:#conf_privacy_name_lastname#:#Titel und Nachname
+cmix#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
+cmix#:#conf_privacy_name_fullname#:#Vollständiger Name
+cmix#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
+cmix#:#conf_launch_mode_normal_info#:#Daten bezogen auf den Lernerfolg sollen erfasst werden.
+cmix#:#conf_launch_mode_browse_info#:#Diese Option soll es dem Benutzer ermöglichen, sich ohne Bewertung "umzusehen".
+cmix#:#conf_launch_mode_review_info#:#Diese Option soll es dem Benutzer ermöglichen, bereits abgeschlossenes Material "erneut zu besuchen / zu überprüfen".
+trac#:#trac_mode_cmix_completed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_compl_with_failed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_passed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_passed_with_failed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_completed_or_passed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_completed_info#:#&nbsp;
+trac#:#trac_mode_cmix_compl_with_failed_info#:#&nbsp;
+trac#:#trac_mode_cmix_passed_info#:#&nbsp;
+trac#:#trac_mode_cmix_passed_with_failed_info#:#&nbsp;
+trac#:#trac_mode_cmix_completed_or_passed_info#:#&nbsp;
+trac#:#trac_mode_cmix_compl_or_passed_with_failed_info#:#&nbsp;
