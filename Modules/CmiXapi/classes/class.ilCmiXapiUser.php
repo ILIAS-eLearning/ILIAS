@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilCmiXapiUser
  *
@@ -63,7 +66,7 @@ class ilCmiXapiUser
         }
     }
     
-    public function getObjId() : int
+    public function getObjId() : ?int
     {
         return $this->objId;
     }
@@ -73,7 +76,7 @@ class ilCmiXapiUser
         $this->objId = $objId;
     }
     
-    public function getPrivacyIdent() : int
+    public function getPrivacyIdent() : ?int
     {
         return $this->privacyIdent;
     }
@@ -83,7 +86,7 @@ class ilCmiXapiUser
         $this->privacyIdent = $privacyIdent;
     }
 
-    public function getUsrId() : int
+    public function getUsrId() : ?int
     {
         return $this->usrId;
     }
@@ -113,7 +116,7 @@ class ilCmiXapiUser
         $this->registration = $registration;
     }
 
-    public static function getIliasUuid() : string
+    public static function getIliasUuid() : ?string
     {
         $setting = new ilSetting('cmix');
         // Fallback
@@ -419,6 +422,9 @@ class ilCmiXapiUser
         return false;
     }
 
+    /**
+     * @return int[]
+     */
     public static function getCmixObjectsHavingUsersMissingProxySuccess() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -453,6 +459,9 @@ class ilCmiXapiUser
         $DIC->database()->manipulateF($query, array('timestamp'), array($fetchedUntil->get(IL_CAL_DATETIME)));
     }
 
+    /**
+     * @return int[]
+     */
     public static function lookupObjectIds(int $usrId, string $type = '') : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

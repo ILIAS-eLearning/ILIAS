@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilLPStatusLTIConsumerAbstract
  *
@@ -50,7 +53,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    protected function ensureObject(int $objId, ?ilObject $object = null)
+    protected function ensureObject(int $objId, ?ilObject $object = null) : ?\ilObject
     {
         if (!($object instanceof ilObjCmiXapi)) {
             $object = ilObjectFactory::getInstanceByObjId($objId);
@@ -81,6 +84,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
         );
     }
 
+    /**
+     * @return mixed[]
+     */
     public static function _getCompleted(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
@@ -100,6 +106,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
         );
     }
     
+    /**
+     * @return mixed[]
+     */
     private static function getUserIdsByLpStatusNum(int $objId, int $lpStatusNum) : array
     {
         $statusInfo = self::_getStatusInfo($objId);
