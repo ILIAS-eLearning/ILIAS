@@ -1,14 +1,4 @@
 <?php
-namespace ILIAS\LTI\ToolProvider;
-
-use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
-use ILIAS\LTI\ToolProvider\Content\Item;
-use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
-use ILIAS\LTIOAuth;
-use ILIAS\LTI\ToolProvider\Jwt\Jwt;
-use ILIAS\LTI\ToolProvider\Jwt\ClientInterface;
-use ILIAS\LTI\ToolProvider\Tool;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -22,6 +12,16 @@ use ILIAS\LTI\ToolProvider\Tool;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+namespace ILIAS\LTI\ToolProvider;
+
+use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
+use ILIAS\LTI\ToolProvider\Content\Item;
+use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
+use ILIAS\LTIOAuth;
+use ILIAS\LTI\ToolProvider\Jwt\Jwt;
+use ILIAS\LTI\ToolProvider\Jwt\ClientInterface;
+use ILIAS\LTI\ToolProvider\Tool;
+
 trait System
 {
 
@@ -194,7 +194,7 @@ trait System
      *
      * @var array $settings
      */
-    private ?array $settings = null;
+    private array $settings = []; //changed by UK from $settings = null
 
     /**
      * Whether the settings value have changed since last saved.

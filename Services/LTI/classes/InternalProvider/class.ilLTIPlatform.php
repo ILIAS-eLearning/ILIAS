@@ -1,13 +1,4 @@
 <?php declare(strict_types=1);
-
-use ILIAS\LTI\ToolProvider;
-//use ILIAS\LTI\ToolProvider\Platform;
-//use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
-use ILIAS\LTI\ToolProvider\Service;
-use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
-//use ILIAS\LTIOAuth;
-use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -21,6 +12,15 @@ use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use ILIAS\LTI\ToolProvider;
+//use ILIAS\LTI\ToolProvider\Platform;
+//use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
+use ILIAS\LTI\ToolProvider\Service;
+use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
+//use ILIAS\LTIOAuth;
+use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
+
 /**
  * LTI provider for LTI launch
  *
@@ -209,8 +209,7 @@ class ilLTIPlatform extends ToolProvider\Platform
     {
         return $this->secret;
     }
-    
-    
+
     /**
      * Create a secret
      */
@@ -335,10 +334,9 @@ class ilLTIPlatform extends ToolProvider\Platform
         $toolConsumer->setRefId($a_ref_id);
         
         $consumer_pk = $a_data_connector->lookupRecordIdByGlobalSettingsAndRefId($toolConsumer);
-        if ($consumer_pk) {
-            return self::fromRecordId($consumer_pk, $a_data_connector);
+        if ($consumer_pk != null) {
+            $toolConsumer = self::fromRecordId($consumer_pk, $a_data_connector);
         }
-        $toolConsumer->initialize();
         return $toolConsumer;
     }
 

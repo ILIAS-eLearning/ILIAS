@@ -127,4 +127,9 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addPrimaryKey("lti2_access_token", array("consumer_pk"));
         }
     }
+
+    public function step_9() : void
+    {
+        $this->db->modifyTableColumn("lti2_consumer", "settings", array("type" => "clob", "notnull" => false));
+    }
 }
