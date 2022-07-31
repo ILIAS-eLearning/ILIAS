@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 // namespace ILIAS\LTI\Tool\DataConnector;
 
 use ILIAS\LTI\ToolProvider;
@@ -16,15 +32,6 @@ use ILIAS\LTI\ToolProvider\Util;
 //UK: added
 use \ILIAS\LTI\ToolProvider\AccessToken;
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
 class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 {
     private ?\ilLogger $logger = null;
@@ -61,7 +68,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             'platform_id, client_id, deployment_id, public_key, ' .
             'lti_version, signature_method, consumer_name, consumer_version, consumer_guid, ' .
             'profile, tool_proxy, settings, protected, enabled, ' .
-            'enable_from, enable_until, last_access, created, updated, ext_consumer_id ' .
+            'enable_from, enable_until, last_access, created, updated, ext_consumer_id, ref_id ' .
             'FROM lti2_consumer WHERE ';
         if (!is_null($id)) {
             $query .= 'consumer_pk = %s';
@@ -144,6 +151,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $platform->updated = strtotime($row->updated);
             //ILIAS specific
             $platform->setExtConsumerId(intval($row->ext_consumer_id));
+            $platform->setRefId((int) $row->ref_id);
             // if ($platform->setTitle) $platform->setTitle($row->title);
             // if ($platform->setDescription) $platform->setDescription($row->description);
             // if ($platform->setPrefix) $platform->setPrefix($row->prefix);
@@ -1712,17 +1720,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $this->logger->error((string) $e);
         }
         return $ok;
-
-        // $query = "DELETE FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-        // 'WHERE (user_pk = %d)',
-        // $user->getRecordId());
-        // $ok = mysql_query($sql);
-
-        // if ($ok) {
-        // $user->initialize();
-        // }
-
-        // return $ok;
     }
 
     /**

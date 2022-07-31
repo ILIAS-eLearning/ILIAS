@@ -1,19 +1,23 @@
 <?php declare(strict_types=1);
-use ILIAS\LTI\Screen\LtiViewLayoutProvider;
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\LTI\Screen\LtiViewLayoutProvider;
+
 /**
  * @classDescription class for ILIAS ViewLTI
  *
@@ -321,7 +325,11 @@ class ilLTIViewGUI
             $force_ilias_logout = true;
         }
         $post_data = $this->getPostData();
-        $return_url = ($post_data !== null) ? $post_data['launch_presentation_return_url'] : '';
+        //$return_url = ($post_data !== null) ? $post_data['launch_presentation_return_url'] : '';
+        $return_url = '';
+        if (isset($post_data['launch_presentation_return_url'])) {
+            $return_url = $post_data['launch_presentation_return_url'];
+        }
         $this->removeContextFromSession((string) $context_id);
 
         if (ilSession::has('lti_' . $context_id . '_post_data')) {
@@ -438,7 +446,9 @@ class ilLTIViewGUI
             $target_arr = explode('_', ilSession::get('lti_init_target'));
             ilSession::set('lti_init_target', "");
         } else {
-            $target_arr = explode('_', (string) $query['target']);
+            if (isset($query['target'])) {
+                $target_arr = explode('_', (string) $query['target']);
+            }
         }
         if (isset($target_arr[1]) and (int) $target_arr[1]) {
             $this->effectiveRefId = (int) $target_arr[1];

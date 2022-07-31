@@ -1,17 +1,20 @@
 <?php declare(strict_types=1);
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\LTI\ToolProvider;
 //use ILIAS\LTI\ToolProvider\Platform;
@@ -266,13 +269,12 @@ class ilLTIPlatform extends ToolProvider\Platform
 
     /**
      * Load the platform from the database by its consumer key.
-     *
-     * @param string          $key             Consumer key
-     * @param ilLTIDataConnector   $dataConnector   A data connector object
-     * @param bool            $autoEnable      true if the platform is to be enabled automatically (optional, default is false)
+     * @param string             $key           Consumer key
+     * @param ilLTIDataConnector $dataConnector A data connector object
+     * @param bool               $autoEnable    true if the platform is to be enabled automatically (optional, default is false)
      * @return \ilLTIPlatform Platform       The platform object
      */
-    public static function fromConsumerKey(?string $key = null, $dataConnector = null, $autoEnable = false) : \ilLTIPlatform
+    public static function fromConsumerKey(?string $key = null, $dataConnector = null, bool $autoEnable = false) : \ilLTIPlatform
     {
         $platform = new ilLTIPlatform($dataConnector);
         $platform->initialize();
