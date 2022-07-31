@@ -231,29 +231,16 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         } else {
             $this->getLogger()->debug('LTI authentication success');
         }
-        // if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen
-
-        // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
-//        $consumer = new ilLTIPlatform(
-        ////            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
-//            $this->dataConnector
-//        );
-
 
         /**
          * @var ilLTIPlatform
          */
         //LTI 1.1
+        // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
         $consumer = ilLTIPlatform::fromConsumerKey(
             $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
             $this->dataConnector
         );
-//         $consumer = ilLTIPlatform::fromRecordId(
-//            $consumer->getRecordId(),
-//            $this->dataConnector
-//        );
-//        die($consumer->getKey().'--'.$consumer->getSecret().'---'.$consumer->getExtConsumerId().'--'.$consumer->enabled.'--'.$consumer->getActive());
-
         $this->ref_id = $consumer->getRefId();
         // stores ref_ids of all lti consumer within active LTI User Session
         $lti_context_ids = ilSession::get('lti_context_ids');
@@ -423,7 +410,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         // ILIAS 8
         //check
-        $newUser["gender"] = null;
+        $newUser["gender"] = 'n';
         $newUser["title"] = null;
         $newUser["birthday"] = null;
         $newUser["institution"] = null;
