@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSCORM2004StoreData
@@ -102,8 +116,6 @@ class ilSCORM2004StoreData
         if ($ilObjDataCache instanceof ilObjectDataCache) {
             return;
         }
-
-        require_once './Services/Object/classes/class.ilObjectDataCache.php';
         $ilObjDataCache = new ilObjectDataCache();
         $GLOBALS['DIC']['ilObjDataCache'] = $ilObjDataCache;
     }
@@ -173,6 +185,9 @@ class ilSCORM2004StoreData
         }
     }
 
+    /**
+     * @return mixed[]
+     */
     public static function setCMIData(
         int $userId,
         int $packageId,
@@ -413,7 +428,9 @@ class ilSCORM2004StoreData
 
     //saves global_objectives to database
     //$dowrite only if changed adl_seq_utilities
-
+    /**
+     * @return mixed[]|null[]
+     */
     public static function writeGObjective(int $user, int $package, ?array $g_data) : array
     {
         global $DIC;

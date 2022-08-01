@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -168,7 +167,7 @@ class ilObjPollGUI extends ilObject2GUI
         $a_values["voting_period"]["end"] = $this->object->getVotingPeriodEnd()
             ? new ilDateTime($this->object->getVotingPeriodEnd(), IL_CAL_UNIX)
             : null;
-        $a_values["sort"] = $this->object->getSortResultByVotes();
+        $a_values["sort"] = (string) (int) $this->object->getSortResultByVotes();
         $a_values["comment"] = $this->object->getShowComments();
         $a_values["show_results_as"] = $this->object->getShowResultsAs();
     }

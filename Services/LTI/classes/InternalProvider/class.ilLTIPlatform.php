@@ -109,7 +109,7 @@ class ilLTIPlatform extends ToolProvider\Platform
     /**
      * Initialise the platform.
      */
-    public function initialize()
+    public function initialize() : void
     {
         $this->id = null;
         $this->key = null;

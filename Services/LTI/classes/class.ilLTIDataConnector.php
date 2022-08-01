@@ -17,7 +17,6 @@
  *********************************************************************/
 
 // namespace ILIAS\LTI\Tool\DataConnector;
-
 use ILIAS\LTI\ToolProvider;
 use ILIAS\LTI\ToolProvider\PlatformNonce;
 use ILIAS\LTI\ToolProvider\Context;

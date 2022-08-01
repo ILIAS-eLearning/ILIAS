@@ -1,20 +1,23 @@
 <?php declare(strict_types=1);
 
-use ILIAS\Filesystem\Exception\IOException;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Filesystem\Exception\IOException;
+
 /**
  * Class ilLTIConsumeProvider
  *
@@ -332,6 +335,9 @@ class ilLTIConsumeProvider
         $this->providerIconUploadInput = $providerIconUploadInput;
     }
     
+    /**
+     * @return array<int|string, mixed>
+     */
     public static function getCategoriesSelectOptions() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -586,6 +592,9 @@ class ilLTIConsumeProvider
         $this->custom_params = $custom_params;
     }
     
+    /**
+     * @return string[]
+     */
     public function getKeywordsArray() : array
     {
         $keywords = [];
@@ -897,6 +906,9 @@ class ilLTIConsumeProvider
         $DIC->database()->insert('lti_ext_provider', $this->getInsertUpdateFields());
     }
     
+    /**
+     * @return array<string, array<bool|float|int|string>>
+     */
     protected function getInsertUpdateFields() : array
     {
         return array(

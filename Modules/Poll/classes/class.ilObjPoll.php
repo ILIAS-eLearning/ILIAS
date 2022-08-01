@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
 * Class ilObjPoll
@@ -308,7 +307,7 @@ class ilObjPoll extends ilObject2
             // #14661
             $this->notes->domain()->activateComments($this->getId(), $this->getShowComments());
             
-            if ($this->ref_id) {
+            if ($this->getRefId()) {
                 $activation = new ilObjectActivation();
                 $activation->setTimingType($this->getAccessType());
                 $activation->setTimingStart($this->getAccessBegin());
