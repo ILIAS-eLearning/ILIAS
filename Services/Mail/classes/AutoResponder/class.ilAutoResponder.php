@@ -17,6 +17,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Mail\AutoResponder;
 
+use DateTimeImmutable;
+use DateInterval;
+
 class ilAutoResponder
 {
     private int $sender_id;

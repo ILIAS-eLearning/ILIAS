@@ -17,6 +17,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Mail\AutoResponder;
 
+use ilObjUser;
+use DateTimeImmutable;
+use DateInterval;
+use ilFormatMail;
+use ilMailOptions;
+
 class ilAutoResponderServiceImpl implements ilAutoResponderService
 {
     protected bool $auto_responder_status;

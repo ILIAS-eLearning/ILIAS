@@ -1,6 +1,9 @@
 <?php
 declare(strict_types=1);
 
+use ILIAS\Services\Mail\AutoResponder\ilAutoResponderService;
+use ILIAS\Services\Mail\AutoResponder\ilAutoResponderServiceImpl;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
