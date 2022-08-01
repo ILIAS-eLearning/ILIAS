@@ -501,11 +501,10 @@ class ilMailTest extends ilMailBaseTest
     public function testGetIliasMailerName(): void
     {
         $expected = 'Phasellus lacus';
-        $mockSystem = $this->getMockBuilder(ilMailMimeSenderSystem::class)->disableOriginalConstructor()->getMock();
-        $mockSystem->expects(self::once())->method('getFromName')->willReturn($expected);
-        $mockFactory = $this->getMockBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getMock();
-        $mockFactory->expects(self::once())->method('system')->willReturn($mockSystem);
-        $this->setGlobalVariable('mail.mime.sender.factory', $mockFactory);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        $settings->method('get')->with('mail_system_sys_from_name')->willReturn($expected);
+        $this->setGlobalVariable('ilSetting', $settings);
+
 
         $this->assertSame($expected, ilMail::_getIliasMailerName());
     }
@@ -567,7 +566,7 @@ class ilMailTest extends ilMailBaseTest
             static function (string $login): int {
                 return 780;
             },
-            $this->getMockBuilder(ilAutoResponderServiceImpl::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(AutoResponderServiceImpl::class)->disableOriginalConstructor()->getMock(),
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );
