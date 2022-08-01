@@ -1,7 +1,22 @@
 <?php declare(strict_types=1);
 
-// namespace ILIAS\LTI\Tool\DataConnector;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+// namespace ILIAS\LTI\Tool\DataConnector;
 use ILIAS\LTI\ToolProvider;
 use ILIAS\LTI\ToolProvider\PlatformNonce;
 use ILIAS\LTI\ToolProvider\Context;
@@ -16,15 +31,6 @@ use ILIAS\LTI\ToolProvider\Util;
 //UK: added
 use \ILIAS\LTI\ToolProvider\AccessToken;
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
 class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 {
     private ?\ilLogger $logger = null;
@@ -61,7 +67,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             'platform_id, client_id, deployment_id, public_key, ' .
             'lti_version, signature_method, consumer_name, consumer_version, consumer_guid, ' .
             'profile, tool_proxy, settings, protected, enabled, ' .
-            'enable_from, enable_until, last_access, created, updated ' .
+            'enable_from, enable_until, last_access, created, updated, ext_consumer_id, ref_id ' .
             'FROM lti2_consumer WHERE ';
         if (!is_null($id)) {
             $query .= 'consumer_pk = %s';
@@ -105,7 +111,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         while ($row = $this->database->fetchObject($res)) {
             $platform->setRecordId(intval($row->consumer_pk));
             $platform->name = $row->name;
-            $platform->setkey($row->consumer_key);
+            $platform->setkey((string) $row->consumer_key);
             $platform->secret = $row->secret;
             $platform->platformId = $row->platform_id;
             $platform->clientId = $row->client_id;
@@ -143,6 +149,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $platform->created = strtotime($row->created);
             $platform->updated = strtotime($row->updated);
             //ILIAS specific
+            $platform->setExtConsumerId(intval($row->ext_consumer_id));
+            $platform->setRefId((int) $row->ref_id);
             // if ($platform->setTitle) $platform->setTitle($row->title);
             // if ($platform->setDescription) $platform->setDescription($row->description);
             // if ($platform->setPrefix) $platform->setPrefix($row->prefix);
@@ -156,30 +164,30 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return $ok;
     }
     #######
-    /**
-     * Load tool consumer settings
-     * @param ilLTIPlatform $platform
-     * @return bool
-     */
-    public function loadObjectToolConsumerSettings(ilLTIPlatform $platform) : bool
-    {
-        $this->loadGlobalToolConsumerSettings($platform);
-
-        $ilDB = $this->database;
-
-        $query = 'SELECT * from lti2_consumer where id = ' . $ilDB->quote($platform->getExtConsumerId(), 'integer');
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $platform->setTitle($row->title);
-            $platform->setDescription($row->description);
-            $platform->setPrefix($row->prefix);
-            $platform->setLanguage($row->user_language);
-            $platform->setRole($row->role);
-            $platform->setActive($row->active);
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * Load tool consumer settings
+//     * @param ilLTIPlatform $platform
+//     * @return bool
+//     */
+//    public function loadObjectToolConsumerSettings(ilLTIPlatform $platform) : bool
+//    {
+//        $this->loadGlobalToolConsumerSettings($platform);
+//
+//        $ilDB = $this->database;
+//
+//        $query = 'SELECT * from lti2_consumer where id = ' . $ilDB->quote($platform->getExtConsumerId(), 'integer');
+//        $res = $ilDB->query($query);
+//        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+//            $platform->setTitle($row->title);
+//            $platform->setDescription($row->description);
+//            $platform->setPrefix($row->prefix);
+//            $platform->setLanguage($row->user_language);
+//            $platform->setRole($row->role);
+//            $platform->setActive((bool) $row->active);
+//            return true;
+//        }
+//        return false;
+//    }
 
     /**
      * Load global tool consumer settings in consumer
@@ -511,10 +519,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $protected = ($platform->protected) ? 1 : 0;
         $enabled = ($platform->enabled) ? 1 : 0;
         $profile = (!empty($platform->profile)) ? json_encode($platform->profile) : null;
-        $settingsValue = '{}';
-//        $this->fixPlatformSettings($platform, true);
-//        $settingsValue = json_encode($platform->getSettings());
-//        $this->fixPlatformSettings($platform, false);
+//        $settingsValue = '{}';
+        $this->fixPlatformSettings($platform, true);
+        $settingsValue = json_encode($platform->getSettings());
+        $this->fixPlatformSettings($platform, false);
         $time = time();
         $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
         $from = null;
@@ -536,16 +544,12 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $id = $platform->getRecordId();
             $platform->created = $time;
             $platform->updated = $time;
-//            if ($key == null) {
-            if ($key == '') {
-                $key = $id . ToolProvider\Util::getRandomString(10);
-            }
 
             // $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
             $query = 'INSERT INTO lti2_consumer (consumer_key, name, ' .
                 'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
-                'enable_from, enable_until, last_access, created, updated, consumer_pk,ext_consumer_id,ref_id) ' .
-                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
+                'enable_from, enable_until, last_access, created, updated, consumer_pk, ext_consumer_id, ref_id, platform_id, client_id, deployment_id, public_key) ' .
+                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
             $types = array("text",
                            "text",
                            "text",
@@ -565,7 +569,11 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                            "timestamp",
                            "integer",
                            'integer',
-                           'integer'
+                           'integer',
+                           "text",
+                           "text",
+                           "text",
+                           "text"
             );
             $values = array($key,
                             $platform->name,
@@ -586,7 +594,11 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $now,
                             $id,
                             $platform->getExtConsumerId(),
-                            $platform->getRefId()
+                            $platform->getRefId(),
+                            (string) $platform->platformId,
+                            $platform->clientId,
+                            $platform->deploymentId,
+                            $platform->rsaKey
             );
             $ilDB->manipulateF($query, $types, $values);
         } else {
@@ -596,7 +608,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 'consumer_key = %s, name = %s, ' .
                 'secret= %s, lti_version = %s, consumer_name = %s, consumer_version = %s, consumer_guid = %s, ' .
                 'profile = %s, tool_proxy = %s, settings = %s, protected = %s, enabled = %s, ' .
-                'enable_from = %s, enable_until = %s, last_access = %s, updated = %s ' .
+                'enable_from = %s, enable_until = %s, last_access = %s, updated = %s, ' .
+                'platform_id = %s, client_id = %s, deployment_id = %s, public_key = %s ' .
                 'WHERE consumer_pk = %s';
             $types = array("text",
                            "text",
@@ -614,6 +627,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                            "timestamp",
                            "timestamp",
                            "timestamp",
+                           "text",
+                           "text",
+                           "text",
+                           "text",
                            "integer"
             );
             $values = array($key,
@@ -632,6 +649,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $until,
                             $last,
                             $now,
+                            $platform->platformId,
+                            $platform->clientId,
+                            $platform->deploymentId,
+                            $platform->rsaKey,
                             $id
             );
             $ilDB->manipulateF($query, $types, $values);
@@ -965,16 +986,17 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         $time = time();
         $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
-        $settingsValue = serialize($context->getSettings());
+        //old: $settingsValue = serialize($context->getSettings());
+        $settingsValue = json_encode($context->getSettings());
         $id = $context->getRecordId();
         $platform_pk = $context->getPlatform()->getRecordId();
         if (empty($id)) {
             $context->setRecordId($ilDB->nextId(ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME));
             $id = $context->getRecordId();
             $context->created = $time;
-
-            $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' (context_pk, consumer_pk, lti_context_id, ' .
-                'settings, created, updated) ' .
+            //Check remove context_pk, add type
+            $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME .
+                ' (context_pk, consumer_pk, lti_context_id, settings, created, updated) ' .
                 'VALUES (%s, %s, %s, %s, %s, %s)';
             $types = array("integer", "integer", "text", "text", "timestamp", "timestamp");
             $values = array($id, $platform_pk, $context->ltiContextId, $settingsValue, $now, $now);
@@ -1697,17 +1719,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $this->logger->error((string) $e);
         }
         return $ok;
-
-        // $query = "DELETE FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-        // 'WHERE (user_pk = %d)',
-        // $user->getRecordId());
-        // $ok = mysql_query($sql);
-
-        // if ($ok) {
-        // $user->initialize();
-        // }
-
-        // return $ok;
     }
 
     /**

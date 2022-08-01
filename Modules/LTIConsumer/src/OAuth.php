@@ -166,7 +166,7 @@ if (!class_exists('OAuthSignatureMethod')) {
  * character (ASCII code 38) even if empty.
  *   - Chapter 9.2 ("HMAC-SHA1")
  */
-if (!class_exists('OAuthSignatureMethod_HMAC_SHA1')) {
+//if (!class_exists('OAuthSignatureMethod_HMAC_SHA1')) {
     class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
     {
         public function get_name() : string
@@ -195,7 +195,7 @@ if (!class_exists('OAuthSignatureMethod_HMAC_SHA1')) {
             return base64_encode(hash_hmac('sha1', $base_string, $key, true));
         }
     }
-}
+//}
 /**
  * The PLAINTEXT method does not provide any security protection and SHOULD only be used
  * over a secure channel such as HTTPS. It does not use the Signature Base String.
@@ -796,10 +796,10 @@ if (!class_exists('OAuthServer')) {
         /**
          * figure out the signature with some defaults
          * @param OAuthRequest $request
-         * @return string
+         * @return object
          * @throws OAuthException
          */
-        private function getSignatureMethod(OAuthRequest $request) : string
+        private function getSignatureMethod(OAuthRequest $request) : object
         {
             $signature_method = $request->get_parameter("oauth_signature_method");
 
@@ -882,18 +882,20 @@ if (!class_exists('OAuthServer')) {
         private function checkSignature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token = null) : void
         {
             // this should probably be in a different method
-            $timestamp = $request->get_parameter('oauth_timestamp');
+            $timestamp = (int) $request->get_parameter('oauth_timestamp');
             $nonce = $request->get_parameter('oauth_nonce');
 
             $this->checkTimestamp($timestamp);
             $this->checkNonce($consumer, $token, $nonce, $timestamp);
 
-            $signature_method = 'OAuthSignatureMethod_' . $this->getSignatureMethod($request);
-            /** @psalm-suppress InvalidStringClass */
+//            $signature_method = 'OAuthSignatureMethod_' . $this->getSignatureMethod($request);
+            $signature_method = $this->getSignatureMethod($request); //check UK
+                /** @psalm-suppress InvalidStringClass */
             $method = new $signature_method;
 
             $signature = $request->get_parameter('oauth_signature');
-            $valid_sig = $method->checkSignature(
+//            $valid_sig = $method->checkSignature( //check UK
+            $valid_sig = $method->check_signature(
                 $request,
                 $consumer,
                 $token,

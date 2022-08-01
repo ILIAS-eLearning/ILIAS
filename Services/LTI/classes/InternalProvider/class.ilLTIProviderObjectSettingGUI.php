@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * GUI class for LTI provider object settings.
  *
@@ -174,75 +177,12 @@ class ilLTIProviderObjectSettingGUI
                 $this->ref_id,
                 $connector
             );
-            
             $active = new ilCheckboxInputGUI($this->lng->txt('lti_obj_active'), 'lti_active_' . $global_consumer->getExtConsumerId());
             $active->setInfo($this->lng->txt('lti_obj_active_info'));
-            $active->setValue("1");
-            $form->addItem($active);
-
-            $version = new ilRadioGroupInputGUI($this->lng->txt('lti_obj_version'), 'version');
-            $version->setRequired(true);
-            $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), ILIAS\LTI\ToolProvider\Util::LTI_VERSION1);
-            $version->addOption($op0);
-            $op1 = new ilRadioOption($this->lng->txt("lti_obj_version_13"), ILIAS\LTI\ToolProvider\Util::LTI_VERSION1P3);
-            $version->addOption($op1);
-            if (!is_null($active_consumer->ltiVersion)) {
-                $version->setValue($active_consumer->ltiVersion);
-            }
-            $version->setInfo($this->lng->txt('lti_obj_version_info'));
-            $form->addItem($version);
-
-
+            $active->setValue("1");//check
             if ($active_consumer->getEnabled()) { // and enabled
                 $active->setChecked(true);
             }
-            $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
-            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
-            $op0->addSubItem($url);
-
-//                if ($active_consumer->ltiVersion == ILIAS\LTI\ToolProvider\Util::LTI_VERSION1) {
-            $key = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_key'), 'key');
-            if (is_null($active_consumer->getKey())) {
-                $active_consumer->setKey(\ILIAS\LTI\ToolProvider\Util::getRandomString(10));//create $id .
-            }
-            $key->setValue($active_consumer->getKey());
-            $op0->addSubItem($key);
-
-            $secret = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_secret'), 'secret');
-            if (is_null($active_consumer->getSecret())) {
-                $active_consumer->createSecret();
-            }
-            $secret->setValue($active_consumer->getSecret());
-            $op0->addSubItem($secret);
-//                }
-//                } else {
-            $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step1'), '');
-            $sh->setValue($this->lng->txt("lti_13_step1_info"));
-            $op1->addSubItem($sh);
-            $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
-            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
-            $op1->addSubItem($url);
-//                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_initiate_url'), 'url');
-//                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
-//                    $version->addSubItem($url);
-//                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_redirection_url'), 'url');
-//                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
-//                    $active->addSubItem($url);
-            $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step2'), '');
-            $sh->setValue($this->lng->txt("lti_13_step2_info"));
-            $op1->addSubItem($sh);
-            $tf = new ilTextInputGUI($this->lng->txt('lti_13_platform_id'), 'platform_id');
-            $tf->setValue($active_consumer->platformId);
-            $op1->addSubItem($tf);
-            $tf = new ilTextInputGUI($this->lng->txt('lti_13_client_id'), 'client_id');
-            $tf->setValue($active_consumer->platformId);
-            $op1->addSubItem($tf);
-            $tf = new ilTextInputGUI($this->lng->txt('lti_13_deployment_id'), 'deployment_id');
-            $tf->setValue($active_consumer->platformId);
-            $op1->addSubItem($tf);
-
-//            }
-            
             if ($this->custom_roles) {
                 $admin = new ilSelectInputGUI(
                     $this->lng->txt('lti_admin'),
@@ -268,6 +208,60 @@ class ilLTIProviderObjectSettingGUI
                 $member->setValue($object_info->getMemberRole() ? $object_info->getMemberRole() : 0);
                 $active->addSubItem($member);
             }
+            $form->addItem($active);
+
+            $version = new ilRadioGroupInputGUI($this->lng->txt('lti_obj_version'), 'version_' . $global_consumer->getExtConsumerId());
+            $version->setRequired(true);
+            if (!is_null($active_consumer->ltiVersion)) {
+                $version->setValue($active_consumer->ltiVersion);
+            }
+//            $version->setInfo($this->lng->txt('lti_obj_version_info'));
+            $op1 = new ilRadioOption($this->lng->txt("lti_obj_version_13"), ILIAS\LTI\ToolProvider\Util::LTI_VERSION1P3);
+            $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step1'), '');
+            $sh->setValue($this->lng->txt("lti_13_step1_info"));
+            $op1->addSubItem($sh);
+            $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
+            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+            $op1->addSubItem($url);
+//                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_initiate_url'), 'url');
+//                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+//                    $version->addSubItem($url);
+//                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_redirection_url'), 'url');
+//                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+//                    $active->addSubItem($url);
+            $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step2'), '');
+            $sh->setValue($this->lng->txt("lti_13_step2_info"));
+            $op1->addSubItem($sh);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_platform_id'), 'platform_id_' . $global_consumer->getExtConsumerId());
+            $tf->setValue($active_consumer->platformId);
+            $op1->addSubItem($tf);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_client_id'), 'client_id_' . $global_consumer->getExtConsumerId());
+            $tf->setValue($active_consumer->clientId);
+            $op1->addSubItem($tf);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_deployment_id'), 'deployment_id_' . $global_consumer->getExtConsumerId());
+            $tf->setValue($active_consumer->deploymentId);
+            $op1->addSubItem($tf);
+            $version->addOption($op1);
+
+            $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), ILIAS\LTI\ToolProvider\Util::LTI_VERSION1);
+            $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
+            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+            $op0->addSubItem($url);
+            $key = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_key'), 'key_' . $global_consumer->getExtConsumerId());
+            if (is_null($active_consumer->getKey())) {
+                $active_consumer->setKey(\ILIAS\LTI\ToolProvider\Util::getRandomString(10));//create $id .
+            }
+            $key->setValue($active_consumer->getKey());
+            $op0->addSubItem($key);
+            $secret = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_secret'), 'secret_' . $global_consumer->getExtConsumerId());
+            if (is_null($active_consumer->getSecret())) {
+                $active_consumer->createSecret();
+            }
+            $secret->setValue($active_consumer->getSecret());
+            $op0->addSubItem($secret);
+            $version->addOption($op0);
+
+            $active->addSubItem($version);
         }
         
         $form->addCommandButton('updateSettings', $this->lng->txt('save'));
@@ -296,23 +290,36 @@ class ilLTIProviderObjectSettingGUI
                 $connector
             );
             if (!$form->getInput('lti_active_' . $global_consumer->getExtConsumerId())) {
-                // not active anymore => delete consumer
+                // not active anymore
                 if ($consumer->getEnabled()) {
                     $this->logger->info('Deleting lti consumer for object reference: ' . $this->ref_id);
-                    $consumer->delete();
-                }
-            } else {
-                // new activation
-                if (!$consumer->getEnabled()) {
-                    $consumer->ltiVersion = $form->getInput('version');
-                    $this->logger->info('Created new lti release for: ' . $this->ref_id);
-                    $consumer->setExtConsumerId($global_consumer->getExtConsumerId());
-                    $consumer->createSecret();
-                    $consumer->setKey('');
-                    $consumer->setRefId($this->ref_id);
-                    $consumer->setEnabled(true);
+                    $consumer->setEnabled(false);
                     $consumer->saveLTI($connector);
                 }
+            } else {
+                $consumer->ltiVersion = $form->getInput('version_' . $global_consumer->getExtConsumerId());
+                $this->logger->info('Created new lti release for: ' . $this->ref_id);
+                $consumer->setExtConsumerId($global_consumer->getExtConsumerId());
+                $consumer->setKey((string) $form->getInput('key_' . $global_consumer->getExtConsumerId()));
+                $consumer->setSecret((string) $form->getInput('secret_' . $global_consumer->getExtConsumerId()));
+                $consumer->setRefId($this->ref_id);
+                $consumer->setEnabled(true);
+                if ($form->getInput('platform_id_' . $global_consumer->getExtConsumerId())) {
+                    $consumer->platformId = (string) $form->getInput('platform_id_' . $global_consumer->getExtConsumerId());
+                } else {
+                    $consumer->platformId = null;
+                }
+                if ($form->getInput('client_id_' . $global_consumer->getExtConsumerId())) {
+                    $consumer->clientId = $form->getInput('client_id_' . $global_consumer->getExtConsumerId());
+                } else {
+                    $consumer->clientId = null;
+                }
+                if ($form->getInput('deployment_id_' . $global_consumer->getExtConsumerId())) {
+                    $consumer->deploymentId = $form->getInput('deployment_id_' . $global_consumer->getExtConsumerId());
+                } else {
+                    $consumer->deploymentId = null;
+                }
+                $consumer->saveLTI($connector);
             }
         }
         
@@ -343,8 +350,7 @@ class ilLTIProviderObjectSettingGUI
         }
         $object_info->save();
     }
-    
-    
+
     /**
      * Get role selection
      * @return string[]

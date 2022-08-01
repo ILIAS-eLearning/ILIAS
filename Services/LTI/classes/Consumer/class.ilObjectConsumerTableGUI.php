@@ -1,17 +1,20 @@
 <?php declare(strict_types=1);
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * TableGUI class for LTI consumer listing
  *
@@ -105,8 +108,8 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
         $this->tpl->setVariable("TXT_PREFIX", $a_set["prefix"]);
-        $this->tpl->setVariable("TXT_KEY", $a_set["key"]);
-        $this->tpl->setVariable("TXT_SECRET", $a_set["secret"]);
+//        $this->tpl->setVariable("TXT_KEY", $a_set["key"]);
+//        $this->tpl->setVariable("TXT_SECRET", $a_set["secret"]);
         $this->tpl->setVariable("TXT_LANGUAGE", $a_set["language"]);
         $obj_types = ilObjLTIAdministration::getActiveObjectTypes($a_set["id"]);
         if ($obj_types) {
