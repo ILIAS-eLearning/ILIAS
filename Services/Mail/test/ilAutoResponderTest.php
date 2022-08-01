@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use ILIAS\Services\Mail\AutoResponder\ilAutoResponder;
+use ILIAS\Services\Mail\AutoResponder\AutoResponder;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,9 +32,9 @@ class ilAutoResponderTest extends ilMailBaseTest
     }
 
 
-    private function create(int $sender_id = 0, int $receiver_id = 0, DateTimeImmutable $sender_time = null) : ilAutoResponder
+    private function create(int $sender_id = 0, int $receiver_id = 0, DateTimeImmutable $sender_time = null) : AutoResponder
     {
-        return new ilAutoResponder($sender_id, $receiver_id, $sender_time ?? new DateTimeImmutable('NOW'));
+        return new AutoResponder($sender_id, $receiver_id, $sender_time ?? new DateTimeImmutable('NOW'));
     }
 
     public function getAutoResponderData() : Generator

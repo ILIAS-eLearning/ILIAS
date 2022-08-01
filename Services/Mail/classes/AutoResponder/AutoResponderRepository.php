@@ -19,13 +19,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Mail\AutoResponder;
 
-interface ilAutoResponderRepository
+interface AutoResponderRepository
 {
     public function findBySenderId(int $sender_id) : array;
     public function findByReceiverId(int $receiver_id) : array;
-    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : ?ilAutoResponder;
-    public function read(ilAutoResponder $auto_responder) : ilAutoResponder;
-    public function store(ilAutoResponder $auto_responder) : void;
-    public function delete(ilAutoResponder $auto_responder) : void;
+    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : ?AutoResponder;
+    public function read(AutoResponder $auto_responder) : AutoResponder;
+    public function store(AutoResponder $auto_responder) : void;
+    public function delete(AutoResponder $auto_responder) : void;
     public function deleteBySenderId(int $sender_id) : void;
 }

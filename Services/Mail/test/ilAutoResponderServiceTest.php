@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use ILIAS\Services\Mail\AutoResponder\ilAutoResponderService;
-use ILIAS\Services\Mail\AutoResponder\ilAutoResponderServiceImpl;
+use ILIAS\Services\Mail\AutoResponder\AutoResponderService;
+use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,10 +21,10 @@ use ILIAS\Services\Mail\AutoResponder\ilAutoResponderServiceImpl;
  *********************************************************************/
 class ilAutoResponderServiceTest extends ilMailBaseTest
 {
-    private function create() : ilAutoResponderService
+    private function create() : AutoResponderService
     {
         $this->setGlobalVariable('ilDB', null);
-        return new ilAutoResponderServiceImpl();
+        return new AutoResponderServiceImpl();
     }
 
     public function testExample() : void

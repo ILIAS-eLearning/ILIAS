@@ -21,7 +21,7 @@ namespace ILIAS\Services\Mail\AutoResponder;
 
 use ilMailOptions;
 
-interface ilAutoResponderService
+interface AutoResponderService
 {
     public function isAutoResponderEnabled() : bool;
     public function enableAutoResponder() : void;
