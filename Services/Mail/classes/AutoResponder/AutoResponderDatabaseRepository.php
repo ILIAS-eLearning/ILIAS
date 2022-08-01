@@ -23,7 +23,7 @@ use ilDBInterface;
 use DateTimeImmutable;
 use DateTimeZone;
 
-class AutoResponderDatabaseRepository implements ilAutoResponderRepository
+class AutoResponderDatabaseRepository implements AutoResponderRepository
 {
     public const TABLE_NAME = 'auto_responder';
 
@@ -34,24 +34,24 @@ class AutoResponderDatabaseRepository implements ilAutoResponderRepository
         $this->db = $db;
     }
 
-    public function findBySenderId(int $sender_id) : array
+    public function findBySenderId(int $sender_id) : AutoResponderArrayCollection
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote($sender_id, 'integer');
 
         $result = $this->db->query($query);
 
-        $auto_responder_results = [];
+        $auto_responder_results = new AutoResponderArrayCollection();
         while ($row = $this->db->fetchAssoc($result)) {
-            $auto_responder_results[] = new AutoResponder(
+            $auto_responder_results->add(new AutoResponder(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
                 new DateTimeImmutable($row['send_time'], new DateTimeZone(date_default_timezone_get()))
-            );
+            ));
         }
         return $auto_responder_results;
     }
 
-    public function findByReceiverId(int $receiver_id) : array
+    public function findByReceiverId(int $receiver_id) : AutoResponderArrayCollection
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE receiver_id = " . $this->db->quote(
             $receiver_id,
@@ -60,20 +60,15 @@ class AutoResponderDatabaseRepository implements ilAutoResponderRepository
 
         $result = $this->db->query($query);
 
-        $auto_responder_results = [];
+        $auto_responder_results = new AutoResponderArrayCollection();
         while ($row = $this->db->fetchAssoc($result)) {
-            $auto_responder_results[] = new AutoResponder(
+            $auto_responder_results->add(new AutoResponder(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
                 new DateTimeImmutable($row['send_time'], new DateTimeZone(date_default_timezone_get()))
-            );
+            ));
         }
         return $auto_responder_results;
-    }
-
-    public function read(AutoResponder $auto_responder) : AutoResponder
-    {
-        return $this->findBySenderIdAndReceiverId($auto_responder->getSenderId(), $auto_responder->getReceiverId());
     }
 
     public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : ?AutoResponder

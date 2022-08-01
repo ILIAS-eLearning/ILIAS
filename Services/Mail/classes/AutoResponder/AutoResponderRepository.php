@@ -21,10 +21,9 @@ namespace ILIAS\Services\Mail\AutoResponder;
 
 interface AutoResponderRepository
 {
-    public function findBySenderId(int $sender_id) : array;
-    public function findByReceiverId(int $receiver_id) : array;
+    public function findBySenderId(int $sender_id) : AutoResponderCollection;
+    public function findByReceiverId(int $receiver_id) : AutoResponderCollection;
     public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : ?AutoResponder;
-    public function read(AutoResponder $auto_responder) : AutoResponder;
     public function store(AutoResponder $auto_responder) : void;
     public function delete(AutoResponder $auto_responder) : void;
     public function deleteBySenderId(int $sender_id) : void;
