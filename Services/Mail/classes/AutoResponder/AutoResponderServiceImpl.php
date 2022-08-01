@@ -30,6 +30,7 @@ use ILIAS\Data\Factory as DataFactory;
 class AutoResponderServiceImpl implements AutoResponderService
 {
     protected bool $auto_responder_status;
+    /** @var ilMailOptions[] $auto_responder_data */
     protected array $auto_responder_data;
     protected int $global_idle_time_interval;
     /** @var callable  */

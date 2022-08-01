@@ -18,6 +18,26 @@
 
 namespace ILIAS\Services\Mail\AutoResponder;
 
-class AutoResponderCollection {
+use InvalidArgumentException;
 
+interface AutoResponderCollection
+{
+    public function add(AutoResponder $element) : void;
+    /** @throws InvalidArgumentException */
+    public function remove($key) : void;
+    /** @throws InvalidArgumentException */
+    public function removeElement($element) : void;
+    public function containsKey($key) : bool;
+    public function getKey($element) : int;
+    public function clear() : void;
+    public function contains($element) : bool;
+    public function get($key);
+    public function set($key, $value) : void;
+    public function isEmpty() : bool;
+    public function getKeys() : array;
+    public function getValues() : array;
+    public function filter(callable $callable) : self;
+    public function slice(int $offset, int $length = null) : self;
+    public function toArray() : array;
+    public function equals($other) : bool;
 }

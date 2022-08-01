@@ -98,7 +98,7 @@ class ilMail
         $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
         $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
         $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
-        $this->senderFactory = $senderFactory ?? $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        $this->senderFactory = $senderFactory ?? $DIC->mail()->mime()->senderFactory();
         $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login): int {
             return (int) ilObjUser::_lookupId($login);
         };
@@ -1368,8 +1368,8 @@ class ilMail
 
     public static function _getIliasMailerName(): string
     {
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        global $DIC;
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
 
         return $senderFactory->system()->getFromName();
     }
