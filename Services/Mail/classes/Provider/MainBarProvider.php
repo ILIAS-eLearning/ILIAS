@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\Provider;
+namespace ILIAS\Services\Mail\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -24,10 +24,10 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMailGlobalServices;
 
 /**
- * Class MailMainBarProvider
+ * Class MainBarProvider
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MailMainBarProvider extends AbstractStaticMainMenuProvider
+class MainBarProvider extends AbstractStaticMainMenuProvider
 {
     public function getStaticTopItems() : array
     {
