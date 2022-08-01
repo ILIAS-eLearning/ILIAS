@@ -404,8 +404,10 @@ class ilObject
         ;
 
         $res = $db->query($sql);
-        $row = $db->fetchObject($res);
-        return $row->import_id;
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (string) $row->import_id;
+        }
+        return '';
     }
 
     final public function getOwner() : int
