@@ -314,7 +314,7 @@ class ilSearchResult
     {
         $res = array();
         foreach ($this->getResults() as $row) {
-            $res[$row['obj_id']] = $row['child'];
+            $res[$row['obj_id']] = $row['child'] ?? [];
         }
         return $res;
     }

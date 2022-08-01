@@ -216,8 +216,6 @@ class ilUserSearchOptions
     public static function __appendUserDefinedFields(array $fields, int $counter) : array
     {
         $user_defined_fields = ilUserDefinedFields::_getInstance();
-
-        $fields = [];
         foreach ($user_defined_fields->getSearchableDefinitions() as $definition) {
             $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($definition['field_values']);
             $fields[$counter]['lang'] = $definition['field_name'];
