@@ -1,6 +1,19 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSCORM2004TrackingItems
@@ -29,6 +42,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $this->lng = $DIC->language();
     }
 
+    /**
+     * @return array<int|string, mixed>
+     */
     public function scoTitlesForExportSelected(int $obj_id) : array
     {
         $ilDB = $this->db;
@@ -79,6 +95,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
+    /**
+     * @return array<int, mixed[]>
+     */
     public function exportSelectedCore(
         array $a_user,
         array $a_sco,
@@ -366,6 +385,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function exportObjGlobalToSystemColumns() : array
     {
         global $DIC;
@@ -389,6 +411,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
+    /**
+     * @return array<int, mixed[]>
+     */
     public function exportObjGlobalToSystem(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle) : array
     {
         $ilDB = $this->db;
@@ -431,6 +456,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function tracInteractionItemColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
         global $DIC;
@@ -456,6 +484,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
+    /**
+     * @return array<int, mixed[]>
+     */
     public function tracInteractionItem(
         array $a_user,
         array $a_sco,
@@ -535,6 +566,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function tracInteractionUserColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
         global $DIC;
@@ -568,6 +602,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
+    /**
+     * @return array<int, mixed[]>
+     */
     public function tracInteractionUser(
         array $a_user,
         array $a_sco,
@@ -720,6 +757,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function tracInteractionUserAnswersColumns(
         array $a_user,
         array $a_sco,
@@ -797,6 +837,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
+    /**
+     * @return array<int, mixed[]>
+     */
     public function tracInteractionUserAnswers(
         array $a_user,
         array $a_sco,

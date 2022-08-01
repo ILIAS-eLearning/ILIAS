@@ -37,6 +37,10 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     private string $lmTitle = "";
     private string $report = "";
 
+    /**
+     * @param mixed[] $a_userSelected
+     * @param mixed[] $a_scosSelected
+     */
     public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, string $a_report)
     {
         global $DIC;
@@ -105,6 +109,9 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getSelectableColumns() : array
     {
         // default fields
