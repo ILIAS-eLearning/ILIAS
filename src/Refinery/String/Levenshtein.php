@@ -70,7 +70,7 @@ class Levenshtein implements Transformation
         // if the difference between string length is bigger than the maximum allowed levenshtein distance
         // the code can be skipped
         if (abs($str1Length - $str2Length) > $this->maximumDistance && $this->maximumDistance != 0){
-            return -1;
+            return -1.0;
         }
 
         $row = [];
@@ -92,7 +92,7 @@ class Levenshtein implements Transformation
             }
             // maximum distance reached
             if (min($row) > $this->maximumDistance && $this->maximumDistance != 0){
-                return -1;
+                return -1.0;
             }
             $matrix[$i + 1] = $row;
         }
