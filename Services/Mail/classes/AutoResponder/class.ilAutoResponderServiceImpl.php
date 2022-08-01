@@ -15,6 +15,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Services\Mail\AutoResponder;
+
 class ilAutoResponderServiceImpl implements ilAutoResponderService
 {
     protected bool $auto_responder_status;

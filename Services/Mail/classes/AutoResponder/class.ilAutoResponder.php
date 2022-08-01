@@ -15,6 +15,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Services\Mail\AutoResponder;
+
 class ilAutoResponder
 {
     private int $sender_id;
