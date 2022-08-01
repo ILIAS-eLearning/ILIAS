@@ -168,15 +168,32 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         $field_clone = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record_clone = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
-
+        
         if ($field_clone && $record_clone) {
             $record_field_clone = ilDclCache::getRecordFieldCache($record_clone, $field_clone);
-            $clone_reference = $record_field_clone->getValue();
-            $reference_record = ilDclCache::getCloneOf($clone_reference, ilDclCache::TYPE_RECORD);
-            if ($reference_record) {
-                $this->setValue($reference_record->getId()); // reference fields store the id of the reference's record as their value
-                $this->doUpdate();
+            $clone_references = $record_field_clone->getValue();
+            
+            if (is_array($clone_references)) {
+                $value = [];
+                foreach ($clone_references as $clone_reference) {
+                    if (!is_null($temp_value = $this->getCloneRecordId($clone_reference))) {
+                        $value[] = $temp_value;
+                    }
+                }
+            } elseif (!is_null($temp_value = $this->getCloneRecordId($clone_reference))) {
+                $value = $temp_value;
             }
+
+            $this->setValue($value, true); // reference fields store the id of the reference's record as their value
+            $this->doUpdate();
+        }
+    }
+    
+    protected function getCloneRecordId(string $clone_reference) : ?string
+    {
+        $reference_record = ilDclCache::getCloneOf($clone_reference, ilDclCache::TYPE_RECORD);
+        if ($reference_record) {
+            return (string) $reference_record->getId();
         }
     }
 }
