@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-    
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -114,8 +113,10 @@ class ilMemberAgreement
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return (int) $row->accepted === 1;
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->accepted === 1;
+        }
+        return false;
     }
 
     /**
