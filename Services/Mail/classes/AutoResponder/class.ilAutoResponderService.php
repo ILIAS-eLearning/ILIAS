@@ -17,6 +17,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Mail\AutoResponder;
 
+use ilMailOptions;
+
 interface ilAutoResponderService
 {
     public function isAutoResponderEnabled() : bool;
@@ -27,5 +29,4 @@ interface ilAutoResponderService
     public function getAutoResponderData(int $usr_id_key) : ?ilMailOptions;
     public function removeAutoResponderData(int $usr_id_key) : void;
     public function emptyAutoResponderData() : void;
-
 }

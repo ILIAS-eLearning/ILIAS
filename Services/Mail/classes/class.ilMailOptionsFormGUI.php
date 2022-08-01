@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Services\Mail\AutoResponder\ilAutoResponderDatabaseRepository;
+use ILIAS\Services\Mail\AutoResponder\ilAutoResponderRepository;
+
 /**
  * Class ilMailOptionsFormGUI
  */

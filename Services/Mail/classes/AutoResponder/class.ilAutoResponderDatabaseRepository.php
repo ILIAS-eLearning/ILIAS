@@ -17,6 +17,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Mail\AutoResponder;
 
+use ilDBInterface;
+use DateTimeImmutable;
+
 class ilAutoResponderDatabaseRepository implements ilAutoResponderRepository
 {
     public const TABLE_NAME = 'auto_responder';
