@@ -24,7 +24,6 @@ use ILIAS\LTI\ToolProvider\Platform;
 use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
 use ILIAS\LTI\ToolProvider\Util;
 
-
 /**
  * Class to implement a service
  *

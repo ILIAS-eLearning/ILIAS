@@ -21,7 +21,6 @@ namespace ILIAS\LTI\ToolProvider\MediaType;
 
 use ILIAS\LTI\ToolProvider\Tool;
 
-
 /**
  * Class to represent an LTI Security Contract document
  *
