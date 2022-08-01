@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\Provider;
+namespace ILIAS\Services\Mail\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
@@ -29,10 +29,10 @@ use Throwable;
 use ILIAS\UI\Component\Item\Notification;
 
 /**
- * Class MailNotificationProvider
+ * Class NotificationProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class MailNotificationProvider extends AbstractNotificationProvider
+class NotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
