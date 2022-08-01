@@ -27,14 +27,14 @@ use ilMailOptions;
 use ILIAS\Data\Clock\ClockInterface;
 use ILIAS\Data\Factory as DataFactory;
 
-class ilAutoResponderServiceImpl implements ilAutoResponderService
+class AutoResponderServiceImpl implements AutoResponderService
 {
     protected bool $auto_responder_status;
     protected array $auto_responder_data;
     protected int $global_idle_time_interval;
     /** @var callable  */
     protected $loginByUsrIdCallable;
-    protected ilAutoResponderRepository $auto_responder_repository;
+    protected AutoResponderRepository $auto_responder_repository;
     protected ClockInterface $clock;
 
     public function __construct(
@@ -42,7 +42,7 @@ class ilAutoResponderServiceImpl implements ilAutoResponderService
         int $global_idle_time_interval = null,
         bool $auto_responder_status = false,
         array $auto_responder_data = [],
-        ilAutoResponderRepository $auto_responder_repository = null,
+        AutoResponderRepository $auto_responder_repository = null,
         ClockInterface $clock = null
 
     ) {
@@ -53,7 +53,7 @@ class ilAutoResponderServiceImpl implements ilAutoResponderService
         };
         $this->auto_responder_status = $auto_responder_status;
         $this->auto_responder_data = $auto_responder_data;
-        $this->auto_responder_repository = $auto_responder_repository ?? new ilAutoResponderDatabaseRepository($DIC->database());
+        $this->auto_responder_repository = $auto_responder_repository ?? new AutoResponderDatabaseRepository($DIC->database());
         $this->clock = (new DataFactory())->clock()->utc();
     }
 
@@ -81,7 +81,7 @@ class ilAutoResponderServiceImpl implements ilAutoResponderService
                     $receiver_usr_id
                 );
                 if (!$auto_responder) {
-                    $auto_responder = new ilAutoResponder(
+                    $auto_responder = new AutoResponder(
                         $usr_id,
                         $receiver_usr_id,
                         $this->clock->now()->sub(new DateInterval('P' . $this->global_idle_time_interval . 'D'))

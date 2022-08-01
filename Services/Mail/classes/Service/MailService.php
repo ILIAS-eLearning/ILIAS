@@ -19,8 +19,11 @@
 namespace ILIAS\Services\Mail\Service;
 
 use ILIAS\DI\Container;
+use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
+use ILIAS\Services\Mail\AutoResponder\AutoResponderService;
+use ilMailTemplateService;
 
-class ilMimeMailService
+class MailService
 {
     protected Container $dic;
 
@@ -29,14 +32,19 @@ class ilMimeMailService
         $this->dic = $DIC;
     }
 
-    public function transportFactory() : \ilMailMimeTransportFactory
+    public function mime() : MimeMailService
     {
-        return new \ilMailMimeTransportFactory($this->dic->settings(), $this->dic->event());
+        return new MimeMailService($this->dic);
     }
 
-    public function senderFactory() : \ilMailMimeSenderFactory
+    public function autoresponder() : AutoResponderService
     {
-        return new \ilMailMimeSenderFactory($this->dic->settings());
+        return new AutoResponderServiceImpl();
+    }
+
+    public function textTemplatesService() : ilMailTemplateService
+    {
+        return new ilMailTemplateService(new \ilMailTemplateRepository($this->dic->database()));
     }
 
 }

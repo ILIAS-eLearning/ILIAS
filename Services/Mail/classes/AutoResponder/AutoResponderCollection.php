@@ -18,6 +18,6 @@
 
 namespace ILIAS\Services\Mail\AutoResponder;
 
-class ilAutoResponderCollection {
+class AutoResponderCollection {
 
 }
