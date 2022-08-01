@@ -611,7 +611,7 @@ class ilRepositorySearchGUI
         $class = $this->callback['class'];
         $method = $this->callback['method'];
 
-        $post_selected_command = (string) ($this->http->request()->getParsedBody()['selectedCommand'] ?? '');
+        $post_selected_command = (int) ($this->http->request()->getParsedBody()['selectedCommand'] ?? '');
         $post_user = (array) ($this->http->request()->getParsedBody()['user'] ?? []);
 
         // Redirects if everything is ok

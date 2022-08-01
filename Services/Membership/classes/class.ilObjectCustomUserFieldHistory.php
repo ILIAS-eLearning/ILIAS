@@ -91,7 +91,7 @@ class ilObjectCustomUserFieldHistory
             $this->db->quote($this->getUpdateUser(), 'integer') . ', ' .
             $this->db->quote(
                 $this->getEditingTime()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
-                ilDBConstants::T_INTEGER
+                ilDBConstants::T_TIMESTAMP
             ) . ' ' .
             ')';
         $this->db->manipulate($query);
