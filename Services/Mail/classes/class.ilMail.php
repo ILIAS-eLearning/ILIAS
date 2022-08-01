@@ -102,7 +102,7 @@ class ilMail
         $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login): int {
             return (int) ilObjUser::_lookupId($login);
         };
-        $this->auto_responder_service = $auto_responder_service ?? new ilAutoResponderServiceImpl();
+        $this->auto_responder_service = $auto_responder_service ?? $DIC->mail()->autoresponder();
         $this->user_id = $a_user_id;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();

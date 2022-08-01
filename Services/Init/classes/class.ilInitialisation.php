@@ -658,6 +658,7 @@ class ilInitialisation
         }
     }
 
+<<<<<<< HEAD
     protected static function initMail(\ILIAS\DI\Container $c): void
     {
         $c["mail.mime.transport.factory"] = static function (\ILIAS\DI\Container $c) {
@@ -672,6 +673,9 @@ class ilInitialisation
     }
 
     protected static function initCron(\ILIAS\DI\Container $c): void
+=======
+    protected static function initCron(\ILIAS\DI\Container $c) : void
+>>>>>>> new container service mail
     {
         $c['cron.repository'] = static function (\ILIAS\DI\Container $c): ilCronJobRepository {
             return new ilCronJobRepositoryImpl(
