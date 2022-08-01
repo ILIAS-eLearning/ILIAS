@@ -14,6 +14,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  ********************************************************************
  */
+
+namespace ILIAS\Services\Mail\AutoResponder;
+
 class ilAutoResponderDatabaseRepository implements ilAutoResponderRepository
 {
     public const TABLE_NAME = 'auto_responder';

@@ -15,6 +15,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Services\Mail\AutoResponder;
+
 interface ilAutoResponderRepository
 {
     public function findBySenderId(int $sender_id) : array;
