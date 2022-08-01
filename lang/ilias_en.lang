@@ -16821,3 +16821,93 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+lti#:#lti_obj_version_11#:#Version 1.1
+lti#:#lti_obj_version_13#:#Version 1.3
+lti#:#lti_obj_version#:#LTI Version
+lti#:#lti_13_client_id#:#Client-ID
+lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti13_hints#:#Hints
+lti#:#lti_13_platform_id#:#Platform-ID
+lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:
+lti#:#lti_13_step1#:#Step 1
+lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
+lti#:#lti_13_step2#:#Step 2
+lti#:#lti_con_prov_instructor_email_info#:#In difference to the previously selected settings, the e-mail address can be transferred for instructors. To do this, they must be course or group administrators.
+lti#:#lti_con_prov_instructor_email#:#Instructor E-Mail
+lti#:#lti_con_prov_instructor_name_info#:#In difference to the previously selected settings, the name can be transferred for instructors.
+lti#:#lti_con_prov_instructor_name#:#Instructor Name
+lti#:#lti_con_version_1.1#:#Version 1.1
+lti#:#lti_con_version_1.3#:#Version 1.3
+lti#:#lti_con_version#:#LTI Version
+lti#:#lti_con_tool_url#:#Login URL
+lti#:#lti_con_initiate_login_url#:#Initiate Login URL
+lti#:#lti_con_redirection_uris#:#Redirection URI
+lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
+lti#:#lti_con_key_type_jwk_url#:#URL
+lti#:#lti_con_key_type#:#Public Key Type
+lti#:#lti_con_key_type_rsa_public_key_info#:#Insert the key provided by the tool (provider) in PEM format here.
+lti#:#lti_con_key_type_rsa_public_key#:#Public Key
+lti#:#lti_con_key_type_rsa#:#RSA-Key
+lti#:#lti_con_content_item#:#Support for Deep Linking
+lti#:#lti_con_content_item_url#:#Content URL
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
+lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
+lti#:#conf_privacy_ident_real_email#:#E-Mail Address
+lti#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
+lti#:#conf_privacy_ident#:#User identification
+lti#:#conf_privacy_name_firstname#:#First name
+lti#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS
+lti#:#conf_privacy_name_fullname#:#Entire name
+lti#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name
+lti#:#conf_privacy_name_info#:#Sending an user name is usually not required.
+lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
+lti#:#conf_privacy_name_lastname#:#Title and last name
+lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name
+lti#:#conf_privacy_name_none#:#No one
+lti#:#conf_privacy_name#:#User name
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.
+cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
+cmix#:#conf_privacy_ident_info#:#Standard is frequently the E-Mail address. The unique ILIAS platform id is:
+cmix#:#conf_privacy_ident_real_email#:#E-Mail Address
+cmix#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
+cmix#:#conf_privacy_ident#:#User identification
+cmix#:#conf_privacy_name_firstname#:#First name
+cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS
+cmix#:#conf_privacy_name_fullname#:#Entire name
+cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name
+cmix#:#conf_privacy_name_info#:#Sending an user name is usually not required.
+cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
+cmix#:#conf_privacy_name_lastname#:#Title and last name
+cmix#:#conf_privacy_name_none_info#:#Sends '-' instead of a name
+cmix#:#conf_privacy_name_none#:#No one
+cmix#:#conf_privacy_name#:#User name
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_completed_info#:#&nbsp;
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_completed_or_passed_info#:#&nbsp;
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed_info#:#&nbsp;
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_compl_with_failed_info#:#&nbsp;
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_passed_info#:#&nbsp;
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_passed_with_failed_info#:#&nbsp;
