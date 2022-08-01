@@ -6339,7 +6339,7 @@ content#:#cont_footer#:#Fußzeile
 content#:#cont_footnote#:#Fußnote
 content#:#cont_force_all_open#:#Alle immer geöffnet
 content#:#cont_format#:#Format
-content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit aus.
+content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit und auf zu löschende Daten aus.
 content#:#cont_fourth_edition#:#Neueste Version 'SCORM 2004 4th edition'
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
