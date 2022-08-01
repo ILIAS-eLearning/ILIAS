@@ -1,8 +1,4 @@
-<?php
-declare(strict_types=1);
-
-use ILIAS\Services\Mail\AutoResponder\ilAutoResponderService;
-use ILIAS\Services\Mail\AutoResponder\ilAutoResponderServiceImpl;
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -19,16 +15,28 @@ use ILIAS\Services\Mail\AutoResponder\ilAutoResponderServiceImpl;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-class ilAutoResponderServiceTest extends ilMailBaseTest
+
+namespace ILIAS\Services\Mail\Service;
+
+use ILIAS\DI\Container;
+
+class ilMimeMailService
 {
-    private function create() : ilAutoResponderService
+    protected Container $dic;
+
+    public function __construct(Container $DIC)
     {
-        $this->setGlobalVariable('ilDB', null);
-        return new ilAutoResponderServiceImpl();
+        $this->dic = $DIC;
     }
 
-    public function testExample() : void
+    public function transportFactory() : \ilMailMimeTransportFactory
     {
-        $this->expectNotToPerformAssertions();
+        return new \ilMailMimeTransportFactory($this->dic->settings(), $this->dic->event());
     }
+
+    public function senderFactory() : \ilMailMimeSenderFactory
+    {
+        return new \ilMailMimeSenderFactory($this->dic->settings());
+    }
+
 }
