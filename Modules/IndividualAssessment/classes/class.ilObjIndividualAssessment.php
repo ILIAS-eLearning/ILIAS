@@ -33,16 +33,16 @@ class ilObjIndividualAssessment extends ilObject
     protected ilAccessHandler $il_access_handler;
     protected ?Pimple\Container $dic = null;
 
-    protected ilIndividualAssessmentInfoSettings $info_settings;
-    protected ilIndividualAssessmentFileStorage $file_storage;
+    protected ?ilIndividualAssessmentInfoSettings $info_settings = null;
+    protected ?ilIndividualAssessmentFileStorage $file_storage = null;
 
-    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         global $DIC;
         $this->type = 'iass';
         $this->il_access_handler = $DIC["ilAccess"];
 
-        parent::__construct($a_id, $a_call_by_reference);
+        parent::__construct($id, $call_by_reference);
 
         $this->settings_storage = new ilIndividualAssessmentSettingsStorageDB($DIC['ilDB']);
         $this->members_storage = new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
@@ -177,7 +177,7 @@ class ilObjIndividualAssessment extends ilObject
 
     public function updateInfo() : void
     {
-        $this->settings_storage->updateInfoSettings($this->info_settings);
+        $this->settings_storage->updateInfoSettings($this->getInfoSettings());
     }
 
     /**
@@ -209,7 +209,7 @@ class ilObjIndividualAssessment extends ilObject
      */
     public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $settings = $this->getSettings();
         $info_settings = $this->getInfoSettings();
         $new_settings = new ilIndividualAssessmentSettings(
