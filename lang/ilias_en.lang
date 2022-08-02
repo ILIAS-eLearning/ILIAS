@@ -14488,7 +14488,7 @@ search#:#search_minimum_three#:#Your search must be at least three characters lo
 search#:#search_newer_than#:#Objects newer than
 search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
 search#:#search_no_match_hint#:#Your search for <b>%s</b> did not match any documents.<br /><br />Suggestions:<br />• Make sure all words are spelled correctly.<br />• Try different keywords.<br />• Try more general keywords.<br />• Try fewer keywords.
-search#:#search_no_match#:#Your search did not match any results
+search#:#search_no_match#:#Your search did not match any results.
 search#:#search_no_selection#:#You made no selection.
 search#:#search_off#:#Off
 search#:#search_option_offline#:#Offline
