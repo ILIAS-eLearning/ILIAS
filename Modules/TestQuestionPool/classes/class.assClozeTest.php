@@ -1150,6 +1150,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $refinery = $DIC->refinery();
         $result = 0;
         $gaprating = $this->getTextgapRating();
+
         switch ($gaprating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
                 if (strcmp(ilStr::strToLower($a_original), ilStr::strToLower($a_entered)) == 0) {
@@ -1177,6 +1178,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 $transformation = $refinery->string()->levenshteinDefault($a_original, 5);
                 break;
         }
+
+        // run answers against Levenshtein methods
         if (isset($transformation) && $transformation->transform($a_entered) >= 0) {
             $result = $max_points;
         }

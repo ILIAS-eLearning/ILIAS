@@ -445,6 +445,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $result = false;
         $textrating = $this->getTextRating();
         include_once "./Services/Utilities/classes/class.ilStr.php";
+
         switch ($textrating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
                 if (ilStr::strPos(ilStr::strToLower($answertext), ilStr::strToLower($a_keyword)) !== false) {
@@ -460,7 +461,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         
         // "<p>red</p>" would not match "red" even with distance of 5
         $answertext = strip_tags($answertext);
-        
         $answerwords = array();
         if (preg_match_all("/([^\s.]+)/", $answertext, $matches)) {
             foreach ($matches[1] as $answerword) {
@@ -468,41 +468,29 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             }
         }
 
-        // init levenshtein, it is probably cheaper initialize the Levenshtein 5 times instead n times
-        $transformation1 = $refinery->string()->levenshteinDefault($a_keyword, 1);
-        $transformation2 = $refinery->string()->levenshteinDefault($a_keyword, 2);
-        $transformation3 = $refinery->string()->levenshteinDefault($a_keyword, 3);
-        $transformation4 = $refinery->string()->levenshteinDefault($a_keyword, 4);
-        $transformation5 = $refinery->string()->levenshteinDefault($a_keyword, 5);
+        // create correct transformation
+        switch ($textrating) {
+            case TEXTGAP_RATING_LEVENSHTEIN1:
+                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 1);
+                break;
+            case TEXTGAP_RATING_LEVENSHTEIN2:
+                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 2);
+                break;
+            case TEXTGAP_RATING_LEVENSHTEIN3:
+                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 3);
+                break;
+            case TEXTGAP_RATING_LEVENSHTEIN4:
+                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 4);
+                break;
+            case TEXTGAP_RATING_LEVENSHTEIN5:
+                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 5);
+                break;
+        }
 
         // run answers against Levenshtein methods
         foreach ($answerwords as $a_original) {
-            switch ($textrating) {
-                case TEXTGAP_RATING_LEVENSHTEIN1:
-                    if ($transformation1->transform($a_original) >= 0) {
-                        return true;
-                    }
-                    break;
-                case TEXTGAP_RATING_LEVENSHTEIN2:
-                    if ($transformation2->transform($a_original) >= 0) {
-                        return true;
-                    }
-                    break;
-                case TEXTGAP_RATING_LEVENSHTEIN3:
-                    if ($transformation3->transform($a_original) >= 0) {
-                        return true;
-                    }
-                    break;
-                case TEXTGAP_RATING_LEVENSHTEIN4:
-                    if ($transformation4->transform($a_original) >= 0) {
-                        return true;
-                    }
-                    break;
-                case TEXTGAP_RATING_LEVENSHTEIN5:
-                    if ($transformation5->transform($a_original) >= 0) {
-                        return true;
-                    }
-                    break;
+            if (isset($transformation) && $transformation->transform($a_original) >= 0) {
+                return true;
             }
         }
         return $result;
