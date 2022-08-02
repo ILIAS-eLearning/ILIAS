@@ -8,21 +8,22 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 use InvalidArgumentException;
 
+
 class Levenshtein implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
     /** @var string  */
-    private string $mainStr;
+    private $mainStr;
     /** @var int  */
-    private int $maximumDistance;
+    private $maximumDistance;
     /** @var float  */
-    private float $costIns;
+    private $costIns;
     /** @var float  */
-    private float $costRep;
+    private $costRep;
     /** @var float  */
-    private float $costDel;
+    private $costDel;
 
     /**
      * This constructor allows to parameterize the levenshtein distance function.

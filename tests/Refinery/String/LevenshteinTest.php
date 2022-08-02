@@ -12,7 +12,7 @@ class LevenshteinTest extends TestCase
     /**
      * @var  Group
      */
-    private Group $group;
+    private $group;
 
     public function setUp() : void
     {
