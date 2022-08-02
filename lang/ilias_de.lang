@@ -352,12 +352,12 @@ administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
-adn#:#btn_cancel#:#Cancel###29 07 2022 new variable
-adn#:#btn_delete_confirm#:#Would you like to delete this Notification?###29 07 2022 new variable
-adn#:#btn_delete#:#Delete###29 07 2022 new variable
-adn#:#btn_edit#:#Edit###29 07 2022 new variable
-adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?###29 07 2022 new variable
-adn#:#btn_reset#:#Reset###29 07 2022 new variable
+adn#:#btn_cancel#:#Abbrechen
+adn#:#btn_delete_confirm#:#Möchten Sie diese Ankündigung wirklich löschen?
+adn#:#btn_delete#:#Löschen
+adn#:#btn_edit#:#Bearbeiten
+adn#:#btn_reset_confirm#:#Möchten Sie diese Ankündigung für alle Benutzer zurücksetzen?
+adn#:#btn_reset#:#Zurücksetzen
 adn#:#common_actions#:#Aktionen
 adn#:#common_add_msg#:#Ankündigung hinzufügen
 adn#:#main#:#Ankündigungen
@@ -3269,7 +3269,7 @@ cmps#:#cmps_missing#:#Fehlt
 cmps#:#cmps_module#:#Modul
 cmps#:#cmps_must_installed#:#Die Komponente muss installiert werden.
 cmps#:#cmps_name#:#Name
-cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###29 07 2022 new variable
+cmps#:#cmps_needs_matching_ilias_version#:#Dieses Plugin kann nicht mit der aktuellen Version dieser ILIAS-Installation verwendet werden.
 cmps#:#cmps_needs_newer_ilias_version#:#Dieses Plugin kann nur mit einer neueren ILIAS-Version verwendet werden. Bitte aktualisieren Sie Ihre ILIAS-Version.
 cmps#:#cmps_needs_newer_plugin_version#:#Diese ILIAS-Version benötigt eine neuere Plugin-Version. Bitte aktualisieren Sie das Plugin.
 cmps#:#cmps_needs_update#:#Aktualisierung notwendig
@@ -3994,8 +3994,8 @@ common#:#export_html#:#Exportieren als HTML-Datei
 common#:#ext_cat_settings#:#Erweiterte Einstellungen bearbeiten
 common#:#ext_link#:#Link
 common#:#extracting#:#Entpacken...
-common#:#eyeclosed#:#Geschlossenes Auge - Klicken um den Inhalt des Eingabefelds zu verbergen
-common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###29 07 2022 new variable
+common#:#eyeclosed#:#Geschlossenes Auge - Anklicken, um den Inhalt des Eingabefelds zu verbergen
+common#:#eyeopened#:#Offenes Auge - Anklicken, um den Inhalt der Eingabe zu sehen
 common#:#failure_message#:#Fehlermeldung
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
@@ -4541,7 +4541,7 @@ common#:#meta_data#:#Metadaten
 common#:#mgs_objects_linked_to_the_following_folders_p#:#Die Objekte wurden in folgende Bereiche verknüpft.
 common#:#mgs_objects_linked_to_the_following_folders_s#:#Das Objekt wurde in folgende Bereiche verknüpft.
 common#:#migrate#:#Migrieren
-common#:#minimize#:#Minimize###29 07 2022 new variable
+common#:#minimize#:#Verkleinern
 common#:#minute#:#Minute
 common#:#minutes#:#Minuten
 common#:#missing#:#Nicht vorhanden
@@ -5651,8 +5651,8 @@ common#:#today#:#Heute
 common#:#toggle_dropdown#:#Toggle Dropdown
 common#:#toggleGlobalDefault#:#Standard-Stylesheet umschalten
 common#:#toggleGlobalFixed#:#Einheits-Stylesheet umschalten
-common#:#toggle_off#:#OFF### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!
-common#:#toggle_on#:#ON### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!
+common#:#toggle_off#:#OFF### Übersetzen Sie dieses Label nicht, um Darstellungsprobleme beim Toggle Button zu verhindern!
+common#:#toggle_on#:#ON### Übersetzen Sie dieses Label nicht, um Darstellungsprobleme beim Toggle Button zu verhindern!
 common#:#tomorrow#:#Morgen
 common#:#tools#:#Tools
 common#:#top_of_page#:#Seitenanfang
@@ -10953,7 +10953,7 @@ mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren
 mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, die ILIAS für das MathJax-Skript produzieren soll
 mathjax#:#mathjax_limiter#:#Trennzeichen
-mathjax#:#mathjax_mathjax#:#MathJax###29 07 2022 new variable
+mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
@@ -12311,7 +12311,7 @@ pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
 pdfgen#:#footer_text_center#:#Text Mitte
 pdfgen#:#footer_text_left#:#Text links
 pdfgen#:#footer_text_right#:#Text rechts
-pdfgen#:#footer_text#:#Text###29 07 2022 new variable
+pdfgen#:#footer_text#:#Text
 pdfgen#:#footer_type#:#Fußzeile
 pdfgen#:#greyscale#:#Graustufen
 pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
@@ -14483,12 +14483,12 @@ search#:#search_mime_image#:#Bilder
 search#:#search_mime_pdf#:#PDF-Dateien
 search#:#search_mime_powerpoint#:#Powerpoint-Dateien
 search#:#search_mime_word#:#Word-Dateien
-search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein
+search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein.
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein.
 search#:#search_newer_than#:#Objekte erstellt vor dem...
 search#:#search_no_connection_lucene#:#Es kann keine Verbindung zum Lucene-Server hergestellt werden.
 search#:#search_no_match_hint#:#Es wurden keine Treffer für Ihre Suchanfrage nach <b>%s</b> gefunden.<br />Vorschläge:<br /><br />• Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />• Probieren Sie andere Suchbegriffe.<br />• Probieren Sie allgemeinere Suchbegriffe.<br />• Probieren Sie weniger Suchbegriffe.
-search#:#search_no_match#:#Ihre Suche ergab keine Treffer
+search#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
 search#:#search_off#:#Aus
 search#:#search_option_offline#:#Offline
@@ -15666,7 +15666,7 @@ survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, wel
 survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage für die folgenden Feedback-Nehmer schließen?
 survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schließen?
 survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
-survey#:#survey_360_sure_delete_raters#:##Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
+survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
 survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem sie dem Reiter 'Info' einen Zugangsschlüssel eingeben. Diese Zugangsschlüssel werden im gleichnamigen Unterreiter im Reiter 'Teilnehmer' erzeugt.
 survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
@@ -16586,7 +16586,7 @@ usr#:#user_action#:#Benutzeraktion
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 usr#:#user_actions#:#Benutzeraktionen
 validation#:#no_array#:#Wert ist kein Feld
-validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
+validation#:#not_an_array_of#:#Die Elemente des Arrays scheitern an Bedingungen: %s
 validation#:#not_an_array#:#'%s' ist kein Array.
 validation#:#not_an_int#:#Wert vom Typ '%s' ist kein Integer.
 validation#:#not_a_null#:#Wert vom Typ '%s' ist keine Null.
@@ -16853,7 +16853,7 @@ wiki#:#wiki_wpg#:#Wiki-Seite
 wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
-wsp#:#search_no_match#:#Your search did not match any results.###29 07 2022 new variable
+wsp#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 wsp#:#share_content#:#Ressource freigeben
 wsp#:#share#:#Freigeben
 wsp#:#share_with#:#Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
