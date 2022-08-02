@@ -326,7 +326,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         $non_unique = 'Non_unique';
 
         $db = $this->getDBInstance();
-        if ($db->options['portability']) {
+        if ($db->options['portability'] ?? null) {
             if ($db->options['field_case'] == CASE_LOWER) {
                 $key_name = strtolower($key_name);
                 $non_unique = strtolower($non_unique);
@@ -351,7 +351,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             }
         }
 
-        if ($this->db_instance->options['portability']) {
+        if ($this->db_instance->options['portability'] ?? null) {
             $result = array_change_key_case($result, $this->db_instance->options['field_case']);
         }
 
