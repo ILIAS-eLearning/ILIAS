@@ -10314,6 +10314,7 @@ lso#:#extro_img#:#Bild für die Abschlussseite
 lso#:#failed#:#Durchgefallen
 lso#:#finished#:#Abgeschlossen
 lso#:#first_access#:#Erster Zugriff
+lso#:#lso_intropages_deprecationhint#:#Sie können die Einleitungs- und Abschlussseite unter "Inhalt" editieren.
 lso#:#last_access#:#Letzter Zugriff
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#learner_view#:#Übersicht
@@ -10377,6 +10378,8 @@ lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_settings_availability#:#Verfügbarkeit
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
+lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
+lso#:#lso_settings_old_intro#:#Alte Einleitungsseite ansehen
 lso#:#lso_show_members_info#:#Mitgliedergalerie für Benutzer sichtbar
 lso#:#lso_start_item#:#%s öffnen
 lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lernsequenz
