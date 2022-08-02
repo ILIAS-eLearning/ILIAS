@@ -136,4 +136,42 @@ interface Factory
      * @return \ILIAS\UI\Component\Item\Notification
      */
     public function notification($title, Icon $lead) : Notification;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The contextualisation of an item is prior to the content itself
+     *   composition: >
+     *      Communication items focus on a message to be communicated.
+     *      For a message, its context is of great relevance.
+     *      This context is given by information about the sender
+     *      and the receiver(s) of the message, as well as the time
+     *      at which the message was communicated.
+     *      This is followed by the main message content.
+     *      This can be supplemented by further information such as
+     *      attachments, references, ratings or status informations.
+     *   effect: >
+     *      Interactions can be present in the contextual information,
+     *      the content and metadata.
+     * context:
+     *     - Contexts can be single messages such as Mails, but also several related messages
+     *      such as in forums.
+     * rules:
+     *   usage:
+     *     1: Communincation Items SHOULD be used if it is a message.
+     *   ordering:
+     *     1: An lead icon or lead avatar can be used
+     *     2: Title
+     *     3: Context Informations
+     *     4: Message content
+     *     5: Metadata
+     *   accessibility:
+     *     1: All interactions offered by a notification item MUST be accessible
+     *      by only using the keyboard.
+     * ---
+     * @param $title
+     * @return \ILIAS\UI\Component\Item\Communication
+     */
+    public function communication($title) : Communication;
 }

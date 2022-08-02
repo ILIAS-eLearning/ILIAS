@@ -54,4 +54,12 @@ class Factory implements Item\Factory
     {
         return new Notification($title, $icon);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function communication($title) : Item\Communication
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }
