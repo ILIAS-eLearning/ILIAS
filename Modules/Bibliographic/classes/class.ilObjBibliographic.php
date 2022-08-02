@@ -258,12 +258,12 @@ class ilObjBibliographic extends ilObject2
     public function getFilename() : ?string
     {
         if ($this->getResourceId()) {
-            return $this->storage->manage()
+            return $this->filename = $this->storage->manage()
                                  ->getCurrentRevision($this->getResourceId())
                                  ->getInformation()
                                  ->getTitle();
         }
-        return null;
+        return $this->filename;
     }
 
     /**
@@ -350,6 +350,9 @@ class ilObjBibliographic extends ilObject2
     public function parseFileToDatabase() : void
     {
         //Read File
+        if ($this->getResourceId() === null) {
+            return;
+        }
         $type = $this->getFileType();
         $reader = $this->bib_filereader_factory->getByType(
             $type,
