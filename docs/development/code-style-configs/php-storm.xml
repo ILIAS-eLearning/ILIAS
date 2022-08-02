@@ -1,30 +1,43 @@
-<code_scheme name="ILIAS Coding Style 3/2022" version="175">
+<code_scheme name="ILIAS 9 Coding Style 8/2022" version="175">
+  <option name="LINE_SEPARATOR" value="&#10;" />
   <PHPCodeStyleSettings>
     <option name="ALIGN_PHPDOC_PARAM_NAMES" value="true" />
     <option name="ALIGN_PHPDOC_COMMENTS" value="true" />
-    <option name="PHPDOC_KEEP_BLANK_LINES" value="true" />
+    <option name="BLANK_LINES_BETWEEN_IMPORTS" value="1" />
     <option name="IMPORT_SORTING" value="DONT_SORT" />
     <option name="LOWER_CASE_BOOLEAN_CONST" value="true" />
     <option name="LOWER_CASE_NULL_CONST" value="true" />
     <option name="ELSE_IF_STYLE" value="COMBINE" />
+    <option name="VARIABLE_NAMING_STYLE" value="SNAKE_CASE" />
     <option name="KEEP_RPAREN_AND_LBRACE_ON_ONE_LINE" value="true" />
-    <option name="SPACE_BEFORE_COLON_IN_RETURN_TYPE" value="true" />
+    <option name="BLANK_LINES_AFTER_OPENING_TAG" value="1" />
+    <option name="KEEP_BLANK_LINES_AFTER_LBRACE" value="0" />
+    <option name="NEW_LINE_AFTER_PHP_OPENING_TAG" value="true" />
+    <option name="ATTRIBUTES_WRAP" value="2" />
+    <option name="PARAMETERS_ATTRIBUTES_WRAP" value="2" />
   </PHPCodeStyleSettings>
   <codeStyleSettings language="PHP">
     <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1" />
     <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
-    <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1" />
+    <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="0" />
     <option name="BLANK_LINES_AFTER_PACKAGE" value="1" />
     <option name="ALIGN_MULTILINE_CHAINED_METHODS" value="true" />
     <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+    <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
     <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
     <option name="SPACE_AROUND_BITWISE_OPERATORS" value="false" />
     <option name="SPACE_AFTER_TYPE_CAST" value="true" />
     <option name="CALL_PARAMETERS_WRAP" value="1" />
+    <option name="CALL_PARAMETERS_LPAREN_ON_NEXT_LINE" value="true" />
+    <option name="CALL_PARAMETERS_RPAREN_ON_NEXT_LINE" value="true" />
     <option name="METHOD_PARAMETERS_WRAP" value="5" />
     <option name="METHOD_PARAMETERS_LPAREN_ON_NEXT_LINE" value="true" />
     <option name="METHOD_PARAMETERS_RPAREN_ON_NEXT_LINE" value="true" />
+    <option name="EXTENDS_LIST_WRAP" value="5" />
+    <option name="FOR_STATEMENT_LPAREN_ON_NEXT_LINE" value="true" />
+    <option name="FOR_STATEMENT_RPAREN_ON_NEXT_LINE" value="true" />
     <option name="ARRAY_INITIALIZER_WRAP" value="5" />
+    <option name="ARRAY_INITIALIZER_LBRACE_ON_NEXT_LINE" value="true" />
     <option name="ARRAY_INITIALIZER_RBRACE_ON_NEXT_LINE" value="true" />
     <option name="IF_BRACE_FORCE" value="3" />
     <option name="DOWHILE_BRACE_FORCE" value="3" />
@@ -198,26 +211,5 @@
         </section>
       </rules>
     </arrangement>
-  </codeStyleSettings>
-  <JSCodeStyleSettings version="0">
-    <option name="USE_DOUBLE_QUOTES" value="false" />
-    <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
-    <option name="SPACES_WITHIN_IMPORTS" value="true" />
-    <option name="INDENT_CHAINED_CALLS" value="false" />
-  </JSCodeStyleSettings>
-  <codeStyleSettings language="JavaScript">
-    <option name="RIGHT_MARGIN" value="100" />
-    <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
-    <option name="WHILE_ON_NEW_LINE" value="true" />
-    <option name="CATCH_ON_NEW_LINE" value="true" />
-    <option name="CALL_PARAMETERS_WRAP" value="5" />
-    <option name="PREFER_PARAMETERS_WRAP" value="true" />
-    <option name="METHOD_CALL_CHAIN_WRAP" value="5" />
-    <option name="DOWHILE_BRACE_FORCE" value="3" />
-    <indentOptions>
-      <option name="INDENT_SIZE" value="2" />
-      <option name="CONTINUATION_INDENT_SIZE" value="2" />
-      <option name="TAB_SIZE" value="2" />
-    </indentOptions>
   </codeStyleSettings>
 </code_scheme>
