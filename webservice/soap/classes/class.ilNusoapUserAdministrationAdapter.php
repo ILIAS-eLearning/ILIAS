@@ -808,20 +808,6 @@ class ilNusoapUserAdministrationAdapter
             'Returns 0 => not assigned, 1 => group admin, 2 => group member'
         );
 
-        // ILIAS util functions
-        $this->server->register(
-            'distributeMails',
-            array('sid' => 'xsd:string',
-                  'mail_xml' => 'xsd:string'
-            ),
-            array('status' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#sendMail',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'DEPRECATED ILIAS distributeMails(): Distribute ILIAS mails according according to the mail setting of the recipients as ' .
-            'ILIAS internal mail or as e-mail.'
-        );
 
         // Clone functions
         $this->server->register(
