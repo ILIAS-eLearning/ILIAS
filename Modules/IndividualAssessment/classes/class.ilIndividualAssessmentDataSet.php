@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Individual Assessment dataset class
@@ -126,8 +140,8 @@ class ilIndividualAssessmentDataSet extends ilDataSet
                 $newObj->getDescription(),
                 $a_rec["content"],
                 $a_rec["recordTemplate"],
-                $a_rec['eventTimePlaceRequired'],
-                $a_rec['file_required']
+                $a_rec['eventTimePlaceRequired'] == 1,
+                $a_rec['file_required'] == 1
             );
 
             $info = new ilIndividualAssessmentInfoSettings(
@@ -143,7 +157,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
             $newObj->setInfoSettings($info);
             $newObj->update();
             $newObj->updateInfo();
-            $mapping->addMapping("Modules/IndividualAssessment", "iass", $a_rec["id"], (string) $newObj->getId());
+            $a_mapping->addMapping("Modules/IndividualAssessment", "iass", $a_rec["id"], (string) $newObj->getId());
         }
     }
 }
