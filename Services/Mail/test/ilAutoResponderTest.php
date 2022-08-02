@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-use ILIAS\Services\Mail\AutoResponder\AutoResponder;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ use ILIAS\Services\Mail\AutoResponder\AutoResponder;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Services\Mail\AutoResponder\AutoResponder;
+
 class ilAutoResponderTest extends ilMailBaseTest
 {
 
