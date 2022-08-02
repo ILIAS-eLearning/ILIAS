@@ -70,7 +70,7 @@ For best results we recommend:
 
   * a current version of Debian GNU Linux, Ubuntu or RHEL
   * MySQL 5.7.x or MariaDB 10.2
-  * PHP 8.0
+  * PHP 8.1
   * Apache 2.4.x with `mod_php`
   * ImageMagick 6.8+
   * php-gd, php-xml, php-mysql, php-mbstring
@@ -111,20 +111,20 @@ is set to `COMPACT`.
 
 The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows:
 
-| Package        | Version                     |
-|----------------|-----------------------------|
-| Distribution   | Ubuntu 20.04 LTS            |
-| MariaDB        | 10.0.38                     |
-| PHP            | 8.0                         |
-| Apache2        | 2.4.18                      |
-| zip            | 3.0                         |
-| unzip          | 6.00                        |
-| JDK            | OpenJDK 8                   |
-| Node.js        | 10.23.0                     |
-| wkhtmltopdf    | 0.12.5                      |
-| Ghostscript    | 9.26                        |
-| Imagemagick    | 6.8.9-9 Q16                 |
-| MathJax        | 2.7.9                       |
+| Package        | Version          |
+|----------------|------------------|
+| Distribution   | Ubuntu 20.04 LTS |
+| MariaDB        | 10.0.38          |
+| PHP            | 8.1              |
+| Apache2        | 2.4.18           |
+| zip            | 3.0              |
+| unzip          | 6.00             |
+| JDK            | OpenJDK 8        |
+| Node.js        | 10.23.0          |
+| wkhtmltopdf    | 0.12.5           |
+| Ghostscript    | 9.26             |
+| Imagemagick    | 6.8.9-9 Q16      |
+| MathJax        | 2.7.9            |
 
 <a name="other-platforms"></a>
 ## Other Platforms or Configurations
@@ -208,8 +208,8 @@ systemctl restart httpd.service
 <a name="php-installation"></a>
 ### PHP Installation and Configuration
 
-Refer to the to documentation of your installation to install either PHP 7.4 to
-PHP 8.0 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
+Refer to the to documentation of your installation to install either PHP 8.0 to
+PHP 8.1 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -348,10 +348,10 @@ Restart the apache webserver after you installed dependencies!
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution and PHP version you are using):
 
-* php7.4-curl
-* php7.4-xmlrpc
-* php7.4-soap
-* php7.4-ldap
+* php8.1-curl
+* php8.1-xmlrpc
+* php8.1-soap
+* php8.1-ldap
 * ffmpeg
 * mimetex
 
@@ -726,20 +726,21 @@ each ILIAS release.
 <a name="php"></a>
 ## PHP
 
-| ILIAS Version   | PHP Version                           |
-|-----------------|---------------------------------------|
-| 8.x             | 7.4.x, 8.0.x                          |
-| 7.x             | 7.3.x, 7.4.x                          |
-| 6.x             | 7.2.x, 7.3.x, 7.4.x                   |
-| 5.4.x           | 7.2.x, 7.3.x, 7.4.x                   |
-| 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
-| 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
-| 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
-| 4.4.x           | 5.3.x - 5.5.x                         |
-| 4.3.x           | 5.2.6 - 5.4.x                         |
-| 4.2.x           | 5.2.6 - 5.3.x                         |
-| 4.0.x - 4.1.x   | 5.1.4 - 5.3.x                         |
-| 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
+| ILIAS Version  | PHP Version                 |
+|----------------|-----------------------------|
+| 9.x            | 8.0.x, 8.1.x                |
+| 8.x            | 7.4.x, 8.0.x                |
+| 7.x            | 7.3.x, 7.4.x                |
+| 6.x            | 7.2.x, 7.3.x, 7.4.x         |
+| 5.4.x          | 7.2.x, 7.3.x, 7.4.x         |
+| 5.3.x          | 5.6.x, 7.0.x, 7.1.x         |
+| 5.2.x          | 5.5.x - 5.6.x, 7.0.x, 7.1.x |
+| 5.0.x - 5.1.x  | 5.3.x - 5.5.x               |
+| 4.4.x          | 5.3.x - 5.5.x               |
+| 4.3.x          | 5.2.6 - 5.4.x               |
+| 4.2.x          | 5.2.6 - 5.3.x               |
+| 4.0.x - 4.1.x  | 5.1.4 - 5.3.x               |
+| 3.8.x - 3.10.x | 5.1.4 - 5.2.x               |
 
 <a name="dbms"></a>
 ## DBMS
