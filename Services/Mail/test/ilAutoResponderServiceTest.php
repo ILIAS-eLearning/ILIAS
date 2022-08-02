@@ -1,8 +1,4 @@
-<?php
-declare(strict_types=1);
-
-use ILIAS\Services\Mail\AutoResponder\AutoResponderService;
-use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -19,6 +15,10 @@ use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Services\Mail\AutoResponder\AutoResponderService;
+use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
+
 class ilAutoResponderServiceTest extends ilMailBaseTest
 {
     private function create() : AutoResponderService
