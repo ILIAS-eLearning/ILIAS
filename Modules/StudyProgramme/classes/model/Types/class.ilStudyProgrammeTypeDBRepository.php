@@ -41,7 +41,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
 
     protected ?array $active_plugins = null;
     protected array $amd_records_assigned = [];
-    protected static array $amd_records_available;
+    protected static ?array $amd_records_available = null;
 
     protected ilDBInterface $db;
     protected ilStudyProgrammeSettingsRepository $settings_repo;
