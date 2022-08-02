@@ -192,7 +192,7 @@ class ilDBPdoReverse implements ilDBReverse
             $row = (array) $row;
             $row = array_change_key_case($row, CASE_LOWER);
             $key_name = $row['key_name'];
-            if ($this->db_instance->options['portability']) {
+            if ($this->db_instance->options['portability'] ?? null) {
                 $key_name = strtolower($key_name);
             }
             $key_name = strtolower($key_name); // FSX fix
@@ -206,7 +206,7 @@ class ilDBPdoReverse implements ilDBReverse
                     $definition['unique'] = true;
                 }
                 $column_name = $row['column_name'];
-                if ($this->db_instance->options['portability']) {
+                if ($this->db_instance->options['portability'] ?? null) {
                     if ($this->db_instance->options['field_case'] == CASE_LOWER) {
                         $column_name = strtolower($column_name);
                     } else {

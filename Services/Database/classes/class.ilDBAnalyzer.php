@@ -262,7 +262,7 @@ class ilDBAnalyzer
         foreach ($constraints as $c) {
             $info = $this->reverse->getTableConstraintDefinition($a_table, $c);
             $i = array();
-            if ($info["unique"]) {
+            if ($info["unique"] ?? null) {
                 $i["name"] = $c;
                 $i["type"] = "unique";
                 foreach ($info["fields"] as $k => $f) {
