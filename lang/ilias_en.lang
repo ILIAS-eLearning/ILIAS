@@ -10314,6 +10314,7 @@ lso#:#extro_img#:#Image for Exitpage
 lso#:#failed#:#Failed
 lso#:#finished#:#Finished
 lso#:#first_access#:#First Access
+lso#:#lso_intropages_deprecationhint#:#You can edit the abstract and extro page in the tab "Content".
 lso#:#last_access#:#Last Access
 lso#:#last_visited_step#:#Last visited Step
 lso#:#learner_view#:#Overview
@@ -10377,6 +10378,8 @@ lso#:#lso_search_users#:#Search Users
 lso#:#lso_settings_availability#:#availability
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
+lso#:#lso_settings_old_extro#:#View Old Exitpage
+lso#:#lso_settings_old_intro#:#View Old Intropage
 lso#:#lso_show_members_info#:#Member Gallery available for users
 lso#:#lso_start_item#:#Open %s
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
