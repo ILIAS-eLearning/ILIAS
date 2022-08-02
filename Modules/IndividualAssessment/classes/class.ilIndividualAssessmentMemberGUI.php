@@ -53,7 +53,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected ServerRequest $request;
     protected ilObjIndividualAssessment $object;
     protected ilIndividualAssessmentMembersGUI $parent_gui;
-    protected ilIndividualAssessmentAccessHandler $iass_access;
+    protected ?ilIndividualAssessmentAccessHandler $iass_access = null;
     protected ilIndividualAssessmentPrimitiveInternalNotificator $notificator;
     protected ilToolbarGUI $toolbar;
     protected ilErrorHandling $error_object;
