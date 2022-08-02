@@ -7841,6 +7841,10 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item .row .row > .col-md-6 {
   margin-bottom: 6px;
 }
+.il-item .btn-link {
+  vertical-align: baseline;
+  font-size: inherit;
+}
 .il-item-marker {
   border-left: 5px solid;
 }
@@ -20190,3 +20194,4 @@ table.mceToolbar td {
   border: 1px solid #dddddd;
   border-radius: 0.25em;
 }
+/*# sourceMappingURL=./delos.css.map */
