@@ -18,6 +18,10 @@
 
 use PHPUnit\Framework\TestCase;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Symbol\Icon\Custom;
 
 /**
  * Unit tests for class ilLPStatusIcons
@@ -25,27 +29,50 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
  */
 class ilLPStatusIconsTest extends TestCase
 {
+    protected $path = 'sample/path';
+    protected $alt = 'alt';
+    protected $size = Icon::SMALL;
+
     /**
      * @return array<string, ilLPStatusIcons>
      */
     public function testTripleton() : array
     {
         $utilMock = Mockery::mock('alias:' . ilUtil::class);
-
         $utilMock->shouldReceive('getImagePath')
                  ->with(Mockery::type('string'))
                  ->andReturnUsing(function ($arg) {
                      return 'test/' . $arg;
                  });
 
-        $long1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
-        $long2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+        $renderer = Mockery::mock(Renderer::class);
+        $renderer->shouldReceive('render')
+                 ->andReturnUsing(function ($arg1) {
+                     return 'rendered: path(' . $arg1->getIconPath() .
+                         '), alt(' . $arg1->getLabel() .
+                         '), size(' . $arg1->getSize() . ')';
+                 });
 
-        $short1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
-        $short2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+        $custom_icon = Mockery::mock(Custom::class);
+        $custom_icon->shouldReceive('getIconPath')
+                    ->andReturn($this->path);
+        $custom_icon->shouldReceive('getSize')
+                    ->andReturn($this->size);
+        $custom_icon->shouldReceive('getLabel')
+                    ->andReturn($this->alt);
 
-        $scorm1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
-        $scorm2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
+        $factory = Mockery::mock(Factory::class);
+        $factory->shouldReceive('symbol->icon->custom')
+                ->andReturn($custom_icon);
+
+        $long1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG, $renderer, $factory);
+        $long2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG, $renderer, $factory);
+
+        $short1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT, $renderer, $factory);
+        $short2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT, $renderer, $factory);
+
+        $scorm1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM, $renderer, $factory);
+        $scorm2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM, $renderer, $factory);
 
         $this->assertSame($short1, $short2);
         $this->assertSame($long1, $long2);
@@ -60,8 +87,16 @@ class ilLPStatusIconsTest extends TestCase
 
     public function testGetInstanceForInvalidVariant() : void
     {
+        $renderer = $this->getMockBuilder(Renderer::class)
+                         ->disableOriginalConstructor()
+                         ->getMock();
+
+        $factory = $this->getMockBuilder(Factory::class)
+                        ->disableOriginalConstructor()
+                        ->getMock();
+
         $this->expectException(ilLPException::class);
-        $wrong = ilLPStatusIcons::getInstance(793);
+        ilLPStatusIcons::getInstance(793, $renderer, $factory);
     }
 
     /**
@@ -90,7 +125,7 @@ class ilLPStatusIconsTest extends TestCase
     public function testImagePathRunningForLongVariant(array $instances) : void
     {
         $this->expectException(ilLPException::class);
-        $path = $instances['long']->getImagePathRunning();
+        $instances['long']->getImagePathRunning();
     }
 
     /**
@@ -100,7 +135,7 @@ class ilLPStatusIconsTest extends TestCase
     public function testImagePathAssetForLongVariant(array $instances) : void
     {
         $this->expectException(ilLPException::class);
-        $path = $instances['long']->getImagePathAsset();
+        $instances['long']->getImagePathAsset();
     }
 
     /**
@@ -109,43 +144,19 @@ class ilLPStatusIconsTest extends TestCase
      */
     public function testSomeExamplesForRenderedIcons(array $instances) : void
     {
-        //set up a mock template
-        $stored_variant = null;
-        $stored_path = null;
-
-        $tplMock = Mockery::mock('overload:' . ilTemplate::class);
-
-        $tplMock->shouldReceive('setVariable')
-                ->with('ICON_VARIANT', Mockery::type('string'))
-                ->andReturnUsing(function ($arg1, $arg2) use (&$stored_variant) {
-                    $stored_variant = $arg2;
-                });
-        $tplMock->shouldReceive('setVariable')
-                ->with('IMAGE_PATH', Mockery::type('string'))
-                ->andReturnUsing(function ($arg1, $arg2) use (&$stored_path) {
-                    $stored_path = $arg2;
-                });
-        $tplMock->shouldReceive('setVariable')
-                ->with('ALT_TEXT', Mockery::type('string'));
-        $tplMock->shouldReceive('get')
-                ->andReturnUsing(function () use (&$stored_variant, &$stored_path) {
-                    return 'variant: ' . $stored_variant . ', ' . 'path: ' . $stored_path;
-                });
-
         //try rendering some icons
-        $path = 'sample/path';
-
         $this->assertSame(
-            'variant: ilLPIconLong, path: ' . $path,
-            $instances['long']->renderIcon($path, 'alt')
+            'rendered: path(' . $this->path .
+            '), alt(' . $this->alt .
+            '), size(' . $this->size . ')',
+            $instances['long']->renderIcon($this->path, $this->alt)
         );
 
-        $stored_variant = null;
-        $stored_path = null;
-
         $this->assertSame(
-            'variant: ilLPIconShort, path: ' . $path,
-            $instances['short']->renderIcon($path, 'alt')
+            'rendered: path(' . $this->path .
+            '), alt(' . $this->alt .
+            '), size(' . $this->size . ')',
+            $instances['short']->renderIcon($this->path, $this->alt)
         );
     }
 
@@ -155,9 +166,6 @@ class ilLPStatusIconsTest extends TestCase
      */
     public function testRenderScormIcons(array $instances) : void
     {
-        //set up a mock template, to be safe
-        $tplMock = Mockery::mock('overload:' . ilTemplate::class);
-
         $this->expectException(ilLPException::class);
         $instances['scorm']->renderIcon('path', 'alt');
     }
