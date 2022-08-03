@@ -134,7 +134,7 @@ class Group
      * @param float $costIns cost for insertion default 1.0
      * @param float $costRep cost for replacement default 1.0
      * @param float $costDel cost for deletion default 1.0
-     * @return Levenshtein
+     * @return Transformation
      */
     public function levenshteinCustom(string $str,
                                       int $maximumDistance,
