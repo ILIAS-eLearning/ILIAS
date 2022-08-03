@@ -209,10 +209,6 @@ class ilTemplate extends HTML_Template_ITX
     {
         global $DIC;
 
-        if (DEBUG) {
-            echo "<br/>Template '" . $this->tplPath . "/" . $tplname . "'";
-        }
-
         $tplfile = $this->getTemplatePath($tplname, $in_module);
         if (file_exists($tplfile) === false) {
             echo "<br/>Template '" . $tplfile . "' doesn't exist! aborting...";

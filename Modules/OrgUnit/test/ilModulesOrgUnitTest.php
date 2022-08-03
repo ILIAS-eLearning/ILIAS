@@ -69,9 +69,6 @@ class ilModulesOrgUnitTest extends TestCase
         if (!defined('ILIAS_LOG_ENABLED')) {
             define('ILIAS_LOG_ENABLED', false);
         }
-        if (!defined('DEBUG')) {
-            define('DEBUG', false);
-        }
     }
     
     protected function tearDown() : void

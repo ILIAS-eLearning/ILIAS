@@ -512,7 +512,6 @@ class ilInitialisation
 
         self::initGlobal("ilClientIniFile", $ilClientIniFile);
         // set constants
-        define("DEBUG", (int) $ilClientIniFile->readVariable("system", "DEBUG"));
         define("DEVMODE", (int) $ilClientIniFile->readVariable("system", "DEVMODE"));
         define("SHOWNOTICES", (int) $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
         if (!defined("ROOT_FOLDER_ID")) {

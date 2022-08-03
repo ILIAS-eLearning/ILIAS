@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\DI\Container;
@@ -71,9 +71,6 @@ class ilModulesFileTest extends TestCase
         
         if (!defined('ILIAS_LOG_ENABLED')) {
             define('ILIAS_LOG_ENABLED', false);
-        }
-        if (!defined('DEBUG')) {
-            define('DEBUG', false);
         }
     }
     

@@ -34,10 +34,6 @@ class ilModulesScorm2004Suite extends TestSuite
             define("ILIAS_HTTP_PATH", "http://localhost");
         }
 
-        if (!defined("DEBUG")) {
-            define("DEBUG", false);
-        }
-
         if (!defined("ILIAS_LOG_ENABLED")) {
             define("ILIAS_LOG_ENABLED", false);
         }
