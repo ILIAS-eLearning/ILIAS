@@ -19,7 +19,6 @@
 /**
  * Class ilObjLinkResource
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesWebResource
  */
 class ilObjLinkResource extends ilObject
 {
@@ -27,6 +26,11 @@ class ilObjLinkResource extends ilObject
     {
         $this->type = "webr";
         parent::__construct($a_id, $a_call_by_reference);
+    }
+
+    protected function getWebLinkRepo() : ilWebLinkRepository
+    {
+        return new ilWebLinkDatabaseRepository($this->getId());
     }
 
     /**
@@ -60,21 +64,17 @@ class ilObjLinkResource extends ilObject
             $description = $md_des->getDescription();
             break;
         }
-        switch ($a_element) {
-            case 'General':
-                if (ilLinkResourceItems::lookupNumberOfLinks(
-                    $this->getId()
-                ) == 1) {
-                    $link_arr = ilLinkResourceItems::_getFirstLink(
-                        $this->getId()
-                    );
-                    $link = new ilLinkResourceItems($this->getId());
-                    $link->readItem($link_arr['link_id']);
-                    $link->setTitle($title);
-                    $link->setDescription($description);
-                    $link->update();
-                }
-                break;
+        if ($a_element === 'General' && $this->getWebLinkRepo()->doesOnlyOneItemExist(true)) {
+            $item = ilObjLinkResourceAccess::_getFirstLink($this->getId());
+            $draft = new ilWebLinkDraftItem(
+                $item->isInternal(),
+                $title,
+                $description,
+                $item->getTarget(),
+                $item->isActive(),
+                $item->getParameters()
+            );
+            $this->getWebLinkRepo()->updateItem($item, $draft);
         }
     }
 
@@ -86,9 +86,8 @@ class ilObjLinkResource extends ilObject
         }
 
         // delete items and list
-        ilLinkResourceItems::_deleteAll($this->getId());
-        $list = new ilLinkResourceList($this->getId());
-        $list->delete();
+        $this->getWebLinkRepo()->deleteAllItems();
+        $this->getWebLinkRepo()->deleteList();
 
         // delete meta data
         $this->deleteMetaData();
@@ -104,17 +103,38 @@ class ilObjLinkResource extends ilObject
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneMetaData($new_obj);
 
-        // object created now copy other settings
-        $links = new ilLinkResourceItems($this->getId());
-        $links->cloneItems($new_obj->getId());
+        // object created, now copy items and parameters
+        $items = $this->getWebLinkRepo()->getAllItemsAsContainer()->getItems();
+        $container = new ilWebLinkDraftItemsContainer();
+
+        foreach ($items as $item) {
+            $draft = new ilWebLinkDraftItem(
+                $item->isInternal(),
+                $item->getTitle(),
+                $item->getDescription(),
+                $item->getTarget(),
+                $item->isActive(),
+                $item->getParameters()
+            );
+
+            $container->addItem($draft);
+        }
+
+        $new_web_link_repo = new ilWebLinkDatabaseRepository($new_obj->getId());
+        $new_web_link_repo->createAllItemsInDraftContainer($container);
 
         // append copy info weblink title
-        if (ilLinkResourceItems::_isSingular($new_obj->getId())) {
-            $first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
-            ilLinkResourceItems::updateTitle(
-                $first['link_id'],
-                $new_obj->getTitle()
+        if ($new_web_link_repo->doesOnlyOneItemExist(true)) {
+            $item = ilObjLinkResourceAccess::_getFirstLink($this->getId());
+            $draft = new ilWebLinkDraftItem(
+                $item->isInternal(),
+                $new_obj->getTitle(),
+                $new_obj->getDescription(),
+                $item->getTarget(),
+                $item->isActive(),
+                $item->getParameters()
             );
+            $new_web_link_repo->updateItem($item, $draft);
         }
         return $new_obj;
     }
@@ -150,9 +170,17 @@ class ilObjLinkResource extends ilObject
                 break;
         }
 
-        // All links
-        $links = new ilLinkResourceItems($this->getId());
-        $links->toXML($writer);
+        // All items
+        $items = $this->getWebLinkRepo()->getAllItemsAsContainer()
+                                        ->sort()
+                                        ->getItems();
+
+        $position = 0;
+        foreach ($items as $item) {
+            ++$position;
+            $item->toXML($writer, $position);
+        }
+
         $writer->xmlEndTag('WebLinks');
     }
 }
