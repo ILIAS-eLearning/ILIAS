@@ -5,7 +5,7 @@ $(function () {
    *  generates a still frame image from the stream in the <video>
    *  appends the image to the <body>
    */
-  function useCamera(event) {
+  function useCamera(event, video, button1, button2) {
     event.preventDefault();
     video.style.display = "";
     button1.style.display = "none";
@@ -24,7 +24,7 @@ $(function () {
     });
   }
 
-  function takeSnapshot(event, base) {
+  function takeSnapshot(event, base, video) {
     event.preventDefault();
     var img = document.getElementById(base + "_capture_img");
     var exImg = document.getElementById(base + "_existing_img_section");
@@ -32,7 +32,7 @@ $(function () {
     var context;
     var width = video.offsetWidth
       , height = video.offsetHeight;
-    canvas = document.getElementById(base + "_canvas");
+    const canvas = document.getElementById(base + "_canvas");
     canvas.width = width * 8;
     canvas.height = height * 8;
 
@@ -53,16 +53,15 @@ $(function () {
 
     const base = button1.dataset.formImageFileCaptureBase;
     const video = document.getElementById(base + "_video");
-    let canvas;
     const button2 = document.getElementById(base + "_button2");
     if (navigator.mediaDevices) {
       button1.style.display = "";
       button2.style.display = "none";
       button1.addEventListener('click', function (event) {
-        useCamera(event);
+        useCamera(event, video, button1, button2);
       });
       button2.addEventListener('click', function (event) {
-        takeSnapshot(event, base);
+        takeSnapshot(event, base, video);
       });
     } else {
       button1.style.display = "none";
