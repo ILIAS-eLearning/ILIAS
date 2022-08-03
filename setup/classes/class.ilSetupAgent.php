@@ -78,7 +78,7 @@ class ilSetupAgent implements Setup\Agent
             new Setup\ObjectiveCollection(
                 "Complete common ILIAS objectives.",
                 false,
-                new Setup\Condition\PHPVersionCondition("7.4.0"),
+                new Setup\Condition\PHPVersionCondition("8.0.0"),
                 new Setup\Condition\PHPExtensionLoadedCondition("dom"),
                 new Setup\Condition\PHPExtensionLoadedCondition("xsl"),
                 new Setup\Condition\PHPExtensionLoadedCondition("gd"),
