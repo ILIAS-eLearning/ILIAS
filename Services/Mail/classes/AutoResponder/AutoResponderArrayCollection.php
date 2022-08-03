@@ -26,6 +26,9 @@ class AutoResponderArrayCollection implements AutoResponderCollection
     /** @var AutoResponder[] */
     private array $elements;
 
+    /**
+     * @param AutoResponder[]|array<int|string, AutoResponder> $elements
+     */
     public function __construct(array $elements = [])
     {
         $this->elements = $elements;
@@ -36,17 +39,17 @@ class AutoResponderArrayCollection implements AutoResponderCollection
         return new ArrayIterator($this->elements);
     }
 
-    public function offsetExists($offset) : bool
+    public function offsetExists(int $offset) : bool
     {
         return $this->containsKey($offset);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(int $offset) : AutoResponder
     {
         return $this->get($offset);
     }
 
-    public function offsetSet($offset, $value) : void
+    public function offsetSet(int $offset, AutoResponder $value) : void
     {
         if (!isset($offset)) {
             $this->add($value);
@@ -57,7 +60,7 @@ class AutoResponderArrayCollection implements AutoResponderCollection
         $this->set($offset, $value);
     }
 
-    public function offsetUnset($offset) : void
+    public function offsetUnset(int $offset) : void
     {
         $this->remove($offset);
     }
@@ -80,7 +83,7 @@ class AutoResponderArrayCollection implements AutoResponderCollection
         unset($this->elements[$key]);
     }
 
-    public function removeElement($element) : void
+    public function removeElement(AutoResponder $element) : void
     {
         $key = array_search($element, $this->elements, true);
         if (false === $key) {
@@ -94,7 +97,7 @@ class AutoResponderArrayCollection implements AutoResponderCollection
         return isset($this->elements[$key]);
     }
 
-    public function getKey($element) : int
+    public function getKey(AutoResponder $element) : int
     {
         $key = array_search($element, $this->elements, true);
         if (false === $key) {
@@ -108,17 +111,17 @@ class AutoResponderArrayCollection implements AutoResponderCollection
         $this->elements = [];
     }
 
-    public function contains($element) : bool
+    public function contains(AutoResponder $element) : bool
     {
         return in_array($element, $this->elements, true);
     }
 
-    public function get($key)
+    public function get($key) : ?AutoResponder
     {
         return $this->elements[$key] ?? null;
     }
 
-    public function set($key, $value) : void
+    public function set($key, AutoResponder $value) : void
     {
         $this->elements[$key] = $value;
     }

@@ -35,7 +35,7 @@ class ilMailSummaryNotification extends ilMailNotification
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
-        $this->senderFactory = $DIC["mail.mime.sender.factory"];
+        $this->senderFactory = $DIC->mail()->mime()->senderFactory();
 
         parent::__construct($a_is_personal_workspace);
     }

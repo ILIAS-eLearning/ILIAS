@@ -44,7 +44,7 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
             $auto_responder_results->add(new AutoResponder(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
-                new DateTimeImmutable($row['send_time'], new DateTimeZone(date_default_timezone_get()))
+                new DateTimeImmutable($row['send_time'], new DateTimeZone('UTC'))
             ));
         }
         return $auto_responder_results;
@@ -64,7 +64,7 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
             $auto_responder_results->add(new AutoResponder(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
-                new DateTimeImmutable($row['send_time'], new DateTimeZone(date_default_timezone_get()))
+                new DateTimeImmutable($row['send_time'], new DateTimeZone('UTC'))
             ));
         }
         return $auto_responder_results;
@@ -81,7 +81,7 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
         return $row ? new AutoResponder(
             (int) $row['sender_id'],
             (int) $row['receiver_id'],
-            new DateTimeImmutable($row['send_time'], new DateTimeZone(date_default_timezone_get()))
+            new DateTimeImmutable($row['send_time'], new DateTimeZone('UTC'))
         ) : null;
     }
 

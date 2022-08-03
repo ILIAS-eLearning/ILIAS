@@ -368,7 +368,7 @@ registration process.
 global $DIC;
 
 /** @var \ilMailMimeSenderFactory $senderFactory */
-$senderFactory = $DIC["mail.mime.sender.factory"];
+$senderFactory = $DIC->mail()->mime()->senderFactory();
 $sender        = $senderFactory->system();
 
 $mailer = new \ilMimeMail();

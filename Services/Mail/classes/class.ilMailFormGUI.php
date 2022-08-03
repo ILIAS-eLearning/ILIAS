@@ -61,7 +61,7 @@ class ilMailFormGUI
         ilMailBodyPurifier $bodyPurifier = null
     ) {
         global $DIC;
-        $this->templateService = $templateService ?? $DIC['mail.texttemplates.service'];
+        $this->templateService = $templateService ?? $DIC->mail()->textTemplatesService();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
