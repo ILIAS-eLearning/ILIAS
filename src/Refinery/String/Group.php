@@ -119,7 +119,7 @@ class Group
      * @param int $maximumDistance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
      * @return Levenshtein
      */
-    public function levenshteinDefault(string $str, int $maximumDistance) : Levenshtein
+    public function levenshteinDefault(string $str, int $maximumDistance) : Transformation
     {
         return new Levenshtein($str, $maximumDistance, 1.0, 1.0, 1.0);
     }
