@@ -822,4 +822,4 @@ We recommend to keep this value below 1000 mails per task to ensure that every m
 
 ## AutoResponder
 
-send_time of AutoReponder entries will be saved in UTC.
+`send_time` of `AutoReponder` entries will be saved in `UTC`
