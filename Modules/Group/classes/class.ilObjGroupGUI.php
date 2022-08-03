@@ -911,12 +911,12 @@ class ilObjGroupGUI extends ilContainerGUI
         $profile_data = ilObjUser::_readUsersProfileData($ids);
         $members = [];
         foreach ($ids as $usr_id) {
-            $name = ilObjUser::_lookupName($usr_id);
-            $tmp_data['firstname'] = $name['firstname'];
-            $tmp_data['lastname'] = $name['lastname'];
-            $tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
-            $tmp_data['contact'] = $this->object->members_obj->isContact($usr_id) ? 1 : 0;
-            $tmp_data['usr_id'] = $usr_id;
+            $name = ilObjUser::_lookupName((int) $usr_id);
+            $tmp_data['firstname'] = (string) ($name['firstname'] ?? '');
+            $tmp_data['lastname'] = (string) ($name['lastname'] ?? '');
+            $tmp_data['notification'] = (bool) $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
+            $tmp_data['contact'] = (bool) $this->object->members_obj->isContact($usr_id) ? 1 : 0;
+            $tmp_data['usr_id'] = (int) $usr_id;
             $tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 
             foreach ((array) $profile_data[$usr_id] as $field => $value) {
@@ -924,6 +924,7 @@ class ilObjGroupGUI extends ilContainerGUI
             }
 
             if ($this->show_tracking) {
+                $tmp_data['progress'] = '';
                 if (in_array($usr_id, $completed)) {
                     $tmp_data['progress'] = ilLPStatus::LP_STATUS_COMPLETED;
                 } elseif (in_array($usr_id, $in_progress)) {
@@ -946,7 +947,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $tmp_data['access_time_unix'] = 0;
                 }
             }
-
+            $tmp_data['prtf'] = [];
             if ($do_prtf) {
                 $tmp_data['prtf'] = $all_prtf[$usr_id];
             }
