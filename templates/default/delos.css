@@ -16827,7 +16827,7 @@ div.ilBlockHeaderBig,
 td.ilBlockHeader,
 td.ilBlockHeaderBig {
   /* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
-  font-weight: 600;
+  font-weight: 400;
   padding: 3px 0;
   margin: 0 9px;
   text-align: left;
@@ -16946,7 +16946,7 @@ body.ilBodyPrint {
 }
 .ilStartupSection {
   padding-top: 50px;
-  width: fit-content;
+  width: max-content;
   margin-left: auto;
   margin-right: auto;
 }
