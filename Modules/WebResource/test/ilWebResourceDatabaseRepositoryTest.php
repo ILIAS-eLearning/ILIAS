@@ -113,6 +113,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         return $datetime;
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testCreateItem() : void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)

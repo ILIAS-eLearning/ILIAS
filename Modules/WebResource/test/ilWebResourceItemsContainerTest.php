@@ -50,6 +50,10 @@ class ilWebResourceItemsContainerTest extends TestCase
         return $item;
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testSort() : void
     {
         $item1 = $this->createItemMock(false, 'c', 1);
