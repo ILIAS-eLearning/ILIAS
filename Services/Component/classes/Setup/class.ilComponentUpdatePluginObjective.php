@@ -247,10 +247,6 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
         };
 
-        if (!defined('DEBUG')) {
-            define('DEBUG', false);
-        }
-
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
         }

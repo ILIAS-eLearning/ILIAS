@@ -170,10 +170,6 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             }
         };
 
-        if (!defined('DEBUG')) {
-            define('DEBUG', false);
-        }
-
         if (!defined('SYSTEM_ROLE_ID')) {
             define('SYSTEM_ROLE_ID', '2');
         }
