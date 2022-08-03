@@ -3329,8 +3329,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $lng->txt("mail_nacc_ilias_url")
         );
         $ftpl->setVariable(
-            "TXT_CLIENT_NAME",
-            $lng->txt("mail_nacc_client_name")
+            "TXT_INSTALLATION_NAME",
+            $lng->txt("mail_nacc_installation_name")
         );
         $ftpl->setVariable(
             "TXT_TARGET",
