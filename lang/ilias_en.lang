@@ -10761,7 +10761,7 @@ lti#:#user_provider_subtab#:#Providers Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#absence_status#:#Enable Autoresponder
-mail#:#absence_status_info#:#Durch Anhaken können Sie hier den automatischen Versand einer Abwesenheitsnachricht aktivieren.
+mail#:#absence_status_info#:#By clicking this checkbox, you can activate the automatic sending of an out of office message.
 mail#:#absence_duration#:#Duration
 mail#:#absent_from#:#Absent From
 mail#:#absent_until#:#Ansend Until
