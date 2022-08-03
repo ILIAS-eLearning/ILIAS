@@ -53,7 +53,7 @@ class ilAccountMail
         $this->refinery = $DIC->refinery();
         $this->settings = $DIC->settings();
         $this->repositoryTree = $DIC->repositoryTree();
-        $this->senderFactory = $DIC['mail.mime.sender.factory'];
+        $this->senderFactory = $DIC->mail()->mime()->senderFactory();
     }
 
     public function useLangVariablesAsFallback(bool $a_status): void

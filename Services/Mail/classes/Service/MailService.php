@@ -22,6 +22,10 @@ use ILIAS\DI\Container;
 use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
 use ILIAS\Services\Mail\AutoResponder\AutoResponderService;
 use ilMailTemplateService;
+use ilObjUser;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Services\Mail\AutoResponder\AutoResponderDatabaseRepository;
+use ilMailTemplateRepository;
 
 class MailService
 {
@@ -30,6 +34,11 @@ class MailService
     public function __construct(Container $DIC)
     {
         $this->dic = $DIC;
+        if (!isset($this->dic['mail.texttemplates.service'])) {
+            $this->dic['mail.texttemplates.service'] = static function (Container $c) {
+                return new ilMailTemplateService(new ilMailTemplateRepository($c->database()));
+            };
+        }
     }
 
     public function mime() : MimeMailService
@@ -39,12 +48,20 @@ class MailService
 
     public function autoresponder() : AutoResponderService
     {
-        return new AutoResponderServiceImpl();
+        return new AutoResponderServiceImpl(
+            static function (int $usrId) : string {
+                return ilObjUser::_lookupLogin($usrId);
+            },
+            (int) $this->dic->settings()->get('mail_auto_responder_idle_time'),
+            false,
+            [],
+            new AutoResponderDatabaseRepository($this->dic->database()),
+            (new DataFactory())->clock()->utc()
+        );
     }
 
     public function textTemplatesService() : ilMailTemplateService
     {
-        return new ilMailTemplateService(new \ilMailTemplateRepository($this->dic->database()));
+        return $this->dic["mail.texttemplates.service"];
     }
-
 }

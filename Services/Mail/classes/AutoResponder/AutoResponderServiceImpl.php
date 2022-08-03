@@ -54,7 +54,7 @@ class AutoResponderServiceImpl implements AutoResponderService
         $this->auto_responder_status = $auto_responder_status;
         $this->auto_responder_data = $auto_responder_data;
         $this->auto_responder_repository = $auto_responder_repository ?? new AutoResponderDatabaseRepository($DIC->database());
-        $this->clock = (new DataFactory())->clock()->utc();
+        $this->clock = $clock ?? (new DataFactory())->clock()->utc();
     }
 
     public function isAutoResponderEnabled() : bool
