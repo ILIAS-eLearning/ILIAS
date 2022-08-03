@@ -291,9 +291,11 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         }
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
         $points = 0;
-        $data = $ilDB->fetchAssoc($result);
 
-        $points = $this->calculateReachedPointsForSolution($data['value1']);
+        if ($ilDB->numRows($result) > 0) {
+            $data = $ilDB->fetchAssoc($result);
+            $points = $this->calculateReachedPointsForSolution($data['value1']);
+        }
 
         return $points;
     }

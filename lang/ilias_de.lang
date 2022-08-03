@@ -29,21 +29,13 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_access_key#:#Access-Key
-acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
-acc#:#acc_comp_frm#:#Forum
-acc#:#acc_comp_global#:#Global
-acc#:#acc_comp_mail#:#Mail
-acc#:#acc_component#:#Komponente
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
 acc#:#acc_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
 acc#:#acc_crit_type_usr_language#:#Benutzersprache
 acc#:#acc_ctrl_cpt_txt#:#Info Barrierefreiheit
-acc#:#acc_dashboard#:#Dashboard
 acc#:#acc_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
 acc#:#acc_deleted_documents_s#:#Das Dokument wurde gelöscht.
-acc#:#acc_delete#:#Löschen
 acc#:#acc_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
 acc#:#acc_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
 acc#:#acc_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
@@ -66,10 +58,6 @@ acc#:#acc_form_new_doc_head#:#Dokument erstellen
 acc#:#acc_forward_mail#:#Weiterleiten
 acc#:#acc_function#:#Funktion
 acc#:#acc_last_rep_visited#:#Magazin/Zuletzt besucht
-acc#:#acc_mark_all_read#:#Alle auf gelesen setzen
-acc#:#acc_next#:#Weiter (zur nächsten Seite)
-acc#:#acc_previous#:#Zurück (zur vorigen Seite)
-acc#:#acc_reply#:#Antworten
 acc#:#acc_saved_sorting#:#Die Sortierung wurde gespeichert.
 acc#:#acc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
 acc#:#acc_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
@@ -98,11 +86,6 @@ administration#:#adm_adm_role_protect#:#Administratorrolle schützen
 administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen.
 administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_auth_reg#:#Authentifizierung Registrierung
-administration#:#adm_captcha_anonymous_auth#:#Zeigt zusätzlich ein Captcha im Anmeldeformular an, um die Anmeldung durch Roboter zu verhindern. Bitte beachten Sie, dass der Einsatz des Captchas die Barrierefreiheit Ihrer Installation einschränkt.
-administration#:#adm_captcha_anonymous_frm#:#Captcha für nicht angemeldete Benutzer, die im Forum Beiträge schreiben wollen. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
-administration#:#adm_captcha_anonymous_reg#:#Zeigt zusätzlich ein Captcha im Registrierungsformular an, um die Anmeldung durch Roboter zu verhindern. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
-administration#:#adm_captcha_anonymous_short#:#Captcha
-administration#:#adm_captcha_anonymous_wiki#:#Captcha für nicht angemeldete Benutzer, die im Wiki eine Seite bearbeiten wollen. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
 administration#:#adm_communication#:#Kommunikation
 administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
 administration#:#adm_db_bench_chronological#:#Chronologisch
@@ -369,6 +352,12 @@ administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
+adn#:#btn_cancel#:#Abbrechen
+adn#:#btn_delete_confirm#:#Möchten Sie diese Ankündigung wirklich löschen?
+adn#:#btn_delete#:#Löschen
+adn#:#btn_edit#:#Bearbeiten
+adn#:#btn_reset_confirm#:#Möchten Sie diese Ankündigung für alle Benutzer zurücksetzen?
+adn#:#btn_reset#:#Zurücksetzen
 adn#:#common_actions#:#Aktionen
 adn#:#common_add_msg#:#Ankündigung hinzufügen
 adn#:#main#:#Ankündigungen
@@ -381,9 +370,6 @@ adn#:#msg_display_date_start#:#Anzeige ab
 adn#:#msg_error_false_date_configuration#:#Mit dieser Konfiguration von Daten kann keine Benachrichtigung erstellt werden. Das Ereignis muss innerhalb der Anzeigezeit liegen.
 adn#:#msg_event_date_end#:#Ende Ereignis
 adn#:#msg_event_date_start#:#Beginn Ereignis
-adn#:#msg_form_button_cancel#:#Abbrechen
-adn#:#msg_form_button_delete#:#Löschen
-adn#:#msg_form_button_reset#:#Zurücksetzen
 adn#:#msg_form_title#:#Ankündigung
 adn#:#msg_limited_to_role_ids#:#Rollen
 adn#:#msg_limit_to_roles_info#:#Nur ausgewählte Rollen sehen die Ankündigung.
@@ -392,7 +378,6 @@ adn#:#msg_permanent#:#Anzeige
 adn#:#msg_permanent_info#:#Ankündigungen permanent oder zeitlich begrenzt anzeigen
 adn#:#msg_permanent_no#:#Zeitlich begrenzt
 adn#:#msg_permanent_yes#:#Permanent
-adn#:#msg_reset_dismiss#:#Für alle Benutzer zurücksetzen
 adn#:#msg_success_created#:#Ankündigung erstellt
 adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
@@ -1112,8 +1097,11 @@ assessment#:#qst_lifecycle_outdated#:#Veraltet
 assessment#:#qst_lifecycle_rejected#:#Abgelehnt
 assessment#:#qst_lifecycle_review#:#Überarbeitung notwendig
 assessment#:#qst_lifecycle_sharable#:#Verteilbar
+assessment#:#qst_nested_nested_answers_off#:#Ohne Einrückung
+assessment#:#qst_nested_nested_answers_on#:#Mit Einrückung
 assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
 assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
+assessment#:#qst_use_nested_answers#:#Einrückung in Antworten verwenden
 assessment#:#que_contains_unused_var#:#Im Fragen-Text sind Variablen enthalten, die in keiner Formel verwendet werden.
 assessment#:#question_browse_area_info#:#Wählen Sie bitte ein Objekt, aus dem sie Fragen importieren wollen.
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
@@ -1240,6 +1228,7 @@ assessment#:#suggested_solution_added_successfully#:#Der Hinweis auf Inhalte zur
 assessment#:#suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#suggestedSolutionType#:#verweisen auf
 assessment#:#suggest_range#:#Bereich vorschlagen
+assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#term_image#:#Bild
 assessment#:#terms#:#Terme
 assessment#:#term#:#Term
@@ -1296,7 +1285,7 @@ assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzstufen.
 assessment#:#tst_activate_skill_service#:#Kompetenzen
-assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden.
+assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden. Der weitere Zugriff, auch auf bereits laufende Tests, wird zum Ende des Zeitraums unterbunden.
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
@@ -1934,10 +1923,6 @@ assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
 assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
 assessment#:#tst_type#:#Test-Typ
-assessment#:#qst_use_nested_answers#:#Einrückung in Antworten verwenden
-assessment#:#qst_nested_nested_answers_on#:#Mit Einrückung
-assessment#:#qst_nested_nested_answers_off#:#Ohne Einrückung
-assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt.
 assessment#:#tst_unchanged_order_is_correct#:#Die vorgegebene Anordnung ist korrekt.
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Option muss vom Teilnehmer vor Beginn des Tests auf dem Reiter 'Info' per Checkbox aktiviert werden.
@@ -2468,7 +2453,6 @@ book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Buchungsobjekte
 book#:#book_booking_reminders#:#Anstehende Reservierungen
 book#:#book_bookings_per_user#:#Buchungen je Benutzer
-book#:#book_booking_types#:#Buchungsobjekte
 book#:#book_cal_entry#:#Buchung von:
 book#:#book_confirm_booking#:#Buchung vornehmen
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
@@ -2512,7 +2496,6 @@ book#:#book_nr_preferences#:#Präferenzen
 book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
 book#:#book_objects_available#:#Verfügbare Objekte: %s
-book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Begrenzung der Buchungsanzahl
@@ -2559,6 +2542,7 @@ book#:#book_schedule_days#:#Wochentage
 book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
 book#:#book_schedule_slot#:#Zeitraum
 book#:#book_schedules#:#Zeitpläne
+book#:#book_schedule_type#:#Buchungsmodus
 book#:#book_schedule_type_fixed#:#Buchung zu Terminen
 book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
 book#:#book_schedule_type_none_direct_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc. Teilnehmer können direkt Buchungen vornehmen.
@@ -2567,7 +2551,6 @@ book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatstheme
 book#:#book_schedule_type_none#:#Ohne Zeitplan verteilen
 book#:#book_schedule_type_none_preference_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc. Teilnehmer können zunächst Präferenzen nennen. Nach einer Frist werden dann die Buchungen automatisch vorgenommen.
 book#:#book_schedule_type_none_preference#:#Ohne Zeitplan, mit Präferenzen
-book#:#book_schedule_type#:#Buchungsmodus
 book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
 book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden (oder der Typ des Buchungspools geändert werden).
 book#:#book_schedule#:#Zeitplan
@@ -3085,8 +3068,11 @@ cmix#:#conf_description#:#Beschreibung
 cmix#:#conf_external_lrs#:#Externer LRS
 cmix#:#conf_keep_lp_info#:#Der Status 'bearbeitet' des ILIAS-Lernfortschritts wird eingefroren.
 cmix#:#conf_keep_lp#:#Verschlechterung des Lernfortschritts vermeiden
+cmix#:#conf_launch_mode_browse_info#:#Diese Option soll es dem Benutzer ermöglichen, sich ohne Bewertung "umzusehen".
 cmix#:#conf_launch_mode_browse#:#Nur Vorschau / Preview ('browse') ohne Speicherung des Lernfortschritts
+cmix#:#conf_launch_mode_normal_info#:#Daten bezogen auf den Lernerfolg sollen erfasst werden.
 cmix#:#conf_launch_mode_normal#:#Normal
+cmix#:#conf_launch_mode_review_info#:#Diese Option soll es dem Benutzer ermöglichen, bereits abgeschlossenes Material "erneut zu besuchen / zu überprüfen".
 cmix#:#conf_launch_mode_review#:#Review-Modus ohne Speicherung des Lernfortschritts
 cmix#:#conf_launch_mode#:#Startmodus
 cmix#:#conf_lrs_endpoint#:#Endpoint
@@ -3097,6 +3083,30 @@ cmix#:#conf_new_window#:#Neues Fenster
 cmix#:#conf_own_window#:#Gleiches Fenster
 cmix#:#conf_own_window_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
 cmix#:#conf_privacy_comment_default#:#Anzeige an den Benutzer
+cmix#:#conf_privacy_ident#:#Benutzeridentifikation
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Benutzernamen. Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
+cmix#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
+cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+cmix#:#conf_privacy_name#:#Benutzername
+cmix#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen
+cmix#:#conf_privacy_name_firstname#:#Vorname
+cmix#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
+cmix#:#conf_privacy_name_fullname#:#Vollständiger Name
+cmix#:#conf_privacy_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+cmix#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
+cmix#:#conf_privacy_name_lastname#:#Titel und Nachname
+cmix#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
+cmix#:#conf_privacy_name_none#:#Keiner
 cmix#:#conf_privacy_setting_conf#:#Konfigurationsoptionen
 cmix#:#conf_privacy_setting_default#:#Standardeinstellungen, änderbar für Objekte
 cmix#:#conf_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht änderbar.
@@ -3259,6 +3269,7 @@ cmps#:#cmps_missing#:#Fehlt
 cmps#:#cmps_module#:#Modul
 cmps#:#cmps_must_installed#:#Die Komponente muss installiert werden.
 cmps#:#cmps_name#:#Name
+cmps#:#cmps_needs_matching_ilias_version#:#Dieses Plugin kann nicht mit der aktuellen Version dieser ILIAS-Installation verwendet werden.
 cmps#:#cmps_needs_newer_ilias_version#:#Dieses Plugin kann nur mit einer neueren ILIAS-Version verwendet werden. Bitte aktualisieren Sie Ihre ILIAS-Version.
 cmps#:#cmps_needs_newer_plugin_version#:#Diese ILIAS-Version benötigt eine neuere Plugin-Version. Bitte aktualisieren Sie das Plugin.
 cmps#:#cmps_needs_update#:#Aktualisierung notwendig
@@ -3927,7 +3938,6 @@ common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder e
 common#:#error_extraction_failed#:#Das Entpacken des Archivs und dessen Ordnerstruktur ist fehlgeschlagen. Wahrscheinlich verfügen Sie nicht über die Rechte um Ordner oder Kategorien in diesem Objekt zu erstellen.
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
-common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die max. Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
@@ -3984,12 +3994,11 @@ common#:#export_html#:#Exportieren als HTML-Datei
 common#:#ext_cat_settings#:#Erweiterte Einstellungen bearbeiten
 common#:#ext_link#:#Link
 common#:#extracting#:#Entpacken...
-common#:#eyeclosed#:#Geschlossenes Auge - Klicken um den Inhalt des Eingabefelds zu verbergen
-common#:#eyeopen#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds aufzuzeigen
+common#:#eyeclosed#:#Geschlossenes Auge - Anklicken, um den Inhalt des Eingabefelds zu verbergen
+common#:#eyeopened#:#Offenes Auge - Anklicken, um den Inhalt der Eingabe zu sehen
 common#:#failure_message#:#Fehlermeldung
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
-common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#feed#:#Webfeed
 common#:#field_name#:#Feldname
 common#:#field_type#:#Feldtyp
@@ -4423,8 +4432,8 @@ common#:#location#:#Eigener Standort
 common#:#locator#:#Position:
 common#:#logic_or#:#oder
 common#:#log_in#:#Anmelden
-common#:#login_as#:#Angemeldet als
 common#:#login#:#Anmeldename
+common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Anmeldedaten
 common#:#login_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen Anmeldenamen.
 common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache eine Login-Information ein.
@@ -4473,8 +4482,6 @@ common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_member#:#Mail an Mitglied
 common#:#mail_members#:#Mail an Mitglieder
-common#:#mail_multiple_recipients_found#:#Geben Sie eine genauere E-Mail-Adresse ein, da ILIAS mehrere Empfänger gefunden hat.
-common#:#mail_no_recipient_found#:#Geben Sie bitte eine andere E-Mail-Adresse an. ILIAS konnte keinen zugehörigen Empfänger finden.
 common#:#mail_not_sent#:#Ihre Mail konnte nicht verschickt werden
 common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
@@ -4534,6 +4541,7 @@ common#:#meta_data#:#Metadaten
 common#:#mgs_objects_linked_to_the_following_folders_p#:#Die Objekte wurden in folgende Bereiche verknüpft.
 common#:#mgs_objects_linked_to_the_following_folders_s#:#Das Objekt wurde in folgende Bereiche verknüpft.
 common#:#migrate#:#Migrieren
+common#:#minimize#:#Verkleinern
 common#:#minute#:#Minute
 common#:#minutes#:#Minuten
 common#:#missing#:#Nicht vorhanden
@@ -4743,7 +4751,6 @@ common#:#nr_following_sessions#:#%1d folgende Sitzung(en)...
 common#:#num_of_selected_files#:#%s Datei(en) ausgewählt
 common#:#num_users#:#Anzahl Benutzer
 common#:#obj_accs#:#Barrierefreiheit
-common#:#obj_accs_captcha#:#Captchas
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
@@ -4779,6 +4786,7 @@ common#:#obj_chap#:#Kapitel
 common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Chatraum
 common#:#obj_chtr_duplicate#:#Chatraum kopieren
+common#:#obj_cld#:#Cloud Object###29 07 2022 new variable
 common#:#obj_cmis_desc#:#Konfiguration Learning Record Store Typen
 common#:#obj_cmis#:#xAPI/cmi5
 common#:#obj_cmix#:#xAPI/cmi5
@@ -4818,7 +4826,6 @@ common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, we
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_facs#:#Dateien
 common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
-common#:#obj_feed#:#Webfeed
 common#:#obj_file#:#Datei
 common#:#obj_file_duplicate#:#Datei kopieren
 common#:#obj_file_inline#:#Inline Datei
@@ -4967,6 +4974,7 @@ common#:#objs_book#:#Buchungspools
 common#:#objs_cat#:#Kategorien
 common#:#objs_catr#:#Kategorielinks
 common#:#objs_chtr#:#Chaträume
+common#:#objs_cld#:#Cloud Objects###29 07 2022 new variable
 common#:#objs_cmix#:#Objekte xAPI/cmi5
 common#:#objs_copa#:#Inhaltsseiten
 common#:#obj_sco#:#SCO
@@ -4980,7 +4988,6 @@ common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_sess#:#Sitzung
 common#:#objs_etal#:#Mitarbeiter-Gespräche
 common#:#objs_exc#:#Übungen
-common#:#objs_feed#:#Webfeeds
 common#:#objs_file#:#Dateien
 common#:#objs_fold#:#Ordner
 common#:#objs_frm#:#Foren
@@ -5644,8 +5651,8 @@ common#:#today#:#Heute
 common#:#toggle_dropdown#:#Toggle Dropdown
 common#:#toggleGlobalDefault#:#Standard-Stylesheet umschalten
 common#:#toggleGlobalFixed#:#Einheits-Stylesheet umschalten
-common#:#toggle_off#:#OFF### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!
-common#:#toggle_on#:#ON### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!
+common#:#toggle_off#:#OFF### Übersetzen Sie dieses Label nicht, um Darstellungsprobleme beim Toggle Button zu verhindern!
+common#:#toggle_on#:#ON### Übersetzen Sie dieses Label nicht, um Darstellungsprobleme beim Toggle Button zu verhindern!
 common#:#tomorrow#:#Morgen
 common#:#tools#:#Tools
 common#:#top_of_page#:#Seitenanfang
@@ -5864,10 +5871,8 @@ common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a hre
 common#:#webr_active#:#Aktiv
 common#:#webr_add#:#Weblink anlegen
 common#:#webr_deleted_items#:#Der/die Weblink(s) wurde(n) gelöscht.
-common#:#webr_disable_check#:#Überprüfung deaktivieren
 common#:#webr_edit#:#Weblink bearbeiten
 common#:#web_resources#:#Weblinks
-common#:#webr_last_check_table#:#Letzte Überprüfung:
 common#:#webr_sure_delete_items#:#Sind Sie sicher, dass Sie die folgenden Weblinks löschen möchten?
 common#:#webr#:#Weblink
 common#:#webservices#:#SOAP
@@ -6081,8 +6086,6 @@ content#:#cont_cach_mode#:#Modus
 content#:#cont_cant_copy_folders#:#Ordner können nicht in die Zwischenablage kopiert werden
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardansicht nicht möglich.
-content#:#cont_captcha_code#:#Code
-content#:#cont_captcha_verification#:#Benutzerverifikation
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_caption_style#:#Caption Style
 content#:#cont_cc_emp#:#Betont
@@ -6160,6 +6163,7 @@ content#:#cont_cp_question_diff_formats_info#:#Beachten Sie bitte, dass einige F
 content#:#cont_create_link#:#Link erzeugen
 content#:#cont_create_mob#:#Medienobjekt anlegen
 content#:#cont_credit_mode#:#Bewertung###Modified as part of gender mainstreaming activities for ILIAS 8
+content#:#cont_credit_mode_info#:#Dem Lernmodul wird über cmi.core.credit mitgeteilt, ob die erzielte Leistung (bestanden/nicht bestanden und Punktzahl) für die Bewertung erwünscht (credit) oder nicht erwünscht ist (no-credit). Es ist Aufgabe des Lernmoduls, diese Anweisung adäquat zu interpretieren.
 content#:#cont_credit_off#:#Ohne Bewertung
 content#:#cont_credit_on#:#Mit Bewertung (bestanden | nicht bestanden)
 content#:#cont_credits#:#Punkte
@@ -6373,7 +6377,7 @@ content#:#cont_footer#:#Fußzeile
 content#:#cont_footnote#:#Fußnote
 content#:#cont_force_all_open#:#Alle immer geöffnet
 content#:#cont_format#:#Format
-content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit aus.
+content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit  und auf zu löschende Daten aus.
 content#:#cont_fourth_edition#:#Neueste Version 'SCORM 2004 4th edition'
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
@@ -7194,10 +7198,6 @@ copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbauste
 copg#:#copg_x_minutes#:#%s Minute(n)
 cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
 cpad#:#cpad_reading_time_status#:#Lesezeit
-cptch#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
-cptch#:#captcha_audio_title#:#Akustisches Captcha. Bitte anklicken, um Zeichen vorgelesen zu bekommen.
-cptch#:#captcha_code_info#:#Bitte geben Sie die Zeichen aus der Grafik in das Textfeld ein.
-cptch#:#captcha_code_reload#:#Neue Grafik laden
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war
@@ -9400,20 +9400,6 @@ export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
-feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich
-feed#:#block_feed_block_feed_url#:#URL des Webfeeds
-feed#:#block_feed_block_head#:#Externer Webfeed
-feed#:#block_feed_block_title#:#Titel
-feed#:#feed_disable_rep_feeds#:#Externe Webfeeds deaktivieren
-feed#:#feed_disable_rep_feeds_info#:#Deaktiviert die Präsentation aller externer Webfeeds im Magazin, z. B. für den Fall     eines Problems mit einer externen Feed-Quelle.
-feed#:#feed_feed_items#:#Webfeed-Themen
-feed#:#feed_import#:#Webfeed importieren
-feed#:#feed_loading_feed#:#Newsfeed wird geladen ...
-feed#:#feed_no_js_click_here#:#Wird der Newsfeed nicht angezeigt, klicken Sie bitte hier.
-feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
-feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
-feed#:#feed_open_source_page#:#Gehe zur externen Nachricht
-feed#:#feed_settings#:#Externe Webfeeds
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9459,7 +9445,6 @@ fold#:#fold_copy#:#Ordner kopieren
 fold#:#fold_import#:#Ordner importieren
 fold#:#fold_presentation#:#Darstellung
 fold#:#fold_settings#:#Ordnereigenschaften
-form#:#captcha_code#:#Sicherheitsüberprüfung
 form#:#email_not_match#:#Ihre Eingaben für die E-Mail-Adresse stimmen nicht überein! Bitte geben Sie die E-Mail-Adresse erneut ein.
 form#:#form_alphabet_all#:#Alle
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
@@ -9526,7 +9511,6 @@ forum#:#ascending_order#:#Neueste Beiträge unten
 forum#:#autosave_draft_info#:#<span class="asterisk">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.<span/>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.<span/>
 forum#:#close_topics#:#Schließen
-forum#:#cont_captcha_code#:#Code
 forum#:#content_censored_post#:#Inhalt des zensierten Beitrags:
 forum#:#content_deleted_post#:#Inhalt des gelöschten Beitrags:
 forum#:#content_deleted_thread#:#Inhalt des gelöschten Themas:
@@ -9551,7 +9535,6 @@ forum#:#file_upload_allowed#:#Dateien anhängen
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
-forum#:#file_upload_option_allow_desc#:#In allen Foren können Dateien an Beiträge angehangen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
 forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
@@ -9631,10 +9614,12 @@ forum#:#frm_moderators_not_exist_yet#:#Bitte fügen Sie eine Person für die Mod
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens eine Person aus.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer für die Moderation.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
-forum#:#frm_noti_obj_crs#:#Kurs
-forum#:#frm_noti_obj_grp#:#Gruppe
+forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
+forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
+forum#:#frm_noti_obj_crs#:#Kurs
+forum#:#frm_noti_obj_grp#:#Gruppe
 forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" aktiviert
 forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" beantwortet
 forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" zensiert
@@ -9643,8 +9628,6 @@ forum#:#frm_noti_subject_del_thread#:#Thema "%3$s" im Forum "%1$s"%2$s gelöscht
 forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s"%2$s zum Thema "%3$s"
 forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s"%2$s zum Thema "%3$s"
 forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s"%2$s zum Thema "%3$s" geändert
-forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
-forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht freigeschaltet.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_posts#:#Forenbeiträge
 forum#:#frm_pseudonym#:#Pseudonym
@@ -9719,9 +9702,7 @@ forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist b
 forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr
 forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert
 forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert
-forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in zeitlichen Reihenfolge der Erstellung gezeigt.
 forum#:#sort_by_date#:#Sortieren nach Datum
-forum#:#sort_by_posts_desc#:#Das Thema wird in Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
 forum#:#sorting#:#Sortierung
@@ -10333,6 +10314,7 @@ lso#:#extro_img#:#Bild für die Abschlussseite
 lso#:#failed#:#Durchgefallen
 lso#:#finished#:#Abgeschlossen
 lso#:#first_access#:#Erster Zugriff
+lso#:#lso_intropages_deprecationhint#:#Sie können die Einleitungs- und Abschlussseite unter "Inhalt" editieren.
 lso#:#last_access#:#Letzter Zugriff
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#learner_view#:#Übersicht
@@ -10396,6 +10378,8 @@ lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_settings_availability#:#Verfügbarkeit
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
+lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
+lso#:#lso_settings_old_intro#:#Alte Einleitungsseite ansehen
 lso#:#lso_show_members_info#:#Mitgliedergalerie für Benutzer sichtbar
 lso#:#lso_start_item#:#%s öffnen
 lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lernsequenz
@@ -10418,6 +10402,28 @@ lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#auth_lti#:#LTI Auth
+lti#:#conf_privacy_ident#:#Benutzeridentifikation
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Benutzernamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
+lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
+lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
+lti#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+lti#:#conf_privacy_name#:#Benutzername
+lti#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen.
+lti#:#conf_privacy_name_firstname#:#Vorname
+lti#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
+lti#:#conf_privacy_name_fullname#:#Vollständiger Name
+lti#:#conf_privacy_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+lti#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
+lti#:#conf_privacy_name_lastname#:#Titel und Nachname
+lti#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
+lti#:#conf_privacy_name_none#:#Keiner
 lti#:#conf_user_ident#:#Benutzeridentifikation
 lti#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
@@ -10475,6 +10481,14 @@ lti#:#launch_method_own_win#:#Eigenes Fenster
 lti#:#launch_method_own_win_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
 lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
 lti#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) zum Download bereitgestellt werden.
+lti#:#lti_13_client_id#:#Client-ID
+lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti13_hints#:#Hinweise
+lti#:#lti_13_platform_id#:#Plattform-ID
+lti#:#lti_13_step1_info#:#Tragen Sie bei der initierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
+lti#:#lti_13_step1#:#Schritt 1
+lti#:#lti_13_step2_info#:#Von der initierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
+lti#:#lti_13_step2#:#Schritt 2
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
 lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
 lti#:#lti_action_delete_providers#:#Provider löschen
@@ -10486,7 +10500,16 @@ lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
 lti#:#lti_admin#:#LTI-Rolle Administrator
 lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht gelöscht werden, da dieser Provider von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
+lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
+lti#:#lti_con_content_item_url#:#Inhalts-URL
 lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider löschen möchten?
+lti#:#lti_con_initiate_login_url#:#Initiate Login URL
+lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
+lti#:#lti_con_key_type_jwk_url#:#URL
+lti#:#lti_con_key_type_rsa_public_key_info#:#Tragen Sie den vom Tool (Provider) bereitgestellten Schlüssel im PEM-Format hier ein.
+lti#:#lti_con_key_type_rsa_public_key#:#Öffentlicher Schlüssel
+lti#:#lti_con_key_type_rsa#:#RSA-Schlüssel
+lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
 lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Kursadministratoren könnten im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
 lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
 lti#:#lti_con_prov_authentication#:#Authentifizierung
@@ -10508,6 +10531,10 @@ lti#:#lti_con_prov_hints#:#Hinweise
 lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic#:#Benutzerbild senden
 lti#:#lti_con_prov_inc_usr_pic_info#:#Links zu ILIAS-Benutzerbildern sind beim Start des LTI-Konsumenten enthalten.
+lti#:#lti_con_prov_instructor_email#:#E-Mail von Lehrenden
+lti#:#lti_con_prov_instructor_email_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende die E-Mail-Adresse übertragen werden. Dazu müssen sie Kurs- oder GruppenadministratorInnen sein.
+lti#:#lti_con_prov_instructor_name_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende der Name übertragen werden.
+lti#:#lti_con_prov_instructor_name#:#Name von Lehrenden
 lti#:#lti_con_prov_key#:#Key
 lti#:#lti_con_prov_keywords_info#:#Die Schlagwörter müssen durch ein Semikolon (;) getrennt sein. Die Schlagwörter werden automatisch als Schlagwörter in die Metadaten übernommen.
 lti#:#lti_con_prov_keywords#:#Schlagwörter
@@ -10538,6 +10565,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_secret#:#Secret des LRS-Endpunkts
 lti#:#lti_con_prov_xapi_launch_url_info#:#Bitte fügen Sie die vollständige URL mit https:// hinzu.
 lti#:#lti_con_prov_xapi_launch_url#:#URL des LRS-Endpoints
+lti#:#lti_con_redirection_uris#:#Redirection URI
 lti#:#lti_consumer_created#:#Konsument hinzugefügt
 lti#:#lti_consumer_deleted#:#Konsument gelöscht
 lti#:#lti_consumer#:#Freigegeben für
@@ -10547,6 +10575,10 @@ lti#:#lti_consumer_set_active#:#Konsument aktiviert
 lti#:#lti_consumer_set_inactive#:#Konsument deaktiviert
 lti#:#lti_consumer_updated#:#Konsument aktualisiert
 lti#:#lti_consuming_tab#:#ILIAS als LTI-Konsument
+lti#:#lti_con_tool_url#:#Login URL
+lti#:#lti_con_version_1.1#:#Version 1.1
+lti#:#lti_con_version_1.3#:#Version 1.3
+lti#:#lti_con_version#:#LTI Version
 lti#:#lti_copy#:#LTI-Konsument kopieren
 lti#:#lti_create_consumer#:#Konsumenten hinzufügen
 lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
@@ -10578,6 +10610,9 @@ lti#:#lti_obj_active_info#:#Wenn aktiviert, kann dieses Objekt über die LTI-Sch
 lti#:#lti_obj_active#:#LTI-Tool-Provider
 lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
+lti#:#lti_obj_version_11#:#Version 1.1
+lti#:#lti_obj_version_13#:#Version 1.3
+lti#:#lti_obj_version#:#LTI Version
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ gesetzt.
 lti#:#lti_providing_tab#:#ILIAS als LTI-Provider
@@ -10763,10 +10798,10 @@ mail#:#mail_my_courses#:#Meine Kurse
 mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
 mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
-mail#:#mail_nacc_client_desc#:#Beschreibung des Mandanten
-mail#:#mail_nacc_client_name#:#Name des Mandanten
 mail#:#mail_nacc_if_timelimit#:#Dieser Textblock wird nur eingefügt, wenn der Benutzer einen begrenzten Zugangszeitraum hat.
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
+mail#:#mail_nacc_installation_desc#:#Beschreibung der Installation
+mail#:#mail_nacc_installation_name#:#Name der Installation
 mail#:#mail_nacc_login#:#Login-Account
 mail#:#mail_nacc_no_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde.
 mail#:#mail_nacc_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer mit Passwort angelegt wurde.
@@ -10918,6 +10953,7 @@ mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren
 mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, die ILIAS für das MathJax-Skript produzieren soll
 mathjax#:#mathjax_limiter#:#Trennzeichen
+mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
@@ -12244,7 +12280,6 @@ orgu#:#user_import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu 
 orgu#:#users_successfuly_added#:#Der Benutzer wurde erfolgreich eingetragen.
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_pdcal#:#Kalender anzeigen
@@ -12276,6 +12311,7 @@ pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
 pdfgen#:#footer_text_center#:#Text Mitte
 pdfgen#:#footer_text_left#:#Text links
 pdfgen#:#footer_text_right#:#Text rechts
+pdfgen#:#footer_text#:#Text
 pdfgen#:#footer_type#:#Fußzeile
 pdfgen#:#greyscale#:#Graustufen
 pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
@@ -12499,12 +12535,12 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_custom_plan#:#Individueller Plan
-prg#:#prg_dash_label_finish_until#:#Zu erledigen bis:
-prg#:#prg_dash_label_gain#:#Aktueller Stand:
-prg#:#prg_dash_label_minimum#:#Minimales Ziel:
-prg#:#prg_dash_label_restart_from#:#Neubeginn ab:
-prg#:#prg_dash_label_status#:#Status:
-prg#:#prg_dash_label_valid#:#Gültigkeit:
+prg#:#prg_dash_label_finish_until#:#Zu erledigen bis
+prg#:#prg_dash_label_gain#:#Aktueller Stand
+prg#:#prg_dash_label_minimum#:#Minimales Ziel
+prg#:#prg_dash_label_restart_from#:#Neubeginn ab
+prg#:#prg_dash_label_status#:#Status
+prg#:#prg_dash_label_valid#:#Gültigkeit
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
 prg#:#prg_deadline_period#:#Bearbeitungszeitraum endet individuell
@@ -13065,6 +13101,20 @@ rbac#:#chtr_moderate#:#Diskussion im Chatraum moderieren
 rbac#:#chtr_read#:#An Diskussion im Chatraum teilnehmen
 rbac#:#chtr_visible#:#Chatraum ist sichtbar
 rbac#:#chtr_write#:#Einstellungen des Chatraums bearbeiten und Benutzer sperren
+rbac#:#cld_delete_files#:#Users can delete Files in the cloud object###29 07 2022 new variable
+rbac#:#cld_delete_folders#:#Users can delete Folders in the cloud object###29 07 2022 new variable
+rbac#:#cld_delete#:#User can delete cloud object###29 07 2022 new variable
+rbac#:#cld_download#:#User can download files from the cloud object###29 07 2022 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###29 07 2022 new variable
+rbac#:#cld_edit_permission#:#User can change permission settings###29 07 2022 new variable
+rbac#:#cld_files_visible#:#Files are visible in the cloud object###29 07 2022 new variable
+rbac#:#cld_folders_create#:#Folders may be created in the cloud object###29 07 2022 new variable
+rbac#:#cld_folders_visible#:#Folders are visible in the cloud object###29 07 2022 new variable
+rbac#:#cld_permission#:#User can change permission settings###29 07 2022 new variable
+rbac#:#cld_read#:#User can open a Cloud Object###29 07 2022 new variable
+rbac#:#cld_upload#:#User can upload files to the cloud object###29 07 2022 new variable
+rbac#:#cld_visible#:#Cloud Object is visible###29 07 2022 new variable
+rbac#:#cld_write#:#User can edit cloud object settings###29 07 2022 new variable
 rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern
 rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
@@ -13307,7 +13357,6 @@ rbac#:#lngf_edit_permission#:#Rechteeinstellungen der Administration ändern
 rbac#:#lngf_read#:#Lesezugriff auf Sprachenverwaltung
 rbac#:#lngf_visible#:#Sprachenverwaltung ist sichtbar
 rbac#:#lngf_write#:#Spracheinstellungen können bearbeitet und erweiterte Sprachenverwaltung genutzt werden
-rbac#:#log#:#Log
 rbac#:#logs_edit_permission#:#Rechteeinstellung der Protokollierung ändern
 rbac#:#logs_read#:#Lesezugriff auf Einstellungen der Protokollierung
 rbac#:#logs_visible#:#Protokollierungs-Administration ist sichtbar
@@ -13519,13 +13568,13 @@ rbac#:#rbac_create_book#:#Buchungspool anlegen
 rbac#:#rbac_create_cat#:#Kategorien anlegen
 rbac#:#rbac_create_catr#:#Kategorienlink anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
+rbac#:#rbac_create_cld#:#Create Cloud Object###29 07 2022 new variable
 rbac#:#rbac_create_cmix#:#xAPI/cmi5-Objekt anlegen
 rbac#:#rbac_create_copa#:#Inhaltsseite anlegen
 rbac#:#rbac_create_crs#:#Kurs anlegen
 rbac#:#rbac_create_crsr#:#Kurslink anlegen
 rbac#:#rbac_create_dcl#:#Datensammlung anlegen
 rbac#:#rbac_create_exc#:#Übung anlegen
-rbac#:#rbac_create_feed#:#Webfeed anlegen
 rbac#:#rbac_create_file#:#Datei hochladen
 rbac#:#rbac_create_fold#:#Ordner anlegen
 rbac#:#rbac_create_frm#:#Forum anlegen
@@ -14434,12 +14483,12 @@ search#:#search_mime_image#:#Bilder
 search#:#search_mime_pdf#:#PDF-Dateien
 search#:#search_mime_powerpoint#:#Powerpoint-Dateien
 search#:#search_mime_word#:#Word-Dateien
-search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein
+search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein.
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein.
 search#:#search_newer_than#:#Objekte erstellt vor dem...
 search#:#search_no_connection_lucene#:#Es kann keine Verbindung zum Lucene-Server hergestellt werden.
 search#:#search_no_match_hint#:#Es wurden keine Treffer für Ihre Suchanfrage nach <b>%s</b> gefunden.<br />Vorschläge:<br /><br />• Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />• Probieren Sie andere Suchbegriffe.<br />• Probieren Sie allgemeinere Suchbegriffe.<br />• Probieren Sie weniger Suchbegriffe.
-search#:#search_no_match#:#Ihre Suche ergab keine Treffer
+search#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
 search#:#search_off#:#Aus
 search#:#search_option_offline#:#Offline
@@ -15617,7 +15666,7 @@ survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, wel
 survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage für die folgenden Feedback-Nehmer schließen?
 survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schließen?
 survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
-survey#:#survey_360_sure_delete_raters#:##Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
+survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
 survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem sie dem Reiter 'Info' einen Zugangsschlüssel eingeben. Diese Zugangsschlüssel werden im gleichnamigen Unterreiter im Reiter 'Teilnehmer' erzeugt.
 survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
@@ -16223,6 +16272,18 @@ trac#:#trac_maxed_out_time#:#Vollauslastung [min]
 trac#:#trac_measure#:#Kennzahl
 trac#:#trac_members_short#:#Teil.
 trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:
+trac#:#trac_mode_cmix_completed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_completed_info#:#&nbsp;
+trac#:#trac_mode_cmix_completed_or_passed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_completed_or_passed_info#:#&nbsp;
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed_info#:#&nbsp;
+trac#:#trac_mode_cmix_compl_with_failed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_compl_with_failed_info#:#&nbsp;
+trac#:#trac_mode_cmix_passed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_passed_info#:#&nbsp;
+trac#:#trac_mode_cmix_passed_with_failed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_passed_with_failed_info#:#&nbsp;
 trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts des Objekts wird automatisch durch den Status der ausgewählten Objekten bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten Objekte ausgewählt werden.
 trac#:#trac_mode_collection_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts im jeweiligen Kapitel.
 trac#:#trac_mode_collection_manual_info#:#Benutzer entscheiden selbst, wann sie ein Kapitel des Lernmoduls erfolgreich durchgearbeitet haben. Sowie die Bearbeitung eines Kapitels abgeschlossen ist, setzen sie auf dem Reiter 'Info' den Status dieses Kapitels auf 'Bearbeitet'.<br />Nach dem Speichern dieser Einstellungen, können auf dieser Seite Kapitel für den Lernfortschritt ausgewählt werden.
@@ -16508,8 +16569,6 @@ user#:#user_publish_options#:#Profil veröffentlichen
 user#:#user_role_starting_point#:#Benutzer - Startseite
 user#:#user_save_continue#:#Speichern und weiter
 user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
-user#:#user_screen_reader_optimization_info#:#Passt ILIAS an die Nutzung mit einem Screenreader / Bildschirmleseprogramm an.
-user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
 user#:#user_set_publishing_options#:#Veröffentlichung konfigurieren
 user#:#user_set_visibilty_options#:#Sichtbarkeit konfigurieren
@@ -16527,7 +16586,7 @@ usr#:#user_action#:#Benutzeraktion
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 usr#:#user_actions#:#Benutzeraktionen
 validation#:#no_array#:#Wert ist kein Feld
-validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
+validation#:#not_an_array_of#:#Die Elemente des Arrays scheitern an Bedingungen: %s
 validation#:#not_an_array#:#'%s' ist kein Array.
 validation#:#not_an_int#:#Wert vom Typ '%s' ist kein Integer.
 validation#:#not_a_null#:#Wert vom Typ '%s' ist keine Null.
@@ -16794,6 +16853,7 @@ wiki#:#wiki_wpg#:#Wiki-Seite
 wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
+wsp#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 wsp#:#share_content#:#Ressource freigeben
 wsp#:#share#:#Freigeben
 wsp#:#share_with#:#Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8

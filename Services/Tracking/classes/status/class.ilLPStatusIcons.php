@@ -40,34 +40,46 @@ class ilLPStatusIcons
     private string $image_path_asset = '';
     private string $image_path_running = '';
 
-    public static function getInstance(int $variant = ilLPStatusIcons::ICON_VARIANT_DEFAULT) : ilLPStatusIcons
+    private \ILIAS\UI\Factory $factory;
+    private \ILIAS\UI\Renderer $renderer;
+
+    public static function getInstance(int $variant = ilLPStatusIcons::ICON_VARIANT_DEFAULT, ?\ILIAS\UI\Renderer $renderer = null, ?\ILIAS\UI\Factory $factory = null) : ilLPStatusIcons
     {
+        if (!$renderer || !$factory) {
+            global $DIC;
+            $renderer = $DIC->ui()->renderer();
+            $factory = $DIC->ui()->factory();
+        }
+
         switch ($variant) {
             case ilLPStatusIcons::ICON_VARIANT_SCORM:
                 if (self::$instance_variant_scorm) {
                     return self::$instance_variant_scorm;
                 }
-                return self::$instance_variant_scorm = new self(ilLPStatusIcons::ICON_VARIANT_SCORM);
+                return self::$instance_variant_scorm = new self(ilLPStatusIcons::ICON_VARIANT_SCORM, $renderer, $factory);
 
             case ilLPStatusIcons::ICON_VARIANT_SHORT:
                 if (self::$instance_variant_short) {
                     return self::$instance_variant_short;
                 }
-                return self::$instance_variant_short = new self(ilLPStatusIcons::ICON_VARIANT_SHORT);
+                return self::$instance_variant_short = new self(ilLPStatusIcons::ICON_VARIANT_SHORT, $renderer, $factory);
 
             case ilLPStatusIcons::ICON_VARIANT_LONG:
                 if (self::$instance_variant_long) {
                     return self::$instance_variant_long;
                 }
-                return self::$instance_variant_long = new self(ilLPStatusIcons::ICON_VARIANT_LONG);
+                return self::$instance_variant_long = new self(ilLPStatusIcons::ICON_VARIANT_LONG, $renderer, $factory);
 
             default:
                 throw new ilLPException("No such variant of the LP icons exists.");
         }
     }
 
-    private function __construct(int $variant = ilLPStatusIcons::ICON_VARIANT_DEFAULT)
+    private function __construct(int $variant, \ILIAS\UI\Renderer $renderer, \ILIAS\UI\Factory $factory)
     {
+        $this->factory = $factory;
+        $this->renderer = $renderer;
+
         switch ($variant) {
             case ilLPStatusIcons::ICON_VARIANT_SCORM:
                 $this->image_path_in_progress = ilUtil::getImagePath('scorm/incomplete.svg');
@@ -143,20 +155,16 @@ class ilLPStatusIcons
 
     public function renderIcon(string $path, string $alt) : string
     {
-        if ($this === self::$instance_variant_long) {
-            $variant = 'ilLPIconLong';
-        } elseif ($this === self::$instance_variant_short) {
-            $variant = 'ilLPIconShort';
-        } else {
+        if ($this === self::$instance_variant_scorm) {
             throw new ilLPException("SCORM variants of the LP icons cannot be rendered.");
         }
 
-        $tpl = new ilTemplate('tpl.lp_icon_img.html', true, true, 'Services/Tracking');
-        $tpl->setVariable('ICON_VARIANT', $variant);
-        $tpl->setVariable('IMAGE_PATH', $path);
-        $tpl->setVariable('ALT_TEXT', $alt);
+        return $this->renderer->render($this->getIconComponent($path, $alt));
+    }
 
-        return $tpl->get();
+    public function getIconComponent(string $path, string $alt) : \ILIAS\UI\Component\Symbol\Icon\Custom
+    {
+        return $this->factory->symbol()->icon()->custom($path, $alt, \ILIAS\UI\Component\Symbol\Icon\Icon::SMALL);
     }
 
     /**

@@ -788,8 +788,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
     private function getAvailableTaxonomyIds() : array
     {
-        if ($this->getAvailableTaxonomyIds() === null) {
-            require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+        if ($this->availableTaxonomyIds === null) {
             $this->availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());
         }
 

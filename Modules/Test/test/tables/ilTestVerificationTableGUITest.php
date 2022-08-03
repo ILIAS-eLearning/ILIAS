@@ -62,7 +62,10 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
 
                     public function info(string $a_message) : void
                     {
-                        //return "testInfo";
+                    }
+
+                    public function debug(string $a_message, array $a_context = array()) : void
+                    {
                     }
                 };
             }
@@ -75,6 +78,10 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
                     }
 
                     public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
+                    {
+                    }
+
+                    public function debug(string $a_message, array $a_context = array()) : void
                     {
                     }
                 };

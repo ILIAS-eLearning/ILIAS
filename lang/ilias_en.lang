@@ -1097,8 +1097,11 @@ assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#qst_lifecycle_rejected#:#Rejected
 assessment#:#qst_lifecycle_review#:#To be Reviewed
 assessment#:#qst_lifecycle_sharable#:#Sharable
+assessment#:#qst_nested_nested_answers_off#:#No indents, just order
+assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
 assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qst_preview_reset_msg#:#The preview has been reset.
+assessment#:#qst_use_nested_answers#:#Nested answers
 assessment#:#que_contains_unused_var#:#The question text contains a variable, that is not used in any result formula!
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
@@ -1225,6 +1228,7 @@ assessment#:#suggested_solution_added_successfully#:#You successfully set a cont
 assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#suggestedSolutionType#:#Refer to
 assessment#:#suggest_range#:#Suggest Range
+assessment#:#tab_nest_answers#:#Nesting
 assessment#:#term_image#:#Term Image
 assessment#:#terms#:#Terms
 assessment#:#term#:#Term
@@ -1281,7 +1285,7 @@ assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
 assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questions to competences and the definition of thresholds for reaching a specific competence level.
-assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test.
+assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. Further access, including to tests already in progress, will be prevented at the end of the period.
 assessment#:#tst_activation_online_info#:#If online, participants can take the test.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
@@ -1743,10 +1747,6 @@ assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points_of_max#:#%s of %s
 assessment#:#tst_reached_points#:#Reached Points
-assessment#:#qst_use_nested_answers#:#Nested answers
-assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
-assessment#:#qst_nested_nested_answers_off#:#No indents, just order
-assessment#:#tab_nest_answers#:#Nesting
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
@@ -2543,6 +2543,7 @@ book#:#book_schedule_deleted#:#The booking schedule has been deleted.
 book#:#book_schedule#:#Schedule
 book#:#book_schedule_slot#:#Slot
 book#:#book_schedules#:#Schedules
+book#:#book_schedule_type#:#Booking Mode
 book#:#book_schedule_type_fixed#:#Fixed Schedule
 book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, video projectors and such.
 book#:#book_schedule_type_none_direct_info#:#This type can be used for seminar papers, seminar places and such. Participants can book items directly.
@@ -2551,7 +2552,6 @@ book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, 
 book#:#book_schedule_type_none#:#No Schedule
 book#:#book_schedule_type_none_preference_info#:#This type can be used for seminar papers, seminar places and such. Participants will indicate their preferences. Items will be assigned automatically after the preferences deadline.
 book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
-book#:#book_schedule_type#:#Booking Mode
 book#:#book_schedule_updated#:#The booking schedule has been updated.
 book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking (or switch to a different type of pool).
 book#:#book_select_pool#:#Select Pool
@@ -3069,8 +3069,11 @@ cmix#:#conf_external_lrs#:#External LRS
 cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.
 cmix#:#conf_keep_lp#:#Keep Learning Progress
 cmix#:#conf_launch_mode_browse#:#Browse
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.
 cmix#:#conf_launch_mode#:#Launch Mode
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.
 cmix#:#conf_launch_mode_normal#:#Normal
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.
 cmix#:#conf_launch_mode_review#:#Review
 cmix#:#conf_lrs_endpoint#:#Endpoint
 cmix#:#conf_lrs_key#:#Key / Login
@@ -3080,6 +3083,30 @@ cmix#:#conf_new_window#:#New Window
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_privacy_comment_default#:#Indication to user
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.
+cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
+cmix#:#conf_privacy_ident_info#:#Standard is frequently the E-Mail address. The unique ILIAS platform id is:
+cmix#:#conf_privacy_ident_real_email#:#E-Mail Address
+cmix#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
+cmix#:#conf_privacy_ident#:#User identification
+cmix#:#conf_privacy_name_firstname#:#First name
+cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS
+cmix#:#conf_privacy_name_fullname#:#Entire name
+cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name
+cmix#:#conf_privacy_name_info#:#Sending an user name is usually not required.
+cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
+cmix#:#conf_privacy_name_lastname#:#Title and last name
+cmix#:#conf_privacy_name_none_info#:#Sends '-' instead of a name
+cmix#:#conf_privacy_name_none#:#No one
+cmix#:#conf_privacy_name#:#User name
 cmix#:#conf_privacy_setting_conf#:#Configuration Options
 cmix#:#conf_privacy_setting_default#:#Default Settings, changeable for Objects
 cmix#:#conf_privacy_setting_force#:#Settings are not changeable for Objects
@@ -6136,7 +6163,8 @@ content#:#cont_cp_question_diff_formats_info#:#Please note that some formatting 
 content#:#cont_create_link#:#Create Link
 content#:#cont_create_mob#:#Create Media Object
 content#:#cont_credit_mode#:#Grading Tracking Status
-content#:#cont_credit_off#:#Tracking Status not Graded
+content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.
+content#:#cont_credit_off#:#Tracking Status not graded
 content#:#cont_credit_on#:#Grade Tracking Status (Passed or Failed)
 content#:#cont_credits#:#Credits
 content#:#cont_current_chapter#:#Current Chapter
@@ -6792,12 +6820,12 @@ content#:#cont_save_widths#:#Save Widths
 content#:#cont_saving#:#Saving...
 content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.
 content#:#cont_sc_auto_continue#:#Redirect Users
-content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
+content#:#cont_sc_auto_review_2004#:#Store Data
 content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achieved status is completed and passed
 content#:#cont_sc_auto_review_completed#:#keep tracking data if achieved status is completed
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
-content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the Tracking Status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
 content#:#cont_sc_auto_review_passed_or_failed#:#keep tracking data if achieved status is passed or failed
@@ -9586,10 +9614,12 @@ forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator.
 forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.
 forum#:#frm_moderators_select_one#:#Please choose one user.
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
-forum#:#frm_noti_obj_crs#:#course
-forum#:#frm_noti_obj_grp#:#group
+forum#:#frm_notification_activated#:#Notification Activated
+forum#:#frm_notification_deactivated#:#Notification Deactivated
 forum#:#frm_noti_message#:#Message:
 forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
+forum#:#frm_noti_obj_crs#:#course
+forum#:#frm_noti_obj_grp#:#group
 forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s"%2$s, thread "%3$s"
@@ -9598,8 +9628,6 @@ forum#:#frm_noti_subject_del_thread#:#Thread "%4$s" deleted in forum "%1$s"%3$s
 forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s"%2$s, thread "%3$s"
-forum#:#frm_notification_activated#:#Notification Activated
-forum#:#frm_notification_deactivated#:#Notification Deactivated
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
 forum#:#frm_posts#:#Forum Posts
 forum#:#frm_pseudonym#:#Pseudonym
@@ -10286,6 +10314,7 @@ lso#:#extro_img#:#Image for Exitpage
 lso#:#failed#:#Failed
 lso#:#finished#:#Finished
 lso#:#first_access#:#First Access
+lso#:#lso_intropages_deprecationhint#:#You can edit the abstract and extro page in the tab "Content".
 lso#:#last_access#:#Last Access
 lso#:#last_visited_step#:#Last visited Step
 lso#:#learner_view#:#Overview
@@ -10349,6 +10378,8 @@ lso#:#lso_search_users#:#Search Users
 lso#:#lso_settings_availability#:#availability
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
+lso#:#lso_settings_old_extro#:#View Old Exitpage
+lso#:#lso_settings_old_intro#:#View Old Intropage
 lso#:#lso_show_members_info#:#Member Gallery available for users
 lso#:#lso_start_item#:#Open %s
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
@@ -10371,6 +10402,28 @@ lti#:#activity_id#:#Activity ID
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Provider to identify Statements.
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
 lti#:#auth_lti#:#LTI Auth
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
+lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
+lti#:#conf_privacy_ident_real_email#:#E-Mail Address
+lti#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
+lti#:#conf_privacy_ident#:#User identification
+lti#:#conf_privacy_name_firstname#:#First name
+lti#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS
+lti#:#conf_privacy_name_fullname#:#Entire name
+lti#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name
+lti#:#conf_privacy_name_info#:#Sending an user name is usually not required.
+lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
+lti#:#conf_privacy_name_lastname#:#Title and last name
+lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name
+lti#:#conf_privacy_name_none#:#No one
+lti#:#conf_privacy_name#:#User name
 lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.
 lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
@@ -10428,6 +10481,14 @@ lti#:#launch_method_own_win_info#:#The content is opened in the same window and 
 lti#:#launch_method_own_win#:#Own Window
 lti#:#learning_progress_options#:#Options for Learning Progress
 lti#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML, SCORM) can be released publicly.
+lti#:#lti_13_client_id#:#Client-ID
+lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti13_hints#:#Hints
+lti#:#lti_13_platform_id#:#Platform-ID
+lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:
+lti#:#lti_13_step1#:#Step 1
+lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
+lti#:#lti_13_step2#:#Step 2
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
@@ -10439,7 +10500,16 @@ lti#:#lti_add_own_provider#:#Add Own Provider (not for all Users)
 lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be deleted because this provider has usages (might be in trash).
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
+lti#:#lti_con_content_item#:#Support for Deep Linking
+lti#:#lti_con_content_item_url#:#Content URL
 lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?
+lti#:#lti_con_initiate_login_url#:#Initiate Login URL
+lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
+lti#:#lti_con_key_type_jwk_url#:#URL
+lti#:#lti_con_key_type#:#Public Key Type
+lti#:#lti_con_key_type_rsa_public_key_info#:#Insert the key provided by the tool (provider) in PEM format here.
+lti#:#lti_con_key_type_rsa_public_key#:#Public Key
+lti#:#lti_con_key_type_rsa#:#RSA-Key
 lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Provider, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.
 lti#:#lti_con_prov_always_learner#:#LTI User is always Learner
 lti#:#lti_con_prov_authentication#:#Authentication
@@ -10461,6 +10531,10 @@ lti#:#lti_con_prov_hints#:#Hints
 lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic_info#:#Links to ILIAS user pictures are included at launch of LTI consumer object.
 lti#:#lti_con_prov_inc_usr_pic#:#Send User Picture
+lti#:#lti_con_prov_instructor_email_info#:#In difference to the previously selected settings, the e-mail address can be transferred for instructors. To do this, they must be course or group administrators.
+lti#:#lti_con_prov_instructor_email#:#Instructor E-Mail
+lti#:#lti_con_prov_instructor_name_info#:#In difference to the previously selected settings, the name can be transferred for instructors.
+lti#:#lti_con_prov_instructor_name#:#Instructor Name
 lti#:#lti_con_prov_key#:#Key
 lti#:#lti_con_prov_keywords_info#:#The keywords must be separated by a Semicolon (;). The Keywords are automatically taken to the Metadata as Keywords.
 lti#:#lti_con_prov_keywords#:#Keywords
@@ -10491,6 +10565,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS Endpoint
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://
 lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint
+lti#:#lti_con_redirection_uris#:#Redirection URI
 lti#:#lti_consumer_created#:#Consumer created
 lti#:#lti_consumer_deleted#:#Consumer deleted
 lti#:#lti_consumer_key#:#Consumer Key
@@ -10500,6 +10575,10 @@ lti#:#lti_consumer_set_active#:#Consumer activated
 lti#:#lti_consumer_set_inactive#:#Consumer deactivated
 lti#:#lti_consumer_updated#:#Consumer updated
 lti#:#lti_consuming_tab#:#ILIAS as LTI Consumer
+lti#:#lti_con_tool_url#:#Login URL
+lti#:#lti_con_version_1.1#:#Version 1.1
+lti#:#lti_con_version_1.3#:#Version 1.3
+lti#:#lti_con_version#:#LTI Version
 lti#:#lti_copy#:#Copy Consumer
 lti#:#lti_create_consumer#:#Create Consumer
 lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
@@ -10531,6 +10610,9 @@ lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider.
 lti#:#lti_obj_active#:#LTI-Tool Provider
 lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#Edit LTI Releases
+lti#:#lti_obj_version_11#:#Version 1.1
+lti#:#lti_obj_version_13#:#Version 1.3
+lti#:#lti_obj_version#:#LTI Version
 lti#:#lti_provider#:#LTI Releases
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
@@ -10716,10 +10798,10 @@ mail#:#mail_my_courses#:#My Courses
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
-mail#:#mail_nacc_client_desc#:#Client Description
-mail#:#mail_nacc_client_name#:#Client Name
 mail#:#mail_nacc_if_timelimit#:#This text is only included if the user has a limited access period.
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
+mail#:#mail_nacc_installation_desc#:#Installation Description
+mail#:#mail_nacc_installation_name#:#Installation Name
 mail#:#mail_nacc_login#:#Username (Login ID)
 mail#:#mail_nacc_no_pw_block#:#This text block is only included if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included if the new user account has been created with a password included.
@@ -12453,12 +12535,12 @@ prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
 prg#:#prg_custom_plan#:#Custom Plan
-prg#:#prg_dash_label_finish_until#:#Finish until:
-prg#:#prg_dash_label_gain#:#Current Completion:
-prg#:#prg_dash_label_minimum#:#Minimum Completion:
-prg#:#prg_dash_label_restart_from#:#Restart from:
-prg#:#prg_dash_label_status#:#Status:
-prg#:#prg_dash_label_valid#:#Valid:
+prg#:#prg_dash_label_finish_until#:#Finish until
+prg#:#prg_dash_label_gain#:#Current Completion
+prg#:#prg_dash_label_minimum#:#Minimum Completion
+prg#:#prg_dash_label_restart_from#:#Restart from
+prg#:#prg_dash_label_status#:#Status
+prg#:#prg_dash_label_valid#:#Valid
 prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline#:#Deadline
@@ -14406,7 +14488,7 @@ search#:#search_minimum_three#:#Your search must be at least three characters lo
 search#:#search_newer_than#:#Objects newer than
 search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
 search#:#search_no_match_hint#:#Your search for <b>%s</b> did not match any documents.<br /><br />Suggestions:<br />• Make sure all words are spelled correctly.<br />• Try different keywords.<br />• Try more general keywords.<br />• Try fewer keywords.
-search#:#search_no_match#:#Your search did not match any results
+search#:#search_no_match#:#Your search did not match any results.
 search#:#search_no_selection#:#You made no selection.
 search#:#search_off#:#Off
 search#:#search_option_offline#:#Offline
@@ -16190,6 +16272,18 @@ trac#:#trac_maxed_out_time#:#Full Load [min]
 trac#:#trac_measure#:#Figure
 trac#:#trac_members_short#:#Members
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_completed_info#:#&nbsp;
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_completed_or_passed_info#:#&nbsp;
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed_info#:#&nbsp;
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_compl_with_failed_info#:#&nbsp;
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_passed_info#:#&nbsp;
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_passed_with_failed_info#:#&nbsp;
 trac#:#trac_mode_collection_info#:#A user's learning progress status is determined by the learning progress status of a collection of items:  If the status of all items in the collection is ‘Completed’ the overall status is ‘Completed’ .<br />Items can be assigned to the collection on this screen after saving this setting.
 trac#:#trac_mode_collection_manual_info#:#Users decide themselves if they have accomplished a chapter of the learning module. After completing a chapter, users have to set this chapter's status to ‘Completed’ on the 'Info'-tab. <br />Chapters can be selected as Progress-relevant on this screen after you have saved this setting.
 trac#:#trac_mode_collection_manual#:#Users Monitor and Set Status per Chapter Themselves

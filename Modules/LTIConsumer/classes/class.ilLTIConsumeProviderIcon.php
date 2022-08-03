@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilLTIConsumeProviderIcon
  *
@@ -199,7 +202,7 @@ class ilLTIConsumeProviderIcon
         if ($fileInput->getDeletionFlag()) {
             $this->delete();
         }
-        
+
         // ilImageFileInputGUI does NOT come with a set value that could be fetched with
         // ToDo
 //        $fileData = $DIC->http()->wrapper()->post()->retrieve($fileInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
@@ -209,6 +212,9 @@ class ilLTIConsumeProviderIcon
 //        }
     }
 
+    /**
+     * @return mixed[]
+     */
     public static function getSupportedFileExtensions() : array
     {
         return self::$SUPPORTED_FILE_EXTENSIONS;

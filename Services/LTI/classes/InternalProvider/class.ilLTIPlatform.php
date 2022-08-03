@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\LTI\ToolProvider;
 //use ILIAS\LTI\ToolProvider\Platform;
 //use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
@@ -8,19 +24,6 @@ use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
 //use ILIAS\LTIOAuth;
 use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * LTI provider for LTI launch
  *
@@ -32,7 +35,7 @@ class ilLTIPlatform extends ToolProvider\Platform
     /**
      * @var int ref_id
      */
-    protected int $ref_id;
+    protected int $ref_id = 0;
 
     /**
      * @var int ext consumer id
@@ -106,7 +109,7 @@ class ilLTIPlatform extends ToolProvider\Platform
     /**
      * Initialise the platform.
      */
-    public function initialize()
+    public function initialize() : void
     {
         $this->id = null;
         $this->key = null;
@@ -209,8 +212,7 @@ class ilLTIPlatform extends ToolProvider\Platform
     {
         return $this->secret;
     }
-    
-    
+
     /**
      * Create a secret
      */
@@ -266,6 +268,24 @@ class ilLTIPlatform extends ToolProvider\Platform
     // local_role_always_member, default_skin
 
     /**
+     * Load the platform from the database by its consumer key.
+     * @param string             $key           Consumer key
+     * @param ilLTIDataConnector $dataConnector A data connector object
+     * @param bool               $autoEnable    true if the platform is to be enabled automatically (optional, default is false)
+     * @return \ilLTIPlatform Platform       The platform object
+     */
+    public static function fromConsumerKey(?string $key = null, $dataConnector = null, bool $autoEnable = false) : \ilLTIPlatform
+    {
+        $platform = new ilLTIPlatform($dataConnector);
+        $platform->initialize();
+        $platform->setKey($key);
+        ilLoggerFactory::getLogger('ltis')->debug('Loading with key: ' . $platform->getKey());
+        $dataConnector->loadPlatform($platform);
+        $dataConnector->loadGlobalToolConsumerSettings($platform);
+        return $platform;
+    }
+
+    /**
      * Load the platform from the database by its record ID.
      * @param int        $id            The platform record ID
      * @param ilLTIDataConnector $dataConnector Database connection object
@@ -275,9 +295,11 @@ class ilLTIPlatform extends ToolProvider\Platform
     {
 //        $platform = new static($dataConnector);
         $platform = new ilLTIPlatform($dataConnector);
+        $platform->initialize();
         $platform->setRecordId((int) $id);
         ilLoggerFactory::getLogger('ltis')->info('Loading with record id: ' . $platform->getRecordId());
         $dataConnector->loadPlatform($platform);
+        $dataConnector->loadGlobalToolConsumerSettings($platform);
         return $platform;
     }
 
@@ -289,9 +311,9 @@ class ilLTIPlatform extends ToolProvider\Platform
     public static function fromExternalConsumerId(int $id, ilLTIDataConnector $dataConnector) : \ilLTIPlatform
     {
         $platform = new ilLTIPlatform($dataConnector);
-        $platform->setRecordId((int) $id);
-        $dataConnector->loadPlatform($platform);
-//        $platform->initialize();
+        //$platform->setRecordId((int) $id);
+        //$dataConnector->loadPlatform($platform);
+        $platform->initialize();
         $platform->setExtConsumerId($id);
         if (!$dataConnector->loadGlobalToolConsumerSettings($platform)) {
             $platform->initialize();
@@ -314,10 +336,9 @@ class ilLTIPlatform extends ToolProvider\Platform
         $toolConsumer->setRefId($a_ref_id);
         
         $consumer_pk = $a_data_connector->lookupRecordIdByGlobalSettingsAndRefId($toolConsumer);
-        if ($consumer_pk) {
-            return self::fromRecordId($consumer_pk, $a_data_connector);
+        if ($consumer_pk != null) {
+            $toolConsumer = self::fromRecordId($consumer_pk, $a_data_connector);
         }
-        $toolConsumer->initialize();
         return $toolConsumer;
     }
 

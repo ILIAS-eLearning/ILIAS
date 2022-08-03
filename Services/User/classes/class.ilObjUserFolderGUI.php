@@ -2649,22 +2649,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             "hide_own_online_status" => 0
         );
 
-        // check if a course export state of any field has been added
-        $privacy = ilPrivacySettings::getInstance();
-        if ($privacy->enabledCourseExport() == true &&
-            $privacy->courseConfirmationRequired() == true &&
-            $action != "save") {
-            foreach ($profile_fields as $field) {
-                if (!$ilias->getSetting(
-                    "usr_settings_course_export_" . $field
-                ) && $checked["course_export_" . $field] == "1") {
-                    #ilUtil::sendQuestion($this->lng->txt('confirm_message_course_export'));
-                    #$this->confirm_change = 1;
-                    #$this->settingsObject();
-                    #return;
-                }
-            }
-        }
         // Reset user confirmation
         if ($action == 'save') {
             ilMemberAgreement::_reset();
@@ -3345,8 +3329,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $lng->txt("mail_nacc_ilias_url")
         );
         $ftpl->setVariable(
-            "TXT_CLIENT_NAME",
-            $lng->txt("mail_nacc_client_name")
+            "TXT_INSTALLATION_NAME",
+            $lng->txt("mail_nacc_installation_name")
         );
         $ftpl->setVariable(
             "TXT_TARGET",

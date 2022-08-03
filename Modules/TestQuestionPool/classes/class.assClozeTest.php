@@ -27,12 +27,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 {
     /**
     * The gaps of the cloze question
-    *
-    * $gaps is an array of the predefined gaps of the cloze question
-    *
-    * @var array
+    * @var array<int, assClozeGap>
     */
-    public $gaps;
+    public array $gaps = [];
 
     /**
      * The optional gap combinations of the cloze question
@@ -128,7 +125,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->start_tag = "[gap]";
         $this->end_tag = "[/gap]";
-        $this->gaps = array();
+        $this->gaps = [];
         $this->setQuestion($question); // @TODO: Should this be $question?? See setter for why this is not trivial.
         $this->fixedTextLength = "";
         $this->identical_scoring = 1;
@@ -248,7 +245,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 array($question_id)
             );
             if ($result->numRows() > 0) {
-                $this->gaps = array();
+                $this->gaps = [];
                 while ($data = $ilDB->fetchAssoc($result)) {
                     switch ($data["cloze_type"]) {
                         case CLOZE_TEXT:
@@ -527,11 +524,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     #endregion Save question to db
 
     /**
-    * Returns the array of gaps
-    *
-    * @return array Array containing the gap objects of the cloze question gaps
-    * @access public
-    */
+     * Returns the array of gaps
+     * @return array<int, assClozeGap> A map containing the gap objects of the cloze question gaps mapped to the respective gap id.
+     */
     public function getGaps() : array
     {
         return $this->gaps;
@@ -539,14 +534,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
 
     /**
-    * Deletes all gaps without changing the cloze text
-    *
-    * @access public
-    * @see $gaps
-    */
+     * Deletes all gaps without changing the cloze text
+     * @see $gaps
+     */
     public function flushGaps() : void
     {
-        $this->gaps = array();
+        $this->gaps = [];
     }
 
     /**

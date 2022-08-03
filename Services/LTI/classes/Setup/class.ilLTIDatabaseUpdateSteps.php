@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
@@ -126,5 +129,10 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->createTable("lti2_access_token", $values);
             $this->db->addPrimaryKey("lti2_access_token", array("consumer_pk"));
         }
+    }
+
+    public function step_9() : void
+    {
+        $this->db->modifyTableColumn("lti2_consumer", "settings", array("type" => "clob", "notnull" => false));
     }
 }

@@ -91,8 +91,8 @@ class ilCategoryImporter extends ilXmlImporter
         foreach ($maps as $old => $new) {
             if ($old !== "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
-                $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
-                $tax_ids = explode(":", $new_tax_ids);
+                $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", (string) $old);
+                $tax_ids = explode(":", (string) $new_tax_ids);
                 foreach ($tax_ids as $tid) {
                     ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
                 }

@@ -240,51 +240,51 @@ class ilObjUser extends ilObject
         $ilErr = $DIC['ilErr'];
 
         // basic personal data
-        $this->setLogin($a_data["login"]);
-        if (!$a_data["passwd_type"]) {
+        $this->setLogin($a_data["login"] ?? '');
+        if (!($a_data["passwd_type"] ?? false)) {
             $ilErr->raiseError("<b>Error: passwd_type missing in function assignData(). " .
                                 $this->id . "!</b><br />class: " . get_class($this) . "<br />Script: "
                                 . __FILE__ . "<br />Line: " . __LINE__, $ilErr->FATAL);
         }
-        if ($a_data["passwd"] != "********" and strlen($a_data['passwd'])) {
-            $this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
+        if (($a_data["passwd"] ?? '') != "********" && strlen($a_data['passwd'] ?? '')) {
+            $this->setPasswd($a_data["passwd"] ?? '', $a_data["passwd_type"] ?? '');
         }
 
-        $this->setGender((string) $a_data["gender"]);
-        $this->setUTitle((string) $a_data["title"]);
-        $this->setFirstname((string) $a_data["firstname"]);
-        $this->setLastname((string) $a_data["lastname"]);
+        $this->setGender((string) $a_data["gender"] ?? '');
+        $this->setUTitle((string) $a_data["title"] ?? '');
+        $this->setFirstname((string) $a_data["firstname"] ?? '');
+        $this->setLastname((string) $a_data["lastname"] ?? '');
         $this->setFullname();
-        if (!is_array($a_data['birthday'])) {
+        if (!is_array($a_data['birthday'] ?? null)) {
             $this->setBirthday($a_data['birthday']);
         } else {
             $this->setBirthday(null);
         }
         
         // address data
-        $this->setInstitution((string) $a_data["institution"]);
-        $this->setDepartment((string) $a_data["department"]);
-        $this->setStreet((string) $a_data["street"]);
-        $this->setCity((string) $a_data["city"]);
-        $this->setZipcode((string) $a_data["zipcode"]);
-        $this->setCountry((string) $a_data["country"]);
-        $this->setSelectedCountry((string) $a_data["sel_country"]);
-        $this->setPhoneOffice((string) $a_data["phone_office"]);
-        $this->setPhoneHome((string) $a_data["phone_home"]);
-        $this->setPhoneMobile((string) $a_data["phone_mobile"]);
-        $this->setFax((string) $a_data["fax"]);
-        $this->setMatriculation((string) $a_data["matriculation"]);
-        $this->setEmail((string) $a_data["email"]);
-        $this->setSecondEmail((string) $a_data["second_email"]);
-        $this->setHobby((string) $a_data["hobby"]);
-        $this->setClientIP((string) $a_data["client_ip"]);
-        $this->setPasswordEncodingType($a_data['passwd_enc_type']);
-        $this->setPasswordSalt($a_data['passwd_salt']);
+        $this->setInstitution((string) $a_data["institution"] ?? '');
+        $this->setDepartment((string) $a_data["department"] ?? '');
+        $this->setStreet((string) $a_data["street"] ?? '');
+        $this->setCity((string) $a_data["city"] ?? '');
+        $this->setZipcode((string) $a_data["zipcode"] ?? '');
+        $this->setCountry((string) $a_data["country"] ?? '');
+        $this->setSelectedCountry((string) $a_data["sel_country"] ?? '');
+        $this->setPhoneOffice((string) $a_data["phone_office"] ?? '');
+        $this->setPhoneHome((string) $a_data["phone_home"] ?? '');
+        $this->setPhoneMobile((string) $a_data["phone_mobile"] ?? '');
+        $this->setFax((string) $a_data["fax"] ?? '');
+        $this->setMatriculation((string) $a_data["matriculation"] ?? '');
+        $this->setEmail((string) $a_data["email"] ?? '');
+        $this->setSecondEmail((string) $a_data["second_email"] ?? null);
+        $this->setHobby((string) $a_data["hobby"] ?? '');
+        $this->setClientIP((string) $a_data["client_ip"] ?? '');
+        $this->setPasswordEncodingType($a_data['passwd_enc_type'] ?? null);
+        $this->setPasswordSalt($a_data['passwd_salt'] ?? null);
 
         // other data
-        $this->setLatitude($a_data["latitude"]);
-        $this->setLongitude($a_data["longitude"]);
-        $this->setLocationZoom($a_data["loc_zoom"]);
+        $this->setLatitude($a_data["latitude"] ?? null);
+        $this->setLongitude($a_data["longitude"] ?? null);
+        $this->setLocationZoom($a_data["loc_zoom"] ?? null);
 
         // system data
         $this->setLastLogin((string) $a_data["last_login"]);
@@ -293,27 +293,27 @@ class ilObjUser extends ilObject
         $this->setLastUpdate((string) $a_data["last_update"]);
         $this->create_date = $a_data["create_date"] ?? "";
         $this->setComment((string) $a_data["referral_comment"]);
-        $this->approve_date = $a_data["approve_date"];
-        $this->active = $a_data["active"];
-        $this->agree_date = $a_data["agree_date"];
+        $this->approve_date = ($a_data["approve_date"] ?? null);
+        $this->active = ($a_data["active"] ?? 0);
+        $this->agree_date = ($a_data["agree_date"] ?? null);
         
-        $this->setInactivationDate((string) $a_data["inactivation_date"]);
+        $this->setInactivationDate((string) ($a_data["inactivation_date"] ?? null));
 
         // time limitation
-        $this->setTimeLimitOwner($a_data["time_limit_owner"]);
-        $this->setTimeLimitUnlimited($a_data["time_limit_unlimited"]);
-        $this->setTimeLimitFrom($a_data["time_limit_from"]);
-        $this->setTimeLimitUntil($a_data["time_limit_until"]);
-        $this->setTimeLimitMessage((string) $a_data['time_limit_message']);
+        $this->setTimeLimitOwner((int) ($a_data["time_limit_owner"] ?? 0));
+        $this->setTimeLimitUnlimited((bool) ($a_data["time_limit_unlimited"] ?? false));
+        $this->setTimeLimitFrom((int) ($a_data["time_limit_from"] ?? 0));
+        $this->setTimeLimitUntil((int) ($a_data["time_limit_until"] ?? 0));
+        $this->setTimeLimitMessage((string) ($a_data['time_limit_message'] ?? ''));
 
         // user profile incomplete?
-        $this->setProfileIncomplete((bool) $a_data["profile_incomplete"]);
+        $this->setProfileIncomplete((bool) ($a_data["profile_incomplete"] ?? false));
 
         //authentication
-        $this->setAuthMode($a_data['auth_mode']);
-        $this->setExternalAccount((string) $a_data['ext_account']);
+        $this->setAuthMode((string) ($a_data['auth_mode'] ?? null));
+        $this->setExternalAccount((string) ($a_data['ext_account'] ?? ''));
         
-        $this->setIsSelfRegistered((bool) $a_data['is_self_registered']);
+        $this->setIsSelfRegistered((bool) ($a_data['is_self_registered'] ?? false));
     }
 
     /**

@@ -1,17 +1,20 @@
 <?php declare(strict_types=1);
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilScormAiccImporter extends ilXmlImporter
 {
     private ilScormAiccDataSet $dataset;
@@ -39,7 +42,7 @@ class ilScormAiccImporter extends ilXmlImporter
     {
         global $DIC;
         $ilLog = ilLoggerFactory::getLogger('sahs');
-        
+
 //        if ($this->handleEditableLmXml($a_entity, $a_id, $a_xml, $a_mapping)) {
 //            return;
 //        }
@@ -112,10 +115,8 @@ class ilScormAiccImporter extends ilXmlImporter
                             // $newObj->setPermissions($newId);
                             $subType = $this->moduleProperties["SubType"];
                             if ($subType == "scorm") {
-                                include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
                                 $newObj = new ilObjSCORMLearningModule($newId);
                             } else {
-                                include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
                                 $newObj = new ilObjSCORM2004LearningModule($newId);
                             }
                             $title = $newObj->readObject();

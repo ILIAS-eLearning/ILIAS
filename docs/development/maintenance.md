@@ -1007,7 +1007,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN TestAndAssessment)
 
 * **Test & Assessment**
-	* 1st Maintainer (comm.): [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+	* 1st Maintainer: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
 	* Testcases: SIG E-Assessment
 	* Tester: Stefania Akgül (CaT), Stefanie Allmendinger (FAU)

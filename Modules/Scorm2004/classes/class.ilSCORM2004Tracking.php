@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilSCORM2004Tracking
  *
@@ -47,6 +50,7 @@ class ilSCORM2004Tracking
     /**
      * Get progress of selected scos
      * @param bool  $a_omit_failed do not include success==failed
+     * @return array<int|string, mixed>
      */
     public static function _getCountCompletedPerUser(array $a_scorm_item_ids, int $a_obj_id, bool $a_omit_failed = false) : array
     {
@@ -83,6 +87,7 @@ class ilSCORM2004Tracking
 
     /**
      * Get overall scorm status
+     * @return array<string, int[]>
      */
     public static function _getProgressInfo(int $a_obj_id) : array
     {
@@ -154,6 +159,7 @@ class ilSCORM2004Tracking
 
     /**
      * Get all tracked users
+     * @return int[]
      */
     public static function _getTrackedUsers(int $a_obj_id) : array
     {

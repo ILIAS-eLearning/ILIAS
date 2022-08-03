@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-// @FIXME
-const IL_TLT_MAX_HOURS = 99;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
@@ -468,14 +481,14 @@ class ilMDEditorGUI
         foreach ($ids = $this->md_section->getLanguageIds() as $id) {
             $md_lan = $this->md_section->getLanguage($id);
             $first_lang = $md_lan->getLanguageCode();
-            $si = new ilSelectInputGUI($this->lng->txt("meta_language"), "gen_language[" . $id . "][language]");
+            $si = new ilSelectInputGUI($this->lng->txt("meta_language"), 'gen_language_' . $id . '_language');
             $si->setOptions($options);
             $si->setValue($md_lan->getLanguageCode());
             $this->form->addItem($si);
             $first = false;
         }
         if ($first) {
-            $si = new ilSelectInputGUI($this->lng->txt("meta_language"), "gen_language[][language]");
+            $si = new ilSelectInputGUI($this->lng->txt("meta_language"), "gen_language_language");
             $si->setOptions($options);
             $this->form->addItem($si);
         }
@@ -526,10 +539,10 @@ class ilMDEditorGUI
         );
         $ta->setCols(50);
         $ta->setRows(2);
-        if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
+        if ($this->md_obj->getLifecycle() instanceof ilMDLifecycle) {
             $sep = $ent_str = "";
-            foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
-                $md_con = $this->md_section->getContribute($con_id);
+            foreach (($ids = $this->md_obj->getLifecycle()->getContributeIds()) as $con_id) {
+                $md_con = $this->md_obj->getLifecycle()->getContribute($con_id);
                 if ($md_con->getRole() === "Author") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
                         $md_ent = $md_con->getEntity($ent_id);
@@ -705,7 +718,7 @@ class ilMDEditorGUI
             $md_lan = $this->md_section->getLanguage($id);
             $md_lan->setLanguage(
                 new ilMDLanguageItem(
-                    $form->getInput('gen_language[' . $id . '][language]')
+                    $form->getInput('gen_language_' . $id . '_language')
                 )
             );
             $md_lan->update();
@@ -715,7 +728,7 @@ class ilMDEditorGUI
             $md_lan = $this->md_section->addLanguage();
             $md_lan->setLanguage(
                 new ilMDLanguageItem(
-                    $form->getInput('gen_language[][language]')
+                    $form->getInput('gen_language_language')
                 )
             );
             $md_lan->save();

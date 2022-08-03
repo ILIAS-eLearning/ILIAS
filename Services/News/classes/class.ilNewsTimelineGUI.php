@@ -130,6 +130,7 @@ class ilNewsTimelineGUI
                     false,
                     $i->getId()
                 );
+                $note_gui->setShowHeader(false);
                 $ret = $ctrl->forwardCommand($note_gui);
                 break;
 

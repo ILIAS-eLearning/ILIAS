@@ -1,4 +1,5 @@
 <?php declare(strict_types=0);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -586,7 +587,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                     $status_code,
                     $valid_status
                 )) {
-                    $result["status"][ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] += $status_counter;
+                    $result['status'][ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] =
+                        $result['status'][ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] ?? 0 + $status_counter;
                     unset($result["status"][$status_code]);
                 }
             }

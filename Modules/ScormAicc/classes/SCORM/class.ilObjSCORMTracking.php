@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilObjSCORMTracking
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -231,9 +234,9 @@ class ilObjSCORMTracking
     }
 
     //erase later see ilSCORM2004StoreData
-
     /**
      * like necessary because of Oracle
+     * @return mixed[]
      */
     public static function _getCompleted(object $scorm_item_id, int $a_obj_id) : array
     {
@@ -377,6 +380,7 @@ class ilObjSCORMTracking
 
     /**
      * Get all tracked users
+     * @return mixed[]
      */
     public static function _getTrackedUsers(int $a_obj_id) : array
     {
@@ -401,6 +405,7 @@ class ilObjSCORMTracking
 
     /**
      * like necessary because of Oracle
+     * @return mixed[]
      */
     public static function _getFailed(object $scorm_item_id, int $a_obj_id) : array
     {
@@ -442,6 +447,7 @@ class ilObjSCORMTracking
 
     /**
      * Get users who have status completed or passed.
+     * @return array<int|string, mixed>
      */
     public static function _getCountCompletedPerUser(array $a_scorm_item_ids, int $a_obj_id) : array
     {
@@ -470,9 +476,9 @@ class ilObjSCORMTracking
         return $users;
     }
     //not correct because of assets!
-
     /**
      * Get info about
+     * @return array<string, mixed[]>
      */
     public static function _getProgressInfo(array $sco_item_ids, int $a_obj_id) : array
     {
@@ -516,6 +522,7 @@ class ilObjSCORMTracking
 
     /**
      * @param array|int  $scorm_item_id
+     * @return array<int|string, mixed[]>
      */
     public static function _getInProgress($scorm_item_id, int $a_obj_id, ?array $a_blocked_user_ids = null) : array
     {

@@ -268,7 +268,7 @@ class ilAccountMail
                 '[EMAIL]',
                 '[PASSWORD]',
                 '[ILIAS_URL]',
-                '[CLIENT_NAME]',
+                '[INSTALLATION_NAME]',
                 '[ADMIN_MAIL]',
             ],
             [

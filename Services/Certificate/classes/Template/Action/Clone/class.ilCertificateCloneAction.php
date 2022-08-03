@@ -193,7 +193,7 @@ class ilCertificateCloneAction
         }
 
         // #10271
-        if ($this->readActive($oldObject->getId())) {
+        if ($this->isActive($oldObject->getId())) {
             $this->database->replace(
                 'il_certificate',
                 ['obj_id' => ['integer', $newObject->getId()]],
@@ -202,13 +202,15 @@ class ilCertificateCloneAction
         }
     }
 
-    private function readActive(int $objectId) : int
+    private function isActive(int $objectId) : bool
     {
-        $sql = 'SELECT obj_id FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
+        $sql = 'SELECT 1 FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
 
-        $result = $this->database->query($sql);
+        if ($row = $this->database->fetchAssoc($this->database->query($sql))) {
+            return true;
+        }
 
-        return $this->database->numRows($result);
+        return false;
     }
 
     private function getBackgroundImageName() : string

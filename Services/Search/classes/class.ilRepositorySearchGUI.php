@@ -90,6 +90,7 @@ class ilRepositorySearchGUI
         $this->refinery = $DIC->refinery();
         $this->http = $DIC->http();
         $this->user = $DIC->user();
+        $this->tabs = $DIC->tabs();
 
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('crs');
@@ -108,6 +109,17 @@ class ilRepositorySearchGUI
     {
         if ($this->http->wrapper()->query()->has('user_type')) {
             return $this->http->wrapper()->query()->retrieve(
+                'user_type',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initUserTypeFromPost() : int
+    {
+        if ($this->http->wrapper()->post()->has('user_type')) {
+            return $this->http->wrapper()->post()->retrieve(
                 'user_type',
                 $this->refinery->kindlyTo()->int()
             );
@@ -505,8 +517,7 @@ class ilRepositorySearchGUI
             }
         }
 
-        $user_type = $this->initUserTypeFromQuery();
-
+        $user_type = $this->initUserTypeFromPost();
         if (!$class->$method($user_ids, $user_type)) {
             $this->ctrl->returnToParent($this);
         }
@@ -532,7 +543,7 @@ class ilRepositorySearchGUI
 
     protected function addFromClipboard() : void
     {
-        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromQuery());
+        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromPost());
 
         $users = [];
         if ($this->http->wrapper()->post()->has('uids')) {
@@ -549,7 +560,7 @@ class ilRepositorySearchGUI
         }
         $class = $this->callback['class'];
         $method = $this->callback['method'];
-        $user_type = $this->initUserTypeFromQuery();
+        $user_type = $this->initUserTypeFromPost();
 
         if (!$class->$method($users, $user_type)) {
             $this->ctrl->returnToParent($this);
@@ -671,7 +682,7 @@ class ilRepositorySearchGUI
             
         // UDF
         foreach (ilUserSearchOptions::_getSearchableFieldsInfo(!$this->isSearchableCheckEnabled()) as $info) {
-            switch ($info['type']) {
+            switch ($info['type'] ?? ilUserSearchOptions::FIELD_TYPE_UDF_UNDEFINED) {
                 case ilUserSearchOptions::FIELD_TYPE_UDF_SELECT:
                 case ilUserSearchOptions::FIELD_TYPE_SELECT:
                         

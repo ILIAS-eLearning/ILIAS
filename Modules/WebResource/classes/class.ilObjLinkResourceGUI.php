@@ -262,7 +262,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
             // update object
             $this->object->setTitle($form->getInput('title'));
-            $this->object->setDescription($form->getInput('desc'));
+            $this->object->setDescription((string) $form->getInput('desc'));
             $this->object->update();
 
             // update sorting

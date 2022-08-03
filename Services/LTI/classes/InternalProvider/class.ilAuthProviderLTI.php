@@ -1,14 +1,20 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * OAuth based lti authentication
@@ -231,22 +237,16 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         } else {
             $this->getLogger()->debug('LTI authentication success');
         }
-        // if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen
-
-        // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
-        $consumer = new ilLTIPlatform(
-//            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
-            $this->dataConnector
-        );
 
         /**
          * @var ilLTIPlatform
          */
-        $consumer = ilLTIPlatform::fromRecordId(
-            $consumer->getRecordId(),
+        //LTI 1.1
+        // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
+        $consumer = ilLTIPlatform::fromConsumerKey(
+            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
             $this->dataConnector
         );
-
         $this->ref_id = $consumer->getRefId();
         // stores ref_ids of all lti consumer within active LTI User Session
         $lti_context_ids = ilSession::get('lti_context_ids');
@@ -285,7 +285,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
-
         $lti_id = $consumer->getExtConsumerId();
         if (!$lti_id) {
             $status->setReason('lti_auth_failed_invalid_key');
@@ -416,6 +415,43 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $newUser["profile_incomplete"] = 0;
 
         // ILIAS 8
+        //check
+        $newUser["gender"] = 'n';
+        $newUser["title"] = null;
+        $newUser["birthday"] = null;
+        $newUser["institution"] = null;
+        $newUser["department"] = null;
+        $newUser["street"] = null;
+        $newUser["city"] = null;
+        $newUser["zipcode"] = null;
+        $newUser["country"] = null;
+        $newUser["sel_country"] = null;
+        $newUser["phone_office"] = null;
+        $newUser["phone_home"] = null;
+        $newUser["phone_mobile"] = null;
+        $newUser["fax"] = null;
+        $newUser["matriculation"] = null;
+        $newUser["second_email"] = null;
+        $newUser["hobby"] = null;
+        $newUser["client_ip"] = null;
+        $newUser["passwd_salt"] = null;//$newUser->getPasswordSalt();
+        $newUser["latitude"] = null;
+        $newUser["longitude"] = null;
+        $newUser["loc_zoom"] = null;
+        $newUser["last_login"] = null;
+        $newUser["first_login"] = null;
+        $newUser["last_profile_prompt"] = null;
+        $newUser["last_update"] = ilUtil::now();
+        $newUser["create_date"] = ilUtil::now();
+        $newUser["referral_comment"] = null;
+        $newUser["approve_date"] = null;
+        $newUser["agree_date"] = null;
+        $newUser["inactivation_date"] = null;
+        $newUser["time_limit_from"] = null;
+        $newUser["time_limit_until"] = null;
+        $newUser["is_self_registered"] = null;
+        //end to check
+
         $newUser["passwd_enc_type"] = "";
         $newUser["active"] = true;
         $newUser["time_limit_owner"] = 7;

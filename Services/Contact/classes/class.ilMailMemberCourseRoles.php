@@ -36,7 +36,7 @@ class ilMailMemberCourseRoles extends ilAbstractMailMemberRoles
     
     public function getRadioOptionTitle() : string
     {
-        return $this->lng->txt('mail_crs_roles');
+        return $this->lng->txt('mail_roles');
     }
 
     public function getMailRoles(int $ref_id) : array

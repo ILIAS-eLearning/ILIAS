@@ -139,7 +139,7 @@ class ilCertificateCron extends ilCronJob
             return $result;
         }
 
-        $this->logger->info('START - Begin with cron job to create user certificates from templates');
+        $this->logger->debug('START - Begin with cron job to create user certificates from templates');
 
         $entries = $this->queueRepository->getAllEntriesFromQueue();
 

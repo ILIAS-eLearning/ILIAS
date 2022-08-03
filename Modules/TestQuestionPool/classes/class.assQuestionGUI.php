@@ -612,8 +612,7 @@ abstract class assQuestionGUI
 
                 ilUtil::redirect(ilLink::_getLink($ref_id));
             }
-            $_GET["ref_id"] = $this->request->raw("calling_test");
-            
+
             if ($this->request->raw('test_express_mode')) {
                 ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
             } else {
@@ -1800,7 +1799,7 @@ abstract class assQuestionGUI
 
     protected function hasCorrectSolution($activeId, $passIndex) : bool
     {
-        $reachedPoints = $this->object->getAdjustedReachedPoints($activeId, $passIndex, true);
+        $reachedPoints = $this->object->getAdjustedReachedPoints((int) $activeId, (int) $passIndex, true);
         $maximumPoints = $this->object->getMaximumPoints();
         
         return $reachedPoints == $maximumPoints;

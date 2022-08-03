@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -266,7 +267,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'OrComposite':
                 $par = $this->__getParent();
-                $this->md_orc = &$par->addOrComposite();
+                $this->md_orc = $par->addOrComposite();
                 $this->__pushParent($this->md_orc);
                 break;
 
@@ -302,7 +303,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Educational':
                 $par = $this->__getParent();
-                $this->md_edu = &$par->addEducational();
+                $this->md_edu = $par->addEducational();
                 $this->md_edu->setInteractivityType($a_attribs['InteractivityType']);
                 $this->md_edu->setLearningResourceType($a_attribs['LearningResourceType']);
                 $this->md_edu->setInteractivityLevel($a_attribs['InteractivityLevel']);
@@ -316,7 +317,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'TypicalAgeRange':
                 $par = $this->__getParent();
-                $this->md_typ = &$par->addTypicalAgeRange();
+                $this->md_typ = $par->addTypicalAgeRange();
                 $this->md_typ->setTypicalAgeRangeLanguage(new ilMDLanguageItem($a_attribs['Language']));
                 $this->md_typ->save();
                 $this->__pushParent($this->md_typ);
@@ -327,7 +328,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Rights':
                 $par = $this->__getParent();
-                $this->md_rig = &$par->addRights();
+                $this->md_rig = $par->addRights();
                 $this->md_rig->setCosts($a_attribs['Cost']);
                 $this->md_rig->setCopyrightAndOtherRestrictions($a_attribs['CopyrightAndOtherRestrictions']);
                 $this->md_rig->save();
@@ -336,7 +337,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Relation':
                 $par = $this->__getParent();
-                $this->md_rel = &$par->addRelation();
+                $this->md_rel = $par->addRelation();
                 $this->md_rel->setKind($a_attribs['Kind']);
                 $this->md_rel->save();
                 $this->__pushParent($this->md_rel);
@@ -347,7 +348,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Identifier_':
                 $par = $this->__getParent();
-                $this->md_ide_ = &$par->addIdentifier_();
+                $this->md_ide_ = $par->addIdentifier_();
                 $this->md_ide_->setCatalog($a_attribs['Catalog']);
                 $this->md_ide_->setEntry($a_attribs['Entry']);
                 $this->md_ide_->save();
@@ -356,14 +357,14 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Annotation':
                 $par = $this->__getParent();
-                $this->md_ann = &$par->addAnnotation();
+                $this->md_ann = $par->addAnnotation();
                 $this->md_ann->save();
                 $this->__pushParent($this->md_ann);
                 break;
 
             case 'Classification':
                 $par = $this->__getParent();
-                $this->md_cla = &$par->addClassification();
+                $this->md_cla = $par->addClassification();
                 $this->md_cla->setPurpose($a_attribs['Purpose']);
                 $this->md_cla->save();
                 $this->__pushParent($this->md_cla);
@@ -371,7 +372,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'TaxonPath':
                 $par = $this->__getParent();
-                $this->md_taxp = &$par->addTaxonPath();
+                $this->md_taxp = $par->addTaxonPath();
                 $this->md_taxp->save();
                 $this->__pushParent($this->md_taxp);
                 break;
@@ -383,7 +384,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Taxon':
                 $par = $this->__getParent();
-                $this->md_tax = &$par->addTaxon();
+                $this->md_tax = $par->addTaxon();
                 $this->md_tax->setTaxonLanguage(new ilMDLanguageItem($a_attribs['Language']));
                 $this->md_tax->setTaxonId($a_attribs['Id']);
                 $this->md_tax->save();

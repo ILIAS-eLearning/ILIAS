@@ -131,6 +131,12 @@ with the il- variable set here.
 @il-line-height-base:		1.428571429;
 @il-line-height-computed:    unit(floor(((unit(@il-font-size-base)/@il-pixel-to-rem) * @il-line-height-base)),px); // ~20px
 
+//** Used to lighten text, e.g. workflow steps.
+@il-font-weight-light:    300;
+//** Default font weight.
+@il-font-weight-base:    400;
+//** Used to indicate headings.
+@il-font-weight-bold:    600;
 
 //== Base Padding and Border
 //
@@ -211,7 +217,7 @@ with the il- variable set here.
 @il-standard-page-breadcrumbs-color: @il-link-color;
 @il-standard-page-breadcrumbs-active-color: @il-link-hover-color;
 @il-standard-page-breadcrumbs-divider-color: @il-neutral-light-color;
-@il-standard-page-breadcrumbs-font-weight: 600;
+@il-standard-page-breadcrumbs-font-weight: @il-font-weight-bold;
 @il-standard-page-breadcrumbs-seperator: " \e606";
 
 //** mainbar
@@ -376,7 +382,7 @@ with the il- variable set here.
 @il-btn-toggle-label-position-top:3px;
 @il-btn-toggle-label-on-position-left: 9px;
 @il-btn-toggle-label-off-position-left: 24px;
-@il-btn-toggle-label-font-weight: 600;
+@il-btn-toggle-label-font-weight: @il-font-weight-bold;
 @il-btn-toggle-label-font-size: @il-font-size-small;
 @il-btn-toggle-label-on-color: @il-main-bg;
 
@@ -749,7 +755,7 @@ with the il- variable set here.
 @il-avatar-letter-border-color-contrast-lighten: 40%;
 @il-avatar-letter-border-color-contrast-darken: 20%;
 //** change the abbreviations font weight
-@il-avatar-letter-abbreviation-font-weight: lighter;
+@il-avatar-letter-abbreviation-font-weight: @il-font-weight-light;
 //** change the abbreviations font transform
 @il-avatar-letter-abbreviation-font-transform: inherit;
 //** all variants of letter avatar background colors (MUST be 26), note for a11y reason, they must be in contrast 3x1 to white (foreground color)
@@ -761,7 +767,7 @@ with the il- variable set here.
 //##
 /** headline text transform **/
 @il-standard-page-system-info-headline-transform: uppercase;
-@il-standard-page-system-info-headline-font-weight: bold;
+@il-standard-page-system-info-headline-font-weight: @il-font-weight-bold;
 /** inline shadow of a message container **/
 @il-standard-page-system-info-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
 /** border configuration, the color is automatically computed from the three color variants **/
@@ -881,4 +887,4 @@ with the il- variable set here.
 @il-test-margin-large-horizontal: @padding-large-horizontal;
 
 @il-test-working-time-font-size: @il-font-size-large;
-@il-test-working-time-font-weight: bold;
+@il-test-working-time-font-weight: @il-font-weight-bold;

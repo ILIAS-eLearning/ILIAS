@@ -1,7 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
@@ -22,7 +37,8 @@ class assClozeGap
     const TYPE_TEXT = 0;
     const TYPE_SELECT = 1;
     const TYPE_NUMERIC = 2;
-    
+    private ?Transformation $shuffler;
+
     /**
      * Type of gap
      *
@@ -145,7 +161,7 @@ class assClozeGap
                 array_push($newitems, $this->items[$i]);
             }
             array_push($newitems, $a_item);
-            for ($i = $order; $i < count($this->items); $i++) {
+            for ($i = $order, $iMax = count($this->items); $i < $iMax; $i++) {
                 array_push($newitems, $this->items[$i]);
             }
             $i = 0;
@@ -418,5 +434,19 @@ class assClozeGap
         }
         
         return false;
+    }
+
+    public function setShuffler()
+    {
+        global $DIC;
+        $this->shuffler = $DIC->refinery()->random()->shuffleArray(new ILIAS\Refinery\Random\Seed\RandomSeed());
+    }
+
+    public function getShuffler() : Transformation
+    {
+        if ($this->shuffler == null) {
+            $this->setShuffler();
+        }
+        return $this->shuffler;
     }
 }
