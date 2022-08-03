@@ -2059,6 +2059,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $target = $auth->popParam('target');
 
+        $this->logger->debug(sprintf(
+            'Retrieved "target" parameter: %s',
+            print_r($target, true)
+        ));
+
         $credentials = new ilAuthFrontendCredentialsSaml($auth, $request);
         $credentials->initFromRequest();
 
@@ -2066,6 +2071,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $provider = $provider_factory->getProviderByAuthMode($credentials, ilUtil::stripSlashes(
             ilAuthUtils::AUTH_SAML . '_' . $idpId
         ));
+
+        if ($target) {
+            $credentials->setReturnTo($target);
+        }
 
         $status = ilAuthStatus::getInstance();
 
