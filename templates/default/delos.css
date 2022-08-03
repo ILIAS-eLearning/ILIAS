@@ -8188,6 +8188,7 @@ ul.dropdown-menu > li > .btn:focus {
 .il-standard-form .il-standard-form-header h2,
 .il-standard-form .il-section-input-header h2 {
   font-size: 1.115rem;
+  font-weight: 600;
   padding-top: 12px;
   padding-bottom: 3px;
 }
@@ -16826,7 +16827,7 @@ div.ilBlockHeaderBig,
 td.ilBlockHeader,
 td.ilBlockHeaderBig {
   /* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
-  font-weight: 400;
+  font-weight: 600;
   padding: 3px 0;
   margin: 0 9px;
   text-align: left;
@@ -16945,7 +16946,7 @@ body.ilBodyPrint {
 }
 .ilStartupSection {
   padding-top: 50px;
-  width: max-content;
+  width: fit-content;
   margin-left: auto;
   margin-right: auto;
 }
