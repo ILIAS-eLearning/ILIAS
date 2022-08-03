@@ -81,6 +81,8 @@ class ilWebDAVMountInstructionsUploadGUI
         $this->file_systems = $file_systems;
         $this->file_upload = $file_upload;
         $this->mount_instructions_repository = $mount_instructions_repository;
+        
+        $this->lng->loadLanguageModule('meta');
     }
 
     /**
