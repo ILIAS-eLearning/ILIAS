@@ -2184,7 +2184,12 @@ class ilStartUpGUI
 
         $_POST['auth_mode'] = AUTH_SAML . '_' . $idpId;
 
-        $credentials = new ilAuthFrontendCredentialsSaml($auth);
+        $this->logger->debug(sprintf(
+            'Retrieved "target" parameter: %s',
+            print_r($_GET['target'], true)
+        ));
+
+        $credentials = new ilAuthFrontendCredentialsSaml($auth, $request);
         $credentials->initFromRequest();
 
         $provider_factory = new ilAuthProviderFactory();
