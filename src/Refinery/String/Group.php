@@ -136,12 +136,13 @@ class Group
      * @param float $costDel cost for deletion default 1.0
      * @return Transformation
      */
-    public function levenshteinCustom(string $str,
-                                      int $maximumDistance,
-                                      float $costIns,
-                                      float $costRep,
-                                      float $costDel
-    ) : Levenshtein {
+    public function levenshteinCustom(
+        string $str,
+        int $maximumDistance,
+        float $costIns,
+        float $costRep,
+        float $costDel
+    ) : Transformation {
         return new Levenshtein($str, $maximumDistance, $costIns, $costRep, $costDel);
     }
 }
