@@ -24,6 +24,10 @@ use PHPUnit\Framework\TestCase;
  */
 class ilWebResourceItemInternalTest extends TestCase
 {
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testGetResolvedLink() : void
     {
         $array_util = Mockery::mock('alias:' . ilLink::class);
