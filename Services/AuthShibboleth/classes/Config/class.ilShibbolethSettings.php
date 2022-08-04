@@ -1,21 +1,24 @@
 <?php
 
-use ILIAS\Administration\Setting;
-use function _PHPStan_e04cc8dfb\RingCentral\Psr7\str;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Administration\Setting;
+use function _PHPStan_e04cc8dfb\RingCentral\Psr7\str;
+
 /**
  * Class ilShibbolethSettings
  *
@@ -25,7 +28,7 @@ class ilShibbolethSettings
 {
     private const PREFIX = 'shib_';
     private const DEFAULT_IDP_LIST = "urn:mace:organization1:providerID, Example Organization 1\nurn:mace:organization2:providerID, Example Organization 2, /Shibboleth.sso/WAYF/SWITCHaai";
-    private const DEFAULT_LOGIN_BUTTON = "templates/default/images/shib_login_button.png";
+    private const DEFAULT_LOGIN_BUTTON = "templates/default/images/shib_login_button.svg";
     private const DEFAULT_ORGANISATION_SELECTION = "external_wayf";
 
     protected ilSetting $settings;
