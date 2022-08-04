@@ -347,7 +347,7 @@ class ilObjFileGUI extends ilObject2GUI
                     ])
                 )->withMaxFiles(self::UPLOAD_MAX_FILES)->withMaxFileSize((int) ilFileUtils::getUploadSizeLimitBytes()),
             ]
-        );
+        )->withSubmitCaption($this->lng->txt('upload_files'));
     }
 
     /**
