@@ -13658,21 +13658,12 @@ div.ilFrmPostHeader span.small {
 .ilFrmTargetImage {
   margin: 0 0 15px;
   height: auto !important;
-  display: inline-block;
 }
 .ilFrmTargetImage img {
   height: 20px !important;
-}
-.ilFrmTargetImage:before {
-  content: "|";
-  position: absolute;
-  color: #6f6f6f;
-  font-size: 0.75rem;
-  margin-right: 15px;
-  font-weight: 600;
+  vertical-align: middle;
 }
 .ilFrmTargetImage a {
-  margin-left: 10px;
   display: inline-block;
 }
 .ilFrmTargetImage .il-link.link-bulky .bulky-label {
