@@ -91,9 +91,9 @@ Package names may vary depending on the Linux distribution.
 > ILIAS supports utf8-collations with 3 bytes per character, such as `utf8_general_ci`,
 > only.
 
-We RECOMMEND to use MySQL/MariaDB with the following settings:
+We RECOMMEND to use MariaDB with the following settings:
 
-  * InnoDB storage engine
+  * InnoDB storage engine (default)
   * Character Set: `utf8`
   * Collation: `utf8_general_ci`
   * `query_cache_size` > 16M
@@ -101,7 +101,7 @@ We RECOMMEND to use MySQL/MariaDB with the following settings:
   * `table_open_cache` > 400
   * `innodb_buffer_pool_size` > 2G (depending on DB size)
 
-On MySQL 5.8+ and Galera the `Strict SQL Mode` must be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
+On MySQL 5.7+ and Galera the `Strict SQL Mode` must be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
 
 On MySQL/MariaDB `innodb_large_prefix` must be set to `OFF` if the `ROW_FORMAT`
 is set to `COMPACT`.
@@ -744,8 +744,11 @@ each ILIAS release.
 <a name="dbms"></a>
 ## DBMS
 
+We strongly recommend using MariaDB instead of MySQL due to performance, licensing and compatibility in the future.
+
 | ILIAS Version | MySQL Version                       | MariaDB Version        |
 |---------------|-------------------------------------|------------------------|
+| 9.0 - 9.x     | 8.0.x                               | 10.3, 10.4, 10.5, 10.6 |
 | 8.0 - 8.x     | 5.7.x, 8.0.x                        | 10.2, 10.3, 10.4       |
 | 7.0 - 7.x     | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3       |
 | 6.0 - 6.x     | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3 |
