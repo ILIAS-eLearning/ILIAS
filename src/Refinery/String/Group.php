@@ -7,6 +7,7 @@
 
 namespace ILIAS\Refinery\String;
 
+use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\HasMaxLength;
 use ILIAS\Refinery\String\HasMinLength;
@@ -38,7 +39,7 @@ class Group
      *                       with the new constraint
      * @return HasMinLength
      */
-    public function hasMinLength(int $minimum) : HasMinLength
+    public function hasMinLength(int $minimum): HasMinLength
     {
         return new HasMinLength($minimum, $this->dataFactory, $this->language);
     }
@@ -51,7 +52,7 @@ class Group
      *                       with the new constraint
      * @return HasMaxLength
      */
-    public function hasMaxLength(int $maximum) : HasMaxLength
+    public function hasMaxLength(int $maximum): HasMaxLength
     {
         return new HasMaxLength($maximum, $this->dataFactory, $this->language);
     }
@@ -63,7 +64,7 @@ class Group
      * @param string $delimiter
      * @return SplitString
      */
-    public function splitString(string $delimiter) : SplitString
+    public function splitString(string $delimiter): SplitString
     {
         return new SplitString($delimiter, $this->dataFactory);
     }
@@ -74,7 +75,7 @@ class Group
      *
      * Uses php's strip_tags under the hood.
      */
-    public function stripTags() : StripTags
+    public function stripTags(): StripTags
     {
         return new StripTags();
     }
@@ -88,14 +89,14 @@ class Group
      *
      * @return CaseOfLabel
      */
-    public function caseOfLabel(string $language_key) : CaseOfLabel
+    public function caseOfLabel(string $language_key): CaseOfLabel
     {
         return new CaseOfLabel($language_key, $this->dataFactory);
     }
 
     /**
      * Creates a transformation to determine the estimated reading
-     * time of an human adult (roughly 275 WPM)
+     * time of a human adult (roughly 275 WPM)
      * If images should be taken into consideration, 12 seconds
      * are added to the first image, 11 for the second,
      * and minus an additional second for each subsequent image.
@@ -105,7 +106,7 @@ class Group
      * @param bool $withImages
      * @return EstimatedReadingTime
      */
-    public function estimatedReadingTime($withImages = false) : EstimatedReadingTime
+    public function estimatedReadingTime($withImages = false): EstimatedReadingTime
     {
         return new EstimatedReadingTime($withImages);
     }
@@ -119,7 +120,7 @@ class Group
      * @param int $maximumDistance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
      * @return Transformation
      */
-    public function levenshteinDefault(string $str, int $maximumDistance) : Transformation
+    public function levenshteinDefault(string $str, int $maximumDistance): Transformation
     {
         return new Levenshtein($str, $maximumDistance, 1.0, 1.0, 1.0);
     }
@@ -130,19 +131,19 @@ class Group
      * This class calculates the levenshtein distance with custom parameters for insert, delete, replacement.
      *
      * @param string $str string for distance calculation
-     * @param int $maximumDistance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
-     * @param float $costIns cost for insertion default 1.0
-     * @param float $costRep cost for replacement default 1.0
-     * @param float $costDel cost for deletion default 1.0
+     * @param int $maximum_distance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
+     * @param float $cost_insertion cost for insertion default 1.0
+     * @param float $cost_replacement cost for replacement default 1.0
+     * @param float $cost_deletion cost for deletion default 1.0
      * @return Transformation
      */
     public function levenshteinCustom(
         string $str,
-        int $maximumDistance,
-        float $costIns,
-        float $costRep,
-        float $costDel
-    ) : Transformation {
-        return new Levenshtein($str, $maximumDistance, $costIns, $costRep, $costDel);
+        int $maximum_distance,
+        float $cost_insertion,
+        float $cost_replacement,
+        float $cost_deletion
+    ): Transformation {
+        return new Levenshtein($str, $maximum_distance, $cost_insertion, $cost_replacement, $cost_deletion);
     }
 }
