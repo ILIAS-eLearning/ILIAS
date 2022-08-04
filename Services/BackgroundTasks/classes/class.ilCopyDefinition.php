@@ -52,11 +52,11 @@ class ilCopyDefinition extends AbstractValue
      * Sum of the size of all files. Required to determine whether the global limit has been violated or not.
      * @var int
      */
-    private int $sum_file_sizes = 0;
+    private ?int $sum_file_sizes = 0;
     /**
      * States if the sum of all file sizes adheres to the global limit.
      */
-    private BooleanValue $adheres_to_limit;
+    private ?BooleanValue $adheres_to_limit;
     
     /**
      * Get copy definitions
@@ -121,7 +121,7 @@ class ilCopyDefinition extends AbstractValue
     
     public function getSumFileSizes() : int
     {
-        return $this->sum_file_sizes;
+        return $this->sum_file_sizes ?? 0;
     }
     
     public function setSumFileSizes(int $sum_file_sizes) : void
@@ -131,7 +131,9 @@ class ilCopyDefinition extends AbstractValue
     
     public function getAdheresToLimit() : BooleanValue
     {
-        return $this->adheres_to_limit;
+        $fallback = new BooleanValue();
+        $fallback->setValue(false);
+        return $this->adheres_to_limit ?? $fallback;
     }
     
     public function setAdheresToLimit(BooleanValue $adheres_to_limit) : void

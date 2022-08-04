@@ -102,10 +102,10 @@ class ilCollectFilesJob extends AbstractJob
                 $files_from_folder = self::recurseFolder($object_ref_id, $object_name, $object_temp_dir, $num_recursions, $initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
             } elseif (($object_type == "file") && (($file_dirs = self::getFileDirs(
-                        $object_ref_id,
-                        $object_name,
-                        $object_temp_dir
-                    )) !== false)) {
+                $object_ref_id,
+                $object_name,
+                $object_temp_dir
+            )) !== false)) {
                 $files[] = $file_dirs;
             }
         }
