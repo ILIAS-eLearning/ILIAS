@@ -12715,7 +12715,8 @@ div.ilHeadAction a:hover {
 }
 div.ilHeadAction ul.dropdown-menu button {
   text-decoration: none;
-  font-size: 80%;
+  border: none;
+  padding-left: 10px;
 }
 div.ilHeaderDesc {
   font-size: 0.875rem;
@@ -13653,6 +13654,26 @@ div.ilFrmPostHeader span.small {
     width: 100%;
     height: auto !important;
   }
+}
+.ilFrmTargetImage {
+  margin: 0 0 15px;
+  height: auto !important;
+  display: inline-block;
+}
+.ilFrmTargetImage img {
+  height: 20px !important;
+}
+.ilFrmTargetImage:before {
+  content: "|";
+  position: absolute;
+  color: #6f6f6f;
+  font-size: 0.75rem;
+  margin-right: 15px;
+  font-weight: 600;
+}
+.ilFrmTargetImage a {
+  margin-left: 10px;
+  display: inline-block;
 }
 .ilFrmTargetImage .il-link.link-bulky .bulky-label {
   display: none;
@@ -16827,7 +16848,7 @@ div.ilBlockHeaderBig,
 td.ilBlockHeader,
 td.ilBlockHeaderBig {
   /* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
-  font-weight: 400;
+  font-weight: 600;
   padding: 3px 0;
   margin: 0 9px;
   text-align: left;
@@ -16946,7 +16967,7 @@ body.ilBodyPrint {
 }
 .ilStartupSection {
   padding-top: 50px;
-  width: max-content;
+  width: fit-content;
   margin-left: auto;
   margin-right: auto;
 }
