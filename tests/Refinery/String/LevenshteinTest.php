@@ -5,88 +5,107 @@ namespace ILIAS\src\Refinery\String;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Tests\Refinery\TestCase;
-use function PHPUnit\Framework\assertEquals;
 
 class LevenshteinTest extends TestCase
 {
     /**
-     * @var  Group
+     * @var Group
      */
     private $group;
 
+    /**
+     * @var Factory
+     */
+    private $factory;
+
     public function setUp() : void
     {
-        $dataFactory = new Factory();
+        $this->factory = new Factory();
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->group = new Group($dataFactory, $language);
+        $this->group = new Group($this->factory, $language);
     }
 
     // Code paths
     public function testSizeReturn() {
-        // arrange
         $transformation = $this->group->levenshteinDefault("book", 3);
 
-        // assert
-        assertEquals(-1.0, $transformation->transform("bookshelf"));
+        $this->assertEquals(-1.0, $transformation->transform("bookshelf"));
     }
 
     public function testExceedMaximumDistance() {
-        // arrange
         $transformation = $this->group->levenshteinDefault("book", 1);
 
-        // assert
-        assertEquals(-1.0, $transformation->transform("back"));
+        $this->assertEquals(-1.0, $transformation->transform("back"));
     }
     
     public function testSuccessfulReturn() {
-        // arrange
         $transformation = $this->group->levenshteinDefault("book", 1);
 
-        // assert
-        assertEquals(0.0, $transformation->transform("book"));
+        $this->assertEquals(0.0, $transformation->transform("book"));
     }
 
     public function testNoMaximumDistance() {
-        // arrange
         $transformation = $this->group->levenshteinDefault("book", 0);
 
-        // assert
-        assertEquals(2.0, $transformation->transform("back"));
+        $this->assertEquals(2.0, $transformation->transform("back"));
+    }
+
+    public function testException() {
+        $transformation = $this->group->levenshteinDefault("book", 0);
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->assertEquals(2.0, $transformation->transform(496));
     }
 
     // Numerical
     public function testCustomCostsMixed() {
-        // arrange
         $transformation = $this->group->levenshteinCustom("back", 20, 2.0, 1.0, 1.5);
 
-        // assert
-        assertEquals(12, $transformation->transform("bookshelf"));
+        $this->assertEquals(12, $transformation->transform("bookshelf"));
     }
 
     public function testCustomCostsInsert() {
-        // arrange
         $transformation = $this->group->levenshteinCustom("book", 10, 2.0, 1.0, 1.5);
 
-        // assert expected 2(s)
-        assertEquals(2, $transformation->transform("books"));
+        $this->assertEquals(2, $transformation->transform("books"));
     }
 
     public function testCustomCostsDeletion() {
-        // arrange
         $transformation = $this->group->levenshteinCustom("bookshelf", 10, 2.0, 1.0, 1.5);
 
-        // assert expected  shelf(7.5)
-        assertEquals(7.5, $transformation->transform("book"));
+        $this->assertEquals(7.5, $transformation->transform("book"));
     }
 
     public function testCustomCostsReplacement() {
-        // arrange
         $transformation = $this->group->levenshteinCustom("bookshelf", 10, 2.0, 1.0, 1.5);
 
-        // assert expected  (4.0)
-        assertEquals(4.0, $transformation->transform("bookstore"));
+        $this->assertEquals(4.0, $transformation->transform("bookstore"));
+    }
+
+    // test apply to
+    public function testApplyToSuccessfulDefault() {
+        $transformation = $this->group->levenshteinDefault("bookshelf", 10);
+        $value_object = $this->factory->ok("book");
+        $result_object = $transformation->applyTo($value_object);
+
+        $this->assertEquals(5, $result_object->value());
+    }
+
+    public function testApplyToSuccessfulCustomCost() {
+        $transformation = $this->group->levenshteinCustom("bookshelf", 10, 2.0, 1.0, 1.5);
+        $value_object = $this->factory->ok("book");
+        $result_object = $transformation->applyTo($value_object);
+
+        $this->assertEquals(7.5, $result_object->value());
+    }
+
+    public function testApplyToWrongType() {
+        $transformation = $this->group->levenshteinCustom("bookshelf", 10, 2.0, 1.0, 1.5);
+        $value_object = $this->factory->ok(496);
+        $result_object = $transformation->applyTo($value_object);
+
+        $this->assertTrue($result_object->isError());
     }
 }
