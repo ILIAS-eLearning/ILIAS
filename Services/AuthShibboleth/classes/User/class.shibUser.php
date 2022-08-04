@@ -1,17 +1,19 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Class shibUser
@@ -132,12 +134,15 @@ class shibUser extends ilObjUser
     public function create() : int
     {
         $c = shibConfig::getInstance();
-        if ($c->isActivateNew()) {
+        $registration_settings = new ilRegistrationSettings();
+        $recipients = array_filter($registration_settings->getApproveRecipients(), function ($v) {
+            return is_int($v);
+        });
+        if ($c->isActivateNew() && $recipients !== []) {
             $this->setActive(false);
-            $ilRegistrationSettings = new ilRegistrationSettings();
             $mail = new ilRegistrationMailNotification();
             $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
-            $mail->setRecipients($ilRegistrationSettings->getApproveRecipients());
+            $mail->setRecipients($registration_settings->getApproveRecipients());
             $mail->setAdditionalInformation(array('usr' => $this));
             $mail->send();
         }
