@@ -23,6 +23,7 @@
  */
 class ilImageFileInputGUI extends ilFileInputGUI
 {
+    protected ilGlobalTemplateInterface $tpl;
     protected bool $cache = false;
     protected string $alt = "";
     protected string $image = "";
@@ -43,6 +44,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setHiddenTitle("(" . $lng->txt("form_image_file_input") . ")");
         $this->cache = true;
+        $this->tpl = $DIC->ui()->mainTemplate();
     }
 
     public function setAllowDeletion(bool $a_val) : void
@@ -114,6 +116,8 @@ class ilImageFileInputGUI extends ilFileInputGUI
             $i_tpl->setVariable("TXT_USE_CAMERA", $lng->txt("form_use_camera"));
             $i_tpl->setVariable("TXT_TAKE_SNAPSHOT", $lng->txt("form_take_snapshot"));
             $i_tpl->parseCurrentBlock();
+            $main_tpl = $this->tpl;
+            $main_tpl->addJavascript("./Services/Form/js/ServiceFormImageFileCapture.js");
         }
 
         if ($this->getImage() != "") {

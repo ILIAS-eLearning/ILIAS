@@ -256,7 +256,6 @@ class ilBookingScheduleGUI
             $this->render();
         } else {
             $form->setValuesByPost();
-            $this->setDefinitionFromPost($form);
             $tpl->setContent($form->getHTML());
         }
     }
@@ -276,41 +275,10 @@ class ilBookingScheduleGUI
             $this->render();
         } else {
             $form->setValuesByPost();
-            $this->setDefinitionFromPost($form);
             $tpl->setContent($form->getHTML());
         }
     }
-
-    /**
-     * Reload definition values from post data
-     * @param ilPropertyFormGUI $form
-     */
-    protected function setDefinitionFromPost(
-        ilPropertyFormGUI $form
-    ) : void {
-        $days = (array) $form->getInput("days");
-        if ($days) {
-            $days_fields = [];
-            $days_group = $form->getItemByPostVar("days");
-            if ($days_group) {
-                foreach ($days_group->getOptions() as $option) {
-                    $days_fields[$option->getValue()] = $option;
-                }
-            }
-
-            foreach ($days as $day) {
-                $slot = $form->getInput($day . "_slot");
-                $subs = $days_fields[$day]->getSubItems();
-                if ($slot[0]) {
-                    $subs[0]->setValue($slot[0]);
-                }
-                if ($slot[1]) {
-                    $subs[1]->setValue($slot[1]);
-                }
-            }
-        }
-    }
-
+    
     /**
      * Set form data into schedule object
      */

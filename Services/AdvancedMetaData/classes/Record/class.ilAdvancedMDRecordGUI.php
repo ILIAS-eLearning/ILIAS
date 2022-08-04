@@ -91,11 +91,12 @@ class ilAdvancedMDRecordGUI
         $this->sub_type = $a_sub_type;
         $this->sub_id = $a_sub_id;
 
+        $this->in_repository = $in_repository;
         if ($a_obj_id && $this->in_repository) {
             $refs = ilObject::_getAllReferences($a_obj_id);
             $this->ref_id = end($refs);
         }
-        $this->in_repository = $in_repository;
+
         $this->refinery = $DIC->refinery();
         $this->http = $DIC->http();
     }
