@@ -8188,6 +8188,7 @@ ul.dropdown-menu > li > .btn:focus {
 .il-standard-form .il-standard-form-header h2,
 .il-standard-form .il-section-input-header h2 {
   font-size: 1.115rem;
+  font-weight: 600;
   padding-top: 12px;
   padding-bottom: 3px;
 }
