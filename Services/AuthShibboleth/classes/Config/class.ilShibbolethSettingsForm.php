@@ -1,22 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Administration\Setting;
 use function _PHPStan_e04cc8dfb\RingCentral\Psr7\str;
 use ILIAS\DI\Container;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilShibbolethSettingsForm
  *
@@ -84,15 +87,16 @@ class ilShibbolethSettingsForm
                                   ->withAdditionalTransformation($custom_trafo(function ($v) : void {
                                       $this->settings->setAllowLocalAuth((bool) $v);
                                   }));
-
+    
         $admin_must_activate = $field->checkbox(
             $this->txt('shib_activate_new'),
             $this->lng->txt("shib_activate_new_info")
-        )
-                                     ->withValue($this->settings->adminMustActivate())
-                                     ->withAdditionalTransformation($custom_trafo(function ($v) : void {
-                                         $this->settings->setAllowLocalAuth((bool) $v);
-                                     }));
+        )->withValue($this->settings->adminMustActivate())
+                                     ->withAdditionalTransformation(
+                                         $custom_trafo(function ($v) : void {
+                                             $this->settings->setAdminMustActivate((bool) $v);
+                                         })
+                                     );
 
         $default_user_role = $field->select($this->txt('shib_user_default_role'), $this->getRoles())
                                    ->withRequired(true)
@@ -106,7 +110,7 @@ class ilShibbolethSettingsForm
             $auth_allow_local,
             $admin_must_activate,
             $default_user_role,
-        ], $this->txt('shib'))->withAdditionalTransformation($custom_trafo(fn ($v) : ilShibbolethSettings => $this->settings));
+        ], $this->txt('shib'));
 
         // Federation
         $federation_name = $field->text($this->txt('shib_federation_name'))
@@ -157,7 +161,7 @@ class ilShibbolethSettingsForm
             $login_type,
             $instructions,
             $data_manipulation
-        ], '')->withAdditionalTransformation($custom_trafo(fn ($v) : ilShibbolethSettings => $this->settings));
+        ], '');
 
         // User Fields
         $fields = [];
@@ -184,7 +188,7 @@ class ilShibbolethSettingsForm
         $user_fields = $field->section(
             $fields,
             ''
-        )->withAdditionalTransformation($custom_trafo(fn ($v) : ilShibbolethSettings => $this->settings));
+        );
 
         // COMPLETE FORM
 
@@ -195,7 +199,9 @@ class ilShibbolethSettingsForm
                 $federation_section,
                 $user_fields
             ]
-        )->withAdditionalTransformation($this->refinery->custom()->transformation(fn ($v) => array_shift($v)));
+        )->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) {
+            return true;
+        }));
     }
 
     public function setValuesByPost() : void
@@ -205,12 +211,7 @@ class ilShibbolethSettingsForm
 
     protected function fillObject() : bool
     {
-        $settings = $this->form->getData();
-        if ($settings instanceof ilShibbolethSettings) {
-            $this->settings = $settings;
-            return true;
-        }
-        return false;
+        return $this->form->getData() === true;
     }
 
     public function saveObject() : bool
