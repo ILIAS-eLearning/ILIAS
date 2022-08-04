@@ -1,20 +1,23 @@
 <?php
 
-use ILIAS\HTTP\Wrapper\WrapperFactory;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+
 /**
  * Class ShibbolethWAYF
  *
@@ -27,6 +30,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  */
 class ilShibbolethWAYF
 {
+    const COOKIE_NAME_SAML_IDP = '_saml_idp';
     public bool $is_selection = false;
     public bool $is_valid_selection = false;
     public string $selected_idp = '-';
@@ -81,7 +85,12 @@ class ilShibbolethWAYF
 
     public function generateSelection() : string
     {
-        $_saml_idp = $this->wrapper->cookie()->retrieve('_saml_idp', $this->refinery->kindlyTo()->string());
+        $_saml_idp = $this->wrapper->cookie()->has(self::COOKIE_NAME_SAML_IDP)
+            ? $this->wrapper->cookie()->retrieve(
+                self::COOKIE_NAME_SAML_IDP,
+                $this->refinery->kindlyTo()->string()
+            )
+            : null;
         $idp_cookie = $this->generateCookieArray($_saml_idp);
 
         $selectedIDP = null;
@@ -135,10 +144,10 @@ class ilShibbolethWAYF
      */
     public function setSAMLCookie() : void
     {
-        $_saml_idp = $this->wrapper->cookie()->retrieve('_saml_idp', $this->refinery->kindlyTo()->string());
+        $_saml_idp = $this->wrapper->cookie()->retrieve(self::COOKIE_NAME_SAML_IDP, $this->refinery->kindlyTo()->string());
         $arr_idps = $_saml_idp ? $this->generateCookieArray($_saml_idp) : [];
         $arr_idps = $this->appendCookieValue($this->selected_idp, $arr_idps);
-        setcookie('_saml_idp', $this->generateCookieValue($arr_idps), time() + (100 * 24 * 3600), '/');
+        setcookie(self::COOKIE_NAME_SAML_IDP, $this->generateCookieValue($arr_idps), time() + (100 * 24 * 3600), '/');
     }
 
     /**
