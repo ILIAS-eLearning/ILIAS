@@ -3083,8 +3083,10 @@ class ilObjUser extends ilObject
             $start = new ilDateTime($this->getTimeLimitFrom(), IL_CAL_UNIX);
             $end = new ilDateTime($this->getTimeLimitUntil(), IL_CAL_UNIX);
             
-            $body .= $language->txt('time_limit') . ': ' . $start->get(IL_CAL_DATETIME);
-            $body .= $language->txt('time_limit') . ': ' . $end->get(IL_CAL_DATETIME);
+            $body .= $language->txt('time_limit') . ': ' .
+                $language->txt('from') . " " .
+                $start->get(IL_CAL_DATETIME) . " ";
+            $body .= $language->txt('to') . ' ' . $end->get(IL_CAL_DATETIME);
         }
 
         /**
