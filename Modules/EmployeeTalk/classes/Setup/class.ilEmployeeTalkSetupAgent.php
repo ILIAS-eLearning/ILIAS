@@ -18,15 +18,63 @@
 
 namespace ILIAS\EmployeeTalk\Setup;
 
+use ILIAS\Refinery\Transformation;
 use ILIAS\Setup;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Metrics;
+use ILIAS\Setup\Migration;
+use ILIAS\Setup\Objective;
 
 /**
  * @author Nicolas Schaefli <nick@fluxlabs.ch>
  */
-final class ilEmployeeTalkSetupAgent extends Setup\Agent\NullAgent
+final class ilEmployeeTalkSetupAgent implements Setup\Agent
 {
+    public function hasConfig() : bool
+    {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation() : Transformation
+    {
+        throw new \LogicException(
+            self::class . " has no config."
+        );
+    }
+
+    public function getInstallObjective(Config $config = null) : Objective
+    {
+        return new \ilTreeAdminNodeAddedObjective('tala', '__TalkTemplateAdministration');
+    }
+
+    public function getBuildArtifactObjective() : Objective
+    {
+        return new Objective\NullObjective();
+    }
+
+    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    {
+        return new Objective\NullObjective();
+    }
+
+    public function getMigrations() : array
+    {
+        return [];
+    }
+
+    public function getNamedObjectives(?Config $config = null) : array
+    {
+        return [];
+    }
+
+
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilEmployeeTalkDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'Employee Talks',
+            true,
+            new \ilTreeAdminNodeAddedObjective('tala', '__TalkTemplateAdministration'),
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilEmployeeTalkDBUpdateSteps())
+        );
     }
 }

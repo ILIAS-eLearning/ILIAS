@@ -128,11 +128,14 @@ class ilTree
     /**
      * @throws InvalidArgumentException
      */
-    public function __construct(int $a_tree_id, int $a_root_id = 0)
-    {
+    public function __construct(
+        int $a_tree_id,
+        int $a_root_id = 0,
+        ilDBInterface $db = null
+    ) {
         global $DIC;
 
-        $this->db = $DIC->database();
+        $this->db = $db ?? $DIC->database();
         $this->logger = ilLoggerFactory::getLogger('tree');
         //$this->logger = $DIC->logger()->tree();
         if (isset($DIC['ilAppEventHandler'])) {
@@ -141,7 +144,7 @@ class ilTree
 
         $this->lang_code = self::DEFAULT_LANGUAGE;
 
-        if (func_num_args() > 2) {
+        if (func_num_args() > 3) {
             $this->logger->error("Wrong parameter count!");
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException("Wrong parameter count!");
