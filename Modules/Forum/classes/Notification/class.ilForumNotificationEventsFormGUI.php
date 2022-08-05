@@ -16,63 +16,72 @@
  *
  *********************************************************************/
 
-/**
- * Class ilForumNotificationEventsFormGUI
- */
-class ilForumNotificationEventsFormGUI extends ilPropertyFormGUI
+class ilForumNotificationEventsFormGUI
 {
-    protected object $parent_object;
-    protected int $ref_id;
-    protected int $thread_id = 0;
+    private string $action;
+    private ?array $predefined_values;
+    private \ILIAS\UI\Factory $ui_factory;
+    private ilLanguage $lng;
+    /** @var array<string, int> */
+    private array $events = [
+        'notify_modified' => ilForumNotificationEvents::UPDATED,
+        'notify_censored' => ilForumNotificationEvents::CENSORED,
+        'notify_uncensored' => ilForumNotificationEvents::UNCENSORED,
+        'notify_post_deleted' => ilForumNotificationEvents::POST_DELETED,
+        'notify_thread_deleted' => ilForumNotificationEvents::THREAD_DELETED,
+    ];
 
-    public function __construct(object $parent_object, int $ref_id, int $thread_id = 0)
-    {
-        $this->parent_object = $parent_object;
-        $this->ref_id = $ref_id;
-        $this->thread_id = $thread_id;
-
-        parent::__construct();
-
-        $this->initForm();
+    public function __construct(
+        string $action,
+        ?array $predefined_values,
+        \ILIAS\UI\Factory $ui_factory,
+        ilLanguage $lng
+    ) {
+        $this->action = $action;
+        $this->predefined_values = $predefined_values;
+        $this->ui_factory = $ui_factory;
+        $this->lng = $lng;
     }
 
-    private function initForm() : void
+    public function getValueForEvent(string $event) : int
     {
-        $this->setId(uniqid('frm_ntf_set_' . $this->ref_id, true));
-
-        if ($this->thread_id > 0) {
-            $this->ctrl->setParameter($this->parent_object, 'thr_pk', $this->thread_id);
+        if (isset($this->events[$event])) {
+            return $this->events[$event];
         }
 
-        $this->setFormAction($this->ctrl->getFormAction($this->parent_object, 'saveUserNotificationSettings'));
+        throw new InvalidArgumentException(sprintf('Event "%s" is not supported.', $event));
+    }
 
-        $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
-        $notify_modified->setValue((string) ilForumNotificationEvents::UPDATED);
-        $this->addItem($notify_modified);
+    /**
+     * @return list<string>
+     */
+    public function getValidEvents() : array
+    {
+        return array_keys($this->events);
+    }
 
-        $notify_censored = new ilCheckboxInputGUI($this->lng->txt('notify_censored'), 'notify_censored');
-        $notify_censored->setValue((string) ilForumNotificationEvents::CENSORED);
-        $this->addItem($notify_censored);
+    public function build() : \ILIAS\UI\Component\Input\Container\Form\Form
+    {
+        $items = [];
 
-        $notify_uncensored = new ilCheckboxInputGUI($this->lng->txt('notify_uncensored'), 'notify_uncensored');
-        $notify_uncensored->setValue((string) ilForumNotificationEvents::UNCENSORED);
-        $this->addItem($notify_uncensored);
+        foreach ($this->events as $key => $id) {
+            $checkbox = $this->ui_factory->input()->field()->checkbox($this->lng->txt($key));
+            if ($this->predefined_values !== null && isset($this->predefined_values[$key])) {
+                $checkbox = $checkbox->withValue($this->predefined_values[$key]);
+            }
 
-        $notify_post_deleted = new ilCheckboxInputGUI(
-            $this->lng->txt('notify_post_deleted'),
-            'notify_post_deleted'
+            $items[$key] = $checkbox;
+        }
+
+        $hidden = $this->ui_factory->input()->field()->hidden();
+        if ($this->predefined_values !== null && isset($this->predefined_values['hidden_value'])) {
+            $hidden = $hidden->withValue((string) $this->predefined_values['hidden_value']);
+        }
+        $items['hidden_value'] = $hidden;
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->action,
+            $items
         );
-        $notify_post_deleted->setValue((string) ilForumNotificationEvents::POST_DELETED);
-        $this->addItem($notify_post_deleted);
-
-        $notify_thread_deleted = new ilCheckboxInputGUI(
-            $this->lng->txt('notify_thread_deleted'),
-            'notify_thread_deleted'
-        );
-        $notify_thread_deleted->setValue((string) ilForumNotificationEvents::THREAD_DELETED);
-        $this->addItem($notify_thread_deleted);
-
-        $hidden_value = new ilHiddenInputGUI('hidden_value');
-        $this->addItem($hidden_value);
     }
 }

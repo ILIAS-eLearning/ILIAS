@@ -31,14 +31,15 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private ilAccessHandler $access;
     private ilTree $tree;
     private ilObjForumGUI $parent_obj;
-    private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
     private ilForumNotification $forumNotificationObj;
     private ?ilPropertyFormGUI $notificationSettingsForm = null;
-    public int $ref_id;
+    private int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
     private ilErrorHandling $error;
+    private \ILIAS\UI\Factory $ui_factory;
 
     public function __construct(ilObjForumGUI $parent_obj)
     {
@@ -56,12 +57,18 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $this->dic->object();
         $this->ref_id = $this->parent_obj->getObject()->getRefId();
-        $this->http_wrapper = $DIC->http()->wrapper();
+        $this->http = $DIC->http();
+        $this->ui_factory = $DIC->ui()->factory();
         $this->refinery = $DIC->refinery();
         $this->error = $DIC['ilErr'];
 
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('cont');
+    }
+
+    public function getRefId() : int
+    {
+        return $this->ref_id;
     }
 
     private function initForcedForumNotification() : void
@@ -467,65 +474,54 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function saveEventsForUser() : void
     {
-        $hidden_value = [];
-        if ($this->http_wrapper->post()->has('hidden_value')) {
-            $hidden_value = $this->http_wrapper->post()->retrieve(
-                'hidden_value',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
+            $this->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->error->MESSAGE
             );
         }
 
-        $notify_modified = 0;
-        if ($this->http_wrapper->post()->has('notify_modified')) {
-            $notify_modified = $this->http_wrapper->post()->retrieve(
-                'notify_modified',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $notify_censored = 0;
-        if ($this->http_wrapper->post()->has('notify_censored')) {
-            $notify_censored = $this->http_wrapper->post()->retrieve(
-                'notify_censored',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $notify_uncensored = 0;
-        if ($this->http_wrapper->post()->has('notify_uncensored')) {
-            $notify_uncensored = $this->http_wrapper->post()->retrieve(
-                'notify_uncensored',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $notify_post_deleted = 0;
-        if ($this->http_wrapper->post()->has('notify_post_deleted')) {
-            $notify_post_deleted = $this->http_wrapper->post()->retrieve(
-                'notify_post_deleted',
-                $this->refinery->kindlyTo()->int()
-            );
+        $events_form_builder = new ilForumNotificationEventsFormGUI(
+            $this->ctrl->getFormAction($this, 'saveEventsForUser'),
+            null,
+            $this->ui_factory,
+            $this->lng
+        );
+
+        if ($this->http->request()->getMethod() === 'POST') {
+            $form = $events_form_builder->build()->withRequest($this->http->request());
+            $formData = $form->getData();
+
+            $interested_events = ilForumNotificationEvents::DEACTIVATED;
+
+            foreach ($events_form_builder->getValidEvents() as $event) {
+                $interested_events += isset($formData[$event]) && $formData[$event] ? $events_form_builder->getValueForEvent(
+                    $event
+                ) : 0;
+            }
+
+            if (isset($formData['hidden_value']) && $formData['hidden_value']) {
+                $hidden_value = json_decode($formData['hidden_value'], false, 512, JSON_THROW_ON_ERROR);
+
+                $oParticipants = $this->getParticipants();
+                $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
+                $admin_ids = $oParticipants->getAdmins();
+                $member_ids = $oParticipants->getMembers();
+                $tutor_ids = $oParticipants->getTutors();
+
+                $valid_usr_ids = array_unique(array_merge($moderator_ids, $admin_ids, $member_ids, $tutor_ids));
+
+                if (in_array($hidden_value->usr_id, $valid_usr_ids)) {
+                    $frm_noti = new ilForumNotification($this->parent_obj->getRefId());
+                    $frm_noti->setUserId($hidden_value->usr_id);
+                    $frm_noti->setForumId($this->parent_obj->getObject()->getId());
+                    $frm_noti->setInterestedEvents($interested_events);
+                    $frm_noti->updateInterestedEvents();
+                }
+            }
         }
 
-        $notify_thread_deleted = 0;
-        if ($this->http_wrapper->post()->has('notify_thread_deleted')) {
-            $notify_thread_deleted = $this->http_wrapper->post()->retrieve(
-                'notify_thread_deleted',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-
-        $hidden_value = json_decode($hidden_value, false, 512, JSON_THROW_ON_ERROR);
-        $interested_events = 0;
-
-        $interested_events += (int) $notify_modified;
-        $interested_events += (int) $notify_censored;
-        $interested_events += (int) $notify_uncensored;
-        $interested_events += (int) $notify_post_deleted;
-        $interested_events += (int) $notify_thread_deleted;
-
-        $frm_noti = new ilForumNotification($hidden_value->ref_id);
-        $frm_noti->setUserId($hidden_value->usr_id_events);
-        $frm_noti->setForumId($hidden_value->forum_id);
-        $frm_noti->setInterestedEvents($interested_events);
-        $frm_noti->updateInterestedEvents();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
 
         $this->showMembers();
     }
