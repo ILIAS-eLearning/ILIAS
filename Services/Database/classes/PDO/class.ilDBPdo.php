@@ -748,14 +748,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function lockTables(array $tables) : void
     {
         assert(is_array($tables));
-
         $lock = $this->manager->getQueryUtils()->lock($tables);
-        global $DIC;
-        $ilLogger = $DIC->logger()->root();
-        if ($ilLogger instanceof ilLogger) {
-            $ilLogger->log('ilDB::lockTables(): ' . $lock);
-        }
-
         $this->pdo->exec($lock);
     }
 
