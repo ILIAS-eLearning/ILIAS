@@ -597,6 +597,15 @@ class Renderer extends AbstractComponentRenderer
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
         $settings->existing_file_ids = $component->getValue();
         $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($component->getValue() ?? []);
+        $upload_limit = \ilUtil::getUploadSizeLimitBytes();
+        $max_file_size = $component->getMaxFileFize() === -1
+            ? $upload_limit
+            : $component->getMaxFileFize();
+        $settings->max_file_size = min($max_file_size, $upload_limit) / 1024 / 1024; // dropzone.js expects MiB
+        $settings->max_file_size_text = sprintf(
+            $this->txt('ui_file_input_invalid_size'),
+            (string) round($settings->max_file_size, 3)
+        );
 
         /**
          * @var $component F\File

@@ -15374,6 +15374,7 @@ common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
+ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s MiB.
 survey#:#svy_self_ev_mode#:#Nur Selbst-Evaluation
 survey#:#svy_self_ev_info#:#Für Selbst-Evaluation verwenden
 survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse

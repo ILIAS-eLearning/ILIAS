@@ -14934,6 +14934,7 @@ common#:#presentation_table_more#:#Show More
 ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
+ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s MiB.
 exc#:#exc_global_feedback_file_after_date#:#After set Date
 exc#:#feedback_given#:#Feedback given
 exc#:#feedback#:#Feedback

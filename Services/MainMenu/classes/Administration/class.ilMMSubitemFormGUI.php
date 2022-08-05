@@ -108,7 +108,8 @@ class ilMMSubitemFormGUI
             // ICON
             $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('sub_icon'))
                         ->withByline($txt('sub_icon_byline'))
-                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML])
+                        ->withMaxFileSize(ilMMUploadHandlerGUI::MAX_FILE_SIZE);
             if ($this->item_facade->getIconID() !== null) {
                 $icon = $icon->withValue([$this->item_facade->getIconID()]);
             }
