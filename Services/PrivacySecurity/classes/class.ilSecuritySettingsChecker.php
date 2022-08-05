@@ -3,15 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
 class ilSecuritySettingsChecker
 {
     
@@ -238,8 +242,8 @@ class ilSecuritySettingsChecker
     public static function generatePasswords(int $a_number) : array
     {
         $ret = [];
-        srand((double) microtime() * 1000000);
-        
+        srand((int) microtime() * 1000000);
+
         $security = ilSecuritySettings::_getInstance();
         
         for ($i = 1; $i <= $a_number; $i++) {
