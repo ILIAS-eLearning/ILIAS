@@ -257,7 +257,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                                 $data["points"],
                                 $data["aorder"]
                             );
-                            $this->gaps[$data["gap_id"]]->setGapSize($data['gap_size']);
+                            $this->gaps[$data["gap_id"]]->setGapSize((int) $data['gap_size']);
 
                             $this->gaps[$data["gap_id"]]->addItem($answer);
                             break;
@@ -282,7 +282,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                                 $data["points"],
                                 $data["aorder"]
                             );
-                            $this->gaps[$data["gap_id"]]->setGapSize($data['gap_size']);
+                            $this->gaps[$data["gap_id"]]->setGapSize((int) $data['gap_size']);
                             $answer->setLowerBound($data["lowerlimit"]);
                             $answer->setUpperBound($data["upperlimit"]);
                             $this->gaps[$data["gap_id"]]->addItem($answer);
@@ -779,7 +779,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function setGapSize($gap_index, $order, $size) : void
     {
         if (array_key_exists($gap_index, $this->gaps)) {
-            $this->gaps[$gap_index]->setGapSize($size);
+            $this->gaps[$gap_index]->setGapSize((int) $size);
         }
     }
 

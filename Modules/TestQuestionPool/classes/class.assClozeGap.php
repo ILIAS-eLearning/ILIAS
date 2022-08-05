@@ -399,10 +399,7 @@ class assClozeGap
         }
     }
 
-    /**
-     * @param integer $gap_size
-     */
-    public function setGapSize($gap_size) : void
+    public function setGapSize(int $gap_size) : void
     {
         $this->gap_size = $gap_size;
     }
