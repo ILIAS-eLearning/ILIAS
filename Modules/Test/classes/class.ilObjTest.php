@@ -6567,6 +6567,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
         $newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
         $newObj->setResultFilterTaxIds($this->getResultFilterTaxIds());
+        $newObj->setPassDeletionAllowed($this->isPassDeletionAllowed());
         $newObj->setFollowupQuestionAnswerFixationEnabled($this->isFollowupQuestionAnswerFixationEnabled());
         $newObj->setInstantFeedbackAnswerFixationEnabled($this->isInstantFeedbackAnswerFixationEnabled());
         $newObj->setForceInstantFeedbackEnabled($this->isForceInstantFeedbackEnabled());
