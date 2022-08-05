@@ -42,48 +42,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
             if ($this->db->supportsTransactions()) {
                 $this->db->beginTransaction();
             }
-
-            // ATTENTION: This is a total abomination. It only exists to allow the db-
-            // update to run. This is a memento to the fact, that dependency injection
-            // is something we want. Currently, every component could just service
-            // locate the whole world via the global $DIC.
-            /** @noRector  */
-            $DIC = $GLOBALS["DIC"] ?? [];
-            $GLOBALS["DIC"] = new \ILIAS\DI\Container();
-            $GLOBALS["DIC"]["ilDB"] = $this->db;
-            $GLOBALS["ilDB"] = $this->db;
-            $GLOBALS["DIC"]["ilLog"] = new class() {
-                public function write() : void
-                {
-                }
-                public function info() : void
-                {
-                }
-                public function warning($msg) : void
-                {
-                }
-                public function error($msg) : void
-                {
-                    throw new \ILIAS\Setup\UnachievableException(
-                        "Problem in DB-Update: $msg"
-                    );
-                }
-            };
-            $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
-            $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-                public function getRootLogger() : object
-                {
-                    return new class() {
-                        public function write() : void
-                        {
-                        }
-                    };
-                }
-            };
-
             $updateStep($this->db);
-
-            $GLOBALS["DIC"] = $DIC;
 
             if ($this->db->supportsTransactions()) {
                 $this->db->commit();
