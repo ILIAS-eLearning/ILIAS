@@ -13661,7 +13661,6 @@ div.ilFrmPostHeader span.small {
 }
 .ilFrmTargetImage img {
   height: 20px !important;
-  vertical-align: middle;
 }
 .ilFrmTargetImage a {
   display: inline-block;

@@ -4355,28 +4355,28 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $frm_noti->setUserId($this->user->getId());
             $interested_events = $frm_noti->readInterestedEvents();
 
-            $form = $this->initUserNotificationForm();
-
-            $event_values =
-                [
-                    'hidden_value' => '',
-                    'notify_modified' => $interested_events & ilForumNotificationEvents::UPDATED,
-                    'notify_censored' => $interested_events & ilForumNotificationEvents::CENSORED,
-                    'notify_uncensored' => $interested_events & ilForumNotificationEvents::UNCENSORED,
-                    'notify_post_deleted' => $interested_events & ilForumNotificationEvents::POST_DELETED,
-                    'notify_thread_deleted' => $interested_events & ilForumNotificationEvents::THREAD_DELETED,
-                ];
-            $form->setValuesByArray($event_values);
+            $events_form_builder = $this->eventsFormBuilder([
+                'hidden_value' => '',
+                'notify_modified' => (bool) ($interested_events & ilForumNotificationEvents::UPDATED),
+                'notify_censored' => (bool) ($interested_events & ilForumNotificationEvents::CENSORED),
+                'notify_uncensored' => (bool) ($interested_events & ilForumNotificationEvents::UNCENSORED),
+                'notify_post_deleted' => (bool) ($interested_events & ilForumNotificationEvents::POST_DELETED),
+                'notify_thread_deleted' => (bool) ($interested_events & ilForumNotificationEvents::THREAD_DELETED),
+            ]);
 
             $notificationsModal = $this->uiFactory->modal()->roundtrip(
                 $this->lng->txt('notification_settings'),
-                $this->uiFactory->legacy($form->getHTML())
+                $events_form_builder->build()
             )->withActionButtons([
-                $this->uiFactory->button()
-                                ->primary($this->lng->txt('save'), '#')
-                                ->withOnLoadCode(function (string $id) use ($form) : string {
-                                    return "$('#$id').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
-                                })
+                $this->uiFactory
+                    ->button()
+                    ->primary($this->lng->txt('save'), '#')
+                    ->withOnLoadCode(function (string $id) : string {
+                        return "
+                            $('#$id').closest('.modal').find('form .il-standard-form-header, .il-standard-form-footer').remove();
+                            $('#$id').click(function() { $(this).closest('.modal').find('form').submit(); return false; });
+                        ";
+                    })
             ]);
 
             $showNotificationSettingsBtn = $this->uiFactory->button()
@@ -4422,32 +4422,40 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return $lg;
     }
 
-    private function initUserNotificationForm() : ilPropertyFormGUI
+    /**
+     * @param null|array<string, mixed> $predefined_values
+     * @return ilForumNotificationEventsFormGUI
+     * @throws ilCtrlException
+     */
+    private function eventsFormBuilder(?array $predefined_values = null) : ilForumNotificationEventsFormGUI
     {
-        $form = new ilForumNotificationEventsFormGUI($this, $this->ref_id, $this->objCurrentTopic->getId());
-        $form->setId(str_replace('.', '_', uniqid('frm_ntf_set_' . $this->object->getRefId(), true)));
-
         if ($this->objCurrentTopic->getId() > 0) {
             $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
         }
 
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveUserNotificationSettings'));
-
-        return $form;
+        return new ilForumNotificationEventsFormGUI(
+            $this->ctrl->getFormAction($this, 'saveUserNotificationSettings'),
+            $predefined_values,
+            $this->uiFactory,
+            $this->lng
+        );
     }
 
     public function saveUserNotificationSettingsObject() : void
     {
-        $form = $this->initUserNotificationForm();
+        $events_form_builder = $this->eventsFormBuilder();
 
-        if ($form->checkInput()) {
+        if ($this->httpRequest->getMethod() === 'POST') {
+            $form = $events_form_builder->build()->withRequest($this->httpRequest);
+            $formData = $form->getData();
+
             $interested_events = ilForumNotificationEvents::DEACTIVATED;
 
-            $interested_events += (int) $form->getInput('notify_modified');
-            $interested_events += (int) $form->getInput('notify_censored');
-            $interested_events += (int) $form->getInput('notify_uncensored');
-            $interested_events += (int) $form->getInput('notify_post_deleted');
-            $interested_events += (int) $form->getInput('notify_thread_deleted');
+            foreach ($events_form_builder->getValidEvents() as $event) {
+                $interested_events += isset($formData[$event]) && $formData[$event] ? $events_form_builder->getValueForEvent(
+                    $event
+                ) : 0;
+            }
 
             $frm_noti = new ilForumNotification($this->object->getRefId());
             $frm_noti->setUserId($this->user->getId());
