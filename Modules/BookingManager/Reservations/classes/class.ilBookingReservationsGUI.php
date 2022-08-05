@@ -140,7 +140,7 @@ class ilBookingReservationsGUI
             $this->ref_id,
             $this->pool->getId(),
             $show_all,
-            ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE),
+            ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE),
             $filter,
             $reservation_id,
             $context_filter
@@ -563,13 +563,20 @@ class ilBookingReservationsGUI
         $conf->setConfirm($this->lng->txt('book_set_delete'), 'rsvDelete');
         $conf->setCancel($this->lng->txt('cancel'), 'log');
 
-        list($obj_id, $user_id, $from, $to) = explode("_", $DIC->http()->request()->getQueryParams()['reservation_id']);
-        $ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
-        $rsv = new ilBookingReservation($ids[0]);
+        if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+            list($obj_id, $user_id, $from, $to) = explode("_",
+                $DIC->http()->request()->getQueryParams()['reservation_id']);
+            $ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
+            $rsv_id = $ids[0];
+        } else {
+            $rsv_id = $DIC->http()->request()->getQueryParams()['reservation_id'];
+            $ids = [$rsv_id];
+        }
+        $rsv = new ilBookingReservation($rsv_id);
         $obj = new ilBookingObject($rsv->getObjectId());
 
         $details = sprintf($this->lng->txt('X_reservations_of'), count($ids)) . ' ' . $obj->getTitle();
-        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
+        if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $details .= ", " . ilDatePresentation::formatPeriod(
                 new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
                 new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
