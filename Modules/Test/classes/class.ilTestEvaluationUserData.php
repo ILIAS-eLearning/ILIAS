@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
 * Class ilTestEvaluationUserData
@@ -126,6 +141,13 @@ class ilTestEvaluationUserData
     * @var array<int, ilTestEvaluationPassData>
     */
     public $passes;
+
+
+    /**
+     * Number of the last finished pass
+     * @var int|null
+     */
+    public $lastFinishedPass;
 
     /**
     * Questions
@@ -374,7 +396,11 @@ class ilTestEvaluationUserData
             return $this->getLastPass();
         }
     }
-
+/**
+     * todo: this is used in the export and the scored pass differs from the result cache if the best pass is scored
+     * here: the last one of equal passes wins. In tst_result_cache the first one of equal passes wins
+     * @see \DBUpdateTestResultCalculator::_getBestPass
+    */
     public function getBestPass() : int
     {
         $bestpoints = 0;
@@ -384,7 +410,7 @@ class ilTestEvaluationUserData
 
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
-
+// todo: use > instead of >=
             if ($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists)) {
                 $bestpoints = $reached;
                 $bestpass = $pass->getPass();
@@ -404,7 +430,29 @@ class ilTestEvaluationUserData
         }
         return $lastpass;
     }
+/**
+     * @return int
+     */
+    public function getFinishedPasses()
+    {
+        return $this->getLastFinishedPass() === null ? 0 : $this->getLastFinishedPass() + 1;
+    }
 
+    /**
+     * @return ?int
+     */
+    public function getLastFinishedPass()
+    {
+        return $this->lastFinishedPass;
+    }
+
+    /**
+     * @param ?int $pass
+     */
+    public function setLastFinishedPass($pass = null)
+    {
+        $this->lastFinishedPass = $pass;
+    }
     public function addQuestionTitle($question_id, $question_title)
     {
         $this->questionTitles[$question_id] = $question_title;
