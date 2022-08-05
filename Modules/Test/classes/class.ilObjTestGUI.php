@@ -1547,8 +1547,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         if (($qpl_mode == 2 && strcmp($this->testrequest->raw("txt_qpl"), "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0)) {
-            // Mantis #14890
-            $_REQUEST['sel_question_types'] = $sel_question_types;
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("questionpool_not_entered"));
             $this->createQuestionObject();
             return;
