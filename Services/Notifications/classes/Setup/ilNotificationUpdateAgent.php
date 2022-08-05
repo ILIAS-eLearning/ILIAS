@@ -19,6 +19,7 @@
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Setup\Environment;
+use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 
 class ilNotificationUpdateAgent implements Setup\Agent
 {
@@ -41,19 +42,15 @@ class ilNotificationUpdateAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new class(new ilNotificationUpdateSteps()) extends ilDatabaseUpdateStepsExecutedObjective {
-            public function getPreconditions(Environment $environment) : array
-            {
-                $preconditions = parent::getPreconditions($environment);
-                
-                $preconditions[] = new ilTreeAdminNodeAddedObjective(
-                    'nota',
-                    'Notification Service Administration Object'
-                );
-
-                return $preconditions;
-            }
-        };
+        return new ObjectiveWithPreconditions(
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilNotificationUpdateSteps()
+            ),
+            new ilTreeAdminNodeAddedObjective(
+                'nota',
+                'Notification Service Administration Object'
+            )
+        );
     }
 
     public function getBuildArtifactObjective() : Setup\Objective
