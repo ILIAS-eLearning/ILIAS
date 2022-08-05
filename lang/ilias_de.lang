@@ -1478,6 +1478,10 @@ assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Beendens
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
+assessment#:#tst_tbl_col_started_passes#:#Gestartete Durchläufe
+assessment#:#tst_tbl_col_finished_passes#:#Beendete Durchläufe
+assessment#:#tst_tbl_col_finished_passes_num_of#:#%s von %s
+assessment#:#tst_tbl_col_last_scored_access#:#Letzter bewerteter Zugriff
 assessment#:#unfinished_passes#:#Unbeendeter Testdurchlauf
 assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer "%s" wirklich beenden?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNUNG: die Bearbeitungszeit für diesen Benutzer ist noch nicht vorbei! Sie sollten den Testlauf nur bei zwingendem Grund (z.B. Ausschluss vom Test) beenden.

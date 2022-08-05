@@ -1403,6 +1403,10 @@ assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finished#:#Finished
+assessment#:#tst_tbl_col_started_passes#:#Started Passes
+assessment#:#tst_tbl_col_finished_passes#:#Finished Passes
+assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s
+assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access
 assessment#:#unfinished_passes#:#Unfinished Passes
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
