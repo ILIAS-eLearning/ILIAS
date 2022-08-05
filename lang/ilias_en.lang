@@ -5136,6 +5136,7 @@ common#:#pdfg_visible#:#PDF Generation is visible
 common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#perma_link#:#Permanent Link
+common#:#copy_perma_link#:#Copy Permanent Link
 common#:#permission_denied#:#Permission Denied
 common#:#permission#:#Permission
 common#:#permission_settings#:#Object Permission Settings
