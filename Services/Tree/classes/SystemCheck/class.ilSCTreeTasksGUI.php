@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -21,6 +35,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     protected ilTree $tree;
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    private ilDBInterface $db;
 
     public function __construct(ilSCTask $task = null)
     {
@@ -30,6 +45,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->tree = $DIC->repositoryTree();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->db = $DIC->database();
     }
 
     protected function getDuplicateIdFromRequest() : int
@@ -212,7 +228,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $tasks = new ilSCTreeTasks($this->getTask());
 
         if ($this->tree->getTreeImplementation() instanceof ilMaterializedPathTree) {
-            ilMaterializedPathTree::createFromParentReleation();
+            ilMaterializedPathTree::createFromParentReleation($this->db);
         } elseif ($this->tree->getTreeImplementation() instanceof ilNestedSetTree) {
             $this->tree->renumber(ROOT_FOLDER_ID);
         }

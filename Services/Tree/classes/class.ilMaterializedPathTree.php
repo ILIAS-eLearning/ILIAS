@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Base class for materialize path based trees
@@ -448,46 +463,32 @@ class ilMaterializedPathTree implements ilTreeImplementation
         }
     }
 
-    public static function createFromParentReleation() : void
+    public static function createFromParentRelation(ilDBInterface $db) : void
     {
-        global $DIC;
+        $result = $db->queryF('SELECT DISTINCT * FROM tree WHERE parent = %s', ['integer'], [0]);
 
-        $db = $DIC->database();
-        $r = $db->queryF('SELECT DISTINCT * FROM tree WHERE parent = %s', array('integer'), array(0));
-
-        while ($row = $db->fetchAssoc($r)) {
-            self::createMaterializedPath(0, '');
+        while ($row = $db->fetchAssoc($result)) {
+            self::createMaterializedPath($db, 0, '');
         }
     }
 
-    /**
-     * @param int    $parent
-     * @param string $parentPath
-     * @return bool
-     */
-    private static function createMaterializedPath(int $parent, string $parentPath) : bool
+    private static function createMaterializedPath(ilDBInterface $db, int $parent, string $parentPath) : void
     {
-        global $DIC;
-
-        $db = $DIC->database();
-
         $q = ' UPDATE tree
 			SET path = CONCAT(COALESCE(' . $db->quote($parentPath, 'text') . ', \'\'), COALESCE( ' . $db->cast(
             "child",
             "text"
-        ) . ' , \'\'))
-			WHERE parent = %s';
-        $r = $db->manipulateF($q, array('integer'), array($parent));
+        ) . ' , \'\')) WHERE parent = %s';
+        $db->manipulateF($q, ['integer'], [$parent]);
+        $result = $db->queryF('SELECT child FROM tree WHERE parent = %s', ['integer'], [$parent]);
 
-        $r = $db->queryF('SELECT child FROM tree WHERE parent = %s', array('integer'), array($parent));
-
-        while ($row = $db->fetchAssoc($r)) {
+        while ($row = $db->fetchAssoc($result)) {
             self::createMaterializedPath(
+                $db,
                 (int) $row['child'],
                 $parentPath . $row['child'] . '.'
             );
         }
-        return true;
     }
 
     /**
