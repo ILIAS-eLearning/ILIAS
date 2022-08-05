@@ -1432,6 +1432,20 @@ assessment#:#tst_finish_notification_content#:#Content of e-mail
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finish_notification#:#Notification
+assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
+assessment#:#tst_finished#:#Finished
+assessment#:#tst_tbl_col_started_passes#:#Started Passes
+assessment#:#tst_tbl_col_finished_passes#:#Finished Passes
+assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s
+assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access
+assessment#:#unfinished_passes#:#Unfinished Passes
+assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
+assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
+assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
+assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
+assessment#:#finish_all_user_passes#:#Finish all Test Passes
+assessment#:#finish_unfinished_passes#:#Finish Open Passes
+assessment#:#finish_unfinished_passes_desc#:#Passes which have a finishing time or a duration limit configured will be closed by this cron job.
 assessment#:#tst_finish_notification_simple#:#Send username and finish date
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis

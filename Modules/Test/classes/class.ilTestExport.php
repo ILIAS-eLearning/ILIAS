@@ -450,6 +450,10 @@ abstract class ilTestExport
             $worksheet->getColumnCoord($col++) . $row,
             $this->lng->txt('tst_stat_result_median')
         );
+        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_tbl_col_started_passes'));
+        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_tbl_col_finished_passes'));
+        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_tbl_col_started_passes'));
+        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_tbl_col_finished_passes'));
         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('scored_pass'));
         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('pass'));
 
@@ -550,7 +554,8 @@ abstract class ilTestExport
             $worksheet->setCell($row, $col++, $data->getStatistics()->getStatistics()->rank_median());
             $worksheet->setCell($row, $col++, $data->getStatistics()->getStatistics()->count());
             $worksheet->setCell($row, $col++, $median);
-
+            $worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getPassCount());
+            $worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getFinishedPasses());
             if ($this->test_obj->getPassScoring() == SCORE_BEST_PASS) {
                 $worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getBestPass() + 1);
             } else {
@@ -945,6 +950,11 @@ abstract class ilTestExport
         $col++;
         array_push($datarow, $this->lng->txt("tst_stat_result_median"));
         $col++;
+        array_push($datarow, $this->lng->txt("tst_tbl_col_started_passes"));
+        $col++;
+        array_push($datarow, $this->lng->txt("tst_tbl_col_finished_passes"));
+        $col++;
+
         array_push($datarow, $this->lng->txt("scored_pass"));
         $col++;
 
@@ -1029,6 +1039,9 @@ abstract class ilTestExport
                 array_push($datarow2, $data->getStatistics()->getStatistics()->rank_median());
                 array_push($datarow2, $data->getStatistics()->getStatistics()->count());
                 array_push($datarow2, $median);
+
+                array_push($datarow2, $data->getParticipant($active_id)->getPassCount());
+                array_push($datarow2, $data->getParticipant($active_id)->getFinishedPasses());
                 if ($this->test_obj->getPassScoring() == SCORE_BEST_PASS) {
                     array_push($datarow2, $data->getParticipant($active_id)->getBestPass() + 1);
                 } else {

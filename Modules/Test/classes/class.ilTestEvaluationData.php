@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
 * Class ilTestEvaluationData
@@ -120,7 +135,8 @@ class ilTestEvaluationData
 							usr_data.title,
 							usr_data.login,
 							tst_pass_result.*,
-							tst_active.submitted
+							tst_active.submitted,
+							tst_active.last_finished_pass
 			FROM			tst_pass_result, tst_active
 			LEFT JOIN		usr_data
 			ON				tst_active.user_fi = usr_data.usr_id
@@ -180,6 +196,8 @@ class ilTestEvaluationData
                 $this->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
 
                 $this->getParticipant($row["active_fi"])->setSubmitted($row['submitted']);
+
+                $this->getParticipant($row["active_fi"])->setLastFinishedPass($row['last_finished_pass']);
             }
 
             if (!is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"]))) {
