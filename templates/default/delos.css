@@ -8357,6 +8357,9 @@ select.form-control {
 .radio-inline input[type="radio"] {
   vertical-align: top;
 }
+.radio .help-block {
+  padding-left: 15px;
+}
 label {
   font-weight: 400;
 }
@@ -13290,7 +13293,8 @@ td.il_ScormTableValue {
 .ilSubForm {
   background-color: #f0f0f0;
   padding: 3px 0;
-  margin-bottom: 10px;
+  margin-bottom: 9px;
+  margin-left: 15px;
 }
 .ilSubForm .form-group {
   background-color: #f0f0f0;
