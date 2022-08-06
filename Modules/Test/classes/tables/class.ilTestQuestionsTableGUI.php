@@ -42,8 +42,16 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     private int $position = 0;
     private int $parent_ref_id;
 
+    protected \ILIAS\UI\Renderer $renderer;
+    protected \ILIAS\UI\Factory $factory;
+
     public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
     {
+        global $DIC;
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->factory = $DIC->ui()->factory();
+
         $this->setId('tst_qst_lst_' . $parentRefId);
 
         $this->parent_ref_id = (int) $parentRefId;
@@ -179,9 +187,11 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
         
         if (!$a_set['complete']) {
-            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
-            $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
-            $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
+            $warning_icon = $this->factory->symbol()->icon()->custom(
+                ilUtil::getImagePath("icon_alert.svg"),
+                $this->lng->txt("warning_question_not_complete")
+            );
+            $this->tpl->setVariable("IMAGE_WARNING", $this->renderer->render($warning_icon));
         }
         
         if ($this->isObligatoryQuestionsHandlingEnabled()) {
