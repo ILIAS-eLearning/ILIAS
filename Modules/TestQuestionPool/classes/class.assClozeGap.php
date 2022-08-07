@@ -39,15 +39,7 @@ class assClozeGap
     const TYPE_NUMERIC = 2;
     private ?Transformation $shuffler;
 
-    /**
-     * Type of gap
-     *
-     * An integer value indicating the type of the gap
-     * 0 == text gap, 1 == select gap, 2 == numeric gap
-     *
-     * @var int $type
-     */
-    public $type;
+    public int $type;
 
     /**
      * List of items in the gap
@@ -75,7 +67,7 @@ class assClozeGap
      */
     public function __construct($a_type)
     {
-        $this->type = $a_type;
+        $this->type = (int) $a_type;
         $this->items = array();
         $this->shuffle = true;
     }
@@ -86,6 +78,21 @@ class assClozeGap
     public function getType() : int
     {
         return $this->type;
+    }
+    
+    public function isTextGap() : bool
+    {
+        return $this->type === self::TYPE_TEXT;
+    }
+    
+    public function isSelectGap() : bool
+    {
+        return $this->type === self::TYPE_SELECT;
+    }
+    
+    public function isNumericGap() : bool
+    {
+        return $this->type === self::TYPE_NUMERIC;
     }
 
     /**
