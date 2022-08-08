@@ -298,7 +298,7 @@ class ilMemberAgreementGUI
         $ud = ilCourseUserData::_getValuesByObjId($a_obj_id);
 
         foreach (ilCourseDefinedFieldDefinition::_getFields($a_obj_id) as $field_obj) {
-            $current_value = $ud[$a_usr_id][$field_obj->getId()];
+            $current_value = (string) ($ud[$a_usr_id][$field_obj->getId()] ?? '');
             if (!$current_value) {
                 continue;
             }
