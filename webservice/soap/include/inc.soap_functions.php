@@ -442,17 +442,6 @@ class ilSoapFunctions
     }
 
     /**
-     * @deprecated
-     * @return bool|soap_fault|SoapFault|null
-     */
-    public static function distributeMails(string $sid, string $mail_xml)
-    {
-        include_once './webservice/soap/classes/class.ilSoapUtils.php';
-        $sou = new ilSoapUtils();
-        return $sou->distributeMails($sid, $mail_xml);
-    }
-
-    /**
      * @return bool|int|soap_fault|SoapFault|null
      */
     public static function ilClone(string $sid, int $copy_identifier)

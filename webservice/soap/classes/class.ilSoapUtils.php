@@ -1,25 +1,19 @@
 <?php declare(strict_types=1);
-/*
- +-----------------------------------------------------------------------------+
- | ILIAS open source                                                           |
- +-----------------------------------------------------------------------------+
- | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
- |                                                                             |
- | This program is free software; you can redistribute it and/or               |
- | modify it under the terms of the GNU General Public License                 |
- | as published by the Free Software Foundation; either version 2              |
- | of the License, or (at your option) any later version.                      |
- |                                                                             |
- | This program is distributed in the hope that it will be useful,             |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
- | GNU General Public License for more details.                                |
- |                                                                             |
- | You should have received a copy of the GNU General Public License           |
- | along with this program; if not, write to the Free Software                 |
- | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
- +-----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Soap utitliy functions
@@ -37,83 +31,6 @@ class ilSoapUtils extends ilSoapAdministration
     public function disableSOAPCheck() : void
     {
         $this->soap_check = false;
-    }
-
-    /**
-     * @deprecated
-     * @return bool|soap_fault|SoapFault|null
-     */
-    public function distributeMails(string $sid, string $a_mail_xml)
-    {
-        $this->initAuth($sid);
-        $this->initIlias();
-
-        global $DIC;
-        $logger = $DIC->logger->wsrv();
-
-        if (!$this->checkSession($sid)) {
-            return $this->raiseError($this->getMessage(), $this->getMessageCode());
-        }
-
-        include_once 'Services/Mail/classes/class.ilMail.php';
-        include_once 'webservice/soap/classes/class.ilSoapMailXmlParser.php';
-
-        $parser = new ilSoapMailXmlParser($a_mail_xml);
-        try {
-            // Check if wellformed
-            libxml_use_internal_errors(true);
-            $ok = simplexml_load_string($a_mail_xml);
-            if (!$ok) {
-                $error = '';
-                foreach (libxml_get_errors() as $err) {
-                    $error .= ($err->message . ' ');
-                }
-                return $this->raiseError($error, 'CLIENT');
-            }
-            $parser->start();
-        } catch (InvalidArgumentException|ilSaxParserException $e) {
-            $logger->warning($e->getMessage());
-            return $this->raiseError($e->getMessage(), 'CLIENT');
-        }
-        $mails = $parser->getMails();
-        $ilUser = $DIC->user();
-
-        foreach ($mails as $mail) {
-            include_once './Services/Mail/classes/class.ilFileDataMail.php';
-            $file = new ilFileDataMail($ilUser->getId());
-            $attachments = [];
-            foreach ((array) $mail['attachments'] as $attachment) {
-                $file->storeAsAttachment($attachment['name'], $attachment['content']);
-                $attachments[] = ilFileUtils::_sanitizeFilemame($attachment['name']);
-            }
-
-            $mail_obj = new ilMail($ilUser->getId());
-            $mail_obj->setSaveInSentbox(true);
-            $mail_obj->saveAttachments($attachments);
-            $mail_obj->enqueue(
-                implode(',', (array) $mail['to']),
-                implode(',', (array) $mail['cc']),
-                implode(',', (array) $mail['bcc']),
-                $mail['subject'],
-                implode("\n", (array) $mail['body']),
-                $attachments,
-                (bool) $mail['usePlaceholders']
-            );
-
-            foreach ($attachments as $att) {
-                $file->unlinkFile($att);
-            }
-            $mail_obj->savePostData(
-                $ilUser->getId(),
-                [],
-                '',
-                '',
-                '',
-                '',
-                ''
-            );
-        }
-        return true;
     }
 
     /**
