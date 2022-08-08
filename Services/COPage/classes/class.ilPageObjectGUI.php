@@ -187,7 +187,7 @@ class ilPageObjectGUI
         $this->initPageObject();
         $this->setPageConfig($this->getPageObject()->getPageConfig());
 
-        $this->page_linker = new ilPageLinker(get_class($this));
+        $this->page_linker = new ilPageLinker(get_class($this), false, $this->getProfileBackUrl());
 
         $this->output2template = true;
         $this->question_xml = "";
@@ -740,7 +740,7 @@ class ilPageObjectGUI
      * Set open placeholder
      * @param string $a_val open placeholder pc id
      */
-    function setOpenPlaceHolder($a_val)
+    public function setOpenPlaceHolder($a_val)
     {
         $this->open_place_holder = $a_val;
     }
@@ -749,7 +749,7 @@ class ilPageObjectGUI
      * Get open placeholder
      * @return string open placeholder pc id
      */
-    function getOpenPlaceHolder()
+    public function getOpenPlaceHolder()
     {
         return $this->open_place_holder;
     }
@@ -3575,5 +3575,4 @@ class ilPageObjectGUI
     {
         return [];
     }
-
 }
