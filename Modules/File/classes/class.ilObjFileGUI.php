@@ -639,6 +639,10 @@ class ilObjFileGUI extends ilObject2GUI
             }
         }
 
+        $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'file', $this->object->getId());
+        $record_gui->setInfoObject($info);
+        $record_gui->parse();
+
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
