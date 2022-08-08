@@ -646,7 +646,7 @@ class ilRegistrationSettingsGUI
         $all = [];
         foreach ($this->assignments_obj->getAssignments() as $assignment) {
             if ($assignment['domain'] !== '' && $assignment['role']) {
-                $all[] = $assignment['domain'] . ' -> ' . ilObjRole::_lookupTitle($assignment['role']);
+                $all[] = $assignment['domain'] . ' -> ' . ilObjRole::_lookupTitle((int) $assignment['role']);
             }
         }
 
