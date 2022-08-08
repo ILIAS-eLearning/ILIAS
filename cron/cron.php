@@ -33,5 +33,10 @@ try {
     $cron->logout();
 
     echo $e->getMessage() . "\n";
+
+    if (defined('DEVMODE') && DEVMODE) {
+        echo $e->getTraceAsString() . "\n";
+    }
+
     exit(1);
 }
