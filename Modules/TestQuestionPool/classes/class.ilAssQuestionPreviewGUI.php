@@ -187,8 +187,6 @@ class ilAssQuestionPreviewGUI
     
     public function initStyleSheets() : void
     {
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->parseCurrentBlock();
@@ -384,7 +382,6 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->setReturnByClass('ilAssQuestionPageGUI', 'view');
         $this->ctrl->setReturnByClass('ilObjQuestionPoolGUI', 'questions');
 
-        include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
         $pageGUI = new ilAssQuestionPageGUI($this->questionOBJ->getId());
         $pageGUI->setRenderPageContainer(false);
         $pageGUI->setEditPreview(true);
@@ -439,7 +436,6 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->setReturnByClass('ilAssQuestionPageGUI', 'view');
         $this->ctrl->setReturnByClass('ilObjQuestionPoolGUI', 'questions');
 
-        include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
         $pageGUI = new ilAssQuestionPageGUI($this->questionOBJ->getId());
 
         $pageGUI->setEditPreview(true);
@@ -454,15 +450,8 @@ class ilAssQuestionPreviewGUI
         $this->questionGUI->setPreviewSession($this->previewSession);
 
         $pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false)));
-
-        //$pageGUI->setHeader($this->questionOBJ->getTitle()); // NO ADDITIONAL HEADER
-        //$pageGUI->setPresentationTitle($this->questionOBJ->getTitle());
-
-        //$pageGUI->setTemplateTargetVar("ADM_CONTENT"); // NOT REQUIRED, OR IS?
         
         $output = $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false);
-        //$output = $pageGUI->preview();
-        //$output = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $output);
         
         $tpl->setCurrentBlock('solution_output');
         $tpl->setVariable('TXT_CORRECT_SOLUTION', $this->lng->txt('tst_best_solution_is'));

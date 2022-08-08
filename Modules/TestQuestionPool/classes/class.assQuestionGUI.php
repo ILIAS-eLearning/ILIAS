@@ -414,7 +414,6 @@ abstract class assQuestionGUI
         
         if ($question_type === '') {
             return null;
-//            throw new ilTestQuestionPoolInvalidArgumentException('No question type given or determined by question_id');
         }
 
         assQuestion::_includeClass($question_type, 1);

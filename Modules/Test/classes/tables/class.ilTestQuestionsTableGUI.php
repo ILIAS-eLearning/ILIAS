@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>

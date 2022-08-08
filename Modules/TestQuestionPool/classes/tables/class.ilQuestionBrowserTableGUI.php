@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
@@ -253,11 +264,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
         
-        // title
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
         $ti->setMaxLength(64);
         $ti->setValidationRegexp('/^[^%]+$/is');
@@ -297,9 +304,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $lifecycleInp->readFromSession();
         $this->filter['lifecycle'] = $lifecycleInp->getValue();
         
-        // questiontype
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-        include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
         $types = ilObjQuestionPool::_getQuestionTypes();
         $options = array();
         $options[""] = $lng->txt('filter_all_question_types');
@@ -314,8 +318,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->filter["type"] = $si->getValue();
         
         if ($this->parent_obj->object->getShowTaxonomies()) {
-            require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-
             foreach ($this->taxIds as $taxId) {
                 if ($taxId == $this->parent_obj->object->getNavTaxonomyId()) {
                     continue;
@@ -359,11 +361,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
      */
     public function fillRow(array $a_set) : void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
         $class = strtolower(assQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $a_set["question_id"]);
         $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", $a_set["question_id"]);
@@ -401,7 +398,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('statistics');
                     $this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
                     $this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
-                    include_once "./Services/Utilities/classes/class.ilUtil.php";
                     $this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
                     $this->tpl->parseCurrentBlock();
                 }
@@ -475,7 +471,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             }
 
             if ($this->getEditable()) {
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
                 $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', $a_set['question_id']);
                 $feedbackHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
                 $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', null);
