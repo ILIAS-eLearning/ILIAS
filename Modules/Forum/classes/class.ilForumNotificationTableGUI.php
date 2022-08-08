@@ -118,6 +118,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
                 ->primary($this->lng->txt('save'), '#')
                 ->withOnLoadCode(function (string $id) use ($row) : string {
                     return "
+                        $('#$id').closest('.modal').find('form').addClass('ilForumNotificationSettingsForm');
                         $('#$id').closest('.modal').find('form .il-standard-form-header, .il-standard-form-footer').remove();
                         $('#$id').click(function() { $(this).closest('.modal').find('form').submit(); return false; });
                     ";

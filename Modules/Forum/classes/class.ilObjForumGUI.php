@@ -4373,6 +4373,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     ->primary($this->lng->txt('save'), '#')
                     ->withOnLoadCode(function (string $id) : string {
                         return "
+                            $('#$id').closest('.modal').find('form').addClass('ilForumNotificationSettingsForm');
                             $('#$id').closest('.modal').find('form .il-standard-form-header, .il-standard-form-footer').remove();
                             $('#$id').click(function() { $(this).closest('.modal').find('form').submit(); return false; });
                         ";

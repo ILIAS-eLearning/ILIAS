@@ -13780,6 +13780,9 @@ div.ilFrmPostHeader span.small {
 .frm-thread-scrollable-print {
   overflow: auto;
 }
+.ilForumNotificationSettingsForm {
+  white-space: normal;
+}
 /* Services/Mail */
 a.mailread,
 a.mailread:visited {
