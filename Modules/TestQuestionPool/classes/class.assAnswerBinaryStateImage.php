@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
 
@@ -40,7 +54,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      */
     public function __construct($answertext = "", $points = 0.0, $order = 0, $state = 0, $a_image = "", int $id = -1)
     {
-        parent::__construct($answertext, $points, $order, $id);
+        parent::__construct($answertext, (float)$points, $order, $id);
         $this->image = $a_image;
     }
 
