@@ -91,7 +91,7 @@ class LevenshteinTransformation implements Transformation
 
         // if the difference between string length is bigger than the maximum allowed levenshtein distance
         // the code can be skipped
-        if (abs($primary_string_length - $secondary_string_length) > $this->maximum_distance && $this->maximum_distance != 0){
+        if (abs($primary_string_length - $secondary_string_length) > $this->maximum_distance && $this->maximum_distance != 0) {
             return -1.0;
         }
 
@@ -113,7 +113,7 @@ class LevenshteinTransformation implements Transformation
                 );
             }
             // maximum distance reached
-            if (min($current_row) > $this->maximum_distance && $this->maximum_distance != 0){
+            if (min($current_row) > $this->maximum_distance && $this->maximum_distance != 0) {
                 return -1.0;
             }
             $cost_matrix[$i + 1] = $current_row;
@@ -156,5 +156,4 @@ class LevenshteinTransformation implements Transformation
         // call levenshtein methode return result
         return $this->levenshtein($from);
     }
-
 }

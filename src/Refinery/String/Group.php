@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,7 +10,6 @@
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
-
 
 class Group
 {
@@ -117,8 +118,4 @@ class Group
     {
         return new Levenshtein();
     }
-
-
-
-
 }
