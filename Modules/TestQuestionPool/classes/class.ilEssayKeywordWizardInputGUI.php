@@ -33,8 +33,8 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     } else {
                         $value_unchecked = 0.0;
                     }
-                    $answer = new ASS_AnswerMultipleResponseImage($value, $value, $index, $value_unchecked);
-                    array_push($this->values, $answer);
+                    $answer = new ASS_AnswerMultipleResponseImage($value, (float)$value, $index, $value_unchecked);
+                    $this->values[] = $answer;
                 }
             }
         }
