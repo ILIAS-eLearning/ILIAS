@@ -943,6 +943,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->mailObject();
             return false;
         }
+        if (strcmp($action, 'addToClipboard') === 0) {
+            $this->addToClipboardObject();
+            return false;
+        }
 
         unset($this->data);
 
