@@ -471,23 +471,23 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         // create correct transformation
         switch ($textrating) {
             case TEXTGAP_RATING_LEVENSHTEIN1:
-                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 1);
+                $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 1);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN2:
-                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 2);
+                $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 2);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN3:
-                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 3);
+                $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 3);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN4:
-                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 4);
+                $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 4);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN5:
-                $transformation = $refinery->string()->levenshteinDefault($a_keyword, 5);
+                $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 5);
                 break;
         }
 
-        // run answers against Levenshtein methods
+        // run answers against Levenshtein2 methods
         foreach ($answerwords as $a_original) {
             if (isset($transformation) && $transformation->transform($a_original) >= 0) {
                 return true;

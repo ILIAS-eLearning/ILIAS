@@ -1163,23 +1163,23 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN1:
-                $transformation = $refinery->string()->levenshteinDefault($a_original, 1);
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 1);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN2:
-                $transformation = $refinery->string()->levenshteinDefault($a_original, 2);
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 2);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN3:
-                $transformation = $refinery->string()->levenshteinDefault($a_original, 3);
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 3);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN4:
-                $transformation = $refinery->string()->levenshteinDefault($a_original, 4);
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 4);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN5:
-                $transformation = $refinery->string()->levenshteinDefault($a_original, 5);
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 5);
                 break;
         }
 
-        // run answers against Levenshtein methods
+        // run answers against Levenshtein2 methods
         if (isset($transformation) && $transformation->transform($a_entered) >= 0) {
             $result = $max_points;
         }

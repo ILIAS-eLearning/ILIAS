@@ -464,23 +464,23 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN1:
-                    $transformation = $refinery->string()->levenshteinDefault($answer, 1);
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 1);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN2:
-                    $transformation = $refinery->string()->levenshteinDefault($answer, 2);
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 2);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN3:
-                    $transformation = $refinery->string()->levenshteinDefault($answer, 3);
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 3);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN4:
-                    $transformation = $refinery->string()->levenshteinDefault($answer, 4);
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 4);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN5:
-                    $transformation = $refinery->string()->levenshteinDefault($answer, 5);
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 5);
                     break;
             }
 
-            // run answers against Levenshtein methods
+            // run answers against Levenshtein2 methods
             if (isset($transformation) && $transformation->transform($value) >= 0) {
                 return $key;
             }

@@ -38,6 +38,16 @@ class LevenshteinTest extends TestCase
      */
     private $factory;
 
+    /**
+     * @var string multibyte string with three bytes per character
+     */
+    private $test_multibyte_string = "你好";
+
+    /**
+     * @var string containing emoji
+     */
+    private $test_emoji = "😮‍💨";
+
     public function setUp() : void
     {
         $this->factory = new Factory();
@@ -45,35 +55,36 @@ class LevenshteinTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->group = new Group($this->factory, $language);
+
     }
 
     // Code paths
     public function testSizeReturn() {
-        $transformation = $this->group->levenshteinDefault("book", 3);
+        $transformation = $this->group->levenshtein()->standard("book", 3);
 
         $this->assertEquals(-1.0, $transformation->transform("bookshelf"));
     }
 
     public function testExceedMaximumDistance() {
-        $transformation = $this->group->levenshteinDefault("book", 1);
+        $transformation = $this->group->levenshtein()->standard("book", 1);
 
         $this->assertEquals(-1.0, $transformation->transform("back"));
     }
     
     public function testSuccessfulReturn() {
-        $transformation = $this->group->levenshteinDefault("book", 1);
+        $transformation = $this->group->levenshtein()->standard("book", 1);
 
         $this->assertEquals(0.0, $transformation->transform("book"));
     }
 
     public function testNoMaximumDistance() {
-        $transformation = $this->group->levenshteinDefault("book", 0);
+        $transformation = $this->group->levenshtein()->standard("book", 0);
 
         $this->assertEquals(2.0, $transformation->transform("back"));
     }
 
     public function testException() {
-        $transformation = $this->group->levenshteinDefault("book", 0);
+        $transformation = $this->group->levenshtein()->standard("book", 0);
         $this->expectException(InvalidArgumentException::class);
 
         $this->assertEquals(2.0, $transformation->transform(496));
@@ -81,32 +92,32 @@ class LevenshteinTest extends TestCase
 
     // Numerical
     public function testCustomCostsMixed() {
-        $transformation = $this->group->levenshteinCustom("back", 20, 2.0, 1.0, 1.5);
+        $transformation = $this->group->levenshtein()->custom("back", 20, 2.0, 1.0, 1.5);
 
         $this->assertEquals(12, $transformation->transform("bookshelf"));
     }
 
     public function testCustomCostsInsert() {
-        $transformation = $this->group->levenshteinCustom("book", 10, 2.0, 1.0, 1.5);
+        $transformation = $this->group->levenshtein()->custom("book", 5, 2.0, 1.0, 1.5);
 
         $this->assertEquals(2, $transformation->transform("books"));
     }
 
     public function testCustomCostsDeletion() {
-        $transformation = $this->group->levenshteinCustom("bookshelf", 10, 2.0, 1.0, 1.5);
+        $transformation = $this->group->levenshtein()->custom("bookshelf", 10, 2.0, 1.0, 1.5);
 
         $this->assertEquals(7.5, $transformation->transform("book"));
     }
 
     public function testCustomCostsReplacement() {
-        $transformation = $this->group->levenshteinCustom("bookshelf", 10, 2.0, 1.0, 1.5);
+        $transformation = $this->group->levenshtein()->custom("bookshelf", 10, 2.0, 1.0, 1.5);
 
         $this->assertEquals(4.0, $transformation->transform("bookstore"));
     }
 
     // test apply to
     public function testApplyToSuccessfulDefault() {
-        $transformation = $this->group->levenshteinDefault("bookshelf", 10);
+        $transformation = $this->group->levenshtein()->standard("bookshelf", 10);
         $value_object = $this->factory->ok("book");
         $result_object = $transformation->applyTo($value_object);
 
@@ -114,7 +125,7 @@ class LevenshteinTest extends TestCase
     }
 
     public function testApplyToSuccessfulCustomCost() {
-        $transformation = $this->group->levenshteinCustom("bookshelf", 10, 2.0, 1.0, 1.5);
+        $transformation = $this->group->levenshtein()->custom("bookshelf", 10, 2.0, 1.0, 1.5);
         $value_object = $this->factory->ok("book");
         $result_object = $transformation->applyTo($value_object);
 
@@ -122,10 +133,31 @@ class LevenshteinTest extends TestCase
     }
 
     public function testApplyToWrongType() {
-        $transformation = $this->group->levenshteinCustom("bookshelf", 10, 2.0, 1.0, 1.5);
+        $transformation = $this->group->levenshtein()->custom("bookshelf", 10, 2.0, 1.0, 1.5);
         $value_object = $this->factory->ok(496);
         $result_object = $transformation->applyTo($value_object);
 
         $this->assertTrue($result_object->isError());
+    }
+
+    // test Multibyte strings:
+    public function testMultibyteStringThreeByte() {
+        $transformation = $this->group->levenshtein()->custom($this->test_multibyte_string, 10, 2.0, 1.0, 1.5);
+
+        $this->assertEquals(0, $transformation->transform($this->test_multibyte_string));
+    }
+
+    public function testEmoji() {
+        $transformation = $this->group->levenshtein()->custom("book", 20, 2.0, 1.0, 1.5);
+
+        $this->assertEquals(4.5, $transformation->transform($this->test_emoji));
+    }
+
+    public function testApplyToMultibyteString() {
+        $transformation = $this->group->levenshtein()->custom("bookshelf", 20, 2.0, 1.0, 1.5);
+        $value_object = $this->factory->ok($this->test_multibyte_string);
+        $result_object = $transformation->applyTo($value_object);
+
+        $this->assertEquals(12.5, $result_object->value());
     }
 }

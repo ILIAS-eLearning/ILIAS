@@ -7,11 +7,8 @@
 
 namespace ILIAS\Refinery\String;
 
-use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\String\HasMaxLength;
-use ILIAS\Refinery\String\HasMinLength;
-use ILIAS\Refinery\String\SplitString;
+
 
 class Group
 {
@@ -111,39 +108,17 @@ class Group
         return new EstimatedReadingTime($withImages);
     }
 
-
     /**
-     * Creates an object of the Levenshtein class
-     * This class calculates the levenshtein distance with a default value of 1.0 per insert, delete, replacement.
+     * Creates a between class.
      *
-     * @param string $str string for distance calculation
-     * @param int $maximumDistance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
-     * @return Transformation
+     * @return Levenshtein
      */
-    public function levenshteinDefault(string $str, int $maximumDistance): Transformation
+    public function levenshtein(): Levenshtein
     {
-        return new Levenshtein($str, $maximumDistance, 1.0, 1.0, 1.0);
+        return new Levenshtein();
     }
 
 
-    /**
-     * Creates an object of the Levenshtein class
-     * This class calculates the levenshtein distance with custom parameters for insert, delete, replacement.
-     *
-     * @param string $str string for distance calculation
-     * @param int $maximum_distance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
-     * @param float $cost_insertion cost for insertion default 1.0
-     * @param float $cost_replacement cost for replacement default 1.0
-     * @param float $cost_deletion cost for deletion default 1.0
-     * @return Transformation
-     */
-    public function levenshteinCustom(
-        string $str,
-        int $maximum_distance,
-        float $cost_insertion,
-        float $cost_replacement,
-        float $cost_deletion
-    ): Transformation {
-        return new Levenshtein($str, $maximum_distance, $cost_insertion, $cost_replacement, $cost_deletion);
-    }
+
+
 }
