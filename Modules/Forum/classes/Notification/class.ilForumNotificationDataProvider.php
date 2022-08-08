@@ -17,10 +17,10 @@
  *********************************************************************/
 
 /**
- * Class ilObjForumNotificationDataProvider
+ * Class ilForumNotificationDataProvider
  * @author Nadia Matuschek <nmatuschek@databay.de>
  */
-class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
+class ilForumNotificationDataProvider implements ilForumNotificationMailData
 {
     protected int $ref_id = 0;
     protected int $obj_id = 0;
