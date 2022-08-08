@@ -74,7 +74,7 @@ class ilForumAppEventListener implements ilAppEventListener
                             $a_parameter['ref_id']
                         ));
 
-                        $provider = new ilObjForumNotificationDataProvider(
+                        $provider = new ilForumNotificationDataProvider(
                             $post,
                             (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
@@ -177,7 +177,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         ));
 
                         if ($immediate_notifications_enabled && $post->isActivated()) {
-                            $provider = new ilObjForumNotificationDataProvider(
+                            $provider = new ilForumNotificationDataProvider(
                                 $post,
                                 (int) $a_parameter['ref_id'],
                                 new ilForumNotificationCache()
@@ -228,7 +228,7 @@ class ilForumAppEventListener implements ilAppEventListener
                             return;
                         }
 
-                        $provider = new ilObjForumNotificationDataProvider(
+                        $provider = new ilForumNotificationDataProvider(
                             $post,
                             (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
@@ -285,7 +285,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         ));
 
                         if ($immediate_notifications_enabled) {
-                            $provider = new ilObjForumNotificationDataProvider(
+                            $provider = new ilForumNotificationDataProvider(
                                 $post,
                                 (int) $a_parameter['ref_id'],
                                 new ilForumNotificationCache()
@@ -346,7 +346,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
                         $thread_deleted = $a_parameter['thread_deleted'];
 
-                        $provider = new ilObjForumNotificationDataProvider(
+                        $provider = new ilForumNotificationDataProvider(
                             $post,
                             (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
@@ -494,7 +494,7 @@ class ilForumAppEventListener implements ilAppEventListener
     }
 
     private static function delegateNotification(
-        ilObjForumNotificationDataProvider $provider,
+        ilForumNotificationDataProvider $provider,
         int $notification_type,
         ilLogger $logger
     ) : void {
@@ -529,13 +529,13 @@ class ilForumAppEventListener implements ilAppEventListener
     }
 
     /**
-     * @param ilObjForumNotificationDataProvider $provider
-     * @param ilLogger $logger
-     * @param int $notificationTypes
-     * @param int[] $recipients
+     * @param ilForumNotificationDataProvider $provider
+     * @param ilLogger                        $logger
+     * @param int                             $notificationTypes
+     * @param int[]                           $recipients
      */
     public static function sendNotification(
-        ilObjForumNotificationDataProvider $provider,
+        ilForumNotificationDataProvider $provider,
         ilLogger $logger,
         int $notificationTypes,
         array $recipients

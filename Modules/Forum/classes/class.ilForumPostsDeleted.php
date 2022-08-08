@@ -39,7 +39,7 @@ class ilForumPostsDeleted
     protected string $pos_usr_alias = '';
     protected bool $thread_deleted = false;
 
-    public function __construct(ilObjForumNotificationDataProvider $provider = null)
+    public function __construct(ilForumNotificationDataProvider $provider = null)
     {
         global $DIC;
 
