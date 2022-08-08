@@ -129,7 +129,7 @@ class LevenshteinTransformation implements Transformation
      */
     private function stringToCharacterArray(string $string_to_convert): array
     {
-        $length = ilstr::strLen($string_to_convert);
+        $length = ilStr::strLen($string_to_convert);
         $character_array = [];
         for ($index = 0; $index < $length; $index++) {
             $character_array[$index] = ilStr::subStr($string_to_convert, $index, 1);
