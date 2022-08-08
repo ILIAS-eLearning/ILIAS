@@ -1058,12 +1058,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return integer Geometry
     */
-    public function getThumbGeometry() : int
+    public function getThumbGeometry() : ?int
     {
         return $this->thumb_geometry;
     }
     
-    public function getThumbSize() : int
+    public function getThumbSize() : ?int
     {
         return $this->getThumbGeometry();
     }
