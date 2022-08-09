@@ -74,11 +74,12 @@ class AutoResponderServiceImpl implements AutoResponderService
     {
         if ($this->auto_responder_data) {
             foreach ($this->auto_responder_data as $usr_id => $mail_options) {
-                $auto_responder = $this->auto_responder_repository->findBySenderIdAndReceiverId(
-                    $usr_id,
-                    $receiver_usr_id
-                );
-                if (!$auto_responder) {
+                if ($this->auto_responder_repository->exists($usr_id, $receiver_usr_id)) {
+                    $auto_responder = $this->auto_responder_repository->findBySenderIdAndReceiverId(
+                        $usr_id,
+                        $receiver_usr_id
+                    );
+                } else {
                     $auto_responder = new AutoResponder(
                         $usr_id,
                         $receiver_usr_id,

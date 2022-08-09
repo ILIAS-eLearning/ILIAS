@@ -21,6 +21,7 @@ namespace ILIAS\Services\Mail\AutoResponder;
 use ilDBInterface;
 use DateTimeImmutable;
 use DateTimeZone;
+use ilObjectNotFoundException;
 
 class AutoResponderDatabaseRepository implements AutoResponderRepository
 {
@@ -70,7 +71,10 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
         return $auto_responder_results;
     }
 
-    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : ?AutoResponder
+    /**
+     * @throws AutoResponderAlreadyExistsException
+     */
+    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : AutoResponder
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
             $sender_id,
@@ -78,11 +82,16 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
         ) . " AND receiver_id = " . $this->db->quote($receiver_id, 'integer');
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);
-        return $row ? new AutoResponder(
+        if (!$row) {
+            throw new ilObjectNotFoundException(
+                "No auto responder found for sender_id: " . $sender_id . " and receiver_id: " . $receiver_id
+            );
+        }
+        return new AutoResponder(
             (int) $row['sender_id'],
             (int) $row['receiver_id'],
             new DateTimeImmutable($row['send_time'], new DateTimeZone('UTC'))
-        ) : null;
+        );
     }
 
     public function store(AutoResponder $auto_responder) : void
@@ -114,5 +123,15 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
             $sender_id,
             'integer'
         ));
+    }
+
+    public function exists(int $sender_id, int $receiver_id) : bool
+    {
+        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
+            $sender_id,
+            'integer'
+        ) . " AND receiver_id = " . $this->db->quote($receiver_id, 'integer');
+        $result = $this->db->query($query);
+        return $this->db->numRows($result) > 0;
     }
 }
