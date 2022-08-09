@@ -110,7 +110,9 @@ class Group
     }
 
     /**
-     * Creates a between class.
+     * This method returns an instance of the Levenshtein class, to call the constructor of the
+     * LevenshteinTransformation class with either default values already set, or custom values for the cost
+     * calculation of the Levenshtein distance function.
      *
      * @return Levenshtein
      */

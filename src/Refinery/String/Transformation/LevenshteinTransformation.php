@@ -49,7 +49,7 @@ class LevenshteinTransformation implements Transformation
      * also is to be handed over here.
      *
      * @param string $primary_string string for distance calculation, should be the one string that doesn't change.
-     * @param int $maximum_distance maximum allowed distance, limits the calculation of the Levenshtein2 distance. A maximum distance of 0 disables the function
+     * @param int $maximum_distance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
      * @param float $cost_insertion custom cost for insertion, default 1.0
      * @param float $cost_replacement custom cost for replacement, default 1.0
      * @param float $cost_deletion custom cost for deletion, default 1.0
@@ -69,7 +69,7 @@ class LevenshteinTransformation implements Transformation
     }
 
     /**
-     * Levenshtein2 function alternative code as mentioned in the bug report:
+     * Levenshtein function alternative code as mentioned in the bug report:
      * https://mantis.ilias.de/view.php?id=17861
      * Original code under MIT-License:
      * https://github.com/GordonLesti/levenshtein/blob/master/src/Levenshtein.php
@@ -79,7 +79,7 @@ class LevenshteinTransformation implements Transformation
      * A maximum distance that interrupts the execution of the algorithm, if it already is worse than the allowed
      *
      * @param string $secondary_string string which is used for a repeated distance calculation
-     * @return float with Levenshtein2 distance, if an interrupt happens earlier than the return value is a -1
+     * @return float with Levenshtein distance, if an interrupt happens earlier than the return value is a -1
      */
     protected function levenshtein(string $secondary_string): float
     {
@@ -140,11 +140,11 @@ class LevenshteinTransformation implements Transformation
     /**
      * The transform method checks if the $form variable contains a string
      * alternatively an InvalidArgumentException is thrown.
-     * After that the Levenshtein2 method is executed with the given string.
+     * After that the Levenshtein method is executed with the given string.
      *
      * @thorws \InvalidArgumentException
-     * @param string $from a string is excepted with the word used to calculate the Levenshtein2 distance.
-     * @return float with Levenshtein2 distance, if an interrupt happens earlier than the return value is a -1.
+     * @param string $from a string is excepted with the word used to calculate the Levenshtein distance.
+     * @return float with Levenshtein distance, if an interrupt happens earlier than the return value is a -1.
      */
     public function transform($from): float
     {
