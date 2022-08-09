@@ -39,9 +39,11 @@ class AutoResponder
         return $this->sender_id;
     }
 
-    public function setSenderId(int $sender_id) : void
+    public function setSenderId(int $sender_id) : self
     {
-        $this->sender_id = $sender_id;
+        $clone = clone $this;
+        $clone->sender_id = $sender_id;
+        return $clone;
     }
 
     public function getReceiverId() : int
@@ -49,9 +51,11 @@ class AutoResponder
         return $this->receiver_id;
     }
 
-    public function setReceiverId(int $receiver_id) : void
+    public function setReceiverId(int $receiver_id) : self
     {
-        $this->receiver_id = $receiver_id;
+        $clone = clone $this;
+        $clone->receiver_id = $receiver_id;
+        return $clone;
     }
 
     public function getSendtime() : DateTimeImmutable
@@ -59,13 +63,10 @@ class AutoResponder
         return $this->send_time;
     }
 
-    public function setSendtime(DateTimeImmutable $send_time) : void
+    public function setSendtime(DateTimeImmutable $send_time) : self
     {
-        $this->send_time = $send_time;
-    }
-
-    public function hasAutoResponderSent(DateTimeImmutable $now, int $interval) : bool
-    {
-        return $this->send_time->add(new DateInterval('P' . $interval . 'D')) > $now;
+        $clone = clone $this;
+        $clone->send_time = $send_time;
+        return $clone;
     }
 }

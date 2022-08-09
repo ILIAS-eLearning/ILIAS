@@ -19,6 +19,7 @@
 namespace ILIAS\Services\Mail\AutoResponder;
 
 use ilMailOptions;
+use DateTimeImmutable;
 
 interface AutoResponderService
 {
@@ -30,4 +31,5 @@ interface AutoResponderService
     public function getAutoResponderData(int $usr_id_key) : ?ilMailOptions;
     public function removeAutoResponderData(int $usr_id_key) : void;
     public function emptyAutoResponderData() : void;
+    public function shouldSendAutoResponder(AutoResponder $auto_responder, int $interval) : bool;
 }

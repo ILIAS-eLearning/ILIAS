@@ -87,7 +87,7 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
 
     public function store(AutoResponder $auto_responder) : void
     {
-        $timestamp_send_time = $auto_responder->getSendTime()->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d H:i:s');
+        $timestamp_send_time = $auto_responder->getSendTime()->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
         $this->db->replace(
             self::TABLE_NAME,
             [
