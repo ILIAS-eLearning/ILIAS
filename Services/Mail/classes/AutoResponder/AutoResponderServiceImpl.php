@@ -38,22 +38,20 @@ class AutoResponderServiceImpl implements AutoResponderService
     protected ClockInterface $clock;
 
     public function __construct(
-        callable $loginByUsrIdCallable = null,
-        int $global_idle_time_interval = null,
-        bool $auto_responder_status = false,
-        array $auto_responder_data = [],
-        AutoResponderRepository $auto_responder_repository = null,
-        ClockInterface $clock = null
-
+        callable $loginByUsrIdCallable,
+        int $global_idle_time_interval,
+        bool $auto_responder_status,
+        array $auto_responder_data,
+        AutoResponderRepository $auto_responder_repository,
+        ClockInterface $clock
     ) {
-        global $DIC;
-        $this->global_idle_time_interval = $global_idle_time_interval ?? (int) $DIC->settings()->get('mail_auto_responder_idle_time');
+        $this->global_idle_time_interval = $global_idle_time_interval;
         $this->loginByUsrIdCallable = $loginByUsrIdCallable ?? static function (int $usrId) : string {
             return ilObjUser::_lookupLogin($usrId);
         };
         $this->auto_responder_status = $auto_responder_status;
         $this->auto_responder_data = $auto_responder_data;
-        $this->auto_responder_repository = $auto_responder_repository ?? new AutoResponderDatabaseRepository($DIC->database());
+        $this->auto_responder_repository = $auto_responder_repository;
         $this->clock = $clock ?? (new DataFactory())->clock()->utc();
     }
 
@@ -87,8 +85,8 @@ class AutoResponderServiceImpl implements AutoResponderService
                         $this->clock->now()->sub(new DateInterval('P' . $this->global_idle_time_interval . 'D'))
                     );
                 }
-                if (!$auto_responder->hasAutoResponderSent(
-                    $this->clock->now(),
+                if (!$this->shouldSendAutoResponder(
+                    $auto_responder,
                     $this->global_idle_time_interval
                 )) {
                     $tmpmail = new ilFormatMail($usr_id);
@@ -103,7 +101,7 @@ class AutoResponderServiceImpl implements AutoResponderService
                         false
                     );
                 }
-                $auto_responder->setSendtime($this->clock->now());
+                $auto_responder = $auto_responder->setSendtime($this->clock->now());
                 $this->auto_responder_repository->store($auto_responder);
             }
         }
@@ -129,5 +127,10 @@ class AutoResponderServiceImpl implements AutoResponderService
     public function emptyAutoResponderData() : void
     {
         $this->auto_responder_data = [];
+    }
+
+    public function shouldSendAutoResponder(AutoResponder $auto_responder, int $interval) : bool
+    {
+        return $auto_responder->getSendtime()->add(new DateInterval('P' . $interval . 'D')) > $this->clock->now();
     }
 }
