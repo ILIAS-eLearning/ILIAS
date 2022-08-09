@@ -24,6 +24,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 
 class LinkInputTest extends ILIAS_UI_TestBase
 {
@@ -86,4 +88,30 @@ class LinkInputTest extends ILIAS_UI_TestBase
             $this->brutallyTrimHTML($html)
         );
     }
+
+    public function test_produces_null_when_no_data_exists() : void
+    {
+        $f = $this->buildFactory();
+        $input = $f->link("", "")
+            ->withNameFrom(new class() implements NameSource {
+                public function getNewName() : string
+                {
+                    return "name";
+                }
+            });
+        $input = $input->withInput(new class() implements InputData {
+            public function getOr($_, $default) : string 
+            {
+                return "";
+            }
+            public function get($_) : string 
+            {
+                return "";
+            }
+        });
+        $result = $input->getContent();
+
+        $this->assertNull($result->value());
+    }
+
 }
