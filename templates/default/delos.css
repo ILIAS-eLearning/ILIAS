@@ -19932,6 +19932,12 @@ div.ilc_Page.readonly textarea[disabled] {
 #tst_output #tst_right h1.ilc_page_title_PageTitle {
   margin-bottom: 6px;
 }
+.dd-item {
+  font-size: 14px;
+}
+li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
+  border: 2px white solid;
+}
 .noMargin {
   margin: 0;
 }

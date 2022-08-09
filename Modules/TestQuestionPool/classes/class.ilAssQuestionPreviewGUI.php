@@ -92,6 +92,9 @@ class ilAssQuestionPreviewGUI
         $this->lng = $lng;
         $this->db = $db;
         $this->user = $user;
+
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 
     public function initQuestion($questionId, $parentObjId)
