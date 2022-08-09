@@ -18,7 +18,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     
     const ILC_CSS_CLASS_LIST = 'ilc_qordul_OrderList';
     const ILC_CSS_CLASS_ITEM = 'ilc_qordli_OrderListItem';
-    const ILC_CSS_CLASS_HANDLE = 'ilc_qanswer_Answer';
     
     /**
      * @var string
@@ -96,7 +95,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         $this->setHtmlListTag(parent::HTML_LIST_TAG_UL);
         $this->setCssListClass($this->getCssListClass() . ' ' . self::ILC_CSS_CLASS_LIST);
         $this->setCssItemClass($this->getCssItemClass() . ' ' . self::ILC_CSS_CLASS_ITEM);
-        $this->setCssHandleClass($this->getCssHandleClass() . ' ' . self::ILC_CSS_CLASS_HANDLE);
+        $this->setCssHandleClass($this->getCssHandleClass());
     }
     
     /**
