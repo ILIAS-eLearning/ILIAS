@@ -16211,6 +16211,13 @@ div.ilc_Page.readonly textarea[disabled] {
   margin-bottom: 6px;
 }
 
+#tst_output #tst_right .dd-item, #ilAssQuestionPreview .dd-item, #il_prop_cont_order_elems .dd-item {
+  font-size: 0.875rem;
+}
+#tst_output #tst_right li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #ilAssQuestionPreview li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #il_prop_cont_order_elems li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
+  border: 2px white solid;
+}
+
 /* Modules/Wiki */
 a.ilWikiPageMissing:link, a.ilWikiPageMissing:visited {
   color: #d00;
