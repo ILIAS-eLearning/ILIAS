@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -57,6 +58,14 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.edit_fields_row.html", "Services/AdvancedMetaData");
         $this->setDefaultOrderField("position");
+    }
+
+    public function numericOrdering(string $a_field) : bool
+    {
+        if ($a_field === 'position') {
+            return true;
+        }
+        return false;
     }
 
     protected function fillRow(array $a_set) : void
