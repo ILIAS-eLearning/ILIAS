@@ -367,7 +367,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $ui = $this->ui;
 
         if ($_SESSION["cont_media_pool"] != "" &&
-            $ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
+            $ilAccess->checkAccess("read", "", $_SESSION["cont_media_pool"])
             && ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_media_pool"])) == "mep") {
             $html = "";
             $tb = new ilToolbarGUI();
