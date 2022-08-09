@@ -75,7 +75,15 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("position");
         #$this->setDefaultOrderDirection("desc");
     }
-    
+
+    public function numericOrdering($a_field)
+    {
+        if ($a_field === 'position') {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Fill row
      *
