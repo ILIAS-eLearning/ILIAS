@@ -212,7 +212,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $gui->initPreviewSettings($this->object->getRefId());
                 $gui->initPreviewSession($ilUser->getId(), $this->fetchAuthoringQuestionIdParamater());
                 $gui->initHintTracking();
-                $gui->initStyleSheets();
 
                 global $DIC;
                 $ilHelp = $DIC['ilHelp'];

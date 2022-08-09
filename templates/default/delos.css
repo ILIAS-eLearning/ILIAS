@@ -11240,7 +11240,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -19770,6 +19770,12 @@ div.ilc_Page.readonly textarea[disabled] {
 }
 #tst_output #tst_right h1.ilc_page_title_PageTitle {
   margin-bottom: 6px;
+}
+.dd-item {
+  font-size: 0.875rem;
+}
+li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
+  border: 2px white solid;
 }
 .il-mcst-side .row > .col-sm-3 {
   width: 100%;
