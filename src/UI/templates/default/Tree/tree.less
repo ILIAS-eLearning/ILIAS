@@ -14,11 +14,18 @@
 			cursor: pointer;
 			display: flex;
 			flex-wrap: wrap;
+			align-items: baseline;
 			> .node-label {
 				padding-left: @il-tree-node-horizontal-spacing;
 				.icon {
 					vertical-align: text-bottom;
 				}
+			}
+			> .node-value {
+				font-style: italic;
+				font-size: @il-font-size-small;
+				color: @il-text-light-color;
+				padding-left: @il-tree-node-horizontal-spacing;
 			}
 			> .node-byline {
 				padding-left: @il-tree-node-horizontal-spacing;

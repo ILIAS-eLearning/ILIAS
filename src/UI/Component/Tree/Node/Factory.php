@@ -77,4 +77,30 @@ interface Factory
      * @return \ILIAS\UI\Component\Tree\Node\Bylined
      */
     public function bylined(string $label, string $byline, Icon $icon = null) : Bylined;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Paired Node is an entry containing a value paired to its label,
+     *     to better distinguish it from other nodes or clarify its function.
+     *   composition: >
+     *     It consists of a string-label complemented by additional string as a
+     *     key-value pair, and an optional Icon.
+     *   effect: >
+     *     This node is a simple node with an additional string-value behind
+     *     the label.
+     * rules:
+     *   usage:
+     *      1: >
+     *        A Paired Node SHOULD be used when additional information besides
+     *        the label is needed to adequately identify a tree node and its
+     *        function.
+     * ---
+     * @param string                                    $label
+     * @param string                                    $byline
+     * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
+     * @return \ILIAS\UI\Component\Tree\Node\Paired
+     */
+    public function paired(string $label, string $value, Icon $icon = null) : Paired;
 }
