@@ -26,11 +26,11 @@
  */
 class ilTestParticipantList implements Iterator
 {
-    /**
-     * @var ilTestParticipant[]
-     */
-    protected $participants = array();
-    
+    /** @var array<int, ilTestParticipant> */
+    private $participants_by_active_id = [];
+    /** @var array<int, ilTestParticipant> */
+    private $participants_by_usr_id = [];
+
     /**
      * @var ilObjTest
      */
@@ -60,36 +60,32 @@ class ilTestParticipantList implements Iterator
         $this->testObj = $testObj;
     }
     
+    public function addParticipant(ilTestParticipant $participant) : void
+    {
+        $this->participants_by_active_id[$participant->getActiveId()] = $participant;
+        $this->participants_by_usr_id[$participant->getUsrId()] = $participant;
+    }
+    
+    public function getParticipantByUsrId($usrId) : ilTestParticipant
+    {
+        if (isset($this->participants_by_usr_id[$usrId])) {
+            return $this->participants_by_usr_id[$usrId];
+        }
+
+        throw new OutOfBoundsException(sprintf('No participant found for usrId "%s".', $usrId));
+    }
+    
     /**
-     * @param ilTestParticipant $participant
+     * @param $activeId
+     * @return ilTestParticipant
      */
-    public function addParticipant(ilTestParticipant $participant)
+    public function getParticipantByActiveId($activeId) : ilTestParticipant
     {
-        $this->participants[] = $participant;
-    }
-    
-    public function getParticipantByUsrId($usrId)
-    {
-        foreach ($this as $participant) {
-            if ($participant->getUsrId() != $usrId) {
-                continue;
-            }
-            
-            return $participant;
+        if (isset($this->participants_by_active_id[$activeId])) {
+            return $this->participants_by_active_id[$activeId];
         }
-        return null;
-    }
-    
-    public function getParticipantByActiveId($activeId) : ?ilTestParticipant
-    {
-        foreach ($this as $participant) {
-            if ($participant->getActiveId() != $activeId) {
-                continue;
-            }
-            
-            return $participant;
-        }
-        return null;
+
+        throw new OutOfBoundsException(sprintf('No participant found for activeId "%s".', $activeId));
     }
     
     /**
@@ -171,23 +167,23 @@ class ilTestParticipantList implements Iterator
 
     public function current()
     {
-        return current($this->participants);
+        return current($this->participants_by_active_id);
     }
     public function next()
     {
-        return next($this->participants);
+        return next($this->participants_by_active_id);
     }
     public function key()
     {
-        return key($this->participants);
+        return key($this->participants_by_active_id);
     }
     public function valid() : bool
     {
-        return key($this->participants) !== null;
+        return key($this->participants_by_active_id) !== null;
     }
     public function rewind()
     {
-        return reset($this->participants);
+        return reset($this->participants_by_active_id);
     }
     
     /**
