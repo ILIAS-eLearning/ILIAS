@@ -76,7 +76,7 @@ class ilMailCronOrphanedMailsNotifier
             foreach ($folder_obj->getOrphanedMailObjects() as $mail_obj) {
                 $mail_id = $mail_obj->getMailId();
 
-                if ($i % self::NOTIFICATION_MARKER_PING_THRESHOLD === 0) {
+                if ($i > 0 && $i % self::NOTIFICATION_MARKER_PING_THRESHOLD === 0) {
                     $this->job->ping();
                 }
 
@@ -109,7 +109,7 @@ class ilMailCronOrphanedMailsNotifier
     {
         $i = 0;
         foreach ($this->collector->getCollection() as $collection_obj) {
-            if ($i % self::MAIL_DELIVERY_PING_THRESHOLD === 0) {
+            if ($i > 0 && $i % self::MAIL_DELIVERY_PING_THRESHOLD === 0) {
                 $this->job->ping();
             }
 

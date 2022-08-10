@@ -101,7 +101,7 @@ class ilMailCronOrphanedMailsDeletionCollector
             $i = 0;
             $res = $this->db->queryF($mails_query, $types, $data);
             while ($row = $this->db->fetchAssoc($res)) {
-                if ($i % self::PING_THRESHOLD) {
+                if ($i > 0 && $i % self::PING_THRESHOLD) {
                     $this->job->ping();
                 }
 

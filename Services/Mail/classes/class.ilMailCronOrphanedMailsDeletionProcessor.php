@@ -62,7 +62,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
         
         $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
-            if ($i % self::PING_THRESHOLD) {
+            if ($i > 0 && $i % self::PING_THRESHOLD) {
                 $this->job->ping();
             }
 
@@ -83,7 +83,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
 
         $i = 0;
         foreach ($attachment_paths as $mail_id => $path) {
-            if ($i % self::PING_THRESHOLD) {
+            if ($i > 0 && $i % self::PING_THRESHOLD) {
                 $this->job->ping();
             }
 
