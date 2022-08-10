@@ -15,7 +15,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\Provider;
+namespace ILIAS\Mail\Provider;
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;

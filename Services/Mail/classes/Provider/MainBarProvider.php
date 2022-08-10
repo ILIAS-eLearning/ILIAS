@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\Provider;
+namespace ILIAS\Mail\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
