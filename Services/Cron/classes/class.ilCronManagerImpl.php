@@ -168,7 +168,9 @@ class ilCronManagerImpl implements ilCronManager
             } catch (Throwable $e) {
                 $result = new ilCronJobResult();
                 $result->setStatus(ilCronJobResult::STATUS_CRASHED);
-                $result->setMessage(sprintf('Exception: %s', $e->getMessage()));
+                $result->setMessage(
+                    ilStr::subStr(sprintf('Exception: %s / %s', $e->getMessage(), $e->getTraceAsString()), 0, 400)
+                );
 
                 $this->logger->error($e->getMessage());
                 $this->logger->error($e->getTraceAsString());
