@@ -75,6 +75,7 @@ class ilCronJobResult
             self::STATUS_OK,
             self::STATUS_CRASHED,
             self::STATUS_FAIL,
+            self::STATUS_RESET,
         ];
     }
     
