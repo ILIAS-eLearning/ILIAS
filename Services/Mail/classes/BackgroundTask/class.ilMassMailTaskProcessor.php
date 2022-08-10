@@ -186,9 +186,7 @@ class ilMassMailTaskProcessor
             (string) serialize($contextParameters),
         ]);
 
-        if ($userId === (int) $this->anonymousUserId) {
-            return $task;
-        }
+        // Important: Don't return the task (e.g. as an early return for anonymous user id) https://mantis.ilias.de/view.php?id=33618
 
         $parameters = [$task, (int) $userId];
 
