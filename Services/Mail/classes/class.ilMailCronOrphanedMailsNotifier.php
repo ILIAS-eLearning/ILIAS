@@ -47,7 +47,7 @@ class ilMailCronOrphanedMailsNotifier
         $this->threshold = $threshold;
         $this->mail_notify_orphaned = $mail_notify_orphaned;
 
-        $this->mark_as_notified_stmt = $this->db->prepare(
+        $this->mark_as_notified_stmt = $this->db->prepareManip(
             'INSERT INTO mail_cron_orphaned (mail_id, folder_id, ts_do_delete) VALUES (?, ?, ?)',
             [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER]
         );
