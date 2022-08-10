@@ -293,6 +293,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             )
         );
 
+        global $DIC;
+        $help = $DIC->help();
+        $help->setScreenIdComponent("tst");
+        $help->setScreenId("assessment");
+        $help->setSubScreenId("question");
+
         $sequenceElement = $this->getCurrentSequenceElement();
 
         if (!$this->isValidSequenceElement($sequenceElement)) {
