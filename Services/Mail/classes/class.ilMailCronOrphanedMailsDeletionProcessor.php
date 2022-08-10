@@ -42,7 +42,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
         $this->collector = $collector;
 
         $this->mail_ids_for_path_stmt = $this->db->prepare(
-            'SELECT mail_id, path FROM mail_attachment WHERE path = ?',
+            'SELECT COUNT(*) cnt FROM mail_attachment WHERE path = ?',
             [ilDBConstants::T_TEXT]
         );
     }
@@ -66,14 +66,13 @@ class ilMailCronOrphanedMailsDeletionProcessor
                 $this->job->ping();
             }
 
-            $usage_res = $this->db->queryF(
-                'SELECT mail_id, path FROM mail_attachment WHERE path = %s',
-                array('text'),
-                array($row['path'])
+            $usage_res = $this->db->execute(
+                $this->mail_ids_for_path_stmt,
+                [$row['path']]
             );
 
-            $num_rows = $this->db->numRows($usage_res);
-            if ($row['cnt_mail_ids'] >= $num_rows) {
+            $count_usages_data = $this->db->fetchAssoc($usage_res);
+            if (is_array($count_usages_data) && $count_usages_data !== [] && (int) $row['cnt_mail_ids'] >= (int) $count_usages_data['cnt']) {
                 // collect path to delete attachment file
                 $attachment_paths[$row['mail_id']] = $row['path'];
             }

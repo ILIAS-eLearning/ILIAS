@@ -25,11 +25,9 @@ class ilMailCronOrphanedMailsNotificationCollector
      * @var \ilSetting
      */
     protected $setting;
+    private $job;
 
-    /**
-     *
-     */
-    public function __construct()
+    public function __construct(ilMailCronOrphanedMails $job)
     {
         global $DIC;
 
