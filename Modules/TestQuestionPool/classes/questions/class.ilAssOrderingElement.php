@@ -444,13 +444,12 @@ class ilAssOrderingElement
         }
         
         $parts = explode(self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident);
-        $return(
+        return
             count($parts) == 4
             && ilAssOrderingElementList::isValidRandomIdentifier($parts[0])
             && ilAssOrderingElementList::isValidSolutionIdentifier($parts[1])
             && ilAssOrderingElementList::isValidPosition($parts[2])
-            && ilAssOrderingElementList::isValidIndentation($parts[3])
-        );
+            && ilAssOrderingElementList::isValidIndentation($parts[3]);
     }
     
     public function setExportIdent($ident)
