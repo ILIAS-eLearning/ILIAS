@@ -22,18 +22,28 @@
  */
 class ilMailCronOrphanedMailsDeletionProcessor
 {
-    protected ilMailCronOrphanedMailsDeletionCollector $collector;
-    protected ilDBInterface $db;
-    protected ilSetting $settings;
+    private const PING_THRESHOLD = 250;
 
-    public function __construct(ilMailCronOrphanedMailsDeletionCollector $collector)
+    private ilMailCronOrphanedMails $job;
+    private ilMailCronOrphanedMailsDeletionCollector $collector;
+    private ilDBInterface $db;
+    private ilSetting $settings;
+    private ilDBStatement $mail_ids_for_path_stmt;
+
+    public function __construct(ilMailCronOrphanedMails $job, ilMailCronOrphanedMailsDeletionCollector $collector)
     {
         global $DIC;
 
-        $this->collector = $collector;
-
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
+
+        $this->job = $job;
+        $this->collector = $collector;
+
+        $this->mail_ids_for_path_stmt = $this->db->prepare(
+            'SELECT mail_id, path FROM mail_attachment WHERE path = ?',
+            [ilDBConstants::T_TEXT]
+        );
     }
 
     private function deleteAttachments() : void
@@ -50,21 +60,32 @@ class ilMailCronOrphanedMailsDeletionProcessor
             'integer'
         ) . ' GROUP BY path');
         
+        $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
-            $usage_res = $this->db->queryF(
-                'SELECT mail_id, path FROM mail_attachment WHERE path = %s',
-                ['text'],
+            if ($i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
+            $usage_res = $this->db->execute(
+                $this->mail_ids_for_path_stmt,
                 [$row['path']]
             );
 
-            $num_rows = $this->db->numRows($usage_res);
-            if ((int) $row['cnt_mail_ids'] >= $num_rows) {
+            $num_rows_usage = $this->db->fetchAssoc($usage_res);
+            if (is_array($num_rows_usage) && $num_rows_usage !== [] && (int) $row['cnt_mail_ids'] >= (int) $num_rows_usage['cnt']) {
                 // collect path to delete attachment file
                 $attachment_paths[(int) $row['mail_id']] = $row['path'];
             }
+
+            ++$i;
         }
 
+        $i = 0;
         foreach ($attachment_paths as $mail_id => $path) {
+            if ($i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
             try {
                 $path = CLIENT_DATA_DIR . '/mail/' . $path;
                 $iter = new RecursiveIteratorIterator(
@@ -106,6 +127,10 @@ class ilMailCronOrphanedMailsDeletionProcessor
                     $mail_id
                 ));
             } catch (Exception $e) {
+                ilLoggerFactory::getLogger('mail')->warning($e->getMessage());
+                ilLoggerFactory::getLogger('mail')->warning($e->getTraceAsString());
+            } finally {
+                ++$i;
             }
         }
 
