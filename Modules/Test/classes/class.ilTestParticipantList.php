@@ -93,7 +93,7 @@ class ilTestParticipantList implements Iterator
      */
     public function hasUnfinishedPasses() : bool
     {
-        foreach ($this as $participant) {
+        foreach ($this->participants_by_usr_id as $participant) {
             if ($participant->hasUnfinishedPasses()) {
                 return true;
             }
@@ -107,7 +107,7 @@ class ilTestParticipantList implements Iterator
      */
     public function hasScorings() : bool
     {
-        foreach ($this as $participant) {
+        foreach ($this->participants_by_usr_id as $participant) {
             if ($participant->getScoring() instanceof ilTestParticipantScoring) {
                 return true;
             }
@@ -120,7 +120,7 @@ class ilTestParticipantList implements Iterator
     {
         $usrIds = array();
         
-        foreach ($this as $participant) {
+        foreach ($this->participants_by_usr_id as $participant) {
             $usrIds[] = $participant->getUsrId();
         }
         
@@ -131,7 +131,7 @@ class ilTestParticipantList implements Iterator
     {
         $activeIds = array();
         
-        foreach ($this as $participant) {
+        foreach ($this->participants_by_active_id as $participant) {
             $activeIds[] = $participant->getActiveId();
         }
         
@@ -140,7 +140,7 @@ class ilTestParticipantList implements Iterator
     
     public function isActiveIdInList($activeId) : bool
     {
-        foreach ($this as $participant) {
+        foreach ($this->participants_by_active_id as $participant) {
             if ($participant->getActiveId() == $activeId) {
                 return true;
             }
@@ -155,7 +155,7 @@ class ilTestParticipantList implements Iterator
         
         $accessFilteredList = new self($this->getTestObj());
 
-        foreach ($this as $participant) {
+        foreach ($this->participants_by_usr_id as $participant) {
             if (in_array($participant->getUsrId(), $usrIds)) {
                 $participant = clone $participant;
                 $accessFilteredList->addParticipant($participant);
@@ -297,7 +297,7 @@ class ilTestParticipantList implements Iterator
     {
         $rows = array();
         
-        foreach ($this as $participant) {
+        foreach ($this->participants_by_usr_id as $participant) {
             $row = array(
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
@@ -323,7 +323,7 @@ class ilTestParticipantList implements Iterator
     {
         $rows = array();
         
-        foreach ($this as $participant) {
+        foreach ($this->participants_by_usr_id as $participant) {
             if (!$participant->hasScoring()) {
                 continue;
             }
