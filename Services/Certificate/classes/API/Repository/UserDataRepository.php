@@ -16,10 +16,10 @@
  *
  *********************************************************************/
 
-namespace Certificate\API\Repository;
+namespace ILIAS\Certificate\API\Repository;
 
-use Certificate\API\Data\UserCertificateDto;
-use Certificate\API\Filter\UserDataFilter;
+use ILIAS\Certificate\API\Data\UserCertificateDto;
+use ILIAS\Certificate\API\Filter\UserDataFilter;
 use ilCtrlInterface;
 use ilDBConstants;
 use ilUserCertificateApiGUI;

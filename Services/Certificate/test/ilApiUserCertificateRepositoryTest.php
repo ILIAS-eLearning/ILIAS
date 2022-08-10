@@ -41,7 +41,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testGetUserData() : void
     {
-        $filter = new \Certificate\API\Filter\UserDataFilter();
+        $filter = new \ILIAS\Certificate\API\Filter\UserDataFilter();
 
         $this->database
             ->method('fetchAssoc')
@@ -76,17 +76,17 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $this->controller->method('getLinkTargetByClass')->willReturn('somewhere.php?goto=4');
 
-        $repository = new \Certificate\API\Repository\UserDataRepository(
+        $repository = new \ILIAS\Certificate\API\Repository\UserDataRepository(
             $this->database,
             $this->logger,
             $this->controller,
             'no title given'
         );
 
-        /** @var array<int, \Certificate\API\Data\UserCertificateDto> $userData */
+        /** @var array<int, \ILIAS\Certificate\API\Data\UserCertificateDto> $userData */
         $userData = $repository->getUserData($filter, ['something']);
 
-        /** @var \Certificate\API\Data\UserCertificateDto $object */
+        /** @var \ILIAS\Certificate\API\Data\UserCertificateDto $object */
         $object = $userData[5];
         $this->assertSame('test', $object->getObjectTitle());
         $this->assertSame(5, $object->getCertificateId());

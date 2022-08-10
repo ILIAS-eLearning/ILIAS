@@ -16,11 +16,11 @@
  *
  *********************************************************************/
 
-namespace Certificate\API;
+namespace ILIAS\Certificate\API;
 
-use Certificate\API\Data\UserCertificateDto;
-use Certificate\API\Filter\UserDataFilter;
-use Certificate\API\Repository\UserDataRepository;
+use ILIAS\Certificate\API\Data\UserCertificateDto;
+use ILIAS\Certificate\API\Filter\UserDataFilter;
+use ILIAS\Certificate\API\Repository\UserDataRepository;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
