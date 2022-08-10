@@ -9410,6 +9410,8 @@ export#:#export_resource#:#Resource
 export#:#export_save_selection#:#Start Export
 export#:#export_select_resources#:#Select Resources
 export#:#no_file#:#No file
+file#:#action_download#:#Enable Direct Download
+file#:#action_show#:#Redirect User to the Info Page
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
@@ -9432,12 +9434,14 @@ file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#migrated#:#Status
 file#:#msg_unzip_success#:#Archive has been successfully unziped.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
+file#:#on_click_action#:#Action on Click on Title
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#storage_id#:#Storage ID
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#version_uploaded#:#Version uploaded
+file#:#versionname#:#Title
 file#:#versionname#:#Title
 fils#:#file_services#:#File Services
 fils#:#file_services_description#:#Configuration of File Service Settings.

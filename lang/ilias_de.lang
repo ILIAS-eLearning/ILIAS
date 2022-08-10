@@ -9409,6 +9409,8 @@ export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
+file#:#action_download#:#Datei herunterladen
+file#:#action_show#:#Infoseite anzeigen
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9431,12 +9433,14 @@ file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#migrated#:#Status
 file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
+file#:#on_click_action#:#Klick auf Titel
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
 file#:#storage_id#:#Storage ID
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#version_uploaded#:#Version hochgeladen am
+file#:#versionname#:#Titel
 file#:#versionname#:#Titel
 fils#:#file_services#:#Datei-Services
 fils#:#file_services_description#:#Konfiguration der Datei-Service Einstellungen.
