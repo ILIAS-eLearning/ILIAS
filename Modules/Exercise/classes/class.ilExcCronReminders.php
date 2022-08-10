@@ -100,8 +100,7 @@ class ilExcCronReminders extends ilCronJob
         $cron_result->setStatus($cron_status);
 
         if ($message != "") {
-            $cron_result->setMessage($message . " " . $num_reminders);
-            $cron_result->setCode("#" . $num_reminders);
+            $cron_result->setMessage($message . " " . $num_reminders . ' / ' . "#" . $num_reminders);
         }
 
         return $cron_result;
