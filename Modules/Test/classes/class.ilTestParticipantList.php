@@ -27,45 +27,32 @@
 class ilTestParticipantList implements Iterator
 {
     /** @var array<int, ilTestParticipant> */
-    private $participants_by_active_id = [];
+    private array $participants_by_active_id = [];
     /** @var array<int, ilTestParticipant> */
-    private $participants_by_usr_id = [];
+    private array $participants_by_usr_id = [];
+    private ilObjTest $testObj;
 
-    /**
-     * @var ilObjTest
-     */
-    protected $testObj;
-    
-    /**
-     * @param ilObjTest $testObj
-     */
     public function __construct(ilObjTest $testObj)
     {
         $this->testObj = $testObj;
     }
-    
-    /**
-     * @return ilObjTest
-     */
+
     public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
-    
-    /**
-     * @param ilObjTest $testObj
-     */
-    public function setTestObj($testObj)
+
+    public function setTestObj(ilObjTest $testObj) : void
     {
         $this->testObj = $testObj;
     }
-    
+
     public function addParticipant(ilTestParticipant $participant) : void
     {
         $this->participants_by_active_id[$participant->getActiveId()] = $participant;
         $this->participants_by_usr_id[$participant->getUsrId()] = $participant;
     }
-    
+
     public function getParticipantByUsrId($usrId) : ilTestParticipant
     {
         if (isset($this->participants_by_usr_id[$usrId])) {
@@ -74,7 +61,7 @@ class ilTestParticipantList implements Iterator
 
         throw new OutOfBoundsException(sprintf('No participant found for usrId "%s".', $usrId));
     }
-    
+
     /**
      * @param $activeId
      * @return ilTestParticipant
@@ -87,13 +74,13 @@ class ilTestParticipantList implements Iterator
 
         throw new OutOfBoundsException(sprintf('No participant found for activeId "%s".', $activeId));
     }
-    
+
     /**
      * @return bool
      */
     public function hasUnfinishedPasses() : bool
     {
-        foreach ($this->participants_by_usr_id as $participant) {
+        foreach ($this->participants_by_active_id as $participant) {
             if ($participant->hasUnfinishedPasses()) {
                 return true;
             }
@@ -101,13 +88,13 @@ class ilTestParticipantList implements Iterator
         
         return false;
     }
-    
+
     /**
      * @return bool
      */
     public function hasScorings() : bool
     {
-        foreach ($this->participants_by_usr_id as $participant) {
+        foreach ($this->participants_by_active_id as $participant) {
             if ($participant->getScoring() instanceof ilTestParticipantScoring) {
                 return true;
             }
@@ -115,47 +102,29 @@ class ilTestParticipantList implements Iterator
         
         return false;
     }
-    
+
     public function getAllUserIds() : array
     {
-        $usrIds = array();
-        
-        foreach ($this->participants_by_usr_id as $participant) {
-            $usrIds[] = $participant->getUsrId();
-        }
-        
-        return $usrIds;
+        return array_keys($this->participants_by_usr_id);
     }
-    
+
     public function getAllActiveIds() : array
     {
-        $activeIds = array();
-        
-        foreach ($this->participants_by_active_id as $participant) {
-            $activeIds[] = $participant->getActiveId();
-        }
-        
-        return $activeIds;
+        return array_keys($this->participants_by_active_id);
     }
-    
+
     public function isActiveIdInList($activeId) : bool
     {
-        foreach ($this->participants_by_active_id as $participant) {
-            if ($participant->getActiveId() == $activeId) {
-                return true;
-            }
-        }
-        
-        return false;
+        return isset($this->participants_by_active_id[$activeId]);
     }
     
     public function getAccessFilteredList(callable $userAccessFilter) : ilTestParticipantList
     {
         $usrIds = call_user_func_array($userAccessFilter, [$this->getAllUserIds()]);
-        
+
         $accessFilteredList = new self($this->getTestObj());
 
-        foreach ($this->participants_by_usr_id as $participant) {
+        foreach ($this->participants_by_active_id as $participant) {
             if (in_array($participant->getUsrId(), $usrIds)) {
                 $participant = clone $participant;
                 $accessFilteredList->addParticipant($participant);
@@ -169,9 +138,9 @@ class ilTestParticipantList implements Iterator
     {
         return current($this->participants_by_active_id);
     }
-    public function next()
+    public function next() : void
     {
-        return next($this->participants_by_active_id);
+        next($this->participants_by_active_id);
     }
     public function key()
     {
@@ -181,25 +150,21 @@ class ilTestParticipantList implements Iterator
     {
         return key($this->participants_by_active_id) !== null;
     }
-    public function rewind()
+    public function rewind() : void
     {
-        return reset($this->participants_by_active_id);
+        reset($this->participants_by_active_id);
     }
-    
+
     /**
      * @param array[] $dbRows
      */
-    public function initializeFromDbRows($dbRows)
+    public function initializeFromDbRows(array $dbRows) : void
     {
         foreach ($dbRows as $rowKey => $rowData) {
             $participant = new ilTestParticipant();
-            
-            if ((int) $rowData['active_id']) {
-                $participant->setActiveId((int) $rowData['active_id']);
-            }
-            
+
+            $participant->setActiveId((int) $rowData['active_id']);
             $participant->setUsrId((int) $rowData['usr_id']);
-            
             $participant->setLogin($rowData['login']);
             $participant->setLastname($rowData['lastname']);
             $participant->setFirstname($rowData['firstname']);
@@ -218,14 +183,9 @@ class ilTestParticipantList implements Iterator
             $this->addParticipant($participant);
         }
     }
-    
-    /**
-     * @return ilTestParticipantList
-     */
+
     public function getScoredParticipantList() : ilTestParticipantList
     {
-        require_once 'Modules/Test/classes/class.ilTestParticipantScoring.php';
-        
         $scoredParticipantList = new self($this->getTestObj());
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -295,10 +255,10 @@ class ilTestParticipantList implements Iterator
     
     public function getParticipantsTableRows() : array
     {
-        $rows = array();
+        $rows = [];
         
-        foreach ($this->participants_by_usr_id as $participant) {
-            $row = array(
+        foreach ($this->participants_by_active_id as $participant) {
+            $row = [
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
                 'login' => $participant->getLogin(),
@@ -311,7 +271,7 @@ class ilTestParticipantList implements Iterator
                 'finished' => $participant->isTestFinished() ? 1 : 0,
                 'access' => $this->lookupLastAccess($participant->getActiveId()),
                 'tries' => $this->lookupNrOfTries($participant->getActiveId())
-            );
+            ];
             
             $rows[] = $row;
         }
@@ -321,21 +281,21 @@ class ilTestParticipantList implements Iterator
     
     public function getScoringsTableRows() : array
     {
-        $rows = array();
+        $rows = [];
         
-        foreach ($this->participants_by_usr_id as $participant) {
+        foreach ($this->participants_by_active_id as $participant) {
             if (!$participant->hasScoring()) {
                 continue;
             }
             
-            $row = array(
+            $row = [
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
                 'login' => $participant->getLogin(),
                 'firstname' => $participant->getFirstname(),
                 'lastname' => $participant->getLastname(),
                 'name' => $this->buildFullname($participant)
-            );
+            ];
             
             if ($participant->getScoring()) {
                 $row['scored_pass'] = $participant->getScoring()->getScoredPass();
