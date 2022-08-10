@@ -41,6 +41,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
     {
         $participant = new ilTestParticipant();
         $participant->setUsrId(125);
+        $participant->setActiveId(123);
         $this->testObj->addParticipant($participant);
         $this->assertEquals($participant, $this->testObj->getParticipantByUsrId(125));
     }
@@ -134,6 +135,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -146,6 +148,8 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertNotNull($result->getParticipantByUsrId(12));
         $this->assertNotNull($result->getParticipantByUsrId(125));
         $this->assertNotNull($result->getParticipantByUsrId(176));
+
+        $this->expectException(OutOfBoundsException::class);
         $this->assertNull($result->getParticipantByUsrId(212121));
     }
 
@@ -160,6 +164,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -180,6 +185,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -200,13 +206,14 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
         $this->testObj->next();
         $this->testObj->next();
 
-        $this->assertEquals(2, $this->testObj->key());
+        $this->assertEquals(1176, $this->testObj->key());
     }
 
     public function testValid() : void
@@ -220,6 +227,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -242,6 +250,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
