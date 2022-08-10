@@ -390,8 +390,6 @@ abstract class assQuestionGUI
     public function assessment() : void
     {
         $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
-
-
         $usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
         $this->tpl->setContent(implode('<br />', array(
@@ -416,7 +414,6 @@ abstract class assQuestionGUI
         
         if ($question_type === '') {
             return null;
-//            throw new ilTestQuestionPoolInvalidArgumentException('No question type given or determined by question_id');
         }
 
         assQuestion::_includeClass($question_type, 1);
