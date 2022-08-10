@@ -22,12 +22,18 @@
  */
 class ilMailCronOrphanedMailsNotifier
 {
-    protected ilMailCronOrphanedMailsNotificationCollector $collector;
-    protected ilDBInterface $db;
-    protected int $threshold = 0;
-    protected int $mail_notify_orphaned = 0;
+    private const NOTIFICATION_MARKER_PING_THRESHOLD = 250;
+    private const MAIL_DELIVERY_PING_THRESHOLD = 25;
+
+    private ilMailCronOrphanedMails $job;
+    private ilMailCronOrphanedMailsNotificationCollector $collector;
+    private ilDBInterface $db;
+    private int $threshold = 0;
+    private int $mail_notify_orphaned = 0;
+    private ilDBStatement $mark_as_notified_stmt;
 
     public function __construct(
+        ilMailCronOrphanedMails $job,
         ilMailCronOrphanedMailsNotificationCollector $collector,
         int $threshold,
         int $mail_notify_orphaned
@@ -36,9 +42,15 @@ class ilMailCronOrphanedMailsNotifier
 
         $this->db = $DIC->database();
 
+        $this->job = $job;
         $this->collector = $collector;
         $this->threshold = $threshold;
         $this->mail_notify_orphaned = $mail_notify_orphaned;
+
+        $this->mark_as_notified_stmt = $this->db->prepare(
+            'INSERT INTO mail_cron_orphaned (mail_id, folder_id, ts_do_delete) VALUES (?, ?, ?)',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER]
+        );
     }
 
     private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
@@ -58,19 +70,22 @@ class ilMailCronOrphanedMailsNotifier
             (int) date('Y', $ts_delete)
         );
 
+        $i = 0;
         foreach ($collection_obj->getFolderObjects() as $folder_obj) {
             $folder_id = $folder_obj->getFolderId();
-            
+
             foreach ($folder_obj->getOrphanedMailObjects() as $mail_obj) {
                 $mail_id = $mail_obj->getMailId();
-            
-                $this->db->insert(
-                    'mail_cron_orphaned',
-                    [
-                        'mail_id' => ['integer', $mail_id],
-                        'folder_id' => ['integer', $folder_id],
-                        'ts_do_delete' => ['integer', $ts_for_deletion], ]
+
+                if ($i % self::NOTIFICATION_MARKER_PING_THRESHOLD === 0) {
+                    $this->job->ping();
+                }
+
+                $this->db->execute(
+                    $this->mark_as_notified_stmt,
+                    [$mail_id, $folder_id, $ts_for_deletion]
                 );
+                $i++;
             }
         }
     }
@@ -86,9 +101,15 @@ class ilMailCronOrphanedMailsNotifier
 
     public function processNotification() : void
     {
+        $i = 0;
         foreach ($this->collector->getCollection() as $collection_obj) {
+            if ($i % self::MAIL_DELIVERY_PING_THRESHOLD === 0) {
+                $this->job->ping();
+            }
+
             $this->sendMail($collection_obj);
             $this->markAsNotified($collection_obj);
+            ++$i;
         }
     }
 }

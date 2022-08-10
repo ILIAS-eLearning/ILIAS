@@ -22,19 +22,22 @@
  */
 class ilMailCronOrphanedMailsNotificationCollector
 {
-    /**
-     * @var array<int, ilMailCronOrphanedMailsNotificationCollectionObj>
-     */
-    protected array $collection = [];
-    protected ilDBInterface $db;
-    protected ilSetting $setting;
+    private const PING_THRESHOLD = 500;
+
+    private ilMailCronOrphanedMails $job;
+    /** @var array<int, ilMailCronOrphanedMailsNotificationCollectionObj> */
+    private array $collection = [];
+    private ilDBInterface $db;
+    private ilSetting $setting;
     
-    public function __construct()
+    public function __construct(ilMailCronOrphanedMails $job)
     {
         global $DIC;
 
         $this->db = $DIC->database();
         $this->setting = $DIC->settings();
+
+        $this->job = $job;
 
         $this->collect();
     }
@@ -85,7 +88,12 @@ class ilMailCronOrphanedMailsNotificationCollector
         $collection_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
+        $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
+            if ($i % self::PING_THRESHOLD === 0) {
+                $this->job->ping();
+            }
+
             if (
                 $collection_obj instanceof ilMailCronOrphanedMailsNotificationCollectionObj &&
                 !$this->existsCollectionObjForUserId((int) $row['user_id'])
@@ -109,6 +117,7 @@ class ilMailCronOrphanedMailsNotificationCollector
                 $row['m_subject']
             );
             $folder_obj->addMailObject($orphaned_mail_obj);
+            ++$i;
         }
 
         if ($collection_obj instanceof ilMailCronOrphanedMailsNotificationCollectionObj) {
