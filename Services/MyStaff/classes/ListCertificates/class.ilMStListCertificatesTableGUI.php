@@ -18,7 +18,7 @@
 
 namespace ILIAS\MyStaff\ListCertificates;
 
-use Certificate\API\Data\UserCertificateDto;
+use ILIAS\Certificate\API\Data\UserCertificateDto;
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
