@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\Provider;
+namespace ILIAS\Mail\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
