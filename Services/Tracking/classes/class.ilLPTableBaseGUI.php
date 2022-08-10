@@ -19,6 +19,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
     protected $filter; // array
     protected $anonymized; // [bool]
+    protected $icon_variant = ilLPStatusIcons::ICON_VARIANT_LONG;
 
     public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
     {
@@ -487,10 +488,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 break;
 
             case "status":
-                include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
-                $text = ilLearningProgressBaseGUI::_getStatusText($value);
-                $value = ilUtil::img($path, $text);
+                $icons = ilLPStatusIcons::getInstance($this->getIconVariant());
+                $value = $icons->renderIconForStatus($value);
                 break;
 
             case "language":
@@ -987,5 +986,21 @@ class ilLPTableBaseGUI extends ilTable2GUI
         
         $GLOBALS['DIC']['lng']->loadLanguageModule('user');
         ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'), true);
+    }
+
+    /**
+     * Gets the variant of LP icons that is shown in the table.
+     */
+    public function getIconVariant() : int
+    {
+        return $this->icon_variant;
+    }
+
+    /**
+     * Sets the variant of LP icons that is shown in the table.
+     */
+    public function setIconVariant(int $variant) : void
+    {
+        $this->icon_variant = $variant;
     }
 }

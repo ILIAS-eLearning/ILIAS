@@ -258,8 +258,11 @@ class ilExAssignmentMemberStatus
         $exc = new ilObjExercise($ass->getExerciseId(), false);
         $exc->updateUserStatus($this->user_id);
     }
-    
-    public function getStatusIcon()
+
+    /**
+     * @deprecated will be deleted with R8
+     */
+    public function getStatusIcon() : string
     {
         switch ($this->getStatus()) {
             case "passed":
