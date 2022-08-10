@@ -9,6 +9,9 @@ require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
  */
 class ilMailCronOrphanedMailsDeletionProcessor
 {
+    private const PING_THRESHOLD = 250;
+
+    private $job;
     /**
      * @var ilMailCronOrphanedMailsDeletionCollector
      */
@@ -23,18 +26,25 @@ class ilMailCronOrphanedMailsDeletionProcessor
      * @var \ilSetting
      */
     protected $settings;
+    private $mail_ids_for_path_stmt;
 
     /**
      * @param ilMailCronOrphanedMailsDeletionCollector $collector
      */
-    public function __construct(ilMailCronOrphanedMailsDeletionCollector $collector)
+    public function __construct(ilMailCronOrphanedMails $job, ilMailCronOrphanedMailsDeletionCollector $collector)
     {
         global $DIC;
 
-        $this->collector = $collector;
-
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
+
+        $this->job = $job;
+        $this->collector = $collector;
+
+        $this->mail_ids_for_path_stmt = $this->db->prepare(
+            'SELECT mail_id, path FROM mail_attachment WHERE path = ?',
+            [ilDBConstants::T_TEXT]
+        );
     }
     
     /**
@@ -50,7 +60,12 @@ class ilMailCronOrphanedMailsDeletionProcessor
 				WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer') . '
 				GROUP BY path');
         
+        $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
+            if ($i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
             $usage_res = $this->db->queryF(
                 'SELECT mail_id, path FROM mail_attachment WHERE path = %s',
                 array('text'),
@@ -62,9 +77,16 @@ class ilMailCronOrphanedMailsDeletionProcessor
                 // collect path to delete attachment file
                 $attachment_paths[$row['mail_id']] = $row['path'];
             }
+
+            ++$i;
         }
 
+        $i = 0;
         foreach ($attachment_paths as $mail_id => $path) {
+            if ($i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
             try {
                 $path = CLIENT_DATA_DIR . '/mail/' . $path;
                 $iter = new RecursiveIteratorIterator(
@@ -109,6 +131,10 @@ class ilMailCronOrphanedMailsDeletionProcessor
                     $mail_id
                 ));
             } catch (Exception $e) {
+                ilLoggerFactory::getLogger('mail')->warning($e->getMessage());
+                ilLoggerFactory::getLogger('mail')->warning($e->getTraceAsString());
+            } finally {
+                ++$i;
             }
         }
 

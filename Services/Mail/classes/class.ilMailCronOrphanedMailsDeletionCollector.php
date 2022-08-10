@@ -7,6 +7,9 @@
  */
 class ilMailCronOrphanedMailsDeletionCollector
 {
+    private const PING_THRESHOLD = 500;
+
+    private $job;
     /**
      * @var \ilDBInterface
      */
@@ -22,15 +25,14 @@ class ilMailCronOrphanedMailsDeletionCollector
      */
     protected $mail_ids = array();
 
-    /**
-     *
-     */
-    public function __construct()
+    public function __construct(ilMailCronOrphanedMails $job)
     {
         global $DIC;
 
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
+
+        $this->job = $job;
 
         $this->collect();
     }
@@ -96,9 +98,16 @@ class ilMailCronOrphanedMailsDeletionCollector
                 $data = array($ts_for_deletion, 'inbox', 'trash');
             }
 
+            $i = 0;
             $res = $this->db->queryF($mails_query, $types, $data);
             while ($row = $this->db->fetchAssoc($res)) {
+                if ($i % self::PING_THRESHOLD) {
+                    $this->job->ping();
+                }
+
                 $this->addMailIdToDelete($row['mail_id']);
+
+                ++$i;
             }
         }
     }
