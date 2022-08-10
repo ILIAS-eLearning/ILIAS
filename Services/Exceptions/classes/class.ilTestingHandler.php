@@ -31,4 +31,13 @@ class ilTestingHandler extends ilPlainTextHandler
     {
         return "DEAR TESTER! AN ERROR OCCURRED... PLEASE INCLUDE THE FOLLOWING OUTPUT AS ADDITIONAL INFORMATION IN YOUR BUG REPORT.\n\n";
     }
+
+    /**
+     * Assemble the output for this handler.
+     */
+    protected function content() : string
+    {
+        return $this->pageHeader()
+            . $this->exceptionContent();
+    }
 }
