@@ -268,6 +268,12 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->getEditLink($data, get_class($this->getParentObject()), $this->getParentCmd())
         );
         
+        $actions->addItem(
+            $this->lng->txt('statistics'),
+            '',
+            $this->getEditLink($data, 'ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
+        );
+        
         if ($this->isQuestionManagingEnabled()) {
             $editHref = $this->getEditLink($data, $data['type_tag'] . 'GUI', 'editQuestion');
             $actions->addItem($this->lng->txt('edit_question'), '', $editHref);

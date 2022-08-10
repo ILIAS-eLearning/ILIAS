@@ -467,11 +467,8 @@ abstract class assQuestionGUI
          */
         global $DIC;
         $tpl = $DIC['tpl'];
-
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php';
+        
         $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
-
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php';
         $usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
         $tpl->setContent(implode('<br />', array(
