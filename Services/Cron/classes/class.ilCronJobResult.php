@@ -31,7 +31,7 @@ class ilCronJobResult
     
     protected int $status = self::STATUS_NO_ACTION;
     protected string $message = '';
-    protected ?string $code;
+    protected ?string $code = null;
     protected string $duration = '0';
 
     /**
