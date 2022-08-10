@@ -90,7 +90,7 @@ class ilMailCronOrphanedMailsNotificationCollector
         $res = $this->db->queryF($notification_query, $types, $data);
         $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
-            if ($i % self::PING_THRESHOLD === 0) {
+            if ($i > 0 && $i % self::PING_THRESHOLD === 0) {
                 $this->job->ping();
             }
 
