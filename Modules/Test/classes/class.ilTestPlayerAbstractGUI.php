@@ -1564,6 +1564,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsInfo = false, $obligationsFilter = false)
     {
+        global $DIC;
+        $help = $DIC->help();
+
+        $help->setScreenIdComponent("tst");
+        $help->setScreenId("assessment");
+        $help->setSubScreenId("question_summary");
+
         if ($fullpage) {
             $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
         }
