@@ -5172,6 +5172,7 @@ common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
 common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
 common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#perma_link#:#Link zu dieser Seite
+common#:#copy_perma_link#:#Link zu dieser Seite kopieren
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#permission#:#Recht
 common#:#permission_settings#:#Rechteeinstellungen
