@@ -65,17 +65,19 @@ class ilBiblEntryTableGUI extends ilTable2GUI
 
     public function initFilter() : void
     {
-        $available_fields_for_object = $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId());
-
-        foreach ($available_fields_for_object as $available_field) {
-            $filter = $this->facade->filterFactory()->findByFieldId($available_field->getId());
-            if (!empty($filter)) {
-                $filter_presentation = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
+        $available_field_ids_for_object = array_map(function (ilBiblField $field) {
+            return $field->getId();
+        }, $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId()));
+    
+        foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObjId()) as $item) {
+            if (in_array($item->getFieldId(), $available_field_ids_for_object)) {
+                $filter_presentation = new ilBiblFieldFilterPresentationGUI($item, $this->facade);
                 $field = $filter_presentation->getFilterItem();
                 $this->addAndReadFilterItem($field);
-                $this->filter_objects[$field->getPostVar()] = $filter;
+                $this->filter_objects[$field->getPostVar()] = $item;
             }
         }
+    
     }
 
 
