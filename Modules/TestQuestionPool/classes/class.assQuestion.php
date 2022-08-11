@@ -4164,7 +4164,6 @@ abstract class assQuestion
         return false;
     }
 
-
     /* doubles isInUse? */
     public function isInActiveTest() : bool
     {
