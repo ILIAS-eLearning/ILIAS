@@ -55,7 +55,7 @@ class ilMailCronOrphanedMailsDeletionCollector
                     // selektiere die, die tatsächlich gelöscht werden sollen
                     $res = $this->db->queryF(
                         "
-						SELECT * FROM mail_cron_orphaned 
+						SELECT mail_id FROM mail_cron_orphaned 
 						INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
 						WHERE ts_do_delete <= %s
 						AND (mdata.m_type = %s OR mdata.m_type = %s)",
@@ -66,7 +66,7 @@ class ilMailCronOrphanedMailsDeletionCollector
                     // selektiere alle zu löschenden mails unabhängig vom ordner..
                     $res = $this->db->queryF(
                         "
-					SELECT * FROM mail_cron_orphaned 
+					SELECT mail_id FROM mail_cron_orphaned 
 					WHERE ts_do_delete <= %s",
                         array('integer'),
                         array($now)
@@ -87,7 +87,7 @@ class ilMailCronOrphanedMailsDeletionCollector
             $data = array($ts_for_deletion);
 
             $mails_query = "
-				SELECT 		mail_id, m.user_id, folder_id, send_time, m_subject, mdata.title
+				SELECT 		mail_id
 				FROM 		mail m
 				INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
 				WHERE 		send_time <= %s";
