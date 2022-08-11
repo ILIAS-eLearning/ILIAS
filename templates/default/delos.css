@@ -17742,8 +17742,14 @@ a.ilTag:active {
   background-color: #b0b0b0;
   color: #000000;
 }
-.ilTag.ilHighlighted {
+.ilTag.ilHighlighted,
+.ilTag.ilHighlighted:hover {
   background-color: #B54F00;
+  color: white;
+}
+.ilTag.ilHighlighted:hover,
+.ilTag.ilHighlighted:hover:hover {
+  background-color: #9c4400;
 }
 #il_tags_modal textarea {
   resize: vertical;
