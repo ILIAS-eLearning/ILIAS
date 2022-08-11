@@ -29,6 +29,16 @@ class UploadLimitResolver
         $this->default_upload_size_limit = $default_upload_size_limit;
     }
 
+    public function min(int $size_in_bytes): int
+    {
+        return min($this->default_upload_size_limit, $size_in_bytes);
+    }
+
+    public function max(int $size_in_bytes): int
+    {
+        return max($this->default_upload_size_limit, $size_in_bytes);
+    }
+
     public function checkUploadLimit(int $size_in_bytes) : void
     {
         if ($size_in_bytes > $this->default_upload_size_limit) {
