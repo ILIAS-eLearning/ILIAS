@@ -43,6 +43,12 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = ilObjFile::OBJECT_TYPE;
         $this->gui_class_name = ilObjFileGUI::class;
+
+        $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
+        if ($this->substitutions->isActive()) {
+            $this->substitutions_enabled = true;
+        }
+
         $this->commands = ilObjFileAccess::_getCommands();
     }
 
