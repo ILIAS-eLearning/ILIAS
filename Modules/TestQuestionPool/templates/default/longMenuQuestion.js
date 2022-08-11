@@ -610,11 +610,14 @@ var longMenuQuestion = (function () {
 		} else {
 		 	scrollable_page_element = (document.getElementsByClassName(scrollable_page_element_class))[0];
 		}
-		let scroll_position = document.getElementById(object).getBoundingClientRect().y - scrollable_page_element.getBoundingClientRect().y;
-		scrollable_page_element.scrollTo({ 
-			top: scroll_position,
-			behavior: 'smooth'
-		});
+		let target = document.getElementById(object);
+		if (target) {
+			let scroll_position = target.getBoundingClientRect().y - scrollable_page_element.getBoundingClientRect().y;
+			scrollable_page_element.scrollTo({ 
+				top: scroll_position,
+				behavior: 'smooth'
+			});
+		}
 	};
 	
 	pro.benchmarkCallsDummyNotForUsage = function(function_caller, t0)
