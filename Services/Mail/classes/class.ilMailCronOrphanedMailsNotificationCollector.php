@@ -42,7 +42,16 @@ class ilMailCronOrphanedMailsNotificationCollector
         $this->collect();
     }
 
-    public function collect() : void
+    private function existsCollectionObjForUserId(int $user_id) : bool
+    {
+        if (isset($this->collection[$user_id])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function collect() : void
     {
         $mail_notify_orphaned = (int) $this->setting->get('mail_notify_orphaned', '0');
         $mail_threshold = (int) $this->setting->get('mail_threshold', '0');
@@ -59,7 +68,7 @@ class ilMailCronOrphanedMailsNotificationCollector
         $res = $this->db->query('SELECT mail_id FROM mail_cron_orphaned');
         $already_notified = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $already_notified[$row['mail_id']] = (int) $row['mail_id'];
+            $already_notified[(int) $row['mail_id']] = (int) $row['mail_id'];
         }
 
         $types = ['timestamp'];
@@ -126,18 +135,9 @@ class ilMailCronOrphanedMailsNotificationCollector
         }
     }
 
-    public function addCollectionObject(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
+    private function addCollectionObject(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         $this->collection[$collection_obj->getUserId()] = $collection_obj;
-    }
-
-    private function existsCollectionObjForUserId(int $user_id) : bool
-    {
-        if (isset($this->collection[$user_id])) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
