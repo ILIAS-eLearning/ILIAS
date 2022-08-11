@@ -30,6 +30,8 @@ class SkillProfileCompletionManager
 {
     protected SkillProfileManager $profile_manager;
     protected SkillProfileCompletionDBRepository $profile_completion_repo;
+    protected \ilTree $tree_service;
+    protected \ilObjectDefinition $obj_definition;
 
     public function __construct(
         SkillProfileManager $profile_manager,
@@ -40,6 +42,8 @@ class SkillProfileCompletionManager
         $this->profile_manager = $profile_manager;
         $this->profile_completion_repo = ($profile_completion_repo)
             ?: $DIC->skills()->internal()->repo()->getProfileCompletionRepo();
+        $this->tree_service = $DIC->repositoryTree();
+        $this->obj_definition = $DIC["objDefinition"];
     }
 
     /**
@@ -60,7 +64,24 @@ class SkillProfileCompletionManager
             if ($gap_mode == "max_per_type") {
                 $max = $bs->getMaxLevelPerType($sk["tref_id"], $gap_mode_type, $user_id);
             } elseif ($gap_mode == "max_per_object") {
-                $max = $bs->getMaxLevelPerObject($sk["tref_id"], $gap_mode_obj_id, $user_id);
+                if ($this->obj_definition->isContainer(\ilObject::_lookupType($gap_mode_obj_id))) {
+                    $sub_objects = $this->tree_service->getSubTree(
+                        $this->tree_service->getNodeData((int) current(\ilObject::_getAllReferences($gap_mode_obj_id))),
+                        false,
+                        \ilObjectLP::getSupportedObjectTypes()
+                    );
+                    $max = 0;
+                    foreach ($sub_objects as $ref_id) {
+                        $obj_id = \ilContainerReference::_lookupObjectId($ref_id);
+                        $max_tmp = $bs->getMaxLevelPerObject($sk["tref_id"], $obj_id, $user_id);
+                        if ($max_tmp > $max) {
+                            $max = $max_tmp;
+                        }
+                    }
+                } else {
+                    $max = $bs->getMaxLevelPerObject($sk["tref_id"], $gap_mode_obj_id, $user_id);
+                }
+
             } else {
                 $max = $bs->getMaxLevel($sk["tref_id"], $user_id);
             }
