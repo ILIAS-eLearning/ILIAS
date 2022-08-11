@@ -14,7 +14,7 @@ class ilADTLocalizedText extends ilADTText
         if (array_key_exists($language, $this->getTranslations()) && strlen($this->getTranslations()[$language])) {
             return $this->getTranslations()[$language];
         }
-        return $this->getText();
+        return (string) $this->getText();
     }
 
     /**

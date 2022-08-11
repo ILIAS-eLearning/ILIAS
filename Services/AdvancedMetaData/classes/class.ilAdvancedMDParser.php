@@ -22,7 +22,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
     protected int $obj_id;
     protected int $rec_id = 0;
     protected ilImportMapping $mapping;
-    protected string $cdata;
+    protected string $cdata = "";
     protected ?ilSaxController $sax_controller = null;
 
     /**
@@ -50,7 +50,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->log = ilLoggerFactory::getLogger('amet');
 
         $parts = explode(":", $a_obj_id);
-        $this->obj_id = $parts[0];
+        $this->obj_id = (int) $parts[0];
         $this->mapping = $a_mapping;
     }
 
@@ -90,7 +90,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
             foreach ($fields as $import_id => $new_id) {
                 $import_ids = explode('_', $import_id);
                 $old_id = array_pop($import_ids);
-                $this->mapping->addMapping("Services/AdvancedMetaData", "lfld", $old_id, $new_id);
+                $this->mapping->addMapping("Services/AdvancedMetaData", "lfld", $old_id, (string) $new_id);
             }
         }
         $map_keys = array_keys($map);
@@ -164,7 +164,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->current_value = null;
 
         // get parent objects
-        $new_parent_id = (int) $this->mapping->getMapping("Services/AdvancedMetaData", "parent", $this->obj_id);
+        $new_parent_id = (int) $this->mapping->getMapping("Services/AdvancedMetaData", "parent", (string) $this->obj_id);
         $this->log->notice('Found new parent id:' . $new_parent_id);
         if (!$new_parent_id) {
             return;
@@ -185,7 +185,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         // done here because we need object context
         if (is_array($this->local_record)) {
             $this->createLocalRecord(
-                $this->local_record['id'],
+                (int) $this->local_record['id'],
                 $this->local_record['xml'],
                 $new_parent_id,
                 $a_sub_type
