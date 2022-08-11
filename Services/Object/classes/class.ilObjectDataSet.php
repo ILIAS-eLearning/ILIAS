@@ -266,7 +266,7 @@ class ilObjectDataSet extends ilDataSet
                         $rec["LangCode"],
                         $rec["Title"],
                         $rec["Description"],
-                        $rec["LangDefault"],
+                        (bool) $rec["LangDefault"],
                         true
                     );
                     $transl->save();
