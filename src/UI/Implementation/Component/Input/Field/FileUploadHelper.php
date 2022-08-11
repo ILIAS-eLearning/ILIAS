@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
@@ -41,7 +41,7 @@ trait FileUploadHelper
 
     public function withMaxFileSize(int $size_in_bytes) : FileUpload
     {
-        $this->upload_limit_resolver->checkUploadLimit($size_in_bytes);
+        $size_in_bytes = $this->upload_limit_resolver->min($size_in_bytes);
 
         $clone = clone $this;
         $clone->max_file_size = $size_in_bytes;
