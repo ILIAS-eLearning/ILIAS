@@ -17707,6 +17707,9 @@ div.ilSurveyPageEditActionMenu {
   font-size: 0.75rem;
   padding: 6px 0;
 }
+.il-maincontrols-slate .ilTagCloud {
+  padding: 6px 12px;
+}
 .ilTag {
   background-color: #75deea;
   /* background-color: lighten(@brand-primary, 10%); */
