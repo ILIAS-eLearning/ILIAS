@@ -19,17 +19,20 @@
 namespace ILIAS\Tests\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Implementation\Component\Dropzone\File\File;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class FileTest extends FileTestBase
 {
+    const DEFAULT_UPLOAD_SIZE_LIMIT = 20000000;
     protected File $dropzone;
 
     public function setUp() : void
     {
-        $this->dropzone = new class($this->getInputFactory(), $this->getLanguage(), $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class), $this->getUploadHandlerMock(), self::FILE_DROPZONE_POST_URL) extends File {
+        $this->upload_limit_resolver = new UploadLimitResolver(self::DEFAULT_UPLOAD_SIZE_LIMIT);
+        $this->dropzone = new class($this->getInputFactory(), $this->getLanguage(), $this->upload_limit_resolver, $this->getUploadHandlerMock(), self::FILE_DROPZONE_POST_URL) extends File {
         };
 
         parent::setUp();
@@ -53,6 +56,10 @@ class FileTest extends FileTestBase
         $this->assertEquals($max_files, $dropzone->getMaxFiles());
         $this->assertEquals($max_file_size, $dropzone->getMaxFileSize());
         $this->assertEquals($mime_types, $dropzone->getAcceptedMimeTypes());
+
+        $huge_max_file_size = 20000 * 10000000;
+        $dropzone = $dropzone->withMaxFileSize($huge_max_file_size);
+        $this->assertEquals(self::DEFAULT_UPLOAD_SIZE_LIMIT, $dropzone->getMaxFileSize());
     }
 
     public function testFormGeneration() : void
