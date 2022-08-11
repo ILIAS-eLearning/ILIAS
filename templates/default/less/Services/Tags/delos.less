@@ -46,8 +46,13 @@ a.ilTag:hover, a.ilTag:active {
 	color: @il-btn-tag-fg-relevance-verylow;
 }
 
-.ilTag.ilHighlighted {
-	background-color: @badge-bg;
+.ilTag.ilHighlighted, .ilTag.ilHighlighted:hover {
+	background-color: @il-btn-tag-bg-highlighted;
+	color: @il-btn-tag-fg-highlighted;
+
+	&:hover{
+		background-color: darken(@il-btn-tag-bg-highlighted, 5%);
+	}
 }
 
 #il_tags_modal textarea {
