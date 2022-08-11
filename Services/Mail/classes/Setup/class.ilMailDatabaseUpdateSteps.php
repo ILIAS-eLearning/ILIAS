@@ -186,15 +186,14 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                         'length' => 4,
                         'notnull' => true
                     ],
-                    'send_time' => [
+                    'sent_time' => [
                         'type' => 'timestamp',
                         'notnull' => true
                     ]
                 ]
             );
             $this->db->addPrimaryKey('auto_responder', ['sender_id', 'receiver_id']);
-            $this->db->addIndex('auto_responder', ['send_time']);
-
+            $this->db->addIndex('auto_responder', ['sent_time']);
         }
     }
 }

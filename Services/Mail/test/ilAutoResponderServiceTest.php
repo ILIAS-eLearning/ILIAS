@@ -16,90 +16,156 @@
  *
  *********************************************************************/
 
-use ILIAS\Services\Mail\AutoResponder\AutoResponderService;
-use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
-use ILIAS\Services\Mail\AutoResponder\AutoResponder;
-use ILIAS\Services\Mail\AutoResponder\AutoResponderRepository;
+use ILIAS\Mail\AutoResponder\AutoResponderService;
+use ILIAS\Mail\AutoResponder\AutoResponderServiceImpl;
+use ILIAS\Mail\AutoResponder\AutoResponder;
+use ILIAS\Mail\AutoResponder\AutoResponderRepository;
 use ILIAS\Data\Clock\ClockInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ilAutoResponderServiceTest extends ilMailBaseTest
 {
-    private function create(
+    private const MAIL_SENDER_USER_ID = 4711;
+    private const MAIL_RECEIVER_USER_ID = 4712;
+
+    /**
+     * @dataProvider autoResponderProvider
+     */
+    public function testAutoResponderDeliveryWillBeHandledCorrectlyDependingOnLastSentTime(
+        ?DateTimeImmutable $last_auto_responder_time,
+        DateTimeImmutable $faked_now,
+        int $interval,
+        bool $expects_active_auto_responder
+    ) : void {
+        $clock = $this->createMock(ClockInterface::class);
+        $clock->method('now')->willReturn($faked_now);
+
+        $repository = $this->createMock(AutoResponderRepository::class);
+
+        if ($last_auto_responder_time === null) {
+            $repository->expects($this->once())->method('exists')->willReturn(false);
+            $repository->expects($this->never())->method('findBySenderIdAndReceiverId');
+
+            $auto_responder_record = $this->createAutoResponderRecord(
+                self::MAIL_RECEIVER_USER_ID,
+                self::MAIL_SENDER_USER_ID,
+                $faked_now
+            );
+        } else {
+            $auto_responder_record = $this->createAutoResponderRecord(
+                self::MAIL_RECEIVER_USER_ID,
+                self::MAIL_SENDER_USER_ID,
+                $last_auto_responder_time
+            );
+            
+            $repository->expects($this->once())->method('exists')->willReturn(true);
+            $repository->expects($this->once())->method('findBySenderIdAndReceiverId')->willReturn($auto_responder_record);
+        }
+
+        if ($expects_active_auto_responder) {
+            $repository->expects($this->once())->method('store')->with(
+                $this->callback(static function (AutoResponder $actual) use ($faked_now, $auto_responder_record) : bool {
+                    return (
+                        // Compare by values, not identity (and ignore sent time)
+                        $actual->getReceiverId() === $auto_responder_record->getReceiverId() &&
+                        $actual->getSenderId() === $auto_responder_record->getSenderId()
+                    ) && $faked_now->format('Y-m-d H:i:s') === $actual->getSentTime()->format('Y-m-d H:i:s');
+                })
+            );
+        } else {
+            $repository->expects($this->never())->method('store');
+        }
+
+        $mail_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
+        $mail_options->method('getUsrId')->willReturn(self::MAIL_RECEIVER_USER_ID);
+        $mail_options->method('isAbsent')->willReturn(true);
+
+        $auto_responder_service = $this->createService(
+            static function (int $usrId) : string {
+                return 'phpunit_' . $usrId;
+            },
+            $interval,
+            $repository,
+            $clock
+        );
+
+        $auto_responder_service->enqueueAutoResponderIfEnabled($mail_options);
+
+        $auto_responder_service->handleAutoResponderMails(self::MAIL_SENDER_USER_ID);
+    }
+
+    private function createService(
         callable $loginByUsrIdCallable,
         int $global_idle_time_interval,
-        bool $auto_responder_status,
-        array $auto_responder_data,
         AutoResponderRepository $auto_responder_repository,
         ClockInterface $clock
     ) : AutoResponderService {
-        $this->setGlobalVariable('ilDB', null);
         return new AutoResponderServiceImpl(
             $loginByUsrIdCallable,
             $global_idle_time_interval,
-            $auto_responder_status,
-            $auto_responder_data,
+            true,
             $auto_responder_repository,
-            $clock
+            $clock,
+            static function (int $sender_id, int $recipient_id, string $recipient, string $subject, string $body) : void {
+            }
         );
     }
 
-
-    /**
-     * @dataProvider getAutoResponderData
-     */
-    public function testHasAutoResponderSent(DateTimeImmutable $last_auto_responder_time, DateTimeImmutable $new_autoresponder_time, int $interval, bool $result) : void
-    {
-        $now = new DateTimeImmutable('NOW');
-        $yesterday = $now->sub(new DateInterval('P1D'));
-        $clock = $this->getMockBuilder(ClockInterface::class)->disableOriginalConstructor()->getMock();
-        $clock->method('now')->willReturn($new_autoresponder_time);
-        $auto_responder_service = $this->create(
-            static function (int $usrId) : string {
-                return ilObjUser::_lookupLogin($usrId);
-            },
-            $interval,
-            true,
-            [],
-            $this->getMockBuilder(AutoResponderRepository::class)->disableOriginalConstructor()->getMock(),
-            $clock
+    private function createAutoResponderRecord(
+        int $auto_responder_sender_usr_id,
+        int $auto_responder_receiver_id,
+        DateTimeImmutable $sender_time
+    ) : AutoResponder {
+        return new AutoResponder(
+            $auto_responder_sender_usr_id,
+            $auto_responder_receiver_id,
+            $sender_time
         );
-        $auto_responder = $this->createAutoResponder(1, 1, $last_auto_responder_time);
-        $this->assertSame($result, $auto_responder_service->shouldSendAutoResponder($auto_responder, $interval));
     }
 
-
-    private function createAutoResponder(int $sender_id = 0, int $receiver_id = 0, DateTimeImmutable $sender_time = null) : AutoResponder
+    public function autoResponderProvider() : Generator
     {
-        return new AutoResponder($sender_id, $receiver_id, $sender_time ?? new DateTimeImmutable('NOW'));
-    }
+        $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
 
-    public function getAutoResponderData() : Generator
-    {
-        yield 'timespan negative' => [
-            new DateTimeImmutable('NOW'),
-            (new DateTimeImmutable('NOW'))->sub(new DateInterval('P1D')),
-            0,
-            true,
-        ];
-
-        yield 'timespan positive interval smaller than timespan' => [
-            new DateTimeImmutable('NOW'),
-            (new DateTimeImmutable('NOW'))->add(new DateInterval('P1D')),
+        yield 'Last Sent Date is 1 Second in Future with Disabled Idle Time Interval' => [
+            $now->modify('+1 seconds'),
+            $now,
             0,
             false,
         ];
 
-        yield 'timespan positive interval same as timespan' => [
-            new DateTimeImmutable('NOW'),
-            (new DateTimeImmutable('NOW'))->add(new DateInterval('P1D')),
+        yield 'Last Sent Date is -1 Day in Past with Disabled Idle Time Interval' => [
+            $now->sub(new DateInterval('P1D')),
+            $now,
+            0,
+            true,
+        ];
+
+        yield 'Last Sent Date is -1 Day + 1 Second in Past with Idle Time Interval being 1 Day' => [
+            $now->sub(new DateInterval('P1D'))->modify('+1 second'),
+            $now,
             1,
             false,
         ];
 
-        yield 'timespan positive interval bigger than timespan' => [
-            new DateTimeImmutable('NOW'),
-            (new DateTimeImmutable('NOW'))->add(new DateInterval('P1D')),
+        yield 'Last Sent Date is -1 Day in Past with Idle Time Interval being 1 Day' => [
+            $now->sub(new DateInterval('P1D')),
+            $now,
+            1,
+            true,
+        ];
+
+        yield 'Last Sent Date is -1 Day in Past with an Added Idle Time Interval Exceeding Now' => [
+            $now->sub(new DateInterval('P1D')),
+            $now,
             2,
+            false,
+        ];
+
+        yield 'No autoresponder sent, yet' => [
+            null,
+            $now,
+            1,
             true,
         ];
     }

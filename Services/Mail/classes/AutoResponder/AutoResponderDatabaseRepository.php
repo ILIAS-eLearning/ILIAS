@@ -16,16 +16,17 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\AutoResponder;
+namespace ILIAS\Mail\AutoResponder;
 
 use ilDBInterface;
 use DateTimeImmutable;
 use DateTimeZone;
 use ilObjectNotFoundException;
+use ilDBConstants;
 
-class AutoResponderDatabaseRepository implements AutoResponderRepository
+final class AutoResponderDatabaseRepository implements AutoResponderRepository
 {
-    public const TABLE_NAME = 'auto_responder';
+    private const TABLE_NAME = 'auto_responder';
 
     protected ilDBInterface $db;
 
@@ -36,7 +37,7 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
 
     public function findBySenderId(int $sender_id) : AutoResponderArrayCollection
     {
-        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote($sender_id, 'integer');
+        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote($sender_id, ilDBConstants::T_INTEGER);
 
         $result = $this->db->query($query);
 
@@ -45,7 +46,7 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
             $auto_responder_results->add(new AutoResponder(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
-                new DateTimeImmutable($row['send_time'], new DateTimeZone('UTC'))
+                new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
             ));
         }
         return $auto_responder_results;
@@ -55,7 +56,7 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE receiver_id = " . $this->db->quote(
             $receiver_id,
-            'integer'
+            ilDBConstants::T_INTEGER
         );
 
         $result = $this->db->query($query);
@@ -65,7 +66,7 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
             $auto_responder_results->add(new AutoResponder(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
-                new DateTimeImmutable($row['send_time'], new DateTimeZone('UTC'))
+                new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
             ));
         }
         return $auto_responder_results;
@@ -78,8 +79,8 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
             $sender_id,
-            'integer'
-        ) . " AND receiver_id = " . $this->db->quote($receiver_id, 'integer');
+            ilDBConstants::T_INTEGER
+        ) . " AND receiver_id = " . $this->db->quote($receiver_id, ilDBConstants::T_INTEGER);
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);
         if (!$row) {
@@ -90,21 +91,21 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
         return new AutoResponder(
             (int) $row['sender_id'],
             (int) $row['receiver_id'],
-            new DateTimeImmutable($row['send_time'], new DateTimeZone('UTC'))
+            new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
         );
     }
 
     public function store(AutoResponder $auto_responder) : void
     {
-        $timestamp_send_time = $auto_responder->getSendTime()->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
+        $timestamp_sent_time = $auto_responder->getSentTime()->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
         $this->db->replace(
             self::TABLE_NAME,
             [
-                'sender_id' => ['integer', $auto_responder->getSenderId()],
-                'receiver_id' => ['integer', $auto_responder->getReceiverId()]
+                'sender_id' => [ilDBConstants::T_INTEGER, $auto_responder->getSenderId()],
+                'receiver_id' => [ilDBConstants::T_INTEGER, $auto_responder->getReceiverId()]
             ],
             [
-                'send_time' => ['timestamp', $timestamp_send_time]
+                'sent_time' => [ilDBConstants::T_TIMESTAMP, $timestamp_sent_time]
             ]
         );
     }
@@ -113,25 +114,30 @@ class AutoResponderDatabaseRepository implements AutoResponderRepository
     {
         $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
             $auto_responder->getSenderId(),
-            'integer'
-        ) . ' AND receiver_id = ' . $this->db->quote($auto_responder->getReceiverId(), 'integer'));
+            ilDBConstants::T_INTEGER
+        ) . ' AND receiver_id = ' . $this->db->quote($auto_responder->getReceiverId(), ilDBConstants::T_INTEGER));
     }
 
     public function deleteBySenderId(int $sender_id) : void
     {
         $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
             $sender_id,
-            'integer'
+            ilDBConstants::T_INTEGER
         ));
     }
 
     public function exists(int $sender_id, int $receiver_id) : bool
     {
-        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
+        $query = "SELECT 1 existing_record FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
             $sender_id,
-            'integer'
-        ) . " AND receiver_id = " . $this->db->quote($receiver_id, 'integer');
+            ilDBConstants::T_INTEGER
+        ) . " AND receiver_id = " . $this->db->quote($receiver_id, ilDBConstants::T_INTEGER);
         $result = $this->db->query($query);
-        return $this->db->numRows($result) > 0;
+
+        if ($row = $this->db->fetchAssoc($result)) {
+            return (int) $row['existing_record'] === 1;
+        }
+
+        return false;
     }
 }

@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\Service;
+namespace ILIAS\Mail\Service;
 
 use ILIAS\DI\Container;
 use ilMailMimeTransportFactory;
@@ -31,13 +31,13 @@ class MimeMailService
         $this->dic = $DIC;
 
         if (!isset($this->dic['mail.mime.transport.factory'])) {
-            $this->dic['mail.mime.transport.factory'] = static function (Container $c) {
+            $this->dic['mail.mime.transport.factory'] = static function (Container $c) : ilMailMimeTransportFactory {
                 return new ilMailMimeTransportFactory($c->settings(), $c->event());
             };
         }
 
         if (!isset($this->dic['mail.mime.sender.factory'])) {
-            $this->dic['mail.mime.sender.factory'] = static function (Container $c) {
+            $this->dic['mail.mime.sender.factory'] = static function (Container $c) : ilMailMimeSenderFactory {
                 return new ilMailMimeSenderFactory($c->settings());
             };
         }
@@ -52,5 +52,4 @@ class MimeMailService
     {
         return $this->dic['mail.mime.sender.factory'];
     }
-
 }

@@ -19,8 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
-use ILIAS\Services\Mail\AutoResponder\AutoResponderService;
-use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
+use ILIAS\Mail\AutoResponder\AutoResponderService;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -739,8 +738,7 @@ class ilMail
                 $user->getId()
             );
 
-            $this->auto_responder_service->handleAutoResponderData(
-                $user->getId(),
+            $this->auto_responder_service->enqueueAutoResponderIfEnabled(
                 $mailOptions
             );
 

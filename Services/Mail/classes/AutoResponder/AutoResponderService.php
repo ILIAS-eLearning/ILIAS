@@ -16,20 +16,16 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\AutoResponder;
+namespace ILIAS\Mail\AutoResponder;
 
 use ilMailOptions;
-use DateTimeImmutable;
 
 interface AutoResponderService
 {
     public function isAutoResponderEnabled() : bool;
     public function enableAutoResponder() : void;
     public function disableAutoResponder() : void;
-    public function handleAutoResponderMails(int $receiver_usr_id) : void;
-    public function handleAutoResponderData(int $usr_id_key, ilMailOptions $mail_options) : void;
-    public function getAutoResponderData(int $usr_id_key) : ?ilMailOptions;
-    public function removeAutoResponderData(int $usr_id_key) : void;
+    public function handleAutoResponderMails(int $auto_responder_receiver_usr_id) : void;
+    public function enqueueAutoResponderIfEnabled(ilMailOptions $mail_recipient_mail_options) : void;
     public function emptyAutoResponderData() : void;
-    public function shouldSendAutoResponder(AutoResponder $auto_responder, int $interval) : bool;
 }
