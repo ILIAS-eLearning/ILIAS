@@ -1,25 +1,20 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -38,7 +33,7 @@ class ilMDCopyrightSelectionEntry
     private bool $costs = false;
     private string $language = '';
     private bool $copyright_and_other_restrictions = true;
-    private bool $usage = false;
+    private int $usage = 0;
 
     protected bool $outdated = false;
 
@@ -133,7 +128,7 @@ class ilMDCopyrightSelectionEntry
         return (int) ($matches[2] ?? 0);
     }
 
-    public function getUsage() : bool
+    public function getUsage() : int
     {
         return $this->usage;
     }
@@ -336,7 +331,7 @@ class ilMDCopyrightSelectionEntry
 
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        $this->usage = (bool) $row->used;
+        $this->usage = (int) $row->used;
     }
 
     public static function createIdentifier(int $a_entry_id) : string

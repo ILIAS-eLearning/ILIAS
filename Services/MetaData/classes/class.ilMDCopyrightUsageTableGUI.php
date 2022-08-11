@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -217,11 +231,12 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     {
         $query = "SELECT count(rbac_id) total FROM il_meta_rights " .
             "WHERE rbac_id = " . $this->db->quote($a_rbac_id, ilDBConstants::T_INTEGER) .
-            " AND rbac_id <> obj_id";
+            " AND rbac_id != obj_id";
 
         $result = $this->db->query($query);
-        $row = $this->db->fetchAssoc($result);
-
-        return $row['total'];
+        while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->total;
+        }
+        return 0;
     }
 }
