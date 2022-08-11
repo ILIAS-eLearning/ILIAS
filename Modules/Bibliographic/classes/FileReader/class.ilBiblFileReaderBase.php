@@ -110,6 +110,8 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
      */
     public function parseContentToEntries(ilObjBibliographic $bib) : array
     {
+        $this->entry_factory->deleteEntriesById($bib->getId());
+        
         $entries_from_file = $this->parseContent();
         $entry_instances = [];
         //fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()

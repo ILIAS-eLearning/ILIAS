@@ -44,6 +44,8 @@ interface ilBiblEntryFactoryInterface
     
     public function deleteEntryById(int $id) : void;
     
+    public function deleteEntriesById(int $object_id) : void;
+    
     /**
      * Reads all the entrys attributes from database
      */

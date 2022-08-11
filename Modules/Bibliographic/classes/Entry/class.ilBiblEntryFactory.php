@@ -187,6 +187,11 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
         }
     }
     
+    public function deleteEntriesById(int $object_id) : void
+    {
+        $this->db->manipulateF("DELETE FROM il_bibl_entry WHERE data_id = %s", ['integer'], [$object_id]);
+    }
+    
     /**
      * @return \ilBiblAttribute[]
      */
