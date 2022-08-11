@@ -75,7 +75,7 @@ class KSDocumentationTreeRecursionTest extends TestCase
         $built_root_node = $this->tree_recursion->build($tree_factory, $this->entries->getEntryById('Entry1'));
         $built_child_node = $this->tree_recursion->build($tree_factory, $this->entries->getEntryById('Entry2'));
 
-        $this->assertEquals(false, $built_root_node->isExpanded());
+        $this->assertEquals(true, $built_root_node->isExpanded());
         $this->assertEquals(false, $built_child_node->isExpanded());
     }
 
