@@ -859,7 +859,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
                 foreach ($terms as $t) {
                     if (is_int(stripos($c, $t["term"]))) {
                         $found_pages[$def["id"]]["terms"][] = $t;
-                        if (!is_object($found_pages[$def["id"]]["page"])) {
+                        if (!isset($found_pages[$def["id"]]["page"])) {
                             $found_pages[$def["id"]]["page"] = $pg;
                         }
                     }

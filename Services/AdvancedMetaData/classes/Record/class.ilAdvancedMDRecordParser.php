@@ -126,7 +126,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 if (!$this->initRecordObject((string) $a_attribs['id'])) {
                     $this->appendErrorMessage('Invalid attribute Id given for element "Record".');
                 }
-                $this->getCurrentRecord()->setActive($a_attribs['active']);
+                $this->getCurrentRecord()->setActive((bool) $a_attribs['active']);
                 $this->getCurrentRecord()->setImportId($a_attribs['id']);
                 $this->getCurrentRecord()->setAssignedObjectTypes(array());
 
@@ -178,7 +178,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             case 'FieldDescription':
             case 'FieldPosition':
             case 'FieldValue':
-                $this->field_value_id = (string) $a_attribs['id'];
+                $this->field_value_id = (string) ($a_attribs['id'] ?? "");
                 break;
         }
     }

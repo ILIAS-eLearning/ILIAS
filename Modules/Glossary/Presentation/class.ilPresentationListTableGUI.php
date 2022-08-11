@@ -117,9 +117,9 @@ class ilPresentationListTableGUI extends ilTable2GUI
         //$this->setDefaultOrderField("login");
         //$this->setDefaultOrderDirection("asc");
         $this->setData($this->glossary->getTermList(
-            $this->filter["term"],
+            $this->filter["term"] ?? "",
             $this->request->getLetter(),
-            $this->filter["definition"],
+            $this->filter["definition"] ?? "",
             $this->tax_node,
             false,
             true,
