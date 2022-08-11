@@ -16,15 +16,15 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\Service;
+namespace ILIAS\Mail\Service;
 
 use ILIAS\DI\Container;
-use ILIAS\Services\Mail\AutoResponder\AutoResponderServiceImpl;
-use ILIAS\Services\Mail\AutoResponder\AutoResponderService;
+use ILIAS\Mail\AutoResponder\AutoResponderServiceImpl;
+use ILIAS\Mail\AutoResponder\AutoResponderService;
 use ilMailTemplateService;
 use ilObjUser;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Services\Mail\AutoResponder\AutoResponderDatabaseRepository;
+use ILIAS\Mail\AutoResponder\AutoResponderDatabaseRepository;
 use ilMailTemplateRepository;
 
 class MailService
@@ -35,7 +35,7 @@ class MailService
     {
         $this->dic = $DIC;
         if (!isset($this->dic['mail.texttemplates.service'])) {
-            $this->dic['mail.texttemplates.service'] = static function (Container $c) {
+            $this->dic['mail.texttemplates.service'] = static function (Container $c) : ilMailTemplateService {
                 return new ilMailTemplateService(new ilMailTemplateRepository($c->database()));
             };
         }
@@ -54,13 +54,12 @@ class MailService
             },
             (int) $this->dic->settings()->get('mail_auto_responder_idle_time'),
             false,
-            [],
             new AutoResponderDatabaseRepository($this->dic->database()),
             (new DataFactory())->clock()->utc()
         );
     }
 
-    public function textTemplatesService() : ilMailTemplateService
+    public function textTemplates() : ilMailTemplateService
     {
         return $this->dic["mail.texttemplates.service"];
     }

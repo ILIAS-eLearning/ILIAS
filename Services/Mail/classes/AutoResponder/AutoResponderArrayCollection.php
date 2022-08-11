@@ -16,12 +16,12 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\AutoResponder;
+namespace ILIAS\Mail\AutoResponder;
 
 use InvalidArgumentException;
 use ArrayIterator;
 
-class AutoResponderArrayCollection implements AutoResponderCollection
+final class AutoResponderArrayCollection implements AutoResponderCollection
 {
     /** @var AutoResponder[] */
     private array $elements;

@@ -16,22 +16,21 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\AutoResponder;
+namespace ILIAS\Mail\AutoResponder;
 
 use DateTimeImmutable;
-use DateInterval;
 
-class AutoResponder
+final class AutoResponder
 {
     private int $sender_id;
     private int $receiver_id;
-    private DateTimeImmutable $send_time;
+    private DateTimeImmutable $sent_time;
 
-    public function __construct(int $sender_id, int $receiver_id, DateTimeImmutable $send_time)
+    public function __construct(int $sender_id, int $receiver_id, DateTimeImmutable $sent_time)
     {
         $this->sender_id = $sender_id;
         $this->receiver_id = $receiver_id;
-        $this->send_time = $send_time;
+        $this->sent_time = $sent_time;
     }
 
     public function getSenderId() : int
@@ -39,7 +38,7 @@ class AutoResponder
         return $this->sender_id;
     }
 
-    public function setSenderId(int $sender_id) : self
+    public function withSenderId(int $sender_id) : self
     {
         $clone = clone $this;
         $clone->sender_id = $sender_id;
@@ -51,22 +50,22 @@ class AutoResponder
         return $this->receiver_id;
     }
 
-    public function setReceiverId(int $receiver_id) : self
+    public function withReceiverId(int $receiver_id) : self
     {
         $clone = clone $this;
         $clone->receiver_id = $receiver_id;
         return $clone;
     }
 
-    public function getSendtime() : DateTimeImmutable
+    public function getSentTime() : DateTimeImmutable
     {
-        return $this->send_time;
+        return $this->sent_time;
     }
 
-    public function setSendtime(DateTimeImmutable $send_time) : self
+    public function withSentTime(DateTimeImmutable $sent_time) : self
     {
         $clone = clone $this;
-        $clone->send_time = $send_time;
+        $clone->sent_time = $sent_time;
         return $clone;
     }
 }

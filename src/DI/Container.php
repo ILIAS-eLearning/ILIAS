@@ -410,9 +410,9 @@ class Container extends \Pimple\Container
         return new \ilCronServicesImpl($this);
     }
 
-    public function mail() : \ILIAS\Services\Mail\Service\MailService
+    public function mail() : \ILIAS\Mail\Service\MailService
     {
-        return new \ILIAS\Services\Mail\Service\MailService($this);
+        return new \ILIAS\Mail\Service\MailService($this);
     }
 
     /**

@@ -16,43 +16,61 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\AutoResponder;
+namespace ILIAS\Mail\AutoResponder;
 
-use ilObjUser;
-use DateTimeImmutable;
 use DateInterval;
 use ilFormatMail;
 use ilMailOptions;
 use ILIAS\Data\Clock\ClockInterface;
-use ILIAS\Data\Factory as DataFactory;
+use DateTimeZone;
+use DateTimeImmutable;
 
-class AutoResponderServiceImpl implements AutoResponderService
+final class AutoResponderServiceImpl implements AutoResponderService
 {
-    protected bool $auto_responder_status;
-    /** @var ilMailOptions[] $auto_responder_data */
-    protected array $auto_responder_data;
-    protected int $global_idle_time_interval;
     /** @var callable  */
-    protected $loginByUsrIdCallable;
-    protected AutoResponderRepository $auto_responder_repository;
-    protected ClockInterface $clock;
+    private $loginByUsrIdCallable;
+    private bool $auto_responder_status;
+    private AutoResponderRepository $auto_responder_repository;
+    private ClockInterface $clock;
+    private int $global_idle_time_interval;
+    /** @var callable */
+    private $mail_action;
+    
+    /** @var ilMailOptions[] $auto_responder_data */
+    protected array $auto_responder_data = [];
 
     public function __construct(
         callable $loginByUsrIdCallable,
         int $global_idle_time_interval,
-        bool $auto_responder_status,
-        array $auto_responder_data,
+        bool $initial_auto_responder_status,
         AutoResponderRepository $auto_responder_repository,
-        ClockInterface $clock
+        ClockInterface $clock,
+        ?callable $mail_action = null
     ) {
+        $this->loginByUsrIdCallable = $loginByUsrIdCallable;
         $this->global_idle_time_interval = $global_idle_time_interval;
-        $this->loginByUsrIdCallable = $loginByUsrIdCallable ?? static function (int $usrId) : string {
-            return ilObjUser::_lookupLogin($usrId);
-        };
-        $this->auto_responder_status = $auto_responder_status;
-        $this->auto_responder_data = $auto_responder_data;
+        $this->auto_responder_status = $initial_auto_responder_status;
         $this->auto_responder_repository = $auto_responder_repository;
-        $this->clock = $clock ?? (new DataFactory())->clock()->utc();
+        $this->clock = $clock;
+        $this->mail_action = $mail_action;
+    }
+
+    private function normalizeDateTimezone(DateTimeImmutable $date_time) : DateTimeImmutable
+    {
+        return $date_time->setTimezone(new DateTimeZone('UTC'));
+    }
+
+    private function shouldSendAutoResponder(AutoResponder $auto_responder) : bool
+    {
+        // Normalize timezones
+        $last_send_time_with_added_interval = $this
+            ->normalizeDateTimezone($auto_responder->getSentTime())
+            ->add(new DateInterval('P' . $this->global_idle_time_interval . 'D'));
+
+        $now = $this->normalizeDateTimezone($this->clock->now());
+
+        // Don't compare the objects because of microseconds
+        return $last_send_time_with_added_interval->format('Y-m-d H:i:s') <= $now->format('Y-m-d H:i:s');
     }
 
     public function isAutoResponderEnabled() : bool
@@ -70,68 +88,70 @@ class AutoResponderServiceImpl implements AutoResponderService
         $this->auto_responder_status = false;
     }
 
-    public function handleAutoResponderMails(int $receiver_usr_id) : void
+    public function handleAutoResponderMails(int $auto_responder_receiver_usr_id) : void
     {
-        if ($this->auto_responder_data) {
-            foreach ($this->auto_responder_data as $usr_id => $mail_options) {
-                if ($this->auto_responder_repository->exists($usr_id, $receiver_usr_id)) {
-                    $auto_responder = $this->auto_responder_repository->findBySenderIdAndReceiverId(
-                        $usr_id,
-                        $receiver_usr_id
+        if ($this->auto_responder_data === []) {
+            return;
+        }
+
+        foreach ($this->auto_responder_data as $auto_responder_sender_usr_id => $mail_options) {
+            if ($this->auto_responder_repository->exists($auto_responder_sender_usr_id, $auto_responder_receiver_usr_id)) {
+                $auto_responder = $this->auto_responder_repository->findBySenderIdAndReceiverId(
+                    $auto_responder_sender_usr_id,
+                    $auto_responder_receiver_usr_id
+                );
+            } else {
+                $auto_responder = new AutoResponder(
+                    $auto_responder_sender_usr_id,
+                    $auto_responder_receiver_usr_id,
+                    $this->normalizeDateTimezone($this->clock->now())
+                         ->sub(new DateInterval('P' . $this->global_idle_time_interval + 1 . 'D'))
+                );
+            }
+
+            if ($this->shouldSendAutoResponder($auto_responder)) {
+                $subject = $mail_options->getAbsenceAutoResponderSubject();
+                $message = $mail_options->getAbsenceAutoResponderBody() . chr(13) . chr(10) . $mail_options->getSignature();
+                $recipient = ($this->loginByUsrIdCallable)($auto_responder_receiver_usr_id);
+
+                if ($this->mail_action !== null) {
+                    ($this->mail_action)(
+                        $auto_responder_sender_usr_id,
+                        $auto_responder_receiver_usr_id,
+                        $recipient,
+                        $subject,
+                        $message
                     );
                 } else {
-                    $auto_responder = new AutoResponder(
-                        $usr_id,
-                        $receiver_usr_id,
-                        $this->clock->now()->sub(new DateInterval('P' . $this->global_idle_time_interval . 'D'))
-                    );
-                }
-                if (!$this->shouldSendAutoResponder(
-                    $auto_responder,
-                    $this->global_idle_time_interval
-                )) {
-                    $tmpmail = new ilFormatMail($usr_id);
-                    $tmpmail->setSaveInSentbox(false);
-                    $tmpmail->sendMail(
-                        ($this->loginByUsrIdCallable)($receiver_usr_id),
+                    $mail = new ilFormatMail($auto_responder_sender_usr_id);
+                    $mail->setSaveInSentbox(false);
+                    $mail->sendMail(
+                        $recipient,
                         '',
                         '',
-                        $mail_options->getAbsenceAutoResponderSubject(),
-                        $mail_options->getAbsenceAutoResponderBody() . chr(13) . chr(10) . $mail_options->getSignature(),
+                        $subject,
+                        $message,
                         [],
                         false
                     );
                 }
-                $auto_responder = $auto_responder->setSendtime($this->clock->now());
-                $this->auto_responder_repository->store($auto_responder);
+
+                $this->auto_responder_repository->store(
+                    $auto_responder->withSentTime($this->clock->now())
+                );
             }
         }
     }
 
-    public function handleAutoResponderData(int $usr_id_key, ilMailOptions $mail_options) : void
+    public function enqueueAutoResponderIfEnabled(ilMailOptions $mail_recipient_mail_options) : void
     {
-        if ($this->isAutoResponderEnabled() && $mail_options->isAbsent()) {
-            $this->auto_responder_data[$usr_id_key] = $mail_options;
+        if ($this->auto_responder_status && $mail_recipient_mail_options->isAbsent()) {
+            $this->auto_responder_data[$mail_recipient_mail_options->getUsrId()] = $mail_recipient_mail_options;
         }
-    }
-
-    public function getAutoResponderData(int $usr_id_key) : ?ilMailOptions
-    {
-        return $this->auto_responder_data[$usr_id_key] ?? null;
-    }
-
-    public function removeAutoResponderData(int $usr_id_key) : void
-    {
-        unset($this->auto_responder_data[$usr_id_key]);
     }
 
     public function emptyAutoResponderData() : void
     {
         $this->auto_responder_data = [];
-    }
-
-    public function shouldSendAutoResponder(AutoResponder $auto_responder, int $interval) : bool
-    {
-        return $auto_responder->getSendtime()->add(new DateInterval('P' . $interval . 'D')) > $this->clock->now();
     }
 }

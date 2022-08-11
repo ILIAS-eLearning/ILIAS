@@ -564,7 +564,7 @@ class ilExAssignmentEditorGUI
                 exit();
         }
 
-        $templateService = $DIC->mail()->textTemplatesService();
+        $templateService = $DIC->mail()->textTemplates();
         foreach ($templateService->loadTemplatesForContextId($context->getId()) as $template) {
             $r_group->addOption(new ilRadioOption($template->getTitle(), $template->getTplId()));
         }

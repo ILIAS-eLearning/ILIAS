@@ -226,6 +226,11 @@ class ilMailOptions
         $this->emailAddressMode = $emailAddressMode;
     }
 
+    public function getUsrId() : int
+    {
+        return $this->usrId;
+    }
+
     private static function lookupNotificationSetting(int $usrId): int
     {
         global $DIC;

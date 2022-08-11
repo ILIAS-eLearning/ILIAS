@@ -68,7 +68,7 @@ class ilMailTemplateGUI
         $this->refinery = $DIC->refinery();
         $this->uiFactory = $uiFactory ?? $DIC->ui()->factory();
         $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
-        $this->service = $templateService ?? $DIC->mail()->textTemplatesService();
+        $this->service = $templateService ?? $DIC->mail()->textTemplates();
 
         $this->lng->loadLanguageModule('meta');
     }

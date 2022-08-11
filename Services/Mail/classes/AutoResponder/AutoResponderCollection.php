@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Mail\AutoResponder;
+namespace ILIAS\Mail\AutoResponder;
 
 use InvalidArgumentException;
 
