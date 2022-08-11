@@ -1405,11 +1405,11 @@ class ilObjWikiGUI extends ilObjectGUI
             // to do: get rid of this redirect
             ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId(), $a_page));
         } else {
+            if (!$this->access->checkAccess("edit_content", "", $this->object->getRefId())) {
+                ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+                ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId(), $_GET["from_page"]));
+            }
             if (!$this->object->getTemplateSelectionOnCreation()) {
-                if (!$this->access->checkAccess("edit_content", "", $this->object->getRefId())) {
-                    ilUtil::sendFailure($this->lng->txt("no_permission"), true);
-                    ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId(), $a_page = $_GET["from_page"]));
-                }
 
                 // check length
                 include_once("./Services/Utilities/classes/class.ilStr.php");
