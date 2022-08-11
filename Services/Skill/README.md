@@ -361,6 +361,16 @@ There are three different types of user skill levels:
       * Test A (1. January): Level 3
       * Test A (2. January): Level 2
     * -> The maximum of "all last achieved levels" is 3, but the last run of Test A is level 2 so the profile level is "not fulfilled".
+* When examining competence profiles within a container object (course/group), the competence entries of the container object,
+  as well as the competence entries of all subobjects of the container object are taken into account for the achievement of the 
+  profile's competence target.
+  * Example
+    * Skill Level: 1,2,3,4
+    * Profile Level: 3
+    * Achieved levels for objects:
+      * Course A: Level 2
+      * Test B (located in Course A): Level 3
+    * -> The profile level in Course A is "fulfilled".
 
 ## Local Profiles
 

@@ -14686,6 +14686,7 @@ skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the followin
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
+skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.
 skmg#:#skmg_create_sctp#:#Create Template Category
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_create_skill_template_category#:#Create Competence Template Category
@@ -14739,6 +14740,7 @@ skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet.
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number
+skmg#:#skmg_open_all_assigned_profiles#:#Open All Assigned Competence Profiles
 skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.
 skmg#:#skmg_order_nr#:#Order Number
 skmg#:#skmg_order#:#Order
