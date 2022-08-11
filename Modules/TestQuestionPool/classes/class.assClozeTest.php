@@ -1146,8 +1146,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getTextgapPoints($a_original, $a_entered, $max_points)
     {
         include_once "./Services/Utilities/classes/class.ilStr.php";
+        global $DIC;
+        $refinery = $DIC->refinery();
         $result = 0;
         $gaprating = $this->getTextgapRating();
+
         switch ($gaprating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
                 if (strcmp(ilStr::strToLower($a_original), ilStr::strToLower($a_entered)) == 0) {
@@ -1160,33 +1163,29 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN1:
-                if (levenshtein($a_original, $a_entered) <= 1) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 1);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN2:
-                if (levenshtein($a_original, $a_entered) <= 2) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 2);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN3:
-                if (levenshtein($a_original, $a_entered) <= 3) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 3);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN4:
-                if (levenshtein($a_original, $a_entered) <= 4) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 4);
                 break;
             case TEXTGAP_RATING_LEVENSHTEIN5:
-                if (levenshtein($a_original, $a_entered) <= 5) {
-                    $result = $max_points;
-                }
+                $transformation = $refinery->string()->levenshtein()->standard($a_original, 5);
                 break;
+        }
+
+        // run answers against Levenshtein2 methods
+        if (isset($transformation) && $transformation->transform($a_entered) >= 0) {
+            $result = $max_points;
         }
         return $result;
     }
+
 
     /**
     * Returns the points for a text gap and compares the given solution with
