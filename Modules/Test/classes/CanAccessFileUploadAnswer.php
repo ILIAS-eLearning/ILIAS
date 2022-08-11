@@ -106,6 +106,7 @@ class CanAccessFileUploadAnswer
     private function userDidUpload(int $test_id, string $file, string $code = null) : bool
     {
         $where = [
+            'active_id = active_fi',
             'user_fi = %s',
             'value1 = %s',
             'anonymous_id ' . (null === $code ? 'IS' : '=') . ' %s',
@@ -113,7 +114,7 @@ class CanAccessFileUploadAnswer
         ];
 
         $result = $this->container->database()->queryF(
-            'SELECT 1 FROM tst_solutions INNER JOIN tst_active ON active_id = active_fi WHERE ' . implode(' AND ', $where),
+            'SELECT 1 FROM tst_solutions WHERE EXISTS (SELECT 1 FROM tst_active WHERE ' . implode(' AND ', $where) . ')',
             ['integer', 'text', 'text', 'integer'],
             [$this->container->user()->getId(), $file, $code, $test_id]
         );
@@ -121,20 +122,24 @@ class CanAccessFileUploadAnswer
         return (bool) $this->container->database()->numRows($result);
     }
 
-    private function activeIdOfFile(string $file) : ?int
+    private function activeIdOfFile(string $file, int $test) : ?int
     {
+        $is_upload_question = 'EXISTS (SELECT 1 FROM qpl_qst_type INNER JOIN qpl_questions ON question_id = question_fi WHERE type_tag = %s AND question_type_id = question_type_fi)';
+        $is_in_test = 'EXISTS (SELECT 1 FROM tst_active WHERE test_fi = %s AND active_id = active_fi)';
+
         $result = $this->container->database()->queryF(
-            'SELECT active_id FROM tst_active INNER JOIN tst_solutions WHERE value1 = %s',
-            ['text'],
-            [$file]
+            "SELECT active_fi, value1 FROM tst_solutions WHERE $is_upload_question AND $is_in_test",
+            ['text', 'integer'],
+            ['assFileUpload', $test]
         );
 
-        $result = $this->container->database()->fetchAssoc($result)['active_id'] ?? false;
-        if (!$result) {
-            return null;
+        while (($row = $this->container->database()->fetchAssoc($result))) {
+            if ($row['value1'] === $file) {
+                return (int) $row['active_fi'];
+            }
         }
 
-        return (int) $result;
+        return null;
     }
 
     /**
@@ -170,7 +175,7 @@ class CanAccessFileUploadAnswer
      */
     private function canAccessResults(int $test_id, array $references, string $file) : bool
     {
-        $active_id = $this->activeIdOfFile($file);
+        $active_id = $this->activeIdOfFile($file, $test_id);
         if (!$active_id) {
             return false;
         }

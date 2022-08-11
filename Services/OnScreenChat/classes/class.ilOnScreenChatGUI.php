@@ -343,7 +343,7 @@ class ilOnScreenChatGUI
             $page->addJavaScript('./node_modules/jquery-outside-events/jquery.ba-outside-events.js');
             $page->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
             $page->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-            $page->addJavascript('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
+            $page->addJavascript('./node_modules/moment/min/moment-with-locales.min.js');
             $page->addJavascript('./Services/Notifications/js/browser_notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/onscreenchat-notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/moment.js');

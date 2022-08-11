@@ -267,6 +267,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     
     protected function showQuestionCmd()
     {
+        global $DIC;
+        $help = $DIC->help();
+        $help->setScreenIdComponent("tst");
+        $help->setScreenId("assessment");
+        $help->setSubScreenId("question");
+
         $_SESSION['tst_pass_finish'] = 0;
 
         $_SESSION["active_time_id"] = $this->object->startWorkingTime(

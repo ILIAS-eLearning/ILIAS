@@ -897,6 +897,22 @@ export default class ParagraphUI {
     this.toolSlate.setContentFromComponent("Paragraph", "menu");
     console.log("*** SHOW TOOLBAR");
 
+    let map = {};
+    map[ACTIONS.SELECTION_REMOVE_FORMAT] = () => ef.selectionRemoveFormat();
+    map[ACTIONS.SELECTION_KEYWORD] = () => ef.selectionKeyword();
+    map[ACTIONS.SELECTION_TEX] = () => ef.selectionTex();
+    map[ACTIONS.SELECTION_FN] = () => ef.selectionFn();
+    map[ACTIONS.SELECTION_ANCHOR] = () => ef.selectionAnchor();
+    map[ACTIONS.LIST_BULLET] = () => ef.listBullet();
+    map[ACTIONS.LIST_NUMBER] = () => ef.listNumber();
+    map[ACTIONS.LIST_OUTDENT] = () => ef.listOutdent();
+    map[ACTIONS.LIST_INDENT] = () => ef.listIndent();
+    map[ACTIONS.LINK_WIKI] = () => ef.linkWiki();
+    map[ACTIONS.LINK_INTERNAL] = () => ef.linkInternal();
+    map[ACTIONS.LINK_EXTERNAL] = () => ef.linkExternal();
+    map[ACTIONS.LINK_USER] = () => ef.linkUser();
+    map[PAGE_ACTIONS.COMPONENT_CANCEL] = () => action.page().editor().componentCancel();
+
     document.querySelectorAll("[data-copg-ed-type='par-action']").forEach(char_button => {
       const actionType = char_button.dataset.copgEdAction;
       switch (actionType) {
@@ -946,23 +962,8 @@ export default class ParagraphUI {
           break;
 
         default:
-          let map = {};
-          map[ACTIONS.SELECTION_REMOVE_FORMAT] = ef.selectionRemoveFormat();
-          map[ACTIONS.SELECTION_KEYWORD] = ef.selectionKeyword();
-          map[ACTIONS.SELECTION_TEX] = ef.selectionTex();
-          map[ACTIONS.SELECTION_FN] = ef.selectionFn();
-          map[ACTIONS.SELECTION_ANCHOR] = ef.selectionAnchor();
-          map[ACTIONS.LIST_BULLET] = ef.listBullet();
-          map[ACTIONS.LIST_NUMBER] = ef.listNumber();
-          map[ACTIONS.LIST_OUTDENT] = ef.listOutdent();
-          map[ACTIONS.LIST_INDENT] = ef.listIndent();
-          map[ACTIONS.LINK_WIKI] = ef.linkWiki();
-          map[ACTIONS.LINK_INTERNAL] = ef.linkInternal();
-          map[ACTIONS.LINK_EXTERNAL] = ef.linkExternal();
-          map[ACTIONS.LINK_USER] = ef.linkUser();
-          map[PAGE_ACTIONS.COMPONENT_CANCEL] = action.page().editor().componentCancel();
           char_button.addEventListener("click", (event) => {
-            dispatch.dispatch(map[actionType]);
+            dispatch.dispatch(map[actionType]());
           });
           break;
       }

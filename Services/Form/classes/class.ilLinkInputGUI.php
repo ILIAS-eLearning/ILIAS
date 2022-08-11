@@ -339,8 +339,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 break;
         }
         if (!$this->getRequired()) {
-            // see #0021274
-//			$has_radio = true;
+                // see #0021274
+            $has_radio = true;
         }
         
         // external
@@ -382,9 +382,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         if ($has_radio) {
             $ext = new ilRadioOption($lng->txt("form_link_external"), "ext");
             $ext->addSubItem($ti);
-            
-            $int = new ilRadioOption($lng->txt("form_link_internal"), "int");
-            $int->addSubItem($ne);
+
+            if ($has_int) {
+                $int = new ilRadioOption($lng->txt("form_link_internal"), "int");
+                $int->addSubItem($ne);
+            }
             
             $mode = new ilRadioGroupInputGUI("", $this->getPostVar() . "_mode");
             if (!$this->getRequired()) {
@@ -392,7 +394,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 $mode->addOption($no);
             }
             $mode->addOption($ext);
-            $mode->addOption($int);
+            if ($has_int) {
+                $mode->addOption($int);
+            }
         } else {
             $mode = new ilHiddenInputGUI($this->getPostVar() . "_mode");
             if ($has_int) {
@@ -453,10 +457,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         
         // #10185 - default for external urls
         if ($has_ext && !$ti->getValue()) {
-            $ti->setValue("http://");
+            $ti->setValue("https://");
         }
-        
-        $ne->setValue($itpl->get());
+
+        if ($has_int) {
+            $ne->setValue($itpl->get());
+        }
             
         // to html
         if ($has_radio) {
@@ -466,7 +472,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             
             if ($has_ext) {
                 $html .= $ti->getToolbarHTML();
-            } else {
+            } elseif ($has_int) {
                 $html .= $ne->render() .
                     '<div class="help-block">' . $ne->getInfo() . '</div>';
             }

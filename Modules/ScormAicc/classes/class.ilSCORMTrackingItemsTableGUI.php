@@ -192,13 +192,13 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         global $DIC;
         $lng = $DIC['lng'];
         $lng->loadLanguageModule("trac");
-        switch ($id) {
-            case "status":
-                include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
-                $text = ilLearningProgressBaseGUI::_getStatusText($value);
-                $value = ilUtil::img($path, $text);
-                break;
+
+        if ($id === "status") {
+            include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
+            $path = $icons->getImagePathForStatus($value);
+            $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
+            $value = ilUtil::img($path, $text);
         }
         //BLUM round
         if ($id == "launch_data" || $id == "suspend_data") {

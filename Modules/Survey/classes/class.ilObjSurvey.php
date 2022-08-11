@@ -12,6 +12,11 @@ use \ILIAS\Survey\Participants;
 class ilObjSurvey extends ilObject
 {
     /**
+     * @var ilLogger
+     */
+    protected $svy_log;
+
+    /**
      * @var ilObjUser
      */
     protected $user;
@@ -212,7 +217,6 @@ class ilObjSurvey extends ilObject
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
         $this->access = $DIC->access();
-        $this->log = $DIC["ilLog"];
         $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->tree = $DIC->repositoryTree();
         $ilUser = $DIC->user();
@@ -230,13 +234,13 @@ class ilObjSurvey extends ilObject
         $this->surveyCodeSecurity = true;
         $this->template_id = null;
         $this->pool_usage = true;
-        $this->log = ilLoggerFactory::getLogger("svy");
         $this->mode = self::MODE_STANDARD;
         $this->mode_self_eval_results = self::RESULTS_SELF_EVAL_OWN;
 
         $this->invitation_manager = new Participants\InvitationsManager();
 
         parent::__construct($a_id, $a_call_by_reference);
+        $this->svy_log = ilLoggerFactory::getLogger("svy");
     }
 
     /**
@@ -599,17 +603,17 @@ class ilObjSurvey extends ilObject
 
     /**
     * Inserts a question in the survey and saves the relation to the database
-    *
+    * The question is appended to the end (last question)
     * @access public
     */
     public function insertQuestion($question_id)
     {
         $ilDB = $this->db;
 
-        $this->log->debug("insert question, id:" . $question_id);
+        $this->svy_log->debug("insert question, id:" . $question_id);
 
         if (!SurveyQuestion::_isComplete($question_id)) {
-            $this->log->debug("question is not complete");
+            $this->svy_log->debug("question is not complete");
             return false;
         } else {
             // get maximum sequence index in test
@@ -621,7 +625,7 @@ class ilObjSurvey extends ilObject
             );
             $sequence = $result->numRows();
             $duplicate_id = $this->duplicateQuestionForSurvey($question_id);
-            $this->log->debug("duplicate, id: " . $question_id . ", duplicate id: " . $duplicate_id);
+            $this->svy_log->debug("duplicate, id: " . $question_id . ", duplicate id: " . $duplicate_id);
 
             // check if question is not already in the survey, see #22018
             if ($this->isQuestionInSurvey($duplicate_id)) {
@@ -635,7 +639,7 @@ class ilObjSurvey extends ilObject
                 array($next_id, $this->getSurveyId(), $duplicate_id, $sequence, time())
             );
 
-            $this->log->debug("added entry to svy_svy_qst, id: " . $next_id . ", question id: " . $duplicate_id . ", sequence: " . $sequence);
+            $this->svy_log->debug("added entry to svy_svy_qst, id: " . $next_id . ", question id: " . $duplicate_id . ", sequence: " . $sequence);
 
             $this->loadQuestionsFromDb();
             return true;
@@ -894,7 +898,7 @@ class ilObjSurvey extends ilObject
     {
         $ilDB = $this->db;
 
-        $this->log->debug("save questions");
+        $this->svy_log->debug("save questions");
 
         // gather old questions state
         $old_questions = array();
@@ -928,7 +932,7 @@ class ilObjSurvey extends ilObject
             }
             $ilDB->manipulate($q = "DELETE FROM svy_svy_qst" .
                 " WHERE " . $ilDB->in("survey_question_id", $del_ids, "", "integer"));
-            $this->log->debug("delete: " . $q);
+            $this->svy_log->debug("delete: " . $q);
         }
         unset($old_questions);
         
@@ -945,14 +949,14 @@ class ilObjSurvey extends ilObject
                         array('integer', 'integer', 'integer', 'text', 'integer', 'integer'),
                         array($next_id, $this->getSurveyId(), $fi, null, $seq, time())
                     );
-                    $this->log->debug("insert svy_svy_qst, id:" . $next_id . ", fi: " . $fi . ", seq:" . $seq);
+                    $this->svy_log->debug("insert svy_svy_qst, id:" . $next_id . ", fi: " . $fi . ", seq:" . $seq);
                 }
             } elseif (array_key_exists($fi, $update)) {
                 $ilDB->manipulate("UPDATE svy_svy_qst" .
                     " SET sequence = " . $ilDB->quote($seq, "integer") .
                     ", tstamp = " . $ilDB->quote(time(), "integer") .
                     " WHERE survey_question_id = " . $ilDB->quote($update[$fi], "integer"));
-                $this->log->debug("update svy_svy_qst, id:" . $update[$fi] . ", fi: " . $fi . ", seq:" . $seq);
+                $this->svy_log->debug("update svy_svy_qst, id:" . $update[$fi] . ", fi: " . $fi . ", seq:" . $seq);
             }
         }
     }
@@ -1234,12 +1238,12 @@ class ilObjSurvey extends ilObject
             $ilDB->manipulate($q = "DELETE FROM svy_svy_qst" .
                 " WHERE " . $ilDB->in("survey_question_id", $to_delete_ids, false, "integer") .
                 " AND survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer"));
-            $this->log->debug("delete: " . $q);
+            $this->svy_log->debug("delete: " . $q);
 
             $ilDB->manipulate($q = "DELETE FROM svy_qblk_qst " .
                 " WHERE " . $ilDB->in("question_fi", $fis, true, "integer") .
                 " AND survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer"));
-            $this->log->debug("delete: " . $q);
+            $this->svy_log->debug("delete: " . $q);
         }
 
         // step 3: we fix the sequence
@@ -1252,7 +1256,7 @@ class ilObjSurvey extends ilObject
                 " sequence = " . $ilDB->quote($seq++, "integer") .
                 " WHERE survey_question_id = " . $ilDB->quote($rec["survey_question_id"], "integer")
             );
-            $this->log->debug("update: " . $q);
+            $this->svy_log->debug("update: " . $q);
         }
     }
 
@@ -1680,6 +1684,8 @@ class ilObjSurvey extends ilObject
     */
     public function moveQuestions($move_questions, $target_index, $insert_mode)
     {
+        $this->svy_log->debug("move_questions: " . print_r($move_questions, true).
+            ", target_index: " . $target_index . ", insert_mode: " . $insert_mode);
         $array_pos = array_search($target_index, $this->questions);
         if ($insert_mode == 0) {
             $part1 = array_slice($this->questions, 0, $array_pos);
@@ -2972,7 +2978,7 @@ class ilObjSurvey extends ilObject
     public function &getSurveyFinishedIds()
     {
         $ilDB = $this->db;
-        $ilLog = $this->log;
+        $ilLog = $this->svy_log;
         
         $users = array();
         $result = $ilDB->queryF(
@@ -3513,18 +3519,18 @@ class ilObjSurvey extends ilObject
         $isXml = false;
         $isZip = false;
         if ((strcmp($file_info["type"], "text/xml") == 0) || (strcmp($file_info["type"], "application/xml") == 0)) {
-            $this->log->debug("isXML");
+            $this->svy_log->debug("isXML");
             $isXml = true;
         }
         // too many different mime-types, so we use the suffix
         $suffix = pathinfo($file_info["name"]);
         if (strcmp(strtolower($suffix["extension"]), "zip") == 0) {
-            $this->log->debug("isZip");
+            $this->svy_log->debug("isZip");
             $isZip = true;
         }
         if (!$isXml && !$isZip) {
             $error = $this->lng->txt("import_wrong_file_type");
-            $this->log->debug("Survey: Import error. Filetype was \"" . $file_info["type"] . "\"");
+            $this->svy_log->debug("Survey: Import error. Filetype was \"" . $file_info["type"] . "\"");
         }
         if (strlen($error) == 0) {
             // import file as a survey
@@ -3547,8 +3553,8 @@ class ilObjSurvey extends ilObject
                 ilUtil::moveUploadedFile($source, $file_info["name"], $importfile);
             }
 
-            $this->log->debug("Import file = $importfile");
-            $this->log->debug("Import subdir = $import_subdir");
+            $this->svy_log->debug("Import file = $importfile");
+            $this->svy_log->debug("Import subdir = $import_subdir");
 
             $fh = fopen($importfile, "r");
             if (!$fh) {
@@ -3566,15 +3572,15 @@ class ilObjSurvey extends ilObject
             if (strpos($xml, "questestinterop")) {
                 throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
             } else {
-                $this->log->debug("survey id = " . $this->getId());
-                $this->log->debug("question pool id = " . $svy_qpl_id);
+                $this->svy_log->debug("survey id = " . $this->getId());
+                $this->svy_log->debug("question pool id = " . $svy_qpl_id);
 
                 $imp = new ilImport();
                 $config = $imp->getConfig("Modules/Survey");
                 $config->setQuestionPoolID($svy_qpl_id);
                 $imp->getMapping()->addMapping("Modules/Survey", "svy", 0, $this->getId());
                 $imp->importFromDirectory($import_subdir, "svy", "Modules/Survey");
-                $this->log->debug("config(Modules/survey)->getQuestionPoolId =" . $config->getQuestionPoolID());
+                $this->svy_log->debug("config(Modules/survey)->getQuestionPoolId =" . $config->getQuestionPoolID());
                 return "";
 
                 //old code
@@ -3620,7 +3626,7 @@ class ilObjSurvey extends ilObject
                             }
                         }
                     } else {
-                        $ilLog = $this->log;
+                        $ilLog = $this->svy_log;
                         $ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
                     }
                 }
@@ -4573,9 +4579,9 @@ class ilObjSurvey extends ilObject
         try {
             $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         } catch (Exception $e) {
-            $this->log->error("Print XSLT failed:");
-            $this->log->error("Content: " . $print_output);
-            $this->log->error("Xsl: " . $xsl);
+            $this->svy_log->error("Print XSLT failed:");
+            $this->svy_log->error("Content: " . $print_output);
+            $this->svy_log->error("Xsl: " . $xsl);
             throw ($e);
         }
         xslt_error($xh);
@@ -4592,7 +4598,7 @@ class ilObjSurvey extends ilObject
     */
     public function deliverPDFfromFO($fo)
     {
-        $ilLog = $this->log;
+        $ilLog = $this->svy_log;
 
         $fo_file = ilUtil::ilTempnam() . ".fo";
         $fp = fopen($fo_file, "w");
@@ -5692,18 +5698,18 @@ class ilObjSurvey extends ilObject
         // collect all open ratings
         $rater_ids = array();
         foreach ($this->getAppraiseesData() as $app) {
-            $this->log->debug("Handle appraisee " . $app['user_id']);
+            $this->svy_log->debug("Handle appraisee " . $app['user_id']);
 
             if (!$this->isAppraiseeClosed($app['user_id'])) {
-                $this->log->debug("Check self evaluation, self: " . $this->get360SelfAppraisee() . ", target: " . $this->getReminderTarget());
+                $this->svy_log->debug("Check self evaluation, self: " . $this->get360SelfAppraisee() . ", target: " . $this->getReminderTarget());
 
                 // self evaluation?
                 if ($this->get360SelfEvaluation() &&
                     in_array($this->getReminderTarget(), array(ilObjSurvey::NOTIFICATION_APPRAISEES, ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS))) {
-                    $this->log->debug("...1");
+                    $this->svy_log->debug("...1");
                     // did user already finished self evaluation?
                     if (!$this->is360SurveyStarted($app['user_id'], $app['user_id'])) {
-                        $this->log->debug("...2");
+                        $this->svy_log->debug("...2");
                         if (!is_array($rater_ids[$app['user_id']])) {
                             $rater_ids[$app['user_id']] = array();
                         }
@@ -5713,7 +5719,7 @@ class ilObjSurvey extends ilObject
                     }
                 }
 
-                $this->log->debug("Check raters.");
+                $this->svy_log->debug("Check raters.");
 
                 // should raters be notified?
                 if (in_array($this->getReminderTarget(), array(ilObjSurvey::NOTIFICATION_RATERS, ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS))) {
@@ -5732,7 +5738,7 @@ class ilObjSurvey extends ilObject
             }
         }
 
-        $this->log->debug("Found raters:" . count($rater_ids));
+        $this->svy_log->debug("Found raters:" . count($rater_ids));
 
         foreach ($rater_ids as $id => $app) {
             if ($access->checkAccessOfUser($id, "read", "", $this->getRefId())) {
@@ -5748,7 +5754,7 @@ class ilObjSurvey extends ilObject
      */
     public function send360ReminderToUser($a_user_id, $a_appraisee_ids)
     {
-        $this->log->debug("Send mail to:" . $a_user_id);
+        $this->svy_log->debug("Send mail to:" . $a_user_id);
 
         $ntf = new ilSystemNotification();
         $ntf->setLangModules(array("svy", "survey"));
@@ -5838,7 +5844,7 @@ class ilObjSurvey extends ilObject
         $now_with_format = date("YmdHis", $now);
         $today = date("Y-m-d");
 
-        $this->log->debug("Check status and dates.");
+        $this->svy_log->debug("Check status and dates.");
         
         // object settings / participation period
         if (
@@ -5863,7 +5869,7 @@ class ilObjSurvey extends ilObject
             return false;
         }
 
-        $this->log->debug("Check access period.");
+        $this->svy_log->debug("Check access period.");
 
         // object access period
         $item_data = ilObjectActivation::getItem($this->getRefId());
@@ -5873,7 +5879,7 @@ class ilObjSurvey extends ilObject
             return false;
         }
 
-        $this->log->debug("Check frequency.");
+        $this->svy_log->debug("Check frequency.");
 
         // check frequency
         $cut = new ilDate($today, IL_CAL_DATE);
@@ -5883,7 +5889,7 @@ class ilObjSurvey extends ilObject
             $missing_ids = array();
 
             if (!$this->get360Mode()) {
-                $this->log->debug("Entering survey mode.");
+                $this->svy_log->debug("Entering survey mode.");
 
                 // #16871
                 $user_ids = $this->getNotificationTargetUserIds(($this->getReminderTarget() == self::NOTIFICATION_INVITED_USERS));
@@ -5913,7 +5919,7 @@ class ilObjSurvey extends ilObject
                     }
                 }
             } else {
-                $this->log->debug("Entering 360 mode.");
+                $this->svy_log->debug("Entering 360 mode.");
 
                 $this->sent360Reminders();
             }

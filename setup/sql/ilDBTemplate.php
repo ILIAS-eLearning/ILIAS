@@ -1416,9 +1416,7 @@ $fields = array (
 	)
 	,"field_values" => array (
 		"notnull" => false
-		,"length" => 4000
-		,"fixed" => false
-		,"type" => "text"
+		,"type" => "clob"
 	)
 	,"title" => array (
 		"notnull" => false
@@ -5745,7 +5743,7 @@ $ilDB->addPrimaryKey("cmix_token", $pk_fields);
 $in_fields = array("token","valid_until");
 $ilDB->addIndex("cmix_token", $in_fields, "i1", false);
 
-$in_fields = array("obj_id","usr_id");
+$in_fields = array("obj_id","usr_id","ref_id");
 $ilDB->addUniqueConstraint("cmix_token", $in_fields, "c1");
 
 
@@ -32177,6 +32175,10 @@ $fields = array (
 		,"fixed" => false
 		,"type" => "text"
 	)
+	,"sdata" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
 );
 $ilDB->createTable("pg_amd_page_list", $fields);
 
@@ -32855,6 +32857,9 @@ $ilDB->addPrimaryKey("qpl_a_cloze", $pk_fields);
 $in_fields = array("question_fi");
 $ilDB->addIndex("qpl_a_cloze", $in_fields, "i1", false);
 
+$in_fields = array("gap_id");
+$ilDB->addIndex("qpl_a_cloze", $in_fields, "i2", false);
+
 $ilDB->createSequence("qpl_a_cloze", 1);
 
 
@@ -32911,6 +32916,9 @@ $ilDB->createTable("qpl_a_cloze_combi_res", $fields);
 
 $pk_fields = array("combination_id","question_fi","gap_fi","row_id");
 $ilDB->addPrimaryKey("qpl_a_cloze_combi_res", $pk_fields);
+
+$in_fields = array("gap_fi","question_fi");
+$ilDB->addIndex("qpl_a_cloze_combi_res", $in_fields, "i1", false);
 
 
 //
@@ -33825,6 +33833,9 @@ $ilDB->createTable("qpl_num_range", $fields);
 
 $pk_fields = array("range_id");
 $ilDB->addPrimaryKey("qpl_num_range", $pk_fields);
+
+$in_fields = array("question_fi");
+$ilDB->addIndex("qpl_num_range", $in_fields, "i6", false);
 
 $ilDB->createSequence("qpl_num_range", 1);
 
@@ -34925,6 +34936,9 @@ $ilDB->addIndex("qpl_questions", $in_fields, "i3", false);
 
 $in_fields = array("title");
 $ilDB->addIndex("qpl_questions", $in_fields, "i4", false);
+
+$in_fields = array("owner");
+$ilDB->addIndex("qpl_questions", $in_fields, "i5", false);
 
 $ilDB->createSequence("qpl_questions", 1);
 
@@ -48604,9 +48618,6 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'notifications'), 'keyword' => array('text', 'enable_osd'), 'value' => array('clob', '1')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'pd'), 'keyword' => array('text', 'enable_block_moving'), 'value' => array('clob', '1')));
-
-$ilDB->insert("settings", array(
 'module' => array('text', 'pd'), 'keyword' => array('text', 'user_activity_time'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
@@ -48766,7 +48777,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '81')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '91')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
@@ -50019,6 +50030,9 @@ $ilDB->createTable("style_template", $fields);
 
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("style_template", $pk_fields);
+
+$in_fields = array("style_id");
+$ilDB->addIndex("style_template", $in_fields, "i1", false);
 
 $ilDB->createSequence("style_template", 1);
 

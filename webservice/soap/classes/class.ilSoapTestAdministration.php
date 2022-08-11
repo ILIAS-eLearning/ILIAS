@@ -713,8 +713,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $participantList = new ilTestParticipantList($test_obj);
         $participantList->initializeFromDbRows($participants);
         $participantList = $participantList->getAccessFilteredList($accessFilter);
+        $participantList = $participantList->getScoredParticipantList();
         foreach ($participants as $activeId => $part) {
             if ($participantList->isActiveIdInList($activeId)) {
+                $participants[$activeId]['passed'] = $participantList->getParticipantByActiveId($activeId)->getScoring()->isPassed();
                 continue;
             }
             
@@ -726,6 +728,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             // create xml
             $xmlResultSet->addColumn("maximum_points");
             $xmlResultSet->addColumn("received_points");
+            $xmlResultSet->addColumn("passed");
             // skip titles
             $titles = array_shift($data);
             foreach ($data as $row) {
@@ -737,6 +740,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlRow->setValue(4, $row["matriculation"]);
                 $xmlRow->setValue(5, $row["max_points"]);
                 $xmlRow->setValue(6, $row["reached_points"]);
+                $xmlRow->setValue(7, $row["passed"]);
                 $xmlResultSet->addRow($xmlRow);
             }
         } else {
@@ -746,6 +750,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $xmlResultSet->addColumn("question_title");
             $xmlResultSet->addColumn("maximum_points");
             $xmlResultSet->addColumn("received_points");
+            $xmlResultSet->addColumn("passed");
             foreach ($data as $row) {
                 $xmlRow = new ilXMLResultSetRow();
                 $xmlRow->setValue(0, $row["user_id"]);
@@ -757,6 +762,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlRow->setValue(6, $row["question_title"]);
                 $xmlRow->setValue(7, $row["max_points"]);
                 $xmlRow->setValue(8, $row["reached_points"]);
+                $xmlRow->setValue(9, $row["passed"]);
                 $xmlResultSet->addRow($xmlRow);
             }
         }

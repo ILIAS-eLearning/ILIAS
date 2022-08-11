@@ -5,6 +5,7 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\DI\Container;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
  * Class ilObjFileImplementationStorage
@@ -24,21 +25,27 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
      * @var bool
      */
     protected $download_with_uploaded_filename;
-
+    /**
+     * @var int
+     */
+    protected $obj_id;
     /**
      * ilObjFileImplementationStorage constructor.
      * @param StorableResource $resource
      */
-    public function __construct(StorableResource $resource)
+    public function __construct(StorableResource $resource, int $obj_id)
     {
         global $DIC;
         /**
          * @var $DIC Container
          */
         $this->resource = $resource;
+        $this->obj_id = $obj_id;
         $this->storage = $DIC->resourceStorage();
-        $this->download_with_uploaded_filename = (bool) $DIC->clientIni()->readVariable('file_access',
-            'download_with_uploaded_filename');
+        $this->download_with_uploaded_filename = (bool) $DIC->clientIni()->readVariable(
+            'file_access',
+            'download_with_uploaded_filename'
+        );
     }
 
     private function debug() : void
@@ -112,11 +119,11 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         if ($a_hist_entry_id) {
             $revision = $this->resource->getSpecificRevision($a_hist_entry_id);
             $consumer->setRevisionNumber($a_hist_entry_id);
-        }else {
+        } else {
             $revision = $this->resource->getCurrentRevision();
         }
 
-        if(!$this->download_with_uploaded_filename) {
+        if (!$this->download_with_uploaded_filename) {
             $consumer->overrideFileName($revision->getTitle());
         }
 
@@ -186,14 +193,25 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         return $versions;
     }
 
-    public function export($a_target_dir)
+    public function export(string $target_dir) : void
     {
-        throw new NotImplementedException();
+        global $DIC;
+        $relative_dir = LegacyPathHelper::createRelativePath($target_dir);
+        $filesystem = LegacyPathHelper::deriveFilesystemFrom($target_dir);
+    
+        if ($filesystem->has($target_dir)) {
+            $directory = $relative_dir . '/objects/il_' . IL_INST_ID . "_file_" . $this->obj_id;
+            $filesystem->createDir($directory);
+            $stream = $DIC->resourceStorage()->consume()->stream($this->resource->getIdentification())->getStream();
+            $filesystem->writeStream(
+                $directory . '/' . $this->resource->getCurrentRevision()->getInformation()->getTitle(),
+                $stream
+            );
+        }
     }
 
     public function getStorageID() : ?string
     {
         return $this->resource->getStorageID();
     }
-
 }

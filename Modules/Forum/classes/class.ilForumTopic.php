@@ -254,13 +254,16 @@ class ilForumTopic
     */
     public function getFirstPostId()
     {
+        $this->db->setLimit(1);
         $res = $this->db->queryf(
             '
 			SELECT * FROM frm_posts_tree 
 			WHERE thr_fk = %s
-			AND parent_pos = %s',
-            array('integer', 'integer'),
-            array($this->id, '1')
+			AND parent_pos != %s
+			AND depth = %s
+			ORDER BY rgt DESC',
+            array('integer', 'integer', 'integer'),
+            array($this->id, '0', 2)
         );
         
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);

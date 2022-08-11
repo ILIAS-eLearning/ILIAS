@@ -2538,6 +2538,10 @@ class ilObjCourseGUI extends ilContainerGUI
                     $this->lng->txt("crs_start_objects"),
                     $this->ctrl->getLinkTargetByClass("ilcontainerstartobjectsgui", "listStructure")
                 );
+                if (strtolower($this->ctrl->getCmdClass()) ==
+                    "ilcontainerstartobjectspagegui") {
+                    $header_action = false;
+                }
                 global $DIC;
 
                 $ilHelp = $DIC['ilHelp'];

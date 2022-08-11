@@ -450,10 +450,16 @@ class ilObjRole extends ilObject
         global $DIC;
 
         $lng = $DIC['lng'];
+        $objDefinition = $DIC['objDefinition'];
 
         $role_title = self::_removeObjectId($a_role_title);
 
-        if (preg_match("/^il_./", $role_title)) {
+        if (preg_match("/^il_([a-z]{1,4})_./", $role_title, $type)) {
+            //BT ID 0032909: language variables for roles from plugins were not resolved properly
+            if ($objDefinition->isPlugin($type[1])) {
+                return ilObjectPlugin::lookupTxtById($type[1], $role_title);
+            }
+
             return $lng->txt($role_title);
         }
         

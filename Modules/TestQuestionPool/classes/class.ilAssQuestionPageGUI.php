@@ -57,9 +57,10 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     
     public function showPage()
     {
-        $this->setOriginalPresentationTitle($this->getPresentationTitle());
-        
-        $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
+        if ($this->getPresentationTitle() !== null) {
+            $this->setOriginalPresentationTitle($this->getPresentationTitle());
+            $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
+        }
         
         // fau: testNav - enable page toc as placeholder for info and actions block (see self::insertPageToc)
         $config = $this->getPageConfig();
@@ -67,6 +68,11 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         $this->setPageConfig($config);
         // fau.
         return parent::showPage();
+    }
+    
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
     public function postOutputProcessing($output)

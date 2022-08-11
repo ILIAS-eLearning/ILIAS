@@ -67,9 +67,14 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         } elseif ($role === 'superior') {
             $position_id =  ilOrgUnitPosition::CORE_POSITION_SUPERIOR;
         } else {
-            $this->addError('not_a_valid_role', $user_id);
-
-            return;
+            //if passed a custom position.
+            $position = ilOrgUnitPosition::where(['title' => $role])->first();
+            if ($position instanceof ilOrgUnitPosition) {
+                $position_id = $position->getId();
+            } else {
+                $this->addError('not_a_valid_role', $user_id);
+                return;
+            }
         }
 
         if ($action == 'add') {

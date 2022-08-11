@@ -363,6 +363,13 @@ class ilForumMailNotification extends ilMailNotification
         $this->appendBody("\n\n");
         $this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
         $this->appendBody("\n\n");
+        if ($this->provider->providesClosestContainer()) {
+            $this->appendBody(
+                $this->getLanguageText('frm_noti_obj_' . $this->provider->closestContainer()->getType()) . ": " .
+                $this->provider->closestContainer()->getTitle()
+            );
+            $this->appendBody("\n\n");
+        }
         $this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
         $this->appendBody("\n\n");
         $this->appendBody($this->getLanguageText($action) . ": \n------------------------------------------------------------\n");
@@ -394,9 +401,17 @@ class ilForumMailNotification extends ilMailNotification
     {
         $this->initMail();
 
+        $container_text = '';
+        if ($this->provider->providesClosestContainer()) {
+            $container_text = " (" .
+                $this->getLanguageText('obj_' . $this->provider->closestContainer()->getType()) .
+                " \"" . $this->provider->closestContainer()->getTitle() . "\")";
+        }
+
         $this->setSubject(sprintf(
             $this->getLanguageText($subject),
             $this->provider->getForumTitle(),
+            $container_text,
             $this->provider->getThreadTitle()
         ));
     }

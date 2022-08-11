@@ -24,6 +24,7 @@ use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\Preloader\SecureString;
 
 /**
  * Class ResourceBuilder
@@ -32,7 +33,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
  */
 class ResourceBuilder
 {
-
+    use SecureString;
     /**
      * @var InformationRepository
      */
@@ -440,14 +441,14 @@ class ResourceBuilder
     {
         $info = $revision->getInformation();
 
-        $info->setTitle($info_resolver->getFileName());
+        $info->setTitle($this->secure($info_resolver->getFileName()));
         $info->setMimeType($info_resolver->getMimeType());
-        $info->setSuffix($info_resolver->getSuffix());
+        $info->setSuffix($this->secure($info_resolver->getSuffix()));
         $info->setSize($info_resolver->getSize());
         $info->setCreationDate($info_resolver->getCreationDate());
 
         $revision->setInformation($info);
-        $revision->setTitle($info_resolver->getRevisionTitle());
+        $revision->setTitle($this->secure($info_resolver->getRevisionTitle()));
         $revision->setOwnerId($info_resolver->getOwnerId());
 
         return $revision;

@@ -383,7 +383,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $filter,
             $this->getSelectedColumns(),
             $preselected_obj_ids
-                );
+        );
         
         // build status to image map
         include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
@@ -393,10 +393,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilLPStatus::LP_STATUS_COMPLETED_NUM,
             ilLPStatus::LP_STATUS_FAILED_NUM);
         $status_map = array();
+        $status_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
         foreach ($valid_status as $status) {
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $status_map[$status] = ilUtil::img($path, $text);
+            $status_map[$status] = $status_icons->renderIconForStatus($status);
         }
         
         // language map

@@ -343,7 +343,11 @@ class ilCmiXapiUser
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT:
                 
                 return self::buildPseudoEmail($user->getExternalAccount(), self::getIliasUuid());
-                
+
+            case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256:
+
+                return self::buildPseudoEmail(hash("sha256",'' . $user->getId() . $user->getCreateDate()), self::getIliasUuid());
+
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM:
 
                 return self::buildPseudoEmail(self::getUserObjectUniqueId(), self::getIliasUuid());
@@ -375,7 +379,11 @@ class ilCmiXapiUser
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT:
                 
                 return $user->getExternalAccount();
-                
+
+            case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256:
+
+                return hash("sha256",'' . $user->getId() . $user->getCreateDate());
+
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM:
 
                 return self::getUserObjectUniqueId();

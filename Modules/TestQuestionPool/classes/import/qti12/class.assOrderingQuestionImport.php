@@ -260,7 +260,6 @@ class assOrderingQuestionImport extends assQuestionImport
                 }
             }
         }
-        $this->object->handleThumbnailCreation($this->object->getOrderingElementList());
 
         foreach ($feedbacksgeneric as $correctness => $material) {
             $m = $this->object->QTIMaterialToString($material);

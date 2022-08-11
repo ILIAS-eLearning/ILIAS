@@ -22,6 +22,11 @@ class ilForumCronNotification extends ilCronJob
     protected $logger;
 
     /**
+     * @var \ilTree
+     */
+    protected $tree;
+
+    /**
      * @var \ilForumCronNotificationDataProvider[]
      */
     public static $providerObject = array();
@@ -40,6 +45,9 @@ class ilForumCronNotification extends ilCronJob
      * @var array
      */
     protected static $accessible_ref_ids_by_user = array();
+
+    /** @var array<int, ilObjCourse|ilObjGroup|null> */
+    private static $container_by_frm_ref_id = [];
     
     /**
      * @var int
@@ -60,8 +68,8 @@ class ilForumCronNotification extends ilCronJob
     {
         $this->settings = new ilSetting('frma');
 
+        global $DIC;
         if ($database === null) {
-            global $DIC;
             $ilDB = $DIC->database();
         }
         $this->ilDB = $ilDB;
@@ -138,6 +146,7 @@ class ilForumCronNotification extends ilCronJob
 
         $ilSetting = $DIC->settings();
         $lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
 
         $this->logger = $DIC->logger()->frm();
 
@@ -262,6 +271,11 @@ class ilForumCronNotification extends ilCronJob
 
             $row['ref_id'] = $ref_id;
 
+            $container = $this->determineClosestContainer($ref_id);
+            if ($container instanceof ilObjCourse || $container instanceof ilObjGroup) {
+                $row['closest_container'] = $container;
+            }
+
             if ($this->existsProviderObject($row['pos_pk'])) {
                 self::$providerObject[$row['pos_pk']]->addRecipient($row['user_id']);
             } else {
@@ -313,6 +327,31 @@ class ilForumCronNotification extends ilCronJob
         }
         
         $this->resetProviderCache();
+    }
+
+    /**
+     * @param int $frm_ref_id
+     * @return ilObjCourse|ilObjGroup|null
+     */
+    public function determineClosestContainer(int $frm_ref_id) : ?ilObject
+    {
+        if (isset(self::$container_by_frm_ref_id[$frm_ref_id])) {
+            return self::$container_by_frm_ref_id[$frm_ref_id];
+        }
+
+        $ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
+        if (!($ref_id > 0)) {
+            $ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
+        }
+
+        if ($ref_id > 0) {
+            /** @var ilObjCourse|ilObjGroup $container */
+            $container = ilObjectFactory::getInstanceByRefId($ref_id);
+            self::$container_by_frm_ref_id[$frm_ref_id] = $container;
+            return $container;
+        }
+
+        return null;
     }
 
     /**

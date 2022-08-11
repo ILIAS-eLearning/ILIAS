@@ -262,37 +262,38 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $actions->setId('qst' . $data["question_id"]);
         $actions->setListTitle($this->lng->txt('actions'));
 
-        $actions->addItem($this->lng->txt('preview'), '', $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
+        $actions->addItem(
+            $this->lng->txt('preview'),
+            '',
+            $this->getEditLink($data, get_class($this->getParentObject()), $this->getParentCmd())
+        );
+        
+        $actions->addItem(
+            $this->lng->txt('statistics'),
+            '',
+            $this->getEditLink($data, 'ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
+        );
+        
         if ($this->isQuestionManagingEnabled()) {
-            $editHref = $this->ctrl->getLinkTargetByClass($data['type_tag'] . 'GUI', 'editQuestion');
+            $editHref = $this->getEditLink($data, $data['type_tag'] . 'GUI', 'editQuestion');
             $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
 
-            $editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
+            $editPageHref = $this->getEditLink($data, 'ilAssQuestionPageGUI', 'edit');
             $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
-
-            $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
-            $moveHref = $this->ctrl->getLinkTarget($this->parent_obj, 'moveQuestions');
-            $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+            
+            $moveHref = $this->getEditLink($data, get_class($this->getParentObject()), 'moveQuestions');
             $actions->addItem($this->lng->txt('move'), '', $moveHref);
-
-            $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
-            $copyHref = $this->ctrl->getLinkTarget($this->parent_obj, 'copyQuestion');
-            $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+            
+            $copyHref = $this->getEditLink($data, get_class($this->getParentObject()), 'copyQuestion');
             $actions->addItem($this->lng->txt('copy'), '', $copyHref);
-
-            $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
-            $deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'removeQuestions');
-            $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+            
+            $deleteHref = $this->getEditLink($data, get_class($this->getParentObject()), 'removeQuestions');
             $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
             
-            $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', $data['question_id']);
-            $feedbackHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
-            $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', null);
+            $feedbackHref = $this->getEditLink($data, 'ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
             $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
-
-            $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', $data['question_id']);
-            $hintsHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
-            $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', null);
+            
+            $hintsHref = $this->getEditLink($data, 'ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
         }
         $this->tpl->setVariable('ROW_ACTIONS', $actions->getHTML());
@@ -301,10 +302,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * @param array $rowData
-     * @return string
-     */
     protected function buildQuestionRemoveButton(array $rowData) : string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'removeQid', $rowData['question_id']);
@@ -318,30 +315,45 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         return $button->render();
     }
     
-    /**
-     * @param array $rowData
-     * @return string
-     */
     protected function buildQuestionTitleLink(array $rowData) : string
     {
-        $this->ctrl->setParameter(
-            $this->getParentObject(),
+        $questionHref = $this->getEditLink($rowData, get_class($this->getParentObject()), $this->getParentCmd());
+        
+        return '<a href="' . $questionHref . '">' . $rowData["title"] . '</a>';
+    }
+    
+    protected function getEditLink(array $rowData, string $target_class, string $cmd) : string
+    {
+        $this->ctrl->setParameterByClass(
+            $target_class,
             'eqpl',
             current(ilObject::_getAllReferences($rowData['obj_fi']))
         );
         
-        $this->ctrl->setParameter(
-            $this->getParentObject(),
+        $this->ctrl->setParameterByClass(
+            $target_class,
             'eqid',
             $rowData['question_id']
         );
         
-        $questionHref = $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd());
+        $this->ctrl->setParameterByClass(
+            $target_class,
+            'q_id',
+            $rowData['question_id']
+        );
+        $this->ctrl->setParameterByClass(
+            $target_class,
+            'calling_test',
+            $_GET['ref_id']
+        );
         
-        $this->ctrl->setParameter($this->getParentObject(), 'eqpl', '');
-        $this->ctrl->setParameter($this->getParentObject(), 'eqid', '');
+        $link = $this->ctrl->getLinkTargetByClass($target_class, $cmd);
         
-        return '<a href="' . $questionHref . '">' . $rowData["title"] . '</a>';
+        $this->ctrl->setParameterByClass($target_class, 'eqpl', '');
+        $this->ctrl->setParameterByClass($target_class, 'eqid', '');
+        $this->ctrl->setParameterByClass($target_class, 'q_id', '');
+        
+        return $link;
     }
     
     /**

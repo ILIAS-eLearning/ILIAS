@@ -542,6 +542,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $form->addItem($evaluated);
 
         $form->addCommandButton('checkConstraintsBeforeSaving', $this->lng->txt('save'));
+        $CharSelector = ilCharSelectorGUI::_getCurrentGUI();
+        $CharSelector->getConfig()->setAvailability(ilCharSelectorConfig::DISABLED);
 
         $tmp_tpl->setVariable(
             'MANUAL_FEEDBACK',
