@@ -217,11 +217,12 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     {
         $query = "SELECT count(rbac_id) total FROM il_meta_rights " .
             "WHERE rbac_id = " . $this->db->quote($a_rbac_id, ilDBConstants::T_INTEGER) .
-            " AND rbac_id <> obj_id";
+            " AND rbac_id != obj_id";
 
         $result = $this->db->query($query);
-        $row = $this->db->fetchAssoc($result);
-
-        return $row['total'];
+        while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->total;
+        }
+        return 0;
     }
 }
