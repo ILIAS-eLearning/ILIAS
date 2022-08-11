@@ -195,7 +195,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
             $h_tpl->parseCurrentBlock();
 
             if (count($help_arr) > 0) {
-                $h_tpl->setVariable("CONTENT", $acc->getHTML());
+                $h_tpl->setVariable("CONTENT", $acc->getHTML(true));
             } else {
                 $mess = $ui->factory()->messageBox()->info($lng->txt("help_no_content"));
                 $h_tpl->setVariable("CONTENT", $ui->renderer()->render([$mess]));

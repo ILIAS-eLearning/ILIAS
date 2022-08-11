@@ -117,7 +117,7 @@ class ilMDCopyrightSelectionEntry
             'WHERE copyright = ' . $db->quote($copyright_text, 'text');
         $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->entry_id;
+            return (int) $row->entry_id;
         }
         return 0;
     }

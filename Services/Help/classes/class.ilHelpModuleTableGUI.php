@@ -91,10 +91,10 @@ class ilHelpModuleTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
         $ilCtrl->setParameter($this->parent_obj, "hm_id", "");
-        $this->tpl->setVariable("TITLE", $a_set["title"]);
+        $this->tpl->setVariable("TITLE", $a_set["title"] ?? "");
         $this->tpl->setVariable(
             "CREATION_DATE",
-            ilDatePresentation::formatDate(new ilDateTime($a_set["create_date"], IL_CAL_DATETIME))
+            ilDatePresentation::formatDate(new ilDateTime($a_set["create_date"] ?? null, IL_CAL_DATETIME))
         );
         $this->tpl->setVariable("ID", $a_set["id"]);
     }
