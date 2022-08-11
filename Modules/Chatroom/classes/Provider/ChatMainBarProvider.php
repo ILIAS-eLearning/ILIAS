@@ -24,6 +24,7 @@ use ilObjChatroom;
 use ilObjChatroomGUI;
 use ilRepositoryGUI;
 use ilSetting;
+use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
 /**
  * Class ChatMainBarProvider
