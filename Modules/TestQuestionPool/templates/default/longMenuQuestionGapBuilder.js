@@ -16,7 +16,7 @@ var longMenuQuestionGapBuilder = (() => {
 		return 	(isTinyActive() && typeof tinyMCE.get(pub.textarea) !== 'undefined' && tinyMCE.get(pub.textarea) !== null );
 	};
 	
-	let bindTextAreaHandlerVanilla = () =>
+	let bindTextareaHandlerVanilla = () =>
 	{
 		let cloze_text_area = document.getElementById(pub.textarea);
 
@@ -59,11 +59,11 @@ var longMenuQuestionGapBuilder = (() => {
 	
 	let clickfunction = () =>
 	{
-		if (isTinyActive && moveCursorToEndOfGapTiny()) {
+		if (isTinyActiveInTextArea() && moveCursorToEndOfGapTiny()) {
 			clickedInGapCallbackCall();
 			return;
 		}
-		if (!isTinyActive && moveCurserToEndOfGapVanilla()) {
+		if (!isTinyActiveInTextArea() && moveCurserToEndOfGapVanilla()) {
 			clickedInGapCallbackCall();
 			return;
 		}
@@ -81,13 +81,22 @@ var longMenuQuestionGapBuilder = (() => {
 		if (e.key === "Backspace" || e.key === "Delete")
 		{
 			checkDataConsistencyCallback();
+			return;
 		}
 		if (e.key === "]" && pub.getTextAreaValue().indexOf('[' +  pub.replacement_word  + ']') !== -1) {
 			createNewGapCode();
+			return;
 		}
-		
-		if ((e.key === 'z' || e.key === 'y') && (e.ctrlKey || e.metaKey)) {
+		if ((e.key === 'z' || e.key === 'Z' || e.key === 'y') && (e.ctrlKey || e.metaKey)) {
 			revertConsistencyChangesAfterUndoOrRedo();
+			return;
+		}
+		if ((e.key === 'ArrowRight') || (e.key === 'ArrowDown') || (e.key === 'ArrowLeft') || (e.key === 'ArrowUp')) {
+			if (isTinyActiveInTextArea()) {
+				moveCursorToEndOfGapTiny();
+			} else {
+				moveCurserToEndOfGapVanilla();
+			}
 		}
 	};
 	
@@ -110,26 +119,24 @@ var longMenuQuestionGapBuilder = (() => {
 	
 	let insertGapCodeAtCaret = (o) =>
 	{
-		return o.forEach(() => {
-			let code = '[' + pub.replacement_word + ']';
-			if (isTinyActiveInTextArea()) {
-				let ed =  tinyMCE.get(pub.textarea);
-				ed.focus();
-				ed.selection.setContent(code);
-				return;
-			}
-			if (this.selectionStart || this.selectionStart === '0') {
-				//For browsers like Firefox and Webkit based
-				let startPos = this.selectionStart;
-				let scrollTop = this.scrollTop;
-				this.value = this.value.substring(0, startPos) 	+ code + this.value.substring(startPos, this.value.length);
-				this.focus();
-				this.scrollTop = scrollTop;
-				return;
-			}
-			this.value += code;
-			this.focus();
-		});
+		let code = '[' + pub.replacement_word + ']';
+		if (isTinyActiveInTextArea()) {
+			let ed =  tinyMCE.get(pub.textarea);
+			ed.focus();
+			ed.selection.setContent(code);
+			return;
+		}
+		if (o.selectionStart || o.selectionStart === '0') {
+			//For browsers like Firefox and Webkit based
+			let startPos = o.selectionStart;
+			let scrollTop = o.scrollTop;
+			o.value = o.value.substring(0, startPos) 	+ code + o.value.substring(startPos, o.value.length);
+			o.focus();
+			o.scrollTop = scrollTop;
+			return;
+		}
+		o.value += code;
+		o.focus();
 	};
 
 	let createNewGapCode = () =>
@@ -137,10 +144,10 @@ var longMenuQuestionGapBuilder = (() => {
 		let newText = pub.getTextAreaValue();
 		let iterator = newText.match(new RegExp(pub.gap_regexp, 'g'));		
 		let last = 0;
-		for (let i = 0; i < iterator.length; i = i + 1 ) {
+		for (let i = 0; i < iterator.length; i++ ) {
 			last = i;
 			if (iterator[i].match(new RegExp('\\[' + pub.replacement_word + '\\]'))) {
-				let gap_id =  parseInt(i, 10) + 1;
+				let gap_id =  i + 1;
 				newText = newText.replace('[' + pub.replacement_word +']', '['  + pub.replacement_word + ' ' + gap_id + ']');
 				if (typeof pub.callbackNewGap === 'function') {
 					pub.callbackNewGap(last);
@@ -160,8 +167,8 @@ var longMenuQuestionGapBuilder = (() => {
 		let newText 	= text.replace(new RegExp(pub.gap_regexp, 'g'), '[temp]');
 		let gaps_length	= text.split(new RegExp(pub.gap_regexp)).length;
 		
-		for (let i = 0; i < gaps_length; i = i + 1) {
-			let gap_id =  parseInt(i, 10) + 1;
+		for (let i = 0; i < gaps_length; i++) {
+			let gap_id =  i + 1;
 			newText = newText.replace(/\[temp]/, '[' + pub.replacement_word + ' ' + gap_id + ']');
 		}
 		
@@ -345,19 +352,29 @@ var longMenuQuestionGapBuilder = (() => {
 			checkDataConsistencyCallback();
 			return;
 		}
-		if (content.match(new RegExp(pub.gap_regexp, 'g')).length > longMenuQuestion.questionParts.list.length) {
-			let additionnal_gaps = content.match(new RegExp(pub.gap_regexp, 'g')).length - longMenuQuestion.questionParts.list.length;
+		let matches = content.match(new RegExp(pub.gap_regexp, 'g'));
+		let length = 0;
+		if (matches) {
+			length = matches.length;
+		} 
+		if (length > longMenuQuestion.questionParts.list.length) {
+			let starting_length = content.length;
+			let additionnal_gaps = length - longMenuQuestion.questionParts.list.length;
 			let i = 0;
 			while (i < additionnal_gaps) {
-				let gap_id = content.match(new RegExp(pub.gap_regexp, 'g')).length - i;
+				let gap_id = length - i;
 				content = content.replace('[' + pub.replacement_word + ' ' + gap_id + ']', '[' + pub.replacement_word + ']');
 				i++
+			}
+			if (content.length !== starting_length) {
+				let inst = tinymce.get(pub.textarea);
+				setCursorPositionTiny(inst , getCursorPositionTiny(inst) - (starting_length - content.length));
 			}
 			pub.setTextAreaValue(content);
 			createNewGapCode();
 			return;
 		}
-		if (content.match(new RegExp(pub.gap_regexp, 'g')).length < longMenuQuestion.questionParts.list.length) {
+		if (length < longMenuQuestion.questionParts.list.length) {
 			checkDataConsistencyCallback();
 		}
 	};
@@ -378,20 +395,23 @@ var longMenuQuestionGapBuilder = (() => {
 	{
 		appendGapTrigger();
 		if (!isTinyActive()) {
-			bindTextAreaHandlerVanilla();
+			bindTextareaHandlerVanilla();
 			return;
 		}
-		document.onreadystatechange = () => {
-			if (document.readyState !== 'complete') {
-				return;
-			}
-			
-			if (typeof tinyMCE.get(pub.textarea) === 'object') {
+
+		if (isTinyActiveInTextArea()) {
+			bindTextareaHandlerTiny(tinyMCE.get(pub.textarea));
+			return;
+		}
+		
+		let tinyMutationObserver = new MutationObserver(() => {
+			if (isTinyActiveInTextArea()) {
 				bindTextareaHandlerTiny(tinyMCE.get(pub.textarea));
-				return;
+				tinyMutationObserver.disconnect();
 			}
-			ilTinyMceInitCallbackRegistry.addCallback(bindTextareaHandlerTiny);
-		};
+		});
+		
+		tinyMutationObserver.observe(document.getElementById(pub.textarea), {attributes: true});
 	};
 	pub.getTextAreaValue = () =>
 	{
@@ -414,7 +434,6 @@ var longMenuQuestionGapBuilder = (() => {
 		{
 			if (navigator.userAgent.indexOf('Firefox') !== -1)
 			{
-				console.log('Here');
 				text = text.replace(new RegExp('(<p>(&nbsp;)*<\/p>(\n)*)' , 'g'), '')
 			}
 			//ToDo: Bug in tiny steals focus on setContent (tinymce Bug #6423)
@@ -422,6 +441,7 @@ var longMenuQuestionGapBuilder = (() => {
 			cursor = getCursorPositionTiny(inst);
 			inst.setContent(text);
 			inGap = cursorInGap(cursor);
+			
 			if(inGap[1] !== -1 )
 			{
 				pub.active_gap = parseInt(inGap[0], 10);
@@ -435,8 +455,11 @@ var longMenuQuestionGapBuilder = (() => {
 			cursor = textarea.selectionStart;
 			textarea.value = text;
 			inGap = cursorInGap(cursor + 1);
-			if(inGap !== -1)
+			if(inGap[1] !== -1)
 			{
+				while (textarea.value[cursor - 1] !== ']') {
+					cursor++;
+				}
 				if(pub.active_gap === -1)
 				{
 					setCaretPosition( document.getElementById(pub.textarea), cursor);

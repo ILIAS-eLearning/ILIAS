@@ -234,7 +234,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $answers = $this->object->getAnswersObject();
         
         if (is_array($_POST) && array_key_exists('hidden_text_files', $_POST)) {
-            $question_parts['list'] = $_POST['hidden_correct_answers'];
+            $question_parts['list'] = json_decode($_POST['hidden_correct_answers']);
             $answers = $_POST['hidden_text_files'];
         }
         
@@ -252,7 +252,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('MISSING_VALUE', $this->lng->txt('msg_input_is_required'));
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
-        require_once("Services/Form/classes/class.ilTagInputGUI.php");
         $tag_input = new ilTagInputGUI();
         $tag_input->setTypeAhead(true);
         $tag_input->setPostVar('taggable');
