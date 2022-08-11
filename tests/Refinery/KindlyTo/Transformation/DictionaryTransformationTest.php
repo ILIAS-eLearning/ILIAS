@@ -69,7 +69,6 @@ class DictionaryTransformationTest extends TestCase
             'first_arr' => [['hello' => 'world'], ['hello' => 'world'] ],
             'second_arr' => [['hi' => 'earth', 'goodbye' => 'world'], ['hi' => 'earth', 'goodbye' => 'world']],
             'third_arr' => [[22 => "earth", 33 => "world"], [22 => "earth", 33 => "world"]],
-            'fourth_arr' => [[22.33 => "earth", 33.44 => "world"], [22 => "earth", 33 => "world"]],// This will result in a float rounding error in PHP >= 8.1
             'empty_array' => [[], []]
         ];
     }
