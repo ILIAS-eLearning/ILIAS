@@ -14822,6 +14822,7 @@ orgu#:#msg_position_updated#:#Position updated.
 orgu#:#msg_position_created#:#Position created.
 orgu#:#msg_success_permission_saved#:#Permissions saved.
 pdfgen#:#cleanup#:#Cleanup
+skmg#:#skmg_open_all_assigned_profiles#:#Open All Assigned Competence Profiles
 skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.
 common#:#position_permission_settings#:#Orgunit-Specific Permissions
 common#:#org_permission_settings#:#Permissions of Positions in Organisational Units
@@ -16351,6 +16352,7 @@ lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 common#:#back_to_course#:#Back to Course
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
+skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.
 common#:#obj_peac#:#Accordion
 common#:#obj_peadl#:#Advanced List
 common#:#obj_peadt#:#Advanced Table

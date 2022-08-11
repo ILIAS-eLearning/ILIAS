@@ -14827,6 +14827,7 @@ dateplaner#:#cal_batch_file_downloads_info#:#Erlaubt Herunterladen aller Dateien
 dateplaner#:#cal_download_files#:#Dateien herunterladen
 dateplaner#:#cal_calendar_download#:#Kalender-Dateien
 pdfgen#:#cleanup#:#Bereinigen
+skmg#:#skmg_open_all_assigned_profiles#:#Alle zugewiesenen Kompetenzprofile öffnen
 skmg#:#skmg_order_nr_info#:#Platziert die Kompetenz in der Liste der Kompetenzen.
 common#:#position_permission_settings#:#Rechte nach Positionen
 common#:#org_permission_settings#:#Rechte der Positionen in Organisationseinheiten
@@ -16344,6 +16345,7 @@ lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 common#:#back_to_course#:#Zurück zum Kurs
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Lokal
+skmg#:#skmg_cont_profiles_info#:#In dieser Ansicht können Sie die Kompetenzprofile mit Kompetenzeinträgen auswählen, die im Zusammenhang mit dem derzeit geöffneten Objekt (Kurs/Gruppe) stehen. Um zu der globalen Ansicht mit allen Ihnen zugewiesenen Kompetenzprofilen und sämtlichen Kompetenzeinträgen zu gelangen, klicken Sie auf den unten stehenden Link.
 common#:#obj_peac#:#Akkordeon
 common#:#obj_peadl#:#Erweiterte Liste
 common#:#obj_peadt#:#Erweiterte Tabelle
