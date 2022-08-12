@@ -105,7 +105,7 @@ final class AutoResponderServiceImpl implements AutoResponderService
                     $auto_responder_sender_usr_id,
                     $auto_responder_receiver_usr_id,
                     $this->normalizeDateTimezone($this->clock->now())
-                         ->sub(new DateInterval('P' . $this->global_idle_time_interval + 1 . 'D'))
+                         ->sub(new DateInterval('P' . $this->global_idle_time_interval . 'D'))->modify('-1 second')
                 );
             }
 
