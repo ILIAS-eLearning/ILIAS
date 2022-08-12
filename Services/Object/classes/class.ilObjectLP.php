@@ -195,11 +195,11 @@ class ilObjectLP
         return $valid;
     }
 
-    public static function isSupportedObjectType(string $type) : bool
+    public static function isSupportedObjectType($type) : bool
     {
         $valid = self::getSupportedObjectTypes();
 
-        if (in_array($type, $valid)) {
+        if (in_array((string) $type, $valid)) {
             return true;
         }
 
