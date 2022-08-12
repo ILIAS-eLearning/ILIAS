@@ -15930,8 +15930,11 @@ div.ilProfile {
   background-color: #f9f9f9;
   padding: 15px;
 }
+div.ilProfile + div.ilProfile {
+  margin-top: 15px;
+}
 div.ilProfile + div.ilPermalinkContainer {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 div.ilProfile + div.ilPermalinkContainer .input-group-btn {
   vertical-align: bottom;
@@ -15940,13 +15943,13 @@ img.ilProfileImage {
   width: 100%;
 }
 h3.ilProfileName {
-  margin: 0 0 10px;
+  margin: 0 0 9px;
   padding: 0;
   font-weight: 400;
   font-size: 1.115rem;
 }
 div.ilProfileSection {
-  margin-top: 20px;
+  margin-top: 15px;
   font-size: 0.75rem;
   color: #6f6f6f;
 }
@@ -15962,71 +15965,6 @@ table.il_user_quota_disk_usage_overview {
 }
 img.ilUserXXSmall {
   max-width: 30px;
-}
-/* -- User Gallery Styles -- */
-.ilUsersGalleryContainer div.ilUser {
-  margin: 0 0 20px;
-  background-color: white;
-  padding: 20px 0;
-  font-size: 0.875rem;
-  width: 100%;
-  height: auto;
-  text-align: center;
-}
-.ilUsersGalleryContainer div.ilUser img {
-  min-height: 80px;
-  max-height: 80px;
-}
-.ilUsersGalleryContainer div.ilUser h3 {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 5px;
-  margin: 20px 0;
-  font-size: 1rem !important;
-}
-.ilUsersGalleryContainer div.ilUser .action {
-  width: 100%;
-  height: 40px;
-}
-.ilUsersGalleryContainer div.ilUser .action div {
-  display: inline-block;
-}
-.ilUsersGalleryContainer div.ilUser .action .btn {
-  float: left;
-}
-.ilUsersGalleryContainer div.ilUser .action .btn-default:hover {
-  color: white !important;
-}
-.ilUsersGalleryContainer div.ilUser .action .mailBtn {
-  height: 37px;
-  font-size: 1rem;
-  padding: 0 15px;
-  line-height: 30px;
-  margin: 2px 0 0 0;
-}
-.ilUsersGalleryContainer div.ilUser .action .open .btn {
-  -webkit-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-}
-.ilUsersGalleryContainer div.ilUser .action .open .btn-success:hover,
-.ilUsersGalleryContainer div.ilUser .action .open .btn-success:focus,
-.ilUsersGalleryContainer div.ilUser .action .open .btn-success:active {
-  color: white;
-  background: #626f78;
-  -webkit-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-  border: 1px solid #5b6770;
-}
-.ilUsersGalleryContainer div.ilUser .action ul.dropdown-menu {
-  min-width: 170px;
-  padding: 0;
-  margin: 0;
-  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-}
-.ilUsersGalleryContainer div.ilUser .action ul.dropdown-menu li > a {
-  padding: 8px 10px;
 }
 /* Services/Style */
 .ilPositionStatic {
