@@ -8883,8 +8883,8 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-workflow-header .il-workflow-title {
   background-color: #f9f9f9;
   color: #161616;
-  font-size: 2.6rem;
-  font-weight: 300;
+  font-size: 1.115rem;
+  font-weight: 400;
   margin-bottom: 30px;
   margin-top: 0;
   padding: 6px 12px;
@@ -8911,6 +8911,10 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 }
 .il-workflow-container .il-workflow-step:last-child .text {
   border-left: none;
+}
+.il-workflow-container .il-workflow-step .il-workflow-step-description {
+  font-size: 0.875rem;
+  font-weight: 300;
 }
 .il-workflow-container .not-available:before,
 .il-workflow-container .no-longer-available:before {
@@ -8956,7 +8960,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   margin: 0;
   width: 31.5px;
   height: 31.5px;
-  font-size: 15.75px;
+  font-size: 1.115rem;
 }
 .il-workflow-container .active.completed-successfully:before,
 .il-workflow-container .active.completed-unsuccessfully:before {
@@ -8966,7 +8970,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-workflow-container .active .text .il-workflow-step-label,
 .il-workflow-container .active .text .il-workflow-step-label .btn.btn-link {
   color: #4c6586;
-  font-size: 18.9px;
+  font-size: 1rem;
   font-weight: 400;
 }
 .il-workflow-container .text {
@@ -8981,9 +8985,31 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-workflow-container .available .il-workflow-step-label,
 .il-workflow-container .available .il-workflow-step-label .btn.btn-link {
   color: #161616;
-  font-size: 14.7px;
-  font-weight: 300;
+  font-size: 1rem;
+  font-weight: 400;
   margin-top: -5px;
+}
+#il_right_col .il-workflow {
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#il_right_col .il-workflow .il-workflow-header {
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 9px 15px;
+}
+#il_right_col .il-workflow .il-workflow-header h3 {
+  margin: 0;
+  padding: 0;
+  color: #161616;
+  font-size: 1.115rem;
+  line-height: 1.33;
+  font-weight: 600;
+}
+#il_right_col .il-workflow .il-workflow-container {
+  padding: 15px 15px;
 }
 /* common css for characteristic value listing */
 .il-listing-characteristic-value-row {
