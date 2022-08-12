@@ -242,13 +242,16 @@ class ilObjMailGUI extends ilObjectGUI
         );
 
         $mn = new ilFormSectionHeaderGUI();
-        $mn->setTitle($this->lng->txt('auto_responder'));
+        $mn->setTitle($this->lng->txt('mail_auto_responder'));
         $form->addItem($mn);
 
         $input = new ilNumberInputGUI($this->lng->txt('mail_auto_responder_idle_time'), 'mail_auto_responder_idle_time');
+        $input->setMinValue(0);
+        $input->allowDecimals(false);
         $input->setInfo($this->lng->txt('mail_auto_responder_idle_time_info'));
         $input->setSuffix($this->lng->txt('days'));
         $input->setDisabled(!$this->isEditingAllowed());
+        $input->setSize(5);
         $form->addItem($input);
 
         if ($this->isEditingAllowed()) {
@@ -272,7 +275,9 @@ class ilObjMailGUI extends ilObjectGUI
             'show_mail_settings' => (bool) $this->settings->get('show_mail_settings', '1'),
             'mail_maxsize_attach' => $this->settings->get('mail_maxsize_attach', ''),
             'mail_notification' => $this->settings->get('mail_notification', ''),
-            'mail_auto_responder_idle_time' => (int) $this->settings->get('mail_auto_responder_idle_time', ''),
+            'mail_auto_responder_idle_time' => is_numeric($this->settings->get('mail_auto_responder_idle_time')) ?
+                (string) $this->settings->get('mail_auto_responder_idle_time') :
+                '',
         ]);
     }
 

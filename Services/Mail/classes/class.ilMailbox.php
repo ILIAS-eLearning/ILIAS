@@ -369,9 +369,9 @@ class ilMailbox
         );
 
         $this->db->manipulateF(
-            'DELETE FROM auto_responder WHERE sender_id = %s OR recipient_id = %s',
-            ['integer'],
-            [$this->usrId]
+            'DELETE FROM mail_auto_responder WHERE sender_id = %s OR recipient_id = %s',
+            ['integer', 'integer'],
+            [$this->usrId, $this->usrId]
         );
 
         // Delete the user's files from filesystem:

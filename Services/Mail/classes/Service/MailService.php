@@ -19,12 +19,12 @@
 namespace ILIAS\Mail\Service;
 
 use ILIAS\DI\Container;
-use ILIAS\Mail\AutoResponder\AutoResponderServiceImpl;
-use ILIAS\Mail\AutoResponder\AutoResponderService;
+use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ilMailTemplateService;
 use ilObjUser;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Mail\AutoResponder\AutoResponderDatabaseRepository;
+use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
 use ilMailTemplateRepository;
 
 class MailService
@@ -46,15 +46,12 @@ class MailService
         return new MimeMailService($this->dic);
     }
 
-    public function autoresponder() : AutoResponderService
+    public function autoresponder() : AutoresponderService
     {
-        return new AutoResponderServiceImpl(
-            static function (int $usrId) : string {
-                return ilObjUser::_lookupLogin($usrId);
-            },
+        return new AutoresponderServiceImpl(
             (int) $this->dic->settings()->get('mail_auto_responder_idle_time'),
             false,
-            new AutoResponderDatabaseRepository($this->dic->database()),
+            new AutoresponderDatabaseRepository($this->dic->database()),
             (new DataFactory())->clock()->utc()
         );
     }

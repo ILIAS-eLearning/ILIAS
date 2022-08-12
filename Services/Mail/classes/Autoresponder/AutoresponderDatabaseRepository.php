@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\AutoResponder;
+namespace ILIAS\Mail\Autoresponder;
 
 use ilDBInterface;
 use DateTimeImmutable;
@@ -24,9 +24,9 @@ use DateTimeZone;
 use ilObjectNotFoundException;
 use ilDBConstants;
 
-final class AutoResponderDatabaseRepository implements AutoResponderRepository
+final class AutoresponderDatabaseRepository implements AutoresponderRepository
 {
-    private const TABLE_NAME = 'auto_responder';
+    private const TABLE_NAME = 'mail_auto_responder';
 
     protected ilDBInterface $db;
 
@@ -35,24 +35,25 @@ final class AutoResponderDatabaseRepository implements AutoResponderRepository
         $this->db = $db;
     }
 
-    public function findBySenderId(int $sender_id) : AutoResponderArrayCollection
+    public function findBySenderId(int $sender_id) : AutoresponderArrayCollection
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote($sender_id, ilDBConstants::T_INTEGER);
 
         $result = $this->db->query($query);
 
-        $auto_responder_results = new AutoResponderArrayCollection();
+        $auto_responder_results = new AutoresponderArrayCollection();
         while ($row = $this->db->fetchAssoc($result)) {
-            $auto_responder_results->add(new AutoResponder(
+            $auto_responder_results->add(new AutoresponderDto(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
                 new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
             ));
         }
+
         return $auto_responder_results;
     }
 
-    public function findByReceiverId(int $receiver_id) : AutoResponderArrayCollection
+    public function findByReceiverId(int $receiver_id) : AutoresponderArrayCollection
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE receiver_id = " . $this->db->quote(
             $receiver_id,
@@ -61,21 +62,22 @@ final class AutoResponderDatabaseRepository implements AutoResponderRepository
 
         $result = $this->db->query($query);
 
-        $auto_responder_results = new AutoResponderArrayCollection();
+        $auto_responder_results = new AutoresponderArrayCollection();
         while ($row = $this->db->fetchAssoc($result)) {
-            $auto_responder_results->add(new AutoResponder(
+            $auto_responder_results->add(new AutoresponderDto(
                 (int) $row['sender_id'],
                 (int) $row['receiver_id'],
                 new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
             ));
         }
+
         return $auto_responder_results;
     }
 
     /**
-     * @throws AutoResponderAlreadyExistsException
+     * @throws ilObjectNotFoundException
      */
-    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : AutoResponder
+    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : AutoresponderDto
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
             $sender_id,
@@ -88,14 +90,15 @@ final class AutoResponderDatabaseRepository implements AutoResponderRepository
                 "No auto responder found for sender_id: " . $sender_id . " and receiver_id: " . $receiver_id
             );
         }
-        return new AutoResponder(
+
+        return new AutoresponderDto(
             (int) $row['sender_id'],
             (int) $row['receiver_id'],
             new DateTimeImmutable($row['sent_time'], new DateTimeZone('UTC'))
         );
     }
 
-    public function store(AutoResponder $auto_responder) : void
+    public function store(AutoresponderDto $auto_responder) : void
     {
         $timestamp_sent_time = $auto_responder->getSentTime()->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
         $this->db->replace(
@@ -110,7 +113,7 @@ final class AutoResponderDatabaseRepository implements AutoResponderRepository
         );
     }
 
-    public function delete(AutoResponder $auto_responder) : void
+    public function delete(AutoresponderDto $auto_responder) : void
     {
         $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
             $auto_responder->getSenderId(),

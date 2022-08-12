@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -95,8 +97,8 @@ class ilMailOptionsTest extends ilMailBaseTest
         $this->assertSame($this->object->absence_status, $mailOptions->getAbsenceStatus());
         $this->assertSame($this->object->absent_from, $mailOptions->getAbsentFrom());
         $this->assertSame($this->object->absent_until, $mailOptions->getAbsentUntil());
-        $this->assertSame($this->object->absence_ar_subject, $mailOptions->getAbsenceAutoResponderSubject());
-        $this->assertSame($this->object->absence_ar_body, $mailOptions->getAbsenceAutoResponderBody());
+        $this->assertSame($this->object->absence_ar_subject, $mailOptions->getAbsenceAutoresponderSubject());
+        $this->assertSame($this->object->absence_ar_body, $mailOptions->getAbsenceAutoresponderBody());
     }
 
     /**
