@@ -130,7 +130,7 @@ class ilMailOptions
                 $this->setAbsenceStatus((bool) $row->absence_status);
             $this->setAbsentFrom((int) $row->absent_from);
             $this->setAbsentUntil((int) $row->absent_until);
-            $this->setAbsenceAutoResponderSubject($row->absence_ar_subject ?? '');
+            $this->setAbsenceAutoresponderSubject($row->absence_ar_subject ?? '');
             $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
 
             if (false === filter_var(
@@ -174,8 +174,8 @@ class ilMailOptions
         $data['absence_status'] = ['integer', (int) $this->getAbsenceStatus()];
         $data['absent_from'] = ['integer', $this->getAbsentFrom()];
         $data['absent_until'] = ['integer', $this->getAbsentUntil()];
-        $data['absence_ar_subject'] = ['text', $this->getAbsenceAutoResponderSubject()];
-        $data['absence_ar_body'] = ['clob', $this->getAbsenceAutoResponderBody()];
+        $data['absence_ar_subject'] = ['text', $this->getAbsenceAutoresponderSubject()];
+        $data['absence_ar_body'] = ['clob', $this->getAbsenceAutoresponderBody()];
 
         return $this->db->replace(
             $this->table_mail_options,
@@ -284,12 +284,12 @@ class ilMailOptions
         return $emailAddresses;
     }
 
-    public function setAbsenceAutoResponderBody(string $absence_auto_responder_body) : void
+    public function setAbsenceAutoresponderBody(string $absence_auto_responder_body) : void
     {
         $this->absence_auto_responder_body = $absence_auto_responder_body;
     }
 
-    public function getAbsenceAutoResponderBody() : string
+    public function getAbsenceAutoresponderBody() : string
     {
         return $this->absence_auto_responder_body;
     }
@@ -324,12 +324,12 @@ class ilMailOptions
         return $this->absent_until;
     }
 
-    public function setAbsenceAutoResponderSubject(string $absence_auto_responder_subject) : void
+    public function setAbsenceAutoresponderSubject(string $absence_auto_responder_subject) : void
     {
         $this->absence_auto_responder_subject = $absence_auto_responder_subject;
     }
 
-    public function getAbsenceAutoResponderSubject() : string
+    public function getAbsenceAutoresponderSubject() : string
     {
         return $this->absence_auto_responder_subject;
     }

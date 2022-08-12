@@ -16,11 +16,11 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\AutoResponder;
+namespace ILIAS\Mail\Autoresponder;
 
 use DateTimeImmutable;
 
-final class AutoResponder
+final class AutoresponderDto
 {
     private int $sender_id;
     private int $receiver_id;

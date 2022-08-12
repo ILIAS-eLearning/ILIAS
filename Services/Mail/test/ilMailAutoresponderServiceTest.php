@@ -16,22 +16,21 @@
  *
  *********************************************************************/
 
-use ILIAS\Mail\AutoResponder\AutoResponderService;
-use ILIAS\Mail\AutoResponder\AutoResponderServiceImpl;
-use ILIAS\Mail\AutoResponder\AutoResponder;
-use ILIAS\Mail\AutoResponder\AutoResponderRepository;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
+use ILIAS\Mail\Autoresponder\AutoresponderDto;
+use ILIAS\Mail\Autoresponder\AutoresponderRepository;
 use ILIAS\Data\Clock\ClockInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 
-class ilAutoResponderServiceTest extends ilMailBaseTest
+class ilMailAutoresponderServiceTest extends ilMailBaseTest
 {
     private const MAIL_SENDER_USER_ID = 4711;
     private const MAIL_RECEIVER_USER_ID = 4712;
 
     /**
-     * @dataProvider autoResponderProvider
+     * @dataProvider autoresponderProvider
      */
-    public function testAutoResponderDeliveryWillBeHandledCorrectlyDependingOnLastSentTime(
+    public function testAutoresponderDeliveryWillBeHandledCorrectlyDependingOnLastSentTime(
         ?DateTimeImmutable $last_auto_responder_time,
         DateTimeImmutable $faked_now,
         int $interval,
@@ -40,19 +39,19 @@ class ilAutoResponderServiceTest extends ilMailBaseTest
         $clock = $this->createMock(ClockInterface::class);
         $clock->method('now')->willReturn($faked_now);
 
-        $repository = $this->createMock(AutoResponderRepository::class);
+        $repository = $this->createMock(AutoresponderRepository::class);
 
         if ($last_auto_responder_time === null) {
             $repository->expects($this->once())->method('exists')->willReturn(false);
             $repository->expects($this->never())->method('findBySenderIdAndReceiverId');
 
-            $auto_responder_record = $this->createAutoResponderRecord(
+            $auto_responder_record = $this->createAutoresponderRecord(
                 self::MAIL_RECEIVER_USER_ID,
                 self::MAIL_SENDER_USER_ID,
                 $faked_now
             );
         } else {
-            $auto_responder_record = $this->createAutoResponderRecord(
+            $auto_responder_record = $this->createAutoresponderRecord(
                 self::MAIL_RECEIVER_USER_ID,
                 self::MAIL_SENDER_USER_ID,
                 $last_auto_responder_time
@@ -64,7 +63,7 @@ class ilAutoResponderServiceTest extends ilMailBaseTest
 
         if ($expects_active_auto_responder) {
             $repository->expects($this->once())->method('store')->with(
-                $this->callback(static function (AutoResponder $actual) use ($faked_now, $auto_responder_record) : bool {
+                $this->callback(static function (AutoresponderDto $actual) use ($faked_now, $auto_responder_record) : bool {
                     return (
                         // Compare by values, not identity (and ignore sent time)
                         $actual->getReceiverId() === $auto_responder_record->getReceiverId() &&
@@ -81,49 +80,48 @@ class ilAutoResponderServiceTest extends ilMailBaseTest
         $mail_options->method('isAbsent')->willReturn(true);
 
         $auto_responder_service = $this->createService(
-            static function (int $usrId) : string {
-                return 'phpunit_' . $usrId;
-            },
             $interval,
             $repository,
             $clock
         );
 
-        $auto_responder_service->enqueueAutoResponderIfEnabled($mail_options);
+        $auto_responder_service->enqueueAutoresponderIfEnabled($mail_options);
 
-        $auto_responder_service->handleAutoResponderMails(self::MAIL_SENDER_USER_ID);
+        $auto_responder_service->handleAutoresponderMails(self::MAIL_SENDER_USER_ID);
     }
 
     private function createService(
-        callable $loginByUsrIdCallable,
         int $global_idle_time_interval,
-        AutoResponderRepository $auto_responder_repository,
+        AutoresponderRepository $auto_responder_repository,
         ClockInterface $clock
-    ) : AutoResponderService {
-        return new AutoResponderServiceImpl(
-            $loginByUsrIdCallable,
+    ) : AutoresponderService {
+        return new AutoresponderServiceImpl(
             $global_idle_time_interval,
             true,
             $auto_responder_repository,
             $clock,
-            static function (int $sender_id, int $recipient_id, string $recipient, string $subject, string $body) : void {
+            static function (
+                int $sender_id,
+                ilMailOptions $receiver_mail_options,
+                DateTimeImmutable $next_auto_responder_datetime
+            ) : void {
             }
         );
     }
 
-    private function createAutoResponderRecord(
+    private function createAutoresponderRecord(
         int $auto_responder_sender_usr_id,
         int $auto_responder_receiver_id,
         DateTimeImmutable $sender_time
-    ) : AutoResponder {
-        return new AutoResponder(
+    ) : AutoresponderDto {
+        return new AutoresponderDto(
             $auto_responder_sender_usr_id,
             $auto_responder_receiver_id,
             $sender_time
         );
     }
 
-    public function autoResponderProvider() : Generator
+    public function autoresponderProvider() : Generator
     {
         $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
 

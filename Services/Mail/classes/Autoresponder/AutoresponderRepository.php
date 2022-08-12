@@ -16,15 +16,15 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\AutoResponder;
+namespace ILIAS\Mail\Autoresponder;
 
-interface AutoResponderRepository
+interface AutoresponderRepository
 {
     public function exists(int $sender_id, int $receiver_id) : bool;
-    public function findBySenderId(int $sender_id) : AutoResponderCollection;
-    public function findByReceiverId(int $receiver_id) : AutoResponderCollection;
-    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : AutoResponder;
-    public function store(AutoResponder $auto_responder) : void;
-    public function delete(AutoResponder $auto_responder) : void;
+    public function findBySenderId(int $sender_id) : AutoresponderCollection;
+    public function findByReceiverId(int $receiver_id) : AutoresponderCollection;
+    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : AutoresponderDto;
+    public function store(AutoresponderDto $auto_responder) : void;
+    public function delete(AutoresponderDto $auto_responder) : void;
     public function deleteBySenderId(int $sender_id) : void;
 }

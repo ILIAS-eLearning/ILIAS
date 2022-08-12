@@ -19,7 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
-use ILIAS\Mail\AutoResponder\AutoResponderService;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -53,7 +53,7 @@ class ilMail
     protected array $userInstancesByIdMap = [];
     /** @var callable */
     protected $usrIdByLoginCallable;
-    protected AutoResponderService $auto_responder_service;
+    protected AutoresponderService $auto_responder_service;
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
     protected ilObjUser $actor;
@@ -71,7 +71,7 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
-        AutoResponderService $auto_responder_service = null,
+        AutoresponderService $auto_responder_service = null,
         int $mailAdminNodeRefId = null,
         protected ?int $mail_obj_ref_id = null,
         ilObjUser $actor = null
@@ -102,7 +102,7 @@ class ilMail
         $this->setSaveInSentbox(false);
     }
 
-    public function autoresponder() : AutoResponderService
+    public function autoresponder() : AutoresponderService
     {
         return $this->auto_responder_service;
     }
@@ -582,7 +582,7 @@ class ilMail
         int $sentMailId,
         bool $usePlaceholders = false
     ): bool {
-        $this->auto_responder_service->emptyAutoResponderData();
+        $this->auto_responder_service->emptyAutoresponderData();
         if ($usePlaceholders) {
             $toUsrIds = $this->getUserIds([$to]);
             $this->logger->debug(sprintf(
@@ -636,8 +636,8 @@ class ilMail
                 $sentMailId
             );
         }
-        $this->auto_responder_service->disableAutoResponder();
-        $this->auto_responder_service->handleAutoResponderMails($this->user_id);
+        $this->auto_responder_service->disableAutoresponder();
+        $this->auto_responder_service->handleAutoresponderMails($this->user_id);
 
         return true;
     }
@@ -738,7 +738,7 @@ class ilMail
                 $user->getId()
             );
 
-            $this->auto_responder_service->enqueueAutoResponderIfEnabled(
+            $this->auto_responder_service->enqueueAutoresponderIfEnabled(
                 $mailOptions
             );
 
@@ -1058,7 +1058,7 @@ class ilMail
             serialize(array_merge(
                 $this->contextParameters,
                 [
-                    'auto_responder' => $this->auto_responder_service->isAutoResponderEnabled()
+                    'auto_responder' => $this->auto_responder_service->isAutoresponderEnabled()
                 ]
             ))
         ]);

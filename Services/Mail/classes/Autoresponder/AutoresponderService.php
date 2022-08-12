@@ -16,16 +16,16 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\AutoResponder;
+namespace ILIAS\Mail\Autoresponder;
 
 use ilMailOptions;
 
-interface AutoResponderService
+interface AutoresponderService
 {
-    public function isAutoResponderEnabled() : bool;
-    public function enableAutoResponder() : void;
-    public function disableAutoResponder() : void;
-    public function handleAutoResponderMails(int $auto_responder_receiver_usr_id) : void;
-    public function enqueueAutoResponderIfEnabled(ilMailOptions $mail_recipient_mail_options) : void;
-    public function emptyAutoResponderData() : void;
+    public function isAutoresponderEnabled() : bool;
+    public function enableAutoresponder() : void;
+    public function disableAutoresponder() : void;
+    public function handleAutoresponderMails(int $auto_responder_receiver_usr_id) : void;
+    public function enqueueAutoresponderIfEnabled(ilMailOptions $mail_recipient_mail_options) : void;
+    public function emptyAutoresponderData() : void;
 }

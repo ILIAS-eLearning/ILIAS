@@ -16,37 +16,37 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\AutoResponder;
+namespace ILIAS\Mail\Autoresponder;
 
 use InvalidArgumentException;
 
-interface AutoResponderCollection
+interface AutoresponderCollection
 {
-    public function add(AutoResponder $element) : void;
+    public function add(AutoresponderDto $element) : void;
     /**
      * @param string|int $key
      * @throws InvalidArgumentException
      */
     public function remove($key) : void;
     /** @throws InvalidArgumentException */
-    public function removeElement(AutoResponder $element) : void;
+    public function removeElement(AutoresponderDto $element) : void;
     /** @param int|string $key */
     public function containsKey($key) : bool;
-    public function getKey(AutoResponder $element) : int;
+    public function getKey(AutoresponderDto $element) : int;
     public function clear() : void;
-    public function contains(AutoResponder $element) : bool;
+    public function contains(AutoresponderDto $element) : bool;
     /** @param int|string $key */
-    public function get($key) : ?AutoResponder;
+    public function get($key) : ?AutoresponderDto;
     /** @param int|string $key */
-    public function set($key, AutoResponder $value) : void;
+    public function set($key, AutoresponderDto $value) : void;
     public function isEmpty() : bool;
     /** @return array<int|string> $key */
     public function getKeys() : array;
-    /** @return AutoResponder[] $*/
+    /** @return AutoresponderDto[] $*/
     public function getValues() : array;
     public function filter(callable $callable) : self;
     public function slice(int $offset, int $length = null) : self;
-    /** @return AutoResponder[]|array<int|string, AutoResponder> */
+    /** @return AutoresponderDto[]|array<int|string, AutoresponderDto> */
     public function toArray() : array;
     public function equals($other) : bool;
 }
