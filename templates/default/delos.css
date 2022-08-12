@@ -8496,7 +8496,7 @@ input[type="checkbox"]:focus:focus-visible {
   display: inline-flex;
   width: 100%;
   background-color: initial;
-  font-size: 1rem;
+  font-size: 0.875rem;
 }
 .il-filter-bar .il-filter-bar-opener .btn-bulky .glyph {
   padding-right: 0.3em;
@@ -8539,6 +8539,9 @@ input[type="checkbox"]:focus:focus-visible {
   padding-right: 12px;
   margin: 0;
   background: #f9f9f9;
+}
+.il-filter-input-section .leftaddon {
+  font-size: 0.75rem;
 }
 .il-filter-input-section .il-input-multiselect {
   margin: 0.8em;
