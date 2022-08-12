@@ -32,7 +32,7 @@ class Levenshtein
      * @param int $maximumDistance maximum allowed distance, limits the calculation of the Levenshtein distance. A maximum distance of 0 disables the function
      * @return Transformation
      */
-    public function standard(string $str, int $maximumDistance): Transformation
+    public function standard(string $str, int $maximumDistance) : Transformation
     {
         return new LevenshteinTransformation($str, $maximumDistance, 1.0, 1.0, 1.0);
     }
@@ -54,7 +54,7 @@ class Levenshtein
         float $cost_insertion,
         float $cost_replacement,
         float $cost_deletion
-    ): Transformation {
+    ) : Transformation {
         return new LevenshteinTransformation($str, $maximum_distance, $cost_insertion, $cost_replacement, $cost_deletion);
     }
 }
