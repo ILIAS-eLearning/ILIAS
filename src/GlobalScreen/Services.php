@@ -38,7 +38,7 @@ class Services
     public function __construct(ProviderFactory $provider_factory, string $resource_version = '')
     {
         $this->provider_factory = $provider_factory;
-        $this->resource_version = $resource_version;
+        $this->resource_version = urlencode($resource_version);
     }
 
 
