@@ -33,7 +33,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @var array<string>
      */
-    protected array $node_icons = [
+    protected $node_icons = [
         TOCBuilder::LP_NOT_STARTED => '',
         TOCBuilder::LP_IN_PROGRESS => '',
         TOCBuilder::LP_COMPLETED => '',
