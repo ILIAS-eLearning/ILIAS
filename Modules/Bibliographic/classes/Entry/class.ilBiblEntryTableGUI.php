@@ -26,7 +26,6 @@
  */
 class ilBiblEntryTableGUI extends ilTable2GUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     /**
      * @var \ilBiblFieldFilterInterface[]
      */
@@ -43,7 +42,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         $this->setId('tbl_bibl_overview_' . $facade->iliasRefId());
         $this->setPrefix('tbl_bibl_overview_' . $facade->iliasRefId());
         $this->setFormName('tbl_bibl_overview_' . $facade->iliasRefId());
-        parent::__construct($a_parent_obj);
+        parent::__construct($a_parent_obj, ilObjBibliographicGUI::CMD_VIEW);
         $this->parent_obj = $a_parent_obj;
 
         //Number of records
@@ -51,10 +50,10 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
 
         $this->setEnableHeader(false);
-        $this->setFormAction($this->ctrl()->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate('tpl.bibliographic_record_table_row.html', 'Modules/Bibliographic');
         // enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
-        $this->addColumn($this->lng()->txt('a'), 'content', 'auto');
+        $this->addColumn($this->lng->txt('a'), 'content', 'auto');
         $this->initFilter();
         $this->setOrderField('content');
         $this->setExternalSorting(true);
