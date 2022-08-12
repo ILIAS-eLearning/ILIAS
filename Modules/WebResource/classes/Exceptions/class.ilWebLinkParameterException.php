@@ -17,10 +17,8 @@
  *********************************************************************/
  
 /**
- * XML parser exception
- * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesWebResource
+ * @author Tim Schmitz <schmitz@leifos.de>
  */
-class ilWebLinkXmlParserException extends ilException
+class ilWebLinkParameterException extends ilException
 {
 }

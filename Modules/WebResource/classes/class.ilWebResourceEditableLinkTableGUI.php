@@ -28,10 +28,14 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 {
     protected Refinery $refinery;
     protected HTTPService $http;
+    protected ilSetting $settings;
 
-    protected ilLinkResourceItems $webresource_items;
+    protected ilWebLinkRepository $web_link_repo;
     protected array $invalid = [];
 
+    /**
+     * TODO Move most of this stuff to an init method.
+     */
     public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
@@ -40,9 +44,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
-        // Initialize
-        $this->webresource_items = new ilLinkResourceItems(
+        $this->settings = $DIC->settings();
+        $this->web_link_repo = new ilWebLinkDatabaseRepository(
             $this->getParentObject()->getObject()->getId()
         );
 
@@ -84,15 +87,21 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
     public function parseSelectedLinks(array $a_link_ids) : void
     {
         $rows = [];
-        foreach ($a_link_ids as $link_id) {
-            $link = $this->getWebResourceItems()->getItem($link_id);
 
-            $tmp['id'] = $link['link_id'];
-            $tmp['title'] = $link['title'];
-            $tmp['description'] = $link['description'];
-            $tmp['target'] = $link['target'];
-            $tmp['link_id'] = $link['link_id'];
-            $tmp['active'] = $link['active'];
+        $items = $this->web_link_repo->getAllItemsAsContainer()
+                                     ->sort()
+                                     ->getItems();
+
+        foreach ($items as $item) {
+            if (!in_array($item->getLinkId(), $a_link_ids)) {
+                continue;
+            }
+
+            $tmp['id'] = $item->getLinkId();
+            $tmp['title'] = $item->getTitle();
+            $tmp['description'] = $item->getDescription();
+            $tmp['target'] = $item->getTarget();
+            $tmp['active'] = $item->isActive();
             $tmp['params'] = [];
 
             $rows[] = $tmp;
@@ -102,19 +111,21 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 
     public function updateFromPost() : void
     {
-        $request_link_info = (array) ($this->http->request()->getParsedBody(
-            )['links'] ?? []);
+        $request_link_info = (array) (
+            $this->http->request()
+                                                 ->getParsedBody()['links'] ?? []
+        );
 
         $rows = [];
         foreach ($this->getData() as $link) {
             $link_id = $link['id'];
             $tmp = $link;
-            $tmp['title'] = $request_link_info[$link_id]['title'];
-            $tmp['description'] = $request_link_info[$link_id]['desc'];
-            $tmp['target'] = $request_link_info[$link_id]['tar'];
-            $tmp['active'] = $request_link_info[$link_id]['act'];
-            $tmp['value'] = $request_link_info[$link_id]['val'];
-            $tmp['name'] = $request_link_info[$link_id]['nam'];
+            $tmp['title'] = $request_link_info[$link_id]['title'] ?? null;
+            $tmp['description'] = $request_link_info[$link_id]['desc'] ?? null;
+            $tmp['target'] = $request_link_info[$link_id]['tar'] ?? null;
+            $tmp['active'] = $request_link_info[$link_id]['act'] ?? null;
+            $tmp['value'] = $request_link_info[$link_id]['val'] ?? null;
+            $tmp['name'] = $request_link_info[$link_id]['nam'] ?? null;
             $tmp['params'] = [];
             $rows[] = $tmp;
         }
@@ -125,18 +136,31 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
     {
         $rows = [];
 
-        $items = $this->getWebResourceItems()->sortItems(
-            $this->getWebResourceItems()->getAllItems()
-        );
+        $items = $this->web_link_repo->getAllItemsAsContainer()
+                                     ->sort()
+                                     ->getItems();
 
-        foreach ($items as $link) {
-            $tmp['id'] = $link['link_id'];
-            $tmp['title'] = $link['title'];
-            $tmp['description'] = $link['description'];
-            $tmp['target'] = $link['target'];
-            $tmp['link_id'] = $link['link_id'];
-            $tmp['active'] = $link['active'];
-            $tmp['params'] = ilParameterAppender::_getParams($link['link_id']);
+        foreach ($items as $item) {
+            $tmp['id'] = $item->getLinkId();
+            $tmp['title'] = $item->getTitle();
+            $tmp['description'] = $item->getDescription();
+            $tmp['target'] = $item->getTarget();
+            $tmp['active'] = $item->isActive();
+
+            /**
+             * This is a bit of a messy solution, but to avoid implicit method calls
+             * I prefer not to pass objects as table data.
+             */
+            $tmp['params'] = array_map(
+                function ($p) {
+                    return [
+                    'info' => $p->getInfo(),
+                    'param_id' => $p->getParamId()
+                ];
+                },
+                $item->getParameters()
+            );
+
             $rows[] = $tmp;
         }
         $this->setData($rows);
@@ -153,16 +177,16 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
                     $a_set['target']
                 )
             );
-            $this->tpl->parseCurrentBlock();
         } else {
             $this->ctrl->setParameterByClass(
                 'ilinternallinkgui',
                 'postvar',
                 'tar_' . $a_set['id']
             );
-            $trigger_link = array(get_class($this->parent_obj),
-                                  'ilinternallinkgui'
-            );
+            $trigger_link = [
+                get_class($this->parent_obj),
+                'ilinternallinkgui'
+            ];
             $trigger_link = $this->ctrl->getLinkTargetByClass(
                 $trigger_link,
                 '',
@@ -199,9 +223,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
                     );
                 }
             }
-
-            $this->tpl->parseCurrentBlock();
         }
+
+        $this->tpl->parseCurrentBlock();
 
         // Active
         $this->tpl->setVariable(
@@ -214,13 +238,18 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         );
 
         // Dynamic parameters
-        foreach ($a_set['params'] as $param_id => $param) {
+        foreach ($a_set['params'] as $param) {
             $this->tpl->setCurrentBlock('dyn_del_row');
             $this->tpl->setVariable('TXT_DYN_DEL', $this->lng->txt('delete'));
             $this->ctrl->setParameterByClass(
                 get_class($this->getParentObject()),
                 'param_id',
-                $param_id
+                $param['param_id']
+            );
+            $this->ctrl->setParameterByClass(
+                get_class($this->getParentObject()),
+                'link_id',
+                $a_set['id']
             );
             $this->tpl->setVariable(
                 'DYN_DEL_LINK',
@@ -231,10 +260,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable(
                 'VAL_DYN',
-                ilParameterAppender::parameterToInfo(
-                    $param['name'],
-                    $param['value']
-                )
+                $param['info']
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -247,7 +273,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (ilParameterAppender::_isEnabled()) {
+        if ($this->settings->get('links_dynamic')) {
             $this->tpl->setCurrentBlock('dyn_add');
             $this->tpl->setVariable(
                 'TXT_DYN_ADD',
@@ -269,7 +295,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
                 ilLegacyFormElementsUtil::formSelect(
                     $a_set['value'] ?? 0,
                     'links[' . $a_set['id'] . '][val]',
-                    ilParameterAppender::_getOptionSelect(),
+                    array_map(function ($s) {
+                        return $this->lng->txt($s);
+                    }, ilWebLinkBaseParameter::VALUES_TEXT),
                     false,
                     true
                 )
@@ -304,16 +332,11 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'VAL_DESC',
             ilLegacyFormElementsUtil::prepareFormOutput(
-                $a_set['description']
+                $a_set['description'] ?? ''
             )
         );
 
         // Column Target
         $this->tpl->setVariable('TXT_TARGET', $this->lng->txt('target'));
-    }
-
-    protected function getWebResourceItems() : ilLinkResourceItems
-    {
-        return $this->webresource_items;
     }
 }
