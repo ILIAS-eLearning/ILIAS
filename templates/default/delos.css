@@ -7942,6 +7942,9 @@ ul.dropdown-menu > li > .btn:focus {
   color: #4c6586;
   box-shadow: none;
 }
+.panel-secondary .il-viewcontrol-section .glyphicon {
+  font-size: 0.875rem;
+}
 .breadcrumb_wrapper {
   width: 100%;
   display: inline-grid;
