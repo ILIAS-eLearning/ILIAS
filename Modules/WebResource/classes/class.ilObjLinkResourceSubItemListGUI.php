@@ -22,6 +22,17 @@
  */
 class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
 {
+    protected ilWebLinkRepository $web_link_repo;
+    protected ilSetting $settings;
+
+    public function __construct(string $cmd_class)
+    {
+        global $DIC;
+        parent::__construct($cmd_class);
+        $this->settings = $DIC->settings();
+        $this->web_link_repo = new ilWebLinkDatabaseRepository($this->getObjId());
+    }
+
     public function getHTML() : string
     {
         $this->lng->loadLanguageModule('webr');
@@ -46,30 +57,14 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
             $this->tpl->setVariable('SUBITEM_TYPE', $this->lng->txt('webr'));
             $this->tpl->setVariable('SEPERATOR', ':');
 
-            $link_data = ilLinkResourceItems::lookupItem(
-                $this->getObjId(),
-                $sub_item
+            $item = $this->web_link_repo->getItemByLinkId($sub_item);
+
+            $this->tpl->setVariable(
+                'LINK',
+                $item->getResolvedLink((bool) $this->settings->get('links_dynamic'))
             );
-            $link_data = ilParameterAppender::_append($link_data);
-
-            // handle internal links (#10620)
-            if (stristr($link_data["target"], "|")) {
-                $parts = explode("|", $link_data["target"]);
-                if ($parts[0] == "page") {
-                    $parts[0] = "pg";
-                }
-                if ($parts[0] == "term") {
-                    $parts[0] = "git";
-                }
-                $link_data["target"] = ilLink::_getStaticLink(
-                    $parts[1],
-                    $parts[0]
-                );
-            }
-
-            $this->tpl->setVariable('LINK', $link_data['target']);
             $this->tpl->setVariable('TARGET', '_blank');
-            $this->tpl->setVariable('TITLE', $link_data['title']);
+            $this->tpl->setVariable('TITLE', $item->getTitle());
 
             if (count($this->getSubItemIds(true)) > 1) {
                 $this->parseRelevance($sub_item);

@@ -205,7 +205,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 
     public function setValueByArray(array $a_values) : void
     {
-        switch ($a_values[$this->getPostVar() . "_mode"]) {
+        switch ($a_values[$this->getPostVar() . "_mode"] ?? null) {
             case "int":
                 if ($a_values[$this->getPostVar() . "_ajax_type"] &&
                     $a_values[$this->getPostVar() . "_ajax_id"]) {
@@ -333,7 +333,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 break;
         }
         if (!$this->getRequired()) {
-            // see #0021274
+                // see #0021274
             $has_radio = true;
         }
         

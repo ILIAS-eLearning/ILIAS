@@ -19,16 +19,15 @@
 /**
  * Class ilObjLinkResourceAccess
  * @author        Alex Killing <alex.killing@gmx.de>
- * @ingroup       ModulesWebResource
  */
 class ilObjLinkResourceAccess extends ilObjectAccess
 {
+    /**
+     * @var ilWebLinkItem[]
+     */
     public static array $item = [];
     public static array $single_link = [];
 
-    /**
-     * @inheritDoc
-     */
     public static function _getCommands() : array
     {
         return array(
@@ -65,12 +64,10 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         if ($type !== 'webr' || $ref_id <= 0) {
             return false;
         }
-        return $ilAccess->checkAccess('read', '', $ref_id) || $ilAccess->checkAccess('visible', '', $ref_id);
+        return $ilAccess->checkAccess('read', '', $ref_id) ||
+            $ilAccess->checkAccess('visible', '', $ref_id);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function _checkAccess(
         string $cmd,
         string $permission,
@@ -79,18 +76,18 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         ?int $user_id = null
     ) : bool {
         global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
+        $rbacsystem = $DIC->rbac()->system();
+        $web_link_repo = new ilWebLinkDatabaseRepository($obj_id);
 
         // Set offline if no valid link exists
         if ($permission == 'read') {
-            if (!self::_getFirstLink(
-                $obj_id
-            ) && !$rbacsystem->checkAccessOfUser(
-                $user_id,
-                'write',
-                $ref_id
-            )) {
+            if (!$web_link_repo->getAllItemsAsContainer(true)
+                                     ->getFirstItem() &&
+                !$rbacsystem->checkAccessOfUser(
+                    $user_id,
+                    'write',
+                    $ref_id
+                )) {
                 return false;
             }
         }
@@ -107,56 +104,29 @@ class ilObjLinkResourceAccess extends ilObjectAccess
      * Get first link item
      * Check before with _isSingular() if there is more or less than one
      */
-    public static function _getFirstLink(int $a_webr_id) : array
+    public static function _getFirstLink(int $a_webr_id) : ilWebLinkItem
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (isset(self::$item[$a_webr_id])) {
             return self::$item[$a_webr_id];
         }
-        $query = "SELECT * FROM webr_items " .
-            "WHERE webr_id = " . $ilDB->quote($a_webr_id, 'integer') . ' ' .
-            "AND active = " . $ilDB->quote(1, 'integer') . ' ';
-        $res = $ilDB->query($query);
-        $item = [];
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $item['title'] = (string) $row->title;
-            $item['description'] = (string) $row->description;
-            $item['target'] = (string) $row->target;
-            $item['active'] = (bool) $row->active;
-            $item['create_date'] = (int) $row->create_date;
-            $item['last_update'] = (int) $row->last_update;
-            $item['link_id'] = (int) $row->link_id;
-            self::$item[(int) $row->webr_id] = $item;
-        }
-        return $item;
+
+        $web_link_repo = new ilWebLinkDatabaseRepository($a_webr_id);
+
+        $current_item = $web_link_repo->getAllItemsAsContainer(true)
+                                      ->getFirstItem();
+
+        self::$item[$current_item->getWebrId()] = $current_item;
+
+        return $current_item;
     }
 
     public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $res = $ilDB->query(
-            "SELECT * FROM webr_items WHERE " .
-            $ilDB->in("webr_id", $obj_ids, false, "integer") .
-            " AND active = " . $ilDB->quote(1, 'integer')
-        );
         foreach ($obj_ids as $id) {
-            self::$item[$id] = array();
-        }
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $item['title'] = (string) $row->title;
-            $item['description'] = (string) $row->description;
-            $item['target'] = (string) $row->target;
-            $item['active'] = (bool) $row->active;
-            $item['create_date'] = (int) $row->create_date;
-            $item['last_update'] = (int) $row->last_update;
-            $item['link_id'] = (int) $row->link_id;
-            self::$item[(int) $row->webr_id] = $item;
+            $web_link_repo = new ilWebLinkDatabaseRepository($id);
+            $first_item = $web_link_repo->getAllItemsAsContainer(true)
+                                        ->getFirstItem();
+            self::$item[$id] = $first_item;
         }
     }
 
@@ -164,13 +134,14 @@ class ilObjLinkResourceAccess extends ilObjectAccess
      * Check whether there is only one active link in the web resource.
      * In this case this link is shown in a new browser window
      */
-    public static function _checkDirectLink($a_obj_id)
+    public static function _checkDirectLink($a_obj_id) : bool
     {
         if (isset(self::$single_link[$a_obj_id])) {
             return self::$single_link[$a_obj_id];
         }
-        return self::$single_link[$a_obj_id] = ilLinkResourceItems::_isSingular(
-            $a_obj_id
-        );
+
+        $web_link_repo = new ilWebLinkDatabaseRepository($a_obj_id);
+
+        return self::$single_link[$a_obj_id] = $web_link_repo->doesOnlyOneItemExist(true);
     }
 }
