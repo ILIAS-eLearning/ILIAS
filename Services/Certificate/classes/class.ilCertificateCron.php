@@ -311,7 +311,9 @@ class ilCertificateCron extends ilCronJob
             'usr_id: ' . $userId
         ]);
 
-        $this->queueRepository->removeFromQueue($entry->getId());
+        if ($entry->getId() !== null) {
+            $this->queueRepository->removeFromQueue($entry->getId());
+        }
 
         $this->dic->event()->raise(
             'Services/Certificate',
