@@ -562,7 +562,7 @@ class ilLearningProgressBaseGUI
 
                 $info->addProperty(
                     $this->lng->txt('trac_status'),
-                    $icons->renderIconForStatus(ilLPStatusIcons::lookupNumStatus($status)) . " " . $status_text
+                    $icons->renderIconForStatus($icons->lookupNumStatus($status)) . " " . $status_text
                 );
                 
                 // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
