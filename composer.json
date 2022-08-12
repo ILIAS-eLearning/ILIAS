@@ -8,7 +8,8 @@
 		"vendor-dir": "./libs/composer/vendor",
 		"allow-plugins": {
 			"simplesamlphp/composer-module-installer": true,
-			"cweagans/composer-patches": true
+			"cweagans/composer-patches": true,
+			"captainhook/plugin-composer": true
 		}
 	},
 	"scripts": {
@@ -75,7 +76,8 @@
 		"mockery/mockery": "^1.4",
 		"friendsofphp/php-cs-fixer": "^3.5",
 		"sebastian/environment": "^5.0",
-		"captainhook/captainhook": "^5.3",
+		"captainhook/captainhook": "^5.10",
+		"captainhook/plugin-composer": "^5.3",
 		"rector/rector": "^0.12.12",
 		"phpstan/phpstan": "^1.6"
 	},
@@ -485,6 +487,26 @@
 			"last_update_by" : "Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de",
 			"approved-by" : "In Codebase since 2006",
 			"approved-date" : "YYYY-MM-DD"
+		},
+		"captainhook/captainhook": {
+			"source": "https://github.com/captainhookphp/captainhook",
+			"used_version": "5.10",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": null,
+			"last_update": "2022-08-12",
+			"last_update_by": "",
+			"approved-by": "JF",
+			"approved-date": "2021-11-21"
+		},
+		"captainhook/plugin-composer": {
+			"source": "https://github.com/captainhookphp/plugin-composer",
+			"used_version": "5.3",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": null,
+			"last_update": "2022-08-12",
+			"last_update_by": "",
+			"approved-by": "JF",
+			"approved-date": "2021-11-21"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
