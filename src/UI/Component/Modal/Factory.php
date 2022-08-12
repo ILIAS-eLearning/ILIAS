@@ -20,6 +20,7 @@ namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * Interface Factory
@@ -224,4 +225,29 @@ interface Factory
      * @return \ILIAS\UI\Component\Modal\LightboxTextPage
      */
     public function lightboxTextPage(string $text, string $title) : LightboxTextPage;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     A Lightbox card detail page represents a detailed view of a card inside a Lightbox modal.
+     *   composition: >
+     *     The page consists of an image and an item and a title.
+     *   effect: >
+     *     The image and the item are displayed in the content section of the Lightbox modal and the title is used
+     *     as the modal title.
+     * rules:
+     *   usage:
+     *     1: >
+     *       A Lightbox card detail page MUST have an image and an item and a title.
+     *     2: >
+     *       A Lightbox card detail page SHOULD be used for further information.
+     * ---
+     *
+     * @param Image $image
+     * @param Item $item
+     * @param string $title
+     * @return \ILIAS\UI\Component\Modal\LightboxCardDetailPage
+     */
+    public function lightboxCardDetailPage(Image $image, Item $item, string $title) : LightboxCardDetailPage;
 }

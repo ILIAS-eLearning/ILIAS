@@ -17,7 +17,7 @@ not a templating framework.
 
 In the ILIAS UI-Framework, GUIs are described by composing large chunks from
 smaller components. The available components and their possible compositions are
-described in the Kitchen Sink. The single components only have little  configuration,
+described in the Kitchen Sink. The single components only have little configuration,
 complex GUIs emerge from simple parts. You also won't need to modify existing
 components, just use them as provided.
 

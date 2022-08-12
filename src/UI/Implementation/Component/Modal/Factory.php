@@ -21,6 +21,8 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\NotImplementedException;
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * Implementation of factory for modals
@@ -86,5 +88,10 @@ class Factory implements M\Factory
     public function lightboxTextPage(string $text, string $title) : M\LightboxTextPage
     {
         return new LightboxTextPage($text, $title);
+    }
+
+    public function lightboxCardDetailPage(Image $image, Item $item, string $title) : M\LightboxCardDetailPage
+    {
+        throw new NotImplementedException();
     }
 }
