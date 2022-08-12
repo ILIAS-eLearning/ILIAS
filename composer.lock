@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f42f13076b177ff7d47cb0e923f33acc",
+    "content-hash": "cdc88ef8b10b4bbebf174d24da6340f1",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -7865,6 +7865,61 @@
                 }
             ],
             "time": "2022-03-06T21:32:16+00:00"
+        },
+        {
+            "name": "captainhook/plugin-composer",
+            "version": "5.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/captainhookphp/plugin-composer.git",
+                "reference": "0a802aaf7742ef22b5cbccd586d99e16d9d23a39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/captainhookphp/plugin-composer/zipball/0a802aaf7742ef22b5cbccd586d99e16d9d23a39",
+                "reference": "0a802aaf7742ef22b5cbccd586d99e16d9d23a39",
+                "shasum": ""
+            },
+            "require": {
+                "captainhook/captainhook": "^5.0",
+                "composer-plugin-api": "^1.1|^2.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "composer/composer": "*"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "CaptainHook\\Plugin\\Composer\\ComposerPlugin",
+                "branch-alias": {
+                    "dev-fluffy_hedgehog": "5.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CaptainHook\\Plugin\\Composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Heigl",
+                    "email": "andreas@heigl.org"
+                },
+                {
+                    "name": "Sebastian Feldmann",
+                    "email": "sf@sebastian-feldmann.info"
+                }
+            ],
+            "description": "Composer-Plugin handling your git-hooks",
+            "support": {
+                "issues": "https://github.com/captainhookphp/plugin-composer/issues",
+                "source": "https://github.com/captainhookphp/plugin-composer/tree/5.3.3"
+            },
+            "time": "2022-01-28T04:35:22+00:00"
         },
         {
             "name": "composer/pcre",
