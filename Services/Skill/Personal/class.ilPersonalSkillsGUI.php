@@ -303,7 +303,7 @@ class ilPersonalSkillsGUI
         }
 
         if ($current_prof_id == 0 && !(is_array($this->obj_skills) && $this->obj_id > 0)) {
-            $current_prof_id = $this->cont_profiles[0]["id"];
+            $current_prof_id = $this->cont_profiles[0]["profile_id"];
         }
         $ilCtrl->setParameter($this, "profile_id", $current_prof_id);
         $this->setProfileId($current_prof_id);
