@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Input\Field\FormInput;
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
 {
+    private ilRbacSystem $rbacsystem;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $ui_renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
@@ -79,7 +80,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
@@ -167,7 +168,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $side_panel = $this->side_panel_settings;
 
         if (!$this->canWrite()) {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $ilCtrl->redirect($this, "editSettings");
         }
 
@@ -204,153 +205,70 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $ctrl->getLinkTarget($this, "editSettings")
             );
 
-            if ($this->viewSettings->enabledSelectedItems()) {
-                $tabs->addSubTab(
-                    "view_favourites",
-                    $lng->txt("dash_view_favourites"),
-                    $ctrl->getLinkTarget($this, "editViewFavourites")
-                );
-            }
-
-            if ($this->viewSettings->enabledMemberships()) {
-                $tabs->addSubTab(
-                    "view_courses_groups",
-                    $lng->txt("dash_view_courses_groups"),
-                    $ctrl->getLinkTarget($this, "editViewCoursesGroups")
-                );
-            }
+            $tabs->addSubTab(
+                "presentation",
+                $lng->txt("presentation"),
+                $ctrl->getLinkTarget($this, "editPresentation")
+            );
         }
 
         $tabs->activateSubTab($a_active);
     }
 
-    protected function editViewCoursesGroups(): void
+    public function editPresentation(): void
     {
-        $main_tpl = $this->tpl;
-        $tabs = $this->tabs_gui;
-        $ui_renderer = $this->ui_renderer;
-
-        $tabs->activateTab("settings");
-        $this->setSettingsSubTabs("view_courses_groups");
-
-        $form = $this->getViewSettingsForm($this->viewSettings->getMembershipsView());
-
-        $main_tpl->setContent($ui_renderer->render($form));
-    }
-
-    protected function getViewSettingsForm(int $view): \ILIAS\UI\Component\Input\Container\Form\Standard
-    {
-        $ctrl = $this->ctrl;
         $lng = $this->lng;
         $ui_factory = $this->ui_factory;
 
-        if ($view == $this->viewSettings->getSelectedItemsView()) {
-            $save_cmd = "saveViewFavourites";
-        } else {
-            $save_cmd = "saveViewCoursesGroups";
-        }
+        $this->tabs_gui->activateTab("settings");
+        $this->setSettingsSubTabs("presentation");
 
-        // presentation
+
+        $form = $ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'savePresentation'),
+            ["view_courses_groups" => $this->getViewPresentation(0), "view_favourites" => $this->getViewPresentation(1)]
+        );
+
+        $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
+    }
+
+    public function getViewPresentation(int $view): \ILIAS\UI\Component\Input\Field\Section
+    {
+        $lng = $this->lng;
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
-        $pres_options = array_column(array_map(function ($k, $v) use ($lng) {
+        $pres_options = array_column(array_map(static function ($k, $v) use ($lng) {
             return [$v, $lng->txt("dash_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
-        $avail_pres = $ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_presentation"), $pres_options)
-            ->withValue($this->viewSettings->getActivePresentationsByView($view));
-        $default_pres = $ui_factory->input()->field()->radio($lng->txt("dash_default_presentation"))
-            ->withOption('list', $lng->txt("dash_list"))
-            ->withOption('tile', $lng->txt("dash_tile"));
+        $avail_pres = $this->ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_presentation"), $pres_options)
+                                 ->withValue($this->viewSettings->getActivePresentationsByView($view));
+        $default_pres = $this->ui_factory->input()->field()->radio($lng->txt("dash_default_presentation"))
+                                   ->withOption('list', $lng->txt("dash_list"))
+                                   ->withOption('tile', $lng->txt("dash_tile"));
         $default_pres = $default_pres->withValue($this->viewSettings->getDefaultPresentationByView($view));
-        $sec_presentation = $ui_factory->input()->field()->section(
+        return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_pres" => $avail_pres, "default_pres" => $default_pres]),
             $lng->txt("dash_presentation")
         );
+    }
 
-        // sortation
+    public function getViewSortation(int $view): \ILIAS\UI\Component\Input\Field\Section
+    {
+        $lng = $this->lng;
         $ops = $this->viewSettings->getAvailableSortOptionsByView($view);
-        $sortation_options = array_column(array_map(function ($k, $v) use ($lng) {
+        $sortation_options = array_column(array_map(static function ($k, $v) use ($lng) {
             return [$v, $lng->txt("dash_sort_by_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
-        $avail_sort = $ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_sortation"), $sortation_options)
-            ->withValue($this->viewSettings->getActiveSortingsByView($view));
-        $default_sort = $ui_factory->input()->field()->radio($lng->txt("dash_default_sortation"));
+        $avail_sort = $this->ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_sortation"), $sortation_options)
+                                 ->withValue($this->viewSettings->getActiveSortingsByView($view));
+        $default_sort = $this->ui_factory->input()->field()->radio($lng->txt("dash_default_sortation"));
         foreach ($sortation_options as $k => $text) {
             $default_sort = $default_sort->withOption($k, $text);
         }
         $default_sort = $default_sort->withValue($this->viewSettings->getDefaultSortingByView($view));
-        $sec_sortation = $ui_factory->input()->field()->section(
+        return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_sort" => $avail_sort, "default_sort" => $default_sort]),
             $lng->txt("dash_sortation")
         );
-
-        $form = $ui_factory->input()->container()->form()->standard(
-            $ctrl->getFormAction($this, $save_cmd),
-            ["presentation" => $sec_presentation, "sortation" => $sec_sortation]
-        );
-
-        return $form;
-    }
-
-
-    protected function saveViewCoursesGroups(): void
-    {
-        $this->saveViewSettings(
-            $this->viewSettings->getMembershipsView(),
-            "editViewCoursesGroups"
-        );
-    }
-
-    protected function editViewFavourites(): void
-    {
-        $main_tpl = $this->tpl;
-        $tabs = $this->tabs_gui;
-        $ui_renderer = $this->ui_renderer;
-
-        $tabs->activateTab("settings");
-        $this->setSettingsSubTabs("view_favourites");
-
-        $view = $this->viewSettings->getSelectedItemsView();
-
-        $form = $this->getViewSettingsForm($view);
-
-        $main_tpl->setContent($ui_renderer->render($form));
-    }
-
-    protected function saveViewFavourites(): void
-    {
-        $this->saveViewSettings(
-            $this->viewSettings->getSelectedItemsView(),
-            "editViewFavourites"
-        );
-    }
-
-    protected function saveViewSettings(int $view, string $redirect_cmd): void
-    {
-        $request = $this->request;
-        $lng = $this->lng;
-        $ctrl = $this->ctrl;
-
-        if (!$this->canWrite()) {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
-            $ctrl->redirect($this, $redirect_cmd);
-        }
-
-        $form = $this->getViewSettingsForm($view);
-        $form = $form->withRequest($request);
-        $form_data = $form->getData();
-        $this->viewSettings->storeViewSorting(
-            $view,
-            $form_data['sortation']['default_sort'],
-            $form_data['sortation']['avail_sort'] ?: []
-        );
-        $this->viewSettings->storeViewPresentation(
-            $view,
-            $form_data['presentation']['default_pres'],
-            $form_data['presentation']['avail_pres'] ?: []
-        );
-
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        $ctrl->redirect($this, $redirect_cmd);
     }
 
     /**
