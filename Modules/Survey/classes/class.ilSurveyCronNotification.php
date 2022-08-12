@@ -102,8 +102,7 @@ class ilSurveyCronNotification extends ilCronJob
         $result->setStatus($status);
         
         if (count($message)) {
-            $result->setMessage("Ref-Ids: " . implode(", ", $message));
-            $result->setCode("#" . count($message));
+            $result->setMessage("Ref-Ids: " . implode(", ", $message) . ' / ' . "#" . count($message));
         }
         $log->debug("end");
         return $result;

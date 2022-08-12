@@ -290,19 +290,11 @@ class ilPersonalSkillsGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if (count($this->user_profiles) == 0 && count($this->cont_profiles) == 0) {
+        if (count($this->cont_profiles) == 0) {
             return;
         }
         $current_prof_id = 0;
         if ($this->requested_profile_id > 0) {
-            foreach ($this->user_profiles as $p) {
-                if ($p["id"] == $this->requested_profile_id) {
-                    $current_prof_id = $this->requested_profile_id;
-                }
-            }
-        }
-
-        if ($this->requested_profile_id > 0 && $current_prof_id == 0) {
             foreach ($this->cont_profiles as $p) {
                 if ($p["profile_id"] == $this->requested_profile_id) {
                     $current_prof_id = $this->requested_profile_id;
@@ -311,7 +303,7 @@ class ilPersonalSkillsGUI
         }
 
         if ($current_prof_id == 0 && !(is_array($this->obj_skills) && $this->obj_id > 0)) {
-            $current_prof_id = $this->user_profiles[0]["id"];
+            $current_prof_id = $this->cont_profiles[0]["profile_id"];
         }
         $ilCtrl->setParameter($this, "profile_id", $current_prof_id);
         $this->setProfileId($current_prof_id);
@@ -1195,14 +1187,26 @@ class ilPersonalSkillsGUI
 
         //$profiles = ilSkillProfile::getProfilesOfUser($a_user_id);
 
-        if (count($this->user_profiles) == 0 && $this->obj_skills == null) {
+        if (count($this->cont_profiles) == 0 && $this->obj_skills == null) {
             return;
         }
 
         $this->determineCurrentProfile();
         $this->showProfileSelectorToolbar();
-        
-        $tpl->setContent($this->getGapAnalysisHTML());
+
+        $html = $this->showInfoBox() . $this->getGapAnalysisHTML();
+        $tpl->setContent($html);
+    }
+
+    public function showInfoBox() : string
+    {
+        $link = $this->ui_fac->link()->standard(
+            $this->lng->txt("skmg_open_all_assigned_profiles"),
+            $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilAchievementsGUI", "ilPersonalSkillsGUI"])
+        );
+        $box = $this->ui_fac->messageBox()->info($this->lng->txt("skmg_cont_profiles_info"))->withLinks([$link]);
+
+        return $this->ui_ren->render($box);
     }
 
     public function showProfileSelectorToolbar() : void
@@ -1214,10 +1218,6 @@ class ilPersonalSkillsGUI
         $options = [];
         if (is_array($this->obj_skills) && $this->obj_id > 0) {
             $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->obj_id)) . ": " . ilObject::_lookupTitle($this->obj_id);
-        }
-
-        foreach ($this->user_profiles as $p) {
-            $options[$p["id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
         }
 
         foreach ($this->cont_profiles as $p) {
@@ -1290,7 +1290,7 @@ class ilPersonalSkillsGUI
                     "base_skill_id" => $l["base_skill_id"],
                     "tref_id" => $l["tref_id"],
                     "level_id" => $l["level_id"]
-                    );
+                );
             }
         } elseif (is_array($a_skills)) {
             $skills = $a_skills;

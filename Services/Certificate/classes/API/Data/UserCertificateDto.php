@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace Certificate\API\Data;
+namespace ILIAS\Certificate\API\Data;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

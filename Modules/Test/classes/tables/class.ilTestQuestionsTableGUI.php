@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -235,6 +232,12 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->lng->txt('preview'),
             '',
             $this->getEditLink($a_set, get_class($this->getParentObject()), $this->getParentCmd())
+        );
+        
+        $actions->addItem(
+            $this->lng->txt('statistics'),
+            '',
+            $this->getEditLink($a_set, 'ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
         );
         
         if ($this->isQuestionManagingEnabled()) {

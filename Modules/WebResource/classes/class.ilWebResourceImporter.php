@@ -46,7 +46,7 @@ class ilWebResourceImporter extends ilXmlImporter
             'objs',
             $a_id
         )) {
-            $this->link = ilObjectFactory::getInstanceByObjId($new_id, false);
+            $this->link = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             if (!$this->link instanceof ilObjLinkResource) {
                 throw new ilObjectNotFoundException(
                     'Invalid id given ' . $a_id

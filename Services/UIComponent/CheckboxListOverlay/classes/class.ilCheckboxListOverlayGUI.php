@@ -20,7 +20,7 @@
  * User interface class for a checkbox list overlay
  *
  * @author Alexander Killing <killing@leifos.de>
- * @deprecated only used in legacy tables, do not introduce this anywhere else
+ * @deprecated 10 Only used in legacy tables, do not introduce this anywhere else
  */
 class ilCheckboxListOverlayGUI
 {

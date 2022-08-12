@@ -19,6 +19,8 @@
 /**
  * Tabs GUI
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 11
  */
 class ilTabsGUI
 {

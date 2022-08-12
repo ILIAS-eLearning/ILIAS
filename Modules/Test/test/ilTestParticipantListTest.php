@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestParticipantListTest
@@ -41,6 +55,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
     {
         $participant = new ilTestParticipant();
         $participant->setUsrId(125);
+        $participant->setActiveId(123);
         $this->testObj->addParticipant($participant);
         $this->assertEquals($participant, $this->testObj->getParticipantByUsrId(125));
     }
@@ -134,6 +149,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -146,6 +162,8 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertNotNull($result->getParticipantByUsrId(12));
         $this->assertNotNull($result->getParticipantByUsrId(125));
         $this->assertNotNull($result->getParticipantByUsrId(176));
+
+        $this->expectException(OutOfBoundsException::class);
         $this->assertNull($result->getParticipantByUsrId(212121));
     }
 
@@ -160,6 +178,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -180,6 +199,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -200,13 +220,14 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
         $this->testObj->next();
         $this->testObj->next();
 
-        $this->assertEquals(2, $this->testObj->key());
+        $this->assertEquals(1176, $this->testObj->key());
     }
 
     public function testValid() : void
@@ -220,6 +241,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -242,6 +264,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 

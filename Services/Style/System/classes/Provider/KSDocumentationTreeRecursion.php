@@ -57,7 +57,8 @@ class KSDocumentationTreeRecursion implements \ILIAS\UI\Component\Tree\TreeRecur
         /**
          * @var Entry $record
          */
-        $is_expanded = $this->entries->isParentOfEntry($record->getId(), $this->current_node->getId());
+        $is_expanded = ($this->entries->isParentOfEntry($record->getId(), $this->current_node->getId())) ||
+            ($record == $this->entries->getRootEntry());
         $is_highlited = $this->current_node->getId() == $record->getId();
 
         return $factory->simple($record->getTitle())

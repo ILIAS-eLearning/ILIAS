@@ -312,17 +312,13 @@ class ilDBUpdate
                 $this->initStep($i);
 
                 if ($this->applyUpdateNr($i) === false) {
-                    $msg[] = array("msg" => "update_error: " . $this->error,
-                                   "nr" => $i,
-                    );
+                    $msg[] = "msg: update_error - " . $this->error . "; nr: " . $i . ";";
                     $this->updateMsg = implode("\n", $msg);
 
                     return false;
                 }
 
-                $msg[] = array("msg" => "update_applied",
-                               "nr" => $i,
-                );
+                $msg[] = "msg: update_applied; nr: " . $i . ";";
             }
 
             $this->updateMsg = implode("\n", $msg);

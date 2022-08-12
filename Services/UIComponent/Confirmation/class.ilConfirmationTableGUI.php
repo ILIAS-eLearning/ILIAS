@@ -20,6 +20,8 @@
  * TableGUI class for
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 11
  */
 class ilConfirmationTableGUI extends ilTable2GUI
 {

@@ -18,7 +18,7 @@
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Services\Mail\Provider\GlobalScreenToolProvider;
+use ILIAS\Mail\Provider\GlobalScreenToolProvider;
 
 /**
  * @author       Jens Conze

@@ -26,7 +26,6 @@
  */
 class ilBiblEntryTableGUI extends ilTable2GUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     /**
      * @var \ilBiblFieldFilterInterface[]
      */
@@ -43,7 +42,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         $this->setId('tbl_bibl_overview_' . $facade->iliasRefId());
         $this->setPrefix('tbl_bibl_overview_' . $facade->iliasRefId());
         $this->setFormName('tbl_bibl_overview_' . $facade->iliasRefId());
-        parent::__construct($a_parent_obj);
+        parent::__construct($a_parent_obj, ilObjBibliographicGUI::CMD_VIEW);
         $this->parent_obj = $a_parent_obj;
 
         //Number of records
@@ -51,10 +50,10 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
 
         $this->setEnableHeader(false);
-        $this->setFormAction($this->ctrl()->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate('tpl.bibliographic_record_table_row.html', 'Modules/Bibliographic');
         // enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
-        $this->addColumn($this->lng()->txt('a'), 'content', 'auto');
+        $this->addColumn($this->lng->txt('a'), 'content', 'auto');
         $this->initFilter();
         $this->setOrderField('content');
         $this->setExternalSorting(true);
@@ -65,17 +64,19 @@ class ilBiblEntryTableGUI extends ilTable2GUI
 
     public function initFilter() : void
     {
-        $available_fields_for_object = $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId());
-
-        foreach ($available_fields_for_object as $available_field) {
-            $filter = $this->facade->filterFactory()->findByFieldId($available_field->getId());
-            if (!empty($filter)) {
-                $filter_presentation = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
+        $available_field_ids_for_object = array_map(function (ilBiblField $field) {
+            return $field->getId();
+        }, $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId()));
+    
+        foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObjId()) as $item) {
+            if (in_array($item->getFieldId(), $available_field_ids_for_object)) {
+                $filter_presentation = new ilBiblFieldFilterPresentationGUI($item, $this->facade);
                 $field = $filter_presentation->getFilterItem();
                 $this->addAndReadFilterItem($field);
-                $this->filter_objects[$field->getPostVar()] = $filter;
+                $this->filter_objects[$field->getPostVar()] = $item;
             }
         }
+    
     }
 
 

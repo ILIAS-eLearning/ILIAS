@@ -124,10 +124,10 @@ class ilObjectLP
         return "";
     }
 
-    public static function isSupportedObjectType(string $type) : bool
+    public static function getSupportedObjectTypes() : array
     {
         global $DIC;
-        $objDefinition = $DIC["objDefinition"];
+        $component_repository = $DIC["component.repository"];
 
         $valid = [
             "crs",
@@ -152,12 +152,24 @@ class ilObjectLP
             'frm'
         ];
 
+        $plugins = $component_repository->getPluginSlotById("robj")->getActivePlugins();
+        foreach ($plugins as $plugin) {
+            $type = $plugin->getId();
+            if (ilRepositoryObjectPluginSlot::isTypePluginWithLP($type)) {
+                $valid[] = $type;
+            }
+        }
+
+
+        return $valid;
+    }
+
+    public static function isSupportedObjectType(string $type) : bool
+    {
+        $valid = self::getSupportedObjectTypes();
+
         if (in_array($type, $valid)) {
             return true;
-        }
-        
-        if ($objDefinition->isPluginTypeName($type)) {
-            return ilRepositoryObjectPluginSlot::isTypePluginWithLP($type);
         }
         
         return false;

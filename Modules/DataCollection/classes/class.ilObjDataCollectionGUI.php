@@ -189,6 +189,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 break;
 
             case "ilcommonactiondispatchergui":
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $gui->enableCommentsSettings(false);
                 $this->ctrl->forwardCommand($gui);

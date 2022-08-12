@@ -34,6 +34,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     private ilDBInterface $db;
     private ilObjUser $user;
     private bool $initDone = false;
+    private ilCronManager $cron_manager;
 
     private function init() : void
     {
@@ -46,10 +47,34 @@ class ilMailCronOrphanedMails extends ilCronJob
             $this->user = $DIC->user();
             $this->http = $DIC->http();
             $this->refinery = $DIC->refinery();
+            $this->cron_manager = $DIC->cron()->manager();
 
             $this->lng->loadLanguageModule('mail');
             $this->initDone = true;
         }
+    }
+
+    private function emptyStringOrFloatOrIntToEmptyOrIntegerString() : Transformation
+    {
+        $empty_string_or_null_to_stirng_trafo = $this->refinery->custom()->transformation(static function ($value) : string {
+            if ($value === '' || null === $value) {
+                return '';
+            }
+
+            throw new Exception('The value to be transformed is not an empty string');
+        });
+
+        return $this->refinery->in()->series([
+            $this->refinery->byTrying([
+                $empty_string_or_null_to_stirng_trafo,
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->in()->series([
+                    $this->refinery->kindlyTo()->float(),
+                    $this->refinery->kindlyTo()->int()
+                ])
+            ]),
+            $this->refinery->kindlyTo()->string()
+        ]);
     }
 
     public function getId() : string
@@ -184,6 +209,11 @@ class ilMailCronOrphanedMails extends ilCronJob
         return true;
     }
 
+    public function ping() : void
+    {
+        $this->cron_manager->ping($this->getId());
+    }
+
     public function run() : ilCronJobResult
     {
         $this->init();
@@ -219,9 +249,10 @@ class ilMailCronOrphanedMails extends ilCronJob
     {
         $this->init();
 
-        $collector = new ilMailCronOrphanedMailsNotificationCollector();
+        $collector = new ilMailCronOrphanedMailsNotificationCollector($this);
 
         $notifier = new ilMailCronOrphanedMailsNotifier(
+            $this,
             $collector,
             (int) $this->settings->get('mail_threshold', '0'),
             (int) $this->settings->get('mail_notify_orphaned', '0')
@@ -233,31 +264,8 @@ class ilMailCronOrphanedMails extends ilCronJob
     {
         $this->init();
 
-        $collector = new ilMailCronOrphanedMailsDeletionCollector();
-        $processor = new ilMailCronOrphanedMailsDeletionProcessor($collector);
+        $collector = new ilMailCronOrphanedMailsDeletionCollector($this);
+        $processor = new ilMailCronOrphanedMailsDeletionProcessor($this, $collector);
         $processor->processDeletion();
-    }
-    
-    private function emptyStringOrFloatOrIntToEmptyOrIntegerString() : Transformation
-    {
-        $empty_string_or_null_to_stirng_trafo = $this->refinery->custom()->transformation(static function ($value) : string {
-            if ($value === '' || null === $value) {
-                return '';
-            }
-
-            throw new Exception('The value to be transformed is not an empty string');
-        });
-
-        return $this->refinery->in()->series([
-            $this->refinery->byTrying([
-                $empty_string_or_null_to_stirng_trafo,
-                $this->refinery->kindlyTo()->int(),
-                $this->refinery->in()->series([
-                    $this->refinery->kindlyTo()->float(),
-                    $this->refinery->kindlyTo()->int()
-                ])
-            ]),
-            $this->refinery->kindlyTo()->string()
-        ]);
     }
 }

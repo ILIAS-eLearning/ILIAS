@@ -179,7 +179,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
             $result_info[] = $entity->getJobResultMessage();
         }
 
-        if (defined('DEVMODE') && DEVMODE) {
+        if (defined('DEVMODE') && DEVMODE && $resultCode) {
             $result_info[] = $resultCode;
         }
 

@@ -267,7 +267,7 @@ class ilCOPageHTMLExport
                 foreach ($defs as $def) {
                     $pages[] = [
                         "type" => "gdf:pg",
-                        "id" => $def["obj_id"]
+                        "id" => $def["id"]
                     ];
                 }
             }

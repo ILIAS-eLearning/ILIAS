@@ -19,7 +19,7 @@
 /**
  * Link Button GUI
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @deprecated use KS Buttons instead
+ * @deprecated 10 Use KS Buttons instead
  */
 class ilJsLinkButton extends ilButton
 {

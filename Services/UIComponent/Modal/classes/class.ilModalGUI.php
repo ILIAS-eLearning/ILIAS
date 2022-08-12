@@ -20,6 +20,8 @@
  * Modal class
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 11
  */
 class ilModalGUI
 {

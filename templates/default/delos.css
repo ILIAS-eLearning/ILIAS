@@ -7942,6 +7942,9 @@ ul.dropdown-menu > li > .btn:focus {
   color: #4c6586;
   box-shadow: none;
 }
+.panel-secondary .il-viewcontrol-section .glyphicon {
+  font-size: 0.875rem;
+}
 .breadcrumb_wrapper {
   width: 100%;
   display: inline-grid;
@@ -8496,7 +8499,7 @@ input[type="checkbox"]:focus:focus-visible {
   display: inline-flex;
   width: 100%;
   background-color: initial;
-  font-size: 1rem;
+  font-size: 0.875rem;
 }
 .il-filter-bar .il-filter-bar-opener .btn-bulky .glyph {
   padding-right: 0.3em;
@@ -8539,6 +8542,9 @@ input[type="checkbox"]:focus:focus-visible {
   padding-right: 12px;
   margin: 0;
   background: #f9f9f9;
+}
+.il-filter-input-section .leftaddon {
+  font-size: 0.75rem;
 }
 .il-filter-input-section .il-input-multiselect {
   margin: 0.8em;
@@ -8751,7 +8757,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   order: 3;
 }
 .il-table-presentation-row {
-  background-color: #f9f9f9;
+  background-color: white;
   border-top: 1px solid #ddd;
   margin: 0;
   padding-top: 6px;
@@ -8877,8 +8883,8 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-workflow-header .il-workflow-title {
   background-color: #f9f9f9;
   color: #161616;
-  font-size: 2.6rem;
-  font-weight: 300;
+  font-size: 1.115rem;
+  font-weight: 400;
   margin-bottom: 30px;
   margin-top: 0;
   padding: 6px 12px;
@@ -8905,6 +8911,10 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 }
 .il-workflow-container .il-workflow-step:last-child .text {
   border-left: none;
+}
+.il-workflow-container .il-workflow-step .il-workflow-step-description {
+  font-size: 0.875rem;
+  font-weight: 300;
 }
 .il-workflow-container .not-available:before,
 .il-workflow-container .no-longer-available:before {
@@ -8950,7 +8960,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   margin: 0;
   width: 31.5px;
   height: 31.5px;
-  font-size: 15.75px;
+  font-size: 1.115rem;
 }
 .il-workflow-container .active.completed-successfully:before,
 .il-workflow-container .active.completed-unsuccessfully:before {
@@ -8960,7 +8970,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-workflow-container .active .text .il-workflow-step-label,
 .il-workflow-container .active .text .il-workflow-step-label .btn.btn-link {
   color: #4c6586;
-  font-size: 18.9px;
+  font-size: 1rem;
   font-weight: 400;
 }
 .il-workflow-container .text {
@@ -8975,9 +8985,31 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-workflow-container .available .il-workflow-step-label,
 .il-workflow-container .available .il-workflow-step-label .btn.btn-link {
   color: #161616;
-  font-size: 14.7px;
-  font-weight: 300;
+  font-size: 1rem;
+  font-weight: 400;
   margin-top: -5px;
+}
+#il_right_col .il-workflow {
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#il_right_col .il-workflow .il-workflow-header {
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 9px 15px;
+}
+#il_right_col .il-workflow .il-workflow-header h3 {
+  margin: 0;
+  padding: 0;
+  color: #161616;
+  font-size: 1.115rem;
+  line-height: 1.33;
+  font-weight: 600;
+}
+#il_right_col .il-workflow .il-workflow-container {
+  padding: 15px 15px;
 }
 /* common css for characteristic value listing */
 .il-listing-characteristic-value-row {
@@ -9872,7 +9904,7 @@ footer {
     top: 22px;
   }
   .il-maincontrols-metabar .il-metabar-more-button {
-    padding-right: 12px;
+    padding-right: 18px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom {
     position: relative;
@@ -15934,8 +15966,11 @@ div.ilProfile {
   background-color: #f9f9f9;
   padding: 15px;
 }
+div.ilProfile + div.ilProfile {
+  margin-top: 15px;
+}
 div.ilProfile + div.ilPermalinkContainer {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 div.ilProfile + div.ilPermalinkContainer .input-group-btn {
   vertical-align: bottom;
@@ -15944,13 +15979,13 @@ img.ilProfileImage {
   width: 100%;
 }
 h3.ilProfileName {
-  margin: 0 0 10px;
+  margin: 0 0 9px;
   padding: 0;
   font-weight: 400;
   font-size: 1.115rem;
 }
 div.ilProfileSection {
-  margin-top: 20px;
+  margin-top: 15px;
   font-size: 0.75rem;
   color: #6f6f6f;
 }
@@ -15966,71 +16001,6 @@ table.il_user_quota_disk_usage_overview {
 }
 img.ilUserXXSmall {
   max-width: 30px;
-}
-/* -- User Gallery Styles -- */
-.ilUsersGalleryContainer div.ilUser {
-  margin: 0 0 20px;
-  background-color: white;
-  padding: 20px 0;
-  font-size: 0.875rem;
-  width: 100%;
-  height: auto;
-  text-align: center;
-}
-.ilUsersGalleryContainer div.ilUser img {
-  min-height: 80px;
-  max-height: 80px;
-}
-.ilUsersGalleryContainer div.ilUser h3 {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 5px;
-  margin: 20px 0;
-  font-size: 1rem !important;
-}
-.ilUsersGalleryContainer div.ilUser .action {
-  width: 100%;
-  height: 40px;
-}
-.ilUsersGalleryContainer div.ilUser .action div {
-  display: inline-block;
-}
-.ilUsersGalleryContainer div.ilUser .action .btn {
-  float: left;
-}
-.ilUsersGalleryContainer div.ilUser .action .btn-default:hover {
-  color: white !important;
-}
-.ilUsersGalleryContainer div.ilUser .action .mailBtn {
-  height: 37px;
-  font-size: 1rem;
-  padding: 0 15px;
-  line-height: 30px;
-  margin: 2px 0 0 0;
-}
-.ilUsersGalleryContainer div.ilUser .action .open .btn {
-  -webkit-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-}
-.ilUsersGalleryContainer div.ilUser .action .open .btn-success:hover,
-.ilUsersGalleryContainer div.ilUser .action .open .btn-success:focus,
-.ilUsersGalleryContainer div.ilUser .action .open .btn-success:active {
-  color: white;
-  background: #626f78;
-  -webkit-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-  border: 1px solid #5b6770;
-}
-.ilUsersGalleryContainer div.ilUser .action ul.dropdown-menu {
-  min-width: 170px;
-  padding: 0;
-  margin: 0;
-  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-}
-.ilUsersGalleryContainer div.ilUser .action ul.dropdown-menu li > a {
-  padding: 8px 10px;
 }
 /* Services/Style */
 .ilPositionStatic {
@@ -17714,6 +17684,9 @@ div.ilSurveyPageEditActionMenu {
   font-size: 0.75rem;
   padding: 6px 0;
 }
+.il-maincontrols-slate .ilTagCloud {
+  padding: 6px 12px;
+}
 .ilTag {
   background-color: #75deea;
   /* background-color: lighten(@brand-primary, 10%); */
@@ -17746,8 +17719,14 @@ a.ilTag:active {
   background-color: #b0b0b0;
   color: #000000;
 }
-.ilTag.ilHighlighted {
+.ilTag.ilHighlighted,
+.ilTag.ilHighlighted:hover {
   background-color: #B54F00;
+  color: white;
+}
+.ilTag.ilHighlighted:hover,
+.ilTag.ilHighlighted:hover:hover {
+  background-color: #9c4400;
 }
 #il_tags_modal textarea {
   resize: vertical;

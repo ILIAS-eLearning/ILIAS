@@ -22,82 +22,88 @@
  */
 class ilMailCronOrphanedMailsDeletionCollector
 {
-    protected ilDBInterface $db;
-    protected ilSetting $settings;
-    /** @var int[] */
-    protected array $mail_ids = [];
+    private const PING_THRESHOLD = 500;
 
-    public function __construct()
+    private ilMailCronOrphanedMails $job;
+    private ilDBInterface $db;
+    private ilSetting $settings;
+    /** @var int[] */
+    private array $mail_ids = [];
+
+    public function __construct(ilMailCronOrphanedMails $job)
     {
         global $DIC;
 
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
 
+        $this->job = $job;
+
         $this->collect();
     }
 
-    public function collect() : void
+    private function collect() : void
     {
-        $mail_only_inbox_trash = (int) $this->settings->get('mail_only_inbox_trash', '0');
-        $last_cron_start_ts = (int) $this->settings->get('last_cronjob_start_ts', (string) time());
+        $mail_only_inbox_trash = (bool) $this->settings->get('mail_only_inbox_trash', '0');
         $mail_notify_orphaned = (int) $this->settings->get('mail_notify_orphaned', '0');
 
         $now = time();
 
         if ($mail_notify_orphaned > 0) {
             if ($mail_only_inbox_trash) {
-                // überprüfen ob die mail in einen anderen Ordner verschoben wurde
-                // selektiere die, die tatsächlich gelöscht werden sollen
+                // Only select determine mails which are now located in the inbox or trash folder
                 $res = $this->db->queryF(
-                    "
-                    SELECT * FROM mail_cron_orphaned 
+                    "SELECT mail_id FROM mail_cron_orphaned 
                     INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
-                    WHERE ts_do_delete <= %s
-                    AND (mdata.m_type = %s OR mdata.m_type = %s)",
-                    ['integer', 'text', 'text'],
+                    WHERE ts_do_delete <= %s AND (mdata.m_type = %s OR mdata.m_type = %s)",
+                    [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
                     [$now, 'inbox', 'trash']
                 );
             } else {
-                // selektiere alle zu löschenden mails unabhängig vom ordner..
+                // Select all determined emails independently of the folder
                 $res = $this->db->queryF(
-                    "
-                SELECT * FROM mail_cron_orphaned 
-                WHERE ts_do_delete <= %s",
-                    ['integer'],
+                    "SELECT mail_id FROM mail_cron_orphaned WHERE ts_do_delete <= %s",
+                    [ilDBConstants::T_INTEGER],
                     [$now]
                 );
             }
         } else {
-            // mails sollen direkt ohne vorheriger notification gelöscht werden.
+            // Mails should be deleted without notification
             $mail_threshold = (int) $this->settings->get('mail_threshold', '0');
             $ts_notify = strtotime("- " . $mail_threshold . " days");
             $ts_for_deletion = date('Y-m-d', $ts_notify) . ' 23:59:59';
 
-            $types = ['timestamp'];
+            $types = [ilDBConstants::T_TIMESTAMP];
             $data = [$ts_for_deletion];
 
             $mails_query = "
-				SELECT 		mail_id, m.user_id, folder_id, send_time, m_subject, mdata.title
+				SELECT 		mail_id
 				FROM 		mail m
 				INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
 				WHERE 		send_time <= %s";
 
-            if ((int) $this->settings->get('mail_only_inbox_trash', '0') > 0) {
+            if ($mail_only_inbox_trash) {
                 $mails_query .= " AND (mdata.m_type = %s OR mdata.m_type = %s)";
-                $types = ['timestamp', 'text', 'text'];
+                $types = [ilDBConstants::T_TIMESTAMP, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT];
                 $data = [$ts_for_deletion, 'inbox', 'trash'];
             }
 
             $res = $this->db->queryF($mails_query, $types, $data);
         }
 
+        $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
+            if ($i > 0 && $i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
             $this->addMailIdToDelete((int) $row['mail_id']);
+
+            ++$i;
         }
     }
 
-    public function addMailIdToDelete(int $mail_id) : void
+    private function addMailIdToDelete(int $mail_id) : void
     {
         $this->mail_ids[] = $mail_id;
     }
@@ -105,7 +111,7 @@ class ilMailCronOrphanedMailsDeletionCollector
     /**
      * @return int[]
      */
-    public function getMailIdsToDelete() : array
+    public function mailIdsToDelete() : array
     {
         return $this->mail_ids;
     }

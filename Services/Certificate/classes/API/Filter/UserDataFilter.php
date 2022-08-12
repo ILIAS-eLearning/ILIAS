@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace Certificate\API\Filter;
+namespace ILIAS\Certificate\API\Filter;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

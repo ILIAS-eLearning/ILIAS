@@ -19,6 +19,8 @@
 /**
  * Class ilSplitButton
  * @author Michael Jansen <mjansen@databay.de>
+ *
+ * @deprecated 11
  */
 class ilSplitButtonGUI extends ilButtonBase
 {

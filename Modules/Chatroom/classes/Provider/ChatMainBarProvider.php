@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\MainMenu\Provider;
+namespace ILIAS\Chatroom\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
@@ -24,6 +24,7 @@ use ilObjChatroom;
 use ilObjChatroomGUI;
 use ilRepositoryGUI;
 use ilSetting;
+use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
 /**
  * Class ChatMainBarProvider

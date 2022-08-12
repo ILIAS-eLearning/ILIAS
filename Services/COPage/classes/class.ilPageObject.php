@@ -2980,7 +2980,7 @@ s     */
             if (is_int(strpos($target, "__"))) {
                 $t_inst = 0;
             } else {    // link to unresolved object in other installation
-                $t_inst = $target_arr[1];
+                $t_inst = (int) ($target_arr[1] ?? 0);
             }
 
             if ($t_id > 0) {

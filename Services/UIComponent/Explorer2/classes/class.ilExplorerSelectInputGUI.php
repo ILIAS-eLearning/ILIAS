@@ -20,6 +20,8 @@
  * Select explorer tree nodes input GUI
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 11
  */
 abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {

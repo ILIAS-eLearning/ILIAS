@@ -19,6 +19,8 @@
 /**
  * HTML table component
  * @author	Sascha Hofmann <shofmann@databay.de>
+ *
+ * @deprecated 11
  */
 class ilTableGUI
 {

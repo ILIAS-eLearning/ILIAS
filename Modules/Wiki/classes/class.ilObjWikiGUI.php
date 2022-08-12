@@ -1256,30 +1256,40 @@ class ilObjWikiGUI extends ilObjectGUI
         )) {
             // to do: get rid of this redirect
             ilUtil::redirect(self::getGotoLink($this->object->getRefId(), $a_page));
-        } elseif (!$this->object->getTemplateSelectionOnCreation()) {
-            // check length
-            if (ilStr::strLen(ilWikiUtil::makeDbTitle($a_page)) > 200) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_page_title_too_long") . " (" . $a_page . ")", true);
-                $ilCtrl->setParameterByClass(
-                    "ilwikipagegui",
-                    "page",
+        } else {
+            if (!$this->access->checkAccess("edit_content", "", $this->object->getRefId())) {
+                $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_permission"), true);
+                ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId(), $this->edit_request->getFromPage()));
+            }
+            if (!$this->object->getTemplateSelectionOnCreation()) {
+                // check length
+                if (ilStr::strLen(ilWikiUtil::makeDbTitle($a_page)) > 200) {
+                    $this->tpl->setOnScreenMessage(
+                        'failure',
+                        $this->lng->txt("wiki_page_title_too_long") . " (" . $a_page . ")",
+                        true
+                    );
+                    $ilCtrl->setParameterByClass(
+                        "ilwikipagegui",
+                        "page",
+                        ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
+                    );
+                    $ilCtrl->redirectByClass("ilwikipagegui", "preview");
+                }
+                $this->object->createWikiPage($a_page);
+
+                // redirect to newly created page
+                $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
+                $ilCtrl->redirectByClass("ilwikipagegui", "edit");
+            } else {
+                $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
+                $ilCtrl->setParameter(
+                    $this,
+                    "from_page",
                     ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
                 );
-                $ilCtrl->redirectByClass("ilwikipagegui", "preview");
+                $ilCtrl->redirect($this, "showTemplateSelection");
             }
-            $this->object->createWikiPage($a_page);
-
-            // redirect to newly created page
-            $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
-            $ilCtrl->redirectByClass("ilwikipagegui", "edit");
-        } else {
-            $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
-            $ilCtrl->setParameter(
-                $this,
-                "from_page",
-                ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
-            );
-            $ilCtrl->redirect($this, "showTemplateSelection");
         }
     }
 

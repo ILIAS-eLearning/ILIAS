@@ -22,6 +22,8 @@ use ILIAS\UI\Renderer;
 /**
  * Class ilUiLinkToSplitButtonMenuItemAdapter
  * @author Michael Jansen <mjansen@databay.de>
+ *
+ * @deprecated 11
  */
 class ilUiLinkToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
 {

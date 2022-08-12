@@ -31,7 +31,7 @@ class ilCronJobResult
     
     protected int $status = self::STATUS_NO_ACTION;
     protected string $message = '';
-    protected string $code = self::CODE_NO_RESULT;
+    protected ?string $code = null;
     protected string $duration = '0';
 
     /**
@@ -53,9 +53,15 @@ class ilCronJobResult
     
     public function setStatus(int $a_value) : void
     {
-        if (in_array($a_value, $this->getValidStatus(), true)) {
-            $this->status = $a_value;
+        if (!in_array($a_value, $this->getValidStatus(), true)) {
+            throw new InvalidArgumentException(sprintf(
+                'The passed status "%s" is not valid, must be of one of: %s',
+                $a_value,
+                implode(', ', $this->getValidStatus())
+            ));
         }
+
+        $this->status = $a_value;
     }
 
     /**
@@ -69,6 +75,7 @@ class ilCronJobResult
             self::STATUS_OK,
             self::STATUS_CRASHED,
             self::STATUS_FAIL,
+            self::STATUS_RESET,
         ];
     }
     
@@ -82,13 +89,21 @@ class ilCronJobResult
         $this->message = trim($a_value);
     }
     
-    public function getCode() : string
+    public function getCode() : ?string
     {
         return $this->code;
     }
     
     public function setCode(string $a_value) : void
     {
+        if (!in_array($a_value, self::getCoreCodes(), true)) {
+            throw new InvalidArgumentException(sprintf(
+                'The passed code "%s" is not valid, must be of one of: %s',
+                $a_value,
+                implode(', ', self::getCoreCodes())
+            ));
+        }
+
         $this->code = $a_value;
     }
     
@@ -99,6 +114,6 @@ class ilCronJobResult
     
     public function setDuration(float $a_value) : void
     {
-        $this->duration = number_format($a_value, 3, ".", "");
+        $this->duration = number_format($a_value, 3, '.', '');
     }
 }

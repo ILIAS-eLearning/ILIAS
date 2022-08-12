@@ -20,6 +20,8 @@
  * Confirmation screen class.
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 11
  */
 class ilConfirmationGUI
 {

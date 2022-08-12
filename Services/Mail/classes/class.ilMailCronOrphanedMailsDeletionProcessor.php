@@ -22,18 +22,28 @@
  */
 class ilMailCronOrphanedMailsDeletionProcessor
 {
-    protected ilMailCronOrphanedMailsDeletionCollector $collector;
-    protected ilDBInterface $db;
-    protected ilSetting $settings;
+    private const PING_THRESHOLD = 250;
 
-    public function __construct(ilMailCronOrphanedMailsDeletionCollector $collector)
+    private ilMailCronOrphanedMails $job;
+    private ilMailCronOrphanedMailsDeletionCollector $collector;
+    private ilDBInterface $db;
+    private ilSetting $settings;
+    private ilDBStatement $mail_ids_for_path_stmt;
+
+    public function __construct(ilMailCronOrphanedMails $job, ilMailCronOrphanedMailsDeletionCollector $collector)
     {
         global $DIC;
 
-        $this->collector = $collector;
-
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
+
+        $this->job = $job;
+        $this->collector = $collector;
+
+        $this->mail_ids_for_path_stmt = $this->db->prepare(
+            'SELECT COUNT(*) cnt FROM mail_attachment WHERE path = ?',
+            [ilDBConstants::T_TEXT]
+        );
     }
 
     private function deleteAttachments() : void
@@ -45,26 +55,37 @@ class ilMailCronOrphanedMailsDeletionProcessor
 				FROM mail_attachment 
 				WHERE ' . $this->db->in(
             'mail_id',
-            $this->collector->getMailIdsToDelete(),
+            $this->collector->mailIdsToDelete(),
             false,
-            'integer'
+            ilDBConstants::T_INTEGER
         ) . ' GROUP BY path');
         
+        $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
-            $usage_res = $this->db->queryF(
-                'SELECT mail_id, path FROM mail_attachment WHERE path = %s',
-                ['text'],
+            if ($i > 0 && $i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
+            $usage_res = $this->db->execute(
+                $this->mail_ids_for_path_stmt,
                 [$row['path']]
             );
 
-            $num_rows = $this->db->numRows($usage_res);
-            if ((int) $row['cnt_mail_ids'] >= $num_rows) {
+            $count_usages_data = $this->db->fetchAssoc($usage_res);
+            if (is_array($count_usages_data) && $count_usages_data !== [] && (int) $row['cnt_mail_ids'] >= (int) $count_usages_data['cnt']) {
                 // collect path to delete attachment file
                 $attachment_paths[(int) $row['mail_id']] = $row['path'];
             }
+
+            ++$i;
         }
 
+        $i = 0;
         foreach ($attachment_paths as $mail_id => $path) {
+            if ($i > 0 && $i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
             try {
                 $path = CLIENT_DATA_DIR . '/mail/' . $path;
                 $iter = new RecursiveIteratorIterator(
@@ -106,12 +127,16 @@ class ilMailCronOrphanedMailsDeletionProcessor
                     $mail_id
                 ));
             } catch (Exception $e) {
+                ilLoggerFactory::getLogger('mail')->warning($e->getMessage());
+                ilLoggerFactory::getLogger('mail')->warning($e->getTraceAsString());
+            } finally {
+                ++$i;
             }
         }
 
         $this->db->manipulate(
             'DELETE FROM mail_attachment WHERE ' .
-            $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')
+            $this->db->in('mail_id', $this->collector->mailIdsToDelete(), false, ilDBConstants::T_INTEGER)
         );
     }
     
@@ -119,7 +144,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     {
         $this->db->manipulate(
             'DELETE FROM mail WHERE ' .
-            $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')
+            $this->db->in('mail_id', $this->collector->mailIdsToDelete(), false, ilDBConstants::T_INTEGER)
         );
     }
 
@@ -128,7 +153,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
         if ((int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
             $this->db->manipulate(
                 'DELETE FROM mail_cron_orphaned WHERE ' .
-                $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')
+                $this->db->in('mail_id', $this->collector->mailIdsToDelete(), false, ilDBConstants::T_INTEGER)
             );
         } else {
             $this->db->manipulate('DELETE FROM mail_cron_orphaned');
@@ -137,20 +162,20 @@ class ilMailCronOrphanedMailsDeletionProcessor
 
     public function processDeletion() : void
     {
-        if (count($this->collector->getMailIdsToDelete()) > 0) {
-            // delete possible attachments ...
+        if (count($this->collector->mailIdsToDelete()) > 0) {
             $this->deleteAttachments();
 
             $this->deleteMails();
+
             ilLoggerFactory::getLogger('mail')->info(sprintf(
                 'Deleted mail_ids: %s',
-                implode(', ', $this->collector->getMailIdsToDelete())
+                implode(', ', $this->collector->mailIdsToDelete())
             ));
 
             $this->deleteMarkedAsNotified();
             ilLoggerFactory::getLogger('mail')->info(sprintf(
                 'Deleted mail_cron_orphaned mail_ids: %s',
-                implode(', ', $this->collector->getMailIdsToDelete())
+                implode(', ', $this->collector->mailIdsToDelete())
             ));
         }
     }

@@ -606,10 +606,7 @@ class ilObjectDefinition
      */
     public function isContainer(string $obj_name) : bool
     {
-        if (!isset($this->obj_data[$obj_name]['subobjects'])) {
-            return false;
-        }
-        return (bool) count($this->obj_data[$obj_name]['subobjects']);
+        return (bool) ($this->obj_data[$obj_name]['subobjects'] ?? false);
     }
 
     public function setHandlers($xml_parser) : void
@@ -660,7 +657,7 @@ class ilObjectDefinition
     */
     public function isSystemObject(string $obj_name) : bool
     {
-        return (bool) $this->obj_data[$obj_name]["system"];
+        return (bool) ($this->obj_data[$obj_name]["system"] ?? false);
     }
     
     /**
@@ -668,7 +665,7 @@ class ilObjectDefinition
     */
     public function isSideBlock(string $obj_name) : bool
     {
-        return (bool) $this->obj_data[$obj_name]["sideblock"];
+        return (bool) ($this->obj_data[$obj_name]["sideblock"] ?? false);
     }
 
     public function getSideBlockTypes(bool $filter_repository_types = true) : array
@@ -777,7 +774,7 @@ class ilObjectDefinition
      */
     public function isAllowedInRepository(string $obj_name) : bool
     {
-        return (bool) $this->obj_data[$obj_name]["repository"];
+        return (bool) ($this->obj_data[$obj_name]["repository"] ?? false);
     }
 
     /**
@@ -802,7 +799,7 @@ class ilObjectDefinition
      */
     public function isAllowedInWorkspace(string $obj_name) : bool
     {
-        return (bool) $this->obj_data[$obj_name]["workspace"];
+        return (bool) ($this->obj_data[$obj_name]["workspace"] ?? false);
     }
 
     /**
@@ -810,10 +807,7 @@ class ilObjectDefinition
      */
     public function isAdministrationObject(string $obj_name) : bool
     {
-        if (!isset($this->obj_data[$obj_name])) {
-            return false;
-        }
-        return (bool) $this->obj_data[$obj_name]['administration'];
+        return (bool) ($this->obj_data[$obj_name]['administration'] ?? false);
     }
     
     /**
@@ -959,7 +953,7 @@ class ilObjectDefinition
      */
     public function supportsOfflineHandling(string $obj_type) : bool
     {
-        return isset($this->obj_data[$obj_type]) && $this->obj_data[$obj_type]['offline_handling'];
+        return (bool) ($this->obj_data[$obj_type]['offline_handling'] ?? false);
     }
 
 
