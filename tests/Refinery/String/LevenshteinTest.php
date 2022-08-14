@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -9,14 +9,12 @@
  * You should have received a copy of said license along with the
  * source code, too.
  *
- * If this is not the case, or you just want to try ILIAS, you'll find
+ * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-declare(strict_types=1);
 
 namespace ILIAS\src\Refinery\String;
 
@@ -48,7 +46,7 @@ class LevenshteinTest extends TestCase
      */
     private $test_emoji = "😮‍💨";
 
-    public function setUp(): void
+    public function setUp() : void
     {
         $this->factory = new Factory();
         $language = $this->getMockBuilder(ilLanguage::class)
