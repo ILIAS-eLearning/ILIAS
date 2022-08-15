@@ -6249,7 +6249,7 @@ content#:#cont_download_no_download#:#Die Download-Funktion ist zur Zeit deaktiv
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_title#:#Titel der Download-Datei
 content#:#cont_downloads#:#Download
-content#:#cont_downloads_desc#:#Der Reiter "Download" wird in der Präsentationsansicht angezeigt. Dort können Benutzer freigegebene Exportdateien herunterladen, zum Beispiel für Offline-Nutzung oder Import.
+content#:#cont_downloads_desc#:#Der Reiter „Download“ wird in der Präsentationsansicht angezeigt. Erzeugen Sie im Reiter „Export„ eine Exportdatei und geben Sie diese für den öffentlichen Zugriff frei. Dann können Benutzer freigegebene Exportdateien herunterladen, zum Beispiel für die Offline-Nutzung oder den Import in eine andere ILIAS-Installation.
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
 content#:#cont_drag_and_drop_elements#:#<b>Ziehen</b> Sie ein Seitenelement mit der Maus auf einen Platzhalter um es zu <b>bewegen</b>.
 content#:#cont_drag_element_click_save#:#Bewegen Sie das Element an die gewünschte Position und klicken dann auf "Speichern".
@@ -7098,7 +7098,7 @@ content#:#glo_table_form_info#:#Begriffe und gekürzte Definitionen werden in ei
 content#:#glo_term_is_used_n_times#:#Der Begriff wird %s Mal verwendet.
 content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgeführt werden, welche innerhalb dieses Glossares definiert wurden.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
-content#:#glo_text_snippet_length#:#Länge der gekürzten Definitionen
+content#:#glo_text_snippet_length#:#Kürzen nach
 content#:#glo_text_snippet_length_info#:#Anzahl der Zeichen, nach der Definitionen in der Übersichtstabelle abgeschnitten werden.
 content#:#glo_usages#:#Glossar wird verwendet in...
 content#:#glo_used_in_scorm#:#Das Glossar wird vom SCORM-Modul verwendet. Wenn das Glossar gelöscht wird, können Verlinkungen zum Glossar nicht mehr aufgelöst werden.
@@ -14974,14 +14974,14 @@ style#:#sty_colors#:#Farben
 style#:#sty_commands#:#Aktionen
 style#:#sty_confirm_char_deletion#:#Sind Sie sicher, dass Sie die folgende Styleklassen löschen möchten?
 style#:#sty_confirm_color_deletion#:#Löschen der Farbe bestätigen
-style#:#sty_confirm_del_ind_styles#:#Löschen der individuellen Lernmodul-Stylesheets bestätigen
-style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit individuellen Stylesheets werden dem Stil '%s' zugeordnet. Die individuellen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?
+style#:#sty_confirm_del_ind_styles#:#Löschen der lokalen Lernmodul-Stylesheets bestätigen
+style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit lokalen Stylesheets werden dem Stil '%s' zugeordnet. Die lokalen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?
 style#:#sty_confirm_template_deletion#:#Löschen des Templates bestätigen
 style#:#sty_copied_please_select_target#:#Die Styleklassen wurden kopiert. Bitte wechseln Sie zum gewünschten Zielstyle und wählen "Styleklassen einfügen".
 style#:#sty_copy_other_stylesheet#:#Stylesheet aus lokaler Quelle kopieren
 style#:#sty_copy_other_system_style#:#System-Style kopieren
 style#:#sty_copy_to#:#nach:
-style#:#sty_create_ind_style#:#Individuelles Stylesheet anlegen
+style#:#sty_create_ind_style#:#Lokales Stylesheet anlegen
 style#:#sty_create_new_class#:#Neue Klasse erstellen
 style#:#sty_create_new_stylesheet#:#Neues Stylesheet anlegen
 style#:#sty_create_new_system_style#:#Neuen System-Style anlegen
@@ -15028,7 +15028,7 @@ style#:#sty_images#:#Bilder
 style#:#sty_import_page_layout#:#Seitenlayout importieren
 style#:#sty_import_stylesheet#:#Stylesheet importieren
 style#:#sty_import_system_style#:#System-Style importieren
-style#:#sty_individual_styles#:#Individuelle Stylesheets
+style#:#sty_individual_styles#:#Lokale Stylesheets
 style#:#sty_keep_existing#:#Bestehende Klasse erhalten
 style#:#sty_left#:#Links
 style#:#sty_left_right_padding#:#Innenabstand Links/Rechts
