@@ -352,46 +352,49 @@ administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
-adn#:#btn_cancel#:#Abbrechen
-adn#:#btn_delete_confirm#:#Möchten Sie diese Ankündigung wirklich löschen?
-adn#:#btn_delete#:#Löschen
-adn#:#btn_edit#:#Bearbeiten
-adn#:#btn_reset_confirm#:#Möchten Sie diese Ankündigung für alle Benutzer zurücksetzen?
-adn#:#btn_reset#:#Zurücksetzen
-adn#:#common_actions#:#Aktionen
-adn#:#common_add_msg#:#Ankündigung hinzufügen
 adn#:#main#:#Ankündigungen
-adn#:#msg_body_info#:#Text der Ankündigungen
-adn#:#msg_body#:#Text
-adn#:#msg_dismissable_info#:#Benutzer können Ankündigung schließen und sehen diese künftig nicht mehr.
-adn#:#msg_dismissable#:#Manuell schließen
-adn#:#msg_display_date_end#:#Anzeige bis
-adn#:#msg_display_date_start#:#Anzeige ab
-adn#:#msg_error_false_date_configuration#:#Mit dieser Konfiguration von Daten kann keine Benachrichtigung erstellt werden. Das Ereignis muss innerhalb der Anzeigezeit liegen.
-adn#:#msg_event_date_end#:#Ende Ereignis
-adn#:#msg_event_date_start#:#Beginn Ereignis
-adn#:#msg_form_title#:#Ankündigung
-adn#:#msg_limited_to_role_ids#:#Rollen
-adn#:#msg_limit_to_roles_info#:#Nur ausgewählte Rollen sehen die Ankündigung.
-adn#:#msg_limit_to_roles#:#Rollen-abhängige Anzeige
-adn#:#msg_permanent#:#Anzeige
-adn#:#msg_permanent_info#:#Ankündigungen permanent oder zeitlich begrenzt anzeigen
-adn#:#msg_permanent_no#:#Zeitlich begrenzt
-adn#:#msg_permanent_yes#:#Permanent
-adn#:#msg_success_created#:#Ankündigung erstellt
-adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
-adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
-adn#:#msg_success_updated#:#Ankündigung aktualisiert
-adn#:#msg_table_title#:#Ankündigungen
-adn#:#msg_title_info#:#Kurzer Titel der Ankündigung
-adn#:#msg_title#:#Titel
 adn#:#msg_type_0#:#Hinweis
 adn#:#msg_type_1#:#Hinweis
 adn#:#msg_type_2#:#Wichtig
 adn#:#msg_type_3#:#Eilmeldung
-adn#:#msg_type_during_event#:#Während Ereignis
-adn#:#msg_type_info#:#Die Wichtigkeit entscheidet über die farbliche Darstellung der Ankündigungen
 adn#:#msg_type#:#Wichtigkeit
+adn#:#msg_type_info#:#Die Wichtigkeit entscheidet über die farbliche Darstellung der Ankündigungen
+adn#:#msg_title#:#Titel
+adn#:#msg_title_info#:#Kurzer Titel der Ankündigung
+adn#:#msg_body#:#Text
+adn#:#msg_body_info#:#Text der Ankündigungen
+adn#:#msg_display_date_start#:#Anzeige ab
+adn#:#msg_display_date_end#:#Anzeige bis
+adn#:#msg_event_date_start#:#Beginn Ereignis
+adn#:#msg_event_date_end#:#Ende Ereignis
+adn#:#msg_type_during_event#:#Während Ereignis
+adn#:#msg_permanent_yes#:#Permanent
+adn#:#msg_permanent_no#:#Zeitlich begrenzt
+adn#:#msg_permanent#:#Anzeige
+adn#:#msg_permanent_info#:#Ankündigungen permanent oder zeitlich begrenzt anzeigen
+adn#:#msg_dismissable#:#Manuell schließen
+adn#:#msg_dismissable_info#:#Benutzer können Ankündigung schließen und sehen diese künftig nicht mehr.
+adn#:#msg_presentation#:#Anzeige
+adn#:#msg_limited_to_role_ids#:#Anzeige
+adn#:#msg_show_to_all_roles#:#Allen Rollen anzeigen
+adn#:#msg_show_to_all_roles_info#:#Die Benachrichtigung wird allen Benutzern angezeigt und ist auch im Öffentlichen Bereich für nicht-eingeloggte Personen sichtbar.
+adn#:#msg_limit_to_roles#:#Auf ausgewählte Rollen beschränken
+adn#:#msg_limit_to_roles_info#:#Benachrichtigung wird nur Personen mit einer der nachfolgend ausgewählten Rollen angezeigt.
+adn#:#msg_form_title#:#Ankündigung
+adn#:#msg_table_title#:#Ankündigungen
+adn#:#common_actions#:#Aktionen
+adn#:#msg_error_false_date_configuration#:#Mit dieser Konfiguration von Daten kann keine Benachrichtigung erstellt werden. Das Ereignis muss innerhalb der Anzeigezeit liegen.
+adn#:#common_add_msg#:#Ankündigung hinzufügen
+adn#:#btn_reset#:#Zurücksetzen
+adn#:#btn_reset_confirm#:#Möchten Sie diese Ankündigung für alle Benutzer zurücksetzen?
+adn#:#btn_delete#:#Löschen
+adn#:#btn_delete_confirm#:#Möchten Sie diese Ankündigung löschen?
+adn#:#btn_cancel#:#Abbrechen
+adn#:#btn_edit#:#Bearbeiten
+adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
+adn#:#msg_success_created#:#Ankündigung erstellt
+adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
+adn#:#msg_success_updated#:#Ankündigung aktualisiert
 adve#:#advanced_editing_excass_settings#:#Einstellungen Übungseinheiten (Textabgaben)
 adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
 adve#:#advanced_editing_tst_editing#:#Seiteneditor für zusätzliche Frageninhalte

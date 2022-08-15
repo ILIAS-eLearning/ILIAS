@@ -46,17 +46,10 @@ class ilADNNotificationUIFormGUI
     public const F_DISPLAY_DATE_END = 'display_date_end';
     public const F_EVENT_DATE_START = 'event_date_start';
     public const F_EVENT_DATE_END = 'event_date_end';
-    
+    public const F_SHOW_TO_ALL_ROLES = 'show_to_all_roles';
+    public const F_PRESENTATION = 'presentation';
     protected string $action;
-    protected static array $tags = array(
-        'a',
-        'strong',
-        'ol',
-        'ul',
-        'li',
-        'p',
-    );
-    
+
     protected ilADNNotification $notification;
     protected ilCtrlInterface $ctrl;
     protected \ILIAS\UI\Factory $ui;
@@ -234,22 +227,37 @@ class ilADNNotificationUIFormGUI
                              ->withAdditionalTransformation($custom_trafo(function ($v) : void {
                                  $this->notification->setDismissable((bool) $v);
                              }));
-        
+
         // LIMITED TO ROLES
         $available_roles = $this->getRoles(ilRbacReview::FILTER_ALL_GLOBAL);
-        $limited_to_role_ids = $field->multiSelect($this->txt(self::F_LIMITED_TO_ROLE_IDS), $available_roles)
-                                     ->withValue($this->notification->getLimitedToRoleIds())
-                                     ->withAdditionalTransformation($custom_trafo(function ($v) : void {
-                                         $this->notification->setLimitedToRoleIds((array) $v);
-                                     }));
-        
-        $roles = $field->optionalGroup([
-            self::F_LIMITED_TO_ROLE_IDS => $limited_to_role_ids
-        ], $this->txt(self::F_LIMIT_TO_ROLES), $this->infoTxt(self::F_LIMIT_TO_ROLES))
-                       ->withValue($this->notification->isLimitToRoles() ? [self::F_LIMITED_TO_ROLE_IDS => $this->notification->getLimitedToRoleIds()] : null)
-                       ->withAdditionalTransformation($custom_trafo(function ($v) : void {
-                           $this->notification->setLimitToRoles((bool) $v);
-                       }));
+        $limited_to_role_ids = $field->multiSelect('', $available_roles)
+                                     ->withAdditionalTransformation(
+                                         $custom_trafo(function ($v) {
+                                             $this->notification->setLimitedToRoleIds((array) $v);
+                                         })
+                                     );
+    
+        $value = $this->notification->isLimitToRoles()
+            ? self::F_LIMIT_TO_ROLES
+            : self::F_SHOW_TO_ALL_ROLES;
+    
+    
+        $roles = $field->switchableGroup([
+            self::F_SHOW_TO_ALL_ROLES => $field->group(
+                [],
+                $this->txt(self::F_SHOW_TO_ALL_ROLES)
+            )->withByline($this->infoTxt(self::F_SHOW_TO_ALL_ROLES)),
+            self::F_LIMIT_TO_ROLES => $field->group(
+                [$limited_to_role_ids],
+                $this->txt(self::F_LIMIT_TO_ROLES)
+            )->withByline($this->infoTxt(self::F_LIMIT_TO_ROLES))
+        ], $this->txt(self::F_PRESENTATION))
+                       ->withValue($value)
+                       ->withAdditionalTransformation(
+                           $custom_trafo(function ($v) {
+                               $this->notification->setLimitToRoles(($v[0] ?? null) === self::F_PRESENTATION);
+                           })
+                       );
         
         // COMPLETE FORM
         $section = $field->section([
