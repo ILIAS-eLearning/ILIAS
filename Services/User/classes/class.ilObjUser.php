@@ -483,7 +483,7 @@ class ilObjUser extends ilObject
             "passwd_policy_reset" => array("integer", $this->passwd_policy_reset),
             "last_update" => array("timestamp", ilUtil::now()),
             'inactivation_date' => array('timestamp', $this->inactivation_date),
-            'reg_hash' => null
+            'reg_hash' => array('text', null)
             );
             
         if ($this->agree_date === null || (is_string($this->agree_date) && strtotime($this->agree_date) !== false)) {
