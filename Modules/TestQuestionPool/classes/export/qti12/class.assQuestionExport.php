@@ -15,12 +15,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assQuestionExport
 {
     /**
-    * The question object
-    *
-    * The question object
-    *
-    * @var assQuestion
-    */
+     * @var assQuestion
+     */
     public $object;
 
     /**
@@ -222,5 +218,23 @@ class assQuestionExport
             'lifecycle',
             $this->object->getLifecycle()->getMappedLomLifecycle()
         );
+    }
+
+    const ITEM_SOLUTIONHINT = 'solutionhint';
+
+    protected function addSolutionHints(ilXmlWriter $writer) : ilXmlWriter
+    {
+        $question_id = (int) $this->object->getId();
+        $list = ilAssQuestionHintList::getListByQuestionId($question_id);
+
+        foreach ($list as $hint) {
+            $attrs = [
+                'index' => $hint->getIndex(),
+                'points' => $hint->getPoints()
+            ];
+            $data = $hint->getText();
+            $writer->xmlElement(self::ITEM_SOLUTIONHINT, $attrs, $data);
+        }
+        return $writer;
     }
 }

@@ -287,6 +287,8 @@ class assKprimChoiceExport extends assQuestionExport
             $xml->xmlEndTag('itemfeedback');
         }
 
+        $xml = $this->addSolutionHints($xml);
+
         $xml->xmlEndTag("item");
         $xml->xmlEndTag("questestinterop");
 

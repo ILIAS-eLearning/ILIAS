@@ -773,14 +773,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             include_once "./Services/QTI/classes/class.ilQTIParser.php";
             $qtiParser = new ilQTIParser($_SESSION["qpl_import_qti_file"], IL_MO_PARSE_QTI, $newObj->getId(), $_POST["ident"]);
             $result = $qtiParser->startParsing();
-
             // import page data
             if (strlen($_SESSION["qpl_import_xml_file"])) {
                 include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
                 $contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
                 $contParser->setQuestionMapping($qtiParser->getImportMapping());
                 $contParser->startParsing();
-
                 // #20494
                 $newObj->fromXML($_SESSION["qpl_import_xml_file"]);
             }
