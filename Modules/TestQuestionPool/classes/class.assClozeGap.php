@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,7 +12,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
@@ -406,10 +406,7 @@ class assClozeGap
         }
     }
 
-    /**
-     * @param integer $gap_size
-     */
-    public function setGapSize($gap_size) : void
+    public function setGapSize(int $gap_size) : void
     {
         $this->gap_size = $gap_size;
     }
