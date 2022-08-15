@@ -22,7 +22,7 @@ use ILIAS\Data\URI;
 use ILIAS\UI\Component\Tree\Node as INode;
 use ILIAS\UI\Component\Symbol\Icon\Icon as IIcon;
 use ILIAS\UI\Component\Tree\Node\Bylined as IByline;
-use ILIAS\UI\Component\Tree\Node\Paired as IPaired;
+use ILIAS\UI\Component\Tree\Node\KeyValue as IKeyValue;
 
 class Factory implements INode\Factory
 {
@@ -39,8 +39,8 @@ class Factory implements INode\Factory
         return new Bylined($label, $byline, $icon);
     }
 
-    public function paired(string $label, string $value, IIcon $icon = null) : IPaired
+    public function keyValue(string $label, string $value, IIcon $icon = null) : IKeyValue
     {
-        return new Paired($label, $value, $icon);
+        return new KeyValue($label, $value, $icon);
     }
 }

@@ -23,9 +23,9 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as I;
 
 /**
- * Tests for the PairedNode.
+ * Tests for the KeyValueNode.
  */
-class PairedNodeTest extends ILIAS_UI_TestBase
+class KeyValueNodeTest extends ILIAS_UI_TestBase
 {
     private I\Tree\Node\Factory $node_factory;
     private C\Symbol\Icon\Standard $icon;
@@ -37,9 +37,9 @@ class PairedNodeTest extends ILIAS_UI_TestBase
         $this->icon = $icon_factory->standard("", '');
     }
 
-    public function testCreateBylineNode() : void
+    public function testCreateKeyValueNode() : void
     {
-        $node = $this->node_factory->paired('Label', 'Value', $this->icon);
+        $node = $this->node_factory->keyValue('Label', 'Value', $this->icon);
         $this->assertEquals('Label', $node->getLabel());
         $this->assertEquals('Value', $node->getValue());
         $this->assertEquals($this->icon, $node->getIcon());
@@ -47,7 +47,7 @@ class PairedNodeTest extends ILIAS_UI_TestBase
 
     public function testRendering() : void
     {
-        $node = $this->node_factory->paired('Label', 'Value');
+        $node = $this->node_factory->keyValue('Label', 'Value');
 
         $r = $this->getDefaultRenderer();
         $html = $r->render($node);
@@ -69,7 +69,7 @@ EOT;
 
     public function testRenderingWithIcon() : void
     {
-        $node = $this->node_factory->paired('Label', 'Value', $this->icon);
+        $node = $this->node_factory->keyValue('Label', 'Value', $this->icon);
 
         $r = $this->getDefaultRenderer();
         $html = $r->render($node);
@@ -94,7 +94,7 @@ EOT;
 
     public function testRenderingWithAsync() : void
     {
-        $node = $this->node_factory->paired('Label', 'Value');
+        $node = $this->node_factory->keyValue('Label', 'Value');
         $node = $node->withAsyncURL('something.de');
 
         $r = $this->getDefaultRenderer();
@@ -121,7 +121,7 @@ EOT;
 
     public function testRenderingExpanded() : void
     {
-        $node = $this->node_factory->paired('Label', 'Value');
+        $node = $this->node_factory->keyValue('Label', 'Value');
         $node = $node->withAsyncURL('something.de')->withExpanded(true);
 
         $r = $this->getDefaultRenderer();

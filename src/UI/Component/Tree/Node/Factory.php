@@ -82,25 +82,30 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Paired Node is an entry containing a value paired to its label,
+     *     The Key Value node is an entry containing a value paired to its label,
      *     to better distinguish it from other nodes or clarify its function.
      *   composition: >
      *     It consists of a string-label complemented by additional string as a
      *     key-value pair, and an optional Icon.
-     *   effect: >
-     *     This node is a simple node with an additional string-value behind
-     *     the label.
+     *   rivals:
+     *     Bylined Node: >
+     *       The byline of the Bylined node is non-essential, and can be dropped
+     *       without affecting the users' ability to navigate the tree. In
+     *       contrast, the value of Key Value nodes is used to distinguish between
+     *       nodes or to illustrate a node's function where the label alone is
+     *       insufficient, and thus needs to be included to ensure the tree can be
+     *       used effectively.
      * rules:
      *   usage:
      *      1: >
-     *        A Paired Node SHOULD be used when additional information besides
+     *        A Key Value node SHOULD be used when additional information besides
      *        the label is needed to adequately identify a tree node and its
      *        function.
      * ---
      * @param string                                    $label
      * @param string                                    $byline
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
-     * @return \ILIAS\UI\Component\Tree\Node\Paired
+     * @return \ILIAS\UI\Component\Tree\Node\KeyValue
      */
-    public function paired(string $label, string $value, Icon $icon = null) : Paired;
+    public function keyValue(string $label, string $value, Icon $icon = null) : KeyValue;
 }

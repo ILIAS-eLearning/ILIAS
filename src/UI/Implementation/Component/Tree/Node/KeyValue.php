@@ -16,17 +16,27 @@
  *
  *********************************************************************/
  
-namespace ILIAS\UI\Component\Tree\Node;
+namespace ILIAS\UI\Implementation\Component\Tree\Node;
+
+use ILIAS\UI\Component\Tree\Node\KeyValue as KeyValueInterface;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
- * This describes a tree node in which the label is complemented by an
- * additional string, forming a key-value pair.
+ * @author  Tim Schmitz <schmitz@leifos.de>
  */
-interface Paired extends Simple
+class KeyValue extends Simple implements KeyValueInterface
 {
-    /**
-     * The value string that will be displayed behind the label
-     * of the node.
-     */
-    public function getValue() : string;
+    private string $value;
+
+    public function __construct(string $label, string $value, Icon $icon = null)
+    {
+        parent::__construct($label, $icon);
+
+        $this->value = $value;
+    }
+
+    public function getValue() : string
+    {
+        return $this->value;
+    }
 }
