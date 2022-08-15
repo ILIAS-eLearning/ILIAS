@@ -198,7 +198,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
                 $this->setWidth($data["width"]);
                 $this->setHeight($data["height"]);
                 $this->setApplet($data["applet"]);
-                $this->parameters = unserialize($data["params"]);
+                $this->parameters = unserialize($data["params"],false);
                 if (!is_array($this->parameters)) {
                     $this->clearParameters();
                 }
@@ -589,7 +589,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML($item, int $questionpool_id, ?int $tst_id, $tst_object, int $question_counter, array $import_mapping) : void
+    public function fromXML($item, int $questionpool_id, ?int $tst_id, $tst_object, int $question_counter, array $import_mapping, array $solutionhints = []) : void
     {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assFlashQuestionImport.php";
         $import = new assFlashQuestionImport($this);
