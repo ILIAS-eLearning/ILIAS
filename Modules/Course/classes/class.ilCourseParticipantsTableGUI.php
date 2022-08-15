@@ -376,7 +376,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $usr_ids = array();
         $local_roles = $this->getParentObject()->getLocalRoles();
         foreach ((array) $usr_data['set'] as $user) {
-            if ($this->current_filter['roles']) {
+            if ($this->current_filter['roles'] ?? false) {
                 if (!$this->rbacReview->isAssigned($user['usr_id'], $this->current_filter['roles'])) {
                     continue;
                 }

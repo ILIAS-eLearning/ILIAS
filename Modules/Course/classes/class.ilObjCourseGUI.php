@@ -1627,7 +1627,7 @@ class ilObjCourseGUI extends ilContainerGUI
             }
 
             if ($do_prtf) {
-                $tmp_data['prtf'] = $all_prtf[$usr_id];
+                $tmp_data['prtf'] = $all_prtf[$usr_id] ?? null;
             }
 
             $members[$usr_id] = $tmp_data;
