@@ -508,7 +508,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $value = $content->getItemsRaw();
             $items = array();
             for ($j = 0;$j < count($value);$j++) {
-                if ($content->getType() == 2) {
+                if ($content->isNumericGap()) {
                     $items[$j] = array(
                         'answer' => $value[$j]->getAnswerText(),
                         'lower' => $value[$j]->getLowerBound(),
@@ -518,12 +518,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     );
                 } else {
                     $items[$j] = array(
-                        'answer' => $value[$j]->getAnswerText(),
+                        'answer' => str_replace(['{','}'], ['&#123;','&#125;'], $value[$j]->getAnswerText()),
                         'points' => $value[$j]->getPoints(),
                         'error' => false
                     );
 
-                    if ($content->getType() == 1) {
+                    if ($content->isSelectGap()) {
                         $shuffle = $content->getShuffle();
                     }
                 }
