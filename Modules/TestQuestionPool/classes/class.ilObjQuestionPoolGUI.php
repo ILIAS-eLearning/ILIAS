@@ -760,13 +760,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         } else {
             $qtiParser = new ilQTIParser(ilSession::get("qpl_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $newObj->getId(), $this->qplrequest->raw("ident"));
             $qtiParser->startParsing();
-
             // import page data
             if (strlen(ilSession::get("qpl_import_xml_file"))) {
                 $contParser = new ilContObjParser($newObj, ilSession::get("qpl_import_xml_file"), ilSession::get("qpl_import_subdir"));
                 $contParser->setQuestionMapping($qtiParser->getImportMapping());
                 $contParser->startParsing();
-
                 // #20494
                 $newObj->fromXML(ilSession::get("qpl_import_xml_file"));
             }
