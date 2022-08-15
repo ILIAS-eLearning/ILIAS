@@ -568,7 +568,7 @@ JS;
             $shuffle = false;
             $value = $content->getItemsRaw();
             $items = array();
-            for ($j = 0;$j < count($value);$j++) {
+            for ($j = 0, $jMax = count($value); $j < $jMax; $j++) {
                 if ($content->isNumericGap()) {
                     $items[$j] = array(
                         'answer' => $value[$j]->getAnswerText(),
