@@ -15,7 +15,7 @@ class ilMailCronOrphanedMailsFolderMailObject
     /**
      * @var string|null
      */
-    protected $mail_subject = '';
+    protected $mail_subject = null;
 
     /**
      * @param $mail_id
