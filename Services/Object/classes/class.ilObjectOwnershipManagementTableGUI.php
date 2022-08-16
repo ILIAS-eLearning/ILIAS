@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-use \ILIAS\UI\Component\Symbol\Icon\Standard;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +15,9 @@ use \ILIAS\UI\Component\Symbol\Icon\Standard;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use \ILIAS\UI\Component\Symbol\Icon\Standard;
+
 /**
  * Table for object role permissions
  *
