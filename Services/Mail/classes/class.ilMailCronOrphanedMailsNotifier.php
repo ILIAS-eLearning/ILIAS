@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Data\Clock\ClockInterface;
+use ILIAS\Data\Factory;
+
 /**
  * ilMailCronOrphanedMailNotifier
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -28,24 +31,28 @@ class ilMailCronOrphanedMailsNotifier
     private ilMailCronOrphanedMails $job;
     private ilMailCronOrphanedMailsNotificationCollector $collector;
     private ilDBInterface $db;
-    private int $threshold = 0;
-    private int $mail_notify_orphaned = 0;
+    private ClockInterface $clock;
+    private int $mail_expiration_days;
+    private int $mail_expiration_warning_days;
     private ilDBStatement $mark_as_notified_stmt;
 
     public function __construct(
         ilMailCronOrphanedMails $job,
         ilMailCronOrphanedMailsNotificationCollector $collector,
-        int $threshold,
-        int $mail_notify_orphaned
+        int $mail_expiration_days,
+        int $mail_expiration_warning_days,
+        ?ilDBInterface $db = null,
+        ?ClockInterface $clock = null
     ) {
         global $DIC;
 
-        $this->db = $DIC->database();
+        $this->db = $db ?? $DIC->database();
+        $this->clock = $clock ?? (new Factory())->clock()->system();
 
         $this->job = $job;
         $this->collector = $collector;
-        $this->threshold = $threshold;
-        $this->mail_notify_orphaned = $mail_notify_orphaned;
+        $this->mail_expiration_days = $mail_expiration_days;
+        $this->mail_expiration_warning_days = $mail_expiration_warning_days;
 
         $this->mark_as_notified_stmt = $this->db->prepareManip(
             'INSERT INTO mail_cron_orphaned (mail_id, folder_id, ts_do_delete) VALUES (?, ?, ?)',
@@ -56,19 +63,13 @@ class ilMailCronOrphanedMailsNotifier
     private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         $notify_days_before = 1;
-        if ($this->threshold > $this->mail_notify_orphaned) {
-            $notify_days_before = $this->threshold - $this->mail_notify_orphaned;
+        if ($this->mail_expiration_days > $this->mail_expiration_warning_days) {
+            $notify_days_before = $this->mail_expiration_days - $this->mail_expiration_warning_days;
         }
 
-        $ts_delete = strtotime("+ " . $notify_days_before . " days");
-        $ts_for_deletion = mktime(
-            0,
-            0,
-            0,
-            (int) date('m', $ts_delete),
-            (int) date('d', $ts_delete),
-            (int) date('Y', $ts_delete)
-        );
+        $deletion_datetime = $this->clock->now()
+            ->modify('+ ' . $notify_days_before . ' days')
+            ->setTime(0, 0);
 
         $i = 0;
         foreach ($collection_obj->getFolderObjects() as $folder_obj) {
@@ -83,7 +84,7 @@ class ilMailCronOrphanedMailsNotifier
 
                 $this->db->execute(
                     $this->mark_as_notified_stmt,
-                    [$mail_id, $folder_id, $ts_for_deletion]
+                    [$mail_id, $folder_id, $deletion_datetime->getTimestamp()]
                 );
                 $i++;
             }

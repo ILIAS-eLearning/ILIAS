@@ -22,14 +22,15 @@
  */
 class ilMailCronOrphanedMailsFolderObject
 {
-    protected int $folder_id = 0;
-    protected string $folder_title = '';
+    private int $folder_id;
+    private ?string $folder_title;
     /** @var ilMailCronOrphanedMailsFolderMailObject[]*/
-    protected array $orphaned_mail_objects = [];
+    private array $orphaned_mail_objects = [];
 
-    public function __construct(int $folder_id)
+    public function __construct(int $folder_id, ?string $folder_title)
     {
-        $this->setFolderId($folder_id);
+        $this->folder_id = $folder_id;
+        $this->folder_title = $folder_title;
     }
 
     public function getFolderId() : int
@@ -37,19 +38,9 @@ class ilMailCronOrphanedMailsFolderObject
         return $this->folder_id;
     }
 
-    public function setFolderId(int $folder_id) : void
-    {
-        $this->folder_id = $folder_id;
-    }
-
-    public function getFolderTitle() : string
+    public function getFolderTitle() : ?string
     {
         return $this->folder_title;
-    }
-
-    public function setFolderTitle(string $folder_title) : void
-    {
-        $this->folder_title = $folder_title;
     }
 
     public function addMailObject(ilMailCronOrphanedMailsFolderMailObject $mail_obj) : void
