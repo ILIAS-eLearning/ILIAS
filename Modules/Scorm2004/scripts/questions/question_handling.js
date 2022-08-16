@@ -648,7 +648,7 @@ ilias.questions.initClozeTest = function(a_id) {
 
 ilias.questions.initLongMenu = function(a_id) {
 
-	var text = $('#' + a_id).html().split(/\[Longmenu \d\]/);
+	var text = $('#' + a_id).html().split(/\[Longmenu \d+\]/);
 	var replaced_text = '';
 	for(var key in text){
 		replaced_text += text[key];
