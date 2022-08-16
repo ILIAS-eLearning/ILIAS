@@ -16,15 +16,13 @@
  *
  *********************************************************************/
 
-/**
- * ilMailCronOrphanedMailsFolderObject
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
-class ilMailCronOrphanedMailsFolderObject
+namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+
+class FolderDto
 {
     private int $folder_id;
     private ?string $folder_title;
-    /** @var ilMailCronOrphanedMailsFolderMailObject[]*/
+    /** @var MailDto[] */
     private array $orphaned_mail_objects = [];
 
     public function __construct(int $folder_id, ?string $folder_title)
@@ -43,13 +41,13 @@ class ilMailCronOrphanedMailsFolderObject
         return $this->folder_title;
     }
 
-    public function addMailObject(ilMailCronOrphanedMailsFolderMailObject $mail_obj) : void
+    public function addMailObject(MailDto $mail_obj) : void
     {
         $this->orphaned_mail_objects[$mail_obj->getMailId()] = $mail_obj;
     }
 
     /**
-     * @return ilMailCronOrphanedMailsFolderMailObject[]
+     * @return MailDto[]
      */
     public function getOrphanedMailObjects() : array
     {

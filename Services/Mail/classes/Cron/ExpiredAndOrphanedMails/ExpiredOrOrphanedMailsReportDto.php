@@ -16,14 +16,12 @@
  *
  *********************************************************************/
 
-/**
- * ilMailCronOrphanedMailsNotificationCollectionObj
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
-class ilMailCronOrphanedMailsNotificationCollectionObj
+use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\FolderDto;
+
+class ExpiredOrOrphanedMailsReportDto
 {
     private int $user_id;
-    /** @var array<int, ilMailCronOrphanedMailsFolderObject> */
+    /** @var array<int, FolderDto> */
     private array $folder_objects = [];
 
     public function __construct(int $user_id)
@@ -36,18 +34,18 @@ class ilMailCronOrphanedMailsNotificationCollectionObj
         return $this->user_id;
     }
 
-    public function addFolderObject(ilMailCronOrphanedMailsFolderObject $folder_obj) : void
+    public function addFolderObject(FolderDto $folder_obj) : void
     {
         $this->folder_objects[$folder_obj->getFolderId()] = $folder_obj;
     }
 
-    public function getFolderObjectById(int $folder_id) : ?ilMailCronOrphanedMailsFolderObject
+    public function getFolderObjectById(int $folder_id) : ?FolderDto
     {
         return $this->folder_objects[$folder_id] ?? null;
     }
 
     /**
-     * @return array<int, ilMailCronOrphanedMailsFolderObject>
+     * @return array<int, FolderDto>
      */
     public function getFolderObjects() : array
     {

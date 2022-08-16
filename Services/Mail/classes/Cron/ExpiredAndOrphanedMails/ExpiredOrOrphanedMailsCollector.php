@@ -16,14 +16,16 @@
  *
  *********************************************************************/
 
+namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+
 use ILIAS\Data\Clock\ClockInterface;
 use ILIAS\Data\Factory;
+use ilSetting;
+use ilDBConstants;
+use ilMailCronOrphanedMails;
+use ilDBInterface;
 
-/**
- * ilMailCronOrphanedMailsDeletionCollector
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
-class ilMailCronOrphanedMailsDeletionCollector
+class ExpiredOrOrphanedMailsCollector
 {
     private const PING_THRESHOLD = 500;
 

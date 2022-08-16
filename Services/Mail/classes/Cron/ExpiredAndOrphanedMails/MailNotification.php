@@ -16,13 +16,15 @@
  *
  *********************************************************************/
 
-/**
- * Class ilMailCronOrphanedMailsNotification
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
-class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
+namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+
+use ilMimeMailNotification;
+use ilMailException;
+use ilMail;
+
+class MailNotification extends ilMimeMailNotification
 {
-    private function buildFolderTitle(ilMailCronOrphanedMailsFolderObject $folder_object) : string
+    private function buildFolderTitle(FolderDto $folder_object) : string
     {
         $folder_title = $folder_object->getFolderTitle();
         $folder_translation = $this->getLanguage()->txt('deleted');
@@ -56,23 +58,23 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
             $this->initMimeMail();
             $this->initLanguageByIso2Code();
             $this->setSubject($this->getLanguage()->txt('orphaned_mail_subject'));
-            
+
             $this->appendBody(ilMail::getSalutation($rcp));
             $this->appendBody("\n\n");
             $this->appendBody($this->getLanguage()->txt('orphaned_mail_body'));
             $this->appendBody("\n\n");
-            
+
             $this->appendOrphanedMailsBody();
 
             $this->appendBody(ilMail::_getInstallationSignature());
             $this->sendMimeMail($this->getCurrentRecipient());
         }
     }
-    
+
     public function appendOrphanedMailsBody() : void
     {
         $additional_information = $this->getAdditionalInformation();
-        /** @var ilMailCronOrphanedMailsFolderObject[] $mail_folders */
+        /** @var FolderDto[] $mail_folders */
         $mail_folders = $additional_information['mail_folders'];
 
         $folder_rendered = false;
