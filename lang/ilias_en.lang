@@ -9702,16 +9702,18 @@ forum#:#reset_limited_view_info#:#Limited view on this post and all posts below 
 forum#:#restore#:#Restore
 forum#:#restore_draft_from_autosave#:#Restore Draft
 forum#:#save_draft_successfully#:#The draft was saved successfully.
-forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky
-forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is not marked as sticky
-forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky
-forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore
+forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky.
+forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is not marked as sticky.
+forum#:#sel_threads_make_sticky#:#The selected threads have been marked as sticky.
+forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore.
 forum#:#select_at_least_one_thread#:#Please select at least one thread.
 forum#:#select_max_one_thread#:#Please select one thread only!
-forum#:#selected_threads_closed#:#The selected threads has been closed
-forum#:#selected_threads_reopened#:#The selected threads has been reopened
+forum#:#selected_threads_closed#:#The selected threads have been closed.
+forum#:#selected_threads_reopened#:#The selected threads have been reopened.
 forum#:#sort_by_date#:#By Date
+forum#:#sort_by_date_desc#:#The thread is presented in a flat view. The postings are shown in chronological order of creation.
 forum#:#sort_by_posts#:#By Reply
+forum#:#sort_by_posts_desc#:#The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other.
 forum#:#sorting#:#Sorting
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky#:#Sticky

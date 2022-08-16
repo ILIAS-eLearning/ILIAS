@@ -9711,7 +9711,9 @@ forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
 forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
 forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
 forum#:#sort_by_date#:#Sortieren nach Datum
+forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt.
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
+forum#:#sort_by_posts_desc#:#Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sorting#:#Sortierung
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
 forum#:#sticky#:#'Top-Thema'
