@@ -7519,10 +7519,12 @@ a fieldset[disabled] .active {
   background-color: #75deea;
   color: #000000;
 }
-.btn-link {
+.btn.btn-link {
   padding: 0;
   text-align: left;
   white-space: normal;
+  vertical-align: baseline;
+  font-size: inherit;
 }
 .btn-bulky {
   width: 100%;
