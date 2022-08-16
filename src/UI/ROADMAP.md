@@ -269,6 +269,21 @@ field. Also, we already have a DateTimeImmutable on many occasions, why cast it
 down to string to later cast it up again? The change should be covered by a lot
 of tests, so little risk there only.
 
+### Restructure Tree Nodes and rename "label" to "title"/"key" (beginner, ~4h)
+
+What is currently the "label" of a tree node should instead be called
+"title" (for simple and bylined nodes) or "key" (for keyValue nodes),
+since the nodes are literally labelled by the sum total of their icon,
+optionally byline or value, and "label", and not just the
+"label" alone.
+
+For this purpose, the inheritance from simple nodes to keyValue and bylined
+nodes should be removed. To avoid unnecessary re-implementations of the
+nodes' icons, links and async loading, it might be preferable to introduce
+these 3 aspects as traits, so that they can be included easily into all
+(present and future) types of nodes without forcing odd inheritances between
+them.
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again
