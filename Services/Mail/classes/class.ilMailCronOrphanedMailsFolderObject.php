@@ -13,9 +13,9 @@ class ilMailCronOrphanedMailsFolderObject
     protected $folder_id = 0;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $folder_title = '';
+    protected $folder_title = null;
 
     /**
      * @var ilMailCronOrphanedMailsFolderMailObject[]
@@ -47,7 +47,7 @@ class ilMailCronOrphanedMailsFolderObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getFolderTitle()
     {
@@ -55,7 +55,7 @@ class ilMailCronOrphanedMailsFolderObject
     }
 
     /**
-     * @param string $folder_title
+     * @param string|null $folder_title
      */
     public function setFolderTitle($folder_title)
     {

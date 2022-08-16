@@ -56,9 +56,9 @@ class ilMailCronOrphanedMailsDeletionCollector
                     $res = $this->db->queryF(
                         "
 						SELECT mail_id FROM mail_cron_orphaned 
-						INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
+                        LEFT JOIN mail_obj_data mdata ON mdata.obj_id = folder_id
 						WHERE ts_do_delete <= %s
-						AND (mdata.m_type = %s OR mdata.m_type = %s)",
+						AND ((mdata.m_type = %s OR mdata.m_type = %s) OR mdata.obj_id IS NULL)",
                         array('integer', 'text', 'text'),
                         array($now, 'inbox', 'trash')
                     );
