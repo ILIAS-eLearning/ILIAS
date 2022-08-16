@@ -9703,15 +9703,17 @@ forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
 forum#:#restore#:#Wiederherstellen
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
-forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
-forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
+forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen.
+forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet.
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
-forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert
-forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr
-forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert
-forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert
+forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert.
+forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr.
+forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert.
+forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert.
 forum#:#sort_by_date#:#Sortieren nach Datum
+forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt.
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
+forum#:#sort_by_posts_desc#:#Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
 forum#:#sorting#:#Sortierung
 forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
