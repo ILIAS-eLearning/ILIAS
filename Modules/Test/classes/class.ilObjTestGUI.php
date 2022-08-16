@@ -89,6 +89,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     protected \ILIAS\Test\InternalRequestService $testrequest;
 
+    protected array $ui;
+
     /**
      * Constructor
      * @access public
@@ -103,6 +105,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $component_repository = $DIC['component.repository'];
         $tree = $DIC['tree'];
         $lng->loadLanguageModule("assessment");
+
+        $this->ui = [
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['refinery'],
+            $DIC['http']->request()
+        ];
+
         $this->type = "tst";
         $this->error = $DIC['ilErr'];
         $this->ctrl = $ilCtrl;
@@ -440,8 +450,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->tree,
                     $ilDB,
                     $component_repository,
-                    $this
+                    $this,
+                    $DIC->ui()->mainTemplate(),
+                    $ilTabs,
+                    $this->getTestObject()->getScoreSettingsRepository(),
+                    $this->getTestObject()->getTestId(),
+                    ...$this->ui
                 );
+
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -1060,6 +1076,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     */
     public function afterSave(ilObject $new_object): void
     {
+        $new_object->saveToDb();
+
         $tstdef = $this->getDidacticTemplateVar("tstdef");
         if ($tstdef) {
             $testDefaultsId = $tstdef;
@@ -1330,7 +1348,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
 
         // delete import directory
-        ilFileUtils::delDir(ilObjTest::_getImportDirectory());
+        //TODO: ilObjTest::_getImportDirectory() returns null
+        //ilFileUtils::delDir(ilObjTest::_getImportDirectory());
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
         ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() . "&baseClass=ilObjTestGUI");
@@ -3336,9 +3355,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         return $form;
     }
 
-    // begin-patch lok
     public function applyTemplate($templateData, ilObjTest $object)
-    // end-patch lok
     {
         // map formFieldName => setterName
         $simpleSetters = array(
@@ -3389,25 +3406,28 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             'mailnotification' => 'setMailNotification',
 
             // scoring options properties
-            'count_system' => 'setCountSystem',
-            'score_cutting' => 'setScoreCutting',
-            'pass_scoring' => 'setPassScoring',
-            'pass_deletion_allowed' => 'setPassDeletionAllowed',
+            'count_system' => 'withCountSystem',
+            'score_cutting' => 'withScoreCutting',
+            'pass_scoring' => 'withPassScoring',
 
             // result summary properties
-            'results_access_enabled' => 'setScoreReporting',
-            'grading_status' => 'setShowGradingStatusEnabled',
-            'grading_mark' => 'setShowGradingMarkEnabled',
+            'grading_status' => 'withShowGradingStatusEnabled',
+            'grading_mark' => 'withShowGradingMarkEnabled',
+            'pass_deletion_allowed' => 'withPassDeletionAllowed',
+            'results_access_enabled' => 'withScoreReporting',
 
             // result details properties
-            'solution_details' => 'setShowSolutionDetails',
-            'solution_feedback' => 'setShowSolutionFeedback',
-            'solution_suggested' => 'setShowSolutionSuggested',
+            'solution_details' => 'withShowSolutionDetails',
+            'solution_feedback' => 'withShowSolutionFeedback',
+            'solution_suggested' => 'withShowSolutionSuggested',
             'solution_printview' => 'setShowSolutionPrintview',
-            'highscore_enabled' => 'setHighscoreEnabled',
-            'solution_signature' => 'setShowSolutionSignature',
-            'examid_in_test_res' => 'setShowExamIdInTestResultsEnabled',
-            'exp_sc_short' => 'setExportSettingsSingleChoiceShort',
+            'solution_signature' => 'withShowSolutionSignature',
+            'examid_in_test_res' => 'withShowExamIdInTestResults',
+            'exp_sc_short' => 'withExportSettingsSingleChoiceShort',
+
+
+            // result gamification properties
+            'highscore_enabled' => 'withHighscoreEnabled',
 
             // misc scoring & result properties
             'anonymity' => 'setAnonymity',
@@ -3418,13 +3438,65 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $templateData['results_presentation']['value'] = array();
         }
 
+
+
+        $settings = $object->getScoreSettings();
         foreach ($simpleSetters as $field => $setter) {
-            if ($templateData[$field] && strlen($setter)) {
-                $object->$setter($templateData[$field]['value']);
+            if (! array_key_exists($field, $templateData)) {
                 continue;
             }
 
             switch ($field) {
+
+                case 'count_system':
+                case 'count_system':
+                case 'pass_scoring':
+                    $settings = $settings->withScoringSettings(
+                        $settings->getScoringSettings()->$setter(
+                            (int) $templateData[$field]['value']
+                        )
+                    );
+                    break;
+
+                case 'pass_deletion_allowed':
+                case 'grading_status':
+                case 'grading_mark':
+                    $settings = $settings->withResultSummarySettings(
+                        $settings->getResultSummarySettings()->$setter(
+                            (bool) $templateData[$field]['value']
+                        )
+                    );
+                    break;
+                case 'results_access_enabled':
+                    $settings = $settings->withResultSummarySettings(
+                        $settings->getResultSummarySettings()->$setter(
+                            (int) $templateData[$field]['value']
+                        )
+                    );
+                    break;
+
+                case 'solution_details':
+                case 'solution_feedback':
+                case 'solution_suggested':
+                case 'solution_printview':
+                case 'solution_signature':
+                case 'examid_in_test_res':
+                case 'exp_sc_short':
+                    $settings = $settings->withResultDetailsSettings(
+                        $settings->getResultDetailsSettings()->$setter(
+                            (bool) $templateData[$field]['value']
+                        )
+                    );
+                    break;
+
+                case 'highscore_enabled':
+                    $settings = $settings->withGamificationSettings(
+                        $settings->getGamificationSettings()->$setter(
+                            (bool) $templateData[$field]['value']
+                        )
+                    );
+                    break;
+
                 case 'autosave':
                     if ($templateData[$field]['value'] > 0) {
                         $object->setAutosave(true);
@@ -3475,8 +3547,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                             break;
                     }
                     break;
+
+                default:
+                    if (strlen($setter)) {
+                        $object->$setter($templateData[$field]['value']);
+                    }
             }
         }
+        $object->getScoreSettingsRepository()->store($settings);
     }
 
     public function saveOrderAndObligationsObject()

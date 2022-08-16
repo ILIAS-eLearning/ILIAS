@@ -363,8 +363,18 @@ class ilTestServiceGUI
      * @return string HTML code of the list of answers
      * @access public
      */
-    public function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = false, $only_answered_questions = false, $show_question_only = false, $show_reached_points = false, $anchorNav = false, ilTestQuestionRelatedObjectivesList $objectivesList = null, ilTestResultHeaderLabelBuilder $testResultHeaderLabelBuilder = null): string
-    {
+    public function getPassListOfAnswers(
+        &$result_array,
+        $active_id,
+        $pass,
+        $show_solutions = false,
+        $only_answered_questions = false,
+        $show_question_only = false,
+        $show_reached_points = false,
+        $anchorNav = false,
+        ilTestQuestionRelatedObjectivesList $objectivesList = null,
+        ilTestResultHeaderLabelBuilder $testResultHeaderLabelBuilder = null
+    ): string {
         $maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", true, true, "Modules/Test");
 
         $counter = 1;

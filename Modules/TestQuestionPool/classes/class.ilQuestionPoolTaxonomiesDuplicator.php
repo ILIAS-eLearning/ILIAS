@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -111,11 +113,20 @@ class ilQuestionPoolTaxonomiesDuplicator
 
     private function duplicateTaxonomyFromPoolToTest($poolTaxonomyId): void
     {
+        $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
         $testTaxonomy = new ilObjTaxonomy();
         $testTaxonomy->create();
+        $testTaxonomy->setTitle($poolTaxonomy->getTitle());
+        $testTaxonomy->setDescription($poolTaxonomy->getDescription());
+        $testTaxonomy->setSortingMode($poolTaxonomy->getSortingMode());
 
-        $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
-        $poolTaxonomy->cloneObject(0, $testTaxonomy->getId());
+        $this->node_mapping = array();
+
+        $poolTaxonomy->cloneNodes(
+            $testTaxonomy,
+            $testTaxonomy->getTree()->readRootId(),
+            $poolTaxonomy->getTree()->readRootId()
+        );
 
         $poolTaxonomy->getTree()->readRootId();
         $testTaxonomy->getTree()->readRootId();
