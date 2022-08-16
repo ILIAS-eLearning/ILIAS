@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\Test\CanAccessFileUploadAnswer;
+
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
@@ -19,6 +21,15 @@ include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php
 */
 class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 {
+    public function canBeDelivered(ilWACPath $ilWACPath)
+    {
+        global $DIC;
+
+        $can_it = (new CanAccessFileUploadAnswer($DIC))->isTrue($ilWACPath->getPath());
+
+        return !$can_it->isOk() || $can_it->value();
+    }
+
     /**
     * Checks wether a user may invoke a command or not
     * (this method is called by ilAccessHandler::checkAccess)
@@ -334,6 +345,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function _getCommands()
     {
+        global $DIC;
+        $DIC->language()->loadLanguageModule('assessment');
+
         $commands = array(
             array("permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"),
             array("permission" => "write", "cmd" => "ilObjTestSettingsGeneralGUI::showForm", "lang_var" => "settings"),
@@ -341,7 +355,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 "default" => true),
             //array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
             array("permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation"),
-            array("permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_test_results")
+            array("permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_user_results"),
+            array("permission" => "write", "cmd" => "testResultsGateway", "lang_var" => "results"),
+            array("permission" => "eval_a", "cmd" => "testResultsGateway", "lang_var" => "results")
         );
         
         return $commands;

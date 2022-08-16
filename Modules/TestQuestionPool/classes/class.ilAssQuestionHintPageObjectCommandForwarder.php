@@ -140,6 +140,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
         );
         
         $pageObjectGUI->setEnabledTabs(false);
+        $pageObjectGUI->setEnableEditing(false);
         
         $pageObjectGUI->setPresentationTitle(
             ilAssQuestionHint::getHintIndexLabel($this->lng, $this->questionHint->getIndex())

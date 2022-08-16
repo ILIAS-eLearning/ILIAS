@@ -382,6 +382,8 @@ abstract class ilTestExport
         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_rank_median'));
         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_total_participants'));
         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_median'));
+        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_tbl_col_started_passes'));
+        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_tbl_col_finished_passes'));
         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('scored_pass'));
         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('pass'));
 
@@ -414,7 +416,7 @@ abstract class ilTestExport
                 $userfields = ilObjUser::_lookupFields($userdata->getUserId());
                 foreach ($additionalFields as $fieldname) {
                     if (strcmp($fieldname, 'gender') == 0) {
-                        $worksheet->setCell($row, $col++, $this->lng->txt('gender_' . $userfields[$fieldname]));
+                        $worksheet->setCell($row, $col++, strlen($userfields[$fieldname]) ? $this->lng->txt('gender_' . $userfields[$fieldname]) : '');
                     } elseif (strcmp($fieldname, "exam_id") == 0) {
                         $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                     } else {
@@ -466,7 +468,8 @@ abstract class ilTestExport
             $worksheet->setCell($row, $col++, $data->getStatistics()->getStatistics()->rank_median());
             $worksheet->setCell($row, $col++, $data->getStatistics()->getStatistics()->count());
             $worksheet->setCell($row, $col++, $median);
-
+            $worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getPassCount());
+            $worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getFinishedPasses());
             if ($this->test_obj->getPassScoring() == SCORE_BEST_PASS) {
                 $worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getBestPass() + 1);
             } else {
@@ -834,6 +837,11 @@ abstract class ilTestExport
         $col++;
         array_push($datarow, $this->lng->txt("tst_stat_result_median"));
         $col++;
+        array_push($datarow, $this->lng->txt("tst_tbl_col_started_passes"));
+        $col++;
+        array_push($datarow, $this->lng->txt("tst_tbl_col_finished_passes"));
+        $col++;
+
         array_push($datarow, $this->lng->txt("scored_pass"));
         $col++;
 
@@ -863,7 +871,7 @@ abstract class ilTestExport
                     $userfields = ilObjUser::_lookupFields($userdata->getUserID());
                     foreach ($additionalFields as $fieldname) {
                         if (strcmp($fieldname, "gender") == 0) {
-                            array_push($datarow2, $this->lng->txt("gender_" . $userfields[$fieldname]));
+                            array_push($datarow2, strlen($userfields[$fieldname]) ? $this->lng->txt('gender_' . $userfields[$fieldname]) : '');
                         } elseif (strcmp($fieldname, "exam_id") == 0) {
                             array_push($datarow2, $userdata->getExamIdFromScoredPass());
                         } else {
@@ -918,6 +926,9 @@ abstract class ilTestExport
                 array_push($datarow2, $data->getStatistics()->getStatistics()->rank_median());
                 array_push($datarow2, $data->getStatistics()->getStatistics()->count());
                 array_push($datarow2, $median);
+
+                array_push($datarow2, $data->getParticipant($active_id)->getPassCount());
+                array_push($datarow2, $data->getParticipant($active_id)->getFinishedPasses());
                 if ($this->test_obj->getPassScoring() == SCORE_BEST_PASS) {
                     array_push($datarow2, $data->getParticipant($active_id)->getBestPass() + 1);
                 } else {

@@ -21,6 +21,10 @@ use ILIAS\COPage\Editor\Components\Table;
 class Server
 {
     /**
+     * @var ilLogger
+     */
+    protected $log;
+    /**
      * @var \ilPageObjectGUI
      */
     protected $page_gui;
@@ -47,6 +51,7 @@ class Server
         $this->request = $request;
         $this->ui = $ui;
         $this->page_gui = $page_gui;
+        $this->log = \ilLoggerFactory::getLogger('copg');
     }
 
     /**
@@ -54,20 +59,34 @@ class Server
      */
     public function reply()
     {
+        $this->log->debug("Start replying...");
         $query = $this->request->getQueryParams();
 
-        if (is_array($_POST) && count($_POST) > 0) {
-            $body = $this->request->getParsedBody();
-        } else {
-            $body = json_decode($this->request->getBody()->getContents(), true);
+        try {
+            if (is_array($_POST) && count($_POST) > 0) {
+                $body = $this->request->getParsedBody();
+            } else {
+                $body = json_decode($this->request->getBody()->getContents(), true);
+            }
+            if (isset($query["component"])) {
+                $action_handler = $this->getActionHandlerForQuery($query);
+                $response = $action_handler->handle($query);
+            } else {
+                //sleep(5);
+                $action_handler = $this->getActionHandlerForCommand($query, $body);
+                $response = $action_handler->handle($query, $body);
+            }
+        } catch (Exception $e) {
+            $data = new \stdClass();
+            $this->log->error($e->getMessage()."\n".$e->getTraceAsString());
+            $data->error = $e->getMessage();
+            if (defined('DEVMODE') && DEVMODE) {
+                $data->error.= "<br><br>".nl2br($e->getTraceAsString());
+            }
+            $response = new Response($data);
         }
-        if (isset($query["component"])) {
-            $action_handler = $this->getActionHandlerForQuery($query);
-            $response = $action_handler->handle($query);
-        } else {
-            $action_handler = $this->getActionHandlerForCommand($query, $body);
-            $response = $action_handler->handle($query, $body);
-        }
+
+        $this->log->debug("... sending response");
         $response->send();
     }
 

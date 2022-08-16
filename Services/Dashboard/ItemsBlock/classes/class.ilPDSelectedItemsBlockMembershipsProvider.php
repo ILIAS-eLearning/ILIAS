@@ -23,6 +23,11 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
      */
     protected $access;
 
+    /**
+     * @var ilSetting
+     */
+    protected $settings;
+
     /** @var ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository */
     private $repository;
 
@@ -37,6 +42,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         $this->actor = $actor;
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
+        $this->settings = $DIC->settings();
         $this->repository = new ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository(
             $DIC->database(),
             RECOVERY_FOLDER_ID
@@ -50,6 +56,9 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
      */
     protected function getObjectsByMembership(array $objTypes = []) : array
     {
+        $short_desc = $this->settings->get("rep_shorten_description");
+        $short_desc_max_length = $this->settings->get("rep_shorten_description_length");
+
         if (!is_array($objTypes) || $objTypes === []) {
             $objTypes = $this->repository->getValidObjectTypes();
         }
@@ -63,8 +72,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
             $parentTreeLftValue = $item->getParentLftTree();
             $parentTreeLftValue = sprintf("%010d", $parentTreeLftValue);
 
-            if (!$this->access->checkAccess('read', '', $refId) &&
-                !$this->access->checkAccess('visible', '', $refId)) {
+            if (!$this->access->checkAccess('visible', '', $refId)) {
                 continue;
             }
 
@@ -79,12 +87,17 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
                 }
             }
 
+            $description = $item->getDescription();
+            if ($short_desc && $short_desc_max_length) {
+                $description = ilUtil::shortenText($description, $short_desc_max_length, true);
+            }
+
             $references[$parentTreeLftValue . $title . $refId] = [
                 'ref_id' => $refId,
                 'obj_id' => $objId,
                 'type' => $item->getType(),
                 'title' => $title,
-                'description' => $item->getDescription(),
+                'description' => $description,
                 'parent_ref' => $parentRefId,
                 'start' => $periodStart,
                 'end' => $periodEnd

@@ -633,17 +633,26 @@ abstract class ilPlugin
      */
     public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img) : string
     {
-        $d2 = ilComponent::lookupId($a_ctype, $a_cname) . "_" . $a_slot_id . "_" .
+        $img = ilUtil::getImagePath($a_img);
+        if (is_int(strpos($img, "Customizing"))) {
+            return $img;
+        }
+    
+        // prior to ILIAS 8 Plugin-Icons has to be in a subfolder of 'images' of a skin
+        $directory_prefix = ilComponent::lookupId($a_ctype, $a_cname)
+            . "_"
+            . $a_slot_id
+            . "_" .
             ilPlugin::lookupIdForName($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        $img = ilUtil::getImagePath($d2 . "/" . $a_img);
+    
+        $img = ilUtil::getImagePath($directory_prefix . '/' . $a_img);
         if (is_int(strpos($img, "Customizing"))) {
             return $img;
         }
 
-        $d = ilPlugin::_getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname);
+        $plugin_directory = ilPlugin::_getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname);
 
-        return $d . "/templates/images/" . $a_img;
+        return $plugin_directory . "/templates/images/" . $a_img;
     }
 
 

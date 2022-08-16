@@ -54,6 +54,19 @@ var ClozeGapBuilder = (function () {
 		if (ClozeSettings.gaps_php === null) {
 			ClozeSettings.gaps_php = [];
 		}
+		
+		ClozeSettings.gaps_php[0].forEach(
+			(gap) => {
+				if (gap.type === 'text' || gap.type === 'select') {
+					gap.values.forEach(
+						(value) => {
+							value.answer = value.answer.replace('&#123;','{');
+							value.answer = value.answer.replace('&#125;','}');
+						}
+					);
+				}
+			}
+		);
 
 		if (ClozeSettings.gaps_combination === null) {
 			ClozeSettings.gaps_combination = [];

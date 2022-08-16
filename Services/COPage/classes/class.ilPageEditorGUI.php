@@ -177,7 +177,7 @@ class ilPageEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
-        $this->log->debug("begin ============");
+        $this->log->debug("begin =========================");
 
         if (!true) {
             var_dump($_GET);
@@ -500,7 +500,7 @@ class ilPageEditorGUI
 
         }
 
-        $this->log->debug("end ---");
+        $this->log->debug("end --------------------");
 
         return $ret;
     }

@@ -198,15 +198,7 @@ class ilUtil
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
         }
-        $vers = "";
-        if ($mode != "filesystem") {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-            // use version from template xml to force reload on changes
-            $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
-            $vers .= ($skin->getVersion() != '' ? str_replace(".", "-", '-' . $skin->getVersion()) : '');
-        }
-        return $filename . $vers;
+        return $filename;
     }
 
     /**

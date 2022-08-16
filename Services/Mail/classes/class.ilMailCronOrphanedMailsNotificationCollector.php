@@ -10,6 +10,7 @@ include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsFolderMailObj
  */
 class ilMailCronOrphanedMailsNotificationCollector
 {
+    private const PING_THRESHOLD = 500;
     /**
      * @var array ilMailCronOrphanedMailsNotificationCollectionObj[]
      */
@@ -24,16 +25,16 @@ class ilMailCronOrphanedMailsNotificationCollector
      * @var \ilSetting
      */
     protected $setting;
+    private $job;
 
-    /**
-     *
-     */
-    public function __construct()
+    public function __construct(ilMailCronOrphanedMails $job)
     {
         global $DIC;
 
         $this->db = $DIC->database();
         $this->setting = $DIC->settings();
+
+        $this->job = $job;
 
         $this->collect();
     }
@@ -83,7 +84,12 @@ class ilMailCronOrphanedMailsNotificationCollector
         $folder_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
+        $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
+            if ($i > 0 && $i % self::PING_THRESHOLD === 0) {
+                $this->job->ping();
+            }
+
             if (!$this->existsCollectionObjForUserId($row['user_id'])) {
                 if (is_object($collection_obj)) {
                     $this->addCollectionObject($collection_obj);
@@ -106,6 +112,7 @@ class ilMailCronOrphanedMailsNotificationCollector
                     $folder_obj->addMailObject($orphaned_mail_obj);
                 }
             }
+            ++$i;
         }
 
         if (is_object($collection_obj)) {

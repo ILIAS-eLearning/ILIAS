@@ -1705,7 +1705,7 @@ class ilPageObjectGUI
         if ($this->getOutputMode() == "edit") {
             $col_path = ilUtil::getImagePath("col.svg");
             $row_path = ilUtil::getImagePath("row.svg");
-            $item_path = ilUtil::getImagePath("item.svg");
+            $item_path = ilUtil::getImagePath("icon_peadl.svg");
             $cell_path = ilUtil::getImagePath("cell.svg");
         }
 
@@ -1926,7 +1926,7 @@ class ilPageObjectGUI
             //echo htmlentities($output);
             if ($this->getOutputMode() == "edit" &&
                 !$this->getPageObject()->getActive($this->getPageConfig()->getEnableScheduledActivation())) {
-                $output = '<div class="il_editarea_disabled"><div class="ilCopgDisabledText">' . $this->getDisabledText() . '</div>' . $output . '</div>';
+                $output = '<div class="copg-disabled-page"><div class="ilCopgDisabledText">' . $this->getDisabledText() . '</div>' . $output . '</div>';
             }
 
             // for all page components...
@@ -2281,7 +2281,9 @@ class ilPageObjectGUI
         );
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
-        
+
+        $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
+
         include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 
         $btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type, true, $a_style_id));
@@ -2723,10 +2725,16 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_no_block");
         $this->lng->toJS("copg_error");
         $this->lng->toJS("cont_ed_click_to_add_pg");
+        $this->lng->toJS("cont_ed_new_item_after");
+        $this->lng->toJS("cont_ed_new_item_before");
+        $this->lng->toJS("cont_ed_item_up");
+        $this->lng->toJS("cont_ed_item_down");
+        $this->lng->toJS("cont_ed_delete_item");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
+        ilModalGUI::initJS();
     }
 
     protected function showEditLockInfo()

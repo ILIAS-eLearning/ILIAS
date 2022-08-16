@@ -39,11 +39,11 @@ interface ItemInformation
 
 
     /**
-     * @param isChild $item
+     * @param isItem $item
      *
      * @return IdentificationInterface
      */
-    public function getParent(isChild $item) : IdentificationInterface;
+    public function getParent(isItem $item) : IdentificationInterface;
 
 
     /**

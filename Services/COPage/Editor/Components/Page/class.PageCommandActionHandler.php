@@ -85,6 +85,10 @@ class PageCommandActionHandler implements Server\CommandActionHandler
                 return $this->activate($body);
                 break;
 
+            case "list.edit":
+                return $this->listEdit($body);
+                break;
+
             default:
                 throw new Exception("Unknown action " . $body["action"]);
                 break;
@@ -327,4 +331,41 @@ class PageCommandActionHandler implements Server\CommandActionHandler
 
         return $this->sendPage($updated);
     }
+
+    /**
+     * Activate command
+     * @param $body
+     * @return Server\Response
+     */
+    protected function listEdit($body) : Server\Response
+    {
+        $pcid = $body["data"]["pcid"];
+        $list_cmd = $body["data"]["list_cmd"];
+        $page = $this->page_gui->getPageObject();
+
+        $pc = $page->getContentObjectForPcId($pcid);
+
+        $updated = true;
+        switch ($list_cmd) {
+            case "newItemAfter":
+                $pc->newItemAfter();
+                break;
+            case "newItemBefore":
+                $pc->newItemBefore();
+                break;
+            case "deleteItem":
+                $pc->deleteItem();
+                break;
+            case "moveItemUp":
+                $pc->moveItemUp();
+                break;
+            case "moveItemDown":
+                $pc->moveItemDown();
+                break;
+        }
+        $updated = $page->update();
+
+        return $this->sendPage($updated);
+    }
+
 }

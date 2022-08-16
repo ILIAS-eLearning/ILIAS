@@ -817,4 +817,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         ilExplorerBaseGUI::init();
     }
+
+    protected function supportsPageEditor() : bool
+    {
+        return false;
+    }
 }

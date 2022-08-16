@@ -76,13 +76,18 @@ class ilBTPopOverGUI
         $icon = $f->symbol()->icon()->standard("bgtk", $this->txt("bg_task"));
         $title = $observer->getTitle() . ($state === State::SCHEDULED ? " ({$this->txt('scheduled')})" : "");
 
+
+        $description_text = $this->txt('background_tasks');
+
         if ($state === State::USER_INTERACTION) {
             $actions = $this->getUserInteractionContent($observer, $redirect_uri);
             $primary_action = array_pop($actions);
             if ($primary_action instanceof Button) {
                 $title = $primary_action->withLabel($title);
             }
+
             $item = $f->item()->notification($title, $icon);
+            $item = $this->getItemWithOnCloseDecoration($item);
 
 //            $item = $item->withProperties([
 //                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
@@ -106,6 +111,7 @@ class ilBTPopOverGUI
         }
 
         $item = $f->item()->notification($title, $icon);
+        $item = $this->getItemWithOnCloseDecoration($item);
 
         if ($state === State::RUNNING) {
             $url = $this->getRefreshUrl($observer);
@@ -129,6 +135,13 @@ class ilBTPopOverGUI
         return $item->withAdditionalContent($this->getDefaultCardContent($observer));
     }
 
+    protected function getItemWithOnCloseDecoration(ILIAS\UI\Component\Item\Notification $item) : ILIAS\UI\Component\Item\Notification
+    {
+        $description_text = $this->txt('background_tasks');
+        return $item->withAdditionalOnLoadCode(function ($id) use ($description_text) {
+            return "il.BGTask.updateDescriptionOnClose('#$id','$description_text');";
+        });
+    }
 
     private function getDefaultCardContent(Bucket $observer) : Legacy
     {

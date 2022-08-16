@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
@@ -311,12 +325,18 @@ class ilLearningProgressBaseGUI
         return $path;
     }
 
+    /**
+     * @deprecated will be removed in R8
+     */
     public function __showImageByStatus(&$tpl, $a_status, $tpl_prefix = "")
     {
         return ilLearningProgressBaseGUI::_showImageByStatus($tpl, $a_status, $tpl_prefix);
     }
-    
-    // we need this public in table classes
+
+    /**
+     * we need this public in table classes
+     * @deprecated will be removed in R8
+     */
     public static function _showImageByStatus(&$tpl, $a_status, $tpl_prefix = "")
     {
         global $DIC;
@@ -334,6 +354,7 @@ class ilLearningProgressBaseGUI
     
     /**
      * Get image path for status
+     * @deprecated will be removed in R8
      */
     public static function _getImagePathForStatus($a_status)
     {
@@ -372,6 +393,7 @@ class ilLearningProgressBaseGUI
 
     /**
      * Get status alt text
+     * @todo Move this to a factory.
      */
     public static function _getStatusText($a_status, $a_lng = null)
     {
@@ -535,11 +557,12 @@ class ilLearningProgressBaseGUI
                 // display status as image
                 include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
                 $status = $this->__readStatus($item_id, $user_id);
-                $status_path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+                $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
                 $status_text = ilLearningProgressBaseGUI::_getStatusText($status);
+
                 $info->addProperty(
                     $this->lng->txt('trac_status'),
-                    ilUtil::img($status_path, $status_text) . " " . $status_text
+                    $icons->renderIconForStatus($icons->lookupNumStatus($status)) . " " . $status_text
                 );
                 
                 // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
@@ -677,28 +700,34 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __getLegendHTML()
+    public function __getLegendHTML(int $variant = ilLPStatusIcons::ICON_VARIANT_LONG) : string
     {
         global $DIC;
-
         $lng = $DIC['lng'];
-        
-        $tpl = new ilTemplate("tpl.lp_legend.html", true, true, "Services/Tracking");
+        $icons = ilLPStatusIcons::getInstance($variant);
+
+        $tpl = new ilTemplate(
+            "tpl.lp_legend.html",
+            true,
+            true,
+            "Services/Tracking"
+        );
+
         $tpl->setVariable(
             "IMG_NOT_ATTEMPTED",
-            ilUtil::getImagePath("scorm/not_attempted.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
         );
         $tpl->setVariable(
             "IMG_IN_PROGRESS",
-            ilUtil::getImagePath("scorm/incomplete.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
         );
         $tpl->setVariable(
             "IMG_COMPLETED",
-            ilUtil::getImagePath("scorm/completed.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
         );
         $tpl->setVariable(
             "IMG_FAILED",
-            ilUtil::getImagePath("scorm/failed.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
         );
         $tpl->setVariable(
             "TXT_NOT_ATTEMPTED",

@@ -23,6 +23,11 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
     protected $access;
 
     /**
+     * @var ilSetting
+     */
+    protected $settings;
+
+    /**
      * ilPDSelectedItemsBlockSelectedItemsProvider constructor.
      * @param ilObjUser $actor
      */
@@ -33,6 +38,7 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
         $this->actor = $actor;
         $this->fav_manager = new ilFavouritesManager();
         $this->access = $DIC->access();
+        $this->settings = $DIC->settings();
     }
 
     /**
@@ -40,15 +46,23 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
      */
     public function getItems($object_type_white_list = array())
     {
+        $short_desc = $this->settings->get("rep_shorten_description");
+        $short_desc_max_length = $this->settings->get("rep_shorten_description_length");
+
         $favourites = $this->fav_manager->getFavouritesOfUser(
             $this->actor->getId(),
             count($object_type_white_list) > 0 ? $object_type_white_list : null
         );
         $access_granted_favourites = [];
         foreach ($favourites as $idx => $favourite) {
-            if (!$this->access->checkAccess('read', '', $favourite['ref_id'])) {
+            if (!$this->access->checkAccess('visible', '', $favourite['ref_id'])) {
                 continue;
             }
+
+            if ($short_desc && $short_desc_max_length) {
+                $favourite['description'] = ilUtil::shortenText($favourite['description'], $short_desc_max_length, true);
+            }
+
             $access_granted_favourites[$idx] = $favourite;
         }
         return $access_granted_favourites;

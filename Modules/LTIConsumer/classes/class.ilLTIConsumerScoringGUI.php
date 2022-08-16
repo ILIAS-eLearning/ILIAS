@@ -107,7 +107,7 @@ class ilLTIConsumerScoringGUI
         $filter->setActivityId($this->object->getActivityId());
         
         $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
-            $this->object->getId(),
+            $this->object,
             $aggregateEndPointUrl,
             $filter
         );
@@ -117,7 +117,7 @@ class ilLTIConsumerScoringGUI
             $linkBuilder
         );
 
-        $scoringReport = $request->queryReport($this->object->getId());
+        $scoringReport = $request->queryReport($this->object);
 
         if (true === $scoringReport->initTableData()) {
             $this->tableData = $scoringReport->getTableData();

@@ -433,4 +433,28 @@ class ilPCDataTableGUI extends ilPCTableGUI
         
         parent::setTabs("cont_ed_edit_data");
     }
+
+    protected function getCellContent(int $i, int $j) : string
+    {
+        if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
+            $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
+        } else {
+            $s_text = ilPCParagraph::xml2output(
+                $this->content_obj->getCellText($i, $j),
+                true,
+                false
+            );
+            include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
+            $s_text = ilPCParagraphGUI::xml2outputJS(
+                $s_text,
+                "TableContent",
+                $this->content_obj->readPCId() . "_" . $i . "_" . $j
+            );
+        }
+
+        // #20628
+        $s_text = str_replace("{", "&#123;", $s_text);
+        $s_text = str_replace("}", "&#125;", $s_text);
+        return $s_text;
+    }
 }

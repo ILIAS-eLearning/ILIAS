@@ -164,8 +164,8 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $lng = $this->lng;
 
         $this->determineOffsetAndOrder(true);
-		$this->determineLimit();
-		
+        $this->determineLimit();
+        
         $ilSCORM2004TrackingItems = new ilSCORM2004TrackingItems();
         switch ($this->report) {
             case "exportSelectedCore":
@@ -198,20 +198,20 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             include_once "Services/Utilities/classes/class.ilStr.php";
             $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));
         }
-		
+        
         $this->setData($tr_data);
     }
     protected function parseValue($id, $value, $type)
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("trac");
-        switch ($id) {
-            case "status":
-                include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
-                $text = ilLearningProgressBaseGUI::_getStatusText($value);
-                $value = ilUtil::img($path, $text);
-                break;
+
+        if ($id === "status") {
+            include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
+            $path = $icons->getImagePathForStatus($value);
+            $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
+            $value = ilUtil::img($path, $text);
         }
         //BLUM round
         if ($id == "launch_data" || $id == "suspend_data") {

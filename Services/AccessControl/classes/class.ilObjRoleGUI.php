@@ -325,7 +325,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $rbacreview = $DIC['rbacreview'];
         
-        $data['title'] = $role->getTitle();
+        $data['title'] = ilObjRole::_getTranslation($role->getTitle());
         $data['desc'] = $role->getDescription();
         $data['ilias_id'] = 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($role->getId()) . '_' . $role->getId();
         $data['reg'] = $role->getAllowRegister();
@@ -661,7 +661,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $confirm->addItem(
             'role',
             $this->object->getId(),
-            $this->object->getTitle(),
+            ilObjRole::_getTranslation($this->object->getTitle()),
             ilUtil::getImagePath('icon_role.svg')
         );
         
@@ -855,7 +855,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
             // send info
             $obj_data = &$this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
-            ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $obj_data->getTitle() . "'.<br/>" .
+            ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" .
+                    ilObjRole::_getTranslation($obj_data->getTitle()) . "'.<br/>" .
                      $this->lng->txt("msg_perm_adopted_from2"), true);
         }
 
@@ -1190,7 +1191,7 @@ class ilObjRoleGUI extends ilObjectGUI
             
             if ($_GET["obj_id"] > 0) {
                 $ilLocator->addItem(
-                    $this->object->getTitle(),
+                    ilObjRole::_getTranslation($this->object->getTitle()),
                     $this->ctrl->getLinkTarget($this, 'perm')
                 );
             }

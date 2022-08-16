@@ -123,9 +123,11 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         
         $this->addColumn($this->lng->txt("name"), 'name');
         $this->addColumn($this->lng->txt("login"), 'login');
+
+        $this->addColumn($this->lng->txt("tst_tbl_col_finished_passes"), 'finished_passes');
         
         $this->addColumn($this->lng->txt("tst_tbl_col_scored_pass"), 'scored_pass');
-        $this->addColumn($this->lng->txt("tst_tbl_col_pass_finished"), 'pass_finished');
+        $this->addColumn($this->lng->txt("tst_tbl_col_last_scored_access"), 'last_scored_access');
         
         $this->addColumn($this->lng->txt("tst_tbl_col_answered_questions"), 'answered_questions');
         $this->addColumn($this->lng->txt("tst_tbl_col_reached_points"), 'reached_points');
@@ -179,9 +181,10 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ROW_KEY", $data['active_id']);
         $this->tpl->setVariable("LOGIN", $data['login']);
         $this->tpl->setVariable("FULLNAME", $data['name']);
-        
+
+        $this->tpl->setVariable("FINISHED_PASSES", $this->buildFinishedPassesString($data));
         $this->tpl->setVariable("SCORED_PASS", $this->buildScoredPassString($data));
-        $this->tpl->setVariable("PASS_FINISHED", $this->buildPassFinishedString($data));
+        $this->tpl->setVariable("LAST_SCORED_ACCESS", $this->buildPassFinishedString($data));
 
         $this->tpl->setVariable("ANSWERED_QUESTIONS", $this->buildAnsweredQuestionsString($data));
         $this->tpl->setVariable("REACHED_POINTS", $this->buildReachedPointsString($data));
@@ -297,8 +300,26 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
      */
     protected function buildPassFinishedString($data)
     {
-        return ilDatePresentation::formatDate(new ilDateTime($data['pass_finished'], IL_CAL_UNIX));
+        return ilDatePresentation::formatDate(new ilDateTime($data['last_scored_access'], IL_CAL_UNIX));
     }
+
+
+    /**
+     * @param array $data
+     * @return string
+     */
+    protected function buildFinishedPassesString($data)
+    {
+        $finished = $data['finished_passes'] ?? 0;
+        $started = (isset($data['has_unfinished_passes']) && $data['has_unfinished_passes']) ? $finished + 1 : $finished;
+
+        return sprintf(
+            $this->lng->txt('tst_tbl_col_finished_passes_num_of'),
+            $finished,
+            $started
+        );
+    }
+
 
     /**
      * @param array $data

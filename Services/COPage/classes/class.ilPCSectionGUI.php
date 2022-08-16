@@ -239,7 +239,11 @@ class ilPCSectionGUI extends ilPageContentGUI
         // link input
         include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
         $ac = new ilLinkInputGUI($this->lng->txt('cont_link'), 'link');
-        $ac->setAllowedLinkTypes(ilLinkInputGUI::BOTH);
+        if ($this->getPageConfig()->getEnableInternalLinks()) {
+            $ac->setAllowedLinkTypes(ilLinkInputGUI::BOTH);
+        } else {
+            $ac->setAllowedLinkTypes(ilLinkInputGUI::EXT);
+        }
         $ac->setRequired(false);
         $ac->setInfo($this->lng->txt("copg_sec_link_info"));
         $ac->setInternalLinkDefault(

@@ -79,6 +79,7 @@ class ilLTIConsumeProvider
     const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
     const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
     const PRIVACY_IDENT_REAL_EMAIL = 3;
+    const PRIVACY_IDENT_IL_UUID_SHA256 = 5;
     protected $privacy_ident = self::PRIVACY_IDENT_IL_UUID_USER_ID;
     
     const PRIVACY_NAME_NONE = 0;

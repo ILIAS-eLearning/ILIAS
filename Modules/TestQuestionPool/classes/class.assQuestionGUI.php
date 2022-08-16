@@ -102,6 +102,11 @@ abstract class assQuestionGUI
     // hey.
     
     /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+    
+    /**
      * @var \ilPropertyFormGUI
      */
     protected $editForm;
@@ -125,6 +130,7 @@ abstract class assQuestionGUI
         $this->lng = &$lng;
         $this->tpl = &$tpl;
         $this->ctrl = &$ilCtrl;
+
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
         $this->ctrl->saveParameter($this, "calling_test");
@@ -137,13 +143,10 @@ abstract class assQuestionGUI
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $this->errormessage = $this->lng->txt("fill_out_all_required_fields");
-        
         $this->selfassessmenteditingmode = false;
         $this->new_id_listeners = array();
         $this->new_id_listener_cnt = 0;
-        
         $this->navigationGUI = null;
     }
     
@@ -159,25 +162,6 @@ abstract class assQuestionGUI
     
     public function addHeaderAction()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $DIC->ui()->mainTemplate()->setVariable(
-            "HEAD_ACTION",
-            $this->getHeaderAction()
-        );
-        
-        $notesUrl = $this->ctrl->getLinkTargetByClass(
-            array("ilcommonactiondispatchergui", "ilnotegui"),
-            "",
-            "",
-            true,
-            false
-        );
-        
-        ilNoteGUI::initJavascript($notesUrl, IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
-        
-        $redrawActionsUrl = $DIC->ctrl()->getLinkTarget($this, 'redrawHeaderAction', '', true);
-        $DIC->ui()->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
     }
     
     public function redrawHeaderAction()
@@ -225,14 +209,12 @@ abstract class assQuestionGUI
     */
     public function executeCommand()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
-        $ilHelp->setScreenIdComponent('qpl');
+        global $DIC;
+        $DIC['ilHelp']->setScreenIdComponent('qpl');
 
         $cmd = $this->ctrl->getCmd("editQuestion");
-        $next_class = $this->ctrl->getNextClass($this);
 
-        $cmd = $this->getCommand($cmd);
+        $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
@@ -485,11 +467,8 @@ abstract class assQuestionGUI
          */
         global $DIC;
         $tpl = $DIC['tpl'];
-
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php';
+        
         $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
-
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php';
         $usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
         $tpl->setContent(implode('<br />', array(
@@ -988,6 +967,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
+
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
                 ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -997,7 +977,6 @@ abstract class assQuestionGUI
             } elseif ($_GET["calling_test"]) {
                 require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $test = new ilObjTest($_GET["calling_test"]);
-                #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
                 $q_id = $this->object->getId();
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
                     global $DIC;
@@ -1024,16 +1003,10 @@ abstract class assQuestionGUI
 
                     $this->ctrl->setParameter($this, 'q_id', $new_id);
                     $this->ctrl->setParameter($this, 'calling_test', $_GET['calling_test']);
-                    #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
                 ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-                if ( /*$___test_express_mode || */
-                $_REQUEST['test_express_mode']
-                ) {
-                    ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($q_id));
-                } else {
-                    ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
-                }
+                $this->ctrl->setParameterByClass('ilAssQuestionPreviewGUI', 'q_id', $q_id);
+                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             } else {
                 if ($this->object->getId() != $old_id) {
                     $this->callNewIdListeners($this->object->getId());
@@ -1045,7 +1018,7 @@ abstract class assQuestionGUI
                 } else {
                     ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
                 }
-                $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
+                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         }
     }
@@ -1447,7 +1420,6 @@ abstract class assQuestionGUI
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        global $DIC;
         $ilAccess = $DIC['ilAccess'];
 
         $save = (is_array($_POST["cmd"]) && array_key_exists("suggestedsolution", $_POST["cmd"])) ? true : false;
@@ -1936,63 +1908,38 @@ abstract class assQuestionGUI
     public function setQuestionTabs()
     {
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
         $ilTabs = $DIC['ilTabs'];
 
         $ilTabs->clearTargets();
-
+        $this->setDefaultTabs($ilTabs);
+        $this->setQuestionSpecificTabs($ilTabs);
+        $this->addBackTab($ilTabs);
+    }
+    
+    protected function setDefaultTabs(ilTabsGUI $ilTabs)
+    {
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
-
+        
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
         }
-
+        
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    $force_active
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
+            $this->addTab_Question($ilTabs);
         }
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            $force_active = false;
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                $this->getEditQuestionTabCommands(),
-                $classname,
-                "",
-                $force_active
-            );
-        }
-
+        
         // add tab for question feedback within common class assQuestionGUI
         $this->addTab_QuestionFeedback($ilTabs);
-
+        
         // add tab for question hint within common class assQuestionGUI
         $this->addTab_QuestionHints($ilTabs);
-
+        
         // add tab for question's suggested solution within common class assQuestionGUI
         $this->addTab_SuggestedSolution($ilTabs, $classname);
-
+        
         // Assessment of questions sub menu entry
         if ($_GET["q_id"]) {
             $ilTabs->addTarget(
@@ -2003,8 +1950,10 @@ abstract class assQuestionGUI
                 ""
             );
         }
-
-        $this->addBackTab($ilTabs);
+    }
+    
+    protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs)
+    {
     }
     
     public function addTab_SuggestedSolution(ilTabsGUI $tabs, $classname)
@@ -2055,20 +2004,6 @@ abstract class assQuestionGUI
         
         $tabs->addTarget('tst_feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
     }
-
-    /**
-     * @param ilTabsGUI $tabs
-     */
-    protected function addTab_Units(ilTabsGUI $tabs)
-    {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $tabs->addTarget('units', $ilCtrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
-    }
     
     /**
      * adds the hints tab to ilTabsGUI
@@ -2105,15 +2040,20 @@ abstract class assQuestionGUI
         $tabs->addTarget('tst_question_hints_tab', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
     }
     
-    protected function addTab_QuestionPreview(ilTabsGUI $tabsGUI)
+    protected function addTab_Question(ilTabsGUI $tabsGUI)
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
 
         $tabsGUI->addTarget(
-            ilAssQuestionPreviewGUI::TAB_ID_QUESTION_PREVIEW,
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW),
-            array(),
-            array('ilAssQuestionPreviewGUI')
+            'edit_question',
+            $this->ctrl->getLinkTargetByClass(
+                array('ilrepositorygui','ilobjquestionpoolgui', get_class($this)),
+                'editQuestion'
+            ),
+            'editQuestion',
+            '',
+            '',
+            false
         );
     }
 
@@ -2273,30 +2213,10 @@ abstract class assQuestionGUI
      */
     protected function addBackTab(ilTabsGUI $ilTabs)
     {
-        if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
-            $ref_id = $_GET["calling_test"];
-            if (strlen($ref_id) == 0) {
-                $ref_id = $_GET["test_ref_id"];
-            }
-
-            if (!$_GET['test_express_mode'] && !$GLOBALS['___test_express_mode']) {
-                $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
-            } else {
-                $link = ilTestExpressPage::getReturnToPageLink();
-                $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
-            }
-        } elseif (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
-            $ref_id = (int) $_GET['calling_consumer'];
-            $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
-            if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                $ilTabs->setBackTarget($consumer->getQuestionEditingFormBackTargetLabel(), $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
-            } else {
-                require_once 'Services/Link/classes/class.ilLink.php';
-                $ilTabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
-            }
-        } else {
-            $ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
-        }
+        $ilTabs->setBackTarget(
+            $this->lng->txt('backtocallingpage'),
+            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+        );
     }
 
     /**

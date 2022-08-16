@@ -15,8 +15,18 @@ il.BGTask = il.BGTask || {};
             }, 2000);
         };
 
+        var updateDescriptionOnClose = function (id, description_text) {
+            var notification_item = il.UI.item.notification.getNotificationItemObject($(id));
+            var parent_item = notification_item.getParentItem();
+
+            notification_item.getCloseButtonOfItem().click(function () {
+                parent_item.setItemDescription(notification_item.getNrOfSibblings() + " " + description_text);
+            });
+        };
+
         return {
-            refreshItem: refreshItem
+            refreshItem: refreshItem,
+            updateDescriptionOnClose: updateDescriptionOnClose
         };
     })($);
 })($, il);

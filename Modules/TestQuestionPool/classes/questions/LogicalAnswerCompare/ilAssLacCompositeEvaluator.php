@@ -82,8 +82,10 @@ class ilAssLacCompositeEvaluator
                 if ($rightNode instanceof ilAssLacStringResultExpression) {
                     if ($gap->getType() == 1) {
                         $answer = $gap->getItem($result['value'] - 1);
-                        $solutions->removeByKey($index);
-                        $solutions->addKeyValue($index, $answer->getAnswertext());
+                        if ($answer) {
+                            $solutions->removeByKey($index);
+                            $solutions->addKeyValue($index, $answer->getAnswertext());
+                        }
                     }
                 } elseif (
                     $rightNode instanceof ilAssLacPercentageResultExpression &&

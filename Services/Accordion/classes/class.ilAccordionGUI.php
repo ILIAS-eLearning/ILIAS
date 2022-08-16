@@ -29,8 +29,8 @@ class ilAccordionGUI
     const FIRST_OPEN = "FirstOpen";
     const ALL_CLOSED = "AllClosed";
 
-    public static $owl_path = "./libs/bower/bower_components/owl.carousel/dist";
-    public static $owl_js_path = "/owl.carousel.js";
+    public static $owl_path = "./node_modules/owl.carousel/dist";
+    public static $owl_js_path = "/owl.carousel.min.js";
     public static $owl_css_path = "/assets/owl.carousel.css";
 
     /**

@@ -18,6 +18,8 @@ export default class ResponseFactory {
    * @returns {Response}
    */
   response(action, payload) {
+    console.log("...got payload");
+    console.log(payload);
     return new Response(action, payload);
   }
 }

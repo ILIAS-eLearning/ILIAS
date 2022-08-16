@@ -541,12 +541,28 @@ abstract class assQuestion
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
-    {
+    public function fromXML(
+        &$item,
+        &$questionpool_id,
+        &$tst_id,
+        &$tst_object,
+        &$question_counter,
+        &$import_mapping,
+        array $solutionhints = []
+    ) {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class." . $this->getQuestionType() . "Import.php";
         $classname = $this->getQuestionType() . "Import";
         $import = new $classname($this);
         $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
+
+        foreach ($solutionhints as $hint) {
+            $h = new ilAssQuestionHint();
+            $h->setQuestionId($import->getQuestionId());
+            $h->setIndex($hint['index']);
+            $h->setPoints($hint['points']);
+            $h->setText($hint['txt']);
+            $h->save();
+        }
     }
     
     /**
@@ -5490,5 +5506,17 @@ abstract class assQuestion
     public function savePartial()
     {
         return false;
+    }
+
+    /* doubles isInUse? */
+    public function isInActiveTest() : bool
+    {
+        $query = 'SELECT user_fi FROM tst_active ' . PHP_EOL
+            . 'JOIN tst_test_question ON tst_test_question.test_fi = tst_active.test_fi ' . PHP_EOL
+            . 'JOIN qpl_questions ON qpl_questions.question_id = tst_test_question.question_fi ' . PHP_EOL
+            . 'WHERE qpl_questions.obj_fi = ' . $this->db->quote($this->getObjId(), 'integer');
+
+        $res = $this->db->query($query);
+        return $res->numRows() > 0;
     }
 }

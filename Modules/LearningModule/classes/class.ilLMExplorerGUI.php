@@ -161,7 +161,8 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 
         if (is_array($this->lp_cache[$this->lm->getId()]) &&
             isset($this->lp_cache[$this->lm->getId()][$a_id])) {
-            return ilLearningProgressBaseGUI::_getImagePathForStatus($this->lp_cache[$this->lm->getId()][$a_id]);
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+            return $icons->getImagePathForStatus($this->lp_cache[$this->lm->getId()][$a_id]);
         }
 
         return "";

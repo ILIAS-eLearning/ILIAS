@@ -956,18 +956,29 @@ abstract class ilContainerContentGUI
         include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
         include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
         $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
-        include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorage.php");
-        $stored_val = ilContainerBlockPropertiesStorage::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(), "opened");
+        include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorageGUI.php");
+        $stored_val = ilContainerBlockPropertiesStorageGUI::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(),
+            "opened");
         if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
                 : ilItemGroupBehaviour::EXPANDABLE_CLOSED;
         }
 
+        $this->ctrl->setParameterByClass(
+            ilContainerBlockPropertiesStorageGUI::class,
+            'cont_block_id',
+            'itgr_' . $a_itgr['ref_id']
+        );
+        $target_url = $this->ctrl->getLinkTargetByClass(
+            ilContainerBlockPropertiesStorageGUI::class,
+            "store",
+            "",
+            true
+        );
         $data = array(
             "behaviour" => $beh,
-            "store-url" => "./ilias.php?baseClass=ilcontainerblockpropertiesstorage&cmd=store" .
-                "&cont_block_id=itgr_" . $a_itgr['ref_id']
+            "store-url" => $target_url,
         );
         if (ilObjItemGroup::lookupHideTitle($a_itgr["obj_id"]) &&
             !$this->getContainerGUI()->isActiveAdministrationPanel()) {

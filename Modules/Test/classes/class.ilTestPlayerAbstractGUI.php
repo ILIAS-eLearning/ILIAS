@@ -26,8 +26,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 {
     const PRESENTATION_MODE_VIEW = 'view';
     const PRESENTATION_MODE_EDIT = 'edit';
-
-    const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
     
     public $ref_id;
     public $saveResult;
@@ -269,7 +267,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $button->setId('bottomnextbutton');
 
         $this->tpl->setCurrentBlock("next_bottom");
-        $this->tpl->setVariable("BTN_NEXT", $button->render());
+        $this->tpl->setVariable("BTN_NEXT_BOTTOM", $button->render());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -289,7 +287,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $button->setId('bottomprevbutton');
 
         $this->tpl->setCurrentBlock("prev_bottom");
-        $this->tpl->setVariable("BTN_PREV", $button->render());
+        $this->tpl->setVariable("BTN_PREV_BOTTOM", $button->render());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -1509,12 +1507,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         if ($this->object->isEndingTimeEnabled()) {
             $date_time = new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX);
             preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date_time->get(IL_CAL_TIMESTAMP), $matches);
-            $template->setVariable("ENDYEAR", $matches[1]);
-            $template->setVariable("ENDMONTH", $matches[2] - 1);
-            $template->setVariable("ENDDAY", $matches[3]);
-            $template->setVariable("ENDHOUR", $matches[4]);
-            $template->setVariable("ENDMINUTE", $matches[5]);
-            $template->setVariable("ENDSECOND", $matches[6]);
+            if (!empty($matches)) {
+                $template->setVariable("ENDYEAR", $matches[1]);
+                $template->setVariable("ENDMONTH", $matches[2] - 1);
+                $template->setVariable("ENDDAY", $matches[3]);
+                $template->setVariable("ENDHOUR", $matches[4]);
+                $template->setVariable("ENDMINUTE", $matches[5]);
+                $template->setVariable("ENDSECOND", $matches[6]);
+            }
         }
         $template->setVariable("YEARNOW", $datenow["year"]);
         $template->setVariable("MONTHNOW", $datenow["mon"] - 1);
@@ -1540,11 +1540,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $sideListActive = $ilUser->getPref('side_list_of_questions');
 
         if ($sideListActive) {
-            $this->tpl->addCss(
-                ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"),
-                "screen"
-            );
-
             $questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, false);
 
             require_once 'Modules/Test/classes/class.ilTestQuestionSideListGUI.php';
@@ -1569,6 +1564,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsInfo = false, $obligationsFilter = false)
     {
+        global $DIC;
+        $help = $DIC->help();
+
+        $help->setScreenIdComponent("tst");
+        $help->setScreenId("assessment");
+        $help->setSubScreenId("question_summary");
+
         if ($fullpage) {
             $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
         }
@@ -2458,28 +2460,28 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      * @param $sequenceElement
      * @return object
      */
-    protected function getQuestionGuiInstance($questionId, $fromCache = true)
+    protected function getQuestionGuiInstance($question_id, $fromCache = true)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
         
-        if (!$fromCache || !isset($this->cachedQuestionGuis[$questionId])) {
-            $questionGui = $this->object->createQuestionGUI("", $questionId);
+        if (!$fromCache || !isset($this->cachedQuestionGuis[$question_id])) {
+            $questionGui = $this->object->createQuestionGUI("", $question_id);
             $questionGui->setTargetGui($this);
             $questionGui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
             $questionGui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
             $questionGui->populateJavascriptFilesRequiredForWorkForm($tpl);
             $questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
-            $questionGui->object->setShuffler($this->buildQuestionAnswerShuffler($questionId));
+            $questionGui->object->setShuffler($this->buildQuestionAnswerShuffler((string) $question_id, (string) $this->testSession->getActiveId(), (string) $this->testSession->getPass()));
             
             // hey: prevPassSolutions - determine solution pass index and configure gui accordingly
             $this->initTestQuestionConfig($questionGui->object);
             // hey.
             
-            $this->cachedQuestionGuis[$questionId] = $questionGui;
+            $this->cachedQuestionGuis[$question_id] = $questionGui;
         }
         
-        return $this->cachedQuestionGuis[$questionId];
+        return $this->cachedQuestionGuis[$question_id];
     }
 
     /**
@@ -2528,22 +2530,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $questionOBJ->getTestPresentationConfig()->setPreviousPassSolutionReuseAllowed(
             $this->object->isPreviousSolutionReuseEnabled($this->testSession->getActiveId())
         );
-    }
-    // hey.
-    
-    /**
-     * @param $questionId
-     * @return ilArrayElementShuffler
-     */
-    protected function buildQuestionAnswerShuffler($questionId)
-    {
-        require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-        $shuffler = new ilArrayElementShuffler();
-        
-        $fixedSeed = $this->buildFixedShufflerSeed($questionId);
-        $shuffler->setSeed($fixedSeed);
-        
-        return $shuffler;
     }
 
     /**
@@ -2878,23 +2864,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // fau.
     }
     
-    /**
-     * @param $questionId
-     * @return string
-     */
-    protected function buildFixedShufflerSeed($questionId)
-    {
-        $fixedSeed = $questionId . $this->testSession->getActiveId() . $this->testSession->getPass();
-        
-        if (strlen($fixedSeed) < self::FIXED_SHUFFLER_SEED_MIN_LENGTH) {
-            $fixedSeed *= (
-                10 * (self::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixedSeed))
-            );
-        }
-        
-        return $fixedSeed;
-    }
-    
     protected function registerForcedFeedbackNavUrl($forcedFeedbackNavUrl)
     {
         if (!isset($_SESSION['forced_feedback_navigation_url'])) {
@@ -2928,4 +2897,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             unset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]);
         }
     }
+
+    protected function handleFileUploadCmd()
+    {
+        $this->updateWorkingTime();
+        $this->saveQuestionSolution(false);
+        $this->ctrl->redirect($this, ilTestPlayerCommands::SUBMIT_SOLUTION );
+    }
+
 }

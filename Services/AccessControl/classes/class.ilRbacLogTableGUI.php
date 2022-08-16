@@ -140,7 +140,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
             // added only
             foreach ($raw["ops"] as $role_id => $ops) {
                 foreach ($ops as $op) {
-                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_add"), ilObject::_lookupTitle($role_id)),
+                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_add"), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))),
                         "operation" => $this->getOPCaption($type, $op));
                 }
             }
@@ -148,7 +148,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
             foreach ($raw["ops"] as $role_id => $actions) {
                 foreach ($actions as $action => $ops) {
                     foreach ((array) $ops as $op) {
-                        $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_" . $action), ilObject::_lookupTitle($role_id)),
+                        $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))),
                             "operation" => $this->getOPCaption($type, $op));
                     }
                 }
@@ -158,7 +158,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         if (isset($raw["inht"])) {
             foreach ($raw["inht"] as $action => $role_ids) {
                 foreach ((array) $role_ids as $role_id) {
-                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action), ilObject::_lookupTitle($role_id)));
+                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))));
                 }
             }
         }

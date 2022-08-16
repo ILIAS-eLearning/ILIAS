@@ -117,6 +117,7 @@ div.il_editarea_nojs {
 div.il_editarea, div.il_editarea_disabled {
 	border: 2px solid transparent;
 	min-height: 20px;
+	user-select: none;
 }
 
 .copg-state-page, .copg-state-multi {
@@ -156,7 +157,7 @@ div.ilc_page_Page > div.il_editarea_disabled {
 	padding: 10px;
 }
 
-div.il_editarea_disabled {
+div.il_editarea_disabled, div.copg-disabled-page {
 	border: 2px dotted @brand-warning;
 	min-height: 20px;
 }
@@ -165,7 +166,7 @@ div.il_editarea_disabled {
 	color: @brand-warning;
 	position: absolute;
 	font-size: @font-size-small;
-	margin-top: -22px;
+	margin-top: -13px;
 	padding: 2px 5px;
 	background-color: @il-main-dark-bg;
 }
@@ -835,4 +836,25 @@ p#copg-auto-save {
 	height: 100%;
 	top: 0;
 	z-index: 9;
+}
+
+.il-copg-edit-list-button {
+	padding: 0;
+	img {
+		filter: invert(100%);
+		width: 26px;
+		height: 25px;
+	}
+}
+
+#il-copg-ed-modal .modal-content {
+	.Whoops.container {
+		.left-panel {
+			position: static;
+			float: left;
+		}
+		.details-container {
+			position: static;
+		}
+	}
 }

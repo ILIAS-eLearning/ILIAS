@@ -841,6 +841,11 @@ abstract class ilPageObject
                 $mob_id = 0;
             }
 
+            // see also #32331
+            if (ilObject::_lookupType($mob_id) !== "mob") {
+                $mob_id = 0;
+            }
+
             //$mob = new ilObjMediaObject($mob_id);
             $mob = new ilPCMediaObject($this);
             $mob->readMediaObject($mob_id);
@@ -2654,7 +2659,7 @@ abstract class ilPageObject
      */
     public function update($a_validate = true, $a_no_history = false)
     {
-        $this->log->debug("ilPageObject, update(): start, id: " . $this->getId());
+        $this->log->debug("start..., id: " . $this->getId());
 
         $lm_set = new ilSetting("lm");
 
@@ -2681,8 +2686,10 @@ abstract class ilPageObject
         }
 
         // check for duplicate pc ids
+        $this->log->debug("checking duplicate ids");
         if ($this->hasDuplicatePCIds()) {
-            $errors[0] = $this->lng->txt("cont_could_not_save_duplicate_pc_ids");
+            $errors[0] = $this->lng->txt("cont_could_not_save_duplicate_pc_ids") .
+                " (" . implode(", ", $this->getDuplicatePCIds()). ")";
         }
 
         if (!empty($errors)) {
@@ -2693,6 +2700,8 @@ abstract class ilPageObject
         if (empty($errors)) {
             // @todo 1: is this page type or pc content type
             // related -> plugins should be able to hook in!?
+
+            $this->log->debug("perform automatic modifications");
             $this->performAutomaticModifications();
 
             // get xml content
@@ -2753,6 +2762,7 @@ abstract class ilPageObject
                         $old_domdoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $old_content);
 
                         // after history entry creation event
+                        $this->log->debug("calling __afterHistoryEntry");
                         $this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
 
                         $this->history_saved = true;        // only save one time
@@ -2767,7 +2777,9 @@ abstract class ilPageObject
                 : 0;
 
             // @todo: pass dom instead?
+            $this->log->debug("checking deactivated elements");
             $iel = $this->containsDeactivatedElements($content);
+            $this->log->debug("checking internal links");
             $inl = $this->containsIntLinks($content);
 
             $this->db->update("page_object", array(
@@ -2789,10 +2801,11 @@ abstract class ilPageObject
             ));
 
             // after update event
+            $this->log->debug("calling __afterUpdate()");
             $this->__afterUpdate($dom_doc, $content);
 
             $this->log->debug(
-                "ilPageObject, update(): updated and returning true, content: " . substr(
+                "...ending, updated and returning true, content: " . substr(
                     $this->getXMLContent(),
                     0,
                     100
@@ -3611,7 +3624,6 @@ abstract class ilPageObject
         // count the parent children
         $parent_childs = $parent_node->child_nodes();
         $cnt_parent_childs = count($parent_childs);
-
         switch ($a_mode) {
             // insert new node after sibling at $a_pos
             case IL_INSERT_AFTER:
@@ -3866,10 +3878,21 @@ abstract class ilPageObject
      */
     public function hasDuplicatePCIds() : bool
     {
+        $duplicates = $this->getDuplicatePCIds();
+        return count($duplicates) > 0;
+    }
+
+    /**
+     * Get all duplicate PC Ids
+     * @return int[]
+     */
+    public function getDuplicatePCIds() : array
+    {
         $this->builddom();
         $mydom = $this->dom;
 
-        $pcids = array();
+        $pcids = [];
+        $duplicates = [];
 
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
@@ -3886,12 +3909,12 @@ abstract class ilPageObject
             $pc_id = $node->get_attribute("PCID");
             if ($pc_id != "") {
                 if (isset($pcids[$pc_id])) {
-                    return true;
+                    $duplicates[] = $pc_id;
                 }
                 $pcids[$pc_id] = $pc_id;
             }
         }
-        return false;
+        return $duplicates;
     }
 
     /**

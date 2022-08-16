@@ -157,7 +157,7 @@ class ilXapiResultsCronjob extends ilCronJob
         $filter->setActivityId($object->getActivityId());
         
         $linkBuilder = new ilCmiXapiStatementsReportLinkBuilder(
-            $object->getId(),
+            $object,
             $object->getLrsType()->getLrsEndpointStatementsAggregationLink(),
             $filter
         );
@@ -167,7 +167,7 @@ class ilXapiResultsCronjob extends ilCronJob
             $linkBuilder
         );
         
-        return $request->queryReport($object->getId());
+        return $request->queryReport($object);
     }
     
     protected function buildReportFilter()

@@ -24,7 +24,7 @@
     "linkifyjs": "^2.1.9",
     "maphilight": "^1.4.0",
     "mediaelement": "4.2.16",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "nestable2": "^1.6.0",
     "ol": "^6.5.0",
     "owl.carousel": "git+https://github.com/OwlCarousel2/OwlCarousel2.git",
@@ -41,11 +41,13 @@
     "esm": "^3.2.25",
     "less": "^4.1.1",
     "mocha": "^8.0.1",
+    "patch-package": "^6.4.7",
     "rollup": "^2.18.0",
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
-    "test": "mocha --require esm"
+    "test": "mocha --require esm",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -126,12 +128,12 @@
       "note": "The former patch (ILIAS < 5.4.0) is not needed anymore. Use of size() has been removed from the lib."
     },
     "moment": {
-      "introduction-date": null,
+      "introduction-date": "2015-09-22",
       "approved-by": "Jour Fixe",
-      "developer": null,
-      "purpose": "",
-      "last-update-for-ilias": null,
-      "note": ""
+      "developer": "jluetzen",
+      "purpose": "Calendar",
+      "last-update-for-ilias": "2022-07-14",
+      "note": "Used for the datetime picker in the calendar component. Since 2016 this library is used in the chat component as well."
     },
     "eonasdan-bootstrap-datetimepicker": {
       "introduction-date": null,
@@ -232,6 +234,14 @@
       "purpose": "UI Input Tag",
       "last-update-for-ilias": "8.0.0",
       "note": "Replacement for bootstrap-tagsinput, typeahead.js; needs prop-types^15.7.2"
+    },
+    "patch-package": {
+      "introduction-date": "2022-06-07",
+      "approved-by": null,
+      "developer": "nhaagen",
+      "purpose": "applying custom patches to node-packages",
+      "last-update-for-ilias": "7.10.0",
+      "note": "see notes in docs/developement/js"
     }
   }
 }

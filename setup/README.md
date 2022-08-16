@@ -276,7 +276,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		},
 		"proxy" : {
 			"host" : "webproxy.ilias.de",
-			"port" : 8088
+			"port" : "8088"
 		}
     },
     ```
@@ -319,10 +319,10 @@ are printed bold**, all other fields might be omitted. A minimal example is
 * *mathjax* (type: object) contains settings for Services/MathJax
     ```
 	"mathjax" : {
-		"path_to_latex_cgi" : "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+		"path_to_latex_cgi" : ""
 	},
     ```
-  * *path_to_latex_cgi* (type: string) executable
+  * *path_to_latex_cgi* (type: string) url of a mimetex installation (deprecated). Please configure MathJax in the ILIAS Administration.
 * *pdfgeneration* (type: object) contains settings for Services/PDFGeneration
     ```
 	"pdfgeneration" : {

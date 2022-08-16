@@ -148,7 +148,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $state_filter = (string) $this->filter[self::STATE_FILTER_ELM_ID];
         $state_factory = ilBuddySystemRelationStateFactory::getInstance();
-        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory) {
+        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory) : bool {
             $state_filter_mapper = $state_factory->getTableFilterStateMapper($relation->getState());
             return $state_filter === '' || $state_filter_mapper->filterMatchesRelation($state_filter, $relation);
         });

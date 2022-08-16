@@ -151,22 +151,14 @@ class ilContainerStartObjectsGUI
             $this->lng->txt("cntr_manage"),
             $this->ctrl->getLinkTarget($this, "listStructure")
         );
-                
-        // :TODO: depending on this setting?
-        if ($ilSetting->get("enable_cat_page_edit")) {
-            $this->tabs_gui->addSubTab(
-                "page_editor",
-                $this->lng->txt("cntr_text_media_editor"),
-                $this->ctrl->getLinkTargetByClass("ilContainerStartObjectsPageGUI", "edit")
-            );
-        }
-        
+
         $this->tabs_gui->activateSubTab($a_active);
     }
 
     protected function listStructureObject()
     {
         $ilToolbar = $this->toolbar;
+        $ilSetting = $this->settings;
         
         $this->checkPermission('write');
         $this->setTabs();
@@ -175,7 +167,15 @@ class ilContainerStartObjectsGUI
             $this->lng->txt('crs_add_starter'),
             $this->ctrl->getLinkTarget($this, 'selectStarter')
         );
-        
+
+        // :TODO: depending on this setting?
+        if ($ilSetting->get("enable_cat_page_edit")) {
+            $this->toolbar->addButton(
+                $this->lng->txt("cntr_text_media_editor"),
+                $this->ctrl->getLinkTargetByClass("ilContainerStartObjectsPageGUI", "edit")
+            );
+        }
+
         include_once './Services/Container/classes/class.ilContainerStartObjectsTableGUI.php';
         $table = new ilContainerStartObjectsTableGUI($this, 'listStructure', $this->start_object);
         $this->tpl->setContent($table->getHTML());

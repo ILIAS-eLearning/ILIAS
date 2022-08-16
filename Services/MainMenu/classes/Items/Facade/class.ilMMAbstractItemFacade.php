@@ -68,7 +68,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     ) {
         $this->identification = $identification;
         $this->raw_item = $collector->getSingleItemFromRaw($identification);
-        $this->filtered_item          = $collector->getSingleItemFromFilter($identification);
+        $this->filtered_item = $collector->getSingleItemFromFilter($identification);
         $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->raw_item));
         $this->mm_item = ilMMItemStorage::register($this->raw_item);
     }
@@ -246,7 +246,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 
     public function getParentIdentificationString() : string
     {
-        if ($this->raw_item instanceof isChild) {
+        if ($this->getFilteredItem() instanceof isChild || $this->getFilteredItem() instanceof isInterchangeableItem) {
             $provider_name_for_presentation = $this->raw_item->getParent()->serialize();
             
             $storage_parent = $this->mm_item->getParentIdentification();
@@ -294,7 +294,9 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 
     public function isChild() : bool
     {
-        return $this->getRawItem() instanceof isChild;
+        $item = $this->getFilteredItem();
+        return $item instanceof isChild
+            || ($item instanceof isInterchangeableItem && $item->hasChanged());
     }
 
     /**

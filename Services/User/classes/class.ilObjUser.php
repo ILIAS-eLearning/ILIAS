@@ -614,7 +614,8 @@ class ilObjUser extends ilObject
             "last_password_change" => array("integer", $this->last_password_change_ts),
             "passwd_policy_reset" => array("integer", $this->passwd_policy_reset),
             "last_update" => array("timestamp", ilUtil::now()),
-            'inactivation_date' => array('timestamp', $this->inactivation_date)
+            'inactivation_date' => array('timestamp', $this->inactivation_date),
+            'reg_hash' => null
             );
             
         if ($this->agree_date === null || (is_string($this->agree_date) && strtotime($this->agree_date) !== false)) {
@@ -4064,8 +4065,10 @@ class ilObjUser extends ilObject
             $start = new ilDateTime($this->getTimeLimitFrom(), IL_CAL_UNIX);
             $end = new ilDateTime($this->getTimeLimitUntil(), IL_CAL_UNIX);
             
-            $body .= $language->txt('time_limit') . ': ' . $start->get(IL_CAL_DATETIME);
-            $body .= $language->txt('time_limit') . ': ' . $end->get(IL_CAL_DATETIME);
+            $body .= $language->txt('time_limit') . ': ' .
+                $language->txt('from') . " " .
+                $start->get(IL_CAL_DATETIME) . " ";
+            $body .= $language->txt('to') . ' ' . $end->get(IL_CAL_DATETIME);
         }
 
         include_once './Services/User/classes/class.ilUserDefinedFields.php';

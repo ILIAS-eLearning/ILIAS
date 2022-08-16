@@ -38,13 +38,16 @@ class ilCmiXapiHighscoreReport
      * @var int
      */
     protected $objId;
+
+    protected $obj;
     /**
      * ilCmiXapiHighscoreReport constructor.
      * @param string $responseBody
      */
-    public function __construct(string $responseBody, $objId)
+    public function __construct(string $responseBody, $obj)
     {
-        $this->objId = $objId;
+        $this->obj = $obj;
+        $this->objId = $obj->getId();
         $responseBody = json_decode($responseBody, true);
         
         if (count($responseBody)) {
@@ -53,7 +56,7 @@ class ilCmiXapiHighscoreReport
             $this->response = array();
         }
         
-        foreach (ilCmiXapiUser::getUsersForObject($objId) as $cmixUser) {
+        foreach (ilCmiXapiUser::getUsersForObject($this->objId) as $cmixUser) {
             $this->cmixUsersByIdent[$cmixUser->getUsrIdent()] = $cmixUser;
         }
     }
@@ -66,9 +69,8 @@ class ilCmiXapiHighscoreReport
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $rows = [];
-        $obj = ilObjCmiXapi::getInstance($this->objId,false);
 
-        if ($obj->isMixedContentType())
+        if ($this->obj instanceof ilObjCmiXapi && $this->obj->isMixedContentType())
         {
             foreach ($this->response as $item) {
                 $userIdent = str_replace('mailto:', '', $item['mbox']);
@@ -87,7 +89,7 @@ class ilCmiXapiHighscoreReport
                 ];
             }
         }
-        elseif ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
+        elseif ($this->obj instanceof ilObjCmiXapi && $this->obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
         {
             foreach ($this->response as $item) {
                 $userIdent = $item['account'];

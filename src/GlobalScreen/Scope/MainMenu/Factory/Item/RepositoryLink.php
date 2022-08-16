@@ -21,7 +21,12 @@ use ilObject2;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem, isTopItem
+class RepositoryLink extends AbstractChildItem implements
+    hasTitle,
+    hasAction,
+    hasSymbol,
+    isInterchangeableItem,
+    isChild
 {
     use hasSymbolTrait;
     use SymbolDecoratorTrait;

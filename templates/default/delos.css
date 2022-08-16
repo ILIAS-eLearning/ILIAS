@@ -7592,10 +7592,12 @@ a fieldset[disabled] .active {
   background-color: #75deea;
   color: #000000;
 }
-.btn-link {
+.btn.btn-link {
   padding: 0;
   text-align: left;
   white-space: normal;
+  vertical-align: baseline;
+  font-size: inherit;
 }
 .btn-bulky {
   width: 100%;
@@ -7828,6 +7830,9 @@ ul.dropdown-menu > li > .btn:focus {
   color: #6f6f6f;
   overflow: hidden;
 }
+.il-item .il-item-property-name:not(:empty):after {
+  content: ": ";
+}
 .il-item .il-item-property-value {
   font-size: 12px;
   overflow: hidden;
@@ -7837,6 +7842,10 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-item .row .row > .col-md-6 {
   margin-bottom: 6px;
+}
+.il-item .btn-link {
+  vertical-align: baseline;
+  font-size: inherit;
 }
 .il-item-marker {
   border-left: 5px solid;
@@ -10472,6 +10481,16 @@ footer {
     border-top: none;
   }
 }
+/*
+**************************************************************
+	Print View
+**************************************************************
+*/
+@media print {
+  .il-system-infos {
+    display: none;
+  }
+}
 .il-drilldown ul {
   list-style: none;
   padding: 0;
@@ -10504,7 +10523,6 @@ footer {
 }
 .icon.small {
   height: 20px;
-  width: 20px;
   line-height: 20px;
 }
 .icon.small .abbreviation {
@@ -10517,7 +10535,6 @@ footer {
 }
 .icon.medium {
   height: 35px;
-  width: 35px;
   line-height: 35px;
 }
 .icon.medium .abbreviation {
@@ -10525,20 +10542,16 @@ footer {
   width: 35px;
 }
 .icon.medium img {
-  width: 35px;
   height: 35px;
 }
 .icon.large {
   height: 45px;
-  width: 45px;
   line-height: 45px;
 }
 .icon.large .abbreviation {
   font-size: 18px;
-  width: 45px;
 }
 .icon.large img {
-  width: 45px;
   height: 45px;
 }
 .icon.responsive {
@@ -10547,7 +10560,6 @@ footer {
 }
 .icon.responsive .abbreviation {
   font-size: 14px;
-  width: 35px;
 }
 .icon.responsive img {
   width: 100%;
@@ -13779,6 +13791,24 @@ div.ilFrmPostHeader span.small {
   .sort_by_posts .ilFrmPostRow.ilFrmPost-level-4 {
     padding-left: 150px;
   }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-5 {
+    padding-left: 190px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-6 {
+    padding-left: 220px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-7 {
+    padding-left: 240px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-8 {
+    padding-left: 260px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-9 {
+    padding-left: 280px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-10 {
+    padding-left: 300px;
+  }
 }
 .ilFrmPostCensorshipAdvice {
   margin: 0;
@@ -13960,6 +13990,7 @@ div.il_editarea,
 div.il_editarea_disabled {
   border: 2px solid transparent;
   min-height: 20px;
+  user-select: none;
 }
 .copg-state-page div.il_editarea:hover,
 .copg-state-multi div.il_editarea:hover,
@@ -13994,7 +14025,8 @@ div.il_editarea_selected:hover > div.ilEditLabel {
 div.ilc_page_Page > div.il_editarea_disabled {
   padding: 10px;
 }
-div.il_editarea_disabled {
+div.il_editarea_disabled,
+div.copg-disabled-page {
   border: 2px dotted #B54F00;
   min-height: 20px;
 }
@@ -14002,7 +14034,7 @@ div.il_editarea_disabled {
   color: #B54F00;
   position: absolute;
   font-size: 12px;
-  margin-top: -22px;
+  margin-top: -13px;
   padding: 2px 5px;
   background-color: #f9f9f9;
 }
@@ -14572,6 +14604,21 @@ p#copg-auto-save {
   height: 100%;
   top: 0;
   z-index: 9;
+}
+.il-copg-edit-list-button {
+  padding: 0;
+}
+.il-copg-edit-list-button img {
+  filter: invert(100%);
+  width: 26px;
+  height: 25px;
+}
+#il-copg-ed-modal .modal-content .Whoops.container .left-panel {
+  position: static;
+  float: left;
+}
+#il-copg-ed-modal .modal-content .Whoops.container .details-container {
+  position: static;
 }
 /* Services/Calendar */
 td.even {
@@ -19319,7 +19366,7 @@ span.ilProfileBadge .modal .img-responsive {
   text-align: center;
   padding: 5px;
 }
-/* former ta.css */
+/* not yet refactored code from former ta.css */
 .kiosk {
   padding: 2em;
   background-color: #fafafa;
@@ -19389,18 +19436,6 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .print {
   visibility: hidden;
-}
-.ilTstWorkingFormBlock_WorkingTime {
-  text-align: center;
-  clear: both;
-}
-.ilTstWorkingFormInfo_UserWorkingTime {
-  visibility: hidden;
-  display: none;
-}
-.ilTstWorkingFormInfo_ProcessTimeLeft {
-  font-size: 200%;
-  font-weight: bold;
 }
 .ilTstQuestionSummaryBlock_WorkingTime {
   clear: both;
@@ -19545,6 +19580,29 @@ div.textbox {
   background: none;
   cursor: default;
 }
+.clearfix:after,
+.dl-horizontal dd:after,
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.navbar:after,
+.navbar-header:after,
+.navbar-collapse:after,
+.pager:after,
+.panel-body:after,
+.modal-header:after,
+.modal-footer:after,
+.il-table-presentation-row .il-table-presentation-row-expanded:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 div.odd {
   padding: 0.5em 0;
 }
@@ -19621,55 +19679,9 @@ table.il_tst_answer_aggregation td.answer_option {
 table.il_tst_answer_aggregation td.answer_frequency {
   text-align: right;
 }
-#tst_output {
-  clear: both;
-  overflow: hidden;
-  width: 100%;
-  float: left;
-}
-#tst_left {
-  float: left;
-  width: 0%;
-}
-#tst_left h1 {
-  font-size: 110%;
-  font-weight: bold;
-}
-#tst_right {
-  float: right;
-  width: 100%;
-}
 .question_description {
   font-style: italic;
   font-size: 90%;
-}
-ul.shortlist {
-  list-style-type: none;
-  padding: 0;
-}
-/* fau: testNav - icon for answered/unanswered questions in shortlist */
-ul.shortlist li {
-  padding: 0 0 6px 15px;
-  background-repeat: no-repeat;
-  background-size: 10px;
-  background-position: 0px 5px;
-}
-ul.shortlist li.answered {
-  background-image: url('../../../../templates/default/images/answered.svg');
-}
-ul.shortlist li.unanswered {
-  background-image: url('../../../../templates/default/images/answered_not.svg');
-}
-/* fau. */
-ul.shortlist li.active {
-  font-weight: bold;
-}
-ul.shortlist li.listEntry a {
-  text-decoration: none;
-  color: #0033AA;
-}
-ul.shortlist li.listEntry a:hover {
-  text-decoration: underline;
 }
 .number {
   text-align: right;
@@ -19790,9 +19802,6 @@ table.imagemapareas tr.active-area td {
 td.ilc_Page {
   padding: 15px;
 }
-.ilTestQuestionSubtitleBlocks {
-  margin-top: -12px;
-}
 .ilTestMarkQuestionIcon {
   width: 12px;
   height: 12px;
@@ -19848,6 +19857,88 @@ div.ilc_Page.readonly textarea[disabled] {
 }
 .ilc_question_SingleChoice .ilc_qanswer_Answer > div {
   vertical-align: top;
+}
+#tst_output {
+  display: flex;
+}
+#tst_output #taForm {
+  background: transparent;
+}
+#tst_output #tst_left {
+  width: 20%;
+  min-width: 200px;
+  margin-right: 12px;
+}
+#tst_output #tst_left:empty {
+  display: none;
+  visibility: hidden;
+}
+@media screen and (max-width: 768px) {
+  #tst_output #tst_left {
+    margin-right: 0;
+    width: 100%;
+  }
+}
+#tst_output #tst_right {
+  flex-grow: 1;
+}
+#tst_output #tst_right .ilc_Page {
+  background-color: white;
+  padding: 6px 12px;
+}
+@media screen and (max-width: 768px) {
+  #tst_output {
+    flex-direction: column-reverse;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .il-layout-page.with-mainbar-slates-engaged #tst_output {
+    flex-direction: column-reverse;
+  }
+  .il-layout-page.with-mainbar-slates-engaged #tst_output #tst_left {
+    margin-right: 0;
+    width: 100%;
+  }
+}
+#tst_output .ilTstNavigation {
+  display: flex;
+  padding: 6px 12px;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+}
+#tst_output #tst_left ul.shortlist {
+  list-style-type: none;
+  padding: 0;
+}
+#tst_output #tst_left ul.shortlist li {
+  padding: 0 0 6px 18px;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: 0px 5px;
+}
+#tst_output #tst_left ul.shortlist li.unanswered {
+  background-image: url('images/answered_not.svg');
+}
+#tst_output #tst_left ul.shortlist li.answered {
+  background-image: url('images/answered.svg');
+}
+#tst_output #tst_left ul.shortlist li.active {
+  font-weight: bold;
+}
+#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime {
+  text-align: center;
+  clear: both;
+}
+#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime .ilTstWorkingFormInfo_UserWorkingTime {
+  visibility: hidden;
+  display: none;
+}
+#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime .ilTstWorkingFormInfo_ProcessTimeLeft {
+  font-size: 18px;
+  font-weight: bold;
+}
+#tst_output #tst_right h1.ilc_page_title_PageTitle {
+  margin-bottom: 6px;
 }
 .noMargin {
   margin: 0;
@@ -20098,3 +20189,4 @@ table.mceToolbar td {
   border: 1px solid #dddddd;
   border-radius: 0.25em;
 }
+/*# sourceMappingURL=./delos.css.map */

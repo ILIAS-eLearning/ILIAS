@@ -1,135 +1,151 @@
-<!-- BEGIN kiosk_message -->{MESSAGE}<!-- END kiosk_message -->
+<!-- BEGIN kiosk_message -->{MESSAGE}
+<!-- END kiosk_message -->
 <!-- BEGIN kiosk_options -->
 {KIOSK_HEAD}
 <!-- END kiosk_options -->
 <div id="tst_output">
-<form role="form" id="taForm" class="form-horizontal preventDoubleSubmission" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
-<div id="tst_left">{LIST_OF_QUESTIONS}</div>
-<div id="tst_right">
-<!-- BEGIN enableprocessingtime -->
-<div class="ilTstWorkingFormBlock_WorkingTime">
-	<span class="ilTstWorkingFormInfo_UserWorkingTime">{USER_WORKING_TIME}</span>
-	<span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">{USER_REMAINING_TIME}</span>
-</div>
-<!-- END enableprocessingtime -->
-<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
-<!-- BEGIN char_selector -->{CHAR_SELECTOR_TEMPLATE}<!-- END char_selector -->
-<!-- BEGIN test_nav_toolbar -->{TEST_NAV_TOOLBAR}<!-- END test_nav_toolbar -->
-<table class="fullwidth">
-	<tr>
-	<td align="left" width="33%" class="submit">
-<!-- BEGIN prev -->{BTN_PREV}<!-- END prev -->
-	</td>
-	<td align="right" width="33%" class="submit">
-<!-- BEGIN next -->{BTN_NEXT}<!-- END next -->
-	</td>
-	</tr>
-</table>
-<!-- BEGIN closeform --></form><!-- END closeform -->
-<table class="fullwidth">
-	<tr class="std">
-		<td class="ilc_Page">
-			<div class="ilc_Page<!-- BEGIN readonly_css_class --> readonly<!-- END readonly_css_class -->" id="ilc_Page">
-				<h2>{QUESTION_OUTPUT}</h2>
-				<!-- BEGIN discard_solution_modal -->{DISCARD_SOLUTION_MODAL}<!-- END discard_solution_modal -->
-				<!-- BEGIN nav_while_edit_modal -->{NAV_WHILE_EDIT_MODAL}<!-- END nav_while_edit_modal -->
-				<!-- BEGIN next_locks_changed_modal -->{NEXT_LOCKS_CHANGED_MODAL}<!-- END next_locks_changed_modal -->
-				<!-- BEGIN next_locks_unchanged_modal -->{NEXT_LOCKS_UNCHANGED_MODAL}<!-- END next_locks_unchanged_modal -->
-            </div>
-			<!-- BEGIN instant_response_header -->
-			<div<!-- BEGIN inst_resp_id --> id="{INSTANT_RESPONSE_FOCUS_ID}"<!-- END inst_resp_id -->><h2 class="ilc_page_title_PageTitle">{INSTANT_RESPONSE_HEADER}</h2></div>
-			<!-- END instant_response_header -->
-			<!-- BEGIN received_points_information -->
-            <p>{RECEIVED_POINTS_INFORMATION}</p>
-			<!-- END received_points_information -->
-            <!-- BEGIN answer_feedback -->
-            <div class="{ILC_FB_CSS_CLASS}">{ANSWER_FEEDBACK}</div>
-            <!-- END answer_feedback -->
-            <!-- BEGIN specific_feedback -->
-            <div class="test_specific_feedback">{SPECIFIC_FEEDBACK}</div>
-            <!-- END specific_feedback -->
-            <!-- BEGIN solution_output -->
-			<!-- BEGIN solution_output_details -->
-			<p><strong>{CORRECT_SOLUTION}</strong></p>
-			<div class="ilc_question_Standard">
-			{QUESTION_FEEDBACK}
+	<div id="tst_left">{LIST_OF_QUESTIONS}</div>
+	<div id="tst_right">
+		<form role="form" id="taForm" class="form-horizontal preventDoubleSubmission" name="test_output" method="post"
+			style="clear: both;" {ENCTYPE} action="{FORMACTION}" <!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"
+			<!-- END onsubmit -->>
+			<!-- BEGIN enableprocessingtime -->
+			<div class="ilTstWorkingFormBlock_WorkingTime alert alert-info">
+				<span class="ilTstWorkingFormInfo_UserWorkingTime">{USER_WORKING_TIME}</span>
+				<span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">{USER_REMAINING_TIME}</span>
 			</div>
-			<!-- END solution_output_details -->
-			<!-- END solution_output -->
-			<!-- fau: testNav - add block for instant feedback  modal -->
-			<!-- BEGIN instant_response_modal -->
-			<div class="ilc_Page readonly">
-				{INSTANT_RESPONSE_MODAL}
+			<!-- END enableprocessingtime -->
+			<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
+			<!-- BEGIN char_selector -->{CHAR_SELECTOR_TEMPLATE}
+			<!-- END char_selector -->
+			<!-- BEGIN test_nav_toolbar -->{TEST_NAV_TOOLBAR}
+			<!-- END test_nav_toolbar -->
+			<div class="ilTstNavigation">
+				<div class="ilTstNavigationBtn_Prev">
+					<!-- BEGIN prev -->{BTN_PREV}
+					<!-- END prev -->
+				</div>
+				<div class="ilTstNavigationBtn_Next">
+					<!-- BEGIN next -->{BTN_NEXT}
+					<!-- END next -->
+				</div>
 			</div>
-			<!-- END instant_response_modal -->
-			<!-- fau. -->
-		</td>
-	</tr>
-</table>
-<!-- BEGIN reopenform --><form role="form" class="form-horizontal preventDoubleSubmission" name="test_output_bottom" method="post" action="{FORMACTION_REOPENFORM}"><!-- END reopenform -->
-<!-- BEGIN navigation_bottom -->
-<table class="fullwidth">
-	<tr>
-		<td align="left" width="33%" class="submit">
-<!-- BEGIN prev_bottom -->{BTN_PREV}<!-- END prev_bottom -->
-		</td>
-		<td align="right" width="33%" class="submit">
-<!-- BEGIN next_bottom -->{BTN_NEXT}<!-- END next_bottom -->
-		</td>
-	</tr>
-</table>
-<!-- END navigation_bottom -->
-<!-- BEGIN exam_id_footer -->
-<p>{EXAM_ID_TXT}&nbsp;{EXAM_ID_VAL}</p>
-<!-- END exam_id_footer -->
-<p></p>
-<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
-<!-- BEGIN js_initialize -->
-{JS_INITIALIZE}
-<!-- END js_initialize -->
-<!-- BEGIN jsswitch -->
-<script type="text/javascript" charset="utf-8">
-	var jsswitch = document.getElementById("javascript_switch");
-	if (jsswitch != null)
-	{
-		jsswitch.style.display = "block";
-	}
-</script>
-<!-- END jsswitch -->
-<script type="text/javascript" charset="utf-8">
-
-    // fau: testNav - moved saving on time reached to ilTestPlayerQuestionEditControl.js .
-
-	function saveTextarea(editor)
-	{
-		document.forms["taForm"].submit();
-	}
-	
-<!-- fau: testNav - moved auto saver to ilTestPlayerQuestionEditControl.js -->
-
-	(function($){ $(document).ready( function()
-	{
-		//return;
-		$('#taForm').on('keyup keydown keypress', function(event) {
-			if( event.which == 13  && $(event.target).prop("tagName").toLowerCase() == "a" ) {
-				return;
-			}
-			if (event.which == 13) {
-				if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
-					(
-						$(event.target).prop("tagName").toLowerCase() != "input"
-							||
-							$(event.target).prop("type") != "submit"
-						)) {
-					event.preventDefault();
+			<div class="tst_question-container">
+				<div class="ilc_Page<!-- BEGIN readonly_css_class --> readonly<!-- END readonly_css_class -->"
+					id="ilc_Page">
+					<h2>{QUESTION_OUTPUT}</h2>
+					<!-- BEGIN discard_solution_modal -->{DISCARD_SOLUTION_MODAL}
+					<!-- END discard_solution_modal -->
+					<!-- BEGIN nav_while_edit_modal -->{NAV_WHILE_EDIT_MODAL}
+					<!-- END nav_while_edit_modal -->
+					<!-- BEGIN next_locks_changed_modal -->{NEXT_LOCKS_CHANGED_MODAL}
+					<!-- END next_locks_changed_modal -->
+					<!-- BEGIN next_locks_unchanged_modal -->{NEXT_LOCKS_UNCHANGED_MODAL}
+					<!-- END next_locks_unchanged_modal -->
+					<!-- BEGIN instant_response_header -->
+					<div<!-- BEGIN inst_resp_id --> id="{INSTANT_RESPONSE_FOCUS_ID}"
+						<!-- END inst_resp_id -->><h2 class="ilc_page_title_PageTitle">{INSTANT_RESPONSE_HEADER}</h2>
+					</div>
+					<!-- END instant_response_header -->
+					<!-- BEGIN received_points_information -->
+					<p>{RECEIVED_POINTS_INFORMATION}</p>
+					<!-- END received_points_information -->
+					<!-- BEGIN answer_feedback -->
+					<div class="{ILC_FB_CSS_CLASS}">{ANSWER_FEEDBACK}</div>
+					<!-- END answer_feedback -->
+					<!-- BEGIN specific_feedback -->
+					<div class="test_specific_feedback">{SPECIFIC_FEEDBACK}</div>
+					<!-- END specific_feedback -->
+					<!-- BEGIN solution_output -->
+					<!-- BEGIN solution_output_details -->
+					<p><strong>{CORRECT_SOLUTION}</strong></p>
+					<div class="ilc_question_Standard">
+						{QUESTION_FEEDBACK}
+					</div>
+					<!-- END solution_output_details -->
+					<!-- END solution_output -->
+					<!-- fau: testNav - add block for instant feedback  modal -->
+					<!-- BEGIN instant_response_modal -->
+					<div class="ilc_Page readonly">
+						{INSTANT_RESPONSE_MODAL}
+					</div>
+					<!-- END instant_response_modal -->
+					<!-- fau. -->
+				</div>
+			</div>
+			<!-- BEGIN navigation_bottom -->
+			<div class="ilTstNavigation">
+				<div class="ilTstNavigationBtn_Prev">
+					<!-- BEGIN prev_bottom -->{BTN_PREV_BOTTOM}
+					<!-- END prev_bottom -->
+				</div>
+				<div class="ilTstNavigationBtn_Next">
+					<!-- BEGIN next_bottom -->{BTN_NEXT_BOTTOM}
+					<!-- END next_bottom -->
+				</div>
+			</div>
+			<!-- END navigation_bottom -->
+		<!-- BEGIN closeform --></form><!-- END closeform -->
+		<!-- BEGIN reopenform -->
+		<form role="form" class="form-horizontal preventDoubleSubmission" name="test_output_bottom" method="post"
+			action="{FORMACTION_REOPENFORM}">
+			<!-- END reopenform -->
+		
+			<!-- BEGIN exam_id_footer -->
+			<p>{EXAM_ID_TXT}&nbsp;{EXAM_ID_VAL}</p>
+			<!-- END exam_id_footer -->
+			<p></p>
+			<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
+			<!-- BEGIN js_initialize -->
+			{JS_INITIALIZE}
+			<!-- END js_initialize -->
+			<!-- BEGIN jsswitch -->
+			<script type="text/javascript" charset="utf-8">
+				var jsswitch = document.getElementById("javascript_switch");
+				if (jsswitch != null) {
+					jsswitch.style.display = "block";
 				}
+			</script>
+			<!-- END jsswitch -->
+			<script type="text/javascript" charset="utf-8">
+
+			// fau: testNav - moved saving on time reached to ilTestPlayerQuestionEditControl.js .
+
+			function saveTextarea(editor)
+			{
+				let form = document.forms['taForm'];
+				let input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'cmd[submitSolution]';
+				input.value = 'save';
+			
+				form.appendChild(input);
+				form.submit();
 			}
-		});
-	}
-	); })(jQuery);
-	
-</script>
-</div>
-</form>
+
+			(function($){ $(document).ready( function()
+			{
+				//return;
+				$('#taForm').on('keyup keydown keypress', function(event) {
+					if( event.which == 13  && $(event.target).prop("tagName").toLowerCase() == "a" ) {
+						return;
+					}
+					if (event.which == 13) {
+						if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
+							(
+								$(event.target).prop("tagName").toLowerCase() != "input"
+									||
+									$(event.target).prop("type") != "submit"
+								)) {
+							event.preventDefault();
+						}
+					}
+				});
+			}
+			); })(jQuery);
+
+			</script>
+		</form>
+	</div>
 </div>
 <div id="autosavemessage" class="ilHighlighted tstAutosaveMsg"></div>

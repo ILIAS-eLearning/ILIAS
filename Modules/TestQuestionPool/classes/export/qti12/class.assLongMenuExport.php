@@ -233,6 +233,8 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlEndTag("itemfeedback");
         }
         
+        $xml = $this->addSolutionHints($xml);
+        
         $xml->xmlEndTag("item");
         $xml->xmlEndTag("questestinterop");
 

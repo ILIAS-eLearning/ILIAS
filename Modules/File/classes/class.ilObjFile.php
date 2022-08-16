@@ -22,6 +22,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     use ilObjFileUsages;
     use ilObjFilePreviewHandler;
     use ilObjFileNews;
+    use ilObjFileSecureString;
 
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
@@ -44,7 +45,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     protected $log;
 
-// ABSTRACT
+    // ABSTRACT
     /**
      * @var string
      */
@@ -69,7 +70,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * @var string
      */
     protected $action;
-// ABSTRACT
+    // ABSTRACT
 
     /**
      * @var string|null
@@ -118,7 +119,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         if ($this->resource_id && ($id = $this->manager->find($this->resource_id)) !== null) {
             $resource = $this->manager->getResource($id);
-            $this->implementation = new ilObjFileImplementationStorage($resource);
+            $this->implementation = new ilObjFileImplementationStorage(
+                $resource,
+                (int) $this->getId()
+            );
             $this->setMaxVersion($resource->getMaxRevision());
             $this->setVersion($resource->getMaxRevision());
         } else {
@@ -420,8 +424,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $q = "SELECT * FROM file_data WHERE file_id = %s";
         $r = $DIC->database()->queryF($q, ['integer'], [$this->getId()]);
         $row = $r->fetchObject();
-
-        $this->setFileName($row->file_name);
+    
+        $this->setFileName($this->secure($row->file_name ?? ''));
         $this->setFileType($row->file_type);
         $this->setFileSize($row->file_size);
         $this->setVersion($row->version ? $row->version : 1);
@@ -513,7 +517,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // update metadata with the current file version
         $meta_version_column = ['meta_version' => ['integer', (int) $this->getVersion()]];
         $DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
-            'obj_id' => [
+            'rbac_id' => [
                 'integer',
                 $this->getId(),
             ],
@@ -687,12 +691,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
 
     /**
-     * @param $a_target_dir
+     * @param string $target_dir
      * @deprecated
      */
-    public function export($a_target_dir)
+    public function export(string $target_dir) : void
     {
-        $this->implementation->export($a_target_dir);
+        $this->implementation->export($target_dir);
     }
 
     /**
@@ -778,5 +782,4 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         return $this->implementation->getFileExtension();
     }
-
 }

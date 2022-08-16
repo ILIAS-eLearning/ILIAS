@@ -226,6 +226,7 @@ class ilWikiPage extends ilPageObject
     {
         // internal == wiki links
         include_once "Modules/Wiki/classes/class.ilWikiUtil.php";
+        $this->log->debug("collect internal links");
         $int_links = sizeof(ilWikiUtil::collectInternalLinks($a_xml, $this->getWikiId(), true));
         
         $xpath = new DOMXPath($a_domdoc);
@@ -254,6 +255,7 @@ class ilWikiPage extends ilPageObject
         );
         
         include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+        $this->log->debug("handle stats");
         ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_UPDATED, $this, null, $page_data);
     }
     
@@ -266,7 +268,7 @@ class ilWikiPage extends ilPageObject
     public function update($a_validate = true, $a_no_history = false)
     {
         $ilDB = $this->db;
-        
+        $this->log->debug("start...");
         // update wiki page data
         $query = "UPDATE il_wiki_page SET " .
             " title = " . $ilDB->quote($this->getTitle(), "text") .
@@ -280,8 +282,10 @@ class ilWikiPage extends ilPageObject
 
         if ($updated === true) {
             include_once "./Services/Notification/classes/class.ilNotification.php";
+            $this->log->debug("send notification");
             ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
-            
+
+            $this->log->debug("update news");
             $this->updateNews(true);
         } else {
             return $updated;
@@ -669,8 +673,8 @@ class ilWikiPage extends ilPageObject
     public function saveInternalLinks($a_domdoc)
     {
         $ilDB = $this->db;
-        
-        
+
+        $this->log->debug("start...");
         // *** STEP 1: Standard Processing ***
         
         parent::saveInternalLinks($a_domdoc);
@@ -746,6 +750,7 @@ class ilWikiPage extends ilPageObject
                 );
             }
         }
+        $this->log->debug("...end");
     }
 
     /**

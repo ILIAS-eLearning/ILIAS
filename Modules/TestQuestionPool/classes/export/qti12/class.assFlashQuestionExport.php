@@ -113,6 +113,8 @@ class assFlashQuestionExport extends assQuestionExport
         
         $this->exportFeedbackOnly($a_xml_writer);
         
+        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
+        
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");
 

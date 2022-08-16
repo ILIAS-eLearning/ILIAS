@@ -177,24 +177,24 @@ class ilLTIConsumerXapiStatementsGUI
             'api/statements/aggregate',
             $this->object->getProvider()->getXapiLaunchUrl() // should be named endpoint not launch url
         );
-        
+
         $linkBuilder = new ilCmiXapiStatementsReportLinkBuilder(
-            $this->object->getId(),
+            $this->object,
             $aggregateEndPointUrl,
             $filter
         );
-        
+
         $basicAuth = ilCmiXapiLrsType::buildBasicAuth(
             $this->object->getProvider()->getXapiLaunchKey(),
             $this->object->getProvider()->getXapiLaunchSecret()
         );
-        
+
         $request = new ilCmiXapiStatementsReportRequest(
             $basicAuth,
             $linkBuilder
         );
-        
-        $statementsReport = $request->queryReport($this->object->getId());
+
+        $statementsReport = $request->queryReport($this->object);
         $table->setData($statementsReport->getTableData());
         $table->setMaxCount($statementsReport->getMaxCount());
     }

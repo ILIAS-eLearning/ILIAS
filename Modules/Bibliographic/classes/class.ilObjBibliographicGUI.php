@@ -141,6 +141,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 $this->infoScreenForward();
                 break;
             case strtolower(ilCommonActionDispatcherGUI::class):
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;

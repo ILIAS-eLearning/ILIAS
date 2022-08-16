@@ -7,7 +7,6 @@
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 * @ingroup ServicesTable
-* @ilCtrl_Calls ilTableTemplatesStorage:
 */
 class ilTableTemplatesStorage
 {

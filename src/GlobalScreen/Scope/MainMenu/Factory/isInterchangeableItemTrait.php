@@ -11,11 +11,11 @@ trait isInterchangeableItemTrait
 {
     public function hasChanged() : bool
     {
-        if ($this instanceof isTopItem && $this instanceof isInterchangeableItem) {
-            $serialize = $this->getParent()->serialize();
-            return !$this->getParent() instanceof NullIdentification;
+        $serialized_parent = $this->getParent()->serialize();
+        if ($this instanceof isTopItem) {
+            return $serialized_parent !== '';
         } elseif ($this instanceof isChild) {
-            return $this->getParent() instanceof NullIdentification && empty($this->getParent()->serialize());
+            return $serialized_parent === '';
         }
         return false;
     }

@@ -59,7 +59,7 @@ class assClozeGap
      */
     public function __construct($a_type)
     {
-        $this->type = $a_type;
+        $this->type = (int) $a_type;
         $this->items = array();
         $this->shuffle = true;
     }
@@ -76,6 +76,21 @@ class assClozeGap
     public function getType()
     {
         return $this->type;
+    }
+    
+    public function isTextGap() : bool
+    {
+        return $this->type == self::TYPE_TEXT;
+    }
+    
+    public function isSelectGap() : bool
+    {
+        return $this->type == self::TYPE_SELECT;
+    }
+    
+    public function isNumericGap() : bool
+    {
+        return $this->type == self::TYPE_NUMERIC;
     }
 
     /**
@@ -206,8 +221,6 @@ class assClozeGap
     }
 
     /**
-    * Sets the lower bound for a given item
-    *
     * Sets the lower bound for a given item
     *
     * @param integer $order Order of the item

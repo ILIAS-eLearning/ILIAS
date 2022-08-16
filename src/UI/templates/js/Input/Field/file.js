@@ -17,6 +17,8 @@ il.UI.Input = il.UI.Input || {};
 			info_url:            '',
 			file_identifier_key: 'file_id',
 			max_files:           1,
+      max_file_size:       1048576,
+      max_file_size_text:  'File is too big ({{filesize}}MiB). Max file size: {{maxFilesize}}MiB',
 			accepted_files:      '',
 			existing_file_ids:   [],
 			existing_files:      [],
@@ -49,7 +51,9 @@ il.UI.Input = il.UI.Input || {};
 				method:                'post',
 				createImageThumbnails: true,
 				maxFiles:              settings.max_files,
+        maxFilesize:           settings.max_file_size,
 				dictDefaultMessage:    '',
+        dictFileTooBig:        settings.max_file_size_text,
 				previewsContainer:     container + ' .il-input-file-filelist',
 				previewTemplate:       preview_template.html(),
 				clickable:             container + ' .il-input-file-dropzone button',
@@ -64,6 +68,14 @@ il.UI.Input = il.UI.Input || {};
 				myDropzone.removeEventListeners();
 				$(container + ' .il-input-file-dropzone button').attr("disabled", true);
 			});
+
+      myDropzone.on("addedfile", function (file) {
+        if (myDropzone.options.maxFileSize < file.size) {
+          $(file.previewElement).addClass('alert-danger');
+          alert("Too big file");
+          myDropzone.removeFile(file);
+        }
+      });
 
 			var success = function (files, new_file_id) {
 				debug(files);

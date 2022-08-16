@@ -37,105 +37,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
     }
 
-    /**
-     * Sets the ILIAS tabs for this question type
-     * Sets the ILIAS tabs for this question type
-     * @access public
-     */
-    public function setQuestionTabs()
-    {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->clearTargets();
-
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        $q_type = $this->object->getQuestionType();
-
-        if (strlen($q_type)) {
-            $classname = $q_type . "GUI";
-            $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
-        }
-
-        if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    $force_active
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-            $url = "";
-
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            $commands = $_POST["cmd"];
-            if (is_array($commands)) {
-                foreach ($commands as $key => $value) {
-                    if (preg_match("/^suggestrange_.*/", $key, $matches)) {
-                        $force_active = true;
-                    }
-                }
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array(
-                    "editQuestion", "save", "cancel", "addSuggestedSolution",
-                    "cancelExplorer", "linkChilds", "removeSuggestedSolution",
-                    "parseQuestion", "saveEdit", "suggestRange"
-                ),
-                $classname,
-                "",
-                $force_active
-            );
-        }
-
-        if ($_GET["q_id"]) {
-            // add tab for question feedback within common class assQuestionGUI
-            $this->addTab_QuestionFeedback($ilTabs);
-        }
-
-        if ($_GET["q_id"]) {
-            // add tab for question hint within common class assQuestionGUI
-            $this->addTab_QuestionHints($ilTabs);
-        }
-
-        // Unit editor
-        if ($_GET['q_id']) {
-            // add tab for question hint within common class assQuestionGUI
-            $this->addTab_Units($ilTabs);
-        }
-
-        // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
-            $ilTabs->addTarget(
-                "statistics",
-                $this->ctrl->getLinkTargetByClass($classname, "assessment"),
-                array("assessment"),
-                $classname,
-                ""
-            );
-        }
-
-        $this->addBackTab($ilTabs);
-    }
-
     public function getCommand($cmd)
     {
         if (preg_match("/suggestrange_(.*?)/", $cmd, $matches)) {
@@ -692,7 +593,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
                     $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
                     if ($decimal_spots->getValue() == 0) {
-                        if ($intPrecision->getValue() > $max_range->getValue()) {
+                        if (!$variable->isIntPrecisionValid(
+                            $intPrecision->getValue(),
+                            $min_range->getValue(),
+                            $max_range->getValue()
+                        )) {
                             $intPrecision->setAlert($this->lng->txt('err_division'));
                             $custom_errors = true;
                         }
@@ -803,6 +708,19 @@ class assFormulaQuestionGUI extends assQuestionGUI
     {
         $this->writePostData();
         $this->editQuestion();
+    }
+    
+    protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs)
+    {
+        // Unit editor
+        if ($_GET['q_id']) {
+            $ilTabs->addTarget(
+                'units',
+                $this->ctrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''),
+                '',
+                'illocalunitconfigurationgui'
+            );
+        }
     }
     
     public function saveReturnFQ()

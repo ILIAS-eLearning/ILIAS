@@ -225,8 +225,7 @@ class ilSurveyPageGUI
             array($next_id, $this->object->getSurveyId(), $survey_question_id, $sequence, time())
         );
 
-        $this->log->debug("insert svy_svy_qst, id: " . $next_id . ", qfi: " . $survey_question_id . ", seq: " . $sequence);
-
+        $this->log->debug("appendNewQuestionToSurvey svy_svy_qst, id: " . $next_id . ", qfi: " . $survey_question_id . ", seq: " . $sequence);
         return $survey_question_id;
     }
 

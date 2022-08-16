@@ -155,24 +155,54 @@ class ilObjectLP
             }
         }
     }
-    public static function isSupportedObjectType($a_type)
+
+    public static function getSupportedObjectTypes() : array
     {
         global $DIC;
+        $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-        $objDefinition = $DIC["objDefinition"];
+        $valid = [
+            "crs",
+            "grp",
+            "fold",
+            "lm",
+            "htlm",
+            "sahs",
+            "tst",
+            "exc",
+            "sess",
+            "svy",
+            "file",
+            "mcst",
+            "prg",
+            "iass",
+            "copa",
+            "lso",
+            'cmix',
+            'lti',
+            'crsr'
+        ];
 
-        $valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc",
-            "sess", "svy", "file", "mcst", "prg", "iass", "copa", "lso", 'cmix', 'lti', 'crsr');
+        $plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
+        foreach ($plugins as $plugin) {
+            $type = $ilPluginAdmin->getId(IL_COMP_SERVICE, "Repository", "robj", $plugin);
+            if (ilRepositoryObjectPluginSlot::isTypePluginWithLP($type)) {
+                $valid[] = $type;
+            }
+        }
 
-        if (in_array($a_type, $valid)) {
+
+        return $valid;
+    }
+
+    public static function isSupportedObjectType($type) : bool
+    {
+        $valid = self::getSupportedObjectTypes();
+
+        if (in_array((string) $type, $valid)) {
             return true;
         }
-        
-        if ($objDefinition->isPluginTypeName($a_type)) {
-            include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';
-            return ilRepositoryObjectPluginSlot::isTypePluginWithLP($a_type);
-        }
-        
+
         return false;
     }
         

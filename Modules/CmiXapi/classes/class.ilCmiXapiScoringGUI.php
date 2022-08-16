@@ -112,7 +112,7 @@ class ilCmiXapiScoringGUI
         $filter->setActivityId($this->object->getActivityId());
     
         $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
-            $this->object->getId(),
+            $this->object,
             $this->object->getLrsType()->getLrsEndpointStatementsAggregationLink(),
             $filter
         );
@@ -122,7 +122,7 @@ class ilCmiXapiScoringGUI
             $linkBuilder
         );
 
-        $scoringReport = $request->queryReport($this->object->getId());
+        $scoringReport = $request->queryReport($this->object);
         if (true === $scoringReport->initTableData()) {
             $this->tableData = $scoringReport->getTableData();
             $this->userRank = $scoringReport->getUserRank();

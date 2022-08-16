@@ -8,8 +8,6 @@
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * $Id: class.ilObjExerciseGUI.php 24003 2010-05-26 14:35:42Z akill $
 *
-* @ilCtrl_Calls ilNotification:
-*
 * @ingroup ServicesNotification
 */
 class ilNotification

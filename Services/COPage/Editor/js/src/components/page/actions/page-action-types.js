@@ -19,6 +19,7 @@ const ACTIONS = {
   ACTIVATE: "activate",   // activate content
   INSERT: "insert",   // generic insert component (after showing the generic insert form)
   UPDATE: "update",   // generic insert component (after showing the generic insert form)
+  LIST_EDIT_CMD: "list.edit.cmd",       // edit list item
 
   // editor actions (things happening in the editor client side)
   DND_DRAG: "dnd.drag",           // start dragging
@@ -44,6 +45,8 @@ const ACTIONS = {
   MULTI_ACTIVATE: "multi.activate",       // activate selection
   SWITCH_SINGLE: "switch.single",       // single mode: click selects single component for editing
   SWITCH_MULTI: "switch.multi",       // multi mode: click selects one or multiple components for multi actions
+  PAGE_EDITING: "page.editing",       // return to page editing, e.g. after an cmd has been finished server side
+  LIST_EDIT: "list.edit"       // edit list item
 
 };
 export default ACTIONS;

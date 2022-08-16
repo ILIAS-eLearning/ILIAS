@@ -19,12 +19,13 @@ class ilAssQuestionPreviewGUI
 {
     const CMD_SHOW = 'show';
     const CMD_RESET = 'reset';
+    const CMD_STATISTICS = 'assessment';
     const CMD_INSTANT_RESPONSE = 'instantResponse';
     const CMD_HANDLE_QUESTION_ACTION = 'handleQuestionAction';
     const CMD_GATEWAY_CONFIRM_HINT_REQUEST = 'gatewayConfirmHintRequest';
     const CMD_GATEWAY_SHOW_HINT_LIST = 'gatewayShowHintList';
 
-    const TAB_ID_QUESTION_PREVIEW = 'preview';
+    const TAB_ID_QUESTION = 'question';
     
     const FEEDBACK_FOCUS_ANCHOR = 'focus';
     
@@ -102,7 +103,67 @@ class ilAssQuestionPreviewGUI
 
         $this->questionOBJ->setObjId($parentObjId);
 
-        $this->questionGUI->setQuestionTabs();
+        if ($this->ctrl->getCmd() == 'editQuestion') {
+            $this->questionGUI->setQuestionTabs();
+        } else {
+            if ($_GET["q_id"]) {
+                $this->tabs->clearTargets();
+                $this->tabs->addTarget(
+                    ilAssQuestionPreviewGUI::TAB_ID_QUESTION,
+                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW),
+                    array(),
+                    array('ilAssQuestionPreviewGUI')
+                );
+                // Assessment of questions sub menu entry
+                $q_type = $this->questionOBJ->getQuestionType();
+                $classname = $q_type . "GUI";
+                $this->tabs->addTarget(
+                    "statistics",
+                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', "assessment"),
+                    array("assessment"),
+                    $classname,
+                    ""
+                );
+                if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
+                    $ref_id = $_GET["calling_test"];
+                    if (strlen($ref_id) == 0) {
+                        $ref_id = $_GET["test_ref_id"];
+                    }
+
+                    if (!$_GET['test_express_mode'] && !$GLOBALS['___test_express_mode']) {
+                        $this->tabs->setBackTarget(
+                            $this->lng->txt("backtocallingtest"),
+                            "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
+                        );
+                    //BACK FROM Question Page to Test
+                    } else {
+                        $link = ilTestExpressPage::getReturnToPageLink();
+                        //$this->tabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
+                        $this->tabs->setBackTarget(
+                            $this->lng->txt("backtocallingtest"),
+                            "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
+                        );
+                    }
+                } elseif (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
+                    $ref_id = (int) $_GET['calling_consumer'];
+                    $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
+                    if ($consumer instanceof ilQuestionEditingFormConsumer) {
+                        $this->tabs->setBackTarget(
+                            $consumer->getQuestionEditingFormBackTargetLabel(),
+                            $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context'])
+                        );
+                    } else {
+                        require_once 'Services/Link/classes/class.ilLink.php';
+                        $this->tabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
+                    }
+                    //} elseif (true) {
+                    // We're in the underworld and want to go back to the question page
+                } else {
+                    $this->tabs->setBackTarget($this->lng->txt("backtocallingpool"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
+                    //BACK FROM Question Page to Pool
+                }
+            }
+        }
         $this->questionGUI->outAdditionalOutput();
         
         $this->questionGUI->populateJavascriptFilesRequiredForWorkForm($this->tpl);
@@ -155,7 +216,7 @@ class ilAssQuestionPreviewGUI
         $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
         $ilHelp->setScreenIdComponent('qpl');
 
-        $this->tabs->setTabActive(self::TAB_ID_QUESTION_PREVIEW);
+        $this->tabs->setTabActive(self::TAB_ID_QUESTION);
         
         $this->lng->loadLanguageModule('content');
         
@@ -228,11 +289,16 @@ class ilAssQuestionPreviewGUI
         $this->handleInstantResponseRendering($tpl);
         
         if ($this->isCommentingRequired()) {
-            $this->questionGUI->addHeaderAction();
             $this->populateNotesPanel($tpl, $notesPanelHTML);
         }
         
         $this->tpl->setContent($tpl->get());
+    }
+    
+    private function assessmentCmd()
+    {
+        $this->tabs->activateTab('statistics');
+        $this->questionGUI->assessment();
     }
     
     protected function handleInstantResponseRendering(ilTemplate $tpl)
@@ -310,7 +376,16 @@ class ilAssQuestionPreviewGUI
 
         $toolbarGUI->setFormAction($this->ctrl->getFormAction($this, self::CMD_SHOW));
         $toolbarGUI->setResetPreviewCmd(self::CMD_RESET);
+        $toolbarGUI->setEditPageCmd(
+            $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
+        );
 
+        $toolbarGUI->setEditQuestionCmd(
+            $this->ctrl->getLinkTargetByClass(
+                array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
+                'editQuestion'
+            )
+        );
         $toolbarGUI->build();
         
         $tpl->setVariable('PREVIEW_TOOLBAR', $this->ctrl->getHTML($toolbarGUI));

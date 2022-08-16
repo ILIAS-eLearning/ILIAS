@@ -16,15 +16,10 @@ class ilAssOrderingElement
     public $objectInstanceId;
     
     /**
-     * this identifier is simply the database row id
-     * it should not be used at any place
-     *
-     * it was never initialised in this object
-     * up to now (compare revision)
-     *
+     * this identifier equals the database's row id
      * @var integer
      */
-    public $id = -1;
+    public $id;
 
     /**
      * this identifier is generated randomly
@@ -35,7 +30,7 @@ class ilAssOrderingElement
      *
      * @var integer
      */
-    protected $randomIdentifier = null;
+    protected $random_identifier = null;
     
     /**
      * this identifier is used to identify elements and is stored
@@ -49,7 +44,7 @@ class ilAssOrderingElement
      *
      * @var integer
      */
-    protected $solutionIdentifier = null;
+    protected $solution_identifier = null;
     
     /**
      * the correct width of indentation for the element
@@ -103,8 +98,9 @@ class ilAssOrderingElement
     /**
      * ilAssOrderingElement constructor.
      */
-    public function __construct()
+    public function __construct(int $id = -1)
     {
+        $this->id = $id;
         $this->objectInstanceId = ++self::$objectInstanceCounter;
     }
     
@@ -141,19 +137,19 @@ class ilAssOrderingElement
     }
     
     /**
-     * @return integer $randomIdentifier
+     * @return integer $random_identifier
      */
     public function getRandomIdentifier()
     {
-        return $this->randomIdentifier;
+        return $this->random_identifier;
     }
     
     /**
-     * @param $randomIdentifier
+     * @param $random_identifier
      */
-    public function setRandomIdentifier($randomIdentifier)
+    public function setRandomIdentifier($random_identifier)
     {
-        $this->randomIdentifier = $randomIdentifier;
+        $this->random_identifier = $random_identifier;
     }
     
     /**
@@ -161,15 +157,15 @@ class ilAssOrderingElement
      */
     public function getSolutionIdentifier()
     {
-        return $this->solutionIdentifier;
+        return $this->solution_identifier;
     }
     
     /**
-     * @param int $solutionIdentifier
+     * @param int $solution_identifier
      */
-    public function setSolutionIdentifier($solutionIdentifier)
+    public function setSolutionIdentifier($solution_identifier)
     {
-        $this->solutionIdentifier = $solutionIdentifier;
+        $this->solution_identifier = $solution_identifier;
     }
     
     /**
@@ -328,37 +324,31 @@ class ilAssOrderingElement
      * @param ilAssOrderingElement $element
      * @return bool
      */
-    public function isSameElement(ilAssOrderingElement $element)
+    public function isSameElement(ilAssOrderingElement $element) : bool
     {
-        if ($element->getRandomIdentifier() != $this->getRandomIdentifier()) {
-            return false;
-        }
-        
-        if ($element->getSolutionIdentifier() != $this->getSolutionIdentifier()) {
-            return false;
-        }
-        
-        if ($element->getPosition() != $this->getPosition()) {
-            return false;
-        }
-        
-        if ($element->getIndentation() != $this->getIndentation()) {
-            return false;
-        }
-        
-        return true;
+        return [
+            $this->getRandomIdentifier(),
+            $this->getSolutionIdentifier(),
+            $this->getPosition(),
+            $this->getIndentation(),
+        ] == [
+            $element->getRandomIdentifier(),
+            $element->getSolutionIdentifier(),
+            $element->getPosition(),
+            $element->getIndentation()
+        ];
     }
     
     public function getStorageValue1($orderingType)
     {
         switch ($orderingType) {
-            case OQ_NESTED_TERMS:
-            case OQ_NESTED_PICTURES:
-                
+            case assOrderingQuestion::OQ_NESTED_TERMS:
+            case assOrderingQuestion::OQ_NESTED_PICTURES:
+                 
                 return $this->getPosition();
             
-            case OQ_TERMS:
-            case OQ_PICTURES:
+            case assOrderingQuestion::OQ_TERMS:
+            case assOrderingQuestion::OQ_PICTURES:
                 
                 return $this->getSolutionIdentifier();
         }
@@ -367,13 +357,13 @@ class ilAssOrderingElement
     public function getStorageValue2($orderingType)
     {
         switch ($orderingType) {
-            case OQ_NESTED_TERMS:
-            case OQ_NESTED_PICTURES:
+            case assOrderingQuestion::OQ_NESTED_TERMS:
+            case assOrderingQuestion::OQ_NESTED_PICTURES:
                 
                 return $this->getRandomIdentifier() . ':' . $this->getIndentation();
             
-            case OQ_TERMS:
-            case OQ_PICTURES:
+            case assOrderingQuestion::OQ_TERMS:
+            case assOrderingQuestion::OQ_PICTURES:
                 
                 return $this->getPosition() + 1;
         }
@@ -447,35 +437,19 @@ class ilAssOrderingElement
         return implode(self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident);
     }
     
-    public function isExportIdent($ident)
+    public function isExportIdent(string $ident) : bool
     {
         if (!strlen($ident)) {
             return false;
         }
         
         $parts = explode(self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident);
-        
-        if (count($parts) != 4) {
-            return false;
-        }
-        
-        if (!ilAssOrderingElementList::isValidRandomIdentifier($parts[0])) {
-            return false;
-        }
-        
-        if (!ilAssOrderingElementList::isValidSolutionIdentifier($parts[1])) {
-            return false;
-        }
-        
-        if (!ilAssOrderingElementList::isValidPosition($parts[2])) {
-            return false;
-        }
-        
-        if (!ilAssOrderingElementList::isValidIndentation($parts[3])) {
-            return false;
-        }
-        
-        return true;
+        return
+            count($parts) == 4
+            && ilAssOrderingElementList::isValidRandomIdentifier($parts[0])
+            && ilAssOrderingElementList::isValidSolutionIdentifier($parts[1])
+            && ilAssOrderingElementList::isValidPosition($parts[2])
+            && ilAssOrderingElementList::isValidIndentation($parts[3]);
     }
     
     public function setExportIdent($ident)
@@ -485,11 +459,42 @@ class ilAssOrderingElement
                 self::EXPORT_IDENT_PROPERTY_SEPARATOR,
                 $ident
             );
-            
             $this->setRandomIdentifier($randomId);
             $this->setSolutionIdentifier($solutionId);
             $this->setPosition($pos);
             $this->setIndentation($indent);
         }
+    }
+
+
+    public function withRandomIdentifier(int $id) : self
+    {
+        $clone = clone $this;
+        $clone->random_identifier = $id;
+        return $clone;
+    }
+    public function withSolutionIdentifier(int $id) : self
+    {
+        $clone = clone $this;
+        $clone->solution_identifier = $id;
+        return $clone;
+    }
+    public function withPosition(int $position) : self
+    {
+        $clone = clone $this;
+        $clone->position = $position;
+        return $clone;
+    }
+    public function withIndentation(int $indentation) : self
+    {
+        $clone = clone $this;
+        $clone->indentation = $indentation;
+        return $clone;
+    }
+    public function withContent(string $content) : self
+    {
+        $clone = clone $this;
+        $clone->content = $content;
+        return $clone;
     }
 }

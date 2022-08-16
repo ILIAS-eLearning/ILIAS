@@ -171,4 +171,18 @@ export default class PageCommandActionFactory {
     return this.clientActionFactory.formCommand(component, ACTIONS.UPDATE, data);
   }
 
+  /**
+   * @param {string} cname
+   * @param {string} pcid
+   * @param {string} hier_id
+   * @return {CommandAction}
+   */
+  editListItem(listCmd, component, pcid) {
+    return this.clientActionFactory.command(component, ACTIONS.LIST_EDIT, {
+      cmd: "editListItem",
+      list_cmd: listCmd,
+      pcid: pcid
+    });
+  }
+
 }

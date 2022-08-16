@@ -26,7 +26,7 @@ class File extends Input implements C\Input\Field\File
     /**
      * @var int
      */
-    private $max_file_size;
+    private $max_file_size = -1;
     /**
      * @var C\Input\Field\UploadHandler
      */

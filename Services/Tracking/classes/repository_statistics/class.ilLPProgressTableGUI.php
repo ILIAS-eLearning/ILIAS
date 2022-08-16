@@ -218,8 +218,11 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
-        $this->tpl->setVariable("STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus($a_set["status"]));
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+        $this->tpl->setVariable(
+            "STATUS_ICON",
+            $icons->renderIconForStatus($a_set["status"])
+        );
 
         if ($this->mode == ilLPObjSettings::LP_MODE_SCORM) {
             $this->tpl->setVariable('SCORE_VAL', $a_set["score"]);

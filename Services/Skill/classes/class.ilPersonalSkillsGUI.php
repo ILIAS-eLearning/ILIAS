@@ -83,6 +83,17 @@ class ilPersonalSkillsGUI
      * @var \ILIAS\UI\Renderer
      */
     protected $ui_ren;
+
+    /**
+     * @var ilTree
+     */
+    protected $tree_service;
+
+    /**
+     * @var ilObjectDefinition
+     */
+    protected $obj_definition;
+
     protected $obj_id = 0;
     protected $obj_skills = array();
 
@@ -117,6 +128,8 @@ class ilPersonalSkillsGUI
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
         $this->ui = $DIC->ui();
+        $this->tree_service = $DIC->repositoryTree();
+        $this->obj_definition = $DIC["objDefinition"];
 
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
@@ -1185,14 +1198,26 @@ class ilPersonalSkillsGUI
 
         //$profiles = ilSkillProfile::getProfilesOfUser($a_user_id);
 
-        if (count($this->user_profiles) == 0 && $this->obj_skills == null) {
+        if (count($this->cont_profiles) == 0 && $this->obj_skills == null) {
             return;
         }
 
         $this->determineCurrentProfile();
         $this->showProfileSelectorToolbar();
-        
-        $tpl->setContent($this->getGapAnalysisHTML());
+
+        $html = $this->showInfoBox() . $this->getGapAnalysisHTML();
+        $tpl->setContent($html);
+    }
+
+    public function showInfoBox() : string
+    {
+        $link = $this->ui_fac->link()->standard(
+            $this->lng->txt("skmg_open_all_assigned_profiles"),
+            $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilAchievementsGUI", "ilPersonalSkillsGUI"])
+        );
+        $box = $this->ui_fac->messageBox()->info($this->lng->txt("skmg_cont_profiles_info"))->withLinks([$link]);
+
+        return $this->ui_ren->render($box);
     }
 
 
@@ -1209,14 +1234,14 @@ class ilPersonalSkillsGUI
         $options = array();
         if (is_array($this->obj_skills) && $this->obj_id > 0) {
             $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->obj_id)) . ": " . ilObject::_lookupTitle($this->obj_id);
+            foreach ($this->cont_profiles as $p) {
+                $options[$p["profile_id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+            }
         }
-
-        foreach ($this->user_profiles as $p) {
-            $options[$p["id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
-        }
-
-        foreach ($this->cont_profiles as $p) {
-            $options[$p["profile_id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+        else {
+            foreach ($this->user_profiles as $p) {
+                $options[$p["id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+            }
         }
 
         asort($options);
@@ -1275,7 +1300,23 @@ class ilPersonalSkillsGUI
                 $max = $bs->getMaxLevelPerType($sk["tref_id"], $this->gap_mode_type, $user_id);
                 $this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
             } elseif ($this->gap_mode == "max_per_object") {
-                $max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
+                if ($this->obj_definition->isContainer(\ilObject::_lookupType($this->gap_mode_obj_id))) {
+                    $sub_objects = $this->tree_service->getSubTree(
+                        $this->tree_service->getNodeData((int) current(\ilObject::_getAllReferences($this->gap_mode_obj_id))),
+                        false,
+                        \ilObjectLP::getSupportedObjectTypes()
+                    );
+                    $max = 0;
+                    foreach ($sub_objects as $ref_id) {
+                        $obj_id = \ilContainerReference::_lookupObjectId($ref_id);
+                        $max_tmp = $bs->getMaxLevelPerObject($sk["tref_id"], $obj_id, $user_id);
+                        if ($max_tmp > $max) {
+                            $max = $max_tmp;
+                        }
+                    }
+                } else {
+                    $max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
+                }
                 $this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
             } else {
                 $max = $bs->getMaxLevel($sk["tref_id"], $user_id);
@@ -1328,7 +1369,7 @@ class ilPersonalSkillsGUI
                     "base_skill_id" => $l["base_skill_id"],
                     "tref_id" => $l["tref_id"],
                     "level_id" => $l["level_id"]
-                    );
+                );
             }
         } elseif (is_array($a_skills)) {
             $skills = $a_skills;

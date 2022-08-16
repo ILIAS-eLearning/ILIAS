@@ -2,6 +2,11 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
@@ -37,6 +42,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
      */
     protected $help;
 
+    /**
+     * @var FileSystem
+     */
+    protected $filesystem;
     
     //private $additionalPurposes = array("VideoPortable", "AudioPortable");
     private $additionalPurposes = [];
@@ -58,6 +67,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->tpl = $DIC["tpl"];
         $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
+        $this->filesystem = $DIC->filesystem()->web();
         $this->log = $DIC["ilLog"];
         $this->error = $DIC["ilErr"];
         $this->help = $DIC["ilHelp"];
@@ -735,6 +745,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
      * @param IlObjectMediaObject $mob
      * @param IlMediaItem $mediaItem
      * @return string file
+     * @throws FileNotFoundException
+     * @throws IOException
      */
     private function updateMediaItem($mob, &$mediaItem)
     {
@@ -753,6 +765,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
             if (!is_dir($mob_dir)) {
                 $mob->createDirectory();
+            } else {
+                $dir = LegacyPathHelper::createRelativePath($mob_dir);
+                $old_files = $this->filesystem->finder()->in([$dir])->exclude([$dir . '/mob_vpreview.png'])->files();
+                foreach ($old_files as $file) {
+                    $this->filesystem->delete($file->getPath());
+                }
             }
             
             $file_name = ilUtil::getASCIIFilename($_FILES['file_' . $purpose]['name']);
@@ -1615,12 +1633,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 );
                 
                 if (strcasecmp("Reference", $med->getLocationType()) == 0) {
-                    ilWACSignedPath::signFolderOfStartFile($med->getLocation());
-                    $mpl->setFile($med->getLocation());
+                    $mpl->setFile(ilWACSignedPath::signFile($med->getLocation()));
                 } else {
                     $path_to_file = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-                    ilWACSignedPath::signFolderOfStartFile($path_to_file);
-                    $mpl->setFile($path_to_file);
+                    $mpl->setFile(ilWACSignedPath::signFile($path_to_file));
                 }
                 $mpl->setMimeType($med->getFormat());
                 //$mpl->setDisplayHeight($med->getHeight());

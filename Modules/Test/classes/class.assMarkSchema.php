@@ -54,7 +54,7 @@ class ASS_MarkSchema
         $txt_passed_official = "passed",
         $percentage_passed = 50,
         $passed_passed = 1
-  ) {
+    ) {
         $this->flush();
         $this->addMarkStep($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed);
         $this->addMarkStep($txt_passed_short, $txt_passed_official, $percentage_passed, $passed_passed);
@@ -296,8 +296,9 @@ class ASS_MarkSchema
     {
         for ($i = count($this->mark_steps) - 1; $i >= 0; $i--) {
             $curMinLevel = $this->mark_steps[$i]->getMinimumLevel();
-
-            if ($percentage > $curMinLevel || (string) $percentage == (string) $curMinLevel) { // >= does NOT work since PHP is a fucking female float pig !!!!
+            $reached = round($percentage, 2);
+            $level = round($curMinLevel, 2);
+            if ($reached >= $level) {
                 return $this->mark_steps[$i];
             }
         }

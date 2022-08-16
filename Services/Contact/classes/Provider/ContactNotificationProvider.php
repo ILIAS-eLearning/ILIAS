@@ -8,6 +8,8 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ilBuddyList;
+use ilObjUser;
 
 /**
  * Class ContactNotificationProvider
@@ -42,22 +44,30 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
         $latestRequestTimestamp = null;
-        $openRequests = \ilBuddyList::getInstanceByGlobalUser()
-            ->getRequestRelationsForOwner()->filter(
-                function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp) : bool {
-                    $timeStamp = $relation->getTimestamp();
-                    
-                    if ($timeStamp > $latestRequestTimestamp) {
-                        $latestRequestTimestamp = $timeStamp;
-                    }
-                    
-                    if (!is_numeric($leftIntervalTimestamp)) {
-                        return true;
-                    }
 
-                    return $timeStamp > $leftIntervalTimestamp;
+        $relations = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner();
+
+        $openRequests = $relations->filter(
+            function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp, $relations) : bool {
+                $timeStamp = $relation->getTimestamp();
+
+                if ($timeStamp > $latestRequestTimestamp) {
+                    $latestRequestTimestamp = $timeStamp;
                 }
-            );
+
+                $usrId = $relations->getKey($relation);
+
+                if (!ilObjUser::_lookupActive($usrId)) {
+                    return false;
+                }
+
+                if (!is_numeric($leftIntervalTimestamp)) {
+                    return true;
+                }
+
+                return $timeStamp > $leftIntervalTimestamp;
+            }
+        );
 
         $contactRequestsCount = count($openRequests->getKeys());
         if ($contactRequestsCount === 0) {

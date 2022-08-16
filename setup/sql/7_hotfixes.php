@@ -1504,3 +1504,113 @@ if ($ilDB->tableExists('il_mm_items')) {
     }
 }
 ?>
+<#86>
+<?php
+if (!$ilDB->tableColumnExists('pg_amd_page_list', 'sdata')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => null
+    ];
+    $ilDB->addTableColumn('pg_amd_page_list', 'sdata', $field_infos);
+}
+?>
+<#87>
+<?php
+
+function migrate($id, $field_id, $data) : void
+{
+    global $ilDB;
+
+    $query = 'UPDATE pg_amd_page_list ' .
+        'SET sdata = ' . $ilDB->quote(serialize(serialize($data)), ilDBConstants::T_TEXT) . ' ' .
+        'WHERE id = ' . $ilDB->quote($id, ilDBConstants::T_INTEGER) . ' ' .
+        'AND field_id = ' . $ilDB->quote($field_id, ilDBConstants::T_INTEGER);
+    $ilDB->manipulate($query);
+}
+
+function migrateData($field_id, $data) : array
+{
+    global $ilDB;
+
+    if (!is_array($data)) {
+        return [];
+    }
+    $indexes  = [];
+    foreach ($data as $idx => $value) {
+        $query = 'SELECT idx from adv_mdf_enum ' .
+            'WHERE value = ' . $ilDB->quote($value, ilDBConstants::T_TEXT) . ' ' .
+            'AND field_id = ' . $ilDB->quote($field_id, ilDBConstants::T_INTEGER);
+        $res = $ilDB->query($query);
+
+        $found_index = false;
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $indexes[] = (int) $row->idx;
+            $found_index = true;
+        }
+        if ($found_index) {
+            continue;
+        }
+        $query = 'SELECT idx from adv_mdf_enum ' .
+            'WHERE idx = ' . $ilDB->quote($value, ilDBConstants::T_TEXT) . ' ' .
+            'AND field_id = ' . $ilDB->quote($field_id, ilDBConstants::T_INTEGER);
+        $res = $ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $indexes[] = (int) $row->idx;
+        }
+    }
+    return $indexes;
+}
+
+$query = 'SELECT id, pg.field_id, data, field_type FROM pg_amd_page_list pg ' .
+    'JOIN adv_mdf_definition adv ' .
+    'ON pg.field_id = adv.field_id ' .
+    'WHERE sdata IS null ';
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($row->field_type == 1 || $row->field_type == 8) {
+        migrate(
+                $row->id,
+                $row->field_id,
+                migrateData(
+                        $row->field_id,
+                        unserialize(unserialize($row->data))
+                )
+        );
+    } else {
+        migrate(
+                $row->id,
+                $row->field_id,
+                unserialize(unserialize($row->data))
+        );
+    }
+}
+?>
+<#88>
+<?php
+$ilDB->manipulateF('DELETE FROM desktop_item WHERE item_id = %s', ['integer'], [1]);
+$ilDB->manipulateF('DELETE FROM rep_rec_content_role WHERE ref_id = %s', ['integer'], [1]);
+?>
+<#89>
+<?php
+if (!$ilDB->indexExistsByFields('qpl_questions', array('owner'))) {
+    $ilDB->addIndex('qpl_questions', array('owner'), 'i5');
+}
+if (!$ilDB->indexExistsByFields('qpl_num_range', array('question_fi'))) {
+    $ilDB->addIndex('qpl_num_range', array('question_fi'), 'i6');
+}
+?>
+<#90>
+<?php
+// Add new index
+if (!$ilDB->indexExistsByFields('style_template', ['style_id'])) {
+    $ilDB->addIndex('style_template', ['style_id'], 'i1');
+}
+?>
+<#91>
+<?php
+if ($ilDB->uniqueConstraintExists('cmix_token', array('obj_id', 'usr_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cmix_token', array('obj_id', 'usr_id'));
+}
+$ilDB->addUniqueConstraint('cmix_token', array('obj_id', 'usr_id', 'ref_id'), 'c1');
+?>

@@ -855,20 +855,20 @@
 <xsl:template name="Icon">
 	<xsl:param name="img_src"/>
 	<xsl:param name="img_id"/>
+	<xsl:param name="ed_type"/>
 	<xsl:param name="float">n</xsl:param>
 
-	<img>
+	<span>
 		<xsl:if test="$float = 'y'">
 			<xsl:attribute name="style"></xsl:attribute>
 		</xsl:if>
-		<xsl:attribute name="onMouseOver">doMouseOver(this.id, null, null, null);</xsl:attribute>
-		<xsl:attribute name="onMouseOut">doMouseOut(this.id,false, null, null);</xsl:attribute>
-		<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
-		<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
-		<xsl:attribute name="onClick">doMouseClick(event,this.id,'PageObject',null, null);</xsl:attribute>
-		<xsl:attribute name="id"><xsl:value-of select="$img_id"/></xsl:attribute>
+		<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+		<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+		<xsl:attribute name="data-copg-ed-type"><xsl:value-of select="$ed_type"/></xsl:attribute>
+		<img>
 		<xsl:attribute name="src"><xsl:value-of select="$img_src"/></xsl:attribute>
-	</img>
+		</img>
+	</span>
 </xsl:template>
 
 <!-- Drop Area for Adding -->
@@ -1699,16 +1699,13 @@
 			<xsl:call-template name="Icon">
 				<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 				<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
+				<xsl:with-param name="ed_type">edit-list-item</xsl:with-param>
 				<xsl:with-param name="float">y</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="DropArea">
 				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
 				<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
 			</xsl:call-template>
-			<div class="ilOverlay il_editmenu ilNoDisplay">
-				<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
-				<xsl:call-template name="ListItemMenu"/>
-			</div>
 		</xsl:if>
 	</xsl:if>
 
@@ -1858,6 +1855,7 @@
 				<xsl:call-template name="Icon">
 					<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 					<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
+					<xsl:with-param name="ed_type">edit-flist-item</xsl:with-param>
 				</xsl:call-template>
 				&amp;nbsp;
 				<div class="ilOverlay il_editmenu ilNoDisplay">
@@ -2434,14 +2432,17 @@
 
 		<!-- application/pdf -->
 		<xsl:when test="$type = 'application/pdf'">
-			<iframe frameborder="0">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+			<xsl:variable name="style_val" >
 				<xsl:if test="$width != ''">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					width:<xsl:value-of select="$width"/>px;
 				</xsl:if>
 				<xsl:if test="$height != ''">
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					height:<xsl:value-of select="$height"/>px;
 				</xsl:if>
+			</xsl:variable>
+			<iframe frameborder="0">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$style_val"/></xsl:attribute>
 				<xsl:call-template name="MOBParams">
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">attributes</xsl:with-param>
@@ -2450,7 +2451,6 @@
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 		</xsl:when>
-
 		<!-- print placeholder !! All media types that can be printed should be listed above this one -->
 		<xsl:when test="$mode = 'print'">
 			<div class="ilCOPGMediaPrint">

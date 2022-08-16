@@ -34,18 +34,20 @@ export default class ParagraphModelActionHandler {
       switch (action.getType()) {
 
         case PAGE_ACTIONS.COMPONENT_SWITCH:
-          this.pageModel.setAutoSavedPCId(null);
-          this.pageModel.setAddedSection(false);
-          this.pageModel.setComponentState(this.pageModel.STATE_COMPONENT_EDIT);
-          this.pageModel.setPCModel(params.oldPcid, {
-            text: params.oldParameters.text,
-            characteristic: params.oldParameters.characteristic
-          });
-          this.pageModel.setCurrentPageComponent(params.cname, params.newPcid, params.newHierid);
-          this.pageModel.setUndoPCModel(
-            this.pageModel.getCurrentPCId(),
-            this.pageModel.getPCModel(this.pageModel.getCurrentPCId())
-          );
+          if (this.pageModel.getComponentState() !== this.pageModel.STATE_COMPONENT_SERVER_CMD) {
+            this.pageModel.setAutoSavedPCId(null);
+            this.pageModel.setAddedSection(false);
+            this.pageModel.setComponentState(this.pageModel.STATE_COMPONENT_EDIT);
+            this.pageModel.setPCModel(params.oldPcid, {
+              text: params.oldParameters.text,
+              characteristic: params.oldParameters.characteristic
+            });
+            this.pageModel.setCurrentPageComponent(params.cname, params.newPcid, params.newHierid);
+            this.pageModel.setUndoPCModel(
+              this.pageModel.getCurrentPCId(),
+              this.pageModel.getPCModel(this.pageModel.getCurrentPCId())
+            );
+          }
           break;
 
         case PAGE_ACTIONS.COMPONENT_INSERT:
@@ -78,7 +80,7 @@ export default class ParagraphModelActionHandler {
           break;
 
         case ACTIONS.SAVE_RETURN:
-          this.pageModel.setState(this.pageModel.STATE_PAGE);
+          this.pageModel.setState(this.pageModel.STATE_SERVER_CMD);
           this.pageModel.setPCModel(this.pageModel.getCurrentPCId(), {
             text: params.text,
             characteristic: params.characteristic
@@ -112,12 +114,18 @@ export default class ParagraphModelActionHandler {
           let splitIds = [];
           for (let k=0; k < params.contents.length; k++) {
             if (k === 0) {
+              console.log("Split-1-");
+              console.log(this.pageModel.getCurrentPCId());
+              console.log(params.contents[k]);
               this.pageModel.setPCModel(this.pageModel.getCurrentPCId(), {
                 text: params.contents[k],
                 characteristic: params.characteristic
               });
             } else {
               const pcid = this.pageModel.getNewPCId();
+              console.log("Split-2-");
+              console.log(pcid);
+              console.log(params.contents[k]);
               splitIds.push(pcid);
               this.pageModel.setPCModel(pcid, {
                 text: params.contents[k],

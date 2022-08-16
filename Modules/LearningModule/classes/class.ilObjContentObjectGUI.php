@@ -98,6 +98,24 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
     }
 
+    protected function checkCtrlPath() : void
+    {
+        if (!$this->getCreationMode()) {
+            $baseclass = strtolower($_GET["baseClass"]);
+            $next_class = strtolower($this->ctrl->getNextClass());
+            // all calls must be routed through illmpresentationgui or
+            // illmeditorgui...
+            if (!in_array($baseclass, ["illmpresentationgui", "illmeditorgui"])) {
+                // ...except the comman action handler routes to
+                // activation/condition GUI, see https://mantis.ilias.de/view.php?id=32858
+                if (in_array($next_class, ["ilcommonactiondispatchergui"])) {
+                    return;
+                }
+                throw new ilLMException("Wrong ctrl path");
+            }
+        }
+    }
+
     /**
      * execute command
      * @return bool|mixed
@@ -110,6 +128,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $ilErr = $this->error;
+
+        $this->checkCtrlPath();
         
         if ($this->ctrl->getRedirectSource() == "ilinternallinkgui") {
             $this->explorer();

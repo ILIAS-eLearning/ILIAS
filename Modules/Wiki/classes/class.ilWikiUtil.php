@@ -614,6 +614,9 @@ class ilWikiUtil
     {
         global $DIC;
 
+        $log = ilLoggerFactory::getLogger('wiki');
+        $log->debug("start... vvvvvvvvvvvvvvvvvvvvvvvvvvv");
+
         $ilUser = $DIC->user();
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $ilAccess = $DIC->access();
@@ -634,11 +637,13 @@ class ilWikiUtil
             return;
         }
 
+        $log->debug("-- get notifications");
         if ($a_type == ilNotification::TYPE_WIKI_PAGE) {
             $users = ilNotification::getNotificationsForObject($a_type, $a_page_id, null, $ignore_threshold);
             $wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
             $users = array_merge($users, $wiki_users);
             if (!sizeof($users)) {
+                $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
 
@@ -646,6 +651,7 @@ class ilWikiUtil
         } else {
             $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
             if (!sizeof($users)) {
+                $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
         }
@@ -670,6 +676,7 @@ class ilWikiUtil
         // see ilBlogPostingGUI::getSnippet()
         // see ilBlogPosting::getNotificationAbstract()
 
+        $log->debug("-- prepare content");
         include_once "Modules/Wiki/classes/class.ilWikiPageGUI.php";
         $pgui = new ilWikiPageGUI($page->getId());
         $pgui->setRawPageContent(true);
@@ -695,7 +702,9 @@ class ilWikiUtil
             $a_type = ilNotification::TYPE_WIKI;
             $a_action = "new";
         }
-        
+
+        $log->debug("-- sending mails");
+        $mails = [];
         foreach (array_unique($users) as $idx => $user_id) {
             if ($user_id != $ilUser->getId() &&
                 $ilAccess->checkAccessOfUser($user_id, 'read', '', $a_wiki_ref_id)) {
@@ -762,6 +771,8 @@ class ilWikiUtil
 
                 $mail_obj = new ilMail(ANONYMOUS_USER_ID);
                 $mail_obj->appendInstallationSignature(true);
+                $log->debug("before enqueue ($user_id)");
+                /*
                 $mail_obj->enqueue(
                     ilObjUser::_lookupLogin($user_id),
                     "",
@@ -769,10 +780,33 @@ class ilWikiUtil
                     $subject,
                     $message,
                     array()
+                );*/
+                $message .= ilMail::_getInstallationSignature();
+                $mails[] = new ilMailValueObject(
+                    '',
+                    ilObjUser::_lookupLogin($user_id),
+                    '',
+                    '',
+                    $subject,
+                    $message,
+                    [],
+                    false,
+                    false
                 );
+                $log->debug("after enqueue");
             } else {
                 unset($users[$idx]);
             }
         }
+        if (count($mails) > 0) {
+            $processor = new ilMassMailTaskProcessor();
+            $processor->run(
+                $mails,
+                ANONYMOUS_USER_ID,
+                "",
+                []
+            );
+        }
+        $log->debug("end... ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
 }
