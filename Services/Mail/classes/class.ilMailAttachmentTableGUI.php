@@ -50,6 +50,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('mail_file_size'), 'filesize');
         $this->addColumn($this->lng->txt('create_date'), 'filecreatedate');
         // Show all attachments on one page
+        $this->setShowRowsSelector(false);
         $this->setLimit(PHP_INT_MAX);
     }
 
