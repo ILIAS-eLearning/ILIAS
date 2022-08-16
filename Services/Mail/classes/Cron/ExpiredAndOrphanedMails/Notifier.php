@@ -16,20 +16,23 @@
  *
  *********************************************************************/
 
+namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+
 use ILIAS\Data\Clock\ClockInterface;
 use ILIAS\Data\Factory;
+use ExpiredOrOrphanedMailsReportDto;
+use ilDBStatement;
+use ilDBConstants;
+use ilMailCronOrphanedMails;
+use ilDBInterface;
 
-/**
- * ilMailCronOrphanedMailNotifier
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
-class ilMailCronOrphanedMailsNotifier
+class Notifier
 {
     private const NOTIFICATION_MARKER_PING_THRESHOLD = 250;
     private const MAIL_DELIVERY_PING_THRESHOLD = 25;
 
     private ilMailCronOrphanedMails $job;
-    private ilMailCronOrphanedMailsNotificationCollector $collector;
+    private NotificationsCollector $collector;
     private ilDBInterface $db;
     private ClockInterface $clock;
     private int $mail_expiration_days;
@@ -38,7 +41,7 @@ class ilMailCronOrphanedMailsNotifier
 
     public function __construct(
         ilMailCronOrphanedMails $job,
-        ilMailCronOrphanedMailsNotificationCollector $collector,
+        NotificationsCollector $collector,
         int $mail_expiration_days,
         int $mail_expiration_warning_days,
         ?ilDBInterface $db = null,
@@ -60,7 +63,7 @@ class ilMailCronOrphanedMailsNotifier
         );
     }
 
-    private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
+    private function markAsNotified(ExpiredOrOrphanedMailsReportDto $collection_obj) : void
     {
         $notify_days_before = 1;
         if ($this->mail_expiration_days > $this->mail_expiration_warning_days) {
@@ -68,8 +71,8 @@ class ilMailCronOrphanedMailsNotifier
         }
 
         $deletion_datetime = $this->clock->now()
-            ->modify('+ ' . $notify_days_before . ' days')
-            ->setTime(0, 0);
+                                         ->modify('+ ' . $notify_days_before . ' days')
+                                         ->setTime(0, 0);
 
         $i = 0;
         foreach ($collection_obj->getFolderObjects() as $folder_obj) {
@@ -91,16 +94,15 @@ class ilMailCronOrphanedMailsNotifier
         }
     }
 
-    private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
+    private function sendMail(ExpiredOrOrphanedMailsReportDto $collection_obj) : void
     {
-        $mail = new ilMailCronOrphanedMailsNotification();
-
+        $mail = new MailNotification();
         $mail->setRecipients([$collection_obj->getUserId()]);
         $mail->setAdditionalInformation(['mail_folders' => $collection_obj->getFolderObjects()]);
         $mail->send();
     }
 
-    public function processNotification() : void
+    public function send() : void
     {
         $i = 0;
         foreach ($this->collector->getCollection() as $collection_obj) {

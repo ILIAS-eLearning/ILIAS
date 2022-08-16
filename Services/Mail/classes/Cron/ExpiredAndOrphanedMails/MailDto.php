@@ -16,11 +16,9 @@
  *
  *********************************************************************/
 
-/**
- * ilMailCronOrphanedMailsFolderMailObject
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
-class ilMailCronOrphanedMailsFolderMailObject
+namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+
+class MailDto
 {
     private int $mail_id;
     private ?string $mail_subject;

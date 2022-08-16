@@ -16,19 +16,22 @@
  *
  *********************************************************************/
 
+namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+
 use ILIAS\Data\Factory;
 use ILIAS\Data\Clock\ClockInterface;
+use ExpiredOrOrphanedMailsReportDto;
+use ilSetting;
+use ilDBConstants;
+use ilMailCronOrphanedMails;
+use ilDBInterface;
 
-/**
- * ilMailCronOrphanedMailsNotificationCollector
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
-class ilMailCronOrphanedMailsNotificationCollector
+class NotificationsCollector
 {
     private const PING_THRESHOLD = 500;
 
     private ilMailCronOrphanedMails $job;
-    /** @var array<int, ilMailCronOrphanedMailsNotificationCollectionObj> */
+    /** @var array<int, ExpiredOrOrphanedMailsReportDto> */
     private array $collection = [];
     private ilDBInterface $db;
     private ilSetting $setting;
@@ -83,7 +86,7 @@ class ilMailCronOrphanedMailsNotificationCollector
 
         $notification_query .= " ORDER BY m.user_id, m.folder_id, m.mail_id";
 
-        /** @var null|ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj */
+        /** @var null|ExpiredOrOrphanedMailsReportDto $collection_obj */
         $collection_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
@@ -100,17 +103,17 @@ class ilMailCronOrphanedMailsNotificationCollector
 
             if ($collection_obj === null) {
                 // For the first user or if the user changed, we'll create a new collection object
-                $collection_obj = new ilMailCronOrphanedMailsNotificationCollectionObj((int) $row['user_id']);
+                $collection_obj = new ExpiredOrOrphanedMailsReportDto((int) $row['user_id']);
                 $this->addCollectionObject($collection_obj);
             }
 
             $folder_obj = $collection_obj->getFolderObjectById((int) $row['folder_id']);
             if ($folder_obj === null) {
-                $folder_obj = new ilMailCronOrphanedMailsFolderObject((int) $row['folder_id'], $row['title']);
+                $folder_obj = new FolderDto((int) $row['folder_id'], $row['title']);
                 $collection_obj->addFolderObject($folder_obj);
             }
 
-            $orphaned_mail_obj = new ilMailCronOrphanedMailsFolderMailObject(
+            $orphaned_mail_obj = new MailDto(
                 (int) $row['mail_id'],
                 $row['m_subject']
             );
@@ -124,13 +127,13 @@ class ilMailCronOrphanedMailsNotificationCollector
         return isset($this->collection[$user_id]);
     }
 
-    private function addCollectionObject(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
+    private function addCollectionObject(ExpiredOrOrphanedMailsReportDto $collection_obj) : void
     {
         $this->collection[$collection_obj->getUserId()] = $collection_obj;
     }
 
     /**
-     * @return array<int, ilMailCronOrphanedMailsNotificationCollectionObj>
+     * @return array<int, ExpiredOrOrphanedMailsReportDto>
      */
     public function getCollection() : array
     {

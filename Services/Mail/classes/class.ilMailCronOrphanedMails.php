@@ -19,6 +19,10 @@
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\ExpiredOrOrphanedMailsCollector;
+use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\MailDeletionHandler;
+use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\NotificationsCollector;
+use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\Notifier;
 
 /**
  * Delete orphaned mails
@@ -200,7 +204,7 @@ class ilMailCronOrphanedMails extends ilCronJob
 
             ilLoggerFactory::getLogger('mail')->info(sprintf(
                 "Deleted all scheduled mail deletions " .
-                "because a reminder should't be sent (login: %s|usr_id: %s) anymore!",
+                "because a reminder shouldn't be sent (login: %s|usr_id: %s) anymore!",
                 $this->user->getLogin(),
                 $this->user->getId()
             ));
@@ -218,18 +222,18 @@ class ilMailCronOrphanedMails extends ilCronJob
     {
         $this->init();
 
-        $mail_threshold = (int) $this->settings->get('mail_threshold', '0');
+        $mail_expiration_days = (int) $this->settings->get('mail_threshold', '0');
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             'Started mail deletion job with threshold: %s day(s)',
-            var_export($mail_threshold, true)
+            var_export($mail_expiration_days, true)
         ));
 
-        if ($mail_threshold >= 1 && (int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
+        if ($mail_expiration_days >= 1 && (int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
             $this->processNotification();
         }
 
-        if ($mail_threshold >= 1 && (int) $this->settings->get('last_cronjob_start_ts', (string) time())) {
+        if ($mail_expiration_days >= 1 && (int) $this->settings->get('last_cronjob_start_ts', (string) time())) {
             $this->processDeletion();
         }
 
@@ -239,7 +243,7 @@ class ilMailCronOrphanedMails extends ilCronJob
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             'Finished mail deletion job with threshold: %s day(s)',
-            var_export($mail_threshold, true)
+            var_export($mail_expiration_days, true)
         ));
 
         return $result;
@@ -249,23 +253,20 @@ class ilMailCronOrphanedMails extends ilCronJob
     {
         $this->init();
 
-        $collector = new ilMailCronOrphanedMailsNotificationCollector($this);
-
-        $notifier = new ilMailCronOrphanedMailsNotifier(
+        $notifier = new Notifier(
             $this,
-            $collector,
+            new NotificationsCollector($this),
             (int) $this->settings->get('mail_threshold', '0'),
             (int) $this->settings->get('mail_notify_orphaned', '0')
         );
-        $notifier->processNotification();
+        $notifier->send();
     }
 
     private function processDeletion() : void
     {
         $this->init();
 
-        $collector = new ilMailCronOrphanedMailsDeletionCollector($this);
-        $processor = new ilMailCronOrphanedMailsDeletionProcessor($this, $collector);
-        $processor->processDeletion();
+        $processor = new MailDeletionHandler($this, new ExpiredOrOrphanedMailsCollector($this));
+        $processor->delete();
     }
 }
