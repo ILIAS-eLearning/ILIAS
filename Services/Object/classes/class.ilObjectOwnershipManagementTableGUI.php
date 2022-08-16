@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+use \ILIAS\UI\Component\Symbol\Icon\Standard;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,6 +28,8 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     protected ilTree $tree;
     protected ilObjectDefinition $obj_definition;
+    protected \ILIAS\UI\Factory $factory;
+    protected \ILIAS\UI\Renderer $renderer;
 
     protected int $user_id;
 
@@ -38,6 +42,8 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
         $this->obj_definition = $DIC["objDefinition"];
+        $this->renderer = $DIC->ui()->renderer();
+        $this->factory = $DIC->ui()->factory();
         
         $this->user_id = $user_id;
         $this->setId('objownmgmt'); // #16373
@@ -106,15 +112,10 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
     
     protected function fillRow(array $set) : void
     {
-        if (!$this->obj_definition->isPlugin($set["type"])) {
-            $txt_type = $this->lng->txt("obj_" . $set["type"]);
-        } else {
-            $txt_type = ilObjectPlugin::lookupTxtById($set["type"], "obj_" . $set["type"]);
-        }
-        
+        $icon = $this->factory->symbol()->icon()->standard($set["type"], $set["title"], Standard::MEDIUM);
+        $this->tpl->setVariable("ICON", $this->renderer->render($icon));
+
         $this->tpl->setVariable("TITLE", $set["title"]);
-        $this->tpl->setVariable("ALT_ICON", $txt_type);
-        $this->tpl->setVariable("SRC_ICON", ilObject::_getIcon(0, "tiny", $set["type"]));
         $this->tpl->setVariable("PATH", $set["path"]);
         
         if ($set["readable"]) {
