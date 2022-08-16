@@ -19,10 +19,10 @@
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\ExpiredOrOrphanedMailsCollector;
-use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\MailDeletionHandler;
-use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\NotificationsCollector;
-use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\Notifier;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\ExpiredOrOrphanedMailsCollector;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\MailDeletionHandler;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\NotificationsCollector;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\Notifier;
 
 /**
  * Delete orphaned mails

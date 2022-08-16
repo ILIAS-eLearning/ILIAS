@@ -16,11 +16,11 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 use ILIAS\Data\Factory;
 use ILIAS\Data\Clock\ClockInterface;
-use ExpiredOrOrphanedMailsReportDto;
+use ReportDto;
 use ilSetting;
 use ilDBConstants;
 use ilMailCronOrphanedMails;
@@ -31,7 +31,7 @@ class NotificationsCollector
     private const PING_THRESHOLD = 500;
 
     private ilMailCronOrphanedMails $job;
-    /** @var array<int, ExpiredOrOrphanedMailsReportDto> */
+    /** @var array<int, ReportDto> */
     private array $collection = [];
     private ilDBInterface $db;
     private ilSetting $setting;
@@ -86,7 +86,7 @@ class NotificationsCollector
 
         $notification_query .= " ORDER BY m.user_id, m.folder_id, m.mail_id";
 
-        /** @var null|ExpiredOrOrphanedMailsReportDto $collection_obj */
+        /** @var null|ReportDto $collection_obj */
         $collection_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
@@ -103,7 +103,7 @@ class NotificationsCollector
 
             if ($collection_obj === null) {
                 // For the first user or if the user changed, we'll create a new collection object
-                $collection_obj = new ExpiredOrOrphanedMailsReportDto((int) $row['user_id']);
+                $collection_obj = new ReportDto((int) $row['user_id']);
                 $this->addCollectionObject($collection_obj);
             }
 
@@ -127,13 +127,13 @@ class NotificationsCollector
         return isset($this->collection[$user_id]);
     }
 
-    private function addCollectionObject(ExpiredOrOrphanedMailsReportDto $collection_obj) : void
+    private function addCollectionObject(ReportDto $collection_obj) : void
     {
         $this->collection[$collection_obj->getUserId()] = $collection_obj;
     }
 
     /**
-     * @return array<int, ExpiredOrOrphanedMailsReportDto>
+     * @return array<int, ReportDto>
      */
     public function getCollection() : array
     {

@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Mail\Cron\ExpiredAndOrphanedMails\FolderDto;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\FolderDto;
 
-class ExpiredOrOrphanedMailsReportDto
+class ReportDto
 {
     private int $user_id;
     /** @var array<int, FolderDto> */
