@@ -9118,6 +9118,16 @@ div.alert ul > li:before {
 .carousel.slide.text-only .carousel-control {
   background: none !important;
 }
+.il-modal-roundtrip .il-standard-form .row .col-sm-4,
+.il-modal-roundtrip .il-standard-form .row .col-md-3,
+.il-modal-roundtrip .il-standard-form .row .col-lg-2 {
+  width: 33.33%;
+}
+.il-modal-roundtrip .il-standard-form .row .col-sm-8,
+.il-modal-roundtrip .il-standard-form .row .col-md-9,
+.il-modal-roundtrip .il-standard-form .row .col-lg-10 {
+  width: 66.67%;
+}
 .il-tree {
   list-style-type: none;
   padding: 0 3px 0 calc(3px + 4px);
