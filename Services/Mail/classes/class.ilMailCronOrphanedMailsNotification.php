@@ -22,6 +22,23 @@
  */
 class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
 {
+    private function buildFolderTitle(ilMailCronOrphanedMailsFolderObject $folder_object) : string
+    {
+        $folder_title = $folder_object->getFolderTitle();
+        $folder_translation = $this->getLanguage()->txt('deleted');
+
+        if ($folder_title !== null && $folder_title !== '') {
+            $lang_key = 'mail_' . $folder_title;
+            $folder_translation = $this->getLanguage()->txt($lang_key);
+
+            if ($folder_translation === '-' . $lang_key . '-') {
+                $folder_translation = $folder_title;
+            }
+        }
+
+        return $folder_translation;
+    }
+
     protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         parent::initLanguageByIso2Code($a_code);
@@ -45,26 +62,34 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
             $this->appendBody($this->getLanguage()->txt('orphaned_mail_body'));
             $this->appendBody("\n\n");
             
-            $this->appendOrphandMailsBody();
+            $this->appendOrphanedMailsBody();
 
             $this->appendBody(ilMail::_getInstallationSignature());
             $this->sendMimeMail($this->getCurrentRecipient());
         }
     }
     
-    public function appendOrphandMailsBody() : void
+    public function appendOrphanedMailsBody() : void
     {
         $additional_information = $this->getAdditionalInformation();
+        /** @var ilMailCronOrphanedMailsFolderObject[] $mail_folders */
         $mail_folders = $additional_information['mail_folders'];
-        
+
+        $folder_rendered = false;
+
         foreach ($mail_folders as $folder_object) {
-            $folder_title = $this->getLanguage()->txt('mail_' . $folder_object->getFolderTitle());
-            $this->appendBody($folder_title . ':');
-            $this->appendBody("\n");
-            foreach ($folder_object->getOrphanedMailObjects() as  $mail_object) {
-                $this->appendBody($mail_object->getMailSubject());
+            if ($folder_rendered) {
                 $this->appendBody("\n");
             }
+
+            $this->appendBody($this->buildFolderTitle($folder_object) . ':');
+            $this->appendBody("\n");
+            foreach ($folder_object->getOrphanedMailObjects() as $mail_object) {
+                $this->appendBody('- ' . $mail_object->getMailSubject() ?? $this->getLanguage()->txt('not_available'));
+                $this->appendBody("\n");
+            }
+
+            $folder_rendered = true;
         }
     }
 }
