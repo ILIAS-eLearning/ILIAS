@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 use ILIAS\Data\Clock\ClockInterface;
 use ILIAS\Data\Factory;

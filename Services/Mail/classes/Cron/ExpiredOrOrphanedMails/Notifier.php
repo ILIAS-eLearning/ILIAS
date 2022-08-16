@@ -16,11 +16,11 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Mail\Cron\ExpiredAndOrphanedMails;
+namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 use ILIAS\Data\Clock\ClockInterface;
 use ILIAS\Data\Factory;
-use ExpiredOrOrphanedMailsReportDto;
+use ReportDto;
 use ilDBStatement;
 use ilDBConstants;
 use ilMailCronOrphanedMails;
@@ -63,7 +63,7 @@ class Notifier
         );
     }
 
-    private function markAsNotified(ExpiredOrOrphanedMailsReportDto $collection_obj) : void
+    private function markAsNotified(ReportDto $collection_obj) : void
     {
         $notify_days_before = 1;
         if ($this->mail_expiration_days > $this->mail_expiration_warning_days) {
@@ -94,7 +94,7 @@ class Notifier
         }
     }
 
-    private function sendMail(ExpiredOrOrphanedMailsReportDto $collection_obj) : void
+    private function sendMail(ReportDto $collection_obj) : void
     {
         $mail = new MailNotification();
         $mail->setRecipients([$collection_obj->getUserId()]);
