@@ -1,17 +1,20 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use ILIAS\UI\Component\Input\Field\FormInput;
 
@@ -25,10 +28,10 @@ use ILIAS\UI\Component\Input\Field\FormInput;
 class ilObjDashboardSettingsGUI extends ilObjectGUI
 {
     private ilRbacSystem $rbacsystem;
-    protected \ILIAS\UI\Factory $ui_factory;
-    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected ILIAS\UI\Factory $ui_factory;
+    protected ILIAS\UI\Renderer $ui_renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
-    protected \ILIAS\DI\UIServices $ui;
+    protected ILIAS\DI\UIServices $ui;
     protected ilDashboardSidePanelSettingsRepository $side_panel_settings;
 
     public function __construct(
@@ -142,6 +145,15 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $fields["enable_memberships"] = $f->input()->field()->checkbox($lng->txt("dash_enable_memberships"), $info_text)
             ->withValue($this->viewSettings->enabledMemberships());
 
+        $fields["enable_recommended_content"] = $f->input()->field()->checkbox($lng->txt("dash_enable_recommended_content"))
+            ->withValue($this->viewSettings->enabledRecommendedContent());
+
+        $fields["enable_learning_sequences"] = $f->input()->field()->checkbox($lng->txt("dash_enable_learning_sequences"))
+            ->withValue($this->viewSettings->enabledLearningSequences());
+
+        $fields["enable_study_programmes"] = $f->input()->field()->checkbox($lng->txt("dash_enable_study_programmes"))
+            ->withValue($this->viewSettings->enabledStudyProgrammes());
+
         // main panel
         $section1 = $f->input()->field()->section($this->maybeDisable($fields), $lng->txt("dash_main_panel"));
 
@@ -157,7 +169,23 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form_action = $ctrl->getLinkTarget($this, "saveSettings");
         return $f->input()->container()->form()->standard(
             $form_action,
-            ["main_panel" => $section1, "side_panel" => $section2]
+            ["main_panel" => $section1, "side_panel" => $section2, 'sortation' => $this->getSortation()]
+        );
+    }
+
+    public function getPresentationForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'savePresentation'),
+            array_map(
+                function (int $view) {
+                    return $this->getViewPresentation(
+                        $view,
+                        $this->lng->txt("dash_presentation_" . $this->viewSettings->getViewName($view))
+                    );
+                },
+                $this->viewSettings->getPresentationViews()
+            )
         );
     }
 
@@ -177,12 +205,20 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form = $this->initForm();
         $form = $form->withRequest($request);
         $form_data = $form->getData();
-        $this->viewSettings->enableSelectedItems((int) ($form_data['main_panel']['enable_favourites'] != ""));
-        $this->viewSettings->enableMemberships((int) ($form_data['main_panel']['enable_memberships'] != ""));
+        $this->viewSettings->enableSelectedItems(($form_data['main_panel']['enable_favourites']));
+        $this->viewSettings->enableMemberships(($form_data['main_panel']['enable_memberships']));
+        $this->viewSettings->enableRecommendedContent(($form_data['main_panel']['enable_recommended_content']));
+        $this->viewSettings->enableLearningSequences(($form_data['main_panel']['enable_learning_sequences']));
+        $this->viewSettings->enableStudyProgrammes(($form_data['main_panel']['enable_study_programmes']));
 
         foreach ($side_panel->getValidModules() as $mod) {
             $side_panel->enable($mod, (bool) $form_data['side_panel']['enable_' . $mod]);
         }
+
+        $this->viewSettings->storeSorting(
+            $form_data['sortation']['default_sort'],
+            $form_data['sortation']['avail_sort'] ?: []
+        );
 
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
@@ -207,7 +243,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
             $tabs->addSubTab(
                 "presentation",
-                $lng->txt("presentation"),
+                $lng->txt("dash_presentation"),
                 $ctrl->getLinkTarget($this, "editPresentation")
             );
         }
@@ -223,16 +259,12 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tabs_gui->activateTab("settings");
         $this->setSettingsSubTabs("presentation");
 
-
-        $form = $ui_factory->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, 'savePresentation'),
-            ["view_courses_groups" => $this->getViewPresentation(0), "view_favourites" => $this->getViewPresentation(1)]
-        );
+        $form = $this->getPresentationForm();
 
         $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
     }
 
-    public function getViewPresentation(int $view): \ILIAS\UI\Component\Input\Field\Section
+    public function getViewPresentation(int $view, string $title): \ILIAS\UI\Component\Input\Field\Section
     {
         $lng = $this->lng;
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
@@ -247,28 +279,55 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $default_pres = $default_pres->withValue($this->viewSettings->getDefaultPresentationByView($view));
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_pres" => $avail_pres, "default_pres" => $default_pres]),
-            $lng->txt("dash_presentation")
+            $title
         );
     }
 
-    public function getViewSortation(int $view): \ILIAS\UI\Component\Input\Field\Section
+    public function getSortation(): \ILIAS\UI\Component\Input\Field\Section
     {
         $lng = $this->lng;
-        $ops = $this->viewSettings->getAvailableSortOptionsByView($view);
+        $ops = $this->viewSettings->getAvailableSortOptions();
         $sortation_options = array_column(array_map(static function ($k, $v) use ($lng) {
             return [$v, $lng->txt("dash_sort_by_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
         $avail_sort = $this->ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_sortation"), $sortation_options)
-                                 ->withValue($this->viewSettings->getActiveSortingsByView($view));
+                                 ->withValue($this->viewSettings->getActiveSortings());
         $default_sort = $this->ui_factory->input()->field()->radio($lng->txt("dash_default_sortation"));
         foreach ($sortation_options as $k => $text) {
             $default_sort = $default_sort->withOption($k, $text);
         }
-        $default_sort = $default_sort->withValue($this->viewSettings->getDefaultSortingByView($view));
+        $default_sort = $default_sort->withValue($this->viewSettings->getDefaultSorting());
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_sort" => $avail_sort, "default_sort" => $default_sort]),
             $lng->txt("dash_sortation")
         );
+    }
+
+    protected function savePresentation() : void
+    {
+        $request = $this->request;
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        $form = $this->getPresentationForm();
+        $form = $form->withRequest($request);
+        $form_data = $form->getData();
+
+        if (!$this->canWrite()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
+            $this->editPresentation();
+        }
+
+
+        foreach ($form_data as $view => $view_data) {
+            $this->viewSettings->storeViewPresentation(
+                $view,
+                $view_data['default_pres'],
+                $view_data['avail_pres'] ?: []
+            );
+        }
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        $this->editPresentation();
     }
 
     /**

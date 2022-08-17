@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -17,7 +18,9 @@ interface ilPDSelectedItemsBlockConstants
 {
     public const VIEW_SELECTED_ITEMS = 0;
     public const VIEW_MY_MEMBERSHIPS = 1;
-    public const VIEW_MY_STUDYPROGRAMME = 2;
+    public const VIEW_RECOMMENDED_CONTENT = 2;
+    public const VIEW_LEARNING_SEQUENCES = 3;
+    public const VIEW_MY_STUDYPROGRAMME = 4;
 
     public const SORT_BY_TYPE = 'type';
     public const SORT_BY_LOCATION = 'location';
