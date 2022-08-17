@@ -25,6 +25,6 @@ class assAnswerMatchingPair
     {
         $this->term = $term;
         $this->definition = $definition;
-        $this->points = $points;
+        $this->points = (float) $points;
     }
 }

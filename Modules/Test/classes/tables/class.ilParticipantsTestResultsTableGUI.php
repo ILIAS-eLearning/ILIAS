@@ -231,7 +231,10 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 
     protected function buildPassFinishedString(array $data) : string
     {
-        return ilDatePresentation::formatDate(new ilDateTime($data['pass_finished'], IL_CAL_UNIX));
+        if (isset($data['pass_finished'])) {
+            return ilDatePresentation::formatDate(new ilDateTime($data['pass_finished'], IL_CAL_UNIX));
+        }
+        return '';
     }
 
     protected function buildAnsweredQuestionsString(array $data) : string
