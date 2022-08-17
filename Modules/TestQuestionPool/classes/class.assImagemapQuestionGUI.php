@@ -274,7 +274,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $coords = array();
         $mapcoords = $this->request->raw('image');
-        if ($mapcoords != null && is_array($mapcoords['mapcoords'])) {
+        if ($mapcoords != null && isset($mapcoords['mapcoords']) && is_array($mapcoords['mapcoords'])) {
             foreach ($mapcoords['mapcoords'] as $value) {
                 array_push($coords, $value);
             }

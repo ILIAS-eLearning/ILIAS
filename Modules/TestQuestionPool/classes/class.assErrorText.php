@@ -968,13 +968,14 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         /* Calculate reached points */
         $total = 0;
-        foreach ($positions as $position) {
-            /* First iterate through positions
-               to identify single-word-selections. */
+        if (is_array($positions)) {
+            foreach ($positions as $position) {
+                /* First iterate through positions
+                   to identify single-word-selections. */
 
-            $total += $words[$position]['points'];
+                $total += $words[$position]['points'];
+            }
         }
-
         foreach ($passages as $cnt => $p_data) {
             /* Iterate through configured passages to check
                wether the entire passage is selected or not.

@@ -416,7 +416,7 @@ class assClozeGap
      */
     public function getGapSize() : int
     {
-        return $this->gap_size;
+        return (int)$this->gap_size;
     }
     
     public function numericRangeExists() : bool
