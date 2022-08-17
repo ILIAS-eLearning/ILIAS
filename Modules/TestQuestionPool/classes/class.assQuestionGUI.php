@@ -951,6 +951,8 @@ abstract class assQuestionGUI
                 $this->ctrl->redirect($this, 'editQuestion');
             }
         }
+        $tabs = $DIC['ilTabs'];
+        $tabs->setTabActive('edit_question');
     }
 
     /**
@@ -1021,6 +1023,8 @@ abstract class assQuestionGUI
                 $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         }
+        $tabs = $DIC['ilTabs'];
+        $tabs->setTabActive('edit_question');
     }
 
     /**
