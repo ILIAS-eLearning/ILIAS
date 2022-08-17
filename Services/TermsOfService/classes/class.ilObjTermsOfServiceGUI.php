@@ -165,21 +165,30 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
     }
 
-    protected function getSettingsForm(): ilTermsOfServiceSettingsFormGUI
+    protected function getSettingsForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         /** @var ilObjTermsOfService $obj */
         $obj = $this->object;
-        $form = new ilTermsOfServiceSettingsFormGUI(
-            $obj,
-            $this->ctrl->getFormAction($this, 'saveSettings'),
-            'saveSettings',
-            $this->rbac_system->checkAccess('write', $this->object->getRefId())
-        );
 
-        ilAdministrationSettingsFormHandler::addFieldsToForm(
-            ilAdministrationSettingsFormHandler::FORM_TOS,
-            $form,
-            $this
+        $fields = [];
+
+        $fields['tos_status'] = $this->dic->ui()->factory()->input()->field()->optionalGroup(
+            [
+                'tos_reevaluate_on_login' => $this->dic->ui()->factory()->input()->field()->checkbox(
+                    $this->lng->txt('tos_reevaluate_on_login'),
+                    $this->lng->txt('tos_reevaluate_on_login_desc')
+                )->withValue($obj->shouldReevaluateOnLogin())
+                ->withDisabled(!$this->rbac_system->checkAccess('write', $this->object->getRefId()))
+            ],
+            $this->lng->txt('tos_status_enable'),
+            $this->lng->txt('tos_status_desc')
+        )->withValue(['tos_reevaluate_on_login' => false])
+        ->withDisabled(!$this->rbac_system->checkAccess('write', $this->object->getRefId()));
+
+
+        $form = $this->dic->ui()->factory()->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveSettings'),
+            $fields
         );
 
         return $form;
@@ -191,15 +200,18 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $form = $this->getSettingsForm();
-        if ($form->saveObject()) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-            $this->ctrl->redirect($this, 'settings');
-        } elseif ($form->hasTranslatedError()) {
-            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
-        }
+        $this->request = $this->dic->http()->request();
 
-        $this->tpl->setContent($form->getHTML());
+        $form = $this->getSettingsForm();
+        $form = $form->withRequest($this->request);
+        $data = $form->getData();
+
+        $this->object->saveStatus((bool) $data['tos_status']);
+        $this->object->setReevaluateOnLogin((bool) $data['tos_reevaluate_on_login']);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+
+        $this->tpl->setContent($this->dic->ui()->renderer()->render($form));
     }
 
     protected function showMissingDocuments(): void
@@ -209,7 +221,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
 
         if (0 === ilTermsOfServiceDocument::where([])->count()) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_no_documents_exist'));
+            $this->components[] = $this->dic->ui()->factory()->messageBox()->info(
+                $this->lng->txt('tos_no_documents_available')
+            );
         }
     }
 
@@ -222,6 +236,6 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->showMissingDocuments();
 
         $form = $this->getSettingsForm();
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($this->dic->ui()->renderer()->render($form));
     }
 }
