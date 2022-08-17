@@ -134,7 +134,7 @@ class ilAccountMail
      */
     private function readAccountMail(string $a_lang) : array
     {
-        if (!is_array($this->amail[$a_lang])) {
+        if (!isset($this->amail[$a_lang]) || !is_array($this->amail[$a_lang])) {
             $this->amail[$a_lang] = $this->ensureValidMailDataShape(
                 ilObjUserFolder::_lookupNewAccountMail($a_lang)
             );
