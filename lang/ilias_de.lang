@@ -7111,6 +7111,7 @@ mail#:#mail_email_sys_subject#:#Test-E-Mail „System-Mail”
 mail#:#mail_email_sys_body#:#Dies ist eine Test-E-Mail um den Versand einer automatisch vom System initiierten E-Mail an externe E-Mail-Adressen zu testen.
 mail#:#mail_is_read#:#gelesen
 mail#:#mail_is_unread#:#ungelesen
+mail#:#reg_mail_user_activation_status#:#Aktivierungsstatus des Nutzeraccounts
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio-Format
@@ -8315,6 +8316,8 @@ registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr Zugang noch vo
 registration#:#reg_mail_body_reason#:#Sie erhalten diese Mail, da die Benachrichtigung über neue Benutzerkonten für Sie in der Administration aktiviert ist.
 registration#:#reg_mail_new_user#:#Anmeldung eines neuen Benutzers
 registration#:#reg_mail_new_user_body#:#Ein neuer Benutzer hat sich angemeldet.
+registration#:#reg_mail_user_activation_status_active#:#aktiv
+registration#:#reg_mail_user_activation_status_inactive#:#inaktiv
 registration#:#reg_missing_domain#:#Bitte füllen Sie alle notwendigen Felder aus.
 registration#:#reg_missing_role#:#Bitte füllen Sie alle notwendigen Felder aus.
 registration#:#reg_notification#:#Benachrichtigungen

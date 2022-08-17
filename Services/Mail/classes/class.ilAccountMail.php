@@ -302,6 +302,16 @@ class ilAccountMail
         $a_string = str_replace("[MAIL_SALUTATION]", $gender_salut, $a_string);
         $a_string = str_replace("[LOGIN]", $a_user->getLogin(), $a_string);
         $a_string = str_replace("[FIRST_NAME]", $a_user->getFirstname(), $a_string);
+
+	//added new Placeholder for Account Activation Status
+        include_once("./Services/Language/classes/class.ilLanguage.php");
+	if ($a_user->getActive()) {
+		$a_string = str_replace("[ACTIVATION_STATUS]", ilLanguage::_lookupEntry($a_lang, "registration", "reg_mail_user_activation_status_active"), $a_string);
+	} else {
+		//$a_string = str_replace("[ACTIVATION_STATUS]", "inaktiv", $a_string);
+		$a_string = str_replace("[ACTIVATION_STATUS]", ilLanguage::_lookupEntry($a_lang, "registration", "reg_mail_user_activation_status_inactive"), $a_string);
+	}
+
         $a_string = str_replace("[LAST_NAME]", $a_user->getLastname(), $a_string);
         // BEGIN Mail Include E-Mail Address in account mail
         $a_string = str_replace("[EMAIL]", $a_user->getEmail(), $a_string);
