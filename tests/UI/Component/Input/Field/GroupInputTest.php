@@ -402,4 +402,12 @@ EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
     }
+
+    public function testBylineProperty() : void
+    {
+        $bl = 'some byline';
+        $f = $this->getFieldFactory();
+        $group = $f->group([],"LABEL",$bl);
+        $this->assertEquals($bl, $group->getByline());
+    }
 }

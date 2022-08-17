@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\UI\examples\Input\Field\SwitchableGroup;
 
 /**
@@ -28,9 +44,10 @@ function base()
             "field_2_1" => $ui->input()->field()->text("Item 2", "Just another field")
                 ->withValue('some val')
         ],
-        "Switchable Group number two"
+        "Switchable Group number two",
+        "with byline"
     );
-    $group3 = $ui->input()->field()->group([], 'No items in this group');
+    $group3 = $ui->input()->field()->group([], 'No items in this group', 'but a byline');
 
     //Step 2: Switchable Group - one or the other:
     $sg = $ui->input()->field()->switchableGroup(

@@ -72,9 +72,9 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function group(array $inputs, string $label = '') : Field\Group
+    public function group(array $inputs, string $label = '', $byline = '') : Field\Group
     {
-        return new Group($this->data_factory, $this->refinery, $this->lng, $inputs, $label, null);
+        return new Group($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     /**
