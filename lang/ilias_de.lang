@@ -4095,7 +4095,7 @@ common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_new_articles#:#Neue Beiträge
-common#:#forums_notification_settings#:#Einstellungen Forenbenachrichtigung
+common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
 common#:#forums_threads#:#Themen
 common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "anonym" geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
@@ -5768,7 +5768,7 @@ common#:#user_not_known#:#Bitte geben Sie einen gültigen Anmeldenamen ein.###Mo
 common#:#user_profile_other#:#Weitere Informationen
 common#:#user_send_new_account_mail#:#Sende
 common#:#user_status#:#Benutzerstatus
-common#:#user_toggle_noti#:#Mitglied darf Benachrichtigung nicht deaktivieren
+common#:#user_toggle_noti#:#Benachrichtigungen können nicht deaktiviert werden.
 common#:#userdata#:#Benutzerdaten
 common#:#userfolder_export_csv#:#Durch Komma getrennte Werte (CSV)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
@@ -9508,7 +9508,7 @@ forum#:#activate_only_current#:#Beitrag freischalten
 forum#:#activate_post#:#Freischalten
 forum#:#activate_post_txt#:#Möchten Sie diesen Beitrag freischalten?
 forum#:#add_new_answer#:#Neuer Beitrag
-forum#:#add_re_to_subject#:#Beim Antworten auf einen Beitrag wird der Titel des vorhergehenden Beitrags übernommen und durch ein vorangestelltes Re: ergänzt.
+forum#:#add_re_to_subject#:#Titel des Beitrags wird für Antwort mit vorangestelltem „Re:“ automatisch übernommen.
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 forum#:#adm_autosave_ival#:#Speicherintervall
@@ -9529,12 +9529,12 @@ forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
 forum#:#descending_order#:#Neueste Beiträge oben
 forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
-forum#:#empty_subject#:#Beim Antworten auf einen Beitrag bleibt die Titelzeile leer und muss vom Benutzer gefüllt werden.
+forum#:#empty_subject#:#Benutzer müssen Titel selbst angeben.
 forum#:#empty_thread#:#Leeres Thema
 forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
 forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
 forum#:#enable_thread_ratings#:#Themen bewerten
-forum#:#enable_thread_ratings_info#:#Falls aktiviert, können Themen dieses Forums von Benutzern bewertet werden.
+forum#:#enable_thread_ratings_info#:#Themen dieses Forums können von Benutzern bewertet werden.
 forum#:#enter_new_subject#:#Bitte geben Sie einen neuen Beitragstitel ein
 forum#:#error_no_target_selected#:#Bitte wählen Sie ein Forum.
 forum#:#error_reading_file#:#Beim Lesen der Datei ist ein Fehler aufgetreten
@@ -9597,7 +9597,7 @@ forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_activation_online_info#:#Nur wenn das Forum online geschaltet ist, können Benutzer auf das Forum zugreifen. Wenn nicht, ist das Forum nur für Administratoren verfügbar.
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
-forum#:#frm_anonymous_posting_desc#:#Alle Forenbeiträge werden mit einem Pseudonym bzw. ohne Nennung des Namens erstellt. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_anonymous_posting_desc#:#Beiträge können unter beliebigem Namen geschrieben werden. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens eine Person für die Moderation zuständig sein.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_censorship#:#Zensieren
 forum#:#frm_censorship_applied#:#Der Beitrag wurde erfolgreich zensiert.
@@ -9651,12 +9651,12 @@ forum#:#frm_settings_user_functions_header#:#Funktionen für Teilnehmer
 forum#:#frm_statistics#:#Statistik
 forum#:#frm_statistics_disabled_for_participants#:#Die Statistik ist für normale Forennutzer nicht sichtbar.
 forum#:#frm_statistics_enabled#:#Statistik anzeigen
-forum#:#frm_statistics_enabled_desc#:#Statistik für alle Forenteilnehmer anzeigen
+forum#:#frm_statistics_enabled_desc#:#Alle können im Reiter „Statistik“ sehen, wer wie viele Beiträge geschrieben hat.
 forum#:#frm_statistics_ranking#:#Anzahl der öffentl. Beiträge
-forum#:#frm_sticky_threads_latest_at_top#:#Top-Themen mit neuestem Beitrag oben
-forum#:#frm_sticky_threads_latest_at_top_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Innerhalb der Top-Themen wird automatisch dasjenige mit dem neuesten Beitrag nach oben sortiert.
+forum#:#frm_sticky_threads_latest_at_top#:#Top-Thema mit neuestem Beitrag oben
+forum#:#frm_sticky_threads_latest_at_top_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Das Top-Thema mit dem neuesten Beitrag steht an erster Stelle.
 forum#:#frm_sticky_threads_manual_sorting#:#Top-Themen manuell sortieren
-forum#:#frm_sticky_threads_manual_sorting_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Die Top-Themen können händisch in eine sinnvolle Reihenfolge gebracht werden.
+forum#:#frm_sticky_threads_manual_sorting_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Die Moderation kann die Top-Themen nach ihren Wünschen sortieren.
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
 forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden.
@@ -9684,7 +9684,7 @@ forum#:#notify_thread_deleted#:#Gelöschte Themen
 forum#:#notify_uncensored#:#Unzensierte Beiträge
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
-forum#:#post_activation_desc#:#Alle Beiträge durch die Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#post_activation_desc#:#Alle Beiträge müssen durch die Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#post_censored_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" zensiert:
 forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert! Bemerkung des Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#post_deleted_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" gelöscht:
@@ -9692,7 +9692,7 @@ forum#:#post_reply#:#Re:
 forum#:#post_reply_count#:#Re (%s):
 forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" aufgehoben:
 forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
-forum#:#preset_subject#:#Beim Antworten auf einen Beitrag wird als Titel automatisch der Titel des vorhergehenden Beitrags übernommen.
+forum#:#preset_subject#:#Titel des Beitrags wird für Antwort automatisch übernommen.
 forum#:#publish#:#Veröffentlichen
 forum#:#reopen_topics#:#Wiedereröffnen
 forum#:#reply_to_postings#:#Antworten
@@ -9715,7 +9715,7 @@ forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die 
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#sort_by_posts_desc#:#Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sorting#:#Sortierung
-forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
+forum#:#sorting_manual_sticky#:#Sortierung der Top-Themen
 forum#:#sticky#:#'Top-Thema'
 forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
@@ -9726,7 +9726,7 @@ forum#:#thread_deleted_by#:#folgendes Thema im Forum "%2$s" wurde von "%1$s" gel
 forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
-forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren
+forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 glo#:#glo_add_from_other#:#Begriffe sammeln
 glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
 glo#:#glo_collection#:#Sammelglossar
