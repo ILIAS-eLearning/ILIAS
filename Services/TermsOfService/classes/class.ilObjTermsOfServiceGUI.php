@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Component;
+
 /**
  * @author            Michael Jansen <mjansen@databay.de>
  * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilPermissionGUI
@@ -29,6 +31,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 {
     protected ILIAS\DI\Container $dic;
     protected ilErrorHandling $error;
+    /** @var Component[]  */
+    protected array $components = [];
 
     /**
      * @inheritdoc
@@ -165,7 +169,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
     }
 
-    protected function getSettingsForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    protected function getSettingsForm(): ILIAS\UI\Component\Input\Container\Form\Standard
     {
         /** @var ilObjTermsOfService $obj */
         $obj = $this->object;
@@ -206,10 +210,16 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $form = $form->withRequest($this->request);
         $data = $form->getData();
 
-        $this->object->saveStatus((bool) $data['tos_status']);
-        $this->object->setReevaluateOnLogin((bool) $data['tos_reevaluate_on_login']);
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+        $hasDocuments = ilTermsOfServiceDocument::where([])->count() > 0;
+        if (!$hasDocuments) {
+            $this->tpl->setOnScreenMessage('failure', 'tos_no_documents_exist_cant_save');
+        } elseif (!(int) $data['tos_status']) {
+            $this->object->saveStatus((bool) $data['tos_status']);
+        } else {
+            $this->object->saveStatus((bool) $data['tos_status']);
+            $this->object->setReevaluateOnLogin((bool) $data['tos_reevaluate_on_login']);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+        }
 
         $this->tpl->setContent($this->dic->ui()->renderer()->render($form));
     }
@@ -222,7 +232,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         if (0 === ilTermsOfServiceDocument::where([])->count()) {
             $this->components[] = $this->dic->ui()->factory()->messageBox()->info(
-                $this->lng->txt('tos_no_documents_available')
+                $this->lng->txt('tos_no_documents_exist')
             );
         }
     }
@@ -236,6 +246,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->showMissingDocuments();
 
         $form = $this->getSettingsForm();
-        $this->tpl->setContent($this->dic->ui()->renderer()->render($form));
+        $this->components[] = $form;
+        $this->tpl->setContent($this->dic->ui()->renderer()->render($this->components));
     }
 }
