@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,6 +17,11 @@
  *********************************************************************/
 
 use ILIAS\Repository\Administration\AdministrationGUIRequest;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as RefFactory;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * Repository settings.
@@ -30,6 +35,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected AdministrationGUIRequest $admin_gui_request;
     protected ilErrorHandling $error;
     protected ilSetting $folder_settings;
+    protected GlobalHttpState $http;
+    protected UIFactory $factory;
+    protected UIRenderer $renderer;
+    protected RefFactory $refinery;
 
     public function __construct(
         $a_data,
@@ -44,9 +53,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();
         $this->folder_settings = new ilSetting('fold');
+        $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->type = 'reps';
@@ -119,7 +132,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
     }
     
-    public function view(ilPropertyFormGUI $a_form = null) : void
+    public function view(StandardForm $a_form = null) : void
     {
         $this->tabs_gui->activateTab("settings");
         
@@ -127,10 +140,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $a_form = $this->initSettingsForm();
         }
         
-        $this->tpl->setContent($a_form->getHTML());
+        $this->tpl->setContent($this->renderer->render($a_form));
     }
     
-    protected function initSettingsForm() : ilPropertyFormGUI
+    protected function initSettingsForm() : StandardForm
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -138,24 +151,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt("settings"));
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
-        
-        // default repository view
-        /*
-        $options = array(
-            "flat" => $this->lng->txt("flatview"),
-            "tree" => $this->lng->txt("treeview")
-            );
-        $si = new ilSelectInputGUI($this->lng->txt("def_repository_view"), "default_rep_view");
-        $si->setOptions($options);
-        $si->setInfo($this->lng->txt(""));
-        if ($ilSetting->get("default_repository_view") == "tree") {
-            $si->setValue("tree");
-        } else {
-            $si->setValue("flat");
-        }
-        $form->addItem($si);*/
 
-        //
         $options = [
             "" => $this->lng->txt("adm_rep_tree_only_container"),
             "tree" => $this->lng->txt("adm_all_resource_types")
@@ -442,7 +438,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->view($form);
     }
     
-    public function customIcons(ilPropertyFormGUI $a_form = null) : void
+    public function customIcons(StandardForm $a_form = null) : void
     {
         $this->tabs_gui->activateTab("icons");
         
@@ -450,26 +446,30 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $a_form = $this->initCustomIconsForm();
         }
         
-        $this->tpl->setContent($a_form->getHTML());
+        $this->tpl->setContent($this->renderer->render($a_form));
     }
     
-    protected function initCustomIconsForm() : ilPropertyFormGUI
+    protected function initCustomIconsForm() : StandardForm
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
-        
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt("rep_custom_icons"));
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveCustomIcons'));
-                
-        $cb = new ilCheckboxInputGUI($this->lng->txt("enable_custom_icons"), "custom_icons");
-        $cb->setInfo($this->lng->txt("enable_custom_icons_info"));
-        $cb->setChecked((bool) $ilSetting->get("custom_icons"));
-        $form->addItem($cb);
 
-        if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-            $form->addCommandButton('saveCustomIcons', $this->lng->txt('save'));
-        }
+        $cb = $this->factory->input()->field()->checkbox(
+            $this->lng->txt("enable_custom_icons"),
+            $this->lng->txt("enable_custom_icons_info")
+        )->withValue((bool) $ilSetting->get("custom_icons"));
+
+        $section = $this->factory->input()->field()->section(
+            ['custom_icons' => $cb],
+            $this->lng->txt("rep_custom_icons")
+        )->withDisabled(
+            !$ilAccess->checkAccess('write', '', $this->object->getRefId())
+        );
+
+        $form = $this->factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveCustomIcons'),
+            ['section' => $section]
+        );
         
         return $form;
     }
@@ -480,17 +480,29 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $ilAccess = $this->access;
         
         if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('permission_denied'),
+                true
+            );
             $this->ctrl->redirect($this, "customIcons");
         }
     
-        $form = $this->initCustomIconsForm();
-        if ($form->checkInput()) {
-            $ilSetting->set("custom_icons", (string) ((int) $form->getInput("custom_icons")));
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $form = $this->initCustomIconsForm()
+                     ->withRequest($this->http->request());
+        if ($form->getData()) {
+            $ilSetting->set(
+                "custom_icons",
+                (string) ((int) $form->getData()['section']['custom_icons'])
+            );
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt("msg_obj_modified"),
+                true
+            );
             $this->ctrl->redirect($this, "customIcons");
         }
-        
-        $form->setValuesByPost();
+
         $this->customIcons($form);
     }
     
@@ -602,11 +614,9 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($grp_table->getHTML());
     }
     
-    protected function initNewItemGroupForm(int $a_grp_id = 0) : ilPropertyFormGUI
+    protected function initNewItemGroupForm(int $a_grp_id = 0) : StandardForm
     {
         $this->setModuleSubTabs("new_item_groups");
-        
-        $form = new ilPropertyFormGUI();
         
         $this->lng->loadLanguageModule("meta");
         $def_lng = $this->lng->getDefaultLanguage();
@@ -679,7 +689,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->addNewItemGroup($form);
     }
     
-    protected function editNewItemGroup(ilPropertyFormGUI $a_form = null) : void
+    protected function editNewItemGroup(StandardForm $a_form = null) : void
     {
         $grp_id = $this->admin_gui_request->getNewItemGroupId();
         if (!$grp_id) {
@@ -691,7 +701,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $a_form = $this->initNewItemGroupForm($grp_id);
         }
         
-        $this->tpl->setContent($a_form->getHTML());
+        $this->tpl->setContent($this->renderer->render($a_form));
     }
     
     protected function updateNewItemGroup() : void
