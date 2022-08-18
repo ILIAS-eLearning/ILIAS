@@ -308,7 +308,6 @@ class ilAccountMail
 	if ($a_user->getActive()) {
 		$a_string = str_replace("[ACTIVATION_STATUS]", ilLanguage::_lookupEntry($a_lang, "registration", "reg_mail_user_activation_status_active"), $a_string);
 	} else {
-		//$a_string = str_replace("[ACTIVATION_STATUS]", "inaktiv", $a_string);
 		$a_string = str_replace("[ACTIVATION_STATUS]", ilLanguage::_lookupEntry($a_lang, "registration", "reg_mail_user_activation_status_inactive"), $a_string);
 	}
 
