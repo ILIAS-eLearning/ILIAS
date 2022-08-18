@@ -147,7 +147,7 @@ class ilSetting implements \ILIAS\Administration\Setting
         $this->delete($a_key);
 
         if (!isset(self::$value_type)) {
-            self::$value_type = self::_getValueType();
+            self::$value_type = $this->getValueDbType();
         }
 
         if (self::$value_type === 'text' && strlen($a_val) >= 4000) {
@@ -195,16 +195,16 @@ class ilSetting implements \ILIAS\Administration\Setting
      * Get the type of the value column in the database
      * @throws ilDatabaseException
      */
-    public static function _getValueType() : string
+    public function getValueDbType() : string
     {
-        $analyzer = new ilDBAnalyzer();
+        $analyzer = new ilDBAnalyzer($this->db);
         $info = $analyzer->getFieldInformation('settings');
 
         if ($info['value']['type'] === 'clob') {
             return 'clob';
-        } else {
-            return 'text';
         }
+
+        return 'text';
     }
 
     /**
@@ -213,20 +213,16 @@ class ilSetting implements \ILIAS\Administration\Setting
      * @return bool
      * @throws ilDatabaseException
      */
-    public static function _changeValueType(
-        string $a_new_type = 'text'
-    ) : bool {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $old_type = self::_getValueType();
+    public function changeValueDbType(string $a_new_type = 'text') : bool
+    {
+        $old_type = $this->getValueDbType();
 
         if ($a_new_type === $old_type) {
             return false;
         }
+
         if ($a_new_type === 'clob') {
-            $ilDB->addTableColumn(
+            $this->db->addTableColumn(
                 'settings',
                 'value2',
                 array(	"type" => "clob",
@@ -234,14 +230,15 @@ class ilSetting implements \ILIAS\Administration\Setting
                                     "default" => null)
             );
 
-            $ilDB->query("UPDATE settings SET value2 = value");
-            $ilDB->dropTableColumn('settings', 'value');
-            $ilDB->renameTableColumn('settings', 'value2', 'value');
+            $this->db->query("UPDATE settings SET value2 = value");
+            $this->db->dropTableColumn('settings', 'value');
+            $this->db->renameTableColumn('settings', 'value2', 'value');
 
             return true;
         }
+
         if ($a_new_type === 'text') {
-            $ilDB->addTableColumn(
+            $this->db->addTableColumn(
                 'settings',
                 'value2',
                 array(	"type" => "text",
@@ -250,35 +247,31 @@ class ilSetting implements \ILIAS\Administration\Setting
                                     "default" => null)
             );
 
-            $ilDB->query("UPDATE settings SET value2 = value");
-            $ilDB->dropTableColumn('settings', 'value');
-            $ilDB->renameTableColumn('settings', 'value2', 'value');
+            $this->db->query("UPDATE settings SET value2 = value");
+            $this->db->dropTableColumn('settings', 'value');
+            $this->db->renameTableColumn('settings', 'value2', 'value');
 
             return true;
         }
+
         return false;
     }
 
 
     /**
-     * get a list of setting records with values loger than a limit
+     * Get a list of setting records with values longer than a limit
+     * @return string[]
      */
-    public static function _getLongerSettings(
-        int $a_limit = 4000
-    ) : array {
-        global $DIC;
+    public function getLimitExceedingValues(int $a_limit = 4000) : array
+    {
+        $settings = [];
 
-        $ilDB = $DIC->database();
+        $query = "SELECT value FROM settings WHERE LENGTH(value) > " . $this->db->quote($a_limit, 'integer');
 
-        $settings = array();
+        $result = $this->db->query($query);
 
-        $query = "SELECT * FROM settings WHERE LENGTH(value) > "
-            . $ilDB->quote($a_limit, 'integer');
-
-        $result = $ilDB->query($query);
-
-        while ($row = $ilDB->fetchAssoc($result)) {
-            $settings[] = $row;
+        while ($row = $this->db->fetchAssoc($result)) {
+            $settings[] = $row['value'];
         }
 
         return $settings;
