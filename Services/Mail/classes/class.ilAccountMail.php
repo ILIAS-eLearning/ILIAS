@@ -303,8 +303,6 @@ class ilAccountMail
         $a_string = str_replace("[LOGIN]", $a_user->getLogin(), $a_string);
         $a_string = str_replace("[FIRST_NAME]", $a_user->getFirstname(), $a_string);
 
-	//added new Placeholder for Account Activation Status
-        include_once("./Services/Language/classes/class.ilLanguage.php");
 	if ($a_user->getActive()) {
 		$a_string = str_replace("[ACTIVATION_STATUS]", ilLanguage::_lookupEntry($a_lang, "registration", "reg_mail_user_activation_status_active"), $a_string);
 	} else {
