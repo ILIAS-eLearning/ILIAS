@@ -219,7 +219,7 @@ class ilAccountRegistrationGUI
         $this->form->addCommandButton("saveForm", $this->lng->txt("register"));
     }
 
-    public function saveForm() : ilTemplate
+    public function saveForm() : ilGlobalTemplateInterface
     {
         $this->initForm();
         $form_valid = $this->form->checkInput();
@@ -518,8 +518,6 @@ class ilAccountRegistrationGUI
             $this->userObj->setActive(false, 0);
         }
 
-        $this->userObj->updateOwner();
-
         // set a timestamp for last_password_change
         // this ts is needed by ilSecuritySettings
         $this->userObj->setLastPasswordChangeTS(time());
@@ -528,6 +526,8 @@ class ilAccountRegistrationGUI
 
         //insert user data in table user_data
         $this->userObj->saveAsNew();
+
+        $this->userObj->updateOwner();
 
         // setup user preferences
         $this->userObj->setLanguage($this->form->getInput('usr_language'));
