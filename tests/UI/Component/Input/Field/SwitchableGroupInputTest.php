@@ -423,6 +423,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
                         <div class="help-block">some field</div>
                     </div>
                 </div>
+                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g2_opt" name="" value="g2" /><label for="id_1_g2_opt"></label>
@@ -433,6 +434,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
+                <div class="help-block"></div>
             </div>
         </div>
         <div class="help-block">byline</div>
@@ -468,6 +470,7 @@ EOT;
                         <div class="help-block">some field</div>
                     </div>
                 </div>
+                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g2_opt" name="" value="g2" checked="checked" /><label for="id_1_g2_opt"></label>
@@ -478,6 +481,7 @@ EOT;
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
+                <div class="help-block"></div>
             </div>
         </div>
         <div class="help-block">byline</div>
@@ -503,10 +507,11 @@ EOT;
         $group2 = $f->group([
             "field_2" => $f->text("f2", "some other field")
         ]);
+        $empty_group_title = 'empty group, the title';
+        $empty_group_byline =  'empty group, the byline';
+        $group3 = $f->group([], $empty_group_title, $empty_group_byline);
 
-        //construct without string-key:
-        $sg = $f->switchableGroup([$group1,$group2], $label, $byline);
-
+        $sg = $f->switchableGroup([$group1, $group2, $group3], $label, $byline);
         $r = $this->getDefaultRenderer();
         $html = $r->render($sg->withValue('1'));
 
@@ -524,6 +529,7 @@ EOT;
                         <div class="help-block">some field</div>
                     </div>
                 </div>
+                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_1_opt" name="" value="1" checked="checked" /><label for="id_1_1_opt"></label>
@@ -534,6 +540,12 @@ EOT;
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
+                <div class="help-block"></div>
+            </div>
+
+            <div class="form-control form-control-sm il-input-radiooption">
+                <input type="radio" id="id_1_2_opt" name="" value="2" /><label for="id_1_2_opt">empty group, the title</label>
+                <div class="help-block">empty group, the byline</div>
             </div>
         </div>
         <div class="help-block">byline</div>
