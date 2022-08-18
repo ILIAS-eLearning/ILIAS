@@ -259,7 +259,7 @@ class ilRegistrationSettings
         $this->reg_allow_codes = (bool) $this->settings->get('reg_allow_codes');
 
         $ids = unserialize(
-            stripslashes($this->settings->get('approve_recipient')),
+            stripslashes((string) $this->settings->get('approve_recipient')),
             ['allowed_classes' => false]
         );
         $this->approve_recipient_ids = (array) ($ids ?: []);
