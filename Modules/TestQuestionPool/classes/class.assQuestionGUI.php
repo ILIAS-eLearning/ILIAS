@@ -872,7 +872,6 @@ abstract class assQuestionGUI
                 require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $test = new ilObjTest($_GET["calling_test"]);
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
@@ -920,7 +919,6 @@ abstract class assQuestionGUI
                         $test->moveQuestionAfter($_REQUEST['prev_qid'], $this->object->getId());
                     }
                     if ( /*$___test_express_mode || */ $_REQUEST['express_mode']) {
-                        global $DIC;
                         $tree = $DIC['tree'];
                         $ilDB = $DIC['ilDB'];
                         $ilPluginAdmin = $DIC['ilPluginAdmin'];
@@ -981,7 +979,6 @@ abstract class assQuestionGUI
                 $test = new ilObjTest($_GET["calling_test"]);
                 $q_id = $this->object->getId();
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
