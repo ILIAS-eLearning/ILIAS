@@ -650,6 +650,8 @@ assessment#:#enter_enough_positive_points#:#最高点は0以上にしなけれ�
 assessment#:#enter_enough_positive_points_checked#:#得点には回答が一つは必要です。回答選択肢として正の点数を入力してください。
 assessment#:#enter_valid_values#:#値を入力してください。不正な文字はチエックされます!
 assessment#:#err_category_in_use#:#カテゴリが一つは削除できません。複数のカテゴリのユニットがすでに使用中です。
+assessment#:#err_divider_too_big#:#この質問の変数分割のいずれかが大きすぎます。
+assessment#:#err_division#:#この値は最大範囲よりも小さくしなければなりません。
 assessment#:#err_duplicate_results#:#利用可能な結果を複数回使用しています。問題文章中にこれは使用できません。
 assessment#:#err_no_formula#:#式を入力する必要があります
 assessment#:#err_no_numeric_value#:#数値を入力してください
@@ -725,7 +727,9 @@ assessment#:#finalized_evaluation#:#採点完了
 assessment#:#finalized_on#:#完了時刻
 assessment#:#finish_all_user_passes#:#全てのテスト受験を終了します
 assessment#:#finish_pass_for_all_users#:#全ユーザ用のテスト受験を本当に終了しますか。
+assessment#:#finish_pass_for_all_users_in_processing_time#:#少なくとも一人のユーザの処理時間が期間内なので全ユーザと一緒に合格終了にできません。
 assessment#:#finish_pass_for_user_confirmation#:#このテスト受験を本当に終了しますか。
+assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: このユーザの処理時間はまだ期間内です!　やむを得ない理由(例 テストから除外)がある場合に限りテストを終了すべきです。
 assessment#:#finish_test#:#テストを終了
 assessment#:#finish_unfinished_passes#:#開いている受験を終了
 assessment#:#finish_unfinished_passes_desc#:#終了時間または構成された期間制限の受験はこのクローンジョブでクローズされます。
@@ -1795,7 +1799,7 @@ assessment#:#tst_show_solution_answers_only#:#結果印刷表示(解答のみ)
 assessment#:#tst_show_solution_answers_only_desc#:#選択すると"コンテンツ編集"タブを使って問題の周りに配置したILIASコンテンツのページは印刷には表示されません。少し紙面スペースを保存したい場合はこのオプションを選択します。
 assessment#:#tst_show_solution_compare#:#解答一覧の正解と解答を比較
 assessment#:#tst_show_solution_compare_desc#:#受験者は模範解答の回答と自身の全体回答を比較して表示されます。このビューは、''Info'タブの'テスト結果表示ボタン'を通してアクセス可能な'詳細結果'内へ表示されます。ここに設定しても印刷領域の'回答のリスト'には表示されません。
-assessment#:#tst_show_solution_details#:#受験者2回目の回答
+assessment#:#tst_show_solution_details#:#受験者の得点回答
 assessment#:#tst_show_solution_details_desc#:#詳細テスト結果表'へadd-onとして追加し、受験者は各問題のページのリンクを得ます。このリンクページには問題、受験者の回答、この回答が正しいかどうかの情報、この問題による得点等が含まれます。
 assessment#:#tst_show_solution_feedback#:#フィードバック
 assessment#:#tst_show_solution_feedback_desc#:#受験者の解答に関連したフィードバックが表示されます。"受験者の解答点数"が有効でかつフィードバックが最初の場所内の問題に沿って準備された場合のみ有効になることに留意願います。
@@ -1873,7 +1877,7 @@ assessment#:#tst_type#:#テストタイプ
 assessment#:#tst_unchanged_answer_is_correct#:#プリセット回答は正しい
 assessment#:#tst_unchanged_order_is_correct#:#プリセット順番は正しい
 assessment#:#tst_use_previous_answers#:#前回の解答を使用
-assessment#:#tst_use_previous_answers_description#:#受験者には以前のテスト解答が表示されます。このオプションはテスト開始前に受験者個々によりInfoタブを有効する必要があります。
+assessment#:#tst_use_previous_answers_description#:#参加者には前回使用の回答が表示されます。このオプションは登録開始前にInfoタブ上に参加者個々で有効する必要があります。
 assessment#:#tst_use_previous_answers_user#:#回答を続ける際の初期値に前の回答を使用
 assessment#:#tst_user_finished_test#:#終了したテスト(%s) を使用
 assessment#:#tst_view_competence_assign#:#割り当てプロパティを表示
@@ -1919,8 +1923,8 @@ assessment#:#unlimited#:#無期限
 assessment#:#unlock#:#解除
 assessment#:#uploaded_material#:#アップロードされた教材
 assessment#:#use_ects_fx#:# 'FX' 評価を使用
-assessment#:#use_previous_solution#:#以前の解答を使用
-assessment#:#use_previous_solution_advice#:#その問題に示された解答は前と同じです。何も変更しないでそれを使用したい場合は解答の採択を確認する必要があります。
+assessment#:#use_previous_solution#:#前回の回答を使用する
+assessment#:#use_previous_solution_advice#:#「前回の回答を使用する」にチェックを入れないまま解答欄を変更せずに提 出すると無回答扱いになります。
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
 assessment#:#user_not_invited#:#あなたはこのテストの受験対象者ではありません。
 assessment#:#user_wrong_clientip#:#テストに使用する正しいIPがありません。
@@ -2969,8 +2973,12 @@ cld#:#cld_unknown_exception#:#未知の異常
 cld#:#cld_upload_failed#:#アップロードに失敗しました
 cld#:#cld_upload_failed_max_filesize#:#アップロードに失敗しました(最大ファイルサイズを超えています)
 cld#:#cld_upload_files#:#ファイルをアップロード
+cmix#:#achieved_info#:#希望する目標、レベル、努力、技術、勇気の結果により達成
+cmix#:#achieved_label#:#動詞'達成'のステートメント
 cmix#:#activity_id#:#Activity-ID
 cmix#:#activity_id_info#:#このID はLRSからのデータ表示を優先して使用されます。リソースプロバイダーからこのIDを受信します。
+cmix#:#answered_info#:#通常は問題を意味するアクティビティの質問へ回答した者を表示。回答文は、内部結果に相応するものが良く含まれます。
+cmix#:#answered_label#:#動詞 '回答済'のステートメント
 cmix#:#btn_change_registration#:#提出
 cmix#:#btn_create_lrs_type#:#LRS-Typeを追加
 cmix#:#btn_create_registration#:#提出
@@ -3026,6 +3034,8 @@ cmix#:#cmix_info_privacy_section#:#パーソナルデータに関するInfo
 cmix#:#cmix_info_privacy_section_launch#:#起動時のパーソナルデータ送信に関するInfo
 cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
 cmix#:#cmix_new#:#New xAPI/cmi5 Object
+cmix#:#completed_info#:#対象者が終了したか普通にアクティビティを完了したかを表示
+cmix#:#completed_label#:#動詞 '完了'のステートメント
 cmix#:#conf_availability#:#Availability
 cmix#:#conf_availability_0#:#利用不可
 cmix#:#conf_availability_1#:#許可されているもの
@@ -3042,21 +3052,50 @@ cmix#:#conf_keep_lp#:#学習進捗を保持
 cmix#:#conf_keep_lp_info#:#完了したILIAS学習進捗ステータスはフリーズされました。
 cmix#:#conf_launch_mode#:#起動モード
 cmix#:#conf_launch_mode_browse#:#ブラウザ
+cmix#:#conf_launch_mode_browse_info#:#このオプションは、ユーザへ判断なしで"見回し"をユーザへさせるユーザ経験を提供します。
 cmix#:#conf_launch_mode_normal#:#Normal
+cmix#:#conf_launch_mode_normal_info#:#学習進捗に関連のテータが記録されます。
 cmix#:#conf_launch_mode_review#:#レビュー
+cmix#:#conf_launch_mode_review_info#:#このオプションは、すでに完了した教材をユーザへ"再訪問/レビュー"させるユーザ経験を提供します。
 cmix#:#conf_lrs_endpoint#:#終了時
 cmix#:#conf_lrs_key#:#Key / Login
 cmix#:#conf_lrs_secret#:#Secret / Password
+cmix#:#conf_mastery_score#:#Mastery Score
+cmix#:#conf_mastery_score_info#:#この値は合格に必須の点数を確定するため開始時cmi5学習モジュールへパスされます。高い(又は等しい)値を得た場合には学習モジュールは'パス'のステータスを送信します。
 cmix#:#conf_new_window#:#新しいWindow
 cmix#:#conf_new_window_info#:#コンテンツは新しいWindow内のオープンされます。コンテンツ～離れるとWindowは閉じます。
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#コンテンツを同一Windowで開きILIAS画面と置き換えます。コンテンツを離れるとユーザはILIASへ戻ります。
 cmix#:#conf_privacy_comment_default#:#ユーザへ表示
+cmix#:#conf_privacy_ident#:#ユーザID
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合された外部ユーザID
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容する可能性があります。
+cmix#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたILIAS Login
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容する可能性があります。
+cmix#:#conf_privacy_ident_il_uuid_random#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたランダムID
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#各ILIASオブジェクトとILIASユーザランダムIDは各コール毎に識別されて生成されます。ユーザに関する結論は、オブジェクトを横断するユーザプロファイルの作成が困難なので極めて限定的です。
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#メールアドレスとしてIDフォーマットされたユニークなILIASプラットフォームでILIASユーザIDは結合されます。
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容しません。
+cmix#:#conf_privacy_ident_info#:#標準はメールアドレスを利用するのが一般的です。ユニークなILIASプラットフォームID:
+cmix#:#conf_privacy_ident_real_email#:#メールアドレス
+cmix#:#conf_privacy_ident_real_email_info#:#IDとしてのユーザのメールアドレスを送信(警告: メールアドレスは複数のユーザで使用される可能性があります!)
+cmix#:#conf_privacy_name#:#ユーザ名
+cmix#:#conf_privacy_name_firstname#:#First name
+cmix#:#conf_privacy_name_firstname_info#:#ILIASユーザ名のfirst nameを送信
+cmix#:#conf_privacy_name_fullname#:#完全な名前
+cmix#:#conf_privacy_name_fullname_info#:#タイトル、名前、姓名を送信
+cmix#:#conf_privacy_name_info#:#ユーザ名の送信は通常必須ではありません。
+cmix#:#conf_privacy_name_lastname#:#タイトルと姓名
+cmix#:#conf_privacy_name_lastname_info#:#ミスターまたはMs/Mrs. (特に指示がない限り)と姓名を送信
+cmix#:#conf_privacy_name_none#:#該当者なし
+cmix#:#conf_privacy_name_none_info#:#名前に替えて '-'を挿入
 cmix#:#conf_privacy_setting_conf#:#オプション構成
 cmix#:#conf_privacy_setting_default#:#オブジェクトの変更可能なデフォルト設定
 cmix#:#conf_privacy_setting_force#:#オブジェクトの設定は変更不可です。
 cmix#:#conf_privacy_setting_info#:#プライバシー設定の構成オプション
 cmix#:#conf_remarks#:#内部コメント
+cmix#:#conf_switch_to_review#:#レビューモードへ切替え
+cmix#:#conf_switch_to_review_info#:#cmi5学習モジュールは正しく処理されると(ステータスは良好)、学習モジュールは次のコールにレビューモードで開始します。
 cmix#:#conf_title#:#Title
 cmix#:#conf_user_registered_mail#:#E-Mail-Addressを登録
 cmix#:#content_privacy_ident#:#リソースのユーザID
@@ -3067,12 +3106,18 @@ cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 結果を取得
 cmix#:#cron_xapi_results_evaluation_desc#:#ILIAS xAPI proxyをサポートしないオブジェクトのlearning record storeから全てのxAPI結果を要求
 cmix#:#description_info#:#説明はタイトルの下へ表示されます。
 cmix#:#download_certificate#:#証明書をダウンロード
+cmix#:#duration_info#:#期間はタスク回答中のように入力できます。このオプションにより期間の既定値を0 秒(PT00.000S)に設定されます。
+cmix#:#duration_label#:#期間
 cmix#:#edit_lrs_type_form#:#LRS-Type
+cmix#:#failed_info#:#規定の満足度のレベルに正しく達しないアクティビティだった対象者を表示
+cmix#:#failed_label#:# 動詞'不合格'のステートメント
 cmix#:#fetch_xapi_statements#:#Learning Record Storeから結果を取得
 cmix#:#field_user_ident#:#E-Mail-Address
 cmix#:#field_user_ident_info#:#識別用の外部アプリケーションに使用するe-mail addressを入力
 cmix#:#form_change_registration#:#登録
 cmix#:#form_create_registration#:#登録
+cmix#:#hide_data_info#:#ILIAS LRS proxy限定用のこのオプションでは、特定のデータは認識できない値のステートメントをLearning Record Storeへ保存します。
+cmix#:#hide_data_label#:#黒塗りデータ
 cmix#:#highscore_achieved_ts#:#Date
 cmix#:#highscore_achieved_ts_description#:#日付けの入った列はランキングへ含まれます。
 cmix#:#highscore_all_tables#:#受講者自身のランクとTOPランク
@@ -3102,14 +3147,26 @@ cmix#:#info_lrs_secret#:#共有秘密 / パスワード,例　secret
 cmix#:#info_privacy_comment_default#:#このLRSを使用する時のデータセキュリティ上の追加IDが必須の際は挿入してください。
 cmix#:#info_remarks#:#ここは、このLRS-typeのコメントを書きとめる場所
 cmix#:#info_title#:#このタイトルは新しいオブジェクトのタイプを選択する際に表示されます。
+cmix#:#initialized_info#:#アクティビティプロバイダが決定したアクティビティを正しく開始した者を表示
+cmix#:#initialized_label#:#動詞'初期化'のステートメント
 cmix#:#launch_options#:#起動オプション
 cmix#:#launch_url#:#リソースのURL
 cmix#:#launch_url_info#:#http:// または https:// の追加によるインターネットアドレスを挿入。 データセキュリティオプションはリモートリソースとも関連がある。
 cmix#:#log_options#:#送信済データ表示用のオプション
 cmix#:#lrs_authentication#:#認証
+cmix#:#no_substatements_info#:#このオプション - ILIAS LRS proxy 用に限定- 下位のステートメントのストレージは抑制可能です。これはテスト中のシングルタスクの回答後に影響される例です。コンテンツは、ステートメントは保存された可能性を通知します。
+cmix#:#no_substatements_label#:#サブステートメントを保存しないでください。
 cmix#:#online_info#:#これはオブジェクト表示してをユーザへ可視にします。
+cmix#:#only_moveon_info#:#ILIAS LRS proxy限定用のこのオプションでは、定義された動詞のステートメントのみがLearning Record Store (ホワイトリスト)へ保存されます。ステートメントで提供されたコンテンツが保存される可能性があります。通常は、コンテンツプロバイダーと協議した有効期限を確認します。
+cmix#:#only_moveon_label#:#学習成功データのみを保存
+cmix#:#passed_info#:#規定の満足度レベルのアクティビティに正しく合格した者を表示
+cmix#:#passed_label#:#動詞 '合格'のステートメント
 cmix#:#privacy_options#:#データーセキュリティオプション
+cmix#:#progressed_info#:#どれくらいの者が先行またはアクティビティを進んだかを表示
+cmix#:#progressed_label#:#動詞 '進行中'のステートメント
 cmix#:#registration_saved_successfully#:#登録は正しく保存されました
+cmix#:#satisfied_info#:#権威者またはアクティビティプロバイダがオブジェクトあるいはアクティビティの基準を満たした者を表示。
+cmix#:#satisfied_label#:#動詞'良好'のステートメント
 cmix#:#sect_learning_progress_options#:#学習進捗オプション
 cmix#:#show_debug#:#学習経験を表示
 cmix#:#show_debug_info#:#'他のユーザの学習経験を表示するを設定'権利が表示されると他のユーザの学習経験が表示される可能性があります。
@@ -3128,6 +3185,10 @@ cmix#:#tbl_statements_actor#:#User
 cmix#:#tbl_statements_date#:#Date
 cmix#:#tbl_statements_object#:#Object
 cmix#:#tbl_statements_verb#:#Verb
+cmix#:#terminated_info#:#実行者が正しく終了したアクティビティを表示
+cmix#:#terminated_label#:#動詞 '終了'のステートメント
+cmix#:#timestamp_info#:#タイムスタンプはステートメントにより識別されたアクションを刻印します。タイムスタンプは、このオプションで既定値を01.01.1970 (1970-01-01T00:00:00.000Z) に設定します。Learning Record Storeは、ほぼタイムスタンプと同一である保存された日にちへ自動設定される事に注意願います。
+cmix#:#timestamp_label#:#タイムスタンプ
 cmix#:#title_info#:#オブジェクトタイトルを提供
 cmix#:#toplist_top_n_results#:#トップランク
 cmix#:#toplist_your_result#:#自己ランク
@@ -3262,6 +3323,7 @@ common#:#account_expires_subject#:#アカウントは期限が切れています
 common#:#action#:#アクション
 common#:#action_aborted#:#失敗したアクション
 common#:#actions#:#アクション
+common#:#actions_for#:#Actions for %s
 common#:#activate#:#使用可能に設定
 common#:#activate_assessment_logging#:#テストとアセスメントログを使用可能にする
 common#:#activate_https#:#ILIAS(支払、ログイン)の<br/>HTTPS操作
@@ -4108,6 +4170,7 @@ common#:#hint#:#ヒント
 common#:#hist_lm_delete_pg#:#ページ "%1" [%2]は削除されました。
 common#:#hist_lm_delete_st#:#章 "%1" [%2] は削除されました。
 common#:#hist_lm_pg_create#:#ページを作成しました。
+common#:#hist_lm_pg_update#:#ページが変更されました。
 common#:#hist_lm_st_create#:#章を作成しました。
 common#:#hist_webr_add#:#新規タイトル付のWebリンクを追加： "%1"
 common#:#hist_webr_delete#:#タイトル付のWebリンクを削除： "%1"
@@ -4691,6 +4754,7 @@ common#:#obj_cert_desc#:#証明書設定
 common#:#obj_chap#:#章
 common#:#obj_chta#:#チャットルーム
 common#:#obj_chtr#:#チャットルーム
+common#:#obj_chtr_duplicate#:#チャットルームをコピー
 common#:#obj_cld#:#クラウドオブジェクトを追加
 common#:#obj_cmis#:#xAPI/cmi5
 common#:#obj_cmis_desc#:#Learning Record Storeタイプ構成
@@ -5438,7 +5502,7 @@ common#:#stat_selected#:#選択した
 common#:#statistic#:#統計値
 common#:#statistics#:#統計値
 common#:#status#:#状況
-common#:#status_no_permission#:#付与許可なし
+common#:#status_no_permission#:#追加権限なし
 common#:#step#:#ステップ
 common#:#street#:#町名・番地
 common#:#structure#:#建物
@@ -5764,7 +5828,7 @@ cont#:#cont_filter_fields#:#フィルタ－フィールド
 cont#:#cont_filter_record#:#記録
 cont#:#cont_found_objects#:#見つかったオブジェクト
 cont#:#cont_item_list#:#List
-cont#:#cont_list_presentation#:#アイテムプレゼンテーション
+cont#:#cont_list_presentation#:#アイテム表示形式
 cont#:#cont_mem_skills#:#能力
 cont#:#cont_news_edited#:#未加工
 cont#:#cont_news_settings#:#ニュース設定
@@ -6352,6 +6416,7 @@ content#:#cont_lpe_login_form#:#Login Form
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 content#:#cont_lpe_openid_login_form#:#OpenId Login Form
 content#:#cont_lpe_registration_link#:#新規登録リンク
+content#:#cont_lpe_saml_login#:#SAML Login
 content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form
 content#:#cont_lpe_user_agreement_link#:#使用許諾書リンク
 content#:#cont_lrs_settings#:#設定
@@ -7461,8 +7526,8 @@ crs#:#crs_syllabus#:#シラバス
 crs#:#crs_sys_default#:#System Default
 crs#:#crs_table_start_objects#:#開始オブジェクト
 crs#:#crs_target_group#:#ターゲットグループ
-crs#:#crs_tile_and_objective_view_not_supported#:#タイトルプレゼンテーションと "学習オブジェクトプレゼンテーション"を同時に両方アクティブにはできません。
-crs#:#crs_tile_and_session_limit_not_supported#:#タイトルプレゼンテーションと "セクション制限"を同時に両方アクティブにはできません。
+crs#:#crs_tile_and_objective_view_not_supported#:#"タイル形式 表示”と"学習オブジェクト形式表示"を同時に両方アクティブにはできません。
+crs#:#crs_tile_and_session_limit_not_supported#:#"タイル形式 表示”と"セッション制限"を同時に両方アクティブにはできません。
 crs#:#crs_timing_err_start_end#:#終了日は開始日と等しいかそれ以上大きくする必要があります。
 crs#:#crs_timings_activate_optional#:#コース期間設定のオプションモード
 crs#:#crs_timings_activate_optional_own#:#マイコース期間設定のオプションモード
@@ -8714,6 +8779,7 @@ exc#:#exc_files_returned_text#:#課題テキスト
 exc#:#exc_find_zip_error#:#提出物を開くことができません。オリジナルファイルが見つかりません。
 exc#:#exc_fixed_date#:#確定日
 exc#:#exc_fixed_date_info#:#初期状態では、全ユーザは同じ固定の締切り日です。
+exc#:#exc_fullscreen#:#Fullscreen
 exc#:#exc_global_feedback_file#:#サンプル解答
 exc#:#exc_global_feedback_file_after_date#:#日付設定後
 exc#:#exc_global_feedback_file_cron#:#通知
@@ -9119,6 +9185,7 @@ file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
 file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
 file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
 file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
+file#:#file_upload_info_file_with_critical_extension#:#uploadされたファイルにはクリティカルまたはファイル終端不明の者が含まれています。ファイルはダウンロード毎に.secへ変更されます。必要に応じて管理者へ連絡して下さい。
 file#:#file_uploaded_by#:#アップロード者
 file#:#general_upload_error_occured#:#upload中に予期しないエラーが発生しました。
 file#:#generate_sanitize_report#:#アクセス不可なファイルに関するレポート
@@ -10059,6 +10126,26 @@ lti#:#act_lti_for_obj_type#:#オブジェクトタイプ用のLTIをアクティ
 lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
 lti#:#auth_lti#:#LTI Auth
+lti#:#conf_privacy_ident#:#ユーザID
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#外部ユーザIDはメールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されました。
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に識別されますがILIASユーザに関して直接終結は許可されません。
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS LoginはメールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合しました。
+lti#:#conf_privacy_ident_il_uuid_login_info#:#これはコール毎に識別されますがILIASユーザに関して直接終結は許可されません。
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIASユーザIDはメールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されます。
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#これはコール毎に識別されますがILIASユーザに関して直接終結は許可されません。
+lti#:#conf_privacy_ident_info#:#標準は通常メールアドレスです。ユニークなILIASプラットフォームID:
+lti#:#conf_privacy_ident_real_email#:#メールアドレス
+lti#:#conf_privacy_ident_real_email_info#:#ユーザ識別用にメールアドレスを送信(警告: メールアドレスは複数のユーザで使用されている可能性があります!)
+lti#:#conf_privacy_name#:#ユーザ名
+lti#:#conf_privacy_name_firstname#:#First name
+lti#:#conf_privacy_name_firstname_info#:#ILIASからユーザ名のfirst nameを送信
+lti#:#conf_privacy_name_fullname#:#完全な名前
+lti#:#conf_privacy_name_fullname_info#:#タイトル、名前、姓名を送信
+lti#:#conf_privacy_name_info#:#ユーザ名の送信は通常必須ではありません。
+lti#:#conf_privacy_name_lastname#:#タイトルと姓名
+lti#:#conf_privacy_name_lastname_info#:#ミスター又はMs/Mrs. (特に指示のない限り)と姓名を送信
+lti#:#conf_privacy_name_none#:#該当者なし
+lti#:#conf_privacy_name_none_info#:#名前に替えて '-' を送信
 lti#:#consumers#:#Consumer
 lti#:#description_info#:#説明はタイトルの下へ表示されます。
 lti#:#field_provider_xml#:#XML-ファイル
@@ -11470,6 +11557,7 @@ news#:#news_block_information#:#<b>ニュース</b>ブロックは、パーソ�
 news#:#news_block_news_for_context#:#ニュース
 news#:#news_cache#:#新規キャッシュ(分)
 news#:#news_cache_info#:#ニュースブロックをx分すべてアップデートします。 '0'は毎回を意味します。 値を上げるとパフォーマンスは上がりますが、ニュースが非アクセスアイテムへリンクされる事につながります。
+news#:#news_date#:#Date
 news#:#news_default_visibility#:#アクセス初期設定
 news#:#news_edit_news_settings#:#編集設定
 news#:#news_enable_internal_news#:#内部ニュースを有効にする
@@ -11623,8 +11711,8 @@ obj#:#obj_settings_for_all_members#:#メンバーは自動的に通知されま�
 obj#:#obj_show_header_actions#:#Header Actionsを表示
 obj#:#obj_show_title_and_icon#:#タイトルとアイコンを表示
 obj#:#obj_target_location#:#目標場所
-obj#:#obj_tile_image#:#タイトルイメージ
-obj#:#obj_tile_image_info#:#コンテナ(コース、フォルダー、グループ….)がタイトルプレゼンテーション表示を有効にした場合、タイトルイメージが使用されます。
+obj#:#obj_tile_image#:#タイルイメージ
+obj#:#obj_tile_image_info#:#コンテナ(コース、フォルダー、グループ….)がタイル形式表示を有効にした場合、タイルイメージが使用されます。
 obj#:#obj_tool_booking#:#リソース
 obj#:#obj_tool_booking_info#:#リソースを予約するには予約集を使用
 obj#:#obj_tool_setting_badges#:#バッジ
@@ -11801,8 +11889,8 @@ pd#:#pd_not_date#:#日付なし
 pd#:#pd_ongoing#:#継続中
 pd#:#pd_personal_items_default_view#:#表示初期設定
 pd#:#pd_personal_items_default_view_info#:#パーソナルアイテムの好みの表示を選択します。
-pd#:#pd_presentation_mode_list#:#リストプレゼンテーションアイテム
-pd#:#pd_presentation_mode_tile#:#タイトルプレゼンテーション
+pd#:#pd_presentation_mode_list#:#アイテムリスト形式表示
+pd#:#pd_presentation_mode_tile#:#タイル形式表示
 pd#:#pd_private_calendars#:#プライベートカレンダ
 pd#:#pd_profile_data#:#プロファイルデータ
 pd#:#pd_remove_multi_confirm#:#オブジェクトは削除されました。
@@ -11996,7 +12084,7 @@ prg#:#prg_auto_member_select_role#:#役割
 prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_belongs_to#:#所有者
 prg#:#prg_can_not_manage_in_repo#:#ユーザ割り当ての理由によりこの学習プログラムを管理することは許可されていません。
-prg#:#prg_cancel#:#Cancel###18 05 2020 new variable
+prg#:#prg_cancel#:#キャンセル
 prg#:#prg_cancel_tree_order#:#ツリー順を解除
 prg#:#prg_changed_by#:#更新者
 prg#:#prg_completion_by#:#完了者
@@ -12937,7 +13025,7 @@ rbac#:#prtt_delete#:#ユーザはポートフォリオテンプレートを移�
 rbac#:#prtt_edit_permission#:#ユーザはポートフォリオテンプレートのアクセス権設定を変更できます
 rbac#:#prtt_read#:#ユーザはポートフォリオテンプレートへの読込みアクセス権があります
 rbac#:#prtt_visible#:#予約集を表示
-rbac#:#prtt_write#:#ユーザはオｐ－トフォリオテンプレートの設定と内容を編集できます
+rbac#:#prtt_write#:#ユーザはポートフォリオテンプレートの設定と内容を編集できます
 rbac#:#ps_edit_permission#:#ユーザはプライバシー・セキュリティのアクセス権設定を変更できます
 rbac#:#ps_export_member_data#:#ユーザはコースとグループのメンバーデータをエクスポートできます
 rbac#:#ps_read#:#ユーザはプライバシー・セキュリティ管理への読込アクセス権があります
@@ -13933,7 +14021,7 @@ sess#:#sess_copy#:#セッションをコピー
 sess#:#sess_filter_all_types#:#全タイプ
 sess#:#sess_filter_not_assigned#:#割当て無し
 sess#:#sess_import#:#インポートセッション
-sess#:#sess_is_assigned#:#割当ての
+sess#:#sess_is_assigned#:#割当済
 sess#:#sess_list_reg_limit_places#:#フリーな場所
 sess#:#sess_lp_preset#:#学習進捗を有効化
 sess#:#sess_lp_preset_info#:#全てのセッションイベント用の学習進捗を解除する
@@ -13998,7 +14086,7 @@ sess#:#sess_registration_notification_info#:#新規または退出者に関す�
 sess#:#sess_section_reg#:#登録設定
 sess#:#sess_setting_header_presentation#:#プレゼンテーション
 sess#:#sess_show_members#:#参加者を表示
-sess#:#sess_show_participants_info#:#有効にすると背ｓｓｙン参加者は参加者ギャラリーへアクセスできます。
+sess#:#sess_show_participants_info#:#有効にするとセッション参加者は参加者ギャラリーへアクセスできます。
 sess#:#sess_title#:#セッションのタイトル
 sess#:#sess_users_added#:#セッションの選択したユーザを登録しました。
 sess#:#sess_users_already_assigned#:#ユーザはこのセッションへすでに登録済です。
@@ -15382,6 +15470,7 @@ tagging#:#tagging_enable_all_users#:#すべてのユーザのタグを表示
 tagging#:#tagging_enable_all_users_info#:#リソースへ添付される全ユーザの全てのタグが表示されるinfo画面に"全てのユーザ"セクションを追加します。
 tagging#:#tagging_enable_tagging#:#タグ化を有効
 tagging#:#tagging_forbidden_tags#:#隠しタグ
+tagging#:#tagging_no_obj_for_tag#:#タグ %s にリソースがありません
 tagging#:#tagging_other_users#:#その他ユーザのタグ
 tagging#:#tagging_resources_for_tag#:#%sでタグ化されたリソース
 tagging#:#tagging_search_users#:#ユーザを検索
@@ -15958,9 +16047,9 @@ wfe#:#wfe_stopped_listening#:#解除プロセス
 wfe#:#wfe_sure_to_delete_process_def#:#定義を本当に消去しますか?
 wfld#:#wfld_add#:#フォルダ作成
 wfld#:#wfld_alphabetically_asc#:#アルファベット, asc.
-wfld#:#wfld_alphabetically_desc#:#アルファベット, desc.###18 05 2020 new variable
-wfld#:#wfld_creation_asc#:#作成日付, asc.###18 05 2020 new variable
-wfld#:#wfld_creation_desc#:#作成日付, desc.###18 05 2020 new variable
+wfld#:#wfld_alphabetically_desc#:#アルファベット, desc.
+wfld#:#wfld_creation_asc#:#作成日付, asc.
+wfld#:#wfld_creation_desc#:#作成日付, desc.
 wfld#:#wfld_derive#:#親から採用
 wfld#:#wfld_edit#:#フォルダ編集
 wfld#:#wfld_new#:#新規フォルダ作成
@@ -16210,108 +16299,20 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.###26 11 2021 new variable
-lti#:#conf_privacy_ident#:#User identification###26 11 2021 new variable
-lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###26 11 2021 new variable
-lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###26 11 2021 new variable
-lti#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###26 11 2021 new variable
-lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###26 11 2021 new variable
-lti#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###26 11 2021 new variable
-lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###26 11 2021 new variable
-lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###26 11 2021 new variable
-lti#:#conf_privacy_ident_real_email#:#E-Mail Address###26 11 2021 new variable
-lti#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###26 11 2021 new variable
-lti#:#conf_privacy_name#:#User name###26 11 2021 new variable
-lti#:#conf_privacy_name_info#:#Sending an user name is usually not required.###26 11 2021 new variable
-lti#:#conf_privacy_name_none#:#No one###26 11 2021 new variable
-lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###26 11 2021 new variable
-lti#:#conf_privacy_name_firstname#:#First name###26 11 2021 new variable
-lti#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###26 11 2021 new variable
-lti#:#conf_privacy_name_lastname#:#Title and last name###26 11 2021 new variable
-lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###26 11 2021 new variable
-lti#:#conf_privacy_name_fullname#:#Entire name###26 11 2021 new variable
-lti#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###26 11 2021 new variable
-cmix#:#conf_switch_to_review#:#Switch to Review Mode###26 11 2021 new variable
-cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###26 11 2021 new variable
-cmix#:#conf_mastery_score#:#Mastery Score###26 11 2021 new variable
-cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###26 11 2021 new variable
-cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###26 11 2021 new variable
-cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###26 11 2021 new variable
-cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###26 11 2021 new variable
-cmix#:#conf_privacy_ident#:#User identification###26 11 2021 new variable
-cmix#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###26 11 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail adress###26 11 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###26 11 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress###26 11 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###26 11 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress###26 11 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###26 11 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###26 11 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###26 11 2021 new variable
-cmix#:#conf_privacy_ident_real_email#:#E-Mail Address###26 11 2021 new variable
-cmix#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###26 11 2021 new variable
-cmix#:#conf_privacy_name#:#User name###26 11 2021 new variable
-cmix#:#conf_privacy_name_info#:#Sending an user name is usually not required.###26 11 2021 new variable
-cmix#:#conf_privacy_name_none#:#No one###26 11 2021 new variable
-cmix#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###26 11 2021 new variable
-cmix#:#conf_privacy_name_firstname#:#First name###26 11 2021 new variable
-cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###26 11 2021 new variable
-cmix#:#conf_privacy_name_lastname#:#Title and last name###26 11 2021 new variable
-cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###26 11 2021 new variable
-cmix#:#conf_privacy_name_fullname#:#Entire name###26 11 2021 new variable
-cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###26 11 2021 new variable
-common#:#hist_lm_pg_update#:#Page changed.###08 12 2021 new variable
-common#:#actions_for#:#Actions for %s###08 12 2021 new variable
-news#:#news_date#:#Date###08 12 2021 new variable
-content#:#cont_lpe_saml_login#:#SAML Login###02 02 2022 new variable
-cmix#:#only_moveon_label#:#Save learning success data only###02 02 2022 new variable
-cmix#:#only_moveon_info#:#With this option, which is only available for the ILIAS LRS proxy, only statements with defined verbs are stored in the Learning Record Store (WhiteList). The content is informed that the statements would have been saved. This usually ensures the expiration date but should be discussed with the content provider.###02 02 2022 new variable
-cmix#:#achieved_label#:#Statements with the verb 'achieved'###02 02 2022 new variable
-cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.###02 02 2022 new variable
-cmix#:#answered_label#:#Statements with the verb 'answered'###02 02 2022 new variable
-cmix#:#answered_info#:#Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result.###02 02 2022 new variable
-cmix#:#completed_label#:#Statements with the verb 'completed'###02 02 2022 new variable
-cmix#:#completed_info#:#Indicates the actor finished or concluded the activity normally.###02 02 2022 new variable
-cmix#:#failed_label#:#Statements with the verb 'failed'###02 02 2022 new variable
-cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.###02 02 2022 new variable
-cmix#:#initialized_label#:#Statements with the verb 'initialized'###02 02 2022 new variable
-cmix#:#initialized_info#:#Indicates the activity provider has determined that the actor successfully started an activity.###02 02 2022 new variable
-cmix#:#passed_label#:#Statements with the verb 'passed'###02 02 2022 new variable
-cmix#:#passed_info#:#Indicates the actor successfully passed an activity to a level of predetermined satisfaction.###02 02 2022 new variable
-cmix#:#progressed_label#:#Statements with the verb 'progressed'###02 02 2022 new variable
-cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.###02 02 2022 new variable
-cmix#:#satisfied_label#:#Statements with the verb 'satisfied'###02 02 2022 new variable
-cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.###02 02 2022 new variable
-cmix#:#terminated_label#:#Statements with the verb 'terminated'###02 02 2022 new variable
-cmix#:#terminated_info#:#Indicates that the actor successfully ended an activity.###02 02 2022 new variable
-cmix#:#hide_data_label#:#Blacken data###02 02 2022 new variable
-cmix#:#hide_data_info#:#With this option which is only available for the ILIAS LRS proxy certain data is stored in statements with unrecognizable values in the Learning Record Store.###02 02 2022 new variable
-cmix#:#timestamp_label#:#Timestamp###02 02 2022 new variable
-cmix#:#timestamp_info#:#The timestamp marks the time of an action indicated by the statement. The timestamp is set to the default value 01.01.1970 (1970-01-01T00:00:00.000Z) by this option. Please note that a Learning Record Store may automatically set a value for the stored date, which can be almost identical to the timestamp.###02 02 2022 new variable
-cmix#:#duration_label#:#Duration###02 02 2022 new variable
-cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.###02 02 2022 new variable
-cmix#:#no_substatements_label#:#Do not store substatements###02 02 2022 new variable
-cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.###02 02 2022 new variable
-exc#:#exc_fullscreen#:#Fullscreen###02 02 2022 new variable
-assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###16 03 2022 new variable
-assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###16 03 2022 new variable
-common#:#obj_chtr_duplicate#:#Copy Chat Room###16 03 2022 new variable
-assessment#:#err_division#:#This value has to be smaller than the maximum range.###16 03 2022 new variable
-assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###16 03 2022 new variable
-tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###16 03 2022 new variable
-buddysystem#:#buddy_bs_state_linked_p#:#Linked###04 05 2022 new variable
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###04 05 2022 new variable
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###04 05 2022 new variable
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###04 05 2022 new variable
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###04 05 2022 new variable
-common#:#certificates#:#Certificates###20 07 2022 new variable
-common#:#report_accessibility_link_mailto#:#Reported%20Link:###20 07 2022 new variable
-glo#:#glo_please_select_other_glo#:#Please select another glossary.###20 07 2022 new variable
-sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.###20 07 2022 new variable
-sess#:#sess_info_new_sess_type#:#New Session Type###20 07 2022 new variable
-sess#:#il_sess_status_open#:#Open Session###20 07 2022 new variable
-sess#:#sess_change_type#:#Change Session Type###20 07 2022 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###20 07 2022 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###20 07 2022 new variable
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###20 07 2022 new variable
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###20 07 2022 new variable
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_bs_state_requested_filter_a#:#リアクション待ち
+buddysystem#:#buddy_bs_state_requested_filter_p#:#アクションを要求しました
+common#:#certificates#:#証明書
+common#:#report_accessibility_link_mailto#:#Reported%20Link:
+glo#:#glo_please_select_other_glo#:#別の用語集を選択して下さい。
+sess#:#sess_warn_sess_type_changed#:#本当にセッションタイプを変更しますか? 全てのアクセス権はリセットされます。
+sess#:#sess_info_new_sess_type#:#新しいセッションタイプ
+sess#:#il_sess_status_open#:#セッションを開く
+sess#:#sess_change_type#:#セッションタイプを変更
+lti#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスで初期化されユニークなILIASプラットフォームIDで結合されたハッシュ
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#これは各コールで同じですがILIASユーザについて直接終結する権限はありません。
+cmix#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスで初期化されユニークなILIASプラットフォームIDで結合されたハッシュ
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#これは各コールで同じですがILIASユーザについて直接終結する権限はありません。
+content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.###19 08 2022 new variable
