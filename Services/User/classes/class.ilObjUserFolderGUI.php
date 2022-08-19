@@ -3342,6 +3342,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $lng->txt("lastname")
         );
         $ftpl->setVariable(
+            "TXT_ACTIVATION_STATUS",
+            $lng->txt("reg_mail_user_activation_status")
+        );
+        $ftpl->setVariable(
             "TXT_EMAIL",
             $lng->txt("email")
         );

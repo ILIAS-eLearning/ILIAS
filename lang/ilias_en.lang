@@ -6095,6 +6095,7 @@ mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
 mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.
 mail#:#mail_is_read#:#gelesen
 mail#:#mail_is_unread#:#ungelesen
+mail#:#reg_mail_user_activation_status#:#Activation status of the user account
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -7117,6 +7118,8 @@ registration#:#reg_mail_body_pwd_generation#:#Your account request will be revie
 registration#:#reg_mail_body_reason#:#You receive mail from ILIAS because notifications about new registrations are enabled for your account in the ILIAS administration.
 registration#:#reg_mail_new_user_body#:#a new user has been registered.
 registration#:#reg_mail_new_user#:#New user registration
+registration#:#reg_mail_user_activation_status_active#:#active
+registration#:#reg_mail_user_activation_status_inactive#:#inactive
 registration#:#reg_missing_domain#:#Please fill out all fields.
 registration#:#reg_missing_role#:#Please fill out all fields.
 registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma separated) that will be informed about new user registrations per e-mail.
