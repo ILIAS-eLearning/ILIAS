@@ -688,17 +688,16 @@ interface Factory
      *   effect: >
      *      Markdown inputs will render a textarea HTML tag which is decorated with action-buttons. Markdown inputs are
      *      NOT restricted to one line of text and counts the amount of character input by user and displays the number.
+     *      The following formatting options will have a special effect on the input's preview:
+     *          - Headings (# text)
+     *          - Links ([text](url))
+     *          - Bold (**text**)
+     *          - Italic (_text_)
+     *          - Ordered list (1. text)
+     *          - Unordered list (- text)
      *   rivals:
      *      Text input: use a text-input if the content should not be formatted one line only.
      *      Textarea input: use a text-input if the content should not be formatted and on multiple lines.
-     *
-     * formatting options:
-     *   - Headings (# text)
-     *   - Links ([text](url))
-     *   - Bold (**text**)
-     *   - Italic (_text_)
-     *   - Ordered list (1. text)
-     *   - Unordered list (- text)
      *
      * context:
      *   - The Markdown input is used in UI-Forms.
