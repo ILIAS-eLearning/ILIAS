@@ -221,7 +221,7 @@ class Platform
         $this->name = null;
         $this->secret = null;
         $this->signatureMethod = 'HMAC-SHA1';
-        $this->encryptionMethod = null;
+        $this->encryptionMethod = ''; //changed from null
         $this->rsaKey = null;
         $this->kid = null;
         $this->jku = null;
@@ -508,29 +508,30 @@ class Platform
         return $platform;
     }
 
-    /**
-     * Load the platform from the database by its platform, client and deployment IDs.
-     * @param string             $platformId    The platform ID
-     * @param string             $clientId      The client ID
-     * @param string             $deploymentId  The deployment ID
-     * @param DataConnector|null $dataConnector A data connector object
-     * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
-     * @return Platform       The platform object
-     */
-    public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, DataConnector $dataConnector = null, bool $autoEnable = false) : Platform
-    {
-        $platform = new static($dataConnector);
-        $platform->platformId = $platformId;
-        $platform->clientId = $clientId;
-        $platform->deploymentId = $deploymentId;
-        if ($dataConnector->loadPlatform($platform)) {
-            if ($autoEnable) {
-                $platform->enabled = true;
-            }
-        }
+    //changed; to be erased because of php strict standards
+    // /**
+    // * Load the platform from the database by its platform, client and deployment IDs.
+    // * @param string             $platformId    The platform ID
+    // * @param string             $clientId      The client ID
+    // * @param string             $deploymentId  The deployment ID
+    // * @param DataConnector|null $dataConnector A data connector object
+    // * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
+    // * @return Platform       The platform object
+    // */
+    // public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, DataConnector $dataConnector = null, bool $autoEnable = false) : Platform
+    // {
+    // $platform = new static($dataConnector);
+    // $platform->platformId = $platformId;
+    // $platform->clientId = $clientId;
+    // $platform->deploymentId = $deploymentId;
+    // if ($dataConnector->loadPlatform($platform)) {
+    // if ($autoEnable) {
+    // $platform->enabled = true;
+    // }
+    // }
 
-        return $platform;
-    }
+    // return $platform;
+    // }
 
     //changed; to be erased because of php strict standards
 //    /**

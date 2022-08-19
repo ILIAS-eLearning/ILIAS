@@ -21,7 +21,7 @@ namespace ILIAS\LTI\ToolProvider\Jwt;
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
 use Firebase\JWT\Key;
-use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
+use ILIAS\LTI\ToolProvider\Http\HttpMessage;
 use ILIAS\LTI\ToolProvider\Util;
 
 /**
@@ -86,8 +86,8 @@ class FirebaseClient implements ClientInterface
         $sections = explode('.', $jwtString);
         $ok = count($sections) === 3;
         if ($ok) {
-            $headers = json_decode(JWT::urlsafeB64Decode($sections[0]));
-            $payload = json_decode(JWT::urlsafeB64Decode($sections[1]));
+            $headers = json_decode(JWT::urlsafeB64Decode($sections[0]), true); //changed
+            $payload = json_decode(JWT::urlsafeB64Decode($sections[1]), true); //changed
             $ok = !is_null($headers) && !is_null($payload);
         }
         if ($ok) {
@@ -120,7 +120,7 @@ class FirebaseClient implements ClientInterface
      */
     public function hasHeader(string $name) : bool
     {
-        return !empty($this->jwtHeaders) && isset($this->jwtHeaders->{$name});
+        return !empty($this->jwtHeaders) && isset($this->jwtHeaders[$name]); //changed
     }
 
     /**
@@ -132,7 +132,7 @@ class FirebaseClient implements ClientInterface
     public function getHeader(string $name, string $defaultValue = null) : string
     {
         if ($this->hasHeader($name)) {
-            $value = $this->jwtHeaders->{$name};
+            $value = $this->jwtHeaders[$name]; //changed
         } else {
             $value = $defaultValue;
         }
@@ -167,7 +167,7 @@ class FirebaseClient implements ClientInterface
      */
     public function hasClaim(string $name) : bool
     {
-        return !empty($this->jwtPayload) && isset($this->jwtPayload->{$name});
+        return !empty($this->jwtPayload) && isset($this->jwtPayload[$name]); //changed
     }
 
     /**
@@ -179,7 +179,7 @@ class FirebaseClient implements ClientInterface
     public function getClaim(string $name, string $defaultValue = null)
     {
         if ($this->hasClaim($name)) {
-            $value = $this->jwtPayload->{$name};
+            $value = $this->jwtPayload[$name]; //changed
         } else {
             $value = $defaultValue;
         }
@@ -235,6 +235,7 @@ class FirebaseClient implements ClientInterface
         }
         JWT::$leeway = Jwt::$leeway;
         $retry = false;
+
         do {
             try {
                 JWT::decode($this->jwtString, $publicKey);
@@ -387,7 +388,6 @@ class FirebaseClient implements ClientInterface
             $keys = json_decode($http->response, true);
             $publicKey = static::parseKeySet($keys);
         }
-
         return $publicKey;
     }
 
@@ -404,7 +404,6 @@ class FirebaseClient implements ClientInterface
     private static function parseKeySet(array $jwks) : array
     {
         $keys = array();
-
         if (!isset($jwks['keys'])) {
             throw new \UnexpectedValueException('"keys" member must exist in the JWK Set');
         }
@@ -416,7 +415,8 @@ class FirebaseClient implements ClientInterface
             if (!empty($v['alg'])) {
                 $kid = isset($v['kid']) ? $v['kid'] : $k;
                 if ($key = JWK::parseKey($v)) {
-                    $keys[$kid] = new Key($key, $v['alg']);
+                    $keys[$kid] = $key;  //changed from
+                    //$keys[$kid] = new Key($key, $v['alg']);
                 }
             }
         }

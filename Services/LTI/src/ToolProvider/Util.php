@@ -247,6 +247,7 @@ final class Util
                           'accept_unsigned',
                           'auto_create',
                           'can_confirm',
+                          'client_id',
                           'content_item_return_url',
                           'context_id',
                           'context_title',
@@ -274,6 +275,8 @@ final class Util
                           'lis_person_name_given',
                           'lis_person_sourcedid',
                           'login_hint',
+                          'lti_deployment_id',
+                          'lti_message_hint',
                           'lti_message_type',
                           'lti_version',
                           'oauth_consumer_key',
@@ -315,11 +318,11 @@ final class Util
             $requestAr = array_merge($divAr, $LTI_CONSUMER_SETTING_NAMES, $LTI_CONTEXT_SETTING_NAMES, $LTI_RESOURCE_LINK_SETTING_NAMES);
 
             foreach ($requestAr as $param) {
-                if ($post->has($param)) {
-                    self::$requestParameters[$param] = $post->retrieve($param, $refinery);
-                }
                 if ($query->has($param)) {
                     self::$requestParameters[$param] = $query->retrieve($param, $refinery);
+                }
+                if ($post->has($param)) {
+                    self::$requestParameters[$param] = $post->retrieve($param, $refinery);
                 }
             }
         }
@@ -603,5 +606,11 @@ EOD;
         }
 
         return $clone;
+    }
+
+
+    public static function logtxt(string $msg)
+    {
+        file_put_contents("log.txt", $msg . "\n", FILE_APPEND);
     }
 }

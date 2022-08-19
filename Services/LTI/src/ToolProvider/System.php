@@ -60,9 +60,9 @@ trait System
     /**
      * Data connector object.
      *
-     * @var DataConnector|null $dataConnector
+     * @var \ilLTIDataConnector|null $dataConnector //changed from DataConnector|null
      */
-    public ?DataConnector $dataConnector = null;
+    public ?\ilLTIDataConnector $dataConnector = null;
 
     /**
      * RSA key in PEM or JSON format.
@@ -783,6 +783,7 @@ trait System
     {
         $ok = false;
         $key = $this->key;
+        $publicKey = ''; //changed
         if (!empty($key)) {
             $secret = $this->secret;
         } elseif (($this instanceof Tool) && !empty($this->platform)) {
@@ -806,6 +807,7 @@ trait System
                 $jku = $this->jku;
             }
         }
+
         if (empty($this->jwt) || empty($this->jwt->hasJwt())) {  // OAuth-signed message
             try {
                 $store = new OAuthDataStore($this);
@@ -847,6 +849,7 @@ trait System
             }
         } else {  // JWT-signed message
             $nonce = new PlatformNonce($platform, $this->jwt->getClaim('nonce'));
+
             $ok = !$nonce->load();
             if ($ok) {
                 $ok = $nonce->save();
@@ -854,6 +857,12 @@ trait System
             if (!$ok) {
                 $this->reason = 'Invalid nonce.';
             } elseif (!empty($publicKey) || !empty($jku) || Jwt::$allowJkuHeader) {
+                if (empty($publicKey)) { //added
+                    $publicKey = "";
+                }
+                if (empty($jku)) { //added
+                    $jku = "";
+                }
                 $ok = $this->jwt->verify($publicKey, $jku);
                 if (!$ok) {
                     $this->reason = 'JWT signature check failed - perhaps an invalid public key or timestamp';
@@ -926,7 +935,7 @@ trait System
                             }
                             if ($this->ok) {
                                 if ($this instanceof Tool) {
-                                    $this->platform = Platform::fromPlatformId($iss, $aud, $deploymentId, $this->dataConnector);
+                                    $this->platform = \ilLTIPlatform::fromPlatformId($iss, $aud, $deploymentId, $this->dataConnector);
                                     $this->platform->platformId = $iss;
                                     if (isset($this->rawParameters['id_token'])) {
                                         $this->ok = !empty($this->rawParameters['state']);
@@ -934,12 +943,12 @@ trait System
                                             $nonce = new PlatformNonce($this->platform, $this->rawParameters['state']);
                                             $this->ok = $nonce->load();
                                             if (!$this->ok) {
-                                                $platform = Platform::fromPlatformId($iss, $aud, null, $this->dataConnector);
+                                                $platform = \ilLTIPlatform::fromPlatformId($iss, $aud, null, $this->dataConnector);
                                                 $nonce = new PlatformNonce($platform, $this->rawParameters['state']);
                                                 $this->ok = $nonce->load();
                                             }
                                             if (!$this->ok) {
-                                                $platform = Platform::fromPlatformId($iss, null, null, $this->dataConnector);
+                                                $platform = \ilLTIPlatform::fromPlatformId($iss, null, null, $this->dataConnector);
                                                 $nonce = new PlatformNonce($platform, $this->rawParameters['state']);
                                                 $this->ok = $nonce->load();
                                             }
