@@ -203,7 +203,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         
         $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         if ($form->checkInput()) {
-            $this->object->setTitle($form->getInput('title'));
+            if (!$this->object->isInternalTemplate()) {
+                $this->object->setTitle($form->getInput('title'));
+            }
             $this->object->setDescription($form->getInput('desc'));
             $rbacadmin->setProtected(
                 $this->rolf_ref_id,
