@@ -1,18 +1,20 @@
-/* Copyright (c) 1998-2019 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
-/**
-* ILIAS language file (All entries)
+
+
 *
+* @author       Shiro Tamoto <tamoto@chic.ocn.ne.jp>
 * @module       language file Japanese
 * @modulegroup  language
-* @author       Shiro Tamoto <tamoto@chic.ocn.ne.jp>
 * @version      $Id:
+* ILIAS language file (All entries)
 */
+/* Copyright (c) 1998-2019 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/**
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#アクセスキー
 acc#:#acc_access_keys#:#アクセスキー
@@ -380,6 +382,9 @@ adn#:#msg_permanent#:#表示
 adn#:#msg_permanent_info#:#恒久的または暫定的に表示
 adn#:#msg_permanent_no#:#暫定表示
 adn#:#msg_permanent_yes#:#恒久的に表示
+adn#:#msg_presentation#:#Presentation###19 08 2022 new variable
+adn#:#msg_show_to_all_roles#:#Show to all roles###19 08 2022 new variable
+adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.###19 08 2022 new variable
 adn#:#msg_success_created#:#通知を作成しました
 adn#:#msg_success_deleted#:#通知は正しく削除されました
 adn#:#msg_success_reset#:#通知をリセットしました
@@ -462,6 +467,7 @@ adve#:#char_selector_test#:#特殊文字用セレクタ (Unicode)
 adve#:#char_selector_unicode_all#:#全てのUnicodeブロック
 adve#:#char_selector_user#:#テスト中の特殊文字(Unicode)選択用メニュー
 assessment#:#action#:#アクション
+assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#add_answers#:#解答を追加
 assessment#:#add_circle#:#円形エリアを追加
 assessment#:#add_gap#:#穴埋めテキストを追加
@@ -469,7 +475,6 @@ assessment#:#add_imagemap#:#イメージマップをインポート
 assessment#:#add_poly#:#多角形エリアを追加
 assessment#:#add_rect#:#長方形エリアを追加
 assessment#:#additional_rating_info#:#ここに示される値はパーセント表示で100以内にする必要がある事に注意願います。
-assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#adm_settings_templates#:#テンプレート設定
 assessment#:#advanced_rating#:#上位レート
 assessment#:#advanced_rating_info#:#上位レートはユニットが結果に割り当てられる場合のみ利用できます。
@@ -501,6 +506,24 @@ assessment#:#applet_parameter#:#パラメーター
 assessment#:#applet_parameters#:#アプレットパラメーター
 assessment#:#apply#:#適用
 assessment#:#apply_def_settings_to_tst#:#設定適用
+assessment#:#assClozeTest#:#穴埋め問題
+assessment#:#assErrorText#:#エラーテキスト
+assessment#:#assFileUpload#:#アップロード問題ファイル
+assessment#:#assFlashQuestion#:#Flash問題
+assessment#:#assFormulaQuestion#:#数式問題
+assessment#:#assImagemapQuestion#:#イメージマップ問題
+assessment#:#assJavaApplet#:#Java Applet問題
+assessment#:#assKprimChoice#:#多肢選択問題 (Kprim解答)
+assessment#:#assLongMenu#:#長いメニュー
+assessment#:#assMatchingQuestion#:#組み合わせ問題
+assessment#:#assMultipleChoice#:#多肢選択問題(複数解答)
+assessment#:#assNumeric#:#数的問題
+assessment#:#assOrderingHorizontal#:#整序問題(水平方向)
+assessment#:#assOrderingQuestion#:#整序問題(垂直方向)
+assessment#:#assQuestions#:#問題
+assessment#:#assSingleChoice#:#多肢選択問題(単一解答)
+assessment#:#assTextQuestion#:#小論文
+assessment#:#assTextSubset#:#記入問題
 assessment#:#ass_cloze_fb_mode#:#フィードバックモード
 assessment#:#ass_cloze_fb_mode_gap_answ#:#回答特定フィードバック
 assessment#:#ass_cloze_fb_mode_gap_answ_info#:#各ギャップは個々のフィードバックの別の回答用として構成できます。
@@ -549,8 +572,6 @@ assessment#:#ass_process_lock_mode_file_desc#:#このロックメカニズムは
 assessment#:#ass_question#:#問題
 assessment#:#ass_size#:#サイズ
 assessment#:#ass_skl_import_fails_remove_btn#:#このヒントを削除
-assessment#:#assClozeTest#:#穴埋め問題
-assessment#:#assErrorText#:#エラーテキスト
 assessment#:#assessment_existing_pool#:#既存の演習問題集を使用
 assessment#:#assessment_log_scoring_adjustment_activate#:#調整利用可能な問題タイプ
 assessment#:#assessment_log_scoring_adjustment_desc#:#チェックされた問題タイプは調整可能です。この設定は問題タイプの現在の能力に関係しません。例　調整をサポートしない問題はここへ表示されます。
@@ -559,22 +580,6 @@ assessment#:#assessment_no_pool#:#問題集を使用しない
 assessment#:#assessment_pool_selection#:#問題集選択
 assessment#:#assessment_scoring_adjust#:#修正を有効
 assessment#:#assessment_scoring_adjust_desc#:#テスト問題の変更許可機能の修正を有効
-assessment#:#assFileUpload#:#アップロード問題ファイル
-assessment#:#assFlashQuestion#:#Flash問題
-assessment#:#assFormulaQuestion#:#数式問題
-assessment#:#assImagemapQuestion#:#イメージマップ問題
-assessment#:#assJavaApplet#:#Java Applet問題
-assessment#:#assKprimChoice#:#多肢選択問題 (Kprim解答)
-assessment#:#assLongMenu#:#長いメニュー
-assessment#:#assMatchingQuestion#:#組み合わせ問題
-assessment#:#assMultipleChoice#:#多肢選択問題(複数解答)
-assessment#:#assNumeric#:#数的問題
-assessment#:#assOrderingHorizontal#:#整序問題(水平方向)
-assessment#:#assOrderingQuestion#:#整序問題(垂直方向)
-assessment#:#assQuestions#:#問題
-assessment#:#assSingleChoice#:#多肢選択問題(単一解答)
-assessment#:#assTextQuestion#:#小論文
-assessment#:#assTextSubset#:#記入問題
 assessment#:#autocomplete_error#:#少な目の文字数の回答はオートコンプリート数が大きくなるので表示されることはありません。
 assessment#:#autoparticipants_subtab#:#Participants
 assessment#:#autosave#:#自動保存
@@ -585,6 +590,8 @@ assessment#:#autosave_success#:#自動保存に成功...
 assessment#:#autosavecontent#:#自動保存コンテンツ
 assessment#:#average_reached_points#:#平均達成点
 assessment#:#back_to_objective_container#:#コースへ戻る
+assessment#:#backtocallingpage#:#問題ページへ戻る
+assessment#:#backtocallingpool#:#問題集へ戻る
 assessment#:#backtocallingtest#:#呼び出し中のテストに戻る
 assessment#:#baseunit#:#ベースユニット
 assessment#:#button_request_next_question_hint#:#次のヒントを要求
@@ -601,8 +608,8 @@ assessment#:#cannot_save_metaobject#:#メタデータを保存するための十
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#ステータスが&quot;online&quotへ変更できません;問題がないまたはテスト内にマークがないの両方が考えられます!
 assessment#:#categories#:#カテゴリ
 assessment#:#category#:#カテゴリ
-assessment#:#change_adm_categories_not_allowed#:#このカテゴリに対するアクセス権が何もありません。
 assessment#:#changeSuggestedSolution#:#要約用のコンテンツタイプを選択
+assessment#:#change_adm_categories_not_allowed#:#このカテゴリに対するアクセス権が何もありません。
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#確認済み
 assessment#:#checkbox_unchecked#:#未確認
@@ -644,12 +651,12 @@ assessment#:#definition#:#定義
 assessment#:#definition_image#:#定義イメージ
 assessment#:#definition_text#:#定義テキスト
 assessment#:#definitions#:#定義
+assessment#:#deleteSuggestedSolution#:#要約用のコンテンツを削除
 assessment#:#delete_all_user_data#:#全ユーザのテストデータを削除
 assessment#:#delete_all_user_data_confirmation#:#本当にこのテストの全ユーザのテストデータを削除しますか?
 assessment#:#delete_image_header#:#イメージを削除
 assessment#:#delete_image_question#:#本当にイメージを削除しますか?
 assessment#:#delete_user_data#:#選択したユーザのテストデータを削除
-assessment#:#deleteSuggestedSolution#:#要約用のコンテンツを削除
 assessment#:#description_maxchars#:#未入力の場合はこのテキスト解答に対する最大文字数の制限はありません。
 assessment#:#detail_ending_time_reached#:#テスト時間は終了しました。%sを過ぎた後のテスト続行はできません。
 assessment#:#detail_max_processing_time_reached#:#テスト所要制限時間を過ぎました!
@@ -694,6 +701,8 @@ assessment#:#enter_anonymous_code#:#匿名アクセスコードを入力
 assessment#:#enter_enough_positive_points#:#最高点は0以上にしなけれなりません! 答案に対する妥当な点数を入力してください。
 assessment#:#enter_enough_positive_points_checked#:#得点には回答が一つは必要です。回答選択肢として正の点数を入力してください。
 assessment#:#enter_valid_values#:#値を入力してください。不正な文字はチエックされます!
+assessment#:#errFormulaQuestion#:#数式問題に間違った情報が含まれています!!
+assessment#:#errRecursionInResult#:#式に無限再帰が含まれています。
 assessment#:#err_category_in_use#:#カテゴリが一つは削除できません。複数のカテゴリのユニットがすでに使用中です。
 assessment#:#err_divider_too_big#:#この問題の変数の分母は大きすぎます。
 assessment#:#err_division#:#この値は最大範囲よりも小さくすべきです。
@@ -707,7 +716,6 @@ assessment#:#err_unit_in_variables#:#ユニットを削除できません。す�
 assessment#:#err_unit_is_baseunit#:#ユニットを削除できません。すでに他のユニットがベースユニットとして使用されています。
 assessment#:#err_wrong_categoryname#:#カテゴリがすでに存在します。
 assessment#:#err_wrong_rating_advanced#:#上級レート設定の追加は100パーセントになるようにしてください。
-assessment#:#errFormulaQuestion#:#数式問題に間違った情報が含まれています!!
 assessment#:#error_importing_question#:#選択されたファイルから問題をインポートする最中にエラーが発生しました!
 assessment#:#error_open_image_file#:#イメージファイルオープン時のエラー!
 assessment#:#error_random_question_generation#:#テスト用のランダムな問題を作成中に致命的なエラーが発生しました。次の情報と一緒に管理者へ連絡してください。システムはuser ID %s とtest IDのアクティブID%sを作成できませんでした。
@@ -715,7 +723,6 @@ assessment#:#errors#:#エラー
 assessment#:#errors_section#:#エラーデータ
 assessment#:#errortext#:#エラーテキスト
 assessment#:#errortext_info#:#エラーテキストを入力してください。エラーとしてマークするには、単語の前にハッシュ (#)を挿入してください。 &quot;エラーテキストを分析&quot; ボタンを押すと全てのマークした単語は以降の処理用として展開されます。
-assessment#:#errRecursionInResult#:#式に無限再帰が含まれています。
 assessment#:#essay_scoring_mode#:#採点モード
 assessment#:#essay_scoring_mode_keyword_relation_all#:#すべてに一致するキーワードで自動採点
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#すべてのキーワードが見つかれば点数が自動付与されます。
@@ -757,8 +764,8 @@ assessment#:#feedback_correct_sc_mc#:#全ての正解の特定のフィードバ
 assessment#:#feedback_generic#:#共通解答フィードバック
 assessment#:#feedback_incomplete_solution#:#答案のどれかに間違いがある
 assessment#:#feedback_setting#:#特定のフィードバック解答モード
-assessment#:#file_uploads#:#ファイルのアップロード
 assessment#:#fileDownload#:#ファイルのダウンロード
+assessment#:#file_uploads#:#ファイルのアップロード
 assessment#:#fill_out_all_required_fields_add_answer#:#解答を追加する前に、全ての必須項目を記入してください!
 assessment#:#filter#:#フィルタ
 assessment#:#filter_all_question_types#:#全ての問題のタイプ
@@ -1097,14 +1104,18 @@ assessment#:#qst_lifecycle_outdated#:#旧
 assessment#:#qst_lifecycle_rejected#:#拒否されました
 assessment#:#qst_lifecycle_review#:#要レビュー
 assessment#:#qst_lifecycle_sharable#:#共有化
+assessment#:#qst_nested_nested_answers_off#:#インデントなし、順番のみ
+assessment#:#qst_nested_nested_answers_on#:#回答にインデントを使用
 assessment#:#qst_nr_of_tries#:#実行回数
 assessment#:#qst_preview_reset_msg#:#プレビューがリセットされました。
+assessment#:#qst_use_nested_answers#:#ネスト化された回答
 assessment#:#que_contains_unused_var#:#問題文章にはどの結果式にも使われていなし変数が含まれます。
 assessment#:#question_browse_area_info#:#インポートしたい質問からオブジェクトを選択してください。
 assessment#:#question_cumulated_statistics#:#累計問題状況
 assessment#:#question_id#:#問題ID
 assessment#:#question_id_short#:#ID
 assessment#:#question_instances_title#:#この問題は次のテストに使用されます。
+assessment#:#question_is_part_of_running_test#:#問題はランニングテストの一部であり編集はできない可能性があります。
 assessment#:#question_marking#:#フラッグ問題
 assessment#:#question_marking_description#:#受験者はその他の目的の用としてテスト問題へフラッグするオプションが得られます。有効になるとフラッグは"問題のリスト"へ表示されます。
 assessment#:#question_not_answered#:#問題に未解答
@@ -1136,12 +1147,12 @@ assessment#:#rating_value#:#レート値
 assessment#:#rectangle#:#長方形
 assessment#:#rectangle_click_br_corner#:#希望する領域の右隅下をクリックしてください。
 assessment#:#rectangle_click_tl_corner#:#希望する領域の左隅上をクリックしてください。
+assessment#:#redirectAfterSave#:#解答締切り制限時間になりましたので最後の問題は自動的に保存されます。しばらくするとリダイレクトされます...
 assessment#:#redirect_after_finishing_rule#:#リダイレクト
 assessment#:#redirect_after_finishing_tst#:#リダイレクト
 assessment#:#redirect_after_finishing_tst_desc#:#テストを完了すると各受験者は自動的に決められたWebページへリダイレクトされます。これは受験者がテスト結果へアクセスしない場合のみ有効です。
 assessment#:#redirect_always#:#常に決められたwebページへ
 assessment#:#redirect_in_kiosk_mode#:#試験ビューが有効の際にのみ
-assessment#:#redirectAfterSave#:#解答締切り制限時間になりましたので最後の問題は自動的に保存されます。しばらくするとリダイレクトされます...
 assessment#:#redirection_url#:#webページのURL
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#固定の受験者として削除
@@ -1169,14 +1180,14 @@ assessment#:#result_x#:#結果
 assessment#:#results#:#結果
 assessment#:#results_tab#:#結果
 assessment#:#review_view#:#レビュー
+assessment#:#saveOrder#:#順番を保存
+assessment#:#saveOrderAndObligations#:#順番と必須を保存
 assessment#:#save_and_next#:#保存して続ける
 assessment#:#save_on_navigation#:#ナビゲーションを保存
 assessment#:#save_on_navigation_confirmation#:#変更した回答はナビゲートする時に自動的に保存されます。
 assessment#:#save_on_navigation_forced_feedback_hint#:#回答済みへフィードバックする前。
 assessment#:#save_on_navigation_locked_confirmation#:#変更した回答はナビゲート時にロックされて自動的に保存されます。
 assessment#:#saved_adjustment#:#変更を保存しました。
-assessment#:#saveOrder#:#順番を保存
-assessment#:#saveOrderAndObligations#:#順番と必須を保存
 assessment#:#score_partsol_enabled#:#部分正解を有効化
 assessment#:#score_partsol_enabled_info#:#通常受験者が構成点を得るには設問へ全正解する必要があります。このオプションとして受験者は最低3問正解で半分の構成点となります。
 assessment#:#scored_pass#:#完了対象
@@ -1199,6 +1210,7 @@ assessment#:#set_filter#:#フィルタ
 assessment#:#set_manscoring_done#:#この受講者を"採点済み受講者”としてマーク
 assessment#:#set_manual_feedback#:#手動フィードバック
 assessment#:#shape#:#形状
+assessment#:#showSuggestedSolution#:#推奨の解答
 assessment#:#show_answer_overview#:#解答概要を表示
 assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスしたものをマーク)
 assessment#:#show_examview_html#:#画面上に
@@ -1207,23 +1219,23 @@ assessment#:#show_pass_overview#:#マークした試験状況を表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#showinfo#:#全テストプロパティの表示
 assessment#:#showinfo_desc#:#ユーザは"Info"タブのテストプロパティの全リスト(例:点数とレポートの情報)へ表示されます。
-assessment#:#showSuggestedSolution#:#推奨の解答
 assessment#:#shuffle_answers#:#解答をシャッフル
 assessment#:#sign_submission#:#デジタル署名テスト送信
 assessment#:#sign_submission_info#:#アクティブ化されてシグネチャプラグインがインストール済で有効の場合に受験者はデジタル署名の提出を要求されます。
 assessment#:#skip_question#:#回答しないで次へ
+assessment#:#solutionText#:#テキスト
 assessment#:#solution_contain_keywords#:#点数は次のキーワードの発生を基準に承諾されます:
 assessment#:#solution_hint#:#要約用のコンテンツを割り当て
-assessment#:#solutionText#:#テキスト
 assessment#:#start_tag#:#開始タグ
 assessment#:#statistical_data#:#統計データ
 assessment#:#statistics#:#統計
 assessment#:#submit_and_check#:#回答を保存してチェック
 assessment#:#submit_answer#:#回答を保存して次へ
 assessment#:#suggest_range#:#推奨範囲
+assessment#:#suggestedSolutionType#:#推奨解答のタイプ
 assessment#:#suggested_solution#:#要約用のコンテンツ
 assessment#:#suggested_solution_added_successfully#:#要約用のコンテンツを正しくセットしました
-assessment#:#suggestedSolutionType#:#推奨解答のタイプ
+assessment#:#tab_nest_answers#:#ネストにする
 assessment#:#term#:#用語
 assessment#:#term_image#:#用語イメージ
 assessment#:#term_text#:#用語テキスト
@@ -1283,10 +1295,10 @@ assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示さ�
 assessment#:#tst_activation_limited_visibility_info#:#表示期間前後にテストのタイトルのみが表示されます。受験者はテスト受験できません。
 assessment#:#tst_activation_online_info#:#オンラインの場合に受験者はテスト受験できます。
 assessment#:#tst_add_quest_cont_edit_mode#:#追加問題コンテンツのモード編集
-assessment#:#tst_add_quest_cont_edit_mode_default#:#追加問題コンテンツの初期モード編集
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#問題と回答に書式設定がありません。LaTexにもありません。ただし、ｄフィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれ時に再利用できます。
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#ヒント、フィードバック、回答、問題の書式設定を許可。ただし、フィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれた時には再利用できません。
+assessment#:#tst_add_quest_cont_edit_mode_default#:#追加問題コンテンツの初期モード編集
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#試験に合格です。試験は再開できません。
 assessment#:#tst_all_test_competences#:#全テスト能力
 assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータは削除されました!
@@ -1331,6 +1343,7 @@ assessment#:#tst_browse_for_qpl_questions#:#問題集から追加
 assessment#:#tst_browse_for_tst_questions#:#他のテストから追加
 assessment#:#tst_btn_hide_best_solutions#:#模範解答を非表示
 assessment#:#tst_btn_rebuild_random_question_stage#:#問題集と問題を同期する
+assessment#:#tst_btn_reset_pool_sync#:#同期を編集/キャンセル
 assessment#:#tst_btn_show_best_solutions#:#模範解答を表示
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#テストモード設定が変更されたためにテストをオンラインにできません。テストをオンライン設定する前に問題構成に関連するテストモードを設定する必要があります。
 assessment#:#tst_change_dyn_test_question_selection#:#現在の問題選択を変更
@@ -1389,6 +1402,7 @@ assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (P
 assessment#:#tst_edit_competence_assign#:#割り当てのプロパティを編集
 assessment#:#tst_edit_scoring#:#点数を編集
 assessment#:#tst_ending_time#:#終了時間
+assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###19 08 2022 new variable
 assessment#:#tst_ending_time_desc#:#テスト終了時点の点数: 受験者はこれ以降回答できません、ILIASはテストを終了します。
 assessment#:#tst_enter_questionpool#:#新規問題の保存場所の問題集名
 assessment#:#tst_eval_question_points#:#完了%sの答案結果
@@ -1521,6 +1535,7 @@ assessment#:#tst_list_of_questions_start#:#最初の問題に先立って表示
 assessment#:#tst_list_of_questions_with_description#:#問題説明を含む
 assessment#:#tst_man_scoring_by_part#:#受験者別の採点
 assessment#:#tst_man_scoring_by_qst#:#問題別の採点
+assessment#:#tst_man_scoring_only_answered#:#回答済のみ
 assessment#:#tst_manage_competence_assigns#:#能力割り当てを管理
 assessment#:#tst_manscoring_input_max_points_for_question#:#問題最高点数
 assessment#:#tst_manscoring_input_question_and_user_solution#:#問題とユーザ解答
@@ -1899,11 +1914,15 @@ assessment#:#tst_tab_results_objective_oriented#:#学習目標結果
 assessment#:#tst_tab_results_pass_oriented#:#試み結果
 assessment#:#tst_tbl_col_answered_questions#:#回答
 assessment#:#tst_tbl_col_final_mark#:#マーク
+assessment#:#tst_tbl_col_finished_passes#:#Finished Passes###19 08 2022 new variable
+assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s###19 08 2022 new variable
+assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access###19 08 2022 new variable
 assessment#:#tst_tbl_col_pass_finished#:#終了日時
 assessment#:#tst_tbl_col_passed_status#:#評価
 assessment#:#tst_tbl_col_percent_result#:#回答率
 assessment#:#tst_tbl_col_reached_points#:#達成点
 assessment#:#tst_tbl_col_scored_pass#:#採点回数
+assessment#:#tst_tbl_col_started_passes#:#Started Passes###19 08 2022 new variable
 assessment#:#tst_tbl_invited_users#:#手動で選択の受験者
 assessment#:#tst_tbl_participants#:#受験者
 assessment#:#tst_tbl_results_grades#:#結果と評価
@@ -2221,6 +2240,7 @@ bgtask#:#bgtask_setting_threshold_count#:#最小数
 bgtask#:#bgtask_setting_threshold_count_info#:#この値を超えるファイルのいくつかはダウンロードが非同期になります。
 bgtask#:#bgtask_setting_threshold_size#:#最小サイズ
 bgtask#:#bgtask_setting_threshold_size_info#:#この値を超えるファイルサイズはダウンロードが非同期になります。
+bibl#:#Type#:#タイプ
 bibl#:#add_filter#:#フィルタ追加
 bibl#:#bib_default_abstract#:#Abstract
 bibl#:#bib_default_address#:#Address
@@ -2312,7 +2332,6 @@ bibl#:#ris_default_vl#:#Volume
 bibl#:#ris_default_y1#:#Year
 bibl#:#standard#:#Standard
 bibl#:#translate#:#Translate
-bibl#:#Type#:#タイプ
 bkm#:#bkm_fold_created#:#ブックマークフォルダが作成されました。
 blog#:#blog_abstract_image#:#要約へイメージを追加
 blog#:#blog_abstract_image_height#:#高さ
@@ -2431,6 +2450,7 @@ blog#:#blog_task_publishing_draft_title#:#ドラフト "%s" の公開
 blog#:#blog_toggle_draft#:#告知を取り消す
 blog#:#blog_toggle_draft_admin#:#ブログ投稿を解除
 blog#:#blog_toggle_final#:#投稿を公開
+book#:#X_reservations_of#:#%s reservations of
 book#:#book_add#:#予約集を追加
 book#:#book_add_object#:#オブジェクトを追加
 book#:#book_add_schedule#:#スケジュールを追加
@@ -2560,7 +2580,6 @@ book#:#booking_nr_of_items#:#アイテム番号
 book#:#obj_book_duplicate#:#予約集をコピー
 book#:#participants#:#参加者
 book#:#reservation_deleted#:#予約を削除しました
-book#:#X_reservations_of#:#%s reservations of
 buddysystem#:#buddy_allow_to_contact_me#:#コンタクトを許可
 buddysystem#:#buddy_allow_to_contact_me_info#:#有効にすると他のユーザがコンタクト要求を送れるようになります。
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#要求を確認
@@ -2586,10 +2605,15 @@ buddysystem#:#buddy_bs_state_ignored_request_p#:#無視
 buddysystem#:#buddy_bs_state_ignoredrequest#:#無視
 buddysystem#:#buddy_bs_state_linked#:#リンク済み
 buddysystem#:#buddy_bs_state_linked_a#:#リンク済み
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
 buddysystem#:#buddy_bs_state_requested#:#要求済み
 buddysystem#:#buddy_bs_state_requested_a#:#要求済み
+buddysystem#:#buddy_bs_state_requested_filter_a#:#リアクション待ち
+buddysystem#:#buddy_bs_state_requested_filter_p#:#アクションを要求しました
 buddysystem#:#buddy_bs_state_requested_p#:#要求済み
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_a#:#リンクなし
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
 buddysystem#:#buddy_enable#:#‘コンタクト’を有効化
 buddysystem#:#buddy_enable_info#:#有効にするとユーザはコンタクト要求を出してお互いにコンタクトを許可されます。また、許可またはコンタクトの準備のパーソナルユーザ設定があります。
 buddysystem#:#buddy_handle_contact_request#:#コンタクト要求
@@ -3118,6 +3142,8 @@ cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#コンテンツを同一Windowで開きILIAS画面と置き換えます。コンテンツを離れるとユーザはILIASへ戻ります。
 cmix#:#conf_privacy_comment_default#:#ユーザへ表示
 cmix#:#conf_privacy_ident#:#ユーザID
+cmix#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合された外部ユーザID
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容する可能性があります。
 cmix#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたILIAS Login
@@ -3351,10 +3377,13 @@ cntr#:#sorting_new_items_direction#:#新規オブジェクトの並び替え順
 cntr#:#sorting_new_items_order#:#新規オブジェクトの順
 cntr#:#sorting_new_items_position#:#新規オブジェクトの位置
 cntr#:#tab_back_to_repository#:#リピジトリへ戻る
+common#:#HH#:#HH:MM
 common#:#absolute_path#:#絶対Path
 common#:#accept_usr_agreement#:#使用許諾書を承諾しますか?
 common#:#accept_usr_agreement_btn#:#承諾
 common#:#access#:#アクセス
+common#:#accessFree#:#アクセス制限を解除
+common#:#accessRestrict#:#アクセス制限を設定
 common#:#access_expired#:#期限切れ
 common#:#access_free_granted#:#無期限アクセスの選択ユーザ
 common#:#access_from#:#アクセス (from)
@@ -3365,9 +3394,7 @@ common#:#access_unlimited#:#無期限
 common#:#access_until#:#アクセス(期限)
 common#:#access_users#:#ログイン中のユーザ
 common#:#accesscount_registered_users#:#ILIAS登録済ユーザ読込み数
-common#:#accessFree#:#アクセス制限を解除
 common#:#accessibility_control_concept#:#Accessibility Control Concept
-common#:#accessRestrict#:#アクセス制限を設定
 common#:#account#:#My Account
 common#:#account_expires_body#:#アカウントは制限されています。期限が切れる時間
 common#:#account_expires_subject#:#アカウントは期限が切れています
@@ -3615,6 +3642,7 @@ common#:#certificate_file_not_found_error#:#証明書ファイルはファイル
 common#:#certificate_persistent_option#:#永続証明書
 common#:#certificate_selection#:#証明書発行元
 common#:#certificate_workspace_option#:#作業領域証明書
+common#:#certificates#:#証明書
 common#:#change#:#変更
 common#:#change_assignment#:#割当て変更
 common#:#change_header_title#:#ヘッダータイトルを編集
@@ -3716,13 +3744,13 @@ common#:#continue#:#続ける
 common#:#continue_work#:#続ける
 common#:#contra#:#いまいち
 common#:#copy#:#コピー
+common#:#copyChapter#:#コピー
+common#:#copyPage#:#コピー
 common#:#copy_all#:#全てコピー
 common#:#copy_n_of_suffix#:#- コピー (%1$s)
 common#:#copy_of#:#コピー
 common#:#copy_of_suffix#:#- Copy
 common#:#copy_selected_items#:#コピー
-common#:#copyChapter#:#コピー
-common#:#copyPage#:#コピー
 common#:#count#:#カウント
 common#:#country#:#国
 common#:#country_free_text#:#国名(ファイルテキスト入力)
@@ -4194,7 +4222,6 @@ common#:#header_visible_registration#:#登録の表示
 common#:#header_zip#:#Zipアーカイブとして複数ファイルをアップロード
 common#:#height#:#高さ
 common#:#help#:#ヘルプ
-common#:#HH#:#HH:MM
 common#:#hide#:#非表示
 common#:#hide_all_details#:#全ての詳細を非表示
 common#:#hide_details#:#詳細を非表示
@@ -4616,9 +4643,9 @@ common#:#monthly#:#月間
 common#:#months#:#カ月
 common#:#mount_webfolder#:#フォルダとして開く
 common#:#move#:#移動
-common#:#move_selected_items#:#移動
 common#:#moveChapter#:#移動
 common#:#movePage#:#移動
+common#:#move_selected_items#:#移動
 common#:#msg_bt_download_started#:#ILIASは使用可能なすべてのZIPアーカイブファイルを生成します。右上のNotification Center (bellアイコン)からダウンロードできます。
 common#:#msg_cancel#:#アクションキャンセル
 common#:#msg_clear_clipboard#:#クリップボードを消去しました
@@ -4680,9 +4707,9 @@ common#:#msg_obj_no_download#:#ダウンロードできません
 common#:#msg_obj_no_link#:#リンクを許可されていません
 common#:#msg_obj_perm_download#:#以下のオブジェクトをダウンロードする適切な権限がありません。
 common#:#msg_paste_object_not_in_itself#:#オブジェクト%s自身を貼付けできません。
-common#:#msg_perm_adopted_from_itself#:#現在の役割/役割テンプレート自身からアクセス権限設定を適合できません。
 common#:#msg_perm_adopted_from1#:#からアクセス権限設定を採用
 common#:#msg_perm_adopted_from2#:#(設定は保存されました!)
+common#:#msg_perm_adopted_from_itself#:#現在の役割/役割テンプレート自身からアクセス権限設定を適合できません。
 common#:#msg_removed#:#オブジェクトはシステムから削除されました。
 common#:#msg_role_reserved_prefix#:#拡張子 'il_'は自動的に作成される役割として予約されています。他の名前を選択してください。
 common#:#msg_roleassignment_changed#:#役割変更
@@ -5146,9 +5173,9 @@ common#:#password_must_special_chars#:#パスワードには特殊文字を含�
 common#:#password_to_long#:#パスワードは%s文字以下でなければいけません。
 common#:#password_to_short#:#パスワードは%s文字以上でなければなりません。
 common#:#paste#:#貼り付け
-common#:#paste_clipboard_items#:#貼り付け
 common#:#pasteChapter#:#貼り付け
 common#:#pastePage#:#貼り付け
+common#:#paste_clipboard_items#:#貼り付け
 common#:#path#:#Path
 common#:#path_not_set#:#Pathがセットされていません
 common#:#path_to_convert#:#変換のPath
@@ -5317,6 +5344,7 @@ common#:#replace_file#:#ファイルを差替え
 common#:#reply#:#返信
 common#:#report_accessibility_issue#:#Accessibility Issueを報告
 common#:#report_accessibility_link#:#リンクを報告しました
+common#:#report_accessibility_link_mailto#:#Reported%20Link:
 common#:#repository#:#リポジトリ
 common#:#repository_admin#:#リポジトリ、ごみ箱、アクセス権限
 common#:#repository_admin_desc#:#システムのごみ箱からオブジェクトをリストアまたは削除してリポジトリのアクセス権限を設定します。
@@ -5474,17 +5502,17 @@ common#:#session_reminder_lead_time#:#リードタイム
 common#:#session_reminder_lead_time_info#:#セッション警告通知のリードタイムを秒数で指定してください。セッション終了前に時間が残っている場合にのみ警告通知を表示します。推奨値は300 (= 5 min.)です。<br / >現在のユーザセッションの長さは%sです。
 common#:#session_reminder_session_duration#:#(セッション接続時間:%s)。
 common#:#set#:#セット
+common#:#setSystemLanguage#:#システム言語設定
+common#:#setUserLanguage#:#ユーザ言語設定
 common#:#set_offline#:#オフラインに設定
 common#:#set_online#:#オンラインに設定
 common#:#set_skin_does_not_exist#:#選択のスキンはもうありません。パーソナル設定内のスタイル変更または管理者へ連絡してください。現在の選択:
 common#:#set_style_does_not_exist#:#選択のスキンはもうありません。パーソナル設定内のスタイル変更または管理者へ連絡してください。現在の選択:
-common#:#setSystemLanguage#:#システム言語設定
 common#:#settings#:#設定
 common#:#settings_for_all_members#:#メンバーへ自動的に通知
 common#:#settings_per_users#:#メンバーへ自動的に通知します。各メンバー個々に解除可能です。
 common#:#settings_presentation_header#:#プレゼンテーション
 common#:#settings_saved#:#設定を保存
-common#:#setUserLanguage#:#ユーザ言語設定
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Shibborethサポートをオン
 common#:#shib_city#:#市区郡の属性
@@ -5640,11 +5668,11 @@ common#:#title_required#:#タイトルを挿入してください。
 common#:#to#:#To
 common#:#to_client_list#:#クライアント選択
 common#:#today#:#今日
+common#:#toggleGlobalDefault#:#グローバル 初期設定をトグル
+common#:#toggleGlobalFixed#:#ローバル固定をトグル
 common#:#toggle_dropdown#:#ドロップダウンをトグル
 common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
 common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
-common#:#toggleGlobalDefault#:#グローバル 初期設定をトグル
-common#:#toggleGlobalFixed#:#ローバル固定をトグル
 common#:#tomorrow#:#明日
 common#:#tools#:#ツール
 common#:#top_of_page#:#ページのトップ
@@ -5896,6 +5924,7 @@ common#:#withdrawal_mail_text#:#担当の方へ,[BR][BR]ILIASシステムの利�
 common#:#withdrawal_sure_account#:#承諾を本当に取り下げますか? 
 common#:#withdrawal_sure_account_deletion#:#承諾を本当に取り下げますか? アカウントは取り消し不可能で削除されます。
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#本当に使用許諾を承認しませんか? ユーザアカウントは取消不可で削除されます。
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###19 08 2022 new variable
 common#:#wizard_search_list#:#検索の結果次のヒットがありました。どれか一つ選択してください。
 common#:#wizard_title_info#:#複製したいオブジェクトのタイトルを入力してください。
 common#:#write#:#書込み
@@ -5981,6 +6010,7 @@ contact#:#contact_awrn_ap_contacts#:#コンタクトを承認しました
 contact#:#contact_awrn_ap_contacts_info#:#ユーザの承認した全てのコンタクトが表示されます。
 contact#:#contact_awrn_req_contacts#:#コンタクト要求
 contact#:#contact_awrn_req_contacts_info#:#全てのコンタクト要求が表示されます。
+content#:#Pages#:#ページ
 content#:#add_menu_entry#:#新規のエントリーを追加
 content#:#all#:#All
 content#:#all_pages#:#ラーニングモジュール全体
@@ -5990,6 +6020,39 @@ content#:#citate#:#引用
 content#:#citate_from#:#...から引用する
 content#:#citate_page#:#このページを引用
 content#:#citate_to#:#...へ引用
+content#:#cont_Additional#:#追加情報
+content#:#cont_AdvancedKnowledge#:#詳細知識
+content#:#cont_Attention#:#注意
+content#:#cont_Background#:#Background
+content#:#cont_Block#:#ブロック
+content#:#cont_Book#:#Book
+content#:#cont_Circle#:#円
+content#:#cont_Citation#:#引用
+content#:#cont_Confirmation#:#確認
+content#:#cont_Example#:#例
+content#:#cont_Excursus#:#余論
+content#:#cont_FileListItem#:#ファイル・リスト・アイテム (標準)
+content#:#cont_Headline1#:#ヘッダー行 1
+content#:#cont_Headline2#:#ヘッダー行2
+content#:#cont_Headline3#:#ヘッダー行3
+content#:#cont_Information#:#Information
+content#:#cont_Interaction#:#相互作用
+content#:#cont_Link#:#Link
+content#:#cont_List#:#リスト
+content#:#cont_Literature#:#文献
+content#:#cont_Media#:#メディア (標準)
+content#:#cont_Mnemonic#:#ニーモニック
+content#:#cont_Numbers#:#Numbers
+content#:#cont_Poly#:#多角形
+content#:#cont_Rect#:#長方形
+content#:#cont_Remark#:#備考
+content#:#cont_Separator#:#セパレータ
+content#:#cont_Special#:#スペシャル
+content#:#cont_StandardCenter#:#基準センター
+content#:#cont_StandardTable#:#標準の表
+content#:#cont_TableContent#:#表のコンテンツ
+content#:#cont_Verse#:#Verse/Stanza
+content#:#cont_WholePicture#:#図全体
 content#:#cont_accented#:#強調
 content#:#cont_act_number#:#章の計算
 content#:#cont_activate_html#:#HTMLレンダリングを起動
@@ -6016,10 +6079,8 @@ content#:#cont_added_cell#:#列が追加されました
 content#:#cont_added_comment#:#コメントが履歴に追加されました。
 content#:#cont_added_tab#:#パネルを追加しました。
 content#:#cont_added_term#:#用語を追加しました
-content#:#cont_Additional#:#追加情報
 content#:#cont_adjust_size#:#サイズを調整
 content#:#cont_advanced_settings#:#詳細設定
-content#:#cont_AdvancedKnowledge#:#詳細知識
 content#:#cont_align#:#整列
 content#:#cont_alignment#:#整列
 content#:#cont_all_answers_correct#:#正解です!
@@ -6039,7 +6100,6 @@ content#:#cont_assign_characteristic#:#特徴の割当て
 content#:#cont_assign_full#:#全画面
 content#:#cont_assign_std#:#標準
 content#:#cont_assign_to_parent#:#親へ割り当て
-content#:#cont_Attention#:#注意
 content#:#cont_auto_glossaries#:#自動リンク済みの用語集
 content#:#cont_auto_last_visited#:#前回訪問の章(SCO・アセット)をロード
 content#:#cont_auto_last_visited_info#:#学習者がラーニングモジュールへ再アクセスする際にはSCO/Assetの最終訪問を開く
@@ -6050,18 +6110,15 @@ content#:#cont_autoindent#:#自動インデント
 content#:#cont_automatically_set_store_tries#:#オプション"$2"が有効になったのでオプション"$1"は自動的に有効になりました。
 content#:#cont_autostart#:#自動開始
 content#:#cont_back#:#戻る
-content#:#cont_Background#:#Background
 content#:#cont_base_image#:#背景イメージ
 content#:#cont_bb_tip#:#ヒント。 スタイルは選択されたテキストにすぐに適用可能です。
 content#:#cont_behavior#:#動作
 content#:#cont_biblio#:#文献目録データ
 content#:#cont_biblio_info#:#文献目録データ機能を有効にする
 content#:#cont_blist#:#中黒(・）リスト
-content#:#cont_Block#:#ブロック
 content#:#cont_block_format#:#セクションフォーマット
 content#:#cont_blocked_users#:#ブロックしたユーザ
 content#:#cont_blocked_users_mail_link#:#ラーニングモジュールを開くには次のリンクをクリック:
-content#:#cont_Book#:#Book
 content#:#cont_bottom#:#下
 content#:#cont_bullet_list#:#箇条書き
 content#:#cont_cach_mode#:#モード
@@ -6113,8 +6170,6 @@ content#:#cont_choose_mep#:#メディア集を選択
 content#:#cont_choose_pages_or_chapters_only#:#ページか章のどちらかのみ選択してください。
 content#:#cont_choose_upload_dir#:#Upload directory
 content#:#cont_choose_wiki#:#Wikiを選択
-content#:#cont_Circle#:#円
-content#:#cont_Citation#:#引用
 content#:#cont_citation_selection_not_valid#:#選択は無効です
 content#:#cont_click_br_corner#:#希望範囲の右下の角をクリックしてください。
 content#:#cont_click_center#:#希望範囲の中央をクリックしてください。
@@ -6131,7 +6186,6 @@ content#:#cont_commented_by#:#コメント者
 content#:#cont_comments#:#コメントのストレージを有効にする
 content#:#cont_comments_info#:#SCORM 2004学習モジュールにはモジュール内にコメントを提供するものがあります。このオプションはそれらのコメント保存を許可します。
 content#:#cont_confirm_delete#:#本当にこのアイテムを削除しますか?
-content#:#cont_Confirmation#:#確認
 content#:#cont_constrain_proportions#:#プロパティを含む
 content#:#cont_content#:#コンテンツ
 content#:#cont_content_popup#:#コンテンツポップアップ
@@ -6150,6 +6204,7 @@ content#:#cont_cp_question_diff_formats_info#:#フォーマットによっては
 content#:#cont_create_link#:#リンク作成
 content#:#cont_create_mob#:#メディアオブジェクトを作成
 content#:#cont_credit_mode#:#履修単位モード(レッスンモード'ノーマル'用)
+content#:#cont_credit_mode_info#:#学習モジュールはcmi.core.credit経由でアーカイブ化されたパフォーマンス(合否と点数が評価に対して要望通り (credit)がそうではない (no-credit)かを伝えます。この指示を適切に判断する事は学習モジュールの役割です。
 content#:#cont_credit_off#:#追跡ステータスを評価しない
 content#:#cont_credit_on#:#追跡ステータスを評価(通過または不合格)
 content#:#cont_credits#:#単位取得
@@ -6329,8 +6384,6 @@ content#:#cont_enough_answers_correct#:#正解ですがベスト解答ではあ�
 content#:#cont_enter_a_dir_name#:#ディレクトリ名を入力してください。
 content#:#cont_enter_a_file#:#ファイルを選択してください。
 content#:#cont_error#:#エラーが発生しました。
-content#:#cont_Example#:#例
-content#:#cont_Excursus#:#余論
 content#:#cont_exp_id_used_multiple#:#エクスポートIDは複数回使用されています
 content#:#cont_exp_ids_not_resp_format1#:#エクスポートIDは次の文字にのみに使用できます。
 content#:#cont_exp_ids_not_resp_format2#:#確認して入力を訂正してください。
@@ -6344,7 +6397,6 @@ content#:#cont_file_from_repository#:#リポジトリのファイル
 content#:#cont_file_from_workspace#:#マイワークスペースからのファイル
 content#:#cont_file_renamed#:#ファイルは名前変更されました。
 content#:#cont_file_unzipped#:#ファイルはunzipされました。
-content#:#cont_FileListItem#:#ファイル・リスト・アイテム (標準)
 content#:#cont_files#:#ファイル
 content#:#cont_finish_editing#:#編集終了
 content#:#cont_first_open#:#最初のパネルオープン
@@ -6392,9 +6444,6 @@ content#:#cont_grid_width_s_info#:#例 スマートフォン
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#例 ワイドデスクトップ
 content#:#cont_header#:#ヘッダー
-content#:#cont_Headline1#:#ヘッダー行 1
-content#:#cont_Headline2#:#ヘッダー行2
-content#:#cont_Headline3#:#ヘッダー行3
 content#:#cont_height#:#高さ
 content#:#cont_help_no_valid_tooltip_id#:#入力されたtooltip IDは無効です。
 content#:#cont_hide_adv#:#詳細知識を非表示
@@ -6420,7 +6469,6 @@ content#:#cont_import_lang#:#ターゲット言語
 content#:#cont_import_tracking#:#追跡データをインポート
 content#:#cont_import_trans#:#翻訳をインポート
 content#:#cont_import_validation_errors#:#ラーニングモジュールの有効化中に何らかのエラーが発生しました。ラーニングモジュール素材は大丈夫と思われますが、エラーが含まれるページを編集できないような事があります。
-content#:#cont_Information#:#Information
 content#:#cont_initial_attached_content#:#初期外部コンテンツ
 content#:#cont_insert_amd_page_list#:#ページリストを挿入
 content#:#cont_insert_as_chapter#:#章として挿入
@@ -6450,7 +6498,6 @@ content#:#cont_insert_subchapter_from_clip#:#クリップボードのサブチ�
 content#:#cont_insert_table#:#表を挿入
 content#:#cont_insert_verification#:#検証を追加
 content#:#cont_inst_map_areas#:#リンクエリア実体
-content#:#cont_Interaction#:#相互作用
 content#:#cont_interactions#:#インタラクション結果を保存する
 content#:#cont_interactions_info#:#通常、学習モジュール内のインタラクション結果は再読み込み・ロードなしで単純に保存されます。学習モジュールの動作が確実であれば、このオプションはパフォーマンスを改善します。
 content#:#cont_interactions_info_12#:# 学習モジュールSCORM 1.2内のインタラクション結果は単純に保存されます。このオプションはパフォーマンスを改善します。
@@ -6490,7 +6537,6 @@ content#:#cont_license#:#ライセンス
 content#:#cont_license_info#:#ライセンス機能を有効
 content#:#cont_light#:#明るく
 content#:#cont_link#:#リンク
-content#:#cont_Link#:#Link
 content#:#cont_link_area#:#リンクエリヤ
 content#:#cont_link_ext#:#リンク(外部)
 content#:#cont_link_glo_in_lm#:#全ての用語集表現をラーニングモジュール中に今リンクしなければなりませんか。
@@ -6504,13 +6550,11 @@ content#:#cont_link_type#:#リンクタイプ
 content#:#cont_link_user#:#ユーザプロファイル
 content#:#cont_linked_mobs#:#リンクしたメディア オブジェクト
 content#:#cont_links#:#リンク
-content#:#cont_List#:#リスト
 content#:#cont_list_files#:#ファイルの一覧
 content#:#cont_list_indent#:#インデントリスト
 content#:#cont_list_outdent#:#インデント解除リスト
 content#:#cont_list_properties#:#プロパティを一覧
 content#:#cont_lists#:#リスト
-content#:#cont_Literature#:#文献
 content#:#cont_lk_chapter#:#章
 content#:#cont_lk_chapter_new#:#章 (新フレーム)
 content#:#cont_lk_file#:#ファイル/ドキュメント
@@ -6557,14 +6601,12 @@ content#:#cont_mastery_score_12_info#:#SCOが自立的にステータスを決�
 content#:#cont_mastery_score_2004#:#scaled_passing_scoreを上書き
 content#:#cont_mastery_score_2004_info#:#学習モジュールの中央学習オブジェクトは点数がscaled_passing_scoreのある一定レベルに達すると合格として考慮されます。この値 - パーセント値として宣言すべき - は要求レベルを下げる例のようにここで上書きできます。フィールドが空の場合はSCORMマニフェストの情報が有効になります。次の値はマニフェストファイルへ提供されます。
 content#:#cont_max_time_allowed#:#adlcp：maxtimeallowed
-content#:#cont_Media#:#メディア (標準)
 content#:#cont_media#:#Images/Media
 content#:#cont_media_placeh#:#クリックして挿入メディアを編集
 content#:#cont_media_placehl#:#メディアプレースフォルダ
 content#:#cont_media_source#:#メディアソース
 content#:#cont_missing_preconditions#:#章 "%s"へアクセスするための次の前提条件を埋める必要があります。
 content#:#cont_missing_snippet#:#断片コンテンツがありません。断片は削除されています。
-content#:#cont_Mnemonic#:#ニーモニック
 content#:#cont_mob_def_prop#:#プロパティ初期設定
 content#:#cont_mob_from_media_pool#:#メディア集から選択する
 content#:#cont_mob_inst_prop#:#実体のプロパティ
@@ -6634,7 +6676,6 @@ content#:#cont_number_of_tabs#:#パネル数
 content#:#cont_number_std#:#標準
 content#:#cont_number_type#:#番号書式
 content#:#cont_numbered_list#:#段落番号
-content#:#cont_Numbers#:#Numbers
 content#:#cont_obj_removed#:#オブジェクトは削除されました。
 content#:#cont_objectives#:#学習目標データ保存する
 content#:#cont_objectives_info#:#この学習モジュールが確実に動作するならば、このオプションはパフォーマンスを改善します。
@@ -6718,7 +6759,6 @@ content#:#cont_pg_title#:#ページタイトル
 content#:#cont_please_enter_a_term#:#用語を入力してください。
 content#:#cont_please_select#:#選択してください
 content#:#cont_please_try_again#:#もう一度やり直してください
-content#:#cont_Poly#:#多角形
 content#:#cont_popups_have_been_deleted#:#ポップアップは削除されました。
 content#:#cont_position#:#位置
 content#:#cont_prereq_type#:#adlcp：prerequisites.type
@@ -6757,11 +6797,9 @@ content#:#cont_rand_start#:#ランダム開始
 content#:#cont_really_delete_overlays#:#次のオーバーレイを本当に削除しますか?
 content#:#cont_really_delete_popups#:#次のポップアップを本当に削除しますか?
 content#:#cont_really_delete_triggers#:#次のトリガーを本当に削除しますか?
-content#:#cont_Rect#:#長方形
 content#:#cont_ref_helptext#:#(例 Http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#イメージを参照
 content#:#cont_reference#:#参照
-content#:#cont_Remark#:#備考
 content#:#cont_remove_format#:#フォーマットを削除
 content#:#cont_rename_dir#:#ディレクトリ名前変更
 content#:#cont_replace_mob_feature#:#コンテンツ内のメディア オブジェクトを差し替える
@@ -6870,7 +6908,6 @@ content#:#cont_selected_terms#:#選択した用語
 content#:#cont_selected_topic#:#選択したトピック
 content#:#cont_selection#:#選択
 content#:#cont_self_assessment#:#自己評価
-content#:#cont_Separator#:#セパレータ
 content#:#cont_sequencing#:#他の問題集を選択
 content#:#cont_sequencing_info#:#シーケンスとラーニングモジュールで定義されたナビゲーション行動を有効にする。
 content#:#cont_set_alignment#:#配置設定
@@ -6898,7 +6935,6 @@ content#:#cont_skip_chapter#:#この章をスキップ
 content#:#cont_snippet_from_another_installation#:#スニペットは別のインストールから来ます。
 content#:#cont_snippets_used#:#コンテンツスニペットを使用
 content#:#cont_span#:#長さ
-content#:#cont_Special#:#スペシャル
 content#:#cont_special_page#:#スペシャルコンテンツのページ
 content#:#cont_spreadsheet_table#:#スプレッドシート表
 content#:#cont_sqst#:#問題をサーベイ(教材割り当て済み)
@@ -6906,8 +6942,6 @@ content#:#cont_src#:#ソースコード
 content#:#cont_src_other#:#その他
 content#:#cont_st_title#:#章タイトル
 content#:#cont_standard#:#標準
-content#:#cont_StandardCenter#:#基準センター
-content#:#cont_StandardTable#:#標準の表
 content#:#cont_start#:#開始
 content#:#cont_start_file_set_to#:#開始ファイルとして%sが設定されました。
 content#:#cont_start_value#:#開始番号
@@ -6936,7 +6970,6 @@ content#:#cont_table_cellpadding_info#:#コンテンツスタイル設定を有�
 content#:#cont_table_edit_cells#:#セルを編集
 content#:#cont_table_properties#:#表のプロパティ
 content#:#cont_table_width#:#表の幅
-content#:#cont_TableContent#:#表のコンテンツ
 content#:#cont_tabs#:#パネル
 content#:#cont_tabs_acc_hor#:#水平アコーディオン
 content#:#cont_tabs_acc_ver#:#垂直アコーディオン
@@ -7028,11 +7061,9 @@ content#:#cont_validate_file#:#ファイルを検証する
 content#:#cont_verification_object#:#検証
 content#:#cont_verification_placeh#:#証書を挿入するにはクリックして編集する
 content#:#cont_verification_placehl#:#証書プレースフォルダ
-content#:#cont_Verse#:#Verse/Stanza
 content#:#cont_version#:#バージョン
 content#:#cont_versions#:#バージョン
 content#:#cont_whole_glossary#:#用語集全体
-content#:#cont_WholePicture#:#図全体
 content#:#cont_width#:#幅
 content#:#cont_width_height_info#:#表示サイズは固定サイズに設定できます。幅950 pixels高さ650 pixelはサイズ設定用の検証値です。入力値がない場合はブラウザが表示サイズを決定します。
 content#:#cont_wiki_link_dialog#:#Wiki Page (Dialog)へリンク
@@ -7106,7 +7137,6 @@ content#:#offline_mode_manager#:#オフライン利用
 content#:#offline_mode_users#:#オフラインモードのユーザ
 content#:#offline_mode_users_info#:#ユーザはオフラインモードから手動で取り出してそうした後でユーザは学習モジュールのオフラインバージョンを再度使用できます。(例) 学習モジュール付きのラップトップが盗難に遭うような例では理にかないます。
 content#:#page_does_not_exist#:#申し訳ありませんがこのページは存在しません。
-content#:#Pages#:#ページ
 content#:#par#:#パラグラフ
 content#:#pg#:#ページ
 content#:#public_section#:#パブリックエリア
@@ -7129,10 +7159,10 @@ content#:#scplayer_previous#:#前へ
 content#:#scplayer_showtree#:#ツリーを表示
 content#:#scplayer_start#:#スタート
 content#:#scplayer_suspendall#:#全て中断
-content#:#select_a_file#:#ファイルを選択してください。
-content#:#selected_pages_only#:#以下の選択したページのみ
 content#:#selectFooter#:#フッターとして選択
 content#:#selectHeader#:#ヘッダーとして選択
+content#:#select_a_file#:#ファイルを選択してください。
+content#:#selected_pages_only#:#以下の選択したページのみ
 content#:#seq_close#:#プレーヤーウィンドウを閉じてください。
 content#:#seq_endsession#:#現在のコースセッションは終了しました。
 content#:#seq_error#:#シーケンサーの内部エラーが発生しました。
@@ -7161,9 +7191,11 @@ copg#:#copg_an_error_occured#:#エラーが発生しました。
 copg#:#copg_confirm_el_deletion#:#選択の要素を本当に削除しますか?
 copg#:#copg_details#:#詳細
 copg#:#copg_error#:#Error
+copg#:#copg_error_occured_modal#:#ページ処理中にエラー発生。保存した状態前に戻るには"ページの再読み込み"を押す。
 copg#:#copg_page_element_not_found#:#ページ要素が見つかりません。
 copg#:#copg_page_type_stys#:#ページをレイアウト
 copg#:#copg_questions_not_supported_here#:#問題はこのコンテキスト内でサポートされません。
+copg#:#copg_reload_page#:#ページの再読み込み
 copg#:#copg_sec_link_info#:#全セクションのリンクを設定するには他のインタラクティブ要素がセクション内に含まれない事を確認して下さい。そうでないと動作が不安定になります。
 copg#:#copg_snippet_cannot_be_edited#:#これは定義済みコンテンツスニペットなのでここでは編集できません。
 cpad#:#cpad_reading_time_status#:#Reading Time
@@ -7889,6 +7921,21 @@ dash#:#dash_studyprogramme#:#マイ学習プログラム
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#セクション‘マイコースとグループ’
 dash#:#dash_view_favourites#:#‘Favourites’セクション
+dateplaner#:#Fr_long#:#金曜日
+dateplaner#:#Fr_short#:#金
+dateplaner#:#Mo_long#:#月曜日
+dateplaner#:#Mo_short#:#月
+dateplaner#:#Sa_long#:#土曜日
+dateplaner#:#Sa_short#:#土
+dateplaner#:#Su_long#:#日曜日
+dateplaner#:#Su_short#:#日
+dateplaner#:#Text#:#テキスト
+dateplaner#:#Th_long#:#木曜日
+dateplaner#:#Th_short#:#木
+dateplaner#:#Tu_long#:#火曜日
+dateplaner#:#Tu_short#:#火
+dateplaner#:#We_long#:#水曜日
+dateplaner#:#We_short#:#水
 dateplaner#:#add_appointment#:#予定を追加
 dateplaner#:#app_consultation_hours#:#会議時間
 dateplaner#:#app_day#:#1日表示
@@ -8251,8 +8298,6 @@ dateplaner#:#end_date#:#終了日
 dateplaner#:#err_end_before_start#:#予定を終了前に開始してはなりません。
 dateplaner#:#err_missing_title#:#予定タイトルを入力してください。
 dateplaner#:#execute#:#選択を実行
-dateplaner#:#Fr_long#:#金曜日
-dateplaner#:#Fr_short#:#金
 dateplaner#:#free#:#フリー
 dateplaner#:#group#:#グループ
 dateplaner#:#grp_cal_end#:#グループ終了
@@ -8266,8 +8311,6 @@ dateplaner#:#keep#:#キープ
 dateplaner#:#keyword#:#キーワード
 dateplaner#:#keywords#:#キーワード
 dateplaner#:#last_change#:#最終変更
-dateplaner#:#Mo_long#:#月曜日
-dateplaner#:#Mo_short#:#月
 dateplaner#:#month#:#月
 dateplaner#:#more#:#さらに
 dateplaner#:#of#:#of
@@ -8275,19 +8318,8 @@ dateplaner#:#properties#:#プロパティ
 dateplaner#:#r_14#:#14日ごと
 dateplaner#:#r_4_weeks#:#4週ごと
 dateplaner#:#remote_pass_info#:#webカレンダへのアクセスが保護されている場合はアカウント情報を入力してください。
-dateplaner#:#Sa_long#:#土曜日
-dateplaner#:#Sa_short#:#土
-dateplaner#:#Su_long#:#日曜日
-dateplaner#:#Su_short#:#日
-dateplaner#:#Text#:#テキスト
-dateplaner#:#Th_long#:#木曜日
-dateplaner#:#Th_short#:#木
 dateplaner#:#to#:#to
 dateplaner#:#today#:#今日
-dateplaner#:#Tu_long#:#火曜日
-dateplaner#:#Tu_short#:#火
-dateplaner#:#We_long#:#水曜日
-dateplaner#:#We_short#:#水
 dateplaner#:#week#:#週
 dateplaner#:#wk_short#:#週
 dateplaner#:#year#:#年
@@ -9462,10 +9494,10 @@ forum#:#content_censored_post#:#検閲された投稿の内容:
 forum#:#content_deleted_post#:#削除された投稿の内容:
 forum#:#content_deleted_thread#:#削除されたスレッドの内容:
 forum#:#content_post_updated#:#編集された投稿の内容:
-forum#:#delete_draft_successfully#:#ドラフトは正しく削除されました。
-forum#:#delete_drafts_successfully#:#ドラフトは正しく削除されました。
 forum#:#deletePosting#:#投稿を削除
 forum#:#deletePostingDraft#:#下書きを削除
+forum#:#delete_draft_successfully#:#ドラフトは正しく削除されました。
+forum#:#delete_drafts_successfully#:#ドラフトは正しく削除されました。
 forum#:#descending_order#:#topに最新投稿
 forum#:#edit_thread_draft#:#スレッドドラフトを編集
 forum#:#empty_subject#:#返信するにはユーザは新しいタイトルを入力する必要があります。
@@ -9497,8 +9529,8 @@ forum#:#forums_edit_draft#:#ドラフトを編集
 forum#:#forums_edit_post#:#記事を編集
 forum#:#forums_enable_notification#:#このトピックの通知を有効
 forum#:#forums_forum_notification_disabled#:#この掲示板の新規メッセージは今後通知されません。
-forum#:#forums_info_censor_post#:#本当にこの記事を非表示にしますか?
 forum#:#forums_info_censor2_post#:#検閲を取り消しますか?
+forum#:#forums_info_censor_post#:#本当にこの記事を非表示にしますか?
 forum#:#forums_info_delete_draft#:#このドラフトを本当に削除しますか?
 forum#:#forums_info_delete_post#:#本当に応答を含むこの記事を削除しますか?
 forum#:#forums_mark_read#:#既読として全てマーク
@@ -9561,6 +9593,8 @@ forum#:#frm_moderators_select_one#:#ユーザを一人選んでください。
 forum#:#frm_move_invalid_file_type#:#スレッド "%s" はサポートされていないファイルタイプが添付されています。ファイルを削除するかシステム管理者へコンタクトしてファイルタイプホワイトリストへこのファイルタイプを追加してください。
 forum#:#frm_noti_message#:#メッセージ:
 forum#:#frm_noti_new_post#:#新しい投稿が掲示板"%1$s"内に作成されました。
+forum#:#frm_noti_obj_crs#:#コース
+forum#:#frm_noti_obj_grp#:#グループ
 forum#:#frm_noti_subject_act_post#:#掲示板"%1$s",スレッド"%2$s"の有効化された投稿
 forum#:#frm_noti_subject_answ_post#:#掲示板"%1$s",スレッド"%2$s"の回答された投稿
 forum#:#frm_noti_subject_cens_post#:#掲示板"%1$s",スレッド"%2$s"の検閲された投稿
@@ -9655,6 +9689,7 @@ glo#:#glo_copy#:#用語集をコピーする
 glo#:#glo_copy_terms#:#チームをコピー
 glo#:#glo_link_glo_in_glo#:#ターゲットの用語の全ての用語集をここで現在の用語へリンクしますか?
 glo#:#glo_page_type_gdf#:#用語の定義
+glo#:#glo_please_select_other_glo#:#別の用語集を選択してください。
 glo#:#glo_reference#:#参照
 glo#:#glo_reference_terms#:#参照用語
 glo#:#glo_referenced_term#:#参照の用語
@@ -10314,6 +10349,8 @@ lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#ユーザID
+lti#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてユニークなILIASプラットフォームIDでフォーマットされて結合された外部ユーザID
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論を許可する可能性があります。
 lti#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてユニークなILIASプラットフォームIDでフォーマットされて結合されたILIAS Login
@@ -10633,6 +10670,8 @@ mail#:#mail_incoming_smtp#:#emailアドレスへ転送
 mail#:#mail_insert_folder_name#:#フォルダ名を挿入してください
 mail#:#mail_insert_query#:#質問を挿入してください
 mail#:#mail_invite_users_to_chat#:#ユーザをチャットへ招待します
+mail#:#mail_is_read#:#既読
+mail#:#mail_is_unread#:#未読
 mail#:#mail_list_members#:#メンバー一覧表示
 mail#:#mail_mailing_list#:#メーリングリスト
 mail#:#mail_mailing_lists#:#メーリングリスト
@@ -10673,6 +10712,7 @@ mail#:#mail_nacc_title#:#タイトル
 mail#:#mail_nacc_use_placeholder#:#次のプレースフォルダを使用できます
 mail#:#mail_new_template#:#新しいTextテンプレート
 mail#:#mail_no_permissions_write_smtp#:#外部emailに対する書込みアクセス権限がありません
+mail#:#mail_no_subject#:#Subjectがありません
 mail#:#mail_no_valid_mailing_list#:#メーリングリストが正しくありません
 mail#:#mail_notification_membership_section#:#メンバーシップ
 mail#:#mail_notification_subject#:# 受信トレイの新しいメール
@@ -11966,6 +12006,7 @@ objref#:#objref_failure_target_type#:#リンクのターゲットは次のタイ
 objref#:#objref_reuse_title#:#参照のタイトルを再利用
 objref#:#objref_title_settings#:#参照タイトルを編集
 orgu#:#Actions#:#アクション
+orgu#:#Staff#:#スタッフ
 orgu#:#add_position#:#ポジションを追加
 orgu#:#authorities#:#権限
 orgu#:#authority#:#権限
@@ -12075,7 +12116,6 @@ orgu#:#simple_import#:#シンプルXMLのインポート
 orgu#:#simple_user_import#:#XMLユーザ割当て
 orgu#:#simple_xls#:#シンプルExcelエクスポート
 orgu#:#simple_xml#:#シンプルXMLエクスポート
-orgu#:#Staff#:#スタッフ
 orgu#:#superior#:#上長
 orgu#:#user_assignments#:#ユーザ割当て
 orgu#:#user_assignments_recursive#:#ユーザ割当てサブツリー
@@ -12545,7 +12585,9 @@ prtf#:#prtf_author#:#著者
 prtf#:#prtf_back_to_portfolio_owner#:#ポートフォリオを編集
 prtf#:#prtf_banner#:#バナー
 prtf#:#prtf_blog_page_created#:#ブログが追加されました。
+prtf#:#prtf_copy_blog_pg#:#ブログページをコピー
 prtf#:#prtf_copy_page#:#ページをコピー
+prtf#:#prtf_copy_pg#:#ページをコピー
 prtf#:#prtf_copy_tab#:#Copy Tab
 prtf#:#prtf_create_portfolio#:#ポートフォリオを追加
 prtf#:#prtf_create_template_from_portfolio#:#ポートフォリオ
@@ -13923,12 +13965,22 @@ sahs#:#sahs_std_sequencing_info#:#ILIAS標準のシーケンス割り当てを�
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#エクスポートファイル(HTML,1ページ,レビューモード)を作成
 sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
+scormdebug#:#API-call#:#APIコール
+scormdebug#:#Commit#:#データを保存
+scormdebug#:#GetDiagnostic#:#LMS(!)へ追加診断情報を許可する
+scormdebug#:#GetErrorString#:#現在のエラー状態のテキスト説明を呼び出す
+scormdebug#:#GetLastError#:#現在のエラー状態のエラーコードを要求する
+scormdebug#:#GetValue#:#データ取得
+scormdebug#:#Initialize#:#API通信を初期化
+scormdebug#:#SCO-name#:#SCO名
+scormdebug#:#SCO-title#:#SCOタイトル
+scormdebug#:#SetValue#:#データ送信
+scormdebug#:#Terminate#:#データをストアしてAPI通信を終了する
 scormdebug#:#adl.nav.request#:#次の()で終了する速やかに処理すべきナビゲーション要求
 scormdebug#:#adl.nav.request_valid.choice#:#特定のアクティビティー用ナビゲーション要求選択が成功するとSCOを使用して決定します。
 scormdebug#:#adl.nav.request_valid.continue#:#継続ナビゲーション要求が成功するとSCOを使用して決定します。
 scormdebug#:#adl.nav.request_valid.previous#:#前のナビゲーション要求が成功するとSCOを使って決定します。
 scormdebug#:#all_API-calls_shown#:#全てのAPIコールが現在表示されます。
-scormdebug#:#API-call#:#APIコール
 scormdebug#:#cmi._version#:#データモデルのバージョンを表示
 scormdebug#:#cmi.comments_from_learner._children#:#サポートしているデータモデル要素をリスト
 scormdebug#:#cmi.comments_from_learner._count#:#現在の学習者コメント数
@@ -13995,7 +14047,6 @@ scormdebug#:#cmi.suspend_data#:#学習者セッション間のストアと読み
 scormdebug#:#cmi.time_limit_action#:#cmi.max_time_allowed経過後にSCOは何をすべきかを表示する
 scormdebug#:#cmi.total_time#:#現在学習中の全学習者の総セッション時間の合計
 scormdebug#:#comment#:#コメント
-scormdebug#:#Commit#:#データを保存
 scormdebug#:#completion_status_by_progress_measure#:#cmi.completion_threshold用の値があるのでcmi.completion_statusの値はLMSが評価します。cmi.completion_threshold値をcmi.progress_measure値と比較して実行されます。cmi.completion_statusの現在値：
 scormdebug#:#debugwindow_action#:#アクション
 scormdebug#:#debugwindow_cancel#:#キャンセル
@@ -14042,10 +14093,6 @@ scormdebug#:#error406#:#データモデル要素タイプがミスマッチ
 scormdebug#:#error407#:#データモデル要素値は範囲外
 scormdebug#:#error408#:#データモデル依存が確立されていません
 scormdebug#:#generated#:#生成されました
-scormdebug#:#GetDiagnostic#:#LMS(!)へ追加診断情報を許可する
-scormdebug#:#GetErrorString#:#現在のエラー状態のテキスト説明を呼び出す
-scormdebug#:#GetLastError#:#現在のエラー状態のエラーコードを要求する
-scormdebug#:#GetValue#:#データ取得
 scormdebug#:#hide#:#非表示
 scormdebug#:#i_fuchsia#:#フクシア: 送った値が拒否されない場合の許容値
 scormdebug#:#i_gray#:#gray: ILIASによるエラー修正
@@ -14053,7 +14100,6 @@ scormdebug#:#i_green#:#green: OK
 scormdebug#:#i_orange#:#orange: 注意!
 scormdebug#:#i_red#:#red: 不良!
 scormdebug#:#id_learning_module#:#ラーニングモジュールのID
-scormdebug#:#Initialize#:#API通信を初期化
 scormdebug#:#log_for#:#ラーニングモジュールのログ
 scormdebug#:#milliseconds#:#ミリ秒
 scormdebug#:#missing_API-calls#:#API-callsが不足しています:
@@ -14061,14 +14107,11 @@ scormdebug#:#no_missing_API-calls#:#不足しているAPI-callsが認識され�
 scormdebug#:#nr_session#:#セッション数
 scormdebug#:#only_important_API-Calls_shown#:#現在重要なAPI-Callsのみを表示しています。
 scormdebug#:#return_value#:#戻り値
-scormdebug#:#SCO-name#:#SCO名
 scormdebug#:#scormdebug_disable_cache#:#SCORM 2004ブラウザキャッシュを無効にする
 scormdebug#:#scormdebug_disable_cache_info#:#ブラウザキャッシュのSCORM 2004 javascriptファイルのストレージを防止します。新規リリース前にこの機能を使ってください。
 scormdebug#:#scormdebug_global_activate#:#SCORM 2004 テストツールを有効にする
 scormdebug#:#scormdebug_global_activate_info#:#有効にするとSCORM 2004テストツールは目的のラーニングモンジュールを起動します。無効にするとテストツールは全てのラーニングモジュールをオフにします。
-scormdebug#:#SCO-title#:#SCOタイトル
 scormdebug#:#sent_values_not_checked#:#選択のプロパティ:SCOからの値を完全にチェックしない
-scormdebug#:#SetValue#:#データ送信
 scormdebug#:#show_all_API-calls#:#全てのAPI-callを表示!
 scormdebug#:#show_only_important_API-calls#:#重要なAPI-callのみを表示!
 scormdebug#:#started#:#起動しました
@@ -14079,10 +14122,14 @@ scormdebug#:#summary_csv#:#サマリーはExcelの例用にCSV形式のファイ
 scormdebug#:#summary_download#:#このツールを再スタートすると”ログ"をクリックしてダウロードできます。
 scormdebug#:#summary_for_SCO_with_test#:#テスト付のSCO用サマリー
 scormdebug#:#summary_for_SCO_without_test#:#テストなしのSCO用サマリー
-scormdebug#:#Terminate#:#データをストアしてAPI通信を終了する
 scormdebug#:#undefined_color#:#未定義のカラー
 scormdebug#:#unknown#:#不明
 scormtrac#:#Attempts#:#試行
+scormtrac#:#LearningModuleId#:#ラーニングモジュールのID
+scormtrac#:#LearningModuleTitle#:#ラーニングモジュールのタイトル
+scormtrac#:#LearningModuleVersion#:#ラーニングモジュールのバージョン
+scormtrac#:#Percentage#:#完了したSCOのパーセント
+scormtrac#:#Status#:#総合ステータス
 scormtrac#:#audio_captioning#:#字幕音声
 scormtrac#:#audio_level#:#音声レベル
 scormtrac#:#c_entry#:#エントリー
@@ -14131,9 +14178,6 @@ scormtrac#:#latency#:#待機時間:分
 scormtrac#:#latency_seconds#:#待機時間:秒
 scormtrac#:#launch_data#:#着手データ: SCO開始時点のデータ
 scormtrac#:#learner_response#:#レスポンス
-scormtrac#:#LearningModuleId#:#ラーニングモジュールのID
-scormtrac#:#LearningModuleTitle#:#ラーニングモジュールのタイトル
-scormtrac#:#LearningModuleVersion#:#ラーニングモジュールのバージョン
 scormtrac#:#lesson_status#:#学習ステータス
 scormtrac#:#lm_id#:#ラーニングモジュールのID
 scormtrac#:#lm_title#:#ラーニングモジュールのタイトル
@@ -14141,7 +14185,6 @@ scormtrac#:#lvalue#:#キー
 scormtrac#:#measure#:#ステータス: 測定
 scormtrac#:#ostatus#:#目標のステータス
 scormtrac#:#passedSCOs#:#SCO実行数
-scormtrac#:#Percentage#:#完了したSCOのパーセント
 scormtrac#:#progress_measure#:#進捗管理
 scormtrac#:#report#:#レポート
 scormtrac#:#result#:#総計秒数(切り上げ)
@@ -14157,7 +14200,6 @@ scormtrac#:#scope#:#範囲
 scormtrac#:#session_time#:#最終セッションの時間
 scormtrac#:#session_time_seconds#:#最終セッション時間秒数
 scormtrac#:#startedSCOs#:#開始したSCOの数
-scormtrac#:#Status#:#総合ステータス
 scormtrac#:#student_response#:#レスポンス
 scormtrac#:#success_status#:#合否
 scormtrac#:#suspend_data#:#SCOの可変バッファ
@@ -14308,6 +14350,7 @@ search#:#search_users#:#ユーザを検索
 search#:#select_orgu#:#Organisational Unitを選択
 search#:#until#:#最大
 sess#:#il_sess_participant#:#セッション参加者
+sess#:#il_sess_status_open#:#セッションを開く
 sess#:#mail_sess_roles#:#セッション役割へメールを送信
 sess#:#notification#:#通知
 sess#:#objs_crs_role#:#コース役割
@@ -14316,11 +14359,13 @@ sess#:#send_mail_participants#:#セッション全参加者
 sess#:#sess_accept_request#:#受講者を承認
 sess#:#sess_assign#:#割当てる
 sess#:#sess_bt_refuse#:#参加不可
+sess#:#sess_change_type#:#セッションタイプを変更
 sess#:#sess_contact#:#連絡する
 sess#:#sess_copy#:#セッションをコピー
 sess#:#sess_filter_all_types#:#全タイプ
 sess#:#sess_filter_not_assigned#:#割当て無し
 sess#:#sess_import#:#インポートセッション
+sess#:#sess_info_new_sess_type#:#新しいセッションタイプ
 sess#:#sess_is_assigned#:#割当済
 sess#:#sess_list_reg_limit_places#:#フリーな場所
 sess#:#sess_lp_preset#:#学習進捗を有効化
@@ -14395,6 +14440,7 @@ sess#:#sess_title#:#セッションのタイトル
 sess#:#sess_users_added#:#セッションの選択したユーザを登録しました。
 sess#:#sess_users_already_assigned#:#ユーザはこのセッションへすでに登録済です。
 sess#:#sess_users_removed_from_list#:#選択のユーザは待ちリストから削除されました。
+sess#:#sess_warn_sess_type_changed#:#本当にセッションタイプを変更しますか? 全ての権限設定はリセットされます。
 shib#:#shib_activate_new#:#承認ありの新規アカウント
 shib#:#shib_activate_new_info#:#チェックすると新規アカウント作成は管理者による承認が必要です。
 shib#:#shib_add_missing#:#存在しない役割を割当て
@@ -14469,6 +14515,7 @@ skmg#:#skmg_cert_skill_trigger_title#:#能力トリガータイトル
 skmg#:#skmg_confirm_level_resources_removal#:#本当に能力レベルから次のリソースを削除しますか?
 skmg#:#skmg_confirm_remove_level_ass#:#本当にプロファイルから次の能力レベルを削除しますか?
 skmg#:#skmg_confirm_user_removal#:#本当にこのプロファイルから次のユーザを削除しますか?
+skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###19 08 2022 new variable
 skmg#:#skmg_context_global#:#グローバル
 skmg#:#skmg_context_local#:#ローカル
 skmg#:#skmg_create_sctp#:#テンプレートカテゴリを作成
@@ -14517,6 +14564,7 @@ skmg#:#skmg_no_skills#:#能力未記入
 skmg#:#skmg_no_trigger#:#トリガーがありません
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#数字
+skmg#:#skmg_open_all_assigned_profiles#:#Open All Assigned Competence Profiles###19 08 2022 new variable
 skmg#:#skmg_order#:#順番
 skmg#:#skmg_order_nr#:#順位
 skmg#:#skmg_order_nr_info#:#能力リスト内のポジション能力
@@ -14612,6 +14660,7 @@ sop#:#sop_text_export#:#オフラインモード用のSCORMラーニングモジ
 sop#:#sop_text_push_tracking#:#オフライン追跡データをILIASへインポートしてオンラインモードへ切り替える
 sop#:#sop_text_start_offline#:#オフラインモードのラーニングモジュールを開始
 sop#:#sop_text_start_som#:#SCORMオフラインマネージャ開始
+style#:#Style#:#Style
 style#:#adapt_icon#:#アイコンを適合
 style#:#adapt_icon_description#:#アイコンを適合またはアイコン自体を変更します。
 style#:#adapt_icons#:#アイコンカラーを適合
@@ -15008,7 +15057,6 @@ style#:#sty_width#:#幅
 style#:#sty_width_height#:#幅 x 高さ
 style#:#sty_word_spacing#:#文字の間隔
 style#:#style#:#Style
-style#:#Style#:#Style
 style#:#style_assignments_deleted#:#次のサブスタイルのスタイル割当ては削除されました:
 style#:#style_copied#:#スタイルは正しくコピーされました。
 style#:#style_current_style#:#現在のスタイル
@@ -15041,6 +15089,11 @@ style#:#update_variables#:#変数を更新
 style#:#usages#:#Usages:
 style#:#used_colors#:#使用カラー:
 style#:#zip_export_failed#:#ZIPエクスポートに失敗しました。次のエラーが発生しました:
+survey#:#SurveyMatrixQuestion#:#マトリックス質問
+survey#:#SurveyMetricQuestion#:#メートル法の質問
+survey#:#SurveyMultipleChoiceQuestion#:#複数選択質問(複数回答)
+survey#:#SurveySingleChoiceQuestion#:#複数選択質問(単一回答)
+survey#:#SurveyTextQuestion#:#小論文
 survey#:#add_heading#:#テキストブロックを追加
 survey#:#add_material#:#教材を追加
 survey#:#add_phrase#:#フレーズを追加
@@ -15132,27 +15185,27 @@ survey#:#delete_saved_message#:#メッセージテキストを削除します
 survey#:#description_maxchars#:#何も入力しない場合はこのテキスト回答の最大文字数に制限はありません。
 survey#:#display_all_available#:#使用可能なすべての表示
 survey#:#dont_use_questionpool#:#質問集(このサーベイでのみ利用可)の中に質問を挿入しない事
+survey#:#dp_standard_attitude_agree5#:#基準態度(強く同意-同意-未定-反対-強く反対)
 survey#:#dp_standard_attitude_agree_disagree#:#基準態度（賛成・反対)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#基準態度（同意-未定-反対)
-survey#:#dp_standard_attitude_agree5#:#基準態度(強く同意-同意-未定-反対-強く反対)
+survey#:#dp_standard_attitude_desired5#:#基準態度(強く希望-希望-中立-希望しない)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#基準態度（希望-中立-希望しない)
 survey#:#dp_standard_attitude_desired_undesired#:#基準態度(希望-希望しない)
-survey#:#dp_standard_attitude_desired5#:#基準態度(強く希望-希望-中立-希望しない)
+survey#:#dp_standard_attitude_good5#:#基準態度(優秀-良い-普通-劣る-不可)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#基準態度(良い-普通-不可)
 survey#:#dp_standard_attitude_good_notacceptable#:#基準態度(良い-不可)
-survey#:#dp_standard_attitude_good5#:#基準態度(優秀-良い-普通-劣る-不可)
 survey#:#dp_standard_attitude_must5#:#基準態度(しなければならない-すべき-未定-すべきではない-してはならなない)
 survey#:#dp_standard_attitude_shold_shouldnot#:#基準態度(すべき-すべきではない)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#基準態度(すべき-未定-すべきではない)
 survey#:#dp_standard_behaviour_certainly5#:#基準品行(ほとんど確実-より正しい-未定-より否定的-ほとんど不確実)
 survey#:#dp_standard_behaviour_yes_no#:#基準品行 (はいーいいえ
 survey#:#dp_standard_behaviour_yes_undecided_no#:#基準品行(はい-未定-いいえ)
+survey#:#dp_standard_beliefs_always5#:#基準信念(常に-何度も-変化-まれ-決して)
 survey#:#dp_standard_beliefs_always_never#:#基準信念(常に-決して)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#基準信念 (常に-時々-決して)
-survey#:#dp_standard_beliefs_always5#:#基準信念(常に-何度も-変化-まれ-決して)
+survey#:#dp_standard_beliefs_true5#:#基準信念(間違いなく真-真-未定-偽-絶対に偽)
 survey#:#dp_standard_beliefs_true_false#:#基準信念(真-偽)
 survey#:#dp_standard_beliefs_true_undecided_false#:#基準信念(真-未定-偽)
-survey#:#dp_standard_beliefs_true5#:#基準信念(間違いなく真-真-未定-偽-絶対に偽)
 survey#:#dp_standard_numbers#:#基準値
 survey#:#duplicate#:#複製
 survey#:#edit_heading#:#テキストブロックを編集
@@ -15584,11 +15637,6 @@ survey#:#survey_up_to_x_points#:#xポイントまで
 survey#:#survey_use_start_button#:#スタートボタンを使ってサーベイを入力しなければなりません!
 survey#:#survey_using_template#:#このサーベイはテンプレート%sを使用します。テンプレートを使用しないで全設定にアクセスする場合はここ: %sをクリックしてください。
 survey#:#survey_using_template_link#:#今後テンプレートを使用しない
-survey#:#SurveyMatrixQuestion#:#マトリックス質問
-survey#:#SurveyMetricQuestion#:#メートル法の質問
-survey#:#SurveyMultipleChoiceQuestion#:#複数選択質問(複数回答)
-survey#:#SurveySingleChoiceQuestion#:#複数選択質問(単一回答)
-survey#:#SurveyTextQuestion#:#小論文
 survey#:#svy_activation_limited_visibility_info#:#表示期間外に質問がアクセスできない間はサーベイのタイトルのみ表示されます。
 survey#:#svy_activation_online_info#:#この設定を有効にする場合のみユーザはサーベイへアクセスできます
 survey#:#svy_all_survey_competences#:#全てのサーベイコンピタンス
@@ -16170,7 +16218,9 @@ ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#残り文字数:
 ui#:#ui_error_in_group#:#この部分にエラーがあります。
+ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s MiB.###19 08 2022 new variable
 ui#:#ui_numeric_only#:#数字全部を挿入してください。
+ui#:#ui_tag_required#:#タグを一つは挿入してください。
 user#:#all_roles_has_starting_point#:#全ての役割は開始位置があります。
 user#:#back_to_starting_points_list#:#開始位置へ戻る
 user#:#clipboard_add_btn#:#クリップボードへ追加
@@ -16627,60 +16677,12 @@ wsp#:#wsp_tab_shared#:#他のユーザのリソース
 wsp#:#wsp_type_blog#:#ブログ
 wsp#:#wsp_type_cmxv#:#証明書: xAPI/cmi5
 wsp#:#wsp_type_crsv#:#証明書: コース
-wsp#:#wsp_type_excv#:#証明書: 演習問題
 wsp#:#wsp_type_excv#:#ファイル
+wsp#:#wsp_type_excv#:#証明書: 演習問題
+wsp#:#wsp_type_file#:#File###19 08 2022 new variable
 wsp#:#wsp_type_ltiv#:#証明書: LTI Consumer
 wsp#:#wsp_type_scov#:#証明書: SCORM
-wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_tstv#:#Weblink
-mail#:#mail_no_subject#:#Subjectがありません
-buddysystem#:#buddy_bs_state_linked_p#:#Linked
-buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
-buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
-buddysystem#:#buddy_bs_state_requested_filter_a#:#リアクション待ち
-buddysystem#:#buddy_bs_state_requested_filter_p#:#アクションを要求しました
-ui#:#ui_tag_required#:#タグを一つは挿入してください。
-assessment#:#backtocallingpage#:#問題ページへ戻る
-assessment#:#backtocallingpool#:#問題集へ戻る
-assessment#:#tst_btn_reset_pool_sync#:#同期を編集/キャンセル
-common#:#certificates#:#証明書
-mail#:#mail_is_read#:#既読
-mail#:#mail_is_unread#:#未読
-assessment#:#tst_man_scoring_only_answered#:#回答済のみ
-common#:#report_accessibility_link_mailto#:#Reported%20Link:
-glo#:#glo_please_select_other_glo#:#別の用語集を選択してください。
-prtf#:#prtf_copy_pg#:#ページをコピー
-prtf#:#prtf_copy_blog_pg#:#ブログページをコピー
-assessment#:#question_is_part_of_running_test#:#問題はランニングテストの一部であり編集はできない可能性があります。
-copg#:#copg_error_occured_modal#:#ページ処理中にエラー発生。保存した状態前に戻るには"ページの再読み込み"を押す。
-copg#:#copg_reload_page#:#ページの再読み込み
-content#:#cont_credit_mode_info#:#学習モジュールはcmi.core.credit経由でアーカイブ化されたパフォーマンス(合否と点数が評価に対して要望通り (credit)がそうではない (no-credit)かを伝えます。この指示を適切に判断する事は学習モジュールの役割です。
-forum#:#frm_noti_obj_crs#:#コース
-forum#:#frm_noti_obj_grp#:#グループ
-sess#:#sess_warn_sess_type_changed#:#本当にセッションタイプを変更しますか? 全ての権限設定はリセットされます。
-sess#:#sess_info_new_sess_type#:#新しいセッションタイプ
-sess#:#il_sess_status_open#:#セッションを開く
-sess#:#sess_change_type#:#セッションタイプを変更
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。
-assessment#:#qst_use_nested_answers#:#ネスト化された回答
-assessment#:#qst_nested_nested_answers_on#:#回答にインデントを使用
-assessment#:#qst_nested_nested_answers_off#:#インデントなし、順番のみ
-assessment#:#tab_nest_answers#:#ネストにする
-assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###19 08 2022 new variable
-assessment#:#tst_tbl_col_started_passes#:#Started Passes###19 08 2022 new variable
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes###19 08 2022 new variable
-assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s###19 08 2022 new variable
-assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access###19 08 2022 new variable
-common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###19 08 2022 new variable
-wsp#:#wsp_type_file#:#File###19 08 2022 new variable
-wsp#:#wsp_type_wfld#:#Folder###19 08 2022 new variable
+wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Weblink###19 08 2022 new variable
-skmg#:#skmg_open_all_assigned_profiles#:#Open All Assigned Competence Profiles###19 08 2022 new variable
-ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s MiB.###19 08 2022 new variable
-skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###19 08 2022 new variable
-adn#:#msg_presentation#:#Presentation###19 08 2022 new variable
-adn#:#msg_show_to_all_roles#:#Show to all roles###19 08 2022 new variable
-adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.###19 08 2022 new variable
+wsp#:#wsp_type_wfld#:#Folder###19 08 2022 new variable
