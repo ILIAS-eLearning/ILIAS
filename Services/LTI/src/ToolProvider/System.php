@@ -783,7 +783,7 @@ trait System
     {
         $ok = false;
         $key = $this->key;
-        $publicKey = '';
+        $publicKey = ''; //changed
         if (!empty($key)) {
             $secret = $this->secret;
         } elseif (($this instanceof Tool) && !empty($this->platform)) {
@@ -857,10 +857,10 @@ trait System
             if (!$ok) {
                 $this->reason = 'Invalid nonce.';
             } elseif (!empty($publicKey) || !empty($jku) || Jwt::$allowJkuHeader) {
-                if (empty($publicKey)) {
+                if (empty($publicKey)) { //added
                     $publicKey = "";
                 }
-                if (empty($jku)) {
+                if (empty($jku)) { //added
                     $jku = "";
                 }
                 $ok = $this->jwt->verify($publicKey, $jku);

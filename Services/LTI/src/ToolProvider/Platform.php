@@ -221,7 +221,7 @@ class Platform
         $this->name = null;
         $this->secret = null;
         $this->signatureMethod = 'HMAC-SHA1';
-        $this->encryptionMethod = '';
+        $this->encryptionMethod = ''; //changed from null
         $this->rsaKey = null;
         $this->kid = null;
         $this->jku = null;

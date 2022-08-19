@@ -169,7 +169,7 @@ class Tool
     /**
      * Platform object.
      *
-     * @var \ILIAS\LTI\ToolProvider\Platform $platform // UK Check change from Platform|null (to \ILIAS\LTI\ToolProvider\Platform) to \ilLTIPlatform
+     * @var \ilLTIPlatform $platform // UK Check change from Platform|null (to \ILIAS\LTI\ToolProvider\Platform) to \ilLTIPlatform
      */
     public \ilLTIPlatform $platform;
 
@@ -775,7 +775,7 @@ class Tool
                 }
             }
             if ($this->ok) {
-                Jwt::setJwtClient();
+                Jwt::setJwtClient(); //added - check
                 $jwtClient = Jwt::getJwtClient();
                 $algorithms = \array_intersect(
                     $jwtClient::getSupportedAlgorithms(),
