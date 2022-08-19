@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Button\Button;
@@ -2883,12 +2883,13 @@ class ilObjectListGUI
         }
 
         // if file upload is enabled the content is wrapped by a UI dropzone.
-        $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id, $this->tpl->get());
+        $content = $this->tpl->get();
+        $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id, $content);
         if ($this->context === self::CONTEXT_REPOSITORY && $file_upload_dropzone->isUploadAllowed($this->type)) {
             return $file_upload_dropzone->getDropzoneHtml();
         }
 
-        return $this->tpl->get();
+        return $content;
     }
     
     /**

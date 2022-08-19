@@ -70,7 +70,7 @@ class ilObjFileUploadDropzone
     
         // Generate POST-URL
         $post_url = $this->ctrl->getFormActionByClass(
-            ilObjFileGUI::class,
+            [ilRepositoryGUI::class, ilObjFileGUI::class],
             ilObjFileGUI::CMD_UPLOAD_FILES
         );
         // reset new_type again
