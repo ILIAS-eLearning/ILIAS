@@ -317,7 +317,7 @@ class ilAccountRegistrationGUI
             // manual selection
             if ($this->registration_settings->roleSelectionEnabled()) {
                 $selected_role = $this->form->getInput("usr_roles");
-                if ($selected_role && ilObjRole::_lookupAllowRegister($selected_role)) {
+                if ($selected_role && ilObjRole::_lookupAllowRegister((int) $selected_role)) {
                     $valid_role = (int) $selected_role;
                 }
             } // assign by email

@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2022 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\HandlerResult;
@@ -18,7 +32,8 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     private Services $storage;
     private ilObjFileStakeholder $stakeholder;
-
+    private array $class_path = [ilRepositoryGUI::class, self::class];
+    
     public function __construct()
     {
         global $DIC;
@@ -34,7 +49,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getUploadURL() : string
     {
-        return $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD, null, true);
+        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_UPLOAD, null, true);
     }
 
     /**
@@ -42,7 +57,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getExistingFileInfoURL() : string
     {
-        return $this->ctrl->getLinkTargetByClass(self::class, self::CMD_INFO, null, true);
+        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_INFO, null, true);
     }
 
     /**
@@ -51,7 +66,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getFileRemovalURL() : string
     {
-        return $this->ctrl->getLinkTargetByClass(self::class, self::CMD_REMOVE, null, true);
+        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_REMOVE, null, true);
     }
 
     /**

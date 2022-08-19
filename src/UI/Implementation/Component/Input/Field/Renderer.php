@@ -309,6 +309,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("OPTIONID", $opt_id);
             $tpl->setVariable("VALUE", $key);
             $tpl->setVariable("LABEL", $group->getLabel());
+            $tpl->setVariable("BYLINE", $group->getByline());
 
             if ($component->getValue() !== null) {
                 list($index, ) = $component->getValue();

@@ -76,7 +76,7 @@ adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
-adm#:#adm_support_contacts_info#:#•	Komma-separierte Liste von Anmeldenamen. Die hier eingetragenen Personen werden in der Fußzeile als Betreuung verlinkt. Falls die „Wer ist online?“-Anzeige genutzt wird, werden die Personen auch dort als technische Betreuung angezeigt.
+adm#:#adm_support_contacts_info#:#Komma-separierte Liste von Anmeldenamen. Die hier eingetragenen Personen werden in der Fußzeile als Betreuung verlinkt. Falls die „Wer ist online?“-Anzeige genutzt wird, werden die Personen auch dort als technische Betreuung angezeigt.
 adm#:#adm_support_contacts#:#Technische Betreuung
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
@@ -2830,7 +2830,7 @@ chatroom#:#chat_deletion_interval_unit#:#Einheit
 chatroom#:#chat_deletion_interval_value#:#Wert
 chatroom#:#chat_deletion_ival_max_val#:#Der maximale Wert für die gewählte Einheit '%s' ist: %s
 chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
-chatroom#:#chat_enable_history#:#Historie aktivieren
+chatroom#:#chat_enable_history#:#Verlauf
 chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ öffentliche Chat-Beiträge aus der Vergangenheit lesen und exportieren. Beiträge aus Séparées sind nur für Benutzer zugänglich, die dort eingeladen waren.
 chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
@@ -2910,7 +2910,7 @@ chatroom#:#chat_user_x_is_typing#:#Benutzer %s tippt gerade ...
 chatroom#:#chat_use_typing_broadcast#:#Tippen wird Chatpartnern angezeigt
 chatroom#:#chat_whisper#:#Flüstern
 chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
-chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
+chatroom#:#chtr_activation_online_info#:#Nur wenn der Chat online geschaltet ist, können Benutzer den Chat sehen und benutzen.
 chatroom#:#chtr_add#:#Chatraum anlegen
 chatroom#:#chtr_ban_actor_tbl_head#:#gesperrt durch
 chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
@@ -2926,7 +2926,7 @@ chatroom#:#custom_username#:#Eigener Chat-Name
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
-chatroom#:#display_past_msgs#:#Anzahl vergangene Nachrichten
+chatroom#:#display_past_msgs#:#Chat-Rückblick
 chatroom#:#display_past_msgs_suffix#:#Beiträge
 chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
@@ -2934,12 +2934,12 @@ chatroom#:#enable_smilies#:#Smilies aktivieren
 chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
 chatroom#:#error_log#:#Chatserver Error-Log-File
-chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige vergangener Nachrichten.
+chatroom#:#hint_display_past_msgs#:#Anzahl vergangener Beiträge, die beim Betreten des Chatraums angezeigt werden. Durch die Eingabe von „0“ wird die Anzeige deaktiviert.
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
-chatroom#:#history_by_day#:#Tageshistorie
-chatroom#:#history_byday_title#:#Tageshistorie
-chatroom#:#history_by_session#:#Sitzungshistorie
-chatroom#:#history_bysession_title#:#Sitzungshistorie
+chatroom#:#history_by_day#:#Tagesverlauf
+chatroom#:#history_by_session#:#Sitzungverlauf
+chatroom#:#history_byday_title#:#Zeitraum auswählen
+chatroom#:#history_bysession_title#:#Sitzung auswählen
 chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch die Moderation gelöscht.###Modified as part of gender mainstreaming activities for ILIAS 8
 chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
 chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
@@ -2980,7 +2980,7 @@ chatroom#:#select_custom_username#:#Angezeigter Name im Chat
 chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der <a href="%1$s" target="_blank">Readme-Datei</a>.
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
-chatroom#:#settings_title#:#Einstellungen
+chatroom#:#settings_title#:#Einstellungen des Chats
 chatroom#:#speak_to#:#<b>#user#</b> ansprechen
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
@@ -4093,7 +4093,7 @@ common#:#forums#:#Foren
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_new_articles#:#Neue Beiträge
-common#:#forums_notification_settings#:#Einstellungen Forenbenachrichtigung
+common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
 common#:#forums_threads#:#Themen
 common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "anonym" geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
@@ -5779,7 +5779,7 @@ common#:#user_send_new_account_mail#:#Sende
 common#:#users_not_imported#:#Die folgenden Benutzer existieren nicht. Daher können deren Mails nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
 common#:#user_status#:#Benutzerstatus
-common#:#user_toggle_noti#:#Mitglied darf Benachrichtigung nicht deaktivieren
+common#:#user_toggle_noti#:#Benachrichtigungen können nicht deaktiviert werden.
 common#:#usr_account_inactive#:#Inaktiver Benutzer
 common#:#usr_active_only#:#Nur aktive Benutzer
 common#:#usr_add#:#Neuer Benutzer
@@ -9508,7 +9508,7 @@ forum#:#activate_only_current#:#Beitrag freischalten
 forum#:#activate_post#:#Freischalten
 forum#:#activate_post_txt#:#Möchten Sie diesen Beitrag freischalten?
 forum#:#add_new_answer#:#Neuer Beitrag
-forum#:#add_re_to_subject#:#Beim Antworten auf einen Beitrag wird der Titel des vorhergehenden Beitrags übernommen und durch ein vorangestelltes Re: ergänzt.
+forum#:#add_re_to_subject#:#Titel des Beitrags wird für Antwort mit vorangestelltem „Re:“ automatisch übernommen.
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
@@ -9529,11 +9529,11 @@ forum#:#deletePosting#:#Beitrag löschen
 forum#:#deletePostingDraft#:#Beitragsentwurf löschen
 forum#:#descending_order#:#Neueste Beiträge oben
 forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
-forum#:#empty_subject#:#Beim Antworten auf einen Beitrag bleibt die Titelzeile leer und muss vom Benutzer gefüllt werden.
+forum#:#empty_subject#:#Benutzer müssen Titel selbst angeben.
 forum#:#empty_thread#:#Leeres Thema
 forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
 forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
-forum#:#enable_thread_ratings_info#:#Falls aktiviert, können Themen dieses Forums von Benutzern bewertet werden.
+forum#:#enable_thread_ratings_info#:#Themen dieses Forums können von Benutzern bewertet werden.
 forum#:#enable_thread_ratings#:#Themen bewerten
 forum#:#enter_new_subject#:#Bitte geben Sie einen neuen Beitragstitel ein
 forum#:#error_no_target_selected#:#Bitte wählen Sie ein Forum.
@@ -9596,7 +9596,7 @@ forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgef�
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_activation_online_info#:#Nur wenn das Forum online geschaltet ist, können Benutzer auf das Forum zugreifen. Wenn nicht, ist das Forum nur für Administratoren verfügbar.
-forum#:#frm_anonymous_posting_desc#:#Alle Forenbeiträge werden mit einem Pseudonym bzw. ohne Nennung des Namens erstellt. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_anonymous_posting_desc#:#Beiträge können unter beliebigem Namen geschrieben werden. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens eine Person für die Moderation zuständig sein.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_censorship_applied#:#Der Beitrag wurde erfolgreich zensiert.
@@ -9649,13 +9649,13 @@ forum#:#frm_settings_mod_functions_header#:#Funktionen für Moderation###Modifie
 forum#:#frm_settings_privacy_header#:#Datenschutz
 forum#:#frm_settings_user_functions_header#:#Funktionen für Teilnehmer
 forum#:#frm_statistics_disabled_for_participants#:#Die Statistik ist für normale Forennutzer nicht sichtbar.
-forum#:#frm_statistics_enabled_desc#:#Statistik für alle Forenteilnehmer anzeigen
+forum#:#frm_statistics_enabled_desc#:#Alle können im Reiter „Statistik“ sehen, wer wie viele Beiträge geschrieben hat.
 forum#:#frm_statistics_enabled#:#Statistik anzeigen
 forum#:#frm_statistics_ranking#:#Anzahl der öffentl. Beiträge
 forum#:#frm_statistics#:#Statistik
-forum#:#frm_sticky_threads_latest_at_top_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Innerhalb der Top-Themen wird automatisch dasjenige mit dem neuesten Beitrag nach oben sortiert.
-forum#:#frm_sticky_threads_latest_at_top#:#Top-Themen mit neuestem Beitrag oben
-forum#:#frm_sticky_threads_manual_sorting_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Die Top-Themen können händisch in eine sinnvolle Reihenfolge gebracht werden.
+forum#:#frm_sticky_threads_latest_at_top#:#Top-Thema mit neuestem Beitrag oben
+forum#:#frm_sticky_threads_latest_at_top_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Das Top-Thema mit dem neuesten Beitrag steht an erster Stelle.
+forum#:#frm_sticky_threads_manual_sorting_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Die Moderation kann die Top-Themen nach ihren Wünschen sortieren.
 forum#:#frm_sticky_threads_manual_sorting#:#Top-Themen manuell sortieren
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
@@ -9684,7 +9684,7 @@ forum#:#notify_thread_deleted#:#Gelöschte Themen
 forum#:#notify_uncensored#:#Unzensierte Beiträge
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
-forum#:#post_activation_desc#:#Alle Beiträge durch die Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#post_activation_desc#:#Alle Beiträge müssen durch die Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#post_censored_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" zensiert:
 forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert! Bemerkung des Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#post_deleted_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" gelöscht:
@@ -9692,7 +9692,7 @@ forum#:#post_reply_count#:#Re (%s):
 forum#:#post_reply#:#Re:
 forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" aufgehoben:
 forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
-forum#:#preset_subject#:#Beim Antworten auf einen Beitrag wird als Titel automatisch der Titel des vorhergehenden Beitrags übernommen.
+forum#:#preset_subject#:#Titel des Beitrags wird für Antwort automatisch übernommen.
 forum#:#publish#:#Veröffentlichen
 forum#:#reopen_topics#:#Wiedereröffnen
 forum#:#reply_to_postings#:#Antworten
@@ -9714,7 +9714,7 @@ forum#:#sort_by_date#:#Sortieren nach Datum
 forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt.
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#sort_by_posts_desc#:#Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
-forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
+forum#:#sorting_manual_sticky#:#Sortierung der Top-Themen
 forum#:#sorting#:#Sortierung
 forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
 forum#:#sticky#:#'Top-Thema'
@@ -9726,7 +9726,7 @@ forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in
 forum#:#thread#:#Thema
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
-forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren
+forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 glo#:#glo_add_from_other#:#Begriffe sammeln
 glo#:#glo_collection_info#:#Das Glossar sammelt automatisch zusätzliche Begriffe aus anderen Glossaren ein.
 glo#:#glo_collection#:#Sammelglossar

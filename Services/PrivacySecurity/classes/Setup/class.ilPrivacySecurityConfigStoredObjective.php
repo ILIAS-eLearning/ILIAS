@@ -1,8 +1,19 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Setup;
 
@@ -49,6 +60,19 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
         $settings->set("https", $this->bool2string($this->config->getForceHttpsOnLogin()));
+
+        /** @var $settings ilSetting */
+        if (null !== $this->config->getAuthDurationInMs()) {
+            $settings->set("auth_duration", (string) $this->config->getAuthDurationInMs());
+        } else {
+            $settings->delete("auth_duration");
+        }
+
+        if (null !== $this->config->getAccountAssistanceDurationInMs()) {
+            $settings->set("account_assistance_duration", (string) $this->config->getAccountAssistanceDurationInMs());
+        } else {
+            $settings->delete("account_assistance_duration");
+        }
 
         return $environment;
     }
