@@ -237,10 +237,10 @@ class Context
      *
      * @return Platform  Platform object for this context.
      */
-    public function getPlatform() : ?Platform
+    public function getPlatform() : ?\ilLTIPlatform
     {
         if (is_null($this->platform)) {
-            $this->platform = Platform::fromRecordId($this->platformId, $this->getDataConnector());
+            $this->platform = \ilLTIPlatform::fromRecordId($this->platformId, $this->getDataConnector());
         }
 
         return $this->platform;

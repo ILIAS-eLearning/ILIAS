@@ -109,7 +109,7 @@ class HttpMessage
      *
      * @var ClientInterface $httpClient
      */
-    private static ClientInterface $httpClient;
+    private static ?ClientInterface $httpClient = null;
 
     /**
      * Class constructor.

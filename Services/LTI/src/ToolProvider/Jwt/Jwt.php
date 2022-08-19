@@ -56,7 +56,7 @@ class Jwt
      *
      * @var ClientInterface $jwtClient
      */
-    private static ClientInterface $jwtClient;
+    private static ?ClientInterface $jwtClient = null;
 
     /**
      * Class constructor.
@@ -85,11 +85,10 @@ class Jwt
      */
     public static function getJwtClient()
     {
-        if (!self::$jwtClient) {
+        if (empty(self::$jwtClient)) {
             self::$jwtClient = new FirebaseClient();
             Util::logDebug('JwtClient set to \'' . get_class(self::$jwtClient) . '\'');
         }
-
         return self::$jwtClient;
     }
 }

@@ -268,6 +268,27 @@ class ilLTIPlatform extends ToolProvider\Platform
     // local_role_always_member, default_skin
 
     /**
+     * Load the platform from the database by its platform, client and deployment IDs.
+     * @param string             $platformId    The platform ID
+     * @param string             $clientId      The client ID
+     * @param string             $deploymentId  The deployment ID
+     * @param ilLTIDataConnector $dataConnector A data connector object
+     * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
+     * @return Platform                         The platform object
+     */
+    public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, ilLTIDataConnector $dataConnector = null, bool $autoEnable = false) : ilLTIPlatform
+    {
+        $platform = new ilLTIPlatform($dataConnector);
+        $platform->initialize();
+        $platform->platformId = $platformId;
+        $platform->clientId = $clientId;
+        $platform->deploymentId = $deploymentId;
+        $dataConnector->loadPlatform($platform);
+        $dataConnector->loadGlobalToolConsumerSettings($platform);
+        return $platform;
+    }
+
+    /**
      * Load the platform from the database by its consumer key.
      * @param string             $key           Consumer key
      * @param ilLTIDataConnector $dataConnector A data connector object

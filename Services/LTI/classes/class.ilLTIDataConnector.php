@@ -961,7 +961,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $context->setRecordId(intval($row->context_pk));
                 $context->setPlatformId(intval($row->consumer_pk));
                 $context->ltiContextId = $row->lti_context_id;
-                $settings = unserialize($row->settings);
+                $settings = json_decode($row->settings);
                 if (!is_array($settings)) {
                     $settings = array();
                 }
@@ -1131,7 +1131,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 } else {
                     $resourceLink->setPlatformId(null);
                 }
-                $resourceLink->title = $row->title;
+                //$resourceLink->title = $row->title;
                 $resourceLink->ltiResourceLinkId = $row->lti_resource_link_id;
                 $settings = json_decode($row->settings, true);
                 if (!is_array($settings)) {

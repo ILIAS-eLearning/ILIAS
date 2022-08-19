@@ -151,6 +151,7 @@ class ilLTIViewGUI
     protected function getContextId() : ?int
     {
         global $DIC;
+        
         // forced lti_context_id for example request command in exitLTI
         if ($this->wrapper->query()->has('lti_context_id') &&
             $this->wrapper->query()->retrieve('lti_context_id', $this->kindlyTo->string()) !== '') {
@@ -161,6 +162,10 @@ class ilLTIViewGUI
         
         $this->findEffectiveRefId();
         $ref_id = $this->effectiveRefId;
+        // ???
+        if (empty($ref_id)) {
+            return 0;
+        }
 
         $this->log->debug("Effective ref_id: " . $ref_id);
         // context_id = ref_id in request
@@ -184,7 +189,7 @@ class ilLTIViewGUI
         if (ilLTIViewGUI::CHECK_HTTP_REFERER) {
             $ref_id = $this->effectiveRefId;
             $obj_type = ilObject::_lookupType($ref_id, true);
-            $context_id = '';
+            $context_id = 0;
             $referer = 0;
 
             // first try to get real http referer
@@ -196,7 +201,7 @@ class ilLTIViewGUI
                 }
             }
 
-            $referrer = $this->effectiveRefId;
+            $referrer = (int) $this->effectiveRefId;
 
             if ($referer > 0) {
                 if (ilSession::has('lti_' . $referer . '_post_data')) {
