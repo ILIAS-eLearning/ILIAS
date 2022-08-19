@@ -57,8 +57,6 @@ class ilObjSearchLuceneSettingsFormGUI
         $this->refinery = $refinery;
         $this->user = $user;
         $this->coordinator = $coordinator;
-
-        $this->lng->loadLanguageModule('validation');
     }
 
     public function executeCommand() : void
@@ -119,7 +117,9 @@ class ilObjSearchLuceneSettingsFormGUI
         $settings->setMaxSubitems((int) $data['maxSubitems']);
         $settings->showRelevance((bool) $data['relevance']);
         $settings->enableLuceneMimeFilter(!is_null($data['mime']));
-        $settings->setLuceneMimeFilter((array) $data['mime']);
+        if (!is_null($data['mime'])) {
+            $settings->setLuceneMimeFilter((array) $data['mime']);
+        }
         $settings->showSubRelevance((bool) $data['relevance']['subrelevance']);
         $settings->enablePrefixWildcardQuery((bool) $data['prefix']);
         $settings->setLastIndexTime(new ilDateTime(
@@ -184,9 +184,9 @@ class ilObjSearchLuceneSettingsFormGUI
         )->withValue($settings->getFragmentCount())
          ->withRequired(true)
          ->withAdditionalTransformation(
-             $this->getNumericInputConstraint(true, 10)
+             $this->refinery->int()->isLessThanOrEqual(10)
          )->withAdditionalTransformation(
-             $this->getNumericInputConstraint(false, 1)
+             $this->refinery->int()->isGreaterThanOrEqual(1)
          );
 
         // Size of fragments
@@ -196,9 +196,9 @@ class ilObjSearchLuceneSettingsFormGUI
         )->withValue($settings->getFragmentSize())
          ->withRequired(true)
          ->withAdditionalTransformation(
-             $this->getNumericInputConstraint(true, 1000)
+             $this->refinery->int()->isLessThanOrEqual(1000)
          )->withAdditionalTransformation(
-             $this->getNumericInputConstraint(false, 10)
+             $this->refinery->int()->isGreaterThanOrEqual(10)
          );
 
         // Number of sub-items
@@ -208,9 +208,9 @@ class ilObjSearchLuceneSettingsFormGUI
         )->withValue($settings->getMaxSubitems())
          ->withRequired(true)
          ->withAdditionalTransformation(
-             $this->getNumericInputConstraint(true, 10)
+             $this->refinery->int()->isLessThanOrEqual(10)
          )->withAdditionalTransformation(
-             $this->getNumericInputConstraint(false, 1)
+             $this->refinery->int()->isGreaterThanOrEqual(1)
          );
 
         // Relevance
@@ -268,31 +268,6 @@ class ilObjSearchLuceneSettingsFormGUI
         return $this->factory->input()->container()->form()->standard(
             $action,
             ['section' => $section]
-        );
-    }
-
-    protected function getNumericInputConstraint(
-        bool $bound_is_upper,
-        int $bound
-    ) : Constraint {
-        if ($bound_is_upper) {
-            $error_lang_key = 'not_less_than_or_equal';
-        } else {
-            $error_lang_key = 'not_greater_than_or_equal';
-        }
-
-        return $this->refinery->custom()->constraint(
-            function (int $arg) use ($bound_is_upper, $bound) {
-                if ($bound_is_upper) {
-                    return $arg <= $bound;
-                } else {
-                    return $arg >= $bound;
-                }
-            },
-            $error = sprintf(
-                $this->lng->txt($error_lang_key),
-                $bound
-            )
         );
     }
 
