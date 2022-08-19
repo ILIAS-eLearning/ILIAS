@@ -40,7 +40,7 @@ class ilConditionService
 
     public function factory() : ilConditionFactory
     {
-        return new ilConditionFactory($this->cond_obj_adapter);
+        return new ilConditionFactory($this->cond_obj_adapter ?? new ilConditionObjectAdapter());
     }
 
     public function util() : ilConditionUtil

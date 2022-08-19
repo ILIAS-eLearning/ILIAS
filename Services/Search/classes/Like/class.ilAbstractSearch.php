@@ -133,5 +133,5 @@ abstract class ilAbstractSearch
         return $found;
     }
 
-    abstract public function performSearch() : ilSearchResult;
+    abstract public function performSearch() : ?ilSearchResult;
 }
