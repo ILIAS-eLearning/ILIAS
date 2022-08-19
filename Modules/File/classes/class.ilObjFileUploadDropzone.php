@@ -52,18 +52,34 @@ class ilObjFileUploadDropzone
 
     public function getDropzone() : FileDropzone
     {
-        $this->ctrl->setParameterByClass(ilObjFileGUI::class, 'ref_id', $this->target_ref_id);
-        $this->ctrl->setParameterByClass(ilObjFileGUI::class, 'new_type', ilObjFile::OBJECT_TYPE);
+        $this->ctrl->setParameterByClass(
+            ilObjFileGUI::class,
+            'ref_id',
+            $this->target_ref_id
+        );
+        $this->ctrl->setParameterByClass(
+            ilObjFileGUI::class,
+            'new_type',
+            ilObjFile::OBJECT_TYPE
+        );
         $this->ctrl->setParameterByClass(
             ilObjFileGUI::class,
             ilObjFileGUI::PARAM_UPLOAD_ORIGIN,
             ilObjFileGUI::UPLOAD_ORIGIN_DROPZONE
         );
-
+    
+        // Generate POST-URL
+        $post_url = $this->ctrl->getFormActionByClass(
+            ilObjFileGUI::class,
+            ilObjFileGUI::CMD_UPLOAD_FILES
+        );
+        // reset new_type again
+        $this->ctrl->clearParameterByClass(ilObjFileGUI::class, 'new_type');
+        
         /** @var $dropzone FileDropzone */
         $dropzone = $this->ui->factory()->dropzone()->file()->wrapper(
             $this->upload_handler,
-            $this->ctrl->getFormActionByClass(ilObjFileGUI::class, ilObjFileGUI::CMD_UPLOAD_FILES),
+            $post_url,
             $this->ui->factory()->legacy($this->content ?? ''),
             $this->ui->factory()->input()->field()->group([
                 ilObjFileProcessorInterface::OPTION_FILENAME => $this->ui->factory()->input()->field()->text($this->language->txt('title')),
