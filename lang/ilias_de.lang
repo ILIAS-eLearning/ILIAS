@@ -76,7 +76,7 @@ adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
-adm#:#adm_support_contacts_info#:#•	Komma-separierte Liste von Anmeldenamen. Die hier eingetragenen Personen werden in der Fußzeile als Betreuung verlinkt. Falls die „Wer ist online?“-Anzeige genutzt wird, werden die Personen auch dort als technische Betreuung angezeigt.
+adm#:#adm_support_contacts_info#:#Komma-separierte Liste von Anmeldenamen. Die hier eingetragenen Personen werden in der Fußzeile als Betreuung verlinkt. Falls die „Wer ist online?“-Anzeige genutzt wird, werden die Personen auch dort als technische Betreuung angezeigt.
 adm#:#adm_support_contacts#:#Technische Betreuung
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
