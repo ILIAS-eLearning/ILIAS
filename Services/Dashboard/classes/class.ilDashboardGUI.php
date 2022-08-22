@@ -24,7 +24,7 @@
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI, ilDashboardLearningSequenceGUI
  *
  */
 class ilDashboardGUI implements ilCtrlBaseClassInterface
@@ -516,7 +516,9 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         }
         $html .= $this->renderRecommendedContent();
         $html .= $this->renderStudyProgrammes();
-        $html .= $this->renderLearningSequences();
+        if ($settings->enabledLearningSequences()) {
+            $html .= $this->renderLearningSequences();
+        }
         if ($settings->enabledMemberships()) {
             $html .= $this->renderMemberships();
         }

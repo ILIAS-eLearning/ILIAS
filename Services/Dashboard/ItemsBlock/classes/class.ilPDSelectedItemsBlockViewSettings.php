@@ -55,7 +55,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             self::SORT_BY_ALPHABET,
     ];
 
-    /** @var array[] */
+    /** @var array<int, string[]> */
     protected static array $availablePresentationsByView = [
         self::VIEW_SELECTED_ITEMS => [
             self::PRESENTATION_LIST,
@@ -141,6 +141,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function isStudyProgrammeViewActive(): bool
     {
         return $this->currentView === $this->getStudyProgrammeView();
+    }
+
+    public function isLearningSequenceViewActive() : bool
+    {
+        return $this->currentView === self::VIEW_LEARNING_SEQUENCES;
     }
 
     public function getSortByStartDateMode(): string

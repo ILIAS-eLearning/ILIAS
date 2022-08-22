@@ -84,6 +84,13 @@ abstract class ilPDSelectedItemsBlockViewGUI
             );
         }
 
+        if ($viewSettings->isLearningSequenceViewActive()) {
+            return new ilPDLearningSequenceViewGUI(
+                $viewSettings,
+                new ilPDSelectedItemsBlockMembershipsProvider($viewSettings->getActor())
+            );
+        }
+
         return new ilPDSelectedItemsBlockSelectedItemsViewGUI(
             $viewSettings,
             new ilPDSelectedItemsBlockSelectedItemsProvider($viewSettings->getActor())

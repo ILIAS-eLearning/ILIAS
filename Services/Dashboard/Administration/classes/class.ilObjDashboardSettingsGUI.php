@@ -29,7 +29,6 @@ use ILIAS\UI\Component\Input\Field\FormInput;
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
 {
-    private ilRbacSystem $rbacsystem;
     protected ILIAS\UI\Factory $ui_factory;
     protected ILIAS\UI\Renderer $ui_renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
@@ -46,7 +45,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
         $this->settings = $DIC->settings();
@@ -73,7 +71,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -96,7 +94,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbacsystem = $this->rbac_system;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -180,7 +178,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'savePresentation'),
             array_map(
-                function (int $view) {
+                function (int $view) : ILIAS\UI\Component\Input\Field\Section {
                     return $this->getViewPresentation(
                         $view,
                         $this->lng->txt("dash_presentation_" . $this->viewSettings->getViewName($view))
@@ -230,7 +228,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function setSettingsSubTabs(string $a_active): void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbacsystem = $this->rbac_system;
 
         $tabs = $this->tabs_gui;
         $ctrl = $this->ctrl;
@@ -266,11 +264,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
     }
 
-    public function getViewPresentation(int $view, string $title): \ILIAS\UI\Component\Input\Field\Section
+    public function getViewPresentation(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
     {
         $lng = $this->lng;
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
-        $pres_options = array_column(array_map(static function ($k, $v) use ($lng) {
+        $pres_options = array_column(array_map(static function (int $k, string $v) use ($lng) : array {
             return [$v, $lng->txt("dash_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
         $avail_pres = $this->ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_presentation"), $pres_options)
@@ -289,7 +287,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ops = $this->viewSettings->getAvailableSortOptions();
-        $sortation_options = array_column(array_map(static function ($k, $v) use ($lng) {
+        $sortation_options = array_column(array_map(static function (int $k, string $v) use ($lng) : array {
             return [$v, $lng->txt("dash_sort_by_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
         $avail_sort = $this->ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_sortation"), $sortation_options)
@@ -349,6 +347,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     private function canWrite(): bool
     {
-        return $this->rbacsystem->checkAccess('write', $this->object->getRefId());
+        return $this->rbac_system->checkAccess('write', $this->object->getRefId());
     }
 }

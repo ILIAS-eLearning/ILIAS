@@ -28,8 +28,12 @@ use ILIAS\UI\Renderer;
 /**
  * Personal Desktop-Presentation for the LearningSequence
  */
-class ilDashboardLearningSequenceGUI
+class ilDashboardLearningSequenceGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
+    private ilPDSelectedItemsBlockViewSettings $viewSettings;
+    private ilPDSelectedItemsBlockViewGUI $blockView;
+    public static string $block_type = 'pdlern';
+    private string $content = '';
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
@@ -39,11 +43,13 @@ class ilDashboardLearningSequenceGUI
     /**
      * @var array Object-Ids where user is assigned
      */
-    protected ?array $assignments = null;
-    protected ?Icon\Icon $icon = null;
+    protected array $assignments = [];
+    protected Icon\Standard $icon;
 
     public function __construct()
     {
+        parent::__construct();
+        $this->initViewSettings();
         global $DIC;
 
         $this->lng = $DIC['lng'];
@@ -51,27 +57,12 @@ class ilDashboardLearningSequenceGUI
         $this->access = $DIC['ilAccess'];
         $this->factory = $DIC['ui.factory'];
         $this->renderer = $DIC['ui.renderer'];
+        $this->initContent();
     }
 
-    /**
-     * @return array Object-Ids where user is assigned
-     */
-    protected function getAssignments(): array
+    private function initContent() : void
     {
-        if (is_null($this->assignments)) {
-            $this->assignments = ilParticipants::_getMembershipByType($this->user->getId(), ['lso']);
-        }
-
-        return $this->assignments;
-    }
-
-    public function getHTML(): string
-    {
-        if (count($this->getAssignments()) == 0) {
-            return '';
-        }
-
-        $items = array();
+        $content = '';
         foreach ($this->getAssignments() as $assignment) {
             $ref_ids = ilObject::_getAllReferences($assignment);
             $lso_ref_id = array_shift($ref_ids);
@@ -87,25 +78,46 @@ class ilDashboardLearningSequenceGUI
                 continue;
             }
 
-            if (!$this->isRelevantLso($lso_obj)) {
-                continue;
-            }
+//            if (!$this->isRelevantLso($lso_obj)) {
+//                continue;
+//            }
 
-            $items[] = $this->getLsoItem($lso_obj);
+            $content .= $this->renderer->render($this->getLsoItem($lso_obj));
         }
 
-        if (count($items) == 0) {
-            return '';
+        $this->setContent($content);
+    }
+
+    /**
+     * @return array Object-Ids where user is assigned
+     */
+    protected function getAssignments() : array
+    {
+        if (!$this->assignments) {
+            $this->assignments = ilParticipants::_getMembershipByType($this->user->getId(), ['lso']);
         }
 
-        $std_list = $this->factory->panel()->listing()->standard($this->lng->txt('dash_learningsequences'), array(
-            $this->factory->item()->group(
-                '',
-                $items
-            )
-        ));
+        return $this->assignments;
+    }
 
-        return $this->renderer->render($std_list);
+    public function getHTML() : string
+    {
+        global $DIC;
+
+        $this->setTitle($this->getViewTitle());
+
+        $DIC->database()->useSlave(true);
+
+        // workaround to show details row
+        $this->setData([['dummy']]);
+
+        $DIC['ilHelp']->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, $this->blockView->getScreenId());
+
+        $this->ctrl->clearParameters($this);
+
+        $DIC->database()->useSlave(false);
+
+        return parent::getHTML();
     }
 
     protected function getLsoItem(ilObjLearningSequence $lso_obj): Item\Standard
@@ -162,7 +174,7 @@ class ilDashboardLearningSequenceGUI
 
     protected function getIcon(string $title): Icon\Standard
     {
-        if (is_null($this->icon)) {
+        if (!isset($this->icon) || is_null($this->icon)) {
             $this->icon = $this->factory->symbol()->icon()->standard(
                 'lso',
                 $title,
@@ -171,5 +183,74 @@ class ilDashboardLearningSequenceGUI
         }
 
         return $this->icon;
+    }
+
+    protected function initViewSettings() : void
+    {
+        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+            $this->user,
+            ilPDSelectedItemsBlockConstants::VIEW_LEARNING_SEQUENCES
+        );
+
+        $this->viewSettings->parse();
+
+        $this->blockView = ilPDSelectedItemsBlockViewGUI::bySettings($this->viewSettings);
+
+        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+    }
+
+    public function getViewSettings() : ilPDSelectedItemsBlockViewSettings
+    {
+        return $this->viewSettings;
+    }
+
+    public function getBlockType() : string
+    {
+        return static::$block_type;
+    }
+
+    protected function isRepositoryObject() : bool
+    {
+        return false;
+    }
+
+    public function addToDeskObject() : void
+    {
+        $this->returnToContext();
+    }
+
+    protected function returnToContext() : void
+    {
+        $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
+        $this->ctrl->redirectByClass('ildashboardgui', 'show');
+    }
+
+    public function removeFromDeskObject() : void
+    {
+        $this->returnToContext();
+    }
+
+    protected function getContent() : string
+    {
+        return $this->content;
+    }
+
+    protected function setContent(string $a_content) : void
+    {
+        $this->content = $a_content;
+    }
+
+    public function fillDataSection() : void
+    {
+        if ($this->getContent() === '') {
+            $this->setDataSection($this->blockView->getIntroductionHtml());
+        } else {
+            $this->tpl->setVariable('BLOCK_ROW', $this->getContent());
+        }
+    }
+
+    protected function getViewTitle() : string
+    {
+        return $this->blockView->getTitle();
     }
 }
