@@ -43,7 +43,7 @@ class ilPollUserTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("lastname"), "lastname");
         $this->addColumn($lng->txt("firstname"), "firstname");
         
-        foreach ($this->getParentObject()->object->getAnswers() as $answer) {
+        foreach ($this->getParentObject()->getObject()->getAnswers() as $answer) {
             $this->answer_ids[] = (int) ($answer["id"] ?? 0);
             $this->addColumn((string) ($answer["answer"] ?? ''), "answer" . (int) ($answer["id"] ?? 0));
         }
@@ -52,7 +52,7 @@ class ilPollUserTableGUI extends ilTable2GUI
         
         $this->setTitle(
             $this->lng->txt("poll_question") . ": \"" .
-                $this->getParentObject()->object->getQuestion() . "\""
+                $this->getParentObject()->getObject()->getQuestion() . "\""
         );
     
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -67,7 +67,7 @@ class ilPollUserTableGUI extends ilTable2GUI
     {
         $data = [];
         
-        foreach ($this->getParentObject()->object->getVotesByUsers() as $user_id => $vote) {
+        foreach ($this->getParentObject()->getObject()->getVotesByUsers() as $user_id => $vote) {
             $answers = (array) ($vote["answers"] ?? []);
             unset($vote["answers"]);
             
