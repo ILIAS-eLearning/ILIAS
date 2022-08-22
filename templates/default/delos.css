@@ -17331,6 +17331,7 @@ span.ilNewsRssIcon:hover {
   padding: 20px;
   position: relative;
   background: #f9f9f9;
+  border: 1px solid #dddddd;
 }
 @media only screen and (max-width: 768px) {
   .ilTimeline > li > .ilTimelinePanel {
@@ -17343,8 +17344,8 @@ span.ilNewsRssIcon:hover {
   right: -14px;
   display: inline-block;
   border-top: 14px solid transparent;
-  border-left: 14px solid #f9f9f9;
-  border-right: 0 solid #f9f9f9;
+  border-left: 14px solid #dddddd;
+  border-right: 0 solid #dddddd;
   border-bottom: 14px solid transparent;
   content: " ";
 }
