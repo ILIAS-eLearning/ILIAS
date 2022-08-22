@@ -40,7 +40,7 @@ interface Factory
      * rules:
      *   usage:
      *     1: Standard Forms MUST NOT be used on the same page as tables.
-     *     2: Standard Forms MUST NOT be used on the same page as toolbars.
+     *     2: Standard Forms SHOULD NOT be used on the same page as toolbars.
      *   composition:
      *     1: Each form SHOULD contain at least one section displaying a title.
      *     2: >
