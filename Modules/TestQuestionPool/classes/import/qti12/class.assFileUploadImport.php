@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -107,9 +106,12 @@ class assFileUploadImport extends assQuestionImport
         $this->object->saveToDb();
         if (count($item->suggested_solutions)) {
             foreach ($item->suggested_solutions as $suggested_solution) {
-                $this->object->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+                $this->importSuggestedSolution(
+                    $this->object->getId(),
+                    $suggested_solution["solution"]->getContent(),
+                    $suggested_solution["gap_index"]
+                );
             }
-            $this->object->saveToDb();
         }
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();

@@ -15,7 +15,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+use  ILIAS\TA\Questions\assQuestionSuggestedSolution;
 
 /**
 * Class for question imports
@@ -285,5 +285,46 @@ class assQuestionImport
         }
         
         return $additionalContentEditingMode;
+    }
+
+    public function importSuggestedSolution(
+        int $question_id,
+        string $value = "",
+        int $subquestion_index = 0
+    ) : void {
+        $type = $this->findSolutionTypeByValue($value);
+        if (!$type) {
+            return;
+        }
+        
+        $repo = $this->getSuggestedSolutionsRepo();
+
+        $nu_value = $this->object->_resolveInternalLink($value);
+        $solution = $repo->create($question_id, $type)
+            ->withInternalLink($nu_value)
+            ->withImportId($value);
+        $repo->update($solution);
+    }
+ 
+    protected function findSolutionTypeByValue(strgin $value) : ?string
+    {
+        foreach ($array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
+            $search_type = '_' . $type . '_';
+            if (substr($value, $searchtype)) {
+                return $type;
+            }
+        }
+        return null;
+    }
+
+
+    protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
+    protected function getSuggestedSolutionsRepo() : assQuestionSuggestedSolutionsDatabaseRepository
+    {
+        if (is_null($this->suggestedsolution_repo)) {
+            $dic = ilQuestionPoolDIC::dic();
+            $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
+        }
+        return $this->suggestedsolution_repo;
     }
 }
