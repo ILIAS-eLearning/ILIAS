@@ -120,6 +120,8 @@ abstract class ilPageObject
      */
     protected $page_config;
 
+    protected $concrete_lang;
+
     /**
      * Constructor
      * @access    public
@@ -209,6 +211,17 @@ abstract class ilPageObject
     {
         return $this->language;
     }
+
+    public function setConcreteLang($a_val)
+    {
+        $this->concrete_lang = $a_val;
+    }
+
+    public function getConcreteLang()
+    {
+        return $this->concrete_lang;
+    }
+
 
     /**
      * Set page config object

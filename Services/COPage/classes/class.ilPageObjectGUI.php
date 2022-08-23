@@ -149,7 +149,8 @@ class ilPageObjectGUI
         $a_id,
         $a_old_nr = 0,
         $a_prevent_get_id = false,
-        $a_lang = ""
+        $a_lang = "",
+        $concrete_lang = ""
     ) {
         global $DIC;
 
@@ -164,6 +165,7 @@ class ilPageObjectGUI
         $this->help = $DIC["ilHelp"];
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
+        $this->concrete_lang = $concrete_lang;
 
         $this->setParentType($a_parent_type);
         $this->setId($a_id);
@@ -228,6 +230,7 @@ class ilPageObjectGUI
             $this->getOldNr(),
             $this->getLanguage()
         );
+        $page->setConcreteLang($this->concrete_lang);
         $this->setPageObject($page);
     }
     

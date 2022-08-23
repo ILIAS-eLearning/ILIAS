@@ -313,7 +313,6 @@ class ilLMPresentationGUI
 
         // language translation
         $this->lang = $this->service->getPresentationStatus()->getLang();
-
         $this->lm_tree = $this->service->getLMTree();
         $this->focus_id = $this->service->getPresentationStatus()->getFocusId();
         $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
@@ -3000,13 +2999,14 @@ class ilLMPresentationGUI
      */
     public function getLMPageGUI($a_id)
     {
+        $concrete_lang = $this->service->getPresentationStatus()->getConcreteLang();
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
-            return new ilLMPageGUI($a_id, 0, false, $this->lang);
+            return new ilLMPageGUI($a_id, 0, false, $this->lang, $concrete_lang);
         }
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
-            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage());
+            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage(),$concrete_lang);
         }
-        return new ilLMPageGUI($a_id);
+        return new ilLMPageGUI($a_id, 0, false, "", $concrete_lang);
     }
 
     /**
