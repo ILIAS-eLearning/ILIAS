@@ -313,7 +313,7 @@ class ilEventParticipants
         $res = $ilDB->query($query);
         $user_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $user_ids[] = $row->usr_id;
+            $user_ids[$row->usr_id] = $row->usr_id;
         }
         return $user_ids;
     }
