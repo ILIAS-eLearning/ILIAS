@@ -99,6 +99,7 @@ abstract class ilPageObject
     protected ?string $activationstart = null;      // IL_CAL_DATETIME format
     protected ?string $activationend = null;        // IL_CAL_DATETIME format
     protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $reading_time_manager;
+    protected $concrete_lang;
 
     final public function __construct(
         int $a_id = 0,
@@ -178,6 +179,16 @@ abstract class ilPageObject
     public function setPageConfig(ilPageConfig $a_val) : void
     {
         $this->page_config = $a_val;
+    }
+
+    public function setConcreteLang(string $a_val)
+    {
+        $this->concrete_lang = $a_val;
+    }
+
+    public function getConcreteLang() : string
+    {
+        return $this->concrete_lang;
     }
 
     public function getPageConfig() : ilPageConfig

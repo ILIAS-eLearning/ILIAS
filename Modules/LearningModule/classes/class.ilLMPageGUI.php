@@ -35,17 +35,17 @@ class ilLMPageGUI extends ilPageObjectGUI
         int $a_id = 0,
         int $a_old_nr = 0,
         bool $a_prevent_get_id = false,
-        string $a_lang = ""
+        string $a_lang = "",
+        string $concrete_lang = ""
     ) {
         global $DIC;
-
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->db = $DIC->database();
         $this->component_repository = $DIC['component.repository'];
 
         $this->log = $DIC["ilLog"];
-        parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
+        parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang, $concrete_lang);
         $this->pres_request = $DIC
             ->learningModule()
             ->internal()

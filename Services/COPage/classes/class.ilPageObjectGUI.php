@@ -128,6 +128,7 @@ class ilPageObjectGUI
     protected ?int $adv_ref_id = null;
     protected ?string $adv_type = null;
     protected ?string $adv_subtype = null;
+    protected string $concrete_lang = "";
 
     protected ilComponentFactory $component_factory;
 
@@ -143,7 +144,8 @@ class ilPageObjectGUI
         int $a_id,
         int $a_old_nr = 0,
         bool $a_prevent_get_id = false,
-        string $a_lang = ""
+        string $a_lang = "",
+        string $concrete_lang = ""
     ) {
         global $DIC;
 
@@ -171,6 +173,7 @@ class ilPageObjectGUI
         $this->requested_file_id = $this->request->getString("file_id");
         $this->requested_ref_id = $this->request->getInt("ref_id");
         $this->requested_pg_id = $this->request->getInt("pg_id");
+        $this->concrete_lang = $concrete_lang;
 
         $this->setParentType($a_parent_type);
         $this->setId($a_id);
@@ -264,6 +267,7 @@ class ilPageObjectGUI
             $this->getOldNr(),
             $this->getLanguage()
         );
+        $page->setConcreteLang($this->concrete_lang);
         $this->setPageObject($page);
     }
     
