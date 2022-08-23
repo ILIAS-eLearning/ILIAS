@@ -148,7 +148,7 @@ abstract class assQuestionGUI
         $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
 */
     }
-    
+
     public function redrawHeaderAction() : void
     {
         echo $this->getHeaderAction() . $this->ui->mainTemplate()->getOnLoadCodeForAsynch();
@@ -715,7 +715,6 @@ abstract class assQuestionGUI
             } elseif ($this->request->raw("calling_test")) {
                 $test = new ilObjTest($this->request->raw("calling_test"));
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $component_repository = $DIC['component.repository'];
@@ -760,7 +759,6 @@ abstract class assQuestionGUI
                         $test->moveQuestionAfter($this->request->raw('prev_qid'), $this->object->getId());
                     }
                     if ( /*$___test_express_mode || */ $this->request->raw('express_mode')) {
-                        global $DIC;
                         $tree = $DIC['tree'];
                         $ilDB = $DIC['ilDB'];
                         $component_repository = $DIC['component.repository'];
@@ -785,6 +783,8 @@ abstract class assQuestionGUI
                 $this->ctrl->redirect($this, 'editQuestion');
             }
         }
+        $tabs = $DIC['ilTabs'];
+        $tabs->setTabActive('edit_question');
     }
 
     public function saveReturn() : void
@@ -813,7 +813,6 @@ abstract class assQuestionGUI
                 #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
                 $q_id = $this->object->getId();
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $component_repository = $DIC['component.repository'];
@@ -853,6 +852,8 @@ abstract class assQuestionGUI
                 $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         }
+        $tabs = $DIC['ilTabs'];
+        $tabs->setTabActive('edit_question');
     }
 
     public function apply() : void
@@ -1658,7 +1659,7 @@ abstract class assQuestionGUI
     public function setQuestionTabs() : void
     {
         $this->ilTabs->clearTargets();
-        
+
         $this->setDefaultTabs($this->ilTabs);
         $this->setQuestionSpecificTabs($this->ilTabs);
         $this->addBackTab($this->ilTabs);
@@ -1698,7 +1699,7 @@ abstract class assQuestionGUI
                 ""
             );
         }
-        
+
         $this->addBackTab($ilTabs);
     }
     
