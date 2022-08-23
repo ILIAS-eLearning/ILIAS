@@ -219,20 +219,24 @@ class ilPCContentInclude extends ilPageContent
         bool $a_abstract_only = false
     ) : string {
         $lng = $this->lng;
-
+        
         $end = 0;
         $start = strpos($a_output, "{{{{{ContentInclude;");
         if (is_int($start)) {
             $end = strpos($a_output, "}}}}}", $start);
         }
         $i = 1;
+        $parent_lang = $this->getPage()->getLanguage();
+        if ($parent_lang == "-" && $this->getPage()->getConcreteLang() != "") {
+            $parent_lang = $this->getPage()->getConcreteLang();
+        }
         while ($end > 0) {
             $param = substr($a_output, $start + 20, $end - $start - 20);
             $param = explode(";", $param);
 
             if ($param[0] == "mep" && is_numeric($param[1])) {
                 $html = "";
-                $snippet_lang = $this->getPage()->getLanguage();
+                $snippet_lang = $parent_lang;
                 if (!ilPageObject::_exists("mep", $param[1], $snippet_lang)) {
                     $snippet_lang = "-";
                 }

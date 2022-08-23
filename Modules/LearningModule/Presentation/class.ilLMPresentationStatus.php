@@ -36,6 +36,7 @@ class ilLMPresentationStatus
     protected ilObjLearningModule $lm;
     protected string $lang;
     protected int $focus_id = 0;
+    protected $concrete_lang = "";
 
     public function __construct(
         ilObjUser $user,
@@ -67,6 +68,7 @@ class ilLMPresentationStatus
     {
         // determine language
         $this->lang = "-";
+        $this->concrete_lang = "-";
         if ($this->ot->getContentActivated()) {
             $langs = $this->ot->getLanguages();
             if (isset($langs[$this->requested_transl]) || $this->requested_transl == $this->ot->getMasterLanguage()) {
@@ -74,6 +76,7 @@ class ilLMPresentationStatus
             } else {
                 $this->lang = $this->user->getCurrentLanguage();
             }
+            $this->concrete_lang = $this->lang;
             if ($this->lang == $this->ot->getMasterLanguage()) {
                 $this->lang = "-";
             }
@@ -88,6 +91,15 @@ class ilLMPresentationStatus
     public function getLang() : string
     {
         return $this->lang;
+    }
+
+    /**
+     * Only difference to getLang():
+     * if current language is the master lang the language key will be returned, not "-"
+     */
+    public function getConcreteLang() : string
+    {
+        return $this->concrete_lang;
     }
 
     public function getFocusId() : int
