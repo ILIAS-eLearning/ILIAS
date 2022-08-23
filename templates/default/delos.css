@@ -16938,6 +16938,10 @@ body.ilBodyPrint {
   margin: 15px 0 0 0;
   border-top: 1px solid #dddddd;
 }
+.il_InfoScreenPropertyValue {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
 }
