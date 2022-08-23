@@ -147,7 +147,7 @@ class MigrateCommand extends Command
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
 
-        $io->inform("There are $count to run:");
+        $io->inform("There are $count migrations:");
         foreach ($migrations as $migration_key => $migration) {
             $env = $this->prepareEnvironmentForMigration($env, $migration);
             $migration->prepare($env);
