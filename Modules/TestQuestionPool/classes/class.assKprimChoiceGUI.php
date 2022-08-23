@@ -593,7 +593,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 if ($graphicalOutput) {
                     // output of ok/not ok icons for user entered solutions
 
-                    if ($user_solution[$answer->getPosition()] == $answer->getCorrectness()) {
+                    if (isset($user_solution[$answer->getPosition()]) && $user_solution[$answer->getPosition()] == $answer->getCorrectness()) {
                         $template->setCurrentBlock("icon_ok");
                         $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
                         $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
