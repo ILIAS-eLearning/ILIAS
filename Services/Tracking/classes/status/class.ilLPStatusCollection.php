@@ -27,6 +27,16 @@
  */
 class ilLPStatusCollection extends ilLPStatus
 {
+    private ilTree $tree;
+
+    public function __construct(int $a_obj_id)
+    {
+        global $DIC;
+
+        parent::__construct($a_obj_id);
+        $this->tree = $DIC->repositoryTree();
+    }
+
     public static function _getNotAttempted(int $a_obj_id) : array
     {
         $users = array();
@@ -375,12 +385,7 @@ class ilLPStatusCollection extends ilLPStatus
      */
     protected function isMember(int $objId, int $usrId) : bool
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $tree = $DIC['tree'];
-
-        switch ($ilObjDataCache->lookupType($objId)) {
+        switch ($this->ilObjDataCache->lookupType($objId)) {
             case 'crs':
                 $participants = ilCourseParticipant::_getInstanceByObjId($objId, $usrId);
                 return $participants->isMember();
@@ -392,9 +397,14 @@ class ilLPStatusCollection extends ilLPStatus
             case 'fold':
                 $folderRefIds = ilObject::_getAllReferences($objId);
                 $folderRefId = current($folderRefIds);
-                if ($crsRefId = $tree->checkForParentType($folderRefId, 'crs')) {
+                if ($crsRefId = $this->tree->checkForParentType($folderRefId, 'crs')) {
                     $participants = ilCourseParticipant::_getInstanceByObjId(ilObject::_lookupObjId($crsRefId), $usrId);
                     return $participants->isMember();
+                }
+
+                if ($grpRefId = $this->tree->checkForParentType($folderRefId, 'grp')) {
+                    $participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjId($grpRefId));
+                    return $participants->isMember($usrId);
                 }
                 break;
 
