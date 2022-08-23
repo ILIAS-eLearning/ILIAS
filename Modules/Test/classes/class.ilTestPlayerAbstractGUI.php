@@ -2939,7 +2939,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $this->updateWorkingTime();
         $this->saveQuestionSolution(false);
-        $this->ctrl->redirect($this, ilTestPlayerCommands::SUBMIT_SOLUTION );
+        $this->ctrl->redirect($this, ilTestPlayerCommands::SUBMIT_SOLUTION);
     }
-
 }

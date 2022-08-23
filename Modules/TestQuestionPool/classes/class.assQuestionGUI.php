@@ -1839,7 +1839,7 @@ abstract class assQuestionGUI
         int $active_id,
         ?int $pass,
         bool $is_question_postponed = false,
-        bool $user_post_solutions = false,
+        $user_post_solutions = false,
         bool $show_specific_inline_feedback = false
     ) : void {
         $formaction = $this->completeTestOutputFormAction($formaction, $active_id, $pass);
