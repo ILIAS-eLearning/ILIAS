@@ -8521,6 +8521,9 @@ input[type="checkbox"]:focus:focus-visible {
   background-color: initial;
   font-size: 0.875rem;
 }
+.il-filter .glyphicon {
+  font-size: 0.875rem;
+}
 .il-filter-inputs-active {
   background-color: #f9f9f9;
   padding: 3px 9px;
