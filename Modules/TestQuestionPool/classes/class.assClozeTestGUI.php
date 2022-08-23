@@ -142,7 +142,8 @@ JS;
 
         $cloze_text = $_POST['cloze_text'];
         $cloze_text = $this->applyIndizesToGapText($cloze_text);
-        $_POST['cloze_text'] = $cloze_text;
+        // Mantis 33795 - Candidate
+        //$_POST['cloze_text'] = $cloze_text;
         return 1;
     }
 

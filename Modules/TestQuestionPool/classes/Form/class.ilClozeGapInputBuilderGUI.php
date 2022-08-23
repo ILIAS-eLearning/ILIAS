@@ -80,7 +80,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             $_POST['gap_combination_values'] = self::stripSlashesRecursive($_POST['gap_combination_values']);
             $gap_with_points = array();
 
-            for ($i = 0; $i < count($_POST['gap_combination']['select']); $i++) {
+            for ($i = 0, $iMax = count($_POST['gap_combination']['select']); $i < $iMax; $i++) {
                 foreach ($_POST['gap_combination']['select'][$i] as $key => $item) {
                     if ($item == 'none_selected_minus_one') {
                         return false;
@@ -171,7 +171,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                         }
                     }
 
-                    if ($gap_with_points && is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
+                    if (isset($gap_with_points) && is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
                         $points += $gap_with_points[$key];
                     }
 
