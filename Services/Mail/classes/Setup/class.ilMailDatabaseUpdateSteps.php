@@ -192,7 +192,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                     ]
                 ]
             );
-            $this->db->addPrimaryKey('auto_responder', ['sender_id', 'receiver_id']);
+            $this->db->addPrimaryKey('mail_auto_responder', ['sender_id', 'receiver_id']);
         }
     }
 }
