@@ -34,6 +34,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
     /** @var Component[]  */
     protected array $components = [];
 
+    public const F_TOS_STATUS = 'tos_status';
+    public const F_TOS_REEVALUATE_ON_LOGIN = 'tos_reevaluate_on_login';
+
     /**
      * @inheritdoc
      */
@@ -176,9 +179,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         $fields = [];
 
-        $fields['tos_status'] = $this->dic->ui()->factory()->input()->field()->optionalGroup(
+        $fields[self::F_TOS_STATUS] = $this->dic->ui()->factory()->input()->field()->optionalGroup(
             [
-                'tos_reevaluate_on_login' => $this->dic->ui()->factory()->input()->field()->checkbox(
+                self::F_TOS_REEVALUATE_ON_LOGIN => $this->dic->ui()->factory()->input()->field()->checkbox(
                     $this->lng->txt('tos_reevaluate_on_login'),
                     $this->lng->txt('tos_reevaluate_on_login_desc')
                 )->withValue($obj->shouldReevaluateOnLogin())
@@ -186,9 +189,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             ],
             $this->lng->txt('tos_status_enable'),
             $this->lng->txt('tos_status_desc')
-        )->withValue(['tos_reevaluate_on_login' => false])
+        )->withValue([self::F_TOS_REEVALUATE_ON_LOGIN => $this->object->shouldReevaluateOnLogin()])
         ->withDisabled(!$this->rbac_system->checkAccess('write', $this->object->getRefId()));
-
 
         $form = $this->dic->ui()->factory()->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'saveSettings'),
@@ -202,26 +204,32 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
     {
         if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+            $this->settings();
         }
 
         $this->request = $this->dic->http()->request();
+        $bindToModelTransformation = $this->refinery->custom()->transformation(function (array $values) : array {
+            $this->object->bindFormInput($values);
+            return $values;
+        });
 
         $form = $this->getSettingsForm();
+        $form = $form->withAdditionalTransformation($bindToModelTransformation);
         $form = $form->withRequest($this->request);
-        $data = $form->getData();
+        if ('POST' === $this->request->getMethod()) {
+            $form = $form->withRequest($this->dic->http()->request());
 
-        $hasDocuments = ilTermsOfServiceDocument::where([])->count() > 0;
-        if (!$hasDocuments) {
-            $this->tpl->setOnScreenMessage('failure', 'tos_no_documents_exist_cant_save');
-        } elseif (!(int) $data['tos_status']) {
-            $this->object->saveStatus((bool) $data['tos_status']);
-        } else {
-            $this->object->saveStatus((bool) $data['tos_status']);
-            $this->object->setReevaluateOnLogin((bool) $data['tos_reevaluate_on_login']);
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+            $formData = $form->getData();
+            if (!is_null($formData)) {
+                $hasDocuments = true;// ilTermsOfServiceDocument::where([])->count() > 0;
+                if (!$hasDocuments) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tos_no_documents_exist_cant_save'), true);
+                } else {
+                    $this->object->store();
+                }
+                $this->ctrl->redirect($this, 'settings');
+            }
         }
-
-        $this->tpl->setContent($this->dic->ui()->renderer()->render($form));
     }
 
     protected function showMissingDocuments(): void

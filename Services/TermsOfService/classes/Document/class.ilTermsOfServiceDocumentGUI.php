@@ -345,7 +345,8 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         }
 
         if (0 === ilTermsOfServiceDocument::getCollection()->count()) {
-            $this->tos->saveStatus(false);
+            $this->tos->setStatus(false);
+            $this->tos->store();
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_disabled_no_docs_left'), true);
         }
 
