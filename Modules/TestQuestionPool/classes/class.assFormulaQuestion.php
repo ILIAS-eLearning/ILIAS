@@ -276,7 +276,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 $value = "";
                 $frac_helper = '';
                 $user_data[$result]['result_type'] = $resObj->getResultType();
-
+                $is_frac = false;
                 if (
                     $resObj->getResultType() == assFormulaQuestionResult::RESULT_FRAC ||
                     $resObj->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC
