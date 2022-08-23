@@ -114,14 +114,14 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
                 'login' => $name['login']
             );
         }
-            foreach ($a_events as $event_obj) {
-                $users_of_event = ilEventParticipants::_getParticipated($event_obj->getID());
-                foreach ($a_members as $user_id) {
-                    if (array_key_exists($user_id, $users_of_event)) {
-                        $data[$user_id]['event_' . $event_obj->getId()] = true;
-                    } else {
-                        $data[$user_id]['event_' . $event_obj->getId()] = false;
-                    }
+        foreach ($a_events as $event_obj) {
+            $users_of_event = ilEventParticipants::_getParticipated($event_obj->getID());
+            foreach ($a_members as $user_id) {
+                if (array_key_exists($user_id, $users_of_event)) {
+                    $data[$user_id]['event_' . $event_obj->getId()] = true;
+                } else {
+                    $data[$user_id]['event_' . $event_obj->getId()] = false;
+                }
             }
         }
         $this->setData($data);
