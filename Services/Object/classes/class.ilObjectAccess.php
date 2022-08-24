@@ -116,7 +116,7 @@ class ilObjectAccess implements ilWACCheckingClass
         global $ilAccess;
 
         preg_match("/\\/obj_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
-        foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
+        foreach (ilObject2::_getAllReferences((int) $results[1]) as $ref_id) {
             if ($ilAccess->checkAccess('visible', '', $ref_id) || $ilAccess->checkAccess('read', '', $ref_id)) {
                 return true;
             }
