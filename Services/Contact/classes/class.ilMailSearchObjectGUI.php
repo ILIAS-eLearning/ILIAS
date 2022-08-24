@@ -552,8 +552,8 @@ abstract class ilMailSearchObjectGUI
                     $usr_ids = $participants->getParticipants();
 
                     foreach ($usr_ids as $key => $usr_id) {
-                        $user = new ilObjUser($usr_id);
-                        if (!$user->getActive()) {
+                        $is_active = ilObjUser::_lookupActive($usr_id);
+                        if (!$is_active) {
                             unset($usr_ids[$key]);
                         }
                     }
