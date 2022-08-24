@@ -1461,6 +1461,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $points = 0;
         foreach ($found_values as $definition => $terms) {
+            if(!is_array($terms)) continue;
             foreach ($terms as $term) {
                 foreach ($this->matchingpairs as $pair) {
                     if ($pair->definition->identifier == $definition && $pair->term->identifier == $term) {
