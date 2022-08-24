@@ -319,8 +319,8 @@ class ilMailSearchCoursesGUI
                     $crs_members = $oCrsParticipants->getParticipants();
 
                     foreach ($crs_members as $key => $member) {
-                        $tmp_usr = new ilObjUser($member);
-                        if (!$tmp_usr->getActive()) {
+                        $is_active = ilObjUser::_lookupActive($member);
+                        if (!$is_active) {
                             unset($crs_members[$key]);
                         }
                     }

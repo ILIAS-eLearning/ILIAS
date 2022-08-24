@@ -315,9 +315,8 @@ class ilMailSearchGroupsGUI
                     $grp_members = $oGroupParticipants->getParticipants();
 
                     foreach ($grp_members as $key => $member) {
-                        $tmp_usr = new ilObjUser($member);
-                        
-                        if (!$tmp_usr->getActive()) {
+                        $is_active = ilObjUser::_lookupActive($member);
+                        if (!$is_active) {
                             unset($grp_members[$key]);
                         }
                     }
