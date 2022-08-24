@@ -7122,8 +7122,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .il-card a {
   overflow: hidden;
 }
-.il-card .card-title .btn,
-.il-card .card-title a {
+.il-card .card-title {
   font-size: 0.875rem;
 }
 .il-card.thumbnail {
